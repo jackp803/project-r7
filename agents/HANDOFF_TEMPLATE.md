@@ -1,95 +1,114 @@
-# Engineering Handoff Template
+# Agent Handoff Template
 
-Use this format whenever one GPT engineer finishes a task, transfers work to another role, or asks E7 / Project Manager for review.
+Use this template whenever one GPT engineer hands work to another engineer, E7, Project Manager, or Codex.
 
-## Handoff Header
+## Handoff
 
-- **Agent:** E# / role name
-- **Branch:**
-- **Commit / PR:**
-- **Task:**
-- **Status:** COMPLETE / PARTIAL / BLOCKED / NEEDS_REVIEW
+**From:** E# / role  
+**To:** E# / role / E7 / Project Manager / Codex  
+**Branch:**  
+**Commit(s):**  
+**Date:**  
 
-## 1. Objective
+### 1. Objective
 
-State the exact requested outcome and what was intentionally out of scope.
+State the bounded objective that was worked on.
 
-## 2. Changes Made
+### 2. What changed
 
-List the implementation/documentation changes in concrete terms.
+Summarize implemented behavior and important design choices.
 
-## 3. Files Changed
+### 3. Files changed
 
-List paths grouped by created / modified / deleted.
+List repository paths changed.
 
-## 4. Contracts
+### 4. Contracts consumed
 
-### Consumed
+List shared contracts/interfaces/schema versions relied on.
 
-List shared contracts/interfaces consumed by this work.
+### 5. Contracts produced or changed
 
-### Produced
+List outputs or proposed contract changes. If none, state `NONE`.
 
-List outputs exposed to other modules.
+### 6. Local verification
 
-### Contract Change Requested
+**GitHub Actions / CI must not be used for this project. All verification is local-only.**
 
-If applicable, describe the requested change. Domain agents must not silently modify shared semantics.
+For each test or verification command, record:
 
-## 5. Tests
-
-State exact tests run and results.
-
-Example:
-
-- Unit: PASS — 28/28
-- Integration: PASS — 6/6
-- Safety: NOT APPLICABLE
-- Manual verification: describe what was verified
-
-Never write only "tests pass" without identifying what was run.
-
-## 6. Acceptance Criteria
-
-For each acceptance criterion, state PASS / FAIL and supporting evidence.
-
-## 7. Known Limitations
-
-Describe behavior not yet supported, assumptions, temporary stubs, unsupported edge cases, or technical debt.
-
-## 8. Dependencies / Blockers
-
-Name the responsible role where possible.
+- local command;
+- local environment/runtime;
+- result;
+- relevant failure output if not passing.
 
 Example:
 
-- E7 must approve `Candle.close_time` semantics before E2 can consume the new field.
-- E4 private Futures API work is blocked until account/API access is available.
+```text
+Command: pytest tests/strategy -q
+Environment: local Windows / Python 3.x
+Result: 84 passed
+```
 
-## 9. Security / Live-Trading Impact
+If the agent cannot execute the test in its current local environment, write:
 
-State one of:
+```text
+Result: NOT_RUN
+Required local command: <exact command>
+Reason: <why execution was unavailable>
+```
 
-- NONE
-- PUBLIC-REPO SECURITY RELEVANT
-- LIVE-TRADING SAFETY RELEVANT
-- BOTH
+Never invent a PASS result and never create a GitHub workflow merely to obtain test evidence.
 
-Explain any implications. Never include secrets in this section.
+### 7. Known limitations
 
-## 10. Requested Next Action
+State anything intentionally incomplete, simulated, provisional, or not yet validated.
 
-Specify exactly what should happen next and which role should own it.
+### 8. Dependencies / blockers
 
-## 11. Bug Handoff to Codex
+Identify external module, contract, local runtime, user decision, exchange permission, or data dependency.
 
-If the work is complete in design but a reproducible defect remains, provide:
+### 9. Required next action
 
-- Bug ID/title
-- Expected behavior
-- Actual behavior
-- Reproduction steps
-- Failing tests
-- Suspected affected files
-- Writable scope for Codex
-- Explicit instruction: **bug fix only; no architecture redesign unless separately approved**
+State exactly who should act next and what they should do.
+
+### 10. Security / secrets
+
+Confirm:
+
+- no real API key, API secret, token, credential, password, private key, or live `.env` value was committed;
+- test fixtures/logs are sanitized;
+- any required real secret remains local-only.
+
+If any exposure occurred, stop and report it as an incident rather than continuing normal handoff.
+
+### 11. GitHub compute policy
+
+Confirm:
+
+- no GitHub Actions workflow was created or used;
+- no GitHub-hosted or GitHub-triggered runner was used;
+- no backtest, bug reproduction, unit/integration/E2E test, performance test, or strategy job was executed on GitHub infrastructure.
+
+### 12. Live-trading impact
+
+State whether the change can alter exposure, order placement, position sizing, stop behavior, promotion status, or live enablement.
+
+If yes, identify the relevant E5/E7/Product Owner gate.
+
+### 13. Codex bug ticket, if applicable
+
+For bounded implementation bugs only:
+
+```text
+BUG ID:
+Expected:
+Actual:
+Reproduction:
+Local failing test / command:
+Writable scope:
+Forbidden scope:
+Architecture/contracts that must remain unchanged:
+Required local regression verification:
+```
+
+Codex is a bug fixer only; it must not use GitHub CI to reproduce or verify the defect.

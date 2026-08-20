@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import sqlite3
 import unittest
 
 from registry import (
@@ -94,13 +93,13 @@ class StrategyInboxTests(unittest.TestCase):
         with self.assertRaises(EvidenceGateError):
             service.begin_backtesting(outcome.strategy.identity, actor="unit-test")
 
-    def test_same_identity_same_content_is_idempotent(self) -> None:
+    def test_same_identity_same_content_is_registry_idempotent(self) -> None:
         service = StrategyPlatformService(self.store)
         first = service.intake(strategy_payload(), source_actor="unit-test")
         second = service.intake(strategy_payload(), source_actor="unit-test")
 
         self.assertEqual(first.strategy.identity, second.strategy.identity)
-        self.assertEqual("IDEMPOTENT", second.receipt.result_status)
+        self.assertEqual("COMPATIBILITY_NOT_RUN", second.receipt.result_status)
         self.assertEqual(1, len(self.store.list_versions("baseline-sma-cross")))
 
     def test_same_identity_different_content_hash_fails_closed(self) -> None:
@@ -121,9 +120,9 @@ class StrategyInboxTests(unittest.TestCase):
         count = self.connection.execute("SELECT COUNT(*) FROM strategy_versions").fetchone()[0]
         self.assertEqual(0, count)
 
-    def test_secret_like_fields_are_rejected_and_not_persisted(self) -> None:
+    def test_secret_like_prefixed_fields_are_rejected_and_not_persisted(self) -> None:
         payload = strategy_payload()
-        payload["parameters"]["api_secret"] = "must-never-be-stored"
+        payload["parameters"]["pionex_api_secret"] = "must-never-be-stored"
         service = StrategyPlatformService(self.store)
 
         with self.assertRaises(IntakeRejected):

@@ -118,9 +118,9 @@ If a secret is discovered in tracked content, stop normal work, notify the user,
 
 ## 9. Local-only execution and zero GitHub CI policy
 
-**GitHub is used only for source control, documentation, branch/PR collaboration, issue tracking, and shared project history. It is not an execution or testing platform for this project.**
+> **HARD PRODUCT OWNER CONSTRAINT:** GitHub is used only for source control, documentation, branch/PR collaboration, issue tracking, and shared project history. It is not an execution, test, build, research, backtest, or compute platform for this project.
 
-All E1–E7 agents, the Project Manager, and Codex bug-fix workflows must obey the following rules:
+This rule applies to E1–E7, Project Manager work, Codex bug fixes, and any future agent added to the repository.
 
 ### 9.1 Required local execution
 

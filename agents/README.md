@@ -42,7 +42,7 @@ Authoritative locations are expected to include:
 - `status/` — project, agent, blocker, and release-gate state.
 - `strategies/` — versioned strategy definitions and lifecycle artifacts.
 - `src/` — production implementation.
-- `tests/` — automated verification.
+- `tests/` — automated verification definitions and test code; **execution of tests is local-only**.
 
 If chat history conflicts with committed repository rules, stop and surface the conflict rather than guessing.
 
@@ -64,7 +64,7 @@ Recommended branches:
 Every meaningful change must have:
 
 1. bounded scope;
-2. tests appropriate to the change;
+2. tests appropriate to the change, executed on a local machine rather than GitHub-hosted infrastructure;
 3. a clear commit/PR description;
 4. a handoff note when another role depends on it.
 
@@ -116,7 +116,100 @@ Real credentials must exist only in local, ignored configuration or an OS/local 
 
 If a secret is discovered in tracked content, stop normal work, notify the user, and treat it as a security incident requiring credential rotation and Git-history remediation.
 
-## 9. Financial safety and live-trading rules
+## 9. Local-only execution and zero GitHub CI policy
+
+**GitHub is used only for source control, documentation, branch/PR collaboration, issue tracking, and shared project history. It is not an execution or testing platform for this project.**
+
+All E1–E7 agents, the Project Manager, and Codex bug-fix workflows must obey the following rules:
+
+### 9.1 Required local execution
+
+The following work must run only on the user's local machine or another explicitly user-approved non-GitHub execution environment:
+
+- unit tests;
+- integration tests;
+- end-to-end tests;
+- safety tests;
+- failure-injection tests;
+- bug reproduction;
+- regression tests;
+- backtests;
+- strategy parameter searches;
+- Monte Carlo simulations;
+- walk-forward validation;
+- historical-data processing;
+- load/performance tests;
+- paper-trading runtime tests;
+- API sandbox/shadow validation when later permitted;
+- any command that executes project code for verification.
+
+### 9.2 Forbidden GitHub compute/automation
+
+Agents must **not** create, enable, request, or rely on:
+
+- GitHub Actions workflows;
+- `.github/workflows/*.yml` or `.yaml` for CI/testing/build execution;
+- GitHub-hosted runners;
+- self-hosted runners triggered through GitHub Actions;
+- GitHub CI/CD pipelines;
+- scheduled GitHub Actions for backtests, market-data jobs, strategy research, monitoring, or trading;
+- GitHub Actions matrix tests;
+- Actions artifacts/logs as the primary test evidence;
+- automatic test execution on push or pull request;
+- cloud bug reproduction on GitHub infrastructure.
+
+Do not consume GitHub Actions minutes or GitHub-hosted compute for this project.
+
+### 9.3 GitHub may store test code, not execute it
+
+It is correct to commit:
+
+- `tests/` source files;
+- local test scripts;
+- local test configuration;
+- sanitized test fixtures;
+- documented local commands;
+- summarized test results or handoff evidence when useful.
+
+It is not permitted to configure GitHub to execute those tests.
+
+### 9.4 PR and release policy without CI
+
+A PR must not be blocked on, or judged by, GitHub CI status. Verification evidence must identify the **local command/environment and result** used by the responsible engineer.
+
+Examples:
+
+```text
+Local verification:
+pytest tests/strategy -q
+Result: 84 passed
+Environment: local Windows/Python 3.x
+```
+
+or:
+
+```text
+Local backtest verification:
+python scripts/run_backtest.py --strategy S0048
+Result artifact: local/sanitized summary committed separately if appropriate
+```
+
+Agents must not invent test results. If they cannot execute locally in the current environment, they must state `NOT_RUN` and provide the exact local command the user or approved local worker should run.
+
+### 9.5 Bug fixing
+
+Codex or any GPT engineer may inspect repository code and prepare fixes, but **bug reproduction and regression verification are local-only**. A bug must never be sent to GitHub Actions merely to see whether it fails or passes.
+
+### 9.6 Enforcement responsibility
+
+- Every domain engineer must avoid adding GitHub CI configuration.
+- E7 must reject integration changes that introduce GitHub-hosted testing/automation.
+- Project Manager reviews must explicitly flag any GitHub Actions/CI usage as a policy violation.
+- If an existing workflow appears later, stop and ask the Product Owner before retaining it; default action is to remove/disable the project workflow rather than use it.
+
+This section is a **hard Product Owner constraint**, not a performance optimization suggestion.
+
+## 10. Financial safety and live-trading rules
 
 - Research success is not permission to trade live.
 - Backtest PASS cannot directly promote a strategy to LIVE.
@@ -125,7 +218,7 @@ If a secret is discovered in tracked content, stop normal work, notify the user,
 - Live execution must fail closed when order state, position state, market data, risk state, or API health is unknown.
 - Strategy logic may propose; Risk may reject; Execution may execute only an approved plan.
 
-## 10. Research integrity
+## 11. Research integrity
 
 The team must distinguish:
 
@@ -138,26 +231,27 @@ The team must distinguish:
 
 Do not relabel already-inspected data as untouched OOS data. Do not optimize a strategy on a test set and then cite the same set as independent proof. Fees, slippage, and funding must be represented when relevant.
 
-## 11. Definition of Done
+## 12. Definition of Done
 
 A feature is not done merely because code exists. At minimum:
 
 - implementation matches its written contract;
-- owned tests pass;
+- owned tests pass when executed locally, or are explicitly marked `NOT_RUN` with the exact local command needed;
 - cross-module behavior is compatible with shared contracts;
 - failure behavior is defined;
 - security rules are respected;
+- no GitHub Actions/CI/cloud test execution was introduced;
 - documentation/status is updated when behavior or interfaces change;
 - E7 can integrate it without undocumented assumptions.
 
-## 12. Handoff discipline
+## 13. Handoff discipline
 
 Every agent handoff must state:
 
 - what changed;
 - files changed;
 - contracts consumed/produced;
-- tests run and results;
+- tests run and results, including local command/environment, or `NOT_RUN` plus exact local command;
 - known limitations;
 - dependencies/blockers;
 - whether another role must act;
@@ -165,7 +259,7 @@ Every agent handoff must state:
 
 Use `agents/HANDOFF_TEMPLATE.md`.
 
-## 13. Escalation rule
+## 14. Escalation rule
 
 Stop and escalate rather than guess when any of these occur:
 
@@ -176,8 +270,11 @@ Stop and escalate rather than guess when any of these occur:
 - exchange state is ambiguous;
 - validation evidence is insufficient;
 - a security credential may have been exposed;
-- an architectural change would materially alter another module.
+- an architectural change would materially alter another module;
+- a request would require GitHub-hosted CI/testing or GitHub Actions contrary to the local-only policy.
 
-## 14. Core team principle
+## 15. Core team principle
 
 The platform must remain capable of rejecting a strategy, rejecting a trade, pausing live execution, and reproducing historical decisions. No individual GPT agent is trusted merely because it generated plausible code or a profitable-looking result.
+
+GitHub is the team's versioned collaboration surface, **not its compute engine**.

@@ -9,6 +9,7 @@ from typing import Any
 
 from .models import (
     CompatibilityEvidence,
+    EVIDENCE_STATUSES,
     EvidenceGateError,
     IntakeOutcome,
     IntakeReceipt,
@@ -19,6 +20,7 @@ from .models import (
     StrategyVersionRecord,
     SUPPORTED_SHARED_SCHEMA_VERSION,
     VALIDATION_DECISIONS,
+    VERIFICATION_KINDS,
     ValidationEvidenceRecord,
 )
 from .ports import RegistryStore, StrategyCompatibilityBoundary
@@ -92,13 +94,19 @@ def _load_payload(payload: Mapping[str, Any] | str | bytes | bytearray) -> dict[
     return decoded
 
 
+def _looks_secret_like_key(normalized: str) -> bool:
+    if normalized in _FORBIDDEN_SECRET_KEYS:
+        return True
+    return any(normalized.endswith(f"_{suffix}") for suffix in _FORBIDDEN_SECRET_KEYS)
+
+
 def _scan_secret_keys(value: Any, path: str = "$") -> None:
     if isinstance(value, Mapping):
         for raw_key, item in value.items():
             key = str(raw_key)
             normalized = key.strip().lower()
             child_path = f"{path}.{key}"
-            if normalized in _FORBIDDEN_SECRET_KEYS:
+            if _looks_secret_like_key(normalized):
                 raise IntakeRejected(
                     f"secret-like field is forbidden in StrategyDefinition intake: {child_path}"
                 )
@@ -208,6 +216,7 @@ class StrategyPlatformService:
         *,
         source_actor: str,
     ) -> IntakeOutcome:
+        actor = _nonempty(source_actor, "source_actor")
         raw = _load_payload(payload)
         _scan_secret_keys(raw)
         identity, runtime = _validate_strategy_envelope(raw)
@@ -230,6 +239,10 @@ class StrategyPlatformService:
         compatibility = self._compatibility.check(raw)
         if compatibility.identity != identity:
             raise EvidenceGateError("E2 compatibility evidence identity does not match intake identity")
+        if compatibility.status not in EVIDENCE_STATUSES:
+            raise EvidenceGateError("E2 compatibility evidence has unsupported status")
+        if compatibility.verification_kind not in VERIFICATION_KINDS:
+            raise EvidenceGateError("E2 compatibility evidence has unsupported verification_kind")
         self._store.save_compatibility(compatibility)
 
         status_map = {
@@ -244,7 +257,7 @@ class StrategyPlatformService:
             identity=identity,
             payload_hash=_payload_hash(canonical),
             received_at=registered_at,
-            source_actor=_nonempty(source_actor, "source_actor"),
+            source_actor=actor,
             result_status=status_map[compatibility.status],
             compatibility_id=compatibility.compatibility_id,
         )

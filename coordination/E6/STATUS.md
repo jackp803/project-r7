@@ -1,33 +1,46 @@
 # E6 Status
 
-- task_id: `UNRESOLVED_MAIN_TASK_MISSING`
+- task_id: `E6-20260820-001`
 - agent: `E6`
-- state: `BLOCKED`
+- state: `NOT_STARTED`
 - branch: `agent/e6-platform`
 - head_sha: `13c67d4fa91e1cf4cc3b5a394c7ce88de0902321`
-- summary: `Read attempt against latest authoritative main failed because coordination/E1/TASK.md is not present on main. No task implementation was started. A diagnostic-only copy exists on coordination/mailbox-v1 and is HOLD, but it was not treated as authoritative because the user explicitly required latest main.`
+- summary: `HOLD acknowledged. The completed early Slice 2 Strategy Registry / persistence / lifecycle skeleton is preserved at its current bounded scope. No new implementation was added and E6 is waiting for E7 static review plus a replacement TASK.md.`
 - files_changed: `coordination/E6/STATUS.md only`
 - contracts_changed: `NONE`
 - local_verification: `NOT_RUN`
-- not_run: `All executable verification remains NOT_RUN; no approved local execution environment was available in this session.`
-- blockers: `Latest main HEAD ba2affa62c89d58bb9ffac054963579e434896e1 has no coordination/ directory, so the authoritative TASK state, scope, acceptance, and TASK-specified target branch cannot be read.`
-- handoff_path: `status/E6_EARLY_SLICE2_HANDOFF.md (existing E6 branch handoff; no new implementation handoff created for this blocked task)`
+- not_run: `Registry/storage executable verification remains NOT_RUN because no Product-Owner-approved local execution environment is available in this session. NOT_RUN is not treated as PASS.`
+- blockers: `NONE for HOLD acknowledgement; further E6 implementation is intentionally paused until E7/PM issues a replacement TASK.md after static review.`
+- handoff_path: `status/E6_EARLY_SLICE2_HANDOFF.md`
 - next_owner: `E7/PM`
 
-## Evidence
+## HOLD acknowledgement
 
-- Authoritative branch checked: `main`
-- Main HEAD observed: `ba2affa62c89d58bb9ffac054963579e434896e1`
-- Required path result: `coordination/E1/TASK.md` -> `404 Not Found`
-- Root listing on main contains no `coordination/` directory.
-- Diagnostic-only branch `coordination/mailbox-v1` contains a HOLD copy, but E6 did not execute from it because it is not the requested authoritative `main`.
+E6 read the authoritative `main` task `E6-20260820-001` and is holding the existing implementation without expansion.
 
-## Scope / execution policy
+Preserved boundaries:
 
-- No code, migration, registry, dashboard, lifecycle, contract, or test implementation was added for this task.
-- No GitHub Actions, CI, hosted runner, GitHub-triggered runner, or scheduled job was created or used.
-- No project executable verification was run.
+- lifecycle remains limited to `DRAFT -> BACKTESTING -> REJECTED | CANDIDATE`;
+- no `PAPER`, `READY_FOR_APPROVAL`, `APPROVED`, `LIVE`, `DEGRADED`, or operational-mode promotion behavior is added;
+- contract-shaped E2/E3 artifacts are not treated as executable PASS;
+- the default compatibility boundary remains fail-closed with `NOT_RUN` semantics;
+- no real E2 adapter or final E3 `ValidationDecision` flow is wired;
+- existing E6 handoff remains `status/E6_EARLY_SLICE2_HANDOFF.md` on `agent/e6-platform`.
 
-## Required unblock
+## Branch / handoff report
 
-Publish/merge the intended `coordination/E1/TASK.md` onto `main` (or correct the authoritative path on `main`). Once it exists on `main`, E6 should reread it and follow only that task. Do not infer the task from the mailbox branch.
+- E6 work branch: `agent/e6-platform`
+- reported E6 branch HEAD: `13c67d4fa91e1cf4cc3b5a394c7ce88de0902321`
+- existing handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`
+- no E6 implementation commit was created for this HOLD task.
+
+## Verification / compute policy
+
+- executable verification: `NOT_RUN`;
+- no GitHub Actions workflow was created or used;
+- no GitHub-hosted runner, GitHub-triggered runner, CI, scheduled job, unit test, migration test, restart test, integration test, or backtest was executed;
+- no executable PASS is claimed.
+
+## Next action
+
+Wait for E7 static review and a replacement `coordination/E6/TASK.md`. Do not start another E6 task from chat context or another Agent's TASK.

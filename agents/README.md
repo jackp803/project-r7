@@ -8,11 +8,11 @@ The team is intentionally split by engineering responsibility so that strategy r
 
 ## 2. Authority model
 
-1. **User / Product Owner** — final authority on product scope, capital exposure, live enablement, and strategy promotion.
-2. **Project Manager GPT** — audits project direction, scope drift, priorities, risk, and delivery status. It does not silently change architecture or enable live trading.
-3. **E7 Integration Engineer** — technical authority for cross-module contracts, architecture boundaries, integration tests, release gates, and system-level acceptance.
-4. **E1–E6 Domain Engineers** — own implementation and tests inside their defined domains.
-5. **Codex** — bug-fixing role only. Codex receives reproducible bug tickets and bounded writable scope; it is not the architecture owner or primary feature developer.
+1. **User / Product Owner** — final authority on product scope, capital exposure, live enablement, strategy promotion, and compute/infrastructure policy.
+2. **Project Manager GPT** — audits project direction, scope drift, priorities, risk, delivery status, and infrastructure-policy compliance. It does not silently change architecture or enable live trading.
+3. **E7 Integration Engineer** — technical authority for cross-module contracts, architecture boundaries, integration tests, release gates, system-level acceptance, and enforcement of local-only verification.
+4. **E1–E6 Domain Engineers** — own implementation and test definitions inside their defined domains; their project-code execution is local-only.
+5. **Codex** — bug-fixing role only. Codex receives reproducible bug tickets and bounded writable scope; it is not the architecture owner or primary feature developer, and bug reproduction/regression verification is local-only.
 
 At runtime, **Risk Management has veto authority over Strategy**. A valid strategy signal never implies permission to trade.
 

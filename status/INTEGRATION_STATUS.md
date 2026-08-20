@@ -1,8 +1,10 @@
 # Integration Status
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Updated: 2026-08-20 10:53 +08:00  
-> Branch: `agent/e7-integration`
+> Updated: 2026-08-20 11:12 +08:00  
+> Source branch: `agent/e7-integration`  
+> Merge target: `main`  
+> Review disposition: **APPROVED FOR MAIN MERGE**
 
 ## Current integration target
 
@@ -12,7 +14,7 @@ Objective: provide one stable construction surface for E1–E6 before deep imple
 
 ## Integrated revisions
 
-E7 branch is ahead of `main` with the current Slice 0 architecture foundation.
+Slice 0 has completed E7 review on `agent/e7-integration` and is approved for merge into `main`.
 
 Materialized artifacts:
 
@@ -24,6 +26,8 @@ Materialized artifacts:
 - `tests/integration/README.md`
 - `tests/safety/README.md`
 - this integration status
+
+After merge, these artifacts form the authoritative Slice 0 baseline on `main`.
 
 ## Contracts
 
@@ -73,7 +77,24 @@ Key frozen baseline semantics:
 
 - `ADR-0001-canonical-contract-first-architecture.md` — **ACCEPTED**
 
-No additional ADR is required yet. Material shared-semantic changes from E1–E6 must trigger E7 impact review and, when appropriate, a new/amended ADR.
+No additional ADR is required for Slice 0. Material shared-semantic changes from E1–E6 must trigger E7 impact review and, when appropriate, a new/amended ADR.
+
+## Slice 0 review findings
+
+### Blocking findings
+
+- none.
+
+### Corrected before merge
+
+- integration status previously described the source branch as merely ahead of `main`; this file was updated so the merged baseline does not immediately contain stale branch-state wording.
+
+### Scope review
+
+- changes are limited to E7-owned architecture, contracts, ADR, integration/safety test definitions, and status paths.
+- no E1–E6 domain implementation was modified.
+- no GitHub Actions/workflow/runner configuration was added.
+- no live enablement or risk bypass was introduced.
 
 ## Agent statuses
 
@@ -81,28 +102,17 @@ Status here means integration readiness evidence observed by E7, not agent compe
 
 | Agent | Status | Current E7 observation | Next required handoff |
 |---|---|---|---|
-| E1 Market Data | BLOCKED | no `agent/e1-market-data` branch observed yet | implement Slice 1 Candle/historical-data boundary against `contracts-v0.1`; provide local-test evidence or `NOT_RUN` |
-| E2 Strategy Engine | BLOCKED | no `agent/e2-strategy-engine` branch observed yet | implement StrategyDefinition/Signal runtime boundary and determinism; provide local evidence |
-| E3 Backtest Validation | BLOCKED | no `agent/e3-backtest-validation` branch observed yet | implement BacktestResult/replay path consuming E2 runtime; provide local evidence |
-| E4 Execution | BLOCKED | no `agent/e4-execution` branch observed yet | not required for Slice 1; later implement broker boundary against approved contracts |
-| E5 Risk / Position | BLOCKED | no `agent/e5-risk-position` branch observed yet | not required for Slice 1; later implement RiskDecision/ApprovedTradePlan/PositionAction |
-| E6 Platform | BLOCKED | `agent/e6-platform` exists but is currently identical to `main` | begin registry/persistence work only against E7 lifecycle/contracts; no gate bypass |
-| E7 Integration | PASS for Slice 0 structure | shared blueprint/contracts/ADR/gate/test-definition skeleton materialized | begin Slice 1 integration as E1–E3 revisions appear |
-
-## Branch observations
-
-Observed agent branches at this update:
-
-- `agent/e6-platform`
-- `agent/e7-integration`
-
-`agent/e6-platform` is currently identical to `main` at E7 inspection time.
-
-Absence of a branch is not a domain failure; it means E7 currently has no implementation revision to integrate.
+| E1 Market Data | BLOCKED | no implementation handoff integrated yet | implement Slice 1 Candle/historical-data boundary against `contracts-v0.1`; provide local-test evidence or `NOT_RUN` |
+| E2 Strategy Engine | BLOCKED | no implementation handoff integrated yet | implement StrategyDefinition/Signal runtime boundary and determinism; provide local evidence |
+| E3 Backtest Validation | BLOCKED | no implementation handoff integrated yet | implement BacktestResult/replay path consuming E2 runtime; provide local evidence |
+| E4 Execution | BLOCKED | not required for Slice 1 yet | later implement broker boundary against approved contracts |
+| E5 Risk / Position | BLOCKED | not required for Slice 1 yet | later implement RiskDecision/ApprovedTradePlan/PositionAction |
+| E6 Platform | BLOCKED | no implementation delta integrated yet | begin registry/persistence work only against E7 lifecycle/contracts; no gate bypass |
+| E7 Integration | PASS for Slice 0 structure | shared blueprint/contracts/ADR/gate/test-definition skeleton reviewed | merge Slice 0 to `main`, then begin Slice 1 integration |
 
 ## Local tests
 
-No project code was executed for Slice 0 because this slice currently materializes architecture, contracts, status, and test definitions only.
+No project code was executed for Slice 0 because this slice materializes architecture, contracts, status, and test definitions only.
 
 ### Executed locally
 
@@ -120,7 +130,7 @@ These remain `NOT_RUN`; none are inferred PASS.
 
 ## GitHub compute policy status
 
-**PASS for E7 behavior in this Slice 0 work.**
+**PASS for E7 behavior in Slice 0.**
 
 E7 did not create or use:
 
@@ -135,17 +145,17 @@ A local repository scan remains `NOT_RUN` and is still required before later rel
 
 ## Integration failures
 
-Current confirmed cross-module integration failures: **none yet**, because no E1–E5 implementation branch and no E6 implementation delta has been presented for integration.
+Current confirmed cross-module integration failures: **none yet**, because no domain implementation has been integrated into Slice 0.
 
-This is not evidence that those modules pass.
+This is not evidence that E1–E6 implementations pass.
 
 ## Responsible owners / current blockers
 
 | Blocker | Owner | State |
 |---|---|---|
-| E1 Candle/historical implementation absent | E1 | BLOCKED |
-| E2 Strategy Runtime implementation absent | E2 | BLOCKED |
-| E3 replay/BacktestResult implementation absent | E3 | BLOCKED |
+| E1 Candle/historical implementation absent from integration | E1 | BLOCKED |
+| E2 Strategy Runtime implementation absent from integration | E2 | BLOCKED |
+| E3 replay/BacktestResult implementation absent from integration | E3 | BLOCKED |
 | Slice 1 executable integration not available | E7 after E1–E3 handoffs | NOT_RUN |
 | Local repo policy/secret scans unavailable in current GitHub-only context | E7 / Product Owner approved local environment | NOT_RUN |
 
@@ -165,7 +175,7 @@ No downstream gate is promoted by the Slice 0 documentation/contract PASS.
 
 Reason: no reproducible bounded implementation defect has been integrated yet. Missing domain implementation is not a Codex bug ticket.
 
-When a valid Codex ticket is created it must contain:
+Any future Codex ticket must contain:
 
 - Expected
 - Actual
@@ -179,7 +189,7 @@ Bug reproduction and regression verification remain local-only.
 
 ## Security findings
 
-Confirmed security incident: **none observed in the files created by E7**.
+Confirmed security incident: **none observed in the Slice 0 E7 changes**.
 
 Repository-wide secret scan: **NOT_RUN**.
 
@@ -187,7 +197,7 @@ No real secret may be added to this public repository. Discovery of any tracked 
 
 ## Next integration action
 
-Move to **Slice 1 — Research Skeleton** as soon as E1/E2/E3 branches contain implementation handoffs:
+After Slice 0 is merged into `main`, move to **Slice 1 — Research Skeleton** as soon as E1/E2/E3 implementation handoffs are available:
 
 ```text
 E1 Historical Candle

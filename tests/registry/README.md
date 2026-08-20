@@ -1,50 +1,46 @@
-# E6 Registry / Lifecycle Test Intent
+# E6 Registry / Lifecycle Tests
 
-These are local-only test requirements for the future executable E6 Registry implementation. No test is executable yet.
+These test definitions are now executable in an approved local checkout. They have **not** been run by this GPT session.
 
-## Registry identity
+## Coverage
 
-Future local tests must verify:
+`test_strategy_inbox.py` defines checks for:
 
-- first registration of `(strategy_id, strategy_version)` succeeds;
-- same identity + same `content_hash` is idempotent;
-- same identity + different `content_hash` is rejected;
-- multiple versions of one strategy do not overwrite each other;
-- rejected/retired strategy versions remain queryable.
+- exact `contracts-v0.1` StrategyDefinition envelope intake;
+- default E2 compatibility status remains `NOT_RUN`;
+- `DRAFT -> BACKTESTING` requires explicit local E2 PASS evidence metadata;
+- static/declaration-only PASS is insufficient;
+- same identity/same content idempotence;
+- same identity/different content conflict rejection;
+- unsupported schema rejection before Registry write;
+- secret-like StrategyDefinition field rejection before persistence.
 
-## Evidence binding
+`test_validation_lifecycle.py` defines checks for:
 
-Future local tests must verify:
+- a legal-looking BacktestResult does not imply executable PASS;
+- even `ValidationDecision.decision = PASS` cannot promote while verification remains `NOT_RUN`;
+- `BACKTESTING -> CANDIDATE` requires local PASS evidence for both BacktestResult and ValidationDecision;
+- exact strategy/content-hash binding;
+- rejected strategies remain persisted;
+- early service exposes no approval/LIVE/generic transition path.
 
-- evidence binds to the exact strategy version;
-- evidence for version A cannot satisfy version B;
-- conflicting strategy content hash is rejected when the upstream evidence exposes the hash;
-- `FAIL`, `BLOCKED`, and `NOT_RUN` evidence remains retained and is never normalized to PASS;
-- attaching validation evidence makes the covered strategy version immutable as required by the shared contract.
+Synthetic `LOCAL_EXECUTION PASS` fixtures exist only to exercise E6 gate logic. They are not evidence that E2, E3, Gate A, or Slice 1 actually passed.
 
-## Lifecycle
+## Local-only commands
 
-Future local tests must verify every E7 baseline legal transition and representative illegal transitions, including:
+From repository root in an integration checkout containing the E6 branch:
 
-- `DRAFT -> BACKTESTING` accepted;
-- `BACKTESTING -> CANDIDATE` accepted only when the later evidence predicate permits it;
-- `BACKTESTING -> REJECTED` retained;
-- `BACKTESTING -> LIVE` rejected unconditionally;
-- skipped transitions are rejected;
-- `DEGRADED -> LIVE` cannot occur automatically;
-- stale/concurrent transition requests are rejected;
-- transition actor, timestamp, previous/new state, and evidence/reason are retained.
-
-## UI/backend gate boundary
-
-When an API/UI exists, future local tests must prove a client cannot overwrite lifecycle state directly and cannot bypass backend transition validation.
-
-## Current status
-
-```text
-Result: NOT_RUN
-Reason: no executable E6 Registry implementation exists yet
-Required future local command: TBD after E6 runtime/test framework selection
+```powershell
+$env:PYTHONPATH = (Join-Path (Get-Location) "src")
+python -m unittest discover -s tests/registry -p "test_*.py" -v
 ```
 
-GitHub Actions/CI/hosted runners must never be used to execute these tests.
+Current result:
+
+```text
+NOT_RUN
+```
+
+Reason: this ChatGPT GitHub environment is not the Product-Owner-approved local execution environment.
+
+Never use GitHub Actions/CI/hosted runners to execute these tests.

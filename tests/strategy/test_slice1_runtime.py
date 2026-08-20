@@ -4,6 +4,7 @@ import unittest
 from strategy import (
     RUNTIME_FAMILY,
     RUNTIME_VERSION,
+    StrategyError,
     StrategyRuntime,
     compute_content_hash,
     parse_strategy_definition,
@@ -21,7 +22,7 @@ def _sma_expr(parameter):
 
 def make_definition():
     definition = {
-        "schema_version": "0.1",
+        "schema_version": "contracts-v0.1",
         "strategy_id": "baseline-sma-cross",
         "strategy_version": "1.0.0",
         "name": "Baseline SMA Cross",
@@ -56,7 +57,7 @@ def candle(hour, close, *, is_closed=True):
     close_value = str(close)
     numeric = int(close)
     return {
-        "schema_version": "0.1",
+        "schema_version": "contracts-v0.1",
         "symbol": "BTC_USDT_PERP",
         "timeframe": "1h",
         "open_time": f"2026-08-20T{hour:02d}:00:00Z",
@@ -76,6 +77,17 @@ class StrategyParserTests(unittest.TestCase):
         result = validate_strategy_definition(make_definition())
         self.assertTrue(result["valid"])
         self.assertEqual(result["runtime_version"], RUNTIME_VERSION)
+
+    def test_unsupported_strategy_schema_is_structured(self):
+        definition = make_definition()
+        definition["schema_version"] = "contracts-v9.9"
+        definition["content_hash"] = compute_content_hash(definition)
+        result = validate_strategy_definition(definition)
+        self.assertFalse(result["valid"])
+        self.assertEqual(result["error"]["code"], "UNSUPPORTED_SCHEMA_VERSION")
+        self.assertEqual(result["error"]["details"]["object_type"], "StrategyDefinition")
+        self.assertEqual(result["error"]["details"]["supported"], "contracts-v0.1")
+        self.assertEqual(result["error"]["details"]["actual"], "contracts-v9.9")
 
     def test_content_hash_mismatch_is_rejected(self):
         definition = make_definition()
@@ -112,8 +124,18 @@ class StrategyRuntimeTests(unittest.TestCase):
         first = self.runtime.evaluate(self.strategy, candles, "2026-08-20T04:00:00Z")
         second = self.runtime.evaluate(self.strategy, copy.deepcopy(candles), "2026-08-20T04:00:00Z")
         self.assertEqual(first, second)
+        self.assertEqual(first["schema_version"], "contracts-v0.1")
         self.assertEqual(first["direction"], "LONG")
         self.assertEqual(first["reason_codes"], ["LONG_RULE_MATCHED"])
+
+    def test_unsupported_consumed_candle_schema_is_structured(self):
+        candles = [candle(0, 10), candle(1, 11), candle(2, 12)]
+        candles[0]["schema_version"] = "contracts-v9.9"
+        with self.assertRaises(StrategyError) as raised:
+            self.runtime.evaluate(self.strategy, candles, "2026-08-20T03:00:00Z")
+        self.assertEqual(raised.exception.code, "UNSUPPORTED_CANDLE_SCHEMA_VERSION")
+        self.assertEqual(raised.exception.details["supported"], "contracts-v0.1")
+        self.assertEqual(raised.exception.details["actual"], "contracts-v9.9")
 
     def test_short_path(self):
         candles = [candle(0, 13), candle(1, 12), candle(2, 11), candle(3, 10)]

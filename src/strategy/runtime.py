@@ -11,6 +11,7 @@ from typing import Any, Dict, Optional, Tuple, Union
 
 from indicators import sma
 
+SUPPORTED_SHARED_SCHEMA_VERSION = "contracts-v0.1"
 RUNTIME_FAMILY = "project-r7-e2-strategy-runtime"
 RUNTIME_VERSION = "0.1.0"
 DSL_VERSION = "0.1"
@@ -315,6 +316,14 @@ def parse_strategy_definition(
         )
 
     schema_version = _require_non_empty_string(raw["schema_version"], "schema_version")
+    if schema_version != SUPPORTED_SHARED_SCHEMA_VERSION:
+        raise StrategyValidationError(
+            "UNSUPPORTED_SCHEMA_VERSION",
+            "StrategyDefinition schema_version is not supported by this E2 runtime",
+            object_type="StrategyDefinition",
+            supported=SUPPORTED_SHARED_SCHEMA_VERSION,
+            actual=schema_version,
+        )
     strategy_id = _require_non_empty_string(raw["strategy_id"], "strategy_id")
     strategy_version = _require_non_empty_string(raw["strategy_version"], "strategy_version")
     name = _require_non_empty_string(raw["name"], "name")
@@ -473,7 +482,16 @@ def _decimal(value: Any, field: str) -> Decimal:
 
 
 def _candle_view(candle: Any, strategy: ParsedStrategyDefinition) -> _CandleView:
-    schema_version = _require_non_empty_string(_read_field(candle, "schema_version"), "Candle.schema_version")
+    schema_version = _require_non_empty_string(
+        _read_field(candle, "schema_version"), "Candle.schema_version"
+    )
+    if schema_version != SUPPORTED_SHARED_SCHEMA_VERSION:
+        raise MarketBoundaryError(
+            "UNSUPPORTED_CANDLE_SCHEMA_VERSION",
+            "Consumed Candle schema_version is not supported by this E2 runtime",
+            supported=SUPPORTED_SHARED_SCHEMA_VERSION,
+            actual=schema_version,
+        )
     symbol = _require_non_empty_string(_read_field(candle, "symbol"), "Candle.symbol")
     timeframe = _require_non_empty_string(_read_field(candle, "timeframe"), "Candle.timeframe")
     source = _require_non_empty_string(_read_field(candle, "source"), "Candle.source")
@@ -713,7 +731,7 @@ class StrategyRuntime:
         ).hexdigest()
 
         signal: Dict[str, Any] = {
-            "schema_version": strategy.schema_version,
+            "schema_version": SUPPORTED_SHARED_SCHEMA_VERSION,
             "signal_id": signal_id,
             "strategy_id": strategy.strategy_id,
             "strategy_version": strategy.strategy_version,

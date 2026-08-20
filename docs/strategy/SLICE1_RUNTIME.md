@@ -17,6 +17,31 @@ The runtime does **not** define a new `Candle` type. It consumes canonical Candl
 
 It does not implement Risk, TradeIntent approval, position sizing, broker execution, backtest metrics, or lifecycle promotion.
 
+## Version namespaces
+
+Slice 1 keeps three independent version namespaces. They must not be substituted for one another:
+
+- Shared contract/schema version: `contracts-v0.1`
+- E2 DSL version: `0.1`
+- E2 Runtime version: `0.1.0`
+
+`StrategyDefinition.schema_version`, consumed `Candle.schema_version`, and produced `Signal.schema_version` are shared-contract versions and must be exactly `contracts-v0.1` for this runtime revision.
+
+`rules.dsl_version` remains `0.1` and `runtime_compatibility.runtime_version` remains `0.1.0`.
+
+## Shared schema compatibility
+
+Issue #5 / `E2-SCHEMA-001` defines the Slice 1 compatibility correction:
+
+- `StrategyDefinition.schema_version` accepts only `contracts-v0.1`.
+- Unsupported StrategyDefinition schema is rejected structurally with `UNSUPPORTED_SCHEMA_VERSION`.
+- A visible/consumed Candle must declare `schema_version="contracts-v0.1"` before E2 reads its financial fields (`open`, `high`, `low`, `close`, `volume`).
+- Unsupported visible/consumed Candle schema is rejected structurally with `UNSUPPORTED_CANDLE_SCHEMA_VERSION`.
+- Every produced `Signal.schema_version` is explicitly `contracts-v0.1`.
+- Future or provisional Candles outside the usable boundary remain excluded before their OHLCV fields are read; they are not consumed strategy inputs at that evaluation boundary.
+
+No shared contract was changed by this correction.
+
 ## Runtime / DSL version
 
 - Runtime family: `project-r7-e2-strategy-runtime`
@@ -27,12 +52,18 @@ A Slice 1 StrategyDefinition declares exact runtime compatibility:
 
 ```json
 {
+  "schema_version": "contracts-v0.1",
   "runtime_compatibility": {
     "runtime_family": "project-r7-e2-strategy-runtime",
     "runtime_version": "0.1.0"
+  },
+  "rules": {
+    "dsl_version": "0.1"
   }
 }
 ```
+
+The shortened example above shows version namespaces only; a real StrategyDefinition must contain all fields required by `contracts-v0.1` and the Slice 1 parser.
 
 ## Minimal supported primitives
 
@@ -84,6 +115,8 @@ For a supplied `evaluated_at = T`, E2 may use a Candle only when:
 
 Future and provisional candles are excluded **before their OHLCV values are read**. This is intentional: appending data beyond `T` cannot change the Signal for boundary `T`.
 
+For each visible Candle that is consumed, E2 validates `Candle.schema_version == "contracts-v0.1"` before reading its financial fields.
+
 Visible canonical candles are required to remain in strictly increasing `open_time` order with no duplicate `open_time`. Malformed visible canonical Candle fields fail rather than being repaired by E2.
 
 ## Deterministic Signal identity
@@ -102,6 +135,8 @@ the runtime deterministically derives the same:
 - `market_boundary_ref`;
 - `signal_id`;
 - optional `reference_price`.
+
+Every produced Signal declares shared schema `contracts-v0.1`.
 
 No clock reads, randomness, network state, file state, account state, or broker state participate in evaluation.
 
@@ -126,7 +161,7 @@ signal = runtime.evaluate(
 runtime_version_for_backtest_result = runtime.version
 ```
 
-At each replay boundary, E3 supplies its canonical E1 Candle sequence/state to this same `evaluate` method. E3 may model fills, costs, slippage, funding, and trade lifecycle separately, but it must not replace E2's strategy decision semantics.
+At each replay boundary, E3 supplies its canonical E1 Candle sequence/state to this same `evaluate` method. Both the StrategyDefinition and consumed canonical Candles must use shared schema `contracts-v0.1`. E3 may model fills, costs, slippage, funding, and trade lifecycle separately, but it must not replace E2's strategy decision semantics.
 
 For reproducibility, E3 should persist `strategy.content_hash` and `runtime.version` into the contract-required `BacktestResult` fields.
 
@@ -139,4 +174,6 @@ $env:PYTHONPATH = (Join-Path (Get-Location) "src")
 python -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-No GitHub Actions / CI / runner is permitted for this command.
+Issue #5 adds local test definitions for unsupported StrategyDefinition shared schema and unsupported consumed Candle shared schema, and updates fixtures to `contracts-v0.1`.
+
+No GitHub Actions / CI / runner is permitted for this command. If it is not run in an approved local environment, verification remains `NOT_RUN`.

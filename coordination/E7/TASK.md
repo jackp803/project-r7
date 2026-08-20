@@ -1,50 +1,46 @@
 # E7 Current Task
 
-- task_id: `E7-20260820-001`
-- issued_at: `2026-08-20T16:53:00+08:00`
-- state: `ACTIVE`
+- task_id: `E7-20260820-002`
+- issued_at: `2026-08-20T18:36:00+08:00`
+- state: `HOLD`
 - authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, ADR-0001, release gates
 
 ## Objective
 
-Establish a repository synchronization checkpoint for the post-Slice-1 construction line by reviewing E4/E5/E6 evidence and persisting the integration result in GitHub.
+Hold after completing the post-Slice-1 static synchronization review. E4, E5, and E6 now have PM-issued correction/construction tasks. Do not pre-emptively re-review incomplete work and do not start a new integration slice.
+
+## Current accepted review result
+
+From `status/e7/POST_SLICE1_CONSTRUCTION_SYNC_REVIEW.md`:
+
+- E4: `BLOCKED` — prior Broker/PaperBroker implementation was not recoverable from Git evidence;
+- E5: `FAIL` — `E5-RISK-UNKNOWN-001`;
+- E6: `FAIL` — `E6-EVIDENCE-CONTRACT-001`;
+- executable evidence: `NOT_RUN`;
+- Gate A/B/C/D remain `BLOCKED`.
 
 ## Required actions
 
-1. Read `coordination/E4/STATUS.md`, `coordination/E5/STATUS.md`, and `coordination/E6/STATUS.md` after those agents update them.
-2. If E4 branch/handoff is still missing, mark the E4 portion `BLOCKED` and do not reconstruct its work from chat memory.
-3. Statically review E5 Risk/Position skeleton against `contracts-v0.1`, especially:
-   - `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority;
-   - fail-closed unknown/reconciliation behavior;
-   - provisional entry/protection instruction shape not becoming a silent shared contract;
-   - no PAPER/LIVE authority.
-4. Statically review E6 early Slice 2 skeleton, especially:
-   - no shared-semantic redefinition;
-   - default E2 compatibility remains fail-closed `NOT_RUN`;
-   - BacktestResult shape alone cannot promote lifecycle;
-   - `CANDIDATE` requires explicit valid E3 decision/evidence;
-   - no lifecycle path beyond CANDIDATE.
-5. If E4 evidence is present, statically review Broker/PaperBroker / Order-Fill-reconciliation skeleton and the E4<->E5 boundary.
-6. Check for shared-contract collisions, scope violations, unsafe defaults, fail-open behavior, approval bypass, and GitHub-compute violations.
-7. Persist the review in E7-owned status/review paths and update `coordination/E7/STATUS.md`.
-8. Keep all executable evidence as `NOT_RUN` unless produced in an approved local environment.
+1. Do not modify E4/E5/E6 domain code.
+2. Do not re-review until PM issues a replacement ACTIVE E7 task after E4/E5/E6 provide fresh STATUS/handoff evidence.
+3. Preserve the existing review artifact and findings unchanged unless a factual repository correction is necessary.
+4. Do not advance any release gate.
+5. Do not introduce GitHub Actions/CI/runner/project compute.
+6. Update only `coordination/E7/STATUS.md` to acknowledge this HOLD task if needed.
 
 ## Acceptance
 
-E7 must provide a repository-persisted disposition for E4/E5/E6 using `PASS | FAIL | BLOCKED | NOT_RUN | NOT_APPLICABLE`, identify responsible owner for every blocker/finding, and must not advance Gate A/B/C/D without required executable evidence.
+- E7 remains idle on integration work while E4/E5/E6 corrections are in progress;
+- no domain rewrite;
+- no contract change;
+- no gate advancement;
+- executable evidence remains `NOT_RUN`;
+- no GitHub compute/CI.
 
 ## Writable scope
 
-E7-owned integration/status/review paths plus `coordination/E7/STATUS.md`.
-
-## Forbidden scope
-
-- rewriting E4/E5/E6 domain implementations;
-- changing shared contracts without contract-change procedure;
-- enabling PAPER/SHADOW/LIVE;
-- GitHub Actions/CI/runner/project compute;
-- treating `NOT_RUN` as PASS.
+Only `coordination/E7/STATUS.md` for this HOLD task, unless required to correct a factual error in an existing E7 review artifact.
 
 ## Completion / status
 
-When complete, update `coordination/E7/STATUS.md` with review artifact paths, findings, blockers, current release gates, and next-owner recommendations. Then wait for PM review before taking the next task.
+Acknowledge HOLD and wait. PM will replace this TASK.md with an ACTIVE re-review task only after E4/E5/E6 repository evidence is ready.

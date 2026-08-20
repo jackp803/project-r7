@@ -1,347 +1,349 @@
-# E6 Registry / Persistence / Lifecycle Skeleton
+# E6 Strategy Inbox / Registry / Persistence — Early Slice 2
 
 > Owner: E6 Platform / Storage / Strategy Registry / Dashboard Engineer  
-> Phase: design / skeleton only  
-> Baseline: `contracts-v0.1` on `main` at `ba2affa62c89d58bb9ffac054963579e434896e1`  
-> Scope boundary: do not implement Slice 2 orchestration until E2 `StrategyDefinition` and E3 `BacktestResult` / `ValidationDecision` executable representations exist.
+> Branch: `agent/e6-platform`  
+> Contract baseline: `contracts-v0.1`  
+> Phase: bounded executable skeleton; local verification remains `NOT_RUN`
 
 ## 1. Objective
 
-Prepare the minimum E6 platform shape needed for later Slice 2 integration without inventing E2 strategy semantics, E3 validation semantics, E5 risk policy, E4 execution behavior, or E7 cross-module contracts.
+Materialize enough E6 structure to receive a versioned StrategyDefinition, preserve compatibility/validation evidence, register immutable strategy versions, and persist the first research lifecycle states without treating unexecuted Slice 1 code as passing evidence.
 
-This skeleton covers only:
+Current integration target:
 
-- Strategy Registry responsibilities;
-- persistence responsibilities;
-- strategy lifecycle persistence and transition enforcement;
-- evidence/audit attachment points required for later integration.
+```text
+StrategyDefinition intake
+  -> E6 shared-envelope/security boundary
+  -> E2 compatibility boundary
+  -> DRAFT Registry record + compatibility evidence
+  -> E3 BacktestResult / ValidationDecision evidence storage
+  -> guarded lifecycle persistence
+```
 
-It intentionally does **not** implement:
+E6 does not implement Strategy DSL semantics, backtest statistics, exchange execution, risk decisions, or shared contract changes.
 
-- Strategy Inbox orchestration;
-- E2 parser/runtime calls;
-- E3 backtest/validation calls;
-- database migrations;
-- ORM or database-engine selection;
-- dashboard/UI;
-- promotion-policy evaluation beyond the current E7 transition contract;
-- paper/shadow/live operational control;
-- approvals beyond reserving the contract attachment point;
-- any live-trading path.
+## 2. Authoritative semantics
 
-## 2. Authoritative inputs
-
-E6 consumes, but does not redefine:
+E6 consumes:
 
 - `contracts/SHARED_CONTRACTS_V1.md` (`contracts-v0.1`);
 - `docs/adr/ADR-0001-canonical-contract-first-architecture.md`;
 - `status/RELEASE_GATES.md`;
-- E2's future executable `StrategyDefinition` representation;
-- E3's future executable `BacktestResult` and `ValidationDecision` representations.
+- E2 StrategyDefinition/runtime boundary;
+- E3 BacktestResult and later ValidationDecision producer boundary.
 
-The canonical strategy identity is:
+The canonical identity remains:
 
 ```text
 (strategy_id, strategy_version)
 ```
 
-`content_hash` binds the immutable serialized strategy content to that identity.
+with immutable `content_hash` binding exact strategy content.
 
-## 3. Design invariants
+E2 and E3 branch implementations may be inspected for adapter planning, but branch/code existence is not PASS evidence. Their current Slice 1 handoffs report local verification `NOT_RUN`.
 
-### 3.1 Immutable strategy-version identity
+## 3. Technology choice
 
-The Registry must enforce these rules:
-
-1. `(strategy_id, strategy_version)` is unique.
-2. Re-registering the same identity with the same `content_hash` is idempotent.
-3. Re-registering the same identity with a different `content_hash` is a conflict and must fail closed.
-4. Once validation evidence is attached to a strategy version, material strategy content cannot be replaced in place.
-5. A material strategy change requires a new `strategy_version`.
-6. Rejected and retired versions remain queryable and auditable.
-
-The Registry must never use display name as identity.
-
-### 3.2 Evidence is version-bound
-
-Every evidence attachment must identify the exact:
+The early local persistence skeleton uses:
 
 ```text
-strategy_id
-strategy_version
+Python stdlib
+sqlite3
+plain SQL migrations
+unittest test definitions
 ```
 
-Where the upstream contract exposes it, E6 should also validate the expected `strategy_content_hash` before accepting the evidence reference.
+Rationale:
 
-A backtest/validation result for one strategy version must never be displayed or used as evidence for another version.
+- no additional framework/ORM dependency;
+- works with the Python already used by E2/E3;
+- simple local restart/migration testing;
+- easy to replace behind `RegistryStore` later.
 
-### 3.3 Lifecycle is backend-authoritative
+SQLite is an E6 implementation detail, not an E7 shared contract or permanent production database decision.
 
-The front end may request a transition later, but only the backend lifecycle service may persist it.
+## 4. Intake boundary
 
-A UI label, file move, query parameter, or client-supplied current state is never authoritative.
+`StrategyPlatformService.intake(...)` performs only E6-owned concerns before persistence:
 
-### 3.4 Lifecycle history is append-only
+- JSON/mapping intake;
+- duplicate JSON-key rejection;
+- required shared-envelope field presence;
+- exact `schema_version == contracts-v0.1`;
+- basic identity/runtime-compatibility envelope extraction;
+- recursive secret-like key rejection;
+- deterministic JSON persistence representation.
 
-A lifecycle transition is an audit event, not an overwrite-only status mutation.
+E6 deliberately does **not**:
 
-For every transition preserve at minimum:
+- validate SMA/GT/LT/AND semantics;
+- recompute E2 StrategyDefinition content hash;
+- interpret Strategy rules;
+- claim declared runtime compatibility is actual compatibility.
 
-- exact strategy identity;
-- previous state;
-- new state;
-- timestamp;
-- actor/source;
-- reason/evidence reference;
-- request/correlation identity when introduced.
+Those semantic checks belong behind `StrategyCompatibilityBoundary` and must be satisfied by E2.
 
-A current-state projection may exist for efficient reads, but transition history remains the auditable record.
+The production-safe default boundary is `DeferredCompatibilityBoundary`, which emits:
 
-### 3.5 Fail closed
+```text
+status = NOT_RUN
+verification_kind = NOT_RUN
+reason = E2_COMPATIBILITY_NOT_EXECUTED
+```
 
-Unknown schema versions, conflicting content hashes, missing required evidence references, illegal lifecycle transitions, ambiguous current state, or persistence failure must not be interpreted as permission to promote a strategy.
+Therefore an unwired E2 adapter cannot accidentally move a strategy out of DRAFT.
 
-## 4. Registry logical model
+## 5. Registry model
 
-The following are **internal E6 logical records**, not new shared contracts. Field names may change before executable implementation as long as cross-module semantics remain unchanged.
+### `strategy_versions`
 
-### 4.1 StrategyVersionRecord
-
-Purpose: immutable registry identity and minimal metadata for one strategy version.
-
-Logical fields:
+Stores one immutable exact version:
 
 ```text
 strategy_id
 strategy_version
 strategy_schema_version
 content_hash
-name                    # projection only when supplied by canonical E2 object
-symbol                  # projection only when supplied by canonical E2 object
-created_at              # canonical upstream creation time
-registered_at           # E6 persistence time
-current_lifecycle_state # read projection; not the sole audit record
-registry_revision       # internal optimistic-concurrency token
+name
+symbol
+declared_runtime_family
+declared_runtime_version
+definition_json
+upstream_created_at
+registered_at
+current_lifecycle_state
+registry_revision
 ```
 
-The executable representation must be derived from the actual E2 `StrategyDefinition`; E6 must not create a competing strategy DTO.
+Guarantees:
 
-### 4.2 LifecycleTransitionRecord
+1. `(strategy_id, strategy_version)` primary key.
+2. same identity + same immutable content is idempotent.
+3. same identity + conflicting hash/content fails closed.
+4. database trigger prevents direct overwrite of immutable strategy fields.
+5. current state is a read projection, not the only audit record.
 
-Purpose: append-only state-change audit.
+### `compatibility_evidence`
 
-Logical fields:
+Separates the compatibility judgment from how it was verified:
 
 ```text
-transition_id
+status
+verification_kind
+checker
+source_revision
+environment
+command
+result_ref
+reason_codes/details
+```
+
+This distinction is critical: `PASS` as a declaration/static result is not equivalent to an executed local PASS.
+
+### `validation_evidence`
+
+Stores separate canonical payloads for:
+
+- `BACKTEST_RESULT`;
+- `VALIDATION_DECISION`.
+
+Each record binds to:
+
+```text
 strategy_id
 strategy_version
+strategy_content_hash
+upstream_schema_version
+upstream_object_id
+producer
+verification_status
+verification_kind
+source_revision/environment/command/result_ref
+```
+
+ValidationDecision additionally binds to its exact stored BacktestResult parent.
+
+E6 preserves `FAIL`, `BLOCKED`, and `NOT_RUN`; it never normalizes them to PASS.
+
+### `strategy_intake_receipts`
+
+Stores accepted-intake audit metadata and payload hash without adding credentials or arbitrary error payload dumps.
+
+### `lifecycle_transitions`
+
+Append-only transition ledger containing:
+
+```text
 previous_state
 new_state
 changed_at
 changed_by
-reason_codes / reason
-primary_evidence_ref    # optional until a transition requires evidence
-approval_record_id      # optional / required only where E7 policy requires it
-registry_revision
+reason_codes
+primary_evidence_id
+expected_registry_revision
+resulting_registry_revision
 ```
 
-### 4.3 EvidenceReferenceRecord
+Database triggers reject UPDATE and DELETE of transition history.
 
-Purpose: bind external validation/research evidence to the exact strategy version without E6 redefining the evidence payload.
+## 6. Early lifecycle subset
 
-Logical fields:
-
-```text
-evidence_ref_id
-strategy_id
-strategy_version
-evidence_type            # e.g. contract type name, not an E6 validity judgment
-upstream_object_id
-upstream_schema_version
-upstream_content_hash     # when provided/meaningful
-recorded_at
-source_ref                # local artifact/object reference when architecture later defines it
-```
-
-E6 may persist the canonical upstream payload later, but the stored representation must preserve its original schema/version and must not normalize away `NOT_RUN`, `BLOCKED`, or failure evidence.
-
-### 4.4 Approval attachment point
-
-`ApprovalRecord` is already a shared E7 contract. E6 will later persist immutable approval records and bind them to lifecycle or operational-mode transitions.
-
-No approval table/migration is materialized in this skeleton.
-
-## 5. Lifecycle state machine
-
-E6 will implement exactly the E7 baseline states:
+Although E7 defines the complete lifecycle, this migration/service intentionally materializes only:
 
 ```text
 DRAFT
 BACKTESTING
 REJECTED
 CANDIDATE
-PAPER
-READY_FOR_APPROVAL
-APPROVED
-LIVE
-DEGRADED
-RETIRED
 ```
 
-Baseline legal transitions:
+Service-exposed transitions are exactly:
 
 ```text
-DRAFT              -> BACKTESTING | RETIRED
-BACKTESTING        -> REJECTED | CANDIDATE
-CANDIDATE          -> PAPER | REJECTED | RETIRED
-PAPER              -> READY_FOR_APPROVAL | REJECTED | RETIRED
-READY_FOR_APPROVAL -> APPROVED | REJECTED | RETIRED
-APPROVED           -> LIVE | RETIRED
-LIVE               -> DEGRADED | RETIRED
-DEGRADED           -> LIVE | RETIRED
+DRAFT       -> BACKTESTING
+BACKTESTING -> REJECTED
+BACKTESTING -> CANDIDATE
 ```
 
-Hard behavior:
+No generic public transition API exists.
 
-- `BACKTESTING -> LIVE` is impossible.
-- rejected strategy versions are retained.
-- `READY_FOR_APPROVAL -> APPROVED` must later validate the E7-defined approval/evidence prerequisites.
-- `APPROVED -> LIVE` must later validate runtime/risk/execution release conditions.
-- `DEGRADED -> LIVE` requires explicit authorized resumption and is never signal-driven.
-
-For this skeleton, only the static transition graph is considered stable. Evidence predicates are intentionally deferred until E2/E3 executable contracts and the relevant E7 Slice 2 gate are available.
-
-## 6. Proposed service boundaries
-
-These are conceptual E6 ports, not executable shared interfaces yet.
-
-### StrategyRegistry
-
-Responsibilities:
-
-- register exact strategy identity/version metadata;
-- enforce identity/content-hash uniqueness;
-- return current registry projection;
-- list historical/rejected/retired versions;
-- never mutate strategy semantics.
-
-Conceptual operations:
+Not available in this slice:
 
 ```text
-register(strategy_definition)
-get(strategy_id, strategy_version)
-list_versions(strategy_id)
-attach_evidence(evidence_object_or_reference)
+CANDIDATE -> PAPER
+PAPER -> READY_FOR_APPROVAL
+READY_FOR_APPROVAL -> APPROVED
+APPROVED -> LIVE
+LIVE -> DEGRADED
+DEGRADED -> LIVE
 ```
 
-The actual function signatures must consume the future E2/E3 executable contract representations or adapters approved by E7.
+A later E7-reviewed migration/service extension is required before those states can be persisted through this platform path.
 
-### LifecycleService
+## 7. Gate predicates
 
-Responsibilities:
+### DRAFT -> BACKTESTING
 
-- load authoritative current state from persistence;
-- validate requested edge against the E7 state graph;
-- later evaluate required evidence/approval predicates;
-- append transition audit record;
-- atomically update current-state projection;
-- reject stale/concurrent transitions.
-
-Conceptual operation:
+Requires latest E2 compatibility evidence with all of:
 
 ```text
-transition(strategy_identity, expected_current_state, requested_state, actor, evidence_refs)
+status = PASS
+verification_kind = LOCAL_EXECUTION
+checker = E2-owned boundary
+source_revision present
+environment present
+command present
+result_ref present
 ```
 
-### RegistryStore
+A structurally valid StrategyDefinition or an E2 branch commit alone cannot satisfy this gate.
 
-Responsibilities:
+### BACKTESTING -> REJECTED
 
-- durable storage for registry identity/projection;
-- uniqueness and optimistic-concurrency guarantees;
-- transactional write of transition + current projection;
-- restart-safe reconstruction.
+Requires an explicit actor and at least one reason code. Optional evidence, when supplied, must bind to the exact strategy version.
 
-Database technology is intentionally deferred.
+Rejected strategy versions remain persisted and queryable.
 
-## 7. Persistence behavior to preserve when implementation starts
+### BACKTESTING -> CANDIDATE
 
-The first real persistence implementation should support:
+Requires:
 
-1. unique `(strategy_id, strategy_version)` constraint;
-2. immutable content-hash conflict rejection;
-3. append-only lifecycle transition history;
-4. transactionally consistent current-state projection;
-5. evidence references bound to exact strategy version;
-6. rejected/retired history retention;
-7. restart recovery of registry state;
-8. optimistic concurrency or equivalent stale-write rejection;
-9. schema migration/version tracking;
-10. rollback on partial transition/audit failure.
+1. exact registered strategy/version/content hash;
+2. stored E3 BacktestResult bound to that exact content;
+3. stored E3 ValidationDecision bound to that BacktestResult;
+4. `ValidationDecision.decision = PASS`;
+5. BacktestResult verification = `PASS + LOCAL_EXECUTION` with complete local evidence metadata;
+6. ValidationDecision verification = `PASS + LOCAL_EXECUTION` with complete local evidence metadata.
 
-No migration files are created yet because the executable language/runtime, DB choice, and final E2/E3 object representations are not yet materialized.
-
-## 8. Performance/result separation
-
-When E6 later stores result views, Backtest, Paper/Forward, Shadow, and Live evidence/results must remain separately typed/labeled.
-
-This skeleton does not define a performance schema and must not merge these result domains into one aggregate record.
-
-## 9. Security / redaction
-
-- No real API key, API secret, token, password, private key, live `.env`, or credential may enter Registry metadata, evidence references, audit records, fixtures, examples, logs, screenshots, or UI output.
-- Strategy content must remain declarative and secret-free according to the E2/E7 contract.
-- Future payload persistence must preserve redaction boundaries rather than logging raw arbitrary objects on errors.
-- Credential presence must never imply approval or LIVE eligibility.
-
-## 10. Deferred decisions
-
-The following remain intentionally unresolved:
-
-- concrete programming language/runtime for E6 platform code;
-- SQLite/PostgreSQL/other database choice;
-- ORM/query layer;
-- migration framework;
-- whether canonical upstream payloads are stored inline or by content-addressed reference;
-- executable DTO/adapters for E2 and E3 contracts;
-- Slice 2 orchestration API shape;
-- approval service implementation;
-- operational-mode implementation;
-- dashboard technology.
-
-These should be decided only when the consuming/producing executable contracts and local runtime are available.
-
-## 11. Slice 2 entry conditions
-
-E6 may move from skeleton to implementation when E7 integration confirms at least:
-
-1. E2 has an executable `StrategyDefinition` representation conforming to `contracts-v0.1`;
-2. E2 exposes the runtime-compatible strategy identity/content hash needed by E3/E6;
-3. E3 has an executable `BacktestResult` representation conforming to `contracts-v0.1`;
-4. E3 has the Slice 2 `ValidationDecision` representation/policy boundary needed for promotion;
-5. E7 confirms any additive contract changes and Slice 2 evidence expectations.
-
-Then the intended integration path is:
+Therefore these are insufficient by themselves:
 
 ```text
-Strategy Inbox
-  -> E2 compatibility/validation
-  -> E3 backtest/validation
-  -> Validation Evidence
-  -> E6 Strategy Registry
+BacktestResult JSON validates
+ValidationDecision contains PASS
+E3 branch exists
+static review passes
+GitHub commit exists
 ```
 
-## 12. Verification status
+## 8. Why there is no approval/LIVE path
 
-No project code, migration, database, or executable test is introduced by this document.
+This slice intentionally stops at `CANDIDATE`.
+
+The service has no public method such as:
+
+```text
+approve(...)
+go_live(...)
+promote_to_live(...)
+transition(... arbitrary state ...)
+```
+
+Approval and LIVE require later E3/E4/E5/E7 evidence, operational-mode controls, Product Owner authorization, and additional migrations/tests. Implementing those now would create a bypass surface before the necessary evidence exists.
+
+## 9. Persistence / concurrency behavior
+
+`SQLiteRegistryStore.append_transition(...)` uses an immediate transaction and checks:
+
+- authoritative current state;
+- expected `registry_revision`;
+- exact next revision;
+- one-row conditional projection update.
+
+The transition audit insert and current-state projection update commit atomically.
+
+A stale writer or race fails closed with `ConcurrencyConflict`.
+
+## 10. Restart and migration
+
+Migration:
+
+```text
+src/storage/migrations/0001_strategy_registry.sql
+```
+
+Test definitions cover:
+
+- migration idempotence;
+- immutable-content trigger;
+- append-only lifecycle trigger;
+- restart persistence;
+- Registry reconstruction.
+
+Known hardening item: complete intake currently performs StrategyVersion, compatibility evidence, and receipt as separate durable operations. A crash between these writes leaves a fail-closed DRAFT/missing-evidence condition rather than a false PASS, but a later revision should make complete intake audit persistence atomic.
+
+## 11. Security / redaction
+
+Strategy Inbox rejects common credential-like key names, including prefixed forms such as:
+
+```text
+pionex_api_key
+broker_api_secret
+session_token
+account_password
+```
+
+Rejected secret-bearing raw payloads should not be persisted or logged merely for debugging.
+
+No credential can satisfy compatibility, validation, approval, or LIVE gates.
+
+## 12. Test status
+
+Defined local commands:
+
+```powershell
+$env:PYTHONPATH = (Join-Path (Get-Location) "src")
+python -m unittest discover -s tests/registry -p "test_*.py" -v
+python -m unittest discover -s tests/storage -p "test_*.py" -v
+```
 
 Current result:
 
 ```text
-Design review: DOCUMENTED
-Executable verification: NOT_RUN
-Reason: skeleton contains no executable E6 implementation yet
+NOT_RUN
 ```
 
-When implementation begins, all DB migration, Registry, lifecycle, restart, UI/backend, and integration tests must run locally only. GitHub Actions/CI/hosted runners remain forbidden.
+Reason: this ChatGPT GitHub environment is not the Product-Owner-approved local execution environment.
+
+Synthetic local-PASS fixtures in these tests exercise E6 gate behavior only; they are not evidence that E2/E3/Slice 1 passed.
+
+No GitHub Actions, GitHub CI, hosted runner, GitHub-triggered runner, or GitHub project compute was used.

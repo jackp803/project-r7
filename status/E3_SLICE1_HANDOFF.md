@@ -5,216 +5,257 @@
 **From:** E3 Backtest & Quantitative Validation Engineer  
 **To:** E7 Integration / Architecture / System QA / Release Engineer  
 **Branch:** `agent/e3-backtest-validation`  
-**Implementation commits:** `1154692831c43931130760a710651c8ee5efe6f1`, `c454beabb4c5e93b34ed8edd2a1e06fc5f2729be`  
-**Date:** 2026-08-20
+**Date:** 2026-08-20  
+**Contract baseline:** `contracts-v0.1`
+
+Implementation history includes:
+
+- `1154692831c43931130760a710651c8ee5efe6f1` — initial historical replay / costs / metrics skeleton
+- `c454beabb4c5e93b34ed8edd2a1e06fc5f2729be` — fail-closed contracts-v0.1 consumer boundary
+- `da9fa922f7c6292d4dd801033e70cfe6943249c2` — concrete binding to real E2 Strategy Runtime + E1/E2/E3 integration test definition
+- later branch commits update this documentation/handoff only
 
 ### 1. Objective
 
-Build the minimum Slice 1 research skeleton against `contracts-v0.1`:
+Deliver the minimum Slice 1 Research Skeleton:
 
 ```text
-Historical Candle
-  -> E2 Strategy Runtime boundary
-  -> historical replay
-  -> simulated costs/fills
+E1 Historical Candle
+  -> E2 Strategy Runtime
+  -> E3 historical replay
+  -> fees / slippage / funding assumptions
   -> basic metrics
   -> BacktestResult
 ```
 
-The scope intentionally excludes Monte Carlo, full Walk Forward, optimization, full regime analysis, and lifecycle promotion.
+Monte Carlo, full Walk Forward, optimization, full regime analysis, and lifecycle promotion are intentionally deferred.
 
 ### 2. What changed
 
-E3 added a closed-candle replay skeleton with the following properties:
+E3 added:
 
-- requires an `E2RuntimeBinding` containing a runtime object, exact runtime version, and thin invocation adapter;
-- does not accept a precomputed Signal stream as a substitute for E2 execution;
-- contains no strategy indicator/condition implementation;
-- passes E2 only the finalized historical Candle prefix available at each evaluation boundary;
-- rejects a Signal whose `evaluated_at` differs from the exact replay boundary;
-- schedules new entries and opposite-signal exits no earlier than the next Candle open;
-- prevents a final-dataset-bar signal from creating an entry without a future fill bar;
-- supports basic LONG/SHORT entry/exit replay with no pyramiding or averaging down;
-- supports strategy-provided stop/target/max-hold fields at entry;
-- resolves same-candle stop/target ambiguity conservatively in favor of STOP;
-- handles stop gaps using the adverse Candle-open reference;
-- supports maker/taker fee assumptions with separate entry/exit roles;
-- supports adverse fixed-bps entry/exit slippage;
-- supports a deterministic fixed-event funding assumption/config;
-- produces core `BacktestResult` metrics and reproducibility metadata;
-- marks OOS, Walk Forward, Monte Carlo, parameter robustness, and regime analysis as `NOT_RUN`;
-- rejects unsupported `StrategyDefinition`, `Candle`, and `Signal` schema versions instead of guessing compatibility.
+- `HistoricalReplayEngine` using closed-candle historical prefixes;
+- `E2RuntimeBinding` dependency boundary;
+- concrete `project_e2_runtime_binding()` that imports and calls E2's actual public Slice 1 API:
+  - `strategy.parse_strategy_definition`
+  - `strategy.StrategyRuntime`
+  - `StrategyRuntime.evaluate`;
+- no SMA, DSL rule, indicator, GT/LT/AND, or private strategy implementation inside E3;
+- E1/E2/E3 cross-role test definition using actual `market_data.Candle` and actual `strategy.StrategyRuntime`;
+- next-open entry/exit timing after closed-candle Signals;
+- final-bar no-entry protection;
+- conservative same-candle TP/SL handling where STOP wins if sequence is unknown;
+- stop-gap adverse-open handling;
+- entry-Signal stop/target/max-hold replay skeleton;
+- maker/taker fee model with separate entry/exit liquidity roles;
+- adverse fixed-bps slippage model;
+- deterministic fixed-event funding assumption model;
+- basic trade/result metrics;
+- deterministic reproducibility identity and metadata;
+- fail-closed StrategyDefinition/Candle/Signal schema checks at the E3 boundary;
+- explicit `NOT_RUN` markers for validation stages not implemented in Slice 1.
+
+E3 did not modify E1, E2, E5, E6, E7-owned shared contracts, strategy semantics, risk semantics, execution code, or lifecycle state.
 
 ### 3. Files changed
 
+E3-owned files:
+
 - `src/backtest/__init__.py`
 - `src/backtest/costs.py`
+- `src/backtest/e2_runtime.py`
 - `src/backtest/metrics.py`
 - `src/backtest/replay.py`
 - `tests/backtest/test_costs.py`
 - `tests/backtest/test_metrics.py`
 - `tests/backtest/test_replay.py`
+- `tests/backtest/test_real_e2_research_skeleton.py`
 - `docs/backtest/SLICE1_RESEARCH_SKELETON.md`
 - `status/E3_SLICE1_HANDOFF.md`
 
-No E7-owned shared contract file was modified.
-
 ### 4. Contracts consumed
 
-Contract baseline: `contracts-v0.1`.
-
-Consumed shared semantics:
-
+- `contracts-v0.1`
 - `Candle`
 - `StrategyDefinition`
 - `Signal`
 - `BacktestResult`
-- UTC / `[open_time, close_time)` Candle semantics
-- Decimal financial semantics
-- immutable strategy identity/content hash
-- exact runtime-version reproducibility
-- missing validation stages must be `NOT_RUN`, not PASS
+- ADR-0001 canonical contract-first / one-runtime architecture
 
-Architecture consumed:
+Key consumed semantics:
 
-- `docs/adr/ADR-0001-canonical-contract-first-architecture.md`
-- one E2 Strategy Runtime semantic implementation across research/paper/live-compatible callers
-- E3 may not reimplement strategy semantics
-- GitHub execution/CI prohibition
+- UTC;
+- Candle `[open_time, close_time)`;
+- finalized closed Candle only;
+- Decimal financial semantics;
+- strategy version/content hash immutability;
+- same exact input boundary + same strategy + same E2 runtime must produce deterministic Signal;
+- E3 must call E2 runtime rather than reimplement strategy;
+- missing validation evidence is `NOT_RUN`, never implicit PASS.
 
 ### 5. Contracts produced or changed
 
 `NONE`.
 
-E3 emits a `BacktestResult`-compatible mapping under the existing baseline and does not request a shared contract change in this slice.
+E3 produces a `BacktestResult`-compatible mapping under the existing baseline. No shared contract file was changed.
 
-Review note for E7: when no losing trade exists, Slice 1 serializes mathematically undefined `profit_factor` as `null`. This is not a baseline contract change, but E7 should confirm the desired edge-case representation before a future STABLE contract.
+E7 review note: if there are no losing trades, E3 currently serializes mathematically undefined `profit_factor` as `null`. Confirm this edge representation before a future STABLE contract.
 
-### 6. Strategy / runtime / dataset evidence
+### 6. Concrete E2 runtime consumption
 
-#### Authoritative strategy validation
+E2 Slice 1 handoff publishes the required call path:
 
-**Strategy ID/version:** `NONE — no authoritative E2 strategy was executed.`
+```python
+from strategy import StrategyRuntime, parse_strategy_definition
 
-A synthetic test fixture uses:
-
-- strategy ID: `baseline-test`
-- strategy version: `1.0.0`
-- content hash: `sha256:baseline-test`
-- runtime label: `e2-runtime-test-double-v1`
-
-These identifiers exist only in test definitions and are **not validation evidence**.
-
-#### E2 runtime integration status
-
-At handoff time, no `agent/e2-strategy-engine` branch, E2 Slice 1 PR, or E2 runtime implementation commit was visible in the repository through the GitHub integration.
-
-Therefore:
-
-```text
-Concrete E2 Strategy Runtime consumption: BLOCKED
-Reason: E2 concrete public runtime/API is not yet available to E3 without guessing.
+strategy = parse_strategy_definition(strategy_payload)
+runtime = StrategyRuntime()
+signal = runtime.evaluate(strategy, canonical_candle_sequence, replay_boundary_utc)
 ```
 
-The E3 engine structurally requires the runtime binding, but a real E2 integration test must still prove that the binding invokes E2's actual runtime implementation.
+E3 now calls exactly this path through `project_e2_runtime_binding()`.
 
-#### Historical dataset
+The adapter contains no strategy semantics. It parses the StrategyDefinition with E2 and invokes the actual E2 runtime object for each replay boundary.
 
-**Real E1 dataset:** `NOT_RUN / not consumed`.
+The cross-role test definition asserts:
 
-Synthetic test fixture metadata only:
+- binding runtime is an actual E2 `StrategyRuntime` instance;
+- `BacktestResult.runtime_version == E2 RUNTIME_VERSION` (`0.1.0` in the current E2 Slice 1 branch);
+- E2 Signal strategy content hash matches the StrategyDefinition;
+- E3 invokes E2 once per exact closed-Candle boundary;
+- repeated identical E1 Candle + StrategyDefinition + E2 runtime inputs produce identical E3 result identity/metrics.
 
+### 7. Strategy ID / version
+
+No production or promotion-candidate strategy was validated.
+
+The concrete cross-role integration test definition uses E2's baseline SMA-cross fixture identity:
+
+- Strategy ID: `baseline-sma-cross`
+- Strategy version: `1.0.0`
+- runtime family/version: E2 exported `RUNTIME_FAMILY` / `RUNTIME_VERSION` (`0.1.0` currently)
+- content hash: computed by E2 `compute_content_hash(...)` from the exact fixture StrategyDefinition
+
+Because the integration test has not been executed locally, the computed content-hash value is not reported as observed evidence here.
+
+This fixture is integration evidence only; it is not a strategy validation PASS.
+
+### 8. Dataset boundaries / hash
+
+No real Pionex historical validation dataset was replayed by E3 in this GPT session.
+
+The concrete E1/E2/E3 synthetic integration fixture is defined as:
+
+- dataset ID: `e1-e2-e3-synthetic-btc-1h-v1`
 - symbol: `BTC_USDT_PERP`
-- timeframe: `15m`
-- example 4-Candle fixture boundary: `2026-01-01T00:00:00Z` to `2026-01-01T01:00:00Z`
-- fixture dataset ID: `fixture-btc-15m-v1`
-- fixture hash label: `sha256:fixture-btc-15m-v1`
+- timeframe: `1h`
+- boundary: `2026-08-20T00:00:00Z` to `2026-08-20T06:00:00Z`
+- source: `e1-e3-integration-fixture`
+- dataset hash: deterministic SHA-256 over the exact E1 Candle interchange payload, computed by the local test definition
 
-The fixture hash is a test label, not an E1 historical dataset provenance hash and must not be presented as such.
+Observed dataset hash: `NOT_RUN`.
 
-### 7. Fee / slippage / funding assumptions
+Do not confuse this synthetic fixture with E1 real historical Pionex provenance.
 
-The engine requires explicit versioned cost assumptions for each replay.
+### 9. Fee / slippage / funding assumptions
 
-Supported configuration:
+Supported per-run configuration:
 
 - maker fee bps;
 - taker fee bps;
-- separate entry/exit liquidity roles;
+- entry/exit liquidity roles;
 - adverse entry slippage bps;
 - adverse exit slippage bps;
-- funding `rate_per_event`;
-- funding event interval;
-- explicit first funding-event timestamp;
+- funding rate per event;
+- funding interval;
+- first funding-event timestamp;
 - fixed research replay quantity.
 
-Semantics:
+Funding semantics in Slice 1:
 
-- fees apply to simulated fill notional;
-- slippage is embedded in simulated fill price and separately reported for audit, but is not subtracted from net PnL twice;
-- positive fixed funding charges LONG and credits SHORT;
-- funding event window is `opened_at <= event < closed_at`;
-- Slice 1 funding notional approximation is entry fill price x fixed replay quantity.
+- positive rate charges LONG and credits SHORT;
+- event window `opened_at <= event < closed_at`;
+- notional approximation = entry fill price x fixed replay quantity.
 
-Synthetic zero-cost fixture defaults and a 10-bps stress fixture exist only as test definitions. They are not exchange fee/funding truth and are not recommended production assumptions.
+The real E1/E2/E3 integration test uses deliberately neutral integration assumptions:
 
-### 8. Local verification
+- fixed quantity: `1`
+- maker fee: `0 bps`
+- taker fee: `0 bps`
+- entry slippage: `0 bps`
+- exit slippage: `0 bps`
+- funding rate: `0`
 
-**GitHub Actions / CI was not used. No project test or backtest was executed on GitHub infrastructure.**
+These values isolate semantic integration and are **not exchange-cost assumptions for strategy validation**.
 
-#### E3 unit/replay test definitions
+Separate E3 test definitions cover non-zero fee/slippage/funding behavior.
 
-```text
-Result: NOT_RUN
-Required local command: python -m unittest discover -s tests/backtest -p "test_*.py" -v
-Windows equivalent: py -3 -m unittest discover -s tests/backtest -p "test_*.py" -v
-Reason: the current ChatGPT GitHub environment is not the Product Owner's local execution environment; project verification is local-only by policy.
+### 10. Tests / local verification
+
+**No GitHub Actions, GitHub CI, hosted runner, or GitHub-triggered runner was used. No project test/backtest was executed on GitHub infrastructure.**
+
+Current execution result for all commands below: `NOT_RUN`.
+
+Reason: this ChatGPT GitHub environment is not the Product Owner-approved local execution environment.
+
+#### E3-only cost/replay/metric tests
+
+```powershell
+python -m unittest discover -s tests/backtest -p "test_costs.py" -v
+python -m unittest discover -s tests/backtest -p "test_metrics.py" -v
+python -m unittest discover -s tests/backtest -p "test_replay.py" -v
 ```
 
-Defined coverage includes:
+#### Full E1 -> E2 -> E3 Research Skeleton
 
-- entry/exit timing skeleton;
-- next-open fill timing after a closed-candle signal;
-- final-bar no-entry protection;
-- unclosed Candle rejection;
-- incompatible schema rejection;
-- no-future-Candle runtime prefix trap;
-- Signal boundary timestamp mismatch rejection;
-- same-candle stop/target conservative resolution;
-- maker/taker fees;
-- adverse slippage;
-- funding event accounting;
-- dataset boundary mismatch rejection;
-- known-sequence basic metrics;
-- empty metrics edge case.
+Run from an E7 local integration checkout containing the reviewed E1, E2, and E3 Slice 1 revisions:
 
-#### Concrete E2 integration verification
-
-```text
-Result: BLOCKED / NOT_RUN
-Reason: concrete E2 runtime implementation/API is not yet available in repository state visible to E3.
-Required next local verification: an integration test that passes the real E2 runtime object into E2RuntimeBinding and proves E3 invokes it using only the exact closed-Candle prefix.
+```powershell
+$env:PYTHONPATH = (Join-Path (Get-Location) "src")
+python tests/backtest/test_real_e2_research_skeleton.py -v
 ```
 
-E7 should require local evidence for:
+This test definition directly consumes actual E1 `Candle` and actual E2 `StrategyRuntime`; it does not use an E3 strategy test double.
+
+Required acceptance:
 
 ```text
 same StrategyDefinition
-+ same exact Candle/input boundary
++ same exact closed Candle/input boundary
 + same E2 runtime version
-= same deterministic Signal
+= deterministic Signal / deterministic replay result
 ```
 
-and then prove E3 replay consumes that same runtime rather than a private strategy implementation.
+No PASS is claimed until these commands execute locally.
 
-### 9. Metrics
+### 11. Test-definition coverage
 
-Implemented metric capability:
+Defined tests cover:
+
+- real E1 Candle -> real E2 Runtime -> E3 replay boundary;
+- actual E2 runtime object binding;
+- deterministic repeatability;
+- closed-Candle prefix/no-look-ahead trap;
+- next-open entry timing;
+- opposite-signal next-open exit timing;
+- final-bar signal cannot receive an impossible future fill;
+- unclosed Candle rejection;
+- unsupported schema rejection;
+- Signal evaluated-at mismatch rejection;
+- same-candle SL/TP conservative STOP resolution;
+- maker/taker fee calculation;
+- adverse slippage;
+- funding event accounting;
+- dataset-boundary mismatch rejection;
+- known-sequence metrics;
+- empty/no-trade metric edge case.
+
+### 12. Metrics
+
+Implemented capability:
 
 - total trades;
-- wins;
-- losses;
-- breakeven;
+- wins / losses / breakeven;
 - win rate;
 - average win/loss;
 - gross PnL;
@@ -224,102 +265,124 @@ Implemented metric capability:
 - total funding cost;
 - profit factor;
 - expectancy;
-- max absolute drawdown on cumulative net trade PnL;
+- max absolute drawdown on cumulative net closed-trade PnL;
 - max consecutive losses.
 
-**Measured strategy metrics:** `NONE / NOT_RUN`.
+Observed strategy metrics: `NONE / NOT_RUN`.
 
-No numeric test expectation is reported here as an observed backtest result because no local test/backtest was executed.
+The integration test contains expected fixture assertions, but expectations are not reported as observed results before local execution.
 
-### 10. OOS / contamination / validation decision
+### 13. OOS / contamination status
 
-- OOS status: `NOT_RUN`
+- OOS: `NOT_RUN`
 - Walk Forward: `NOT_RUN`
 - Monte Carlo: `NOT_RUN`
 - parameter robustness: `NOT_RUN`
 - regime analysis: `NOT_RUN`
-- real historical dataset contamination status: `NOT_APPLICABLE — no real validation/OOS dataset was consumed`
-- synthetic test fixtures: test-only, never described as untouched OOS evidence
+- real dataset contamination: `NOT_APPLICABLE — no real OOS/validation dataset was consumed by E3`
+- synthetic integration fixture: test-only and never labeled untouched OOS
 
-**Strategy PASS/FAIL:** `NO DECISION — no strategy validation was executed.`
+### 14. PASS / FAIL decision
 
-**E3 Slice 1 construction status:** `READY_FOR_E7_CODE/CONTRACT REVIEW`, not a validation PASS.
+**Strategy validation decision:** `NO DECISION`.
 
-**Research Skeleton integration status:** `BLOCKED` pending concrete E2 runtime availability and local verification.
+No authoritative strategy validation run occurred, therefore E3 issues neither strategy PASS nor strategy FAIL.
 
-**Gate A / RESEARCH_READY:** E3 does **not** recommend PASS from this handoff alone.
+**E3 Slice 1 source construction:** `READY_FOR_E7 INTEGRATION REVIEW`.
 
-### 11. Rejection / blocking reasons
+**Executable evidence:** `NOT_RUN`.
 
-No strategy is rejected because no authoritative strategy was evaluated.
+**Gate A / RESEARCH_READY recommendation:** `DO NOT PASS YET`.
 
-Current integration blocker:
+Gate A remains blocked until E7 assembles the E1/E2/E3 revisions and obtains local unit/integration evidence.
 
-1. concrete E2 Strategy Runtime implementation/API is unavailable to E3 in visible repository state, so actual same-runtime consumption cannot yet be proven;
-2. all E3 tests are `NOT_RUN` until executed locally;
-3. no real E1 historical dataset/hash has been replayed by E3.
+### 15. Rejection / blocking reasons
 
-### 12. Known limitations
+No strategy rejection reason exists because no strategy validation was executed.
 
-- exactly one strategy-required timeframe per Slice 1 replay;
-- fixed replay quantity is a research assumption, not E5 position-sizing semantics;
-- funding is a deterministic fixed-event model, not historical exchange funding records;
-- strategy stop/target/max-hold values are captured from the entry Signal only; dynamic protective-level changes are not implemented;
-- OHLC cannot reveal exact intrabar stop/target event time; Slice 1 records Candle close time for protective exits to avoid fabricating an intrabar timestamp and to remain conservative for funding duration;
-- no partial-fill model yet;
-- no order-book/liquidity model yet;
-- no Sharpe/Sortino yet;
-- no R-multiple distribution yet;
-- no holding-time distribution yet;
-- no long/short breakdown report yet;
-- no OOS, Walk Forward, Monte Carlo, robustness, optimization, or regime engine yet;
-- max drawdown is currently absolute drawdown of cumulative net closed-trade PnL, not a mark-to-market equity-curve drawdown;
-- no real E1 dataset replay has run;
-- concrete E2 runtime adapter is intentionally not guessed.
+Current evidence blockers:
 
-### 13. Dependencies / blockers
+1. E1/E2/E3 branches have not yet been assembled and executed in an approved local integration checkout;
+2. E3 unit/replay tests remain `NOT_RUN`;
+3. cross-role real E1/E2/E3 test remains `NOT_RUN`;
+4. no real Pionex historical dataset/hash/cost assumption set has been validated by E3.
 
-- **E2:** publish Slice 1 Strategy Runtime implementation, runtime version, public call shape, baseline StrategyDefinition, and handoff.
-- **E1:** publish/merge deterministic historical Candle path plus real dataset reference/hash for integration replay.
-- **E7:** review E3 replay assumptions against contracts-v0.1 and arbitrate any cross-module semantic mismatch.
+### 16. Cross-module integration finding for E7
 
-### 14. Required next action
+E1 executable Candle explicitly uses:
+
+```text
+schema_version = "contracts-v0.1"
+```
+
+E2's current local strategy test fixtures use:
+
+```text
+schema_version = "0.1"
+```
+
+while E2 runtime itself accepts and preserves the StrategyDefinition schema string rather than enforcing one exact value.
+
+E3's concrete integration test uses E1's exported `CONTRACT_SCHEMA_VERSION` (`contracts-v0.1`) for both StrategyDefinition and Candle, and expects E2 Signal to preserve it.
+
+E3 does not change E2 tests or shared schema semantics. E7 should decide whether the E2 fixture value is merely a test inconsistency that should be aligned before merge.
+
+### 17. Known limitations
+
+- one strategy-required timeframe per replay;
+- fixed replay quantity is research configuration, not E5 sizing;
+- fixed-event funding assumption, not historical exchange funding records;
+- stop/target/max-hold captured from entry Signal only; dynamic protective-level changes not implemented;
+- OHLC intrabar stop/target event time unknown; protective exit records Candle close time rather than fabricating an intrabar timestamp;
+- no partial-fill model;
+- no order-book/liquidity model;
+- no Sharpe/Sortino;
+- no R-multiple distribution;
+- no holding-time distribution;
+- no long/short separated report;
+- no mark-to-market equity-curve drawdown; current drawdown is absolute drawdown of cumulative net closed-trade PnL;
+- no OOS / Walk Forward / Monte Carlo / robustness / optimization / full regime engine;
+- no real Pionex dataset replay has been executed.
+
+### 18. Dependencies / next action
 
 **E7 should:**
 
-1. review `agent/e3-backtest-validation` for Slice 1 contract compliance;
-2. keep concrete Research Skeleton integration BLOCKED until E2's actual runtime is available;
-3. once E2 is available, require E3/E7 integration to bind the real E2 runtime rather than add strategy code inside E3;
-4. use an E1-provided deterministic Candle fixture/dataset reference;
-5. execute the relevant E1/E2/E3 unit and integration tests locally only;
-6. record actual dataset hash, strategy identity, runtime version, cost assumptions, metrics, and local results before considering Gate A.
+1. review E1 `agent/e1-market-data`, E2 `agent/e2-strategy-engine`, and E3 `agent/e3-backtest-validation` against `contracts-v0.1`;
+2. resolve/accept the schema-version fixture inconsistency noted above;
+3. assemble the reviewed revisions into a local integration checkout without rewriting E2 strategy logic;
+4. run E1, E2, E3 unit tests locally;
+5. run `tests/backtest/test_real_e2_research_skeleton.py` locally;
+6. record actual command/environment/results;
+7. only after executable parity succeeds, use a real E1 historical dataset reference/hash and explicit realistic cost assumptions for the first actual strategy validation run;
+8. keep Gate A blocked if any required evidence is `FAIL`, `BLOCKED`, or `NOT_RUN`.
 
-### 15. Security / secrets
+### 19. Security / secrets
 
 Confirmed for E3 changes:
 
 - no real API key, API secret, token, credential, password, private key, or live `.env` value was added;
-- test fixtures are synthetic and sanitized;
-- E3 Slice 1 requires no private exchange credentials.
+- fixtures are synthetic and sanitized;
+- no private exchange credentials are required.
 
-### 16. GitHub compute policy
+### 20. GitHub compute policy
 
 Confirmed:
 
 - no GitHub Actions workflow was created or used;
 - no GitHub-hosted runner was used;
 - no GitHub-triggered self-hosted runner was used;
-- no backtest, unit test, integration test, bug reproduction, performance test, or strategy job was executed through GitHub infrastructure;
+- no unit/integration/backtest/bug-reproduction/performance/strategy workload ran on GitHub infrastructure;
 - GitHub was used only for source/history collaboration.
 
-### 17. Live-trading impact
+### 21. Live-trading impact
 
 `NONE`.
 
-E3 Slice 1 does not submit orders, manage credentials, approve risk, alter position sizing, promote lifecycle state, or enable LIVE.
+E3 Slice 1 cannot place orders, approve risk, alter position sizing/leverage, modify live protective behavior, change lifecycle promotion state, or enable LIVE.
 
-### 18. Codex bug ticket
+### 22. Codex bug ticket
 
 `NONE`.
 
-No reproducible implementation defect has been established through approved local execution, so Codex was not invoked.
+No reproducible implementation defect has been established by approved local execution, so Codex was not invoked.

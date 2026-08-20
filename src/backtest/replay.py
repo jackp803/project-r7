@@ -77,6 +77,15 @@ def _require_nonempty(value: Any, field_name: str) -> str:
     return text
 
 
+def _require_supported_schema(obj: Any, object_name: str) -> str:
+    version = _require_nonempty(_read(obj, "schema_version"), f"{object_name}.schema_version")
+    if version != SCHEMA_VERSION:
+        raise ReplayValidationError(
+            f"unsupported {object_name}.schema_version={version}; expected {SCHEMA_VERSION}"
+        )
+    return version
+
+
 @dataclass(frozen=True)
 class DatasetDescriptor:
     """E1-owned dataset provenance consumed by E3; E3 does not invent the hash."""
@@ -310,6 +319,7 @@ class HistoricalReplayEngine:
         candles: Iterable[Any],
         dataset: DatasetDescriptor,
     ) -> BacktestResult:
+        _require_supported_schema(strategy_definition, "strategy_definition")
         strategy_id = _require_nonempty(_read(strategy_definition, "strategy_id"), "strategy_id")
         strategy_version = _require_nonempty(
             _read(strategy_definition, "strategy_version"), "strategy_version"
@@ -368,8 +378,8 @@ class HistoricalReplayEngine:
                 protective = self._protective_exit(position, frame)
                 if protective is not None:
                     exit_reference, exit_reason = protective
-                    # Intrabar order is unknown from OHLC. Recording close_time is conservative
-                    # for funding duration and avoids inventing an intrabar timestamp.
+                    # OHLC does not reveal exact intrabar event time. Using close_time is
+                    # conservative for funding duration and avoids inventing a timestamp.
                     trades.append(
                         self._close_position(
                             position,
@@ -381,6 +391,7 @@ class HistoricalReplayEngine:
                     position = None
                     pending_exit_reason = None
 
+            # The E2 runtime receives only the finalized prefix available at this boundary.
             history = tuple(item.raw for item in frames[: index + 1])
             if any(item.close_time > frame.close_time for item in frames[: index + 1]):
                 raise ReplayValidationError("internal no-look-ahead boundary violation")
@@ -417,7 +428,6 @@ class HistoricalReplayEngine:
                     "DATASET_END",
                 )
             )
-            position = None
 
         metrics = calculate_metrics(trades)
         created_at = self._config.run_created_at or datetime.now(UTC)
@@ -448,7 +458,7 @@ class HistoricalReplayEngine:
 
     @staticmethod
     def _project_candle(raw: Any) -> _CandleFrame:
-        schema_version = _require_nonempty(_read(raw, "schema_version"), "candle.schema_version")
+        schema_version = _require_supported_schema(raw, "candle")
         symbol = _require_nonempty(_read(raw, "symbol"), "candle.symbol")
         timeframe = _require_nonempty(_read(raw, "timeframe"), "candle.timeframe")
         if timeframe not in _ALLOWED_TIMEFRAMES:
@@ -524,51 +534,64 @@ class HistoricalReplayEngine:
         expected_symbol: str,
         expected_boundary: datetime,
     ) -> _SignalView:
-        _require_nonempty(_read(raw_signal, "schema_version"), "signal.schema_version")
-        signal_id = _require_nonempty(_read(raw_signal, "signal_id"), "signal.signal_id")
-        strategy_id = _require_nonempty(_read(raw_signal, "strategy_id"), "signal.strategy_id")
-        strategy_version = _require_nonempty(
-            _read(raw_signal, "strategy_version"), "signal.strategy_version"
-        )
-        content_hash = _require_nonempty(
-            _read(raw_signal, "strategy_content_hash"), "signal.strategy_content_hash"
-        )
-        symbol = _require_nonempty(_read(raw_signal, "symbol"), "signal.symbol")
-        evaluated_at = _utc(_read(raw_signal, "evaluated_at"), "signal.evaluated_at")
-        direction = _require_nonempty(_read(raw_signal, "direction"), "signal.direction")
-        _read(raw_signal, "reason_codes")
-        _require_nonempty(
-            _read(raw_signal, "market_boundary_ref"), "signal.market_boundary_ref"
-        )
-
-        if strategy_id != expected_strategy_id or strategy_version != expected_strategy_version:
-            raise RuntimeContractError("E2 Signal strategy identity does not match StrategyDefinition")
-        if content_hash != expected_strategy_hash:
-            raise RuntimeContractError("E2 Signal strategy_content_hash mismatch")
-        if symbol != expected_symbol:
-            raise RuntimeContractError("E2 Signal symbol mismatch")
-        if evaluated_at != expected_boundary:
-            raise RuntimeContractError(
-                "E2 Signal evaluated_at must equal the exact closed-candle replay boundary"
+        try:
+            signal_schema = _require_supported_schema(raw_signal, "signal")
+            signal_id = _require_nonempty(_read(raw_signal, "signal_id"), "signal.signal_id")
+            strategy_id = _require_nonempty(
+                _read(raw_signal, "strategy_id"), "signal.strategy_id"
             )
-        if direction not in ("LONG", "SHORT", "NO_TRADE"):
-            raise RuntimeContractError(f"unsupported E2 Signal direction: {direction}")
+            strategy_version = _require_nonempty(
+                _read(raw_signal, "strategy_version"), "signal.strategy_version"
+            )
+            content_hash = _require_nonempty(
+                _read(raw_signal, "strategy_content_hash"), "signal.strategy_content_hash"
+            )
+            symbol = _require_nonempty(_read(raw_signal, "symbol"), "signal.symbol")
+            evaluated_at = _utc(_read(raw_signal, "evaluated_at"), "signal.evaluated_at")
+            direction = _require_nonempty(_read(raw_signal, "direction"), "signal.direction")
+            reason_codes = _read(raw_signal, "reason_codes")
+            if isinstance(reason_codes, str) or not isinstance(reason_codes, Sequence):
+                raise ReplayValidationError("signal.reason_codes must be a sequence")
+            _require_nonempty(
+                _read(raw_signal, "market_boundary_ref"), "signal.market_boundary_ref"
+            )
 
-        stop_raw = _read(raw_signal, "strategy_stop_level", None)
-        target_raw = _read(raw_signal, "strategy_target_level", None)
-        max_hold_raw = _read(raw_signal, "max_hold_seconds", None)
-        stop = None if stop_raw is None else _decimal(stop_raw, "signal.strategy_stop_level")
-        target = None if target_raw is None else _decimal(
-            target_raw, "signal.strategy_target_level"
-        )
-        if max_hold_raw is None:
-            max_hold = None
-        else:
-            if isinstance(max_hold_raw, bool) or not isinstance(max_hold_raw, int):
-                raise RuntimeContractError("max_hold_seconds must be an integer")
-            if max_hold_raw <= 0:
-                raise RuntimeContractError("max_hold_seconds must be positive")
-            max_hold = max_hold_raw
+            if signal_schema != SCHEMA_VERSION:  # defensive; helper already enforces this
+                raise ReplayValidationError("unsupported signal schema")
+            if strategy_id != expected_strategy_id or strategy_version != expected_strategy_version:
+                raise RuntimeContractError(
+                    "E2 Signal strategy identity does not match StrategyDefinition"
+                )
+            if content_hash != expected_strategy_hash:
+                raise RuntimeContractError("E2 Signal strategy_content_hash mismatch")
+            if symbol != expected_symbol:
+                raise RuntimeContractError("E2 Signal symbol mismatch")
+            if evaluated_at != expected_boundary:
+                raise RuntimeContractError(
+                    "E2 Signal evaluated_at must equal the exact closed-candle replay boundary"
+                )
+            if direction not in ("LONG", "SHORT", "NO_TRADE"):
+                raise RuntimeContractError(f"unsupported E2 Signal direction: {direction}")
+
+            stop_raw = _read(raw_signal, "strategy_stop_level", None)
+            target_raw = _read(raw_signal, "strategy_target_level", None)
+            max_hold_raw = _read(raw_signal, "max_hold_seconds", None)
+            stop = None if stop_raw is None else _decimal(
+                stop_raw, "signal.strategy_stop_level"
+            )
+            target = None if target_raw is None else _decimal(
+                target_raw, "signal.strategy_target_level"
+            )
+            if max_hold_raw is None:
+                max_hold = None
+            else:
+                if isinstance(max_hold_raw, bool) or not isinstance(max_hold_raw, int):
+                    raise ReplayValidationError("max_hold_seconds must be an integer")
+                if max_hold_raw <= 0:
+                    raise ReplayValidationError("max_hold_seconds must be positive")
+                max_hold = max_hold_raw
+        except ReplayValidationError as exc:
+            raise RuntimeContractError(str(exc)) from exc
 
         return _SignalView(
             signal_id=signal_id,
@@ -614,8 +637,6 @@ class HistoricalReplayEngine:
             stop_hit = position.stop_level is not None and frame.low <= position.stop_level
             target_hit = position.target_level is not None and frame.high >= position.target_level
             if stop_hit:
-                # If stop and target are both touched, stop wins. If the market gaps
-                # through the stop at the candle open, use the worse open reference.
                 stop_reference = (
                     frame.open
                     if position.stop_level is not None and frame.open <= position.stop_level

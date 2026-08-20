@@ -91,10 +91,17 @@ def zero_config(**overrides):
 
 
 class RecordingRuntime:
-    def __init__(self, directions, levels=None, timestamp_offset_seconds=0):
+    def __init__(
+        self,
+        directions,
+        levels=None,
+        timestamp_offset_seconds=0,
+        signal_schema_version="contracts-v0.1",
+    ):
         self.directions = list(directions)
         self.levels = levels or {}
         self.timestamp_offset_seconds = timestamp_offset_seconds
+        self.signal_schema_version = signal_schema_version
         self.history_lengths = []
         self.boundaries = []
 
@@ -110,7 +117,7 @@ class RecordingRuntime:
         level = self.levels.get(index, {})
         signal_time = evaluated_at + timedelta(seconds=self.timestamp_offset_seconds)
         return {
-            "schema_version": "contracts-v0.1",
+            "schema_version": self.signal_schema_version,
             "signal_id": f"signal-{index}",
             "strategy_id": definition["strategy_id"],
             "strategy_version": definition["strategy_version"],
@@ -187,9 +194,38 @@ class ReplayTests(unittest.TestCase):
             )
         self.assertEqual(runtime.history_lengths, [])
 
+    def test_incompatible_strategy_schema_is_rejected_before_runtime(self) -> None:
+        candles = [candle(0, open_="100", high="101", low="99", close="100")]
+        definition = strategy_definition()
+        definition["schema_version"] = "contracts-v9"
+        runtime = RecordingRuntime(["NO_TRADE"])
+        with self.assertRaises(ReplayValidationError):
+            HistoricalReplayEngine(runtime_binding(runtime), zero_config()).run(
+                definition, candles, dataset_for(candles)
+            )
+        self.assertEqual(runtime.history_lengths, [])
+
+    def test_incompatible_candle_schema_is_rejected_before_runtime(self) -> None:
+        candles = [candle(0, open_="100", high="101", low="99", close="100")]
+        candles[0]["schema_version"] = "contracts-v9"
+        runtime = RecordingRuntime(["NO_TRADE"])
+        with self.assertRaises(ReplayValidationError):
+            HistoricalReplayEngine(runtime_binding(runtime), zero_config()).run(
+                strategy_definition(), candles, dataset_for(candles)
+            )
+        self.assertEqual(runtime.history_lengths, [])
+
     def test_signal_evaluated_at_must_equal_replay_boundary(self) -> None:
         candles = [candle(0, open_="100", high="101", low="99", close="100")]
         runtime = RecordingRuntime(["NO_TRADE"], timestamp_offset_seconds=1)
+        with self.assertRaises(RuntimeContractError):
+            HistoricalReplayEngine(runtime_binding(runtime), zero_config()).run(
+                strategy_definition(), candles, dataset_for(candles)
+            )
+
+    def test_incompatible_signal_schema_is_runtime_contract_error(self) -> None:
+        candles = [candle(0, open_="100", high="101", low="99", close="100")]
+        runtime = RecordingRuntime(["NO_TRADE"], signal_schema_version="contracts-v9")
         with self.assertRaises(RuntimeContractError):
             HistoricalReplayEngine(runtime_binding(runtime), zero_config()).run(
                 strategy_definition(), candles, dataset_for(candles)

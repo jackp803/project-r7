@@ -5,60 +5,81 @@
 **From:** E5 / Risk Management & Position Lifecycle Engineer  
 **To:** E7 / Integration Engineer  
 **Branch:** `agent/e5-risk-position`  
-**Commit(s):** branch HEAD containing this handoff  
+**Task:** `E5-20260820-002`  
+**Finding:** `E5-RISK-UNKNOWN-001`  
 **Date:** 2026-08-20
 
 ### 1. Objective
 
-Prepare the bounded E5 safety skeleton for `TradeIntent -> RiskDecision -> ApprovedTradePlan` plus a fail-closed position lifecycle state machine, without changing shared contracts or claiming executable E2/E4 integration.
+Correct the E7 blocking finding where contradictory required-state status strings and companion booleans could be interpreted permissively, while preserving the bounded `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority chain and existing fail-closed position lifecycle.
 
-### 2. What changed
+### 2. Branch synchronization
 
-- added explicit versioned `RiskPolicy` with no production capital-risk defaults;
-- added canonical `contracts-v0.1` TradeIntent validation and fail-closed risk gating;
-- added auditable `RiskDecision` generation;
-- added guarded `ApprovedTradePlan` generation only from `APPROVE` decisions;
-- added canonical position lifecycle states/transitions;
-- made entry fill explicitly become `OPEN_UNPROTECTED` before verified protection;
-- made protection failure/loss enter emergency handling;
-- made unknown state enter reconciliation and block safe-open claims/new exposure;
-- added local-only unit/safety test definitions.
+Before correction, `agent/e5-risk-position` was diverged from `main` (E5 ahead, main advanced with coordination/review work).
 
-### 3. Files changed
+The branch was synchronized without force rewriting history:
 
-- `src/risk/__init__.py`
-- `src/risk/policy.py`
+- latest main synchronized: `4c531adc575ddd43f095ab8eabba3cae62ecc7b2`
+- synchronization merge commit: `7afc026e8f3fdce7bd7efca7e955c841a0173da1`
+- method: merge commit with existing E5 history preserved; no rebase/force update.
+
+### 3. What changed
+
+- required market/account/order/position summary statuses now have explicit E5-local safe allowlists;
+- any unrecognized or non-safe required status fails closed even when its companion boolean says fresh/known;
+- canonical/recognized `UNKNOWN`, `STALE`, `DEGRADED`, `UNSAFE`, `MISMATCH`, and `RECONCILIATION_REQUIRED`-type states therefore cannot be interpreted as permission for exposure;
+- contradictory status/boolean combinations produce deterministic contradiction reason codes;
+- existing boolean-only fail-closed checks remain intact;
+- `build_approved_trade_plan` now re-checks RiskDecision market/account/position status fields before emitting a plan, preventing a forged `APPROVE` object with unsafe state from being converted into execution authority;
+- no position-lifecycle transitions were changed;
+- no production risk-policy values, sizing logic, broker logic, PAPER/SHADOW/LIVE authority, or shared contracts were added.
+
+The safe summary tokens are E5-local validation semantics only, not new shared-contract enums. Provisional `entry_instruction` / `protection_instruction` nesting remains provisional and unstabilized.
+
+### 4. Files changed for finding correction
+
 - `src/risk/engine.py`
-- `src/position/__init__.py`
-- `src/position/state_machine.py`
-- `tests/risk/test_risk_engine.py`
-- `tests/position/test_state_machine.py`
 - `tests/safety/test_e5_fail_closed.py`
-- `docs/risk/E5_RISK_POSITION_SKELETON.md`
 - `status/E5_RISK_POSITION_HANDOFF.md`
+- `coordination/E5/STATUS.md` is updated separately as the task mailbox status.
 
-### 4. Contracts consumed
+No `src/position/**`, `contracts/**`, E4, or E6 implementation files were changed for this finding.
 
-- `contracts-v0.1` `TradeIntent`
-- `contracts-v0.1` `RiskDecision`
-- `contracts-v0.1` `ApprovedTradePlan`
-- `contracts-v0.1` `Position` lifecycle states
-- `contracts-v0.1` `RiskState` fail-closed semantics
-- ADR-0001 Risk -> ApprovedTradePlan -> Execution boundary
+### 5. Contracts consumed
 
-### 5. Contracts produced or changed
+- `contracts-v0.1` global fail-closed rule;
+- `MarketSnapshot`: stale/unknown provider state must map to non-healthy state and consumers may not turn stale into healthy;
+- `RiskDecision`: approval impossible while required market/account/order/position state is stale or unknown;
+- `OrderResult`: `UNKNOWN` / `RECONCILIATION_REQUIRED` represent unresolved broker truth;
+- `Position.reconciliation_status`: `CONSISTENT | UNKNOWN | MISMATCH | RECONCILIATION_REQUIRED`;
+- `RiskState`: `DEGRADED`, `LOCKED`, and `UNKNOWN` are not normal exposure-permission states;
+- `ApprovedTradePlan`: may exist only from an E5-approved decision.
+
+### 6. Contracts produced or changed
 
 `NONE`.
 
-The nested `entry_instruction` / `protection_instruction` mapping in the skeleton is explicitly provisional E5 serialization and is not asserted as a new shared contract. E7/E4 review is required before treating that nested shape as stable execution semantics.
+### 7. Finding disposition
 
-### 6. Local verification
+`E5-RISK-UNKNOWN-001`: **STATIC_SOURCE_CORRECTED / EXECUTABLE_NOT_RUN**.
+
+Static/source correction covers at minimum:
+
+- `account_state_status="UNKNOWN"` + `account_state_known=True` -> `REJECT`;
+- `order_state_status="UNKNOWN"` + `order_state_known=True` -> `REJECT`;
+- `position_state_status="UNKNOWN"` + `position_state_known=True` -> `REJECT`;
+- unsafe/stale/degraded market status + `market_data_fresh=True` -> `REJECT`;
+- reconciliation-required/mismatch required state -> `REJECT`;
+- rejected/unsafe state cannot produce an `ApprovedTradePlan`;
+- forged `APPROVE` with unsafe RiskDecision market/account/position state is rejected by plan construction.
+
+### 8. Local verification
 
 Result: `NOT_RUN`
 
 Reason: this GPT session has repository collaboration access but no Product-Owner-approved local project execution environment. GitHub-hosted execution is forbidden.
 
-Required local commands from repository root (PowerShell):
+Required local commands from repository root on Windows PowerShell:
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -67,47 +88,38 @@ python -m unittest discover -s tests/position -p "test_*.py"
 python -m unittest discover -s tests/safety -p "test_*.py"
 ```
 
-### 7. Known limitations
+No executable result is claimed from static review alone.
 
-- E2 currently exposes executable `Signal` semantics on its branch; executable `TradeIntent` production is not yet integrated here.
-- E4 executable broker branch/interface implementation is not yet available to this skeleton.
-- E6 persistence observed during preparation is design-only; restart-safe risk/kill-switch persistence is therefore not implemented here.
-- position sizing is represented as an explicit `RiskProposal` input; the sizing algorithm itself is deferred.
-- revenge-size comparison, stop-widening modification logic, break-even, trailing, structure exit, and time-stop action generation remain deferred.
+### 9. Known limitations
+
+- E2/E4 executable integration remains outside this correction task;
+- E6 durable risk/kill-switch/restart persistence remains outside this correction task;
+- position sizing remains represented by explicit `RiskProposal` input;
+- revenge-size comparison, stop-widening modification logic, break-even, trailing, structure exit, and time-stop action generation remain deferred;
 - no PAPER/LIVE authorization is added.
 
-### 8. Dependencies / blockers
+### 10. Dependencies / next action
 
-- E2: executable canonical TradeIntent producer/adapter.
-- E4: broker/account/order/position interfaces and final ApprovedTradePlan instruction semantics.
-- E6: durable risk-state / kill-switch / lifecycle persistence and restart reconstruction.
-- E7: review of provisional instruction substructure and future cross-module integration.
-- Product Owner: concrete policy values before any non-test risk policy is considered operational.
+E7 should re-review `E5-RISK-UNKNOWN-001` against this corrected branch revision. Executable release evidence remains `NOT_RUN` until the exact local commands above run in an approved local environment.
 
-### 9. Required next action
+E5 must not start another feature automatically after this handoff.
 
-E7 should statically review this skeleton for `contracts-v0.1` compatibility and keep Gate B criteria `BLOCKED`/`NOT_RUN` until local executable integration evidence exists.
+### 11. Security / secrets
 
-### 10. Security / secrets
+- no API key, API secret, token, credential, password, private key, or live `.env` value was added;
+- tests use synthetic values only;
+- no real secret is required by this correction.
 
-- no real API key, API secret, token, credential, password, private key, or live `.env` value was added;
-- test data is synthetic;
-- no secret is required by this skeleton.
-
-### 11. GitHub compute policy
+### 12. GitHub compute policy
 
 - no GitHub Actions workflow was created or used;
 - no GitHub-hosted or GitHub-triggered runner was used;
-- no project code/test was executed on GitHub infrastructure.
+- no unit/integration/safety test or other project code was executed on GitHub infrastructure.
 
-### 12. Live-trading impact
+### 13. Live-trading impact
 
-This change does **not** enable LIVE or PAPER execution. It adds safety gating structure only. Any future execution remains subject to E4/E7 release gates and Product Owner authorization.
+This correction only tightens rejection behavior. It does not enable order placement, PAPER, SHADOW, or LIVE operation and does not raise any exposure/risk limit.
 
-Kill-switch behavior in this skeleton: active kill switch always rejects new exposure; there is no automatic reset path.
+### 14. Codex bug ticket
 
-Restart assumption: no restart safety claim is made until E6 durable persistence/recovery interfaces exist and local restart tests pass.
-
-### 13. Codex bug ticket, if applicable
-
-`NOT_APPLICABLE` — no locally reproduced bounded implementation bug has been established.
+`NOT_APPLICABLE` — this bounded E5 source correction was implemented directly under the assigned TASK; executable verification remains local-only.

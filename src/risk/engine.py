@@ -30,6 +30,14 @@ _TRADE_INTENT_OPTIONAL = {
     "max_hold_seconds",
 }
 
+# E5-local pre-trade summary states. These are not new shared-contract enums.
+# Adapters may later be reviewed by E4/E7, but this skeleton only permits
+# explicitly safe summaries; every other value fails closed.
+_MARKET_SAFE_STATUSES = frozenset({"HEALTHY"})
+_ACCOUNT_SAFE_STATUSES = frozenset({"KNOWN"})
+_POSITION_SAFE_STATUSES = frozenset({"FLAT", "CONSISTENT"})
+_ORDER_SAFE_STATUSES = frozenset({"KNOWN"})
+
 
 @dataclass(frozen=True)
 class RiskContext:
@@ -106,6 +114,12 @@ def _is_finite_nonnegative_decimal(value: Any) -> bool:
     return isinstance(value, Decimal) and value.is_finite() and value >= 0
 
 
+def _normalized_status(value: Any) -> str | None:
+    if not isinstance(value, str) or not value.strip():
+        return None
+    return value.strip().upper()
+
+
 def _stable_id(prefix: str, material: Mapping[str, Any]) -> str:
     payload = json.dumps(material, sort_keys=True, separators=(",", ":"), default=str)
     return prefix + hashlib.sha256(payload.encode("utf-8")).hexdigest()
@@ -165,24 +179,59 @@ def _validate_trade_intent(intent: Mapping[str, Any]) -> list[str]:
 
 def _validate_context(context: RiskContext) -> list[str]:
     reasons: list[str] = []
-    for field_name in (
-        "market_health_status",
-        "account_state_status",
-        "position_state_status",
-        "order_state_status",
-    ):
-        value = getattr(context, field_name)
-        if not isinstance(value, str) or not value.strip():
-            reasons.append(f"INVALID_{field_name.upper()}")
 
-    if context.market_data_fresh is not True:
+    market_status = _normalized_status(context.market_health_status)
+    if market_status is None:
+        reasons.append("INVALID_MARKET_HEALTH_STATUS")
+    market_status_safe = market_status in _MARKET_SAFE_STATUSES
+    if not market_status_safe:
+        reasons.append("MARKET_HEALTH_STATUS_NOT_SAFE")
+    if market_status in {"UNKNOWN", "STALE"} or context.market_data_fresh is not True:
         reasons.append("MARKET_DATA_STALE_OR_UNKNOWN")
-    if context.account_state_known is not True:
+    if type(context.market_data_fresh) is not bool:
+        reasons.append("INVALID_MARKET_DATA_FRESH")
+    elif context.market_data_fresh != market_status_safe:
+        reasons.append("MARKET_STATUS_FLAG_CONTRADICTION")
+
+    account_status = _normalized_status(context.account_state_status)
+    if account_status is None:
+        reasons.append("INVALID_ACCOUNT_STATE_STATUS")
+    account_status_safe = account_status in _ACCOUNT_SAFE_STATUSES
+    if not account_status_safe:
+        reasons.append("ACCOUNT_STATE_STATUS_NOT_SAFE")
+    if account_status == "UNKNOWN" or context.account_state_known is not True:
         reasons.append("ACCOUNT_STATE_UNKNOWN")
-    if context.position_state_known is not True:
+    if type(context.account_state_known) is not bool:
+        reasons.append("INVALID_ACCOUNT_STATE_KNOWN")
+    elif context.account_state_known != account_status_safe:
+        reasons.append("ACCOUNT_STATE_STATUS_FLAG_CONTRADICTION")
+
+    position_status = _normalized_status(context.position_state_status)
+    if position_status is None:
+        reasons.append("INVALID_POSITION_STATE_STATUS")
+    position_status_safe = position_status in _POSITION_SAFE_STATUSES
+    if not position_status_safe:
+        reasons.append("POSITION_STATE_STATUS_NOT_SAFE")
+    if position_status == "UNKNOWN" or context.position_state_known is not True:
         reasons.append("POSITION_STATE_UNKNOWN")
-    if context.order_state_known is not True:
+    if type(context.position_state_known) is not bool:
+        reasons.append("INVALID_POSITION_STATE_KNOWN")
+    elif context.position_state_known != position_status_safe:
+        reasons.append("POSITION_STATE_STATUS_FLAG_CONTRADICTION")
+
+    order_status = _normalized_status(context.order_state_status)
+    if order_status is None:
+        reasons.append("INVALID_ORDER_STATE_STATUS")
+    order_status_safe = order_status in _ORDER_SAFE_STATUSES
+    if not order_status_safe:
+        reasons.append("ORDER_STATE_STATUS_NOT_SAFE")
+    if order_status == "UNKNOWN" or context.order_state_known is not True:
         reasons.append("ORDER_STATE_UNKNOWN")
+    if type(context.order_state_known) is not bool:
+        reasons.append("INVALID_ORDER_STATE_KNOWN")
+    elif context.order_state_known != order_status_safe:
+        reasons.append("ORDER_STATE_STATUS_FLAG_CONTRADICTION")
+
     if context.kill_switch_active is not False:
         reasons.append("KILL_SWITCH_ACTIVE")
     if context.new_exposure_allowed is not True:
@@ -396,6 +445,14 @@ def build_approved_trade_plan(
         raise RiskInputError("UNSUPPORTED_SCHEMA_VERSION", "TradeIntent schema is unsupported")
     if risk_decision.get("schema_version") != SUPPORTED_SHARED_SCHEMA_VERSION:
         raise RiskInputError("UNSUPPORTED_SCHEMA_VERSION", "RiskDecision schema is unsupported")
+    if _normalized_status(risk_decision.get("market_health_status")) not in _MARKET_SAFE_STATUSES:
+        raise RiskInputError("APPROVAL_STATE_NOT_SAFE", "RiskDecision market state is not safe")
+    if _normalized_status(risk_decision.get("account_state_status")) not in _ACCOUNT_SAFE_STATUSES:
+        raise RiskInputError("APPROVAL_STATE_NOT_SAFE", "RiskDecision account state is not safe")
+    if _normalized_status(risk_decision.get("position_state_status")) not in _POSITION_SAFE_STATUSES:
+        raise RiskInputError("APPROVAL_STATE_NOT_SAFE", "RiskDecision position state is not safe")
+    if risk_decision.get("reason_codes") not in ([], ()):
+        raise RiskInputError("RISK_DECISION_INCONSISTENT", "APPROVE RiskDecision cannot contain rejection reasons")
     if created_at.tzinfo is None or created_at.utcoffset() != timezone.utc.utcoffset(created_at):
         raise ValueError("created_at must be timezone-aware UTC")
 

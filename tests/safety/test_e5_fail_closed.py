@@ -2,7 +2,14 @@ import unittest
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from risk import RiskContext, RiskPolicy, RiskProposal, evaluate_trade_intent
+from risk import (
+    RiskContext,
+    RiskInputError,
+    RiskPolicy,
+    RiskProposal,
+    build_approved_trade_plan,
+    evaluate_trade_intent,
+)
 
 
 class FailClosedBoundaryTests(unittest.TestCase):
@@ -70,49 +77,119 @@ class FailClosedBoundaryTests(unittest.TestCase):
         values.update(changes)
         return RiskContext(**values)
 
-    def test_kill_switch_always_rejects_new_exposure(self):
-        decision = evaluate_trade_intent(
+    def _decision(self, **context_changes):
+        return evaluate_trade_intent(
             self.intent,
-            self._context(kill_switch_active=True),
+            self._context(**context_changes),
             self.proposal,
             self.policy,
             decided_at=self.now,
         )
+
+    def test_kill_switch_always_rejects_new_exposure(self):
+        decision = self._decision(kill_switch_active=True)
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("KILL_SWITCH_ACTIVE", decision["reason_codes"])
 
     def test_unknown_order_state_rejects_new_exposure(self):
-        decision = evaluate_trade_intent(
-            self.intent,
-            self._context(order_state_known=False, order_state_status="UNKNOWN"),
-            self.proposal,
-            self.policy,
-            decided_at=self.now,
-        )
+        decision = self._decision(order_state_known=False, order_state_status="UNKNOWN")
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("ORDER_STATE_UNKNOWN", decision["reason_codes"])
 
     def test_existing_same_symbol_position_blocks_position_add(self):
-        decision = evaluate_trade_intent(
-            self.intent,
-            self._context(same_symbol_position_open=True),
-            self.proposal,
-            self.policy,
-            decided_at=self.now,
-        )
+        decision = self._decision(same_symbol_position_open=True)
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("AVERAGING_DOWN_OR_POSITION_ADD_BLOCKED", decision["reason_codes"])
 
     def test_loss_lock_does_not_auto_reset_on_new_signal(self):
-        decision = evaluate_trade_intent(
-            self.intent,
-            self._context(consecutive_losses=5),
-            self.proposal,
-            self.policy,
-            decided_at=self.now,
-        )
+        decision = self._decision(consecutive_losses=5)
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("CONSECUTIVE_LOSS_LOCK_ACTIVE", decision["reason_codes"])
+
+    def test_unknown_account_status_cannot_be_overridden_by_known_flag(self):
+        decision = self._decision(account_state_status="UNKNOWN", account_state_known=True)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("ACCOUNT_STATE_STATUS_NOT_SAFE", decision["reason_codes"])
+        self.assertIn("ACCOUNT_STATE_STATUS_FLAG_CONTRADICTION", decision["reason_codes"])
+
+    def test_unknown_order_status_cannot_be_overridden_by_known_flag(self):
+        decision = self._decision(order_state_status="UNKNOWN", order_state_known=True)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("ORDER_STATE_STATUS_NOT_SAFE", decision["reason_codes"])
+        self.assertIn("ORDER_STATE_STATUS_FLAG_CONTRADICTION", decision["reason_codes"])
+
+    def test_unknown_position_status_cannot_be_overridden_by_known_flag(self):
+        decision = self._decision(position_state_status="UNKNOWN", position_state_known=True)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("POSITION_STATE_STATUS_NOT_SAFE", decision["reason_codes"])
+        self.assertIn("POSITION_STATE_STATUS_FLAG_CONTRADICTION", decision["reason_codes"])
+
+    def test_unsafe_market_status_cannot_be_overridden_by_fresh_flag(self):
+        for market_status in (
+            "UNKNOWN",
+            "STALE",
+            "DEGRADED",
+            "UNSAFE",
+            "RECONCILIATION_REQUIRED",
+        ):
+            with self.subTest(market_status=market_status):
+                decision = self._decision(
+                    market_health_status=market_status,
+                    market_data_fresh=True,
+                )
+                self.assertEqual("REJECT", decision["decision"])
+                self.assertIn("MARKET_HEALTH_STATUS_NOT_SAFE", decision["reason_codes"])
+                self.assertIn("MARKET_STATUS_FLAG_CONTRADICTION", decision["reason_codes"])
+
+    def test_reconciliation_required_and_mismatch_states_fail_closed(self):
+        cases = (
+            {
+                "order_state_status": "RECONCILIATION_REQUIRED",
+                "order_state_known": True,
+                "reason": "ORDER_STATE_STATUS_NOT_SAFE",
+            },
+            {
+                "position_state_status": "RECONCILIATION_REQUIRED",
+                "position_state_known": True,
+                "reason": "POSITION_STATE_STATUS_NOT_SAFE",
+            },
+            {
+                "position_state_status": "MISMATCH",
+                "position_state_known": True,
+                "reason": "POSITION_STATE_STATUS_NOT_SAFE",
+            },
+        )
+        for case in cases:
+            reason = case["reason"]
+            changes = {key: value for key, value in case.items() if key != "reason"}
+            with self.subTest(changes=changes):
+                decision = self._decision(**changes)
+                self.assertEqual("REJECT", decision["decision"])
+                self.assertIn(reason, decision["reason_codes"])
+
+    def test_unknown_state_cannot_produce_approved_plan(self):
+        decision = self._decision(account_state_status="UNKNOWN", account_state_known=True)
+        self.assertEqual("REJECT", decision["decision"])
+        with self.assertRaises(RiskInputError):
+            build_approved_trade_plan(
+                self.intent,
+                decision,
+                self.policy,
+                created_at=self.now,
+            )
+
+    def test_forged_approve_with_unsafe_state_cannot_produce_plan(self):
+        valid_decision = self._decision()
+        self.assertEqual("APPROVE", valid_decision["decision"])
+        forged = dict(valid_decision)
+        forged["market_health_status"] = "UNKNOWN"
+        with self.assertRaises(RiskInputError):
+            build_approved_trade_plan(
+                self.intent,
+                forged,
+                self.policy,
+                created_at=self.now,
+            )
 
 
 if __name__ == "__main__":

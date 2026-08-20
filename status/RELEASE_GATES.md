@@ -36,13 +36,15 @@ This is a construction foundation, not a live/research release authorization.
 | Canonical baseline contracts materialized | PASS | `contracts/SHARED_CONTRACTS_V1.md` (`contracts-v0.1`) |
 | Architecture baseline ADR exists | PASS | `docs/adr/ADR-0001-canonical-contract-first-architecture.md` |
 | Release evidence vocabulary defined | PASS | this file + canonical contracts |
-| Integration test structure exists | BLOCKED | to be materialized in Slice 0 |
-| Safety/policy test structure exists | BLOCKED | to be materialized in Slice 0 |
+| Integration test structure exists | PASS | `tests/integration/README.md` |
+| Safety/policy test structure exists | PASS | `tests/safety/README.md` |
 | Local executable contract verification | NOT_RUN | no executable shared schemas/types yet |
 | GitHub compute policy local scan | NOT_RUN | must be run locally once checkout/runtime is available |
 | Secret hygiene local scan | NOT_RUN | must be run locally once checkout/runtime is available |
 
-Slice 0 exits only when the remaining structural items are materialized. Executable items may remain `NOT_RUN` if no executable implementation exists yet, but downstream release gates remain blocked until their required evidence exists.
+**Slice 0 structural foundation: `PASS`.**
+
+This PASS means only that the architecture/contract/test-definition foundation exists. It does not convert any executable `NOT_RUN` item to PASS and does not advance Gate A automatically.
 
 ---
 

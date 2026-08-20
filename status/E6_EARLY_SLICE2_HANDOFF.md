@@ -1,118 +1,200 @@
-# Handoff
+# Handoff — E6 Evidence Contract Correction
 
 **From:** E6 / Platform / Storage / Strategy Registry / Dashboard Engineer  
 **To:** E7 / Integration / Architecture / System QA / Release Engineer  
+**Task:** `E6-20260820-002`  
 **Branch:** `agent/e6-platform`  
-**Commit(s):** branch HEAD containing this handoff; review full `main...agent/e6-platform` range  
+**Contract baseline:** `contracts-v0.1`  
+**Finding:** `E6-EVIDENCE-CONTRACT-001`  
 **Date:** 2026-08-20
 
-### 1. Objective
+## 1. Objective
 
-Implement a bounded early Slice 2 E6 platform path:
+Correct the E6 evidence-ingest boundary so incomplete or non-canonical E3-shaped objects cannot become promotable Registry evidence merely because a caller supplies `PASS` / `LOCAL_EXECUTION` metadata.
+
+Scope remains the existing early Slice 2 path:
 
 ```text
 StrategyDefinition intake
--> schema/runtime compatibility boundary
--> validation evidence storage
+-> E2 compatibility boundary
+-> BacktestResult / ValidationDecision evidence persistence
 -> Strategy Registry
--> lifecycle persistence
+-> DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
 ```
 
-while preserving the Product Owner restriction that current E2/E3 Slice 1 code and contract-shaped artifacts must not be treated as executable PASS before local verification exists.
+No PAPER / READY_FOR_APPROVAL / APPROVED / LIVE behavior is introduced.
 
-Lifecycle implementation is intentionally capped at:
+## 2. Branch synchronization
+
+Before correction, E6 synchronized `agent/e6-platform` with the then-latest `main` without rewriting history.
+
+- E6 pre-sync HEAD: `13c67d4fa91e1cf4cc3b5a394c7ce88de0902321`
+- main synchronized revision: `4c531adc575ddd43f095ab8eabba3cae62ecc7b2`
+- merge commit: `6f15f8190a597cdf25284f00eb7b84b3c34f73a0`
+- force update: **NO**
+- history rewrite/rebase: **NO**
+- post-correction static compare: `main` is merge-base; branch `behind_by=0`
+
+The merge tree used current `main` as the base and restored only existing E6-owned branch paths, preserving coordination/review/product material from `main` and all prior E6 history.
+
+## 3. Correction implemented
+
+### Canonical contract-shape validator
+
+Added `src/registry/contract_validation.py`.
+
+For `BacktestResult`, E6 now requires every `contracts-v0.1` identity/reproducibility field before evidence persistence:
+
+- `schema_version`
+- `backtest_result_id`
+- `strategy_id`
+- `strategy_version`
+- `strategy_content_hash`
+- `runtime_version`
+- `dataset_id`
+- `dataset_hash`
+- `dataset_start`
+- `dataset_end`
+- `cost_model_version`
+- `created_at`
+
+It also requires every core metric:
+
+- `total_trades`
+- `wins`
+- `losses`
+- `breakeven`
+- `gross_pnl`
+- `net_pnl`
+- `total_fees`
+- `profit_factor`
+- `expectancy`
+- `max_drawdown`
+- `max_consecutive_losses`
+
+Contract-shape checks include:
+
+- exact shared schema `contracts-v0.1`;
+- stable IDs / versions / hashes as non-empty strings;
+- RFC 3339 UTC timestamps ending in `Z`;
+- dataset start not after dataset end;
+- count metrics as non-negative integers, excluding booleans;
+- financial metrics as finite base-10 decimal strings at interchange boundaries;
+- `profit_factor` may be `null` when mathematically undefined, matching the current E3 Slice 1 representation noted for review.
+
+These checks do not calculate or judge E3 statistics.
+
+### ValidationDecision contract gate
+
+For `ValidationDecision`, E6 now requires:
+
+- `schema_version`
+- `validation_decision_id`
+- `strategy_id`
+- `strategy_version`
+- `backtest_result_id`
+- `validation_policy_version`
+- `decision`
+- `reason_codes`
+- `decided_at`
+
+Additional contract checks:
+
+- decision is exactly `PASS | FAIL | BLOCKED | NOT_RUN`;
+- `reason_codes` is a sequence of non-empty strings;
+- `decided_at` is RFC 3339 UTC;
+- existing E6 service binding still requires the exact registered strategy version/content hash through the BacktestResult parent;
+- existing parent binding still requires `ValidationDecision.backtest_result_id` to equal the persisted BacktestResult object ID.
+
+E6 does **not** reproduce E3 validation policy, thresholds, robustness analysis, Monte Carlo, walk-forward logic, or any statistical PASS methodology.
+
+### Caller metadata cannot bypass shape validation
+
+The public `StrategyPlatformService` now runs canonical contract validation before delegating to the existing persistence/binding implementation.
+
+Caller-provided verification metadata is also enum-checked. A caller may not turn a missing-field or non-canonical shared object into evidence by passing:
 
 ```text
-DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
+verification_status = PASS
+verification_kind   = LOCAL_EXECUTION
 ```
 
-No PAPER/approval/LIVE path is implemented.
+The existing `mark_candidate(...)` gate remains unchanged and still separately requires stored E3 `ValidationDecision.decision=PASS`, exact evidence binding, and complete local PASS metadata for both ValidationDecision and its BacktestResult parent.
 
-### 2. What changed
+## 4. Implementation structure
 
-E6 added:
+To avoid a large rewrite of the already-reviewed early Slice 2 lifecycle service:
 
-- Python stdlib Registry models and service boundaries;
-- `StrategyCompatibilityBoundary` port for the authoritative E2 validator/runtime;
-- fail-closed default compatibility boundary returning `NOT_RUN`;
-- StrategyDefinition mapping/JSON intake with:
-  - duplicate-key rejection;
-  - `contracts-v0.1` shared-envelope check;
-  - exact immutable identity extraction;
-  - recursive secret-like key rejection;
-- SQLite RegistryStore implementation;
-- SQL migration 0001 for early registry/evidence/lifecycle persistence;
-- immutable StrategyVersion database trigger;
-- append-only lifecycle audit triggers;
-- compatibility evidence storage with verification status/kind and local evidence metadata;
-- BacktestResult evidence storage bound to exact strategy/version/content hash;
-- ValidationDecision evidence storage bound to exact BacktestResult parent;
-- guarded lifecycle methods:
-  - `begin_backtesting`;
-  - `reject_from_backtesting`;
-  - `mark_candidate`;
-- optimistic concurrency through `registry_revision`;
-- atomic lifecycle audit + current projection update;
-- local-only unittest definitions for Inbox, evidence gates, migration, immutability, append-only audit, and restart persistence.
+- the prior implementation is preserved verbatim as `src/registry/service_base.py`;
+- `src/registry/service.py` is the public fail-closed wrapper;
+- only `record_backtest_result(...)` and `record_validation_decision(...)` are strengthened before delegating to the preserved implementation.
 
-E6 did not add a direct import of the unmerged E2 branch. The real E2 compatibility adapter remains a later integration wiring step; default behavior is `NOT_RUN`.
+This correction does not alter storage schema, migrations, Registry identity, transition graph, E2 compatibility behavior, or audit semantics.
 
-### 3. Files changed
+## 5. Tests defined
 
-Current E6-owned branch changes include:
+Added `tests/registry/test_evidence_contract_validation.py`.
 
-- `docs/platform/E6_REGISTRY_PERSISTENCE_LIFECYCLE_SKELETON.md`
-- `src/registry/__init__.py`
-- `src/registry/models.py`
-- `src/registry/ports.py`
-- `src/registry/service.py`
-- `src/registry/README.md`
-- `src/storage/__init__.py`
-- `src/storage/sqlite_registry.py`
-- `src/storage/migrations/0001_strategy_registry.sql`
-- `src/storage/README.md`
-- `tests/registry/test_strategy_inbox.py`
-- `tests/registry/test_validation_lifecycle.py`
-- `tests/registry/README.md`
-- `tests/storage/test_registry_persistence.py`
-- `tests/storage/README.md`
-- `status/E6_STATUS.md`
-- `status/E6_EARLY_SLICE2_HANDOFF.md`
+Deterministic local-only definitions cover:
 
-Earlier E6 skeleton-only commits are included in the same branch history and were updated where their current-state text became stale.
+1. every required BacktestResult identity/reproducibility field omitted one-at-a-time -> rejected before persistence even with synthetic local PASS metadata;
+2. every required BacktestResult core metric omitted one-at-a-time -> rejected before persistence;
+3. binary-float financial metric -> rejected at interchange boundary;
+4. non-UTC timestamp -> rejected;
+5. every required ValidationDecision field omitted one-at-a-time -> rejected before persistence;
+6. non-canonical ValidationDecision enum -> rejected;
+7. invalid `reason_codes` shape -> rejected;
+8. valid-looking BacktestResult with synthetic local PASS metadata alone -> cannot be supplied as candidate evidence without ValidationDecision;
+9. public lifecycle surface still exposes no approval/live/generic-transition path.
 
-### 4. Contracts consumed
+Existing E6 tests continue to define:
 
-- contract set: `contracts-v0.1`
-- `StrategyDefinition`
-- `BacktestResult`
-- `ValidationDecision`
-- `StrategyLifecycleState`
-- release evidence status semantics: `PASS | FAIL | BLOCKED | NOT_RUN | NOT_APPLICABLE`
-- ADR-0001 contract-first / strategy immutability / local-only verification policy
+- wrong strategy content hash rejection;
+- BacktestResult / ValidationDecision parent binding;
+- `NOT_RUN` evidence cannot promote;
+- Candidate requires separate local PASS evidence for BacktestResult and ValidationDecision;
+- rejected strategy retention/audit;
+- persistence/migration/restart behavior.
 
-E6 also inspected current E2/E3 branch implementations for adapter compatibility planning:
+Synthetic PASS metadata in test definitions is only a gate test fixture. It is not project executable evidence.
 
-- E2 shared schema boundary = `contracts-v0.1`;
-- E2 runtime family = `project-r7-e2-strategy-runtime`;
-- E2 runtime version currently = `0.1.0`;
-- E3 BacktestResult producer emits `contracts-v0.1` identity/reproducibility fields and explicit `NOT_RUN` validation stages.
+## 6. Files changed for this task
 
-Neither branch inspection nor code existence is recorded as executable PASS.
+Correction-specific files:
 
-### 5. Contracts produced or changed
+- `src/registry/contract_validation.py` — new canonical evidence shape/type validator
+- `src/registry/service_base.py` — preserved prior service implementation for minimal-diff delegation
+- `src/registry/service.py` — public evidence validation wrapper
+- `tests/registry/test_evidence_contract_validation.py` — deterministic regression definitions
+- `status/E6_EARLY_SLICE2_HANDOFF.md` — this handoff
+- `status/E6_STATUS.md` — E6 platform status update
+- `coordination/E6/STATUS.md` — mailbox completion status
 
-`NONE`.
+No `contracts/**` file is changed. No storage migration/schema change is required for this finding.
 
-All new records/classes are E6 internal implementation models. No `contracts/`, shared domain contract, E2 strategy semantics, E3 validation methodology, E4 execution semantics, or E5 risk semantics were modified.
+## 7. Static/source audit
 
-### 6. Local verification
+Observed before handoff update:
 
-Result: `NOT_RUN`.
+```text
+base = main
+head = agent/e6-platform
+status = ahead
+merge_base = 4c531adc575ddd43f095ab8eabba3cae62ecc7b2
+behind_by = 0
+```
 
-Reason: this ChatGPT GitHub environment is not the Product-Owner-approved local execution environment. No project code, unit test, migration test, restart test, or integration test was executed here.
+Branch changes relative to main are limited to E6-owned `src/registry`, `src/storage`, `tests/registry`, `tests/storage`, E6 docs/status paths. No `.github/workflows` change is present.
 
-Required E6 local commands from repository root:
+The TASK-referenced path `status/e7/POST_SLICE1_CONSTRUCTION_SYNC_REVIEW.md` was not present at the queried `main` path during this session; the correction therefore follows the complete finding and acceptance requirements explicitly materialized in authoritative `coordination/E6/TASK.md`.
+
+## 8. Local verification
+
+**Result: `NOT_RUN`.**
+
+Reason: this session has no Product Owner-approved local execution environment. No unit test, migration test, restart test, integration test, backtest, or bug reproduction was executed here.
+
+Exact required commands from repository root:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -120,80 +202,48 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-Required later E7 integration context:
+Correction-focused registry command:
 
-- assemble reviewed E1/E2/E3 revisions in a local integration checkout;
-- run their defined Slice 1 integration command locally;
-- only attach real E2/E3 PASS evidence to E6 records after the corresponding allowed local execution evidence exists.
+```powershell
+$env:PYTHONPATH = (Join-Path (Get-Location) "src")
+python -m unittest discover -s tests/registry -p "test_evidence_contract_validation.py" -v
+```
 
-Synthetic `LOCAL_EXECUTION PASS` fixtures in E6 tests are test doubles used only to prove gate behavior. They are not project PASS evidence.
+`NOT_RUN != PASS`.
 
-### 7. Known limitations
+## 9. Security / compute policy
 
-- actual E2 runtime compatibility adapter is not wired; default is fail-closed `NOT_RUN`;
-- current E3 branch does not yet provide the final Slice 2 ValidationDecision producer used by a real candidate promotion flow;
-- no E1/E2/E3/E6 integrated execution has occurred;
-- migration 0001 only allows `DRAFT`, `BACKTESTING`, `REJECTED`, `CANDIDATE`;
-- no PAPER, approval, LIVE, DEGRADED, RETIRED, or operational-mode persistence is exposed by this slice;
-- no dashboard/UI/API transport layer exists yet;
-- complete intake writes StrategyVersion, compatibility evidence, and receipt in separate durable operations; crash between writes remains fail-closed but should later be consolidated into one intake audit transaction;
-- SQLite is an early local E6 implementation choice, not a permanent architecture commitment.
+- no credentials, API keys, tokens, passwords, private keys, or live `.env` values added;
+- existing Strategy Inbox secret-like-key rejection remains intact;
+- no GitHub Actions workflow created or used;
+- no GitHub-hosted/triggered runner used;
+- no GitHub scheduled compute used;
+- GitHub was used only for source/status/version-control operations.
 
-### 8. Dependencies / blockers
+## 10. Lifecycle / authority boundary
 
-- E7 acceptance of corrected E2 shared-schema/runtime boundary;
-- E2 local executable verification evidence;
-- E3 local replay/BacktestResult verification evidence;
-- E3/E7 Slice 2 ValidationDecision producer/policy boundary;
-- E6 local Registry/migration/restart verification;
-- E7 local cross-module integration before any real project transition to CANDIDATE is treated as accepted evidence.
+Unchanged executable lifecycle subset:
 
-Current Gate A remains outside E6 authority and must not be inferred as PASS from this implementation.
+```text
+DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
+```
 
-### 9. Required next action
+Still absent:
 
-**E7:** perform static scope/contract review of `agent/e6-platform` and confirm:
+- `CANDIDATE -> PAPER`
+- `READY_FOR_APPROVAL`
+- `APPROVED`
+- `LIVE`
+- generic client-controlled transition API
+- real E2 adapter wiring
+- E3 validation methodology
 
-1. E6 internal models do not redefine shared semantics;
-2. default compatibility boundary cannot imply E2 PASS;
-3. BacktestResult shape alone cannot promote lifecycle;
-4. `BACKTESTING -> CANDIDATE` requires explicit local evidence metadata and E3 ValidationDecision PASS;
-5. no transition path beyond CANDIDATE exists;
-6. migration 0001 lifecycle subset is acceptable as an intentionally narrower executable subset of `contracts-v0.1`;
-7. no GitHub compute/CI mechanism was introduced.
+A complete BacktestResult is only structurally admissible evidence. It is not a validation PASS and cannot by itself promote a strategy.
 
-After E7 static acceptance, run the documented E6 commands locally before treating persistence/lifecycle behavior as verified.
+## 11. Required next action
 
-### 10. Security / secrets
+**E7:** re-review `agent/e6-platform` for `E6-EVIDENCE-CONTRACT-001` source/test acceptance.
 
-Confirmed:
+Do not infer executable PASS from this handoff. Local verification remains `NOT_RUN` until the Product Owner-approved environment executes the commands above.
 
-- no real API key, API secret, token, credential, password, private key, or live `.env` value was added;
-- no secret-bearing seed/config/log/UI fixture was added;
-- Strategy Inbox rejects common secret-like keys, including prefixed forms such as `pionex_api_secret`, before accepted StrategyDefinition persistence;
-- raw rejected secret values are not included in error text;
-- credentials do not count as compatibility, validation, approval, or LIVE evidence.
-
-### 11. GitHub compute policy
-
-Confirmed:
-
-- no GitHub Actions workflow was created or used;
-- no `.github/workflows` file was added;
-- no GitHub-hosted or GitHub-triggered runner was used;
-- no project unit/integration/migration/restart test or backtest was executed on GitHub infrastructure;
-- verification remains explicitly `NOT_RUN` pending local execution.
-
-### 12. Live-trading impact
-
-No live-trading capability is added.
-
-This change only creates research-platform intake/registry/evidence persistence up to CANDIDATE. It cannot place orders, alter risk, approve a strategy, enable LIVE, or modify operational mode.
-
-The absence of PAPER/APPROVED/LIVE service methods and the migration state constraint are deliberate safety boundaries.
-
-### 13. Codex bug ticket, if applicable
-
-`NONE`.
-
-No reproducible implementation defect has been established because executable E6 verification is still `NOT_RUN`. If local tests later expose a bounded E6 implementation defect under the accepted design, create a Codex bug ticket with local reproduction and E6-only writable scope.
+After this handoff E6 must stop and wait for a replacement TASK.md; no next feature is started automatically.

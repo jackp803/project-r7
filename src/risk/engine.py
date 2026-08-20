@@ -102,6 +102,10 @@ def _decimal(value: Any, field: str) -> Decimal:
     return result
 
 
+def _is_finite_nonnegative_decimal(value: Any) -> bool:
+    return isinstance(value, Decimal) and value.is_finite() and value >= 0
+
+
 def _stable_id(prefix: str, material: Mapping[str, Any]) -> str:
     payload = json.dumps(material, sort_keys=True, separators=(",", ":"), default=str)
     return prefix + hashlib.sha256(payload.encode("utf-8")).hexdigest()
@@ -136,36 +140,67 @@ def _validate_trade_intent(intent: Mapping[str, Any]) -> list[str]:
             _utc(intent["generated_at"])
         except RiskInputError:
             reasons.append("INVALID_GENERATED_AT")
+
+    entry_style = intent.get("entry_style")
+    if not isinstance(entry_style, str) or not entry_style.strip():
+        reasons.append("ENTRY_STYLE_REQUIRED_FOR_PLAN")
+
+    if intent.get("max_hold_seconds") is not None:
+        hold_seconds = intent["max_hold_seconds"]
+        if type(hold_seconds) is not int or hold_seconds <= 0:
+            reasons.append("INVALID_MAX_HOLD_SECONDS")
+
+    for field in ("entry_reference_price", "strategy_stop_level", "strategy_target_level"):
+        if intent.get(field) is None:
+            continue
+        try:
+            value = _decimal(intent[field], field)
+        except RiskInputError:
+            reasons.append(f"INVALID_{field.upper()}")
+            continue
+        if value <= 0:
+            reasons.append(f"INVALID_{field.upper()}")
     return reasons
 
 
 def _validate_context(context: RiskContext) -> list[str]:
     reasons: list[str] = []
-    if not context.market_data_fresh:
+    for field_name in (
+        "market_health_status",
+        "account_state_status",
+        "position_state_status",
+        "order_state_status",
+    ):
+        value = getattr(context, field_name)
+        if not isinstance(value, str) or not value.strip():
+            reasons.append(f"INVALID_{field_name.upper()}")
+
+    if context.market_data_fresh is not True:
         reasons.append("MARKET_DATA_STALE_OR_UNKNOWN")
-    if not context.account_state_known:
+    if context.account_state_known is not True:
         reasons.append("ACCOUNT_STATE_UNKNOWN")
-    if not context.position_state_known:
+    if context.position_state_known is not True:
         reasons.append("POSITION_STATE_UNKNOWN")
-    if not context.order_state_known:
+    if context.order_state_known is not True:
         reasons.append("ORDER_STATE_UNKNOWN")
-    if context.kill_switch_active:
+    if context.kill_switch_active is not False:
         reasons.append("KILL_SWITCH_ACTIVE")
-    if not context.new_exposure_allowed:
+    if context.new_exposure_allowed is not True:
         reasons.append("NEW_EXPOSURE_DISABLED")
-    if context.same_symbol_position_open:
+    if context.same_symbol_position_open is not False:
         reasons.append("AVERAGING_DOWN_OR_POSITION_ADD_BLOCKED")
-    if context.trades_today < 0 or context.open_position_count < 0 or context.consecutive_losses < 0:
-        reasons.append("INVALID_RISK_COUNTER_STATE")
-    if not isinstance(context.drawdown, Decimal) or not context.drawdown.is_finite() or context.drawdown < 0:
+
+    for field_name in ("trades_today", "open_position_count", "consecutive_losses"):
+        value = getattr(context, field_name)
+        if type(value) is not int or value < 0:
+            reasons.append("INVALID_RISK_COUNTER_STATE")
+            break
+
+    if not _is_finite_nonnegative_decimal(context.drawdown):
         reasons.append("INVALID_DRAWDOWN_STATE")
     if context.available_balance is None:
         reasons.append("AVAILABLE_BALANCE_UNKNOWN")
-    elif (
-        not isinstance(context.available_balance, Decimal)
-        or not context.available_balance.is_finite()
-        or context.available_balance < 0
-    ):
+    elif not _is_finite_nonnegative_decimal(context.available_balance):
         reasons.append("INVALID_AVAILABLE_BALANCE")
     return reasons
 
@@ -175,6 +210,7 @@ def _validate_proposal(proposal: RiskProposal | None, context: RiskContext, poli
         return ["SIZING_UNAVAILABLE"]
 
     reasons: list[str] = []
+    valid: dict[str, bool] = {}
     for field_name in (
         "quantity",
         "notional",
@@ -185,38 +221,58 @@ def _validate_proposal(proposal: RiskProposal | None, context: RiskContext, poli
         "reward_amount",
     ):
         value = getattr(proposal, field_name)
-        if not isinstance(value, Decimal) or not value.is_finite() or value < 0:
+        valid[field_name] = _is_finite_nonnegative_decimal(value)
+        if not valid[field_name]:
             reasons.append(f"INVALID_{field_name.upper()}")
-    if proposal.quantity <= 0:
+
+    if valid["quantity"] and proposal.quantity <= 0:
         reasons.append("INVALID_QUANTITY")
-    if proposal.notional <= 0:
+    if valid["notional"] and proposal.notional <= 0:
         reasons.append("INVALID_NOTIONAL")
-    if proposal.margin <= 0:
+    if valid["margin"] and proposal.margin <= 0:
         reasons.append("INVALID_MARGIN")
-    if proposal.leverage <= 0:
+    if valid["leverage"] and proposal.leverage <= 0:
         reasons.append("INVALID_LEVERAGE")
+    if valid["estimated_max_loss"] and proposal.estimated_max_loss <= 0:
+        reasons.append("INVALID_ESTIMATED_MAX_LOSS")
+    if valid["reward_amount"] and proposal.reward_amount <= 0:
+        reasons.append("INVALID_REWARD_AMOUNT")
+
     if proposal.required_stop_level is None:
         reasons.append("PROTECTIVE_STOP_REQUIRED")
-    elif not isinstance(proposal.required_stop_level, Decimal) or not proposal.required_stop_level.is_finite():
+    elif (
+        not isinstance(proposal.required_stop_level, Decimal)
+        or not proposal.required_stop_level.is_finite()
+        or proposal.required_stop_level <= 0
+    ):
         reasons.append("INVALID_PROTECTIVE_STOP")
+    if proposal.required_target_level is not None and (
+        not isinstance(proposal.required_target_level, Decimal)
+        or not proposal.required_target_level.is_finite()
+        or proposal.required_target_level <= 0
+    ):
+        reasons.append("INVALID_PROTECTIVE_TARGET")
 
-    if proposal.margin > policy.max_margin:
+    if valid["margin"] and proposal.margin > policy.max_margin:
         reasons.append("MARGIN_CAP_EXCEEDED")
-    if proposal.notional > policy.max_notional:
+    if valid["notional"] and proposal.notional > policy.max_notional:
         reasons.append("NOTIONAL_CAP_EXCEEDED")
-    if proposal.leverage > policy.max_leverage:
+    if valid["leverage"] and proposal.leverage > policy.max_leverage:
         reasons.append("LEVERAGE_CAP_EXCEEDED")
-    if proposal.estimated_cost > policy.max_estimated_cost:
+    if valid["estimated_cost"] and proposal.estimated_cost > policy.max_estimated_cost:
         reasons.append("COST_CAP_EXCEEDED")
-    if context.available_balance is not None and proposal.margin > context.available_balance:
+    if (
+        valid["margin"]
+        and _is_finite_nonnegative_decimal(context.available_balance)
+        and proposal.margin > context.available_balance
+    ):
         reasons.append("INSUFFICIENT_BALANCE")
 
-    total_risk = proposal.estimated_max_loss + proposal.estimated_cost
-    if total_risk <= 0:
-        reasons.append("INVALID_TOTAL_RISK")
-    else:
-        reward_risk = proposal.reward_amount / total_risk
-        if reward_risk < policy.min_reward_risk:
+    if all(valid[field] for field in ("estimated_max_loss", "estimated_cost", "reward_amount")):
+        total_risk = proposal.estimated_max_loss + proposal.estimated_cost
+        if total_risk <= 0:
+            reasons.append("INVALID_TOTAL_RISK")
+        elif proposal.reward_amount / total_risk < policy.min_reward_risk:
             reasons.append("REWARD_RISK_BELOW_MINIMUM")
     return reasons
 
@@ -253,17 +309,17 @@ def evaluate_trade_intent(
         elif age > policy.max_intent_age_seconds:
             reasons.append("TRADE_INTENT_STALE")
 
-    if context.trades_today >= policy.max_trades_per_day:
+    if type(context.trades_today) is int and context.trades_today >= policy.max_trades_per_day:
         reasons.append("DAILY_TRADE_LIMIT_REACHED")
-    if context.open_position_count >= policy.max_open_positions:
+    if type(context.open_position_count) is int and context.open_position_count >= policy.max_open_positions:
         reasons.append("SIMULTANEOUS_POSITION_LIMIT_REACHED")
-    if context.drawdown >= policy.max_drawdown:
+    if _is_finite_nonnegative_decimal(context.drawdown) and context.drawdown >= policy.max_drawdown:
         reasons.append("DRAWDOWN_LOCK_ACTIVE")
-    if context.consecutive_losses >= policy.max_consecutive_losses:
+    if (
+        type(context.consecutive_losses) is int
+        and context.consecutive_losses >= policy.max_consecutive_losses
+    ):
         reasons.append("CONSECUTIVE_LOSS_LOCK_ACTIVE")
-
-    if not isinstance(intent.get("entry_style"), str) or not str(intent.get("entry_style", "")).strip():
-        reasons.append("ENTRY_STYLE_REQUIRED_FOR_PLAN")
 
     reasons.extend(_validate_proposal(proposal, context, policy))
     reasons = sorted(set(reasons))
@@ -297,12 +353,7 @@ def evaluate_trade_intent(
     if decision == "APPROVE" and proposal is not None:
         hold_seconds = policy.max_hold_seconds
         if intent.get("max_hold_seconds") is not None:
-            raw_hold = intent["max_hold_seconds"]
-            if type(raw_hold) is not int or raw_hold <= 0:
-                result["decision"] = "REJECT"
-                result["reason_codes"] = ["INVALID_MAX_HOLD_SECONDS"]
-                return result
-            hold_seconds = min(raw_hold, policy.max_hold_seconds)
+            hold_seconds = min(intent["max_hold_seconds"], policy.max_hold_seconds)
         result.update(
             {
                 "approved_quantity": format(proposal.quantity, "f"),

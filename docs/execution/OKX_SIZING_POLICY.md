@@ -1,6 +1,6 @@
-# E4 OKX Local Sizing / Metadata Policy
+# E4 OKX Sizing / Metadata Policy
 
-Status: bounded static/source implementation extended by `E4-20260821-008`.
+Status: E4-local static/source policy after `E4-20260821-010` corrections.
 
 Configured mapping:
 
@@ -8,114 +8,112 @@ Configured mapping:
 BTC_USDT_PERP -> OKX BTC-USDT-SWAP
 ```
 
-This document defines provider metadata validation, deterministic contract sizing, and the stricter metadata checks required immediately before Demo request materialization. It does not authorize real-money trading or GitHub execution.
+Canonical `OrderRequest.quantity` remains the E5-approved BTC upper bound. Provider `sz` remains an OKX contract-count fact and is never copied into shared canonical quantity fields.
 
-## Canonical boundary
+## Deterministic conversion
 
-Accepted profiles remain:
-
-```text
-schema_version           = contracts-v0.1
-entry profile            = entry-v0.1
-entry order type         = MARKET
-quantity profile         = base-asset-v0.1
-quantity unit            = BASE_ASSET
-quantity asset           = BTC
-```
-
-`ApprovedTradePlan.quantity` and shared `OrderRequest.quantity` remain canonical BTC upper bounds. OKX `sz` is provider contract quantity and is retained separately.
-
-## Official OKX V5 references rechecked
-
-Rechecked on 2026-08-21 against current official OKX V5 documentation:
-
-- `https://www.okx.com/docs-v5/en/`
-- Public Data / `GET /api/v5/public/instruments`
-- Order Book Trading / `POST /api/v5/trade/order`
-
-Facts used:
-
-- instrument metadata exposes `instType`, `ctVal`, `ctMult`, `ctValCcy`, `ctType`, `lotSz`, `minSz`, `tickSz`, `state`, and `upcChg`;
-- `upcChg` is an array of upcoming changes carrying `param`, `newValue`, and millisecond `effTime`;
-- current documented `upcChg.param` values include `tickSz`, `minSz`, and `maxMktSz`;
-- derivative `sz`, `lotSz`, and `minSz` are contract counts;
-- MARKET is supported for SWAP;
-- `state=live` is the accepted normal tradable state for this bounded path.
-
-## Freshness policy v0.2
-
-Version:
+Supported direct conversion remains only:
 
 ```text
-okx-instrument-metadata-freshness-v0.2
-```
-
-Two different freshness boundaries are intentionally distinguished.
-
-### General sizing/cache validation
-
-```text
-max age = 300 seconds
-```
-
-This is only a cache/sizing validation ceiling. It is **not** a provider stability guarantee and does not authorize order materialization.
-
-### Submit preparation validation
-
-At Demo order materialization time:
-
-```text
-metadata observation age <= 5 seconds
-```
-
-The submit path therefore requires a provider observation at or immediately before materialization.
-
-Scheduled changes are inspected:
-
-- unknown `upcChg.param` -> fail closed;
-- an `effTime` already reached while still present in the snapshot -> fail closed;
-- `minSz` or `maxMktSz` becoming effective inside the next 60 seconds -> fail closed;
-- `tickSz` is retained/audited but does not manufacture a MARKET price, so it does not by itself block the MARKET path under the current profile.
-
-The 60-second guard is an E4 safety margin, not a provider guarantee. If official semantics later broaden `upcChg` or another scheduled change affects sizing/exposure, the adapter must fail closed until reviewed.
-
-## Supported conversion
-
-Only the E7-approved direct class is supported:
-
-```text
-provider       = OKX
-instrument     = BTC-USDT-SWAP
-instType       = SWAP
-ctType         = linear
-ctValCcy       = BTC
-state          = live
+provider = OKX
+instType = SWAP
+ctType   = linear
+ctValCcy = BTC
+state    = live
 ```
 
 Formula:
 
 ```text
 base_per_contract = ctVal * ctMult
-raw_contracts     = approved_base_quantity / base_per_contract
+raw_contracts     = approved_BTC / base_per_contract
 provider_sz       = floor(raw_contracts / lotSz) * lotSz
-effective_base    = provider_sz * base_per_contract
+effective_BTC     = provider_sz * base_per_contract
 ```
 
-Required invariants:
+Required:
 
 ```text
 provider_sz > 0
 provider_sz >= minSz
-provider_sz is a lotSz multiple
-0 < effective_base <= E5-approved canonical BTC
+provider_sz is a valid lotSz multiple
+provider_sz <= maxMktSz when current metadata provides maxMktSz
+0 < effective_BTC <= approved_BTC
 ```
 
-Round-down or reject only. Never round up and never submit a compensating order for residual quantity.
+Provider quantization may only round down or reject.
 
-## MARKET / price boundary
+## Materialization integrity
 
-`reference_price` remains advisory. No `limit_price`, `stop_price`, `trigger_price`, TIF, or tick-rounded executable price is generated from it.
+`OKXEntrySizingAudit` is not execution authority.
 
-## Security / operational boundary
+At order materialization E4 recomputes sizing from:
 
-The Demo adapter may consume this sizing result but cannot reinterpret the quantity. This module exposes no withdrawal, deposit, transfer, account-mode mutation, leverage mutation, production trading, or live enablement capability.
+1. the exact current canonical `OrderRequest`; and
+2. the exact submit-validated `OKXInstrumentMetadata` snapshot.
+
+The caller-supplied prior audit must exactly match the recomputed audit. The audit binds:
+
+- trade plan / canonical symbol / approved BTC quantity;
+- quantity profile/unit/asset;
+- provider/instrument/order side;
+- provider contract quantity and effective BTC quantity;
+- `ctVal`, `ctMult`, `ctValCcy`, `ctType`;
+- `lotSz`, `minSz`, optional `maxMktSz`;
+- metadata reference and observation timestamp;
+- freshness policy version.
+
+Any mismatch fails closed. Provider `body.sz` is serialized only from the recomputed result.
+
+## Metadata freshness
+
+Policy version:
+
+```text
+okx-instrument-metadata-freshness-v0.2
+```
+
+Safety margins:
+
+```text
+general cache/sizing maximum age = 300 seconds
+submit preparation maximum age   = 5 seconds
+scheduled sizing-change guard    = 60 seconds
+```
+
+The 300-second ceiling is not a provider stability guarantee and cannot independently authorize submit preparation.
+
+`upcChg` is parsed for current documented scheduled-change fields. Unknown parameters fail closed. Already-effective scheduled changes fail closed. Sizing-relevant `minSz`/`maxMktSz` changes inside the 60-second guard fail closed. `tickSz` remains audit metadata for the current MARKET-only profile and does not create an executable price.
+
+## Current provider metadata facts
+
+The current local model retains at minimum:
+
+- provider / canonical / instrument identity;
+- `instType`;
+- `ctVal`;
+- `ctMult`;
+- `ctValCcy`;
+- `ctType`;
+- `lotSz`;
+- `minSz`;
+- `tickSz`;
+- optional current `maxMktSz` when returned;
+- state;
+- observation time/reference;
+- scheduled `upcChg` facts;
+- E4 freshness-policy version.
+
+Missing, malformed, future-dated, stale, non-live, provider/instrument-mismatched, unsupported conversion, or unsafe scheduled-change metadata blocks new exposure preparation.
+
+## Verification
+
+Executable verification remains `NOT_RUN` without a Product Owner-approved local environment.
+
+Required local command covering sizing/provider tests:
+
+```text
+python -m unittest discover -s tests/brokers -p "test_*.py" -v
+```
+
+No provider request or GitHub-hosted test execution is authorized by this policy.

@@ -1,79 +1,46 @@
 # E5 Current Task
 
-- task_id: `E5-20260821-004`
-- issued_at: `2026-08-21T10:58:00+08:00`
-- state: `ACTIVE`
+- task_id: `E5-20260821-005`
+- issued_at: `2026-08-21T12:41:00+08:00`
+- state: `HOLD`
 - authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002, ADR-0003
 
 ## Objective
 
-Implement the new provider-neutral executable entry and canonical quantity profiles at the E5 RiskDecision -> ApprovedTradePlan boundary while preserving E5 risk authority and the accepted fail-closed correction.
+Freeze the completed profiled ApprovedTradePlan / canonical quantity producer revision while E7 performs static producer/consumer integration review with E2.
+
+## Frozen evidence
+
+- branch: `agent/e5-risk-position`
+- implementation revision: `e5f7088301a92deadfd9f6c416ae03b466c38a47`
+- reported branch head after task: `3c8f9fa558cc90ad69fd5e58dcd4f6aa457e8de4`
+- status: `coordination/E5/STATUS.md`
+- handoff: `status/E5_RISK_POSITION_HANDOFF.md`
+- executable verification: `NOT_RUN`
 
 ## Required actions
 
-1. Work on `agent/e5-risk-position` and synchronize non-destructively with the latest `main` before implementation. Do not force-rewrite history. If safe synchronization is not possible, report `BLOCKED`.
-2. Preserve the accepted `E5-RISK-UNKNOWN-001` correction and the authority chain `TradeIntent -> RiskDecision -> ApprovedTradePlan`.
-3. Consume executable TradeIntent only when it declares:
-   - `entry_profile_version = entry-v0.1`
-   - `entry_order_type = MARKET`
-   Unknown/missing/unsupported executable profiles fail closed.
-4. Emit canonical ApprovedTradePlan entry instruction:
-   - `entry_instruction.profile_version = entry-v0.1`
-   - `entry_instruction.order_type = MARKET`
-   - optional `reference_price` remains advisory only.
-5. Emit the canonical quantity profile for `BTC_USDT_PERP`:
-   - `quantity_profile_version = base-asset-v0.1`
-   - `quantity_unit = BASE_ASSET`
-   - `quantity_asset = BTC`
-   - `quantity` means maximum E5-approved new-position BTC exposure bound.
-6. Do not interpret legacy `entry_style` as executable and do not promote advisory/reference price into executable limit/stop price.
-7. Do not implement OKX `sz`, `ctVal`, `ctMult`, `ctValCcy`, `lotSz`, `minSz`, `tickSz`, instrument metadata retrieval, account mode, provider API calls, or credentials. Those remain E4/provider-adapter responsibilities.
-8. Preserve the rule that downstream provider quantization may realize less than the approved canonical quantity but may never exceed the E5-approved bound.
-9. Add deterministic local-only safety/risk tests covering at minimum:
-   - valid profiled MARKET intent -> profiled ApprovedTradePlan;
-   - missing/unknown profile -> reject;
-   - unsupported executable order type -> reject;
-   - legacy style-only intent -> not execution eligible;
-   - advisory reference price remains non-executable;
-   - exact quantity profile/unit/asset propagation;
-   - forged/unsafe approval cannot bypass the existing fail-closed state checks.
-10. Update E5 handoff/status and `coordination/E5/STATUS.md` with exact branch HEAD, changed files, profile semantics, and verification state.
-11. Executable verification remains local-only. If no Product Owner-approved local environment exists, record `NOT_RUN` plus exact commands.
+1. Do not modify the completed profile implementation while E7 reviews it.
+2. Preserve `E5-RISK-UNKNOWN-001` fail-closed guards and `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority.
+3. Preserve `entry-v0.1 / MARKET` plan semantics and `base-asset-v0.1 / BTC` canonical quantity semantics.
+4. Do not add OKX `sz`, instrument metadata, provider quantization, account mode, credentials, or API calls.
+5. Do not add production risk-policy values or PAPER/SHADOW/LIVE authority.
+6. Do not modify shared contracts.
+7. Keep executable evidence `NOT_RUN` until Product Owner-approved local execution.
+8. If acknowledging HOLD, update only `coordination/E5/STATUS.md`.
 
 ## Acceptance
 
-- E5 produces `entry-v0.1` MARKET-only ApprovedTradePlan instructions;
-- E5 quantity is explicitly canonical BTC base-asset exposure under `base-asset-v0.1`;
-- no exchange contract sizing or OKX API logic enters E5;
-- existing fail-closed risk behavior remains intact;
-- no shared-contract changes;
-- no Pionex new development;
-- no PAPER/SHADOW/LIVE authority;
+- E5 profile implementation remains frozen for E7 review;
+- no exchange-sizing leakage into E5;
+- no shared-contract change;
 - no GitHub Actions/CI/hosted runner/project compute;
-- executable evidence remains `NOT_RUN` if local execution is unavailable.
+- no executable PASS or release-gate claim.
 
 ## Writable scope
 
-E5-owned paths only:
-
-- `src/risk/**`
-- `src/position/**` only if directly required for canonical quantity/profile propagation
-- `tests/risk/**`
-- `tests/position/**` only if directly required
-- `tests/safety/**` for E5-owned scenarios
-- E5-owned docs/status/handoff
-- `coordination/E5/STATUS.md`
-
-## Forbidden scope
-
-- `contracts/**` changes;
-- E1/E2/E3/E4/E6 production rewrites;
-- OKX/Pionex API/auth/instrument-metadata implementation;
-- provider contract sizing/quantization;
-- production policy-value expansion;
-- PAPER/SHADOW/LIVE enablement;
-- GitHub compute/CI.
+Only `coordination/E5/STATUS.md` for HOLD acknowledgement unless PM/E7 replaces this task.
 
 ## Completion / status
 
-Persist the bounded producer/profile implementation and handoff, update STATUS, then stop. Do not start OKX adapter, broker, or new risk-policy features automatically.
+Acknowledge HOLD if needed and wait for E7/PM disposition. Do not start OKX provider sizing or another risk feature automatically.

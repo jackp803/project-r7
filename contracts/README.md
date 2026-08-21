@@ -14,6 +14,10 @@ The first materialized baseline is:
 
 - [`SHARED_CONTRACTS_V1.md`](./SHARED_CONTRACTS_V1.md)
 
+Compatible executable object-profile refinements currently registered under that baseline:
+
+- [`EXECUTION_OBJECT_PROFILES_V0_1.md`](./EXECUTION_OBJECT_PROFILES_V0_1.md) — `entry-v0.1` + `base-asset-v0.1`
+
 ## Authority and ownership
 
 - Product Owner has final authority over product scope, capital exposure, live enablement, and infrastructure policy.
@@ -42,6 +46,26 @@ Contract set versions use `major.minor` semantics.
 - **Minor**: backward-compatible optional fields, additional reason codes, additive enum values only when consumers are required to reject/handle unknown values safely, or documentation clarification that does not change behavior.
 
 Every serialized shared object must carry `schema_version` once executable implementations are introduced.
+
+### Compatible object-profile versioning
+
+A previously underspecified nested/optional semantic may be refined through an E7-approved **object profile** without forcing an unrelated set-wide schema bump only when all of the following hold:
+
+1. the parent contract did not already guarantee a conflicting meaning;
+2. profile fields/identifiers are additive;
+3. legacy objects remain interpretable for their original historical/research/audit purpose;
+4. a consumer requiring the new behavior fails closed when the profile is absent or unsupported;
+5. no historical object is rewritten to claim a profile it did not originally carry;
+6. unrelated implemented objects keep their existing `schema_version` and semantics.
+
+Object-profile identifiers are explicit and independently versioned, for example:
+
+```text
+entry-v0.1
+base-asset-v0.1
+```
+
+An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.
 
 ## Canonical interchange conventions
 
@@ -80,7 +104,7 @@ A temporary adapter may bridge versions when approved. A temporary duplicate mod
 
 A producer must:
 
-- emit only fields/values valid for the declared schema version;
+- emit only fields/values valid for the declared schema/profile version;
 - preserve required units/time semantics;
 - not manufacture valid-looking values when source state is unknown;
 - expose degraded/unknown state explicitly;
@@ -90,7 +114,7 @@ A producer must:
 
 A consumer must:
 
-- validate the schema version it supports;
+- validate the schema version and any required object profile it supports;
 - reject or safely degrade on incompatible required semantics;
 - never infer LIVE authority from credentials, strategy success, or UI state;
 - never treat `UNKNOWN` as healthy;

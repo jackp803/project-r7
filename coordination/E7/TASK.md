@@ -1,82 +1,104 @@
 # E7 Current Task
 
-- task_id: `E7-20260821-001`
-- issued_at: `2026-08-21T00:04:00+08:00`
+- task_id: `E7-20260821-002`
+- issued_at: `2026-08-21T08:37:00+08:00`
 - state: `ACTIVE`
 - authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, ADR-0001, release gates
 
 ## Objective
 
-Perform static re-review of the completed E5 and E6 corrections while E4 restarts bounded construction on a fresh PM-created branch.
+Perform static review of the completed E4 bounded Broker/PaperBroker skeleton and resolve/classify the reported E4 <-> E5 `entry_instruction` translation gap without modifying E4/E5 domain code or silently redefining shared contracts.
 
-Do not wait for E4 to finish before reviewing E5/E6. Do not modify E4/E5/E6 domain code.
+E5 and E6 correction findings were already statically accepted in the prior E7 task and are not to be reopened unless this E4 review uncovers a concrete cross-contract regression.
 
-## Re-review inputs
-
-### E5
-
-- finding: `E5-RISK-UNKNOWN-001`
-- reported corrected revision: `cb65c951d59f6fd036bd61691d7e96d025e371c8`
-- current coordination status on main: `coordination/E5/STATUS.md`
-- handoff: `status/E5_RISK_POSITION_HANDOFF.md`
-
-### E6
-
-- finding: `E6-EVIDENCE-CONTRACT-001`
-- reported corrected revision: `4a845ff79ba48abb6122191a2cf8df7d52544475`
-- current coordination status on main: `coordination/E6/STATUS.md`
-- handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`
+## Review inputs
 
 ### E4
 
-- old `agent/e4-execution` remains historical blocker evidence;
-- PM is issuing a fresh implementation branch/task separately;
-- this E7 task does not require an E4 disposition beyond recording it as `IN_PROGRESS / NOT_REVIEWED_THIS_TASK`.
+- branch: `agent/e4-execution-v2`
+- implementation/handoff revision reported by E4: `53487a93f6f10d89723403b1a2e2426ba1c7e82a`
+- status: `coordination/E4/STATUS.md` on the E4 branch
+- handoff: `docs/execution/E4_TO_E7_HANDOFF.md`
+- executable verification: `NOT_RUN`
+
+### E5 boundary context
+
+- corrected E5 revision: `cb65c951d59f6fd036bd61691d7e96d025e371c8`
+- current E5 `entry_instruction` / `protection_instruction` nesting is explicitly provisional and is not an accepted independent shared contract.
+
+### Existing contract baseline
+
+`contracts-v0.1` requires an `ApprovedTradePlan.entry_instruction` and E4 `OrderRequest.order_type` plus conditional fields, but the current baseline does not explicitly define the inner entry-instruction mapping profile.
 
 ## Required actions
 
-1. Re-review E5 corrected source/test definitions and confirm whether `E5-RISK-UNKNOWN-001` is statically resolved:
-   - unknown/unsafe required status cannot be made permissive by companion booleans;
-   - contradictory status/boolean combinations fail closed;
-   - forged/unsafe `APPROVE` cannot become `ApprovedTradePlan`;
-   - authority chain remains `TradeIntent -> RiskDecision -> ApprovedTradePlan`;
-   - no shared-contract change or PAPER/LIVE expansion.
-2. Re-review E6 corrected source/test definitions and confirm whether `E6-EVIDENCE-CONTRACT-001` is statically resolved:
-   - all canonical BacktestResult required identity/reproducibility/core metric fields are required before promotable persistence;
-   - all canonical ValidationDecision required fields are required;
-   - invalid types/enums/bindings fail closed;
-   - caller `PASS / LOCAL_EXECUTION` metadata cannot bypass contract-shape validation;
-   - E6 does not implement E3 statistical methodology;
-   - lifecycle remains capped at CANDIDATE.
-3. Check changed-file scope and branch synchronization claims for both corrections.
-4. Check for contract collisions, unsafe defaults, scope violations, and GitHub-compute violations.
-5. Persist an E7-owned re-review artifact and update `coordination/E7/STATUS.md` with `PASS | FAIL | BLOCKED | NOT_RUN | NOT_APPLICABLE` dispositions and exact responsible owners.
-6. Do not advance Gate A/B/C/D. Executable evidence remains `NOT_RUN` unless produced in an approved local environment.
-7. If either correction is still defective, provide a bounded owner-specific finding. Do not rewrite domain code and do not create a Codex ticket without local reproduction.
+1. Statically review the E4 source/test/handoff changes and assign `PASS | FAIL | BLOCKED` for the bounded skeleton, including:
+   - ApprovedTradePlan-only execution authority;
+   - E4 does not invent direction, quantity, leverage, margin mode, protection loosening, or risk approval;
+   - stable idempotency identity;
+   - requested vs filled quantity separation;
+   - partial-fill representation;
+   - explicit fill facts;
+   - overfill/exposure-cap fail closed;
+   - ambiguous acknowledgement -> `UNKNOWN` or `RECONCILIATION_REQUIRED`;
+   - no blind duplicate submit;
+   - query/reconcile-before-retry;
+   - broker/order/fill/exposure truth remains E4-owned;
+   - no private Pionex / SHADOW / LIVE behavior.
+2. Review the E4 test definitions for coverage of the above, but keep executable disposition `NOT_RUN` unless approved local evidence exists.
+3. Review the reported `entry_instruction.style -> OrderRequest` gap and classify it using E7 integration taxonomy, at minimum distinguishing:
+   - `CONTRACT MISMATCH` — canonical producer/consumer semantics are underspecified or incompatible;
+   - `INTEGRATION GLUE GAP` — existing canonical semantics are sufficient and only an adapter is missing.
+4. Perform a producer/consumer impact inventory for any required resolution:
+   - producer: E5 ApprovedTradePlan serialization;
+   - primary consumer: E4 execution translator/gateway;
+   - secondary consumer/audit: E6 Registry/persistence where applicable;
+   - E7 integration tests/evidence.
+5. Do **not** modify `contracts/**` in this task. If a shared semantic clarification/version is required, produce an E7-owned contract-change proposal that states:
+   - exact missing semantics;
+   - proposed minimum fields/enums/conditional rules;
+   - backward/forward compatibility impact;
+   - whether this is additive-compatible or breaking;
+   - proposed contract versioning treatment;
+   - exact E4/E5/E6 follow-up owners/scopes;
+   - required local integration tests.
+6. If the gap is only integration glue and no shared contract change is required, document the exact bounded E4/E5 adapter responsibilities and follow-up scopes without editing their source.
+7. Persist the E7 review/decision artifact and update `coordination/E7/STATUS.md` with:
+   - E4 static disposition;
+   - E4 <-> E5 boundary classification;
+   - contract-change proposal path if applicable;
+   - remaining blockers;
+   - next-owner recommendations.
+8. Keep Gate A/B/C/D unchanged. `STATIC PASS != EXECUTABLE PASS`; `NOT_RUN != PASS`.
+9. Do not create a Codex bug ticket unless a concrete implementation defect has been locally reproduced. A contract/design gap is not a Codex bug.
 
 ## Acceptance
 
-E7 must produce a repository-persisted static disposition for both findings and explicitly state:
+This task is complete only when Git contains:
 
-- E5 finding resolved or still blocking;
-- E6 finding resolved or still blocking;
-- E4 remains outside this re-review and continues under its separate task;
-- executable evidence remains `NOT_RUN`;
-- release gates remain blocked.
+- a static E4 disposition;
+- a precise classification of the `entry_instruction` boundary gap;
+- a bounded resolution proposal or adapter responsibility decision;
+- explicit E4/E5/E6 impact inventory;
+- no domain implementation rewrites;
+- no unapproved shared-contract modification;
+- executable evidence still `NOT_RUN` where appropriate;
+- release gates still blocked.
 
 ## Writable scope
 
 - E7-owned integration/status/review artifacts
+- E7-owned contract-change proposal / architecture decision draft paths
 - `coordination/E7/STATUS.md`
 
 ## Forbidden scope
 
-- E4/E5/E6 domain implementation edits;
-- shared contract changes without procedure;
-- PAPER/SHADOW/LIVE enablement;
+- editing E4/E5/E6 production implementation;
+- editing `contracts/**` in this task;
+- enabling PAPER/SHADOW/LIVE;
 - GitHub Actions/CI/runner/project compute;
-- treating static PASS as executable PASS.
+- treating static review as executable evidence.
 
 ## Completion / status
 
-Persist the re-review, update STATUS, then stop and wait for PM. Do not start another integration task automatically.
+Persist the review and any proposal, update STATUS, then stop and wait for PM. Do not start the follow-up correction automatically.

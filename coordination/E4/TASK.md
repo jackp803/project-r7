@@ -1,124 +1,127 @@
 # E4 Current Task
 
-- task_id: `E4-20260821-008`
-- issued_at: `2026-08-21T13:42:00+08:00`
+- task_id: `E4-20260821-010`
+- issued_at: `2026-08-21T15:04:00+08:00`
 - state: `ACTIVE`
 - target_branch: `agent/e4-okx-demo-adapter-20260821`
-- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002/0003, `docs/execution/OKX_DEMO_ADAPTER_SCOPE.md`, Product Owner OKX/sub-account decision, E7 finding `E4-OKX-FRESHNESS-HARDEN-001`
+- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002/0003, `docs/execution/OKX_DEMO_ADAPTER_SCOPE.md`, Product Owner OKX/sub-account decision, E7 review `status/e7/E4_OKX_DEMO_STATIC_SECURITY_REVIEW_20260821.md`
 
 ## Objective
 
-Construct the next **Demo-first OKX provider adapter source layer** on top of the merged E4 canonical entry translation and deterministic sizing implementation.
+Correct only the five E7 blocking findings in PR #12 while preserving the accepted Demo/auth security, submit-freshness hardening, canonical/provider quantity separation, and broker-neutral safety behavior.
 
-This task authorizes bounded source construction for OKX Demo/private request preparation, authentication/signing, prerequisite reads, order request mapping, and reconciliation reads. It does **not** authorize executing provider requests from GitHub, using real credentials, sending Demo orders from this environment, using production trading mode, or advancing PAPER/SHADOW/LIVE.
+This is a source/test correction task only. It does **not** authorize provider execution, real credentials, production/live mode, a concrete network transport, account mutation, asset movement, or PAPER/SHADOW/LIVE advancement.
 
-## Accepted baseline
+## Reviewed baseline
 
-- PR #11 merged to `main` by PM; merge commit: `9679a224da3764ecbab7161e6c6f256ca46aecf7`
-- E7 PR #11 review: `PASS / STATIC ONLY`
-- E5 -> E4 boundary: `PASS / STATIC ONLY`
-- E4 entry translator: `PASS / STATIC ONLY`
-- OKX sizing/metadata safety: `PASS / STATIC ONLY`
-- Broker/PaperBroker regression: `PASS / STATIC ONLY`
+- PR: `#12 execution: add Demo-first OKX provider adapter`
+- reviewed implementation revision: `b7031c52a38623c528ee9352276793d8110854e0`
+- E7 review persisted on `main` via PR #13
+- Demo environment/auth security: `PASS / STATIC ONLY`
+- freshness hardening: `PASS / ACCEPT / STATIC ONLY`
+- Broker/PaperBroker static compatibility: `PASS / STATIC ONLY`
 - executable verification: `NOT_RUN`
-- release gates A/B/C/D: `BLOCKED`
+- actual provider requests/orders: `NOT_SENT`
+
+## Blocking findings to correct
+
+### 1. `E4-OKX-MATERIALIZATION-INTEGRITY-001`
+
+`materialize_demo_market_order()` must not trust caller-constructible sizing quantities as authority.
+
+Required correction:
+
+- Re-establish provider sizing from the exact current `OrderRequest` plus the exact submit-validated `OKXInstrumentMetadata` at materialization time, using the accepted deterministic sizing policy.
+- Provider `sz` used in the order body must come from that recomputation, not directly from caller-supplied `OKXEntrySizingAudit` fields.
+- If a prior sizing/audit object remains an input, treat it only as evidence to compare against the recomputed result; any mismatch in trade-plan identity, side, metadata reference/observation, approved canonical quantity, provider contract quantity, effective canonical quantity, or conversion facts must fail closed.
+- Preserve invariant `0 < effective_base <= E5-approved canonical BTC quantity`.
+- Add deterministic tests for forged/tampered sizing audit, oversized `sz`, altered metadata, altered request quantity, and metadata/audit mismatch.
+
+### 2. `E4-OKX-ACCOUNT-MATRIX-001`
+
+Caller configuration must not make an impossible OKX account-level / position-mode combination acceptable.
+
+Required correction:
+
+- Recheck current official OKX V5 account-mode/position-mode documentation.
+- Encode only combinations that are explicitly supported for the bounded `BTC-USDT-SWAP`, isolated, MARKET-entry flow.
+- Reject Spot-only or any unsupported/uncertain combination before materialization.
+- If the complete matrix cannot be established from current official authority, narrow V1 to the smallest explicitly documented supported subset and document the exact official basis. Do not guess.
+- Add tests for every accepted combination and representative rejected combinations, including definitely incompatible Spot mode.
+
+### 3. `E4-OKX-RETRY-PROVENANCE-001`
+
+Caller-constructible `OKXReconciliationEvidence` must never authorize a second submit.
+
+Required correction for this task:
+
+- Prefer the fail-closed V1 policy: **provider retry remains structurally disabled** until an authoritative order-absence policy is separately accepted.
+- `retry_entry()` must not be unlockable by caller-supplied/mutated/replayed evidence.
+- If reconciliation evidence remains public data, it may report provider truth but must not itself be an execution authorization token.
+- Do not introduce a retry token/MAC solely to bypass finding #4 below; retry remains disabled while authoritative absence semantics are unresolved.
+- Add tests proving forged, mutated, replayed, or cross-materialization evidence cannot cause a second transport submit.
+
+### 4. `E4-OKX-ORDER-ABSENCE-001`
+
+Ordinary callers must not be able to configure arbitrary provider error codes as authoritative proof of order absence.
+
+Required correction:
+
+- Remove or neutralize caller-controlled `order_not_found_codes` as a retry-enabling authority.
+- Do **not** canonicalize fixture/example code `51603` or any other code without current official provider authority accepted by E7.
+- Until such authority exists, a non-success order lookup cannot prove absence for retry and must leave retry blocked.
+- Reconciliation may still distinguish `found`, `unknown/not-proven`, and provider-error outcomes for audit purposes, but no unresolved/non-success outcome may authorize resubmit.
+- Add tests showing arbitrary configured codes cannot enable retry.
+
+### 5. `E4-OKX-ORDER-STATE-CONSISTENCY-001`
+
+Known provider order states must be checked against size/fill facts before mapping to optimistic canonical states.
+
+Required correction:
+
+Define and enforce a fail-closed consistency table consistent with current official OKX semantics. At minimum:
+
+```text
+live              -> accFillSz == 0
+partially_filled  -> 0 < accFillSz < sz
+filled            -> accFillSz == sz
+canceled/mmp_canceled -> 0 <= accFillSz <= sz
+```
+
+Additional requirements:
+
+- any accumulated fill greater than requested provider size fails closed;
+- any positive canonical fill requires a valid fill/average price when that field is required by the current response model;
+- unknown or contradictory state/fill combinations become `RECONCILIATION_REQUIRED` or explicit hard failure, never optimistic success;
+- canceled states may preserve actual partial-fill truth rather than pretending zero fill;
+- add contradiction tests for `filled` with underfill, `partially_filled` with zero/full fill, `live` with non-zero fill, and overfill.
 
 ## Required actions
 
-1. Work only on `agent/e4-okx-demo-adapter-20260821`, created from current `main`. Preserve merged E4 behavior; do not force-rewrite history.
-2. Recheck current official OKX API V5 documentation before provider-specific implementation. Record exact official references used.
-3. Implement an E4-owned Demo-only/provider transport boundary that is testable with an injected/fake transport. No project test or provider request may execute on GitHub infrastructure.
-4. Implement REST authentication/signature construction for private requests according to current official OKX rules. Secrets must be provided only through runtime injection/configuration; never hard-code, log, serialize, fixture, or commit real credentials.
-5. Enforce Demo mode structurally:
-   - every authenticated Demo request must include `x-simulated-trading: 1`;
-   - an adapter configured for this task must reject production/live mode;
-   - do not expose a convenience switch that silently falls back to production trading.
-6. Implement provider request materialization only for the existing approved MARKET entry path:
-   - canonical symbol `BTC_USDT_PERP` -> `BTC-USDT-SWAP`;
-   - `tdMode = isolated`;
-   - canonical `BUY/SELL` -> OKX lowercase `buy/sell`;
-   - `ordType = market`;
-   - provider `sz` must come only from the accepted E4 sizing audit, never from canonical BTC quantity directly;
-   - no executable limit/stop/trigger/TIF invention.
-7. Implement deterministic provider `clOrdId` mapping from E4 `client_order_id` with stable traceability and current OKX constraints. Current official documentation must be treated as authority; as of task issuance it describes case-sensitive alphanumeric IDs up to 32 characters and uniqueness among pending orders. Do not assume historical uniqueness.
-8. Preserve idempotency and ambiguity semantics. A request timeout, connection break, malformed acknowledgement, unknown order acknowledgement, or otherwise ambiguous submit outcome must not permit blind resubmission.
-9. Implement/query-model the minimum reconciliation reads needed after ambiguity, at least:
-   - `GET /api/v5/trade/order` by `ordId` or `clOrdId`;
-   - `GET /api/v5/account/positions` for `BTC-USDT-SWAP`;
-   - fills retrieval sufficient to establish actual fills (`GET /api/v5/trade/fills` or current official equivalent);
-   - pending-order visibility when needed for reconciliation.
-   Provider order/fill/position facts must remain distinct from requested facts.
-10. Implement fail-closed provider response parsing/mapping to existing E4 `OrderResult`/Fill/reconciliation semantics. Unknown/unrecognized order state, missing required IDs, inconsistent filled size, or contradictory position/order facts must yield `UNKNOWN`/`RECONCILIATION_REQUIRED` rather than optimistic success.
-11. Implement prerequisite validation reads/modeling for the configured Demo account before new exposure. Validate rather than silently repair:
-   - Demo environment marker/header;
-   - account/position mode facts needed to map `posSide` correctly;
-   - isolated trade-mode compatibility;
-   - absence of conflicting/unreconciled position/order truth for the current fail-closed flow.
-   Do not call `set-position-mode` or `set-leverage` automatically in this task. If exact required account/position mode cannot be safely derived from current authority, make it explicit configuration and fail closed when absent/mismatched.
-12. Address `E4-OKX-FRESHNESS-HARDEN-001` before future Demo adapter acceptance:
-   - the existing 300-second TTL must not be treated as a provider stability guarantee;
-   - sizing/request materialization must require a fresh provider metadata observation at or immediately before the submit preparation boundary;
-   - inspect current official scheduled-instrument-change fields such as `upcChg` / `effTime` when present and invalidate/shorten cached metadata when relevant;
-   - if current official semantics are insufficient for a safe automated invalidation rule, fail closed/document the limitation rather than inventing one.
-13. Keep account configuration mutations outside this bounded task. Account mode is initially set through Web/App per current OKX guidance. Leverage/position-mode setters may be modeled as explicitly forbidden/not-called capabilities, but must not be invoked automatically.
-14. Do not add or expose withdrawal, deposit, funding transfer, sub-account capital movement, internal transfer, asset movement, or balance-adjustment capability. Demo balance-adjustment APIs are also outside scope.
-15. Do not implement real-money/live execution. Production credentials/endpoints/mode must remain rejected in this bounded adapter.
-16. Preserve existing E4/PaperBroker safety behavior and canonical/provider quantity separation. No path may increase provider exposure above the E5-approved BTC upper bound.
-17. Add deterministic local-only tests with fake transport covering at minimum:
-   - signature/canonical request construction using fake credentials;
-   - Demo header always present and production mode rejected;
-   - MARKET isolated order payload mapping;
-   - provider `sz` sourced from accepted sizing audit only;
-   - stable legal `clOrdId` mapping and traceability;
-   - account/position-mode prerequisite mismatch fails closed;
-   - stale/scheduled-change-risk metadata fails closed or is refreshed before materialization;
-   - successful acknowledgement parsing without conflating acknowledgement with fill truth;
-   - timeout/ambiguous acknowledgement -> reconciliation-required;
-   - query-before-retry using order + position/fill truth;
-   - partial fill / filled / canceled / unknown-state mapping;
-   - malformed/contradictory provider responses fail closed;
-   - no withdrawal/funding/asset-movement surface;
-   - no provider quantity exceeds the E5-approved canonical BTC bound.
-18. Update E4 docs/handoff and `coordination/E4/STATUS.md` with exact source revision, changed files, official OKX facts, environment guard, account-mode assumptions, reconciliation behavior, freshness-hardening disposition, and verification state.
-19. Executable verification is local-only. If no Product Owner-approved local environment is available, record `NOT_RUN` plus exact commands. Do not use GitHub Actions/CI/hosted runners/project compute.
-
-## Allowed endpoint/code surface for this task
-
-Source construction may model/build requests for the minimum Demo execution/reconciliation path, subject to current official docs:
-
-- public instrument metadata required by sizing;
-- private account configuration/position reads required to validate prerequisites;
-- `POST /api/v5/trade/order` request construction for Demo MARKET entry;
-- `GET /api/v5/trade/order`;
-- `GET /api/v5/trade/orders-pending` when needed;
-- `GET /api/v5/account/positions`;
-- `GET /api/v5/trade/fills` or current official equivalent required for fill truth.
-
-Do not broaden this list without reporting a blocker/need in STATUS.
+1. Non-destructively synchronize the existing PR #12 branch with latest `main` before correction. Preserve branch history; no force rewrite.
+2. Modify only E4-owned source/tests/docs/status needed for the five findings.
+3. Preserve all previously accepted boundaries:
+   - mandatory Demo-only environment and `x-simulated-trading: 1` on authenticated Demo requests;
+   - runtime-only/redacted credentials;
+   - private endpoint allowlist;
+   - canonical BTC quantity distinct from provider `sz`;
+   - `tdMode=isolated`, MARKET-only entry path;
+   - no limit/stop/trigger/TIF invention;
+   - no production/live fallback;
+   - no account/position-mode/leverage mutation;
+   - no withdrawal/deposit/funding/sub-account/internal transfer/balance-adjustment surface;
+   - freshness policy `okx-instrument-metadata-freshness-v0.2` remains E4-local and fail closed.
+4. Do not broaden provider endpoint scope or implement concrete networking.
+5. Do not edit shared contracts or other-agent production code.
+6. Update `docs/execution/E4_TO_E7_HANDOFF.md`, relevant E4 Demo docs, and `coordination/E4/STATUS.md` with exact corrected revision and disposition of each finding.
+7. Keep executable verification local-only. Without an approved local environment, record `NOT_RUN` plus exact commands; do not run GitHub Actions/CI/hosted/project compute.
+8. Push corrections to the existing PR #12 branch, then stop. Do not merge PR #12 yourself and do not start Demo connectivity/order execution.
 
 ## Acceptance
 
-Static/source acceptance requires:
-
-- Demo-only environment enforcement is fail closed;
-- secrets remain runtime-only and absent from Git;
-- auth/signing/request serialization are deterministic;
-- account/position prerequisites are validated, not silently mutated;
-- provider `clOrdId` is legal, deterministic, and traceable to internal idempotency identity;
-- metadata freshness hardening finding is addressed for submit preparation;
-- ambiguous submit cannot cause blind duplicate order placement;
-- reconciliation queries provider order/position/fill truth before retry;
-- provider statuses/fills are mapped fail closed;
-- canonical BTC quantity remains distinct from provider contract `sz`;
-- no withdrawal/funding/asset movement capability;
-- no real-money/live execution path is enabled;
-- no shared-contract change unless a genuine blocker is reported and work stops;
-- executable evidence remains `NOT_RUN` without approved local execution;
-- Gate A/B/C/D remain blocked.
+Static/source completion requires all five E7 findings to be addressed in source and deterministic test definitions, with no regression to previously accepted Demo/auth/freshness/broker boundaries. PR #12 remains pending E7 re-review. Actual Demo connectivity, Demo order submission, provider retry, PAPER/SHADOW/LIVE, and real-money execution remain unauthorized.
 
 ## Writable scope
-
-E4-owned paths only:
 
 - `src/execution/**`
 - `src/brokers/**`
@@ -132,13 +135,16 @@ E4-owned paths only:
 - `contracts/**` edits;
 - E1/E2/E3/E5/E6 production rewrites;
 - real credentials/secrets;
-- production/live trading mode;
-- actual provider execution from GitHub;
-- automatic account-mode/position-mode/leverage mutation;
-- withdrawal/deposit/funding/sub-account transfer/balance-adjustment APIs;
-- PAPER/SHADOW/LIVE gate advancement;
+- production/live mode;
+- actual provider requests/orders;
+- concrete network transport;
+- automatic account/position-mode/leverage mutation;
+- asset movement APIs;
+- arbitrary provider absence-code authority;
+- enabling provider retry while absence semantics remain unresolved;
+- PAPER/SHADOW/LIVE advancement;
 - GitHub Actions/CI/hosted runner/project compute.
 
 ## Completion / status
 
-Persist the bounded Demo-first adapter construction, tests, docs and handoff, update STATUS, then stop. Do not send Demo orders, do not start live execution, and do not begin another feature automatically.
+Correct the five E7 findings, update handoff/STATUS, push to PR #12 branch, then stop and wait for PM/E7 re-review.

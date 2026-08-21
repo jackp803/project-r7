@@ -1,107 +1,83 @@
 # E6 Current Task
 
-- task_id: `E6-20260820-002`
-- issued_at: `2026-08-20T18:36:00+08:00`
+- task_id: `E6-20260822-001`
+- issued_at: `2026-08-22T02:49:00+08:00`
 - state: `ACTIVE`
-- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, E7 review `status/e7/POST_SLICE1_CONSTRUCTION_SYNC_REVIEW.md`
+- target_branch: `agent/e6-platform`
+- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0001/0002/0003, accepted E7 re-review of `E6-EVIDENCE-CONTRACT-001`
 
 ## Objective
 
-Correct E7 blocking finding `E6-EVIDENCE-CONTRACT-001` without taking over E3 validation methodology and without expanding the lifecycle beyond the current early Slice 2 subset.
+Non-destructively resynchronize the statically accepted early Slice 2 Strategy Registry / evidence-ingest / persistence skeleton with current `main` so E7 can perform a fresh exact-revision review and PM can decide whether to integrate it.
 
-E6 must ensure that only complete, contract-compatible `BacktestResult` and `ValidationDecision` objects can be persisted as promotable evidence.
+This task is **synchronization and preservation only**. Do not add the later Slice 3 execution-audit persistence surface yet.
+
+## Accepted baseline to preserve
+
+- E6 branch: `agent/e6-platform`
+- accepted correction/status revision: `4a845ff79ba48abb6122191a2cf8df7d52544475`
+- finding: `E6-EVIDENCE-CONTRACT-001 / STATICALLY RESOLVED`
+- BacktestResult full canonical contract-shape/type/reproducibility validation: preserve
+- ValidationDecision full canonical shape/type/enum/binding validation: preserve
+- caller PASS/local-execution metadata bypass protection: preserve
+- lifecycle cap: `DRAFT -> BACKTESTING -> REJECTED | CANDIDATE`
+- no PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE lifecycle behavior
+- executable verification: `NOT_RUN`
+
+At PM audit before this task, `agent/e6-platform` was substantially behind current `main`; therefore no old branch head may be merged directly without synchronization and fresh E7 review.
 
 ## Required actions
 
-1. Synchronize `agent/e6-platform` with the latest `main` before correction, preserving existing E6 history. Do not force-rewrite history. If safe synchronization is not possible with the available Git tooling, report `BLOCKED` rather than improvising.
-2. In `record_backtest_result(...)` or the equivalent E6 evidence-ingest boundary, reject any `contracts-v0.1` `BacktestResult` missing required identity/reproducibility fields:
-   - `schema_version`
-   - `backtest_result_id`
-   - `strategy_id`
-   - `strategy_version`
-   - `strategy_content_hash`
-   - `runtime_version`
-   - `dataset_id`
-   - `dataset_hash`
-   - `dataset_start`
-   - `dataset_end`
-   - `cost_model_version`
-   - `created_at`
-3. Also require all `contracts-v0.1` core BacktestResult metrics before the record can be persisted as promotable evidence:
-   - `total_trades`
-   - `wins`
-   - `losses`
-   - `breakeven`
-   - `gross_pnl`
-   - `net_pnl`
-   - `total_fees`
-   - `profit_factor`
-   - `expectancy`
-   - `max_drawdown`
-   - `max_consecutive_losses`
-4. In `record_validation_decision(...)` or equivalent, require all canonical `ValidationDecision` fields before promotable persistence:
-   - `schema_version`
-   - `validation_decision_id`
-   - `strategy_id`
-   - `strategy_version`
-   - `backtest_result_id`
-   - `validation_policy_version`
-   - `decision` with only canonical `PASS | FAIL | BLOCKED | NOT_RUN`
-   - `reason_codes`
-   - `decided_at`
-5. Validate shared-object field types/enums/bindings sufficiently to reject incompatible payloads. This is contract-shape and identity validation only; do **not** duplicate E3 statistical methodology or decide whether a strategy is actually good.
-6. Ensure caller-supplied `verification_status=PASS` / `verification_kind=LOCAL_EXECUTION` metadata can never make an incomplete/non-canonical BacktestResult or ValidationDecision promotable.
-7. Add deterministic local-only test definitions proving:
-   - each required BacktestResult category cannot be omitted and still become candidate evidence;
-   - incomplete ValidationDecision cannot become candidate evidence;
-   - fake/local PASS metadata does not bypass contract-shape validation;
-   - valid-looking BacktestResult shape alone still cannot promote without a valid E3 ValidationDecision;
-   - lifecycle remains bounded to `DRAFT -> BACKTESTING -> REJECTED | CANDIDATE`.
-8. Do not add PAPER / READY_FOR_APPROVAL / APPROVED / LIVE behavior.
-9. Preserve fail-closed default E2 compatibility `NOT_RUN` behavior; do not wire a real E2 adapter in this correction task.
-10. Update E6 handoff and `coordination/E6/STATUS.md` with corrected revision, changed files, branch synchronization result, and verification state.
-11. Executable verification remains local-only. If no Product Owner-approved local environment exists, record `NOT_RUN` plus exact commands.
+1. Fetch latest `main` and non-destructively merge/synchronize it into `agent/e6-platform`. Preserve branch history; no force push, destructive rebase, or history rewrite.
+2. Resolve conflicts only within E6-owned paths. Do not modify E1/E2/E3/E4/E5/E7 production code or shared contracts.
+3. Preserve the accepted `E6-EVIDENCE-CONTRACT-001` correction exactly in behavior:
+   - reject incomplete/incompatible BacktestResult before persistence;
+   - reject incomplete/incompatible ValidationDecision before persistence;
+   - validate exact strategy/backtest bindings;
+   - unknown/invalid required enum/type/state fails closed;
+   - caller-supplied PASS / LOCAL_EXECUTION metadata cannot bypass canonical evidence validation.
+4. Preserve Strategy Registry / Inbox / SQLite skeleton only at its current bounded lifecycle scope.
+5. Do **not** add ApprovedTradePlan, OrderRequest, OrderResult, Fill, OKX/provider-native quantity, reconciliation, Demo execution, or other Slice 3 execution-audit persistence in this task.
+6. Do not reinterpret OKX contract `sz` as canonical BTC quantity.
+7. Do not add PAPER, READY_FOR_APPROVAL, APPROVED, SHADOW, LIVE, or generic lifecycle transition authority.
+8. Do not add dashboard expansion, broker/private API access, credentials, asset movement, or unrelated platform features.
+9. Recheck changed-file scope after synchronization and ensure it remains E6-owned registry/storage/tests/docs/status only.
+10. Update `status/E6_EARLY_SLICE2_HANDOFF.md`, `status/E6_STATUS.md`, and `coordination/E6/STATUS.md` with:
+    - synchronization merge commit;
+    - exact latest-main revision merged;
+    - final E6 source/tests/docs revision;
+    - changed-file scope;
+    - preservation of the accepted finding correction;
+    - executable verification `NOT_RUN` and exact local commands.
+11. Do not execute project tests, migrations, backtests, GitHub Actions/CI/hosted runners, or GitHub-triggered project compute. Without a Product Owner-approved local environment, keep `NOT_RUN`.
+12. Push the synchronized branch and stop. Do not open/merge a PR or start a new E6 feature automatically unless the TASK explicitly requires it.
 
 ## Acceptance
 
-Static/source acceptance requires:
-
-- `E6-EVIDENCE-CONTRACT-001` is corrected in source/test definitions;
-- incomplete shared evidence cannot be stored as promotable evidence;
-- caller metadata cannot bypass canonical contract-shape validation;
-- E6 does not duplicate E3 statistical methodology;
-- lifecycle remains capped at CANDIDATE;
-- no shared contract changes;
-- no GitHub Actions/CI/hosted runner/project compute;
-- executable evidence remains `NOT_RUN` when local execution is unavailable.
+Task is complete when `agent/e6-platform` is non-destructively synchronized with latest `main`, the statically accepted early Slice 2 registry/evidence correction is preserved without scope expansion, status/handoff evidence is current, and executable evidence remains `NOT_RUN`.
 
 ## Writable scope
 
-E6-owned paths only:
-
 - `src/registry/**`
-- `src/storage/**` only if directly necessary for evidence persistence
+- `src/storage/**`
 - `tests/registry/**`
-- `tests/storage/**` only if directly necessary
-- E6-owned docs/status/handoff
+- `tests/storage/**`
+- `docs/platform/**`
+- `status/E6_EARLY_SLICE2_HANDOFF.md`
+- `status/E6_STATUS.md`
 - `coordination/E6/STATUS.md`
 
 ## Forbidden scope
 
-- `contracts/**` changes;
-- E1/E2/E3/E4/E5 production rewrites;
-- E3 statistical/validation methodology implementation;
-- PAPER/SHADOW/LIVE lifecycle expansion;
-- GitHub compute/CI.
-
-## Local verification
-
-If an approved local environment exists, use the E6 handoff commands. Otherwise keep:
-
-```text
-NOT_RUN
-```
+- `contracts/**` edits;
+- E1/E2/E3/E4/E5/E7 production rewrites;
+- execution/provider audit schema expansion;
+- private provider/API work;
+- real credentials/secrets;
+- PAPER/READY_FOR_APPROVAL/APPROVED/SHADOW/LIVE lifecycle expansion;
+- GitHub Actions/CI/hosted runner/project compute;
+- executable PASS claims.
 
 ## Completion / status
 
-After correcting the finding and updating handoff/STATUS, stop and wait for E7 re-review. Do not begin another E6 feature automatically.
+Synchronize, preserve the accepted E6 implementation, update handoff/STATUS, push, then stop and wait for PM/E7 re-review.

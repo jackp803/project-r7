@@ -1,79 +1,46 @@
 # E4 Current Task
 
-- task_id: `E4-20260820-002`
-- issued_at: `2026-08-20T18:36:00+08:00`
-- state: `ACTIVE`
-- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, E7 review `status/e7/POST_SLICE1_CONSTRUCTION_SYNC_REVIEW.md`
+- task_id: `E4-20260822-002`
+- issued_at: `2026-08-22T02:47:00+08:00`
+- state: `HOLD`
+- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002/0003, `docs/execution/OKX_DEMO_ADAPTER_SCOPE.md`, Product Owner OKX/sub-account decision, E7 final review `status/e7/E4_OKX_DEMO_FINAL_REREVIEW_20260822.md`
 
 ## Objective
 
-The previously reported E4 Broker/PaperBroker skeleton is not recoverable from repository evidence. This task now explicitly authorizes **new bounded construction** of the minimum E4 execution skeleton from the authoritative role contract and `contracts-v0.1`.
+Hold the accepted Demo-first OKX provider-adapter source after PR #12 merge. Do not begin provider connectivity, Demo order execution, retry enablement, or another E4 provider feature until a separate PM/Product Owner task explicitly authorizes the next bounded stage.
 
-Build only the static/source skeleton needed for later Paper integration. Do not enter private Pionex or LIVE work.
+## Accepted evidence
+
+- final E4 implementation/tests/docs/handoff revision: `99bf09461e32117001ce7e587be44dcc3d152ab2`
+- PR #12 head: `25294d72920efab3011eb5060079bf2edca5d056`
+- PR #12 merged to `main`: `572b54f9d454ddf33bb5a2d92f98bba67e852e16`
+- E7 final review: `E7-20260822-001 / PASS STATIC`
+- all five prior E4 findings: `CLOSED / PASS STATIC`
+- executable verification: `NOT_RUN`
+- actual provider requests/orders: `NOT_SENT`
+- provider retry: `STRUCTURALLY DISABLED / NOT AUTHORIZED`
 
 ## Required actions
 
-1. Work on `agent/e4-execution` and synchronize it with the latest `main` before implementation. Preserve history; do not force-rewrite branch history. If a safe synchronization cannot be performed with the available Git tooling, report `BLOCKED` rather than inventing a workaround.
-2. Implement the minimum E4-owned Broker abstraction and deterministic `PaperBroker` needed to consume an E5 `ApprovedTradePlan` and produce contract-shaped execution evidence.
-3. Enforce the authority boundary: E4 accepts execution input only from a valid `ApprovedTradePlan` or an E5-authorized position action. E4 must not invent strategy direction, quantity, leverage, or risk limits.
-4. Materialize E4-owned `OrderRequest`, `OrderResult`, and `Fill` handling consistent with `contracts-v0.1`:
-   - stable `client_order_id` / idempotency for one logical order;
-   - requested quantity and filled quantity remain distinct;
-   - partial fills are representable;
-   - actual fill facts are not copied from requested values merely for convenience.
-5. Implement fail-closed ambiguous acknowledgement semantics:
-   - timeout/ambiguous submit result -> `UNKNOWN` or `RECONCILIATION_REQUIRED`;
-   - never blindly duplicate-submit after ambiguity;
-   - expose an explicit reconciliation/query-before-retry path in the interface/skeleton.
-6. Keep broker/exposure truth in E4. Do not implement E5 lifecycle/risk interpretation inside E4.
-7. Treat E5's current nested `entry_instruction` / `protection_instruction` shape as provisional. If it is insufficient to implement the bounded PaperBroker path without inventing new shared semantics, report a `CONTRACT MISMATCH` in STATUS/handoff and stop that portion rather than silently stabilizing a new contract.
-8. Add deterministic local-only test definitions covering at minimum:
-   - ApprovedTradePlan-only authority;
-   - stable idempotency identity;
-   - partial fill representation;
-   - ambiguous acknowledgement -> reconciliation required;
-   - query/reconcile before retry;
-   - no exposure increase beyond the approved plan.
-9. Create/update an E4 -> E7 handoff and `coordination/E4/STATUS.md` with branch, exact HEAD SHA, changed files, limitations, and verification state.
-10. Do not run project tests unless a Product Owner-approved local environment exists. Otherwise record `NOT_RUN` plus exact local commands.
+1. Do not modify the merged Demo adapter source during this HOLD.
+2. Preserve Demo-only mode, mandatory `x-simulated-trading: 1`, runtime-only/redacted credentials, bounded endpoint allowlist, MARKET-only isolated path, V1 account matrix, canonical/provider quantity separation, freshness hardening, submit-integrity provenance, fail-closed response normalization, and disabled retry.
+3. Do not add concrete networking, real credentials, production/live fallback, automatic account/position/leverage mutation, or asset movement.
+4. Do not send Demo/provider requests or orders.
+5. Do not modify shared contracts or other-agent production code.
+6. Keep executable verification `NOT_RUN` until a Product Owner-approved local environment is separately authorized.
+7. If acknowledging HOLD, update only `coordination/E4/STATUS.md`.
 
 ## Acceptance
 
-Static/source acceptance requires:
-
-- observable E4 implementation and formal handoff in Git;
-- no shared-contract modification;
-- no Strategy/Risk decision logic inside E4;
-- no private Pionex credentials/API calls/real orders;
-- no LIVE/SHADOW enablement;
-- ambiguous execution state fails closed;
+- merged E4 source remains frozen;
+- no provider execution or release-gate advancement;
 - no GitHub Actions/CI/hosted runner/project compute;
-- executable evidence remains `NOT_RUN` if local execution is unavailable.
-
-This task does **not** authorize Gate B/PAPER_READY PASS.
+- executable evidence remains `NOT_RUN`.
 
 ## Writable scope
 
-- `src/execution/**`
-- `src/brokers/**`
-- `tests/execution/**`
-- `tests/brokers/**`
-- E4-owned docs/status/handoff paths
-- `coordination/E4/STATUS.md`
-
-## Forbidden scope
-
-- `contracts/**` changes;
-- E1/E2/E3/E5/E6 production rewrites;
-- production risk-policy decisions;
-- Pionex private/live integration;
-- credentials/secrets;
-- GitHub compute/CI.
-
-## Local verification
-
-If/when an approved local environment is available, report the exact commands defined by the implementation. Prefer stdlib unittest-compatible commands where practical. Until then: `NOT_RUN`.
+Only `coordination/E4/STATUS.md` for HOLD acknowledgement unless PM replaces this task.
 
 ## Completion / status
 
-When the bounded skeleton and handoff are persisted, update `coordination/E4/STATUS.md` and stop. Do not start private Pionex or another feature automatically.
+Wait for a separate PM/Product Owner decision on approved-local connectivity/read-only dry integration. Do not start it automatically.

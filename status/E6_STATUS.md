@@ -2,76 +2,74 @@
 
 > Owner: E6 Platform / Storage / Strategy Registry / Dashboard Engineer  
 > Branch: `agent/e6-platform`  
-> Task: `E6-20260820-002`  
-> Contract baseline: `contracts-v0.1`
+> Task: `E6-20260822-001`  
+> State: `DONE / AWAITING E7 RE-REVIEW`
 
-## Current state
+## Synchronization
 
-```text
-E6-EVIDENCE-CONTRACT-001 source correction   DONE
-Branch synchronization with main             DONE
-BacktestResult contract-shape gate            DONE
-ValidationDecision contract-shape gate        DONE
-Caller PASS metadata bypass protection        DONE
-Regression test definitions                    DONE
-Executable local verification                  NOT_RUN
-E7 re-review                                    PENDING
-```
+- accepted baseline revision: `4a845ff79ba48abb6122191a2cf8df7d52544475`
+- latest main revision merged: `bac41e860b5582f7a87d8992c803ce081dafcb35`
+- non-destructive synchronization merge: `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
+- synchronized source/tests/docs revision: `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
+- force push/rebase/history rewrite: `NONE`
 
-## Branch synchronization
+## Preserved accepted behavior
 
-E6 synchronized its work branch before correction without rewriting history:
+`E6-EVIDENCE-CONTRACT-001` remains statically resolved. The synchronized branch preserves:
 
-- pre-sync E6 HEAD: `13c67d4fa91e1cf4cc3b5a394c7ce88de0902321`
-- synchronized main: `4c531adc575ddd43f095ab8eabba3cae62ecc7b2`
-- merge commit: `6f15f8190a597cdf25284f00eb7b84b3c34f73a0`
-- force push/rebase: `NO`
-- post-correction compare: `main` is merge-base and `behind_by=0`
+- complete canonical BacktestResult shape/type/reproducibility validation before persistence;
+- complete canonical ValidationDecision shape/type/enum/binding validation before persistence;
+- exact strategy/version/content-hash/backtest-parent binding checks;
+- fail-closed invalid/unknown required type or enum handling;
+- protection against caller-supplied PASS / LOCAL_EXECUTION metadata bypass;
+- requirement for valid E3 ValidationDecision evidence before `BACKTESTING -> CANDIDATE`.
 
-## Correction summary
+Accepted implementation blobs remain unchanged:
 
-The public E6 evidence-ingest boundary now rejects incomplete or incompatible `contracts-v0.1` shared evidence before persistence.
+- `src/registry/contract_validation.py` = `954d21c021c0885554ee650acced17610d958a0e`
+- `src/registry/service.py` = `3184452956e1540be44d5ea779be87ed573fbcae`
+- `src/registry/service_base.py` = `3889ac156358f58c5fc3380865ad73844b874c3c`
 
-`BacktestResult` requires all canonical identity/reproducibility fields plus all core metrics. Contract-shape checks include shared schema, non-empty identity strings, RFC 3339 UTC timestamps, count types, decimal-string financial interchange values, and dataset-boundary consistency.
+## Scope
 
-`ValidationDecision` requires all canonical fields, exact decision enum `PASS | FAIL | BLOCKED | NOT_RUN`, structured reason codes, UTC decision timestamp, and the existing exact BacktestResult/strategy binding.
-
-Caller-supplied `verification_status=PASS` / `verification_kind=LOCAL_EXECUTION` cannot bypass these validators.
-
-E6 does not implement E3 statistical methodology and does not decide whether a strategy is statistically good.
-
-## Lifecycle boundary
-
-Unchanged:
+Lifecycle remains strictly:
 
 ```text
 DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
 ```
 
-No PAPER, READY_FOR_APPROVAL, APPROVED, LIVE, DEGRADED, operational-mode promotion, or generic transition API was added.
+Not added:
 
-The fail-closed default E2 compatibility boundary remains `NOT_RUN`; no real E2 adapter was wired.
+- PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE;
+- generic transition authority;
+- Slice 3 execution-audit persistence;
+- ApprovedTradePlan / OrderRequest / OrderResult / Fill persistence;
+- OKX/provider-native quantity semantics or `sz` reinterpretation;
+- reconciliation/Demo execution persistence;
+- dashboard expansion;
+- broker/private API or credential handling.
 
-## Correction files
+No shared contract changes and no E1/E2/E3/E4/E5/E7 production rewrites were made.
 
-- `src/registry/contract_validation.py`
-- `src/registry/service_base.py`
-- `src/registry/service.py`
-- `tests/registry/test_evidence_contract_validation.py`
+## Changed-file scope
+
+Post-sync branch delta against main is restricted to E6-owned:
+
+- `docs/platform/**`
+- `src/registry/**`
+- `src/storage/**`
+- `tests/registry/**`
+- `tests/storage/**`
 - `status/E6_EARLY_SLICE2_HANDOFF.md`
 - `status/E6_STATUS.md`
-- `coordination/E6/STATUS.md`
 
-No shared contract or storage migration change was required.
+## Verification
 
-## Local verification
+Executable verification: `NOT_RUN`.
 
-```text
-Executable verification: NOT_RUN
-Reason: no Product Owner-approved local execution environment is available in this session.
-```
+No Product Owner-approved local environment was available in this session. No tests, migrations, backtests, GitHub Actions, CI, hosted runners, or GitHub-triggered project compute were run.
 
-Exact commands:
+Exact local commands:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -79,19 +77,12 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-Correction-focused command:
-
-```powershell
-$env:PYTHONPATH = (Join-Path (Get-Location) "src")
-python -m unittest discover -s tests/registry -p "test_evidence_contract_validation.py" -v
-```
-
-No GitHub Actions, CI, hosted runner, scheduled GitHub compute, unit test, migration test, restart test, integration test, or backtest was executed.
+`NOT_RUN != PASS`.
 
 ## Handoff
 
-- handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`
-- next owner: `E7`
-- next action: static/source re-review of `E6-EVIDENCE-CONTRACT-001`
+Current handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`.
 
-E6 stops after this task and waits for a replacement `coordination/E6/TASK.md`.
+Next owner: `E7 / PM` for fresh exact-revision static review and integration decision.
+
+E6 stops after this task and does not open/merge a PR or start another feature automatically.

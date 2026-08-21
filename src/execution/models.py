@@ -42,6 +42,9 @@ class OrderRequest:
     side: Side
     order_type: str
     quantity: Decimal
+    quantity_profile_version: str
+    quantity_unit: str
+    quantity_asset: str
     created_at: datetime
     limit_price: Decimal | None = None
     stop_price: Decimal | None = None
@@ -57,6 +60,9 @@ class OrderRequest:
             self.side,
             self.order_type,
             self.quantity,
+            self.quantity_profile_version,
+            self.quantity_unit,
+            self.quantity_asset,
             self.limit_price,
             self.stop_price,
             self.reduce_only,

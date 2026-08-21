@@ -1,92 +1,151 @@
 # E7 Status
 
-- task_id: `E7-20260821-012`
+- task_id: `E7-20260822-001`
 - agent: `E7`
-- state: `DONE / BLOCKED_WAITING_E4_CORRECTION`
-- branch: `agent/e7-e4-okx-demo-rereview-20260821`
+- state: `DONE_PENDING_PM`
+- branch: `agent/e7-e4-okx-demo-final-rereview-20260822`
 - review_target: `PR #12 execution: add Demo-first OKX provider adapter`
-- reviewed_corrected_revision: `651541ba0da646f0c2ab69117219e2c8ca21247c`
-- observed_pr_head: `c151fa7c37adafbf9f93157d80cf4b763dd775e2` (`coordination/E4/STATUS.md` successor only after corrected implementation pin)
-- review_artifact: `status/e7/E4_OKX_DEMO_TARGETED_REREVIEW_20260821.md`
-- summary: `Targeted re-review closes 4 of the 5 prior E4 blockers. Account matrix, retry provenance, order-absence authority, and order-state/fill consistency are statically closed. Materialization integrity remains blocking because submit_entry signs/sends caller-mutable/caller-constructible OKXOrderMaterialization.body without submit-time provenance/fingerprint/recomputation; post-prepare body.sz tampering can bypass the corrected materialization recomputation.`
+- reviewed_e4_revision: `99bf09461e32117001ce7e587be44dcc3d152ab2`
+- observed_pr_head: `25294d72920efab3011eb5060079bf2edca5d056`
+- implementation_pin_to_pr_head_delta: `coordination/E4/STATUS.md only`
+- review_artifact: `status/e7/E4_OKX_DEMO_FINAL_REREVIEW_20260822.md`
+- summary: `Final targeted static/security re-review closes E4-OKX-MATERIALIZATION-INTEGRITY-001 end-to-end. submit_entry now requires exact adapter-issued object identity, validates immutable issued semantic facts before idempotency-cache access, re-derives the signed provider body from adapter-owned trusted preparation facts, rejects caller-mutated body/provider fields before transport, rechecks deterministic clOrdId binding and canonical BTC upper-bound invariants, and preserves the four previously closed findings. PR #12 is statically acceptable for merge. Executable verification remains NOT_RUN; no provider request/order was sent.`
 
-## Finding dispositions
+## Five finding dispositions
 
-- `E4-OKX-MATERIALIZATION-INTEGRITY-001`: `BLOCKING / NOT CLOSED / E4 OWNER`
+- `E4-OKX-MATERIALIZATION-INTEGRITY-001`: `CLOSED / PASS STATIC`
 - `E4-OKX-ACCOUNT-MATRIX-001`: `CLOSED / PASS STATIC`
 - `E4-OKX-RETRY-PROVENANCE-001`: `CLOSED / PASS STATIC`
 - `E4-OKX-ORDER-ABSENCE-001`: `CLOSED / PASS STATIC`
 - `E4-OKX-ORDER-STATE-CONSISTENCY-001`: `CLOSED / PASS STATIC`
 
+## Final submit-integrity disposition
+
+Accepted source chain:
+
+```text
+canonical OrderRequest + submit-validated metadata
+  -> recomputed OKX sizing
+  -> caller sizing treated as evidence only
+  -> adapter-issued OKXOrderMaterialization
+  -> adapter-owned frozen _IssuedOKXPreparation
+  -> submit_entry exact-object provenance check
+  -> semantic fact / Demo / account / clOrdId / quantity checks
+  -> trusted provider body re-derived from issued preparation
+  -> caller-visible body must exactly equal trusted body
+  -> trusted body signed
+  -> transport
+```
+
+Static guarantees established:
+
+- exact object instance must have been issued by the same adapter;
+- dataclass equality/clone is not submit provenance;
+- cross-adapter substitution fails;
+- direct caller construction fails before cache/transport;
+- changed semantic fields under the same logical identity fail;
+- provider `clOrdId` is re-derived from internal `client_order_id` and rechecked;
+- provider contract quantity remains positive;
+- `0 < effective canonical BTC <= E5-approved canonical BTC quantity`;
+- provider contract `sz` remains distinct from canonical BTC quantity;
+- signed body is freshly re-derived from trusted adapter-owned preparation facts;
+- mutations of `sz`, `instId`, `side`, `posSide`, `ordType`, or `clOrdId` fail before transport;
+- materially different adapter preparation under the same `clOrdId` fails closed;
+- provenance validation occurs before idempotency-cache access.
+
+## Submit-integrity test-definition review
+
+`tests/brokers/test_okx_submit_integrity.py` statically covers:
+
+- post-prepare `sz` mutation rejection;
+- `instId` mutation rejection;
+- `side` mutation rejection;
+- `posSide` mutation rejection;
+- `ordType` mutation rejection;
+- `clOrdId` mutation rejection;
+- direct caller clone rejection;
+- cross-adapter substitution rejection;
+- same-client material change rejection;
+- materially different re-preparation rejection;
+- exact valid Demo MARKET isolated body;
+- repeated-submit idempotency without a second transport send;
+- canonical/provider quantity separation and approved BTC upper bound.
+
+Executable result remains `NOT_RUN`; these definitions were not executed on GitHub.
+
 ## Regression dispositions
 
 - demo_environment_auth_security: `PASS / STATIC ONLY`
 - v1_account_matrix: `PASS / acctLv=2 Futures mode + net_mode|long_short_mode + tdMode=isolated`
+- canonical_provider_quantity_separation: `PASS / STATIC ONLY`
 - freshness_hardening: `PASS / STATIC ONLY / E4-LOCAL POLICY`
-- provider_retry: `DISABLED / PASS STATIC`
-- order_absence_semantics: `FAIL-CLOSED / NO CALLER CONFIG / PASS STATIC`
+- provider_retry: `STRUCTURALLY DISABLED / PASS STATIC`
+- order_absence_semantics: `FAIL-CLOSED / NO CALLER-CONFIGURABLE AUTHORITY / PASS STATIC`
 - provider_response_normalization: `PASS / STATIC ONLY`
 - broker_paperbroker_regression_static_compatibility: `PASS / UNCHANGED SOURCE`
-- canonical_provider_quantity_separation: `PASS INSIDE SIZING/MATERIALIZATION; END-TO-END SUBMIT BLOCKED BY MATERIALIZATION FINDING`
-- asset_movement_account_mutation_surface: `ABSENT / PASS STATIC`
+- production_live_fallback: `ABSENT / PASS STATIC`
+- account_position_leverage_mutation_surface: `ABSENT / PASS STATIC`
+- withdrawal_deposit_funding_internal_subaccount_transfer_balance_adjustment_surface: `ABSENT / PASS STATIC`
 
-## Remaining blocking source condition
+## Current official OKX recheck
 
-`materialize_demo_market_order()` now correctly recomputes sizing from the exact current `OrderRequest` and submit-validated metadata and rejects mismatching caller sizing evidence.
+Rechecked on `2026-08-22` against official OKX V5 documentation.
 
-However, the resulting `OKXOrderMaterialization` is still caller-constructible and its `body` is a mutable `dict`. `submit_entry()` signs and sends `materialization.body` directly without proving that the body is the exact adapter-issued materialization or revalidating `sz`, `instId`, `side`, `posSide`, `ordType`, and `clOrdId` against the accepted immutable facts.
+Still consistent with reviewed bounded assumptions:
 
-Therefore a caller can mutate `materialization.body["sz"]` after `prepare_entry()` or directly construct a materialization and reach the provider submit path without the corrected sizing recomputation governing the actual signed request.
-
-Required E4 correction: bind provider submit to adapter-issued immutable/fingerprinted materialization or rederive/revalidate the provider request at submit time from the canonical request + current validated metadata. Add direct post-prepare body-tamper and caller-constructed-materialization tests.
-
-## Official OKX recheck
-
-Current official OKX V5 documentation was rechecked on 2026-08-21.
-
-Accepted for the bounded matrix:
-
+- Demo REST uses `https://openapi.okx.com` and private Demo requests require `x-simulated-trading: 1`;
 - `acctLv=2` is Futures mode;
 - FUTURES/SWAP support `net_mode` and `long_short_mode` in Futures mode;
-- official leverage/trading semantics explicitly support isolated SWAP operation for buy/sell and long/short position modes;
-- `clOrdId` remains case-sensitive alphanumeric up to 32 characters and unique among current pending orders;
-- Demo uses the global REST base with simulated-trading context/header;
-- public instrument metadata exposes `upcChg` for `tickSz`, `minSz`, and `maxMktSz`; FUTURES/SWAP `minSz` change synchronously changes `lotSz`.
+- reviewed order path supports `tdMode=isolated`; isolated is not accepted for this path in multi-currency/portfolio modes;
+- `market` is a valid SWAP order type;
+- `clOrdId` is case-sensitive alphanumeric up to 32 characters and uniqueness is required among pending orders, not historical orders.
 
-No current official provider error code is accepted as R7 order-absence authority; retry remains disabled, so this is fail-closed.
+No new provider fact expands R7 authority. Provider retry remains disabled and Demo order submission remains unauthorized.
 
-## Repository / PR state
+## Repository / PR disposition
 
-- PR #12 corrected changed-file scope remains E4 code/tests/docs/status only.
-- no `contracts/**` changes.
-- no E1/E2/E3/E5/E6 production edits.
-- no `.github/workflows` / CI additions.
-- no real credentials/secrets found.
-- no withdrawal/deposit/funding/sub-account/internal-transfer/balance-adjustment capability.
-- corrected implementation pin -> current PR head changes only `coordination/E4/STATUS.md`.
-- current PR branch relative to latest main: `ahead 18 / behind 2`.
-- current-main-only delta from the PR merge base is coordination TASK files only.
-- GitHub currently reports PR #12 `mergeable=false`.
+Current PR #12 scope contains only:
 
-## Test-definition review
+```text
+coordination/E4/STATUS.md
+docs/execution/E4_TO_E7_HANDOFF.md
+docs/execution/OKX_DEMO_ADAPTER.md
+docs/execution/OKX_SIZING_POLICY.md
+src/brokers/okx_demo.py
+src/brokers/okx_sizing.py
+tests/brokers/test_okx_demo_adapter.py
+tests/brokers/test_okx_demo_status_mapping.py
+tests/brokers/test_okx_sizing.py
+tests/brokers/test_okx_submit_integrity.py
+```
 
-Corrected definitions cover the four closed findings and the in-function portion of materialization integrity, including forged sizing evidence, changed request, changed metadata, invalid account modes, retry-evidence forgery/replay, arbitrary absence-code rejection, and contradictory state/fill combinations.
+Confirmed:
 
-Still missing for materialization closure:
+- shared contracts changed: `NO`;
+- E1/E2/E3/E5/E6 production edits: `NO`;
+- GitHub workflow/CI additions: `NO`;
+- real credentials/secrets: `NONE FOUND`;
+- unrelated feature expansion: `NO`;
+- latest main at review: `730ef2e87054f5dbe370b4e72e50d6e03af1fc5c`;
+- PR branch relative to latest main: `ahead 24 / behind 2`;
+- latest-main-only delta: `coordination/E4/TASK.md` and `coordination/E7/TASK.md` only;
+- production/shared-contract synchronization drift: `NONE`;
+- GitHub current PR mergeable: `TRUE`.
 
-- mutate `body["sz"]` after `prepare_entry()` and prove submit is rejected;
-- mutate `instId` / `side` / `posSide` / `ordType` / `clOrdId` after prepare and prove submit is rejected;
-- directly caller-construct `OKXOrderMaterialization` and prove submit cannot bypass prepare/materialization authority.
+## Merge / next stage
 
-No test was executed in GitHub.
-
-## Merge / next-stage recommendation
-
-- pr_12_merge_recommendation: `BLOCKED / DO NOT MERGE`
-- next_approved_local_connectivity_readonly_dry_stage: `BLOCKED / NOT YET`
+- pr_12_source_disposition: `PASS / STATIC ONLY`
+- pr_12_merge_recommendation: `PM MAY MERGE`
+- next_bounded_stage: `MAY BE APPROVED-LOCAL CONNECTIVITY / READ-ONLY DRY INTEGRATION ONLY`
 - demo_order_authorization: `NOT_AUTHORIZED`
 - provider_retry_authorization: `NOT_AUTHORIZED / SOURCE DISABLED`
-- real_money_execution: `BLOCKED / NOT_AUTHORIZED`
+- production_real_money_execution: `BLOCKED / NOT_AUTHORIZED`
+- paper_shadow_live_advancement: `NONE`
+
+The next read-only dry stage, if separately approved by PM/Product Owner, may validate connectivity/authentication read paths, account configuration reads and public/private read-only prerequisites in an approved local environment. It must not submit an order or enable retry.
+
+## Verification / release state
+
 - executable_verification: `NOT_RUN`
 - actual_demo_provider_requests_orders: `NOT_SENT`
 - github_compute: `NOT_USED`
@@ -96,8 +155,8 @@ No test was executed in GitHub.
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
 
-## Next owner
+## Completion
 
-`E4` must close `E4-OKX-MATERIALIZATION-INTEGRITY-001` at the actual provider submit boundary, add the missing deterministic tamper tests, synchronize PR #12 with current main, and return an exact corrected revision for E7 re-review.
+E7 completed only `E7-20260822-001` and stops here.
 
-E7 stops here and waits for PM/E4. No PR merge, provider call, local execution, or next-stage implementation is started automatically.
+E7 does not merge PR #12, does not start approved-local connectivity, does not execute provider requests, and does not start another task automatically. Next owner: `PM`.

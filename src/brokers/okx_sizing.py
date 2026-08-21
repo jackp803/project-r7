@@ -65,11 +65,12 @@ class OKXInstrumentMetadata:
     metadata_ref: str
     freshness_policy_version: str = OKX_METADATA_FRESHNESS_POLICY_VERSION
     upcoming_changes: tuple[OKXScheduledInstrumentChange, ...] = ()
+    max_mkt_sz: Decimal | None = None
 
 
 @dataclass(frozen=True)
 class OKXEntrySizingAudit:
-    """Separates canonical exposure facts from provider-native contract sizing."""
+    """Canonical/provider sizing evidence; never execution authority by itself."""
 
     trade_plan_id: str
     canonical_symbol: str
@@ -87,6 +88,13 @@ class OKXEntrySizingAudit:
     instrument_metadata_ref: str
     instrument_metadata_observed_at: datetime
     freshness_policy_version: str
+    provider_ct_val: Decimal
+    provider_ct_mult: Decimal
+    provider_ct_val_ccy: str
+    provider_ct_type: str
+    provider_lot_size: Decimal
+    provider_min_size: Decimal
+    provider_max_market_size: Decimal | None
 
 
 def _require_utc(value: datetime, field: str) -> None:
@@ -116,6 +124,12 @@ def _parse_positive_decimal_string(value: Any, field: str) -> Decimal:
     return parsed
 
 
+def _parse_optional_positive_decimal_string(value: Any, field: str) -> Decimal | None:
+    if value in (None, ""):
+        return None
+    return _parse_positive_decimal_string(value, field)
+
+
 def _parse_epoch_ms(value: Any, field: str) -> datetime:
     if not isinstance(value, str) or not value.isdigit():
         raise OKXMetadataValidationError(f"{field} must be a millisecond epoch string")
@@ -135,7 +149,7 @@ def instrument_metadata_from_okx_payload(
     observed_at: datetime,
     metadata_ref: str,
 ) -> OKXInstrumentMetadata:
-    """Materialize the one configured OKX SWAP metadata item from public API data."""
+    """Materialize the configured OKX SWAP metadata item from public API data."""
     _require_utc(observed_at, "observed_at")
     if not isinstance(item, Mapping):
         raise OKXMetadataValidationError("instrument metadata item must be a mapping")
@@ -177,6 +191,7 @@ def instrument_metadata_from_okx_payload(
         observed_at=observed_at,
         metadata_ref=metadata_ref,
         upcoming_changes=tuple(changes),
+        max_mkt_sz=_parse_optional_positive_decimal_string(item.get("maxMktSz"), "maxMktSz"),
     )
 
 
@@ -217,6 +232,8 @@ def validate_okx_instrument_metadata(
     lot_sz = _require_positive_decimal(metadata.lot_sz, "lotSz")
     min_sz = _require_positive_decimal(metadata.min_sz, "minSz")
     _require_positive_decimal(metadata.tick_sz, "tickSz")
+    if metadata.max_mkt_sz is not None:
+        _require_positive_decimal(metadata.max_mkt_sz, "maxMktSz")
 
     if not _is_integral(min_sz / lot_sz):
         raise OKXMetadataValidationError("minSz must be an exact lotSz multiple")
@@ -247,14 +264,7 @@ def validate_okx_submit_metadata(
     *,
     now: datetime,
 ) -> OKXInstrumentMetadata:
-    """Stricter submit-boundary validation for E4-OKX-FRESHNESS-HARDEN-001.
-
-    The historical 300-second cache TTL is not used as permission to submit. A
-    provider observation must be at most five seconds old when a Demo order is
-    materialized. Sizing-relevant scheduled changes entering a 60-second guard
-    window block materialization; unknown scheduled change parameters block at
-    all times because their execution impact is not safely defined.
-    """
+    """Strict submit-boundary validation for E4-OKX-FRESHNESS-HARDEN-001."""
     checked = validate_okx_instrument_metadata(metadata, now=now)
     age_seconds = (now - checked.observed_at).total_seconds()
     if age_seconds > OKX_SUBMIT_METADATA_MAX_AGE_SECONDS:
@@ -275,7 +285,6 @@ def validate_okx_submit_metadata(
             raise OKXMetadataValidationError(
                 f"scheduled {change.param} change is too close to submit preparation"
             )
-        # tickSz is retained/audited but does not create a MARKET execution price.
     return checked
 
 
@@ -285,7 +294,7 @@ def size_okx_market_entry(
     *,
     now: datetime,
 ) -> OKXEntrySizingAudit:
-    """Quantize canonical BTC exposure down to OKX contract size without networking."""
+    """Quantize canonical BTC exposure down to OKX contracts without networking."""
     if request.symbol != CANONICAL_SYMBOL:
         raise OKXSizingError("unsupported canonical symbol")
     if request.order_type != ENTRY_ORDER_TYPE:
@@ -313,6 +322,8 @@ def size_okx_market_entry(
         raise OKXSizingError("round-down provider size is below minSz; rounding up is forbidden")
     if not _is_integral(provider_sz / checked.lot_sz):
         raise OKXSizingError("provider size is not a valid lotSz multiple")
+    if checked.max_mkt_sz is not None and provider_sz > checked.max_mkt_sz:
+        raise OKXSizingError("provider size exceeds current maxMktSz")
 
     effective_base = provider_sz * base_per_contract
     if not effective_base.is_finite() or effective_base <= 0:
@@ -337,4 +348,11 @@ def size_okx_market_entry(
         instrument_metadata_ref=checked.metadata_ref,
         instrument_metadata_observed_at=checked.observed_at,
         freshness_policy_version=checked.freshness_policy_version,
+        provider_ct_val=checked.ct_val,
+        provider_ct_mult=checked.ct_mult,
+        provider_ct_val_ccy=checked.ct_val_ccy,
+        provider_ct_type=checked.ct_type,
+        provider_lot_size=checked.lot_sz,
+        provider_min_size=checked.min_sz,
+        provider_max_market_size=checked.max_mkt_sz,
     )

@@ -7,7 +7,7 @@ Official OKX API V5 baseline inspected 2026-08-21:
 - bar labels used here: 1m / 15m / 1H / 4H
 - `ts` is candle opening time in Unix milliseconds
 - `confirm`: "0" uncompleted, "1" completed
-- `after` paginates toward older records; maximum page limit is 100
+- `after` returns records earlier than the supplied timestamp; maximum page limit is 100
 
 No private credential is used or accepted by this adapter.
 """
@@ -192,8 +192,9 @@ class OkxPublicHistoricalCandleSource:
             "limit": limit,
         }
         if end_time_ms is not None:
-            # OKX `after` returns records at/before the supplied timestamp.
-            # The exact-range loader passes end-exclusive minus 1 ms.
+            # Official OKX semantics: `after` returns records earlier than the
+            # supplied timestamp. The exact-range loader passes end-exclusive
+            # minus 1 ms and keeps the reviewed safe cursor behavior unchanged.
             params["after"] = end_time_ms
         return f"{self.base_url}{OKX_HISTORY_CANDLES_PATH}?{urlencode(params)}"
 

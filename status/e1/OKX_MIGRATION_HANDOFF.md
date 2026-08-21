@@ -26,7 +26,7 @@ Official OKX API V5 reference inspected 2026-08-21:
 
 - `GET https://www.okx.com/api/v5/market/history-candles`
 - public / unauthenticated;
-- `after` paginates toward older records;
+- `after` returns records earlier than the supplied timestamp and is used for older-data pagination;
 - maximum `limit=100`;
 - `ts` is candle opening time in Unix milliseconds;
 - `confirm=0` means uncompleted;
@@ -109,12 +109,14 @@ Canonical `volume` uses OKX response field `vol` as the provider market-data fac
 
 ## 7. Pagination / deterministic range behavior
 
-OKX `after` is used for older-data pagination. Because the canonical requested end is exclusive and OKX timestamp pagination is inclusive at the provider boundary, E1 requests:
+Official OKX semantics define `after` as returning records earlier than the supplied timestamp. E1 preserves the already reviewed safe cursor behavior:
 
 ```text
 first cursor = end - 1 ms
 next cursor  = earliest returned open_time - 1 ms
 ```
+
+The cursor values deliberately stay one millisecond before the canonical boundary/earliest observed open time; this wording correction does not change the implemented pagination behavior.
 
 The loader collects only candles fully inside `[start, end)`, requires `confirm=1`, rejects duplicate identities, sorts only after provider page-order validity is established, then validates an exact gap-free ascending sequence. Missing provider history remains an error; no synthetic candle is created.
 

@@ -121,11 +121,11 @@ def load_okx_historical_candles(
 ) -> tuple[Candle, ...]:
     """Fetch an exact `[start, end)` closed historical range from OKX.
 
-    OKX history-candles uses `after` to page toward older records. E1 passes
-    `end - 1 ms` for the first page, then `earliest_open - 1 ms` so the
-    provider's inclusive timestamp boundary cannot duplicate the prior page.
-    Only after provider finality and exact-range validation succeed is an
-    ascending canonical sequence returned.
+    Official OKX semantics define `after` as returning records earlier than
+    the supplied timestamp. E1 keeps the reviewed safe cursor behavior:
+    `end - 1 ms` for the first page, then `earliest_open - 1 ms` for older
+    pages. Only after provider finality and exact-range validation succeed is
+    an ascending canonical sequence returned.
     """
 
     start = _utc(start, "start")

@@ -1,226 +1,140 @@
 # E7 Status
 
-- task_id: `E7-20260821-004`
+- task_id: `E7-20260821-010`
 - agent: `E7`
-- state: `DONE_PENDING_PM`
-- branch: `agent/e7-okx-contract-boundary-20260821`
-- head_sha: `BRANCH_HEAD_CONTAINS_THIS_STATUS`
-- summary: `Resolved the provider-neutral executable entry profile and OKX derivative sizing/quantization/account-security boundaries through the formal contract-change procedure. Parent schema remains contracts-v0.1; compatible object profiles entry-v0.1 and base-asset-v0.1 are canonical for new execution construction. No E1-E6 production code or private/Demo execution was implemented.`
-- entry_versioning_disposition: `PASS / ADDITIVE_COMPATIBLE_OBJECT_PROFILE / NO_SET_WIDE_MAJOR_BUMP`
-- canonical_parent_schema: `contracts-v0.1`
-- entry_profile: `entry-v0.1 / MARKET_ONLY`
-- quantity_profile: `base-asset-v0.1 / BASE_ASSET`
-- canonical_btc_perp_quantity_unit: `BTC base-asset exposure bound`
-- okx_provider_mapping: `BTC_USDT_PERP -> BTC-USDT-SWAP inside provider adapter only`
-- okx_sz_semantics: `provider contract units; E4 adapter-owned; never substituted for shared canonical quantity`
-- quantization_rule: `ROUND_DOWN_TO_VALID_LOT_OR_REJECT; NEVER_ROUND_UP_ABOVE_E5_BOUND`
-- okx_account_boundary: `future dedicated R7 sub-account; external account-mode/config prerequisite; isolated intent; Demo first; real execution not authorized`
-- withdraw_permission: `FORBIDDEN`
-- broker_asset_movement_capability: `FORBIDDEN`
-- contracts_changed: `YES — contracts/README.md governance registry + new compatible contracts/EXECUTION_OBJECT_PROFILES_V0_1.md; historical contracts/SHARED_CONTRACTS_V1.md intentionally unchanged`
-- production_domain_code_changed: `NO`
+- state: `DONE / BLOCKED_WAITING_E4_CORRECTION`
+- branch: `agent/e7-e4-okx-demo-review-20260821`
+- review_target: `PR #12 execution: add Demo-first OKX provider adapter`
+- reviewed_implementation_revision: `b7031c52a38623c528ee9352276793d8110854e0`
+- observed_pr_head: `94ca2f861d9e7a51277c5c63ff20f730c7f19f92` (`coordination/E4/STATUS.md` successor only after implementation pin)
+- review_artifact: `status/e7/E4_OKX_DEMO_STATIC_SECURITY_REVIEW_20260821.md`
+- summary: `PR #12 is BLOCKED from merge. Demo authentication/environment isolation and submit-freshness hardening are statically acceptable, but request materialization can trust a forged sizing audit, the account-level/position-mode matrix is underconstrained, retry accepts caller-constructible reconciliation evidence, arbitrary configured absence codes can unlock retry without accepted provider authority, and known provider order states are not checked for state/fill consistency.`
+
+## Dispositions
+
+- demo_environment_auth_security: `PASS / STATIC ONLY`
+- request_materialization_account_prerequisites: `FAIL / BLOCKING`
+- freshness_hardening: `PASS / ACCEPT / STATIC ONLY`
+- ambiguity_reconciliation_retry_safety: `FAIL / BLOCKING`
+- provider_response_normalization: `FAIL / BLOCKING`
+- broker_paperbroker_regression_static_compatibility: `PASS / STATIC ONLY`
+- pr_12_merge_recommendation: `BLOCKED / DO NOT MERGE`
+- next_approved_local_demo_connectivity_dry_stage: `BLOCKED / NOT YET`
+- demo_order_authorization: `NOT_AUTHORIZED`
+- real_money_execution: `BLOCKED / NOT_AUTHORIZED`
 - executable_verification: `NOT_RUN`
+- actual_demo_provider_requests: `NOT_SENT`
 - github_compute: `NOT_USED`
+- codex_ticket: `NONE / NOT_APPLICABLE WITHOUT LOCAL REPRODUCTION`
 - gate_a: `BLOCKED / UNCHANGED`
 - gate_b: `BLOCKED / UNCHANGED`
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
-- codex_ticket: `NONE / NOT_APPLICABLE`
-- handoff_path: `status/e7/OKX_CONTRACT_BOUNDARY_DECISION_20260821.md`
-- next_owner: `PM to issue bounded E1/E2/E5/E4/E6 follow-up TASKs`
 
-## Supersession
+## Blocking findings
 
-`E7-20260821-004` supersedes `E7-20260821-003`.
+### `E4-OKX-MATERIALIZATION-INTEGRITY-001`
 
-Repository inspection found no accepted `E7-20260821-003` commit evidence; `agent/e7-entry-contract-vnext-20260821` was not ahead of current main. Prior entry-contract material was input only and is not claimed complete.
+Owner: `E4`
 
-## Canonical contract decision
+`materialize_demo_market_order()` trusts caller-constructible `OKXEntrySizingAudit.provider_requested_contract_quantity` and a separately supplied effective canonical quantity instead of re-establishing the conversion from the exact current metadata/request. A forged audit can therefore decouple body `sz` from the E5-approved BTC exposure bound.
 
-Parent shared schema remains:
+Required correction: recompute/verify sizing at materialization from the exact `OrderRequest` + current validated metadata, or use an integrity-bound/opaque adapter-issued sizing artifact. Add deterministic forged/tampered sizing tests.
 
-```text
-contracts-v0.1
-```
+### `E4-OKX-ACCOUNT-MATRIX-001`
 
-New object-profile identifiers:
+Owner: `E4`
 
-```text
-entry-v0.1
-base-asset-v0.1
-```
+`expected_account_level` and `expected_position_mode` are independently configurable. Validation currently proves only “provider value equals caller configuration,” not that the configured combination is legal/supported for the bounded isolated BTC-USDT-SWAP flow.
 
-This is compatible because the old baseline never defined a conflicting executable `entry_instruction` meaning, legacy objects remain auditable, and missing profile semantics fail closed for the new execution path.
+Required correction: define a reviewed supported account-level/position-mode matrix or narrow V1 to an explicit supported combination; reject unsupported/uncertain combinations before materialization. At minimum Spot mode and other definitely incompatible combinations must not become valid merely through configuration.
 
-No frozen Slice 1 E1/E2/E3 object requires a schema migration.
+### `E4-OKX-RETRY-PROVENANCE-001`
 
-## Entry profile
+Owner: `E4`
 
-`entry-v0.1` supports only:
+`retry_entry()` accepts ordinary caller-constructible `OKXReconciliationEvidence` and checks only fields. There is no adapter-issued one-time token/MAC/internal fresh-query binding or exact materialization fingerprint. Forged evidence can authorize removal of the ambiguous result and a second submit.
 
-```text
-MARKET
-```
+Required correction: bind retry authorization to fresh provider queries and the exact materialization with enforceable adapter-owned provenance; add forged/mutated/replayed evidence and materialization-tamper tests.
 
-Required future E2 executable intent semantics:
+### `E4-OKX-ORDER-ABSENCE-001`
 
-```text
-entry_profile_version = entry-v0.1
-entry_order_type      = MARKET
-```
+Owner: `E4`
 
-Required future E5 plan semantics:
+Default empty `order_not_found_codes` is fail-closed, but arbitrary caller configuration can turn a code such as test fixture `51603` into authoritative absence and unlock retry. This review did not find sufficient current official authority to canonicalize that code for this project.
 
-```text
-entry_instruction.profile_version = entry-v0.1
-entry_instruction.order_type      = MARKET
-```
+Required correction: keep retry structurally disabled until an E7-reviewed/provider-authoritative absence policy exists, or make absence semantics a controlled validated adapter policy that ordinary callers cannot invent. Actual Demo retry remains blocked.
 
-`entry_reference_price` / `reference_price` remain advisory. Legacy `entry_style` is not executable. LIMIT/STOP/trigger/post-only/trailing/exchange-specific profiles remain unsupported.
+### `E4-OKX-ORDER-STATE-CONSISTENCY-001`
 
-## Quantity profile
+Owner: `E4`
 
-For canonical `BTC_USDT_PERP`:
+Known provider states are mapped without enforcing state/fill consistency. Contradictions such as `filled` with `accFillSz < sz`, `partially_filled` with zero fill, or `live` with non-zero fill can be mapped optimistically.
 
-```text
-quantity_profile_version = base-asset-v0.1
-quantity_unit            = BASE_ASSET
-quantity_asset           = BTC
-```
+Required correction: enforce a state/fill consistency table and fail closed to explicit hard failure or `RECONCILIATION_REQUIRED`; add deterministic contradiction tests.
 
-E5 `ApprovedTradePlan.quantity` is the maximum approved new-position BTC exposure.
+## Accepted static boundaries
 
-Shared `OrderRequest.quantity` remains canonical base quantity. OKX contract `sz` is provider-native E4 adapter data.
+### Demo/auth security
 
-## OKX sizing boundary
+Accepted statically:
 
-E4/provider adapter owns current instrument metadata retrieval and validation including at minimum:
+- runtime-injected/redacted credentials;
+- required Demo header on private request materialization;
+- Demo-only environment configuration;
+- bounded private endpoint allowlist;
+- no production/live fallback in this source layer;
+- no withdrawal/funding/sub-account-transfer/account-mode/position-mode/leverage mutation surface;
+- no real credentials or secrets committed in reviewed scope.
 
-- `instId`
-- `instType`
-- `ctVal`
-- `ctMult`
-- `ctValCcy`
-- `ctType`
-- `lotSz`
-- `minSz`
-- `tickSz`
-- `state`
-- metadata observation/reference
+### Freshness hardening
 
-For the V1 direct supported conversion class:
+Accepted E4-local policy:
 
 ```text
-base_per_contract = ctVal * ctMult
-raw_contracts     = approved_base_quantity / base_per_contract
-provider_sz       = floor_to_lot(raw_contracts, lotSz)
-effective_base    = provider_sz * base_per_contract
+policy = okx-instrument-metadata-freshness-v0.2
+general cache/sizing ceiling = 300 seconds
+submit observation age <= 5 seconds
+scheduled sizing-change guard = 60 seconds
 ```
 
-Acceptance requires:
+`upcChg` unknown parameters and already-effective changes fail closed; sizing-relevant `minSz/maxMktSz` changes inside the guard block submit materialization; `tickSz` does not manufacture MARKET price semantics. These durations are E4 safety policy, not provider guarantees and are not shared-contract semantics.
 
-```text
-provider_sz >= minSz
-0 < effective_base <= approved_base_quantity
-```
+### Broker/PaperBroker compatibility
 
-Below minimum -> reject. Unsupported/price-dependent conversion -> reject. Missing/stale/incompatible metadata -> reject.
+PR #12 does not modify the previously accepted broker-neutral `base.py`, `paper.py`, `gateway.py`, or `models.py`. Static compatibility remains PASS; executable regression evidence remains NOT_RUN.
 
-## Audit / reconciliation boundary
+## Provider fact recheck
 
-E4 must preserve canonical and provider-native facts separately:
+Current official OKX API V5 documentation/changelog was rechecked for the assumptions used by this adapter, including the current global REST domain guidance, Demo header, REST authentication/signature material, `clOrdId`, account config/position modes, isolated MARKET request fields, derivative contract sizing, order/position/fill/pending read surfaces, current order-state meanings, and public instrument scheduled-change metadata.
 
-- canonical approved quantity/profile;
-- provider requested contract `sz`;
-- provider actual filled contracts;
-- effective canonical filled base quantity;
-- instrument metadata reference used for translation;
-- provider order/fill IDs;
-- reconciliation state.
+No sufficiently stable current official source was accepted to make test fixture `51603` a canonical order-absence code for retry.
 
-E6 later persists these without conflation or authority inference.
+## Scope / repository integrity
 
-## Security / operational boundary
+PR #12 changed-file scope contains only E4 code/tests/docs/status. No shared-contract edit, E1/E2/E3/E5/E6 production rewrite, workflow/CI addition, real credential, provider asset-movement surface, or unrelated feature expansion was found.
 
-Future real execution requires a dedicated R7 OKX sub-account under separate release authorization.
+The PR branch was observed behind latest main only by current coordination TASK changes; no producer/shared-contract drift was introduced by that delta. This does not override the five E4 source blockers above.
 
-Rules:
+## Test-definition review
 
-- API key/secret/passphrase outside Git;
-- Withdraw forbidden;
-- no withdrawal/funding-transfer/sub-account-capital-movement Broker methods;
-- trusted IP restriction where operationally feasible;
-- account mode/configuration externally configured and runtime-verified/fail-closed;
-- isolated intent does not equal E5 approval;
-- successful Demo does not equal PAPER/SHADOW/LIVE authorization.
+Existing fake-transport tests cover valid signing/Demo header, valid `clOrdId`, isolated MARKET body, valid quantity separation, account/config mismatch, existing exposure/pending-order blocks, ambiguity without blind ordinary resubmit, reconciliation reads, fail-closed default absence handling, response normalization basics, and freshness scheduling.
 
-OKX Demo remains the first provider execution target under a future explicit TASK. No private/Demo API implementation occurred here.
+Required blocker tests are missing for:
 
-## Official OKX references rechecked
+- forged/mutated/replayed reconciliation evidence;
+- exact materialization fingerprint mismatch;
+- forged/tampered sizing audit with oversized provider `sz`;
+- materially changed request/materialization under the same logical identity;
+- invalid supported account-level/position-mode combinations;
+- contradictory provider state/fill combinations.
 
-- `https://www.okx.com/docs-v5/en/`
-- `https://www.okx.com/zh-hant/help/subaccounts-account-mode-and-api-connections-faq`
+No test was executed in GitHub.
 
-Current provider semantics must be reverified again at implementation time.
+## Next action
 
-## Files changed
+`E4` must correct the five blocking findings and push a revised PR #12 source/test/handoff revision. `E7` must statically re-review that revision before merge.
 
-- `contracts/README.md`
-- `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`
-- `docs/adr/ADR-0002-versioned-executable-entry-and-quantity-profiles.md`
-- `docs/adr/ADR-0003-okx-derivative-sizing-and-operational-boundary.md`
-- `status/e7/OKX_CONTRACT_BOUNDARY_DECISION_20260821.md`
-- `tests/integration/EXECUTABLE_ENTRY_PROFILE_TEST_PLAN.md`
-- `tests/safety/OKX_QUANTITY_BOUNDARY_TEST_PLAN.md`
-- `coordination/E7/STATUS.md`
+Do **not** start approved-local Demo connectivity/dry integration yet. After source correction + E7 static PASS, PM/Product Owner may separately decide whether to authorize an approved-local connectivity/dry stage. Actual Demo order submission and retry require separate explicit authorization and prerequisite resolution. Successful Demo behavior would still not advance PAPER/SHADOW/LIVE automatically.
 
-No E1/E2/E3/E4/E5/E6 production implementation file was edited.
-
-## Local-only verification
-
-Result:
-
-```text
-NOT_RUN
-```
-
-No project code, unit test, integration test, safety test, provider API experiment, backtest, Demo request, private request, or broker simulation was executed in this GitHub environment.
-
-Future local test definitions are recorded in the two E7 test-plan files. Exact executable commands must be bound to accepted implementation revisions when those revisions exist.
-
-## Follow-up owners / bounded scopes
-
-### E1
-
-OKX public market adapter only; preserve canonical Candle semantics; no private account/execution; no new Pionex development.
-
-### E2
-
-Implement provider-neutral `entry-v0.1` TradeIntent serialization; MARKET only; advisory reference price remains non-executable.
-
-### E5
-
-Emit profiled ApprovedTradePlan and canonical `base-asset-v0.1` quantity; no OKX metadata/API/contract sizing.
-
-### E4
-
-After producer revisions, implement mechanical profile translation and deterministic local OKX metadata/quantization logic. Private/Demo adapter work requires a separate explicit TASK and official-doc recheck.
-
-### E6
-
-Persist profile identifiers and later canonical/provider audit facts; no automatic lifecycle/release promotion.
-
-## Remaining blockers
-
-- E1 OKX public adapter implementation: `BLOCKED` pending TASK.
-- E2 entry profile implementation: `BLOCKED` pending TASK.
-- E5 plan/quantity profile implementation: `BLOCKED` pending TASK.
-- E4 profile/OKX adapter implementation: `BLOCKED` pending producer revisions + TASK.
-- E6 audit persistence compatibility: `BLOCKED` pending TASK.
-- executable local evidence: `NOT_RUN`.
-- OKX Demo/private execution: `BLOCKED / NOT_AUTHORIZED`.
-- real execution: `BLOCKED / NOT_AUTHORIZED`.
-
-The contract/design boundary itself is resolved statically.
-
-E7 stops here and waits for PM. No E1/E2/E5/E4/E6 follow-up implementation is started automatically.
+E7 stops here and waits for PM. No PR merge, provider request, provider execution, or next-stage implementation was started by E7.

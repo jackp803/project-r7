@@ -1,104 +1,115 @@
 # E7 Current Task
 
-- task_id: `E7-20260821-002`
-- issued_at: `2026-08-21T08:37:00+08:00`
+- task_id: `E7-20260821-003`
+- issued_at: `2026-08-21T09:05:00+08:00`
 - state: `ACTIVE`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, ADR-0001, release gates
+- target_branch: `agent/e7-entry-contract-vnext-20260821`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts/README.md`, `contracts-v0.1`, ADR-0001, release gates
+
+## PM disposition on prior review
+
+The prior E7 finding `E7-E4E5-ENTRY-001` is accepted as a real `CONTRACT MISMATCH`.
+
+The proposed minimum executable entry semantics (`MARKET`, optionally `LIMIT` with explicit executable price/TIF) are directionally accepted for further contract work.
+
+However, the prior draft recommendation to jump directly from the current set-wide `contracts-v0.1` baseline to `contracts-v1.0` is **not yet approved**. Before versioning, E7 must resolve the repository-wide compatibility impact of the current shared `schema_version` convention and include every affected producer/consumer, especially E2 as `TradeIntent` producer and the already-frozen E1/E2/E3 Slice 1 implementations that currently bind to `contracts-v0.1`.
 
 ## Objective
 
-Perform static review of the completed E4 bounded Broker/PaperBroker skeleton and resolve/classify the reported E4 <-> E5 `entry_instruction` translation gap without modifying E4/E5 domain code or silently redefining shared contracts.
+Complete the formal contract-change procedure for executable entry instructions and materialize the **smallest technically safe versioned contract revision** only if repository-wide compatibility and migration semantics are coherent.
 
-E5 and E6 correction findings were already statically accepted in the prior E7 task and are not to be reopened unless this E4 review uncovers a concrete cross-contract regression.
-
-## Review inputs
-
-### E4
-
-- branch: `agent/e4-execution-v2`
-- implementation/handoff revision reported by E4: `53487a93f6f10d89723403b1a2e2426ba1c7e82a`
-- status: `coordination/E4/STATUS.md` on the E4 branch
-- handoff: `docs/execution/E4_TO_E7_HANDOFF.md`
-- executable verification: `NOT_RUN`
-
-### E5 boundary context
-
-- corrected E5 revision: `cb65c951d59f6fd036bd61691d7e96d025e371c8`
-- current E5 `entry_instruction` / `protection_instruction` nesting is explicitly provisional and is not an accepted independent shared contract.
-
-### Existing contract baseline
-
-`contracts-v0.1` requires an `ApprovedTradePlan.entry_instruction` and E4 `OrderRequest.order_type` plus conditional fields, but the current baseline does not explicitly define the inner entry-instruction mapping profile.
+This is a contract/ADR/integration-test-definition task only. Do not modify E2/E4/E5/E6 production implementation.
 
 ## Required actions
 
-1. Statically review the E4 source/test/handoff changes and assign `PASS | FAIL | BLOCKED` for the bounded skeleton, including:
-   - ApprovedTradePlan-only execution authority;
-   - E4 does not invent direction, quantity, leverage, margin mode, protection loosening, or risk approval;
-   - stable idempotency identity;
-   - requested vs filled quantity separation;
-   - partial-fill representation;
-   - explicit fill facts;
-   - overfill/exposure-cap fail closed;
-   - ambiguous acknowledgement -> `UNKNOWN` or `RECONCILIATION_REQUIRED`;
-   - no blind duplicate submit;
-   - query/reconcile-before-retry;
-   - broker/order/fill/exposure truth remains E4-owned;
-   - no private Pionex / SHADOW / LIVE behavior.
-2. Review the E4 test definitions for coverage of the above, but keep executable disposition `NOT_RUN` unless approved local evidence exists.
-3. Review the reported `entry_instruction.style -> OrderRequest` gap and classify it using E7 integration taxonomy, at minimum distinguishing:
-   - `CONTRACT MISMATCH` — canonical producer/consumer semantics are underspecified or incompatible;
-   - `INTEGRATION GLUE GAP` — existing canonical semantics are sufficient and only an adapter is missing.
-4. Perform a producer/consumer impact inventory for any required resolution:
-   - producer: E5 ApprovedTradePlan serialization;
-   - primary consumer: E4 execution translator/gateway;
-   - secondary consumer/audit: E6 Registry/persistence where applicable;
-   - E7 integration tests/evidence.
-5. Do **not** modify `contracts/**` in this task. If a shared semantic clarification/version is required, produce an E7-owned contract-change proposal that states:
-   - exact missing semantics;
-   - proposed minimum fields/enums/conditional rules;
-   - backward/forward compatibility impact;
-   - whether this is additive-compatible or breaking;
-   - proposed contract versioning treatment;
-   - exact E4/E5/E6 follow-up owners/scopes;
-   - required local integration tests.
-6. If the gap is only integration glue and no shared contract change is required, document the exact bounded E4/E5 adapter responsibilities and follow-up scopes without editing their source.
-7. Persist the E7 review/decision artifact and update `coordination/E7/STATUS.md` with:
-   - E4 static disposition;
-   - E4 <-> E5 boundary classification;
-   - contract-change proposal path if applicable;
-   - remaining blockers;
-   - next-owner recommendations.
-8. Keep Gate A/B/C/D unchanged. `STATIC PASS != EXECUTABLE PASS`; `NOT_RUN != PASS`.
-9. Do not create a Codex bug ticket unless a concrete implementation defect has been locally reproduced. A contract/design gap is not a Codex bug.
+1. Work on fresh branch `agent/e7-entry-contract-vnext-20260821` from the latest `main`. Do not reuse or merge old E7 review branches into it.
+2. Treat `docs/architecture/E4_E5_ENTRY_INSTRUCTION_CONTRACT_CHANGE_PROPOSAL.md` from the completed E7 review as input, not as an already-approved versioning decision.
+3. Complete the contract-change procedure from `contracts/README.md`:
+   - request/problem statement;
+   - full producer inventory;
+   - full consumer inventory;
+   - behavioral/persistence/replay/migration/release impact;
+   - compatibility classification;
+   - ADR because executable shared semantics materially change;
+   - versioned contract revision if coherent;
+   - local integration/safety test definitions;
+   - executable verification remains `NOT_RUN` unless Product-Owner-approved local evidence exists.
+4. Expand the impact inventory beyond E4/E5/E6. At minimum review:
+   - E2 as producer of `TradeIntent.entry_style` / future TradeIntent instances;
+   - E5 as producer of `ApprovedTradePlan.entry_instruction`;
+   - E4 as primary execution consumer;
+   - E6 as future audit/persistence consumer;
+   - E1/E2/E3 frozen Slice 1 code where a set-wide schema-version bump could make otherwise unrelated Candle/StrategyDefinition/Signal/BacktestResult consumers incompatible;
+   - E7 integration evidence and release gates.
+5. Explicitly decide the versioning model before changing `contracts/**`:
+   - whether `schema_version` is a set-wide version that forces all shared objects to migrate together;
+   - or whether a narrower object/profile version can be introduced without creating ambiguous parallel contract authority;
+   - whether an additive compatible revision is possible while old `style`-only plans remain valid-but-non-executable;
+   - whether a breaking revision is truly required.
+6. **Do not perform a set-wide major bump merely because the entry sub-profile is currently underspecified.** If a major set-wide bump is selected, document why no smaller safe compatible treatment exists and provide an explicit migration/support plan for every currently implemented `contracts-v0.1` producer/consumer, including the frozen Slice 1 E1/E2/E3 code.
+7. Preserve the following semantic requirements regardless of version treatment:
+   - `ApprovedTradePlan.entry_instruction` must have explicit executable semantics before E4 translation;
+   - initial supported executable order types are deliberately minimal;
+   - `MARKET` may not carry executable limit/stop/TIF fields;
+   - if `LIMIT` is supported, `limit_price` must be explicit, positive finite decimal-string data and `time_in_force` must use an explicit supported enum;
+   - `reference_price` remains audit/advisory context and must never be silently promoted to executable `limit_price`/`stop_price`;
+   - STOP/trigger/post-only/trailing/exchange-specific styles remain unsupported until separately versioned;
+   - unknown/unsupported order types or invalid conditional combinations fail closed;
+   - E4 maps canonical fields mechanically and cannot invent price, quantity, leverage, margin mode, protection loosening, or risk approval.
+8. Decide how upstream `TradeIntent.entry_style` participates. If current E2 has no executable TradeIntent producer yet, record that fact, but still define the producer contract so E5 is not forced to infer executable price semantics later.
+9. If the coherent result is an approved versioned contract revision, materialize it on the E7 branch:
+   - update `contracts/README.md` registry/version/support policy;
+   - add or revise canonical shared-contract documentation without mutating the historical meaning of `contracts-v0.1`;
+   - create/update an ADR describing the entry-instruction semantics and versioning decision;
+   - add E7-owned local-only integration/safety test definitions for E2/E5/E4 boundaries as applicable;
+   - record migration/compatibility rules and exact follow-up scopes for E2/E5/E4/E6.
+10. If no coherent versioning treatment can be established without a broader architecture decision, do **not** modify `contracts/**`; return `BLOCKED` with the exact unresolved decision and alternatives.
+11. Do not enable PAPER/SHADOW/LIVE and do not advance Gate A/B/C/D.
+12. Do not use GitHub Actions/CI/hosted runner/project compute.
 
 ## Acceptance
 
-This task is complete only when Git contains:
+This task is complete only when one of the following is true:
 
-- a static E4 disposition;
-- a precise classification of the `entry_instruction` boundary gap;
-- a bounded resolution proposal or adapter responsibility decision;
-- explicit E4/E5/E6 impact inventory;
-- no domain implementation rewrites;
-- no unapproved shared-contract modification;
-- executable evidence still `NOT_RUN` where appropriate;
-- release gates still blocked.
+### A. Contract revision materialized
+
+- full producer/consumer inventory exists;
+- compatibility/versioning decision is explicit and justified;
+- historical `contracts-v0.1` semantics are not silently rewritten;
+- ADR exists for the material semantic/versioning decision;
+- canonical versioned entry-instruction semantics are materialized;
+- migration/support rules are explicit;
+- E2/E5/E4/E6 follow-up scopes are bounded;
+- integration/safety test definitions exist;
+- executable verification is `NOT_RUN` unless approved local evidence exists;
+- release gates remain blocked.
+
+### B. Contract change remains blocked
+
+- `contracts/**` remains unchanged;
+- the unresolved architectural/versioning decision is precisely documented;
+- alternatives and affected owners are identified;
+- no domain implementation starts against an unapproved semantic profile.
 
 ## Writable scope
 
-- E7-owned integration/status/review artifacts
-- E7-owned contract-change proposal / architecture decision draft paths
+- `contracts/**` only as part of the formal versioned change procedure
+- `docs/adr/**`
+- E7-owned architecture/integration/status/review paths
+- `tests/integration/**`
+- `tests/safety/**` only for E7-owned cross-module contract scenarios
 - `coordination/E7/STATUS.md`
 
 ## Forbidden scope
 
-- editing E4/E5/E6 production implementation;
-- editing `contracts/**` in this task;
-- enabling PAPER/SHADOW/LIVE;
+- E1/E2/E3/E4/E5/E6 production implementation edits;
+- silent mutation of historical `contracts-v0.1` meaning;
+- unversioned executable entry semantics;
+- Pionex/private execution work;
+- PAPER/SHADOW/LIVE enablement;
 - GitHub Actions/CI/runner/project compute;
-- treating static review as executable evidence.
+- treating static evidence or `NOT_RUN` as executable PASS.
 
 ## Completion / status
 
-Persist the review and any proposal, update STATUS, then stop and wait for PM. Do not start the follow-up correction automatically.
+Persist the contract decision/revision or precise blocker, update `coordination/E7/STATUS.md`, and stop. Do not automatically start E2/E4/E5 implementation after the contract task.

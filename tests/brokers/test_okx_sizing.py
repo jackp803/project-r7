@@ -6,9 +6,12 @@ from decimal import Decimal
 from src.brokers.okx_sizing import (
     OKXInstrumentMetadata,
     OKXMetadataValidationError,
+    OKXScheduledInstrumentChange,
     OKXSizingError,
     OKXUnsupportedConversionError,
+    instrument_metadata_from_okx_payload,
     size_okx_market_entry,
+    validate_okx_submit_metadata,
 )
 from src.execution.models import (
     SCHEMA_VERSION,
@@ -149,6 +152,85 @@ class OKXSizingTests(unittest.TestCase):
         )
         self.assertEqual(audit.provider_instrument_id, "BTC-USDT-SWAP")
         self.assertEqual(audit.instrument_metadata_ref, "local-fixture:btc-usdt-swap:001")
+
+    def test_submit_boundary_requires_metadata_observed_within_five_seconds(self):
+        sizing_fresh_but_submit_stale = replace(
+            _metadata(self.now), observed_at=self.now - timedelta(seconds=6)
+        )
+        # General deterministic sizing cache is still inside 300 seconds.
+        size_okx_market_entry(_request(), sizing_fresh_but_submit_stale, now=self.now)
+        with self.assertRaisesRegex(OKXMetadataValidationError, "within 5 seconds"):
+            validate_okx_submit_metadata(sizing_fresh_but_submit_stale, now=self.now)
+
+    def test_sizing_relevant_scheduled_change_inside_guard_blocks_submit(self):
+        metadata = replace(
+            _metadata(self.now),
+            upcoming_changes=(
+                OKXScheduledInstrumentChange(
+                    param="minSz",
+                    new_value="2",
+                    effective_at=self.now + timedelta(seconds=30),
+                ),
+            ),
+        )
+        with self.assertRaisesRegex(OKXMetadataValidationError, "scheduled minSz"):
+            validate_okx_submit_metadata(metadata, now=self.now)
+
+    def test_unknown_scheduled_change_parameter_fails_closed(self):
+        metadata = replace(
+            _metadata(self.now),
+            upcoming_changes=(
+                OKXScheduledInstrumentChange(
+                    param="unknownFutureRule",
+                    new_value="x",
+                    effective_at=self.now + timedelta(hours=1),
+                ),
+            ),
+        )
+        with self.assertRaisesRegex(OKXMetadataValidationError, "unsupported scheduled"):
+            validate_okx_submit_metadata(metadata, now=self.now)
+
+    def test_tick_size_change_does_not_manufacture_market_price(self):
+        metadata = replace(
+            _metadata(self.now),
+            upcoming_changes=(
+                OKXScheduledInstrumentChange(
+                    param="tickSz",
+                    new_value="0.01",
+                    effective_at=self.now + timedelta(seconds=30),
+                ),
+            ),
+        )
+        checked = validate_okx_submit_metadata(metadata, now=self.now)
+        self.assertEqual(checked.upcoming_changes[0].param, "tickSz")
+
+    def test_official_upcchg_shape_is_parsed_into_typed_metadata(self):
+        payload = {
+            "instId": "BTC-USDT-SWAP",
+            "instType": "SWAP",
+            "ctVal": "0.001",
+            "ctMult": "1",
+            "ctValCcy": "BTC",
+            "ctType": "linear",
+            "lotSz": "1",
+            "minSz": "1",
+            "tickSz": "0.1",
+            "state": "live",
+            "upcChg": [
+                {
+                    "param": "minSz",
+                    "newValue": "2",
+                    "effTime": str(int((self.now + timedelta(minutes=5)).timestamp() * 1000)),
+                }
+            ],
+        }
+        parsed = instrument_metadata_from_okx_payload(
+            payload,
+            observed_at=self.now,
+            metadata_ref="fake-public-response:001",
+        )
+        self.assertEqual(parsed.upcoming_changes[0].param, "minSz")
+        self.assertEqual(parsed.upcoming_changes[0].new_value, "2")
 
 
 if __name__ == "__main__":

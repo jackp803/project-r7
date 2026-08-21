@@ -5,7 +5,7 @@ import hashlib
 import hmac
 import json
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from typing import Any, Callable, Mapping, Protocol, Sequence
@@ -14,10 +14,10 @@ from urllib.parse import urlencode
 from src.brokers.okx_sizing import (
     OKXEntrySizingAudit,
     OKXInstrumentMetadata,
-    OKXMetadataValidationError,
     OKX_PROVIDER,
     OKX_INSTRUMENT_ID,
     instrument_metadata_from_okx_payload,
+    size_okx_market_entry,
     validate_okx_submit_metadata,
 )
 from src.execution.gateway import CANONICAL_SYMBOL
@@ -43,10 +43,17 @@ OKX_FILLS_PATH = "/api/v5/trade/fills"
 OKX_ACCOUNT_CONFIG_PATH = "/api/v5/account/config"
 OKX_PUBLIC_INSTRUMENTS_PATH = "/api/v5/public/instruments"
 
+# V1 is deliberately narrower than the provider's total capability surface.
+# Current official OKX V5 guidance explicitly supports isolated SWAP trading in
+# Futures mode (acctLv=2), and Futures mode supports both net and long/short
+# position modes. Isolated is not available in multi-currency/portfolio modes.
+_OKX_V1_SUPPORTED_ACCOUNT_MATRIX = {
+    "2": frozenset({"net_mode", "long_short_mode"}),
+}
+
 _ALLOWED_PRIVATE_PATHS = frozenset(
     {
         OKX_ORDER_PATH,
-        OKX_ORDER_DETAILS_PATH,
         OKX_PENDING_ORDERS_PATH,
         OKX_POSITIONS_PATH,
         OKX_FILLS_PATH,
@@ -81,11 +88,7 @@ class OKXReconciliationError(RuntimeError):
 
 @dataclass(frozen=True, repr=False)
 class OKXCredentials:
-    """Runtime-only private REST credentials.
-
-    repr is deliberately redacted so accidental diagnostic output cannot expose
-    injected credential values. Real credentials must never be persisted in Git.
-    """
+    """Runtime-only private REST credentials; repr deliberately redacts values."""
 
     api_key: str
     secret_key: str
@@ -110,19 +113,21 @@ class OKXDemoAdapterConfig:
     expected_position_mode: str
     environment: str = "demo"
     rest_base_url: str = OKX_DEMO_REST_BASE_URL
-    order_not_found_codes: frozenset[str] = field(default_factory=frozenset)
 
     def __post_init__(self) -> None:
         if self.environment != "demo":
             raise OKXDemoConfigurationError("this bounded adapter rejects production/live mode")
         if self.rest_base_url != OKX_DEMO_REST_BASE_URL:
             raise OKXDemoConfigurationError("only the documented OKX Demo REST base URL is allowed")
-        if self.expected_account_level not in {"1", "2", "3", "4"}:
-            raise OKXDemoConfigurationError("expected_account_level must be an explicit OKX acctLv")
-        if self.expected_position_mode not in {"net_mode", "long_short_mode"}:
-            raise OKXDemoConfigurationError("expected_position_mode must be explicit")
-        if not isinstance(self.order_not_found_codes, frozenset):
-            raise OKXDemoConfigurationError("order_not_found_codes must be a frozenset")
+        supported_modes = _OKX_V1_SUPPORTED_ACCOUNT_MATRIX.get(self.expected_account_level)
+        if supported_modes is None:
+            raise OKXDemoConfigurationError(
+                "V1 isolated BTC-USDT-SWAP adapter supports only acctLv=2 Futures mode"
+            )
+        if self.expected_position_mode not in supported_modes:
+            raise OKXDemoConfigurationError(
+                "configured position mode is not supported by the V1 Futures-mode matrix"
+            )
 
 
 @dataclass(frozen=True, repr=False)
@@ -147,7 +152,7 @@ class PreparedOKXRequest:
 
 
 class OKXTransport(Protocol):
-    """Injected transport seam. No network implementation is provided here."""
+    """Injected transport seam. No concrete network transport is provided."""
 
     def send(self, request: PreparedOKXRequest) -> Mapping[str, Any]:
         ...
@@ -211,11 +216,14 @@ class OKXOrderMaterialization:
 class OKXOrderLookup:
     found: bool
     result: OrderResult | None
-    explicit_absence_code: str | None = None
+    lookup_status: str
+    provider_error_code: str | None = None
 
 
 @dataclass(frozen=True)
 class OKXReconciliationEvidence:
+    """Audit evidence only; never an execution authorization token."""
+
     provider_cl_ord_id: str
     order_lookup: OKXOrderLookup
     positions: tuple[OKXPositionFact, ...]
@@ -295,7 +303,7 @@ def sign_okx_rest_request(
     request_path: str,
     body_text: str = "",
 ) -> str:
-    """Current OKX V5 REST signature: Base64(HMAC-SHA256(prehash))."""
+    """OKX V5 REST signature: Base64(HMAC-SHA256(timestamp+method+path+body))."""
     _require_iso_timestamp(timestamp)
     if not isinstance(secret_key, str) or not secret_key:
         raise OKXDemoConfigurationError("secret_key must be runtime-injected")
@@ -392,7 +400,11 @@ def parse_public_instrument_response(
     metadata_ref: str,
 ) -> OKXInstrumentMetadata:
     data = _require_ok_response(response, "instrument")
-    matches = [item for item in data if isinstance(item, Mapping) and item.get("instId") == OKX_INSTRUMENT_ID]
+    matches = [
+        item
+        for item in data
+        if isinstance(item, Mapping) and item.get("instId") == OKX_INSTRUMENT_ID
+    ]
     if len(matches) != 1:
         raise OKXProtocolError("instrument response must contain exactly one BTC-USDT-SWAP item")
     return instrument_metadata_from_okx_payload(
@@ -475,6 +487,11 @@ def validate_demo_prerequisites(
     *,
     config: OKXDemoAdapterConfig,
 ) -> None:
+    supported_modes = _OKX_V1_SUPPORTED_ACCOUNT_MATRIX.get(snapshot.account.account_level)
+    if supported_modes is None or snapshot.account.position_mode not in supported_modes:
+        raise OKXPrerequisiteError(
+            "provider account level/position mode is unsupported for V1 isolated SWAP entry"
+        )
     if snapshot.account.account_level != config.expected_account_level:
         raise OKXPrerequisiteError("OKX acctLv does not match explicit adapter configuration")
     if snapshot.account.position_mode != config.expected_position_mode:
@@ -498,6 +515,18 @@ def _position_side(side: Side, position_mode: str) -> str:
     raise OKXPrerequisiteError("unsupported position mode")
 
 
+def _require_matching_sizing_evidence(
+    supplied: OKXEntrySizingAudit,
+    recomputed: OKXEntrySizingAudit,
+) -> None:
+    if not isinstance(supplied, OKXEntrySizingAudit):
+        raise OKXProtocolError("sizing evidence must be an OKXEntrySizingAudit")
+    if supplied != recomputed:
+        raise OKXProtocolError(
+            "caller sizing evidence does not exactly match sizing recomputed from current request/metadata"
+        )
+
+
 def materialize_demo_market_order(
     request: OrderRequest,
     sizing: OKXEntrySizingAudit,
@@ -507,6 +536,7 @@ def materialize_demo_market_order(
     config: OKXDemoAdapterConfig,
     now: datetime,
 ) -> OKXOrderMaterialization:
+    """Materialize only after re-establishing sizing from current request + metadata."""
     if config.environment != "demo":
         raise OKXDemoConfigurationError("production/live mode is forbidden")
     validate_demo_prerequisites(prerequisites, config=config)
@@ -514,27 +544,20 @@ def materialize_demo_market_order(
 
     if request.schema_version != SCHEMA_VERSION:
         raise OKXProtocolError("unsupported OrderRequest schema")
-    if request.symbol != CANONICAL_SYMBOL or sizing.canonical_symbol != CANONICAL_SYMBOL:
+    if request.symbol != CANONICAL_SYMBOL:
         raise OKXProtocolError("canonical symbol mismatch")
-    if request.order_type != "MARKET" or sizing.provider_order_type != "market":
+    if request.order_type != "MARKET":
         raise OKXProtocolError("bounded adapter accepts MARKET only")
     if request.limit_price is not None or request.stop_price is not None or request.time_in_force is not None:
         raise OKXProtocolError("MARKET provider request cannot inherit executable price/TIF")
-    if sizing.trade_plan_id != request.trade_plan_id:
-        raise OKXProtocolError("sizing audit does not belong to OrderRequest trade plan")
-    if sizing.canonical_approved_quantity != request.quantity:
-        raise OKXProtocolError("sizing audit canonical approved quantity mismatch")
-    if sizing.provider != OKX_PROVIDER or sizing.provider_instrument_id != OKX_INSTRUMENT_ID:
-        raise OKXProtocolError("sizing audit provider/instrument mismatch")
-    if sizing.instrument_metadata_ref != checked_metadata.metadata_ref:
-        raise OKXProtocolError("sizing audit metadata reference differs from submit metadata")
-    if sizing.instrument_metadata_observed_at != checked_metadata.observed_at:
-        raise OKXProtocolError("sizing audit metadata observation differs from submit metadata")
-    if sizing.provider_side != ("buy" if request.side == Side.BUY else "sell"):
-        raise OKXProtocolError("sizing audit provider side mismatch")
-    if sizing.provider_requested_contract_quantity <= 0:
-        raise OKXProtocolError("provider sz must be positive")
-    if not (Decimal("0") < sizing.effective_canonical_requested_quantity <= request.quantity):
+
+    # Finding E4-OKX-MATERIALIZATION-INTEGRITY-001: caller-supplied audit is
+    # evidence only. Provider sz authority is recomputed here from the exact
+    # canonical OrderRequest and the exact submit-validated metadata snapshot.
+    recomputed = size_okx_market_entry(request, checked_metadata, now=now)
+    _require_matching_sizing_evidence(sizing, recomputed)
+
+    if not (Decimal("0") < recomputed.effective_canonical_requested_quantity <= request.quantity):
         raise OKXProtocolError("provider exposure exceeds or invalidates E5-approved BTC bound")
 
     identity = stable_okx_cl_ord_id(request.client_order_id)
@@ -546,7 +569,7 @@ def materialize_demo_market_order(
         "side": "buy" if request.side == Side.BUY else "sell",
         "posSide": pos_side,
         "ordType": "market",
-        "sz": _format_decimal(sizing.provider_requested_contract_quantity),
+        "sz": _format_decimal(recomputed.provider_requested_contract_quantity),
     }
     return OKXOrderMaterialization(
         order_request_id=request.order_request_id,
@@ -556,8 +579,8 @@ def materialize_demo_market_order(
         provider_instrument_id=OKX_INSTRUMENT_ID,
         provider_side=body["side"],
         provider_position_side=pos_side,
-        provider_contract_quantity=sizing.provider_requested_contract_quantity,
-        effective_canonical_quantity=sizing.effective_canonical_requested_quantity,
+        provider_contract_quantity=recomputed.provider_requested_contract_quantity,
+        effective_canonical_quantity=recomputed.effective_canonical_requested_quantity,
         canonical_approved_quantity=request.quantity,
         instrument_metadata_ref=checked_metadata.metadata_ref,
         instrument_metadata_observed_at=checked_metadata.observed_at,
@@ -606,8 +629,7 @@ def parse_place_order_ack(
         return _reconciliation_required_result(
             materialization, observed_at=observed_at, reason="MALFORMED_ACKNOWLEDGEMENT"
         )
-    cl_ord_id = item.get("clOrdId")
-    if cl_ord_id != materialization.provider_cl_ord_id:
+    if item.get("clOrdId") != materialization.provider_cl_ord_id:
         return _reconciliation_required_result(
             materialization, observed_at=observed_at, reason="ACKNOWLEDGEMENT_ID_MISMATCH"
         )
@@ -643,23 +665,48 @@ def parse_place_order_ack(
     )
 
 
+def _state_fill_consistent(state: str, filled_sz: Decimal, provider_sz: Decimal) -> bool:
+    if state == "live":
+        return filled_sz == 0
+    if state == "partially_filled":
+        return Decimal("0") < filled_sz < provider_sz
+    if state == "filled":
+        return filled_sz == provider_sz
+    if state in {"canceled", "mmp_canceled"}:
+        return Decimal("0") <= filled_sz <= provider_sz
+    return False
+
+
 def parse_order_lookup_response(
     response: Mapping[str, Any],
     materialization: OKXOrderMaterialization,
     *,
     observed_at: datetime,
-    config: OKXDemoAdapterConfig,
+    config: OKXDemoAdapterConfig | None = None,
 ) -> OKXOrderLookup:
+    """Normalize provider order truth without treating error codes as absence authority."""
     if not isinstance(response, Mapping):
         raise OKXReconciliationError("order lookup response is malformed")
     code = response.get("code")
-    if isinstance(code, str) and code in config.order_not_found_codes:
-        return OKXOrderLookup(found=False, result=None, explicit_absence_code=code)
     if code != "0":
-        raise OKXReconciliationError("order lookup did not explicitly prove order presence/absence")
+        return OKXOrderLookup(
+            found=False,
+            result=None,
+            lookup_status="PROVIDER_ERROR_NOT_ABSENCE_PROOF",
+            provider_error_code=code if isinstance(code, str) else None,
+        )
+
     data = response.get("data")
-    if not isinstance(data, Sequence) or isinstance(data, (str, bytes)) or len(data) != 1:
-        raise OKXReconciliationError("order lookup success must contain exactly one order")
+    if not isinstance(data, Sequence) or isinstance(data, (str, bytes)):
+        raise OKXReconciliationError("order lookup success data must be an array")
+    if len(data) == 0:
+        return OKXOrderLookup(
+            found=False,
+            result=None,
+            lookup_status="SUCCESS_EMPTY_NOT_ABSENCE_PROOF",
+        )
+    if len(data) != 1:
+        raise OKXReconciliationError("order lookup success must contain at most one matching order")
     item = data[0]
     if not isinstance(item, Mapping):
         raise OKXReconciliationError("order lookup item is malformed")
@@ -673,13 +720,16 @@ def parse_order_lookup_response(
     state = item.get("state")
     mapped = _PROVIDER_ORDER_STATE_MAP.get(state)
     if mapped is None:
-        result = _reconciliation_required_result(
-            materialization,
-            observed_at=observed_at,
-            broker_order_id=ord_id,
-            reason=f"UNKNOWN_PROVIDER_ORDER_STATE:{state}",
+        return OKXOrderLookup(
+            found=True,
+            result=_reconciliation_required_result(
+                materialization,
+                observed_at=observed_at,
+                broker_order_id=ord_id,
+                reason=f"UNKNOWN_PROVIDER_ORDER_STATE:{state}",
+            ),
+            lookup_status="FOUND_UNKNOWN_STATE",
         )
-        return OKXOrderLookup(found=True, result=result)
 
     provider_sz = _parse_decimal(item.get("sz"), "order.sz")
     filled_sz = _parse_decimal(item.get("accFillSz"), "order.accFillSz", allow_zero=True)
@@ -687,6 +737,18 @@ def parse_order_lookup_response(
         raise OKXReconciliationError("provider order size contradicts materialized sz")
     if filled_sz > provider_sz:
         raise OKXReconciliationError("provider accumulated fill exceeds requested contracts")
+    if not _state_fill_consistent(str(state), filled_sz, provider_sz):
+        return OKXOrderLookup(
+            found=True,
+            result=_reconciliation_required_result(
+                materialization,
+                observed_at=observed_at,
+                broker_order_id=ord_id,
+                reason=f"CONTRADICTORY_PROVIDER_STATE_FILL:{state}:{filled_sz}:{provider_sz}",
+            ),
+            lookup_status="FOUND_CONTRADICTORY_STATE",
+        )
+
     canonical_filled = filled_sz * (
         materialization.effective_canonical_quantity / materialization.provider_contract_quantity
     )
@@ -697,7 +759,7 @@ def parse_order_lookup_response(
     if isinstance(avg_px_raw, str) and avg_px_raw:
         avg_px = _parse_decimal(avg_px_raw, "order.avgPx")
     if canonical_filled > 0 and avg_px is None:
-        raise OKXReconciliationError("filled order is missing average fill price")
+        raise OKXReconciliationError("positive accumulated fill requires average fill price")
 
     return OKXOrderLookup(
         found=True,
@@ -713,6 +775,7 @@ def parse_order_lookup_response(
             filled_quantity=canonical_filled,
             average_fill_price=avg_px,
         ),
+        lookup_status="FOUND_CONSISTENT",
     )
 
 
@@ -743,8 +806,7 @@ def parse_fills_response(
         canonical_quantity = fill_contracts * conversion
         if canonical_quantity <= 0:
             raise OKXProtocolError("normalized canonical fill must be positive")
-        time_value = item.get("fillTime") or item.get("ts")
-        filled_at = _parse_epoch_ms(time_value, "fill time")
+        filled_at = _parse_epoch_ms(item.get("fillTime") or item.get("ts"), "fill time")
         fee = None
         if isinstance(item.get("fee"), str) and item.get("fee"):
             fee = _parse_signed_decimal(item.get("fee"), "fill.fee")
@@ -770,12 +832,7 @@ def parse_fills_response(
 
 
 class OKXDemoAdapter:
-    """Demo-only REST adapter using an injected transport.
-
-    It can build/send Demo requests when invoked in an approved local runtime,
-    but this repository task never executes it. There is no production fallback,
-    no credential persistence, and no asset-movement/account-mutation surface.
-    """
+    """Demo-only REST adapter using an injected transport; provider retry is disabled."""
 
     def __init__(
         self,
@@ -807,15 +864,17 @@ class OKXDemoAdapter:
         return parse_account_config_response(self._private_get(OKX_ACCOUNT_CONFIG_PATH))
 
     def read_positions(self) -> tuple[OKXPositionFact, ...]:
-        response = self._private_get(OKX_POSITIONS_PATH, {"instId": OKX_INSTRUMENT_ID})
-        return parse_positions_response(response)
+        return parse_positions_response(
+            self._private_get(OKX_POSITIONS_PATH, {"instId": OKX_INSTRUMENT_ID})
+        )
 
     def read_pending_orders(self) -> tuple[OKXPendingOrderFact, ...]:
-        response = self._private_get(
-            OKX_PENDING_ORDERS_PATH,
-            {"instId": OKX_INSTRUMENT_ID, "instType": "SWAP"},
+        return parse_pending_orders_response(
+            self._private_get(
+                OKX_PENDING_ORDERS_PATH,
+                {"instId": OKX_INSTRUMENT_ID, "instType": "SWAP"},
+            )
         )
-        return parse_pending_orders_response(response)
 
     def read_prerequisites(self) -> OKXPrerequisiteSnapshot:
         return OKXPrerequisiteSnapshot(
@@ -888,23 +947,24 @@ class OKXDemoAdapter:
         *,
         observed_at: datetime,
     ) -> OKXOrderLookup:
-        response = self._private_get(
-            OKX_ORDER_DETAILS_PATH,
-            {"clOrdId": materialization.provider_cl_ord_id, "instId": OKX_INSTRUMENT_ID},
-        )
         return parse_order_lookup_response(
-            response,
+            self._private_get(
+                OKX_ORDER_DETAILS_PATH,
+                {"clOrdId": materialization.provider_cl_ord_id, "instId": OKX_INSTRUMENT_ID},
+            ),
             materialization,
             observed_at=observed_at,
             config=self._config,
         )
 
     def read_fills(self, materialization: OKXOrderMaterialization) -> tuple[Fill, ...]:
-        response = self._private_get(
-            OKX_FILLS_PATH,
-            {"instId": OKX_INSTRUMENT_ID, "instType": "SWAP"},
+        return parse_fills_response(
+            self._private_get(
+                OKX_FILLS_PATH,
+                {"instId": OKX_INSTRUMENT_ID, "instType": "SWAP"},
+            ),
+            materialization,
         )
-        return parse_fills_response(response, materialization)
 
     def reconcile_ambiguous(
         self,
@@ -925,63 +985,24 @@ class OKXDemoAdapter:
         )
 
         if order_lookup.found:
-            return OKXReconciliationEvidence(
-                provider_cl_ord_id=materialization.provider_cl_ord_id,
-                order_lookup=order_lookup,
-                positions=positions,
-                fills=fills,
-                pending_orders=pending,
-                retry_allowed=False,
-                reason="PROVIDER_ORDER_FOUND_NO_RETRY",
-            )
-        if fills:
-            return OKXReconciliationEvidence(
-                provider_cl_ord_id=materialization.provider_cl_ord_id,
-                order_lookup=order_lookup,
-                positions=positions,
-                fills=fills,
-                pending_orders=pending,
-                retry_allowed=False,
-                reason="PROVIDER_FILL_FOUND_NO_RETRY",
-            )
-        if nonzero_positions:
-            return OKXReconciliationEvidence(
-                provider_cl_ord_id=materialization.provider_cl_ord_id,
-                order_lookup=order_lookup,
-                positions=positions,
-                fills=fills,
-                pending_orders=pending,
-                retry_allowed=False,
-                reason="PROVIDER_EXPOSURE_FOUND_NO_RETRY",
-            )
-        if matching_pending:
-            return OKXReconciliationEvidence(
-                provider_cl_ord_id=materialization.provider_cl_ord_id,
-                order_lookup=order_lookup,
-                positions=positions,
-                fills=fills,
-                pending_orders=pending,
-                retry_allowed=False,
-                reason="PROVIDER_PENDING_ORDER_FOUND_NO_RETRY",
-            )
-        if order_lookup.explicit_absence_code is None:
-            return OKXReconciliationEvidence(
-                provider_cl_ord_id=materialization.provider_cl_ord_id,
-                order_lookup=order_lookup,
-                positions=positions,
-                fills=fills,
-                pending_orders=pending,
-                retry_allowed=False,
-                reason="ORDER_ABSENCE_NOT_EXPLICITLY_PROVEN",
-            )
+            reason = "PROVIDER_ORDER_FOUND_RETRY_DISABLED"
+        elif fills:
+            reason = "PROVIDER_FILL_FOUND_RETRY_DISABLED"
+        elif nonzero_positions:
+            reason = "PROVIDER_EXPOSURE_FOUND_RETRY_DISABLED"
+        elif matching_pending:
+            reason = "PROVIDER_PENDING_ORDER_FOUND_RETRY_DISABLED"
+        else:
+            reason = "ORDER_ABSENCE_NOT_AUTHORITATIVELY_PROVEN_RETRY_DISABLED"
+
         return OKXReconciliationEvidence(
             provider_cl_ord_id=materialization.provider_cl_ord_id,
             order_lookup=order_lookup,
             positions=positions,
             fills=fills,
             pending_orders=pending,
-            retry_allowed=True,
-            reason="EXPLICIT_ORDER_ABSENCE_AND_NO_PROVIDER_EXPOSURE",
+            retry_allowed=False,
+            reason=reason,
         )
 
     def retry_entry(
@@ -991,20 +1012,12 @@ class OKXDemoAdapter:
         *,
         observed_at: datetime,
     ) -> OrderResult:
-        if (
-            not evidence.retry_allowed
-            or evidence.provider_cl_ord_id != materialization.provider_cl_ord_id
-            or evidence.order_lookup.explicit_absence_code is None
-            or evidence.fills
-            or any(item.provider_contract_quantity != 0 for item in evidence.positions)
-            or any(
-                item.client_order_id == materialization.provider_cl_ord_id
-                for item in evidence.pending_orders
-            )
-        ):
-            raise OKXReconciliationError("retry requires matching provider reconciliation evidence")
+        """Provider retry is intentionally unavailable in V1.
 
-        # Invalidate the prior ambiguous result only after the caller supplies the
-        # full evidence produced by reconcile_ambiguous. This is never blind retry.
-        self._submit_results.pop(materialization.provider_cl_ord_id, None)
-        return self.submit_entry(materialization, observed_at=observed_at)
+        Reconciliation evidence is audit data only. No caller-constructible,
+        mutated, replayed, or cross-materialization evidence can authorize a
+        second provider submit until an E7-accepted order-absence policy exists.
+        """
+        raise OKXReconciliationError(
+            "provider retry is structurally disabled until authoritative order-absence semantics are accepted"
+        )

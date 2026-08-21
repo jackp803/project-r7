@@ -213,6 +213,38 @@ class OKXOrderMaterialization:
 
 
 @dataclass(frozen=True)
+class _IssuedOKXPreparation:
+    """Adapter-owned immutable submit authority for one prepared materialization.
+
+    The public materialization remains useful for audit/reconciliation, but it is
+    not execution authority. Submit is authorized only when the exact object
+    instance is present in the issuing adapter's registry and all public facts
+    still match these copied immutable preparation facts.
+    """
+
+    materialization: OKXOrderMaterialization
+    order_request_id: str
+    trade_plan_id: str
+    internal_client_order_id: str
+    provider_cl_ord_id: str
+    provider_instrument_id: str
+    provider_side: str
+    provider_position_side: str
+    provider_order_type: str
+    provider_trade_mode: str
+    provider_contract_quantity: Decimal
+    effective_canonical_quantity: Decimal
+    canonical_approved_quantity: Decimal
+    instrument_metadata_ref: str
+    instrument_metadata_observed_at: datetime
+    metadata_freshness_policy_version: str
+    prepared_at: datetime
+    environment: str
+    account_level: str
+    position_mode: str
+
+
+@dataclass(frozen=True)
 class OKXOrderLookup:
     found: bool
     result: OrderResult | None
@@ -588,6 +620,67 @@ def materialize_demo_market_order(
     )
 
 
+def _materialization_semantic_facts(
+    materialization: OKXOrderMaterialization,
+) -> tuple[object, ...]:
+    return (
+        materialization.order_request_id,
+        materialization.trade_plan_id,
+        materialization.internal_client_order_id,
+        materialization.provider_cl_ord_id,
+        materialization.provider_instrument_id,
+        materialization.provider_side,
+        materialization.provider_position_side,
+        materialization.provider_contract_quantity,
+        materialization.effective_canonical_quantity,
+        materialization.canonical_approved_quantity,
+        materialization.instrument_metadata_ref,
+        materialization.instrument_metadata_observed_at,
+    )
+
+
+def _issued_semantic_facts(issue: _IssuedOKXPreparation) -> tuple[object, ...]:
+    return (
+        issue.order_request_id,
+        issue.trade_plan_id,
+        issue.internal_client_order_id,
+        issue.provider_cl_ord_id,
+        issue.provider_instrument_id,
+        issue.provider_side,
+        issue.provider_position_side,
+        issue.provider_contract_quantity,
+        issue.effective_canonical_quantity,
+        issue.canonical_approved_quantity,
+        issue.instrument_metadata_ref,
+        issue.instrument_metadata_observed_at,
+    )
+
+
+def _issued_preparation_fingerprint(issue: _IssuedOKXPreparation) -> tuple[object, ...]:
+    return (
+        *_issued_semantic_facts(issue),
+        issue.provider_order_type,
+        issue.provider_trade_mode,
+        issue.metadata_freshness_policy_version,
+        issue.prepared_at,
+        issue.environment,
+        issue.account_level,
+        issue.position_mode,
+    )
+
+
+def _trusted_provider_body(issue: _IssuedOKXPreparation) -> dict[str, str]:
+    return {
+        "instId": issue.provider_instrument_id,
+        "tdMode": issue.provider_trade_mode,
+        "clOrdId": issue.provider_cl_ord_id,
+        "side": issue.provider_side,
+        "posSide": issue.provider_position_side,
+        "ordType": issue.provider_order_type,
+        "sz": _format_decimal(issue.provider_contract_quantity),
+    }
+
+
 def _reconciliation_required_result(
     materialization: OKXOrderMaterialization,
     *,
@@ -849,6 +942,8 @@ class OKXDemoAdapter:
         self._transport = transport
         self._timestamp_provider = timestamp_provider
         self._submit_results: dict[str, OrderResult] = {}
+        self._issued_preparations: dict[int, _IssuedOKXPreparation] = {}
+        self._issued_fingerprints_by_cl_ord_id: dict[str, tuple[object, ...]] = {}
 
     def _private_get(self, path: str, query: Mapping[str, str] | None = None) -> Mapping[str, Any]:
         prepared = prepare_demo_private_request(
@@ -894,6 +989,92 @@ class OKXDemoAdapter:
             response, observed_at=observed_at, metadata_ref=metadata_ref
         )
 
+    def _register_issued_preparation(
+        self,
+        materialization: OKXOrderMaterialization,
+        *,
+        metadata: OKXInstrumentMetadata,
+        prerequisites: OKXPrerequisiteSnapshot,
+        prepared_at: datetime,
+    ) -> None:
+        issue = _IssuedOKXPreparation(
+            materialization=materialization,
+            order_request_id=materialization.order_request_id,
+            trade_plan_id=materialization.trade_plan_id,
+            internal_client_order_id=materialization.internal_client_order_id,
+            provider_cl_ord_id=materialization.provider_cl_ord_id,
+            provider_instrument_id=materialization.provider_instrument_id,
+            provider_side=materialization.provider_side,
+            provider_position_side=materialization.provider_position_side,
+            provider_order_type="market",
+            provider_trade_mode=OKX_TRADE_MODE,
+            provider_contract_quantity=materialization.provider_contract_quantity,
+            effective_canonical_quantity=materialization.effective_canonical_quantity,
+            canonical_approved_quantity=materialization.canonical_approved_quantity,
+            instrument_metadata_ref=materialization.instrument_metadata_ref,
+            instrument_metadata_observed_at=materialization.instrument_metadata_observed_at,
+            metadata_freshness_policy_version=metadata.freshness_policy_version,
+            prepared_at=prepared_at,
+            environment=self._config.environment,
+            account_level=prerequisites.account.account_level,
+            position_mode=prerequisites.account.position_mode,
+        )
+        fingerprint = _issued_preparation_fingerprint(issue)
+        prior = self._issued_fingerprints_by_cl_ord_id.get(issue.provider_cl_ord_id)
+        if prior is not None and prior != fingerprint:
+            raise OKXProtocolError(
+                "provider clOrdId already has a materially different adapter-issued preparation"
+            )
+        self._issued_preparations[id(materialization)] = issue
+        self._issued_fingerprints_by_cl_ord_id[issue.provider_cl_ord_id] = fingerprint
+
+    def _authorize_submit(
+        self,
+        materialization: OKXOrderMaterialization,
+    ) -> tuple[_IssuedOKXPreparation, dict[str, str]]:
+        issue = self._issued_preparations.get(id(materialization))
+        if issue is None or issue.materialization is not materialization:
+            raise OKXProtocolError(
+                "submit requires the exact OKXOrderMaterialization instance issued by this adapter"
+            )
+        if _materialization_semantic_facts(materialization) != _issued_semantic_facts(issue):
+            raise OKXProtocolError("issued materialization semantic facts changed after preparation")
+        if issue.environment != "demo" or self._config.environment != issue.environment:
+            raise OKXProtocolError("issued preparation Demo environment no longer matches adapter")
+        if (
+            issue.account_level != self._config.expected_account_level
+            or issue.position_mode != self._config.expected_position_mode
+        ):
+            raise OKXProtocolError("issued account/position preparation context no longer matches adapter")
+        if issue.provider_instrument_id != OKX_INSTRUMENT_ID:
+            raise OKXProtocolError("issued provider instrument is not the bounded BTC-USDT-SWAP target")
+        if issue.provider_order_type != "market" or issue.provider_trade_mode != OKX_TRADE_MODE:
+            raise OKXProtocolError("issued provider order type/trade mode is outside bounded policy")
+        expected_cl_ord_id = stable_okx_cl_ord_id(issue.internal_client_order_id).provider_cl_ord_id
+        if expected_cl_ord_id != issue.provider_cl_ord_id:
+            raise OKXProtocolError("issued provider clOrdId is not bound to internal client_order_id")
+        if not (
+            Decimal("0")
+            < issue.effective_canonical_quantity
+            <= issue.canonical_approved_quantity
+        ):
+            raise OKXProtocolError("issued provider exposure violates canonical BTC upper bound")
+        if issue.provider_contract_quantity <= 0:
+            raise OKXProtocolError("issued provider contract quantity must remain positive")
+
+        trusted_body = _trusted_provider_body(issue)
+        if not isinstance(materialization.body, Mapping):
+            raise OKXProtocolError("materialization body is no longer a mapping")
+        try:
+            caller_body = dict(materialization.body)
+        except (TypeError, ValueError) as exc:
+            raise OKXProtocolError("materialization body cannot be normalized safely") from exc
+        if caller_body != trusted_body:
+            raise OKXProtocolError(
+                "materialization body differs from adapter-issued trusted preparation facts"
+            )
+        return issue, trusted_body
+
     def prepare_entry(
         self,
         request: OrderRequest,
@@ -903,7 +1084,7 @@ class OKXDemoAdapter:
         *,
         now: datetime,
     ) -> OKXOrderMaterialization:
-        return materialize_demo_market_order(
+        materialization = materialize_demo_market_order(
             request,
             sizing,
             metadata,
@@ -911,6 +1092,13 @@ class OKXDemoAdapter:
             config=self._config,
             now=now,
         )
+        self._register_issued_preparation(
+            materialization,
+            metadata=metadata,
+            prerequisites=prerequisites,
+            prepared_at=now,
+        )
+        return materialization
 
     def submit_entry(
         self,
@@ -918,6 +1106,9 @@ class OKXDemoAdapter:
         *,
         observed_at: datetime,
     ) -> OrderResult:
+        # Provenance/integrity is checked before the idempotency cache so a
+        # caller-constructed clone cannot borrow a prior result or reach transport.
+        _issue, trusted_body = self._authorize_submit(materialization)
         prior = self._submit_results.get(materialization.provider_cl_ord_id)
         if prior is not None:
             return prior
@@ -926,7 +1117,7 @@ class OKXDemoAdapter:
             method="POST",
             path=OKX_ORDER_PATH,
             timestamp=self._timestamp_provider(),
-            body=materialization.body,
+            body=trusted_body,
         )
         try:
             response = self._transport.send(prepared)

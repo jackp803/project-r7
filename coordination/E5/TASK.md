@@ -1,41 +1,39 @@
 # E5 Current Task
 
-- task_id: `E5-20260821-005`
-- issued_at: `2026-08-21T12:41:00+08:00`
+- task_id: `E5-20260821-006`
+- issued_at: `2026-08-21T12:50:00+08:00`
 - state: `HOLD`
-- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002, ADR-0003
+- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002/0003
 
 ## Objective
 
-Freeze the completed profiled ApprovedTradePlan / canonical quantity producer revision while E7 performs static producer/consumer integration review with E2.
+Freeze the E7-accepted `ApprovedTradePlan` entry/quantity producer now integrated into `main` while E4 implements downstream deterministic translation/sizing.
 
-## Frozen evidence
+## Accepted evidence
 
-- branch: `agent/e5-risk-position`
-- implementation revision: `e5f7088301a92deadfd9f6c416ae03b466c38a47`
-- reported branch head after task: `3c8f9fa558cc90ad69fd5e58dcd4f6aa457e8de4`
-- status: `coordination/E5/STATUS.md`
-- handoff: `status/E5_RISK_POSITION_HANDOFF.md`
+- reviewed E5 implementation: `e5f7088301a92deadfd9f6c416ae03b466c38a47`
+- E7 producer-chain disposition: `PASS / STATIC ONLY`
+- integration PR #10: merged
+- merge commit: `3e657ba75e02a96d497a3175c214b5babd5e9cae`
+- `E5-RISK-UNKNOWN-001`: preserved / statically resolved
 - executable verification: `NOT_RUN`
 
 ## Required actions
 
-1. Do not modify the completed profile implementation while E7 reviews it.
-2. Preserve `E5-RISK-UNKNOWN-001` fail-closed guards and `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority.
-3. Preserve `entry-v0.1 / MARKET` plan semantics and `base-asset-v0.1 / BTC` canonical quantity semantics.
-4. Do not add OKX `sz`, instrument metadata, provider quantization, account mode, credentials, or API calls.
-5. Do not add production risk-policy values or PAPER/SHADOW/LIVE authority.
-6. Do not modify shared contracts.
-7. Keep executable evidence `NOT_RUN` until Product Owner-approved local execution.
-8. If acknowledging HOLD, update only `coordination/E5/STATUS.md`.
+1. Do not modify the accepted `entry-v0.1 / MARKET` and `base-asset-v0.1 / BASE_ASSET / BTC` producer semantics while E4 implements downstream sizing.
+2. Preserve E5 risk veto/approval authority and fail-closed state guards.
+3. Do not add OKX `sz`, provider metadata, quantization, API/account/credential logic, or provider-native units to E5.
+4. Do not add production policy values, PAPER/SHADOW/LIVE authority, or broker behavior.
+5. Keep executable evidence `NOT_RUN` until approved local execution.
+6. If acknowledging HOLD, update only `coordination/E5/STATUS.md`.
 
 ## Acceptance
 
-- E5 profile implementation remains frozen for E7 review;
-- no exchange-sizing leakage into E5;
-- no shared-contract change;
-- no GitHub Actions/CI/hosted runner/project compute;
-- no executable PASS or release-gate claim.
+- accepted producer remains unchanged;
+- canonical BTC exposure meaning remains the E5 upper bound;
+- no provider-native sizing leakage;
+- no shared-contract change or GitHub compute;
+- no executable PASS/release-gate claim.
 
 ## Writable scope
 
@@ -43,4 +41,4 @@ Only `coordination/E5/STATUS.md` for HOLD acknowledgement unless PM/E7 replaces 
 
 ## Completion / status
 
-Acknowledge HOLD if needed and wait for E7/PM disposition. Do not start OKX provider sizing or another risk feature automatically.
+Acknowledge HOLD if needed and wait.

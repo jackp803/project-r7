@@ -1,94 +1,80 @@
 # E6 Status
 
-- task_id: `E6-20260820-002`
+- task_id: `E6-20260822-001`
 - agent: `E6`
 - state: `DONE`
 - branch: `agent/e6-platform`
-- head_sha: `4a845ff79ba48abb6122191a2cf8df7d52544475`
-- summary: `Corrected E6-EVIDENCE-CONTRACT-001. Public E6 evidence ingest now requires complete contracts-v0.1 BacktestResult and ValidationDecision shape/type/enum validation before persistence; caller-supplied PASS/LOCAL_EXECUTION metadata cannot bypass the contract gate. Lifecycle remains capped at CANDIDATE and E2 default compatibility remains fail-closed NOT_RUN.`
-- files_changed: `src/registry/contract_validation.py; src/registry/service_base.py; src/registry/service.py; tests/registry/test_evidence_contract_validation.py; status/E6_EARLY_SLICE2_HANDOFF.md; status/E6_STATUS.md; coordination/E6/STATUS.md`
+- head_sha: `207f6f87dd984c9dea5e4360e2f605e2c94b2bcf` (E6 content/status head before this mailbox-only status commit)
+- summary: `Non-destructively resynchronized the statically accepted early Slice 2 Strategy Registry / evidence-ingest / SQLite persistence skeleton with current main. E6-EVIDENCE-CONTRACT-001 behavior is preserved exactly, lifecycle remains capped at CANDIDATE, and no Slice 3 execution-audit or live lifecycle scope was added.`
+- files_changed: `Synchronization merge plus E6-owned registry/storage/tests/docs/status only; this completion step updates coordination/E6/STATUS.md.`
 - contracts_changed: `NONE`
 - local_verification: `NOT_RUN`
-- not_run: `No Product Owner-approved local execution environment was available. Unit, registry, storage, migration, restart, integration, and backtest execution were not run. Exact commands are recorded in the E6 handoff.`
-- blockers: `NONE for static/source completion. Executable acceptance remains pending approved local execution and E7 re-review; NOT_RUN is not PASS.`
+- not_run: `No Product Owner-approved local execution environment was available. No project tests, migrations, backtests, GitHub Actions, CI, hosted runners, or GitHub-triggered project compute were executed.`
+- blockers: `NONE for synchronization/static preservation. Fresh E7 exact-revision review remains the next gate; NOT_RUN is not PASS.`
 - handoff_path: `status/E6_EARLY_SLICE2_HANDOFF.md`
-- next_owner: `E7`
+- next_owner: `E7 / PM`
 
-## Task completion
+## Synchronization evidence
 
-E6 executed only authoritative task `E6-20260820-002`.
-
-Corrected finding:
-
-```text
-E6-EVIDENCE-CONTRACT-001
-```
-
-The E6 ingest boundary now fails closed before persistence when a `BacktestResult` or `ValidationDecision` is incomplete or incompatible with the canonical `contracts-v0.1` shape.
-
-## Branch synchronization
-
-Required pre-correction synchronization completed without history rewrite:
-
-- E6 pre-sync HEAD: `13c67d4fa91e1cf4cc3b5a394c7ce88de0902321`
-- synchronized main revision: `4c531adc575ddd43f095ab8eabba3cae62ecc7b2`
-- merge commit: `6f15f8190a597cdf25284f00eb7b84b3c34f73a0`
+- accepted E6 baseline: `4a845ff79ba48abb6122191a2cf8df7d52544475`
+- latest main merged for this task: `bac41e860b5582f7a87d8992c803ce081dafcb35`
+- non-destructive synchronization merge: `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
+- synchronized source/tests/docs revision: `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
+- refreshed handoff commit: `84ef3209bd1ca2f8d4f5e4ed1ac923e5b46c8686`
+- refreshed E6 platform status commit: `207f6f87dd984c9dea5e4360e2f605e2c94b2bcf`
 - force push: `NO`
-- rebase/history rewrite: `NO`
-- static compare after correction: synchronized main was merge-base and `behind_by=0`
+- destructive rebase/history rewrite: `NO`
 
-## Evidence contract correction
+Static compare after synchronization showed current main as merge-base and `behind_by=0` before the E6-only status refresh commits.
 
-`BacktestResult` now requires all canonical identity/reproducibility fields and all core metrics before E6 evidence persistence. Checks cover schema, identity strings, exact registered strategy binding, RFC 3339 UTC timestamps, non-negative count types, decimal-string financial interchange values, and dataset boundary ordering.
+## Accepted correction preserved
 
-`ValidationDecision` now requires all canonical fields, exact `PASS | FAIL | BLOCKED | NOT_RUN` decision enum, reason-code sequence shape, UTC timestamp, exact strategy identity, and exact stored BacktestResult parent binding.
+`E6-EVIDENCE-CONTRACT-001 / STATICALLY RESOLVED` remains unchanged:
 
-Caller metadata such as:
+- incomplete/incompatible `BacktestResult` fails before persistence;
+- incomplete/incompatible `ValidationDecision` fails before persistence;
+- exact strategy/version/content-hash/BacktestResult-parent bindings remain required;
+- invalid required enum/type/state fails closed;
+- caller-supplied `PASS` / `LOCAL_EXECUTION` metadata cannot bypass canonical evidence validation;
+- a BacktestResult alone cannot authorize `CANDIDATE` without valid E3 ValidationDecision evidence.
 
-```text
-verification_status = PASS
-verification_kind   = LOCAL_EXECUTION
-```
+Accepted key implementation blobs remain unchanged:
 
-is validated separately and can never make an incomplete/non-canonical payload admissible.
+- `src/registry/contract_validation.py`: `954d21c021c0885554ee650acced17610d958a0e`
+- `src/registry/service.py`: `3184452956e1540be44d5ea779be87ed573fbcae`
+- `src/registry/service_base.py`: `3889ac156358f58c5fc3380865ad73844b874c3c`
 
-E6 did not implement or duplicate E3 statistical methodology.
+E6 does not duplicate E3 statistical methodology.
 
-## Lifecycle / authority boundary
+## Scope preservation
 
-Unchanged executable subset:
+Lifecycle remains only:
 
 ```text
 DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
 ```
 
-No PAPER, READY_FOR_APPROVAL, APPROVED, LIVE, SHADOW, DEGRADED, operational-mode promotion, or generic client-controlled transition path was added.
+Not added:
 
-The default E2 compatibility boundary remains `NOT_RUN`; no real E2 adapter was wired.
+- PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE;
+- generic lifecycle transition authority;
+- ApprovedTradePlan / OrderRequest / OrderResult / Fill persistence;
+- OKX/provider-native quantity or `sz` reinterpretation;
+- reconciliation or Demo execution persistence;
+- dashboard expansion;
+- broker/private API access or credentials.
 
-## Test definitions
+Branch delta scope remains E6-owned registry/storage/tests/docs/status only. No shared contracts or E1/E2/E3/E4/E5/E7 production code were modified.
 
-New deterministic local-only definitions prove:
+## Executable verification
 
-- each required BacktestResult identity/reproducibility field cannot be omitted;
-- each required BacktestResult core metric cannot be omitted;
-- fake local PASS metadata does not bypass missing-field validation;
-- financial interchange float values are rejected;
-- non-UTC evidence timestamps are rejected;
-- each required ValidationDecision field cannot be omitted;
-- non-canonical decision enum/reason-code shapes are rejected;
-- BacktestResult shape alone cannot be used as candidate evidence without a valid ValidationDecision;
-- public lifecycle surface remains capped at CANDIDATE.
-
-## Verification
-
-Executable verification remains:
+Result:
 
 ```text
 NOT_RUN
 ```
 
-Exact commands from repository root:
+Exact local commands, only in a Product Owner-approved local environment:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -96,17 +82,8 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-Correction-focused command:
+No executable PASS is claimed.
 
-```powershell
-$env:PYTHONPATH = (Join-Path (Get-Location) "src")
-python -m unittest discover -s tests/registry -p "test_evidence_contract_validation.py" -v
-```
+## Stop condition
 
-No GitHub Actions, CI, hosted runner, GitHub-triggered runner, scheduled GitHub compute, or project executable workload was used.
-
-## Handoff / stop condition
-
-E7 should re-review `agent/e6-platform` for `E6-EVIDENCE-CONTRACT-001` static/source acceptance.
-
-E6 stops here and waits for a replacement `coordination/E6/TASK.md`. It does not start the next feature automatically.
+Task `E6-20260822-001` is complete. E6 stops and waits for PM/E7 fresh exact-revision review. No PR is opened or merged and no next E6 feature is started automatically.

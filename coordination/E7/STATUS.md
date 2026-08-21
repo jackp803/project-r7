@@ -1,226 +1,141 @@
 # E7 Status
 
-- task_id: `E7-20260821-004`
+- task_id: `E7-20260821-006`
 - agent: `E7`
-- state: `DONE_PENDING_PM`
-- branch: `agent/e7-okx-contract-boundary-20260821`
-- head_sha: `BRANCH_HEAD_CONTAINS_THIS_STATUS`
-- summary: `Resolved the provider-neutral executable entry profile and OKX derivative sizing/quantization/account-security boundaries through the formal contract-change procedure. Parent schema remains contracts-v0.1; compatible object profiles entry-v0.1 and base-asset-v0.1 are canonical for new execution construction. No E1-E6 production code or private/Demo execution was implemented.`
-- entry_versioning_disposition: `PASS / ADDITIVE_COMPATIBLE_OBJECT_PROFILE / NO_SET_WIDE_MAJOR_BUMP`
-- canonical_parent_schema: `contracts-v0.1`
-- entry_profile: `entry-v0.1 / MARKET_ONLY`
-- quantity_profile: `base-asset-v0.1 / BASE_ASSET`
-- canonical_btc_perp_quantity_unit: `BTC base-asset exposure bound`
-- okx_provider_mapping: `BTC_USDT_PERP -> BTC-USDT-SWAP inside provider adapter only`
-- okx_sz_semantics: `provider contract units; E4 adapter-owned; never substituted for shared canonical quantity`
-- quantization_rule: `ROUND_DOWN_TO_VALID_LOT_OR_REJECT; NEVER_ROUND_UP_ABOVE_E5_BOUND`
-- okx_account_boundary: `future dedicated R7 sub-account; external account-mode/config prerequisite; isolated intent; Demo first; real execution not authorized`
-- withdraw_permission: `FORBIDDEN`
-- broker_asset_movement_capability: `FORBIDDEN`
-- contracts_changed: `YES — contracts/README.md governance registry + new compatible contracts/EXECUTION_OBJECT_PROFILES_V0_1.md; historical contracts/SHARED_CONTRACTS_V1.md intentionally unchanged`
+- state: `COMPLETED`
+- branch: `agent/e7-e2-e5-profile-review-20260821`
+- summary: `Static producer-chain review accepted E2 entry-v0.1 TradeIntent production, E5 entry-v0.1/base-asset-v0.1 ApprovedTradePlan production, and the combined E2->E5 boundary. E4 may receive the next bounded profile/OKX sizing task pinned to the accepted producer revisions; private/Demo API remains excluded.`
+- e2_static_disposition: `PASS / STATIC ONLY`
+- e5_static_disposition: `PASS / STATIC ONLY`
+- e2_to_e5_boundary_disposition: `PASS / STATIC ONLY`
+- e2_reviewed_revision: `f99a8d00cd1fe40e1d73964d8b1cf37bc1886bd4`
+- e5_reviewed_revision: `e5f7088301a92deadfd9f6c416ae03b466c38a47`
+- e5_handoff_revision: `3c8f9fa558cc90ad69fd5e58dcd4f6aa457e8de4`
+- e4_next_bounded_task_recommendation: `YES`
+- e4_allowed_followup: `mechanical entry-v0.1 MARKET translation; canonical BTC quantity preservation; deterministic OKX metadata conversion and round-down-or-reject sizing; no private/Demo API`
+- non_blocking_note: `E2-SIGNAL-SHAPE-HARDEN-001 — build_trade_intent does not independently require Signal.strategy_content_hash/reason_codes, but accepted StrategyRuntime always emits both; current runtime->TradeIntent chain remains canonical. Harden before broader external ingestion use.`
+- contracts_changed: `NO`
 - production_domain_code_changed: `NO`
 - executable_verification: `NOT_RUN`
 - github_compute: `NOT_USED`
+- codex_ticket: `NONE / NOT_APPLICABLE`
 - gate_a: `BLOCKED / UNCHANGED`
 - gate_b: `BLOCKED / UNCHANGED`
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
-- codex_ticket: `NONE / NOT_APPLICABLE`
-- handoff_path: `status/e7/OKX_CONTRACT_BOUNDARY_DECISION_20260821.md`
-- next_owner: `PM to issue bounded E1/E2/E5/E4/E6 follow-up TASKs`
+- handoff_path: `status/e7/E2_E5_PROFILE_CHAIN_STATIC_REVIEW_20260821.md`
+- next_owner: `PM`
 
-## Supersession
+## E2 static acceptance
 
-`E7-20260821-004` supersedes `E7-20260821-003`.
-
-Repository inspection found no accepted `E7-20260821-003` commit evidence; `agent/e7-entry-contract-vnext-20260821` was not ahead of current main. Prior entry-contract material was input only and is not claimed complete.
-
-## Canonical contract decision
-
-Parent shared schema remains:
+Accepted exact producer semantics:
 
 ```text
-contracts-v0.1
+TradeIntent.schema_version        = contracts-v0.1
+TradeIntent.entry_profile_version = entry-v0.1
+TradeIntent.entry_order_type      = MARKET
 ```
 
-New object-profile identifiers:
+E2 requires explicit profile opt-in for executable eligibility. Legacy `entry_style` remains non-executable, `entry_reference_price` remains advisory, unsupported entry types fail closed, and provider/risk/quantity authority is rejected from TradeIntent.
 
-```text
-entry-v0.1
-base-asset-v0.1
-```
+The E2 profile implementation commit does not modify `src/strategy/runtime.py`; existing Slice 1 Strategy Runtime/DSL/Signal semantics remain structurally unchanged by this task.
 
-This is compatible because the old baseline never defined a conflicting executable `entry_instruction` meaning, legacy objects remain auditable, and missing profile semantics fail closed for the new execution path.
+## E5 static acceptance
 
-No frozen Slice 1 E1/E2/E3 object requires a schema migration.
+E5 consumes the exact E2 field names/values above and rejects missing/unknown profile or unsupported order type.
 
-## Entry profile
-
-`entry-v0.1` supports only:
-
-```text
-MARKET
-```
-
-Required future E2 executable intent semantics:
-
-```text
-entry_profile_version = entry-v0.1
-entry_order_type      = MARKET
-```
-
-Required future E5 plan semantics:
+A safe APPROVE path produces:
 
 ```text
 entry_instruction.profile_version = entry-v0.1
 entry_instruction.order_type      = MARKET
+quantity_profile_version          = base-asset-v0.1
+quantity_unit                     = BASE_ASSET
+quantity_asset                    = BTC
+quantity                          = E5-approved canonical BTC exposure upper bound
 ```
 
-`entry_reference_price` / `reference_price` remain advisory. Legacy `entry_style` is not executable. LIMIT/STOP/trigger/post-only/trailing/exchange-specific profiles remain unsupported.
+Advisory reference price is not promoted into executable limit/stop/trigger/TIF fields. Provider-native OKX sizing/metadata/API fields remain absent from E5.
 
-## Quantity profile
+Previously accepted `E5-RISK-UNKNOWN-001` fail-closed protections remain present, including unsafe/unknown state and contradictory status/boolean rejection.
 
-For canonical `BTC_USDT_PERP`:
+## Combined E2 -> E5 boundary
+
+Disposition:
 
 ```text
-quantity_profile_version = base-asset-v0.1
-quantity_unit            = BASE_ASSET
-quantity_asset           = BTC
+PASS / STATIC ONLY
 ```
 
-E5 `ApprovedTradePlan.quantity` is the maximum approved new-position BTC exposure.
-
-Shared `OrderRequest.quantity` remains canonical base quantity. OKX contract `sz` is provider-native E4 adapter data.
-
-## OKX sizing boundary
-
-E4/provider adapter owns current instrument metadata retrieval and validation including at minimum:
-
-- `instId`
-- `instType`
-- `ctVal`
-- `ctMult`
-- `ctValCcy`
-- `ctType`
-- `lotSz`
-- `minSz`
-- `tickSz`
-- `state`
-- metadata observation/reference
-
-For the V1 direct supported conversion class:
+There is no profile-field aliasing or translation ambiguity between the reviewed producer revisions. The authority chain remains:
 
 ```text
-base_per_contract = ctVal * ctMult
-raw_contracts     = approved_base_quantity / base_per_contract
-provider_sz       = floor_to_lot(raw_contracts, lotSz)
-effective_base    = provider_sz * base_per_contract
+E2 Signal
+-> E2 TradeIntent
+-> E5 RiskDecision
+-> E5 ApprovedTradePlan
+-> future E4 mechanical/provider translation
 ```
 
-Acceptance requires:
+No E2 object carries approved sizing/leverage/provider authority. E5 owns the risk-approved canonical exposure bound. OKX contract-unit conversion remains downstream E4/provider-adapter responsibility.
 
-```text
-provider_sz >= minSz
-0 < effective_base <= approved_base_quantity
-```
+## Non-blocking hardening note
 
-Below minimum -> reject. Unsupported/price-dependent conversion -> reject. Missing/stale/incompatible metadata -> reject.
+`E2-SIGNAL-SHAPE-HARDEN-001`:
 
-## Audit / reconciliation boundary
+`build_trade_intent()` validates a Signal mapping but does not independently require the parent Signal fields `strategy_content_hash` and `reason_codes`. Current accepted `StrategyRuntime.evaluate()` always emits both fields, so this is not a blocking defect for the reviewed runtime -> TradeIntent chain.
 
-E4 must preserve canonical and provider-native facts separately:
+If `build_trade_intent()` is later exposed as a broader ingestion boundary, E2 should validate the complete canonical Signal envelope.
 
-- canonical approved quantity/profile;
-- provider requested contract `sz`;
-- provider actual filled contracts;
-- effective canonical filled base quantity;
-- instrument metadata reference used for translation;
-- provider order/fill IDs;
-- reconciliation state.
+No Codex ticket is created because no executable defect was locally reproduced.
 
-E6 later persists these without conflation or authority inference.
+## Branch/integration note
 
-## Security / operational boundary
+At review time the E2 and E5 work branches are both diverged from current `main` and behind it by repository coordination/integration commits. Static acceptance binds to the exact reviewed revisions above.
 
-Future real execution requires a dedicated R7 OKX sub-account under separate release authorization.
+A future integration/merge candidate must synchronize normally; any material producer/test changes after the reviewed pins require E7 re-review.
 
-Rules:
+This does not change the source-level producer-chain PASS.
 
-- API key/secret/passphrase outside Git;
-- Withdraw forbidden;
-- no withdrawal/funding-transfer/sub-account-capital-movement Broker methods;
-- trusted IP restriction where operationally feasible;
-- account mode/configuration externally configured and runtime-verified/fail-closed;
-- isolated intent does not equal E5 approval;
-- successful Demo does not equal PAPER/SHADOW/LIVE authorization.
+## E4 recommendation
 
-OKX Demo remains the first provider execution target under a future explicit TASK. No private/Demo API implementation occurred here.
+PM may issue the next bounded E4 task, provided it pins/consumes these E7-accepted producer revisions and remains limited to:
 
-## Official OKX references rechecked
+- `LONG -> BUY`, `SHORT -> SELL`;
+- `entry-v0.1 MARKET -> OrderRequest.order_type=MARKET` mechanically;
+- no executable price/TIF invention;
+- shared OrderRequest canonical quantity preserved in BTC base units;
+- OKX instrument metadata validation and deterministic base-to-contract conversion inside E4/provider adapter only;
+- round down to valid lot or reject;
+- never round up above the E5-approved bound;
+- stale/missing/incompatible metadata blocks new exposure;
+- provider-native requested/filled contract counts remain separate audit facts.
 
-- `https://www.okx.com/docs-v5/en/`
-- `https://www.okx.com/zh-hant/help/subaccounts-account-mode-and-api-connections-faq`
+Still excluded unless separately authorized:
 
-Current provider semantics must be reverified again at implementation time.
+- OKX private API;
+- OKX Demo order submission;
+- credentials;
+- PAPER/SHADOW/LIVE enablement;
+- withdrawal/funding-transfer/sub-account-capital-movement capability.
 
-## Files changed
+## Verification / release
 
-- `contracts/README.md`
-- `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`
-- `docs/adr/ADR-0002-versioned-executable-entry-and-quantity-profiles.md`
-- `docs/adr/ADR-0003-okx-derivative-sizing-and-operational-boundary.md`
-- `status/e7/OKX_CONTRACT_BOUNDARY_DECISION_20260821.md`
-- `tests/integration/EXECUTABLE_ENTRY_PROFILE_TEST_PLAN.md`
-- `tests/safety/OKX_QUANTITY_BOUNDARY_TEST_PLAN.md`
-- `coordination/E7/STATUS.md`
-
-No E1/E2/E3/E4/E5/E6 production implementation file was edited.
-
-## Local-only verification
-
-Result:
+All executable verification remains:
 
 ```text
 NOT_RUN
 ```
 
-No project code, unit test, integration test, safety test, provider API experiment, backtest, Demo request, private request, or broker simulation was executed in this GitHub environment.
+No unit test, integration test, safety test, broker simulation, provider API request, backtest, GitHub Action, CI job, hosted runner, or GitHub project compute was executed for this review.
 
-Future local test definitions are recorded in the two E7 test-plan files. Exact executable commands must be bound to accepted implementation revisions when those revisions exist.
+Release gates remain:
 
-## Follow-up owners / bounded scopes
+```text
+Gate A RESEARCH_READY  BLOCKED
+Gate B PAPER_READY     BLOCKED
+Gate C SHADOW_READY    BLOCKED
+Gate D LIVE_READY      BLOCKED
+```
 
-### E1
-
-OKX public market adapter only; preserve canonical Candle semantics; no private account/execution; no new Pionex development.
-
-### E2
-
-Implement provider-neutral `entry-v0.1` TradeIntent serialization; MARKET only; advisory reference price remains non-executable.
-
-### E5
-
-Emit profiled ApprovedTradePlan and canonical `base-asset-v0.1` quantity; no OKX metadata/API/contract sizing.
-
-### E4
-
-After producer revisions, implement mechanical profile translation and deterministic local OKX metadata/quantization logic. Private/Demo adapter work requires a separate explicit TASK and official-doc recheck.
-
-### E6
-
-Persist profile identifiers and later canonical/provider audit facts; no automatic lifecycle/release promotion.
-
-## Remaining blockers
-
-- E1 OKX public adapter implementation: `BLOCKED` pending TASK.
-- E2 entry profile implementation: `BLOCKED` pending TASK.
-- E5 plan/quantity profile implementation: `BLOCKED` pending TASK.
-- E4 profile/OKX adapter implementation: `BLOCKED` pending producer revisions + TASK.
-- E6 audit persistence compatibility: `BLOCKED` pending TASK.
-- executable local evidence: `NOT_RUN`.
-- OKX Demo/private execution: `BLOCKED / NOT_AUTHORIZED`.
-- real execution: `BLOCKED / NOT_AUTHORIZED`.
-
-The contract/design boundary itself is resolved statically.
-
-E7 stops here and waits for PM. No E1/E2/E5/E4/E6 follow-up implementation is started automatically.
+E7 stops after this task and waits for PM. No E4 implementation is started automatically.

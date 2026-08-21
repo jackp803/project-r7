@@ -1,60 +1,46 @@
 # E4 Current Task
 
-- task_id: `E4-20260822-001`
-- issued_at: `2026-08-22T02:34:00+08:00`
+- task_id: `E4-20260822-002`
+- issued_at: `2026-08-22T02:47:00+08:00`
 - state: `HOLD`
-- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002/0003, `docs/execution/OKX_DEMO_ADAPTER_SCOPE.md`, Product Owner OKX/sub-account decision, E7 targeted re-review `status/e7/E4_OKX_DEMO_TARGETED_REREVIEW_20260821.md`
+- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002/0003, `docs/execution/OKX_DEMO_ADAPTER_SCOPE.md`, Product Owner OKX/sub-account decision, E7 final review `status/e7/E4_OKX_DEMO_FINAL_REREVIEW_20260822.md`
 
 ## Objective
 
-Freeze the final corrected PR #12 Demo-first OKX provider-adapter source while E7 performs exact-revision static/security re-review of `E4-OKX-MATERIALIZATION-INTEGRITY-001` at the provider submit boundary.
+Hold the accepted Demo-first OKX provider-adapter source after PR #12 merge. Do not begin provider connectivity, Demo order execution, retry enablement, or another E4 provider feature until a separate PM/Product Owner task explicitly authorizes the next bounded stage.
 
-## Frozen evidence
+## Accepted evidence
 
-- completed correction task: `E4-20260821-012`
-- branch: `agent/e4-okx-demo-adapter-20260821`
-- source/tests/docs/handoff revision: `99bf09461e32117001ce7e587be44dcc3d152ab2`
-- current PR #12 head after completion status: `25294d72920efab3011eb5060079bf2edca5d056`
-- PR: `#12 execution: add Demo-first OKX provider adapter`
-- branch synchronization: non-destructive merge completed; branch observed `behind_by=0` before this HOLD issuance
+- final E4 implementation/tests/docs/handoff revision: `99bf09461e32117001ce7e587be44dcc3d152ab2`
+- PR #12 head: `25294d72920efab3011eb5060079bf2edca5d056`
+- PR #12 merged to `main`: `572b54f9d454ddf33bb5a2d92f98bba67e852e16`
+- E7 final review: `E7-20260822-001 / PASS STATIC`
+- all five prior E4 findings: `CLOSED / PASS STATIC`
 - executable verification: `NOT_RUN`
 - actual provider requests/orders: `NOT_SENT`
-- provider retry: `STRUCTURALLY DISABLED`
-
-## Claimed final correction pending E7 review
-
-E4 reports that `submit_entry()` now:
-
-- requires the exact adapter-issued `OKXOrderMaterialization` object instance;
-- validates public materialization semantics against adapter-owned immutable preparation facts before idempotency-cache access or transport;
-- re-derives the signed provider request body from trusted issued facts rather than using caller body as execution authority;
-- rejects direct caller construction, cross-adapter substitution, semantic mutation, and post-prepare body tampering;
-- preserves the canonical BTC exposure upper bound and existing Demo/account/freshness constraints.
-
-A new deterministic test file `tests/brokers/test_okx_submit_integrity.py` defines post-prepare tamper, direct-construction, cross-adapter, same-client-material-change, valid-submit, idempotency, and quantity-bound scenarios. These tests remain `NOT_RUN`.
+- provider retry: `STRUCTURALLY DISABLED / NOT AUTHORIZED`
 
 ## Required actions
 
-1. Do not modify PR #12 production/test/docs source while E7 reviews the exact corrected revision.
-2. Preserve the four already closed findings without redesign:
-   - `E4-OKX-ACCOUNT-MATRIX-001`;
-   - `E4-OKX-RETRY-PROVENANCE-001`;
-   - `E4-OKX-ORDER-ABSENCE-001`;
-   - `E4-OKX-ORDER-STATE-CONSISTENCY-001`.
-3. Preserve Demo-only mode/header, runtime-only credentials, endpoint allowlist, `acctLv=2`, `net_mode | long_short_mode`, `tdMode=isolated`, MARKET-only path, freshness policy, canonical/provider quantity separation, disabled retry, and no asset/account-mutation surface.
-4. Do not add concrete networking, real credentials, actual Demo/provider requests, production/live mode, provider retry, account/position/leverage mutation, or asset movement.
+1. Do not modify the merged Demo adapter source during this HOLD.
+2. Preserve Demo-only mode, mandatory `x-simulated-trading: 1`, runtime-only/redacted credentials, bounded endpoint allowlist, MARKET-only isolated path, V1 account matrix, canonical/provider quantity separation, freshness hardening, submit-integrity provenance, fail-closed response normalization, and disabled retry.
+3. Do not add concrete networking, real credentials, production/live fallback, automatic account/position/leverage mutation, or asset movement.
+4. Do not send Demo/provider requests or orders.
 5. Do not modify shared contracts or other-agent production code.
 6. Keep executable verification `NOT_RUN` until a Product Owner-approved local environment is separately authorized.
 7. If acknowledging HOLD, update only `coordination/E4/STATUS.md`.
 
 ## Acceptance
 
-PR #12 remains frozen and unmerged while E7 performs final static re-review. No provider execution or release-gate advancement is authorized.
+- merged E4 source remains frozen;
+- no provider execution or release-gate advancement;
+- no GitHub Actions/CI/hosted runner/project compute;
+- executable evidence remains `NOT_RUN`.
 
 ## Writable scope
 
-Only `coordination/E4/STATUS.md` for HOLD acknowledgement unless PM/E7 replaces this task.
+Only `coordination/E4/STATUS.md` for HOLD acknowledgement unless PM replaces this task.
 
 ## Completion / status
 
-Wait for E7 disposition. Do not merge PR #12, begin local Demo connectivity, enable retry, or start another provider feature automatically.
+Wait for a separate PM/Product Owner decision on approved-local connectivity/read-only dry integration. Do not start it automatically.

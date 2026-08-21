@@ -26,10 +26,13 @@ def _request(quantity: str = "1.0") -> OrderRequest:
         order_request_id=stable_order_request_id(client_order_id),
         trade_plan_id="plan-001",
         client_order_id=client_order_id,
-        symbol="BTCUSDT",
+        symbol="BTC_USDT_PERP",
         side=Side.BUY,
-        order_type="TEST_ORDER",
+        order_type="MARKET",
         quantity=Decimal(quantity),
+        quantity_profile_version="base-asset-v0.1",
+        quantity_unit="BASE_ASSET",
+        quantity_asset="BTC",
         created_at=datetime(2026, 8, 21, 0, 0, tzinfo=timezone.utc),
     )
 

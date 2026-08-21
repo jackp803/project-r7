@@ -1,18 +1,18 @@
 # E4 OKX Local Sizing / Metadata Policy
 
-Status: bounded static/source implementation for `E4-20260821-006`.
+Status: bounded static/source implementation extended by `E4-20260821-008`.
 
-This document defines only provider metadata validation and deterministic sizing for the configured mapping:
+Configured mapping:
 
 ```text
 BTC_USDT_PERP -> OKX BTC-USDT-SWAP
 ```
 
-It does **not** authorize or implement OKX networking, Demo/private API calls, authentication, signatures, account queries, leverage changes, or order submission.
+This document defines provider metadata validation, deterministic contract sizing, and the stricter metadata checks required immediately before Demo request materialization. It does not authorize real-money trading or GitHub execution.
 
 ## Canonical boundary
 
-The accepted shared profiles are:
+Accepted profiles remain:
 
 ```text
 schema_version           = contracts-v0.1
@@ -23,61 +23,68 @@ quantity unit            = BASE_ASSET
 quantity asset           = BTC
 ```
 
-`ApprovedTradePlan.quantity` and shared `OrderRequest.quantity` remain canonical BTC exposure upper bounds. OKX provider contract quantity (`sz`) is a separate adapter fact and must never be copied into those shared fields.
+`ApprovedTradePlan.quantity` and shared `OrderRequest.quantity` remain canonical BTC upper bounds. OKX `sz` is provider contract quantity and is retained separately.
 
 ## Official OKX V5 references rechecked
 
-Rechecked on 2026-08-21 against the current official OKX V5 documentation:
+Rechecked on 2026-08-21 against current official OKX V5 documentation:
 
 - `https://www.okx.com/docs-v5/en/`
 - Public Data / `GET /api/v5/public/instruments`
-- Order Book Trading / Trade / `POST /api/v5/trade/order`
+- Order Book Trading / `POST /api/v5/trade/order`
 
-Provider facts relied on by this bounded implementation:
+Facts used:
 
-- OKX instrument metadata exposes `instType`, `ctVal`, `ctMult`, `ctValCcy`, `ctType`, `lotSz`, `minSz`, `tickSz`, and `state`.
-- For derivatives, `lotSz` and `minSz` are expressed in number of contracts.
-- For `FUTURES/SWAP/OPTION`, order `sz` is the number of contracts rather than canonical BTC quantity.
-- `market` is an OKX order type applicable to `SWAP`.
-- Normal new MARKET exposure requires a compatible tradable state; `post_only` is not compatible with MARKET, and suspended/rebase states are not accepted by this implementation.
-- OKX `clOrdId` has provider-specific constraints. This task does not implement provider request construction or map the existing internal `client_order_id` into an OKX `clOrdId`; that remains a later provider-adapter concern.
+- instrument metadata exposes `instType`, `ctVal`, `ctMult`, `ctValCcy`, `ctType`, `lotSz`, `minSz`, `tickSz`, `state`, and `upcChg`;
+- `upcChg` is an array of upcoming changes carrying `param`, `newValue`, and millisecond `effTime`;
+- current documented `upcChg.param` values include `tickSz`, `minSz`, and `maxMktSz`;
+- derivative `sz`, `lotSz`, and `minSz` are contract counts;
+- MARKET is supported for SWAP;
+- `state=live` is the accepted normal tradable state for this bounded path.
 
-The base-quantity conversion formula is governed by E7's accepted `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md` and ADR-0003. This implementation does not invent a different conversion from provider examples.
-
-## E4 metadata freshness policy
+## Freshness policy v0.2
 
 Version:
 
 ```text
-okx-instrument-metadata-freshness-v0.1
+okx-instrument-metadata-freshness-v0.2
 ```
 
-Maximum age for new-exposure sizing:
+Two different freshness boundaries are intentionally distinguished.
+
+### General sizing/cache validation
 
 ```text
-300 seconds
+max age = 300 seconds
 ```
 
-The policy is intentionally fail-closed. New exposure is blocked when metadata is missing, older than 300 seconds, future-dated, malformed, provider/instrument mismatched, non-tradable, or uses an unsupported freshness-policy version.
+This is only a cache/sizing validation ceiling. It is **not** a provider stability guarantee and does not authorize order materialization.
 
-Every sizing audit retains:
+### Submit preparation validation
 
-- provider and provider instrument identity;
-- canonical symbol;
-- metadata observation timestamp;
-- metadata reference;
-- freshness-policy version;
-- canonical approved BTC quantity;
-- provider requested contract quantity;
-- effective canonical BTC quantity after provider round-down.
+At Demo order materialization time:
 
-## Supported conversion class
+```text
+metadata observation age <= 5 seconds
+```
 
-V1 supports only the E7-approved direct class:
+The submit path therefore requires a provider observation at or immediately before materialization.
+
+Scheduled changes are inspected:
+
+- unknown `upcChg.param` -> fail closed;
+- an `effTime` already reached while still present in the snapshot -> fail closed;
+- `minSz` or `maxMktSz` becoming effective inside the next 60 seconds -> fail closed;
+- `tickSz` is retained/audited but does not manufacture a MARKET price, so it does not by itself block the MARKET path under the current profile.
+
+The 60-second guard is an E4 safety margin, not a provider guarantee. If official semantics later broaden `upcChg` or another scheduled change affects sizing/exposure, the adapter must fail closed until reviewed.
+
+## Supported conversion
+
+Only the E7-approved direct class is supported:
 
 ```text
 provider       = OKX
-canonical      = BTC_USDT_PERP
 instrument     = BTC-USDT-SWAP
 instType       = SWAP
 ctType         = linear
@@ -85,9 +92,7 @@ ctValCcy       = BTC
 state          = live
 ```
 
-All of `ctVal`, `ctMult`, `lotSz`, `minSz`, and `tickSz` must be positive finite decimal values. `minSz` must be an exact `lotSz` multiple.
-
-The deterministic conversion is:
+Formula:
 
 ```text
 base_per_contract = ctVal * ctMult
@@ -96,53 +101,21 @@ provider_sz       = floor(raw_contracts / lotSz) * lotSz
 effective_base    = provider_sz * base_per_contract
 ```
 
-Acceptance requires:
+Required invariants:
 
 ```text
 provider_sz > 0
 provider_sz >= minSz
-provider_sz is a valid lotSz multiple
-0 < effective_base <= canonical approved BTC quantity
+provider_sz is a lotSz multiple
+0 < effective_base <= E5-approved canonical BTC
 ```
 
-Quantization may only round down or reject. It never rounds up to satisfy `minSz`, and it never creates a compensating order for the residual quantity.
-
-## Unsupported conversion
-
-The bounded V1 sizing path rejects:
-
-- non-`linear` contract type;
-- `ctValCcy` other than canonical `BTC`;
-- any price-dependent conversion;
-- provider/instrument mappings other than the configured BTC mapping;
-- unknown contract semantics.
-
-A future conversion class requires separate E7 review/versioning.
+Round-down or reject only. Never round up and never submit a compensating order for residual quantity.
 
 ## MARKET / price boundary
 
-`entry-v0.1` is MARKET-only. `reference_price` is advisory/audit context only.
-
-Therefore E4 does not produce from `reference_price`:
-
-- `limit_price`;
-- `stop_price`;
-- `trigger_price`;
-- `time_in_force`;
-- tick-rounded executable price.
-
-`tickSz` is retained and validated as instrument metadata only in this task.
+`reference_price` remains advisory. No `limit_price`, `stop_price`, `trigger_price`, TIF, or tick-rounded executable price is generated from it.
 
 ## Security / operational boundary
 
-No capability in this implementation performs:
-
-- withdrawal;
-- funding transfer;
-- sub-account capital movement;
-- private API authentication;
-- account-mode mutation;
-- leverage-setting calls;
-- Demo or real order submission.
-
-PAPER/SHADOW/LIVE remain unauthorized by this policy.
+The Demo adapter may consume this sizing result but cannot reinterpret the quantity. This module exposes no withdrawal, deposit, transfer, account-mode mutation, leverage mutation, production trading, or live enablement capability.

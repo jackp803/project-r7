@@ -3,7 +3,10 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 from src.brokers.okx_demo import (
+    OKXAccountConfigSnapshot,
     OKXDemoAdapterConfig,
+    OKXPrerequisiteSnapshot,
+    OKXReconciliationError,
     materialize_demo_market_order,
     parse_order_lookup_response,
 )
@@ -16,10 +19,9 @@ from src.execution.models import (
     stable_client_order_id,
     stable_order_request_id,
 )
-from src.brokers.okx_demo import OKXAccountConfigSnapshot, OKXPrerequisiteSnapshot
 
 
-NOW = datetime(2026, 8, 21, 5, 0, tzinfo=timezone.utc)
+NOW = datetime(2026, 8, 21, 7, 30, tzinfo=timezone.utc)
 
 
 def _materialized():
@@ -53,11 +55,10 @@ def _materialized():
         state="live",
         observed_at=NOW,
         metadata_ref="fake-public:status:001",
+        max_mkt_sz=Decimal("1000"),
     )
     sizing = size_okx_market_entry(request, metadata, now=NOW)
-    config = OKXDemoAdapterConfig(
-        expected_account_level="2", expected_position_mode="net_mode"
-    )
+    config = OKXDemoAdapterConfig("2", "net_mode")
     prerequisites = OKXPrerequisiteSnapshot(
         account=OKXAccountConfigSnapshot(
             account_level="2",
@@ -78,7 +79,9 @@ def _materialized():
     ), config
 
 
-def _response(materialized, *, state, filled):
+def _response(materialized, *, state, filled, size="10", avg_px=None):
+    if avg_px is None:
+        avg_px = "100000" if Decimal(filled) > 0 else ""
     return {
         "code": "0",
         "data": [
@@ -87,36 +90,94 @@ def _response(materialized, *, state, filled):
                 "clOrdId": materialized.provider_cl_ord_id,
                 "ordId": "fake-provider-order",
                 "state": state,
-                "sz": "10",
+                "sz": size,
                 "accFillSz": filled,
-                "avgPx": "100000" if Decimal(filled) > 0 else "",
+                "avgPx": avg_px,
             }
         ],
     }
 
 
 class OKXDemoStatusMappingTests(unittest.TestCase):
-    def test_filled_maps_to_canonical_filled_quantity(self):
+    def test_consistent_live_partial_filled_and_canceled_states(self):
         materialized, config = _materialized()
-        lookup = parse_order_lookup_response(
-            _response(materialized, state="filled", filled="10"),
-            materialized,
-            observed_at=NOW,
-            config=config,
+        cases = (
+            ("live", "0", OrderStatus.OPEN, Decimal("0")),
+            ("partially_filled", "4", OrderStatus.PARTIALLY_FILLED, Decimal("0.004")),
+            ("filled", "10", OrderStatus.FILLED, Decimal("0.010")),
+            ("canceled", "0", OrderStatus.CANCELED, Decimal("0")),
+            ("canceled", "4", OrderStatus.CANCELED, Decimal("0.004")),
+            ("mmp_canceled", "4", OrderStatus.CANCELED, Decimal("0.004")),
         )
-        self.assertEqual(lookup.result.order_status, OrderStatus.FILLED)
-        self.assertEqual(lookup.result.filled_quantity, Decimal("0.010"))
+        for state, filled, expected_status, expected_fill in cases:
+            with self.subTest(state=state, filled=filled):
+                lookup = parse_order_lookup_response(
+                    _response(materialized, state=state, filled=filled),
+                    materialized,
+                    observed_at=NOW,
+                    config=config,
+                )
+                self.assertEqual(lookup.lookup_status, "FOUND_CONSISTENT")
+                self.assertEqual(lookup.result.order_status, expected_status)
+                self.assertEqual(lookup.result.filled_quantity, expected_fill)
 
-    def test_canceled_with_partial_fill_preserves_actual_fill(self):
+    def test_contradictory_known_state_fill_combinations_require_reconciliation(self):
+        materialized, config = _materialized()
+        contradictions = (
+            ("filled", "9"),
+            ("partially_filled", "0"),
+            ("partially_filled", "10"),
+            ("live", "1"),
+        )
+        for state, filled in contradictions:
+            with self.subTest(state=state, filled=filled):
+                lookup = parse_order_lookup_response(
+                    _response(materialized, state=state, filled=filled),
+                    materialized,
+                    observed_at=NOW,
+                    config=config,
+                )
+                self.assertEqual(lookup.lookup_status, "FOUND_CONTRADICTORY_STATE")
+                self.assertEqual(
+                    lookup.result.order_status,
+                    OrderStatus.RECONCILIATION_REQUIRED,
+                )
+
+    def test_overfill_is_hard_failure(self):
+        materialized, config = _materialized()
+        with self.assertRaises(OKXReconciliationError):
+            parse_order_lookup_response(
+                _response(materialized, state="filled", filled="11"),
+                materialized,
+                observed_at=NOW,
+                config=config,
+            )
+
+    def test_positive_fill_without_average_price_is_hard_failure(self):
+        materialized, config = _materialized()
+        with self.assertRaises(OKXReconciliationError):
+            parse_order_lookup_response(
+                _response(
+                    materialized,
+                    state="partially_filled",
+                    filled="4",
+                    avg_px="",
+                ),
+                materialized,
+                observed_at=NOW,
+                config=config,
+            )
+
+    def test_unknown_state_is_never_optimistic_success(self):
         materialized, config = _materialized()
         lookup = parse_order_lookup_response(
-            _response(materialized, state="canceled", filled="4"),
+            _response(materialized, state="future_unknown_state", filled="0"),
             materialized,
             observed_at=NOW,
             config=config,
         )
-        self.assertEqual(lookup.result.order_status, OrderStatus.CANCELED)
-        self.assertEqual(lookup.result.filled_quantity, Decimal("0.004"))
+        self.assertEqual(lookup.lookup_status, "FOUND_UNKNOWN_STATE")
+        self.assertEqual(lookup.result.order_status, OrderStatus.RECONCILIATION_REQUIRED)
 
 
 if __name__ == "__main__":

@@ -1,176 +1,141 @@
 # E4 OKX Demo Adapter — Static Source Boundary
 
-Status: corrected static/source implementation for `E4-20260821-010` on PR #12 branch.
+Status: bounded source implementation for PR #12. Actual provider connectivity, Demo order execution, provider retry, production/live trading, PAPER/SHADOW/LIVE promotion, and release-gate advancement are not authorized.
 
-This adapter remains **Demo-only source construction**. It does not authorize or provide concrete networking, real credentials, production/live trading, account mutation, asset movement, PAPER/SHADOW/LIVE promotion, or actual provider retry.
+## Environment and credentials
 
-## Official OKX V5 references rechecked
-
-Rechecked on 2026-08-21 against current official OKX documentation:
-
-- `https://www.okx.com/docs-v5/en/`
-- account mode / account config (`acctLv`, `posMode`)
-- set position mode guidance
-- place order `POST /api/v5/trade/order`
-- get order `GET /api/v5/trade/order`
-- pending orders `GET /api/v5/trade/orders-pending`
-- positions `GET /api/v5/account/positions`
-- fills `GET /api/v5/trade/fills`
-- public instruments `GET /api/v5/public/instruments`
-
-Provider facts used by this bounded implementation:
-
-- Demo authenticated requests require `x-simulated-trading: 1`.
-- Private REST signing uses `timestamp + METHOD + requestPath + body`, HMAC-SHA256, Base64.
-- `clOrdId` is case-sensitive alphanumeric, maximum 32 characters, and uniqueness is scoped to currently pending orders.
-- `acctLv=1` is Spot mode, `2` Futures mode, `3` Multi-currency margin, `4` Portfolio margin.
-- For FUTURES/SWAP, Futures mode supports both `net_mode` and `long_short_mode`; Portfolio margin supports net mode only.
-- Current place-order guidance states `tdMode=isolated` is not available in Multi-currency margin or Portfolio margin mode.
-- SWAP order `sz`, `accFillSz`, and `fillSz` are contract quantities.
-- Order state semantics: `live` = active with no fills; `partially_filled` = partially executed and active; `filled` = fully executed terminal; `canceled` and `mmp_canceled` = canceled terminal and may preserve prior fills.
-
-No provider error code is treated as authoritative order-absence proof in this revision.
-
-## Demo/auth boundary preserved
-
-- `environment` must equal `demo`.
-- REST base remains `https://openapi.okx.com` for the bounded config.
-- every authenticated request includes `x-simulated-trading: 1`.
-- credentials are runtime injected and redacted from object repr output.
-- private endpoint allowlist remains limited to the task-authorized order/reconciliation/account-read surface.
-- no withdrawal, deposit, funding/internal/sub-account transfer, balance adjustment, account-mode setter, position-mode setter, or leverage setter exists.
-- `OKXTransport` remains injected; no concrete network transport is implemented.
-
-## Finding corrections
-
-### `E4-OKX-MATERIALIZATION-INTEGRITY-001`
-
-`materialize_demo_market_order()` no longer trusts caller-provided provider sizing as authority.
-
-At the exact submit-preparation boundary it:
-
-1. validates current metadata with freshness policy `okx-instrument-metadata-freshness-v0.2`;
-2. recomputes `OKXEntrySizingAudit` from the exact current `OrderRequest` and exact validated metadata;
-3. compares the caller-supplied prior audit against the recomputed audit as evidence only;
-4. rejects any mismatch;
-5. writes provider `body.sz` only from the recomputed audit.
-
-The audit now binds the conversion facts used for integrity comparison, including `ctVal`, `ctMult`, `ctValCcy`, `ctType`, lot size, minimum size, optional current `maxMktSz`, metadata reference/observation, provider contract quantity, and effective canonical BTC quantity.
-
-Invariant remains:
+The adapter is Demo-only:
 
 ```text
-0 < effective_canonical_quantity <= E5-approved OrderRequest.quantity
+environment = demo
+REST base   = https://openapi.okx.com
+x-simulated-trading = 1 on every authenticated request
 ```
 
-Provider sizing may round down or reject; it cannot round above the E5 BTC bound.
+Runtime credentials are injected through `OKXCredentials`; their representation is redacted. No credential, secret, live `.env`, withdrawal/deposit/funding/internal transfer/sub-account transfer/balance-adjustment surface exists in this source.
 
-### `E4-OKX-ACCOUNT-MATRIX-001`
-
-V1 intentionally narrows account support to the smallest explicitly documented isolated SWAP subset:
+Private REST signing remains:
 
 ```text
-acctLv = 2  (Futures mode)
-posMode = net_mode | long_short_mode
+prehash   = timestamp + METHOD + requestPath + body
+signature = Base64(HMAC-SHA256(secret, prehash))
+```
+
+The transport remains injected. No concrete network transport is implemented.
+
+## Bounded entry path
+
+Only the accepted provider-neutral path is materialized:
+
+```text
+BTC_USDT_PERP -> BTC-USDT-SWAP
 tdMode = isolated
+BUY  -> buy
+SELL -> sell
+MARKET -> market
 ```
 
-Rejected before materialization:
+Provider contract `sz` remains distinct from canonical BTC quantity. `materialize_demo_market_order()` recomputes provider sizing from the exact current `OrderRequest` plus submit-validated metadata and treats caller sizing audit as evidence only.
+
+Invariant:
 
 ```text
-acctLv = 1  Spot mode
-acctLv = 3  Multi-currency margin
-acctLv = 4  Portfolio margin
-unknown/unsupported position modes
+0 < effective canonical BTC <= E5-approved OrderRequest.quantity
 ```
 
-The adapter validates provider-read account facts; it does not repair or mutate account/position mode.
+## Submit-boundary integrity — E4-OKX-MATERIALIZATION-INTEGRITY-001
 
-Position-side mapping remains mechanical:
+Task `E4-20260821-012` closes the remaining submit-boundary bypass with an adapter-owned issued-preparation registry.
+
+`prepare_entry()` now performs the normal materialization validation, then stores an internal immutable `_IssuedOKXPreparation` containing the exact trusted preparation facts:
+
+- `order_request_id`;
+- `trade_plan_id`;
+- internal `client_order_id`;
+- provider `clOrdId`;
+- provider instrument;
+- provider side;
+- provider position side;
+- `ordType=market`;
+- `tdMode=isolated`;
+- provider contract quantity;
+- effective canonical BTC quantity;
+- E5-approved canonical BTC quantity;
+- instrument metadata reference and observation timestamp;
+- metadata freshness policy version;
+- preparation timestamp;
+- Demo environment;
+- reviewed account level and position mode.
+
+The registry retains the exact issued `OKXOrderMaterialization` object instance. A caller-constructed clone, even with identical visible values, is not an issued preparation and fails closed.
+
+`submit_entry()` performs provenance/integrity validation **before** consulting the idempotency result cache and before any transport call:
+
+1. the exact object instance must be present in this adapter's issued-preparation registry;
+2. every public semantic materialization field must still exactly equal the internal immutable preparation facts;
+3. Demo/account/position-mode context must still match the adapter;
+4. `clOrdId` must still deterministically bind to the internal client identity;
+5. canonical exposure bound must still hold;
+6. the caller-visible `body` must exactly equal a body freshly derived from internal trusted facts.
+
+The body that is actually signed is freshly re-derived from `_IssuedOKXPreparation`:
 
 ```text
-net_mode -> posSide=net
-long_short_mode + BUY  -> posSide=long
-long_short_mode + SELL -> posSide=short
+instId  = trusted provider instrument
+tdMode  = isolated
+clOrdId = trusted provider client order id
+side    = trusted provider side
+posSide = trusted provider position side
+ordType = market
+sz      = trusted provider contract quantity
 ```
 
-### `E4-OKX-RETRY-PROVENANCE-001`
+`materialization.body` is therefore comparison/audit data only; it is never execution authority. Post-prepare mutation of `sz`, `instId`, `side`, `posSide`, `ordType`, or `clOrdId` causes rejection before transport.
 
-Provider retry is structurally disabled in V1.
+The adapter also records one preparation fingerprint per provider `clOrdId`. Re-preparing the same provider identity with materially different preparation facts fails closed.
 
-`OKXReconciliationEvidence` is audit/reporting data only. `retry_entry()` always raises `OKXReconciliationError` and cannot clear the stored ambiguous result or issue a second transport submit. Forged, mutated, replayed, or cross-materialization evidence therefore cannot create execution authority.
+## Preserved accepted boundaries
 
-### `E4-OKX-ORDER-ABSENCE-001`
+The correction does not redesign the four E7 findings already closed by targeted re-review:
 
-Caller-controlled `order_not_found_codes` was removed from adapter configuration.
+- account matrix remains V1 `acctLv=2` Futures mode with `net_mode | long_short_mode` only;
+- provider retry remains structurally disabled;
+- no caller-configurable provider error code can establish order absence;
+- known order states remain subject to `accFillSz/sz` consistency checks before canonical mapping.
 
-A non-success `GET /api/v5/trade/order` result is represented as provider error / absence-not-proven audit state. A success response with empty data is also not treated as authoritative absence. No fixture/example code, including `51603`, enables retry.
+Freshness policy remains E4-local `okx-instrument-metadata-freshness-v0.2`:
 
-Until E7 separately accepts current provider-authoritative absence semantics, provider retry remains disabled.
+- 300 seconds is only a general cache/sizing ceiling;
+- submit preparation requires metadata observation age `<= 5 seconds`;
+- scheduled `upcChg` values are parsed and fail closed under the existing guard rules.
 
-### `E4-OKX-ORDER-STATE-CONSISTENCY-001`
+Broker/PaperBroker behavior is unchanged.
 
-Known provider states are validated against provider `sz` / `accFillSz` before canonical mapping:
+## Deterministic local-only tests
 
-```text
-live              -> accFillSz == 0
-partially_filled  -> 0 < accFillSz < sz
-filled            -> accFillSz == sz
-canceled          -> 0 <= accFillSz <= sz
-mmp_canceled      -> 0 <= accFillSz <= sz
-```
+`tests/brokers/test_okx_submit_integrity.py` defines cases for:
 
-Additional fail-closed rules:
+- mutate `body["sz"]` after prepare -> reject before transport;
+- mutate `instId` -> reject before transport;
+- mutate `side` -> reject before transport;
+- mutate `posSide` -> reject before transport;
+- mutate `ordType` -> reject before transport;
+- mutate `clOrdId` -> reject before transport;
+- direct caller-constructed clone -> reject before transport;
+- cross-adapter materialization -> reject before transport;
+- materially changed content under the same logical client identity -> reject;
+- repeated materially different preparation under one provider `clOrdId` -> reject;
+- valid adapter-issued preparation -> exact Demo MARKET isolated body;
+- repeated submit of the same issued preparation -> no second transport call;
+- provider effective canonical quantity never exceeds the E5-approved BTC bound.
 
-- `accFillSz > sz` is a hard reconciliation failure;
-- contradictory known state/fill combinations map to `RECONCILIATION_REQUIRED`;
-- unknown states map to `RECONCILIATION_REQUIRED`;
-- any positive accumulated fill requires a valid average fill price in the current response model;
-- canceled terminal states preserve actual partial-fill quantity rather than forcing zero.
+Executable verification is `NOT_RUN`. These tests are source definitions only until a Product Owner-approved local project environment runs them.
 
-## Freshness hardening preserved
-
-`E4-OKX-FRESHNESS-HARDEN-001` remains intact:
-
-```text
-policy version                  = okx-instrument-metadata-freshness-v0.2
-general cache/sizing ceiling    = 300 seconds
-submit preparation max age      = 5 seconds
-scheduled sizing-change guard   = 60 seconds
-```
-
-`upcChg` scheduled changes remain fail closed for unknown parameters and sizing-relevant changes entering the guard window. These thresholds are E4 safety margins, not provider stability guarantees.
-
-## Reconciliation truth set
-
-After an ambiguous submit, the adapter may query for audit/reconciliation:
-
-```text
-GET /api/v5/trade/order
-GET /api/v5/account/positions
-GET /api/v5/trade/fills
-GET /api/v5/trade/orders-pending
-```
-
-Positive provider truth remains distinct:
-
-- order truth;
-- pending-order truth;
-- provider contract fill truth;
-- provider contract position truth;
-- canonical normalized BTC fill truth.
-
-Reconciliation can report these facts but cannot authorize a retry in V1.
-
-## Verification policy
-
-Executable verification: `NOT_RUN`.
-
-Required Product Owner-approved local commands from repository root:
+Required local commands:
 
 ```text
 python -m unittest discover -s tests/execution -p "test_*.py" -v
 python -m unittest discover -s tests/brokers -p "test_*.py" -v
 ```
 
-No GitHub Actions/CI/hosted runner/project compute and no actual OKX request/order were used for this correction task.
+GitHub Actions, hosted CI, hosted runners, and provider execution are prohibited for verification.

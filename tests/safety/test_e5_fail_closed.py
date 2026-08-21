@@ -40,7 +40,9 @@ class FailClosedBoundaryTests(unittest.TestCase):
             "direction": "SHORT",
             "generated_at": "2026-08-20T04:00:00Z",
             "market_boundary_ref": "sha256:safety",
-            "entry_style": "MARKET",
+            "entry_profile_version": "entry-v0.1",
+            "entry_order_type": "MARKET",
+            "entry_reference_price": "60000",
         }
         self.proposal = RiskProposal(
             quantity=Decimal("0.003"),
@@ -77,15 +79,26 @@ class FailClosedBoundaryTests(unittest.TestCase):
         values.update(changes)
         return RiskContext(**values)
 
-    def _decision(self, **context_changes):
+    def _decision(self, intent=None, **context_changes):
         return evaluate_trade_intent(
-            self.intent,
+            self.intent if intent is None else intent,
             self._context(**context_changes),
             self.proposal,
             self.policy,
             decided_at=self.now,
         )
 
+    def _plan(self, intent=None, decision=None):
+        payload = self.intent if intent is None else intent
+        risk_decision = self._decision(intent=payload) if decision is None else decision
+        return build_approved_trade_plan(
+            payload,
+            risk_decision,
+            self.policy,
+            created_at=self.now,
+        )
+
+    # Accepted E5-RISK-UNKNOWN-001 behavior remains covered.
     def test_kill_switch_always_rejects_new_exposure(self):
         decision = self._decision(kill_switch_active=True)
         self.assertEqual("REJECT", decision["decision"])
@@ -167,16 +180,78 @@ class FailClosedBoundaryTests(unittest.TestCase):
                 self.assertEqual("REJECT", decision["decision"])
                 self.assertIn(reason, decision["reason_codes"])
 
+    # E5-20260821-004 executable profile coverage.
+    def test_valid_profiled_market_intent_produces_profiled_plan(self):
+        decision = self._decision()
+        self.assertEqual("APPROVE", decision["decision"])
+        plan = self._plan(decision=decision)
+        self.assertEqual(
+            {"profile_version", "order_type", "reference_price"},
+            set(plan["entry_instruction"].keys()),
+        )
+        self.assertEqual("entry-v0.1", plan["entry_instruction"]["profile_version"])
+        self.assertEqual("MARKET", plan["entry_instruction"]["order_type"])
+
+    def test_missing_and_unknown_entry_profile_fail_closed(self):
+        missing = dict(self.intent)
+        missing.pop("entry_profile_version")
+        decision = self._decision(intent=missing)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("ENTRY_PROFILE_VERSION_REQUIRED", decision["reason_codes"])
+
+        unknown = dict(self.intent)
+        unknown["entry_profile_version"] = "entry-v9.9"
+        decision = self._decision(intent=unknown)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("UNSUPPORTED_ENTRY_PROFILE_VERSION", decision["reason_codes"])
+
+    def test_unsupported_executable_order_type_fails_closed(self):
+        payload = dict(self.intent)
+        payload["entry_order_type"] = "LIMIT"
+        decision = self._decision(intent=payload)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("UNSUPPORTED_ENTRY_ORDER_TYPE", decision["reason_codes"])
+
+    def test_legacy_style_only_intent_is_not_execution_eligible(self):
+        payload = dict(self.intent)
+        payload.pop("entry_profile_version")
+        payload.pop("entry_order_type")
+        payload["entry_style"] = "MARKET"
+        decision = self._decision(intent=payload)
+        self.assertEqual("REJECT", decision["decision"])
+        self.assertIn("ENTRY_PROFILE_VERSION_REQUIRED", decision["reason_codes"])
+        self.assertIn("ENTRY_ORDER_TYPE_REQUIRED", decision["reason_codes"])
+
+    def test_reference_price_remains_advisory_non_executable(self):
+        plan = self._plan()
+        entry = plan["entry_instruction"]
+        self.assertEqual("60000", entry["reference_price"])
+        self.assertEqual("MARKET", entry["order_type"])
+        for forbidden in ("limit_price", "stop_price", "trigger_price", "time_in_force"):
+            self.assertNotIn(forbidden, entry)
+
+    def test_quantity_profile_is_exact_btc_base_asset_upper_bound_metadata(self):
+        plan = self._plan()
+        self.assertEqual("0.003", plan["quantity"])
+        self.assertEqual("base-asset-v0.1", plan["quantity_profile_version"])
+        self.assertEqual("BASE_ASSET", plan["quantity_unit"])
+        self.assertEqual("BTC", plan["quantity_asset"])
+        for provider_field in (
+            "sz",
+            "ctVal",
+            "ctMult",
+            "ctValCcy",
+            "lotSz",
+            "minSz",
+            "tickSz",
+        ):
+            self.assertNotIn(provider_field, plan)
+
     def test_unknown_state_cannot_produce_approved_plan(self):
         decision = self._decision(account_state_status="UNKNOWN", account_state_known=True)
         self.assertEqual("REJECT", decision["decision"])
         with self.assertRaises(RiskInputError):
-            build_approved_trade_plan(
-                self.intent,
-                decision,
-                self.policy,
-                created_at=self.now,
-            )
+            self._plan(decision=decision)
 
     def test_forged_approve_with_unsafe_state_cannot_produce_plan(self):
         valid_decision = self._decision()
@@ -184,12 +259,7 @@ class FailClosedBoundaryTests(unittest.TestCase):
         forged = dict(valid_decision)
         forged["market_health_status"] = "UNKNOWN"
         with self.assertRaises(RiskInputError):
-            build_approved_trade_plan(
-                self.intent,
-                forged,
-                self.policy,
-                created_at=self.now,
-            )
+            self._plan(decision=forged)
 
 
 if __name__ == "__main__":

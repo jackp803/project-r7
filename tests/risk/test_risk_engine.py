@@ -42,7 +42,8 @@ def intent():
         "direction": "LONG",
         "generated_at": "2026-08-20T04:00:00Z",
         "market_boundary_ref": "sha256:boundary",
-        "entry_style": "MARKET",
+        "entry_profile_version": "entry-v0.1",
+        "entry_order_type": "MARKET",
         "entry_reference_price": "60000",
         "strategy_stop_level": "59400",
         "strategy_target_level": "61200",
@@ -93,19 +94,33 @@ class RiskEngineTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 8, 20, 4, 0, 10, tzinfo=timezone.utc)
 
-    def test_valid_intent_can_be_approved_and_planned(self):
+    def test_valid_profiled_intent_can_be_approved_and_planned(self):
         decision = evaluate_trade_intent(intent(), context(), proposal(), policy(), decided_at=self.now)
         self.assertEqual("APPROVE", decision["decision"])
         self.assertEqual([], decision["reason_codes"])
+
         plan = build_approved_trade_plan(intent(), decision, policy(), created_at=self.now)
         self.assertEqual(decision["risk_decision_id"], plan["risk_decision_id"])
         self.assertEqual("0.003", plan["quantity"])
+        self.assertEqual("base-asset-v0.1", plan["quantity_profile_version"])
+        self.assertEqual("BASE_ASSET", plan["quantity_unit"])
+        self.assertEqual("BTC", plan["quantity_asset"])
         self.assertEqual("20", plan["leverage"])
+        self.assertEqual("entry-v0.1", plan["entry_instruction"]["profile_version"])
+        self.assertEqual("MARKET", plan["entry_instruction"]["order_type"])
+        self.assertEqual("60000", plan["entry_instruction"]["reference_price"])
+        self.assertNotIn("style", plan["entry_instruction"])
+        self.assertNotIn("limit_price", plan["entry_instruction"])
+        self.assertNotIn("stop_price", plan["entry_instruction"])
         self.assertEqual("59400", plan["protection_instruction"]["stop_level"])
 
     def test_unknown_account_fails_closed(self):
         decision = evaluate_trade_intent(
-            intent(), context(account_state_known=False, account_state_status="UNKNOWN"), proposal(), policy(), decided_at=self.now
+            intent(),
+            context(account_state_known=False, account_state_status="UNKNOWN"),
+            proposal(),
+            policy(),
+            decided_at=self.now,
         )
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("ACCOUNT_STATE_UNKNOWN", decision["reason_codes"])
@@ -133,7 +148,15 @@ class RiskEngineTests(unittest.TestCase):
 
     def test_cost_adjusted_reward_risk_is_enforced(self):
         decision = evaluate_trade_intent(
-            intent(), context(), proposal(estimated_max_loss=Decimal("4.5"), estimated_cost=Decimal("0.5"), reward_amount=Decimal("9")), policy(), decided_at=self.now
+            intent(),
+            context(),
+            proposal(
+                estimated_max_loss=Decimal("4.5"),
+                estimated_cost=Decimal("0.5"),
+                reward_amount=Decimal("9"),
+            ),
+            policy(),
+            decided_at=self.now,
         )
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("REWARD_RISK_BELOW_MINIMUM", decision["reason_codes"])

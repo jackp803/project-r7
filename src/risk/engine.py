@@ -10,6 +10,10 @@ from typing import Any, Mapping
 from .policy import RiskPolicy
 
 SUPPORTED_SHARED_SCHEMA_VERSION = "contracts-v0.1"
+SUPPORTED_ENTRY_PROFILE_VERSION = "entry-v0.1"
+SUPPORTED_ENTRY_ORDER_TYPE = "MARKET"
+SUPPORTED_QUANTITY_PROFILE_VERSION = "base-asset-v0.1"
+SUPPORTED_QUANTITY_UNIT = "BASE_ASSET"
 
 _TRADE_INTENT_REQUIRED = {
     "schema_version",
@@ -25,6 +29,8 @@ _TRADE_INTENT_REQUIRED = {
 _TRADE_INTENT_OPTIONAL = {
     "entry_reference_price",
     "entry_style",
+    "entry_profile_version",
+    "entry_order_type",
     "strategy_stop_level",
     "strategy_target_level",
     "max_hold_seconds",
@@ -37,6 +43,10 @@ _MARKET_SAFE_STATUSES = frozenset({"HEALTHY"})
 _ACCOUNT_SAFE_STATUSES = frozenset({"KNOWN"})
 _POSITION_SAFE_STATUSES = frozenset({"FLAT", "CONSISTENT"})
 _ORDER_SAFE_STATUSES = frozenset({"KNOWN"})
+
+# Canonical quantity profile is intentionally bounded to the V1 canonical
+# instrument. Provider-native contract sizing remains an E4 responsibility.
+_QUANTITY_ASSET_BY_SYMBOL = {"BTC_USDT_PERP": "BTC"}
 
 
 @dataclass(frozen=True)
@@ -125,6 +135,28 @@ def _stable_id(prefix: str, material: Mapping[str, Any]) -> str:
     return prefix + hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def _validate_executable_profile(intent: Mapping[str, Any]) -> list[str]:
+    reasons: list[str] = []
+
+    profile_version = intent.get("entry_profile_version")
+    if not isinstance(profile_version, str) or not profile_version:
+        reasons.append("ENTRY_PROFILE_VERSION_REQUIRED")
+    elif profile_version != SUPPORTED_ENTRY_PROFILE_VERSION:
+        reasons.append("UNSUPPORTED_ENTRY_PROFILE_VERSION")
+
+    order_type = intent.get("entry_order_type")
+    if not isinstance(order_type, str) or not order_type:
+        reasons.append("ENTRY_ORDER_TYPE_REQUIRED")
+    elif order_type != SUPPORTED_ENTRY_ORDER_TYPE:
+        reasons.append("UNSUPPORTED_ENTRY_ORDER_TYPE")
+
+    symbol = intent.get("symbol")
+    if symbol not in _QUANTITY_ASSET_BY_SYMBOL:
+        reasons.append("QUANTITY_PROFILE_UNSUPPORTED_SYMBOL")
+
+    return reasons
+
+
 def _validate_trade_intent(intent: Mapping[str, Any]) -> list[str]:
     reasons: list[str] = []
     keys = set(intent.keys())
@@ -155,9 +187,10 @@ def _validate_trade_intent(intent: Mapping[str, Any]) -> list[str]:
         except RiskInputError:
             reasons.append("INVALID_GENERATED_AT")
 
-    entry_style = intent.get("entry_style")
-    if not isinstance(entry_style, str) or not entry_style.strip():
-        reasons.append("ENTRY_STYLE_REQUIRED_FOR_PLAN")
+    # Legacy entry_style remains permitted as baseline/advisory data, but it is
+    # never promoted into executable order semantics. Execution eligibility is
+    # determined only by the explicit versioned profile fields.
+    reasons.extend(_validate_executable_profile(intent))
 
     if intent.get("max_hold_seconds") is not None:
         hold_seconds = intent["max_hold_seconds"]
@@ -428,11 +461,11 @@ def build_approved_trade_plan(
     *,
     created_at: datetime,
 ) -> dict[str, Any]:
-    """Emit ApprovedTradePlan only from an APPROVE decision.
+    """Emit a profiled ApprovedTradePlan only from a safe APPROVE decision.
 
-    The nested instruction shapes are an E5-owned provisional serialization of
-    already-approved bounds; E4/E7 integration must review them before treating
-    them as a stable cross-module executable sub-contract.
+    Entry execution is provider-neutral and MARKET-only under entry-v0.1.
+    Quantity is a canonical base-asset exposure upper bound under
+    base-asset-v0.1; provider conversion/quantization is downstream E4 scope.
     """
 
     if risk_decision.get("decision") != "APPROVE":
@@ -456,6 +489,13 @@ def build_approved_trade_plan(
     if created_at.tzinfo is None or created_at.utcoffset() != timezone.utc.utcoffset(created_at):
         raise ValueError("created_at must be timezone-aware UTC")
 
+    profile_reasons = _validate_executable_profile(intent)
+    if profile_reasons:
+        raise RiskInputError(
+            "EXECUTABLE_PROFILE_NOT_ELIGIBLE",
+            f"TradeIntent executable profile is not eligible: {sorted(set(profile_reasons))}",
+        )
+
     required = (
         "approved_quantity",
         "approved_leverage",
@@ -467,17 +507,23 @@ def build_approved_trade_plan(
     if missing:
         raise RiskInputError("APPROVAL_BOUNDS_INCOMPLETE", f"missing approved bounds: {missing}")
 
-    entry_style = intent.get("entry_style")
-    if not isinstance(entry_style, str) or not entry_style.strip():
-        raise RiskInputError("ENTRY_STYLE_REQUIRED", "entry_style is required for plan skeleton")
+    approved_quantity = _decimal(risk_decision["approved_quantity"], "approved_quantity")
+    if approved_quantity <= 0:
+        raise RiskInputError("INVALID_APPROVED_QUANTITY", "approved_quantity must be positive")
+
+    quantity_asset = _QUANTITY_ASSET_BY_SYMBOL[intent["symbol"]]
 
     created_at_text = _fmt_utc(created_at)
     expires_at = created_at + timedelta(seconds=policy.plan_ttl_seconds)
-    entry_instruction: dict[str, Any] = {"style": entry_style}
+    entry_instruction: dict[str, Any] = {
+        "profile_version": SUPPORTED_ENTRY_PROFILE_VERSION,
+        "order_type": SUPPORTED_ENTRY_ORDER_TYPE,
+    }
     if intent.get("entry_reference_price") is not None:
-        entry_instruction["reference_price"] = format(
-            _decimal(intent["entry_reference_price"], "entry_reference_price"), "f"
-        )
+        reference_price = _decimal(intent["entry_reference_price"], "entry_reference_price")
+        if reference_price <= 0:
+            raise RiskInputError("INVALID_ENTRY_REFERENCE_PRICE", "entry_reference_price must be positive")
+        entry_instruction["reference_price"] = format(reference_price, "f")
 
     protection_instruction: dict[str, Any] = {
         "stop_level": risk_decision["required_stop_level"],
@@ -501,7 +547,10 @@ def build_approved_trade_plan(
         "strategy_version": intent["strategy_version"],
         "symbol": intent["symbol"],
         "direction": intent["direction"],
-        "quantity": risk_decision["approved_quantity"],
+        "quantity": format(approved_quantity, "f"),
+        "quantity_profile_version": SUPPORTED_QUANTITY_PROFILE_VERSION,
+        "quantity_unit": SUPPORTED_QUANTITY_UNIT,
+        "quantity_asset": quantity_asset,
         "leverage": risk_decision["approved_leverage"],
         "margin_mode": risk_decision["margin_mode"],
         "entry_instruction": entry_instruction,

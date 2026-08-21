@@ -14,6 +14,13 @@ from .models import (
     stable_order_request_id,
 )
 
+ENTRY_PROFILE_VERSION = "entry-v0.1"
+ENTRY_ORDER_TYPE = "MARKET"
+QUANTITY_PROFILE_VERSION = "base-asset-v0.1"
+QUANTITY_UNIT = "BASE_ASSET"
+QUANTITY_ASSET = "BTC"
+CANONICAL_SYMBOL = "BTC_USDT_PERP"
+
 
 class AuthorityBoundaryError(ValueError):
     pass
@@ -32,11 +39,6 @@ class TranslatedEntryInstruction:
     time_in_force: str | None = None
 
 
-class EntryInstructionTranslator(Protocol):
-    def translate(self, plan: Mapping[str, Any]) -> TranslatedEntryInstruction:
-        ...
-
-
 class BrokerSubmitter(Protocol):
     def submit_order(self, request: OrderRequest) -> OrderResult:
         ...
@@ -52,6 +54,9 @@ _REQUIRED_PLAN_FIELDS = {
     "symbol",
     "direction",
     "quantity",
+    "quantity_profile_version",
+    "quantity_unit",
+    "quantity_asset",
     "leverage",
     "margin_mode",
     "entry_instruction",
@@ -59,6 +64,14 @@ _REQUIRED_PLAN_FIELDS = {
     "created_at",
     "expires_at",
     "risk_policy_version",
+}
+
+_ALLOWED_ENTRY_FIELDS = {"profile_version", "order_type", "reference_price"}
+_FORBIDDEN_EXECUTABLE_ENTRY_FIELDS = {
+    "limit_price",
+    "stop_price",
+    "trigger_price",
+    "time_in_force",
 }
 
 
@@ -87,18 +100,28 @@ def _parse_utc(value: Any, field: str) -> datetime:
 
 
 def validate_approved_trade_plan(plan: Mapping[str, Any], *, now: datetime) -> None:
-    """Fail closed unless the input has the canonical ApprovedTradePlan envelope."""
+    """Fail closed unless input is the current executable ApprovedTradePlan profile."""
     if not isinstance(plan, Mapping):
         raise AuthorityBoundaryError("execution input must be an ApprovedTradePlan mapping")
     missing = sorted(_REQUIRED_PLAN_FIELDS - set(plan.keys()))
     if missing:
         raise AuthorityBoundaryError(
-            "execution accepts only ApprovedTradePlan; missing required fields: " + ", ".join(missing)
+            "execution accepts only profiled ApprovedTradePlan; missing required fields: "
+            + ", ".join(missing)
         )
     if plan.get("schema_version") != SCHEMA_VERSION:
         raise AuthorityBoundaryError("unsupported ApprovedTradePlan schema_version")
+    if plan.get("symbol") != CANONICAL_SYMBOL:
+        raise AuthorityBoundaryError("unsupported canonical symbol for current E4 execution profile")
     if plan.get("direction") not in {"LONG", "SHORT"}:
         raise AuthorityBoundaryError("ApprovedTradePlan direction must be LONG or SHORT")
+    if plan.get("quantity_profile_version") != QUANTITY_PROFILE_VERSION:
+        raise AuthorityBoundaryError("unsupported quantity_profile_version")
+    if plan.get("quantity_unit") != QUANTITY_UNIT:
+        raise AuthorityBoundaryError("unsupported quantity_unit")
+    if plan.get("quantity_asset") != QUANTITY_ASSET:
+        raise AuthorityBoundaryError("unsupported quantity_asset")
+
     for field in (
         "trade_plan_id",
         "risk_decision_id",
@@ -112,12 +135,14 @@ def validate_approved_trade_plan(plan: Mapping[str, Any], *, now: datetime) -> N
         value = plan.get(field)
         if not isinstance(value, str) or not value.strip():
             raise AuthorityBoundaryError(f"ApprovedTradePlan {field} must be non-empty")
+
     _parse_decimal(plan.get("quantity"), "quantity")
     _parse_decimal(plan.get("leverage"), "leverage")
     if not isinstance(plan.get("entry_instruction"), Mapping):
         raise AuthorityBoundaryError("entry_instruction must be a mapping")
     if not isinstance(plan.get("protection_instruction"), Mapping):
         raise AuthorityBoundaryError("protection_instruction must be a mapping")
+
     created_at = _parse_utc(plan.get("created_at"), "created_at")
     expires_at = _parse_utc(plan.get("expires_at"), "expires_at")
     if expires_at <= created_at:
@@ -128,26 +153,36 @@ def validate_approved_trade_plan(plan: Mapping[str, Any], *, now: datetime) -> N
         raise AuthorityBoundaryError("ApprovedTradePlan is expired")
 
 
-class CurrentE5ProvisionalEntryTranslator:
-    """Fail-closed adapter for E5's currently provisional nested instruction shape.
-
-    E5 currently emits entry_instruction.style (plus optional reference_price),
-    while contracts-v0.1 does not define how those values map to OrderRequest.order_type
-    or conditional price semantics. E4 must not stabilize that missing shared meaning.
-    """
+class CanonicalEntryV01Translator:
+    """Mechanical entry-v0.1 translator; MARKET only and no executable price/TIF."""
 
     def translate(self, plan: Mapping[str, Any]) -> TranslatedEntryInstruction:
         instruction = plan.get("entry_instruction")
-        if isinstance(instruction, Mapping) and "style" in instruction:
+        if not isinstance(instruction, Mapping):
+            raise ContractMismatchError("entry_instruction must be a mapping")
+
+        keys = set(instruction.keys())
+        forbidden = sorted(keys & _FORBIDDEN_EXECUTABLE_ENTRY_FIELDS)
+        if forbidden:
             raise ContractMismatchError(
-                "CONTRACT MISMATCH: contracts-v0.1 does not define how "
-                "ApprovedTradePlan.entry_instruction.style maps to OrderRequest.order_type; "
-                "E7 approval is required before E4 can translate the current E5 nested shape"
+                "entry-v0.1 MARKET forbids executable entry fields: " + ", ".join(forbidden)
             )
-        raise ContractMismatchError(
-            "CONTRACT MISMATCH: ApprovedTradePlan.entry_instruction has no E7-approved "
-            "mapping to OrderRequest fields"
-        )
+        unknown = sorted(keys - _ALLOWED_ENTRY_FIELDS)
+        if unknown:
+            raise ContractMismatchError(
+                "entry-v0.1 contains unsupported entry_instruction fields: " + ", ".join(unknown)
+            )
+        if instruction.get("profile_version") != ENTRY_PROFILE_VERSION:
+            raise ContractMismatchError("unsupported or missing entry profile_version")
+        if instruction.get("order_type") != ENTRY_ORDER_TYPE:
+            raise ContractMismatchError("entry-v0.1 supports MARKET only")
+
+        if "reference_price" in instruction:
+            _parse_decimal(instruction["reference_price"], "entry_instruction.reference_price")
+
+        # reference_price is advisory/audit context only and is intentionally not
+        # promoted into limit_price, stop_price, trigger_price, or time_in_force.
+        return TranslatedEntryInstruction(order_type=ENTRY_ORDER_TYPE)
 
 
 class ExecutionGateway:
@@ -157,14 +192,11 @@ class ExecutionGateway:
         self,
         plan: Mapping[str, Any],
         *,
-        translator: EntryInstructionTranslator,
         now: datetime,
         logical_order_key: str = "entry",
     ) -> OrderRequest:
         validate_approved_trade_plan(plan, now=now)
-        translated = translator.translate(plan)
-        if not translated.order_type or not translated.order_type.strip():
-            raise ContractMismatchError("translated order_type must be non-empty")
+        translated = CanonicalEntryV01Translator().translate(plan)
 
         quantity = _parse_decimal(plan["quantity"], "quantity")
         client_order_id = stable_client_order_id(plan["trade_plan_id"], logical_order_key)
@@ -178,25 +210,26 @@ class ExecutionGateway:
             side=side,
             order_type=translated.order_type,
             quantity=quantity,
+            quantity_profile_version=plan["quantity_profile_version"],
+            quantity_unit=plan["quantity_unit"],
+            quantity_asset=plan["quantity_asset"],
             created_at=now,
-            limit_price=translated.limit_price,
-            stop_price=translated.stop_price,
-            reduce_only=translated.reduce_only,
-            time_in_force=translated.time_in_force,
+            limit_price=None,
+            stop_price=None,
+            reduce_only=None,
+            time_in_force=None,
         )
 
     def submit_approved_plan(
         self,
         plan: Mapping[str, Any],
         *,
-        translator: EntryInstructionTranslator,
         broker: BrokerSubmitter,
         now: datetime,
         logical_order_key: str = "entry",
     ) -> OrderResult:
         request = self.prepare_entry_order(
             plan,
-            translator=translator,
             now=now,
             logical_order_key=logical_order_key,
         )

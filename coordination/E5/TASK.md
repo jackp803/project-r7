@@ -1,60 +1,79 @@
 # E5 Current Task
 
-- task_id: `E5-20260821-003`
-- issued_at: `2026-08-21T10:07:00+08:00`
-- state: `HOLD`
-- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, Product Owner decision `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`
+- task_id: `E5-20260821-004`
+- issued_at: `2026-08-21T10:58:00+08:00`
+- state: `ACTIVE`
+- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002, ADR-0003
 
 ## Objective
 
-Freeze the statically accepted E5 Risk/Position correction while E7 resolves executable entry-instruction semantics and the new OKX execution target is incorporated into cross-module adapter/sizing design.
-
-The Product Owner has changed the V1 broker target from Pionex to a dedicated OKX sub-account. This HOLD does not authorize new broker-specific risk implementation yet.
-
-## Accepted static evidence
-
-- corrected revision: `cb65c951d59f6fd036bd61691d7e96d025e371c8`
-- finding `E5-RISK-UNKNOWN-001`: `STATICALLY_RESOLVED / PASS (static)`
-- executable verification: `NOT_RUN`
-
-## Product target amendment
-
-Future E5/E4 integration must account for OKX derivative contract sizing without moving exchange API responsibilities into E5.
-
-Safety baseline for the future boundary:
-
-- E5 remains authority for maximum approved exposure/risk bounds;
-- E4/provider adapter may quantize to exchange contract units only within those bounds;
-- exchange quantization may round down or reject, never round up above E5-approved exposure;
-- unknown/stale/incompatible instrument metadata must block new exposure;
-- E5 does not call OKX private APIs and does not manage API credentials;
-- dedicated sub-account isolation does not replace E5 risk checks.
+Implement the new provider-neutral executable entry and canonical quantity profiles at the E5 RiskDecision -> ApprovedTradePlan boundary while preserving E5 risk authority and the accepted fail-closed correction.
 
 ## Required actions
 
-1. Do not modify the E7-accepted fail-closed correction during this HOLD.
-2. Preserve `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority.
-3. Do not invent final `entry_instruction` semantics before E7's contract/version decision.
-4. Do not implement OKX `sz`, `ctVal`, `lotSz`, `minSz`, `tickSz`, leverage-setting, account-mode, or broker-call logic in E5 during this HOLD.
-5. Do not add Pionex-specific logic.
-6. Do not add production risk values, sizing expansion, exit features, PAPER, SHADOW, or LIVE authority.
-7. Keep executable evidence `NOT_RUN` until approved local execution.
-8. If acknowledging HOLD, update only `coordination/E5/STATUS.md`.
+1. Work on `agent/e5-risk-position` and synchronize non-destructively with the latest `main` before implementation. Do not force-rewrite history. If safe synchronization is not possible, report `BLOCKED`.
+2. Preserve the accepted `E5-RISK-UNKNOWN-001` correction and the authority chain `TradeIntent -> RiskDecision -> ApprovedTradePlan`.
+3. Consume executable TradeIntent only when it declares:
+   - `entry_profile_version = entry-v0.1`
+   - `entry_order_type = MARKET`
+   Unknown/missing/unsupported executable profiles fail closed.
+4. Emit canonical ApprovedTradePlan entry instruction:
+   - `entry_instruction.profile_version = entry-v0.1`
+   - `entry_instruction.order_type = MARKET`
+   - optional `reference_price` remains advisory only.
+5. Emit the canonical quantity profile for `BTC_USDT_PERP`:
+   - `quantity_profile_version = base-asset-v0.1`
+   - `quantity_unit = BASE_ASSET`
+   - `quantity_asset = BTC`
+   - `quantity` means maximum E5-approved new-position BTC exposure bound.
+6. Do not interpret legacy `entry_style` as executable and do not promote advisory/reference price into executable limit/stop price.
+7. Do not implement OKX `sz`, `ctVal`, `ctMult`, `ctValCcy`, `lotSz`, `minSz`, `tickSz`, instrument metadata retrieval, account mode, provider API calls, or credentials. Those remain E4/provider-adapter responsibilities.
+8. Preserve the rule that downstream provider quantization may realize less than the approved canonical quantity but may never exceed the E5-approved bound.
+9. Add deterministic local-only safety/risk tests covering at minimum:
+   - valid profiled MARKET intent -> profiled ApprovedTradePlan;
+   - missing/unknown profile -> reject;
+   - unsupported executable order type -> reject;
+   - legacy style-only intent -> not execution eligible;
+   - advisory reference price remains non-executable;
+   - exact quantity profile/unit/asset propagation;
+   - forged/unsafe approval cannot bypass the existing fail-closed state checks.
+10. Update E5 handoff/status and `coordination/E5/STATUS.md` with exact branch HEAD, changed files, profile semantics, and verification state.
+11. Executable verification remains local-only. If no Product Owner-approved local environment exists, record `NOT_RUN` plus exact commands.
 
 ## Acceptance
 
-- accepted correction remains intact;
-- E5 remains broker-API independent;
-- no Pionex-specific new work;
-- no premature OKX sizing semantics are stabilized;
-- no shared-contract change;
-- no GitHub compute/CI;
-- no executable PASS claim.
+- E5 produces `entry-v0.1` MARKET-only ApprovedTradePlan instructions;
+- E5 quantity is explicitly canonical BTC base-asset exposure under `base-asset-v0.1`;
+- no exchange contract sizing or OKX API logic enters E5;
+- existing fail-closed risk behavior remains intact;
+- no shared-contract changes;
+- no Pionex new development;
+- no PAPER/SHADOW/LIVE authority;
+- no GitHub Actions/CI/hosted runner/project compute;
+- executable evidence remains `NOT_RUN` if local execution is unavailable.
 
 ## Writable scope
 
-Only `coordination/E5/STATUS.md` for HOLD acknowledgement unless PM/E7 replaces this task.
+E5-owned paths only:
+
+- `src/risk/**`
+- `src/position/**` only if directly required for canonical quantity/profile propagation
+- `tests/risk/**`
+- `tests/position/**` only if directly required
+- `tests/safety/**` for E5-owned scenarios
+- E5-owned docs/status/handoff
+- `coordination/E5/STATUS.md`
+
+## Forbidden scope
+
+- `contracts/**` changes;
+- E1/E2/E3/E4/E6 production rewrites;
+- OKX/Pionex API/auth/instrument-metadata implementation;
+- provider contract sizing/quantization;
+- production policy-value expansion;
+- PAPER/SHADOW/LIVE enablement;
+- GitHub compute/CI.
 
 ## Completion / status
 
-Acknowledge HOLD if needed and wait for the E7 contract/OKX boundary decision. Do not start another feature automatically.
+Persist the bounded producer/profile implementation and handoff, update STATUS, then stop. Do not start OKX adapter, broker, or new risk-policy features automatically.

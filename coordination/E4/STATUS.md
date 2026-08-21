@@ -1,161 +1,144 @@
 # E4 Status
 
-- task_id: `E4-20260821-006`
+- task_id: `E4-20260821-012`
 - agent: `E4`
 - state: `DONE`
-- branch: `agent/e4-execution-v2`
-- head_sha: `c71bf9c66a7f37cedb8bbbcf3000591970a081eb` (implementation + docs + handoff HEAD immediately before this status-only completion commit)
-- summary: `Completed the bounded provider-neutral entry-v0.1 MARKET translator and deterministic local OKX BTC-USDT-SWAP instrument metadata/sizing layer. ApprovedTradePlan.quantity remains canonical BTC and provider contract sz remains a separate audit fact. Quantization only rounds down or rejects. Existing E4 idempotency/partial-fill/overfill/ambiguous-ack/reconciliation behavior was preserved. No OKX networking/private/Demo/account/auth/order submission was added.`
-- files_changed: `src/execution/gateway.py; src/execution/models.py; src/brokers/okx_sizing.py; tests/execution/test_gateway.py; tests/brokers/test_paper_broker.py; tests/brokers/test_okx_sizing.py; docs/execution/OKX_SIZING_POLICY.md; docs/execution/E4_TO_E7_HANDOFF.md; coordination/E4/STATUS.md`
+- branch: `agent/e4-okx-demo-adapter-20260821`
+- head_sha: `99bf09461e32117001ce7e587be44dcc3d152ab2` (source/tests/docs/handoff HEAD immediately before this status-only completion commit)
+- summary: `Closed only the remaining E7 blocker E4-OKX-MATERIALIZATION-INTEGRITY-001 at the actual provider submit boundary. submit_entry now requires the exact adapter-issued preparation instance, verifies all public materialization semantics against immutable adapter-owned preparation facts, re-derives the signed provider body from trusted facts, and rejects direct construction, cross-adapter substitution, semantic mutation, or post-prepare body tampering before idempotency-cache access or transport. The four previously closed findings remain unchanged.`
+- files_changed: `src/brokers/okx_demo.py; tests/brokers/test_okx_submit_integrity.py; docs/execution/OKX_DEMO_ADAPTER.md; docs/execution/E4_TO_E7_HANDOFF.md; coordination/E4/STATUS.md`
 - contracts_changed: `NO`
 - local_verification: `NOT_RUN`
 - not_run: `No Product Owner-approved local project execution environment was used. Required commands: python -m unittest discover -s tests/execution -p "test_*.py" -v ; python -m unittest discover -s tests/brokers -p "test_*.py" -v`
-- blockers: `NONE for bounded static/source completion. Documentation gap: TASK references status/e7/E2_E5_PROFILE_CHAIN_STATIC_REVIEW_20260821.md, but that file was not present/searchable after synchronization. No substitute review was invented; implementation used the TASK's explicit accepted E2/E5 pins plus contracts/EXECUTION_OBJECT_PROFILES_V0_1.md and ADR-0002/0003.`
+- blockers: `NONE for bounded static/source completion. Provider retry remains structurally disabled as previously accepted; no provider connectivity or execution was authorized.`
 - handoff_path: `docs/execution/E4_TO_E7_HANDOFF.md`
-- next_owner: `E7/PM`
+- next_owner: `E7/PM for PR #12 targeted static re-review`
 
 ## Branch synchronization
 
-- prior E4 skeleton/history preserved;
-- synchronized with then-current `main` `2bbe3726f7897f3ad2df0b67a58f9ba9829c17d4` using two-parent merge commit `2e0a60e3ba3e9fbe5f298fded2408988beb81fe0`;
-- no force update, destructive rebase, or old-branch rewrite was used.
-
-## Canonical entry translation
-
-Accepted executable profile only:
+Before this correction the existing PR #12 branch had diverged from latest `main`. E4 synchronized non-destructively using two-parent merge commit:
 
 ```text
-schema_version           = contracts-v0.1
-symbol                   = BTC_USDT_PERP
-entry profile            = entry-v0.1
-entry order type         = MARKET
-quantity profile         = base-asset-v0.1
-quantity unit            = BASE_ASSET
-quantity asset           = BTC
+64508c6f15be959cf8eabefed580a48cd3c964c0
 ```
 
-Mechanical mapping:
+Parents preserve:
+
+- prior PR #12 branch HEAD `c151fa7c37adafbf9f93157d80cf4b763dd775e2`;
+- then-current `main` `7c6522e5c52722f734c11c1772c0b2e86b81b51c`.
+
+No force update, destructive rebase, or history rewrite was used.
+
+## Remaining finding disposition
+
+### `E4-OKX-MATERIALIZATION-INTEGRITY-001` — `CORRECTED / STATIC SOURCE`
+
+Preparation-side sizing integrity from the previous revision is preserved. The final submit boundary now independently enforces adapter-issued authority.
+
+`prepare_entry()` registers a frozen internal `_IssuedOKXPreparation` containing the exact trusted preparation facts:
+
+- `order_request_id`;
+- `trade_plan_id`;
+- internal `client_order_id`;
+- provider `clOrdId`;
+- provider instrument;
+- provider side;
+- provider position side;
+- `ordType=market`;
+- `tdMode=isolated`;
+- provider contract quantity;
+- effective canonical BTC quantity;
+- E5-approved canonical BTC quantity;
+- instrument metadata reference and observation timestamp;
+- metadata freshness policy version;
+- preparation timestamp;
+- Demo environment;
+- account level and position mode.
+
+The adapter retains the exact issued `OKXOrderMaterialization` object instance. Visible equality is insufficient: a caller-constructed clone is not an issued object and is rejected.
+
+`submit_entry()` now performs `_authorize_submit()` before consulting `_submit_results` and before any transport operation.
+
+Submit requires:
+
+1. exact adapter-issued object identity;
+2. exact semantic equality with frozen issued facts;
+3. unchanged Demo/account/position-mode context;
+4. deterministic `clOrdId` binding to internal client identity;
+5. `0 < effective canonical BTC <= E5-approved canonical quantity`;
+6. positive provider contract quantity;
+7. exact equality between caller-visible `body` and a fresh body derived from trusted issued facts.
+
+The body actually sent into REST signing is freshly derived from `_IssuedOKXPreparation`; `materialization.body` is comparison/audit data only and is never execution authority.
+
+A provider `clOrdId` that has already been prepared cannot be reissued with materially different trusted preparation facts.
+
+## Targeted deterministic test definitions
+
+Added `tests/brokers/test_okx_submit_integrity.py` covering:
+
+- mutate `body["sz"]` after `prepare_entry()` -> reject before transport;
+- mutate `instId` -> reject before transport;
+- mutate `side` -> reject before transport;
+- mutate `posSide` -> reject before transport;
+- mutate `ordType` -> reject before transport;
+- mutate `clOrdId` -> reject before transport;
+- direct caller-constructed clone -> reject before transport;
+- materialization issued by another adapter -> reject before transport;
+- materially changed facts under the same logical/client identity -> reject;
+- materially different re-preparation under one provider `clOrdId` -> reject;
+- valid adapter-issued preparation -> exact expected Demo MARKET isolated signed body;
+- repeated submit of the same issued object -> idempotent result, no second transport call;
+- provider effective canonical quantity remains `<=` E5-approved BTC bound.
+
+These are definitions only. No test was executed in this environment.
+
+## Four previously closed findings
+
+Preserved without redesign:
+
+- `E4-OKX-ACCOUNT-MATRIX-001` — `CLOSED / unchanged`
+- `E4-OKX-RETRY-PROVENANCE-001` — `CLOSED / retry remains structurally disabled`
+- `E4-OKX-ORDER-ABSENCE-001` — `CLOSED / no caller-configurable absence authority`
+- `E4-OKX-ORDER-STATE-CONSISTENCY-001` — `CLOSED / state-fill consistency checks unchanged`
+
+## Accepted boundaries preserved
+
+- Demo-only mode;
+- mandatory `x-simulated-trading: 1` on authenticated requests;
+- runtime-only/redacted credentials;
+- bounded private endpoint allowlist;
+- `acctLv=2` Futures mode with `net_mode | long_short_mode`;
+- `tdMode=isolated`;
+- MARKET-only entry;
+- canonical BTC quantity remains distinct from OKX provider `sz`;
+- freshness policy `okx-instrument-metadata-freshness-v0.2` unchanged;
+- provider retry structurally disabled;
+- no production/live fallback;
+- no automatic account/position/leverage mutation;
+- no withdrawal/deposit/funding/internal/sub-account transfer/balance-adjustment API;
+- Broker/PaperBroker source behavior unchanged;
+- shared contracts unchanged.
+
+## Verification / execution state
 
 ```text
-LONG  -> BUY
-SHORT -> SELL
-MARKET -> MARKET
-ApprovedTradePlan.quantity -> OrderRequest.quantity unchanged
+executable verification = NOT_RUN
+provider requests/orders = NOT_SENT
+GitHub Actions / CI      = NOT_USED
+hosted runner/compute    = NOT_USED
+PAPER/SHADOW/LIVE        = NOT_ADVANCED
 ```
 
-`reference_price` remains advisory only. It never becomes `limit_price`, `stop_price`, `trigger_price`, or TIF. Missing/unknown profile, unsupported order type, invalid quantity profile/unit/asset, malformed quantity, expired/incompatible plan, or forbidden executable entry fields fail closed.
-
-## OKX metadata / sizing policy
-
-Configured mapping:
+Required Product Owner-approved local commands:
 
 ```text
-BTC_USDT_PERP -> OKX BTC-USDT-SWAP
+python -m unittest discover -s tests/execution -p "test_*.py" -v
+python -m unittest discover -s tests/brokers -p "test_*.py" -v
 ```
 
-Freshness policy:
-
-```text
-version = okx-instrument-metadata-freshness-v0.1
-max_age = 300 seconds
-```
-
-Required local metadata facts include provider/instrument identity, `instType`, `ctVal`, `ctMult`, `ctValCcy`, `ctType`, `lotSz`, `minSz`, `tickSz`, `state`, observation time/reference, and freshness-policy version.
-
-Supported direct conversion only:
-
-```text
-provider = OKX
-instType = SWAP
-ctType   = linear
-ctValCcy = BTC
-state    = live
-```
-
-Formula:
-
-```text
-base_per_contract = ctVal * ctMult
-raw_contracts     = approved_base_quantity / base_per_contract
-provider_sz       = floor(raw_contracts / lotSz) * lotSz
-effective_base    = provider_sz * base_per_contract
-```
-
-Required invariant:
-
-```text
-provider_sz >= minSz
-provider_sz is a valid lotSz multiple
-0 < effective_base <= E5-approved BTC quantity
-```
-
-Provider quantization never rounds up. Missing/stale/malformed/non-live/mismatched/unsupported metadata blocks sizing/new exposure.
-
-## Canonical vs provider-native audit separation
-
-`OKXEntrySizingAudit` keeps separate:
-
-- canonical E5-approved BTC quantity/profile;
-- provider requested contract quantity (`sz` semantics);
-- effective canonical BTC quantity after round-down;
-- provider/instrument identity;
-- metadata reference/observation/freshness policy;
-- base-per-contract used for conversion.
-
-OKX contract count is not written into shared canonical `OrderRequest.quantity`.
-
-## Official provider recheck
-
-Current official OKX V5 API documentation was rechecked on 2026-08-21:
-
-- `https://www.okx.com/docs-v5/en/`
-- `GET /api/v5/public/instruments`
-- `POST /api/v5/trade/order`
-
-Reconfirmed for this scope: derivative order `sz` is contract count; derivative `lotSz/minSz` are contract units; MARKET is supported for SWAP; normal tradable state is `live`, while `post_only` is incompatible with MARKET.
-
-Provider-specific `clOrdId` constraints were noted but provider request/client-ID mapping is explicitly not implemented in this task.
-
-## Deterministic test definitions added/updated
-
-- valid profiled MARKET plan -> mechanical OrderRequest;
-- LONG/SHORT side mapping;
-- advisory reference price never becomes executable price;
-- missing/unknown profile rejection;
-- unsupported order type / forbidden price-TIF rejection;
-- malformed quantity / expired plan rejection;
-- stable idempotency identity;
-- existing partial fill / overfill behavior;
-- ambiguous acknowledgement -> reconciliation required;
-- query/reconcile-before-retry behavior retained;
-- exact representable OKX quantity;
-- round-down quantity;
-- below-minimum/nonrepresentable rejection;
-- lot/min size validation;
-- stale/missing/malformed/non-tradable/mismatched metadata rejection;
-- unsupported conversion rejection;
-- provider sizing never exceeds canonical approved BTC;
-- canonical quantity and provider contract quantity remain distinct.
-
-## Verification / execution policy
-
-- executable verification: `NOT_RUN`
-- GitHub Actions / CI / hosted runner: `NOT_USED`
-- no project test, broker simulation, API experiment, integration test, or recovery test was executed on GitHub
-- no Gate B / PAPER_READY / Demo / SHADOW / LIVE PASS is claimed
-
-## Provider / live / security status
-
-- OKX public networking: `NOT_IMPLEMENTED`
-- OKX private/Demo API: `NOT_IMPLEMENTED`
-- authentication/signatures: `NOT_IMPLEMENTED`
-- account/balance/leverage calls: `NOT_IMPLEMENTED`
-- real/Demo order submission: `NOT_IMPLEMENTED`
-- withdrawal/funding transfer/sub-account capital movement: `NOT_IMPLEMENTED / NOT EXPOSED`
-- PAPER/SHADOW/LIVE enablement: `NOT AUTHORIZED / NOT IMPLEMENTED`
-- credentials/secrets: `NONE ADDED`
-- shared contracts: `UNCHANGED`
+No executable PASS is claimed.
 
 ## Completion boundary
 
-This task is complete within its bounded static/source scope. E4 stops here and does not start OKX Demo/private execution or another feature automatically.
+The single TASK-authorized blocker correction is complete in static/source form. E4 stops here and does not merge PR #12, send a Demo request/order, add concrete networking, enable provider retry, or start another feature automatically.

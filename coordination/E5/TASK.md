@@ -1,55 +1,66 @@
 # E5 Current Task
 
-- task_id: `E5-20260820-002`
-- issued_at: `2026-08-20T18:36:00+08:00`
+- task_id: `E5-20260821-004`
+- issued_at: `2026-08-21T10:58:00+08:00`
 - state: `ACTIVE`
-- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, E7 review `status/e7/POST_SLICE1_CONSTRUCTION_SYNC_REVIEW.md`
+- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0002, ADR-0003
 
 ## Objective
 
-Correct E7 blocking finding `E5-RISK-UNKNOWN-001` without expanding E5 scope or changing shared contracts.
-
-The current Risk/Position skeleton has the correct authority chain and lifecycle structure, but contradictory status-string + companion-boolean inputs can be interpreted permissively. Make the required state semantics explicitly fail closed.
+Implement the new provider-neutral executable entry and canonical quantity profiles at the E5 RiskDecision -> ApprovedTradePlan boundary while preserving E5 risk authority and the accepted fail-closed correction.
 
 ## Required actions
 
-1. Synchronize `agent/e5-risk-position` with the latest `main` before correction, preserving existing E5 history. Do not force-rewrite history. If safe synchronization is not possible with the available Git tooling, report `BLOCKED` rather than improvising.
-2. In E5-owned risk validation, make required market/account/order/position state semantics fail closed according to `contracts-v0.1`.
-3. Explicitly reject canonical/recognized unknown, stale, reconciliation-required, degraded/unsafe required states even when a companion boolean incorrectly claims the state is known/fresh.
-4. Explicitly reject contradictory status/boolean combinations rather than choosing the permissive interpretation.
-5. Add deterministic safety test definitions covering at minimum:
-   - `account_state_status="UNKNOWN"` + `account_state_known=true` -> reject;
-   - `order_state_status="UNKNOWN"` + `order_state_known=true` -> reject;
-   - `position_state_status="UNKNOWN"` + `position_state_known=true` -> reject;
-   - unsafe/stale/degraded market status + `market_data_fresh=true` -> reject;
-   - unknown/inconsistent state cannot produce an `APPROVE` RiskDecision or `ApprovedTradePlan`.
-6. Preserve the existing `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority chain.
-7. Preserve the existing fail-closed position lifecycle; do not add PAPER/LIVE authorization, production risk values, sizing expansion, trailing/BE/structure-exit features, or broker logic.
-8. Do not stabilize provisional `entry_instruction` / `protection_instruction` nesting as a new shared contract.
-9. Update E5 handoff and `coordination/E5/STATUS.md` with the corrected revision, changed files, finding disposition, branch synchronization result, and verification state.
-10. Executable verification remains local-only. If no Product Owner-approved local environment is available, record `NOT_RUN` plus exact commands.
+1. Work on `agent/e5-risk-position` and synchronize non-destructively with the latest `main` before implementation. Do not force-rewrite history. If safe synchronization is not possible, report `BLOCKED`.
+2. Preserve the accepted `E5-RISK-UNKNOWN-001` correction and the authority chain `TradeIntent -> RiskDecision -> ApprovedTradePlan`.
+3. Consume executable TradeIntent only when it declares:
+   - `entry_profile_version = entry-v0.1`
+   - `entry_order_type = MARKET`
+   Unknown/missing/unsupported executable profiles fail closed.
+4. Emit canonical ApprovedTradePlan entry instruction:
+   - `entry_instruction.profile_version = entry-v0.1`
+   - `entry_instruction.order_type = MARKET`
+   - optional `reference_price` remains advisory only.
+5. Emit the canonical quantity profile for `BTC_USDT_PERP`:
+   - `quantity_profile_version = base-asset-v0.1`
+   - `quantity_unit = BASE_ASSET`
+   - `quantity_asset = BTC`
+   - `quantity` means maximum E5-approved new-position BTC exposure bound.
+6. Do not interpret legacy `entry_style` as executable and do not promote advisory/reference price into executable limit/stop price.
+7. Do not implement OKX `sz`, `ctVal`, `ctMult`, `ctValCcy`, `lotSz`, `minSz`, `tickSz`, instrument metadata retrieval, account mode, provider API calls, or credentials. Those remain E4/provider-adapter responsibilities.
+8. Preserve the rule that downstream provider quantization may realize less than the approved canonical quantity but may never exceed the E5-approved bound.
+9. Add deterministic local-only safety/risk tests covering at minimum:
+   - valid profiled MARKET intent -> profiled ApprovedTradePlan;
+   - missing/unknown profile -> reject;
+   - unsupported executable order type -> reject;
+   - legacy style-only intent -> not execution eligible;
+   - advisory reference price remains non-executable;
+   - exact quantity profile/unit/asset propagation;
+   - forged/unsafe approval cannot bypass the existing fail-closed state checks.
+10. Update E5 handoff/status and `coordination/E5/STATUS.md` with exact branch HEAD, changed files, profile semantics, and verification state.
+11. Executable verification remains local-only. If no Product Owner-approved local environment exists, record `NOT_RUN` plus exact commands.
 
 ## Acceptance
 
-Static/source acceptance requires:
-
-- `E5-RISK-UNKNOWN-001` is demonstrably corrected in source/test definitions;
-- contradictory or unknown required state always fails closed;
-- no shared contract changes;
-- no E4/E6 implementation rewrite;
-- no PAPER/LIVE authority;
+- E5 produces `entry-v0.1` MARKET-only ApprovedTradePlan instructions;
+- E5 quantity is explicitly canonical BTC base-asset exposure under `base-asset-v0.1`;
+- no exchange contract sizing or OKX API logic enters E5;
+- existing fail-closed risk behavior remains intact;
+- no shared-contract changes;
+- no Pionex new development;
+- no PAPER/SHADOW/LIVE authority;
 - no GitHub Actions/CI/hosted runner/project compute;
-- executable evidence remains `NOT_RUN` when local execution is unavailable.
+- executable evidence remains `NOT_RUN` if local execution is unavailable.
 
 ## Writable scope
 
 E5-owned paths only:
 
 - `src/risk/**`
-- `src/position/**` only if directly necessary for this finding
+- `src/position/**` only if directly required for canonical quantity/profile propagation
 - `tests/risk/**`
-- `tests/position/**` only if directly necessary
-- `tests/safety/**` for E5 safety scenarios
+- `tests/position/**` only if directly required
+- `tests/safety/**` for E5-owned scenarios
 - E5-owned docs/status/handoff
 - `coordination/E5/STATUS.md`
 
@@ -57,19 +68,12 @@ E5-owned paths only:
 
 - `contracts/**` changes;
 - E1/E2/E3/E4/E6 production rewrites;
-- new risk-policy production values;
-- broker/private Pionex work;
+- OKX/Pionex API/auth/instrument-metadata implementation;
+- provider contract sizing/quantization;
+- production policy-value expansion;
 - PAPER/SHADOW/LIVE enablement;
 - GitHub compute/CI.
 
-## Local verification
-
-If an approved local environment exists, use the E5 handoff commands. Otherwise keep:
-
-```text
-NOT_RUN
-```
-
 ## Completion / status
 
-After correcting the finding and updating the handoff/STATUS, stop and wait for E7 re-review. Do not begin another E5 feature automatically.
+Persist the bounded producer/profile implementation and handoff, update STATUS, then stop. Do not start OKX adapter, broker, or new risk-policy features automatically.

@@ -1,53 +1,47 @@
-"""Typed E1 market-data failures for the bounded OKX historical slice."""
+"""Canonical timeframe semantics and the bounded OKX adapter mapping."""
+
+from __future__ import annotations
+
+from datetime import datetime, timedelta, timezone
+
+from .errors import UnsupportedTimeframeError
+
+_TIMEFRAME_DURATION = {
+    "1m": timedelta(minutes=1),
+    "15m": timedelta(minutes=15),
+    "1h": timedelta(hours=1),
+    "4h": timedelta(hours=4),
+}
+
+# OKX API V5 historical-candles bar labels. Provider labels remain inside E1.
+_OKX_BAR = {
+    "1m": "1m",
+    "15m": "15m",
+    "1h": "1H",
+    "4h": "4H",
+}
+
+SUPPORTED_TIMEFRAMES = frozenset(_TIMEFRAME_DURATION)
 
 
-class MarketDataError(Exception):
-    """Base class for E1 historical market-data failures."""
+def timeframe_duration(timeframe: str) -> timedelta:
+    try:
+        return _TIMEFRAME_DURATION[timeframe]
+    except KeyError as exc:
+        raise UnsupportedTimeframeError(f"unsupported canonical timeframe: {timeframe!r}") from exc
 
 
-class UnsupportedTimeframeError(MarketDataError):
-    pass
+def okx_bar(timeframe: str) -> str:
+    try:
+        return _OKX_BAR[timeframe]
+    except KeyError as exc:
+        raise UnsupportedTimeframeError(f"unsupported canonical timeframe: {timeframe!r}") from exc
 
 
-class UnsupportedSymbolError(MarketDataError):
-    pass
-
-
-class MalformedCandleError(MarketDataError):
-    pass
-
-
-class DuplicateCandleError(MarketDataError):
-    pass
-
-
-class OutOfOrderCandleError(MarketDataError):
-    pass
-
-
-class MissingCandleError(MarketDataError):
-    pass
-
-
-class UnclosedCandleError(MarketDataError):
-    pass
-
-
-class RangeAlignmentError(MarketDataError):
-    pass
-
-
-class IncompleteHistoricalRangeError(MarketDataError):
-    pass
-
-
-class ProviderResponseError(MarketDataError):
-    pass
-
-
-class ProviderUnavailableError(MarketDataError):
-    pass
-
-
-class ProviderRateLimitError(MarketDataError):
-    pass
+def is_timeframe_aligned(value: datetime, timeframe: str) -> bool:
+    if value.tzinfo is None or value.utcoffset() is None:
+        return False
+    utc_value = value.astimezone(timezone.utc)
+    duration_ms = int(timeframe_duration(timeframe).total_seconds() * 1000)
+    epoch_ms = int(utc_value.timestamp() * 1000)
+    return epoch_ms % duration_ms == 0

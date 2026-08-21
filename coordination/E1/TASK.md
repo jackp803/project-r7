@@ -1,98 +1,69 @@
 # E1 Current Task
 
-- task_id: `E1-20260821-002`
-- issued_at: `2026-08-21T10:07:00+08:00`
+- task_id: `E1-20260821-004`
+- issued_at: `2026-08-21T12:41:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e1-market-data-okx`
-- authority: `agents/E1_MARKET_DATA.md`, `agents/README.md`, `contracts-v0.1`, Product Owner decision `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`
+- authority: `agents/E1_MARKET_DATA.md`, `agents/README.md`, `contracts-v0.1`, Product Owner OKX decision, PR #8, E7 finding `E1-INTEGRATION-SYNC-001`
 
 ## Objective
 
-Migrate the V1 public market-data target from Pionex to OKX while preserving the canonical `contracts-v0.1` Candle contract and the already-reviewed closed-candle/no-manufactured-data semantics.
+Resolve PR #8 repository synchronization only, while preserving the statically accepted OKX public historical-market-data implementation.
 
-This is a provider-adapter migration only. Do not modify Strategy, Backtest, Risk, Registry, or Execution behavior.
+E7 has already given the reviewed E1 implementation/test definitions `PASS / STATIC ONLY`. The current blocker is branch synchronization/merge readiness, not market-data behavior.
 
-## Product target
+## Accepted reviewed evidence
 
-```text
-Canonical instrument: BTC_USDT_PERP
-OKX instrument:       BTC-USDT-SWAP
-Canonical timeframes: 1m / 15m / 1h / 4h
-Provider target:      OKX public market-data APIs
-```
-
-No new Pionex-specific development is authorized.
+- branch: `agent/e1-market-data-okx`
+- reviewed implementation revision: `c782438ae7e895f2304498946970f2ee5dd5b18f`
+- PR: `#8 market-data: migrate V1 public history to OKX`
+- E7 review: `status/e7/E1_OKX_MIGRATION_STATIC_REVIEW_20260821.md`
+- static source disposition: `PASS`
+- executable verification: `NOT_RUN`
 
 ## Required actions
 
-1. Work only on fresh branch `agent/e1-market-data-okx`, created by PM from the latest `main`. Do not rewrite or delete the historical reviewed Pionex branch/code merely to claim migration.
-2. Implement an OKX public historical-candle adapter using official OKX public endpoints appropriate for historical SWAP candles.
-3. Map only at the adapter boundary:
-   - canonical `BTC_USDT_PERP` -> OKX `BTC-USDT-SWAP`;
-   - canonical `1m / 15m / 1h / 4h` -> exact OKX provider bar labels required by the official API.
-4. Preserve the existing canonical Candle fields/invariants from `contracts-v0.1`:
-   - UTC timestamps;
-   - half-open `[open_time, close_time)` semantics;
-   - Decimal financial values internally / decimal-string interchange where serialized;
-   - deterministic duplicate handling;
-   - malformed/missing/out-of-order data surfaced, not manufactured;
-   - only finalized/closed provider bars become canonical closed candles.
-5. Normalize OKX candle finality using the provider's official finality/confirmation field. Do not infer a bar is final merely from local wall-clock time if provider finality says otherwise.
-6. Preserve deterministic exact historical-range validation and pagination. Surface provider/network/API limit errors explicitly.
-7. Add/update local-only test definitions covering at minimum:
-   - symbol mapping;
-   - timeframe mapping;
-   - provider finality -> canonical `is_closed`;
-   - ascending canonical output even if provider returns descending pages;
-   - duplicate rejection/deterministic handling;
-   - gap/missing-bar detection for an exact requested historical sequence;
-   - malformed OHLCV rejection;
-   - canonical schema_version remains `contracts-v0.1`;
-   - no provisional/unconfirmed candle is accepted as final.
-8. Add/update E1 documentation/handoff explaining the OKX mapping and any provider-specific pagination/finality constraints.
-9. Update `coordination/E1/STATUS.md` with exact branch HEAD, changed files, source endpoint(s), mapping table, known limits, and verification state.
-10. Do not run project code/tests unless a Product Owner-approved local environment exists. Otherwise record `NOT_RUN` plus exact commands.
+1. Non-destructively synchronize `agent/e1-market-data-okx` with the latest `main`. Preserve reviewed E1 history; no force rewrite.
+2. Resolve mailbox/status conflicts in favor of the latest PM-owned `main:coordination/E1/TASK.md`; keep E1-owned STATUS accurate for this task.
+3. Preserve the reviewed production/test behavior. Do not redesign the adapter while synchronizing.
+4. Correct E7 documentation finding `E1-OKX-DOC-AFTER-001`: current official OKX wording is that `after` returns records **earlier than** the requested timestamp. Update inaccurate comments/handoff wording only as needed; do not alter safe cursor behavior solely for this wording correction.
+5. Keep the existing safe cursor behavior unless a new concrete defect is found:
+   - first cursor = `end - 1 ms`;
+   - next cursor = `earliest returned open_time - 1 ms`.
+6. After synchronization, confirm PR #8 is no longer behind main / has a clean merge relationship if GitHub reports it. Do not merge PR #8 yourself.
+7. If any production/test semantic blob changes beyond synchronization or documentation/comment precision, report the exact changed paths in STATUS so E7 can perform a full changed-content re-review.
+8. Do not add WebSocket, MarketSnapshot, cache/retry platform, private/account API, Demo/private execution, credentials, or Pionex-specific work.
+9. Update `coordination/E1/STATUS.md` with post-sync branch HEAD, synchronization commit, exact semantic changes (if any), documentation correction, PR mergeability observation, and verification state.
+10. Executable verification remains local-only. If no Product Owner-approved local environment exists, keep `NOT_RUN` and exact commands.
 
 ## Acceptance
 
-Static/source acceptance requires:
-
-- OKX public historical adapter exists and is observable in Git;
-- canonical Candle contract is unchanged;
-- no shared-contract modification unless a real mismatch is reported and work stops;
-- no private OKX API, account data, credentials, Demo/private orders, or execution code;
-- no new Pionex-specific work;
+- branch is synchronized non-destructively with latest main;
+- reviewed OKX adapter/test semantics remain unchanged unless explicitly reported;
+- `after` documentation wording is corrected;
+- PR #8 is ready for E7 bounded SHA/scope recheck;
+- no shared-contract or private execution change;
 - no GitHub Actions/CI/hosted runner/project compute;
-- executable evidence remains `NOT_RUN` if no approved local environment exists.
+- executable evidence remains `NOT_RUN` without approved local execution.
 
 ## Writable scope
 
-E1-owned paths only:
+E1-owned paths only as required for synchronization/documentation precision:
 
-- `src/market_data/**`
-- `tests/market_data/**`
-- E1-owned docs/status/handoff paths
+- `src/market_data/**` comments only unless a real defect is found and reported
+- `tests/market_data/**` should remain unchanged unless a real defect is found and reported
+- `status/e1/OKX_MIGRATION_HANDOFF.md`
+- E1-owned docs/status
 - `coordination/E1/STATUS.md`
 
 ## Forbidden scope
 
-- `contracts/**` changes;
-- E2/E3/E4/E5/E6 production rewrites;
-- private OKX/Pionex API logic;
+- shared contract changes;
+- E2/E3/E4/E5/E6 production changes;
+- private OKX/Pionex API/auth/account/order work;
 - credentials/secrets;
 - GitHub compute/CI;
-- SHADOW/LIVE behavior.
-
-## Local verification
-
-If an approved local environment exists, use exact commands documented in the E1 handoff. Otherwise:
-
-```text
-NOT_RUN
-```
-
-A future public-network smoke test must use only OKX public market endpoints and must never require credentials.
+- merging PR #8.
 
 ## Completion / status
 
-Persist the bounded OKX public-data migration and handoff, update STATUS, then stop. Do not start WebSocket/private/account/execution work automatically.
+Synchronize, correct the documentation precision finding, update STATUS, push to `agent/e1-market-data-okx`, then stop. Do not start another E1 feature automatically.

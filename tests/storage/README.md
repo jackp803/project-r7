@@ -9,10 +9,18 @@ These test definitions are executable in an approved local checkout. They have *
 - migration idempotence;
 - immutable StrategyVersion content at the database layer;
 - append-only lifecycle transition history;
+- direct-store acceptance of exactly:
+  - `DRAFT -> BACKTESTING`;
+  - `BACKTESTING -> REJECTED`;
+  - `BACKTESTING -> CANDIDATE`;
+- direct-store rejection of service-forbidden edges and self-transitions without transition-row or projection mutation;
+- direct SQL forbidden-edge rejection by the migration trigger without authoritative projection/revision mutation;
 - restart persistence of current lifecycle state and revision;
 - migration-backed Registry reconstruction.
 
-Additional Registry tests cover identity conflicts, evidence binding, lifecycle gates, and rejection retention.
+Additional Registry tests cover identity conflicts, evidence binding, lifecycle service gates, rejection retention, and the accepted `E6-EVIDENCE-CONTRACT-001` evidence-shape protection.
+
+Synthetic fixtures in these tests are test doubles only; they are not project executable PASS evidence.
 
 ## Local-only command
 

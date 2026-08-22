@@ -2,87 +2,113 @@
 
 > Owner: E6 Platform / Storage / Strategy Registry / Dashboard Engineer  
 > Branch: `agent/e6-platform`  
-> Task: `E6-20260822-005`  
-> State: `DONE / AWAITING E7 TARGETED RE-REVIEW`
+> Task: `E6-20260822-007`  
+> State: `DONE / AWAITING E7 RE-REVIEW`
+
+## Summary
+
+Closed the supported-public/raw-persistence authority portion of `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001` for static E7 re-review.
+
+The supported storage surface is now narrowed to:
+
+```python
+from storage import open_sqlite_platform
+```
+
+`open_sqlite_platform(...)` returns `StrategyPlatformService`; supported downstream code is no longer offered raw SQLite connections, migrations, authoritative Registry writers, or raw evidence/lifecycle write methods.
+
+Raw SQLite mechanics moved to `storage._sqlite_registry` and are internal implementation details. Authoritative store construction requires a module-private writer capability. This defines the supported trusted-process project boundary; it does not claim protection against arbitrary malicious in-process Python, monkey-patching/introspection, or direct filesystem/SQLite compromise.
 
 ## Synchronization
 
-- pre-task E6 head: `42c5d56996e0c4ff0e96edfc591726d9f9f34963`
-- latest main merged once before correction: `4474a919f0446881369914523132b4aa9b88007d`
-- synchronization merge: `d94a64a1abaf70850167b3e6aec7af120f40ffa6`
-- force push / destructive rebase / history rewrite: `NONE`
+- pre-task E6 head: `e7d1f3d9a99043107824a3c64d1d37663db8ff53`
+- latest main merged: `36d1b5f3baee298dc33da444e0a31782a8cc6d7e`
+- non-destructive synchronization merge: `610cdc4edbcd3fdf3f74c1eed9691253b4453cc9`
+- force push: `NO`
+- rebase/history rewrite: `NO`
 
-## Correction
+## Correction revisions
 
-Finding addressed:
+- source/tests/docs correction revision: `ca41cb92cfaf23c7c0d00a7802727fa28f5cca86`
+- handoff refresh commit: `a81bb0b43c96dc1ddf9152077ea5ca37d47032df`
 
-`E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`
+## Public API / writer authority
 
-Claimed disposition:
+Before:
 
-`CORRECTED IN SOURCE / READY_FOR_E7 TARGETED RE-REVIEW`
+```text
+storage.SQLiteRegistryStore
+storage.connect
+storage.apply_migrations
+```
 
-Source/tests/docs correction revision before status refresh:
+After:
 
-`df39836adabd04c77cc4f0d0b531ea10408866ab`
+```text
+storage.open_sqlite_platform
+```
 
-The authoritative SQLite persistence path now independently requires durable lifecycle evidence authority before mutation:
+The former `src/storage/sqlite_registry.py` public-looking module was removed. The implementation now lives under `src/storage/_sqlite_registry.py`; production store construction requires the E6-owned internal writer capability. Explicit underscore helpers exist only for internal/test storage-mechanics definitions.
 
-- `DRAFT -> BACKTESTING` requires exact-strategy E2 compatibility `PASS / LOCAL_EXECUTION` plus complete local evidence metadata;
-- `BACKTESTING -> CANDIDATE` requires the transition-selected E3 ValidationDecision PASS plus exact durable E3 parent BacktestResult, exact strategy/content/backtest binding, canonical payload validation, and complete local PASS metadata on both records;
-- `BACKTESTING -> REJECTED` preserves bounded reason/evidence coherence.
+Caller-created `CompatibilityEvidence`, `ValidationEvidenceRecord`, `LifecycleTransitionRecord`, and `StrategyVersionRecord` values remain DTO/data structures and do not themselves provide a supported production persistence writer.
 
-The shared E6 lifecycle-authority policy is used by both the public service and SQLite persistence. SQLite rechecks it inside its transaction before lifecycle history/projection mutation.
+## Initial / lifecycle projection defense in depth
 
-## Preserved boundaries
+New registrations must be exactly:
 
-- exact legal edges remain only:
-  - `DRAFT -> BACKTESTING`
-  - `BACKTESTING -> REJECTED`
-  - `BACKTESTING -> CANDIDATE`
-- every other edge remains fail-closed;
-- SQL forbidden-edge trigger remains intact;
-- append-only history remains intact;
-- current-state/revision/resulting-revision concurrency checks remain intact;
-- atomic update/rollback remains intact;
-- canonical BacktestResult/ValidationDecision validator implementation remains unchanged;
-- E2 default compatibility remains fail-closed `NOT_RUN`;
-- lifecycle remains capped at CANDIDATE;
-- no Slice 3 execution/provider persistence;
-- no shared contract changes;
-- no other-agent production changes.
+```text
+DRAFT / registry_revision 0
+```
 
-## Changed files for E6-20260822-005
+This is enforced by both the Python persistence path and `strategy_versions_initial_projection_guard` in migration `0001_strategy_registry.sql`.
 
-- `src/registry/lifecycle_authority.py`
-- `src/registry/service.py`
-- `src/storage/sqlite_registry.py`
+`strategy_versions_lifecycle_projection_guard` rejects naked lifecycle projection updates unless revision advances by one and a coherent matching lifecycle transition row already exists. The normal append path still inserts transition history and updates the projection atomically in the same transaction.
+
+## Preserved accepted boundaries
+
+- `src/registry/contract_validation.py` semantics unchanged; accepted blob remains `954d21c021c0885554ee650acced17610d958a0e`;
+- lifecycle vocabulary remains exactly `DRAFT | BACKTESTING | REJECTED | CANDIDATE`;
+- exact allowed edges remain `DRAFT -> BACKTESTING`, `BACKTESTING -> REJECTED`, `BACKTESTING -> CANDIDATE`;
+- Python and SQL forbidden-edge guards remain;
+- durable E2 authority revalidation for BACKTESTING remains;
+- durable E3 ValidationDecision + BacktestResult canonical/binding/local-execution revalidation for CANDIDATE remains;
+- append-only history, current-state/revision concurrency checks, rollback, and transaction atomicity remain;
+- no shared contract change;
+- no later lifecycle state or Slice 3 execution/provider persistence added.
+
+## Changed scope
+
+Task changes are limited to E6 writable paths:
+
+- `src/storage/__init__.py`
+- `src/storage/platform.py`
+- `src/storage/_sqlite_registry.py`
+- removal of `src/storage/sqlite_registry.py`
+- `src/storage/migrations/0001_strategy_registry.sql`
 - `src/storage/README.md`
+- `tests/registry/test_strategy_inbox.py`
+- `tests/registry/test_validation_lifecycle.py`
+- `tests/registry/test_evidence_contract_validation.py`
 - `tests/storage/test_registry_persistence.py`
 - `tests/storage/test_lifecycle_evidence_authority.py`
+- `tests/storage/test_public_persistence_boundary.py`
 - `tests/storage/README.md`
-- `status/E6_EARLY_SLICE2_HANDOFF.md`
-- `status/E6_STATUS.md`
-- `coordination/E6/STATUS.md`
+- `docs/platform/E6_STORAGE_AUTHORITY_BOUNDARY.md`
+- E6 handoff/status files.
 
-## Static regression evidence
-
-- `contract_validation.py` remains blob `954d21c021c0885554ee650acced17610d958a0e`;
-- migration 0001 still permits only the exact three early edges and retains append-only guards;
-- `main...agent/e6-platform` after correction uses synchronized main `4474a919f0446881369914523132b4aa9b88007d` as merge-base with `behind_by=0`;
-- changed-file scope remains E6-owned registry/storage/tests/docs/status only.
+Contracts changed: `NONE`.
 
 ## Verification
 
-Executable verification:
+Executable verification remains:
 
 ```text
 NOT_RUN
 ```
 
-No Product Owner-approved local execution environment was available. No tests, migrations, backtests, provider requests, GitHub Actions, CI, hosted runner, or GitHub-triggered project compute were executed.
+No Product Owner-approved local execution environment was available. No tests, migrations, backtests, provider requests, GitHub Actions, CI, hosted runners, or GitHub-triggered project compute were executed.
 
-Exact local commands:
+Exact local-only commands:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -90,10 +116,11 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-## Handoff
+Synthetic PASS fixtures in test definitions are test doubles only; they are not executable project PASS evidence.
 
-Handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`
+## Handoff / stop condition
 
-Next owner: `E7 / PM`
-
-E6 stops after coordination STATUS update and does not merge PR #16 or begin another feature automatically.
+- handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`
+- next owner: `E7 / PM`
+- PR #16 must remain open/unmerged for E7 review.
+- E6 stops after coordination STATUS update and does not start another task automatically.

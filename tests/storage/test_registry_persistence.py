@@ -58,6 +58,7 @@ def transition_record(
     expected_revision: int,
     *,
     suffix: str,
+    primary_evidence_id: str | None = None,
 ) -> LifecycleTransitionRecord:
     return LifecycleTransitionRecord(
         transition_id=f"transition-{suffix}",
@@ -67,27 +68,108 @@ def transition_record(
         changed_at="2026-08-20T00:02:00Z",
         changed_by="unit-test",
         reason_codes=("SYNTHETIC_PERSISTENCE_AUTHORITY_TEST",),
-        primary_evidence_id=None,
+        primary_evidence_id=primary_evidence_id,
         expected_registry_revision=expected_revision,
         resulting_registry_revision=expected_revision + 1,
     )
 
 
+def local_pass_compatibility(identity: StrategyIdentity, suffix: str) -> CompatibilityEvidence:
+    return CompatibilityEvidence(
+        compatibility_id=f"compat-{suffix}",
+        identity=identity,
+        status="PASS",
+        verification_kind="LOCAL_EXECUTION",
+        checker="E2_TEST_FIXTURE",
+        checked_at="2026-08-20T00:01:00Z",
+        reason_codes=("SYNTHETIC_TEST_EVIDENCE",),
+        details={"fixture": True},
+        source_revision="e2-synthetic-revision",
+        environment="local-test-fixture",
+        command="synthetic-e2-compat-check",
+        result_ref="synthetic-pass",
+    )
+
+
+def backtest_payload(record: StrategyVersionRecord, result_id: str) -> dict:
+    return {
+        "schema_version": "contracts-v0.1",
+        "backtest_result_id": result_id,
+        "strategy_id": record.identity.strategy_id,
+        "strategy_version": record.identity.strategy_version,
+        "strategy_content_hash": record.content_hash,
+        "runtime_version": "0.1.0",
+        "dataset_id": "synthetic-dataset",
+        "dataset_hash": "sha256:dataset",
+        "dataset_start": "2026-08-20T00:00:00Z",
+        "dataset_end": "2026-08-20T06:00:00Z",
+        "cost_model_version": "test-cost-v1",
+        "created_at": "2026-08-20T07:00:00Z",
+        "total_trades": 1,
+        "wins": 1,
+        "losses": 0,
+        "breakeven": 0,
+        "gross_pnl": "1",
+        "net_pnl": "1",
+        "total_fees": "0",
+        "profit_factor": None,
+        "expectancy": "1",
+        "max_drawdown": "0",
+        "max_consecutive_losses": 0,
+    }
+
+
+def validation_decision_payload(record: StrategyVersionRecord, backtest_id: str, decision_id: str) -> dict:
+    return {
+        "schema_version": "contracts-v0.1",
+        "validation_decision_id": decision_id,
+        "strategy_id": record.identity.strategy_id,
+        "strategy_version": record.identity.strategy_version,
+        "backtest_result_id": backtest_id,
+        "validation_policy_version": "test-policy-v1",
+        "decision": "PASS",
+        "reason_codes": ["SYNTHETIC_TEST_PASS"],
+        "decided_at": "2026-08-20T07:01:00Z",
+    }
+
+
+def local_evidence_kwargs() -> dict:
+    return {
+        "verification_status": "PASS",
+        "verification_kind": "LOCAL_EXECUTION",
+        "source_revision": "e3-synthetic-revision",
+        "environment": "local-test-fixture",
+        "command": "synthetic-e3-local-test",
+        "result_ref": "synthetic-pass",
+    }
+
+
+def seed_candidate_authority(
+    store: SQLiteRegistryStore,
+    record: StrategyVersionRecord,
+    *,
+    suffix: str,
+) -> str:
+    service = StrategyPlatformService(store)
+    backtest_id = f"bt-{suffix}"
+    decision_id = f"vd-{suffix}"
+    backtest = service.record_backtest_result(
+        backtest_payload(record, backtest_id),
+        **local_evidence_kwargs(),
+    )
+    decision = service.record_validation_decision(
+        validation_decision_payload(record, backtest_id, decision_id),
+        backtest_evidence_id=backtest.evidence_id,
+        **local_evidence_kwargs(),
+    )
+    return decision.evidence_id
+
+
 class LocalPassE2Boundary:
     def check(self, definition: dict) -> CompatibilityEvidence:
-        return CompatibilityEvidence(
-            compatibility_id="compat-persisted-pass",
-            identity=StrategyIdentity(definition["strategy_id"], definition["strategy_version"]),
-            status="PASS",
-            verification_kind="LOCAL_EXECUTION",
-            checker="E2_TEST_FIXTURE",
-            checked_at="2026-08-20T00:01:00Z",
-            reason_codes=("SYNTHETIC_TEST_EVIDENCE",),
-            details={"fixture": True},
-            source_revision="e2-synthetic-revision",
-            environment="local-test-fixture",
-            command="synthetic-e2-compat-check",
-            result_ref="synthetic-pass",
+        return local_pass_compatibility(
+            StrategyIdentity(definition["strategy_id"], definition["strategy_version"]),
+            "persisted-pass",
         )
 
 
@@ -100,6 +182,7 @@ class RegistryPersistenceTests(unittest.TestCase):
         store = SQLiteRegistryStore(connection)
         record = direct_strategy_record(strategy_id)
         store.register_strategy(record)
+        store.save_compatibility(local_pass_compatibility(record.identity, strategy_id))
         identity = record.identity
 
         if state in {"BACKTESTING", "REJECTED", "CANDIDATE"}:
@@ -123,6 +206,7 @@ class RegistryPersistenceTests(unittest.TestCase):
                 )
             )
         elif state == "CANDIDATE":
+            decision_evidence_id = seed_candidate_authority(store, record, suffix=strategy_id)
             store.append_transition(
                 transition_record(
                     identity,
@@ -130,6 +214,7 @@ class RegistryPersistenceTests(unittest.TestCase):
                     "CANDIDATE",
                     1,
                     suffix=f"{strategy_id}-backtesting-candidate",
+                    primary_evidence_id=decision_evidence_id,
                 )
             )
         return connection, store, identity
@@ -204,9 +289,18 @@ class RegistryPersistenceTests(unittest.TestCase):
                     strategy_id=f"legal-edge-{index}",
                 )
                 try:
+                    record = store.get_strategy(identity)
+                    self.assertIsNotNone(record)
                     before_count = connection.execute(
                         "SELECT COUNT(*) FROM lifecycle_transitions"
                     ).fetchone()[0]
+                    primary_evidence_id = None
+                    if new_state == "CANDIDATE":
+                        primary_evidence_id = seed_candidate_authority(
+                            store,
+                            record,
+                            suffix=f"legal-{index}",
+                        )
                     result = store.append_transition(
                         transition_record(
                             identity,
@@ -214,6 +308,7 @@ class RegistryPersistenceTests(unittest.TestCase):
                             new_state,
                             expected_revision,
                             suffix=f"legal-{index}",
+                            primary_evidence_id=primary_evidence_id,
                         )
                     )
                     self.assertEqual(new_state, result.current_lifecycle_state)

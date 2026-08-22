@@ -8,7 +8,11 @@ from registry.contract_validation import (
     BACKTEST_IDENTITY_REPRODUCIBILITY_FIELDS,
     VALIDATION_DECISION_FIELDS,
 )
-from storage import SQLiteRegistryStore, apply_migrations, connect
+from storage._sqlite_registry import (
+    _apply_migrations as apply_migrations,
+    _connect as connect,
+    _internal_store_for_tests as SQLiteRegistryStore,
+)
 
 
 def strategy_payload() -> dict:

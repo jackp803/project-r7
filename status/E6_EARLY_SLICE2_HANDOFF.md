@@ -1,75 +1,143 @@
-# Handoff — E6 Early Slice 2 Resynchronization
+# Handoff — E6 Lifecycle Persistence Authority Correction
 
 **From:** E6 / Platform / Storage / Strategy Registry / Dashboard Engineer  
 **To:** E7 / PM  
-**Task:** `E6-20260822-001`  
+**Task:** `E6-20260822-003`  
 **Branch:** `agent/e6-platform`  
-**Accepted baseline revision:** `4a845ff79ba48abb6122191a2cf8df7d52544475`  
-**Latest main merged:** `bac41e860b5582f7a87d8992c803ce081dafcb35`  
-**Synchronization merge commit:** `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
+**Finding:** `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`  
+**Claimed disposition:** `CORRECTED IN SOURCE / READY_FOR_E7_TARGETED_RE_REVIEW`  
+**Executable verification:** `NOT_RUN`
 
-## Result
+## Objective
 
-The statically accepted early Slice 2 E6 Strategy Registry / evidence-ingest / SQLite persistence skeleton was non-destructively synchronized with current `main`.
+Close only the persistence-authority gap identified by E7: direct callers of `SQLiteRegistryStore.append_transition(...)` and direct SQL writers must not be able to represent a lifecycle edge that the early Slice 2 service forbids.
 
-Synchronization used a two-parent merge commit with the accepted E6 branch history as the first parent and current `main` as the second parent. No force push, destructive rebase, or history rewrite was used.
+No Registry redesign, evidence-contract change, lifecycle expansion, or Slice 3 execution persistence was added.
 
-After synchronization, `main...agent/e6-platform` reports `behind_by=0` with merge-base equal to `bac41e860b5582f7a87d8992c803ce081dafcb35`.
+## Synchronization
 
-## Accepted correction preserved
+Before correction, E6 non-destructively synchronized current `main` into the existing branch exactly once:
 
-`E6-EVIDENCE-CONTRACT-001` remains statically resolved and its accepted behavior is unchanged:
+- pre-task E6 HEAD: `df15109dcb8594b1182bf6fc09cb5ad6681d74b5`
+- latest `main` merged: `06752b83c18f6579b06c1f3b7e1d5837a2d6949a`
+- synchronization merge: `c3d756b46af547b4ea0bb36aa653cc8b9081163f`
+- force push: `NO`
+- destructive rebase/history rewrite: `NO`
 
-- incomplete/incompatible `BacktestResult` is rejected before persistence;
-- incomplete/incompatible `ValidationDecision` is rejected before persistence;
-- exact strategy/version/content-hash and BacktestResult-parent bindings remain fail closed;
-- invalid required enum/type/state fails closed;
-- caller-supplied `verification_status=PASS` / `verification_kind=LOCAL_EXECUTION` metadata cannot bypass canonical evidence validation;
-- a structurally valid BacktestResult alone cannot produce CANDIDATE without a valid E3 ValidationDecision and required local evidence metadata.
+## Correction design
 
-Key accepted blobs remain unchanged through the synchronization:
+### E6 authoritative early-edge allowlist
 
-- `src/registry/contract_validation.py`: `954d21c021c0885554ee650acced17610d958a0e`
-- `src/registry/service.py`: `3184452956e1540be44d5ea779be87ed573fbcae`
-- `src/registry/service_base.py`: `3889ac156358f58c5fc3380865ad73844b874c3c`
-
-This is contract-shape/type/identity validation only. E6 does not implement or reinterpret E3 statistical validation methodology.
-
-## Scope preserved
-
-Lifecycle remains capped at:
+`src/registry/models.py` now defines the bounded internal persistence allowlist:
 
 ```text
-DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
+DRAFT       -> BACKTESTING
+BACKTESTING -> REJECTED
+BACKTESTING -> CANDIDATE
 ```
 
-No PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE lifecycle or generic transition authority was added.
+`is_early_lifecycle_transition_allowed(...)` is consumed by the SQLite persistence boundary. The existing service already exposes the same exact three-edge subset and remains independently covered by Registry lifecycle tests.
 
-No Slice 3 execution-audit persistence was added. In particular, this task added no `ApprovedTradePlan`, `OrderRequest`, `OrderResult`, `Fill`, provider-native quantity/reconciliation schema, Demo execution persistence, broker/private API access, or OKX `sz` reinterpretation.
+### Public SQLite store boundary
 
-No shared contracts or E1/E2/E3/E4/E5/E7 production code were modified.
+`SQLiteRegistryStore.append_transition(...)` now rejects every edge outside that allowlist **before** opening the write transaction or inserting lifecycle history/updating the authoritative projection.
 
-## Changed-file scope after synchronization
+Existing concurrency protections remain intact:
 
-The branch delta against current main is limited to E6-owned paths:
+- current authoritative state must equal `previous_state`;
+- current `registry_revision` must equal `expected_registry_revision`;
+- `resulting_registry_revision` must equal current revision + 1;
+- lifecycle history insert and projection update remain atomic;
+- any exception rolls back the transaction.
 
-- `docs/platform/E6_REGISTRY_PERSISTENCE_LIFECYCLE_SKELETON.md`
-- `src/registry/**`
-- `src/storage/**`
-- `tests/registry/**`
-- `tests/storage/**`
-- `status/E6_EARLY_SLICE2_HANDOFF.md`
-- `status/E6_STATUS.md`
+A forbidden edge therefore cannot create a transition row, change `current_lifecycle_state`, or increment `registry_revision`.
 
-No `.github/workflows` or other GitHub compute mechanism is introduced.
+### SQLite database defense in depth
 
-## Executable verification
+`src/storage/migrations/0001_strategy_registry.sql` now adds a `BEFORE INSERT` trigger on `lifecycle_transitions` that accepts only the same three edges. The existing four-state vocabulary checks remain, but state-name validity alone is no longer sufficient.
 
-Result: `NOT_RUN`.
+Direct SQL insertion of a forbidden edge fails before the lifecycle row can be recorded. The projection is not automatically mutated by lifecycle-row INSERTs, and the test definition verifies that state/revision remain unchanged after the rejected SQL statement.
 
-Reason: this session is not a Product Owner-approved local execution environment. No project tests, migrations, integration tests, backtests, GitHub Actions, CI, hosted runners, or GitHub-triggered project compute were executed.
+## Test definitions added/expanded
 
-Exact local commands, when a Product Owner-approved local environment is available:
+`tests/storage/test_registry_persistence.py` now defines deterministic local-only coverage for:
+
+- positive direct-store `DRAFT -> BACKTESTING`;
+- positive direct-store `BACKTESTING -> REJECTED`;
+- positive direct-store `BACKTESTING -> CANDIDATE`;
+- forbidden direct-store `DRAFT -> CANDIDATE`;
+- forbidden direct-store `DRAFT -> REJECTED`;
+- forbidden direct-store `CANDIDATE -> DRAFT`;
+- forbidden direct-store `CANDIDATE -> BACKTESTING`;
+- forbidden direct-store `REJECTED -> CANDIDATE`;
+- forbidden direct-store `REJECTED -> BACKTESTING`;
+- self-transitions for all four early states;
+- no transition-row/state/revision mutation after a rejected direct-store edge;
+- direct SQL forbidden-edge rejection by the migration trigger with unchanged projection/revision;
+- positive legal edges passing through the same database trigger;
+- prior migration idempotence, immutability, append-only history, and restart persistence definitions retained.
+
+Synthetic fixtures are test doubles only and are not project executable evidence.
+
+## Prior accepted behavior preserved
+
+Static source review in this task confirmed the previously accepted evidence-contract gate files were not changed:
+
+- `src/registry/contract_validation.py` blob remains `954d21c021c0885554ee650acced17610d958a0e`;
+- public `src/registry/service.py` blob remains `3184452956e1540be44d5ea779be87ed573fbcae`.
+
+Therefore this correction does not alter:
+
+- canonical BacktestResult shape/type/reproducibility validation;
+- canonical ValidationDecision shape/type/enum/backtest/strategy binding;
+- caller PASS/LOCAL_EXECUTION bypass protection;
+- the rule that BacktestResult alone cannot authorize CANDIDATE;
+- fail-closed default E2 compatibility `NOT_RUN` behavior;
+- strategy identity/version/content immutability;
+- Inbox idempotency vs identity conflict behavior.
+
+## Lifecycle / scope boundary
+
+Lifecycle vocabulary remains exactly:
+
+```text
+DRAFT | BACKTESTING | REJECTED | CANDIDATE
+```
+
+No PAPER, READY_FOR_APPROVAL, APPROVED, SHADOW, LIVE, DEGRADED, RETIRED, operational-mode promotion, or generic transition authority was added.
+
+No ApprovedTradePlan, OrderRequest, OrderResult, Fill, Position, provider identity, OKX `sz`, reconciliation, Demo execution, or other Slice 3 persistence was added. Provider-native quantity was not reinterpreted as canonical BTC quantity.
+
+No `contracts/**` or E1/E2/E3/E4/E5/E7 production file was modified by this correction.
+
+## Exact correction revision
+
+Source/tests/docs correction revision before handoff/status-only commits:
+
+```text
+aab1639d6db1f94e915d1c4af3041be28e9a4b94
+```
+
+Files directly changed for this finding before handoff/status refresh:
+
+- `src/registry/models.py`
+- `src/storage/sqlite_registry.py`
+- `src/storage/migrations/0001_strategy_registry.sql`
+- `tests/storage/test_registry_persistence.py`
+- `src/storage/README.md`
+- `tests/storage/README.md`
+
+## Verification
+
+Executable verification remains:
+
+```text
+NOT_RUN
+```
+
+No Product Owner-approved local environment was available in this session. No project unit test, migration, backtest, provider request, GitHub Action, CI job, hosted runner, or GitHub-triggered project compute was executed.
+
+Exact approved-local commands from repository root:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -77,8 +145,8 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-`NOT_RUN != PASS`.
+`NOT_RUN` is not PASS.
 
-## Review request
+## Next owner / stop condition
 
-E7 should perform a fresh exact-revision static review of the synchronized E6 branch before PM decides whether to integrate it. No PR is opened or merged by E6 under this task.
+E7 should perform a targeted static/source re-review of `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001` on the exact synchronized branch revision. E6 stops after status publication and does not merge PR #16 or begin another feature automatically.

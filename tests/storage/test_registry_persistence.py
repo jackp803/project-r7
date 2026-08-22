@@ -5,7 +5,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from registry import CompatibilityEvidence, StrategyIdentity, StrategyPlatformService
+from registry import (
+    CompatibilityEvidence,
+    InvalidTransition,
+    LifecycleTransitionRecord,
+    StrategyIdentity,
+    StrategyPlatformService,
+    StrategyVersionRecord,
+)
 from storage import SQLiteRegistryStore, apply_migrations, connect
 
 
@@ -28,6 +35,44 @@ def strategy_payload() -> dict:
     }
 
 
+def direct_strategy_record(strategy_id: str = "direct-persistence-strategy") -> StrategyVersionRecord:
+    identity = StrategyIdentity(strategy_id, "1.0.0")
+    return StrategyVersionRecord(
+        identity=identity,
+        strategy_schema_version="contracts-v0.1",
+        content_hash=f"sha256:{strategy_id}",
+        name="Direct Persistence Strategy",
+        symbol="BTC_USDT_PERP",
+        declared_runtime_family="project-r7-e2-strategy-runtime",
+        declared_runtime_version="0.1.0",
+        definition_json='{"fixture":true}',
+        upstream_created_at="2026-08-20T00:00:00Z",
+        registered_at="2026-08-20T00:01:00Z",
+    )
+
+
+def transition_record(
+    identity: StrategyIdentity,
+    previous_state: str,
+    new_state: str,
+    expected_revision: int,
+    *,
+    suffix: str,
+) -> LifecycleTransitionRecord:
+    return LifecycleTransitionRecord(
+        transition_id=f"transition-{suffix}",
+        identity=identity,
+        previous_state=previous_state,
+        new_state=new_state,
+        changed_at="2026-08-20T00:02:00Z",
+        changed_by="unit-test",
+        reason_codes=("SYNTHETIC_PERSISTENCE_AUTHORITY_TEST",),
+        primary_evidence_id=None,
+        expected_registry_revision=expected_revision,
+        resulting_registry_revision=expected_revision + 1,
+    )
+
+
 class LocalPassE2Boundary:
     def check(self, definition: dict) -> CompatibilityEvidence:
         return CompatibilityEvidence(
@@ -47,6 +92,48 @@ class LocalPassE2Boundary:
 
 
 class RegistryPersistenceTests(unittest.TestCase):
+    def _direct_store_at_state(
+        self, state: str, *, strategy_id: str
+    ) -> tuple[sqlite3.Connection, SQLiteRegistryStore, StrategyIdentity]:
+        connection = connect(":memory:")
+        apply_migrations(connection)
+        store = SQLiteRegistryStore(connection)
+        record = direct_strategy_record(strategy_id)
+        store.register_strategy(record)
+        identity = record.identity
+
+        if state in {"BACKTESTING", "REJECTED", "CANDIDATE"}:
+            store.append_transition(
+                transition_record(
+                    identity,
+                    "DRAFT",
+                    "BACKTESTING",
+                    0,
+                    suffix=f"{strategy_id}-draft-backtesting",
+                )
+            )
+        if state == "REJECTED":
+            store.append_transition(
+                transition_record(
+                    identity,
+                    "BACKTESTING",
+                    "REJECTED",
+                    1,
+                    suffix=f"{strategy_id}-backtesting-rejected",
+                )
+            )
+        elif state == "CANDIDATE":
+            store.append_transition(
+                transition_record(
+                    identity,
+                    "BACKTESTING",
+                    "CANDIDATE",
+                    1,
+                    suffix=f"{strategy_id}-backtesting-candidate",
+                )
+            )
+        return connection, store, identity
+
     def test_migration_is_idempotent(self) -> None:
         connection = connect(":memory:")
         try:
@@ -101,6 +188,131 @@ class RegistryPersistenceTests(unittest.TestCase):
                     "DELETE FROM lifecycle_transitions WHERE transition_id = ?",
                     (transition_id,),
                 )
+        finally:
+            connection.close()
+
+    def test_direct_store_allows_exactly_the_three_early_slice2_edges(self) -> None:
+        cases = (
+            ("DRAFT", "BACKTESTING", 0),
+            ("BACKTESTING", "REJECTED", 1),
+            ("BACKTESTING", "CANDIDATE", 1),
+        )
+        for index, (previous_state, new_state, expected_revision) in enumerate(cases):
+            with self.subTest(previous_state=previous_state, new_state=new_state):
+                connection, store, identity = self._direct_store_at_state(
+                    previous_state,
+                    strategy_id=f"legal-edge-{index}",
+                )
+                try:
+                    before_count = connection.execute(
+                        "SELECT COUNT(*) FROM lifecycle_transitions"
+                    ).fetchone()[0]
+                    result = store.append_transition(
+                        transition_record(
+                            identity,
+                            previous_state,
+                            new_state,
+                            expected_revision,
+                            suffix=f"legal-{index}",
+                        )
+                    )
+                    self.assertEqual(new_state, result.current_lifecycle_state)
+                    self.assertEqual(expected_revision + 1, result.registry_revision)
+                    after_count = connection.execute(
+                        "SELECT COUNT(*) FROM lifecycle_transitions"
+                    ).fetchone()[0]
+                    self.assertEqual(before_count + 1, after_count)
+                finally:
+                    connection.close()
+
+    def test_direct_store_forbidden_edges_fail_closed_without_state_mutation(self) -> None:
+        forbidden_cases = (
+            ("DRAFT", "CANDIDATE"),
+            ("DRAFT", "REJECTED"),
+            ("CANDIDATE", "DRAFT"),
+            ("CANDIDATE", "BACKTESTING"),
+            ("REJECTED", "CANDIDATE"),
+            ("REJECTED", "BACKTESTING"),
+            ("DRAFT", "DRAFT"),
+            ("BACKTESTING", "BACKTESTING"),
+            ("REJECTED", "REJECTED"),
+            ("CANDIDATE", "CANDIDATE"),
+        )
+        for index, (previous_state, new_state) in enumerate(forbidden_cases):
+            with self.subTest(previous_state=previous_state, new_state=new_state):
+                connection, store, identity = self._direct_store_at_state(
+                    previous_state,
+                    strategy_id=f"forbidden-edge-{index}",
+                )
+                try:
+                    before = store.get_strategy(identity)
+                    self.assertIsNotNone(before)
+                    before_count = connection.execute(
+                        "SELECT COUNT(*) FROM lifecycle_transitions"
+                    ).fetchone()[0]
+
+                    with self.assertRaises(InvalidTransition):
+                        store.append_transition(
+                            transition_record(
+                                identity,
+                                previous_state,
+                                new_state,
+                                before.registry_revision,
+                                suffix=f"forbidden-{index}",
+                            )
+                        )
+
+                    after = store.get_strategy(identity)
+                    self.assertIsNotNone(after)
+                    self.assertEqual(before.current_lifecycle_state, after.current_lifecycle_state)
+                    self.assertEqual(before.registry_revision, after.registry_revision)
+                    after_count = connection.execute(
+                        "SELECT COUNT(*) FROM lifecycle_transitions"
+                    ).fetchone()[0]
+                    self.assertEqual(before_count, after_count)
+                finally:
+                    connection.close()
+
+    def test_database_trigger_rejects_forbidden_direct_sql_edge_without_projection_change(self) -> None:
+        connection = connect(":memory:")
+        try:
+            apply_migrations(connection)
+            store = SQLiteRegistryStore(connection)
+            record = direct_strategy_record("direct-sql-forbidden")
+            store.register_strategy(record)
+
+            with self.assertRaises(sqlite3.IntegrityError):
+                connection.execute(
+                    """
+                    INSERT INTO lifecycle_transitions (
+                        transition_id, strategy_id, strategy_version,
+                        previous_state, new_state, changed_at, changed_by,
+                        reason_codes_json, primary_evidence_id,
+                        expected_registry_revision, resulting_registry_revision
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    (
+                        "transition-direct-sql-forbidden",
+                        record.identity.strategy_id,
+                        record.identity.strategy_version,
+                        "DRAFT",
+                        "CANDIDATE",
+                        "2026-08-20T00:02:00Z",
+                        "unit-test",
+                        '["SYNTHETIC_DIRECT_SQL_TEST"]',
+                        None,
+                        0,
+                        1,
+                    ),
+                )
+            connection.rollback()
+
+            persisted = store.get_strategy(record.identity)
+            self.assertIsNotNone(persisted)
+            self.assertEqual("DRAFT", persisted.current_lifecycle_state)
+            self.assertEqual(0, persisted.registry_revision)
+            count = connection.execute("SELECT COUNT(*) FROM lifecycle_transitions").fetchone()[0]
+            self.assertEqual(0, count)
         finally:
             connection.close()
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from typing import Any
 
 from .contract_validation import (
@@ -8,19 +8,18 @@ from .contract_validation import (
     validate_validation_decision_contract,
     validate_verification_metadata,
 )
-from .models import ValidationEvidenceRecord
+from .lifecycle_authority import (
+    require_backtesting_authority,
+    require_candidate_authority,
+    require_rejection_authority,
+)
+from .models import StrategyIdentity, StrategyVersionRecord, ValidationEvidenceRecord
 from .service_base import DeferredCompatibilityBoundary
 from .service_base import StrategyPlatformService as _StrategyPlatformServiceBase
 
 
 class StrategyPlatformService(_StrategyPlatformServiceBase):
-    """Public E6 platform service with fail-closed shared-evidence contract gates.
-
-    The underlying early Slice 2 lifecycle implementation is preserved unchanged.
-    This wrapper only strengthens the E3 evidence-ingest boundary: a caller cannot
-    turn an incomplete/non-canonical shared object into promotable evidence merely
-    by supplying PASS/LOCAL_EXECUTION metadata.
-    """
+    """Public E6 platform service with fail-closed evidence and lifecycle authority gates."""
 
     def record_backtest_result(
         self,
@@ -74,4 +73,49 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
             environment=environment,
             command=command,
             result_ref=result_ref,
+        )
+
+    def begin_backtesting(self, identity: StrategyIdentity, *, actor: str) -> StrategyVersionRecord:
+        strategy = self._require_strategy(identity)
+        if strategy.current_lifecycle_state == "DRAFT":
+            require_backtesting_authority(self._store, strategy)
+        return super().begin_backtesting(identity, actor=actor)
+
+    def mark_candidate(
+        self,
+        identity: StrategyIdentity,
+        *,
+        actor: str,
+        validation_evidence_id: str,
+    ) -> StrategyVersionRecord:
+        strategy = self._require_strategy(identity)
+        if strategy.current_lifecycle_state == "BACKTESTING":
+            require_candidate_authority(self._store, strategy, validation_evidence_id)
+        return super().mark_candidate(
+            identity,
+            actor=actor,
+            validation_evidence_id=validation_evidence_id,
+        )
+
+    def reject_from_backtesting(
+        self,
+        identity: StrategyIdentity,
+        *,
+        actor: str,
+        reason_codes: Sequence[str],
+        evidence_id: str | None = None,
+    ) -> StrategyVersionRecord:
+        strategy = self._require_strategy(identity)
+        if strategy.current_lifecycle_state == "BACKTESTING":
+            require_rejection_authority(
+                self._store,
+                strategy,
+                reason_codes=reason_codes,
+                primary_evidence_id=evidence_id,
+            )
+        return super().reject_from_backtesting(
+            identity,
+            actor=actor,
+            reason_codes=reason_codes,
+            evidence_id=evidence_id,
         )

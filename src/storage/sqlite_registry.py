@@ -11,10 +11,12 @@ from registry.models import (
     ConcurrencyConflict,
     IdentityConflict,
     IntakeReceipt,
+    InvalidTransition,
     LifecycleTransitionRecord,
     StrategyIdentity,
     StrategyVersionRecord,
     ValidationEvidenceRecord,
+    is_early_lifecycle_transition_allowed,
 )
 
 _MIGRATIONS_DIR = Path(__file__).with_name("migrations")
@@ -285,6 +287,14 @@ class SQLiteRegistryStore:
         return tuple(_validation_from_row(row) for row in rows)
 
     def append_transition(self, transition: LifecycleTransitionRecord) -> StrategyVersionRecord:
+        if not is_early_lifecycle_transition_allowed(
+            transition.previous_state, transition.new_state
+        ):
+            raise InvalidTransition(
+                "early Slice 2 persistence does not allow lifecycle transition "
+                f"{transition.previous_state} -> {transition.new_state}"
+            )
+
         identity = transition.identity
         try:
             self._connection.execute("BEGIN IMMEDIATE")

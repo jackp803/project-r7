@@ -1,43 +1,140 @@
 # E7 Status
 
-- task_id: `E7-20260822-003`
+- task_id: `E7-20260822-005`
 - agent: `E7`
 - state: `DONE / BLOCKED_WAITING_E6_CORRECTION`
-- branch: `agent/e7-e6-registry-review-20260822`
+- branch: `agent/e7-e6-lifecycle-rereview-20260822`
 - review_target: `PR #16 platform: integrate early Slice 2 registry and evidence persistence`
-- reviewed_e6_revision: `207f6f87dd984c9dea5e4360e2f605e2c94b2bcf`
-- observed_pr_head: `df15109dcb8594b1182bf6fc09cb5ad6681d74b5`
-- implementation_pin_to_pr_head_delta: `coordination/E6/STATUS.md only`
-- review_time_main: `82c52a1f1ce8f9bc7edf8cea139cd1b3fd2cf384`
-- review_artifact: `status/e7/E6_REGISTRY_STATIC_REVIEW_20260822.md`
-- summary: `PR #16 preserves the accepted E6 evidence-contract correction and coherent inbox/evidence/SQLite early Slice 2 scope, but is BLOCKED because the public persistence boundary exposes generic lifecycle transition authority. SQLiteRegistryStore.append_transition validates current state/revision but not the allowed early-Slice-2 edge set, while the migration constrains only state vocabulary. A direct store caller can therefore bypass StrategyPlatformService evidence gates and move authoritative state through service-forbidden edges such as DRAFT -> CANDIDATE.`
+- reviewed_e6_revision: `aab1639d6db1f94e915d1c4af3041be28e9a4b94`
+- observed_pr_head: `42c5d56996e0c4ff0e96edfc591726d9f9f34963`
+- implementation_pin_to_pr_head_delta: `coordination/E6/STATUS.md + status/E6_EARLY_SLICE2_HANDOFF.md + status/E6_STATUS.md only`
+- review_time_main: `6de6c45cd3db3e1c449725c8a7721c133f3296fc`
+- review_artifact: `status/e7/E6_LIFECYCLE_TARGETED_REREVIEW_20260822.md`
+- summary: `The E6 correction successfully adds the exact early-Slice-2 edge allowlist to SQLiteRegistryStore and an independent forbidden-edge SQL trigger, preserving concurrency/rollback and prior evidence validators. However E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001 remains BLOCKING because direct callers of the exported SQLiteRegistryStore can legally chain DRAFT -> BACKTESTING -> CANDIDATE without the E2 compatibility and E3 ValidationDecision/BacktestResult evidence gates enforced by StrategyPlatformService. Edge shape is now constrained, but promotion/evidence authority is still bypassable at the authoritative persistence surface.`
 
 ## Finding dispositions
 
-- `E6-EVIDENCE-CONTRACT-001`: `CLOSED / PASS STATIC`
-- `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`: `BLOCKING / FAIL / E6 OWNER`
+- `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`: `BLOCKING / NOT CLOSED / E6 OWNER`
+- `E6-EVIDENCE-CONTRACT-001`: `CLOSED / PASS STATIC / NO REGRESSION`
 
-## Review dispositions
+## Targeted lifecycle dispositions
 
-- evidence_contract_validation: `PASS / STATIC ONLY`
-- validation_decision_binding: `PASS / STATIC ONLY`
-- candidate_requires_bound_backtest_and_validation_decision: `PASS / STATIC ONLY`
-- caller_pass_local_execution_metadata_bypass: `BLOCKED BY CANONICAL VALIDATORS / PASS STATIC`
-- default_compatibility_boundary: `FAIL-CLOSED NOT_RUN / PASS STATIC`
-- inbox_identity_idempotency_conflict_handling: `PASS / STATIC ONLY`
-- immutable_strategy_content: `PASS / STATIC ONLY`
-- lifecycle_service_cap: `PASS / DRAFT -> BACKTESTING -> REJECTED|CANDIDATE`
-- lifecycle_persistence_edge_cap: `FAIL / BLOCKING`
-- lifecycle_append_only_history: `PASS / STATIC ONLY`
-- sqlite_implementation_detail: `PASS / NO SHARED-CONTRACT CHANGE`
-- slice3_execution_audit_persistence: `ABSENT / PASS STATIC`
-- provider_native_quantity_persistence: `ABSENT / PASS STATIC`
-- provider_quantity_reinterpreted_as_canonical_btc: `NO / PASS STATIC`
-- repository_scope: `PASS / E6 REGISTRY-STORAGE-TEST-DOC-STATUS ONLY`
-- repository_synchronization: `PASS / NON-DESTRUCTIVE / CURRENT BEHIND-2 IS COORDINATION-ONLY`
-- pr_16_merge_recommendation: `BLOCKED / DO NOT MERGE`
+- early_lifecycle_vocabulary: `PASS / DRAFT|BACKTESTING|REJECTED|CANDIDATE ONLY`
+- early_lifecycle_edge_allowlist: `PASS / EXACT THREE EDGE PAIRS`
+- direct_store_forbidden_pair_rejection: `PASS / STATIC ONLY`
+- forbidden_pair_no_row_state_revision_mutation: `PASS / STATIC TEST DEFINITIONS`
+- sqlite_forbidden_edge_insert_trigger: `PASS / STATIC ONLY`
+- lifecycle_history_append_only: `PASS / STATIC ONLY`
+- concurrency_state_revision_checks: `PASS / STATIC ONLY`
+- atomic_history_projection_update: `PASS / STATIC ONLY`
+- rollback_behavior: `PASS / STATIC ONLY`
+- direct_store_evidence_authority: `FAIL / BLOCKING`
+- direct_store_draft_to_backtesting_without_e2_evidence: `POSSIBLE / BLOCKING`
+- direct_store_backtesting_to_candidate_without_e3_evidence: `POSSIBLE / BLOCKING`
+- service_edge_allowlist_duplication: `NON_BLOCKING_HARDENING / CURRENTLY MATCHES CENTRAL SET`
 
-## Accepted evidence-contract baseline preservation
+## Remaining blocking source condition
+
+The correction defines:
+
+```text
+EARLY_LIFECYCLE_TRANSITIONS = {
+  DRAFT -> BACKTESTING,
+  BACKTESTING -> REJECTED,
+  BACKTESTING -> CANDIDATE,
+}
+```
+
+and `SQLiteRegistryStore.append_transition(...)` rejects every other pair before mutation.
+
+That closes direct service-forbidden edge attempts such as one-step `DRAFT -> CANDIDATE`.
+
+It does **not** close service evidence-authority bypass.
+
+Public/reachable surfaces still include:
+
+```text
+registry.LifecycleTransitionRecord
+storage.SQLiteRegistryStore
+RegistryStore.append_transition(...)
+SQLiteRegistryStore.append_transition(...)
+```
+
+The store validates only edge shape plus current state/revision/resulting revision. It does not require the evidence that `StrategyPlatformService` requires for those legal edges.
+
+Therefore a direct store caller can perform:
+
+```text
+DRAFT -> BACKTESTING
+BACKTESTING -> CANDIDATE
+```
+
+without:
+
+- verified E2 compatibility `PASS / LOCAL_EXECUTION` metadata for DRAFT -> BACKTESTING;
+- stored/bound E3 ValidationDecision `decision=PASS`;
+- bound parent BacktestResult;
+- `PASS / LOCAL_EXECUTION` source revision/environment/command/result reference on ValidationDecision and BacktestResult.
+
+The deterministic legal-edge test definitions themselves construct direct `LifecycleTransitionRecord` objects with no service evidence authority and advance the store through the legal edge pairs.
+
+Thus the authoritative lifecycle projection and registry revision can still reach `CANDIDATE` without the service promotion gates.
+
+The SQL edge trigger does not prevent this because both chained edge pairs are legal shapes.
+
+Required E6 correction outcome:
+
+- direct persistence callers must not advance `DRAFT -> BACKTESTING` without the accepted E2 compatibility authority;
+- direct persistence callers must not advance `BACKTESTING -> CANDIDATE` without the accepted bound E3 ValidationDecision + BacktestResult authority;
+- service-authorized legal transitions must remain possible;
+- forbidden pairs must remain rejected;
+- any failed evidence authorization must leave transition rows, lifecycle state, and registry revision unchanged.
+
+Do not expand lifecycle states while correcting this issue.
+
+## Corrected edge / migration acceptance
+
+Accepted statically at `aab1639d...`:
+
+- `src/registry/models.py` defines only the three early edge pairs;
+- `SQLiteRegistryStore.append_transition(...)` uses the shared Python edge predicate before transaction/mutation;
+- authoritative current-state equality is still checked;
+- expected registry revision is still checked;
+- resulting revision must still equal current + 1;
+- history insert and projection update remain inside the same transaction;
+- projection update still requires matching state/revision and exactly one row;
+- exception path still rolls back;
+- SQL `BEFORE INSERT` trigger rejects every edge pair outside the same three-pair set;
+- SQL UPDATE/DELETE triggers keep lifecycle history append-only.
+
+PR #16 remains pre-merge and project migrations remain `NOT_RUN`; the edited `0001` is treated as the pre-merge baseline migration, not evidence of an executed upgrade.
+
+## Test-definition review
+
+Static definitions now cover:
+
+- all three allowed direct-store edges;
+- `DRAFT -> CANDIDATE` rejection;
+- `DRAFT -> REJECTED` rejection;
+- forbidden transitions out of CANDIDATE;
+- forbidden transitions out of REJECTED;
+- self-transition rejection;
+- no transition-row/state/revision mutation after forbidden pair rejection;
+- forbidden direct-SQL lifecycle INSERT rejection;
+- migration idempotency;
+- immutable strategy content;
+- append-only lifecycle history;
+- restart persistence.
+
+Missing for full finding closure:
+
+- direct-store `DRAFT -> BACKTESTING` must fail when verified E2 compatibility authority is absent;
+- direct-store `BACKTESTING -> CANDIDATE` must fail when bound E3 ValidationDecision/BacktestResult local evidence is absent;
+- service-authorized transition tests must prove the corrected persistence authorization cannot be caller-forged.
+
+No test or migration was executed in GitHub.
+
+## `E6-EVIDENCE-CONTRACT-001` regression disposition
 
 Critical accepted blobs remain unchanged:
 
@@ -45,140 +142,89 @@ Critical accepted blobs remain unchanged:
 src/registry/contract_validation.py
   954d21c021c0885554ee650acced17610d958a0e
 
-src/registry/service_base.py
-  3889ac156358f58c5fc3380865ad73844b874c3c
-
 src/registry/service.py
   3184452956e1540be44d5ea779be87ed573fbcae
+
+src/registry/service_base.py
+  3889ac156358f58c5fc3380865ad73844b874c3c
 ```
 
-The public `registry.StrategyPlatformService` comes from `registry.service`, whose evidence-ingest wrapper validates canonical BacktestResult / ValidationDecision shape and verification enum metadata before persistence.
+Preserved:
 
-BacktestResult validation requires the current contracts-v0.1 identity/reproducibility/core metric set, UTC timestamps, exact schema, integer counts, and decimal-string financial interchange values.
+- complete canonical BacktestResult validation before persistence;
+- complete canonical ValidationDecision validation before persistence;
+- exact strategy/content/BacktestResult parent binding;
+- exact decision enum and reason-code structure;
+- invalid/unknown required type/state fails closed;
+- caller `PASS / LOCAL_EXECUTION` metadata cannot bypass payload validators;
+- BacktestResult alone cannot authorize CANDIDATE through the service;
+- service `mark_candidate()` still requires bound E3 ValidationDecision + parent BacktestResult with local-execution evidence metadata.
 
-ValidationDecision validation requires exact canonical fields, decision enum, reason-code sequence shape, UTC decision time, exact strategy binding, and exact stored BacktestResult binding.
+Synthetic PASS fixtures remain test-only and are not project executable evidence.
 
-`mark_candidate()` requires a stored E3 ValidationDecision with `decision=PASS`, valid parent BacktestResult, exact strategy/content binding, and `PASS / LOCAL_EXECUTION` metadata with source revision/environment/command/result reference on both decision and backtest evidence.
+## Scope / lifecycle / execution separation
 
-A BacktestResult alone cannot authorize CANDIDATE.
-
-Synthetic `PASS` fixtures in tests remain test input only and are not project executable evidence.
-
-## Blocking source condition
-
-### `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`
-
-Owner: `E6`
-
-Service-level transition authority is correct:
-
-```text
-DRAFT -> BACKTESTING
-BACKTESTING -> REJECTED
-BACKTESTING -> CANDIDATE
-```
-
-But persistence does not enforce those edges.
-
-Public/reachable surfaces include:
-
-- `registry.LifecycleTransitionRecord`;
-- `storage.SQLiteRegistryStore`;
-- `RegistryStore.append_transition(...)`;
-- `SQLiteRegistryStore.append_transition(...)`.
-
-`SQLiteRegistryStore.append_transition()` checks current persisted state, expected registry revision, and resulting revision, but contains no allowlist for legal `(previous_state, new_state)` pairs.
-
-`0001_strategy_registry.sql` constrains state values to:
-
-```text
-DRAFT
-BACKTESTING
-REJECTED
-CANDIDATE
-```
-
-but does not constrain legal edge pairs on INSERT.
-
-Therefore a direct caller can construct a matching-revision `LifecycleTransitionRecord` such as `DRAFT -> CANDIDATE` and bypass the service's E2 compatibility / E3 evidence gates. Other service-forbidden edges among the four states are likewise representable.
-
-Append-only UPDATE/DELETE triggers protect historical rows after insertion but do not prevent insertion of an unauthorized edge.
-
-Required E6 correction: enforce the exact early Slice 2 transition allowlist at the persistence boundary and/or migration trigger level, and add deterministic direct-store tests proving forbidden edges cannot mutate the authoritative lifecycle projection. Do not add later lifecycle states while fixing this issue.
-
-## Inbox / persistence accepted boundaries
-
-Accepted statically:
-
-- same identity + same immutable content is idempotent;
-- same identity + conflicting content fails closed;
-- immutable strategy content is protected by SQLite trigger;
-- secret-like intake fields fail before persistence;
-- default unwired E2 compatibility is `NOT_RUN`, not PASS;
-- lifecycle history is append-only against UPDATE/DELETE;
-- concurrency checks bind current state and registry revision;
-- SQLite remains an E6 implementation detail.
-
-## Slice 3 / execution separation
-
-PR #16 does not add persistence for:
-
-- `ApprovedTradePlan`;
-- `OrderRequest`;
-- `OrderResult`;
-- `Fill`;
-- OKX provider-native `sz`;
-- provider order/fill identity;
-- execution reconciliation;
-- Demo execution facts;
-- position/execution audit state.
-
-No provider contract quantity is stored or reinterpreted as canonical BTC quantity.
+- lifecycle states beyond CANDIDATE: `ABSENT`
+- generic later lifecycle transition authority: `ABSENT`
+- ApprovedTradePlan persistence: `ABSENT`
+- OrderRequest persistence: `ABSENT`
+- OrderResult persistence: `ABSENT`
+- Fill persistence: `ABSENT`
+- Position execution-audit persistence: `ABSENT`
+- OKX provider-native `sz` persistence: `ABSENT`
+- execution reconciliation persistence: `ABSENT`
+- Demo execution facts: `ABSENT`
+- provider quantity reinterpreted as canonical BTC: `NO`
+- shared-contract changes: `NONE`
+- E1/E2/E3/E4/E5 production edits: `NONE`
+- workflow/CI additions: `NONE`
+- real credentials/secrets: `NONE FOUND`
 
 ## Repository / synchronization state
 
 E6 synchronization merge:
 
 ```text
-e3ad9b28ee819fa99aa3933c146e9e9fe02151e2
+c3d756b46af547b4ea0bb36aa653cc8b9081163f
 ```
 
 Parents:
 
 ```text
-4a845ff79ba48abb6122191a2cf8df7d52544475
-bac41e860b5582f7a87d8992c803ce081dafcb35
+df15109dcb8594b1182bf6fc09cb5ad6681d74b5
+06752b83c18f6579b06c1f3b7e1d5837a2d6949a
 ```
 
-This preserves both accepted E6 history and then-current main; no destructive rewrite was found.
+Non-destructive two-parent merge; no force rewrite/destructive rebase evidence found.
 
-At review time:
+Current review state:
 
 ```text
 PR #16 mergeable = TRUE
-E6 branch vs latest main = ahead 36 / behind 2
+E6 branch vs latest main = ahead 46 / behind 2
 latest-main-only delta = coordination/E6/TASK.md + coordination/E7/TASK.md
 meaningful production/shared-contract drift = NONE
 ```
 
-Coordination-only drift is not a resynchronization blocker. The lifecycle persistence defect is the only blocking source condition identified by this review.
+Coordination-only drift is not a resynchronization blocker.
 
-## Test-definition review
+Correction pin -> observed PR head changes only:
 
-Static definitions appropriately cover evidence contract fail-closed behavior, strategy inbox/idempotency/conflicts, service lifecycle gating, immutable persistence, append-only history, and restart persistence.
+```text
+coordination/E6/STATUS.md
+status/E6_EARLY_SLICE2_HANDOFF.md
+status/E6_STATUS.md
+```
 
-Missing for the blocking finding:
+No material code/test change exists after the reviewed correction pin.
 
-- direct `SQLiteRegistryStore.append_transition()` rejection of service-forbidden edges;
-- persistence/migration proof that `DRAFT -> CANDIDATE`, `DRAFT -> REJECTED`, `CANDIDATE -> DRAFT`, `REJECTED -> CANDIDATE`, and equivalent forbidden edges cannot update authoritative state.
+## Merge / verification / release state
 
-No tests or migrations were executed in GitHub.
-
-## Verification / release state
-
+- pr_16_source_disposition: `FAIL / BLOCKED`
+- pr_16_merge_recommendation: `DO NOT MERGE`
 - executable_verification: `NOT_RUN`
-- migrations_executed: `NO`
 - project_tests_executed: `NO`
+- migrations_executed: `NO`
 - provider_requests: `NOT_SENT`
 - github_compute: `NOT_USED`
 - codex_ticket: `NONE / NOT_APPLICABLE WITHOUT LOCAL REPRODUCTION`
@@ -187,10 +233,10 @@ No tests or migrations were executed in GitHub.
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
 
-## Next action
+## Completion / next owner
 
-`E6` should correct only `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001` and return an exact revised source/test revision for bounded E7 static re-review.
+E7 completed only `E7-20260822-005` and stops here.
 
-Do **not** merge PR #16 yet. Do not expand lifecycle scope. Do not infer Gate A/PAPER/APPROVED/SHADOW/LIVE readiness from the accepted evidence-contract portion.
+Next owner: `E6` for a bounded correction of the remaining direct-store evidence-authority bypass under the existing early Slice 2 lifecycle scope.
 
-E7 stops here and waits for PM/E6. No PR merge, E6 implementation change, project execution, migration, or next task is started automatically.
+E7 does not merge PR #16, does not modify E6 production code, does not run project tests/migrations, and does not start another task automatically.

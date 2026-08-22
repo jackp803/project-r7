@@ -12,7 +12,11 @@ from registry import (
     StrategyVersionRecord,
     ValidationEvidenceRecord,
 )
-from storage import SQLiteRegistryStore, apply_migrations, connect
+from storage._sqlite_registry import (
+    _apply_migrations as apply_migrations,
+    _connect as connect,
+    _internal_store_for_tests as SQLiteRegistryStore,
+)
 
 
 def strategy_record(strategy_id: str) -> StrategyVersionRecord:
@@ -149,17 +153,6 @@ def decision_payload(
     }
 
 
-def local_evidence_fields() -> dict:
-    return {
-        "verification_status": "PASS",
-        "verification_kind": "LOCAL_EXECUTION",
-        "source_revision": "e3-synthetic-revision",
-        "environment": "local-test-fixture",
-        "command": "synthetic-e3-local-test",
-        "result_ref": "synthetic-pass",
-    }
-
-
 def validation_record(
     *,
     evidence_id: str,
@@ -207,6 +200,16 @@ class LocalPassE2Boundary:
         )
 
 
+LOCAL_E3_PASS = {
+    "verification_status": "PASS",
+    "verification_kind": "LOCAL_EXECUTION",
+    "source_revision": "e3-synthetic-revision",
+    "environment": "local-test-fixture",
+    "command": "synthetic-e3-local-test",
+    "result_ref": "synthetic-pass",
+}
+
+
 class LifecycleEvidenceAuthorityTests(unittest.TestCase):
     def _new_store(self, strategy_id: str):
         connection = connect(":memory:")
@@ -216,70 +219,49 @@ class LifecycleEvidenceAuthorityTests(unittest.TestCase):
         store.register_strategy(record)
         return connection, store, record
 
-    def _to_backtesting(self, store: SQLiteRegistryStore, record: StrategyVersionRecord) -> None:
+    def _to_backtesting(self, store, record) -> None:
         store.save_compatibility(compatibility(record.identity, suffix=record.identity.strategy_id))
         store.append_transition(
-            transition(
-                record,
-                "DRAFT",
-                "BACKTESTING",
-                0,
-                suffix=f"{record.identity.strategy_id}-to-backtesting",
-            )
+            transition(record, "DRAFT", "BACKTESTING", 0, suffix=f"{record.identity.strategy_id}-bt")
         )
 
-    def _snapshot(self, connection, store: SQLiteRegistryStore, identity: StrategyIdentity):
+    def _snapshot(self, connection, store, identity):
         current = store.get_strategy(identity)
         self.assertIsNotNone(current)
         count = connection.execute("SELECT COUNT(*) FROM lifecycle_transitions").fetchone()[0]
         return current.current_lifecycle_state, current.registry_revision, count
 
-    def _assert_snapshot(self, connection, store, identity, expected) -> None:
-        self.assertEqual(expected, self._snapshot(connection, store, identity))
+    def _assert_rejected_unchanged(self, connection, store, record, action) -> None:
+        before = self._snapshot(connection, store, record.identity)
+        with self.assertRaises(EvidenceGateError):
+            action()
+        self.assertEqual(before, self._snapshot(connection, store, record.identity))
 
-    def _save_valid_backtest(
-        self,
-        store: SQLiteRegistryStore,
-        record: StrategyVersionRecord,
-        *,
-        suffix: str,
-        **overrides,
-    ) -> ValidationEvidenceRecord:
+    def _save_backtest(self, store, record, suffix: str, **overrides):
         result_id = f"bt-{suffix}"
-        kwargs = {
-            "evidence_id": f"evidence-bt-{suffix}",
-            "evidence_type": "BACKTEST_RESULT",
-            "upstream_object_id": result_id,
-            "strategy": record,
-            "payload": backtest_payload(record, result_id),
-        }
+        kwargs = dict(
+            evidence_id=f"evidence-bt-{suffix}",
+            evidence_type="BACKTEST_RESULT",
+            upstream_object_id=result_id,
+            strategy=record,
+            payload=backtest_payload(record, result_id),
+        )
         kwargs.update(overrides)
         evidence = validation_record(**kwargs)
         store.save_validation_evidence(evidence)
         return evidence
 
-    def _save_decision(
-        self,
-        store: SQLiteRegistryStore,
-        record: StrategyVersionRecord,
-        backtest: ValidationEvidenceRecord,
-        *,
-        suffix: str,
-        decision: str = "PASS",
-        payload: dict | None = None,
-        **overrides,
-    ) -> ValidationEvidenceRecord:
+    def _save_decision(self, store, record, backtest, suffix: str, *, decision="PASS", payload=None, **overrides):
         decision_id = f"vd-{suffix}"
-        kwargs = {
-            "evidence_id": f"evidence-vd-{suffix}",
-            "evidence_type": "VALIDATION_DECISION",
-            "upstream_object_id": decision_id,
-            "strategy": record,
-            "payload": payload
-            or decision_payload(record, backtest.upstream_object_id, decision_id, decision=decision),
-            "decision": decision,
-            "parent_evidence_id": backtest.evidence_id,
-        }
+        kwargs = dict(
+            evidence_id=f"evidence-vd-{suffix}",
+            evidence_type="VALIDATION_DECISION",
+            upstream_object_id=decision_id,
+            strategy=record,
+            payload=payload or decision_payload(record, backtest.upstream_object_id, decision_id, decision=decision),
+            decision=decision,
+            parent_evidence_id=backtest.evidence_id,
+        )
         kwargs.update(overrides)
         evidence = validation_record(**kwargs)
         store.save_validation_evidence(evidence)
@@ -301,25 +283,15 @@ class LifecycleEvidenceAuthorityTests(unittest.TestCase):
                 connection, store, record = self._new_store(f"draft-authority-{index}")
                 try:
                     if overrides is not None:
-                        store.save_compatibility(
-                            compatibility(
-                                record.identity,
-                                suffix=name,
-                                **overrides,
-                            )
-                        )
-                    before = self._snapshot(connection, store, record.identity)
-                    with self.assertRaises(EvidenceGateError):
-                        store.append_transition(
-                            transition(
-                                record,
-                                "DRAFT",
-                                "BACKTESTING",
-                                0,
-                                suffix=name,
-                            )
-                        )
-                    self._assert_snapshot(connection, store, record.identity, before)
+                        store.save_compatibility(compatibility(record.identity, suffix=name, **overrides))
+                    self._assert_rejected_unchanged(
+                        connection,
+                        store,
+                        record,
+                        lambda: store.append_transition(
+                            transition(record, "DRAFT", "BACKTESTING", 0, suffix=name)
+                        ),
+                    )
                 finally:
                     connection.close()
 
@@ -327,12 +299,12 @@ class LifecycleEvidenceAuthorityTests(unittest.TestCase):
         connection, store, record = self._new_store("candidate-no-primary")
         try:
             self._to_backtesting(store, record)
-            before = self._snapshot(connection, store, record.identity)
-            with self.assertRaises(EvidenceGateError):
-                store.append_transition(
+            self._assert_rejected_unchanged(
+                connection, store, record,
+                lambda: store.append_transition(
                     transition(record, "BACKTESTING", "CANDIDATE", 1, suffix="no-primary")
-                )
-            self._assert_snapshot(connection, store, record.identity, before)
+                ),
+            )
         finally:
             connection.close()
 
@@ -340,189 +312,112 @@ class LifecycleEvidenceAuthorityTests(unittest.TestCase):
         connection, store, record = self._new_store("candidate-wrong-type")
         try:
             self._to_backtesting(store, record)
-            backtest = self._save_valid_backtest(store, record, suffix="wrong-type")
-            before = self._snapshot(connection, store, record.identity)
-            with self.assertRaises(EvidenceGateError):
-                store.append_transition(
-                    transition(
-                        record,
-                        "BACKTESTING",
-                        "CANDIDATE",
-                        1,
-                        suffix="wrong-type",
-                        primary_evidence_id=backtest.evidence_id,
-                    )
-                )
-            self._assert_snapshot(connection, store, record.identity, before)
+            backtest = self._save_backtest(store, record, "wrong-type")
+            self._assert_rejected_unchanged(
+                connection, store, record,
+                lambda: store.append_transition(
+                    transition(record, "BACKTESTING", "CANDIDATE", 1, suffix="wrong-type", primary_evidence_id=backtest.evidence_id)
+                ),
+            )
         finally:
             connection.close()
 
     def test_candidate_rejects_non_pass_validation_decisions(self) -> None:
-        for decision_value in ("FAIL", "BLOCKED", "NOT_RUN"):
-            with self.subTest(decision=decision_value):
-                connection, store, record = self._new_store(f"decision-{decision_value.lower()}")
+        for value in ("FAIL", "BLOCKED", "NOT_RUN"):
+            with self.subTest(decision=value):
+                connection, store, record = self._new_store(f"decision-{value.lower()}")
                 try:
                     self._to_backtesting(store, record)
-                    backtest = self._save_valid_backtest(
-                        store, record, suffix=decision_value.lower()
+                    backtest = self._save_backtest(store, record, value.lower())
+                    decision = self._save_decision(store, record, backtest, value.lower(), decision=value)
+                    self._assert_rejected_unchanged(
+                        connection, store, record,
+                        lambda: store.append_transition(
+                            transition(record, "BACKTESTING", "CANDIDATE", 1, suffix=value.lower(), primary_evidence_id=decision.evidence_id)
+                        ),
                     )
-                    decision = self._save_decision(
-                        store,
-                        record,
-                        backtest,
-                        suffix=decision_value.lower(),
-                        decision=decision_value,
-                    )
-                    before = self._snapshot(connection, store, record.identity)
-                    with self.assertRaises(EvidenceGateError):
-                        store.append_transition(
-                            transition(
-                                record,
-                                "BACKTESTING",
-                                "CANDIDATE",
-                                1,
-                                suffix=decision_value.lower(),
-                                primary_evidence_id=decision.evidence_id,
-                            )
-                        )
-                    self._assert_snapshot(connection, store, record.identity, before)
                 finally:
                     connection.close()
 
-    def test_candidate_rejects_wrong_strategy_identity(self) -> None:
+    def test_candidate_rejects_wrong_strategy_identity_or_content_hash(self) -> None:
         connection, store, record = self._new_store("candidate-target")
         try:
             self._to_backtesting(store, record)
             other = strategy_record("candidate-other")
             store.register_strategy(other)
-            backtest = self._save_valid_backtest(store, other, suffix="other")
-            decision = self._save_decision(store, other, backtest, suffix="other")
-            before = self._snapshot(connection, store, record.identity)
-            with self.assertRaises(EvidenceGateError):
-                store.append_transition(
-                    transition(
-                        record,
-                        "BACKTESTING",
-                        "CANDIDATE",
-                        1,
-                        suffix="wrong-strategy",
-                        primary_evidence_id=decision.evidence_id,
-                    )
-                )
-            self._assert_snapshot(connection, store, record.identity, before)
-        finally:
-            connection.close()
+            other_backtest = self._save_backtest(store, other, "other")
+            other_decision = self._save_decision(store, other, other_backtest, "other")
+            self._assert_rejected_unchanged(
+                connection, store, record,
+                lambda: store.append_transition(
+                    transition(record, "BACKTESTING", "CANDIDATE", 1, suffix="wrong-identity", primary_evidence_id=other_decision.evidence_id)
+                ),
+            )
 
-    def test_candidate_rejects_wrong_strategy_content_hash(self) -> None:
-        connection, store, record = self._new_store("candidate-wrong-hash")
-        try:
-            self._to_backtesting(store, record)
-            backtest = self._save_valid_backtest(store, record, suffix="wrong-hash-parent")
+            backtest = self._save_backtest(store, record, "wrong-hash-parent")
             decision = self._save_decision(
-                store,
-                record,
-                backtest,
-                suffix="wrong-hash",
+                store, record, backtest, "wrong-hash",
                 strategy_content_hash="sha256:not-the-registered-content",
             )
-            before = self._snapshot(connection, store, record.identity)
-            with self.assertRaises(EvidenceGateError):
-                store.append_transition(
-                    transition(
-                        record,
-                        "BACKTESTING",
-                        "CANDIDATE",
-                        1,
-                        suffix="wrong-hash",
-                        primary_evidence_id=decision.evidence_id,
-                    )
-                )
-            self._assert_snapshot(connection, store, record.identity, before)
+            self._assert_rejected_unchanged(
+                connection, store, record,
+                lambda: store.append_transition(
+                    transition(record, "BACKTESTING", "CANDIDATE", 1, suffix="wrong-hash", primary_evidence_id=decision.evidence_id)
+                ),
+            )
         finally:
             connection.close()
 
     def test_candidate_rejects_missing_or_wrong_backtest_parent(self) -> None:
-        cases = ("missing", "wrong-strategy")
-        for case in cases:
+        for case in ("missing", "wrong-strategy"):
             with self.subTest(case=case):
                 connection, store, record = self._new_store(f"parent-{case}")
                 try:
                     self._to_backtesting(store, record)
-                    placeholder = self._save_valid_backtest(store, record, suffix=f"placeholder-{case}")
+                    placeholder = self._save_backtest(store, record, f"placeholder-{case}")
                     parent_id = None
                     if case == "wrong-strategy":
                         other = strategy_record(f"other-parent-{case}")
                         store.register_strategy(other)
-                        wrong_parent = self._save_valid_backtest(store, other, suffix=f"wrong-{case}")
-                        parent_id = wrong_parent.evidence_id
-                    payload = decision_payload(
-                        record,
-                        placeholder.upstream_object_id,
-                        f"vd-parent-{case}",
-                    )
+                        parent_id = self._save_backtest(store, other, f"wrong-{case}").evidence_id
                     decision = validation_record(
                         evidence_id=f"evidence-vd-parent-{case}",
                         evidence_type="VALIDATION_DECISION",
                         upstream_object_id=f"vd-parent-{case}",
                         strategy=record,
-                        payload=payload,
+                        payload=decision_payload(record, placeholder.upstream_object_id, f"vd-parent-{case}"),
                         decision="PASS",
                         parent_evidence_id=parent_id,
                     )
                     store.save_validation_evidence(decision)
-                    before = self._snapshot(connection, store, record.identity)
-                    with self.assertRaises(EvidenceGateError):
-                        store.append_transition(
-                            transition(
-                                record,
-                                "BACKTESTING",
-                                "CANDIDATE",
-                                1,
-                                suffix=f"parent-{case}",
-                                primary_evidence_id=decision.evidence_id,
-                            )
-                        )
-                    self._assert_snapshot(connection, store, record.identity, before)
+                    self._assert_rejected_unchanged(
+                        connection, store, record,
+                        lambda: store.append_transition(
+                            transition(record, "BACKTESTING", "CANDIDATE", 1, suffix=f"parent-{case}", primary_evidence_id=decision.evidence_id)
+                        ),
+                    )
                 finally:
                     connection.close()
 
     def test_candidate_rejects_malformed_or_mismatched_canonical_binding(self) -> None:
-        cases = ("malformed-decision", "mismatched-backtest-id")
-        for case in cases:
+        for case in ("malformed-decision", "mismatched-backtest-id"):
             with self.subTest(case=case):
                 connection, store, record = self._new_store(f"canonical-{case}")
                 try:
                     self._to_backtesting(store, record)
-                    backtest = self._save_valid_backtest(store, record, suffix=f"canonical-{case}")
-                    payload = decision_payload(
-                        record,
-                        backtest.upstream_object_id,
-                        f"vd-canonical-{case}",
-                    )
+                    backtest = self._save_backtest(store, record, f"canonical-{case}")
+                    payload = decision_payload(record, backtest.upstream_object_id, f"vd-canonical-{case}")
                     if case == "malformed-decision":
                         payload.pop("reason_codes")
                     else:
                         payload["backtest_result_id"] = "bt-different"
-                    decision = self._save_decision(
-                        store,
-                        record,
-                        backtest,
-                        suffix=f"canonical-{case}",
-                        payload=payload,
+                    decision = self._save_decision(store, record, backtest, f"canonical-{case}", payload=payload)
+                    self._assert_rejected_unchanged(
+                        connection, store, record,
+                        lambda: store.append_transition(
+                            transition(record, "BACKTESTING", "CANDIDATE", 1, suffix=f"canonical-{case}", primary_evidence_id=decision.evidence_id)
+                        ),
                     )
-                    before = self._snapshot(connection, store, record.identity)
-                    with self.assertRaises(EvidenceGateError):
-                        store.append_transition(
-                            transition(
-                                record,
-                                "BACKTESTING",
-                                "CANDIDATE",
-                                1,
-                                suffix=f"canonical-{case}",
-                                primary_evidence_id=decision.evidence_id,
-                            )
-                        )
-                    self._assert_snapshot(connection, store, record.identity, before)
                 finally:
                     connection.close()
 
@@ -538,34 +433,20 @@ class LifecycleEvidenceAuthorityTests(unittest.TestCase):
                 connection, store, record = self._new_store(name)
                 try:
                     self._to_backtesting(store, record)
-                    backtest_overrides = overrides if target == "backtest" else {}
-                    decision_overrides = overrides if target == "decision" else {}
-                    backtest = self._save_valid_backtest(
-                        store,
-                        record,
-                        suffix=name,
-                        **backtest_overrides,
+                    backtest = self._save_backtest(
+                        store, record, name,
+                        **(overrides if target == "backtest" else {}),
                     )
                     decision = self._save_decision(
-                        store,
-                        record,
-                        backtest,
-                        suffix=name,
-                        **decision_overrides,
+                        store, record, backtest, name,
+                        **(overrides if target == "decision" else {}),
                     )
-                    before = self._snapshot(connection, store, record.identity)
-                    with self.assertRaises(EvidenceGateError):
-                        store.append_transition(
-                            transition(
-                                record,
-                                "BACKTESTING",
-                                "CANDIDATE",
-                                1,
-                                suffix=name,
-                                primary_evidence_id=decision.evidence_id,
-                            )
-                        )
-                    self._assert_snapshot(connection, store, record.identity, before)
+                    self._assert_rejected_unchanged(
+                        connection, store, record,
+                        lambda: store.append_transition(
+                            transition(record, "BACKTESTING", "CANDIDATE", 1, suffix=name, primary_evidence_id=decision.evidence_id)
+                        ),
+                    )
                 finally:
                     connection.close()
 
@@ -591,13 +472,12 @@ class LifecycleEvidenceAuthorityTests(unittest.TestCase):
             outcome = service.intake(strategy_payload("service-candidate"), source_actor="unit-test")
             backtesting = service.begin_backtesting(outcome.strategy.identity, actor="unit-test")
             backtest = service.record_backtest_result(
-                backtest_payload(backtesting, "bt-service-candidate"),
-                **local_evidence_fields(),
+                backtest_payload(backtesting, "bt-service-candidate"), **LOCAL_E3_PASS
             )
             decision = service.record_validation_decision(
                 decision_payload(backtesting, "bt-service-candidate", "vd-service-candidate"),
                 backtest_evidence_id=backtest.evidence_id,
-                **local_evidence_fields(),
+                **LOCAL_E3_PASS,
             )
             candidate = service.mark_candidate(
                 outcome.strategy.identity,

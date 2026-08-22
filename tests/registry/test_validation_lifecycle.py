@@ -3,7 +3,11 @@ from __future__ import annotations
 import unittest
 
 from registry import CompatibilityEvidence, EvidenceGateError, StrategyIdentity, StrategyPlatformService
-from storage import SQLiteRegistryStore, apply_migrations, connect
+from storage._sqlite_registry import (
+    _apply_migrations as apply_migrations,
+    _connect as connect,
+    _internal_store_for_tests as SQLiteRegistryStore,
+)
 
 
 def strategy_payload() -> dict:

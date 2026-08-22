@@ -16,6 +16,8 @@ The first E6 persistence implementation deliberately uses Python stdlib `sqlite3
 - current lifecycle projection plus monotonic `registry_revision`;
 - atomic lifecycle event + current-state projection update;
 - optimistic/stale-write rejection;
+- persistence-authoritative early lifecycle allowlist at `SQLiteRegistryStore.append_transition(...)`;
+- database-level INSERT guard that independently rejects service-forbidden lifecycle edges;
 - restart-readable durable state.
 
 ## Current migration scope
@@ -28,6 +30,16 @@ BACKTESTING
 REJECTED
 CANDIDATE
 ```
+
+The persistence boundary permits exactly these edges:
+
+```text
+DRAFT       -> BACKTESTING
+BACKTESTING -> REJECTED
+BACKTESTING -> CANDIDATE
+```
+
+Every other pair among the four states fails closed at the Python persistence boundary and at direct SQL INSERT. The service remains responsible for evidence gates such as E2 compatibility and E3 validation; the store/database independently prevent callers from inventing a service-forbidden lifecycle edge.
 
 Later lifecycle states from the E7 canonical contract are not available through this migration/service yet. Enabling `PAPER`, approval, `LIVE`, degradation/recovery, or operational modes requires a later reviewed migration and service gate.
 

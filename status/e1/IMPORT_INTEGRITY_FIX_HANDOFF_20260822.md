@@ -4,45 +4,47 @@
 **To:** E7 / PM  
 **Task:** `E1-20260822-001`  
 **Branch:** `agent/e1-market-data-import-integrity-fix-20260822`  
-**State:** `IN_PROGRESS` until module-role restoration commit is recorded below
+**Correction revision:** `f69b44727c80a98254a8e6ccaa04e8c4459e43fe`  
+**State:** `COMPLETED / STATIC SOURCE ONLY`
 
 ## Objective
 
 Restore the already-reviewed E1 market-data module/file identities on current `main` without changing accepted market-data behavior.
 
-The defect is a three-file content permutation:
+The defect was a three-file content permutation. The correction restores the exact accepted blobs from reviewed E1 revision `c782438ae7e895f2304498946970f2ee5dd5b18f`:
 
-| Path | Current-main blob before fix | Intended accepted blob | Intended role |
+| Path | Current-main blob before fix | Restored blob | Restored role |
 |---|---|---|---|
 | `src/market_data/candle.py` | `fb9cd216b83cd595304d23a5cec46fd9a2091894` | `5605830b4da4fbe10e94cff72794a495db9ebf6e` | canonical `Candle` + `CONTRACT_SCHEMA_VERSION` |
 | `src/market_data/errors.py` | `ac08d88dd327719b01babba098d78da0f34ab5bf` | `fb9cd216b83cd595304d23a5cec46fd9a2091894` | typed E1 errors |
 | `src/market_data/timeframes.py` | `5605830b4da4fbe10e94cff72794a495db9ebf6e` | `ac08d88dd327719b01babba098d78da0f34ab5bf` | timeframe duration/alignment + OKX bar mapping |
 
-Accepted semantic reference: E1 revision `c782438ae7e895f2304498946970f2ee5dd5b18f`.
+Correction commit `f69b44727c80a98254a8e6ccaa04e8c4459e43fe` changes exactly those three paths.
 
 ## Preserved scope
 
-No new market-data behavior is authorized or introduced. The following current-main E1 files are intentionally unchanged:
+No new market-data behavior was introduced. These current-main E1 files were intentionally left unchanged:
 
 - `src/market_data/__init__.py` blob `5b426610b49f72068cb4cb8466655f0ddc3224d1`
 - `src/market_data/historical.py` blob `b8ecd0ce2fc1a218e2bfcf2c7939c6d029e4b53b`
 - `src/market_data/okx.py` blob `65ce66e428e53e69130d682f4a6f4aeb304bc0cf`
 
-Therefore the accepted OKX pagination/finality/documentation semantics remain intact.
+Therefore accepted OKX pagination, finality, symbol mapping, provider-error behavior, and documentation wording remain unchanged.
 
 ## Regression test definition
 
-Added:
+Added in commit `6fcc5046033483e5290e15ce209532efe7aeb7fc`:
 
-- `tests/market_data/test_import_integrity.py`
+- `tests/market_data/test_import_integrity.py` blob `b7299466e9288a3ee0bde0ea43f55cd45fbcfd4f`
 
-The deterministic test definition covers:
+It defines deterministic checks for:
 
 - `import market_data`;
-- public `Candle`, `CONTRACT_SCHEMA_VERSION`, `SUPPORTED_TIMEFRAMES`, and `okx_bar` module identity;
+- public `Candle`, `CONTRACT_SCHEMA_VERSION`, `SUPPORTED_TIMEFRAMES`, and `okx_bar` resolving from intended modules;
 - expected typed error classes under `market_data.errors`;
-- explicit non-permutation of `candle`, `errors`, and `timeframes` roles;
-- existing `contracts-v0.1` Candle Decimal/RFC3339 serialization and `1m/15m/1h/4h` OKX timeframe mapping.
+- no `candle/errors/timeframes` role permutation;
+- existing `contracts-v0.1` Decimal/RFC3339 Candle serialization;
+- existing `1m / 15m / 1h / 4h` OKX timeframe mapping.
 
 ## Executable verification
 
@@ -62,19 +64,19 @@ No executable PASS is claimed.
 
 ## E3 blocker disposition
 
-At static/source level, this task restores the module/file identity defect that prevented the E1 public import surface from being structurally coherent. This is sufficient for PM/E7/E3 to perform a bounded source/SHA recheck.
+The specific static/source blocker identified by PM — E1 module/file identity permutation making the public import surface structurally incoherent — is corrected at revision `f69b44727c80a98254a8e6ccaa04e8c4459e43fe`.
 
-It does **not** establish executable E1->E3 integration PASS because imports/tests were not run in an approved local environment. Executable integration remains `NOT_RUN`.
+PM/E7/E3 can now perform a bounded source/SHA recheck against this correction. This does **not** establish executable E1->E3 integration PASS; imports/tests/integration remain `NOT_RUN` until an approved local environment executes the commands above.
 
-## Security / compute
+## Scope / security
 
 - shared contract changes: `NONE`
 - provider behavior changes: `NONE`
-- private/account/Demo/order API work: `NONE`
+- `historical.py` / `okx.py` changes: `NONE`
 - E2/E3 production changes: `NONE`
+- private/account/Demo/order API work: `NONE`
+- WebSocket/MarketSnapshot/cache/retry work: `NONE`
 - credentials/secrets: `NONE`
 - GitHub Actions/CI/hosted runner/project compute: `NOT_USED`
 
-## Correction revision
-
-The exact module-restoration revision and final evidence state are recorded in `coordination/E1/STATUS.md` after the correction commit is created.
+E1 stops after this bounded repair and does not merge or start another task automatically.

@@ -18,9 +18,11 @@ The first E6 persistence implementation deliberately uses Python stdlib `sqlite3
 - optimistic/stale-write rejection;
 - persistence-authoritative early lifecycle allowlist at `SQLiteRegistryStore.append_transition(...)`;
 - database-level INSERT guard that independently rejects service-forbidden lifecycle edges;
+- persistence-authoritative durable evidence checks before any lifecycle row/projection mutation;
+- canonical persisted ValidationDecision/BacktestResult payload revalidation for CANDIDATE promotion;
 - restart-readable durable state.
 
-## Current migration scope
+## Current migration / lifecycle scope
 
 `migrations/0001_strategy_registry.sql` intentionally supports only the early Slice 2 lifecycle subset:
 
@@ -39,7 +41,16 @@ BACKTESTING -> REJECTED
 BACKTESTING -> CANDIDATE
 ```
 
-Every other pair among the four states fails closed at the Python persistence boundary and at direct SQL INSERT. The service remains responsible for evidence gates such as E2 compatibility and E3 validation; the store/database independently prevent callers from inventing a service-forbidden lifecycle edge.
+Every other pair among the four states fails closed at the Python persistence boundary and at direct SQL INSERT.
+
+For the two promotion edges, edge shape is not sufficient authority:
+
+- `DRAFT -> BACKTESTING` requires durable exact-strategy E2 compatibility evidence with `PASS / LOCAL_EXECUTION` and complete local evidence metadata;
+- `BACKTESTING -> CANDIDATE` requires the transition's `primary_evidence_id` to resolve to a durable E3 `ValidationDecision.decision=PASS`, exact strategy/content binding, complete local PASS metadata, and a durable parent E3 BacktestResult with matching canonical payload/binding and complete local PASS metadata.
+
+The same E6 lifecycle-authority policy is called by the public StrategyPlatformService and by `SQLiteRegistryStore.append_transition(...)`. The SQLite store rechecks durable authority inside its transaction before lifecycle history or projection mutation. Failure rolls back without changing state, revision, or transition history.
+
+`BACKTESTING -> REJECTED` remains bounded rejection behavior: at least one reason code is required; supplied evidence must exist and bind to the exact strategy/content.
 
 Later lifecycle states from the E7 canonical contract are not available through this migration/service yet. Enabling `PAPER`, approval, `LIVE`, degradation/recovery, or operational modes requires a later reviewed migration and service gate.
 

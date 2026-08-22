@@ -6,6 +6,7 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Sequence
 
+from registry.lifecycle_authority import require_transition_authority
 from registry.models import (
     CompatibilityEvidence,
     ConcurrencyConflict,
@@ -315,6 +316,8 @@ class SQLiteRegistryStore:
             expected_resulting_revision = current.registry_revision + 1
             if transition.resulting_registry_revision != expected_resulting_revision:
                 raise ConcurrencyConflict("invalid resulting registry revision")
+
+            require_transition_authority(self, current, transition)
 
             self._connection.execute(
                 """

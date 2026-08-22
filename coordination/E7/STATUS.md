@@ -1,190 +1,245 @@
 # E7 Status
 
-- task_id: `E7-20260822-009`
+- task_id: `E7-20260822-012`
 - agent: `E7`
 - state: `DONE_PENDING_PM`
-- branch: `agent/e7-e6-public-boundary-final-review-20260822`
-- review_target: `PR #16 platform: integrate early Slice 2 registry and evidence persistence`
-- reviewed_e6_revision: `ca41cb92cfaf23c7c0d00a7802727fa28f5cca86`
-- observed_pr_head: `607feaf1663966cd0fac82a244d368822ea28214`
-- correction_pin_to_pr_head_delta: `coordination/E6/STATUS.md + status/E6_EARLY_SLICE2_HANDOFF.md + status/E6_STATUS.md only`
-- review_time_main: `7014d271886b202fc0e39d7c12a5f3bf9d7f8ecb`
-- review_artifact: `status/e7/E6_PUBLIC_BOUNDARY_FINAL_REVIEW_20260822.md`
-- summary: `Final exact-revision static/security review closes E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001 under the TASK-declared trusted-process Python modular-monolith authority model. The supported storage API exports only open_sqlite_platform; the factory returns StrategyPlatformService without a supported raw writer/connection surface; raw SQLite mechanics are underscore/internal and construction/mutation is writer-capability gated; initial DRAFT/revision-0 registration and lifecycle projection coherence have Python/SQL defense-in-depth guards; exact three early lifecycle edges and durable E2/E3 promotion-authority revalidation remain intact. E6-EVIDENCE-CONTRACT-001 remains closed with no regression. PR #16 is statically acceptable for PM merge. Executable verification remains NOT_RUN.`
+- branch: `agent/e7-e3-slice1-current-main-review-20260822`
+- review_target: `PR #22 backtest: reconcile Slice 1 replay with corrected current main`
+- reviewed_pr_head: `dbce39cec5d5104e0fe79aca4e3be0e8aef459ec`
+- preserved_e3_production_pin: `54d40ae96e241f40367016e26b7bd5d03890e629`
+- post_e1_reconciliation_merge: `aee813855759cd63548d452a93de26fc208afa20`
+- reconciliation_test_revision: `185185fbb403b3622c96a218717d67a2eb41a684`
+- review_time_main: `801c81ff80b42cfe2e1424567ea5ef41be7e9270`
+- review_artifact: `status/e7/E3_SLICE1_CURRENT_MAIN_STATIC_REVIEW_20260822.md`
+- summary: `Fresh exact-revision static/integration review passes PR #22. The merged E1 import-integrity blocker is cleared by the supported market_data Candle/CONTRACT_SCHEMA_VERSION package surface and exact corrected blobs; E3 production source remains identical to the preserved 54d40ae pin; E3 binds to the actual current E2 parse_strategy_definition + StrategyRuntime.evaluate path without copying strategy semantics; replay is closed-candle/prefix bounded with exact signal evaluation boundaries and next-open entry/opposite-exit timing; intrabar stop/target ambiguity is conservative; fee/slippage/funding and metrics/reproducibility are deterministic; contracts-v0.1 BacktestResult serialization aligns with the merged E6 validator including profit_factor=null. PR #22 is statically acceptable for PM merge. Executable verification remains NOT_RUN.`
 
-## Finding dispositions
+## Core dispositions
 
-- `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`: `CLOSED / PASS STATIC / TRUSTED-PROCESS MODEL`
-- `E6-EVIDENCE-CONTRACT-001`: `CLOSED / PASS STATIC / NO REGRESSION`
+- e1_import_integrity_blocker: `CLEARED / PASS STATIC`
+- real_e2_runtime_consumption: `PASS STATIC`
+- no_look_ahead_closed_prefix: `PASS STATIC`
+- entry_opposite_exit_timing: `PASS / NEXT OPEN`
+- final_bar_new_entry_fill: `BLOCKED BY SOURCE / PASS STATIC`
+- same_bar_stop_target_ambiguity: `STOP FIRST / CONSERVATIVE / PASS STATIC`
+- fees_slippage_funding: `PASS STATIC / EXPLICIT + VERSIONED`
+- metrics_arithmetic: `PASS STATIC`
+- reproducibility_identity: `PASS STATIC`
+- canonical_backtestresult_e6_validator: `PASS STATIC`
+- research_only_no_validationdecision_promotion: `PASS STATIC`
+- scope_synchronization: `PASS STATIC`
+- pr_22_merge_recommendation: `PM MAY MERGE PR #22`
 
-## Supported public API disposition
+## E1 blocker disposition
 
-- storage_public_exports: `PASS / __all__ = [open_sqlite_platform]`
-- raw_SQLiteRegistryStore_export: `ABSENT / PASS`
-- raw_connect_export: `ABSENT / PASS`
-- raw_migration_export: `ABSENT / PASS`
-- supported_factory_return_type: `StrategyPlatformService / PASS`
-- supported_factory_raw_store_or_connection_return: `ABSENT / PASS`
-- service_public_raw_writer_methods: `ABSENT / PASS`
-- private `_store` implementation attribute: `OUTSIDE SUPPORTED-PUBLIC-ATTRIBUTE CLAIM / ACCEPTED UNDER TASK TRUST MODEL`
+Current `main` supported package:
 
-## Internal writer/capability disposition
-
-- raw implementation module: `storage._sqlite_registry / INTERNAL`
-- authoritative store: `_SQLiteRegistryStore / INTERNAL`
-- writer capability: `_WRITER_CAPABILITY / MODULE-PRIVATE`
-- constructor_without_capability: `REJECTED BY SOURCE / PASS STATIC`
-- mutation_methods_require_capability: `PASS STATIC`
-- underscore/test-only raw helpers: `ACCEPTED / OUTSIDE SUPPORTED PRODUCTION API`
-
-Arbitrary malicious in-process Python, deliberate underscore imports, introspection/monkey-patching, and direct SQLite-file compromise are explicitly outside this TASK authority boundary and are accurately documented as out of scope.
-
-## DTO / authority disposition
-
-Caller-constructible DTOs remain data only through the supported production API:
-
-```text
-CompatibilityEvidence
-ValidationEvidenceRecord
-LifecycleTransitionRecord
-StrategyVersionRecord
+```python
+from market_data import CONTRACT_SCHEMA_VERSION, Candle
 ```
 
-The factory-returned service exposes no supported raw `save_compatibility`, `save_validation_evidence`, `append_transition`, or `register_strategy` write capability.
-
-## Initial projection disposition
-
-- Python new-registration guard: `PASS / requires DRAFT + registry_revision=0`
-- SQL `strategy_versions_initial_projection_guard`: `PASS / STATIC ONLY`
-- non-DRAFT initial registration: `REJECTED / PASS STATIC`
-- nonzero initial revision: `REJECTED / PASS STATIC`
-- normal service intake: `DRAFT / 0`
-- same-identity/same-content idempotency: `PASS / COHERENT`
-
-## Lifecycle projection / transition disposition
-
-- lifecycle vocabulary: `PASS / DRAFT|BACKTESTING|REJECTED|CANDIDATE ONLY`
-- allowed transitions: `PASS / EXACT THREE EDGES`
+Verified corrected blob identities:
 
 ```text
-DRAFT       -> BACKTESTING
-BACKTESTING -> REJECTED
-BACKTESTING -> CANDIDATE
+src/market_data/candle.py      5605830b4da4fbe10e94cff72794a495db9ebf6e
+src/market_data/errors.py      fb9cd216b83cd595304d23a5cec46fd9a2091894
+src/market_data/timeframes.py  ac08d88dd327719b01babba098d78da0f34ab5bf
 ```
 
-- Python forbidden-edge rejection: `PASS / STATIC ONLY`
-- SQL forbidden-edge trigger: `PASS / STATIC ONLY`
-- current-state check: `PASS / STATIC ONLY`
-- expected-revision check: `PASS / STATIC ONLY`
-- resulting-revision=current+1: `PASS / STATIC ONLY`
-- append-only lifecycle history: `PASS / STATIC ONLY`
-- SQL projection-history guard: `PASS / STATIC ONLY`
-- atomic transition-history + projection transaction: `PASS / SOURCE COHERENT`
-- rollback on exception: `PASS / SOURCE + TEST DEFINITIONS`
-- naked supported-path projection update: `UNAVAILABLE; SQL DEFENSE-IN-DEPTH ALSO REJECTS`
+`tests/backtest/test_real_e2_research_skeleton.py` imports actual E1 `Candle` and `CONTRACT_SCHEMA_VERSION`, constructs canonical Candle instances, and hashes `to_interchange_dict()` for dataset identity.
 
-## Durable promotion-authority disposition
+## E3 production pin disposition
 
-### DRAFT -> BACKTESTING
-
-Requires durable exact-strategy E2 evidence with:
+Critical E3 production blobs are identical between the preserved production pin and reviewed PR head:
 
 ```text
-checker = E2...
-status = PASS
-verification_kind = LOCAL_EXECUTION
-source_revision/environment/command/result_ref = non-empty
+src/backtest/replay.py       bf2b013a1cacd7af93f71c977320dda7d3382375
+src/backtest/e2_runtime.py   c603233b53217118f6979f9372477de65101938a
+src/backtest/costs.py        7ba0f38e21340fc64bdaa830a750a237af4e4991
+src/backtest/metrics.py      4ad18c1066d3726b1338596a15d373a28f955f69
 ```
 
-Authority is checked by the service and rechecked by internal persistence before lifecycle mutation.
+E1 source changes visible after the pin came from the non-destructive current-main reconciliation, not an E3 production rewrite.
 
-### BACKTESTING -> CANDIDATE
+## Real E2 runtime disposition
 
-Requires durable exact-strategy/content E3 `ValidationDecision(PASS)` plus stored parent `BacktestResult`, both with complete `PASS / LOCAL_EXECUTION` metadata.
+`src/backtest/e2_runtime.py` uses:
 
-Persistence re-decodes stored payloads and reuses the accepted canonical BacktestResult / ValidationDecision validators, then verifies exact object/schema/strategy/content/backtest-parent bindings before mutation.
+```text
+strategy.parse_strategy_definition
+strategy.StrategyRuntime
+strategy.RUNTIME_VERSION
+```
 
-BacktestResult alone cannot authorize CANDIDATE.
+Every adapter evaluation parses the StrategyDefinition through E2 and invokes actual `StrategyRuntime.evaluate(parsed_strategy, closed_history, evaluated_at)`.
 
-## `E6-EVIDENCE-CONTRACT-001` regression disposition
+No E3 indicator/SMA/DSL/operator/strategy-decision/TradeIntent implementation was found.
 
-- canonical BacktestResult validator: `PASS / unchanged blob 954d21c021c0885554ee650acced17610d958a0e`
-- service_base: `PASS / unchanged blob 3889ac156358f58c5fc3380865ad73844b874c3c`
-- canonical required fields/types/timestamps/decimal interchange: `PASS STATIC`
-- ValidationDecision exact enum/reason-code shape: `PASS STATIC`
-- caller PASS/LOCAL_EXECUTION metadata bypass of malformed payload: `BLOCKED / PASS STATIC`
-- strategy/content/backtest binding: `PASS STATIC`
-- BacktestResult-alone promotion: `BLOCKED / PASS STATIC`
+Malformed/unavailable integration fails closed through E2 exceptions, `E2RuntimeUnavailableError`, or `RuntimeContractError`.
+
+## Replay no-look-ahead / timing disposition
+
+- finalized `is_closed=True` Candles only: `PASS`
+- duplicate/out-of-order Candle open time: `REJECTED`
+- overlapping intervals: `REJECTED`
+- symbol/timeframe mismatch: `REJECTED`
+- dataset start/end mismatch: `REJECTED`
+- runtime history at boundary: `frames[:index+1] ONLY`
+- Signal `evaluated_at`: `MUST EQUAL current Candle.close_time`
+- LONG/SHORT entry: `PENDING UNTIL NEXT Candle.open`
+- opposite-signal exit: `PENDING UNTIL NEXT Candle.open`
+- final-bar entry signal: `NO FUTURE BAR => NO FILL`
+- same-candle stop+target: `STOP FIRST`
+- adverse gap through stop: `BAR OPEN WHEN WORSE THAN STOP`
+- protective OHLC event timestamp: `Candle.close_time / deterministic conservative convention`
+
+## Costs / metrics disposition
+
+Fee model:
+- explicit version;
+- Decimal semantics;
+- separate entry/exit maker/taker roles.
+
+Slippage:
+- explicit version;
+- BUY fills above reference and SELL fills below reference;
+- adverse entry/exit bps;
+- reported slippage decomposition retained.
+
+Funding:
+- explicit version;
+- deterministic fixed rate/event interval/anchor;
+- event window `opened_at <= event < closed_at`;
+- assumptions serialized into reproducibility metadata.
+
+PnL:
+
+```text
+gross_pnl = replay fill-to-fill PnL (slippage already embedded)
+net_pnl   = gross_pnl - total_fees - funding_cost
+```
+
+`total_slippage_cost` is decomposition metadata and is not deducted twice.
+
+Metrics deterministically cover trade counts, gross/net PnL, fees, slippage/funding totals, expectancy, profit factor, max drawdown, and max consecutive losses using Decimal arithmetic.
+
+`profit_factor` with zero aggregate losing PnL remains field-present as `null`.
+
+`fixed_quantity` is research-only and grants no E5/live sizing authority.
+
+## Reproducibility disposition
+
+Result identity includes:
+
+- replay engine version;
+- strategy id/version/content hash;
+- E2 runtime version;
+- dataset id/hash/start/end;
+- cost assumptions including fixed quantity;
+- dataset-end closure setting;
+- deterministic trade fingerprints.
+
+`created_at` is observational metadata and excluded from result identity.
+
+Repeated identical research inputs are designed to yield the same `backtest_result_id` and metrics.
+
+## Canonical BacktestResult / E6 disposition
+
+Merged E6 validator blob:
+
+```text
+954d21c021c0885554ee650acced17610d958a0e
+```
+
+E3 emits all required identity/reproducibility/core metric fields with RFC3339 `Z`, decimal-string financial interchange, non-negative integer counts, and `profit_factor=None` when appropriate.
+
+The real integration test definition feeds the serialized E3 BacktestResult directly to `validate_backtest_result_contract`.
+
+No ValidationDecision engine or lifecycle promotion is added. BacktestResult remains research evidence only.
 
 ## Test-definition disposition
 
-Static definitions remain present for:
+Static definitions reviewed cover:
 
-- supported storage exports only safe factory;
-- factory service has no public raw writer/connection;
-- raw-store construction without internal capability fails;
-- authority-looking DTOs do not become supported write capabilities;
-- non-DRAFT/nonzero initial registration rejection with no mutation;
-- SQL initial-projection rejection;
-- naked projection update rejection;
-- normal intake DRAFT/0;
-- valid service-authorized BACKTESTING/CANDIDATE flows;
-- durable E2 authority failures and rollback;
-- durable E3 decision/backtest authority failures and rollback;
-- canonical binding failures;
-- exact legal lifecycle edges;
-- forbidden Python/SQL edges;
-- append-only history.
+- actual E1 Candle surface;
+- actual E2 runtime path;
+- future-candle isolation;
+- deterministic real E1/E2/E3 replay;
+- direct E6 contract validation;
+- closed-prefix/no-look-ahead;
+- next-open entry/opposite exit;
+- final-bar no-fill;
+- unclosed/schema/signal boundary failures;
+- conservative stop/target ambiguity;
+- fees/slippage/funding;
+- dataset boundaries;
+- known metrics;
+- profit-factor null edge;
+- empty metrics.
 
-Synthetic PASS fixtures remain test-only definitions and are not project executable evidence.
-
-Executable test result: `NOT_RUN`.
-
-## Trust-boundary documentation disposition
-
-`docs/platform/E6_STORAGE_AUTHORITY_BOUNDARY.md`: `PASS / ACCURATE`
-
-It correctly limits the claim to the supported project API and trusted-process composition model, and explicitly does not claim protection against arbitrary malicious in-process Python, private/underscore introspection, monkey-patching, or direct DB-file compromise.
+Synthetic fixtures are test-only definitions and are not executable project evidence.
 
 ## Scope / synchronization disposition
 
-- E6 synchronization merge: `610cdc4edbcd3fdf3f74c1eed9691253b4453cc9`
-- synchronization parent 1: `e7d1f3d9a99043107824a3c64d1d37663db8ff53`
-- synchronization parent 2 / then-main: `36d1b5f3baee298dc33da444e0a31782a8cc6d7e`
-- synchronization style: `NON-DESTRUCTIVE TWO-PARENT MERGE`
-- force rewrite/destructive rebase evidence: `NONE FOUND`
-
-PR #16 scope remains E6 registry/storage/tests/docs/status only.
-
-- `contracts/**`: `NO CHANGES`
-- E1/E2/E3/E4/E5 production: `NO CHANGES`
-- workflow/CI: `NONE`
-- provider/credential/secret implementation: `NONE FOUND`
-- Slice 3 execution-audit persistence: `ABSENT`
-- provider-native OKX `sz` persistence: `ABSENT`
-- PAPER/READY_FOR_APPROVAL/APPROVED/SHADOW/LIVE/later lifecycle: `ABSENT`
-- unrelated feature expansion: `NONE FOUND`
-
-At review time:
+PR #22 changed-file scope is limited to E3-owned backtest source/tests/docs/status:
 
 ```text
-latest main = 7014d271886b202fc0e39d7c12a5f3bf9d7f8ecb
-E6 branch vs latest main = ahead 75 / behind 2
-latest-main-only delta = coordination/E6/TASK.md + coordination/E7/TASK.md
-meaningful production/shared-contract drift = NONE
-PR #16 GitHub mergeable = TRUE
+coordination/E3/STATUS.md
+docs/backtest/SLICE1_RESEARCH_SKELETON.md
+src/backtest/__init__.py
+src/backtest/costs.py
+src/backtest/e2_runtime.py
+src/backtest/metrics.py
+src/backtest/replay.py
+status/E3_SLICE1_HANDOFF.md
+tests/backtest/test_costs.py
+tests/backtest/test_metrics.py
+tests/backtest/test_real_e2_research_skeleton.py
+tests/backtest/test_replay.py
 ```
 
-Coordination-only TASK drift is not a resynchronization blocker under this TASK.
+- `contracts/**`: `NO CHANGES`
+- E1/E2/E4/E5/E6 production: `NO PR DIFF CHANGES`
+- Registry promotion/lifecycle implementation: `NONE`
+- workflow/CI: `NONE`
+- provider/credential/secret: `NONE FOUND`
+- later E3 stages: `NONE`
+- PAPER/SHADOW/LIVE: `NONE`
 
-## Merge / verification / release state
+At final review:
 
-- pr_16_source_disposition: `PASS / STATIC ONLY`
-- pr_16_merge_recommendation: `PM MAY MERGE`
+```text
+latest main = 801c81ff80b42cfe2e1424567ea5ef41be7e9270
+PR #22 head = dbce39cec5d5104e0fe79aca4e3be0e8aef459ec
+E3 branch vs latest main = ahead 14 / behind 2
+merge base = 47c7f3c24300b9ea21a8d50eba5be13884c88a7a
+latest-main-only delta = coordination/E3/TASK.md + coordination/E7/TASK.md
+meaningful production/shared-contract drift = NONE
+PR #22 GitHub mergeable = TRUE
+```
+
+Coordination-only TASK drift is not a resynchronization blocker under this task.
+
+## Documentation / verification disposition
+
+E3 docs/handoff accurately distinguish static readiness from executable evidence and record exact local-only commands:
+
+```powershell
+$env:PYTHONPATH = (Join-Path (Get-Location) "src")
+python -m unittest discover -s tests/backtest -p "test_*.py" -v
+python tests/backtest/test_real_e2_research_skeleton.py -v
+```
+
+Commands were not executed by E7.
+
+## Verification / release state
+
 - executable_verification: `NOT_RUN`
 - project_tests_executed: `NO`
-- migrations_executed: `NO`
 - backtests_executed: `NO`
+- import_probes_executed: `NO`
+- migrations_executed: `NO`
+- validation_decision_created: `NO`
+- registry_promotion: `NONE`
 - provider_requests: `NOT_SENT`
 - github_compute: `NOT_USED`
 - codex_ticket: `NONE / NOT_APPLICABLE WITHOUT LOCAL REPRODUCTION`
@@ -194,10 +249,10 @@ Coordination-only TASK drift is not a resynchronization blocker under this TASK.
 - gate_d: `BLOCKED / UNCHANGED`
 - paper_shadow_live_advancement: `NONE`
 
-Static acceptance of PR #16 does not establish Gate A PASS and does not authorize project execution, migrations, later lifecycle promotion, PAPER/SHADOW/LIVE, or provider activity.
-
 ## Completion
 
-E7 completed only `E7-20260822-009` and stops here.
+E7 completed only `E7-20260822-012` and stops here.
 
-E7 does not merge PR #16, does not run tests or migrations, does not execute provider requests, and does not start another task automatically. Next owner: `PM`.
+**PM MAY MERGE PR #22**.
+
+This is static/source acceptance only. E7 does not merge PR #22, does not run tests/backtests/import probes, does not create a ValidationDecision, does not promote Registry lifecycle, and does not start another task automatically. Next owner: `PM`.

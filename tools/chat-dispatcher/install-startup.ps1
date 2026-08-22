@@ -15,12 +15,16 @@ if (-not (Test-Path -LiteralPath $ConfigPath)) {
 
 $startup = [Environment]::GetFolderPath('Startup')
 $cmdPath = Join-Path $startup 'AgentChatDispatcher.cmd'
-$escapedDispatcher = $dispatcher.Replace('"', '""')
-$escapedConfig = (Resolve-Path -LiteralPath $ConfigPath).Path.Replace('"', '""')
+$resolvedDispatcher = (Resolve-Path -LiteralPath $dispatcher).Path
+$resolvedConfig = (Resolve-Path -LiteralPath $ConfigPath).Path
 
-$content = "@echo off`r`nstart \"\" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Minimized -File \"$escapedDispatcher\" -ConfigPath \"$escapedConfig\"`r`n"
+$content = @"
+@echo off
+start "" powershell.exe -NoProfile -ExecutionPolicy Bypass -WindowStyle Minimized -File "$resolvedDispatcher" -ConfigPath "$resolvedConfig"
+"@
+
 Set-Content -LiteralPath $cmdPath -Value $content -Encoding ASCII
 
 Write-Host "Installed startup launcher: $cmdPath"
-Write-Host "It will run at the next Windows sign-in."
-Write-Host "To remove it, delete that .cmd file."
+Write-Host 'It will run at the next Windows sign-in.'
+Write-Host 'To remove it, delete that .cmd file.'

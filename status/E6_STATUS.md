@@ -2,74 +2,95 @@
 
 > Owner: E6 Platform / Storage / Strategy Registry / Dashboard Engineer  
 > Branch: `agent/e6-platform`  
-> Task: `E6-20260822-001`  
-> State: `DONE / AWAITING E7 RE-REVIEW`
+> Task: `E6-20260822-003`  
+> State: `DONE / AWAITING E7 TARGETED RE-REVIEW`
 
 ## Synchronization
 
-- accepted baseline revision: `4a845ff79ba48abb6122191a2cf8df7d52544475`
-- latest main revision merged: `bac41e860b5582f7a87d8992c803ce081dafcb35`
-- non-destructive synchronization merge: `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
-- synchronized source/tests/docs revision: `e3ad9b28ee819fa99aa3933c146e9e9fe02151e2`
-- force push/rebase/history rewrite: `NONE`
+- pre-task E6 HEAD: `df15109dcb8594b1182bf6fc09cb5ad6681d74b5`
+- latest main merged: `06752b83c18f6579b06c1f3b7e1d5837a2d6949a`
+- synchronization merge: `c3d756b46af547b4ea0bb36aa653cc8b9081163f`
+- force push: `NO`
+- destructive rebase/history rewrite: `NO`
 
-## Preserved accepted behavior
+## Finding
 
-`E6-EVIDENCE-CONTRACT-001` remains statically resolved. The synchronized branch preserves:
+`E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`
 
-- complete canonical BacktestResult shape/type/reproducibility validation before persistence;
-- complete canonical ValidationDecision shape/type/enum/binding validation before persistence;
-- exact strategy/version/content-hash/backtest-parent binding checks;
-- fail-closed invalid/unknown required type or enum handling;
-- protection against caller-supplied PASS / LOCAL_EXECUTION metadata bypass;
-- requirement for valid E3 ValidationDecision evidence before `BACKTESTING -> CANDIDATE`.
+Claimed E6 disposition:
 
-Accepted implementation blobs remain unchanged:
+```text
+CORRECTED IN SOURCE / READY_FOR_E7_TARGETED_RE_REVIEW
+```
 
-- `src/registry/contract_validation.py` = `954d21c021c0885554ee650acced17610d958a0e`
-- `src/registry/service.py` = `3184452956e1540be44d5ea779be87ed573fbcae`
-- `src/registry/service_base.py` = `3889ac156358f58c5fc3380865ad73844b874c3c`
+The public SQLite persistence boundary now independently permits exactly:
+
+```text
+DRAFT       -> BACKTESTING
+BACKTESTING -> REJECTED
+BACKTESTING -> CANDIDATE
+```
+
+Every other pair among `DRAFT | BACKTESTING | REJECTED | CANDIDATE` fails closed before lifecycle history/projection mutation.
+
+## Persistence correction
+
+- `src/registry/models.py` defines the bounded E6 early lifecycle allowlist/helper.
+- `SQLiteRegistryStore.append_transition(...)` rejects forbidden edges before opening its write transaction.
+- existing current-state, expected-revision, resulting-revision, atomic commit, and rollback protections remain intact.
+- migration `0001_strategy_registry.sql` adds a `BEFORE INSERT` lifecycle-edge trigger so direct SQL cannot represent a service-forbidden edge.
+- update/delete append-only lifecycle triggers remain unchanged.
+
+## Deterministic local-only test definitions
+
+`tests/storage/test_registry_persistence.py` now covers:
+
+- all three legal direct-store edges;
+- the E7-listed forbidden direct-store edges;
+- self-transitions for all four early states;
+- unchanged transition-row count/state/revision after forbidden direct-store calls;
+- direct SQL forbidden-edge rejection by the migration trigger with unchanged projection/revision;
+- prior migration idempotence, immutability, append-only history, and restart persistence definitions.
+
+These definitions were not executed in this session.
+
+## Accepted prior behavior preserved
+
+- `E6-EVIDENCE-CONTRACT-001` remains untouched by this correction.
+- `src/registry/contract_validation.py` blob: `954d21c021c0885554ee650acced17610d958a0e`.
+- public `src/registry/service.py` blob: `3184452956e1540be44d5ea779be87ed573fbcae`.
+- BacktestResult/ValidationDecision canonical validation and binding remain unchanged.
+- caller PASS/LOCAL_EXECUTION metadata still cannot bypass evidence validation.
+- default/unwired E2 compatibility remains fail-closed `NOT_RUN`.
+- no BacktestResult-only candidate authority was added.
 
 ## Scope
 
-Lifecycle remains strictly:
+Lifecycle remains capped at:
 
 ```text
 DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
 ```
 
-Not added:
+No PAPER, READY_FOR_APPROVAL, APPROVED, SHADOW, LIVE, DEGRADED, RETIRED, generic lifecycle transition authority, Slice 3 execution/provider persistence, OKX quantity interpretation, provider requests, credentials, asset movement, or dashboard expansion was added.
 
-- PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE;
-- generic transition authority;
-- Slice 3 execution-audit persistence;
-- ApprovedTradePlan / OrderRequest / OrderResult / Fill persistence;
-- OKX/provider-native quantity semantics or `sz` reinterpretation;
-- reconciliation/Demo execution persistence;
-- dashboard expansion;
-- broker/private API or credential handling.
+No shared contract or other Agent production code was modified.
 
-No shared contract changes and no E1/E2/E3/E4/E5/E7 production rewrites were made.
+## Exact revisions
 
-## Changed-file scope
-
-Post-sync branch delta against main is restricted to E6-owned:
-
-- `docs/platform/**`
-- `src/registry/**`
-- `src/storage/**`
-- `tests/registry/**`
-- `tests/storage/**`
-- `status/E6_EARLY_SLICE2_HANDOFF.md`
-- `status/E6_STATUS.md`
+- source/tests/docs correction revision before handoff/status-only commits: `aab1639d6db1f94e915d1c4af3041be28e9a4b94`
+- handoff refresh commit: `f1bcb971bf3161ea440859445aac32af487a774c`
+- handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`
 
 ## Verification
 
-Executable verification: `NOT_RUN`.
+Executable verification:
 
-No Product Owner-approved local environment was available in this session. No tests, migrations, backtests, GitHub Actions, CI, hosted runners, or GitHub-triggered project compute were run.
+```text
+NOT_RUN
+```
 
-Exact local commands:
+Exact approved-local commands:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -77,12 +98,8 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-`NOT_RUN != PASS`.
+No GitHub Actions, CI, hosted runner, GitHub-triggered project compute, project migration, backtest, or provider request was executed.
 
-## Handoff
+## Next owner
 
-Current handoff: `status/E6_EARLY_SLICE2_HANDOFF.md`.
-
-Next owner: `E7 / PM` for fresh exact-revision static review and integration decision.
-
-E6 stops after this task and does not open/merge a PR or start another feature automatically.
+E7 / PM targeted re-review of PR #16. E6 stops after updating `coordination/E6/STATUS.md` and does not merge PR #16 or start another feature automatically.

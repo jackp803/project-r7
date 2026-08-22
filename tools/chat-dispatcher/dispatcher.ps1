@@ -16,6 +16,18 @@ function Write-Log {
     }
 }
 
+function Get-OptionalProperty {
+    param(
+        [object]$Object,
+        [string]$Name,
+        [object]$Default = $null
+    )
+    if ($null -eq $Object) { return $Default }
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property -or $null -eq $property.Value) { return $Default }
+    return $property.Value
+}
+
 function Read-Config {
     param([string]$Path)
     if (-not (Test-Path -LiteralPath $Path)) {
@@ -31,13 +43,13 @@ function Load-State {
     }
     $raw = Get-Content -LiteralPath $Path -Raw -Encoding UTF8 | ConvertFrom-Json
     return [ordered]@{
-        dispatched = @($raw.dispatched)
-        pm_notified = @($raw.pm_notified)
+        dispatched = @(Get-OptionalProperty -Object $raw -Name 'dispatched' -Default @())
+        pm_notified = @(Get-OptionalProperty -Object $raw -Name 'pm_notified' -Default @())
     }
 }
 
 function Save-State {
-    param([hashtable]$State, [string]$Path)
+    param([System.Collections.IDictionary]$State, [string]$Path)
     $dir = Split-Path -Parent $Path
     if ($dir -and -not (Test-Path -LiteralPath $dir)) {
         New-Item -ItemType Directory -Path $dir -Force | Out-Null
@@ -51,12 +63,15 @@ function Invoke-Git {
         [string[]]$Arguments,
         [switch]$AllowFailure
     )
-    $output = & git -C $RepoPath @Arguments 2>&1
+    $output = @(& git -C $RepoPath @Arguments 2>&1)
     $code = $LASTEXITCODE
     if ($code -ne 0 -and -not $AllowFailure) {
         throw "git -C `"$RepoPath`" $($Arguments -join ' ') failed ($code): $($output -join [Environment]::NewLine)"
     }
-    return ,$output
+    return [pscustomobject]@{
+        ExitCode = $code
+        Output = $output
+    }
 }
 
 function Get-RemoteFileText {
@@ -67,23 +82,23 @@ function Get-RemoteFileText {
         [string]$Path
     )
     $spec = "${Remote}/${Branch}:${Path}"
-    $output = Invoke-Git -RepoPath $RepoPath -Arguments @('show', $spec) -AllowFailure
-    if ($LASTEXITCODE -ne 0) { return $null }
-    return ($output -join "`n")
+    $result = Invoke-Git -RepoPath $RepoPath -Arguments @('show', $spec) -AllowFailure
+    if ($result.ExitCode -ne 0) { return $null }
+    return ($result.Output -join "`n")
 }
 
 function Get-MarkdownField {
     param([string]$Text, [string]$Field)
     if ([string]::IsNullOrWhiteSpace($Text)) { return $null }
     $escaped = [regex]::Escape($Field)
-    $pattern = "(?mi)^\s*[-*]?\s*(?:\*\*)?$escaped(?:\*\*)?\s*[:：]\s*`?([^`\r\n]+?)`?\s*$"
-    $m = [regex]::Match($Text, $pattern)
-    if (-not $m.Success) { return $null }
-    return $m.Groups[1].Value.Trim().Trim('`').Trim()
+    $pattern = "(?mi)^\s*[-*]?\s*(?:\*\*)?$escaped(?:\*\*)?\s*[:：]\s*(.+?)\s*$"
+    $match = [regex]::Match($Text, $pattern)
+    if (-not $match.Success) { return $null }
+    return $match.Groups[1].Value.Trim().Trim('`').Trim()
 }
 
 function Expand-Template {
-    param([string]$Template, [hashtable]$Values)
+    param([string]$Template, [System.Collections.IDictionary]$Values)
     $result = $Template
     foreach ($key in $Values.Keys) {
         $result = $result.Replace("{$key}", [string]$Values[$key])
@@ -111,7 +126,7 @@ function Send-ChatWakeup {
     Start-Process $Url
 
     if ($Mode -eq 'prepare_only') {
-        Write-Log "Opened ChatGPT chat and copied wake prompt to clipboard. Manual paste/send is required."
+        Write-Log 'Opened ChatGPT chat and copied wake prompt to clipboard. Manual paste/send is required.'
         return
     }
 
@@ -127,47 +142,68 @@ function Send-ChatWakeup {
     $shell.SendKeys('^v')
     Start-Sleep -Milliseconds 200
     $shell.SendKeys('{ENTER}')
-    Write-Log "Wake prompt auto-sent through foreground UI automation."
+    Write-Log 'Wake prompt auto-sent through foreground UI automation.'
 }
 
 $config = Read-Config -Path $ConfigPath
-$baseDir = Split-Path -Parent (Resolve-Path -LiteralPath $ConfigPath)
-$stateFileName = if ($config.state_file) { [string]$config.state_file } else { '.dispatcher-state.json' }
-$logFileName = if ($config.log_file) { [string]$config.log_file } else { 'dispatcher.log' }
+$resolvedConfigPath = (Resolve-Path -LiteralPath $ConfigPath).Path
+$baseDir = Split-Path -Parent $resolvedConfigPath
+
+$stateFileName = [string](Get-OptionalProperty -Object $config -Name 'state_file' -Default '.dispatcher-state.json')
+$logFileName = [string](Get-OptionalProperty -Object $config -Name 'log_file' -Default 'dispatcher.log')
 $statePath = if ([IO.Path]::IsPathRooted($stateFileName)) { $stateFileName } else { Join-Path $baseDir $stateFileName }
 $script:LogPath = if ([IO.Path]::IsPathRooted($logFileName)) { $logFileName } else { Join-Path $baseDir $logFileName }
 $state = Load-State -Path $statePath
 
-$pollSeconds = if ($config.poll_seconds) { [int]$config.poll_seconds } else { 30 }
-$dispatchMode = if ($config.dispatch_mode) { [string]$config.dispatch_mode } else { 'prepare_only' }
-$allowUnsafe = if ($null -ne $config.allow_unsafe_ui_automation) { [bool]$config.allow_unsafe_ui_automation } else { $false }
-$startupDelay = if ($config.startup_delay_seconds) { [int]$config.startup_delay_seconds } else { 4 }
+$pollSeconds = [int](Get-OptionalProperty -Object $config -Name 'poll_seconds' -Default 30)
+$dispatchMode = [string](Get-OptionalProperty -Object $config -Name 'dispatch_mode' -Default 'prepare_only')
+$allowUnsafe = [bool](Get-OptionalProperty -Object $config -Name 'allow_unsafe_ui_automation' -Default $false)
+$startupDelay = [int](Get-OptionalProperty -Object $config -Name 'startup_delay_seconds' -Default 4)
+$projects = @(Get-OptionalProperty -Object $config -Name 'projects' -Default @())
+if ($projects.Count -eq 0) {
+    throw 'Config contains no projects.'
+}
 
 $defaultWakeTemplate = '讀取最新 {branch} 上的 {task_path}，只執行該 TASK，不得自行擴張 scope，也不得自行開始下一個任務。完成、HOLD acknowledgement 或遇到 blocker 後，更新 {status_path}，並依 TASK 要求 commit/push。'
 $defaultPmTemplate = '{agent_id} 已回報 task {task_id} 為 {status_state}。請讀取最新 {branch} 上的 {status_path} 與 repository evidence，依 PM 權限決定下一步；不要假設 executable verification 已 PASS。'
 
-Write-Log "Dispatcher started. mode=$dispatchMode config=$ConfigPath"
+Write-Log "Dispatcher started. mode=$dispatchMode config=$resolvedConfigPath"
 
 while ($true) {
-    foreach ($project in @($config.projects)) {
+    foreach ($project in $projects) {
         try {
-            $projectId = [string]$project.id
-            $repoPath = [string]$project.repo_path
-            $remote = if ($project.remote) { [string]$project.remote } else { 'origin' }
-            $branch = if ($project.branch) { [string]$project.branch } else { 'main' }
-            $coordinationRoot = if ($project.coordination_root) { [string]$project.coordination_root } else { 'coordination' }
-            $dispatchStates = if ($project.dispatch_states) { @($project.dispatch_states | ForEach-Object { ([string]$_).ToUpperInvariant() }) } else { @('ACTIVE') }
-            $terminalStates = if ($project.terminal_status_states) { @($project.terminal_status_states | ForEach-Object { ([string]$_).ToUpperInvariant() }) } else { @('DONE','COMPLETED','PARTIAL','BLOCKED') }
+            $projectId = [string](Get-OptionalProperty -Object $project -Name 'id' -Default '')
+            $repoPath = [string](Get-OptionalProperty -Object $project -Name 'repo_path' -Default '')
+            $remote = [string](Get-OptionalProperty -Object $project -Name 'remote' -Default 'origin')
+            $branch = [string](Get-OptionalProperty -Object $project -Name 'branch' -Default 'main')
+            $coordinationRoot = [string](Get-OptionalProperty -Object $project -Name 'coordination_root' -Default 'coordination')
+            $dispatchStates = @((Get-OptionalProperty -Object $project -Name 'dispatch_states' -Default @('ACTIVE')) | ForEach-Object { ([string]$_).ToUpperInvariant() })
+            $terminalStates = @((Get-OptionalProperty -Object $project -Name 'terminal_status_states' -Default @('DONE','COMPLETED','PARTIAL','BLOCKED')) | ForEach-Object { ([string]$_).ToUpperInvariant() })
+            $agents = @(Get-OptionalProperty -Object $project -Name 'agents' -Default @())
 
+            if ([string]::IsNullOrWhiteSpace($projectId)) {
+                Write-Log 'Skipping project with empty id.' 'WARN'
+                continue
+            }
             if (-not (Test-Path -LiteralPath $repoPath)) {
                 Write-Log "[$projectId] repo_path missing: $repoPath" 'WARN'
                 continue
             }
+            if ($agents.Count -eq 0) {
+                Write-Log "[$projectId] no agents configured." 'WARN'
+                continue
+            }
 
-            Invoke-Git -RepoPath $repoPath -Arguments @('fetch', $remote, $branch, '--quiet') | Out-Null
+            $fetchResult = Invoke-Git -RepoPath $repoPath -Arguments @('fetch', $remote, $branch, '--quiet')
+            if ($fetchResult.ExitCode -ne 0) {
+                throw "git fetch failed for $projectId"
+            }
 
-            foreach ($agent in @($project.agents)) {
-                $agentId = [string]$agent.id
+            foreach ($agent in $agents) {
+                $agentId = [string](Get-OptionalProperty -Object $agent -Name 'id' -Default '')
+                $agentUrl = [string](Get-OptionalProperty -Object $agent -Name 'chat_url' -Default '')
+                if ([string]::IsNullOrWhiteSpace($agentId)) { continue }
+
                 $taskPath = "$coordinationRoot/$agentId/TASK.md"
                 $statusPath = "$coordinationRoot/$agentId/STATUS.md"
 
@@ -184,8 +220,8 @@ while ($true) {
                 $dispatchKey = "$projectId|$agentId|$taskId"
 
                 if (($dispatchStates -contains $taskState) -and ($state.dispatched -notcontains $dispatchKey)) {
-                    $template = if ($project.wake_prompt_template) { [string]$project.wake_prompt_template } else { $defaultWakeTemplate }
-                    $message = Expand-Template -Template $template -Values @{
+                    $template = [string](Get-OptionalProperty -Object $project -Name 'wake_prompt_template' -Default $defaultWakeTemplate)
+                    $message = Expand-Template -Template $template -Values ([ordered]@{
                         project_id = $projectId
                         agent_id = $agentId
                         task_id = $taskId
@@ -193,11 +229,13 @@ while ($true) {
                         branch = $branch
                         task_path = $taskPath
                         status_path = $statusPath
+                    })
+                    $extraPrompt = [string](Get-OptionalProperty -Object $project -Name 'extra_prompt' -Default '')
+                    if (-not [string]::IsNullOrWhiteSpace($extraPrompt)) {
+                        $message = "$message $extraPrompt"
                     }
-                    if ($project.extra_prompt) {
-                        $message = $message + ' ' + [string]$project.extra_prompt
-                    }
-                    Send-ChatWakeup -Url ([string]$agent.chat_url) -Message $message -Mode $dispatchMode -AllowUnsafeUiAutomation $allowUnsafe -StartupDelaySeconds $startupDelay
+
+                    Send-ChatWakeup -Url $agentUrl -Message $message -Mode $dispatchMode -AllowUnsafeUiAutomation $allowUnsafe -StartupDelaySeconds $startupDelay
                     $state.dispatched += $dispatchKey
                     Save-State -State $state -Path $statePath
                     Write-Log "[$projectId/$agentId] dispatched $taskId ($taskState)."
@@ -213,9 +251,11 @@ while ($true) {
                 if (($statusTaskId -eq $taskId) -and ($terminalStates -contains $statusState)) {
                     $pmKey = "$projectId|$agentId|$taskId|$statusState"
                     if ($state.pm_notified -notcontains $pmKey) {
-                        if ($project.pm -and $project.pm.chat_url) {
-                            $pmTemplate = if ($project.pm_prompt_template) { [string]$project.pm_prompt_template } else { $defaultPmTemplate }
-                            $pmMessage = Expand-Template -Template $pmTemplate -Values @{
+                        $pm = Get-OptionalProperty -Object $project -Name 'pm' -Default $null
+                        $pmUrl = [string](Get-OptionalProperty -Object $pm -Name 'chat_url' -Default '')
+                        if (-not [string]::IsNullOrWhiteSpace($pmUrl)) {
+                            $pmTemplate = [string](Get-OptionalProperty -Object $project -Name 'pm_prompt_template' -Default $defaultPmTemplate)
+                            $pmMessage = Expand-Template -Template $pmTemplate -Values ([ordered]@{
                                 project_id = $projectId
                                 agent_id = $agentId
                                 task_id = $taskId
@@ -224,8 +264,8 @@ while ($true) {
                                 branch = $branch
                                 task_path = $taskPath
                                 status_path = $statusPath
-                            }
-                            Send-ChatWakeup -Url ([string]$project.pm.chat_url) -Message $pmMessage -Mode $dispatchMode -AllowUnsafeUiAutomation $allowUnsafe -StartupDelaySeconds $startupDelay
+                            })
+                            Send-ChatWakeup -Url $pmUrl -Message $pmMessage -Mode $dispatchMode -AllowUnsafeUiAutomation $allowUnsafe -StartupDelaySeconds $startupDelay
                         }
                         $state.pm_notified += $pmKey
                         Save-State -State $state -Path $statePath

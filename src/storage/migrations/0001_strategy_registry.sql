@@ -138,6 +138,17 @@ CREATE TABLE IF NOT EXISTS lifecycle_transitions (
         ON DELETE RESTRICT
 );
 
+CREATE TRIGGER IF NOT EXISTS lifecycle_transitions_allowed_edge_insert
+BEFORE INSERT ON lifecycle_transitions
+WHEN NOT (
+    (NEW.previous_state = 'DRAFT' AND NEW.new_state = 'BACKTESTING') OR
+    (NEW.previous_state = 'BACKTESTING' AND NEW.new_state = 'REJECTED') OR
+    (NEW.previous_state = 'BACKTESTING' AND NEW.new_state = 'CANDIDATE')
+)
+BEGIN
+    SELECT RAISE(ABORT, 'forbidden early Slice 2 lifecycle transition');
+END;
+
 CREATE INDEX IF NOT EXISTS lifecycle_transitions_strategy_idx
 ON lifecycle_transitions(strategy_id, strategy_version, changed_at);
 

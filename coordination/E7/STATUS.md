@@ -1,189 +1,186 @@
 # E7 Status
 
-- task_id: `E7-20260822-007`
+- task_id: `E7-20260822-009`
 - agent: `E7`
-- state: `DONE / BLOCKED_WAITING_E6_CORRECTION`
-- branch: `agent/e7-e6-evidence-authority-rereview-20260822`
+- state: `DONE_PENDING_PM`
+- branch: `agent/e7-e6-public-boundary-final-review-20260822`
 - review_target: `PR #16 platform: integrate early Slice 2 registry and evidence persistence`
-- reviewed_e6_revision: `df39836adabd04c77cc4f0d0b531ea10408866ab`
-- observed_pr_head: `e7d1f3d9a99043107824a3c64d1d37663db8ff53`
-- implementation_pin_to_pr_head_delta: `coordination/E6/STATUS.md + status/E6_EARLY_SLICE2_HANDOFF.md + status/E6_STATUS.md only`
-- review_time_main: `29b5fa3a011554e472a11b35f216a21eb816d4d1`
-- review_artifact: `status/e7/E6_EVIDENCE_AUTHORITY_FINAL_REREVIEW_20260822.md`
-- summary: `The corrected E6 persistence path now checks exact early lifecycle edges and revalidates durable E2/E3-looking evidence inside SQLiteRegistryStore.append_transition before history/projection mutation. Canonical binding, transaction/concurrency, SQL edge guards, rollback, and prior E6 evidence-contract semantics remain coherent. However E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001 remains BLOCKING because the exported persistence surface itself can manufacture the durable authority being trusted: save_compatibility/save_validation_evidence accept caller-constructed PASS/LOCAL_EXECUTION records with E2/E3 strings and no non-forgeable producer provenance; register_strategy accepts caller-supplied lifecycle state/revision; and exported raw connect permits direct projection mutation. PR #16 remains DO NOT MERGE.`
+- reviewed_e6_revision: `ca41cb92cfaf23c7c0d00a7802727fa28f5cca86`
+- observed_pr_head: `607feaf1663966cd0fac82a244d368822ea28214`
+- correction_pin_to_pr_head_delta: `coordination/E6/STATUS.md + status/E6_EARLY_SLICE2_HANDOFF.md + status/E6_STATUS.md only`
+- review_time_main: `7014d271886b202fc0e39d7c12a5f3bf9d7f8ecb`
+- review_artifact: `status/e7/E6_PUBLIC_BOUNDARY_FINAL_REVIEW_20260822.md`
+- summary: `Final exact-revision static/security review closes E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001 under the TASK-declared trusted-process Python modular-monolith authority model. The supported storage API exports only open_sqlite_platform; the factory returns StrategyPlatformService without a supported raw writer/connection surface; raw SQLite mechanics are underscore/internal and construction/mutation is writer-capability gated; initial DRAFT/revision-0 registration and lifecycle projection coherence have Python/SQL defense-in-depth guards; exact three early lifecycle edges and durable E2/E3 promotion-authority revalidation remain intact. E6-EVIDENCE-CONTRACT-001 remains closed with no regression. PR #16 is statically acceptable for PM merge. Executable verification remains NOT_RUN.`
 
 ## Finding dispositions
 
-- `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`: `BLOCKING / NOT CLOSED / E6 OWNER`
-- raw_store_evidence_provenance: `BLOCKING / FAIL`
+- `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`: `CLOSED / PASS STATIC / TRUSTED-PROCESS MODEL`
 - `E6-EVIDENCE-CONTRACT-001`: `CLOSED / PASS STATIC / NO REGRESSION`
 
-## Persistence authority dispositions
+## Supported public API disposition
 
-- early_lifecycle_vocabulary: `PASS / DRAFT|BACKTESTING|REJECTED|CANDIDATE ONLY`
-- early_lifecycle_edge_allowlist: `PASS / EXACT THREE EDGES`
-- python_forbidden_edge_rejection: `PASS / STATIC ONLY`
-- sql_forbidden_edge_insert_trigger: `PASS / STATIC ONLY`
-- append_only_lifecycle_history: `PASS / STATIC ONLY`
-- current_state_check: `PASS / STATIC ONLY`
-- expected_revision_check: `PASS / STATIC ONLY`
-- resulting_revision_check: `PASS / STATIC ONLY`
-- authority_check_inside_transaction_before_mutation: `PASS / STATIC ONLY`
-- atomic_history_projection_update: `PASS / STATIC ONLY`
-- rollback_behavior: `PASS / STATIC ONLY`
-- durable_row_content_binding: `PASS / STATIC ONLY`
-- durable_row_producer_provenance: `FAIL / BLOCKING`
-- initial_strategy_lifecycle_registration_guard: `FAIL / BLOCKING`
-- raw_projection_write_guard: `FAIL / BLOCKING`
+- storage_public_exports: `PASS / __all__ = [open_sqlite_platform]`
+- raw_SQLiteRegistryStore_export: `ABSENT / PASS`
+- raw_connect_export: `ABSENT / PASS`
+- raw_migration_export: `ABSENT / PASS`
+- supported_factory_return_type: `StrategyPlatformService / PASS`
+- supported_factory_raw_store_or_connection_return: `ABSENT / PASS`
+- service_public_raw_writer_methods: `ABSENT / PASS`
+- private `_store` implementation attribute: `OUTSIDE SUPPORTED-PUBLIC-ATTRIBUTE CLAIM / ACCEPTED UNDER TASK TRUST MODEL`
 
-## Exact accepted in-transaction checks
+## Internal writer/capability disposition
 
-At the reviewed correction, `SQLiteRegistryStore.append_transition(...)`:
+- raw implementation module: `storage._sqlite_registry / INTERNAL`
+- authoritative store: `_SQLiteRegistryStore / INTERNAL`
+- writer capability: `_WRITER_CAPABILITY / MODULE-PRIVATE`
+- constructor_without_capability: `REJECTED BY SOURCE / PASS STATIC`
+- mutation_methods_require_capability: `PASS STATIC`
+- underscore/test-only raw helpers: `ACCEPTED / OUTSIDE SUPPORTED PRODUCTION API`
 
-1. rejects an edge outside the early Slice 2 allowlist;
-2. begins `BEGIN IMMEDIATE`;
-3. reloads authoritative strategy state;
-4. validates current state;
-5. validates expected revision;
-6. validates resulting revision equals current + 1;
-7. calls `require_transition_authority(...)` before lifecycle INSERT/projection UPDATE;
-8. inserts history and updates projection atomically;
-9. requires exactly one projection row update;
-10. commits or rolls back on exception.
+Arbitrary malicious in-process Python, deliberate underscore imports, introspection/monkey-patching, and direct SQLite-file compromise are explicitly outside this TASK authority boundary and are accurately documented as out of scope.
 
-For `DRAFT -> BACKTESTING`, durable compatibility must look like exact-strategy E2 `PASS / LOCAL_EXECUTION` with non-empty source revision/environment/command/result ref.
+## DTO / authority disposition
 
-For `BACKTESTING -> CANDIDATE`, the selected durable ValidationDecision and durable BacktestResult parent must look like E3 local-PASS evidence, bind to the exact strategy/content, pass canonical payload validators, and have exact ValidationDecision -> BacktestResult ID binding.
-
-These content/binding checks are accepted statically.
-
-## Blocking raw-store provenance condition
-
-The trusted rows are still writable by the same caller whose authority is being checked.
-
-Reachable exported/public surfaces include:
+Caller-constructible DTOs remain data only through the supported production API:
 
 ```text
-registry.CompatibilityEvidence
-registry.ValidationEvidenceRecord
-registry.StrategyVersionRecord
-registry.LifecycleTransitionRecord
-storage.SQLiteRegistryStore
-storage.connect
-RegistryStore.save_compatibility(...)
-RegistryStore.save_validation_evidence(...)
-RegistryStore.append_transition(...)
+CompatibilityEvidence
+ValidationEvidenceRecord
+LifecycleTransitionRecord
+StrategyVersionRecord
 ```
 
-### Synthetic E2 authority
+The factory-returned service exposes no supported raw `save_compatibility`, `save_validation_evidence`, `append_transition`, or `register_strategy` write capability.
 
-`SQLiteRegistryStore.save_compatibility(...)` directly persists caller-constructed fields. A caller can create a record with:
+## Initial projection disposition
+
+- Python new-registration guard: `PASS / requires DRAFT + registry_revision=0`
+- SQL `strategy_versions_initial_projection_guard`: `PASS / STATIC ONLY`
+- non-DRAFT initial registration: `REJECTED / PASS STATIC`
+- nonzero initial revision: `REJECTED / PASS STATIC`
+- normal service intake: `DRAFT / 0`
+- same-identity/same-content idempotency: `PASS / COHERENT`
+
+## Lifecycle projection / transition disposition
+
+- lifecycle vocabulary: `PASS / DRAFT|BACKTESTING|REJECTED|CANDIDATE ONLY`
+- allowed transitions: `PASS / EXACT THREE EDGES`
 
 ```text
-checker = "E2..."
+DRAFT       -> BACKTESTING
+BACKTESTING -> REJECTED
+BACKTESTING -> CANDIDATE
+```
+
+- Python forbidden-edge rejection: `PASS / STATIC ONLY`
+- SQL forbidden-edge trigger: `PASS / STATIC ONLY`
+- current-state check: `PASS / STATIC ONLY`
+- expected-revision check: `PASS / STATIC ONLY`
+- resulting-revision=current+1: `PASS / STATIC ONLY`
+- append-only lifecycle history: `PASS / STATIC ONLY`
+- SQL projection-history guard: `PASS / STATIC ONLY`
+- atomic transition-history + projection transaction: `PASS / SOURCE COHERENT`
+- rollback on exception: `PASS / SOURCE + TEST DEFINITIONS`
+- naked supported-path projection update: `UNAVAILABLE; SQL DEFENSE-IN-DEPTH ALSO REJECTS`
+
+## Durable promotion-authority disposition
+
+### DRAFT -> BACKTESTING
+
+Requires durable exact-strategy E2 evidence with:
+
+```text
+checker = E2...
 status = PASS
 verification_kind = LOCAL_EXECUTION
-source_revision/environment/command/result_ref = caller strings
+source_revision/environment/command/result_ref = non-empty
 ```
 
-and then call `append_transition(DRAFT -> BACKTESTING)`.
+Authority is checked by the service and rechecked by internal persistence before lifecycle mutation.
 
-The new test helper `_to_backtesting(...)` demonstrates this model by saving synthetic local-PASS E2-looking evidence through the raw store and then successfully advancing to BACKTESTING. This is evidence of the provenance weakness, not proof of trusted authority.
+### BACKTESTING -> CANDIDATE
 
-### Synthetic E3 authority
+Requires durable exact-strategy/content E3 `ValidationDecision(PASS)` plus stored parent `BacktestResult`, both with complete `PASS / LOCAL_EXECUTION` metadata.
 
-`SQLiteRegistryStore.save_validation_evidence(...)` directly persists caller-constructed `ValidationEvidenceRecord` objects. A caller can create canonical-looking, internally consistent E3 BacktestResult + ValidationDecision rows with `producer="E3"`, `decision="PASS"`, `PASS / LOCAL_EXECUTION`, exact parent IDs, and matching strategy/content fields, then use the caller-created decision ID for `BACKTESTING -> CANDIDATE`.
+Persistence re-decodes stored payloads and reuses the accepted canonical BacktestResult / ValidationDecision validators, then verifies exact object/schema/strategy/content/backtest-parent bindings before mutation.
 
-Current `require_candidate_authority(...)` can prove canonical consistency but cannot distinguish those caller-created rows from authoritative E3 output.
-
-### Initial lifecycle projection bypass
-
-`SQLiteRegistryStore.register_strategy(...)` inserts caller-supplied `StrategyVersionRecord.current_lifecycle_state` and `registry_revision`. `StrategyVersionRecord` is public. The SQL schema permits all four early lifecycle states and any non-negative revision, so a direct store caller can register a strategy already in `CANDIDATE` without lifecycle/evidence history.
-
-### Raw projection mutation bypass
-
-`storage.connect` is publicly exported and returns the SQLite connection. The immutable-content trigger does not protect `strategy_versions.current_lifecycle_state` or `registry_revision`; direct SQL can therefore mutate the lifecycle projection without the lifecycle transition/evidence path.
-
-These are authoritative persistence bypasses under the TASK's explicit full-surface provenance challenge.
+BacktestResult alone cannot authorize CANDIDATE.
 
 ## `E6-EVIDENCE-CONTRACT-001` regression disposition
 
 - canonical BacktestResult validator: `PASS / unchanged blob 954d21c021c0885554ee650acced17610d958a0e`
 - service_base: `PASS / unchanged blob 3889ac156358f58c5fc3380865ad73844b874c3c`
-- public service evidence ingest: `PASS / validators retained before base persistence`
-- invalid enum/type/shape fail closed: `PASS / STATIC ONLY`
-- exact strategy/content/backtest binding: `PASS / STATIC ONLY`
-- caller verification metadata cannot bypass canonical payload validation: `PASS / STATIC ONLY`
-- BacktestResult alone cannot authorize CANDIDATE through service: `PASS / STATIC ONLY`
-
-`src/registry/service.py` intentionally changed to call the new lifecycle-authority helpers and is same-or-stricter at the normal service boundary; no weakening identified.
+- canonical required fields/types/timestamps/decimal interchange: `PASS STATIC`
+- ValidationDecision exact enum/reason-code shape: `PASS STATIC`
+- caller PASS/LOCAL_EXECUTION metadata bypass of malformed payload: `BLOCKED / PASS STATIC`
+- strategy/content/backtest binding: `PASS STATIC`
+- BacktestResult-alone promotion: `BLOCKED / PASS STATIC`
 
 ## Test-definition disposition
 
-Accepted static coverage includes:
+Static definitions remain present for:
 
-- missing/wrong E2 compatibility fields;
-- missing/nonlocal E2 metadata;
-- missing primary ValidationDecision;
-- wrong evidence type;
-- FAIL/BLOCKED/NOT_RUN ValidationDecision;
-- wrong strategy identity/content hash;
-- missing/wrong BacktestResult parent;
-- malformed/mismatched canonical payloads;
-- missing/nonlocal E3 metadata;
-- rejected path leaves lifecycle row/state/revision unchanged;
-- valid service-authorized backtesting/candidate paths.
+- supported storage exports only safe factory;
+- factory service has no public raw writer/connection;
+- raw-store construction without internal capability fails;
+- authority-looking DTOs do not become supported write capabilities;
+- non-DRAFT/nonzero initial registration rejection with no mutation;
+- SQL initial-projection rejection;
+- naked projection update rejection;
+- normal intake DRAFT/0;
+- valid service-authorized BACKTESTING/CANDIDATE flows;
+- durable E2 authority failures and rollback;
+- durable E3 decision/backtest authority failures and rollback;
+- canonical binding failures;
+- exact legal lifecycle edges;
+- forbidden Python/SQL edges;
+- append-only history.
 
-Missing security coverage / contradictory fixture behavior:
+Synthetic PASS fixtures remain test-only definitions and are not project executable evidence.
 
-- no proof that raw-store synthetic E2 PASS cannot promote; current helper proves it can;
-- no proof that raw-store synthetic canonical E3 PASS evidence cannot promote;
-- no rejection of `register_strategy(...)` with non-DRAFT initial state/revision;
-- no guard/test against direct raw-connection lifecycle projection mutation.
+Executable test result: `NOT_RUN`.
 
-Synthetic PASS fixture strings are not project executable evidence.
+## Trust-boundary documentation disposition
 
-## SQL / migration disposition
+`docs/platform/E6_STORAGE_AUTHORITY_BOUNDARY.md`: `PASS / ACCURATE`
 
-- forbidden lifecycle event edge INSERT: `PASS / STATIC ONLY`
-- lifecycle history UPDATE/DELETE append-only: `PASS / STATIC ONLY`
-- evidence tables constrain enum/foreign-key shape: `PASS / STATIC ONLY`
-- trusted writer / producer provenance: `ABSENT / BLOCKING`
-- initial projection authority constraint: `ABSENT / BLOCKING`
-- direct projection mutation guard: `ABSENT / BLOCKING`
-
-SQL edge-shape enforcement is not sufficient producer/promotion authority.
+It correctly limits the claim to the supported project API and trusted-process composition model, and explicitly does not claim protection against arbitrary malicious in-process Python, private/underscore introspection, monkey-patching, or direct DB-file compromise.
 
 ## Scope / synchronization disposition
 
-PR #16 changed-file scope remains E6 registry/storage/tests/docs/status only.
+- E6 synchronization merge: `610cdc4edbcd3fdf3f74c1eed9691253b4453cc9`
+- synchronization parent 1: `e7d1f3d9a99043107824a3c64d1d37663db8ff53`
+- synchronization parent 2 / then-main: `36d1b5f3baee298dc33da444e0a31782a8cc6d7e`
+- synchronization style: `NON-DESTRUCTIVE TWO-PARENT MERGE`
+- force rewrite/destructive rebase evidence: `NONE FOUND`
 
-- shared `contracts/**` edits: `NONE`
-- E1/E2/E3/E4/E5 production edits: `NONE`
-- workflow/CI additions: `NONE`
-- provider/credential/secret additions: `NONE FOUND`
-- Slice 3 ApprovedTradePlan/OrderRequest/OrderResult/Fill/Position persistence: `ABSENT`
-- OKX `sz` / provider execution/reconciliation persistence: `ABSENT`
-- later lifecycle states PAPER/READY_FOR_APPROVAL/APPROVED/SHADOW/LIVE/DEGRADED/RETIRED: `ABSENT`
+PR #16 scope remains E6 registry/storage/tests/docs/status only.
 
-Correction pin -> observed PR head changes only E6 status/handoff documents; no source/test drift after the reviewed correction pin.
+- `contracts/**`: `NO CHANGES`
+- E1/E2/E3/E4/E5 production: `NO CHANGES`
+- workflow/CI: `NONE`
+- provider/credential/secret implementation: `NONE FOUND`
+- Slice 3 execution-audit persistence: `ABSENT`
+- provider-native OKX `sz` persistence: `ABSENT`
+- PAPER/READY_FOR_APPROVAL/APPROVED/SHADOW/LIVE/later lifecycle: `ABSENT`
+- unrelated feature expansion: `NONE FOUND`
 
 At review time:
 
 ```text
-latest main = 29b5fa3a011554e472a11b35f216a21eb816d4d1
-E6 branch vs latest main = ahead 57 / behind 2
+latest main = 7014d271886b202fc0e39d7c12a5f3bf9d7f8ecb
+E6 branch vs latest main = ahead 75 / behind 2
 latest-main-only delta = coordination/E6/TASK.md + coordination/E7/TASK.md
 meaningful production/shared-contract drift = NONE
-PR #16 GitHub mergeable = FALSE
+PR #16 GitHub mergeable = TRUE
 ```
 
-Coordination-only drift does not invalidate the exact source review. Current `mergeable=false` is secondary; PR #16 is already source-blocked by the authority bypass.
+Coordination-only TASK drift is not a resynchronization blocker under this TASK.
 
 ## Merge / verification / release state
 
-- pr_16_source_disposition: `FAIL / BLOCKED`
-- pr_16_merge_recommendation: `DO NOT MERGE`
+- pr_16_source_disposition: `PASS / STATIC ONLY`
+- pr_16_merge_recommendation: `PM MAY MERGE`
 - executable_verification: `NOT_RUN`
 - project_tests_executed: `NO`
 - migrations_executed: `NO`
@@ -195,18 +192,12 @@ Coordination-only drift does not invalidate the exact source review. Current `me
 - gate_b: `BLOCKED / UNCHANGED`
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
+- paper_shadow_live_advancement: `NONE`
 
-## Next owner / required outcome
+Static acceptance of PR #16 does not establish Gate A PASS and does not authorize project execution, migrations, later lifecycle promotion, PAPER/SHADOW/LIVE, or provider activity.
 
-Next owner: `E6`.
+## Completion
 
-A bounded correction must make promotion-relevant evidence/projection authority non-forgeable through the exported authoritative persistence surface while preserving:
+E7 completed only `E7-20260822-009` and stops here.
 
-- exact early Slice 2 lifecycle vocabulary/edges;
-- canonical BacktestResult/ValidationDecision validators;
-- normal service behavior;
-- concurrency/atomicity/rollback;
-- append-only history;
-- no Slice 3 or later lifecycle expansion.
-
-E7 stops here and waits for PM/E6. No PR merge, E6 implementation edit, project execution, migration, or next task is started automatically.
+E7 does not merge PR #16, does not run tests or migrations, does not execute provider requests, and does not start another task automatically. Next owner: `PM`.

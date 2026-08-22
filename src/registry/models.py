@@ -5,9 +5,22 @@ from typing import Any, Mapping, Tuple
 
 SUPPORTED_SHARED_SCHEMA_VERSION = "contracts-v0.1"
 EARLY_LIFECYCLE_STATES = ("DRAFT", "BACKTESTING", "REJECTED", "CANDIDATE")
+EARLY_LIFECYCLE_TRANSITIONS = frozenset(
+    {
+        ("DRAFT", "BACKTESTING"),
+        ("BACKTESTING", "REJECTED"),
+        ("BACKTESTING", "CANDIDATE"),
+    }
+)
 EVIDENCE_STATUSES = ("PASS", "FAIL", "BLOCKED", "NOT_RUN", "NOT_APPLICABLE")
 VERIFICATION_KINDS = ("LOCAL_EXECUTION", "STATIC_REVIEW", "DECLARATION", "NOT_RUN")
 VALIDATION_DECISIONS = ("PASS", "FAIL", "BLOCKED", "NOT_RUN")
+
+
+def is_early_lifecycle_transition_allowed(previous_state: str, new_state: str) -> bool:
+    """Return whether persistence may represent this bounded early Slice 2 edge."""
+
+    return (previous_state, new_state) in EARLY_LIFECYCLE_TRANSITIONS
 
 
 class RegistryError(RuntimeError):

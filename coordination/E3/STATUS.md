@@ -1,63 +1,81 @@
 # E3 Status
 
-- task_id: `E3-20260822-001`
+- task_id: `E3-20260822-003`
 - agent: `E3`
-- state: `READY_FOR_PM_E7_REVIEW_WITH_EXTERNAL_BLOCKER`
-- updated_at: `2026-08-22T19:42:00+08:00`
+- state: `READY_FOR_PM_E7_REVIEW`
+- updated_at: `2026-08-22T20:23:00+08:00`
 - branch: `agent/e3-backtest-validation`
-- main_consumed: `42339aa9b33c13554acf99bf6d7b272f22eb5673`
-- main_sync_merge: `13b8ff937426d2c982ee41fc6ed08950f0761677`
-- merge_parents: `2c7810e9e9c34e103b085b5c40949870723f1941 + 42339aa9b33c13554acf99bf6d7b272f22eb5673`
-- source_test_correction: `54d40ae96e241f40367016e26b7bd5d03890e629`
-- summary: `Bounded current-main refresh of E3 Slice 1 replay/BacktestResult source completed. Real current-main E2 runtime path retained; canonical E6 BacktestResult validator compatibility is covered by test definition. Full E1-package integration is externally blocked by the current-main market_data Candle export defect.`
-- files_changed: `src/backtest/e2_runtime.py; tests/backtest/test_real_e2_research_skeleton.py; docs/backtest/SLICE1_RESEARCH_SKELETON.md; status/E3_SLICE1_HANDOFF.md; coordination/E3/STATUS.md`
+- latest_main_consumed: `47c7f3c24300b9ea21a8d50eba5be13884c88a7a`
+- reconciliation_merge: `aee813855759cd63548d452a93de26fc208afa20`
+- merge_parents: `4ad194520be0a9cc46d33b8ca9f72658158fccf4 + 47c7f3c24300b9ea21a8d50eba5be13884c88a7a`
+- preserved_e3_production_pin: `54d40ae96e241f40367016e26b7bd5d03890e629`
+- reconciliation_test_revision: `185185fbb403b3622c96a218717d67a2eb41a684`
+- e3_production_changed_after_54d40ae: `NO`
+- summary: `Reconciled E3 Slice 1 replay/BacktestResult branch with corrected current main. E1 market_data public Candle import blocker is cleared by source structure; direct E1 Candle integration test definition restored. Real E2 runtime consumption and canonical BacktestResult behavior preserved.`
+- files_changed_this_task: `tests/backtest/test_real_e2_research_skeleton.py; docs/backtest/SLICE1_RESEARCH_SKELETON.md; status/E3_SLICE1_HANDOFF.md; coordination/E3/STATUS.md`
 - contracts_changed: `NONE`
 - cross_agent_production_changed: `NONE`
 - local_verification: `NOT_RUN`
-- not_run: `No Product Owner-approved local execution environment was used. No test/backtest/replay/metric verification executed.`
-- blockers: `Current main src/market_data/__init__.py imports Candle and CONTRACT_SCHEMA_VERSION from src/market_data/candle.py, but current-main candle.py does not define them. E3 cannot edit E1 production code.`
+- blockers: `NONE at static/source reconciliation level; executable evidence remains unavailable without Product Owner-approved local execution.`
 - handoff_path: `status/E3_SLICE1_HANDOFF.md`
-- next_owner: `PM/E7 exact-revision review; route E1 public-import defect to E1 owner`
+- next_owner: `PM/E7 exact-revision review`
 
-## Task completion disposition
+## Reconciliation disposition
 
-Completed only the bounded refresh requested by `coordination/E3/TASK.md`:
+Completed only `coordination/E3/TASK.md` task `E3-20260822-003`:
 
-- latest main was merged non-destructively once before correction review;
-- existing E3 history was preserved; no force push/rebase/branch recreation;
-- E3 adapter still calls current-main `parse_strategy_definition` and real `StrategyRuntime.evaluate`;
+- latest main was fetched and merged non-destructively once;
+- E3 history was preserved; no force push, destructive rebase, or branch recreation;
+- corrected E1 public surface now structurally supports `from market_data import CONTRACT_SCHEMA_VERSION, Candle`;
+- accepted E1 module blobs match the task baseline;
+- prior canonical-mapping test workaround was removed;
+- the cross-role integration definition again constructs actual E1 `Candle` objects;
+- E3 production source did not change after prior `54d40ae...` pin;
+- E3 still calls current E2 `parse_strategy_definition` and actual `StrategyRuntime.evaluate`;
 - no E2 strategy semantics were copied or rewritten;
-- existing deterministic replay, next-open entry/exit, cost, metric, reproducibility, and no-look-ahead source behavior was preserved;
-- current-main E6 canonical BacktestResult validator expectations were reviewed;
-- E3 BacktestResult serialization required no production change;
-- refreshed test definitions cover real E2 runtime use, deterministic replay, future-candle isolation, E6 BacktestResult contract validation, and unsupported schema fail-closed behavior;
-- no ValidationDecision policy engine was added;
-- no OOS / Walk Forward / Monte Carlo / optimization / regime implementation was added;
-- no Registry lifecycle transition, PAPER, SHADOW, LIVE, broker, or provider execution behavior was added.
+- canonical BacktestResult remains structurally aligned with current E6 validator expectations;
+- deterministic closed-candle replay, no-look-ahead, next-open entry/exit, fee/slippage/funding, metrics, reproducibility, and fail-closed behavior were preserved;
+- no ValidationDecision policy, OOS, Walk Forward, Monte Carlo, optimization, regime classification, Registry promotion, PAPER/SHADOW/LIVE, broker/provider execution, or shared-contract work was added.
 
-## Canonical BacktestResult status
+## E1 blocker
 
-Static/source disposition: structurally aligned with current `contracts-v0.1` required BacktestResult fields and current-main E6 validator expectations.
+Prior status: external blocker.
 
-Executable disposition: `NOT_RUN`; no PASS claimed.
+Current status: `CLEARED_BY_CURRENT_MAIN_SOURCE_STRUCTURE`.
 
-`profit_factor` edge remains locked: aggregate losing PnL `0` keeps the field present with `null`, including when at least one winning trade exists.
+Source evidence:
 
-## Exact local-only verification command
+- `src/market_data/candle.py` = `5605830b4da4fbe10e94cff72794a495db9ebf6e` and defines `Candle` / `CONTRACT_SCHEMA_VERSION`;
+- `src/market_data/errors.py` = `fb9cd216b83cd595304d23a5cec46fd9a2091894`;
+- `src/market_data/timeframes.py` = `ac08d88dd327719b01babba098d78da0f34ab5bf`;
+- `src/market_data/__init__.py` exports Candle/schema from `.candle`.
+
+This is static/source evidence only; import execution was not performed here.
+
+## Canonical BacktestResult
+
+Static/source disposition: aligned with current `contracts-v0.1` required fields and merged E6 canonical validator expectations.
+
+`profit_factor` edge remains locked:
+
+```text
+aggregate losing PnL == 0
++ at least one winning trade
+-> profit_factor field exists
+-> profit_factor == null
+```
+
+Executable disposition remains `NOT_RUN`; no PASS claimed.
+
+## Exact local-only commands
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
 python -m unittest discover -s tests/backtest -p "test_*.py" -v
-```
-
-Targeted current-main E2 -> E3 definition:
-
-```powershell
-$env:PYTHONPATH = (Join-Path (Get-Location) "src")
 python tests/backtest/test_real_e2_research_skeleton.py -v
 ```
 
-These commands were not executed here.
+These commands were not executed in this environment.
 
 ## Gates
 
@@ -67,7 +85,7 @@ These commands were not executed here.
 - Gate D: `BLOCKED`
 - strategy validation decision: `NO DECISION`
 
-## Compute/security confirmation
+## Compute / security
 
 No GitHub Actions, CI, hosted runner, GitHub-triggered self-hosted runner, scheduled GitHub job, or GitHub project compute was used. No credentials or secrets were requested, exposed, or committed.
 

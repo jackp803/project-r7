@@ -1,53 +1,63 @@
-# E3 Slice 1 Handoff — Current-Main Refresh
+# E3 Slice 1 Handoff — Post-E1 Import Reconciliation
 
 ## Handoff
 
 **From:** E3 Backtest & Quantitative Validation Engineer  
-**To:** PM / E7 Integration review  
-**Task:** `E3-20260822-001`  
+**To:** PM / E7 exact-revision review  
+**Task:** `E3-20260822-003`  
 **Branch:** `agent/e3-backtest-validation`
 
-## Objective completed
+## Objective
 
-Refreshed the previously reviewed E3 Slice 1 historical replay / canonical BacktestResult research skeleton onto current main without adding later validation or execution scope.
+Reconciled the completed E3 Slice 1 replay / canonical BacktestResult research skeleton with corrected current `main` after E1 PR #21 restored the supported `market_data` public module identities.
+
+This was a sync/recheck task only. No later validation or execution scope was added.
 
 ## Exact revisions
 
-- current-main baseline consumed: `42339aa9b33c13554acf99bf6d7b272f22eb5673`
-- non-destructive sync merge: `13b8ff937426d2c982ee41fc6ed08950f0761677`
-- merge parent 1, prior E3 HEAD: `2c7810e9e9c34e103b085b5c40949870723f1941`
-- merge parent 2, current main: `42339aa9b33c13554acf99bf6d7b272f22eb5673`
-- bounded source/test correction: `54d40ae96e241f40367016e26b7bd5d03890e629`
+- latest main consumed: `47c7f3c24300b9ea21a8d50eba5be13884c88a7a`
+- reconciliation merge: `aee813855759cd63548d452a93de26fc208afa20`
+- merge parent 1, prior E3 HEAD: `4ad194520be0a9cc46d33b8ca9f72658158fccf4`
+- merge parent 2, corrected current main: `47c7f3c24300b9ea21a8d50eba5be13884c88a7a`
+- prior E3 production/source correction retained: `54d40ae96e241f40367016e26b7bd5d03890e629`
+- reconciliation test-only revision: `185185fbb403b3622c96a218717d67a2eb41a684`
 
 The merge preserved history. No force push, destructive rebase, or branch recreation was used.
 
-## Changed-file scope for the correction revision
+## Changed-file scope
 
-`54d40ae96e241f40367016e26b7bd5d03890e629` changes only:
+The post-E1 reconciliation test revision changes only:
 
-- `src/backtest/e2_runtime.py`
 - `tests/backtest/test_real_e2_research_skeleton.py`
 
-The final documentation/status recording revision additionally updates only:
+E3 production source changed after `54d40ae...`: **NO**.
 
-- `docs/backtest/SLICE1_RESEARCH_SKELETON.md`
-- `status/E3_SLICE1_HANDOFF.md`
-- `coordination/E3/STATUS.md`
+This handoff/docs/status update changes only E3-owned documentation/status paths.
 
 No `contracts/**`, E1/E2/E4/E5/E6/E7 production code, Registry/storage implementation, broker/provider code, workflow/CI file, credential, or secret was modified.
 
-## Contracts consumed
+## E1 blocker disposition
 
-- `contracts-v0.1` Candle
-- `contracts-v0.1` StrategyDefinition
-- `contracts-v0.1` Signal
-- `contracts-v0.1` BacktestResult
+**CLEARED_BY_CURRENT_MAIN_SOURCE_STRUCTURE**.
 
-No shared contract was produced, revised, or reinterpreted by E3.
+Corrected current main now has:
 
-## Current E2 runtime integration point
+- `src/market_data/candle.py` blob `5605830b4da4fbe10e94cff72794a495db9ebf6e`, defining `Candle` and `CONTRACT_SCHEMA_VERSION`;
+- `src/market_data/errors.py` blob `fb9cd216b83cd595304d23a5cec46fd9a2091894`;
+- `src/market_data/timeframes.py` blob `ac08d88dd327719b01babba098d78da0f34ab5bf`;
+- `src/market_data/__init__.py` exporting `Candle` and `CONTRACT_SCHEMA_VERSION` from `.candle`.
 
-The E3 adapter still calls the real current-main E2 path:
+E3 therefore removed the prior test workaround that represented all cross-role Candles as plain mappings. The integration definition again uses the supported E1 public package directly:
+
+```python
+from market_data import CONTRACT_SCHEMA_VERSION, Candle
+```
+
+No E1 logic was copied into E3.
+
+## Current E2 runtime integration
+
+E3 still consumes the actual E2 public path:
 
 ```python
 from strategy import StrategyRuntime, parse_strategy_definition
@@ -57,117 +67,69 @@ runtime = StrategyRuntime()
 signal = runtime.evaluate(parsed_strategy, closed_history, evaluated_at)
 ```
 
-E3 does not copy or reimplement SMA, DSL operators, parameters, StrategyDefinition semantics, TradeIntent policy, or provider execution behavior.
-
-Current-main E2 exports `RUNTIME_VERSION = "0.1.0"` and enforces shared schema `contracts-v0.1`. E3 records the actual runtime instance version in BacktestResult.
+E3 does not duplicate E2 StrategyDefinition, indicator, SMA, DSL, operator, or decision semantics.
 
 ## Canonical BacktestResult disposition
 
-Static/source comparison against current-main E6 `validate_backtest_result_contract` found E3's existing `BacktestResult.to_contract()` field binding structurally aligned with the required identity/reproducibility and core metric fields.
+Static/source recheck against current E6 `validate_backtest_result_contract` remains aligned with `contracts-v0.1` required identity/reproducibility and core metrics.
 
-The refreshed integration test definition now explicitly feeds the E3 contract payload into the current E6 validator and checks identity/reproducibility/core required fields.
+The cross-role test definition feeds the E3 serialized result to the E6 validator.
 
-Current E6 permits `profit_factor=null`; E3 preserves the already locked behavior that no aggregate losing PnL produces a present `profit_factor` field with JSON `null`, not an omitted field or Infinity.
+`profit_factor` handling remains:
 
-This is static/test-definition evidence only. No executable compatibility PASS is claimed.
+- aggregate losing PnL `0` -> field remains present;
+- if winning trades exist but no losing PnL -> `profit_factor = null`;
+- no Infinity/string surrogate is emitted.
 
-## Replay / no-look-ahead disposition
+No ValidationDecision engine or lifecycle promotion was added.
 
-Preserved behavior:
+## Replay / no-look-ahead / cost / reproducibility
 
-- only closed historical candles accepted;
-- deterministic chronological replay;
-- E2 sees only the finalized prefix at each Candle close;
-- Signal evaluated time must equal the replay boundary;
-- entry fills no earlier than next Candle open;
-- opposite-signal exit fills no earlier than next Candle open;
-- final-bar signal cannot enter without a later fill bar;
-- Signal reference price is not used as a same-bar fill shortcut;
-- same-candle SL/TP ambiguity resolves conservatively to STOP;
-- invalid required contract inputs fail closed through existing replay checks.
+Preserved source behavior:
 
-The refreshed real-E2 test definition adds a future-candle poisoning case to ensure unreadable future OHLC cannot alter an earlier E2 boundary decision.
+- only finalized closed Candles are replayed;
+- chronological order is deterministic;
+- E2 evaluation is bounded to available Candle history at the replay boundary;
+- Signal `evaluated_at` must match the closed-Candle boundary;
+- entry and opposite-signal exit are next-open fills, never same-bar hindsight fills;
+- final-bar signals cannot fill without a future bar;
+- same-candle stop/target ambiguity resolves conservatively to STOP;
+- fees, adverse slippage, and deterministic funding assumptions remain explicit/versioned;
+- gross/net PnL and total fees remain internally coherent by source design;
+- dataset, strategy hash, runtime version, cost assumptions, replay settings, and trade fingerprints remain part of reproducibility identity;
+- malformed/unsupported required inputs fail closed.
 
-## Costs / metrics / reproducibility
-
-No model semantics changed.
-
-Cost assumptions remain explicitly versioned and configurable:
-
-- maker/taker entry/exit fees;
-- adverse entry/exit slippage;
-- fixed deterministic funding event model.
-
-Gross PnL is calculated from slippage-adjusted fills; net PnL subtracts fees and funding, while reported slippage cost is not double-subtracted.
-
-Core metrics remain total trades, wins/losses/breakeven, gross/net PnL, fees, profit factor, expectancy, max drawdown, max consecutive losses, plus audit-only slippage/funding totals.
-
-Backtest result identity remains deterministic from strategy, runtime, dataset, cost assumptions, replay settings, and replay trade fingerprints. Runtime `created_at` is not included in deterministic result identity.
-
-## Dataset / validation status
-
-No real dataset or OOS dataset was executed in this task.
-
-- dataset execution: `NOT_RUN`
-- OOS contamination status: `NOT_APPLICABLE` for this source refresh
-- strategy validation decision: `NO DECISION`
-- OOS: `NOT_RUN`
-- Walk Forward: `NOT_RUN`
-- Monte Carlo: `NOT_RUN`
-- optimization: not implemented
-- regime analysis: not implemented
-
-## External blocker discovered on current main
-
-Latest main currently has an E1 public package inconsistency outside E3 writable scope:
-
-- `src/market_data/__init__.py` imports `Candle` and `CONTRACT_SCHEMA_VERSION` from `.candle`;
-- current-main `src/market_data/candle.py` contains E1 error-class definitions and does not provide those exports.
-
-Therefore `from market_data import Candle` is structurally blocked on current main. E3 did not modify E1 code.
-
-To keep the E3 refresh bounded and current-main-compatible, the real-E2 integration test now uses canonical `contracts-v0.1` Candle mappings. Full E1 public-package -> E2 -> E3 integration should remain blocked until E1/PM/E7 reconciles the E1 main defect.
+The reconciled integration test uses actual E1 `Candle` objects and includes a future-Candle alteration case to assert an earlier E2 boundary identity remains unchanged.
 
 ## Executable verification
 
 `NOT_RUN`
 
-No Product Owner-approved local environment was available in this ChatGPT/GitHub context. No test, replay, backtest, metric verification, or bug reproduction was executed.
+No Product Owner-approved local environment was available. No import probe, unit test, replay, backtest, or metric verification was executed here.
 
-Exact local-only command:
+Exact local-only commands:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
 python -m unittest discover -s tests/backtest -p "test_*.py" -v
-```
-
-Targeted current-main E2 -> E3 definition:
-
-```powershell
-$env:PYTHONPATH = (Join-Path (Get-Location) "src")
 python tests/backtest/test_real_e2_research_skeleton.py -v
 ```
 
-## Gates / lifecycle
+## Gate / lifecycle status
 
 - Gate A: `BLOCKED`
 - Gate B: `BLOCKED`
 - Gate C: `BLOCKED`
 - Gate D: `BLOCKED`
-- validation PASS: not claimed
+- executable validation PASS: not claimed
+- strategy validation decision: `NO DECISION`
 - Registry lifecycle transition: none
-- PAPER/SHADOW/LIVE: no impact
-- Product Owner approval: not inferred
+- PAPER / SHADOW / LIVE: no impact
 
-## GitHub compute / security
+## Security / compute
 
-- GitHub Actions: not used
-- GitHub CI: not used
-- GitHub-hosted runner: not used
-- GitHub-triggered self-hosted runner: not used
-- GitHub project compute/backtest: not used
-- credentials/secrets: none added or requested
+No GitHub Actions, GitHub CI, hosted runner, GitHub-triggered self-hosted runner, scheduled GitHub job, or GitHub project compute was used. No credentials or secrets were requested, exposed, or committed.
 
-## Recommended next owner
+## Next owner
 
-PM / E7 should review exact revisions above and separately route the current-main E1 public-import defect to the E1 owner. E3 must not begin the next validation/OOS task until a new `coordination/E3/TASK.md` is issued.
+PM / E7 exact-revision review. E3 stops here and must not start ValidationDecision/OOS or another task until a new `coordination/E3/TASK.md` is issued.

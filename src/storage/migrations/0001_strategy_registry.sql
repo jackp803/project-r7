@@ -18,6 +18,13 @@ CREATE TABLE IF NOT EXISTS strategy_versions (
     PRIMARY KEY (strategy_id, strategy_version)
 );
 
+CREATE TRIGGER IF NOT EXISTS strategy_versions_initial_projection_guard
+BEFORE INSERT ON strategy_versions
+WHEN NEW.current_lifecycle_state <> 'DRAFT' OR NEW.registry_revision <> 0
+BEGIN
+    SELECT RAISE(ABORT, 'new strategy projection must start at DRAFT revision 0');
+END;
+
 CREATE TRIGGER IF NOT EXISTS strategy_versions_immutable_content
 BEFORE UPDATE OF
     strategy_schema_version,
@@ -151,6 +158,25 @@ END;
 
 CREATE INDEX IF NOT EXISTS lifecycle_transitions_strategy_idx
 ON lifecycle_transitions(strategy_id, strategy_version, changed_at);
+
+CREATE TRIGGER IF NOT EXISTS strategy_versions_lifecycle_projection_guard
+BEFORE UPDATE OF current_lifecycle_state, registry_revision ON strategy_versions
+WHEN NOT (
+    NEW.registry_revision = OLD.registry_revision + 1
+    AND EXISTS (
+        SELECT 1
+        FROM lifecycle_transitions AS transition
+        WHERE transition.strategy_id = OLD.strategy_id
+          AND transition.strategy_version = OLD.strategy_version
+          AND transition.previous_state = OLD.current_lifecycle_state
+          AND transition.new_state = NEW.current_lifecycle_state
+          AND transition.expected_registry_revision = OLD.registry_revision
+          AND transition.resulting_registry_revision = NEW.registry_revision
+    )
+)
+BEGIN
+    SELECT RAISE(ABORT, 'lifecycle projection update requires matching transition history');
+END;
 
 CREATE TRIGGER IF NOT EXISTS lifecycle_transitions_append_only_update
 BEFORE UPDATE ON lifecycle_transitions

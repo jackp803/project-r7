@@ -1,26 +1,31 @@
 # E6 Current Task
 
-- task_id: `E6-20260822-005`
-- issued_at: `2026-08-22T14:40:00+08:00`
+- task_id: `E6-20260822-007`
+- issued_at: `2026-08-22T15:33:00+08:00`
 - state: `ACTIVE`
 - target_branch: `agent/e6-platform`
-- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0001/0002/0003, E7 targeted re-review `status/e7/E6_LIFECYCLE_TARGETED_REREVIEW_20260822.md`
+- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`, ADR-0001/0002/0003, E7 review `status/e7/E6_EVIDENCE_AUTHORITY_FINAL_REREVIEW_20260822.md`
 
 ## Objective
 
-Close the remaining source condition in `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001` on PR #16.
+Close the remaining public/raw persistence authority bypass in `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001` on PR #16 without pretending that a Python modular monolith is a hostile-process security sandbox.
 
-The exact three-edge early-Slice-2 allowlist and SQLite forbidden-edge trigger are now accepted statically, but the authoritative persistence API still validates only edge shape/state/revision. A direct caller can therefore legally chain `DRAFT -> BACKTESTING -> CANDIDATE` without the E2/E3 evidence authority required by `StrategyPlatformService`.
+E7 accepted the edge allowlist, SQL edge trigger, in-transaction durable evidence revalidation, canonical E2/E3-looking content/binding checks, concurrency/rollback, and `E6-EVIDENCE-CONTRACT-001`. The remaining blocker is that the currently **exported/supported raw persistence surface** can itself manufacture the rows/projection that promotion authority trusts:
 
-This task is a bounded lifecycle **evidence-authority-at-persistence** correction only. Do not expand lifecycle scope, redesign shared contracts, or add Slice 3 execution persistence.
+- `storage.SQLiteRegistryStore`, `storage.connect`, and raw write methods are publicly exported/reachable through the supported package surface;
+- `save_compatibility(...)` / `save_validation_evidence(...)` accept caller-constructed authority-looking records;
+- `register_strategy(...)` accepts caller-supplied initial lifecycle state/revision;
+- exported raw SQLite access permits direct lifecycle projection mutation.
+
+This task must establish a clear **trusted-process supported API boundary**: normal project code may use the E6 platform/service/factory surface; raw SQLite implementation/writer/connection mechanics are internal implementation details and must not be available as supported authority-bearing public APIs. Arbitrary code execution, Python introspection/monkey-patching, or direct external write access to the SQLite file is outside this modular-monolith trust boundary and must be documented explicitly rather than falsely claimed as prevented.
 
 ## Accepted behavior to preserve
 
-The following E7 dispositions are already accepted and must not regress:
+Do not regress:
 
 - `E6-EVIDENCE-CONTRACT-001` — `CLOSED / PASS STATIC`;
-- early lifecycle vocabulary remains exactly `DRAFT | BACKTESTING | REJECTED | CANDIDATE`;
-- legal edge shape remains exactly:
+- lifecycle vocabulary exactly `DRAFT | BACKTESTING | REJECTED | CANDIDATE`;
+- legal lifecycle edges exactly:
 
 ```text
 DRAFT       -> BACKTESTING
@@ -28,84 +33,110 @@ BACKTESTING -> REJECTED
 BACKTESTING -> CANDIDATE
 ```
 
-- every other edge pair is rejected before authoritative mutation;
-- migration `0001_strategy_registry.sql` rejects forbidden edge pairs;
-- lifecycle history remains append-only;
-- current-state / expected-revision / resulting-revision concurrency checks remain intact;
-- atomic history + projection update and rollback behavior remain intact;
-- canonical BacktestResult / ValidationDecision validators and bindings remain unchanged;
+- forbidden edge rejection in Python and SQL;
+- durable E2 authority revalidation for `DRAFT -> BACKTESTING`;
+- durable E3 ValidationDecision + BacktestResult revalidation for `BACKTESTING -> CANDIDATE`;
+- canonical payload validation/binding;
+- append-only lifecycle history;
+- current-state / expected-revision / resulting-revision checks;
+- atomic history + projection update and rollback;
+- no later lifecycle states;
 - no Slice 3 execution/provider persistence;
-- executable verification remains `NOT_RUN`.
+- executable verification `NOT_RUN`.
 
-## Required persistence authority
+## Required correction
 
-The authoritative persistence path must independently enforce the same promotion prerequisites as the service. It must not rely on callers always using `StrategyPlatformService`.
+### 1. Supported public API boundary
 
-### `DRAFT -> BACKTESTING`
+Refactor the E6/storage package surface so production/downstream code is not offered raw authoritative persistence writers or raw SQLite connections as supported public APIs.
 
-Before mutation, persistence must require durable compatibility authority bound to the exact strategy identity:
+At minimum:
 
-- compatibility evidence exists for the strategy version;
-- checker is the accepted E2 boundary (`E2...` according to existing service semantics);
-- `status = PASS`;
-- `verification_kind = LOCAL_EXECUTION`;
-- `source_revision`, `environment`, `command`, and `result_ref` are present/non-empty;
-- no caller-supplied transition record alone can manufacture this authority.
+- `storage.__init__` must no longer export `SQLiteRegistryStore`, raw `connect`, or raw migration/write primitives;
+- provide one narrow E6-owned composition/factory entry point for the SQLite-backed platform that returns the safe `StrategyPlatformService` (or an equivalently narrow E6 platform facade), not the raw store/connection;
+- raw SQLite store/connection/migration helpers must become internal implementation details by naming/module/export policy and documentation;
+- `RegistryStore` remains an internal implementation port, not a user-facing authority surface;
+- do not expose a public method that returns the underlying mutable SQLite connection or authoritative writer.
 
-Use the same accepted semantics as `StrategyPlatformService.begin_backtesting()`; do not invent a weaker alternative.
+Do not add cryptographic signing, secrets, API authentication, another service process, or external infrastructure in this task.
 
-### `BACKTESTING -> CANDIDATE`
+### 2. Internal writer capability / construction authority
 
-Before mutation, persistence must require durable evidence bound to the exact strategy identity/content:
+A caller that only has the supported public E6 platform API must not be able to call raw methods to manufacture promotion authority.
 
-- transition identifies the authoritative ValidationDecision evidence used for promotion;
-- referenced record is `VALIDATION_DECISION` produced by E3;
-- `decision = PASS`;
-- decision identity and strategy content hash match the persisted strategy;
-- decision has `PASS / LOCAL_EXECUTION` with non-empty `source_revision`, `environment`, `command`, `result_ref`;
-- decision has a stored parent `BACKTEST_RESULT`;
-- parent identity/content hash match the persisted strategy;
-- parent has `PASS / LOCAL_EXECUTION` with non-empty `source_revision`, `environment`, `command`, `result_ref`;
-- ValidationDecision/BacktestResult canonical payloads and exact parent/backtest binding remain valid under the already accepted E6 validators;
-- a caller cannot substitute a BACKTEST_RESULT, FAIL/NOT_RUN decision, unbound decision, missing parent, mismatched backtest id, malformed canonical payload, or synthetic transition record and still advance CANDIDATE.
+Use a bounded E6-owned internal authority mechanism. A reasonable implementation is an internal writer capability/factory-owned writer that is not part of the supported package export surface. The exact implementation is E6-owned, but the result must satisfy:
 
-Do not weaken the existing service gate. Prefer one E6-owned policy/helper reused by service and persistence where practical so semantics cannot silently drift.
+- raw write methods cannot be exercised through the supported public package API;
+- service/factory-authorized writes remain possible;
+- direct construction of authority-looking DTOs does not by itself grant write authority to the production persistence instance;
+- test-only internal fixtures may still test storage mechanics, but they must be clearly internal/test-only and must not become public production authority APIs.
 
-### `BACKTESTING -> REJECTED`
+Python underscore/privacy conventions are not a hostile-code security boundary by themselves; combine export/factory design with internal construction/write authority so the supported production path is unambiguous.
 
-Preserve the existing rejection semantics and edge cap. Do not turn REJECTED into a promotion path. If persistence currently accepts reason/evidence fields, keep them coherent and fail closed on invalid bound evidence; do not broaden this task into a new rejection policy design.
+### 3. Initial lifecycle registration guard
+
+Independently enforce that a newly registered strategy version begins only as:
+
+```text
+current_lifecycle_state = DRAFT
+registry_revision = 0
+```
+
+Requirements:
+
+- Python persistence/registration path rejects caller-supplied non-DRAFT state or nonzero revision before authoritative insertion;
+- add database-level defense in depth for initial insert where practical in the still-unmerged baseline migration;
+- same identity/content idempotency behavior must remain coherent;
+- no direct registration of an already-CANDIDATE strategy.
+
+### 4. Projection mutation guard
+
+Prevent naked supported-path mutation of `strategy_versions.current_lifecycle_state` / `registry_revision` outside the lifecycle append path.
+
+Because raw SQLite connection access is removed from the supported public API, arbitrary direct SQL is outside the supported trust boundary. Still add database-level defense in depth where practical so projection updates must correspond to a coherent lifecycle transition/revision change rather than an arbitrary UPDATE.
+
+Do not create a trigger design that breaks the existing atomic append-transition transaction.
+
+### 5. Evidence provenance model
+
+Document the exact authority model:
+
+- E2 compatibility becomes promotion authority only when produced/ingested through the supported E6 service path using the configured E2 boundary;
+- E3 BacktestResult / ValidationDecision becomes promotion authority only when ingested through the supported E6 service path and passes the accepted canonical validators/bindings/local-execution metadata checks;
+- raw caller-constructed record objects are data structures, not authority, unless written through the internal authorized persistence path;
+- the threat model assumes trusted in-process project code and controlled DB-file access; arbitrary malicious in-process code, monkey-patching/introspection, or an attacker with direct filesystem/SQLite write access is **out of scope** and must not be claimed as prevented.
+
+Do not weaken canonical validation to implement provenance.
+
+## Required tests / static proof definitions
+
+Add deterministic local-only tests proving at minimum:
+
+1. supported public `storage` imports do not expose raw `SQLiteRegistryStore`, raw `connect`, or equivalent writer/connection handles;
+2. supported SQLite platform factory returns the safe E6 platform/service surface and does not return/expose a raw mutable connection/writer;
+3. raw caller-constructed E2/E3-looking records cannot be persisted/promoted through the supported public API without going through the accepted service gates;
+4. direct registration with `CANDIDATE`, `BACKTESTING`, `REJECTED`, or nonzero revision fails closed and leaves persistence unchanged;
+5. normal service intake still creates `DRAFT / revision 0`;
+6. valid service-authorized `DRAFT -> BACKTESTING` and `BACKTESTING -> CANDIDATE` flows remain representable when durable accepted E2/E3 evidence exists;
+7. all previously defined invalid-evidence, forbidden-edge, rollback, append-only, and canonical-binding tests remain present;
+8. database defense-in-depth rejects incoherent initial projection and naked lifecycle projection mutation where the implementation supports that guard;
+9. synthetic PASS fixtures remain explicitly test-only and are not represented as project executable evidence.
+
+Do not execute these tests in GitHub.
 
 ## Required actions
 
-1. Fetch latest `main` and non-destructively synchronize it into `agent/e6-platform` once before correction. Preserve history; no force push/destructive rebase. The main-only delta is expected to be E7 review/coordination evidence, not a reason for scope expansion.
-2. Correct the E6 persistence boundary so the two promotion edges above require durable accepted evidence authority **before any lifecycle row/projection mutation**.
-3. The persistence check must read/validate authoritative stored evidence; a transition object's state pair/reason code/`primary_evidence_id` by itself is not sufficient authority.
-4. Reuse the already accepted canonical BacktestResult / ValidationDecision validation functions when validating persisted promotion evidence where needed; do not create a second weaker payload grammar.
-5. Preserve the exact three-edge allowlist and SQL forbidden-edge trigger from the prior correction.
-6. A failed evidence-authority check must leave all authoritative state unchanged:
-   - no lifecycle transition row committed;
-   - `strategy_versions.current_lifecycle_state` unchanged;
-   - `registry_revision` unchanged.
-7. Preserve current-state/revision/resulting-revision checks, transaction atomicity, and rollback.
-8. Add deterministic local-only tests proving direct persistence cannot advance:
-   - `DRAFT -> BACKTESTING` with no compatibility evidence;
-   - `DRAFT -> BACKTESTING` with non-E2, non-PASS, non-LOCAL_EXECUTION, or incomplete local-execution metadata;
-   - `BACKTESTING -> CANDIDATE` without `primary_evidence_id`;
-   - with wrong evidence type;
-   - with FAIL/BLOCKED/NOT_RUN ValidationDecision;
-   - with wrong strategy identity/content hash;
-   - with missing/wrong BacktestResult parent;
-   - with invalid/mismatched canonical ValidationDecision ↔ BacktestResult binding;
-   - with missing/non-local PASS metadata on either decision or backtest.
-9. Tests must also prove each rejected authorization attempt leaves row count/state/revision unchanged.
-10. Add positive tests showing the normal service-authorized `DRAFT -> BACKTESTING` and `BACKTESTING -> CANDIDATE` flows still work when the required durable E2/E3 evidence exists. Do not use a bypass-only fake path as proof of authority.
-11. Keep the prior direct-store forbidden-edge and SQL-trigger tests intact.
-12. Recheck `E6-EVIDENCE-CONTRACT-001` and Registry/Inbox behavior for static regression; accepted critical validators must not be weakened.
-13. Do not add PAPER, READY_FOR_APPROVAL, APPROVED, SHADOW, LIVE, DEGRADED, RETIRED, generic lifecycle authority, or any later-state migration.
-14. Do not add ApprovedTradePlan, OrderRequest, OrderResult, Fill, Position, OKX `sz`, provider identities, reconciliation, Demo execution, or other Slice 3 execution-audit persistence.
-15. Do not edit `contracts/**` or E1/E2/E3/E4/E5/E7 production code. No dashboard expansion, provider/API access, credentials, asset movement, or workflow/CI changes.
-16. Update `status/E6_EARLY_SLICE2_HANDOFF.md`, `status/E6_STATUS.md`, and `coordination/E6/STATUS.md` with exact sync/correction revisions, changed-file scope, authority design, and claimed finding disposition for E7.
-17. Executable verification is local-only. Without a Product Owner-approved local environment, keep `NOT_RUN` and record exact commands:
+1. Fetch latest `main` and non-destructively synchronize it into `agent/e6-platform` once before correction. Preserve history; no force push/destructive rebase. The expected main-only delta is E7 review/coordination evidence.
+2. Implement only the supported-public-boundary / internal-writer / initial-projection / projection-guard correction described above.
+3. Preserve `src/registry/contract_validation.py` semantics and all accepted evidence bindings.
+4. Keep the existing exact lifecycle edge allowlist and SQL forbidden-edge trigger.
+5. Do not add PAPER, READY_FOR_APPROVAL, APPROVED, SHADOW, LIVE, DEGRADED, RETIRED, or generic lifecycle authority.
+6. Do not add ApprovedTradePlan, OrderRequest, OrderResult, Fill, Position, OKX `sz`, provider identities, reconciliation, Demo execution, or other Slice 3 execution-audit persistence.
+7. Do not edit `contracts/**` or E1/E2/E3/E4/E5/E7 production code.
+8. No dashboard expansion, broker/API work, credentials, asset movement, network/provider calls, or workflow/CI changes.
+9. Update `docs/platform/**` as needed to document the trusted-process authority model and supported public API.
+10. Update `status/E6_EARLY_SLICE2_HANDOFF.md`, `status/E6_STATUS.md`, and `coordination/E6/STATUS.md` with exact sync/correction revisions, changed-file scope, public API before/after, authority model, and claimed finding disposition.
+11. Executable verification remains local-only. Without a Product Owner-approved local environment, keep `NOT_RUN` and record exact commands:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -113,12 +144,16 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-18. Do not run tests, migrations, backtests, provider requests, GitHub Actions/CI/hosted runners, or GitHub-triggered project compute in this environment.
-19. Push only this bounded correction to existing PR #16 branch, update STATUS/handoff, then stop. Do not merge PR #16 or begin another E6 feature automatically.
+12. Do not run tests, migrations, backtests, provider requests, GitHub Actions/CI/hosted runners, or GitHub-triggered project compute in this environment.
+13. Push only this bounded correction to existing PR #16 branch, update STATUS/handoff, then stop. Do not merge PR #16 or begin another E6 feature automatically.
 
 ## Acceptance
 
-Static/source completion requires that a direct caller of the authoritative persistence surface cannot reach BACKTESTING or CANDIDATE without the same durable E2/E3 authority required by the accepted service path, while all prior edge/migration/evidence/immutability/concurrency boundaries remain intact. Test definitions must cover both bypass attempts and valid service-authorized flows. Executable verification remains `NOT_RUN`; Gate A/B/C/D remain blocked.
+Static/source completion requires a documented trusted-process authority boundary where the **supported public E6 API** cannot directly obtain/use authoritative raw persistence writers or SQLite connections, initial strategy projection is always DRAFT/revision 0, promotion writes still pass the accepted E2/E3 evidence gates, and DB-level defense in depth prevents incoherent projection mutation without breaking the normal atomic lifecycle path.
+
+E7 must be able to distinguish supported production authority from intentionally internal/test-only storage mechanics. Do not claim protection against arbitrary malicious in-process Python code or direct external DB-file compromise.
+
+Executable verification remains `NOT_RUN`; Gate A/B/C/D remain blocked.
 
 ## Writable scope
 
@@ -135,14 +170,15 @@ Static/source completion requires that a direct caller of the authoritative pers
 
 - `contracts/**` edits;
 - E1/E2/E3/E4/E5/E7 production rewrites;
-- lifecycle expansion beyond early four states;
+- later lifecycle expansion;
 - Slice 3 execution/provider persistence;
-- private provider/API work;
+- provider/API execution;
 - credentials/secrets;
+- external auth/signing infrastructure;
 - PAPER/READY_FOR_APPROVAL/APPROVED/SHADOW/LIVE authority;
 - GitHub Actions/CI/hosted/project compute;
 - executable PASS claims.
 
 ## Completion / status
 
-Close only the remaining evidence-authority bypass in `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`, push the exact source/test/handoff revision, update STATUS, and stop for E7 targeted re-review.
+Close only the supported-public/raw-persistence authority portion of `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`, push the exact source/test/handoff revision, update STATUS, and stop for E7 re-review.

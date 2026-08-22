@@ -59,6 +59,7 @@ BLOCK_REASON_ORDER = (
     "BACKTEST_COUNT_INVALID",
     "BACKTEST_TRADE_COUNTS_INCONSISTENT",
     "BACKTEST_DECIMAL_INVALID",
+    "BACKTEST_METRIC_RANGE_INVALID",
     "BACKTEST_STRATEGY_ID_MISMATCH",
     "BACKTEST_STRATEGY_VERSION_MISMATCH",
     "BACKTEST_RESULT_ID_MISMATCH",
@@ -89,7 +90,7 @@ NOT_RUN_REASON_CODE = "EXECUTION_NOT_RUN"
 
 
 class ValidationConfigurationError(ValueError):
-    """Raised when decision-authority configuration cannot form a canonical decision."""
+    """Decision-authority configuration cannot form a canonical decision."""
 
 
 def _canonical_json(value: Any) -> str:
@@ -111,10 +112,9 @@ def _normalize_utc(value: Any, field: str) -> datetime:
     if isinstance(value, datetime):
         if value.tzinfo is None or value.utcoffset() is None:
             raise ValidationConfigurationError(f"{field} must be timezone-aware UTC")
-        normalized = value.astimezone(timezone.utc)
-        if value.utcoffset() != timezone.utc.utcoffset(normalized):
+        if value.utcoffset() != timezone.utc.utcoffset(value):
             raise ValidationConfigurationError(f"{field} must be UTC")
-        return normalized
+        return value.astimezone(timezone.utc)
     if not isinstance(value, str) or not value.endswith("Z"):
         raise ValidationConfigurationError(f"{field} must be RFC 3339 UTC ending in Z")
     try:
@@ -129,9 +129,9 @@ def _z(value: datetime) -> str:
 
 
 def _decimal(value: Any, field: str) -> Decimal:
-    if isinstance(value, bool) or isinstance(value, float) or isinstance(value, int):
+    if isinstance(value, (bool, float, int)):
         raise ValidationConfigurationError(
-            f"{field} must use Decimal or a base-10 decimal string, not binary float/integer coercion"
+            f"{field} must use Decimal or a base-10 decimal string; numeric coercion is forbidden"
         )
     if isinstance(value, Decimal):
         parsed = value
@@ -150,8 +150,7 @@ def _decimal(value: Any, field: str) -> Decimal:
 def _decimal_text(value: Decimal) -> str:
     if value == 0:
         return "0"
-    normalized = value.normalize()
-    return format(normalized, "f")
+    return format(value.normalize(), "f")
 
 
 def _ordered_reasons(reasons: list[str], vocabulary: tuple[str, ...]) -> tuple[str, ...]:
@@ -243,6 +242,7 @@ class _BacktestView:
     dataset_start: datetime
     dataset_end: datetime
     total_trades: int
+    losses: int
     net_pnl: Decimal
     max_drawdown: Decimal
     max_consecutive_losses: int
@@ -292,30 +292,28 @@ def _coerce_backtest_payload(backtest_result: Any) -> tuple[Mapping[str, Any] | 
     if isinstance(backtest_result, Mapping):
         return backtest_result, []
     serializer = getattr(backtest_result, "to_contract", None)
-    if callable(serializer):
-        try:
-            payload = serializer()
-        except Exception:
-            return None, ["BACKTEST_RESULT_SERIALIZATION_FAILED"]
-        if isinstance(payload, Mapping):
-            return payload, []
+    if not callable(serializer):
         return None, ["BACKTEST_RESULT_TYPE_INVALID"]
-    return None, ["BACKTEST_RESULT_TYPE_INVALID"]
+    try:
+        payload = serializer()
+    except Exception:
+        return None, ["BACKTEST_RESULT_SERIALIZATION_FAILED"]
+    if not isinstance(payload, Mapping):
+        return None, ["BACKTEST_RESULT_TYPE_INVALID"]
+    return payload, []
 
 
 def _parse_backtest_result(backtest_result: Any) -> tuple[_BacktestView | None, list[str]]:
     raw, reasons = _coerce_backtest_payload(backtest_result)
     if raw is None:
         return None, reasons
-
-    missing = [field for field in _REQUIRED_BACKTEST_FIELDS if field not in raw]
-    if missing:
+    if any(field not in raw for field in _REQUIRED_BACKTEST_FIELDS):
         return None, ["BACKTEST_REQUIRED_FIELD_MISSING"]
 
     if raw["schema_version"] != SCHEMA_VERSION:
         reasons.append("BACKTEST_SCHEMA_UNSUPPORTED")
 
-    identity_fields = (
+    for field in (
         "backtest_result_id",
         "strategy_id",
         "strategy_version",
@@ -324,19 +322,17 @@ def _parse_backtest_result(backtest_result: Any) -> tuple[_BacktestView | None, 
         "dataset_id",
         "dataset_hash",
         "cost_model_version",
-    )
-    for field in identity_fields:
+    ):
         if not isinstance(raw[field], str) or not raw[field].strip():
             reasons.append("BACKTEST_IDENTITY_INVALID")
             break
 
     timestamps: dict[str, datetime] = {}
-    for field in ("dataset_start", "dataset_end", "created_at"):
-        try:
+    try:
+        for field in ("dataset_start", "dataset_end", "created_at"):
             timestamps[field] = _normalize_utc(raw[field], f"BacktestResult.{field}")
-        except ValidationConfigurationError:
-            reasons.append("BACKTEST_TIMESTAMP_INVALID")
-            break
+    except ValidationConfigurationError:
+        reasons.append("BACKTEST_TIMESTAMP_INVALID")
     if len(timestamps) == 3 and timestamps["dataset_start"] > timestamps["dataset_end"]:
         reasons.append("BACKTEST_TIME_RANGE_INVALID")
 
@@ -350,24 +346,27 @@ def _parse_backtest_result(backtest_result: Any) -> tuple[_BacktestView | None, 
     if len(counts) == 5:
         if counts["wins"] + counts["losses"] + counts["breakeven"] != counts["total_trades"]:
             reasons.append("BACKTEST_TRADE_COUNTS_INCONSISTENT")
+        if counts["max_consecutive_losses"] > counts["losses"]:
+            reasons.append("BACKTEST_TRADE_COUNTS_INCONSISTENT")
 
-    decimal_values: dict[str, Decimal | None] = {}
-    for field in ("gross_pnl", "net_pnl", "total_fees", "expectancy", "max_drawdown"):
-        try:
-            decimal_values[field] = _decimal(raw[field], f"BacktestResult.{field}")
-        except ValidationConfigurationError:
-            reasons.append("BACKTEST_DECIMAL_INVALID")
-            break
+    decimals: dict[str, Decimal | None] = {}
+    try:
+        for field in ("gross_pnl", "net_pnl", "total_fees", "expectancy", "max_drawdown"):
+            decimals[field] = _decimal(raw[field], f"BacktestResult.{field}")
+        decimals["profit_factor"] = (
+            None
+            if raw["profit_factor"] is None
+            else _decimal(raw["profit_factor"], "BacktestResult.profit_factor")
+        )
+    except ValidationConfigurationError:
+        reasons.append("BACKTEST_DECIMAL_INVALID")
+
     if "BACKTEST_DECIMAL_INVALID" not in reasons:
-        if raw["profit_factor"] is None:
-            decimal_values["profit_factor"] = None
-        else:
-            try:
-                decimal_values["profit_factor"] = _decimal(
-                    raw["profit_factor"], "BacktestResult.profit_factor"
-                )
-            except ValidationConfigurationError:
-                reasons.append("BACKTEST_DECIMAL_INVALID")
+        if decimals["max_drawdown"] < 0:
+            reasons.append("BACKTEST_METRIC_RANGE_INVALID")
+        profit_factor = decimals["profit_factor"]
+        if profit_factor is not None and profit_factor < 0:
+            reasons.append("BACKTEST_METRIC_RANGE_INVALID")
 
     if reasons:
         return None, reasons
@@ -382,10 +381,11 @@ def _parse_backtest_result(backtest_result: Any) -> tuple[_BacktestView | None, 
             dataset_start=timestamps["dataset_start"],
             dataset_end=timestamps["dataset_end"],
             total_trades=counts["total_trades"],
-            net_pnl=decimal_values["net_pnl"],
-            max_drawdown=decimal_values["max_drawdown"],
+            losses=counts["losses"],
+            net_pnl=decimals["net_pnl"],
+            max_drawdown=decimals["max_drawdown"],
             max_consecutive_losses=counts["max_consecutive_losses"],
-            profit_factor=decimal_values["profit_factor"],
+            profit_factor=decimals["profit_factor"],
         ),
         [],
     )
@@ -402,9 +402,11 @@ def _safe_context_value(value: Any) -> Any:
     return {"invalid_type": type(value).__name__}
 
 
-def _context_material(context: OOSValidationContext | None) -> dict[str, Any] | None:
+def _context_material(context: Any) -> dict[str, Any] | None:
     if context is None:
         return None
+    if not isinstance(context, OOSValidationContext):
+        return {"invalid_type": type(context).__name__}
     return {
         "split_id": _safe_context_value(context.split_id),
         "oos_dataset_id": _safe_context_value(context.oos_dataset_id),
@@ -418,7 +420,7 @@ def _context_material(context: OOSValidationContext | None) -> dict[str, Any] | 
 
 
 def _validate_context(
-    context: OOSValidationContext | None,
+    context: Any,
     policy: ValidationPolicy,
     backtest: _BacktestView | None,
 ) -> tuple[list[str], dict[str, Any] | None, str]:
@@ -429,7 +431,6 @@ def _validate_context(
     if not isinstance(context, OOSValidationContext):
         return ["OOS_CONTEXT_INVALID"], material, context_id
 
-    reasons: list[str] = []
     for value in (
         context.split_id,
         context.oos_dataset_id,
@@ -439,19 +440,28 @@ def _validate_context(
         context.validation_policy_version,
     ):
         if not isinstance(value, str) or not value.strip():
-            reasons.append("OOS_CONTEXT_INVALID")
-            break
+            return ["OOS_CONTEXT_INVALID"], material, context_id
 
-    start: datetime | None = None
-    end: datetime | None = None
     try:
         start = _normalize_utc(context.oos_dataset_start, "context.oos_dataset_start")
         end = _normalize_utc(context.oos_dataset_end, "context.oos_dataset_end")
     except ValidationConfigurationError:
-        reasons.append("OOS_CONTEXT_INVALID")
-    if start is not None and end is not None and start > end:
-        reasons.append("OOS_TIME_RANGE_INVALID")
+        return ["OOS_CONTEXT_INVALID"], material, context_id
 
+    normalized_material = {
+        "split_id": context.split_id,
+        "oos_dataset_id": context.oos_dataset_id,
+        "oos_dataset_hash": context.oos_dataset_hash,
+        "oos_dataset_start": _z(start),
+        "oos_dataset_end": _z(end),
+        "training_dataset_id": context.training_dataset_id,
+        "training_dataset_hash": context.training_dataset_hash,
+        "validation_policy_version": context.validation_policy_version,
+    }
+    context_id = _hash_id("oos_context_", normalized_material)
+    reasons: list[str] = []
+    if start > end:
+        reasons.append("OOS_TIME_RANGE_INVALID")
     if context.training_dataset_id == context.oos_dataset_id:
         reasons.append("TRAIN_OOS_DATASET_ID_COLLISION")
     if context.training_dataset_hash == context.oos_dataset_hash:
@@ -459,7 +469,7 @@ def _validate_context(
     if context.validation_policy_version != policy.version:
         reasons.append("OOS_POLICY_VERSION_MISMATCH")
 
-    if backtest is not None and start is not None and end is not None:
+    if backtest is not None:
         if backtest.dataset_id != context.oos_dataset_id:
             reasons.append("OOS_BACKTEST_DATASET_ID_MISMATCH")
         if backtest.dataset_hash != context.oos_dataset_hash:
@@ -469,20 +479,7 @@ def _validate_context(
         if backtest.dataset_end != end:
             reasons.append("OOS_BACKTEST_DATASET_END_MISMATCH")
 
-    normalized_material = None
-    if not reasons and start is not None and end is not None:
-        normalized_material = {
-            "split_id": context.split_id,
-            "oos_dataset_id": context.oos_dataset_id,
-            "oos_dataset_hash": context.oos_dataset_hash,
-            "oos_dataset_start": _z(start),
-            "oos_dataset_end": _z(end),
-            "training_dataset_id": context.training_dataset_id,
-            "training_dataset_hash": context.training_dataset_hash,
-            "validation_policy_version": context.validation_policy_version,
-        }
-        context_id = _hash_id("oos_context_", normalized_material)
-    return reasons, normalized_material if normalized_material is not None else material, context_id
+    return reasons, normalized_material, context_id
 
 
 def evaluate_oos_validation(
@@ -496,11 +493,10 @@ def evaluate_oos_validation(
 ) -> ValidationDecision:
     """Evaluate one explicit OOS BacktestResult against one explicit policy.
 
-    Structural contract/OOS failures always resolve to BLOCKED. Quantitative
-    criteria are evaluated only after all structural bindings are valid. An
-    explicit execution_state=NOT_RUN then resolves to NOT_RUN without applying
-    quantitative criteria. This function performs no persistence or lifecycle
-    transition.
+    Contract/OOS structural failures resolve to BLOCKED before any quantitative
+    criterion. Explicit execution_state=NOT_RUN resolves to NOT_RUN only after
+    structural bindings are valid. This function performs no persistence or
+    lifecycle transition.
     """
 
     if not isinstance(subject, ValidationSubject):

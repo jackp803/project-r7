@@ -10,7 +10,11 @@ from registry import (
     StrategyIdentity,
     StrategyPlatformService,
 )
-from storage import SQLiteRegistryStore, apply_migrations, connect
+from storage._sqlite_registry import (
+    _apply_migrations as apply_migrations,
+    _connect as connect,
+    _internal_store_for_tests as SQLiteRegistryStore,
+)
 
 
 def strategy_payload(*, content_hash: str = "sha256:fixture", schema: str = "contracts-v0.1") -> dict:

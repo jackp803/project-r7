@@ -1,3 +1,10 @@
-from .sqlite_registry import SQLiteRegistryStore, apply_migrations, connect
+"""Supported E6 storage composition surface.
 
-__all__ = ["SQLiteRegistryStore", "apply_migrations", "connect"]
+Only the safe SQLite-backed platform factory is public. Raw connections, migrations,
+and authoritative writer/store mechanics are intentionally internal implementation
+symbols under ``storage._sqlite_registry``.
+"""
+
+from .platform import open_sqlite_platform
+
+__all__ = ["open_sqlite_platform"]

@@ -1,7 +1,8 @@
-"""Thin E3 binding to the authoritative E2 Strategy Runtime.
+"""Thin E3 binding to the authoritative current-main E2 Strategy Runtime.
 
-This module intentionally contains no indicator, DSL, or strategy-decision logic.
-It only adapts E3's replay call shape to E2's public Slice 1 API.
+This module intentionally contains no indicator, DSL, TradeIntent, or strategy-decision
+logic. It only adapts E3's replay call shape to E2's public StrategyDefinition parser
+and StrategyRuntime evaluation path.
 """
 
 from __future__ import annotations
@@ -12,30 +13,30 @@ from .replay import E2RuntimeBinding, RuntimeContractError
 
 
 class E2RuntimeUnavailableError(ImportError):
-    """Raised when an integration checkout does not contain E2's public runtime package."""
+    """Raised when the current repository does not expose E2's public runtime package."""
 
 
 def project_e2_runtime_binding() -> E2RuntimeBinding:
-    """Bind E3 replay to the real project E2 runtime.
+    """Bind E3 historical replay to the real project E2 runtime.
 
-    Required E2 public API, per E2 Slice 1 handoff::
+    Current-main E2 public path::
 
         from strategy import StrategyRuntime, parse_strategy_definition
-        strategy = parse_strategy_definition(strategy_payload)
+        parsed = parse_strategy_definition(strategy_payload)
         runtime = StrategyRuntime()
-        signal = runtime.evaluate(strategy, candles, evaluated_at)
+        signal = runtime.evaluate(parsed, closed_candle_history, evaluated_at)
 
-    The StrategyDefinition is parsed by E2 on every E3 evaluation call. E3 does
-    not interpret rules, indicators, or parameters itself.
+    `parse_strategy_definition` is E2's authoritative compilation/validation boundary.
+    E3 invokes it on every replay evaluation call and never interprets strategy rules,
+    indicators, parameters, TradeIntent semantics, or provider execution details itself.
     """
 
     try:
         from strategy import RUNTIME_VERSION, StrategyRuntime, parse_strategy_definition
-    except ImportError as exc:  # dependency is merged by E7 integration, not copied by E3
+    except ImportError as exc:
         raise E2RuntimeUnavailableError(
-            "E2 Slice 1 package 'strategy' is unavailable. Integrate "
-            "agent/e2-strategy-engine (or its reviewed main revision) before running "
-            "the concrete E2/E3 replay test."
+            "Current-main E2 package 'strategy' is unavailable. E3 historical replay "
+            "requires the repository's authoritative E2 StrategyRuntime package."
         ) from exc
 
     runtime = StrategyRuntime()

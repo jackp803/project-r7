@@ -1,94 +1,66 @@
 # E6 Status
 
-- task_id: `E6-20260820-002`
+- task_id: `E6-20260822-007`
 - agent: `E6`
 - state: `DONE`
 - branch: `agent/e6-platform`
-- head_sha: `4a845ff79ba48abb6122191a2cf8df7d52544475`
-- summary: `Corrected E6-EVIDENCE-CONTRACT-001. Public E6 evidence ingest now requires complete contracts-v0.1 BacktestResult and ValidationDecision shape/type/enum validation before persistence; caller-supplied PASS/LOCAL_EXECUTION metadata cannot bypass the contract gate. Lifecycle remains capped at CANDIDATE and E2 default compatibility remains fail-closed NOT_RUN.`
-- files_changed: `src/registry/contract_validation.py; src/registry/service_base.py; src/registry/service.py; tests/registry/test_evidence_contract_validation.py; status/E6_EARLY_SLICE2_HANDOFF.md; status/E6_STATUS.md; coordination/E6/STATUS.md`
+- head_sha: `68c9d8e63cc9920975a06a62a080a3ca08a2872f` (branch head before this mailbox-only commit)
+- summary: `Closed the supported-public/raw-persistence authority portion of E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001. The supported storage API now exposes only open_sqlite_platform(), returning StrategyPlatformService; raw SQLite connection/migration/writer mechanics are internal and authoritative store construction requires an E6-owned writer capability. New registration is forced to DRAFT/revision 0 in Python and SQL, and database defense-in-depth rejects naked lifecycle projection mutation without coherent transition history.`
+- files_changed: `src/storage/__init__.py; src/storage/platform.py; src/storage/_sqlite_registry.py; removed src/storage/sqlite_registry.py; src/storage/migrations/0001_strategy_registry.sql; src/storage/README.md; docs/platform/E6_STORAGE_AUTHORITY_BOUNDARY.md; tests/registry/test_strategy_inbox.py; tests/registry/test_validation_lifecycle.py; tests/registry/test_evidence_contract_validation.py; tests/storage/test_registry_persistence.py; tests/storage/test_lifecycle_evidence_authority.py; tests/storage/test_public_persistence_boundary.py; tests/storage/README.md; status/E6_EARLY_SLICE2_HANDOFF.md; status/E6_STATUS.md; coordination/E6/STATUS.md`
 - contracts_changed: `NONE`
 - local_verification: `NOT_RUN`
-- not_run: `No Product Owner-approved local execution environment was available. Unit, registry, storage, migration, restart, integration, and backtest execution were not run. Exact commands are recorded in the E6 handoff.`
-- blockers: `NONE for static/source completion. Executable acceptance remains pending approved local execution and E7 re-review; NOT_RUN is not PASS.`
+- not_run: `No Product Owner-approved local execution environment was available. No unit tests, migrations, restart tests, backtests, provider requests, GitHub Actions, CI, hosted runners, or GitHub-triggered project compute were executed. Synthetic PASS fixtures remain test-only and are not executable project evidence.`
+- blockers: `NONE for static/source completion. Executable Gate A/B/C/D remain blocked pending approved local execution/integration; NOT_RUN is not PASS.`
 - handoff_path: `status/E6_EARLY_SLICE2_HANDOFF.md`
-- next_owner: `E7`
+- next_owner: `E7 / PM`
 
-## Task completion
+## Synchronization
 
-E6 executed only authoritative task `E6-20260820-002`.
-
-Corrected finding:
-
-```text
-E6-EVIDENCE-CONTRACT-001
-```
-
-The E6 ingest boundary now fails closed before persistence when a `BacktestResult` or `ValidationDecision` is incomplete or incompatible with the canonical `contracts-v0.1` shape.
-
-## Branch synchronization
-
-Required pre-correction synchronization completed without history rewrite:
-
-- E6 pre-sync HEAD: `13c67d4fa91e1cf4cc3b5a394c7ce88de0902321`
-- synchronized main revision: `4c531adc575ddd43f095ab8eabba3cae62ecc7b2`
-- merge commit: `6f15f8190a597cdf25284f00eb7b84b3c34f73a0`
+- pre-task E6 head: `e7d1f3d9a99043107824a3c64d1d37663db8ff53`
+- latest main merged once before correction: `36d1b5f3baee298dc33da444e0a31782a8cc6d7e`
+- synchronization merge: `610cdc4edbcd3fdf3f74c1eed9691253b4453cc9`
+- source/tests/docs correction revision: `ca41cb92cfaf23c7c0d00a7802727fa28f5cca86`
+- handoff refresh: `a81bb0b43c96dc1ddf9152077ea5ca37d47032df`
+- platform status refresh: `68c9d8e63cc9920975a06a62a080a3ca08a2872f`
 - force push: `NO`
-- rebase/history rewrite: `NO`
-- static compare after correction: synchronized main was merge-base and `behind_by=0`
+- destructive rebase/history rewrite: `NO`
 
-## Evidence contract correction
+## Supported public API
 
-`BacktestResult` now requires all canonical identity/reproducibility fields and all core metrics before E6 evidence persistence. Checks cover schema, identity strings, exact registered strategy binding, RFC 3339 UTC timestamps, non-negative count types, decimal-string financial interchange values, and dataset boundary ordering.
-
-`ValidationDecision` now requires all canonical fields, exact `PASS | FAIL | BLOCKED | NOT_RUN` decision enum, reason-code sequence shape, UTC timestamp, exact strategy identity, and exact stored BacktestResult parent binding.
-
-Caller metadata such as:
+Before this task, `storage` publicly exported raw persistence mechanics (`SQLiteRegistryStore`, `connect`, `apply_migrations`). After correction, supported `storage.__all__` contains only:
 
 ```text
-verification_status = PASS
-verification_kind   = LOCAL_EXECUTION
+open_sqlite_platform
 ```
 
-is validated separately and can never make an incomplete/non-canonical payload admissible.
+The factory returns `StrategyPlatformService`; it does not return/expose a mutable connection or authoritative writer. Raw mechanics live in underscore module `storage._sqlite_registry` and production internal-store construction requires the module-private E6 writer capability. `RegistryStore` remains an internal implementation port.
 
-E6 did not implement or duplicate E3 statistical methodology.
+## Trusted-process authority model
 
-## Lifecycle / authority boundary
+E2 compatibility becomes promotion authority only through the supported E6 service path using the configured E2 boundary, followed by durable persistence and the already accepted BACKTESTING authority revalidation.
 
-Unchanged executable subset:
+E3 BacktestResult / ValidationDecision becomes promotion authority only through supported service ingestion plus canonical validation/binding/local-execution metadata checks, followed by durable in-transaction persistence revalidation before CANDIDATE mutation.
 
-```text
-DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
-```
+Caller-created authority-looking DTOs are data structures, not supported production write capabilities.
 
-No PAPER, READY_FOR_APPROVAL, APPROVED, LIVE, SHADOW, DEGRADED, operational-mode promotion, or generic client-controlled transition path was added.
+This is intentionally a trusted-process modular-monolith boundary. Arbitrary malicious in-process Python code, monkey-patching/introspection, or direct filesystem/SQLite-file write compromise is out of scope and is not claimed as prevented.
 
-The default E2 compatibility boundary remains `NOT_RUN`; no real E2 adapter was wired.
+## Projection guards
 
-## Test definitions
+- Python registration rejects any initial state other than `DRAFT` or revision other than `0` before insertion.
+- SQL trigger `strategy_versions_initial_projection_guard` independently enforces `DRAFT / 0` initial projection.
+- SQL trigger `strategy_versions_lifecycle_projection_guard` requires a matching lifecycle transition row plus revision +1 before lifecycle projection update.
+- exact three-edge lifecycle allowlist and prior SQL forbidden-edge trigger remain unchanged.
 
-New deterministic local-only definitions prove:
+## Preserved accepted behavior
 
-- each required BacktestResult identity/reproducibility field cannot be omitted;
-- each required BacktestResult core metric cannot be omitted;
-- fake local PASS metadata does not bypass missing-field validation;
-- financial interchange float values are rejected;
-- non-UTC evidence timestamps are rejected;
-- each required ValidationDecision field cannot be omitted;
-- non-canonical decision enum/reason-code shapes are rejected;
-- BacktestResult shape alone cannot be used as candidate evidence without a valid ValidationDecision;
-- public lifecycle surface remains capped at CANDIDATE.
+- `E6-EVIDENCE-CONTRACT-001` canonical validator behavior remains unchanged; `contract_validation.py` accepted blob remains `954d21c021c0885554ee650acced17610d958a0e`.
+- lifecycle remains capped at `DRAFT -> BACKTESTING -> REJECTED | CANDIDATE`.
+- durable E2/E3 evidence authority, canonical bindings, append-only history, concurrency, transaction atomicity, and rollback remain in place.
+- no PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE / DEGRADED / RETIRED behavior.
+- no Slice 3 execution/provider persistence and no shared-contract edits.
 
-## Verification
-
-Executable verification remains:
-
-```text
-NOT_RUN
-```
-
-Exact commands from repository root:
+## Local-only commands
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
@@ -96,17 +68,8 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-Correction-focused command:
+Executable result remains `NOT_RUN`.
 
-```powershell
-$env:PYTHONPATH = (Join-Path (Get-Location) "src")
-python -m unittest discover -s tests/registry -p "test_evidence_contract_validation.py" -v
-```
+## Stop condition
 
-No GitHub Actions, CI, hosted runner, GitHub-triggered runner, scheduled GitHub compute, or project executable workload was used.
-
-## Handoff / stop condition
-
-E7 should re-review `agent/e6-platform` for `E6-EVIDENCE-CONTRACT-001` static/source acceptance.
-
-E6 stops here and waits for a replacement `coordination/E6/TASK.md`. It does not start the next feature automatically.
+Push this completion to PR #16 branch, leave PR #16 open/unmerged, and wait for E7 re-review. Do not start another E6 feature automatically.

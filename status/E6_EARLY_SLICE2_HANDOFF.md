@@ -1,113 +1,144 @@
-# Handoff — E6 Lifecycle Evidence Authority Correction
+# Handoff — E6 Supported Persistence Authority Boundary Correction
 
 **From:** E6 / Platform / Storage / Strategy Registry / Dashboard Engineer  
 **To:** E7 / PM  
-**Task:** `E6-20260822-005`  
+**Task:** `E6-20260822-007`  
 **Branch / PR:** `agent/e6-platform` / PR #16  
 **Finding:** `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001`  
-**Claimed disposition:** `CORRECTED IN SOURCE / READY_FOR_E7_TARGETED_RE_REVIEW`  
+**Claimed disposition:** `CORRECTED IN SOURCE / READY_FOR_E7_RE_REVIEW`  
 **Executable verification:** `NOT_RUN`
 
 ## Synchronization
 
-- pre-task E6 head: `42c5d56996e0c4ff0e96edfc591726d9f9f34963`
-- latest main merged once before correction: `4474a919f0446881369914523132b4aa9b88007d`
-- non-destructive synchronization merge: `d94a64a1abaf70850167b3e6aec7af120f40ffa6`
-- force push / destructive rebase / history rewrite: `NONE`
+- pre-task E6 head: `e7d1f3d9a99043107824a3c64d1d37663db8ff53`
+- latest main merged once before correction: `36d1b5f3baee298dc33da444e0a31782a8cc6d7e`
+- non-destructive synchronization merge: `610cdc4edbcd3fdf3f74c1eed9691253b4453cc9`
+- force push: `NO`
+- destructive rebase/history rewrite: `NO`
+- post-correction static compare: current main is merge-base; `behind_by=0`
 
-## Correction revision
+## Exact correction revision
 
-Source/tests/docs correction revision before this handoff/status refresh:
+Source/tests/docs revision before this handoff-only commit:
 
-`df39836adabd04c77cc4f0d0b531ea10408866ab`
+```text
+ca41cb92cfaf23c7c0d00a7802727fa28f5cca86
+```
 
-## Authority design
+## Public API before / after
 
-A new E6-owned `src/registry/lifecycle_authority.py` policy is reused by the public `StrategyPlatformService` and `SQLiteRegistryStore.append_transition(...)`.
+Before this task, supported `storage` exports included raw authority-bearing persistence mechanics:
 
-The SQLite store revalidates authority inside `BEGIN IMMEDIATE`, after current-state/revision checks and before any `lifecycle_transitions` INSERT or `strategy_versions` projection UPDATE. Any authority failure follows the existing rollback path.
+```text
+SQLiteRegistryStore
+connect
+apply_migrations
+```
 
-### DRAFT -> BACKTESTING
+After correction, supported `storage.__all__` contains only:
 
-Persistence now requires durable compatibility evidence for the exact strategy version with:
+```text
+open_sqlite_platform
+```
 
-- E2 checker semantics (`checker.startswith("E2")`);
-- `status=PASS`;
-- `verification_kind=LOCAL_EXECUTION`;
-- non-empty `source_revision`, `environment`, `command`, and `result_ref`.
+`open_sqlite_platform(...)` returns `StrategyPlatformService`; it does not return a mutable SQLite connection, `RegistryStore`, or raw writer.
 
-A transition record by itself cannot supply this authority.
+The previous `src/storage/sqlite_registry.py` public-looking module was removed. Raw mechanics now live under:
 
-### BACKTESTING -> CANDIDATE
+```text
+src/storage/_sqlite_registry.py
+```
 
-Persistence now requires `primary_evidence_id` to resolve to a durable E3 `VALIDATION_DECISION` with `decision=PASS`, exact strategy/version/content binding, complete local PASS metadata, and a durable E3 parent `BACKTEST_RESULT` with the same exact strategy/content binding and complete local PASS metadata.
+with underscore-named connection/migration/store helpers. Production authoritative store construction requires a module-private writer capability. Explicit underscore helpers remain available only for internal storage-mechanics test definitions.
 
-Both stored payloads are decoded and revalidated with the already accepted canonical E6 validators:
+## Authority model
 
-- `validate_validation_decision_contract(...)`
-- `validate_backtest_result_contract(...)`
+This correction establishes a trusted-process supported API boundary, not a hostile-process sandbox.
 
-Stored object IDs/schema versions must match their canonical payloads, and the ValidationDecision canonical `backtest_result_id` must match the canonical parent BacktestResult.
+E2 compatibility becomes promotion authority only when the supported E6 service invokes the configured E2 boundary during intake and the internal authorized writer persists that result. `DRAFT -> BACKTESTING` still revalidates durable exact-identity E2 `PASS / LOCAL_EXECUTION` evidence plus non-empty `source_revision`, `environment`, `command`, and `result_ref`.
 
-### BACKTESTING -> REJECTED
+E3 BacktestResult / ValidationDecision becomes CANDIDATE authority only when ingested through the supported E6 service methods and the already accepted canonical validators/bindings/local-execution metadata checks pass. The internal SQLite lifecycle path still revalidates durable evidence before mutation.
 
-Existing bounded rejection semantics are preserved: at least one reason code is required; if evidence is supplied it must exist and bind to the exact strategy version/content.
+Caller-created `CompatibilityEvidence`, `ValidationEvidenceRecord`, `LifecycleTransitionRecord`, or `StrategyVersionRecord` values are data structures; they are not supported production write capabilities by themselves.
 
-## Preserved accepted boundaries
+Out of scope and not claimed as prevented:
 
-- exact lifecycle vocabulary remains `DRAFT | BACKTESTING | REJECTED | CANDIDATE`;
-- exact edge allowlist remains `DRAFT -> BACKTESTING`, `BACKTESTING -> REJECTED`, `BACKTESTING -> CANDIDATE`;
-- SQLite forbidden-edge INSERT trigger remains unchanged;
-- append-only history remains unchanged;
-- current-state, expected-revision, resulting-revision checks remain unchanged;
-- atomic history + projection mutation and rollback remain unchanged;
-- `E6-EVIDENCE-CONTRACT-001` canonical validator implementation remains unchanged (`contract_validation.py` blob `954d21c021c0885554ee650acced17610d958a0e`);
-- default/unwired E2 compatibility remains fail-closed `NOT_RUN`;
+- arbitrary malicious in-process Python code;
+- monkey-patching or introspection into underscore/private objects;
+- an attacker with direct filesystem/SQLite-file write access.
+
+No cryptographic signing, secret capability, external authorization service, additional process, or provider infrastructure was added.
+
+## Initial projection guard
+
+New strategy versions may begin only as:
+
+```text
+current_lifecycle_state = DRAFT
+registry_revision = 0
+```
+
+Enforcement:
+
+1. internal Python registration rejects supplied `BACKTESTING`, `REJECTED`, `CANDIDATE`, or nonzero revision before insert;
+2. migration trigger `strategy_versions_initial_projection_guard` independently rejects incoherent direct INSERT.
+
+Same-identity/same-content intake idempotency remains coherent because new proposals are always `DRAFT / 0`; an existing immutable version may already have advanced state and can still be returned as the existing record.
+
+## Projection mutation defense in depth
+
+Existing exact lifecycle edges remain unchanged:
+
+```text
+DRAFT       -> BACKTESTING
+BACKTESTING -> REJECTED
+BACKTESTING -> CANDIDATE
+```
+
+The prior Python allowlist and SQL forbidden-edge trigger are preserved.
+
+Migration trigger `strategy_versions_lifecycle_projection_guard` now rejects naked state/revision UPDATE unless:
+
+- revision advances exactly by one; and
+- a matching lifecycle transition row already exists for the same identity, previous/new state, expected revision, and resulting revision.
+
+The normal internal append path inserts lifecycle history and updates projection in one transaction, so this guard preserves existing atomicity/rollback semantics.
+
+## Preserved accepted behavior
+
+- `E6-EVIDENCE-CONTRACT-001` canonical validator behavior remains unchanged; `src/registry/contract_validation.py` blob remains `954d21c021c0885554ee650acced17610d958a0e`;
+- lifecycle vocabulary remains exactly `DRAFT | BACKTESTING | REJECTED | CANDIDATE`;
 - no PAPER / READY_FOR_APPROVAL / APPROVED / SHADOW / LIVE / DEGRADED / RETIRED behavior;
+- durable E2/E3 persistence-authority revalidation remains in place;
+- append-only lifecycle history remains in place;
+- state/revision concurrency checks and transaction rollback remain in place;
 - no Slice 3 execution/provider persistence;
-- no contracts changes or other-agent production changes.
+- no shared-contract edit.
 
-## Test definitions added/updated
+## Test definitions
 
-`tests/storage/test_lifecycle_evidence_authority.py` defines fail-closed direct-persistence cases for:
+New/updated local-only definitions cover:
 
-- missing/non-E2/non-PASS/non-local/incomplete E2 compatibility authority;
-- missing candidate `primary_evidence_id`;
-- wrong primary evidence type;
-- FAIL/BLOCKED/NOT_RUN ValidationDecision;
-- wrong strategy identity/content hash;
-- missing/wrong BacktestResult parent;
-- malformed/mismatched canonical ValidationDecision ↔ BacktestResult binding;
-- missing/non-local PASS metadata on either decision or backtest;
-- state/revision/history row-count preservation after every rejection;
-- positive public-service BACKTESTING and CANDIDATE flows with durable synthetic E2/E3 evidence.
+- public `storage` exports do not expose raw store/connection/migration handles;
+- public factory returns the safe service surface;
+- direct internal store construction without writer capability fails;
+- caller-created authority-looking DTOs are not public write handles;
+- non-DRAFT or nonzero initial registration fails with no persistence mutation;
+- DB initial projection guard rejects incoherent INSERT;
+- DB projection guard rejects naked lifecycle/revision UPDATE;
+- normal public service intake creates `DRAFT / 0`;
+- public-factory valid service-authorized BACKTESTING/CANDIDATE flows remain representable;
+- prior invalid-evidence, canonical-binding, forbidden-edge, SQL-trigger, rollback, append-only, immutability, and restart definitions remain present.
 
-`tests/storage/test_registry_persistence.py` retains forbidden-edge/self-transition and direct-SQL trigger coverage, with its legal-edge fixtures upgraded to carry the durable authority now required by persistence.
+Synthetic PASS fixtures remain test doubles only and are not project executable evidence.
 
-Synthetic fixtures are test definitions only and are not project PASS evidence.
-
-## Changed-file scope for this task
-
-- `src/registry/lifecycle_authority.py`
-- `src/registry/service.py`
-- `src/storage/sqlite_registry.py`
-- `src/storage/README.md`
-- `tests/storage/test_registry_persistence.py`
-- `tests/storage/test_lifecycle_evidence_authority.py`
-- `tests/storage/README.md`
-- this handoff/status files
-
-No `contracts/**`, E1/E2/E3/E4/E5/E7 production code, provider/API, dashboard, credentials, CI/workflow, or Slice 3 persistence changes were made.
-
-## Verification
-
-Executable verification remains:
+## Executable verification
 
 ```text
 NOT_RUN
 ```
 
-No Product Owner-approved local environment was available in this session. No tests, migrations, backtests, provider requests, GitHub Actions, CI, hosted runner, or GitHub-triggered project compute were executed.
+No Product Owner-approved local execution environment was available in this session. No unit test, migration, restart test, backtest, provider request, GitHub Action, CI job, hosted runner, or GitHub-triggered project compute was executed.
 
 Exact local-only commands:
 
@@ -117,8 +148,15 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 ```
 
-## Next owner / stop condition
+## E7 review target
 
-E7 should perform the targeted re-review of PR #16 at the final branch revision and determine whether `E6-LIFECYCLE-PERSISTENCE-AUTHORITY-001` can be closed statically.
+E7 should re-review PR #16 at the final E6 branch head after the STATUS commits for:
 
-E6 stops after STATUS update and does not merge PR #16 or begin another feature automatically.
+- supported public API narrowing;
+- internal writer capability/construction path;
+- initial projection guard;
+- lifecycle projection coherence guard;
+- preservation of accepted E2/E3 evidence authority and canonical validators;
+- explicit trusted-process threat model.
+
+E6 stops after STATUS update and does not start another feature automatically.

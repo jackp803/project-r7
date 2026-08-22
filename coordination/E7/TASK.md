@@ -1,116 +1,142 @@
 # E7 Current Task
 
-- task_id: `E7-20260822-014`
-- issued_at: `2026-08-22T21:35:00+08:00`
+- task_id: `E7-20260822-015`
+- issued_at: `2026-08-22T22:12:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-e3-oos-validation-review-20260822`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, current `main`, merged E3 replay PR #22, merged E6 Registry/evidence persistence
+- target_branch: `agent/e7-gate-a-preflight-20260822`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, current `main`, merged E1/E2/E3/E6 research baseline
 
 ## Objective
 
-Perform a fresh exact-revision static/integration review of PR #24, the bounded E3 OOS ValidationDecision v0.1 producer, and decide whether PM may merge it into current `main`.
+Assemble the **Gate A static preflight** for the current merged research platform and determine whether `main` is structurally ready for a future Product Owner-approved **local-only** Gate A execution run.
 
-This is static/source review only. It does **not** authorize executing validation, generating a real strategy PASS, Registry promotion, Gate A PASS, PAPER/SHADOW/LIVE, provider calls, or GitHub compute.
+This task is integration/preflight work only. It must not execute project tests, backtests, imports, migrations, provider calls, or any GitHub-triggered compute, and it must not claim Gate A PASS. The maximum positive outcome is:
 
-## Review inputs
+```text
+GATE A STATIC PREFLIGHT READY / LOCAL EXECUTION REQUIRED
+```
 
-- PR: `#24 validation: add bounded OOS ValidationDecision v0.1`;
-- E3 branch: `agent/e3-validation-oos-v0-1-20260822`;
-- observed PR head at PM audit: `878dfa0384776089e02c14150d29d81620a5dd53`;
-- final source/test revision: `bb0868fadaf52d3789c36a56cd8f5caba5d4c2a1`;
-- docs/handoff revision: `f88955a068e5a50e29d7e116d3f678b508266018`;
-- fresh implementation baseline: `e6cab8a194c8f05ad38b4e4b9294cdbfd0870d89`;
-- merged E3 replay PR #22: `7f70d737ffb1276e251bc552ca9e6d39bb44393d`;
-- merged E6 ValidationDecision validator: `src/registry/contract_validation.py` blob `954d21c021c0885554ee650acced17610d958a0e`;
-- E6 durable evidence/promotion authority remains the merged trusted-process Registry/storage path;
-- executable verification: `NOT_RUN`.
+If a source/contract/integration defect would prevent a meaningful local Gate A run, report `BLOCKED_SOURCE` with the exact owner/path instead.
 
-## Required review
+## Accepted current-main baseline
 
-1. Work only on fresh branch `agent/e7-e3-oos-validation-review-20260822` created by PM from latest `main` after this TASK issuance.
-2. Review actual PR #24 source/tests/docs at the exact observed head, or a freshly observed successor only if its post-pin changes are E3 status/handoff evidence with no validation source/test semantic drift. Do not rely only on E3 STATUS claims.
-3. Recheck PR scope. It must remain limited to E3-owned `src/validation/**`, `tests/validation/**`, E3 validation docs/handoff/status. No `contracts/**`, E1/E2/E4/E5/E6 production, Registry/storage, replay rewrite, workflow/CI, provider/credential/secret, or later validation engine implementation.
-4. Verify canonical BacktestResult intake is fail closed:
-   - required contracts-v0.1 identity/reproducibility/core metric fields are required;
-   - malformed/unsupported schema/type/timestamp/count/decimal inputs cannot become PASS or FAIL;
-   - binary float coercion for financial values is rejected;
-   - count coherence and invalid metric ranges are blocked;
-   - object `to_contract()` failure/type mismatch is blocked rather than trusted.
-5. Verify exact authority binding:
-   - `ValidationSubject.strategy_id`, `strategy_version`, and `backtest_result_id` must exactly match parsed BacktestResult before PASS/FAIL/NOT_RUN;
-   - emitted ValidationDecision binds those exact identities;
-   - malformed BacktestResult may only yield BLOCKED from explicit subject authority and cannot create a promotable PASS.
-6. Verify explicit OOS semantics:
-   - OOS status is not inferred from filenames/dataset labels/free-form text;
-   - context requires non-empty split ID, OOS dataset ID/hash/start/end, training/reference dataset ID/hash, and validation policy version;
-   - training/reference and OOS dataset identity/hash must be distinct;
-   - BacktestResult dataset ID/hash/start/end must exactly bind to declared OOS dataset;
-   - invalid/missing/contradictory context resolves to BLOCKED;
-   - policy-version mismatch resolves to BLOCKED.
-7. Verify policy semantics:
-   - thresholds are explicitly caller supplied with no hidden product defaults;
-   - version/configuration material deterministically defines policy identity;
-   - minimum total trades, minimum net PnL, maximum drawdown, maximum consecutive losses, and optional minimum profit factor are implemented exactly;
-   - configured minimum profit factor with `profit_factor=null` cannot PASS;
-   - threshold semantics remain research-only and introduce no E5 sizing/leverage/execution authority.
-8. Verify deterministic outcome precedence and reason vocabulary:
-   - structural/identity/contract/OOS contradictions => BLOCKED before quantitative evaluation;
-   - explicit no-run state => NOT_RUN only after structural bindings are valid;
-   - structurally valid quantitative threshold failure => FAIL;
-   - PASS only after every structural and configured quantitative condition passes;
-   - stable machine-readable reason codes have deterministic ordering and documented vocabulary.
-9. Verify deterministic decision identity:
-   - binds contracts schema, strategy ID/version, BacktestResult ID, policy version/configuration identity, OOS context identity, execution state, resulting decision, and reason codes;
-   - observational `decided_at` does not alter decision identity;
-   - policy/context changes that alter authority inputs change identity deterministically.
-10. Recheck canonical `ValidationDecision` serialization against current E6 `validate_validation_decision_contract` expectations: required fields, decision enum, reason-code sequence, and RFC3339 UTC `decided_at` must align. E3 production must not depend on E6 production; E6 validator use is allowed only in test definitions.
-11. Perform an explicit **execution-evidence authority challenge**:
-   - E3's `execution_state=EXECUTED` is a research input flag only and must not be represented as durable `LOCAL_EXECUTION` evidence;
-   - construction of a synthetic PASS ValidationDecision must not itself satisfy E6 durable evidence/promotion authority;
-   - no Registry/lifecycle mutation or evidence-record insertion occurs in E3 production;
-   - real `BACKTESTING -> CANDIDATE` remains impossible without E6's separately stored, bound E3 ValidationDecision + BacktestResult and required durable `LOCAL_EXECUTION` metadata;
-   - if supported production code can promote solely from the E3 object/payload or trust the E3 execution flag as evidence, BLOCK the PR and identify the exact owner/source path.
-12. Verify test definitions statically cover the task acceptance surface, including synthetic PASS, quantitative FAIL reason ordering, missing OOS context, train/OOS collisions, dataset mismatch, explicit NOT_RUN, malformed schema/type, binary float rejection, subject/Backtest binding mismatch, profit-factor-null threshold, deterministic ID across timestamps, E6 test-only validator compatibility, threshold identity change, and absence of Registry/lifecycle authority. Do not execute tests in GitHub.
-13. Recheck docs/handoff clearly distinguish synthetic fixture PASS from real executable validation evidence, record `NOT_RUN`, and include the exact local-only command.
-14. Confirm no Walk Forward, Monte Carlo, optimization, parameter robustness, regime classification, strategy search/tuning, lifecycle promotion implementation, PAPER/SHADOW/LIVE, broker/provider/API execution, or shared-contract changes were added.
-15. Persist an E7 review artifact under `status/e7/` and update `coordination/E7/STATUS.md` with:
-   - exact reviewed PR #24 head and source/test pin;
-   - BacktestResult fail-closed disposition;
-   - subject/OOS binding disposition;
-   - policy/threshold disposition;
-   - outcome/reason/identity determinism disposition;
-   - canonical ValidationDecision/E6-validator disposition;
-   - execution-evidence authority challenge disposition;
-   - scope/synchronization disposition;
-   - PR #24 merge recommendation;
-   - executable verification `NOT_RUN`;
-   - real strategy PASS `NOT_CREATED`;
-   - Gate A/B/C/D unchanged.
-16. If all static/source conditions pass, state exactly `PM MAY MERGE PR #24`. This is static acceptance only and does not authorize Gate A PASS or lifecycle promotion.
-17. If blocked, identify the exact source/contract/integration defect and owner. Do not modify E1-E6 production, E3 implementation, Registry/storage, or contracts in this review task.
-18. Do not run validation tests, backtests, imports, migrations, provider calls, GitHub Actions/CI/hosted runners, or GitHub-triggered compute. Do not create a Codex ticket without a locally reproduced executable defect.
+- E1 market-data import-integrity correction PR #21 merge: `1158a777a2830afc37066ef62ebefe624a9ca28e`;
+- E3 historical replay / canonical BacktestResult PR #22 merge: `7f70d737ffb1276e251bc552ca9e6d39bb44393d`;
+- E7 E3 replay review evidence PR #23 merge: `d8ab1ac540e954d818bbdc271577e945dbc42b72`;
+- E6 Registry/evidence persistence accepted/merged baseline remains on `main`;
+- E7 OOS ValidationDecision review evidence PR #25 merge: `2b0b725446350b04b9950820ce79a2b919587301`;
+- E3 OOS ValidationDecision PR #24 merge: `2ff34a894c4ac16bc989ac701d7e8a9b42eb8692`;
+- executable verification across Gate A remains `NOT_RUN`;
+- no real strategy ValidationDecision PASS or durable E3 `LOCAL_EXECUTION` evidence exists;
+- Gate A/B/C/D remain `BLOCKED`.
+
+## Gate A preflight scope
+
+The research pipeline to assemble is:
+
+```text
+E1 canonical closed Candle / historical market data
+    -> E2 parse_strategy_definition + actual StrategyRuntime
+    -> E3 deterministic historical replay
+    -> canonical BacktestResult
+    -> E3 explicit OOS ValidationDecision policy/context
+    -> canonical ValidationDecision
+    -> E6 canonical evidence validation / Registry persistence authority
+```
+
+Gate A is a research/integration gate only. It does not include E4 provider execution, E5 live risk/exits, PAPER/SHADOW/LIVE, OKX private endpoints, or Slice 3 execution flow.
+
+## Required actions
+
+1. Read this TASK from latest `main`, fetch latest `main` again, and work only on fresh branch `agent/e7-gate-a-preflight-20260822` created by PM from post-TASK latest `main`.
+2. Audit the actual current-main source and test surfaces for E1, E2, E3, and the minimal E6 Registry/evidence path. Do not rely only on historical STATUS claims.
+3. Reconfirm dependency direction and contract boundaries:
+   - E3 replay consumes actual E2 runtime rather than copied strategy logic;
+   - E3 validation consumes canonical BacktestResult and does not depend on E6 production;
+   - E6 remains authoritative for durable evidence and lifecycle mutation;
+   - `contracts-v0.1` field/enum/time/decimal semantics remain compatible across the full Gate A path;
+   - no BacktestResult or synthetic ValidationDecision alone can promote lifecycle.
+4. Audit whether the current deterministic test-definition surface is sufficient to exercise Gate A locally. At minimum the local matrix must cover:
+   - E1 market-data package/import/Candle/historical behavior;
+   - E2 strategy parser/runtime/indicator behavior required by the research path;
+   - E3 backtest replay/cost/metrics/real-E2 integration;
+   - E3 OOS ValidationDecision behavior;
+   - E6 Registry/evidence/persistence tests including promotion authority and storage guards;
+   - at least one cross-role Gate A research pipeline definition proving canonical object compatibility end-to-end without provider execution.
+5. If a narrow E7-owned cross-role integration test definition is missing, add only the minimal deterministic definition under `tests/integration/**`. It must use the real supported E1/E2/E3/E6 interfaces and must not duplicate their production semantics. Synthetic PASS fixtures, if required, must be explicitly labeled test-only and must not be represented as executable project evidence.
+6. Do not modify E1-E6 production code. If preflight reveals a production defect, record the exact failure class/owner/path and stop with `BLOCKED_SOURCE`; do not fix another Agent's implementation in this task.
+7. Produce an exact **Gate A local execution matrix**. Inspect current test paths and record commands rather than guessing. The matrix must identify each required suite, its purpose, expected evidence, and ordering/dependencies. It must include the exact PowerShell `PYTHONPATH` setup and all required commands.
+8. Define the evidence needed to change Gate A from BLOCKED to PASS after a future approved local run. At minimum capture:
+   - exact `main` source revision;
+   - environment/runtime identity;
+   - exact commands;
+   - per-suite PASS/FAIL results;
+   - result/log references;
+   - no GitHub compute;
+   - any durable E3 BacktestResult/ValidationDecision evidence must carry the E6-required `PASS / LOCAL_EXECUTION` metadata and exact bindings before any CANDIDATE lifecycle authority is considered.
+9. Distinguish clearly between:
+   - `PASS STATIC` / source readiness;
+   - executable `PASS` from a real approved local run;
+   - synthetic test fixtures;
+   - real E3 ValidationDecision evidence;
+   - Gate A release disposition.
+10. Reconfirm no Gate A scope accidentally depends on E4 provider APIs, OKX credentials, E5 live risk/execution, PAPER/SHADOW/LIVE, GitHub Actions/CI, or hosted runners.
+11. Create/update E7-owned preflight documentation, preferably:
+   - `status/e7/GATE_A_STATIC_PREFLIGHT_20260822.md`;
+   - optionally `docs/integration/GATE_A_LOCAL_VERIFICATION_PLAN.md` if a reusable execution runbook materially helps;
+   - any missing E7-owned integration test definitions under `tests/integration/**` only.
+12. Update `coordination/E7/STATUS.md` with:
+   - exact reviewed current-main revision;
+   - merged component/revision inventory;
+   - contract/dependency disposition;
+   - test-definition completeness disposition;
+   - exact local execution command matrix;
+   - source blocker list, if any;
+   - `executable_verification = NOT_RUN`;
+   - Gate A disposition exactly one of `BLOCKED_SOURCE` or `STATIC_PREFLIGHT_READY_LOCAL_EXECUTION_REQUIRED`;
+   - Gate B/C/D unchanged BLOCKED;
+   - PAPER/SHADOW/LIVE unchanged unauthorized.
+13. Do not execute tests/backtests/import probes/migrations, do not call providers, and do not use GitHub Actions/CI/hosted runners or GitHub-triggered self-hosted compute.
+14. Do not create a Codex bug ticket unless a defect has already been reproduced in an approved local environment; static concerns remain E7 source findings assigned to the owning Agent.
+15. Push only E7-owned preflight docs/status/integration-test definitions to the target branch and stop for PM.
 
 ## Acceptance
 
-Task completes when Git contains an exact-revision E7 static/integration review that either recommends PM merge PR #24 or blocks it with a precise source condition. Executable verification remains `NOT_RUN`; no real strategy PASS exists; Gate A/B/C/D remain blocked.
+Task completes when Git contains an exact-revision Gate A static preflight that either:
+
+```text
+STATIC_PREFLIGHT_READY_LOCAL_EXECUTION_REQUIRED
+```
+
+with a complete local-only command/evidence matrix, or:
+
+```text
+BLOCKED_SOURCE
+```
+
+with precise source/contract/integration defects and owners.
+
+Neither outcome is Gate A PASS. Without approved local executable evidence, Gate A remains `BLOCKED`.
 
 ## Writable scope
 
-- E7-owned review/status/integration documentation
+- `tests/integration/**` for E7-owned cross-role Gate A test definitions only
+- `docs/integration/**`
+- `status/e7/**`
 - `coordination/E7/STATUS.md`
 
 ## Forbidden scope
 
 - E1-E6 production implementation edits;
-- shared-contract changes;
-- E3 implementation edits;
-- Registry/storage implementation edits;
-- Walk Forward/Monte Carlo/optimization/parameter-robustness/regime implementation;
-- lifecycle promotion implementation;
-- broker/provider/API execution;
+- `contracts/**` edits;
+- provider/private API execution;
+- E4/E5 Slice 3 implementation;
+- Registry lifecycle promotion performed as project evidence;
 - PAPER/SHADOW/LIVE advancement;
-- GitHub compute/CI.
+- credentials/secrets;
+- GitHub Actions/CI/hosted/project compute;
+- executable PASS or Gate A PASS claims without approved local execution.
 
 ## Completion / status
 
-Persist the exact-revision review and STATUS, then stop and wait for PM. Do not merge PR #24 or start another task automatically.
+Persist the Gate A static preflight and exact local execution plan, update STATUS, push, and stop. Do not start Slice 3 or another task automatically.

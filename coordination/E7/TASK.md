@@ -1,82 +1,57 @@
 # E7 Current Task
 
-- task_id: `E7-20260824-018`
-- issued_at: `2026-08-24T00:11:00+08:00`
-- state: `ACTIVE`
-- target_branch: `agent/e7-gate-a-validation-fixture-review-20260824`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, current `main`, approved local Gate A failure evidence, PR #28
+- task_id: `E7-20260824-019`
+- issued_at: `2026-08-24T00:38:00+08:00`
+- state: `HOLD`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, merged PR #28, merged E7 review evidence, Product Owner-approved Windows local execution policy
 
 ## Objective
 
-Perform an exact-revision static/integration review of the bounded E3 Gate A validation test-fixture correction in PR #28 and decide whether PM may merge it before a new AgentBridge local-only Gate A rerun.
+Hold after exact-revision static acceptance and merge of the E3 Gate A validation fixture correction. Do not start the next executable Gate A matrix until AgentBridge's approved Local Runner checkout is repinned to an exact clean worktree for the new candidate source revision.
 
-This task is static/source review only. Do not execute project code, do not rerun Gate A, and do not claim executable PASS. The previous approved local matrix remains authoritative evidence: Market Data / Indicators / Strategy / Backtest passed, Validation failed, and Registry / Storage / Integration were NOT_RUN at source revision `6ed214276038b1ad517e8875c10946b8fcccf4a3`.
+## Accepted / merged evidence
 
-## Review inputs
-
-- PR: `#28 test(validation): correct Gate A quantitative FAIL fixture`;
-- E3 branch: `agent/e3-gate-a-validation-fixture-fix-20260823`;
-- observed PR head: `6f5b1c65a079e18464690a3a6e7a0b15e41cc7fd`;
-- corrected source revision reported by E3: `f7698f03a9bfb4280190a357b50366b43b260e21`;
-- branch baseline: `b8be4c450c9730f62c6c87b0db9da10fbb6af3cb`;
-- changed-file scope observed by PM: only `tests/validation/test_oos_validation.py` and `coordination/E3/STATUS.md`;
+- E7 review task: `E7-20260824-018` completed `DONE`;
+- E7 disposition: `PM MAY MERGE PR #28`;
+- review artifact: `status/e7/E3_GATE_A_VALIDATION_FIXTURE_STATIC_REVIEW_20260824.md`;
+- E7 review evidence PR #29 merge: `48a51aa67f08298edfd2aa0d3ef27f9ed5b138e7`;
+- E3 correction PR #28 reviewed head: `6f5b1c65a079e18464690a3a6e7a0b15e41cc7fd`;
+- E3 correction PR #28 merge: `4da559bbbb569ea4f32246a40ef35f4bd8477a71`;
 - production `src/validation/oos.py` unchanged;
-- contracts unchanged;
-- E3 executable verification after fix: `NOT_RUN`.
+- correction executable verification after merge: `NOT_RUN`;
+- Gate A remains `BLOCKED / LOCAL RERUN REQUIRED`.
 
-## Required review
+## Local rerun candidate
 
-1. Read this TASK from latest `main`, fetch latest `main`, and work only on fresh branch `agent/e7-gate-a-validation-fixture-review-20260824` created by PM from post-TASK latest `main`.
-2. Review actual PR #28 at exact head `6f5b1c65a079e18464690a3a6e7a0b15e41cc7fd`; do not rely only on E3 STATUS.
-3. Reconfirm changed-file scope is limited to E3-owned validation test definition plus E3 STATUS. Any production, contracts, cross-agent source, workflow/CI, provider, lifecycle, PAPER/SHADOW/LIVE change is a blocker.
-4. Verify the original locally reproduced failure was caused by the old test fixture being structurally impossible: `losses=3` with `max_consecutive_losses=4`, while production intentionally requires `max_consecutive_losses <= losses` and classifies violations as `BLOCKED / BACKTEST_TRADE_COUNTS_INCONSISTENT` before quantitative FAIL evaluation.
-5. Verify PR #28 preserves that production fail-closed behavior and does not weaken or change `src/validation/oos.py` semantics.
-6. Verify the corrected quantitative FAIL fixture is structurally coherent and still fails all five intended configured quantitative criteria in the existing deterministic reason order:
-   - `MIN_TOTAL_TRADES_NOT_MET`;
-   - `MIN_NET_PNL_NOT_MET`;
-   - `MAX_DRAWDOWN_EXCEEDED`;
-   - `MAX_CONSECUTIVE_LOSSES_EXCEEDED`;
-   - `MIN_PROFIT_FACTOR_NOT_MET`.
-7. Verify the new regression explicitly covers the impossible consecutive-loss shape and expects exactly `BLOCKED / BACKTEST_TRADE_COUNTS_INCONSISTENT`.
-8. Reconfirm the correction does not change policy thresholds, outcome precedence, reason-code vocabulary/order, BacktestResult semantics, E6 authority, Registry lifecycle, contracts, or production behavior.
-9. Treat E3 `local_verification=NOT_RUN` correctly. Do not convert it to PASS. Static review may accept the fixture correction while executable acceptance remains pending a new Product Owner-approved AgentBridge local-only run at a later exact merged revision.
-10. Persist E7-owned review evidence under `status/e7/` and update `coordination/E7/STATUS.md` with:
-    - exact reviewed PR head;
-    - scope disposition;
-    - original failure classification;
-    - fixture coherence disposition;
-    - production-semantics preservation disposition;
-    - regression-coverage disposition;
-    - executable verification = `NOT_RUN` for this review;
-    - PR #28 merge recommendation;
-    - Gate A remains `BLOCKED` until local rerun;
-    - Gate B/C/D unchanged;
-    - PAPER/SHADOW/LIVE unchanged unauthorized.
-11. If all static conditions pass, state exactly `PM MAY MERGE PR #28`.
-12. If blocked, identify the exact source/test/scope defect and owner. Do not modify E3 implementation/test in this review task.
-13. Do not run tests, backtests, imports, migrations, provider calls, GitHub Actions/CI/hosted runners, or GitHub-triggered compute.
+The next Gate A executable candidate source revision is:
 
-## Acceptance
+```text
+4da559bbbb569ea4f32246a40ef35f4bd8477a71
+```
 
-Task completes when Git contains an exact-revision E7 review that either says `PM MAY MERGE PR #28` or blocks it with a precise defect. Neither outcome is Gate A PASS.
+This is the merged source tree containing the reviewed fixture correction. Later coordination-only commits must not be substituted for this source pin unless PM explicitly replaces the candidate.
+
+The previously approved AgentBridge Gate A worktree was pinned to the old source revision `6ed214276038b1ad517e8875c10946b8fcccf4a3`. Results from that old checkout cannot be reused as executable acceptance for the new candidate.
+
+## Required actions while HOLD
+
+1. Do not request or execute Gate A Local Runner actions until the AgentBridge project `local_root` / dedicated test worktree is confirmed to be an exact clean checkout of `4da559bbbb569ea4f32246a40ef35f4bd8477a71`.
+2. Do not reuse the prior partial matrix as PASS for the new revision. The new candidate requires a fresh ordered 8-suite matrix.
+3. Once PM confirms the local worktree repin, PM will replace this HOLD with a new ACTIVE exact-revision execution task. AgentBridge may then wake E7 automatically.
+4. Do not modify E1-E6 production, tests, contracts, provider code, lifecycle, PAPER/SHADOW/LIVE, or AgentBridge infrastructure in this HOLD task.
+5. If acknowledging HOLD, update only `coordination/E7/STATUS.md`.
+
+## Gate state
+
+- executable verification at new candidate: `NOT_RUN`;
+- Gate A: `BLOCKED / LOCAL RERUN REQUIRED`;
+- Gate B/C/D: `BLOCKED / UNCHANGED`;
+- PAPER/SHADOW/LIVE: `UNAUTHORIZED / UNCHANGED`.
 
 ## Writable scope
 
-- E7-owned review/status documentation under `status/e7/**`;
-- `coordination/E7/STATUS.md`.
-
-## Forbidden scope
-
-- E1-E6 production changes;
-- E3 test/source changes;
-- `contracts/**` changes;
-- project executable verification;
-- Gate A rerun;
-- provider/private APIs;
-- lifecycle promotion;
-- PAPER/SHADOW/LIVE;
-- GitHub Actions/CI/hosted compute.
+Only `coordination/E7/STATUS.md` for HOLD acknowledgement unless PM replaces this task.
 
 ## Completion
 
-Persist review evidence/status, push to the target branch, and stop for PM. Do not merge PR #28 or start the local rerun automatically.
+Wait for PM confirmation that the AgentBridge Local Runner checkout is repinned to the exact candidate revision. Do not self-start another task.

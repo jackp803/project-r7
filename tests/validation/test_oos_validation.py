@@ -124,8 +124,8 @@ class OOSValidationTests(unittest.TestCase):
     def test_quantitative_fail_reason_codes_have_stable_order(self) -> None:
         payload = backtest_payload(
             total_trades=5,
-            wins=2,
-            losses=3,
+            wins=1,
+            losses=4,
             breakeven=0,
             net_pnl="-1",
             profit_factor="0.8",
@@ -144,6 +144,22 @@ class OOSValidationTests(unittest.TestCase):
                 "MAX_CONSECUTIVE_LOSSES_EXCEEDED",
                 "MIN_PROFIT_FACTOR_NOT_MET",
             ),
+        )
+
+    def test_impossible_consecutive_loss_count_is_blocked(self) -> None:
+        payload = backtest_payload(
+            total_trades=5,
+            wins=2,
+            losses=3,
+            breakeven=0,
+            max_consecutive_losses=4,
+        )
+        decision = evaluate(payload=payload)
+
+        self.assertEqual(decision.decision, "BLOCKED")
+        self.assertEqual(
+            decision.reason_codes,
+            ("BACKTEST_TRADE_COUNTS_INCONSISTENT",),
         )
 
     def test_missing_oos_context_is_blocked(self) -> None:

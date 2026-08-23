@@ -1,49 +1,165 @@
 # E7 Current Task
 
-- task_id: `E7-20260822-016`
-- issued_at: `2026-08-22T22:40:00+08:00`
-- state: `HOLD`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, current `main`
+- task_id: `E7-20260823-017`
+- issued_at: `2026-08-23T20:58:00+08:00`
+- state: `ACTIVE`
+- target_branch: `agent/e7-gate-a-local-execution-20260823`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, merged Gate A static preflight, explicit Product Owner approval in chat
+
+## Product Owner execution approval
+
+The Product Owner explicitly approved use of the **current Windows local development computer** for Gate A local-only executable verification.
+
+Approved executable source revision:
+
+```text
+6ed214276038b1ad517e8875c10946b8fcccf4a3
+```
+
+This approval is bounded to the Gate A local verification matrix only.
+
+Forbidden substitutes / extensions:
+
+- GitHub Actions / CI;
+- hosted runners;
+- GitHub-triggered self-hosted compute;
+- remote project compute;
+- provider/private API calls;
+- credentials/secrets use;
+- E4 broker execution;
+- E5 live risk/execution;
+- PAPER / SHADOW / LIVE;
+- Slice 3 implementation;
+- Registry promotion as project evidence beyond the test-only in-memory definitions already present.
 
 ## Objective
 
-Hold after completing and merging the Gate A static preflight. Wait for an explicit Product Owner approval of a specific local execution environment before any Gate A executable verification is performed.
+Execute the exact Gate A local verification matrix from `docs/integration/GATE_A_LOCAL_VERIFICATION_PLAN.md` on the approved current Windows local development computer at exact source revision `6ed214276038b1ad517e8875c10946b8fcccf4a3`, preserve the complete local evidence, and report the result without reinterpretation.
 
-## Accepted / merged evidence
+This task is executable verification only. Do not modify E1-E6 production or contracts to make tests pass. If a suite fails, stop the acceptance path, preserve exact evidence, classify the failure, and report it. Do not fix another Agent's code in this task.
 
-- completed preflight task: `E7-20260822-015`;
-- reviewed preflight source revision: `3504c75cb88e068d209aeb91af3450481ef74191`;
-- preflight disposition: `STATIC_PREFLIGHT_READY_LOCAL_EXECUTION_REQUIRED`;
-- preflight artifact: `status/e7/GATE_A_STATIC_PREFLIGHT_20260822.md`;
-- reusable runbook: `docs/integration/GATE_A_LOCAL_VERIFICATION_PLAN.md`;
-- E7 cross-role definition: `tests/integration/test_gate_a_research_pipeline.py`;
-- E7 preflight PR: `#26 integration: persist Gate A static preflight`;
-- PR #26 reviewed head: `db8841d241eb8f4a9bb15af96bbeb9edede3ccf6`;
-- PR #26 merge commit: `d919d0ff1a4f211023bcbebdf2e4ce7eb4eff2fc`;
-- executable verification: `NOT_RUN`;
-- source blockers: `NONE FOUND`;
-- Gate A: `BLOCKED / LOCAL EXECUTION REQUIRED`;
-- Gate B/C/D: `BLOCKED / UNCHANGED`;
-- PAPER/SHADOW/LIVE: `UNAUTHORIZED / UNCHANGED`.
+## Required local execution procedure
 
-## Required actions while HOLD
+1. Read this TASK from latest `main`.
+2. Work on target branch `agent/e7-gate-a-local-execution-20260823` for evidence/status commits only.
+3. Perform the executable run from a local checkout/worktree whose project source is exactly:
 
-1. Do not execute the Gate A matrix until the Product Owner explicitly approves the local environment and exact source revision for execution.
-2. Do not use GitHub Actions/CI/hosted runners, GitHub-triggered self-hosted compute, provider/private APIs, credentials, PAPER/SHADOW/LIVE, or any remote project compute as a substitute for the approved local run.
-3. Preserve the merged Gate A static preflight, local verification plan, and cross-role integration definition without semantic modification.
-4. Do not start Slice 3, provider execution, E4/E5 integration, Walk Forward, Monte Carlo, optimization, regime work, or another release task automatically.
-5. A future local-execution task must pin the approved `main` revision and environment, run the exact matrix from `docs/integration/GATE_A_LOCAL_VERIFICATION_PLAN.md`, retain the transcript/log, and report per-suite PASS/FAIL/ERROR without reinterpretation.
-6. Gate A may be reconsidered for PASS only after E7/PM reviews the complete approved local evidence. Test output alone does not self-authorize Gate A.
-7. If acknowledging HOLD, update only `coordination/E7/STATUS.md`.
+```text
+6ed214276038b1ad517e8875c10946b8fcccf4a3
+```
 
-## Acceptance
+4. Before executing suites, capture and retain:
 
-E7 remains idle. Current source is statically ready for Gate A local verification, but executable verification remains `NOT_RUN` and Gate A remains `BLOCKED` until explicit Product Owner local-execution approval and retained local evidence exist.
+```powershell
+$env:PYTHONPATH = (Join-Path (Get-Location) "src")
+New-Item -ItemType Directory -Force -Path ".gate-a-evidence" | Out-Null
+Start-Transcript -Path ".gate-a-evidence\gate-a-local-verification.log" -Force
 
-## Writable scope
+git rev-parse HEAD
+git status --short
+python --version
+python -c "import platform,sys; print(sys.executable); print(platform.platform()); print(sys.version)"
+```
 
-Only `coordination/E7/STATUS.md` for HOLD acknowledgement unless PM replaces this task after Product Owner approval.
+5. `git rev-parse HEAD` must equal the approved source revision above. If it does not, do not run the matrix; report `ENVIRONMENT_MISMATCH / NOT_RUN`.
+6. Record working-tree state. If source/test files relevant to Gate A are locally modified, do not treat results as candidate Gate A evidence; report the exact drift and stop.
+7. Run the required suites **in this exact order**:
 
-## Completion / status
+```powershell
+python -m unittest discover -s tests/market_data -p "test_*.py" -v
+python -m unittest discover -s tests/indicators -p "test_*.py" -v
+python -m unittest discover -s tests/strategy -p "test_*.py" -v
+python -m unittest discover -s tests/backtest -p "test_*.py" -v
+python -m unittest discover -s tests/validation -p "test_*.py" -v
+python -m unittest discover -s tests/registry -p "test_*.py" -v
+python -m unittest discover -s tests/storage -p "test_*.py" -v
+python -m unittest discover -s tests/integration -p "test_*.py" -v
+```
 
-Wait for Product Owner / PM. Do not execute or start another task automatically.
+8. Do not skip a failing suite and later claim overall PASS. Preserve each suite result as `PASS | FAIL | ERROR | NOT_RUN`.
+9. End transcript after the run:
+
+```powershell
+Stop-Transcript
+```
+
+10. Preserve the local transcript/result references. Do **not** commit secrets, machine-sensitive credentials, API keys, tokens, or unrelated personal data. Sanitized environment identity is sufficient: OS family/version, Python executable/version, source revision, commands, timestamps, and result references.
+
+## Evidence/report requirements
+
+Persist E7-owned evidence/status on the target branch, preferably:
+
+- `status/e7/GATE_A_LOCAL_EXECUTION_20260823.md`;
+- `coordination/E7/STATUS.md`.
+
+Record at minimum:
+
+- Product Owner approval scope: current Windows local development computer;
+- approved source revision `6ed214276038b1ad517e8875c10946b8fcccf4a3`;
+- actual executed source revision;
+- working-tree state;
+- local OS/runtime identity;
+- Python executable/version;
+- `PYTHONPATH`;
+- exact command list;
+- per-suite PASS/FAIL/ERROR/NOT_RUN;
+- test counts where available;
+- transcript/log/result references;
+- execution timestamp/timezone;
+- `GitHub compute used = NO`;
+- provider/private requests = `NOT_SENT`;
+- PAPER/SHADOW/LIVE = `NOT_USED`;
+- real Registry promotion = `NONE`;
+- any failure classification and exact owner/path if inferable from executable evidence.
+
+## Gate interpretation
+
+If and only if all eight required suites execute locally at the exact approved source revision with zero failures/errors, report:
+
+```text
+LOCAL_EXECUTION_MATRIX = PASS
+GATE_A_REVIEW_CANDIDATE = YES
+```
+
+Do **not** self-declare Gate A PASS. E7/PM must perform a separate evidence review after this execution task.
+
+If any required suite fails/errors, report:
+
+```text
+LOCAL_EXECUTION_MATRIX = FAIL
+GATE_A_REVIEW_CANDIDATE = NO
+```
+
+and preserve the first failing command plus all available failure evidence. Do not open a Codex bug ticket automatically; PM will classify whether a locally reproduced defect warrants a bounded ticket or owner correction.
+
+If environment/source preconditions prevent execution, report:
+
+```text
+LOCAL_EXECUTION_MATRIX = NOT_RUN
+GATE_A_REVIEW_CANDIDATE = NO
+```
+
+with exact blocker.
+
+## Scope constraints
+
+Writable:
+
+- `status/e7/**` for this local execution evidence;
+- `coordination/E7/STATUS.md`.
+
+Forbidden:
+
+- E1-E6 production changes;
+- `contracts/**` changes;
+- test semantic modifications to make a failure disappear;
+- provider/private APIs;
+- credentials/secrets;
+- GitHub Actions/CI/hosted runners/GitHub-triggered compute;
+- E4/E5/Slice 3 work;
+- lifecycle promotion as real project evidence;
+- PAPER/SHADOW/LIVE advancement.
+
+## Completion
+
+Commit/push only the E7 local-execution evidence/status to the target branch, then stop. Do not start a Gate A PASS review, another implementation task, Slice 3, or any provider work automatically.

@@ -1,104 +1,130 @@
 # E3 Status
 
-- task_id: `E3-20260822-005`
+- task_id: `E3-20260823-001`
 - agent: `E3`
-- state: `READY_FOR_PM_E7_REVIEW`
-- updated_at: `2026-08-22T21:13:00+08:00`
-- branch: `agent/e3-validation-oos-v0-1-20260822`
-- latest_main_consumed: `e6cab8a194c8f05ad38b4e4b9294cdbfd0870d89`
+- state: `DONE`
+- updated_at: `2026-08-23T23:52:00+08:00`
+- branch: `agent/e3-gate-a-validation-fixture-fix-20260823`
+- wake_task_id_verified: `YES — E3-20260823-001 matched latest main coordination/E3/TASK.md before work`
+- latest_main_consumed: `b8be4c450c9730f62c6c87b0db9da10fbb6af3cb`
 - fresh_branch_baseline: `IDENTICAL_TO_POST_TASK_MAIN`
-- initial_source_test_revision: `d27b5f9b5e58535bb085304bcf657946132b3a5b`
-- final_source_test_revision: `bb0868fadaf52d3789c36a56cd8f5caba5d4c2a1`
-- docs_handoff_revision: `f88955a068e5a50e29d7e116d3f678b508266018`
-- branch_head_before_status: `f88955a068e5a50e29d7e116d3f678b508266018`
-- summary: `Implemented only the bounded deterministic E3 OOS ValidationDecision producer. Canonical BacktestResult intake, explicit OOS split/dataset bindings, caller-supplied versioned thresholds, deterministic PASS/FAIL/BLOCKED/NOT_RUN semantics, stable reason codes, and deterministic decision identity are defined. No later validation engine or lifecycle/execution authority was added.`
-- files_changed_this_task: `src/validation/__init__.py; src/validation/oos.py; tests/validation/test_oos_validation.py; docs/validation/OOS_VALIDATION_V0_1.md; status/E3_VALIDATION_OOS_HANDOFF.md; coordination/E3/STATUS.md`
+- corrected_source_revision: `f7698f03a9bfb4280190a357b50366b43b260e21`
+- summary: `Corrected only the structurally invalid quantitative-FAIL test fixture that reproduced the Gate A validation failure. Preserved production fail-closed semantics and added bounded regression coverage proving max_consecutive_losses > losses remains BLOCKED.`
+- files_changed_this_task: `tests/validation/test_oos_validation.py; coordination/E3/STATUS.md`
+- production_source_changed: `NO`
 - contracts_changed: `NONE`
 - cross_agent_production_changed: `NONE`
-- replay_production_changed: `NONE`
-- e6_production_dependency: `NONE; E6 contract validator is imported in tests only`
 - local_verification: `NOT_RUN`
-- real_strategy_pass: `NOT_CLAIMED`
-- blockers: `NONE at static/source completion level; executable evidence remains unavailable without Product Owner-approved local execution.`
-- handoff_path: `status/E3_VALIDATION_OOS_HANDOFF.md`
-- docs_path: `docs/validation/OOS_VALIDATION_V0_1.md`
-- next_owner: `PM/E7 exact-revision review`
+- blockers: `NONE at static/source correction level; executable acceptance is deferred to the Product Owner-approved AgentBridge local-only Gate A path.`
+- next_owner: `PM/E7 exact-revision review; PM/Product Owner may later invoke approved AgentBridge Gate A validation rerun`
 
-## Task completion disposition
+## Classification / rationale
 
-Completed only the scope of `coordination/E3/TASK.md` task `E3-20260822-005`:
+E3 independently rechecked current `main`, the reproduced failing fixture, production `src/validation/oos.py`, and the canonical BacktestResult contract.
 
-- target branch was verified fresh and identical to post-TASK latest `main` before implementation;
-- added only E3-owned `src/validation/**` production;
-- added only E3-owned `tests/validation/**` test definitions;
-- canonical BacktestResult is accepted as a mapping or an object exposing `to_contract()`;
-- malformed/missing/unsupported BacktestResult contract inputs fail closed to `BLOCKED` when a canonical decision can be formed from the explicit subject authority;
-- binary floats are rejected for financial values rather than silently coerced;
-- trade counts are checked for non-negative/internally coherent values;
-- negative max drawdown and negative non-null profit factor are rejected as malformed metric ranges;
-- `ValidationSubject` binds exact strategy ID/version and BacktestResult ID;
-- `OOSValidationContext` explicitly binds split ID, OOS dataset ID/hash/range, training/reference dataset ID/hash, and policy version;
-- same training/OOS dataset ID or hash is `BLOCKED`;
-- BacktestResult dataset ID/hash/start/end must exactly match the declared OOS side;
-- `ValidationPolicy` contains no hidden product threshold defaults; every threshold is caller-supplied, including explicit `None` for optional minimum profit factor;
-- deterministic `validation_policy_id` hashes complete normalized policy configuration;
-- `PASS` is reachable only after all structural bindings pass and every configured criterion passes;
-- `FAIL` is used only for structurally valid quantitative criterion failures;
-- `BLOCKED` is used for structural/identity/OOS/input contradictions;
-- `NOT_RUN` requires explicit `execution_state=NOT_RUN` and cannot bypass structural checks;
-- configured minimum profit factor with BacktestResult `profit_factor=null` cannot PASS;
-- deterministic reason-code ordering is fixed and documented;
-- deterministic `validation_decision_id` binds subject, BacktestResult, policy identity, OOS context identity, execution state, decision, and reason codes;
-- `decided_at` is observational and excluded from deterministic decision identity;
-- emitted ValidationDecision contains all required `contracts-v0.1` fields;
-- no Registry/lifecycle mutation, promotion, PAPER/SHADOW/LIVE, broker/provider execution, E5 risk authority, or shared-contract change was added;
-- no Walk Forward, Monte Carlo, optimization, parameter robustness, regime classification, or strategy tuning/search was added.
+The PM classification is confirmed:
 
-## Test-definition disposition
+```text
+TEST_FIXTURE_INCONSISTENCY
+```
 
-`tests/validation/test_oos_validation.py` defines synthetic/local-only coverage for:
+The previous quantitative-FAIL fixture used:
 
-- canonical PASS construction from explicit valid OOS inputs and thresholds;
-- quantitative FAIL with deterministic ordered reasons;
-- missing OOS context BLOCKED;
-- training/OOS ID/hash collision BLOCKED;
-- BacktestResult/OOS dataset mismatch BLOCKED;
-- explicit NOT_RUN;
-- malformed/unsupported BacktestResult schema/type;
-- binary-float financial rejection;
-- strategy/Backtest identity mismatch;
-- profit-factor threshold with null profit factor;
-- deterministic decision identity across different observational timestamps;
-- E6 `validate_validation_decision_contract` compatibility in tests only;
-- absence of Registry/lifecycle authority fields;
-- threshold change changing policy/decision identity.
+```text
+total_trades = 5
+wins = 2
+losses = 3
+breakeven = 0
+max_consecutive_losses = 4
+```
 
-Any PASS in these test definitions is synthetic fixture behavior only. No real strategy was evaluated or promoted.
+Although `wins + losses + breakeven == total_trades`, the fixture violates the production structural invariant:
 
-## Policy / context / reason-code documentation
+```text
+max_consecutive_losses <= losses
+```
 
-Canonical E3 specification:
+Current production therefore correctly emits:
 
-- `docs/validation/OOS_VALIDATION_V0_1.md`
+```text
+BLOCKED / BACKTEST_TRADE_COUNTS_INCONSISTENT
+```
 
-It documents the exact input models, threshold semantics, BLOCKED/FAIL/NOT_RUN/PASS precedence, full machine-readable reason-code vocabulary, deterministic identity rules, and non-goals.
+Structural invalidity has precedence over quantitative FAIL criteria. The shared BacktestResult contract does not contradict this fail-closed consistency rule, so production semantics were preserved unchanged.
+
+## Bounded correction
+
+`test_quantitative_fail_reason_codes_have_stable_order` now uses:
+
+```text
+total_trades = 5
+wins = 1
+losses = 4
+breakeven = 0
+max_consecutive_losses = 4
+```
+
+This fixture is structurally coherent:
+
+```text
+1 + 4 + 0 == 5
+4 <= 4
+```
+
+while still failing every intended quantitative criterion under the existing unchanged policy:
+
+```text
+MIN_TOTAL_TRADES_NOT_MET
+MIN_NET_PNL_NOT_MET
+MAX_DRAWDOWN_EXCEEDED
+MAX_CONSECUTIVE_LOSSES_EXCEEDED
+MIN_PROFIT_FACTOR_NOT_MET
+```
+
+The expected machine-readable reason-code order is unchanged.
+
+A new bounded regression definition, `test_impossible_consecutive_loss_count_is_blocked`, preserves the original impossible `max_consecutive_losses = 4` with `losses = 3` shape and explicitly requires:
+
+```text
+BLOCKED
+BACKTEST_TRADE_COUNTS_INCONSISTENT
+```
+
+## Scope confirmation
+
+No changes were made to:
+
+- `src/validation/**` production semantics;
+- policy thresholds;
+- PASS / FAIL / BLOCKED / NOT_RUN precedence;
+- reason-code vocabulary or ordering;
+- BacktestResult semantics;
+- `contracts/**`;
+- E1/E2/E4/E5/E6/E7 production;
+- Registry/lifecycle authority;
+- Walk Forward / Monte Carlo / optimization / regime;
+- PAPER / SHADOW / LIVE;
+- GitHub workflow/CI configuration.
 
 ## Executable verification
 
-Status: `NOT_RUN`.
+Status: `NOT_RUN` in this Agent chat.
 
-No Product Owner-approved local environment was used. No validation test, backtest, import probe, metric verification, or bug reproduction was executed.
+Per project policy and TASK instruction, no tests, bug reproduction, regression verification, or Gate A suite were executed through GitHub/CI/hosted compute.
 
-Exact local-only command:
+Exact local-only commands for later approved rerun:
 
 ```powershell
 $env:PYTHONPATH = (Join-Path (Get-Location) "src")
+python -m unittest discover -s tests/validation -p "test_oos_validation.py" -v
 python -m unittest discover -s tests/validation -p "test_*.py" -v
 ```
 
-## Gates / lifecycle
+Executable Gate A acceptance remains for the separately approved AgentBridge local-only path after source review/merge. This E3 task does not start the remaining Gate A suites automatically.
 
-- Gate A: `BLOCKED`
+## Gate / lifecycle disposition
+
+- Gate A executable acceptance: `NOT_RUN_AFTER_FIX`
 - Gate B: `BLOCKED`
 - Gate C: `BLOCKED`
 - Gate D: `BLOCKED`
@@ -106,8 +132,8 @@ python -m unittest discover -s tests/validation -p "test_*.py" -v
 - Registry lifecycle transition: `NONE`
 - PAPER / SHADOW / LIVE: `NO IMPACT`
 
-## Compute / security
+## Compute / security confirmation
 
-No GitHub Actions, CI, hosted runner, GitHub-triggered self-hosted runner, scheduled GitHub job, or GitHub project compute was used. No credentials or secrets were requested, exposed, or committed.
+No GitHub Actions, GitHub CI, hosted runner, GitHub-triggered self-hosted runner, scheduled GitHub job, or GitHub project compute was used. No credentials or secrets were requested, exposed, or committed.
 
-E3 stops here for PM/E7 review and does not merge or start the next task automatically.
+E3 stops here on `DONE`. No additional task or Gate A suite is started automatically.

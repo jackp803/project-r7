@@ -1,16 +1,36 @@
 # E7 Current Task
 
-- task_id: `E7-20260824-021`
-- issued_at: `2026-08-24T01:27:00+08:00`
+- task_id: `E7-20260824-022`
+- issued_at: `2026-08-24T01:56:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-a-local-rerun2-20260824`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, merged PR #28, merged E7 review evidence PR #29, Product Owner-approved Windows local execution policy, AgentBridge preparation evidence `JOB-F53BD229F125 / SUCCEEDED`, AgentBridge infrastructure repair commit `9a3db44325ff1aa07553fd32e7a37ad90f8b6f1d`
+- target_branch: `agent/e7-gate-a-local-rerun3-20260824`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, Product Owner-approved Windows local execution policy, merged PR #28, E7 review evidence PR #29, AgentBridge production-validation branch observation semantics, preparation evidence `JOB-F53BD229F125 / SUCCEEDED`
 
 ## Objective
 
-Execute a fresh, complete Gate A local-only verification matrix through the approved AgentBridge Local Runner against the exact candidate revision below. This supersedes the blocked execution attempt `E7-20260824-020`; its eight `NOT_RUN` results remain historical and must not be reinterpreted or reused as executable evidence.
+Execute a fresh complete Gate A local-only matrix at exact project revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71` through AgentBridge. This task corrects the coordination error in `E7-20260824-021`: AgentBridge reads Worker-owned STATUS and Local Job Request from the TASK `target_branch`, not from `main`.
 
-This task is executable verification only. Do not modify E1-E6 production, tests, contracts, or semantics to make a suite pass.
+The previous `E7-20260824-021` result remains historical `BLOCKED / NOT_RUN`; do not reinterpret it as project test failure or executable PASS.
+
+## Root-cause correction
+
+AgentBridge production validation explicitly defines split Git authority:
+
+```text
+PM-owned TASK              -> registered governance branch (`main`)
+Worker-owned STATUS        -> validated TASK `target_branch`
+Worker Local Job Request   -> validated TASK `target_branch`
+```
+
+Therefore every `coordination/E7/LOCAL_JOB_REQUEST.json` request for this task MUST be committed/pushed to:
+
+```text
+agent/e7-gate-a-local-rerun3-20260824
+```
+
+Do NOT write Local Job requests to `main`.
+
+The TASK itself remains authoritative on `main`. E7 evidence/status and mailbox requests are Worker-owned and belong on the target branch until reviewed/merged.
 
 ## Approved execution pin
 
@@ -20,13 +40,13 @@ Approved environment:
 current Windows local development computer
 ```
 
-Approved exact source revision:
+Exact project source revision:
 
 ```text
 4da559bbbb569ea4f32246a40ef35f4bd8477a71
 ```
 
-Prepared Local Runner requirements:
+Prepared Local Runner state:
 
 ```text
 detached HEAD
@@ -40,33 +60,30 @@ Preparation evidence:
 JOB-F53BD229F125 / SUCCEEDED
 ```
 
-AgentBridge infrastructure repair evidence supplied by Product Owner/Codex:
+AgentBridge infrastructure repair evidence remains supporting infrastructure evidence only:
 
 ```text
-commit = 9a3db44325ff1aa07553fd32e7a37ad90f8b6f1d
-isolated monitor request = REQ-INFRA-MONITOR-20260824
-isolated monitor job = JOB-7C7A436EE5816A6E / SUCCEEDED / exit 0 / exactly once
-classification = PRODUCTION_READY_WITH_KNOWN_LIMITATIONS
+commit 9a3db44325ff1aa07553fd32e7a37ad90f8b6f1d
+REQ-INFRA-MONITOR-20260824
+JOB-7C7A436EE5816A6E / SUCCEEDED / exit 0 / exactly once
 ```
 
-Historical E7 job `JOB-9089696FF6BB9C98` is audit-only / `SUPPRESSED` and is forbidden as Gate A evidence.
+None of those infrastructure smoke results count as Gate A suite evidence.
 
-Before suite 1, confirm the active Local Runner still reports the exact approved HEAD/worktree/environment. If not, stop with `ENVIRONMENT_MISMATCH / NOT_RUN`.
-
-## Evidence non-reuse
+## Fresh evidence only
 
 Do not reuse:
 
-- partial PASS evidence from revision `6ed214276038b1ad517e8875c10946b8fcccf4a3`;
-- any `NOT_RUN` result from `E7-20260824-020`;
-- historical/suppressed AgentBridge jobs;
-- the infrastructure smoke job as project Gate A evidence.
+- old revision `6ed214276038b1ad517e8875c10946b8fcccf4a3` PASS evidence;
+- E7-020 or E7-021 `NOT_RUN` outcomes;
+- `JOB-9089696FF6BB9C98` historical/suppressed evidence;
+- infrastructure smoke results.
 
-All eight Gate A suites must execute freshly for this task.
+All eight suites must run freshly for E7-20260824-022.
 
-## Required ordered Local Runner matrix
+## Required ordered matrix
 
-Use only these already registered allowlisted actions, in exactly this order:
+Execute only the already registered allowlisted actions, exactly in this order:
 
 ```text
 1. GATE_A_MARKET_DATA
@@ -78,6 +95,14 @@ Use only these already registered allowlisted actions, in exactly this order:
 7. GATE_A_STORAGE
 8. GATE_A_INTEGRATION
 ```
+
+For each action:
+
+1. On target branch `agent/e7-gate-a-local-rerun3-20260824`, write/update `coordination/E7/LOCAL_JOB_REQUEST.json` with a unique request_id, current task_id `E7-20260824-022`, the action_id, and `state: REQUESTED`.
+2. Commit and push that target branch.
+3. Wait for AgentBridge durable execution/result notification/evidence before requesting the next suite.
+4. Do not create a competing second request while the previous request is unresolved.
+5. If cancellation is required, update the SAME target-branch mailbox request to `state: CANCELLED`, commit/push, and retain it as durable protocol evidence. Do not delete it as cancellation.
 
 Registered commands correspond to:
 
@@ -92,29 +117,17 @@ python -m unittest discover -s tests/storage -p "test_*.py" -v
 python -m unittest discover -s tests/integration -p "test_*.py" -v
 ```
 
-`PYTHONPATH=src` must remain active in the registered action environment.
-
-For each action, use the registered AgentBridge Local Job mailbox and wait for durable terminal job evidence before requesting the next action.
-
-## Mailbox cancellation protocol
-
-The repaired AgentBridge protocol supports `CANCELLED`. If an outstanding request must be cancelled, commit the same mailbox request with:
-
-```text
-state = CANCELLED
-```
-
-Do not delete an unacknowledged/pending request as a cancellation mechanism. Do not create a second competing request while the first is unresolved.
+`PYTHONPATH=src` must remain configured by the registered actions.
 
 ## Stop-on-first-failure
 
-If any suite returns `FAILED`, `ERROR`, `TIMED_OUT`, or an execution refusal where execution was expected:
+On the first `FAILED`, `ERROR`, `TIMED_OUT`, or unexpected `REFUSED`:
 
-1. stop immediately;
-2. do not run later suites;
-3. do not edit project production/tests/contracts;
-4. preserve the exact AgentBridge evidence;
-5. report:
+- stop immediately;
+- preserve durable AgentBridge evidence;
+- do not run later suites;
+- do not edit production/tests/contracts to force PASS;
+- report:
 
 ```text
 LOCAL_EXECUTION_MATRIX = FAIL
@@ -123,76 +136,62 @@ GATE_A_REVIEW_CANDIDATE = NO
 
 Later suites remain `NOT_RUN`.
 
-## Evidence requirements
+## Environment mismatch
 
-Record for the environment and every executed suite:
-
-- exact source revision;
-- detached HEAD and clean working-tree confirmation;
-- approved Windows environment;
-- preparation evidence `JOB-F53BD229F125`;
-- Python executable/version;
-- OS identity sufficient for reproducibility without secrets;
-- `PYTHONPATH`;
-- AgentBridge request/job ID;
-- action ID;
-- actual command;
-- cwd;
-- timestamps/duration;
-- exit code;
-- terminal state;
-- test count where available;
-- bounded stdout/stderr summary;
-- durable DB/audit reference;
-- `GitHub compute used = NO`;
-- provider/private requests = `NOT_SENT`;
-- PAPER/SHADOW/LIVE = `NOT_USED`;
-- Registry real promotion = `NONE`.
-
-Do not commit credentials, tokens, browser auth material, secrets, or unrelated machine data.
-
-## Allowed terminal interpretation
-
-Only if all eight suites freshly execute against exact revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71` and all succeed:
-
-```text
-LOCAL_EXECUTION_MATRIX = PASS
-GATE_A_REVIEW_CANDIDATE = YES
-```
-
-Do **not** declare `Gate A PASS`; separate evidence review is required.
-
-If the approved environment/source/runner cannot be established:
+If AgentBridge acknowledges the correctly located target-branch request but reports source/worktree mismatch, or if the target branch/mailbox cannot be observed safely, report:
 
 ```text
 LOCAL_EXECUTION_MATRIX = NOT_RUN
 GATE_A_REVIEW_CANDIDATE = NO
 ```
 
-with the exact blocker.
+with exact evidence. Do not substitute GitHub compute or arbitrary local shell.
 
-## Safety / compute constraints
+## Success interpretation
 
-Forbidden:
+Only if all eight suites freshly execute at exact revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71` with zero failures/errors:
 
-- GitHub Actions / CI / hosted runners;
-- GitHub-triggered self-hosted compute;
-- arbitrary shell beyond registered Local Runner actions;
-- Computer Adapter;
-- provider/private API or exchange credentials;
-- E4/E5 broker/live execution;
-- PAPER / SHADOW / LIVE;
-- real lifecycle/Registry promotion;
-- project production/test/contract edits to force a PASS.
+```text
+LOCAL_EXECUTION_MATRIX = PASS
+GATE_A_REVIEW_CANDIDATE = YES
+```
+
+Do not declare Gate A PASS. PM/E7 must perform a separate evidence review.
+
+## Evidence requirements
+
+Record at minimum:
+
+- exact source revision and clean/detached confirmation;
+- Windows environment identity;
+- Python executable/version;
+- PYTHONPATH;
+- target branch used for each mailbox request;
+- request ID and AgentBridge job ID;
+- action ID / actual registered command / cwd;
+- exit code / terminal state / test count;
+- bounded stdout/stderr summary;
+- durable DB/audit/result reference;
+- execution timestamps/duration;
+- GitHub compute = NO;
+- provider/private requests = NOT_SENT;
+- PAPER/SHADOW/LIVE = NOT_USED;
+- Registry real promotion = NONE.
+
+## Safety / forbidden scope
+
+Do not use GitHub Actions/CI/hosted runners/GitHub-triggered self-hosted compute, arbitrary shell, Computer Adapter, provider/private API, exchange credentials, E4/E5 live execution, PAPER/SHADOW/LIVE, real Registry promotion, or production/test/contract edits.
 
 ## Writable scope
 
-Evidence/status/mailbox only:
+On target branch only:
 
-- `status/e7/**` for this rerun;
+- `coordination/E7/LOCAL_JOB_REQUEST.json`;
 - `coordination/E7/STATUS.md`;
-- `coordination/E7/LOCAL_JOB_REQUEST.json` according to the registered request/CANCELLED protocol.
+- `status/e7/**` evidence for this task.
+
+`coordination/E7/TASK.md` remains PM-owned on main and must not be rewritten by E7.
 
 ## Completion
 
-Persist terminal evidence and update `coordination/E7/STATUS.md`, commit/push to the target branch, then stop. Do not start another Gate review, implementation task, provider work, PAPER/SHADOW/LIVE, or Slice 3 automatically.
+After terminal matrix outcome, commit/push E7 evidence/status on the target branch and stop. Do not start Gate A release review, implementation, provider, PAPER/SHADOW/LIVE, or Slice 3 work automatically.

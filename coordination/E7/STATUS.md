@@ -1,148 +1,108 @@
 # E7 Status
 
-- task_id: `E7-20260824-018`
+- task_id: `E7-20260824-020`
 - agent: `E7`
-- state: `DONE`
-- branch: `agent/e7-gate-a-validation-fixture-review-20260824`
-- wake_task_id_verified: `YES — E7-20260824-018 matched latest main coordination/E7/TASK.md before work`
-- reviewed_current_main: `c3c3a5d275362399b15d1c9a559a41ad368877a3`
-- reviewed_pr: `#28 test(validation): correct Gate A quantitative FAIL fixture`
-- reviewed_pr_head: `6f5b1c65a079e18464690a3a6e7a0b15e41cc7fd`
-- corrected_source_revision: `f7698f03a9bfb4280190a357b50366b43b260e21`
-- pr_baseline: `b8be4c450c9730f62c6c87b0db9da10fbb6af3cb`
-- production_validation_blob: `5f7d20ab0401287b642aa96db0bbf73e51078a25`
-- review_artifact: `status/e7/E3_GATE_A_VALIDATION_FIXTURE_STATIC_REVIEW_20260824.md`
-- scope_disposition: `PASS STATIC / ONLY tests/validation/test_oos_validation.py + coordination/E3/STATUS.md`
-- original_failure_classification: `TEST_FIXTURE_INCONSISTENCY`
-- fixture_coherence_disposition: `PASS STATIC`
-- production_semantics_preservation: `PASS STATIC / src/validation/oos.py UNCHANGED`
-- regression_coverage_disposition: `PASS STATIC`
+- state: `BLOCKED`
+- branch: `agent/e7-gate-a-local-rerun-20260824`
+- wake_task_id_verified: `YES — E7-20260824-020 matched latest main coordination/E7/TASK.md before work`
+- approved_environment: `current Windows local development computer`
+- approved_source_revision: `4da559bbbb569ea4f32246a40ef35f4bd8477a71`
+- preparation_evidence: `JOB-F53BD229F125 / SUCCEEDED (supplied by TASK)`
+- evidence_artifact: `status/e7/GATE_A_LOCAL_RERUN_20260824.md`
+- local_execution_matrix: `NOT_RUN`
+- gate_a_review_candidate: `NO`
+- blocker_classification: `LOCAL_RUNNER_UNAVAILABLE_OR_NOT_ACKNOWLEDGING`
+- first_expected_action: `GATE_A_MARKET_DATA`
+- first_request_id: `JOB-AF1910A35280`
+- first_request_observed_state: `REQUESTED ONLY / NO ACCEPTED OR TERMINAL STATE`
+- mailbox_request_commit_main: `a5a3334b81716993eb61574d2515a3cb0ed7b242`
+- mailbox_cancel_commit_main: `9046cd636079e43282202ada941df1a68b86fca9`
 - executable_verification: `NOT_RUN`
-- pr_28_merge_recommendation: `PM MAY MERGE PR #28`
-- gate_a: `BLOCKED / LOCAL RERUN REQUIRED`
+- source_defect: `NONE CLAIMED`
+- gate_a: `BLOCKED / LOCAL RERUN STILL REQUIRED`
 - gate_b: `BLOCKED / UNCHANGED`
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
 - paper_shadow_live: `UNAUTHORIZED / UNCHANGED`
 - provider_private_requests: `NOT_SENT`
 - github_compute: `NOT_USED`
-- lifecycle_promotion: `NONE`
+- github_actions_ci_hosted_runner: `NOT_USED`
+- arbitrary_shell: `NOT_USED`
+- computer_adapter: `NOT_USED`
+- registry_real_promotion: `NONE`
+- production_test_contract_changes: `NONE`
 - codex_ticket: `NONE`
 
-## Review summary
+## Execution attempt
 
-PR #28 is a bounded E3 test-fixture correction. The old quantitative FAIL fixture used:
-
-```text
-total_trades = 5
-wins = 2
-losses = 3
-breakeven = 0
-max_consecutive_losses = 4
-```
-
-This shape is structurally impossible because `max_consecutive_losses > losses`. Current production intentionally rejects that shape before quantitative evaluation with:
+The current TASK required a fresh eight-suite Gate A run through the registered AgentBridge Local Runner only, against exact source revision:
 
 ```text
-BLOCKED / BACKTEST_TRADE_COUNTS_INCONSISTENT
+4da559bbbb569ea4f32246a40ef35f4bd8477a71
 ```
 
-The previous locally reproduced Gate A Validation failure is therefore classified as `TEST_FIXTURE_INCONSISTENCY`, not a production fail-closed defect.
+Old partial evidence from revision `6ed214276038b1ad517e8875c10946b8fcccf4a3` was not reused.
 
-PR #28 corrects the quantitative FAIL fixture to:
+E7 used the registered Local Job mailbox protocol with no arbitrary command/args and requested only the first allowlisted action:
 
 ```text
-total_trades = 5
-wins = 1
-losses = 4
-breakeven = 0
-net_pnl = -1
-profit_factor = 0.8
-max_drawdown = 30
-max_consecutive_losses = 4
+request_id = JOB-AF1910A35280
+action_id = GATE_A_MARKET_DATA
+state = REQUESTED
 ```
 
-This is structurally coherent (`1 + 4 + 0 == 5`, `4 <= 4`) while still violating all five unchanged configured quantitative thresholds in deterministic order:
+Across repeated durable GitHub mailbox polling, the request remained exactly `REQUESTED`. No AgentBridge accepted/running/terminal state was returned, and no local job result was available.
+
+Because the runner never acknowledged the first action, E7 could not independently confirm the active Local Runner preconditions required before executing suite 1:
 
 ```text
-MIN_TOTAL_TRADES_NOT_MET
-MIN_NET_PNL_NOT_MET
-MAX_DRAWDOWN_EXCEEDED
-MAX_CONSECUTIVE_LOSSES_EXCEEDED
-MIN_PROFIT_FACTOR_NOT_MET
+detached HEAD = NOT_OBSERVED
+actual HEAD = NOT_OBSERVED
+working tree clean = NOT_OBSERVED
+Python executable/version = NOT_OBSERVED
+OS identity = NOT_OBSERVED
+PYTHONPATH=src = NOT_OBSERVED
+cwd = NOT_OBSERVED
 ```
 
-The PR also adds `test_impossible_consecutive_loss_count_is_blocked`, preserving the old impossible `losses=3 / max_consecutive_losses=4` shape and requiring exactly:
+The still-pending mailbox request was removed from `main` before E7 stopped so it cannot execute later after this task response.
+
+## Ordered Gate A matrix
 
 ```text
-BLOCKED
-BACKTEST_TRADE_COUNTS_INCONSISTENT
+1. GATE_A_MARKET_DATA = NOT_RUN (request never acknowledged)
+2. GATE_A_INDICATORS  = NOT_RUN
+3. GATE_A_STRATEGY    = NOT_RUN
+4. GATE_A_BACKTEST    = NOT_RUN
+5. GATE_A_VALIDATION  = NOT_RUN
+6. GATE_A_REGISTRY    = NOT_RUN
+7. GATE_A_STORAGE     = NOT_RUN
+8. GATE_A_INTEGRATION = NOT_RUN
 ```
 
-## Scope / synchronization
+No later action was requested because the environment/runner precondition was not established.
 
-Exact PR changed files:
+## Required interpretation
 
 ```text
-coordination/E3/STATUS.md
-tests/validation/test_oos_validation.py
+ENVIRONMENT_MISMATCH / NOT_RUN
+LOCAL_EXECUTION_MATRIX = NOT_RUN
+GATE_A_REVIEW_CANDIDATE = NO
 ```
 
-No production, contracts, cross-agent source, workflow/CI, provider, lifecycle, PAPER/SHADOW/LIVE, credential, or secret changes are present.
+This is not a suite FAIL and not a Gate A PASS. No project-code execution evidence was produced.
 
-`src/validation/oos.py` is unchanged between PR baseline and reviewed PR head; both resolve to blob:
+## Safety / scope
 
-```text
-5f7d20ab0401287b642aa96db0bbf73e51078a25
-```
-
-Corrected source revision `f7698f03a9bfb4280190a357b50366b43b260e21` -> reviewed PR head changes only `coordination/E3/STATUS.md`.
-
-PR branch versus review-time current main is ahead 2 / behind 2. Main-only delta from PR baseline is only:
-
-```text
-coordination/E3/TASK.md
-coordination/E7/TASK.md
-```
-
-No production/shared-contract resynchronization blocker exists.
-
-## Prior Gate A evidence retained
-
-This static review does not rerun or reinterpret the previous Product Owner-approved local matrix at source revision:
-
-```text
-6ed214276038b1ad517e8875c10946b8fcccf4a3
-```
-
-Prior authoritative matrix remains:
-
-```text
-Market Data  = PASS
-Indicators   = PASS
-Strategy     = PASS
-Backtest     = PASS
-Validation   = FAIL
-Registry     = NOT_RUN
-Storage      = NOT_RUN
-Integration  = NOT_RUN
-```
-
-PR #28 local verification after correction remains `NOT_RUN`. Static acceptance does not convert it to executable PASS.
-
-## Verification / safety
-
-- tests executed by E7: `NO`
-- backtests executed: `NO`
-- imports/probes executed: `NO`
-- migrations executed: `NO`
-- provider/private calls: `NO`
-- GitHub Actions/CI/hosted compute: `NO`
-- Registry promotion: `NONE`
-- PAPER/SHADOW/LIVE: `NONE`
+- GitHub was used only for source-control coordination/mailbox; no GitHub compute executed project code.
+- No GitHub Actions, CI, hosted runner, or GitHub-triggered self-hosted compute was used.
+- No arbitrary shell or Computer Adapter was used.
+- No provider/private API or exchange credentials were used.
+- No E4/E5 execution occurred.
+- No PAPER/SHADOW/LIVE action occurred.
+- No Registry real promotion occurred.
+- No E1-E6 production, tests, contracts, or semantics were modified.
 
 ## Completion
 
-**PM MAY MERGE PR #28**
-
-E7 completed only `E7-20260824-018` and stops on `DONE`. E7 does not merge PR #28, does not start the AgentBridge local rerun, and does not begin another task automatically.
+E7 stops on `BLOCKED` for task `E7-20260824-020`. No Gate A PASS review, implementation task, provider work, PAPER/SHADOW/LIVE work, or Slice 3 work is started automatically.

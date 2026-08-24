@@ -3,6 +3,12 @@ from .protection import (
     build_protect_position_action,
     validate_protection_action,
 )
+from .protection_result import (
+    ProtectionLifecycleOutcome,
+    ProtectionResultBridgeError,
+    ProtectionResultEvidence,
+    interpret_protection_result,
+)
 from .state_machine import (
     PositionEvent,
     PositionLifecycleState,
@@ -16,6 +22,10 @@ __all__ = [
     "ProtectionActionError",
     "build_protect_position_action",
     "validate_protection_action",
+    "ProtectionLifecycleOutcome",
+    "ProtectionResultBridgeError",
+    "ProtectionResultEvidence",
+    "interpret_protection_result",
     "PositionEvent",
     "PositionLifecycleState",
     "UnsafeTransitionError",

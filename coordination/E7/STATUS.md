@@ -1,115 +1,142 @@
 # E7 Status
 
-- task_id: `E7-20260824-050`
+- task_id: `E7-20260824-052`
 - agent: `E7`
-- state: `DONE`
-- branch: `agent/e7-gate-b-lifecycle-event-vocabulary-contract-20260824`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-050 before work and remained ACTIVE immediately before terminal write`
-- reviewed_main: `20f46faf0067e17ba83fd57bd869f0cdc3a2b079`
-- reviewed_task_blob: `d5579cc16497bc7b5870e81aefe16b2349326c77`
+- state: `BLOCKED`
+- branch: `agent/e7-gate-b-durable-paper-integration-review-20260824`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-052 before work and remained ACTIVE immediately before terminal write`
+- reviewed_main: `3c4d8f38aa16bf06cc4e448238f4469d83c6c7b4`
+- reviewed_task_blob: `2b63846436628f0d8b53b9a8a7a4e29096471a35`
 - contracts_baseline: `contracts-v0.1 / BASELINE`
-- lifecycle_projection_profile: `position-lifecycle-projection-v0.1 / UNCHANGED`
+- accepted_in_memory_chain: `PR #55 / merge d6302eb89b9319bfd00d5c26e315bd2fe1923b65`
+- lifecycle_projection_contract: `PR #57 / merge 5b203ea2e4a235dfb4575626f15e2409b6674c59`
+- e5_lifecycle_projection_producer: `PR #58 / MATERIALIZED / executable NOT_RUN`
+- lifecycle_vocabulary: `PR #60 / RESOLVED STATIC`
+- e6_durability: `PR #61 / merge 42f6d015ea5c9387983a822820dde211608a249e / MATERIALIZED / executable NOT_RUN`
 - project_executable_verification: `NOT_RUN`
 - local_job: `NOT_REQUESTED / TASK FORBIDS EXECUTION`
 - github_actions_ci_hosted_runner: `NOT_USED`
+- github_triggered_compute: `NOT_USED`
 - provider_private_api: `NOT AUTHORIZED / NOT_SENT`
 - exchange_credentials: `NOT_USED`
 - paper_shadow_live: `UNAUTHORIZED`
+- gate_a: `PASS / RESEARCH-INTEGRATION ONLY`
+- gate_b: `BLOCKED / NOT YET PASS`
+- gate_c: `BLOCKED / UNCHANGED`
+- gate_d: `BLOCKED / UNCHANGED`
+- ready_for_approved_local_gate_b_verification: `NO`
 
-## Independent blocker disposition
+## Terminal blocker
 
 ```text
-PR #57 ordering/profile semantics = SUFFICIENT
-PR #58 E5 projection producer semantics = COHERENT
-shared lifecycle_state vocabulary = ALREADY EXHAUSTIVE IN contracts-v0.1
-shared TRANSITION lifecycle_event vocabulary = PREVIOUSLY INSUFFICIENTLY MATERIALIZED
-E6-013 current vocabulary validation = INCOMPLETE STATIC
-Issue #59 prior Codex/bug classification = SUPERSEDED / NOT AUTHORITATIVE
+classification = CONTRACT_OR_SEMANTIC_GAP
+boundary = durable E4 execution-observation freshness vs E5 lifecycle projection authority
+next technical contract owner = E7
 ```
 
-The E6/PM semantic blocker was confirmed narrowly: E6 cannot determine the exhaustive allowed `PositionEvent` strings from an E7-owned shared contract without importing/duplicating E5 production vocabulary. Existing E6-013 validation checks lifecycle state/event as non-empty strings while correctly validating profile kind/nullability and other structural rules.
+`position-lifecycle-projection-v0.1` proves which E4 Position broker observation E5 interpreted, but it does not carry shared authoritative material proving which later relevant E4 OrderResult/Fill observations have already been interpreted by E5.
 
-## Accepted contract resolution
+This is material because current E5 protection semantics require:
 
 ```text
-resolution = COMPATIBLE NORMATIVE CLARIFICATION
-schema_version = contracts-v0.1 / UNCHANGED
-position_lifecycle_projection_profile_version = position-lifecycle-projection-v0.1 / UNCHANGED
-new serialized fields = NONE
-Position lifecycle vocabulary contract = RESOLVED STATIC
+OPEN_PROTECTED + later PARTIALLY_FILLED/FILLED protection truth
+-> STATE_UNKNOWN / RECONCILIATION_REQUIRED pending authoritative Position-close truth
+
+OPEN_PROTECTED + later CANCELED/EXPIRED/REJECTED protection truth
+-> PROTECTION_LOST / EMERGENCY
 ```
 
-### Normative vocabulary contract
+Current E6 restart logic only marks lifecycle stale for a newer raw Position observation, and order-level recovery becomes non-READY only for `UNKNOWN | RECONCILIATION_REQUIRED` status or `UNKNOWN | DEGRADED` health. A newer healthy `PARTIALLY_FILLED` or `CANCELED` protection observation can therefore coexist with an older `OPEN_PROTECTED` projection while recovery still reports `READY`.
 
-`contracts/POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`
+E6 cannot safely fix this by importing/copying the E5 transition table or inventing a private status-to-lifecycle rule. A shared E7 durability freshness/evidence-binding rule is required first.
 
-- commit: `07737fc05a020c77014a7aa9865950bd27b4107a`
-- exhaustive restart-authoritative lifecycle states: `PENDING_ENTRY`, `OPEN_UNPROTECTED`, `OPEN_PROTECTED`, `PROFIT_PROTECTED`, `EXIT_REQUESTED`, `CLOSED`, `EMERGENCY`, `RECONCILIATION_REQUIRED`;
-- exhaustive restart-authoritative TRANSITION events: `ENTRY_FILL_OBSERVED`, `ENTRY_TERMINATED`, `PROTECTION_VERIFIED`, `PROFIT_PROTECTION_VERIFIED`, `PROTECTION_FAILED`, `PROTECTION_LOST`, `EXIT_REQUESTED`, `EXIT_FAILED`, `POSITION_CLOSED`, `STATE_UNKNOWN`, `RECONCILED_FLAT`, `RECONCILED_OPEN_UNPROTECTED`, `RECONCILED_OPEN_PROTECTED`;
-- `GENESIS` and `REATTESTATION` require `lifecycle_event=null`;
-- unsupported state/event/kind fails closed and cannot advance current/restart-authoritative Position.
-
-### Architecture clarification
-
-`docs/adr/ADR-0008-position-lifecycle-vocabulary-validation-boundary.md`
-
-- commit: `b1e7451c88546f524e8535b8ab91dc1513a7418d`
-- E5 retains full `(previous_state, event) -> next_state` transition authority;
-- E6 validates only shared vocabulary/profile/shape/order/identity/reference rules;
-- E6 must not import/copy the E5 transition table or infer lifecycle from Orders/Fills/Actions/TradeResult.
-
-### Contract registry
-
-`contracts/README.md`
-
-- commit: `c1912276936111881fac5757cc6cc51cd38696ba`
-- registers the normative lifecycle vocabulary companion and consumer obligations.
-
-### Review evidence
-
-`status/e7/GATE_B_LIFECYCLE_VOCABULARY_CONTRACT_DECISION_20260824.md`
-
-- commit: `50be02326ba894cc343fba9507cd8c98f78f773d`
-
-## Exact bounded E6 follow-up contract
-
-E6 remediation is mechanically bounded to storage-consumer validation:
-
-1. exact membership validation for the eight shared lifecycle states;
-2. exact membership validation for the thirteen shared TRANSITION lifecycle events;
-3. retain GENESIS/REATTESTATION null-event rules;
-4. reject unsupported vocabulary before durable current-projection advancement;
-5. deterministic storage definitions proving rejection does not replace the prior valid current projection;
-6. preserve PR #57 revision/predecessor/identity/broker-anchor/replay/conflict rules unchanged.
-
-E6 does not evaluate the E5 transition table and does not gain lifecycle authority.
-
-## Release state
+## Secondary settled-contract defect
 
 ```text
-Position lifecycle vocabulary contract = RESOLVED STATIC
-E6 durability implementation = MATERIALIZED / PM REVIEW BLOCKED pending bounded remediation + PM re-review
-Restart/persistence preserves required state = BLOCKED / executable criterion NOT_RUN
-Paper E2E closes to TradeResult and persists audit = BLOCKED
-Gate A = PASS / RESEARCH-INTEGRATION ONLY
+classification = IMPLEMENTATION_DEFECT_UNDER_SETTLED_CONTRACT
+responsible domain = E6 storage
+boundary = TradeResult durable referenced-object completeness
+```
+
+E6 validates TradeResult parent plan/funding binding but does not require every referenced entry/exit OrderRequest, Fill, and exit PositionAction to exist and match before READY recovery. The accepted closed-recovery E6 fixture itself references entry IDs that are not persisted and still expects READY.
+
+E7 does not edit E6 source/tests in this task.
+
+## Persisted E7 outputs
+
+### Blocker safety definitions
+
+`tests/safety/test_gate_b_durable_lifecycle_freshness.py`
+
+- commit: `47fe8d4adc6939370aba4c7080eee580333c790c`
+- uses real E5 lifecycle producer/interpreter, real E4 protection/PaperBroker surfaces and real E6 journal;
+- defines partial-protection-Fill and canceled-protection cases where newer E4 execution truth has not yet been incorporated into a newer E5 lifecycle projection;
+- definitions require restart to remain non-authoritative rather than READY;
+- executable result: `NOT_RUN`.
+
+### Detailed review evidence
+
+`status/e7/GATE_B_DURABLE_PAPER_INTEGRATION_REVIEW_20260824.md`
+
+- commit: `8b460cf6b81616fb3b7590a0ed6a26e77efab357`
+
+### Release gate reconciliation
+
+`status/RELEASE_GATES.md`
+
+- commit: `73427666e90f71c9aa46afbfd583a71055f7cbbd`
+
+### Integration status
+
+`status/INTEGRATION_STATUS.md`
+
+- commit: `007c6d4cb31b653fa17d67e88e2774535498a69b`
+
+## Static findings retained
+
+The following PR #61 surfaces are coherent by static inspection:
+
+- canonical IDs/payloads are persisted without regeneration;
+- lifecycle revisions/predecessors/broker anchors and published vocabulary fail closed;
+- E6 does not import/replay E5 lifecycle transition semantics;
+- newer raw Position truth produces REATTESTATION_REQUIRED without synthetic Position merge;
+- OrderResult history preserves requested vs filled quantity and exact observation status;
+- UNKNOWN/RECONCILIATION_REQUIRED/DEGRADED truth survives restart fail closed;
+- funding identity/lineage conflicts do not last-write-win;
+- no provider/private, credential, CI, lifecycle-promotion or PAPER/SHADOW/LIVE scope is introduced.
+
+These are static findings only and are not executable PASS evidence.
+
+## Release reconciliation
+
+```text
+E5 lifecycle projection producer = MATERIALIZED / executable NOT_RUN
+E6 durability implementation = MATERIALIZED / executable NOT_RUN
+Position lifecycle ordering/profile = RESOLVED STATIC
+Position lifecycle vocabulary = RESOLVED STATIC
+Durable execution-truth/lifecycle freshness = BLOCKED / CONTRACT_OR_SEMANTIC_GAP
+TradeResult durable graph completeness = BLOCKED / E6 IMPLEMENTATION DEFECT
+Restart/persistence = BLOCKED
+Paper E2E -> TradeResult + durable audit = BLOCKED
+READY_FOR_APPROVED_LOCAL_GATE_B_VERIFICATION = NO
 Gate B = BLOCKED / NOT YET PASS
-Gate C = BLOCKED / UNCHANGED
-Gate D = BLOCKED / UNCHANGED
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-No executable `NOT_RUN` criterion was converted to PASS. Existing `status/RELEASE_GATES.md` and `status/INTEGRATION_STATUS.md` remain conservatively BLOCKED and did not require a state change for this static clarification.
+## Bounded follow-up dependency order for PM consideration
 
-## Scope / safety
+E7 does not assign or start follow-up work.
 
-- E1-E6 production/tests changed by E7: `NONE`
-- E6 branch edits: `NONE`
-- E5 transition semantics changed: `NONE`
-- provider/private API/network: `NONE`
-- credentials/secrets: `NONE`
-- GitHub Actions/CI/compute: `NONE`
-- Codex ticket: `NONE / Issue #59 superseded`
+```text
+1. E7 — define minimum shared lifecycle execution-evidence freshness/binding rule
+2. E5 — adapt lifecycle projection producer to accepted rule
+3. E6 — mechanically consume/recover accepted rule and repair TradeResult referenced-object completeness
+4. E7 — complete durable Paper integration/E2E/safety definitions
+5. PM-authorized approved-local Gate B verification
+```
 
-## Completion
+## Verification / completion
 
-E7 completed only `E7-20260824-050` and stops on `DONE`. E7 does not self-start E6 remediation, Paper E2E integration, approved-local verification, Gate C, PAPER, SHADOW, LIVE, provider/private work, or another task.
+No project code/tests/migrations were executed. No Local Runner, GitHub Actions/CI/hosted runner, provider/private API, credential, PAPER, SHADOW or LIVE activity was used.
+
+E7 stops on `BLOCKED` and does not self-start contract remediation, E5/E6 fixes, complete Paper E2E, approved-local verification, Gate C, provider/private work, PAPER, SHADOW, LIVE, or another task.

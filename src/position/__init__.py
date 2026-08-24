@@ -1,3 +1,11 @@
+from .close import (
+    CloseActionError,
+    CloseActionOutcome,
+    authorize_close_position_action,
+    build_close_position_action,
+    default_close_reason_codes,
+    validate_close_position_action,
+)
 from .protection import (
     ProtectionActionError,
     build_protect_position_action,
@@ -19,6 +27,12 @@ from .state_machine import (
 )
 
 __all__ = [
+    "CloseActionError",
+    "CloseActionOutcome",
+    "authorize_close_position_action",
+    "build_close_position_action",
+    "default_close_reason_codes",
+    "validate_close_position_action",
     "ProtectionActionError",
     "build_protect_position_action",
     "validate_protection_action",

@@ -1,18 +1,18 @@
 # E4 Status
 
-- task_id: `E4-20260824-007`
+- task_id: `E4-20260824-009`
 - agent: `E4`
 - state: `DONE`
-- branch: `agent/e4-gate-b-protection-fill-lineage-20260824`
-- baseline_main_sha: `6f9a73ac0ef5ab9575b9fab698a918fb97dcbe0e`
-- head_sha: `2fb86f8f70d1c0a98109de578fbeae7369e2c12f` (source/tests/handoff HEAD immediately before this terminal STATUS-only commit)
-- summary: `Implemented only E4-owned PaperBroker protection-v0.1 Fill lineage propagation. record_fill() now copies exact position_action_id, position_id, and order_role from the exact stored originating OrderRequest while retaining existing trade_plan_id lineage. Partial/full protection fills preserve identical authority lineage and exact per-fill facts; entry/legacy fills keep protection-only lineage as None. Existing quantity limits, terminal-state guards, ambiguity/reconciliation, idempotency and no-blind-retry behavior are unchanged.`
-- files_changed: `src/brokers/paper.py; tests/brokers/test_paper_broker_protection_fill_lineage.py; status/e4/E4_GATE_B_PROTECTION_FILL_LINEAGE_20260824.md; coordination/E4/STATUS.md`
+- branch: `agent/e4-gate-b-close-consumer-20260824`
+- baseline_main_sha: `7014e5ee7a74c65c052ad5674f48f161d41d0434`
+- head_sha: `db555c0773842630cb1b9aed100d71a4db1a4651` (source/tests/handoff HEAD immediately before this terminal STATUS-only commit)
+- summary: `Implemented only E4-owned close-v0.1 mechanical close-order consumption and provider-neutral PaperBroker close Fill/residual Position truth. Exact E5 EXIT/EMERGENCY_EXIT authority plus exact parent plan/current CONSISTENT Position maps to deterministic MARKET reduce-only POSITION_EXIT/EMERGENCY_EXIT OrderRequest. PaperBroker exposes same-position residual/flat observation derived from exact source Position quantity minus exact close Fill set; OrderStatus.FILLED and symbol net exposure are never treated as flat proof. E5 lifecycle/TradeResult/persistence/provider/release authority were not implemented.`
+- files_changed: `src/execution/close.py; src/brokers/paper.py; tests/execution/test_close.py; tests/brokers/test_paper_broker_close_truth.py; status/e4/E4_GATE_B_CLOSE_CONSUMER_20260824.md; coordination/E4/STATUS.md`
 - contracts_changed: `NO`
 - local_verification: `NOT_RUN`
-- not_run: `No explicitly PM/Product-Owner-approved Local Runner action is available in this session for the exact clean target revision. Required Windows PowerShell commands from repository root: $env:PYTHONPATH="src" ; python -m unittest discover -s tests/brokers -p "test_*.py" -v ; python -m unittest discover -s tests/execution -p "test_*.py" -v`
-- blockers: `NONE for bounded static/source completion. Executable evidence remains outstanding; prior NOT_RUN evidence is not upgraded.`
-- handoff_path: `status/e4/E4_GATE_B_PROTECTION_FILL_LINEAGE_20260824.md`
+- not_run: `No explicitly PM/Product-Owner-approved Local Runner action is available in this session for the exact clean target revision. Required Windows PowerShell commands from repository root: $env:PYTHONPATH="src" ; python -m unittest discover -s tests/execution -p "test_*.py" -v ; python -m unittest discover -s tests/brokers -p "test_*.py" -v`
+- blockers: `NONE for bounded static/source completion. Executable evidence remains outstanding; NOT_RUN is not PASS.`
+- handoff_path: `status/e4/E4_GATE_B_CLOSE_CONSUMER_20260824.md`
 - next_owner: `E7/PM for bounded static integration review and explicitly approved-local verification planning`
 
 ## Wake / authority verification
@@ -20,10 +20,10 @@
 Wake message task ID:
 
 ```text
-E4-20260824-007
+E4-20260824-009
 ```
 
-Latest `main:coordination/E4/TASK.md` matched exactly before any implementation work began.
+Latest `main:coordination/E4/TASK.md` matched exactly before implementation.
 
 Authoritative files read first:
 
@@ -39,87 +39,109 @@ Only E4's TASK was read; no other Agent TASK was read or executed.
 At task start:
 
 ```text
-main = 6f9a73ac0ef5ab9575b9fab698a918fb97dcbe0e
-agent/e4-gate-b-protection-fill-lineage-20260824 = identical
+main = 7014e5ee7a74c65c052ad5674f48f161d41d0434
+agent/e4-gate-b-close-consumer-20260824 = identical
 ```
 
 No merge, rebase, force update, or history rewrite was required.
 
-## Required dependency inspection
+## Contract-first inspection
 
-Read-only evidence consumed before implementation included:
+Read-only dependencies included:
 
-- `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md` section 10;
-- `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`;
-- `src/execution/models.py` OrderRequest / Fill;
-- current `src/brokers/paper.py` including PR #43 terminal/reconciliation behavior;
-- accepted `src/execution/protection.py` translator;
-- `status/e7/GATE_B_PROTECTION_FAILURE_INTEGRATION_REVIEW_20260824.md` from PR #44;
-- existing broker/execution tests involving entry, protection, fills, terminal truth and reconciliation.
+- `contracts/SHARED_CONTRACTS_V1.md`
+- `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`
+- `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`
+- `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`
+- `docs/adr/ADR-0005-close-authority-and-trade-result-boundary.md`
+- accepted E5 `src/position/close.py`
+- current E4 models/gateway/protection/PaperBroker/Broker surfaces
+- current Gate B integration/release evidence and existing E4 tests
 
-The existing shared Fill/request semantics were sufficient. No `CONTRACT_OR_SEMANTIC_GAP` was found.
-
-## Implemented Fill lineage propagation
-
-`PaperBroker.record_fill()` retains existing:
+Disposition:
 
 ```text
-Fill.trade_plan_id = OrderRequest.trade_plan_id
+CONTRACT_OR_SEMANTIC_GAP = NO
 ```
 
-and now also mechanically copies:
+The existing shared Position shape can safely carry later/current same-position broker truth by preserving identity/lifecycle fields and refreshing only E4-owned exposure observation fields. No parallel DTO or shared contract/interface expansion was introduced.
+
+## Implemented close-v0.1 mapping
+
+Accepted actions:
 
 ```text
-Fill.position_action_id = OrderRequest.position_action_id
-Fill.position_id        = OrderRequest.position_id
-Fill.order_role         = OrderRequest.order_role
+EXIT
+EMERGENCY_EXIT
 ```
 
-The source is the exact stored originating canonical `OrderRequest`. No provider field, broker ID, symbol/side heuristic, or inferred lifecycle state is used.
-
-For canonical protection requests:
+Mechanical request mapping:
 
 ```text
-order_role = PROTECTION_STOP
+EXIT           -> POSITION_EXIT
+EMERGENCY_EXIT -> EMERGENCY_EXIT
+LONG           -> SELL
+SHORT          -> BUY
+order_type     = MARKET
+reduce_only    = true
+quantity       = exact PositionAction.quantity = current Position.actual_quantity
+limit_price    = null
+stop_price     = null
+time_in_force  = null
 ```
 
-For entry/legacy requests the optional source fields are absent/None, so the emitted Fill retains:
+Exact lineage retained:
+
+- `trade_plan_id`
+- `position_action_id`
+- `position_id`
+- `risk_decision_id`
+- quantity profile/unit/asset
+
+Client identity remains deterministic from `(position_action_id, order_role)` and the order request ID remains deterministic from that client identity.
+
+Validation fails closed on unsupported/missing profile/action/order type, action expiry, parent/risk/strategy/risk-policy lineage mismatch, source Position identity/side/lifecycle/observation/reconciliation mismatch, quantity semantics mismatch, or exposure above the parent maximum.
+
+Parent entry-plan TTL is not reused as close-action lifetime.
+
+## Close Fill / residual Position truth
+
+Existing PaperBroker Fill construction already propagates originating request lineage, so close fills retain:
 
 ```text
-position_action_id = None
-position_id = None
-order_role = None
+trade_plan_id
+position_action_id
+position_id
+order_role = POSITION_EXIT | EMERGENCY_EXIT
 ```
 
-No shared model expansion was made.
+Added Paper-only:
 
-## Safety / compatibility preservation
+```text
+observe_position_after_close(request, source_position, observed_at=...)
+```
 
-Unchanged behavior includes:
+It returns the existing shared Position shape with only broker-owned facts refreshed:
 
-- exact actual per-fill quantity, price, timestamp, fee and liquidity facts;
-- cumulative fill cannot exceed `OrderRequest.quantity`;
-- deterministic Fill identity algorithm remains unchanged;
-- `query_fills()` returns the stored Fill objects in existing order;
-- REJECTED/CANCELED/EXPIRED/FILLED cannot receive invalid later fills;
-- PARTIALLY_FILLED terminalization remains unsupported by the bounded PR #43 surface;
-- ambiguous submit/reconciliation behavior remains unchanged;
-- no lineage field grants risk, retry, lifecycle, TradeResult or release authority;
-- no provider/private fields or credentials were added.
+```text
+actual_quantity
+broker_state_observed_at
+reconciliation_status
+```
+
+`lifecycle_state` is preserved unchanged and no `closed_at`, `POSITION_CLOSED`, exit reason, or TradeResult is created.
+
+Residual is derived only from exact source Position quantity minus the exact actual close Fill set. It never uses symbol-level net exposure or `OrderStatus.FILLED` alone as proof of flatness.
+
+Fail-closed conditions include ambiguous submit, inconsistent order health/state/quantity, Fill lineage/time/quantity mismatch, over-close, stale observation, or any other same-symbol Fill after the source Position observation that could invalidate same-position attribution.
+
+Only exact full consumption of source quantity by actual close fills may yield `actual_quantity = 0`.
 
 ## Deterministic tests materialized
 
-Added `tests/brokers/test_paper_broker_protection_fill_lineage.py` defining coverage for:
+`tests/execution/test_close.py` covers valid LONG/SHORT/EMERGENCY mapping, exact lineage/idempotency, parent TTL independence, fail-closed authority mismatches and provider-neutrality.
 
-- exact partial protection Fill lineage;
-- subsequent full Fill preserving the same lineage;
-- exact per-fill quantities and overfill rejection;
-- `query_fills()` lineage/order preservation;
-- protective SELL and BUY side variants retaining the same lineage semantics;
-- entry/legacy Fill protection fields remaining None;
-- rejected/canceled/expired orders still rejecting fills;
-- ambiguous accepted reconciliation no-regression;
-- provider-neutral/no-credential canonical Fill surface.
+`tests/brokers/test_paper_broker_close_truth.py` covers partial/full close Fill lineage, positive residual, broker-derived flat zero, FILLED-not-flat safety, over-close rejection, short/emergency paths, query_fills preservation, ambiguous truth fail-closed, same-symbol interference fail-closed, terminal/reconciliation compatibility, entry/protection compatibility and provider-neutrality.
 
 Definitions only; none were executed.
 
@@ -133,27 +155,20 @@ Computer Adapter = NOT_USED
 provider/private API = NOT_CALLED
 credentials = NOT_USED
 Paper runtime/test execution = NOT_RUN
+Gate B = BLOCKED / NOT YET PASS
+PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
 Required future approved-local Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
 python -m unittest discover -s tests/execution -p "test_*.py" -v
+python -m unittest discover -s tests/brokers -p "test_*.py" -v
 ```
-
-`NOT_RUN` is not PASS.
 
 ## Completion boundary
 
-This task does **not** claim:
+This task does **not** claim Paper E2E, TradeResult durable audit, Gate B/PAPER_READY, PAPER, SHADOW, or LIVE PASS/authority.
 
-```text
-Paper E2E closes to TradeResult and persists audit = PASS
-Gate B = PASS
-PAPER_READY = PASS
-PAPER / SHADOW / LIVE = AUTHORIZED
-```
-
-E4 stops after this terminal STATUS and does not self-start E7 integration, close-to-TradeResult semantics, restart/persistence, full Paper E2E, approved-local verification, provider/private work, Gate C, PAPER, SHADOW, or LIVE.
+E4 stops here and does not self-start E5 TradeResult construction, E6 persistence/restart, E7 Paper E2E, approved-local verification, provider/private work, Gate C, PAPER, SHADOW, or LIVE.

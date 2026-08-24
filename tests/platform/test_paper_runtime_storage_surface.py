@@ -35,6 +35,7 @@ class PaperRuntimeStorageSurfaceDefinitions(unittest.TestCase):
     def test_runtime_surface_is_separate_from_strategy_lifecycle_authority(self) -> None:
         methods = set(PaperRuntimeJournal.__dict__)
         self.assertIn("persist_position_projection", methods)
+        self.assertIn("persist_lifecycle_execution_binding", methods)
         self.assertIn("persist_trade_result", methods)
         self.assertIn("recover", methods)
         self.assertNotIn("promote_strategy", methods)

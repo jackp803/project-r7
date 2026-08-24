@@ -1,259 +1,125 @@
 # E7 Current Task
 
-- task_id: `E7-20260824-024`
-- issued_at: `2026-08-24T09:12:00+08:00`
+- task_id: `E7-20260824-025`
+- issued_at: `2026-08-24T09:34:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-a-local-rerun4-20260824`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, Product Owner-approved Windows local execution policy, AgentBridge runtime fix `ed57928b228720f0876f0060224ed532b17fd799`, AgentBridge PR #6 head `af6ae97f96e172572496de987cfb96f261f58e0c`
+- target_branch: `agent/e7-gate-a-evidence-review-20260824`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, merged Gate A execution evidence PR #32, Product Owner-approved Windows local execution policy
 
 ## Objective
 
-Execute a fresh complete Gate A local-only matrix at exact project revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71` through the approved AgentBridge Local Runner.
-
-This task supersedes `E7-20260824-023 / HOLD` because the AgentBridge execution-result delivery/cancellation state-machine blocker has now been locally diagnosed, fixed, and validated against the real `project-r7` registration.
-
-No previous Gate A execution evidence is reusable. Start from suite 1 and generate fresh evidence only.
-
-## Accepted AgentBridge infrastructure repair evidence
-
-Root cause of the E7-022 incident is now classified as infrastructure/result-delivery state-machine behavior, not target-branch observation failure and not project-r7 source failure.
-
-Accepted supporting infrastructure evidence:
-
-```text
-AgentBridge runtime code actually running:
-ed57928b228720f0876f0060224ed532b17fd799
-
-fix commits:
-407fc78bde7ce8d5ed7443633b21552f4f020376
-ed57928b228720f0876f0060224ed532b17fd799
-
-AgentBridge PR #6 head:
-af6ae97f96e172572496de987cfb96f261f58e0c
-
-real project target-branch smoke request:
-REQ-AB-REAL-20260824-001-9C0A7E21
-
-job:
-JOB-732712DC6A83201E
-
-result:
-SUCCEEDED / exit 0 / exactly one execution
-notification:
-DELIVERED
-
-cancel-before-execution regression:
-PASS / zero process executions
-
-finished-job late-cancel regression:
-PASS / FINISHED preserved / no rerun
-
-AgentBridge local tests:
-58 / 58 PASS
-
-compile check:
-PASS
-
-GitHub compute:
-NO
-```
-
-Historical E7-022 job `JOB-F8A2FB2A2BC78F92` exists for audit only. It is explicitly forbidden as Gate A evidence.
-
-## Approved execution pin
-
-Approved environment:
-
-```text
-current Windows local development computer
-```
-
-Exact project source revision:
-
-```text
-4da559bbbb569ea4f32246a40ef35f4bd8477a71
-```
-
-Required active Local Runner worktree:
-
-```text
-detached HEAD
-HEAD = 4da559bbbb569ea4f32246a40ef35f4bd8477a71
-working tree = CLEAN
-```
-
-Preparation evidence remains:
-
-```text
-JOB-F53BD229F125 / SUCCEEDED
-```
-
-Before suite 1, use AgentBridge's registered execution path/evidence to confirm the active worktree is still the exact approved revision and clean. If the runner reports a mismatch, stop with `LOCAL_EXECUTION_MATRIX = NOT_RUN` and preserve exact evidence.
-
-## Critical asynchronous Worker protocol
-
-This task MUST be executed as an event-driven sequence across separate ChatGPT turns.
-
-The previous infrastructure defect showed that keeping the E7 ChatGPT response open while waiting for a Local Runner result prevents AgentBridge from delivering the result notification to that same conversation.
-
-Therefore, for EVERY suite:
-
-1. On target branch `agent/e7-gate-a-local-rerun4-20260824`, write/update `coordination/E7/LOCAL_JOB_REQUEST.json` with exactly one `REQUESTED` action for the current task.
-2. Commit and push the request to the target branch.
-3. **Immediately end the current ChatGPT response. Do not poll GitHub, do not wait synchronously, do not sleep, and do not keep the response open waiting for the result.**
-4. AgentBridge will consume the request and later wake this E7 conversation with the durable execution-result notification.
-5. On the next wake, re-read latest `main` TASK, target-branch STATUS/mailbox, and the AgentBridge result supplied to the conversation. Verify task_id/request_id/action/job/result identity before proceeding.
-6. If the suite succeeded, persist/update E7 evidence as needed, issue the NEXT suite request on the same target branch, push it, and again immediately end the response.
-7. Repeat until either the first failure occurs or all eight suites have terminal results.
-
-Do not remain in one ChatGPT turn waiting for multiple suites.
-
-## Cancellation semantics
-
-`CANCELLED` is for a genuine operator/task cancellation, not a timeout substitute while waiting for a result notification.
-
-Do not cancel a request merely because the E7 chat has not yet seen a notification while the same response is still active. The required behavior is to end the response and allow AgentBridge to wake the conversation asynchronously.
-
-If a genuine cancellation is required before execution, update the SAME target-branch request to:
-
-```text
-state = CANCELLED
-```
-
-and commit/push it. Do not delete the mailbox request. Do not create a competing request.
-
-If a request already finished, a late CANCELLED state must not be interpreted as undoing or rerunning the completed job. Preserve durable FINISHED evidence.
-
-## Fresh evidence only
-
-Do not reuse as Gate A PASS evidence:
-
-- any PASS from old source revision `6ed214276038b1ad517e8875c10946b8fcccf4a3`;
-- E7-020 / E7-021 / E7-022 `NOT_RUN` outcomes;
-- historical `JOB-F8A2FB2A2BC78F92`;
-- historical `JOB-9089696FF6BB9C98`;
-- AgentBridge infrastructure smoke jobs;
-- preparation job as a test-suite result.
-
-All eight suites below must execute freshly for `E7-20260824-024`.
-
-## Required ordered matrix
-
-Execute only the registered allowlisted Gate A actions, exactly in this order:
-
-```text
-1. GATE_A_MARKET_DATA
-2. GATE_A_INDICATORS
-3. GATE_A_STRATEGY
-4. GATE_A_BACKTEST
-5. GATE_A_VALIDATION
-6. GATE_A_REGISTRY
-7. GATE_A_STORAGE
-8. GATE_A_INTEGRATION
-```
-
-Registered commands correspond to:
-
-```powershell
-python -m unittest discover -s tests/market_data -p "test_*.py" -v
-python -m unittest discover -s tests/indicators -p "test_*.py" -v
-python -m unittest discover -s tests/strategy -p "test_*.py" -v
-python -m unittest discover -s tests/backtest -p "test_*.py" -v
-python -m unittest discover -s tests/validation -p "test_*.py" -v
-python -m unittest discover -s tests/registry -p "test_*.py" -v
-python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/integration -p "test_*.py" -v
-```
-
-`PYTHONPATH=src` must remain configured by the registered actions.
-
-## Stop-on-first-failure
-
-On the first suite result of:
-
-```text
-FAILED
-ERROR
-TIMED_OUT
-unexpected REFUSED
-```
-
-stop immediately. Do not request any later suite. Do not edit project code/tests/contracts.
-
-Persist exact AgentBridge evidence and report:
-
-```text
-LOCAL_EXECUTION_MATRIX = FAIL
-GATE_A_REVIEW_CANDIDATE = NO
-```
-
-Every later suite remains `NOT_RUN`.
-
-## Successful terminal interpretation
-
-Only if all eight suites freshly execute against exact revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71` and every suite succeeds with zero failure/error:
+Perform the separate Gate A release/evidence review required after `E7-20260824-024` reported:
 
 ```text
 LOCAL_EXECUTION_MATRIX = PASS
 GATE_A_REVIEW_CANDIDATE = YES
 ```
 
-Do not declare `Gate A PASS`. A separate PM/E7 evidence review is required.
+This task is evidence review only. Do not rerun tests, do not execute project code, and do not treat the prior worker `DONE` state as automatic acceptance.
 
-## Evidence requirements
+## Authoritative execution evidence
 
-For each executed suite retain/report at minimum:
+Merged execution evidence PR:
 
-- exact project source revision;
-- detached HEAD / clean worktree confirmation;
-- approved Windows environment;
-- Python executable/version and OS identity sufficient for reproducibility;
-- `PYTHONPATH`;
-- target branch;
-- request ID;
-- AgentBridge job ID;
-- action ID / actual registered command / cwd;
-- timestamps/duration;
-- exit code;
-- terminal job state;
-- test count where available;
-- bounded stdout/stderr summary;
-- durable SQLite/audit/result reference;
-- notification state;
-- execution count / no-rerun identity where available;
-- `GitHub compute used = NO`;
-- provider/private requests = `NOT_SENT`;
-- PAPER/SHADOW/LIVE = `NOT_USED`;
-- Registry real promotion = `NONE`.
+```text
+PR #32
+merge = 154b3164ce579672d601a23bbc17a485f3ebcbb1
+execution branch head = 633261d58a4c86d7b6d760e23660b48c471bcc31
+```
 
-Do not commit credentials, tokens, browser auth material, secrets, or unrelated personal/machine data.
+Approved project source revision actually under Gate A:
 
-## Safety / forbidden scope
+```text
+4da559bbbb569ea4f32246a40ef35f4bd8477a71
+```
 
-Forbidden:
+Execution task:
 
-- GitHub Actions / CI / hosted runners;
-- GitHub-triggered self-hosted compute;
-- arbitrary shell beyond registered Local Runner actions;
-- Computer Adapter;
-- provider/private API or exchange credentials;
-- E4/E5 broker/live execution;
-- PAPER / SHADOW / LIVE;
-- real Registry/lifecycle promotion;
-- production/test/contract edits to force PASS.
+```text
+E7-20260824-024
+```
+
+Evidence artifact now on main:
+
+```text
+status/e7/GATE_A_LOCAL_RERUN4_20260824.md
+```
+
+Execution summary reported by the artifact:
+
+```text
+GATE_A_MARKET_DATA = PASS / 21
+GATE_A_INDICATORS  = PASS / 3
+GATE_A_STRATEGY    = PASS / 21
+GATE_A_BACKTEST    = PASS / 21
+GATE_A_VALIDATION  = PASS / 15
+GATE_A_REGISTRY    = PASS / 19
+GATE_A_STORAGE     = PASS / 26
+GATE_A_INTEGRATION = PASS / 1
+TOTAL = 127 tests / zero failure or error
+```
+
+## Required review
+
+1. Re-read latest `main` README, `agents/README.md`, E7 role contract, contracts-v0.1 as needed, merged PR #32, `coordination/E7/STATUS.md`, and `status/e7/GATE_A_LOCAL_RERUN4_20260824.md`.
+2. Verify PR #32 changes are evidence/status/mailbox only and contain no E1-E6 production/test/contract semantic changes.
+3. Verify all eight required Gate A suites are present in the required order with fresh request IDs and fresh AgentBridge job IDs for `E7-20260824-024`.
+4. Verify every suite reports `SUCCEEDED`, exit `0`, and a concrete test count; confirm the total 127 is arithmetically consistent and no suite is `NOT_RUN`, `FAILED`, `ERROR`, `TIMED_OUT`, or unexpected `REFUSED`.
+5. Verify old evidence was not reused as acceptance, including old revision `6ed214...`, E7-020/021/022 outcomes, historical `JOB-F8A2FB2A2BC78F92`, `JOB-9089696FF6BB9C98`, or AgentBridge infrastructure smoke jobs.
+6. Verify the execution remained pinned to project source revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71`, with Product Owner-approved Windows local execution and `JOB-F53BD229F125 / SUCCEEDED` preparation evidence.
+7. Reconcile the explicit evidence limitation recorded by E7-024: the user-visible job excerpts did not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean fields, SQLite row IDs, or execution-count fields.
+8. Do not silently fill those fields from assumptions. Determine whether the merged repository evidence plus the previously accepted AgentBridge exact-revision/clean-worktree enforcement and preparation evidence is sufficient for Gate A technical acceptance under project governance.
+9. If the missing provenance fields are material to acceptance, do **not** rerun the matrix and do not declare PASS. Instead return a precise `GATE_A = BLOCKED / EVIDENCE_GAP` disposition listing exactly what additional local evidence must be persisted and which owner must supply it.
+10. If the evidence is sufficient, explicitly state `GATE_A = PASS` and explain the bounded scope of that PASS: research/integration Gate A only. It must not authorize Gate B/C/D, PAPER, SHADOW, LIVE, provider/private API work, strategy promotion beyond existing authority, or capital exposure.
+11. Confirm GitHub compute/Actions/CI/hosted runners were not used as execution evidence.
+12. Persist the review under `status/e7/**` and update `coordination/E7/STATUS.md` with exact reviewed revisions, evidence sufficiency disposition, Gate A decision, and unchanged downstream gate/live state.
+
+## Allowed terminal outcomes
+
+Exactly one of:
+
+```text
+GATE_A = PASS
+```
+
+or
+
+```text
+GATE_A = BLOCKED / EVIDENCE_GAP
+```
+
+A PASS is permitted only if the evidence review concludes the complete fresh local matrix and provenance controls are sufficient under the governing contracts and local-only policy.
+
+## No executable work
+
+For this task:
+
+```text
+project executable verification = NOT_RUN / NOT REQUIRED FOR REVIEW
+```
+
+This `NOT_RUN` refers only to this separate review task. It does not erase or replace the already merged E7-024 local execution evidence.
+
+Do not run tests/backtests/imports/migrations/provider calls, and do not request any Local Runner Gate A action.
+
+## Safety / downstream state
+
+Unless a later Product Owner/PM task explicitly changes them:
+
+- Gate B = BLOCKED / UNCHANGED;
+- Gate C = BLOCKED / UNCHANGED;
+- Gate D = BLOCKED / UNCHANGED;
+- PAPER / SHADOW / LIVE = UNAUTHORIZED / UNCHANGED;
+- provider/private API = NOT AUTHORIZED;
+- Registry/live promotion authority = UNCHANGED.
 
 ## Writable scope
 
-On target branch only:
+- `status/e7/**` review evidence;
+- `coordination/E7/STATUS.md`.
 
-- `coordination/E7/LOCAL_JOB_REQUEST.json`;
-- `coordination/E7/STATUS.md`;
-- `status/e7/**` evidence for this task.
-
-`coordination/E7/TASK.md` remains PM-owned on `main`.
+Do not modify E1-E6 production/tests/contracts, Gate A test definitions, AgentBridge, provider code, lifecycle semantics, or trading behavior.
 
 ## Completion
 
-After the terminal matrix outcome, persist E7 evidence/status to the target branch and stop.
-
-Do not start Gate A release review, another implementation task, provider work, PAPER/SHADOW/LIVE, or Slice 3 automatically.
+Persist the review result, commit/push to `agent/e7-gate-a-evidence-review-20260824`, and stop. Do not start Gate B, provider work, PAPER/SHADOW/LIVE, or another implementation task automatically.

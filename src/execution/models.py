@@ -46,6 +46,11 @@ class OrderRequest:
     quantity_unit: str
     quantity_asset: str
     created_at: datetime
+    authorization_type: str | None = None
+    position_action_id: str | None = None
+    position_id: str | None = None
+    risk_decision_id: str | None = None
+    order_role: str | None = None
     limit_price: Decimal | None = None
     stop_price: Decimal | None = None
     reduce_only: bool | None = None
@@ -56,6 +61,11 @@ class OrderRequest:
         return (
             self.trade_plan_id,
             self.client_order_id,
+            self.authorization_type,
+            self.position_action_id,
+            self.position_id,
+            self.risk_decision_id,
+            self.order_role,
             self.symbol,
             self.side,
             self.order_type,
@@ -100,6 +110,9 @@ class Fill:
     fee: Decimal | None = None
     fee_currency: str | None = None
     liquidity_role: str | None = None
+    position_action_id: str | None = None
+    position_id: str | None = None
+    order_role: str | None = None
 
 
 @dataclass(frozen=True)
@@ -125,6 +138,16 @@ def require_utc(value: datetime, field: str) -> None:
 def stable_client_order_id(trade_plan_id: str, logical_order_key: str) -> str:
     """Stable idempotency identity for one logical order under one approved plan."""
     material = f"{trade_plan_id}\x1f{logical_order_key}".encode("utf-8")
+    return "e4_" + hashlib.sha256(material).hexdigest()[:32]
+
+
+def stable_position_action_client_order_id(position_action_id: str, order_role: str) -> str:
+    """Stable logical order identity tied to immediate PositionAction authority."""
+    if not isinstance(position_action_id, str) or not position_action_id.strip():
+        raise ValueError("position_action_id must be a non-empty string")
+    if not isinstance(order_role, str) or not order_role.strip():
+        raise ValueError("order_role must be a non-empty string")
+    material = f"POSITION_ACTION\x1f{position_action_id}\x1f{order_role}".encode("utf-8")
     return "e4_" + hashlib.sha256(material).hexdigest()[:32]
 
 

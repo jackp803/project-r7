@@ -31,6 +31,7 @@ Therefore:
 PM_ACCEPT_E6_013 = NO
 classification = CONTRACT_OR_SEMANTIC_GAP
 next_owner = E7
+next_task = E7-20260824-050
 ```
 
 This HOLD does not imply the rest of the E6 implementation is rejected; it prevents merge/integration until E7 resolves the exact durable lifecycle-vocabulary validation authority.

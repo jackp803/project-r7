@@ -1,104 +1,94 @@
 # E6 Current Task
 
-- task_id: `E6-20260824-017`
-- issued_at: `2026-08-24T22:55:00+08:00`
+- task_id: `E6-20260824-018`
+- issued_at: `2026-08-24T23:18:00+08:00`
 - state: `ACTIVE`
 - target_branch: `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824`
-- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`, `contracts/POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`, ADR-0007, ADR-0009, accepted E6 durability PR #61, accepted E7 blocker/review PR #62, accepted freshness contract PR #63, accepted E5 binding producer PR #64 merge `d36d1897ccb4ee06ed9a2dbf981dc4814d7a8541`
+- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`, `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`, `contracts/POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`, ADR-0009, accepted PR #61/#63/#64, E7-052 blocker evidence, PM static review of unaccepted `E6-20260824-017`
 
 ## Objective
 
-Implement only the two bounded E6 durability repairs required before E7 may resume Gate B durable Paper integration review:
+Remediate only the two bounded fail-closed defects found during PM static review of `E6-20260824-017`.
 
-1. mechanically persist/validate/recover `position-lifecycle-execution-binding-v0.1` and fail closed when the current durable Position-linked execution snapshot differs from the latest E5 binding;
-2. repair the settled-contract TradeResult durable referenced-object completeness defect identified by E7-052.
+Do not redesign the accepted binding consumer, TradeResult contract, E5 lifecycle semantics, E4 execution truth, shared contracts, release gates, provider/private APIs, or PAPER/SHADOW/LIVE authority.
 
-Do not redesign E5 lifecycle semantics, E4 execution truth, shared contracts, release gates, provider/private APIs, or PAPER/SHADOW/LIVE authority.
+`E6-20260824-017` is **not yet PM-accepted or merged**. Continue on the same target branch and preserve all otherwise-correct E6-017 implementation/tests outside this remediation.
 
-## Required baseline handling
+## Defect A — invalid recovered TradeResult graph can remain READY
 
-Before editing:
-
-- verify latest `main` `coordination/E6/TASK.md` task_id exactly matches `E6-20260824-017`;
-- read latest `main`, including PR #63 contract/ADR and PR #64 E5 producer;
-- preserve merged PR #61 durability behavior except where directly required by these two repairs;
-- do not import E5 production transition logic into E6.
-
-## Repair A — lifecycle execution binding consumer/recovery
-
-E6 must support durable canonical `PositionLifecycleExecutionEvidenceBinding` under:
+Current branch behavior in `src/storage/_lifecycle_execution_binding.py` can map some settled-contract reference-graph validation failures to:
 
 ```text
-schema_version = contracts-v0.1
-lifecycle_execution_binding_profile_version = position-lifecycle-execution-binding-v0.1
-execution_scope = POSITION_LINKED_REDUCTION_ORDERS_V0_1
+TRADE_RESULT_REFERENCED_GRAPH_INVALID
 ```
 
-Required behavior:
+but `augment_recovery_with_binding_and_trade_result()` does not currently downgrade recovery status for that generic invalid reason. Therefore a pre-existing/legacy durable TradeResult with an invalid referenced graph can retain an underlying `READY` recovery claim.
 
-- persist immutable binding identity and exact canonical payload;
-- enforce exactly one non-conflicting binding per lifecycle projection intended for restart authority;
-- mechanically validate binding position/projection/revision/interpreted-time/profile/scope/hash identity;
-- recompute the current durable execution snapshot from canonical Position-linked `OrderRequest` roles `PROTECTION_STOP | POSITION_EXIT | EMERGENCY_EXIT`, all durable `OrderResult` observations, and all durable matching `Fill` objects using the exact PR #63 canonical hash/count/order rules;
-- compare exact recomputed snapshot equality against the latest E5 binding;
-- any missing binding, missing referenced object, new/different in-scope request/result/fill, hash mismatch, identity/time/lineage conflict, or unsupported profile/scope must prevent `READY` / restart-authoritative recovery;
-- use an E6 diagnostic such as `E5_EXECUTION_REINTERPRETATION_REQUIRED` when the durable snapshot is newer/different, without inferring the next lifecycle state;
-- preserve the independent raw Position broker-freshness / E5 re-attestation rule from PR #61;
-- preserve existing UNKNOWN / RECONCILIATION_REQUIRED / DEGRADED fail-closed behavior.
+Required fix:
 
-E6 must not:
+- every TradeResult reference-graph validation failure must be non-READY on recovery;
+- preserve deterministic severity where possible:
+  - identity/lineage mismatch or conflict -> `CONFLICT`;
+  - missing/incomplete/invalid/duplicate/unused/shape-invalid referenced graph -> `INCOMPLETE` or another existing stricter non-READY state;
+- `TRADE_RESULT_REFERENCED_GRAPH_INVALID` itself must never coexist with `READY`;
+- preserve existing binding freshness, Position re-attestation, UNKNOWN/reconciliation and funding rules.
 
-- infer `PositionEvent`, `OPEN_PROTECTED`, `EMERGENCY`, `CLOSED`, protection loss, exit success, or other E5 semantics from order/fill status;
-- import/copy the E5 transition table;
-- associate excluded pre-position entry evidence heuristically by `trade_plan_id`;
-- allocate lifecycle revisions or binding authority.
+Do not weaken validation merely to avoid the generic reason.
 
-## Repair B — TradeResult referenced-object completeness
+## Defect B — referenced PositionAction lineage is not fully mandatory
 
-Under the already accepted close/TradeResult contracts, a closed durable graph must not recover `READY` merely because parent ApprovedTradePlan and FundingAllocationEvidence exist.
+Current E6-017 reference-graph validation checks some PositionAction lineage fields only when the persisted value is non-null. E6 durable storage from the earlier slice can contain a PositionAction row whose minimal storage metadata exists while contract-required authority lineage is absent.
 
-Before accepting/persisting or treating a canonical TradeResult as a complete restart-ready closed graph, E6 must require every exact TradeResult-referenced execution/lifecycle object that the accepted TradeResult profile declares, including referenced:
+For a TradeResult reference graph, missing required authority lineage must fail closed rather than be skipped.
 
-- entry `OrderRequest` objects;
-- exit/protection `OrderRequest` objects;
-- referenced `Fill` objects;
-- referenced exit/protection `PositionAction` objects;
+Mechanically enforce the settled profiles:
 
-and verify their exact IDs/lineage against the TradeResult and resolved trade/position lineage.
+### `PROTECT / PROTECTION_STOP`
 
-If any required referenced object is absent or mismatched, recovery must fail closed as incomplete/conflict and must not report `READY`.
+The referenced `protection-v0.1` PositionAction must have and exactly match the applicable parent/result lineage, including at minimum:
 
-Do not invent new TradeResult fields or semantics. If the accepted contract is insufficient to determine a required reference, stop with `BLOCKED / CONTRACT_OR_SEMANTIC_GAP` and exact evidence for E7.
+```text
+position_id
+trade_plan_id
+risk_decision_id
+risk_policy_version
+symbol
+action = PROTECT
+protection_profile_version = protection-v0.1
+```
 
-## Required deterministic E6 test definitions
+### `EXIT / POSITION_EXIT` and `EMERGENCY_EXIT / EMERGENCY_EXIT`
 
-Add/update E6-owned storage tests covering at minimum:
+The referenced `close-v0.1` PositionAction must have and exactly match the applicable parent/result lineage, including at minimum:
 
-### Binding consumer
+```text
+position_id
+trade_plan_id
+risk_decision_id
+risk_policy_version
+strategy_id
+strategy_version
+symbol
+action
+close_profile_version = close-v0.1
+```
 
-1. valid latest projection + exact matching binding + unchanged durable execution snapshot remains eligible for normal recovery evaluation;
-2. binding absent -> not READY;
-3. binding projection/revision/time/profile/scope/hash mismatch -> fail closed;
-4. later `PARTIALLY_FILLED`/`FILLED` protection OrderResult/Fill after binding -> old projection not READY;
-5. later `CANCELED`/`EXPIRED`/`REJECTED` protection truth after binding -> old projection not READY;
-6. new POSITION_EXIT or EMERGENCY_EXIT request/result/fill after binding -> old projection not READY until new E5 interpretation/binding;
-7. equal canonical duplicate replay remains idempotent;
-8. equal-time changed OrderResult, changed Fill identity, or changed OrderRequest identity remains conflict/fail closed;
-9. equal-broker-anchor E5 REATTESTATION plus new matching binding restores freshness mechanically without E6 lifecycle inference;
-10. newer raw Position broker observation remains independently re-attestation-required;
-11. entry-v0.1 evidence remains outside the binding scope and is not heuristically joined.
+Continue to validate the exact `position_action_id` / `order_role` authority reference and request/fill linkage.
 
-### TradeResult completeness
+E6 is performing contract-shape/identity/lineage validation only. Do not infer a PositionEvent or lifecycle transition from these fields.
 
-12. closed graph with every TradeResult-referenced OrderRequest/Fill/PositionAction present and matching may continue normal recovery evaluation;
-13. missing referenced entry OrderRequest -> not READY;
-14. missing referenced exit/protection OrderRequest -> not READY;
-15. missing referenced Fill -> not READY;
-16. missing referenced PositionAction -> not READY;
-17. referenced object exists but lineage/ID mismatches -> fail closed;
-18. existing funding/TradeResult immutability and lifecycle durability tests remain definition-compatible.
+## Required deterministic regression definitions
 
-Use canonical sanitized fixtures only.
+Add/update E6-owned storage tests proving at minimum:
+
+1. a storage-level legacy/pre-fix TradeResult row whose reference graph fails with a generic invalid/duplicate/unused/shape reason cannot recover `READY`;
+2. an existing referenced PROTECT PositionAction with a contract-required lineage field absent -> TradeResult persist/recovery fails closed;
+3. an existing referenced EXIT or EMERGENCY_EXIT PositionAction with required parent/strategy/policy lineage absent or mismatched -> fails closed;
+4. mismatch/conflict remains `CONFLICT` and missing/invalid completeness remains non-READY;
+5. the valid complete closed graph from E6-017 remains definition-compatible;
+6. all E6-017 lifecycle execution-binding freshness definitions remain unchanged/compatible.
+
+Where current public persistence APIs correctly reject creation of the legacy-invalid row, a deterministic storage-level fixture/direct SQLite setup may represent a database produced before this remediation. Do not weaken the public API to construct the fixture.
 
 ## Writable scope
 
@@ -106,17 +96,19 @@ E6-owned only:
 
 - `src/storage/**`;
 - `tests/storage/**` and strictly necessary `tests/platform/**`;
-- E6-owned durability docs/status evidence;
+- E6-owned status/handoff evidence;
 - `coordination/E6/STATUS.md` on the target branch.
 
 Forbidden:
 
-- `contracts/**`, `docs/adr/**`;
-- E1-E5/E7 production code/tests;
+- `contracts/**` / `docs/adr/**`;
+- E1-E5/E7 production/tests;
 - provider/private API/network/credentials;
 - `.github/workflows/**` or GitHub CI/compute;
 - strategy promotion;
 - PAPER/SHADOW/LIVE authorization.
+
+If the settled profiles are insufficient to determine any required field mechanically, stop with `BLOCKED / CONTRACT_OR_SEMANTIC_GAP`, `next_owner = E7`, and exact evidence. Do not guess.
 
 ## Executable verification
 
@@ -141,22 +133,20 @@ Do not use GitHub Actions/CI/hosted runners/GitHub-triggered compute. `NOT_RUN !
 
 ### DONE
 
-- E6 mechanically consumes the accepted PR #63/#64 binding without importing E5 lifecycle semantics;
-- stale/new Position-linked execution evidence cannot leave an older lifecycle projection falsely `READY`;
-- exact matching re-attested binding can restore the execution-freshness axis mechanically;
-- TradeResult restart readiness requires complete exact referenced-object graph under the settled contract;
-- deterministic regression definitions are materialized;
-- PR #61 behavior outside the bounded repairs remains preserved;
-- no shared-contract, provider/private, CI, release-promotion, or PAPER/SHADOW/LIVE scope is crossed;
+- no TradeResult referenced-graph validation failure can leave recovery `READY`;
+- contract-required referenced PositionAction lineage is mandatory rather than optional;
+- valid E6-017 binding freshness and complete-graph behavior is preserved;
+- deterministic regression definitions are committed;
+- no shared-contract/provider/private/CI/release scope is crossed;
 - executable evidence is approved-local exact evidence or explicit `NOT_RUN` with commands;
 - no Restart/persistence PASS, Paper E2E PASS, Gate B/PAPER_READY PASS, or PAPER/SHADOW/LIVE authorization is claimed.
 
 ### BLOCKED
 
-If either repair requires undefined shared semantics, record exact evidence and `next_owner = E7`; do not guess.
+If the fix requires undefined shared semantics or changing E5/E4 authority, record exact evidence, set `next_owner = E7`, and stop.
 
 ## Completion / mailbox rule
 
-Commit/push bounded code/tests/evidence/status to `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824`.
+Commit/push the bounded remediation and terminal `coordination/E6/STATUS.md` with task_id `E6-20260824-018` to `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824` and stop.
 
-Write/push terminal `coordination/E6/STATUS.md` on that target branch with task_id `E6-20260824-017` and stop. Do not self-start E7 integration, approved-local verification, Gate C, provider/private APIs, PAPER, SHADOW, or LIVE.
+Do not self-start E7 integration, approved-local verification, Gate C, provider/private APIs, PAPER, SHADOW, LIVE, or another task.

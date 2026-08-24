@@ -6,6 +6,16 @@ from .close import (
     default_close_reason_codes,
     validate_close_position_action,
 )
+from .lifecycle_projection import (
+    LifecycleProjectionError,
+    POSITION_LIFECYCLE_PROJECTION_PROFILE_VERSION,
+    build_position_lifecycle_closed_transition,
+    build_position_lifecycle_genesis,
+    build_position_lifecycle_reattestation,
+    build_position_lifecycle_transition,
+    stable_lifecycle_projection_id,
+    validate_position_lifecycle_projection,
+)
 from .protection import (
     ProtectionActionError,
     build_protect_position_action,
@@ -39,6 +49,14 @@ __all__ = [
     "build_close_position_action",
     "default_close_reason_codes",
     "validate_close_position_action",
+    "LifecycleProjectionError",
+    "POSITION_LIFECYCLE_PROJECTION_PROFILE_VERSION",
+    "build_position_lifecycle_closed_transition",
+    "build_position_lifecycle_genesis",
+    "build_position_lifecycle_reattestation",
+    "build_position_lifecycle_transition",
+    "stable_lifecycle_projection_id",
+    "validate_position_lifecycle_projection",
     "ProtectionActionError",
     "build_protect_position_action",
     "validate_protection_action",

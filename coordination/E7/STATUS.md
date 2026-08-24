@@ -69,8 +69,16 @@
 - suite_6_result: `PASS / Ran 19 tests / OK`
 
 - suite_7_action: `GATE_A_STORAGE`
-- suite_7_state: `REQUEST_PENDING_COMMIT`
-- suite_8: `NOT_RUN`
+- suite_7_request_id: `REQ-E7-GATEA-024-07-D5A7C318`
+- suite_7_job_id: `JOB-EEFC8AE652AD4B0A`
+- suite_7_state: `SUCCEEDED`
+- suite_7_exit_code: `0`
+- suite_7_duration_seconds: `0.687`
+- suite_7_test_count: `26`
+- suite_7_result: `PASS / Ran 26 tests / OK`
+
+- suite_8_action: `GATE_A_INTEGRATION`
+- suite_8_state: `REQUEST_PENDING_COMMIT`
 
 ## Current gate/safety state
 
@@ -89,6 +97,6 @@
 
 ## Evidence interpretation
 
-Six of eight required suites have fresh PASS evidence under the current task. The delivered result excerpts do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row IDs, or execution-count fields; E7 does not invent them. No worktree/source mismatch, failure, error, timeout, or refusal was reported by suites 1-6.
+Seven of eight required suites have fresh PASS evidence under the current task. The delivered result excerpts do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row IDs, or execution-count fields; E7 does not invent them. No worktree/source mismatch, failure, error, timeout, or refusal was reported by suites 1-7.
 
-This is not Gate A PASS and not a complete matrix PASS. Suite 7 is the only next permitted action.
+This is not Gate A PASS and not a complete matrix PASS. Suite 8 is the only next permitted action.

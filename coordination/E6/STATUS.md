@@ -1,74 +1,112 @@
 # E6 Status
 
-- task_id: `E6-20260824-010`
+- task_id: `E6-20260824-013`
 - agent: `E6`
-- state: `BLOCKED`
-- branch: `agent/e6-gate-b-paper-runtime-durability-20260824`
-- head_sha: `57b8e4e18c72062442c78e9ca286a09f9a969bd1` (branch head before this mailbox-only commit)
-- summary: `Stopped under the task's contract-first blocker rule. Accepted Gate B behavior permits E5 lifecycle-only Position projection changes such as OPEN_UNPROTECTED->OPEN_PROTECTED and ->EXIT_REQUESTED without a new shared canonical Position observation timestamp/sequence; PR #55 explicitly preserves broker_state_observed_at across the protection lifecycle projection. E6 therefore cannot implement exact current Position projection/restart ordering while also failing closed on equal-time conflicting payloads without inventing E6 lifecycle precedence.`
-- files_changed: `status/E6_GATE_B_PAPER_RUNTIME_DURABILITY_BLOCKER_20260824.md; status/E6_STATUS.md; coordination/E6/STATUS.md`
+- state: `DONE`
+- branch: `agent/e6-gate-b-paper-runtime-durability-v2-20260824`
+- head_sha: `6fce8b2232349523aeb0a0de0fdd9cd6c0e29ba4` (branch head before this mailbox-only terminal commit)
+- summary: `Materialized the bounded E6 Gate B Paper runtime durability/restart/audit slice after PR #57/#58 resolved the prior Position lifecycle-ordering blocker. Added additive SQLite runtime journal/current indexes, exact canonical payload/hash preservation, immutable/idempotent/conflict rules, position-lifecycle-projection-v0.1 revision/predecessor handling, raw Position re-attestation diagnostics, OrderResult observation history, funding lineage conflicts, immutable TradeResult funding binding, safe close/reopen recovery surface, and deterministic storage/platform test definitions.`
+- files_changed: `src/storage/migrations/0002_paper_runtime_durability.sql; src/storage/runtime_models.py; src/storage/_runtime_validation.py; src/storage/_paper_runtime.py; src/storage/runtime.py; tests/storage/test_paper_runtime_durability.py; tests/storage/test_paper_runtime_conflict_and_time_ordering.py; tests/storage/README.md; tests/platform/test_paper_runtime_storage_surface.py; docs/platform/E6_GATE_B_PAPER_RUNTIME_DURABILITY.md; status/E6_GATE_B_PAPER_RUNTIME_DURABILITY_20260824.md; status/E6_STATUS.md; coordination/E6/STATUS.md`
 - contracts_changed: `NONE`
 - local_verification: `NOT_RUN`
-- not_run: `No Product Owner-approved Local Runner action was authorized for this task. No tests, migrations, runtime code, backtests, provider requests, GitHub Actions/CI/hosted runners, GitHub-triggered compute, Computer Adapter, or project executable workload was run.`
-- blockers: `CONTRACT_OR_SEMANTIC_GAP: canonical Position provides broker_state_observed_at and lifecycle_state but no serialized lifecycle-projection ordering authority. Valid accepted E5 lifecycle projections can change lifecycle_state while retaining the same broker_state_observed_at. Storage arrival order/row sequence/last-write-wins would invent cross-module precedence; recomputing lifecycle on restart is forbidden.`
-- handoff_path: `status/E6_GATE_B_PAPER_RUNTIME_DURABILITY_BLOCKER_20260824.md`
-- next_owner: `E7`
+- not_run: `No separate exact-revision Product-Owner/PM-approved Local Runner action was authorized. No tests, migrations, restart flows, Paper runtime, provider/private request, GitHub Actions/CI/hosted runners, GitHub-triggered compute, Computer Adapter, or project executable workload was run.`
+- blockers: `NONE for static/source implementation. Executable evidence is absent; Restart/persistence PASS, Paper E2E PASS, Gate B/PAPER_READY PASS and PAPER/SHADOW/LIVE authorization are explicitly NOT claimed.`
+- handoff_path: `status/E6_GATE_B_PAPER_RUNTIME_DURABILITY_20260824.md`
+- next_owner: `PM/E7 review queue under normal project workflow; E6 does not self-assign or start another task.`
 
 ## Task identity / baseline
 
-- wake task_id: `E6-20260824-010`
-- authoritative main TASK task_id: `E6-20260824-010`
+- wake task_id: `E6-20260824-013`
+- authoritative main TASK task_id: `E6-20260824-013`
 - task_id match: `YES`
-- inspected main revision: `cccb509483e35a5515c81bde35d5af21cd762879`
-- target branch initially matched latest main exactly: `ahead=0 / behind=0`
+- task-start/latest inspected main: `beaf2a052f4885e64c6a4a1d66c6ae65bbaf7168`
+- target branch initially identical to main: `ahead=0 / behind=0`
+- source/tests/docs head: `95679067132d8fa3933b8534983e6d975d0d68ff`
+- handoff commit: `fbeee41741f2d060d130217efc3dfe4bb699de28`
+- E6 platform status commit: `6fce8b2232349523aeb0a0de0fdd9cd6c0e29ba4`
 
-## Expected vs actual evidence
-
-Expected by TASK:
-
-```text
-append-only Position observations
-+ coherent later-authority current projection
-+ equal observation identity/time conflicting payload -> fail closed
-+ exact current canonical Position restored after restart
-+ no E6 lifecycle recomputation
-```
-
-Actual accepted behavior:
+## Materialized durability boundary
 
 ```text
-canonical Position ordering time = broker_state_observed_at
-PR #55 valid protection lifecycle projection changes lifecycle_state
-PR #55 intentionally preserves the same broker_state_observed_at
-ProtectionLifecycleOutcome.next_state is E5-internal/nonserialized and untimestamped
-CloseActionOutcome.next_state=EXIT_REQUESTED is E5-internal/nonserialized and untimestamped
+canonical E4/E5 runtime payloads
++ position-lifecycle-projection-v0.1 Position projections
+-> E6 additive SQLite journal + mechanical indexes
+-> close/reopen recovery/readback
 ```
 
-Therefore E6 lacks canonical authority material to distinguish a valid later lifecycle-only projection from a conflicting equal-time Position payload.
+Persisted/recovered coverage includes:
 
-## Rejected E6-local workarounds
+```text
+strategy_id + strategy_version lineage
+RiskDecision
+ApprovedTradePlan
+profiled Position projection history/current
+raw Position broker observations
+PositionAction
+OrderRequest
+OrderResult observations/current
+Fill
+FundingAllocationEvidence
+TradeResult
+```
 
-- SQLite row order / auto-increment / `persisted_at`: storage metadata is not E5 lifecycle authority.
-- last-write-wins: violates the explicit equal-time conflict rule.
-- treating different lifecycle states as identical: false idempotency.
-- reconstructing lifecycle from PositionAction / OrderResult / Fill: forbidden domain-state derivation and crosses E5 ownership.
-- returning an arbitrary equal-time Position payload after restart: invents precedence.
+Canonical IDs are stored, never regenerated on restart.
 
-## Required next action
+## Position lifecycle rules
 
-E7 must define an accepted durable/shared ordering/authority semantic for Position lifecycle-only projection changes, or another canonical persistence rule that safely resolves this case. E6 did not propose or modify a shared contract.
+E6 uses only E5-serialized authority:
+
+```text
+revision 0 = GENESIS
+next revision = current + 1
+exact predecessor ID
+nondecreasing broker anchor
+same revision/ID/payload = idempotent
+same revision changed payload/ID = conflict
+same declared ID changed payload = corruption/conflict
+revision gap/predecessor mismatch/anchor regression = fail closed
+```
+
+No SQLite row order, insertion order, persisted_at or last-write-wins is lifecycle authority.
+
+Newer raw E4 broker truth beyond the current lifecycle anchor is stored separately and recovery returns `REATTESTATION_REQUIRED`; E6 does not synthesize a new canonical Position.
+
+Legacy unprofiled Position is never restart-authoritative by storage order.
+
+## Immutable / funding / TradeResult rules
+
+```text
+same immutable ID + same payload -> idempotent
+same immutable ID + changed payload -> conflict
+```
+
+OrderResult observations are append-only and current selection uses normalized UTC observation ordering without rewriting canonical timestamp strings.
+
+Funding rules preserve the exact accepted lineage key. Equivalent later `calculated_at` delivery does not rewrite the first canonical financial object. Different evidence for one lineage or mismatched declared evidence identity fails closed.
+
+TradeResult is immutable and bound to exact durable ApprovedTradePlan + FundingAllocationEvidence. No silent PnL/fee/quantity/reason/funding rewrite is permitted.
+
+## Existing Registry preserved
+
+`src/storage/migrations/0001_strategy_registry.sql` remains unchanged. Existing public Registry composition remains compatible and the strategy lifecycle is still exactly:
+
+```text
+DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
+```
+
+No PAPER / APPROVED / SHADOW / LIVE strategy lifecycle authority was added.
 
 ## Scope / safety
 
-No runtime persistence implementation, migration, test-definition, Registry behavior, provider/private API, credentials, lifecycle promotion, PAPER/SHADOW/LIVE authorization, contracts/ADR, E1-E5 production, or E7 release file was changed.
+- contracts / ADR changes: `NONE`
+- E1-E5 production changes: `NONE`
+- E7 integration/release changes: `NONE`
+- provider/private API/network: `NONE`
+- credentials/secrets: `NONE`
+- dashboard/UI expansion: `NONE`
+- GitHub Actions/CI/workflows: `NONE`
 
-Gate B remains:
-
-```text
-BLOCKED / NOT YET PASS
-```
-
-PAPER / SHADOW / LIVE remain `UNAUTHORIZED`.
+Supported runtime journal rejects secret-like and explicit provider-native fields.
 
 ## Exact future local-only commands
 
@@ -81,6 +119,14 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 
 Executable result remains `NOT_RUN`; `NOT_RUN` is not PASS.
 
-## Stop
+## Release impact / stop
 
-E6 stops on this blocker and waits for E7/PM disposition. It does not start another task.
+```text
+E6 static durability implementation = MATERIALIZED
+Restart/persistence executable criterion = NOT_RUN / NOT CLAIMED PASS
+Paper E2E durable audit = NOT_RUN / NOT CLAIMED PASS
+Gate B / PAPER_READY = BLOCKED / NOT CLAIMED PASS
+PAPER / SHADOW / LIVE = UNAUTHORIZED
+```
+
+E6 stops after this terminal STATUS commit and does not start another task.

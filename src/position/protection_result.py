@@ -87,6 +87,13 @@ def _unknown_outcome(
     current_state: PositionLifecycleState,
     reason_code: str,
 ) -> ProtectionLifecycleOutcome:
+    if current_state == PositionLifecycleState.RECONCILIATION_REQUIRED:
+        return ProtectionLifecycleOutcome(
+            event=None,
+            next_state=current_state,
+            reason_code=reason_code,
+            protection_verified=False,
+        )
     next_state = transition(current_state, PositionEvent.STATE_UNKNOWN)
     return ProtectionLifecycleOutcome(
         event=PositionEvent.STATE_UNKNOWN,

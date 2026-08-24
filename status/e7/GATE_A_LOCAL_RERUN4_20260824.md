@@ -125,17 +125,38 @@ python -m unittest discover -s tests/validation -p "test_*.py" -v
 
 Delivered stderr confirms OOS dataset/binding mismatch rejection, binary-float fail-closed behavior, canonical PASS under explicit OOS bindings/thresholds, no Registry/lifecycle authority, E6 contract acceptance, NOT_RUN non-promotion, deterministic decision identity, impossible consecutive-loss blocking, stable quantitative fail ordering, training/OOS separation, and schema/type fail-closed behavior all passed.
 
+### 6. GATE_A_REGISTRY — PASS
+
+```text
+request_id = REQ-E7-GATEA-024-06-C4E8B129
+task_id = E7-20260824-024
+action_id = GATE_A_REGISTRY
+job_id = JOB-B330F8AA8F17A773
+state = SUCCEEDED
+exit_code = 0
+duration_seconds = 0.469
+Ran 19 tests in 0.066s
+OK
+```
+
+Registered command:
+
+```powershell
+python -m unittest discover -s tests/registry -p "test_*.py" -v
+```
+
+Delivered stderr confirms fail-closed BacktestResult and ValidationDecision evidence validation, Decimal/RFC3339 interchange enforcement, lifecycle authority capped at CANDIDATE, DRAFT→BACKTESTING requiring durable local E2 PASS metadata, content-hash/idempotency handling, secret-like field rejection, CANDIDATE requiring both canonical backtest and validation evidence, and no approval/live path. All 19 reported tests passed.
+
 ## Evidence limitations
 
-The delivered result excerpts for suites 1-5 do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifiers, or execution-count fields. E7 does not fabricate missing values. The TASK-approved execution pin/preparation evidence remains the governing environment requirement, and no source/worktree mismatch or execution refusal was reported by these successful Local Runner results.
+The delivered result excerpts for suites 1-6 do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifiers, or execution-count fields. E7 does not fabricate missing values. The TASK-approved execution pin/preparation evidence remains the governing environment requirement, and no source/worktree mismatch or execution refusal was reported by these successful Local Runner results.
 
 For each suite, AgentBridge delivered the durable execution-result notification to the E7 conversation.
 
 ### Remaining suites
 
 ```text
-6. GATE_A_REGISTRY    = PENDING REQUEST
-7. GATE_A_STORAGE     = NOT_RUN
+7. GATE_A_STORAGE     = PENDING REQUEST
 8. GATE_A_INTEGRATION = NOT_RUN
 ```
 
@@ -147,4 +168,4 @@ GATE_A_REVIEW_CANDIDATE = NO
 Gate A = BLOCKED / MATRIX IN PROGRESS
 ```
 
-No Gate A PASS is claimed. Five of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.
+No Gate A PASS is claimed. Six of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.

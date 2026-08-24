@@ -1,69 +1,144 @@
 # E5 Status
 
-- task_id: `E5-20260824-008`
+- task_id: `E5-20260824-010`
 - agent: `E5`
-- state: `BLOCKED`
-- blocker: `CONTRACT_OR_SEMANTIC_GAP`
-- branch: `agent/e5-gate-b-fill-protection-20260824`
-- head_sha: `f3cc00fde48c8a78100fdd38e06324f0db11b015`
-- base_main_sha: `cd0313fd268edb2e1a532c635713f4f77249ab54`
-- summary: `Static contract-first inspection found that contracts-v0.1 states protection quantity must follow actual filled/open quantity, but the shared PositionAction envelope has no field/binding for protective quantity, quantity profile/unit/asset, approved protection bounds, or approved-plan traceability sufficient for E5 -> E4 mechanical execution. E4 public execution models likewise have no PositionAction protection translation path. Per TASK, E5 stopped rather than inventing a parallel cross-module payload.`
-- files_changed: `status/E5_GATE_B_FILL_PROTECTION_BLOCKER_20260824.md; coordination/E5/STATUS.md`
-- production_semantics_changed: `NO`
-- tests_changed: `NO`
+- state: `DONE`
+- branch: `agent/e5-gate-b-protection-producer-20260824`
+- base_main_sha: `9a1b639cd9f94913f899edc84b27d8b0dafc829f`
+- implementation_head_before_terminal_status: `b477f033e6c5b6729d71f8747d81ccb86c15dc42`
+- summary: `Materialized the E5 producer side of protection-v0.1: a known CONSISTENT OPEN_UNPROTECTED normalized Position observation plus its exact parent ApprovedTradePlan yields a provider-neutral PositionAction.PROTECT whose quantity equals exact Position.actual_quantity and whose lineage/protection bounds remain exactly parent-authorized.`
+- files_changed: `src/position/protection.py; src/position/__init__.py; tests/position/test_protection_action.py; status/E5_GATE_B_PROTECTION_PRODUCER_20260824.md; coordination/E5/STATUS.md`
 - contracts_changed: `NONE`
+- e4_execution_changed: `NO`
+- provider_native_behavior_added: `NO`
+- lifecycle_transition_changed: `NO`
 - paper_shadow_live_authority_changed: `NO`
 - local_verification: `NOT_RUN`
-- evidence_path: `status/E5_GATE_B_FILL_PROTECTION_BLOCKER_20260824.md`
-- next_owner: `E7`
+- evidence_path: `status/E5_GATE_B_PROTECTION_PRODUCER_20260824.md`
+- next_owner: `PM/E7`
 
-## Exact blocker
-
-The current shared `PositionAction` defines only:
+## Implemented boundary
 
 ```text
-schema_version
-position_action_id
+known CONSISTENT normalized Position
++ exact parent ApprovedTradePlan
+-> protection-v0.1 PositionAction.PROTECT
+```
+
+### Actual-fill authority
+
+- `PositionAction.quantity` is exactly the known positive finite `Position.actual_quantity`.
+- partial fills protect only actual partial exposure;
+- full fills protect only actual full exposure;
+- action quantity cannot exceed or substitute for the source actual exposure;
+- actual exposure greater than the parent ApprovedTradePlan maximum fails closed;
+- requested entry quantity is never used as a substitute for actual exposure.
+
+### Canonical profile / lineage
+
+Producer emits the accepted profile fields, including:
+
+```text
+schema_version = contracts-v0.1
+protection_profile_version = protection-v0.1
+action = PROTECT
+trade_plan_id
+risk_decision_id
 position_id
-action
-reason_codes
+symbol
+position_side
+position_observed_at
+position_reconciliation_status = CONSISTENT
+quantity
+quantity_profile_version = base-asset-v0.1
+quantity_unit = BASE_ASSET
+quantity_asset
+protection_instruction
 risk_policy_version
 created_at
+expires_at
+reason_codes
+position_action_id
 ```
 
-and includes `PROTECT` / `MODIFY_PROTECTION`, while its rule says protective quantity is based on actual filled/open quantity.
+For BTC V1, quantity asset remains `BTC`. No provider contract count, OKX `sz`, lot/tick metadata, provider IDs, APIs, or credentials are emitted.
 
-What is missing for safe implementation:
+### Approved protection bounds
 
-1. no canonical field or normative dereference rule for the exact protective quantity derived from actual fill/open exposure;
-2. no PositionAction quantity-profile/unit/asset semantics that make the E5 -> E4 unit unambiguous;
-3. no shared payload/binding for the already-approved stop/target/max-hold protection bounds, and no required plan/risk-decision traceability that proves those bounds were not loosened;
-4. no E4 public PositionAction/protection translator or executable request reference shape for an E5-authorized position action.
+- exact parent `stop_level` is copied;
+- optional parent `target_level` is copied;
+- exact parent `max_hold_seconds` is copied;
+- parent `trade_plan_id`, `risk_decision_id`, `risk_policy_version`, symbol and canonical quantity profile are preserved;
+- tampered/loosened post-fill protection bounds fail closed.
 
-Without those semantics, a successful E5 protection-action implementation would require E5 to invent a new cross-module payload that E4 must consume, violating E7 contract ownership and the TASK's contract-first blocker rule.
+### Fail closed
 
-## Existing safe semantics preserved
+Ordinary executable PROTECT is rejected for:
 
-Current lifecycle behavior remains unchanged and sufficient on its own terms:
+- reconciliation status other than `CONSISTENT`, including `UNKNOWN`, `MISMATCH`, `RECONCILIATION_REQUIRED`;
+- initial lifecycle state other than `OPEN_UNPROTECTED`;
+- missing/blank position identity;
+- zero/negative/non-finite actual quantity;
+- position symbol/side/profile/unit/asset mismatch;
+- actual exposure above parent approved maximum;
+- action quantity not equal to exact source actual exposure;
+- parent/action lineage mismatch;
+- changed protection bounds;
+- legacy/missing/unsupported protection profile;
+- `MODIFY_PROTECTION` under `protection-v0.1`;
+- invalid observation/action timing or expired action;
+- invalid deterministic `position_action_id`.
+
+### Identity / freshness
+
+- `position_action_id` is deterministic/stable for identical authority-bearing material;
+- authority-bearing changes produce a different identity;
+- E5 does not invent a fixed profile TTL because the accepted contract defines none;
+- caller supplies explicit UTC `created_at` / `expires_at`;
+- producer requires `created_at >= position_observed_at` and `expires_at > created_at`;
+- expired action material fails closed;
+- original entry-plan TTL is not reused as post-fill protection-action lifetime.
+
+## Lifecycle boundary preserved
+
+Creating `PositionAction.PROTECT` does **not** imply protection verification and does not mutate lifecycle state.
+
+Existing sequence remains:
 
 ```text
-PENDING_ENTRY + ENTRY_FILL_OBSERVED -> OPEN_UNPROTECTED
+ENTRY_FILL_OBSERVED -> OPEN_UNPROTECTED
 OPEN_UNPROTECTED + PROTECTION_VERIFIED -> OPEN_PROTECTED
 OPEN_UNPROTECTED + PROTECTION_FAILED -> EMERGENCY
-unknown state -> RECONCILIATION_REQUIRED
 ```
 
-E5 did not claim that creating/requesting protection is equivalent to verified protection.
+No `PROTECTION_VERIFIED` event is generated by the producer.
 
-No averaging down, second-position approval, martingale, stop widening, leverage increase, provider-native sizing, or risk-limit weakening was introduced.
+## Deterministic tests materialized
+
+`tests/position/test_protection_action.py` statically defines coverage for:
+
+- partial fill exact quantity;
+- full fill exact quantity;
+- no action quantity greater than actual open exposure;
+- over-approved exposure fail-closed;
+- unknown/mismatch/reconciliation fail-closed;
+- zero/negative/non-finite quantity fail-closed;
+- symbol/side/position identity/profile/unit/asset mismatch;
+- exact stop/target/max-hold binding and no loosening;
+- stable action ID and changed ID on changed authority material;
+- invalid/expired timing;
+- legacy/unsupported protection profile;
+- `MODIFY_PROTECTION` non-executable;
+- PROTECT creation does not mark state protected;
+- provider-native fields absent.
 
 ## Executable verification
 
 Result: `NOT_RUN`
 
-Reason: task stopped at an authoritative contract/semantic blocker before executable implementation. No approved exact-revision AgentBridge action was used and no project code/tests were executed.
+Reason: no explicitly approved AgentBridge Local Runner action pinned to this exact new branch revision is exposed in this session. Static inspection is not executable PASS evidence.
 
-Exact future Windows PowerShell commands after E7 resolves the shared contract and a bounded implementation revision exists:
+Exact future Windows PowerShell commands from repository root:
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -72,19 +147,23 @@ python -m unittest discover -s tests/position -p "test_*.py" -v
 python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
-## GitHub compute policy
+## GitHub compute / security
 
 - GitHub Actions / CI / hosted runner used: `NO`
 - GitHub-triggered self-hosted compute used: `NO`
-- arbitrary cloud/remote project execution used: `NO`
-- provider/private API or credentials used: `NO`
+- arbitrary cloud project execution used: `NO`
+- Computer Adapter used: `NO`
+- provider/private API request used: `NO`
+- provider credentials used: `NO`
 
 ## Release impact
 
 ```text
-Required protection follows actual filled quantity = BLOCKED
-Gate B = BLOCKED / NOT YET PASS
-PAPER = UNAUTHORIZED
+E5 protection-v0.1 producer = MATERIALIZED STATICALLY
+local executable evidence = NOT_RUN
+actual-fill protection Gate B criterion = NOT DECLARED PASS
+Gate B / PAPER_READY = BLOCKED / NOT YET PASS
+PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-E5 stops on `BLOCKED` for `E5-20260824-008`. Do not start E4 protection execution, protection-failure orchestration, persistence, TradeResult closure, Paper E2E, provider/private work, or any later Gate B phase automatically.
+E5 stops on `DONE` for `E5-20260824-010`. Do not self-start E4 consumer work, protection-failure orchestration, persistence, TradeResult, Paper E2E, Gate C, provider/private work, PAPER, SHADOW, or LIVE.

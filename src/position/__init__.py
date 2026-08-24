@@ -1,3 +1,8 @@
+from .protection import (
+    ProtectionActionError,
+    build_protect_position_action,
+    validate_protection_action,
+)
 from .state_machine import (
     PositionEvent,
     PositionLifecycleState,
@@ -8,6 +13,9 @@ from .state_machine import (
 )
 
 __all__ = [
+    "ProtectionActionError",
+    "build_protect_position_action",
+    "validate_protection_action",
     "PositionEvent",
     "PositionLifecycleState",
     "UnsafeTransitionError",

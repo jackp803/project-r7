@@ -1,67 +1,93 @@
 # E5 Status
 
-- task_id: `E5-20260821-004`
+- task_id: `E5-20260824-007`
 - agent: `E5`
-- state: `COMPLETE_PENDING_E7_REREVIEW`
-- branch: `agent/e5-risk-position`
-- head_sha: `3c8f9fa558cc90ad69fd5e58dcd4f6aa457e8de4`
-- implementation_sha: `e5f7088301a92deadfd9f6c416ae03b466c38a47`
-- branch_sync: `SYNCHRONIZED non-destructively before implementation; main=4f969979ad1f2244b14b0a5e12c85177e8fca5c9, merge=d2551999db8bf22f0f93820dd9b7f05cc1301ce9, no force rewrite.`
-- summary: `E5 now consumes only explicit entry-v0.1 / MARKET executable TradeIntent profiles and emits provider-neutral profiled ApprovedTradePlan entry instructions plus base-asset-v0.1 BTC canonical quantity metadata for BTC_USDT_PERP. Legacy entry_style is non-executable; advisory reference_price is not promoted to an executable price.`
-- files_changed: `src/risk/engine.py; tests/risk/test_risk_engine.py; tests/safety/test_e5_fail_closed.py; status/E5_RISK_POSITION_HANDOFF.md; coordination/E5/STATUS.md`
+- state: `DONE`
+- branch: `agent/e5-gate-b-risk-evidence-20260824`
+- head_sha: `62ebbb7c8561406dac3eadd2ffe3d9a25762b4e1`
+- implementation_sha: `eb57637e7c91262f2bbffa140b39db2d24c8c6fc`
+- base_main_sha: `75862902462eee106d0b9d6ff7a4593c7b9ce0ab`
+- summary: `Materialized explicit criterion-level Gate B E5 test definitions for configured daily-trade cap, open/simultaneous-position cap, drawdown lock, and no-new-intent bypass behavior. Existing explicit kill-switch and same-symbol/unknown-position safety coverage is identified rather than duplicated.`
+- files_changed: `tests/risk/test_risk_engine.py; status/E5_GATE_B_RISK_LIMIT_EVIDENCE_20260824.md; coordination/E5/STATUS.md`
+- production_semantics_changed: `NO`
 - contracts_changed: `NONE`
-- accepted_fail_closed_correction_preserved: `YES — E5-RISK-UNKNOWN-001 guards remain in source/test definitions.`
-- position_lifecycle_changed: `NO`
-- provider_native_sizing_added: `NO`
+- risk_policy_values_changed: `NO`
 - paper_shadow_live_authority_changed: `NO`
 - local_verification: `NOT_RUN`
-- not_run: `No Product Owner-approved local execution environment was available; no project code/tests were executed.`
-- blockers: `Executable evidence remains NOT_RUN; E7 producer/consumer re-review is required.`
-- handoff_path: `status/E5_RISK_POSITION_HANDOFF.md`
-- next_owner: `E7`
+- blocker: `Task implementation/evidence materialization is complete, but executable evidence remains NOT_RUN. Gate B criterion and Gate B/PAPER_READY remain BLOCKED until PM/E7 reviews and approved-local execution evidence is recorded.`
+- evidence_path: `status/E5_GATE_B_RISK_LIMIT_EVIDENCE_20260824.md`
+- next_owner: `PM/E7`
 
-## Profile semantics implemented
+## Criterion coverage
 
-- TradeIntent execution eligibility requires exactly `entry_profile_version=entry-v0.1` and `entry_order_type=MARKET`.
-- Missing/unknown profile or unsupported order type fails closed.
-- Legacy `entry_style` cannot substitute for the executable profile.
-- ApprovedTradePlan emits `entry_instruction.profile_version=entry-v0.1` and `entry_instruction.order_type=MARKET`.
-- Optional `entry_reference_price` is serialized only as advisory `entry_instruction.reference_price`; no `limit_price`, `stop_price`, `trigger_price`, or `time_in_force` is manufactured.
-- For `BTC_USDT_PERP`, ApprovedTradePlan emits `quantity_profile_version=base-asset-v0.1`, `quantity_unit=BASE_ASSET`, `quantity_asset=BTC`.
-- `quantity` is the maximum E5-approved new-position BTC exposure bound. Downstream provider quantization may realize less but must never exceed this bound.
-- No OKX `sz`, `ctVal`, `ctMult`, `ctValCcy`, `lotSz`, `minSz`, `tickSz`, instrument metadata retrieval, account-mode handling, provider API calls, or credentials were added to E5.
-- `TradeIntent -> RiskDecision -> ApprovedTradePlan` authority remains unchanged.
+### Daily trade cap
 
-## Deterministic test definitions
+`tests/risk/test_risk_engine.py`
 
-Static definitions cover:
+- `RiskEngineTests.test_gate_b_daily_trade_cap_uses_configured_policy_boundary`
+- boundary derives from `RiskPolicy.max_trades_per_day`;
+- below-limit path is not rejected by the daily cap;
+- at/above configured limit rejects with `DAILY_TRADE_LIMIT_REACHED`.
 
-- valid profiled MARKET intent -> profiled ApprovedTradePlan;
-- missing/unknown entry profile -> reject;
-- unsupported order type -> reject;
-- legacy style-only intent -> not execution eligible;
-- advisory reference price remains non-executable;
-- exact BTC base-asset quantity profile propagation;
-- provider-native sizing fields are absent from the E5 plan;
-- forged/unsafe approval cannot bypass existing fail-closed state checks.
+### Open / simultaneous-position cap
 
-## Required local verification
+`tests/risk/test_risk_engine.py`
 
-Run only in a Product Owner-approved local environment from repository root on Windows PowerShell:
+- `RiskEngineTests.test_gate_b_open_position_cap_uses_configured_policy_boundary`
+- boundary derives from `RiskPolicy.max_open_positions`;
+- below-limit path is not rejected by the aggregate position cap;
+- at/above configured limit rejects with `SIMULTANEOUS_POSITION_LIMIT_REACHED` independently of the same-symbol guard.
 
-```powershell
-$env:PYTHONPATH="src"
-python -m unittest discover -s tests/risk -p "test_*.py"
-python -m unittest discover -s tests/position -p "test_*.py"
-python -m unittest discover -s tests/safety -p "test_*.py"
-```
+Existing companion safety coverage remains unchanged:
+
+- `FailClosedBoundaryTests.test_existing_same_symbol_position_blocks_position_add`
+- `FailClosedBoundaryTests.test_unknown_position_status_cannot_be_overridden_by_known_flag`
+- `FailClosedBoundaryTests.test_reconciliation_required_and_mismatch_states_fail_closed`
+
+### Drawdown lock
+
+`tests/risk/test_risk_engine.py`
+
+- `RiskEngineTests.test_gate_b_drawdown_lock_uses_configured_policy_threshold`
+- threshold derives from `RiskPolicy.max_drawdown`;
+- below-threshold drawdown does not trigger the lock;
+- threshold/exceeded state rejects with `DRAWDOWN_LOCK_ACTIVE`.
+
+### Kill switch
+
+Existing explicit safety coverage is sufficient and was not duplicated:
+
+- `FailClosedBoundaryTests.test_kill_switch_always_rejects_new_exposure`
+- active kill switch rejects with `KILL_SWITCH_ACTIVE`.
+
+### Fail-closed / no reset by new intent
+
+- `RiskEngineTests.test_gate_b_new_intent_identity_does_not_bypass_active_limit_locks`
+- a new TradeIntent/signal identity does not reset daily-trade, open-position, or drawdown locks.
+- existing consecutive-loss no-auto-reset test remains unchanged.
+
+No martingale, averaging-down, stop-widening, risk escalation, second-position approval, actual-fill protection, protection-failure orchestration, persistence, TradeResult closure, Paper E2E, provider API, or lifecycle authority work was added.
+
+## Executable verification
 
 Result: `NOT_RUN`
 
+Reason: no explicitly approved AgentBridge Local Runner action pinned to this exact new branch revision is exposed in this session. Per TASK, no ad-hoc remote/GitHub execution is allowed.
+
+Exact future local commands from repository root on Windows PowerShell:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m unittest discover -s tests/risk -p "test_*.py" -v
+python -m unittest discover -s tests/safety -p "test_*.py" -v
+```
+
+No PASS is claimed from static inspection.
+
 ## GitHub compute policy
 
-- No GitHub Actions workflow was created or used.
-- No GitHub-hosted or GitHub-triggered runner was used.
-- No project code/test was executed on GitHub infrastructure.
+- GitHub Actions / CI / hosted runner used: `NO`
+- GitHub-triggered project compute used: `NO`
+- project tests executed on GitHub infrastructure: `NO`
 
-E5 stops here and waits for E7 re-review / replacement TASK. No next task or provider-adapter work is started automatically.
+E5 stops on `DONE` for `E5-20260824-007`. Do not start the actual-fill protection task or any later Gate B phase automatically.

@@ -156,7 +156,7 @@ class ProtectionActionProducerTests(unittest.TestCase):
             validate_protection_action(action, different_position, plan, now=self.created_at)
         self.assertEqual("POSITION_ACTION_POSITION_MISMATCH", caught.exception.code)
 
-    def test_parent_stop_target_and_max_hold_are_copied_exactly(self):
+    def test_parent_stop_target_and_max_hold_are_copied_exactly_and_cannot_be_loosened(self):
         plan = self._plan(
             protection_instruction={
                 "stop_level": "59400.00",
@@ -164,7 +164,8 @@ class ProtectionActionProducerTests(unittest.TestCase):
                 "max_hold_seconds": 1800,
             }
         )
-        action = self._build(plan=plan)
+        position = self._position()
+        action = self._build(position=position, plan=plan)
 
         self.assertEqual(plan["trade_plan_id"], action["trade_plan_id"])
         self.assertEqual(plan["risk_decision_id"], action["risk_decision_id"])
@@ -173,6 +174,13 @@ class ProtectionActionProducerTests(unittest.TestCase):
         self.assertEqual("59400.00", action["protection_instruction"]["stop_level"])
         self.assertEqual("61200.00", action["protection_instruction"]["target_level"])
         self.assertEqual(1800, action["protection_instruction"]["max_hold_seconds"])
+
+        loosened = dict(action)
+        loosened["protection_instruction"] = dict(action["protection_instruction"])
+        loosened["protection_instruction"]["stop_level"] = "59000.00"
+        with self.assertRaises(ProtectionActionError) as caught:
+            validate_protection_action(loosened, position, plan, now=self.created_at)
+        self.assertEqual("PROTECTION_BOUND_MISMATCH", caught.exception.code)
 
     def test_position_action_id_is_stable_and_changes_with_authority_material(self):
         position = self._position()

@@ -1,175 +1,223 @@
 # E7 Current Task
 
-- task_id: `E7-20260824-040`
-- issued_at: `2026-08-24T14:03:00+08:00`
+- task_id: `E7-20260824-041`
+- issued_at: `2026-08-24T14:15:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-b-trade-result-integration-20260824`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`, ADR-0005, accepted Gate A evidence PR #33, Gate B static preflight PR #34, accepted protection chain PR #37-#45, accepted close/TradeResult contract PR #46, accepted E5 close producer PR #47, accepted E4 close consumer PR #48, accepted E5 TradeResult builder PR #49
+- target_branch: `agent/e7-gate-b-funding-evidence-contract-20260824`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate A evidence PR #33, Gate B static preflight PR #34, accepted protection chain PR #37-#45, accepted close/TradeResult contract PR #46, accepted E5 close producer PR #47, accepted E4 close consumer PR #48, accepted E5 TradeResult builder PR #49, accepted E7 close-to-TradeResult blocker review PR #50
 
 ## Objective
 
-Perform only a bounded **STATIC cross-module integration / test-definition review** of the real Paper close-to-TradeResult chain after PR #49. Do not execute project code.
+Resolve only the shared **provider-neutral funding allocation evidence contract/semantic gap** identified and accepted from `E7-20260824-040` / PR #50.
 
-Review the actual production surfaces for:
-
-```text
-entry OrderRequest + entry Fill truth
-+ E5 close/protection authority
-+ E4 close/protection OrderRequest
-+ PaperBroker Fill / residual-or-flat Position truth
-+ E5 POSITION_CLOSED interpretation
-+ E5 trade-result-v0.1 builder
-```
-
-Determine exactly which closure paths are now fully materialized and which still have an implementation/contract/evidence-producer gap before E6 persistence/restart/audit is started.
-
-This task is not Gate B execution and must not claim PASS from static evidence.
-
-## Accepted prerequisites
+Current accepted blocker:
 
 ```text
-PR #46 merge = d070ffc752d5c37c05aa4101ebc2f6add0c1ff48
-close-v0.1 / trade-result-v0.1 / linear-base-asset-pnl-v0.1 = ACCEPTED STATIC CONTRACT PROFILE
-
-PR #47 merge = e4caa0e1398f2a3cdf1209fa7bc74516f6a94d15
-E5 close producer = MATERIALIZED / executable NOT_RUN
-
-PR #48 merge = 3f7bba953ece100d23c88b86b47df52696adb3a0
-E4 close consumer + close Fill/residual-flat truth = MATERIALIZED / executable NOT_RUN
-
-PR #49 merge = a9edc5db9f31efb0c4a8a0c33d54766093c70392
-E5 authoritative-flat + trade-result-v0.1 builder = MATERIALIZED / executable NOT_RUN
+ordinary EXIT close-to-authoritative-flat = MATERIALIZED / executable NOT_RUN
+EMERGENCY_EXIT close-to-authoritative-flat = MATERIALIZED / executable NOT_RUN
+final TradeResult system chain = BLOCKED by missing governed funding evidence boundary/source
+PROTECTION_STOP same-position flat truth = separate E4 implementation gap, not this task
+Gate B = BLOCKED / NOT YET PASS
 ```
 
-All prior executable Gate B evidence remains `NOT_RUN`; Gate B remains `BLOCKED`; PAPER/SHADOW/LIVE remain unauthorized.
+Define the governed cross-module evidence boundary that a real Paper/runtime producer can emit, E5 can consume for `trade-result-v0.1`, and E6 can later persist/audit without importing an E5-private DTO or inventing provider semantics.
 
-## Required inspection
+This is a **STATIC CONTRACT / ARCHITECTURE task only**. Do not implement E4/E5/E6 production code and do not execute project code.
+
+## Accepted evidence / reason for task
+
+PR #50 accepted the E7 finding that current `src/position/trade_result.py::FundingEvidence` is explicitly E5-internal and not a shared/persisted contract. Current Broker/PaperBroker and E6 surfaces have no governed funding evidence producer/source. Cross-module use of the private E5 shape or an undocumented mapping is forbidden by contract-first governance.
+
+The existing financial semantics already require:
+
+```text
+funding_evidence_status = ZERO_CONFIRMED | INCLUDED
+net_pnl = gross_pnl - total_fees - funding_cost_effective
+```
+
+but the serialized provider-neutral evidence object/profile and producer/consumer ownership are missing.
+
+## Required inspection before editing
 
 Read latest `main` and at minimum:
 
 - `README.md`, `agents/README.md`, `agents/E7_INTEGRATION.md`;
-- `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`, protection/execution profiles and ADR-0005;
-- E5 `src/position/close.py`, `src/position/protection.py`, `src/position/protection_result.py`, `src/position/trade_result.py`, `src/position/state_machine.py`;
-- E4 `src/execution/gateway.py`, `src/execution/protection.py`, `src/execution/close.py`, `src/execution/models.py`;
-- E4 `src/brokers/paper.py` and broker interface;
-- accepted tests from PR #47/#48/#49;
-- `status/RELEASE_GATES.md` and `status/INTEGRATION_STATUS.md`.
+- `contracts/README.md`, `contracts/SHARED_CONTRACTS_V1.md`;
+- `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`;
+- `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`;
+- `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`;
+- ADRs including ADR-0005;
+- E5 `src/position/trade_result.py` read-only;
+- E4 `src/brokers/base.py`, `src/brokers/paper.py` read-only;
+- E6 current storage/platform interfaces read-only;
+- PR #50 review artifact and current `status/RELEASE_GATES.md` / `status/INTEGRATION_STATUS.md`.
 
-Do not accept worker/status prose as proof without checking callable production paths.
+## Required decisions
 
-## Required review questions
+### 1. Versioning / compatibility classification
 
-### 1. Explicit ordinary EXIT chain
-
-Prove statically whether one real callable chain exists using production APIs only:
-
-```text
-E5 close-v0.1 EXIT
--> E4 POSITION_EXIT request
--> PaperBroker submit + actual Fill(s)
--> same-position residual/flat Position observation
--> E5 build_trade_result(... current_lifecycle=EXIT_REQUESTED ...)
--> POSITION_CLOSED / CLOSED + canonical TradeResult
-```
-
-No synthetic replacement for the real E4 request/fill/flat-position path.
-
-If fully materialized, classify the path at most:
+Decide explicitly whether the funding evidence boundary is:
 
 ```text
-IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN
+ADDITIVE_PROFILE_REQUIRED
 ```
 
-not PASS.
+under parent `schema_version = contracts-v0.1`, or whether a stronger contract-version change is required.
 
-### 2. EMERGENCY_EXIT chain
+Prefer additive compatibility only if existing object meanings are not reinterpreted. Record producer/consumer migration impact and fail-closed behavior for legacy objects without the profile.
 
-Perform the same review for:
+### 2. Governed provider-neutral funding evidence object/profile
+
+Define a serialized shared object/profile with an explicit profile identifier, for example a versioned funding-allocation evidence profile. Do not rely on the private E5 `FundingEvidence` dataclass as the shared contract.
+
+At minimum resolve semantics for:
 
 ```text
-EMERGENCY
--> E5 EMERGENCY_EXIT authority
--> E4 EMERGENCY_EXIT request
--> PaperBroker Fill(s)
--> authoritative flat Position
--> E5 POSITION_CLOSED + TradeResult
+schema_version
+funding evidence profile version
+stable funding_evidence_id
+source / source_version
+position_id
+symbol
+exact interval_start
+exact interval_end
+status = ZERO_CONFIRMED | INCLUDED
+signed funding_cost when INCLUDED
+cost / pnl currency compatibility
+observed_at or calculated_at timestamp
+stable identity / idempotency material
 ```
 
-Preserve emergency reason/authority distinction.
+Also decide whether exact parent lineage such as `trade_plan_id`, risk decision/policy, or other identifiers are required for safe one-position binding. Do not omit lineage merely for convenience; document why each required identity is or is not necessary.
 
-### 3. PROTECTION_STOP full-close chain
+All monetary/quantity/time semantics must remain provider-neutral and use existing Decimal-string / RFC3339-Z conventions where applicable.
 
-Do not assume E5 unit-test injection of a flat Position proves system-level support.
+### 3. Completeness and zero-confirmation semantics
 
-Check whether current E4/PaperBroker production APIs can actually derive/query the required **same-position normalized final flat Position truth** after a real `PROTECTION_STOP` Fill with exact protection lineage.
-
-In particular, inspect whether the current residual/flat observer supports `PROTECTION_STOP`, or only `POSITION_EXIT | EMERGENCY_EXIT`.
-
-If protection Fill -> same-position flat truth is not callable through production E4/PaperBroker surfaces, keep the protection-triggered TradeResult path:
-
-```text
-BLOCKED / IMPLEMENTATION_GAP
-next_owner = E4
-```
-
-Do not use symbol-level net exposure or a hand-constructed Position as a substitute.
-
-### 4. Funding evidence producer boundary
-
-E5 PR #49 uses a bounded internal `FundingEvidence` validation input. Determine whether Gate B Paper finalization currently has a real versioned provider-neutral producer/source for:
+Define exactly what authorizes:
 
 ```text
 ZERO_CONFIRMED
-or
-INCLUDED + funding_cost
 ```
 
-covering the exact `[opened_at, closed_at]` position interval.
+It must not mean merely “no funding row happened to be returned” unless the declared source contract proves that absence over the exact interval is complete and authoritative.
 
-Classify precisely:
+Define fail-closed behavior for at least:
 
-- `ALREADY_MATERIALIZED` if a real current Paper/runtime producer exists;
-- `IMPLEMENTATION_GAP / next_owner=<E4 or E6>` if semantics are already sufficient but a producer/persistence path is missing;
-- `CONTRACT_OR_SEMANTIC_GAP / next_owner=E7` if a shared serialized boundary is actually required before a domain can implement it.
+- unknown/unavailable source;
+- partial interval coverage;
+- stale observation/calculation;
+- source/version mismatch;
+- position/symbol/lineage mismatch;
+- unsupported currency;
+- malformed/non-finite cost;
+- contradictory zero vs non-zero evidence;
+- duplicate/conflicting evidence IDs;
+- overlapping or non-exact interval evidence if not explicitly supported.
 
-Do not invent a provider Funding DTO in E7 tests merely to make the chain appear complete.
+If a non-final evidence state such as UNKNOWN/INCOMPLETE is represented, define whether it is a separate status/profile state or simply non-finalizable evidence. It must never allow TradeResult finalization.
 
-### 5. Entry evidence / identity binding
+### 4. Signed cost semantics
 
-Verify E5 uses exact declared E4 entry OrderRequest identity plus Fill client/order lineage, not `trade_plan_id` alone, and that current one-position baseline remains contract-valid.
+Preserve the already accepted financial meaning:
 
-### 6. Fail-closed financial/lifecycle semantics
+```text
+positive funding_cost = cost
+negative funding_cost = credit
+ZERO_CONFIRMED effective cost = 0 only with explicit authoritative zero confirmation
+```
 
-Verify statically that the integrated chain preserves at minimum:
+For the current `linear-base-asset-pnl-v0.1` path, define the required currency relationship to `pnl_currency = USDT`. Do not invent conversion semantics unless a separately versioned conversion profile is explicitly required and in scope; otherwise unsupported currency must fail closed.
 
-- `OrderStatus.FILLED != flat Position proof`;
-- `actual_quantity=0 + CONSISTENT + observation after latest exit Fill` required for `POSITION_CLOSED`;
-- partial/under-close/over-close cannot finalize;
-- duplicate Fill IDs cannot finalize;
-- missing fee evidence cannot become zero silently;
-- unsupported fee currency fails closed;
-- missing funding evidence cannot become zero silently;
-- LONG/SHORT PnL follows accepted Decimal profile;
-- actual Fill prices are not charged again as slippage;
-- deterministic TradeResult identity/idempotency;
-- no E4 broker truth is rewritten by E5;
-- no new exposure or live authority is introduced.
+### 5. Exact interval semantics
 
-## Integration test definitions
+Bind evidence to the exact final position interval used by `trade-result-v0.1`:
 
-Where the real production chain is already callable, add/update E7-owned static integration/safety test definitions under allowed E7 paths using the actual E4/E5 APIs rather than reimplementing them.
+```text
+interval_start = authoritative opened_at
+interval_end   = authoritative closed_at / flat_position_observed_at
+```
 
-At minimum define the complete explicit ordinary EXIT and EMERGENCY_EXIT Paper paths if statically callable.
+Define inclusivity/exclusivity sufficiently to prevent double allocation across adjacent positions or duplicate funding events. Define how deterministic ordering/deduplication works if the provider/runtime naturally supplies multiple funding events that are aggregated into one evidence object.
 
-For any blocked path, do **not** create a synthetic passing test. Record the exact missing callable interface/producer and next owner.
+### 6. Producer / consumer / persistence ownership
 
-## Release-gate reconciliation
+Make an explicit architecture decision for each role:
 
-Update E7-owned release/integration status conservatively.
+- which domain owns authoritative funding source acquisition/allocation for Paper/runtime evidence;
+- which domain serializes/emits the canonical evidence object;
+- E5 consumes/validates but does not manufacture provider/runtime funding truth;
+- E6 persists/replays/audits but does not invent execution/provider truth;
+- E7 owns contract/version/release semantics.
 
-A source-materialized full chain with no approved-local execution can move only from `BLOCKED / IMPLEMENTATION_GAP` to `NOT_RUN / IMPLEMENTED_NEEDS_LOCAL_EVIDENCE` where appropriate.
+Determine the **next implementation owner** after this contract task (expected candidates E4 or E6, but decide from actual source authority, not convenience).
 
-Never change any criterion to PASS in this task.
+For Paper mode, define how a legitimate provider-neutral source can produce `ZERO_CONFIRMED` or `INCLUDED` without provider credentials/private API. Do not authorize real exchange/private access in this task.
+
+### 7. TradeResult compatibility
+
+Specify how `trade-result-v0.1` consumes the new shared evidence and how current E5 internal validation code should be adapted later without changing accepted PnL semantics.
+
+No final TradeResult may be produced when required canonical funding evidence is absent, incomplete, conflicting, stale, mismatched, or unsupported.
+
+Do not implement the E5 adapter in this task; identify the exact later owner/scope if adaptation is required.
+
+### 8. Persistence / restart expectations
+
+Define enough serialization/idempotency/audit semantics so E6 can later durably store and restore the evidence without recomputing or silently changing it:
+
+- immutable identity material;
+- duplicate replay behavior;
+- conflicting same-lineage evidence behavior;
+- relationship to the one final TradeResult for a closed position;
+- required timestamps/source metadata.
+
+Do not implement E6 storage in this task.
+
+## Contract / ADR outputs
+
+Materialize the decision in E7-owned authoritative artifacts. Expected scope may include:
+
+- a new or updated file under `contracts/**` for the funding evidence profile;
+- `contracts/README.md` registry/versioning references;
+- update to `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md` only where cross-reference/consumption semantics need clarification without weakening prior rules;
+- a new/update ADR under `docs/adr/**` if the producer/ownership/versioning decision is architecture-significant;
+- E7 review/status evidence;
+- conservative `status/RELEASE_GATES.md` and `status/INTEGRATION_STATUS.md` reconciliation.
+
+Do not modify E1-E6 production code or their domain tests.
+
+## Required static checks / examples
+
+Provide deterministic serialized examples or contract fixtures sufficient for later domain implementation to distinguish at least:
+
+- valid `ZERO_CONFIRMED` exact-interval evidence;
+- valid `INCLUDED` positive cost;
+- valid `INCLUDED` negative credit;
+- missing/unknown source fails closed;
+- interval mismatch fails closed;
+- position/symbol/lineage mismatch fails closed;
+- unsupported currency fails closed;
+- contradictory/conflicting duplicate evidence fails closed;
+- exact same immutable material -> same evidence identity;
+- material evidence change -> different identity or explicit reconciliation conflict.
+
+Static examples are not executable PASS evidence.
+
+## Separate known blocker — do not absorb it
+
+PR #50 also found:
+
+```text
+PROTECTION_STOP -> same-position residual/flat Position truth
+= BLOCKED / E4 IMPLEMENTATION_GAP
+```
+
+Do not modify `src/brokers/**` or solve this E4 implementation gap in E7-041. Record it as the next independent dependency after the funding contract/producer sequence according to the accepted dependency order.
+
+## Release-gate rules
+
+This task cannot make Gate B PASS.
 
 Preserve at minimum:
 
@@ -177,58 +225,73 @@ Preserve at minimum:
 Required protection follows actual filled quantity = NOT_RUN
 Protection failure triggers emergency path = NOT_RUN
 Drawdown/daily/position/kill-switch = NOT_RUN
+ordinary/emergency close-to-flat = NOT_RUN / needs local evidence
+Restart/persistence = BLOCKED
+Paper E2E / durable TradeResult audit = BLOCKED
 Gate B = BLOCKED / NOT YET PASS
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-Restart/persistence stays `BLOCKED` until E6 work is actually materialized.
+A successful contract decision may change only the funding item from `CONTRACT_OR_SEMANTIC_GAP` to a precisely named `IMPLEMENTATION_GAP / next_owner=<domain>`; it is not executable PASS.
 
 ## Writable scope
 
 E7-owned only:
 
-- `tests/integration/**`;
-- `tests/e2e/**` only if test-definition placement is appropriate, no execution;
-- cross-module E7-owned `tests/safety/**`;
+- `contracts/**`;
+- `docs/adr/**`;
+- `docs/architecture/**` if strictly needed;
+- E7-owned contract/integration fixture or static test-definition paths if useful;
 - `status/INTEGRATION_STATUS.md`;
 - `status/RELEASE_GATES.md`;
-- E7-specific `status/e7/**` review/evidence;
+- E7-specific `status/e7/**`;
 - `coordination/E7/STATUS.md` on the target branch.
 
-Do not modify E1-E6 production code, shared contracts/ADRs unless a genuine contract defect is discovered and the task terminates `BLOCKED` with an exact follow-up proposal rather than opportunistically redesigning scope.
+Forbidden:
+
+- `src/brokers/**`, `src/execution/**`;
+- `src/position/**`, `src/risk/**`;
+- E6 storage/platform implementation;
+- E1-E3 production;
+- provider/private APIs, networking, credentials;
+- GitHub Actions/CI/workflows;
+- PAPER/SHADOW/LIVE authority.
 
 ## Executable verification
 
-This task is STATIC REVIEW / TEST-DEFINITION ONLY.
+This is STATIC CONTRACT / ARCHITECTURE work only:
 
 ```text
-project_executable_verification = NOT_RUN / NOT REQUIRED FOR STATIC REVIEW
+project_executable_verification = NOT_RUN / NOT REQUIRED FOR STATIC CONTRACT DECISION
 ```
 
-Do not request Local Runner, use GitHub Actions/CI, hosted runners, GitHub-triggered self-hosted compute, Computer Adapter, provider/private APIs, or credentials.
+Do not request Local Runner, execute project code, use GitHub Actions/CI/hosted runners, GitHub-triggered self-hosted compute, Computer Adapter, provider/private APIs, or credentials.
 
-Static review may classify implementation readiness but never executable PASS.
+`NOT_RUN` remains `NOT_RUN` and cannot become PASS from this task.
 
 ## Acceptance
 
 ### DONE
 
-- ordinary EXIT and EMERGENCY_EXIT callable chains are independently checked against real production APIs;
-- PROTECTION_STOP full-close flat-truth support is independently checked, not assumed from E5 unit tests;
-- funding evidence producer/source ownership is classified precisely;
-- any remaining blocker has exact expected-vs-actual evidence and next owner;
-- E7 integration/safety definitions use actual production APIs for unblocked paths;
-- release statuses preserve `NOT_RUN != PASS` and Gate B remains BLOCKED;
-- no project code executed and no GitHub compute used.
+- a governed serialized provider-neutral funding evidence profile/object is defined;
+- versioning/backward compatibility is explicit;
+- ZERO_CONFIRMED/INCLUDED and signed-cost/currency semantics are exact;
+- interval completeness, source authority and fail-closed rules are exact;
+- stable identity/idempotency/conflict semantics are exact;
+- E4/E5/E6/E7 producer/consumer/persistence ownership is explicit;
+- the next domain implementation owner is named with bounded expected producer behavior;
+- TradeResult consumption semantics are unambiguous without importing an E5-private DTO;
+- no E1-E6 production or provider/private behavior is implemented;
+- release state remains conservative and executable evidence remains NOT_RUN.
 
 ### BLOCKED
 
-Use only if a genuine shared-contract/architecture contradiction prevents the review from giving a safe domain-owner disposition. Record exact conflict and affected producers/consumers.
+Use only if the existing parent contract/profile cannot accommodate the evidence boundary safely without a larger unresolved product/architecture decision. Record the exact contradiction, affected producers/consumers, and required PM/Product Owner decision. Do not invent a workaround.
 
 ## Completion / mailbox rule
 
-Commit/push E7-owned tests/evidence/status to `agent/e7-gate-b-trade-result-integration-20260824`.
+Commit/push E7-owned contract/ADR/status evidence to `agent/e7-gate-b-funding-evidence-contract-20260824`.
 
 Worker-owned terminal STATUS must be written/pushed to `coordination/E7/STATUS.md` on that target branch, not main.
 
-Then stop. Do not self-start E4 remediation, E6 persistence, approved-local verification, Gate C, PAPER, SHADOW, or LIVE.
+Then stop. Do not self-start the domain funding producer, E4 PROTECTION_STOP flat-truth remediation, E6 persistence, approved-local verification, Gate C, PAPER, SHADOW, or LIVE.

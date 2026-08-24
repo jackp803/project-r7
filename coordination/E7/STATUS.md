@@ -42,8 +42,17 @@
 - suite_3_result: `PASS / Ran 21 tests / OK`
 
 - suite_4_action: `GATE_A_BACKTEST`
-- suite_4_state: `REQUEST_PENDING_COMMIT`
-- suites_5_to_8: `NOT_RUN`
+- suite_4_request_id: `REQ-E7-GATEA-024-04-9D3F6A20`
+- suite_4_job_id: `JOB-CB2A624F87270A7D`
+- suite_4_state: `SUCCEEDED`
+- suite_4_exit_code: `0`
+- suite_4_duration_seconds: `0.750`
+- suite_4_test_count: `21`
+- suite_4_result: `PASS / Ran 21 tests / OK`
+
+- suite_5_action: `GATE_A_VALIDATION`
+- suite_5_state: `REQUEST_PENDING_COMMIT`
+- suites_6_to_8: `NOT_RUN`
 
 ## Current gate/safety state
 
@@ -62,6 +71,6 @@
 
 ## Evidence interpretation
 
-Three of eight required suites have fresh PASS evidence under the current task. The delivered result excerpts do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row IDs, or execution-count fields; E7 does not invent them. No worktree/source mismatch, failure, error, timeout, or refusal was reported by suites 1-3.
+Four of eight required suites have fresh PASS evidence under the current task. The delivered result excerpts do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row IDs, or execution-count fields; E7 does not invent them. No worktree/source mismatch, failure, error, timeout, or refusal was reported by suites 1-4.
 
-This is not Gate A PASS and not a complete matrix PASS. Suite 4 is the only next permitted action.
+This is not Gate A PASS and not a complete matrix PASS. Suite 5 is the only next permitted action.

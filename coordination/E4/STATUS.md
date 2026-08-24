@@ -1,31 +1,31 @@
 # E4 Status
 
-- task_id: `E4-20260824-003`
+- task_id: `E4-20260824-005`
 - agent: `E4`
 - state: `DONE`
-- branch: `agent/e4-gate-b-protection-consumer-20260824`
-- baseline_main_sha: `c1a0ad241f045b5366c460656adc83dab8e548e8`
-- head_sha: `5037181d0476db526c3d7a89fb2284df5bfcdb27` (code/tests/handoff HEAD immediately before this terminal STATUS-only commit)
-- summary: `Implemented only the provider-neutral E4 protection-v0.1 consumer boundary. A valid E5 PositionAction.PROTECT plus exact parent ApprovedTradePlan plus exact current CONSISTENT normalized Position now deterministically produces one canonical STOP_MARKET reduce-only protection OrderRequest using exact actual PositionAction quantity and approved stop bound. Added immediate PositionAction/Position/Risk/order-role lineage to OrderRequest safety/idempotency material and additive optional protection lineage to Fill. Parent entry TTL is not reused as post-fill protection TTL. No broker/provider submit, protection verification/failure orchestration, lifecycle transition, Paper E2E, provider API, Gate B PASS, PAPER, SHADOW, or LIVE authority was introduced.`
-- files_changed: `src/execution/models.py; src/execution/protection.py; tests/execution/test_protection.py; status/e4/E4_GATE_B_PROTECTION_CONSUMER_20260824.md; coordination/E4/STATUS.md`
+- branch: `agent/e4-gate-b-paperbroker-protection-terminal-20260824`
+- baseline_main_sha: `387ed83dc6fd807e0907ff132e58e0193e20e5d4`
+- head_sha: `eb33bb013654f70b73366052a8eb9852b9650604` (source/tests/handoff HEAD immediately before this terminal STATUS-only commit)
+- summary: `Implemented only E4-owned provider-neutral PaperBroker definitive protection-order truth required by E4-20260824-005. PaperBroker now supports deterministic first-submit REJECTED/HEALTHY truth via sanitized rejected_outcomes configuration, callable/queryable OPEN->CANCELED and OPEN->EXPIRED Paper transitions, strict fail-closed terminal-state rules, and definitive reconciliation with retry_allowed=false. Original ambiguous submit acknowledgements remain separate from evolving authoritative order truth. No E5 lifecycle invocation, shared contract/interface change, provider/private behavior, persistence, TradeResult closure, full Paper E2E, or release authority was introduced.`
+- files_changed: `src/brokers/paper.py; tests/brokers/test_paper_broker_protection_terminal.py; status/e4/E4_GATE_B_PAPERBROKER_PROTECTION_TERMINAL_20260824.md; coordination/E4/STATUS.md`
 - contracts_changed: `NO`
 - local_verification: `NOT_RUN`
-- not_run: `No Product Owner-approved AgentBridge Local Runner action/capability is available in this session for the exact target revision. Required Windows PowerShell commands from repository root: $env:PYTHONPATH="src" ; python -m unittest discover -s tests/execution -p "test_*.py" -v ; python -m unittest discover -s tests/brokers -p "test_*.py" -v`
-- blockers: `NONE for bounded static/source completion. Executable evidence remains outstanding; E5 producer verification remains NOT_RUN and is not upgraded by this task.`
-- handoff_path: `status/e4/E4_GATE_B_PROTECTION_CONSUMER_20260824.md`
-- next_owner: `E7/PM for static integration review and approved-local verification planning`
+- not_run: `No explicitly PM/Product-Owner-approved Local Runner action is available in this session for the exact clean target revision. Required Windows PowerShell commands from repository root: $env:PYTHONPATH="src" ; python -m unittest discover -s tests/brokers -p "test_*.py" -v ; python -m unittest discover -s tests/execution -p "test_*.py" -v`
+- blockers: `NONE for bounded static/source completion. Executable evidence remains outstanding; prior E4/E5/E7 NOT_RUN evidence is not upgraded by this task.`
+- handoff_path: `status/e4/E4_GATE_B_PAPERBROKER_PROTECTION_TERMINAL_20260824.md`
+- next_owner: `E7/PM for bounded static integration review and explicitly approved-local verification planning`
 
 ## Wake / authority verification
 
 Wake message task ID:
 
 ```text
-E4-20260824-003
+E4-20260824-005
 ```
 
-Latest `main:coordination/E4/TASK.md` task ID matched exactly before any implementation work began.
+Latest `main:coordination/E4/TASK.md` matched exactly before any implementation work began.
 
-Authoritative files read before work:
+Authoritative files read first:
 
 - `README.md`
 - `agents/README.md`
@@ -36,145 +36,147 @@ Only E4's TASK was read; no other Agent TASK was read or executed.
 
 ## Branch baseline
 
-At task start:
+At task start the target branch was one commit behind latest `main` with zero unique commits. It was safely fast-forwarded without force/rebase to:
 
 ```text
-main = c1a0ad241f045b5366c460656adc83dab8e548e8
-agent/e4-gate-b-protection-consumer-20260824 = identical
+387ed83dc6fd807e0907ff132e58e0193e20e5d4
 ```
 
-No force update, rebase, or cross-branch history rewrite was required.
+## Required dependency inspection
 
-## Contract / dependency inspection
-
-Consumed without modification:
+Read-only evidence consumed before implementation included:
 
 - `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`
 - `docs/adr/ADR-0004-actual-fill-protection-action-boundary.md`
 - `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`
-- accepted E5 producer `src/position/protection.py`
-- accepted E5 producer tests `tests/position/test_protection_action.py`
-- existing E4 `src/execution/models.py`
-- existing E4 `src/execution/gateway.py`
-- existing E4 execution tests and PaperBroker idempotency/reconciliation behavior
+- `src/brokers/base.py`
+- prior `src/brokers/paper.py`
+- `src/execution/models.py`
+- accepted E4 `src/execution/protection.py`
+- accepted E5 `src/position/protection_result.py`
+- `status/e7/GATE_B_PROTECTION_LIFECYCLE_INTEGRATION_REVIEW_20260824.md`
+- existing `tests/brokers/**` and `tests/execution/**`
 
-No `CONTRACT_OR_SEMANTIC_GAP` was found for this bounded consumer implementation.
+E7's existing normalized status/health/reconciliation vocabulary was sufficient. No `CONTRACT_OR_SEMANTIC_GAP` was found.
 
-## Implemented provider-neutral protection mapping
+## Implemented PaperBroker truth
 
-Accepted authority must prove exact consistency across:
+### REJECTED
 
-```text
-PositionAction protection-v0.1 PROTECT
-+ parent ApprovedTradePlan
-+ current normalized Position
-```
-
-Fail-closed validation includes:
-
-- parent/action/position `schema_version=contracts-v0.1`;
-- `protection_profile_version=protection-v0.1`;
-- `action=PROTECT` only; `MODIFY_PROTECTION` rejected;
-- `position_reconciliation_status=CONSISTENT` and current Position `reconciliation_status=CONSISTENT`;
-- initial Position lifecycle `OPEN_UNPROTECTED`;
-- exact `trade_plan_id`, `risk_decision_id`, `risk_policy_version`, `position_action_id`, `position_id` lineage;
-- exact canonical BTC symbol/side and base-asset-v0.1 profile/unit/asset;
-- exact action quantity == current Position actual quantity and <= parent approved maximum;
-- exact source Position observation binding;
-- exact parent stop/optional target/max-hold protection bounds;
-- action-specific created/expires freshness.
-
-The parent ApprovedTradePlan entry `expires_at` is structurally validated but is intentionally not compared with current time for post-fill protection authority. PositionAction `expires_at` controls protection-action freshness.
-
-Mechanical request:
+Optional Paper-only constructor configuration:
 
 ```text
-authorization_type = POSITION_ACTION
-order_role = PROTECTION_STOP
-LONG  -> SELL
-SHORT -> BUY
-order_type = STOP_MARKET
-quantity = exact PositionAction.quantity
-stop_price = exact approved stop_level
-reduce_only = true
-limit_price = null
-time_in_force = null
+rejected_outcomes: client_order_id -> sanitized rejection reason
 ```
 
-No provider-native trigger, instrument, contract-count, `sz`, lot/tick, credential, target-order, OCO, timer, trailing, or protection-verification behavior is introduced.
-
-## Idempotency / lineage
-
-Protective client identity is deterministic and tied to immediate authority:
+A configured first submit produces exact queryable:
 
 ```text
-POSITION_ACTION + position_action_id + PROTECTION_STOP
+order_status = REJECTED
+execution_health_status = HEALTHY
+broker_order_id = None
+filled_quantity = 0
 ```
 
-`OrderRequest.safety_fingerprint()` now includes:
+Exact request/client/schema/requested-quantity lineage is preserved. Identical resubmit stays rejected; changed safety material under the same client identity remains an idempotency conflict. The rejected result cannot later receive a fill or create exposure.
 
-- `authorization_type`
-- `position_action_id`
-- `position_id`
-- `risk_decision_id`
-- `order_role`
+### CANCELED / EXPIRED
 
-Existing entry requests retain `None` for these additive fields.
+Added Paper-only callables:
 
-`Fill` can now optionally preserve protection lineage through:
+```text
+cancel_order(client_order_id, observed_at=<UTC>)
+expire_order(client_order_id, observed_at=<UTC>)
+```
 
-- `position_action_id`
-- `position_id`
-- `order_role`
+Only known exact `OPEN` orders can transition. Both preserve:
 
-Legacy entry Fill meaning is unchanged because the new fields default to `None`.
+- request/client identity;
+- existing broker order ID;
+- requested/current-filled quantities;
+- `HEALTHY` execution health;
+- explicit UTC terminal observation.
+
+Repeated same terminal operation is idempotent. Query returns the exact terminal result. Re-submit does not reopen a normal definitively terminal order.
+
+Expiry is an explicit Paper event only; no parent ApprovedTradePlan or PositionAction TTL is reused as automatic order expiry.
+
+## Strict transition safety
+
+- unknown client/order -> `UnknownOrderError`;
+- `PARTIALLY_FILLED` cannot be canceled/expired in this bounded task;
+- `FILLED` cannot be rewritten to canceled/expired;
+- rejected/canceled/expired orders cannot cross-transition to another terminal state;
+- terminal observation cannot precede current order observation;
+- `record_fill()` now accepts only `OPEN` or `PARTIALLY_FILLED` truth;
+- `REJECTED/CANCELED/EXPIRED/FILLED` cannot receive later fills;
+- there is no callable post-acceptance `reject_order()` transition, so a filled order cannot later be rewritten to rejected truth.
+
+## Submit acknowledgement / reconciliation preservation
+
+`_submissions` retains original submit acknowledgement; `_orders` holds evolving authoritative query truth. This preserves prior ambiguous-submit semantics even when the accepted order later fills or becomes inactive.
+
+For already definitive non-ambiguous order truth, `reconcile()` resolves from the current queryable state with:
+
+```text
+retry_allowed = false
+retry_token = null
+```
+
+Existing ambiguous accepted/not-accepted reconciliation branches remain intact.
 
 ## Deterministic tests materialized
 
-`tests/execution/test_protection.py` defines coverage for:
+Added `tests/brokers/test_paper_broker_protection_terminal.py` covering:
 
-- partial/full actual-fill quantity;
-- LONG/SHORT side mapping;
-- STOP_MARKET / approved stop / reduce-only / no limit-TIF;
-- exact plan/action/position/risk lineage;
-- non-colliding different PositionActions;
-- deterministic repeated translation;
-- authority-bearing fingerprint changes;
-- quantity/observation/side/symbol/profile/unit/asset/risk/plan/protection-bound mismatch;
-- UNKNOWN/MISMATCH/RECONCILIATION_REQUIRED current Position;
-- expired action;
-- missing/unsupported protection profile;
-- `MODIFY_PROTECTION` rejection;
-- expired parent entry TTL does not kill a valid post-fill PositionAction;
-- entry-v0.1 preparation remains compatible;
-- no provider-native fields in canonical protection request;
-- additive protection Fill lineage with legacy Fill compatibility;
-- request creation does not claim `PROTECTION_VERIFIED` or protected lifecycle state.
+- exact protection rejection submit/query, healthy status and zero exposure;
+- repeated rejected idempotency and changed-request conflict;
+- OPEN -> CANCELED identity/quantity/health/time preservation;
+- OPEN -> EXPIRED preservation;
+- terminal queryability and repeated terminal idempotency;
+- no reopen on repeat submit;
+- definitive terminal reconciliation with no retry token;
+- unknown-order failure;
+- FILLED cannot be canceled/expired/reopened;
+- PARTIALLY_FILLED is not reclassified as failure/loss;
+- terminal truth cannot receive later fills/create exposure;
+- prior ambiguous accepted reconciliation compatibility;
+- legacy entry/fill compatibility;
+- no provider-native or credential fields introduced.
 
-Definitions only; none were executed.
+Definitions only; no test was executed.
 
-## Verification / execution policy
+## Verification / execution state
 
 ```text
 local_verification = NOT_RUN
 GitHub Actions / CI = NOT_USED
-hosted/GitHub-triggered runner = NOT_USED
+GitHub-hosted / GitHub-triggered runner = NOT_USED
+Computer Adapter = NOT_USED
 provider/private API = NOT_CALLED
-broker order submission = NOT_PERFORMED
-PAPER/SHADOW/LIVE = NOT_ADVANCED
-Gate B / PAPER_READY PASS = NOT_CLAIMED
+credentials = NOT_USED
+Paper runtime/test execution = NOT_RUN
 ```
 
-Required approved-local commands:
+Required future approved-local Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/execution -p "test_*.py" -v
 python -m unittest discover -s tests/brokers -p "test_*.py" -v
+python -m unittest discover -s tests/execution -p "test_*.py" -v
 ```
 
 `NOT_RUN` is not PASS.
 
 ## Completion boundary
 
-This task stops at provider-neutral protection request construction/validation and additive request/fill lineage. E4 does not self-start protection verification/failure orchestration, persistence, TradeResult closure, Paper E2E, provider/private work, Gate C, PAPER, SHADOW, or LIVE.
+This task does **not** claim:
+
+```text
+Protection failure triggers emergency path = PASS
+Gate B = PASS
+PAPER_READY = PASS
+PAPER / SHADOW / LIVE = AUTHORIZED
+```
+
+E4 stops after this terminal STATUS. It does not self-start E7 integration, approved-local verification, protection Fill lineage, restart/persistence, full Paper E2E, provider/private work, Gate C, PAPER, SHADOW, or LIVE.

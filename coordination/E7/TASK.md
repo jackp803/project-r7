@@ -1,125 +1,170 @@
 # E7 Current Task
 
-- task_id: `E7-20260824-025`
-- issued_at: `2026-08-24T09:34:00+08:00`
+- task_id: `E7-20260824-026`
+- issued_at: `2026-08-24T09:43:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-a-evidence-review-20260824`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, merged Gate A execution evidence PR #32, Product Owner-approved Windows local execution policy
+- target_branch: `agent/e7-gate-b-static-preflight-20260824`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate A evidence review PR #33, `status/RELEASE_GATES.md`
 
 ## Objective
 
-Perform the separate Gate A release/evidence review required after `E7-20260824-024` reported:
+Propagate the accepted bounded Gate A decision into authoritative release-gate status and perform a **static-only Gate B / PAPER_READY preflight** against the latest `main`.
 
-```text
-LOCAL_EXECUTION_MATRIX = PASS
-GATE_A_REVIEW_CANDIDATE = YES
-```
+This task is not Paper execution and not Gate B executable verification. Do not run project code. Do not authorize PAPER, SHADOW, LIVE, provider/private API work, exchange credentials, or capital exposure.
 
-This task is evidence review only. Do not rerun tests, do not execute project code, and do not treat the prior worker `DONE` state as automatic acceptance.
+## Accepted prerequisite
 
-## Authoritative execution evidence
-
-Merged execution evidence PR:
-
-```text
-PR #32
-merge = 154b3164ce579672d601a23bbc17a485f3ebcbb1
-execution branch head = 633261d58a4c86d7b6d760e23660b48c471bcc31
-```
-
-Approved project source revision actually under Gate A:
-
-```text
-4da559bbbb569ea4f32246a40ef35f4bd8477a71
-```
-
-Execution task:
-
-```text
-E7-20260824-024
-```
-
-Evidence artifact now on main:
-
-```text
-status/e7/GATE_A_LOCAL_RERUN4_20260824.md
-```
-
-Execution summary reported by the artifact:
-
-```text
-GATE_A_MARKET_DATA = PASS / 21
-GATE_A_INDICATORS  = PASS / 3
-GATE_A_STRATEGY    = PASS / 21
-GATE_A_BACKTEST    = PASS / 21
-GATE_A_VALIDATION  = PASS / 15
-GATE_A_REGISTRY    = PASS / 19
-GATE_A_STORAGE     = PASS / 26
-GATE_A_INTEGRATION = PASS / 1
-TOTAL = 127 tests / zero failure or error
-```
-
-## Required review
-
-1. Re-read latest `main` README, `agents/README.md`, E7 role contract, contracts-v0.1 as needed, merged PR #32, `coordination/E7/STATUS.md`, and `status/e7/GATE_A_LOCAL_RERUN4_20260824.md`.
-2. Verify PR #32 changes are evidence/status/mailbox only and contain no E1-E6 production/test/contract semantic changes.
-3. Verify all eight required Gate A suites are present in the required order with fresh request IDs and fresh AgentBridge job IDs for `E7-20260824-024`.
-4. Verify every suite reports `SUCCEEDED`, exit `0`, and a concrete test count; confirm the total 127 is arithmetically consistent and no suite is `NOT_RUN`, `FAILED`, `ERROR`, `TIMED_OUT`, or unexpected `REFUSED`.
-5. Verify old evidence was not reused as acceptance, including old revision `6ed214...`, E7-020/021/022 outcomes, historical `JOB-F8A2FB2A2BC78F92`, `JOB-9089696FF6BB9C98`, or AgentBridge infrastructure smoke jobs.
-6. Verify the execution remained pinned to project source revision `4da559bbbb569ea4f32246a40ef35f4bd8477a71`, with Product Owner-approved Windows local execution and `JOB-F53BD229F125 / SUCCEEDED` preparation evidence.
-7. Reconcile the explicit evidence limitation recorded by E7-024: the user-visible job excerpts did not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean fields, SQLite row IDs, or execution-count fields.
-8. Do not silently fill those fields from assumptions. Determine whether the merged repository evidence plus the previously accepted AgentBridge exact-revision/clean-worktree enforcement and preparation evidence is sufficient for Gate A technical acceptance under project governance.
-9. If the missing provenance fields are material to acceptance, do **not** rerun the matrix and do not declare PASS. Instead return a precise `GATE_A = BLOCKED / EVIDENCE_GAP` disposition listing exactly what additional local evidence must be persisted and which owner must supply it.
-10. If the evidence is sufficient, explicitly state `GATE_A = PASS` and explain the bounded scope of that PASS: research/integration Gate A only. It must not authorize Gate B/C/D, PAPER, SHADOW, LIVE, provider/private API work, strategy promotion beyond existing authority, or capital exposure.
-11. Confirm GitHub compute/Actions/CI/hosted runners were not used as execution evidence.
-12. Persist the review under `status/e7/**` and update `coordination/E7/STATUS.md` with exact reviewed revisions, evidence sufficiency disposition, Gate A decision, and unchanged downstream gate/live state.
-
-## Allowed terminal outcomes
-
-Exactly one of:
+Gate A has been technically accepted for Research / Integration only:
 
 ```text
 GATE_A = PASS
 ```
 
-or
+Accepted evidence:
 
 ```text
-GATE_A = BLOCKED / EVIDENCE_GAP
+Gate A execution evidence PR #32
+merge = 154b3164ce579672d601a23bbc17a485f3ebcbb1
+execution branch head = 633261d58a4c86d7b6d760e23660b48c471bcc31
+approved source revision = 4da559bbbb569ea4f32246a40ef35f4bd8477a71
+127 local tests / zero failure or error
+
+Gate A evidence review PR #33
+merge = 429e8961dc4c32996e12fa7258c734571ea7d823
+review branch head = e18f35b9513a4912390ed9920e98e9572be88cc7
+review disposition = GATE_A = PASS / RESEARCH-INTEGRATION ONLY
 ```
 
-A PASS is permitted only if the evidence review concludes the complete fresh local matrix and provenance controls are sufficient under the governing contracts and local-only policy.
+Do not reinterpret this PASS as PAPER/LIVE authorization.
 
-## No executable work
+## Required work
+
+### 1. Reconcile authoritative release-gate state
+
+Read latest `status/RELEASE_GATES.md`, `status/INTEGRATION_STATUS.md`, the merged Gate A execution/review artifacts, and relevant role handoffs.
+
+Update `status/RELEASE_GATES.md` so the Gate A section no longer says `BLOCKED` as the current disposition. Preserve the historical criteria text where useful, but record the accepted current Gate A decision with exact evidence references.
+
+Do not silently convert unrelated Gate B/C/D criteria to PASS.
+
+### 2. Gate B static preflight
+
+Evaluate every current `Gate B — PAPER_READY` criterion in `status/RELEASE_GATES.md` against repository evidence on latest `main`.
+
+At minimum inspect actual implementation/contracts/tests/handoffs for:
+
+- `TradeIntent -> E5 RiskDecision` boundary;
+- E5 rejection authority;
+- `ApprovedTradePlan` as the only E4 strategy-originated execution input;
+- E4 `PaperBroker` implementation and contract conformance;
+- partial-fill quantity semantics;
+- protection quantity following actual fill;
+- protection-failure emergency behavior;
+- stale/unknown market state exposure veto;
+- unknown order/position state exposure veto;
+- drawdown / daily / position / kill-switch enforcement;
+- persistence/restart requirements across E5/E6;
+- Paper E2E closure to `TradeResult` plus durable audit/persistence;
+- GitHub compute prohibition.
+
+Do not infer implementation from role descriptions. Inspect the actual repository code/tests/contracts/handoffs.
+
+### 3. Classify every Gate B criterion
+
+For each criterion, assign one evidence-preserving disposition such as:
+
+```text
+STATIC_READY_LOCAL_EXEC_REQUIRED
+IMPLEMENTATION_GAP
+INTEGRATION_TEST_DEFINITION_GAP
+CONTRACT_OR_SEMANTIC_GAP
+EVIDENCE_GAP
+ALREADY_SATISFIED_STATICALLY
+```
+
+These are preflight classifications, not replacements for canonical `PASS/FAIL/BLOCKED/NOT_RUN` release evidence. Where executable proof is required and has not run, canonical release status remains `NOT_RUN` or `BLOCKED` as appropriate.
+
+Identify the responsible owner for each genuine gap: E1, E2, E4, E5, E6, E7, or Codex only if an approved-design implementation defect is already reproducible.
+
+### 4. Determine the next dependency sequence
+
+Produce a minimal dependency-ordered Gate B plan. Separate:
+
+- implementation work that must exist before testing;
+- E7-owned integration/safety/E2E test definitions that are missing;
+- local-only executable suites that can already be run once explicitly approved;
+- blockers that require domain-owner work first.
+
+Do not issue tasks to other agents yourself. PM remains the tasking authority.
+
+### 5. Provider naming / scope drift check
+
+The repository may contain historical provider naming in governance/release text while current execution work uses newer provider-specific adapters elsewhere. For this Gate B preflight, do not broaden into Gate C/private-provider implementation.
+
+If provider naming is stale or inconsistent but does not affect Paper-only Gate B semantics, record it as documentation/governance drift for later E7/PM cleanup rather than rewriting unrelated Gate C scope in this task.
+
+## No executable verification
 
 For this task:
 
 ```text
-project executable verification = NOT_RUN / NOT REQUIRED FOR REVIEW
+project executable verification = NOT_RUN / NOT REQUIRED FOR STATIC PREFLIGHT
 ```
 
-This `NOT_RUN` refers only to this separate review task. It does not erase or replace the already merged E7-024 local execution evidence.
+Do not run unit tests, integration tests, E2E tests, backtests, migrations, provider calls, Local Runner actions, PaperBroker runtime, or any project command.
 
-Do not run tests/backtests/imports/migrations/provider calls, and do not request any Local Runner Gate A action.
+Do not treat this task's `NOT_RUN` as a failure of the already accepted Gate A evidence.
+
+## Required outputs
+
+Persist:
+
+- updated `status/RELEASE_GATES.md` with accepted Gate A current state;
+- `status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md` containing the criterion-by-criterion Gate B audit, actual evidence paths, owner/gap classification, and dependency-ordered next actions;
+- update `status/INTEGRATION_STATUS.md` only if needed to reflect Gate A PASS / Gate B preflight state;
+- update `coordination/E7/STATUS.md`.
+
+## Allowed terminal dispositions
+
+E7 must report one of:
+
+```text
+GATE_B_STATIC_PREFLIGHT = READY_FOR_BOUNDED_NEXT_TASKS
+```
+
+or
+
+```text
+GATE_B_STATIC_PREFLIGHT = BLOCKED_BY_UNRESOLVED_ARCHITECTURE_OR_CONTRACT
+```
+
+`READY_FOR_BOUNDED_NEXT_TASKS` does **not** mean Gate B PASS and does not authorize Paper execution. It only means PM has enough evidence to issue the next bounded implementation/test-definition/local-verification task(s).
 
 ## Safety / downstream state
 
-Unless a later Product Owner/PM task explicitly changes them:
+Throughout this task:
 
-- Gate B = BLOCKED / UNCHANGED;
+- Gate A = PASS / RESEARCH-INTEGRATION ONLY;
+- Gate B = not yet PASS;
 - Gate C = BLOCKED / UNCHANGED;
 - Gate D = BLOCKED / UNCHANGED;
-- PAPER / SHADOW / LIVE = UNAUTHORIZED / UNCHANGED;
+- PAPER = UNAUTHORIZED unless a later Product Owner/PM task explicitly authorizes a controlled local Paper verification step;
+- SHADOW / LIVE = UNAUTHORIZED;
 - provider/private API = NOT AUTHORIZED;
-- Registry/live promotion authority = UNCHANGED.
+- exchange credentials = NOT USED;
+- GitHub Actions/CI/hosted runners/GitHub-triggered compute = FORBIDDEN.
 
 ## Writable scope
 
-- `status/e7/**` review evidence;
+E7-owned documentation/status only:
+
+- `status/RELEASE_GATES.md`;
+- `status/INTEGRATION_STATUS.md` if needed;
+- `status/e7/**`;
 - `coordination/E7/STATUS.md`.
 
-Do not modify E1-E6 production/tests/contracts, Gate A test definitions, AgentBridge, provider code, lifecycle semantics, or trading behavior.
+Do not modify E1-E6 production/tests, shared contracts, integration test code, provider code, lifecycle semantics, strategy definitions, or AgentBridge in this task.
 
 ## Completion
 
-Persist the review result, commit/push to `agent/e7-gate-a-evidence-review-20260824`, and stop. Do not start Gate B, provider work, PAPER/SHADOW/LIVE, or another implementation task automatically.
+Commit/push the static-preflight evidence to `agent/e7-gate-b-static-preflight-20260824`, update E7 STATUS, and stop. Do not start implementation, executable Gate B verification, provider work, PAPER, SHADOW, LIVE, or another task automatically.

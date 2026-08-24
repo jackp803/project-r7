@@ -138,6 +138,12 @@ def utc_text(payload: Mapping[str, Any], field: str) -> datetime:
     return parsed.astimezone(timezone.utc)
 
 
+def ordering_time(value: datetime) -> str:
+    """Fixed-width E6 storage key; never substituted into canonical payload JSON."""
+
+    return value.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+
 def decimal_text(payload: Mapping[str, Any], field: str) -> Decimal:
     value = payload.get(field)
     if not isinstance(value, str) or not value:
@@ -198,6 +204,13 @@ def immutable_object_metadata(kind: str, payload: Mapping[str, Any]) -> dict[str
         }
     if kind == "ORDER_REQUEST":
         canonical_id = nonempty_text(payload, "order_request_id")
+        quantity = decimal_text(payload, "quantity")
+        if quantity <= 0:
+            raise RuntimeValidationError("ORDER_REQUEST_QUANTITY_INVALID", "OrderRequest.quantity must be positive")
+        nonempty_text(payload, "symbol")
+        nonempty_text(payload, "side")
+        nonempty_text(payload, "order_type")
+        utc_text(payload, "created_at")
         return {
             "canonical_id": canonical_id,
             "strategy_id": None,
@@ -210,6 +223,15 @@ def immutable_object_metadata(kind: str, payload: Mapping[str, Any]) -> dict[str
         }
     if kind == "FILL":
         canonical_id = nonempty_text(payload, "fill_id")
+        quantity = decimal_text(payload, "quantity")
+        price = decimal_text(payload, "price")
+        if quantity <= 0 or price <= 0:
+            raise RuntimeValidationError("FILL_FINANCIAL_FACT_INVALID", "Fill quantity/price must be positive")
+        utc_text(payload, "filled_at")
+        nonempty_text(payload, "symbol")
+        nonempty_text(payload, "side")
+        if payload.get("fee") is not None:
+            decimal_text(payload, "fee")
         return {
             "canonical_id": canonical_id,
             "strategy_id": None,
@@ -254,7 +276,7 @@ def validate_raw_position(payload: Mapping[str, Any]) -> dict[str, Any]:
     nonempty_text(payload, "lifecycle_state")
     return {
         "position_id": position_id,
-        "observed_at": payload["broker_state_observed_at"],
+        "observed_at": ordering_time(observed_at),
         "broker_fact_hash": broker_fact_hash(payload),
     }
 
@@ -317,7 +339,7 @@ def validate_position_projection(payload: Mapping[str, Any]) -> dict[str, Any]:
         "kind": kind,
         "event": event,
         "lifecycle_state": payload["lifecycle_state"],
-        "broker_state_observed_at": payload["broker_state_observed_at"],
+        "broker_state_observed_at": ordering_time(anchor),
         "broker_fact_hash": broker_fact_hash(payload),
     }
 
@@ -340,7 +362,7 @@ def validate_order_result(payload: Mapping[str, Any]) -> dict[str, Any]:
         "order_request_id": order_request_id,
         "client_order_id": client_order_id,
         "broker_order_id": broker_order_id,
-        "observed_at": payload["observed_at"],
+        "observed_at": ordering_time(observed_at),
         "observed_dt": observed_at,
         "order_status": payload["order_status"],
         "execution_health_status": payload["execution_health_status"],

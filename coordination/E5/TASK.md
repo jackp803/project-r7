@@ -1,22 +1,23 @@
 # E5 Current Task
 
-- task_id: `E5-20260824-007`
-- issued_at: `2026-08-24T09:57:00+08:00`
+- task_id: `E5-20260824-008`
+- issued_at: `2026-08-24T10:24:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e5-gate-b-risk-evidence-20260824`
-- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate A PASS, merged Gate B static preflight PR #34
+- target_branch: `agent/e5-gate-b-fill-protection-20260824`
+- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate A PASS, merged Gate B static preflight PR #34, merged E5 risk-limit evidence PR #35
 
 ## Objective
 
-Close only the first dependency-ordered Gate B gap identified by E7 static preflight: **explicit criterion-level E5 risk-limit test materialization** for the Gate B requirement:
+Implement only the E5-owned half of the next dependency-ordered Gate B gap identified by E7:
 
 ```text
-Drawdown / daily / position / kill-switch rules enforced
+actual execution fill/open quantity
+-> exact provider-neutral protection quantity/action
 ```
 
-E7 found the production policy/engine already contains these controls, but current repository test definitions do not establish equally explicit criterion-level coverage for the complete set. This task is therefore expected to be test-definition/evidence materialization, not a policy redesign.
+The required protection must be derived from **actual filled/open exposure**, never requested/approved entry quantity alone.
 
-Do not start the later E5/E4 actual-fill protection path, protection-failure orchestration, E6 persistence, TradeResult closure, or E7 Paper E2E work in this task.
+This task stops at the E5 protection decision/action boundary. Do not implement E4 broker/order submission, protection-failure orchestration, E6 persistence/restart, TradeResult closure, E7 Paper E2E, provider/private API behavior, or PAPER/SHADOW/LIVE authority.
 
 ## Accepted prerequisite evidence
 
@@ -26,105 +27,163 @@ Gate B static preflight:
 PR #34
 merge = 2d0ba0f103c7e395ad4c2b6cf67beca83915cc65
 artifact = status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md
-Gate B = BLOCKED / NOT YET PASS
+finding = IMPLEMENTATION_GAP / required protection follows actual filled quantity
+owner order = E5 then E4
 ```
 
-Relevant E7 finding:
+E5 risk-limit test materialization:
 
 ```text
-E5 policy/engine implements daily-trade cap, open-position cap,
-drawdown lock and kill-switch behavior.
-
-Gap = complete explicit criterion-level targeted test/evidence coverage.
+PR #35
+merge = 133e62b2ad8aa5c31d3f0aef1679c0449aa2a10c
+implementation = eb57637e7c91262f2bbffa140b39db2d24c8c6fc
+executable verification = NOT_RUN
 ```
 
-## Required work
+PR #35 closes only the requested test-definition materialization task. Its `NOT_RUN` remains `NOT_RUN` and does not make the Gate B risk-limit criterion PASS.
 
-Read latest main, `agents/E5_RISK_POSITION.md`, `agents/README.md`, contracts-v0.1, `status/RELEASE_GATES.md`, `status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md`, current E5 risk implementation, and existing E5 tests before editing.
+## Required inspection before editing
 
-Materialize deterministic test definitions that explicitly prove, at minimum:
+Read latest `main` and at minimum:
 
-1. **Daily trade cap**
-   - below-limit context may continue through the normal risk evaluation path;
-   - at/above configured daily limit rejects new exposure with the existing canonical reason behavior;
-   - test must use configured policy values rather than introducing a hard-coded new product policy.
+- `agents/E5_RISK_POSITION.md`;
+- `agents/README.md`;
+- `contracts-v0.1` shared contracts and execution-object profiles;
+- `status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md`;
+- `status/RELEASE_GATES.md`;
+- `src/risk/**`;
+- `src/position/**`;
+- E4 public execution/fill models only as read-only dependency evidence;
+- existing E5 risk/position/safety tests.
 
-2. **Open-position / simultaneous-position cap**
-   - existing position/open-position-limit condition rejects new exposure;
-   - no risk-layer bypass or second-position approval is introduced;
-   - preserve existing same-symbol/unknown-position fail-closed behavior.
+Do not infer a shared `PositionAction`/protection payload shape if the authoritative contract does not define enough semantics.
 
-3. **Drawdown lock**
-   - drawdown below threshold does not itself trigger the drawdown rejection;
-   - threshold/exceeded state rejects new exposure using existing versioned policy semantics;
-   - do not redefine how drawdown is calculated unless current code already exposes the required canonical input/state.
+## Contract-first blocker rule
 
-4. **Kill switch**
-   - preserve existing kill-switch rejection coverage;
-   - if existing coverage is already explicit and sufficient, do not duplicate it merely to increase test count;
-   - ensure the combined Gate B criterion can point to a concrete test for kill-switch enforcement.
+If current E7-owned contracts do **not** provide a sufficient shared/provider-neutral representation for the E5 protection action required here, stop and report:
 
-5. **Fail-closed / no policy weakening**
-   - tests must not introduce a path that resets/bypasses locks merely because a new TradeIntent arrives;
-   - no martingale, risk escalation, stop widening, or second-position behavior may be enabled.
+```text
+state = BLOCKED
+blocker = CONTRACT_OR_SEMANTIC_GAP
+next_owner = E7
+```
 
-## Expected writable scope
+Include the exact missing field/semantic and producer/consumer impact. Do not invent a parallel shared model and do not modify `contracts/**` in this task.
 
-Prefer test-only changes:
+## Required behavior
 
-- `tests/risk/**`
-- `tests/safety/**` only for E5-owned safety scenarios
-- E5 handoff/status artifact if useful
-- `coordination/E5/STATUS.md`
+Subject to the existing shared contract shape, materialize deterministic E5 behavior that proves all of the following:
 
-Do **not** modify production risk semantics merely to make the new tests pass. E7 preflight classified production controls as already present. If static inspection shows a genuine production implementation defect or a contract mismatch, stop and report `BLOCKED` with exact expected-vs-actual evidence rather than broadening this task.
+1. **Actual-fill quantity is authoritative**
+   - a partial entry fill must produce required protection for the actual open/filled quantity, not the original requested or E5-approved maximum quantity;
+   - protection quantity must never exceed known actual open exposure;
+   - provider-native units/quantization remain outside E5.
 
-Do not modify:
+2. **Approved risk bounds are preserved**
+   - stop/target/protection bounds come only from the already approved E5 plan/policy semantics;
+   - an execution fill must not loosen the approved stop/risk boundary;
+   - E5 must not manufacture broker-specific order type, exchange symbol metadata, OKX `sz`, contract count, tick/lot quantization, credentials, or provider fields.
 
-- `src/execution/**` or `src/brokers/**`;
-- E6 persistence/registry;
-- Strategy/validation code;
-- shared contracts/ADRs;
-- provider/private API code;
-- lifecycle/PAPER/SHADOW/LIVE authority;
-- GitHub workflow/CI files.
+3. **Fail closed on unknown/inconsistent execution truth**
+   - unknown/unreconciled fill or position quantity cannot produce a falsely safe protection claim;
+   - zero/negative/inconsistent quantity fails closed according to current contract/lifecycle semantics;
+   - if observed actual exposure exceeds the approved E5 maximum, do not silently expand protection/risk authority; surface the existing unsafe/reconciliation path or block with exact evidence if the current contracts cannot represent it.
+
+4. **Lifecycle semantics remain explicit**
+   - observing an entry fill establishes `OPEN_UNPROTECTED`/equivalent unsafe exposure first;
+   - producing/requesting a protection action does **not** itself mark the position `OPEN_PROTECTED`;
+   - only verified protection may produce the existing `PROTECTION_VERIFIED` transition;
+   - preserve `PROTECTION_FAILED` / `PROTECTION_LOST` semantics for the later bounded E4/E5 task; do not implement that orchestration now.
+
+5. **No exposure/risk escalation**
+   - no averaging down, second-position approval, martingale, stop widening, leverage increase, or risk-limit weakening;
+   - no new TradeIntent may reset existing unsafe/unprotected position state.
+
+## Required tests
+
+Add deterministic E5-owned test definitions sufficient to demonstrate the implemented boundary. At minimum cover:
+
+- approved/requested entry quantity greater than actual partial fill -> protection quantity equals actual exposure;
+- full fill -> protection quantity equals actual exposure and remains within approved maximum;
+- unknown/reconciliation-required execution truth -> no safe protection claim / fail closed;
+- actual exposure greater than approved maximum -> fail closed, never expand E5 authority;
+- protection action/request does not skip `OPEN_UNPROTECTED` directly to safe/protected state;
+- existing approved stop/risk bounds are preserved and not loosened by fill handling.
+
+Prefer existing fixtures/contracts. Do not create test-only semantics that production code does not implement.
+
+## Writable scope
+
+E5-owned paths only:
+
+- `src/risk/**` only if needed for E5 protection/risk-bound logic;
+- `src/position/**`;
+- `tests/risk/**`;
+- `tests/position/**`;
+- `tests/safety/**` for E5-owned fail-closed scenarios;
+- E5-specific `status/**` handoff/evidence;
+- `coordination/E5/STATUS.md`.
+
+Forbidden:
+
+- `src/execution/**`;
+- `src/brokers/**`;
+- E6 storage/registry/persistence;
+- E2/E3 code;
+- `contracts/**` or ADR changes;
+- provider/private API/credential code;
+- lifecycle promotion to PAPER/SHADOW/LIVE;
+- GitHub Actions/CI/workflows.
 
 ## Executable verification
 
-This task does **not** authorize ad-hoc cloud/GitHub execution. If the currently approved AgentBridge Local Runner does not yet have a safe exact-revision action for this new branch/revision, keep executable verification:
+All project-code execution remains local-only.
+
+If an explicitly approved AgentBridge Local Runner action exists for the exact branch/revision, E5 may use only that registered action and must record exact revision/environment/command/result.
+
+Otherwise report:
 
 ```text
-NOT_RUN
+local_verification = NOT_RUN
 ```
 
-and record these exact future local commands:
+with exact future Windows PowerShell commands, at minimum:
 
 ```powershell
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests/risk -p "test_*.py" -v
+python -m unittest discover -s tests/position -p "test_*.py" -v
 python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
-Do not use GitHub Actions/CI/hosted runners or arbitrary remote compute. Do not claim PASS from static inspection.
+Do not use GitHub Actions/CI/hosted runners, GitHub-triggered self-hosted compute, arbitrary cloud execution, Computer Adapter, provider APIs, or live credentials.
 
-If an already-approved local execution path is explicitly available to this task and exact branch revision can be proven clean/pinned, execution may be performed only under that existing approved local-only policy; otherwise `NOT_RUN` is the correct result.
+`NOT_RUN` is acceptable task evidence when no approved exact-revision action exists, but it is not PASS and does not satisfy Gate B executable criteria.
 
 ## Acceptance
 
-The task is complete when:
+Task completion requires one of two bounded outcomes:
 
-- explicit daily-trade-limit test definition exists;
-- explicit open/simultaneous-position-limit test definition exists;
-- explicit drawdown-threshold/lock test definition exists;
-- existing kill-switch coverage is identified or minimally completed without duplication;
-- no production-policy weakening or cross-role change occurred;
-- tests are deterministic and use versioned/configured policy semantics;
-- executable result is either genuine approved-local evidence or `NOT_RUN` with exact commands;
-- no GitHub compute/CI was used;
-- `coordination/E5/STATUS.md` records files changed, semantic impact, verification state, blocker if any, and next owner PM/E7.
+### DONE
 
-Do not declare the Gate B criterion PASS and do not declare Gate B/PAPER_READY PASS. E7/PM must later review and execute the required local evidence.
+- E5 provider-neutral actual-fill protection action boundary is materialized under existing contracts;
+- protection quantity derives only from known actual open/fill exposure and never exceeds it;
+- approved E5 risk/protection bounds are not loosened;
+- unsafe/unknown/over-approved exposure fails closed;
+- lifecycle cannot claim protected state before verification;
+- deterministic tests are materialized;
+- no E4/E6/provider/lifecycle authority scope was crossed;
+- executable verification is genuine approved-local evidence or explicitly `NOT_RUN` with commands.
+
+### BLOCKED
+
+- current shared contracts are insufficient or a cross-role semantic dependency prevents safe implementation;
+- exact missing semantic/evidence is recorded;
+- no speculative parallel model is introduced;
+- next owner is identified as E7/PM as appropriate.
+
+Do not declare the Gate B protection criterion PASS and do not declare Gate B/PAPER_READY PASS.
 
 ## Completion
 
-Commit/push the bounded work to `agent/e5-gate-b-risk-evidence-20260824`, update E5 STATUS, then stop. Do not self-start the actual-fill protection task or any subsequent Gate B phase.
+Update `coordination/E5/STATUS.md`, commit/push bounded code/tests/evidence to `agent/e5-gate-b-fill-protection-20260824`, then stop. Do not self-start E4 protection execution, protection-failure emergency orchestration, E6 persistence, TradeResult closure, Paper E2E, Gate C, provider/private work, PAPER, SHADOW, or LIVE.

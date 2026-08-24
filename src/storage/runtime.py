@@ -14,6 +14,50 @@ from .runtime_models import (
     StoredCanonicalObject,
 )
 
+_PROVIDER_NATIVE_FIELDS = frozenset(
+    {
+        "provider",
+        "provider_name",
+        "provider_instrument_id",
+        "provider_symbol",
+        "provider_order_size",
+        "provider_requested_quantity",
+        "provider_filled_quantity",
+        "provider_contract_quantity",
+        "provider_fill_quantity",
+        "provider_account_id",
+        "provider_subaccount_id",
+        "provider_raw_payload",
+        "raw_provider_payload",
+        "instrument_metadata",
+        "instrument_metadata_ref",
+        "instrument_metadata_snapshot",
+        "okx_sz",
+        "sz",
+        "ctval",
+        "ctmult",
+        "ctvalccy",
+        "cttype",
+        "lotsz",
+        "minsz",
+        "ticksz",
+    }
+)
+
+
+def _reject_provider_native_fields(value: Any, path: str = "payload") -> None:
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            if isinstance(key, str) and key.lower() in _PROVIDER_NATIVE_FIELDS:
+                raise RuntimeValidationError(
+                    "PROVIDER_NATIVE_FIELD_FORBIDDEN",
+                    f"provider-native field is outside this canonical durability slice: {path}.{key}",
+                )
+            _reject_provider_native_fields(item, f"{path}.{key}")
+    elif isinstance(value, (list, tuple)):
+        for index, item in enumerate(value):
+            _reject_provider_native_fields(item, f"{path}[{index}]")
+
 
 class PaperRuntimeJournal:
     """Supported E6 durability/restart surface for canonical Paper runtime truth.
@@ -44,22 +88,32 @@ class PaperRuntimeJournal:
         except RuntimeValidationError:
             return None
 
+    @staticmethod
+    def _check_payload_policy(payload: Mapping[str, Any]) -> None:
+        _reject_provider_native_fields(payload)
+
     def persist_risk_decision(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_immutable("RISK_DECISION", payload)
 
     def persist_approved_trade_plan(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_immutable("APPROVED_TRADE_PLAN", payload)
 
     def persist_position_action(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_immutable("POSITION_ACTION", payload)
 
     def persist_order_request(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_immutable("ORDER_REQUEST", payload)
 
     def persist_fill(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_immutable("FILL", payload)
 
     def persist_position_projection(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         try:
             return self._store.persist_position_projection(payload)
         except RuntimeValidationError as exc:
@@ -80,12 +134,15 @@ class PaperRuntimeJournal:
             ) from exc
 
     def persist_raw_position_observation(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_raw_position_observation(payload)
 
     def persist_order_result(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_order_result(payload)
 
     def persist_funding_evidence(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         try:
             return self._store.persist_funding_evidence(payload)
         except RuntimeValidationError as exc:
@@ -108,6 +165,7 @@ class PaperRuntimeJournal:
             ) from exc
 
     def persist_trade_result(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        self._check_payload_policy(payload)
         return self._store.persist_trade_result(payload)
 
     def recover(

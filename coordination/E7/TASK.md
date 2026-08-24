@@ -1,27 +1,27 @@
 # E7 Current Task
 
-- task_id: `E7-20260824-055`
-- issued_at: `2026-08-24T22:55:00+08:00`
+- task_id: `E7-20260824-056`
+- issued_at: `2026-08-24T23:18:00+08:00`
 - state: `HOLD`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted freshness contract PR #63, accepted E5 binding producer PR #64 merge `d36d1897ccb4ee06ed9a2dbf981dc4814d7a8541`, accepted blocker review PR #62
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted PR #62/#63/#64, PM static review of unaccepted `E6-20260824-017`, active E6 remediation `E6-20260824-018`
 
 ## Objective
 
-Hold after PM static review accepted and merged E5-20260824-023 / PR #64.
+Hold while E6 remediates the bounded recovery fail-closed defects found during PM review of `E6-20260824-017`.
 
 Current dependency state:
 
 ```text
 position-lifecycle-execution-binding-v0.1 contract = ACCEPTED / MERGED
 E5 companion binding producer = MATERIALIZED / MERGED / executable NOT_RUN
-E6 mechanical binding consumer/recovery = ACTIVE under E6-20260824-017
-E6 TradeResult durable graph completeness repair = ACTIVE under E6-20260824-017
+E6 binding consumer + TradeResult completeness = MATERIALIZED ON BRANCH BUT NOT PM-ACCEPTED
+E6-20260824-018 recovery fail-closed remediation = ACTIVE
 E7 durable Paper integration re-review = WAITING
 Gate B = BLOCKED / NOT YET PASS
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-E7 must wait for PM review of E6-20260824-017 before resuming durable Paper integration/E2E/safety review.
+E7 must wait for PM review of terminal `E6-20260824-018` before resuming durable Paper integration/E2E/safety review.
 
 ## Required actions while HOLD
 
@@ -38,4 +38,4 @@ Only `coordination/E7/STATUS.md` for HOLD acknowledgement if needed.
 
 ## Completion
 
-Acknowledge HOLD if needed and stop. Wait for PM to replace this task after E6-20260824-017 terminal review.
+Acknowledge HOLD if needed and stop. Wait for PM to replace this task after E6-20260824-018 terminal review.

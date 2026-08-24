@@ -1,37 +1,41 @@
 # E6 Platform Status
 
-- task_id: `E6-20260824-015`
+- task_id: `E6-20260824-018`
 - agent: `E6`
-- state: `DONE / STATIC REMEDIATION MATERIALIZED / EXECUTABLE NOT_RUN`
-- branch: `agent/e6-gate-b-paper-runtime-durability-v2-20260824`
-- authoritative_main: `5b07a6805de2e0df1f16d558eaff801d5c8be4c5`
+- state: `DONE / STATIC REMEDIATION + TEST DEFINITIONS MATERIALIZED / EXECUTABLE NOT_RUN`
+- branch: `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824`
+- authoritative_main: `575e43a7aabb9b09cb161a2ce9b9b449e49fdcd6`
 - task_id_match: `YES`
-- synchronization_merge: `eba37192d406ed03776f345363fef7b9daf6d6ae`
-- source_commit: `eead5ca166ad1b6814075245a59dc8924d1b8cbc`
-- test_definition_commit: `0989aabc8a47dfb94c554ed601d935087e60d0ff`
-- evidence_path: `status/E6_GATE_B_LIFECYCLE_VOCABULARY_REMEDIATION_20260824.md`
-- evidence_commit: `c722b4ea1a31cc8b9c97d2d7e38e8fe0ee627fe5`
+- parent_e6_017_terminal_head: `d94432de7462064bb84b566043a1e368a4f5474f`
+- remediation_source_test_docs_head_before_evidence: `670fffc2f2181974285f6425c364c0f51dff8205`
+- evidence_path: `status/E6_GATE_B_TRADERESULT_REFERENCE_REMEDIATION_20260824.md`
+- evidence_commit: `7914d2bc64a7c553b1076a9d4f1dd7b8e05f851c`
 
 ## Result
 
-The accepted PR #60 lifecycle vocabulary clarification is now enforced mechanically at the E6 restart-authoritative Position storage-validation boundary.
+The two bounded PM static-review defects from unaccepted E6-017 are remediated in E6-owned storage code only.
 
-Exact consumer vocabulary mirrored from the E7-owned contract:
+### TradeResult recovery severity
 
-```text
-lifecycle_state: 8 accepted values
-TRANSITION.lifecycle_event: 13 accepted values
-lifecycle_projection_kind: GENESIS | TRANSITION | REATTESTATION
-GENESIS / REATTESTATION lifecycle_event: null only
-```
+Every TradeResult referenced-graph validation failure is now guaranteed non-READY on recovery. Identity/lineage mismatch or conflict is classified as `CONFLICT`; missing required graph/lineage and generic duplicate/unused/shape-invalid graph material are fail-closed and cannot retain `READY`. In particular, `TRADE_RESULT_REFERENCED_GRAPH_INVALID` is downgraded to `INCOMPLETE` when the underlying recovery would otherwise be READY.
 
-Unsupported state/event/kind fails closed before durable current projection advancement. The E6 validator does not import E5 production code or reproduce the E5 transition relation.
+### Mandatory referenced PositionAction lineage
 
-All E6-013 durability semantics outside this bounded validation remediation remain unchanged, including lifecycle revision/predecessor/identity/broker-anchor/replay/conflict/re-attestation rules.
+TradeResult reference validation now requires settled-profile authority lineage rather than treating missing persisted lineage as optional.
+
+For `PROTECT / PROTECTION_STOP`, exact required parent/policy/symbol lineage plus `protection_profile_version=protection-v0.1` is required.
+
+For `EXIT / POSITION_EXIT` and `EMERGENCY_EXIT / EMERGENCY_EXIT`, exact parent/strategy/policy/symbol lineage plus `close_profile_version=close-v0.1` is required.
+
+Missing required fields fail closed as incomplete/invalid. Mismatched lineage fails closed as conflict. No PositionEvent or lifecycle transition is inferred by E6.
+
+The E6-017 lifecycle execution-binding freshness implementation, raw Position re-attestation axis, UNKNOWN/reconciliation behavior, funding semantics, TradeResult immutability, and existing complete-graph behavior are preserved.
 
 ## Deterministic definitions
 
-`tests/storage/test_paper_runtime_lifecycle_vocabulary.py` defines regression coverage for unsupported state/event non-advancement, supported vocabulary acceptance, null-event rules, transition event requirement and unknown projection kind rejection.
+`tests/storage/test_paper_runtime_reference_remediation.py` adds deterministic definitions for legacy generic-invalid recovery, PROTECT missing lineage, EXIT missing strategy lineage, EMERGENCY_EXIT policy mismatch, recovery conflict/incomplete severity, and valid complete closed-graph compatibility.
+
+The prior E6-017 lifecycle execution-binding test definitions remain unchanged.
 
 ## Verification
 
@@ -39,9 +43,9 @@ All E6-013 durability semantics outside this bounded validation remediation rema
 local_verification = NOT_RUN
 ```
 
-No approved exact-revision local execution action was authorized. No tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute or Computer Adapter project workload was executed.
+No separate exact-revision Product-Owner/PM-approved local action was authorized. No project tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute, or other project executable workload was run.
 
-Exact future commands:
+Exact future Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -55,11 +59,12 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 ## Scope / release
 
 - contracts/ADR changed by E6: `NONE`
-- E1-E5/E7 production changed: `NONE`
-- provider/private/credentials: `NONE`
-- strategy lifecycle expansion: `NONE`
+- E1-E5/E7 production/tests changed: `NONE`
+- provider/private/network/credentials: `NONE`
+- strategy promotion: `NONE`
 - PAPER/SHADOW/LIVE authority: `NONE`
+- GitHub Actions/CI/workflow use: `NONE`
 
 No Restart/persistence PASS, Paper E2E PASS, Gate B/PAPER_READY PASS, or PAPER/SHADOW/LIVE authorization is claimed.
 
-E6 stops after the terminal mailbox STATUS is pushed and does not self-start another task.
+E6 stops after the terminal mailbox STATUS for this task is pushed and does not self-start another task.

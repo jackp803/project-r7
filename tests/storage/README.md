@@ -22,9 +22,9 @@ The Gate B Paper durability slice is additive and does not replace or expand the
 
 ## Gate B Paper runtime durability definitions
 
-`test_paper_runtime_durability.py` defines:
+`test_paper_runtime_durability.py` preserves and updates the base durability definitions for:
 
-- additive runtime migration coexistence with Registry data/schema;
+- additive runtime migration coexistence with Registry data/schema, now including the additive lifecycle-execution-binding table;
 - exact canonical round-trip for RiskDecision, ApprovedTradePlan, PositionAction, OrderRequest and Fill;
 - immutable same-ID replay/conflict behavior;
 - `position-lifecycle-projection-v0.1` GENESIS / TRANSITION / REATTESTATION persistence;
@@ -35,13 +35,40 @@ The Gate B Paper durability slice is additive and does not replace or expand the
 - append-only OrderResult observations and non-regressing current index;
 - equal-time OrderResult conflict;
 - funding replay/identity/lineage conflict behavior;
-- immutable TradeResult + exact funding-evidence binding;
+- immutable TradeResult + exact funding-evidence binding + exact referenced entry/exit request/fill/authority graph;
 - database close/reopen recovery for open partial-fill, ambiguous/reconciliation-required, and closed/funded/TradeResult graphs;
+- exact current `position-lifecycle-execution-binding-v0.1` requirement for READY recovery;
 - durable conflict recovery;
 - bounded transaction rollback leaving no half-applied current projection;
 - secret-like field rejection and absence of release-authority APIs.
 
-`test_paper_runtime_conflict_and_time_ordering.py` adds focused definitions for:
+`test_paper_runtime_binding_and_traderesult_completeness.py` defines the E6-20260824-017 repair regressions for:
+
+- exact matching binding persistence/replay/recovery;
+- missing binding -> not READY;
+- binding projection/revision/interpreted-time/profile/scope/hash mismatch rejection;
+- later PARTIALLY_FILLED/FILLED/CANCELED/EXPIRED/REJECTED evidence invalidating an older binding;
+- new POSITION_EXIT / EMERGENCY_EXIT execution evidence invalidating an older binding;
+- equal-time OrderResult and immutable Fill/OrderRequest identity conflicts;
+- equal-broker-anchor E5 REATTESTATION plus a new matching binding restoring execution freshness mechanically;
+- raw E4 Position freshness remaining a separate E5 re-attestation axis;
+- entry-v0.1 OrderRequest/Fill evidence remaining outside the reduction-order binding scope with no trade-plan heuristic join;
+- complete TradeResult referenced-object graph recovery;
+- missing entry/exit OrderRequest, missing entry/exit Fill, missing PositionAction, and reference-lineage mismatch failing closed before durable TradeResult acceptance/READY recovery.
+
+`test_paper_runtime_reference_remediation.py` defines the bounded E6-20260824-018 remediation regressions for:
+
+- a legacy/direct-SQL TradeResult row with duplicate/shape-invalid referenced graph material never recovering `READY`;
+- generic `TRADE_RESULT_REFERENCED_GRAPH_INVALID` downgrading a previously READY recovery to `INCOMPLETE`;
+- referenced `PROTECT / PROTECTION_STOP` PositionAction requiring exact `protection-v0.1` parent/policy/symbol lineage;
+- referenced `EXIT / POSITION_EXIT` and `EMERGENCY_EXIT / EMERGENCY_EXIT` PositionAction requiring exact `close-v0.1` parent/strategy/policy lineage;
+- missing required PositionAction lineage recovering/persisting fail-closed as incomplete/invalid;
+- mismatched required PositionAction lineage recovering as `CONFLICT`;
+- the valid E6-017 complete closed graph remaining definition-compatible.
+
+The E6-018 remediation does not alter the E6-017 lifecycle-execution-binding freshness definitions or E5 lifecycle semantics.
+
+`test_paper_runtime_conflict_and_time_ordering.py` preserves focused definitions for:
 
 - true `0001_strategy_registry.sql -> 0002_paper_runtime_durability.sql` additive migration;
 - declared lifecycle-projection ID corruption -> durable conflict;
@@ -49,7 +76,7 @@ The Gate B Paper durability slice is additive and does not replace or expand the
 - fractional-second OrderResult ordering without RFC3339 lexical-order assumptions;
 - fractional-second newer raw Position observation -> `REATTESTATION_REQUIRED`.
 
-`tests/platform/test_paper_runtime_storage_surface.py` defines the supported `storage.runtime` public surface and rejects raw SQLite, provider-private, strategy-promotion, PAPER/SHADOW/LIVE and provider-submit capabilities.
+`tests/platform/test_paper_runtime_storage_surface.py` defines the supported `storage.runtime` public surface, including bounded lifecycle-execution-binding persistence, and rejects raw SQLite, provider-private, strategy-promotion, PAPER/SHADOW/LIVE and provider-submit capabilities.
 
 Synthetic fixtures are deterministic test doubles only; they are **not** project executable PASS evidence.
 

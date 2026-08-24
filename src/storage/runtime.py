@@ -4,6 +4,11 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
+from ._lifecycle_execution_binding import persist_lifecycle_execution_binding
+from ._traderesult_reference_remediation import (
+    augment_recovery_with_binding_and_trade_result,
+    validate_trade_result_reference_graph,
+)
 from ._paper_runtime import _PaperRuntimeStore, _open_paper_runtime_store
 from ._runtime_validation import canonical_payload
 from .runtime_models import (
@@ -133,6 +138,12 @@ class PaperRuntimeJournal:
                 "declared lifecycle_projection_id conflicts with the canonical payload",
             ) from exc
 
+    def persist_lifecycle_execution_binding(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
+        """Persist one immutable E5 execution-evidence binding for a durable projection."""
+
+        self._check_payload_policy(payload)
+        return persist_lifecycle_execution_binding(self._store, payload)
+
     def persist_raw_position_observation(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
         self._check_payload_policy(payload)
         return self._store.persist_raw_position_observation(payload)
@@ -166,6 +177,7 @@ class PaperRuntimeJournal:
 
     def persist_trade_result(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
         self._check_payload_policy(payload)
+        validate_trade_result_reference_graph(self._store, payload)
         return self._store.persist_trade_result(payload)
 
     def recover(
@@ -175,6 +187,7 @@ class PaperRuntimeJournal:
         trade_plan_id: str | None = None,
     ) -> PaperRuntimeRecovery:
         recovery = self._store.recover(position_id=position_id, trade_plan_id=trade_plan_id)
+        recovery = augment_recovery_with_binding_and_trade_result(self._store, recovery)
         if recovery.position_id is None:
             reasons = tuple(dict.fromkeys((*recovery.reason_codes, "POSITION_LINEAGE_UNRESOLVED")))
             return replace(recovery, status="INCOMPLETE", reason_codes=reasons)

@@ -81,17 +81,38 @@ python -m unittest discover -s tests/strategy -p "test_*.py" -v
 
 Delivered stderr confirms parser/schema/runtime-version validation, deterministic runtime behavior, no-look-ahead protections, closed-candle enforcement, structured schema rejects, and TradeIntent entry-profile boundary tests all passed.
 
+### 4. GATE_A_BACKTEST — PASS
+
+```text
+request_id = REQ-E7-GATEA-024-04-9D3F6A20
+task_id = E7-20260824-024
+action_id = GATE_A_BACKTEST
+job_id = JOB-CB2A624F87270A7D
+state = SUCCEEDED
+exit_code = 0
+duration_seconds = 0.750
+Ran 21 tests in 0.012s
+OK
+```
+
+Registered command:
+
+```powershell
+python -m unittest discover -s tests/backtest -p "test_*.py" -v
+```
+
+Delivered stderr confirms deterministic fee/slippage/funding cost handling, defined metrics including null profit-factor semantics, actual E2 runtime consumption in the E1→E2→E3 research skeleton, dataset binding, closed-prefix/no-look-ahead behavior, next-open fills, conservative same-candle stop/target ambiguity resolution, and fail-closed schema checks all passed.
+
 ## Evidence limitations
 
-The delivered result excerpts for suites 1-3 do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifiers, or execution-count fields. E7 does not fabricate missing values. The TASK-approved execution pin/preparation evidence remains the governing environment requirement, and no source/worktree mismatch or execution refusal was reported by these successful Local Runner results.
+The delivered result excerpts for suites 1-4 do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifiers, or execution-count fields. E7 does not fabricate missing values. The TASK-approved execution pin/preparation evidence remains the governing environment requirement, and no source/worktree mismatch or execution refusal was reported by these successful Local Runner results.
 
 For each suite, AgentBridge delivered the durable execution-result notification to the E7 conversation.
 
 ### Remaining suites
 
 ```text
-4. GATE_A_BACKTEST    = PENDING REQUEST
-5. GATE_A_VALIDATION  = NOT_RUN
+5. GATE_A_VALIDATION  = PENDING REQUEST
 6. GATE_A_REGISTRY    = NOT_RUN
 7. GATE_A_STORAGE     = NOT_RUN
 8. GATE_A_INTEGRATION = NOT_RUN
@@ -105,4 +126,4 @@ GATE_A_REVIEW_CANDIDATE = NO
 Gate A = BLOCKED / MATRIX IN PROGRESS
 ```
 
-No Gate A PASS is claimed. Three of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.
+No Gate A PASS is claimed. Four of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.

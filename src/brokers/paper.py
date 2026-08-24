@@ -311,6 +311,9 @@ class PaperBroker(Broker):
             fee=fee,
             fee_currency=fee_currency,
             liquidity_role=liquidity_role,
+            position_action_id=order.request.position_action_id,
+            position_id=order.request.position_id,
+            order_role=order.request.order_role,
         )
         order.fills.append(fill)
 

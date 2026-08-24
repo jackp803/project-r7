@@ -118,8 +118,9 @@ class PaperBroker(Broker):
         return _PaperOrder(request=request, result=result, fills=[])
 
     def _store_order_result(self, order: _PaperOrder, result: OrderResult) -> None:
+        # Keep _submissions as the original submit acknowledgement. Current
+        # authoritative order truth lives in _orders and may evolve later.
         order.result = result
-        self._submissions[order.request.client_order_id] = (order.request, result)
 
     def submit_order(self, request: OrderRequest) -> OrderResult:
         if request.schema_version != SCHEMA_VERSION:

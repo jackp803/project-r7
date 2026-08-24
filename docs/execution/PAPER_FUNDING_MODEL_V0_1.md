@@ -119,10 +119,10 @@ The interval is therefore:
 Serialization is:
 
 ```python
-json.dumps(material, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+json.dumps(material, sort_keys=True, separators=(",", ":"))
 ```
 
-followed by UTF-8 encoding and SHA-256.
+followed by UTF-8 encoding and SHA-256. This matches the repository's existing deterministic JSON identity convention.
 
 Because exact plan/position/symbol/interval lineage and the completeness assertion are inside this material, a changed allocation lineage produces a different source material hash. The hash is not an empty-result hash.
 
@@ -168,6 +168,7 @@ No canonical evidence is emitted when any required fact is invalid or unavailabl
 
 - unsupported schema;
 - missing/blank plan, position, or source identity;
+- non-canonical surrounding whitespace on lineage identifiers;
 - plan/Position symbol mismatch;
 - nonzero, malformed, NaN, or infinite final Position quantity;
 - reconciliation status other than `CONSISTENT`;

@@ -589,7 +589,7 @@ class PaperBroker(Broker):
             )
 
         refreshed = dict(source_position)
-        refreshed["actual_quantity"] = format(residual, "f")
+        refreshed["actual_quantity"] = "0" if is_protection_stop else format(residual, "f")
         refreshed["broker_state_observed_at"] = _fmt_utc(observed_at)
         refreshed["reconciliation_status"] = "CONSISTENT"
         # E5 owns lifecycle interpretation. Do not emit CLOSED/EXIT_REQUESTED or

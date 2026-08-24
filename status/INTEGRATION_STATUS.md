@@ -1,16 +1,15 @@
 # Integration Status
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Current review: `E7-20260824-052` / 2026-08-24  
-> Reviewed main: `3c4d8f38aa16bf06cc4e448238f4469d83c6c7b4`  
+> Current review: `E7-20260824-053` / 2026-08-24  
 > Contract baseline: `contracts-v0.1 / BASELINE`  
-> Profiles: `protection-v0.1 / close-v0.1 / trade-result-v0.1 / linear-base-asset-pnl-v0.1 / funding-allocation-v0.1 / position-lifecycle-projection-v0.1`
+> Profiles: `protection-v0.1 / close-v0.1 / trade-result-v0.1 / linear-base-asset-pnl-v0.1 / funding-allocation-v0.1 / position-lifecycle-projection-v0.1 / position-lifecycle-execution-binding-v0.1`
 
 ## Current integration target
 
-**Gate B / Slice 3 Paper readiness — durable Paper runtime integration after merged E6 PR #61**
+**Gate B / Slice 3 Paper readiness — E4 execution-truth to E5 lifecycle freshness contract**
 
-This review is static only. No project code/tests, migration, Local Runner, provider/private API, GitHub CI, PAPER, SHADOW, or LIVE activity was executed.
+This task is static contract/architecture work only. No project code/tests, migration, Local Runner, provider/private API, GitHub CI, PAPER, SHADOW, or LIVE activity was executed.
 
 ## Release state
 
@@ -25,158 +24,123 @@ project executable verification = NOT_RUN
 READY_FOR_APPROVED_LOCAL_GATE_B_VERIFICATION = NO
 ```
 
-## Accepted current implementation state
+## Accepted implementation / contract context
 
 ```text
-PR #55 in-memory Paper close-to-TradeResult chain       = MATERIALIZED / NOT_RUN
-PR #57 lifecycle projection contract/ADR                = ACCEPTED
-PR #58 E5 lifecycle projection producer                 = MATERIALIZED / NOT_RUN
-PR #60 lifecycle vocabulary clarification/ADR           = ACCEPTED
-PR #61 E6 Paper runtime durability/restart implementation = MATERIALIZED / NOT_RUN
+PR #55 in-memory Paper close-to-TradeResult chain         = MATERIALIZED / NOT_RUN
+PR #57 position-lifecycle-projection-v0.1                 = ACCEPTED
+PR #58 E5 lifecycle projection producer                   = MATERIALIZED / NOT_RUN
+PR #60 lifecycle vocabulary clarification / ADR-0008      = ACCEPTED
+PR #61 E6 durable Paper runtime implementation            = MATERIALIZED / NOT_RUN
+PR #62 E7 durable review                                  = BLOCKED / accepted blocker diagnosis
+E7-053 execution-evidence companion contract / ADR-0009   = RESOLVED STATIC
 ```
 
-The stale pre-PR #58/#61 statements that E5 projection production and E6 durability are absent are retired by this review.
+## E7-053 contract resolution
 
-## Static areas that compose correctly
+The primary E7-052 shared semantic gap is resolved by:
 
-### Canonical identity / authority preservation
+```text
+contracts/POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md
+docs/adr/ADR-0009-position-lifecycle-execution-evidence-freshness.md
+profile = position-lifecycle-execution-binding-v0.1
+classification = ADDITIVE_COMPANION_PROFILE
+```
 
-E6 stores exact canonical JSON/IDs and storage hashes; it does not regenerate E4/E5 canonical identities on restart.
+Existing lifecycle projection semantics and identities remain unchanged:
 
-Authority remains:
+```text
+schema_version = contracts-v0.1
+position_lifecycle_projection_profile_version = position-lifecycle-projection-v0.1
+lifecycle_projection_id identity material = unchanged
+```
+
+## Authority remains split
 
 ```text
 E4 = broker/order/fill/actual Position truth
 E5 = risk + Position lifecycle interpretation/revision/event/identity
-E6 = persistence/replay/diagnostics only
+     + declaration of the exact E4 execution evidence it interpreted
+E6 = persistence/replay/hash/reference/freshness comparison only
 E7 = shared contracts/integration/release
 ```
 
-No storage row ID, insertion sequence, persisted timestamp, or database arrival order becomes domain authority.
+E6 does not gain authority to map OrderResult/Fill truth to PositionEvent or lifecycle state.
 
-### Lifecycle profile / vocabulary mechanics
+## Two independent restart-freshness axes
 
-PR #61 mechanically validates:
+### Position broker facts
 
-- `position-lifecycle-projection-v0.1`;
-- GENESIS / TRANSITION / REATTESTATION shape;
-- E7-published lifecycle state/event/kind vocabulary;
-- contiguous revision/predecessor chain;
-- content-derived projection ID;
-- non-regressing broker anchor;
-- equal-anchor broker-fact consistency;
-- idempotent replay vs conflict.
-
-E6 does not import/replay the E5 transition table.
-
-### Newer raw Position truth
-
-A newer raw E4 Position observation beyond the latest E5 projection remains separate evidence and causes:
-
-```text
-E5_REATTESTATION_REQUIRED
-PaperRuntimeRecovery.status = REATTESTATION_REQUIRED
-```
-
-No synthetic lifecycle promotion occurs.
-
-### Order / Fill persistence
-
-OrderResult observations are append-only and preserve distinct:
-
-```text
-requested_quantity
-filled_quantity
-order_status
-execution_health_status
-observed_at
-```
-
-Fill identity and request/action/position/order-role lineage are preserved mechanically.
-
-`UNKNOWN / RECONCILIATION_REQUIRED / DEGRADED` current order truth survives restart and prevents a READY recovery claim.
-
-### Funding / immutable result mechanics
-
-Funding evidence preserves exact allocation identity/lineage. Same-lineage conflicting evidence fails closed and cannot last-write-win over prior financial truth. TradeResult is immutable by canonical ID and binds exact durable ApprovedTradePlan + FundingAllocationEvidence.
-
-## Blocking semantic gap — execution evidence freshness vs lifecycle projection
-
-The durable lifecycle profile currently proves which E4 **Position broker observation** E5 interpreted:
+Existing rule remains:
 
 ```text
 lifecycle_source_broker_state_observed_at
+== exact E4 Position observation interpreted by E5
 ```
 
-It does not prove which relevant later E4 `OrderResult` / `Fill` execution observations E5 has already interpreted.
+Newer raw Position truth beyond the latest E5 projection requires E5 re-attestation/interpretation.
 
-That omission is material for the accepted protection path.
+### Position-linked execution evidence
 
-Current E5 `interpret_protection_result(...)` semantics require:
+A Gate B restart-authoritative lifecycle projection now requires one immutable companion binding covering all current durable E4 Position-linked reduction-order evidence for:
 
 ```text
-OPEN_PROTECTED + later PARTIALLY_FILLED/FILLED protection truth
--> STATE_UNKNOWN
--> RECONCILIATION_REQUIRED until authoritative close/Position truth exists
-
-OPEN_PROTECTED + later CANCELED/EXPIRED/REJECTED protection truth
--> PROTECTION_LOST
--> EMERGENCY
+PROTECTION_STOP
+POSITION_EXIT
+EMERGENCY_EXIT
 ```
 
-Current E6 `recover()` instead considers an order-level recovery unresolved only for:
+The companion snapshot includes each exact OrderRequest plus all canonical OrderResult observations and Fill objects for its request/Position lineage.
+
+Freshness rule:
 
 ```text
-order_status = UNKNOWN | RECONCILIATION_REQUIRED
-or execution_health_status = UNKNOWN | DEGRADED
+current durable execution snapshot == latest E5 binding snapshot
+-> execution-evidence axis is current
+
+current durable execution snapshot != latest E5 binding snapshot
+-> fresh E5 interpretation required
+-> old lifecycle projection cannot be restart READY
 ```
 
-A healthy later `PARTIALLY_FILLED` or `CANCELED` observation can therefore remain newer than the latest E5 `OPEN_PROTECTED` projection while recovery still reports `READY` if no newer raw Position observation exists.
+No SQLite arrival order or E6 status-to-lifecycle mapping is used.
 
-This is visible in accepted E6 definitions: `test_close_reopen_recovers_exact_open_partial_fill_graph` expects `READY` after persisting a later partial protective Fill without a newer E5 lifecycle projection.
+## Required downstream adaptation
 
-Classification:
+### E5
 
 ```text
-BLOCKED / CONTRACT_OR_SEMANTIC_GAP
+position-lifecycle-execution-binding-v0.1 producer = REQUIRED / NOT YET MATERIALIZED
 ```
 
-E6 cannot correctly repair this by inventing a private status-to-lifecycle table because that would duplicate E5 semantic authority. An E7-governed shared lifecycle execution-evidence freshness/binding rule is required before the durable graph can be called restart-authoritative across these cases.
+For every lifecycle projection intended to be Gate B restart-authoritative, E5 must emit exactly one immutable companion binding.
 
-E7 blocker definitions:
+When new execution evidence changes lifecycle, E5 emits a new TRANSITION + binding. When new execution evidence is interpreted but lifecycle remains unchanged, E5 emits a new REATTESTATION + binding. Equal broker Position anchor remains allowed under the accepted lifecycle profile.
+
+### E6
 
 ```text
-tests/safety/test_gate_b_durable_lifecycle_freshness.py
-commit 47fe8d4adc6939370aba4c7080eee580333c790c
+companion binding persistence/recovery consumer = REQUIRED / NOT YET MATERIALIZED
 ```
 
-They use real E5 lifecycle producer/interpreter, real E4 protection translator/PaperBroker, and real E6 journal. They are `NOT_RUN`.
+E6 may persist/recompute/compare the fixed shared execution snapshot and fail closed on missing/mismatch/conflict. E6 may not infer lifecycle semantics.
 
-## Separate E6 settled-contract defect — incomplete TradeResult graph can recover READY
+### Separate E6 defect from E7-052
 
-`trade-result-v0.1` carries exact audit references:
+Still unresolved and separate:
 
 ```text
-entry_fill_ids
-exit_fill_ids
-entry_order_request_ids
-exit_order_request_ids
-exit_authority_refs
-funding_evidence_id
+TradeResult durable referenced-object completeness
+= BLOCKED / E6 IMPLEMENTATION DEFECT UNDER SETTLED CONTRACT
 ```
 
-PR #61 verifies plan/funding binding but does not require all referenced OrderRequest/Fill/PositionAction rows to exist/match before recovery may be READY.
+E6 must later require the referenced OrderRequest / Fill / PositionAction graph to exist and match before a closed durable graph may recover READY.
 
-The accepted E6 closed recovery fixture references entry Fill/OrderRequest IDs that it does not persist, yet expects READY.
+## Entry-path boundary
 
-Classification:
+Pre-position `entry-v0.1` execution is not uniformly `position_id`-linked and is intentionally outside `position-lifecycle-execution-binding-v0.1` rather than joined heuristically by `trade_plan_id`.
 
-```text
-IMPLEMENTATION_DEFECT_UNDER_SETTLED_CONTRACT
-responsible domain = E6 storage
-```
-
-E7 does not modify E6 production/tests here.
+A future restart-authoritative `PENDING_ENTRY` design requires separate E7 contract refinement. Until then that pre-position restart case is not eligible for READY.
 
 ## Gate B reconciliation
 
@@ -192,8 +156,10 @@ Position lifecycle ordering/profile                 = RESOLVED STATIC
 Position lifecycle vocabulary                       = RESOLVED STATIC
 E5 lifecycle projection producer                    = MATERIALIZED / NOT_RUN
 E6 durability implementation                        = MATERIALIZED / NOT_RUN
-execution-truth/lifecycle freshness binding          = BLOCKED / CONTRACT_OR_SEMANTIC_GAP
-TradeResult durable reference completeness           = BLOCKED / E6 IMPLEMENTATION DEFECT
+execution-truth/lifecycle freshness contract        = RESOLVED STATIC
+E5 execution-binding producer                       = BLOCKED / IMPLEMENTATION REQUIRED
+E6 execution-binding consumer/recovery              = BLOCKED / IMPLEMENTATION REQUIRED
+TradeResult durable reference completeness          = BLOCKED / E6 IMPLEMENTATION DEFECT
 Restart/persistence                                 = BLOCKED
 Paper E2E -> TradeResult + durable audit            = BLOCKED
 Gate B                                               = BLOCKED / NOT YET PASS
@@ -204,34 +170,31 @@ No executable criterion changes to PASS.
 
 ## Bounded next dependency sequence for PM consideration
 
-E7 does not assign or start follow-up tasks.
+E7 does not assign or self-start follow-up work.
 
 ```text
-E7 shared lifecycle execution-evidence freshness/binding decision
--> E5 producer adaptation
--> E6 mechanical consumer/recovery adaptation + TradeResult graph-completeness fix
--> E7 durable integration/E2E/safety completion
--> PM-approved local Gate B verification
+E5 — materialize position-lifecycle-execution-binding-v0.1 producer
+-> E6 — persist/recompute/compare binding + repair TradeResult graph completeness
+-> E7 — durable Paper integration/E2E/safety re-review/definition completion
+-> PM-authorized exact approved-local Gate B verification
 ```
+
+No E4 production contract adaptation is required.
 
 ## Future approved-local matrix
 
-Not run here. After blockers are resolved and PM authorizes an exact revision:
+Not run here. After E5/E6 remediation is accepted and PM authorizes an exact revision:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/strategy -p "test_*.py" -v
-python -m unittest discover -s tests/execution -p "test_*.py" -v
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
 python -m unittest discover -s tests/position -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/platform -p "test_*.py" -v
 python -m unittest discover -s tests/integration -p "test_*.py" -v
 python -m unittest discover -s tests/e2e -p "test_*.py" -v
 python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
-`tests/e2e` is currently absent on reviewed main; it must be materialized after coherent domain/contract surfaces exist rather than treated as implicit PASS.
+If `tests/e2e` is absent at the accepted remediation revision, it must be materialized before verification. Missing suite is not PASS.
 
 ## Verification / scope
 
@@ -240,19 +203,13 @@ project executable verification = NOT_RUN
 GitHub Actions / CI / hosted runner = NOT_USED
 GitHub-triggered compute = NOT_USED
 Local Runner = NOT_REQUESTED
-Computer Adapter = NOT_USED
 provider/private requests = NOT_SENT
 exchange credentials = NOT_USED
 strategy lifecycle promotion = NONE
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 E1-E6 production/test changes by E7 = NONE
-contracts / ADR changes by E7 = NONE
 ```
 
 ## Detailed evidence
 
-`status/e7/GATE_B_DURABLE_PAPER_INTEGRATION_REVIEW_20260824.md`
-
-## Completion
-
-E7-052 stops on `BLOCKED`. E7 does not self-start contract remediation, E5/E6 fixes, complete Paper E2E definitions, approved-local verification, Gate C, provider/private APIs, PAPER, SHADOW, LIVE, or another task.
+`status/e7/GATE_B_EXECUTION_LIFECYCLE_FRESHNESS_CONTRACT_DECISION_20260824.md`

@@ -20,8 +20,16 @@
 - suite_1_test_count: `21`
 - suite_1_result: `PASS / Ran 21 tests / OK`
 - suite_2_action: `GATE_A_INDICATORS`
-- suite_2_state: `REQUEST_PENDING_COMMIT`
-- suites_3_to_8: `NOT_RUN`
+- suite_2_request_id: `REQ-E7-GATEA-024-02-7B91D4E2`
+- suite_2_job_id: `JOB-B6401E246AEE0542`
+- suite_2_state: `SUCCEEDED`
+- suite_2_exit_code: `0`
+- suite_2_duration_seconds: `0.312`
+- suite_2_test_count: `3`
+- suite_2_result: `PASS / Ran 3 tests / OK`
+- suite_3_action: `GATE_A_STRATEGY`
+- suite_3_state: `REQUEST_PENDING_COMMIT`
+- suites_4_to_8: `NOT_RUN`
 - gate_a: `BLOCKED / MATRIX IN PROGRESS`
 - gate_b: `BLOCKED / UNCHANGED`
 - gate_c: `BLOCKED / UNCHANGED`
@@ -35,7 +43,9 @@
 - registry_real_promotion: `NONE`
 - production_test_contract_changes: `NONE`
 
-## Suite 1 durable result
+## Durable results
+
+### Suite 1
 
 ```text
 request_id = REQ-E7-GATEA-024-01-4E2B6C91
@@ -48,10 +58,23 @@ Ran 21 tests in 0.007s
 OK
 ```
 
-Identity matches the current task and target-branch mailbox request. No failure/error/timed-out/refused result occurred, so the ordered matrix may proceed to suite 2 only.
+### Suite 2
 
-The delivered result excerpt did not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row ID, or execution-count field; E7 does not invent those values. No worktree/source mismatch was reported by the successful Local Runner result.
+```text
+request_id = REQ-E7-GATEA-024-02-7B91D4E2
+action = GATE_A_INDICATORS
+job_id = JOB-B6401E246AEE0542
+state = SUCCEEDED
+exit_code = 0
+duration_seconds = 0.312
+Ran 3 tests in 0.001s
+OK
+```
+
+Both identities match the current task and the ordered target-branch mailbox requests. No failure/error/timed-out/refused result occurred, so the matrix may proceed to suite 3 only.
+
+The delivered result excerpts do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row IDs, or execution-count fields. E7 does not invent those values. No worktree/source mismatch was reported by either successful Local Runner result.
 
 ## Current safety interpretation
 
-This is one successful suite only. It is not Gate A PASS and not a complete matrix PASS. Suites 2-8 still require fresh event-driven Local Runner results under this same task.
+Two of eight required suites have fresh PASS evidence. This is not Gate A PASS and not a complete matrix PASS. Suites 3-8 still require fresh event-driven Local Runner results under this same task.

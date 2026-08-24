@@ -14,6 +14,43 @@ POSITION_PROFILE = "position-lifecycle-projection-v0.1"
 FUNDING_PROFILE = "funding-allocation-v0.1"
 TRADE_RESULT_PROFILE = "trade-result-v0.1"
 
+# Exact mirror of the E7-owned normative consumer vocabulary in
+# contracts/POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md.
+# These are storage-validation constants only; they do not define E5 transition
+# semantics or authorize E6 to infer lifecycle state.
+_POSITION_LIFECYCLE_STATES = frozenset(
+    {
+        "PENDING_ENTRY",
+        "OPEN_UNPROTECTED",
+        "OPEN_PROTECTED",
+        "PROFIT_PROTECTED",
+        "EXIT_REQUESTED",
+        "CLOSED",
+        "EMERGENCY",
+        "RECONCILIATION_REQUIRED",
+    }
+)
+_POSITION_LIFECYCLE_EVENTS = frozenset(
+    {
+        "ENTRY_FILL_OBSERVED",
+        "ENTRY_TERMINATED",
+        "PROTECTION_VERIFIED",
+        "PROFIT_PROTECTION_VERIFIED",
+        "PROTECTION_FAILED",
+        "PROTECTION_LOST",
+        "EXIT_REQUESTED",
+        "EXIT_FAILED",
+        "POSITION_CLOSED",
+        "STATE_UNKNOWN",
+        "RECONCILED_FLAT",
+        "RECONCILED_OPEN_UNPROTECTED",
+        "RECONCILED_OPEN_PROTECTED",
+    }
+)
+_POSITION_LIFECYCLE_PROJECTION_KINDS = frozenset(
+    {"GENESIS", "TRANSITION", "REATTESTATION"}
+)
+
 _SECRET_FRAGMENTS = (
     "api_key",
     "apikey",
@@ -294,7 +331,7 @@ def validate_position_projection(payload: Mapping[str, Any]) -> dict[str, Any]:
     if type(revision) is not int or revision < 0:
         raise RuntimeValidationError("INVALID_LIFECYCLE_REVISION", "lifecycle_revision must be a non-negative integer")
     kind = payload.get("lifecycle_projection_kind")
-    if kind not in {"GENESIS", "TRANSITION", "REATTESTATION"}:
+    if kind not in _POSITION_LIFECYCLE_PROJECTION_KINDS:
         raise RuntimeValidationError("INVALID_LIFECYCLE_PROJECTION_KIND", "unsupported lifecycle projection kind")
     previous_id = payload.get("previous_lifecycle_projection_id")
     event = payload.get("lifecycle_event")
@@ -312,9 +349,19 @@ def validate_position_projection(payload: Mapping[str, Any]) -> dict[str, Any]:
         if kind == "TRANSITION":
             if not isinstance(event, str) or not event:
                 raise RuntimeValidationError("LIFECYCLE_EVENT_REQUIRED", "TRANSITION requires lifecycle_event")
+            if event not in _POSITION_LIFECYCLE_EVENTS:
+                raise RuntimeValidationError(
+                    "UNSUPPORTED_LIFECYCLE_EVENT",
+                    "TRANSITION.lifecycle_event is not supported by position-lifecycle-projection-v0.1",
+                )
         elif event is not None:
             raise RuntimeValidationError("REATTESTATION_EVENT_FORBIDDEN", "REATTESTATION requires lifecycle_event=null")
-    nonempty_text(payload, "lifecycle_state")
+    lifecycle_state = nonempty_text(payload, "lifecycle_state")
+    if lifecycle_state not in _POSITION_LIFECYCLE_STATES:
+        raise RuntimeValidationError(
+            "UNSUPPORTED_LIFECYCLE_STATE",
+            "Position.lifecycle_state is not supported by position-lifecycle-projection-v0.1",
+        )
     anchor = utc_text(payload, "broker_state_observed_at")
     source_anchor = utc_text(payload, "lifecycle_source_broker_state_observed_at")
     if source_anchor != anchor or payload.get("lifecycle_source_broker_state_observed_at") != payload.get("broker_state_observed_at"):
@@ -338,7 +385,7 @@ def validate_position_projection(payload: Mapping[str, Any]) -> dict[str, Any]:
         "previous_id": previous_id,
         "kind": kind,
         "event": event,
-        "lifecycle_state": payload["lifecycle_state"],
+        "lifecycle_state": lifecycle_state,
         "broker_state_observed_at": ordering_time(anchor),
         "broker_fact_hash": broker_fact_hash(payload),
     }

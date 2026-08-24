@@ -20,6 +20,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 - [`PROTECTION_OBJECT_PROFILE_V0_1.md`](./PROTECTION_OBJECT_PROFILE_V0_1.md) — `protection-v0.1` actual-fill PositionAction -> protective OrderRequest semantics
 - [`CLOSE_TRADE_RESULT_PROFILE_V0_1.md`](./CLOSE_TRADE_RESULT_PROFILE_V0_1.md) — `close-v0.1` + `trade-result-v0.1` + `linear-base-asset-pnl-v0.1` close authority, authoritative flatness, fill-set closure, and canonical TradeResult semantics
 - [`FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`](./FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md) — `funding-allocation-v0.1` provider-neutral exact-interval funding evidence, completeness, identity, ownership, TradeResult binding, and persistence semantics
+- [`POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md) — `position-lifecycle-projection-v0.1` E5-owned lifecycle ordering/identity over unchanged E4 broker Position facts for deterministic persistence/restart
 
 ## Authority and ownership
 
@@ -35,6 +36,13 @@ For `funding-allocation-v0.1` specifically:
 - E5 validates/consumes canonical funding evidence for TradeResult but does not manufacture source truth;
 - E6 persists/replays/audits evidence but does not invent or rewrite funding truth;
 - E7 owns profile/version/release semantics.
+
+For `position-lifecycle-projection-v0.1` specifically:
+
+- E4 continues to own the broker Position fact payload and `broker_state_observed_at`; it does not allocate lifecycle order;
+- E5 owns `lifecycle_state` plus the lifecycle projection revision/predecessor/event/identity metadata and emits the durability-eligible profiled Position;
+- E6 persists/replays/indexes the serialized projection and enforces the shared ordering/conflict rules without deriving lifecycle or assigning revisions;
+- E7 owns profile/version/integration/release semantics.
 
 ## Contract status
 
@@ -78,6 +86,7 @@ close-v0.1
 trade-result-v0.1
 linear-base-asset-pnl-v0.1
 funding-allocation-v0.1
+position-lifecycle-projection-v0.1
 ```
 
 An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.
@@ -134,6 +143,7 @@ A consumer must:
 - never infer LIVE authority from credentials, strategy success, or UI state;
 - never treat `UNKNOWN` as healthy;
 - never infer funding zero from missing/unavailable evidence;
+- never infer lifecycle ordering from persistence arrival order, storage timestamps, row IDs or unrelated execution rows;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy

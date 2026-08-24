@@ -75,9 +75,14 @@ DEFAULT_PAPER_ZERO_FUNDING_MODEL = PaperZeroFundingModel()
 
 
 def _nonempty_text(value: Any, field: str) -> str:
-    if not isinstance(value, str) or not value.strip():
+    if not isinstance(value, str) or not value:
         raise FundingEvidenceError("INVALID_TEXT_FIELD", f"{field} must be a non-empty string")
-    return value.strip()
+    if value != value.strip():
+        raise FundingEvidenceError(
+            "NONCANONICAL_TEXT_FIELD",
+            f"{field} must not contain surrounding whitespace",
+        )
+    return value
 
 
 def _decimal(value: Any, field: str) -> Decimal:
@@ -122,7 +127,8 @@ def _fmt_utc(value: datetime) -> str:
 
 
 def _canonical_json(value: Mapping[str, Any]) -> str:
-    return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    # Match the repository's existing deterministic identity convention.
+    return json.dumps(value, sort_keys=True, separators=(",", ":"))
 
 
 def _sha256_material(value: Mapping[str, Any]) -> str:
@@ -134,6 +140,11 @@ def _validate_registered_model(model: PaperZeroFundingModel) -> None:
         raise FundingEvidenceError(
             "UNSUPPORTED_FUNDING_SOURCE",
             "funding producer requires the registered local Paper zero-funding model",
+        )
+    if type(model.source_record_count) is not int:
+        raise FundingEvidenceError(
+            "UNSUPPORTED_FUNDING_MODEL_VERSION",
+            "source_record_count must be the exact registered integer zero",
         )
     expected = DEFAULT_PAPER_ZERO_FUNDING_MODEL
     fields = (

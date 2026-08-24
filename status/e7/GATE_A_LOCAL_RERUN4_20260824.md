@@ -17,8 +17,6 @@
 
 ### 1. GATE_A_MARKET_DATA — PASS
 
-Delivered AgentBridge result identity:
-
 ```text
 request_id = REQ-E7-GATEA-024-01-4E2B6C91
 task_id = E7-20260824-024
@@ -27,6 +25,8 @@ job_id = JOB-14EAF870409F7BF8
 state = SUCCEEDED
 exit_code = 0
 duration_seconds = 0.547
+Ran 21 tests in 0.007s
+OK
 ```
 
 Registered command:
@@ -35,26 +35,9 @@ Registered command:
 python -m unittest discover -s tests/market_data -p "test_*.py" -v
 ```
 
-Delivered bounded execution summary:
-
-```text
-Ran 21 tests in 0.007s
-OK
-```
-
-Observed coverage in delivered stderr excerpt includes Candle contract validation, OKX normalization, historical sequence integrity, and market-data import integrity. All 21 reported tests passed.
-
-The delivered result did not include separate values for Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifier, or execution-count field in the user-visible excerpt. These are therefore not fabricated here. The TASK-approved execution pin/preparation evidence remains the governing environment requirement, and no mismatch was reported by this successful Local Runner result.
-
-Notification evidence:
-
-```text
-AgentBridge delivered the durable execution-result notification to the E7 conversation.
-```
+Observed coverage includes Candle contract validation, OKX normalization, historical sequence integrity, and market-data import integrity. All 21 reported tests passed.
 
 ### 2. GATE_A_INDICATORS — PASS
-
-Delivered AgentBridge result identity:
 
 ```text
 request_id = REQ-E7-GATEA-024-02-7B91D4E2
@@ -64,6 +47,8 @@ job_id = JOB-B6401E246AEE0542
 state = SUCCEEDED
 exit_code = 0
 duration_seconds = 0.312
+Ran 3 tests in 0.001s
+OK
 ```
 
 Registered command:
@@ -72,28 +57,40 @@ Registered command:
 python -m unittest discover -s tests/indicators -p "test_*.py" -v
 ```
 
-Delivered bounded execution summary:
+Delivered stderr confirms exact Decimal SMA behavior, binary-float rejection, and insufficient-history handling all passed.
+
+### 3. GATE_A_STRATEGY — PASS
 
 ```text
-Ran 3 tests in 0.001s
+request_id = REQ-E7-GATEA-024-03-5C8A1F77
+task_id = E7-20260824-024
+action_id = GATE_A_STRATEGY
+job_id = JOB-2D6AB3BA7A887087
+state = SUCCEEDED
+exit_code = 0
+duration_seconds = 0.375
+Ran 21 tests in 0.009s
 OK
 ```
 
-Delivered stderr excerpt confirms all three SMA tests passed, including exact Decimal SMA behavior, binary-float rejection, and insufficient-history handling.
+Registered command:
 
-The delivered result did not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifier, notification-state field, or execution-count field. E7 does not invent missing values. No source/worktree mismatch or execution refusal was reported.
-
-Notification evidence:
-
-```text
-AgentBridge delivered the durable execution-result notification to the E7 conversation.
+```powershell
+python -m unittest discover -s tests/strategy -p "test_*.py" -v
 ```
+
+Delivered stderr confirms parser/schema/runtime-version validation, deterministic runtime behavior, no-look-ahead protections, closed-candle enforcement, structured schema rejects, and TradeIntent entry-profile boundary tests all passed.
+
+## Evidence limitations
+
+The delivered result excerpts for suites 1-3 do not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifiers, or execution-count fields. E7 does not fabricate missing values. The TASK-approved execution pin/preparation evidence remains the governing environment requirement, and no source/worktree mismatch or execution refusal was reported by these successful Local Runner results.
+
+For each suite, AgentBridge delivered the durable execution-result notification to the E7 conversation.
 
 ### Remaining suites
 
 ```text
-3. GATE_A_STRATEGY    = PENDING REQUEST
-4. GATE_A_BACKTEST    = NOT_RUN
+4. GATE_A_BACKTEST    = PENDING REQUEST
 5. GATE_A_VALIDATION  = NOT_RUN
 6. GATE_A_REGISTRY    = NOT_RUN
 7. GATE_A_STORAGE     = NOT_RUN
@@ -108,4 +105,4 @@ GATE_A_REVIEW_CANDIDATE = NO
 Gate A = BLOCKED / MATRIX IN PROGRESS
 ```
 
-No Gate A PASS is claimed. Two of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.
+No Gate A PASS is claimed. Three of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.

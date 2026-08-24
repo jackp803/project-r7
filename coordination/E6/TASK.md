@@ -1,66 +1,115 @@
 # E6 Current Task
 
-- task_id: `E6-20260824-014`
-- issued_at: `2026-08-24T21:24:00+08:00`
-- state: `HOLD`
-- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`, completed worker task `E6-20260824-013`, PM static review of `agent/e6-gate-b-paper-runtime-durability-v2-20260824`
+- task_id: `E6-20260824-015`
+- issued_at: `2026-08-24T21:40:00+08:00`
+- state: `ACTIVE`
+- target_branch: `agent/e6-gate-b-paper-runtime-durability-v2-20260824`
+- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, `contracts-v0.1`, `contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`, `contracts/POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`, ADR-0007, ADR-0008, accepted E7 task `E7-20260824-050`, PR #60 merge `6141d93f5b80d1dc1a0e4231a3e453d09806bf40`, prior E6 durability task `E6-20260824-013`
 
 ## Objective
 
-Hold after PM review of `E6-20260824-013`.
+Remediate only the bounded lifecycle-vocabulary validation gap in the existing E6 Gate B durability branch so PM can re-review the complete E6 durability slice.
 
-Worker completion is **not accepted for merge/integration yet**. The E6 branch materializes the requested durability slice, but PM review found that restart-authoritative lifecycle vocabulary validation is not fully resolvable from the current shared contract surface without risking E6-owned duplication of E5 semantics.
+Do not redesign durability, lifecycle semantics, contracts, or release authority.
 
-## Review disposition
+## Required baseline handling
 
-Confirmed static facts:
+Before editing:
 
-```text
-E6-20260824-013 worker STATUS = DONE
-local_verification = NOT_RUN
-branch = agent/e6-gate-b-paper-runtime-durability-v2-20260824
-```
+- verify the authoritative main TASK task_id exactly matches `E6-20260824-015`;
+- read latest `main` including PR #60 accepted contract/ADR;
+- bring the accepted latest `main` contract state into `agent/e6-gate-b-paper-runtime-durability-v2-20260824` without modifying E7-owned contract/ADR meaning;
+- preserve all accepted E6-013 durability implementation outside this remediation unless a directly related defect is required to satisfy the new contract.
 
-`position-lifecycle-projection-v0.1` states that unsupported lifecycle state/event/kind is not restart-authoritative. `contracts/SHARED_CONTRACTS_V1.md` enumerates the shared lifecycle states, but the profile refers to the exact canonical E5 `PositionEvent` without exhaustively materializing the supported event vocabulary as a shared consumer contract.
+## Required remediation
 
-Current E6 validation checks lifecycle kind and structural event nullability, but a complete event whitelist would require E6 either to duplicate/import E5 implementation vocabulary or to rely on an underspecified shared rule. The original E6 task forbids inventing shared enum/lifecycle authority.
+In E6-owned storage validation only:
 
-Therefore:
+1. enforce exact membership for restart-authoritative `lifecycle_state` using the eight values in `POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`;
+2. enforce exact membership for `TRANSITION.lifecycle_event` using the thirteen values in that contract;
+3. preserve `GENESIS` and `REATTESTATION` requirement `lifecycle_event = null`;
+4. reject unsupported lifecycle state/event/kind before a payload can advance durable current/restart-authoritative Position state;
+5. add deterministic E6 storage test definitions showing rejected unsupported vocabulary does not create/replace the current projection;
+6. preserve all existing revision/predecessor/identity/broker-anchor/replay/conflict/re-attestation behavior from E6-013.
 
-```text
-PM_ACCEPT_E6_013 = NO
-classification = CONTRACT_OR_SEMANTIC_GAP
-next_owner = E7
-next_task = E7-20260824-050
-```
+E6 may mirror the exact shared vocabulary as local validation constants implementing the accepted E7 contract. Those constants are not independent E6 authority.
 
-This HOLD does not imply the rest of the E6 implementation is rejected; it prevents merge/integration until E7 resolves the exact durable lifecycle-vocabulary validation authority.
+## Explicit boundary
 
-## Required actions while HOLD
+Do **not**:
 
-- Do not modify `agent/e6-gate-b-paper-runtime-durability-v2-20260824` unless PM replaces this HOLD after E7 resolution.
-- Do not hardcode or import E5 lifecycle transition logic merely to satisfy storage validation.
-- Do not start another E6 task.
-- Do not request or run project executable verification for this HOLD.
-- Preserve all E6-013 branch evidence unchanged for E7 review.
+- import E5 production modules to validate vocabulary;
+- copy or evaluate the E5 `(previous_state, event) -> next_state` transition table;
+- infer lifecycle state from OrderResult, Fill, PositionAction, TradeResult, or storage arrival order;
+- allocate/repair lifecycle revisions, predecessor IDs, or projection IDs;
+- modify `contracts/**`, `docs/adr/**`, or E1-E5/E7 production code;
+- add provider/private API/network/credentials;
+- add `.github/workflows/**` or GitHub CI/compute;
+- enable or claim PAPER/SHADOW/LIVE authority.
 
-## Release state
+If the accepted vocabulary contract still proves insufficient to implement this mechanically, stop with `BLOCKED / CONTRACT_OR_SEMANTIC_GAP` and exact evidence; do not guess.
 
-```text
-Gate A = PASS / RESEARCH-INTEGRATION ONLY
-E6 durability implementation = MATERIALIZED / PM REVIEW BLOCKED
-Restart/persistence executable criterion = NOT_RUN
-Paper E2E durable audit = BLOCKED
-Gate B = BLOCKED / NOT YET PASS
-PAPER / SHADOW / LIVE = UNAUTHORIZED
-```
+## Required deterministic test definitions
 
-`NOT_RUN != PASS`.
+At minimum define coverage for:
+
+- unsupported `lifecycle_state` on an otherwise canonical valid-hash projection -> structured reject, no current projection advancement;
+- unsupported `TRANSITION.lifecycle_event` after a valid predecessor -> structured reject, prior valid current projection unchanged;
+- supported lifecycle states/events remain accepted under existing structural/order rules;
+- GENESIS/REATTESTATION null-event rules remain enforced;
+- existing E6 durability/storage/platform/registry test definitions remain compatible.
+
+No PM or worker may convert unexecuted definitions into PASS.
 
 ## Writable scope
 
-Only `coordination/E6/STATUS.md` for HOLD acknowledgement if needed. No production/test changes.
+E6-owned only, preferred minimum:
 
-## Completion
+- `src/storage/_runtime_validation.py`;
+- `tests/storage/test_paper_runtime_durability.py` and/or `tests/storage/test_paper_runtime_conflict_and_time_ordering.py`;
+- strictly necessary E6 durability docs/status evidence;
+- `coordination/E6/STATUS.md` on the target branch.
 
-Acknowledge HOLD if needed and stop. Wait for PM to replace this task after E7 contract disposition.
+Other existing E6 durability files may be touched only if strictly required by this remediation.
+
+## Executable verification
+
+Local-only. Unless a separate exact-revision Product-Owner/PM-approved local execution action exists, record:
+
+```text
+local_verification = NOT_RUN
+```
+
+with exact Windows PowerShell commands:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m unittest discover -s tests/storage -p "test_*.py" -v
+python -m unittest discover -s tests/platform -p "test_*.py" -v
+python -m unittest discover -s tests/registry -p "test_*.py" -v
+```
+
+No GitHub Actions/CI/hosted runner/GitHub-triggered compute may be used. `NOT_RUN != PASS`.
+
+## Acceptance
+
+### DONE
+
+- unsupported shared lifecycle state/event vocabulary fails closed before durable current advancement;
+- supported vocabulary behavior remains mechanically compatible with the accepted profile;
+- E5 transition authority remains untouched;
+- E6-013 durability behavior outside this remediation is preserved;
+- deterministic regression test definitions are committed;
+- no forbidden scope is crossed;
+- executable evidence is either approved-local exact evidence or explicit `NOT_RUN` with commands;
+- no Restart/persistence PASS, Paper E2E PASS, Gate B/PAPER_READY PASS, or PAPER/SHADOW/LIVE authorization is claimed.
+
+### BLOCKED
+
+If implementing the accepted vocabulary still requires undefined shared semantics or wider architecture change, record exact evidence and `next_owner = E7` and stop.
+
+## Completion / mailbox rule
+
+Commit/push the bounded remediation and evidence to `agent/e6-gate-b-paper-runtime-durability-v2-20260824`.
+
+Write/push terminal `coordination/E6/STATUS.md` on that target branch with task_id `E6-20260824-015` and stop. Do not self-start E7 integration, approved-local verification, Paper E2E, Gate C, provider/private APIs, PAPER, SHADOW, or LIVE.

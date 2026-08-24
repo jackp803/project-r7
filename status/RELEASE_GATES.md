@@ -2,7 +2,7 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
-> Current reconciliation: 2026-08-24 / `E7-20260824-052`  
+> Current reconciliation: 2026-08-24 / `E7-20260824-053`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
@@ -13,7 +13,7 @@
 - `NOT_RUN` — executable verification is required but has not run in an allowed environment.
 - `NOT_APPLICABLE` — explicitly outside the evaluated slice/gate.
 
-Hard rules: `BLOCKED != PASS`, `NOT_RUN != PASS`, component/static acceptance never implies a later gate PASS, and GitHub Actions/CI/runners are forbidden project verification evidence.
+Hard rules: `BLOCKED != PASS`, `NOT_RUN != PASS`, static source acceptance never implies executable PASS, and GitHub Actions/CI/runners are forbidden project verification evidence.
 
 ---
 
@@ -37,21 +37,25 @@ Accepted PR #32 execution evidence plus PR #33 evidence review remain authoritat
 
 Purpose: controlled Paper integration only; no real order submission.
 
-### Accepted static prerequisites now on main
+### Accepted static chain now on main / current E7 branch
 
 Relevant accepted chain includes:
 
 - Gate B static/risk/protection work PR `#34` through `#45`;
 - close/TradeResult chain PR `#46` through `#55`;
-- `position-lifecycle-projection-v0.1` contract PR `#57 / merge 5b203ea2e4a235dfb4575626f15e2409b6674c59`;
-- E5 lifecycle projection producer PR `#58 / merge f5bbeaf1daef1fdeda28ea6d12482b3b26018cc8`;
-- lifecycle vocabulary clarification PR `#60` + ADR-0008;
+- `position-lifecycle-projection-v0.1` contract PR `#57` / ADR-0007;
+- E5 lifecycle projection producer PR `#58`;
+- lifecycle vocabulary clarification PR `#60` / ADR-0008;
 - E6 durable Paper runtime implementation PR `#61 / merge 42f6d015ea5c9387983a822820dde211608a249e`;
-- E7 current review: `status/e7/GATE_B_DURABLE_PAPER_INTEGRATION_REVIEW_20260824.md`.
+- E7 durable review PR `#62 / merge 383cc6bf622c10f441d082a36b03612a1a8f2a32`;
+- E7-053 companion freshness contract:
+  - `contracts/POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`;
+  - `docs/adr/ADR-0009-position-lifecycle-execution-evidence-freshness.md`;
+  - `status/e7/GATE_B_EXECUTION_LIFECYCLE_FRESHNESS_CONTRACT_DECISION_20260824.md`.
 
-All executable verification for the new Gate B chain remains unperformed.
+All executable verification for the current Gate B chain remains unperformed.
 
-### Canonical criteria after E7-052
+### Canonical Gate B criteria after E7-053
 
 | Criterion | Current status | Evidence / blocker |
 |---|---|---|
@@ -68,45 +72,65 @@ All executable verification for the new Gate B chain remains unperformed.
 | Full verified PROTECTION_STOP -> TradeResult | NOT_RUN | accepted real verification/fill/flat/funding/result path exists |
 | Funding producer -> consumer compatibility | NOT_RUN | canonical E4 evidence directly consumed by E5; local evidence required |
 | Position lifecycle ordering/profile | PASS STATIC / RESOLVED | PR #57/ADR-0007; not executable PASS |
-| Position lifecycle vocabulary | PASS STATIC / RESOLVED | PR #60/ADR-0008; unknown values fail closed; not executable PASS |
+| Position lifecycle vocabulary | PASS STATIC / RESOLVED | PR #60/ADR-0008; not executable PASS |
 | E5 lifecycle projection producer | NOT_RUN / MATERIALIZED | PR #58 accepted; executable evidence absent |
 | E6 durable Paper runtime implementation | NOT_RUN / MATERIALIZED | PR #61 accepted for source integration; executable evidence absent |
-| Durable E4 execution truth -> E5 lifecycle freshness | BLOCKED | current shared projection has no authoritative execution-evidence freshness/binding; later protection `PARTIALLY_FILLED` or `CANCELED` truth can coexist with older `OPEN_PROTECTED` projection while E6 recovery can still report READY |
-| Durable TradeResult reference completeness | BLOCKED | E6 does not require TradeResult referenced OrderRequest/Fill/PositionAction rows to exist/match before READY recovery; settled-contract implementation defect |
-| Restart/persistence preserves required state | BLOCKED | component durability exists but coherent restart authority is blocked by the above semantic/implementation gaps; executable evidence also absent |
-| Paper E2E closes to TradeResult and persists audit | BLOCKED | durable integration is not statically coherent yet and executable evidence is absent |
-| GitHub CI/Actions not used for verification | PASS | E7-052 used no GitHub project compute |
+| Durable E4 execution truth -> E5 lifecycle freshness contract | PASS STATIC / RESOLVED | `position-lifecycle-execution-binding-v0.1` + ADR-0009 define the shared mechanical freshness rule; not executable PASS |
+| E5 execution-binding producer | BLOCKED | bounded producer adaptation required to emit one immutable companion binding for each Gate B restart-authoritative lifecycle projection |
+| E6 execution-binding persistence/recovery consumer | BLOCKED | bounded mechanical persistence/recompute/compare adaptation required; E6 must not infer lifecycle |
+| Durable TradeResult reference completeness | BLOCKED | separate E6 settled-contract defect from E7-052 remains; referenced OrderRequest/Fill/PositionAction graph must exist/match before READY |
+| Restart/persistence preserves required state | BLOCKED | E5/E6 companion adaptation + E6 TradeResult completeness repair required; executable evidence also absent |
+| Paper E2E closes to TradeResult and persists audit | BLOCKED | durable implementation chain is not complete and executable evidence is absent |
+| GitHub CI/Actions not used for verification | PASS | E7-053 uses no GitHub project compute |
 
-### E7-052 blocker disposition
+### E7-053 shared freshness decision
 
-Primary blocker:
-
-```text
-classification = CONTRACT_OR_SEMANTIC_GAP
-boundary = newer E4 OrderResult/Fill truth vs latest E5 lifecycle projection freshness
-```
-
-Current E5 semantics require lifecycle re-interpretation after relevant newer protection execution truth. Current E6 recovery only treats newer raw Position observations as lifecycle-stale and only treats UNKNOWN/RECONCILIATION_REQUIRED or degraded OrderResult truth as reconciliation-required. It therefore lacks shared authority to know whether a later healthy `PARTIALLY_FILLED`, `FILLED`, `CANCELED`, `EXPIRED`, or other execution observation has already been consumed by E5.
-
-E6 must not repair this by importing/copying the E5 transition table or by inventing a private status-to-lifecycle rule.
-
-Secondary blocker:
+Classification:
 
 ```text
-classification = IMPLEMENTATION_DEFECT_UNDER_SETTLED_CONTRACT
-boundary = E6 durable TradeResult referenced-object completeness
+ADDITIVE_COMPANION_PROFILE
+schema_version = contracts-v0.1 / unchanged
+position-lifecycle-projection-v0.1 = unchanged
+position-lifecycle-execution-binding-v0.1 = new companion
 ```
 
-Detailed evidence and E7 blocker definitions are in:
+The companion binds one exact lifecycle projection to all durable E4 Position-linked reduction-order evidence currently interpreted by E5 for:
 
-`status/e7/GATE_B_DURABLE_PAPER_INTEGRATION_REVIEW_20260824.md`
+```text
+PROTECTION_STOP
+POSITION_EXIT
+EMERGENCY_EXIT
+```
+
+For every in-scope request it covers exact OrderRequest payload identity plus the complete canonical OrderResult observation set and Fill set.
+
+Recovery rule:
+
+```text
+current durable execution snapshot == latest E5 binding snapshot
+-> execution-freshness axis current
+
+current durable execution snapshot != latest E5 binding snapshot
+-> fresh E5 interpretation required
+-> old lifecycle projection cannot be restart READY
+```
+
+E6 does not infer the next lifecycle state. New evidence requires E5 to emit a new TRANSITION or REATTESTATION plus a new companion binding.
+
+Existing raw Position re-attestation rules remain a separate required freshness axis.
+
+### Entry path boundary
+
+Pre-position `entry-v0.1` execution is not uniformly `position_id`-linked and is not silently joined by `trade_plan_id`. A future restart-authoritative `PENDING_ENTRY` design requires explicit E7 refinement. Until then that case is not Gate B restart READY.
 
 ### Current Gate B state
 
 ```text
 Gate A = PASS / RESEARCH-INTEGRATION ONLY
-E5 lifecycle projection producer = MATERIALIZED / executable NOT_RUN
-E6 durability implementation = MATERIALIZED / executable NOT_RUN
+execution-truth/lifecycle freshness shared contract = RESOLVED STATIC
+E5 companion binding producer = BLOCKED / NOT YET MATERIALIZED
+E6 companion binding consumer/recovery = BLOCKED / NOT YET MATERIALIZED
+E6 TradeResult graph completeness repair = BLOCKED / NOT YET REMEDIATED
 Restart/persistence executable criterion = BLOCKED
 Paper E2E durable audit executable criterion = BLOCKED
 READY_FOR_APPROVED_LOCAL_GATE_B_VERIFICATION = NO
@@ -125,7 +149,7 @@ No static finding converts an executable criterion to PASS.
 BLOCKED / UNCHANGED
 ```
 
-Gate B is not PASS. No provider/private scope is opened by E7-052.
+Gate B is not PASS. No provider/private scope is opened by E7-053.
 
 ---
 
@@ -141,7 +165,7 @@ Gate C is not PASS and Product Owner LIVE approval is absent.
 
 ## Future approved-local evidence format
 
-When the semantic/implementation blockers are remediated and PM authorizes exact local verification, evidence must record:
+When E5/E6 remediation is accepted and PM authorizes an exact local revision, evidence must record:
 
 ```text
 Criterion:
@@ -156,4 +180,15 @@ Timestamp UTC:
 Notes:
 ```
 
-Never invent local results.
+Minimum later commands include:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m unittest discover -s tests/position -p "test_*.py" -v
+python -m unittest discover -s tests/storage -p "test_*.py" -v
+python -m unittest discover -s tests/integration -p "test_*.py" -v
+python -m unittest discover -s tests/e2e -p "test_*.py" -v
+python -m unittest discover -s tests/safety -p "test_*.py" -v
+```
+
+Never invent local results. Missing `tests/e2e` at an accepted revision is not PASS and must be materialized before the complete Gate B run.

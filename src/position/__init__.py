@@ -9,6 +9,7 @@ from .close import (
 from .lifecycle_projection import (
     LifecycleProjectionError,
     POSITION_LIFECYCLE_PROJECTION_PROFILE_VERSION,
+    build_position_lifecycle_closed_transition,
     build_position_lifecycle_genesis,
     build_position_lifecycle_reattestation,
     build_position_lifecycle_transition,
@@ -50,6 +51,7 @@ __all__ = [
     "validate_close_position_action",
     "LifecycleProjectionError",
     "POSITION_LIFECYCLE_PROJECTION_PROFILE_VERSION",
+    "build_position_lifecycle_closed_transition",
     "build_position_lifecycle_genesis",
     "build_position_lifecycle_reattestation",
     "build_position_lifecycle_transition",

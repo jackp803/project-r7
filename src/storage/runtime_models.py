@@ -62,6 +62,8 @@ class PaperRuntimeRecovery:
     fills: tuple[StoredCanonicalObject, ...]
     funding_evidence: tuple[StoredCanonicalObject, ...]
     trade_result: StoredCanonicalObject | None
+    lifecycle_execution_bindings: tuple[StoredCanonicalObject, ...] = ()
+    current_lifecycle_execution_binding: StoredCanonicalObject | None = None
 
     @property
     def restart_authoritative(self) -> bool:

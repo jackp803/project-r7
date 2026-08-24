@@ -2,15 +2,16 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
+> Current reconciliation: 2026-08-24 / `E7-20260824-026`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
 
-Every criterion uses exactly one of:
+Every canonical criterion uses exactly one of:
 
 - `PASS` — required evidence exists and satisfies the criterion.
 - `FAIL` — evidence shows the criterion is not satisfied.
-- `BLOCKED` — prerequisite/contract/environment prevents evaluation.
+- `BLOCKED` — prerequisite/contract/implementation/environment prevents evaluation.
 - `NOT_RUN` — executable verification is required but has not run in an allowed environment.
 - `NOT_APPLICABLE` — criterion is explicitly outside the evaluated slice/gate.
 
@@ -38,13 +39,11 @@ This is a construction foundation, not a live/research release authorization.
 | Release evidence vocabulary defined | PASS | this file + canonical contracts |
 | Integration test structure exists | PASS | `tests/integration/README.md` |
 | Safety/policy test structure exists | PASS | `tests/safety/README.md` |
-| Local executable contract verification | NOT_RUN | no executable shared schemas/types yet |
-| GitHub compute policy local scan | NOT_RUN | must be run locally once checkout/runtime is available |
-| Secret hygiene local scan | NOT_RUN | must be run locally once checkout/runtime is available |
+| Local executable contract verification | NOT_RUN | historical Slice 0 item; later executable slices provide their own evidence |
+| GitHub compute policy local scan | NOT_RUN | no standalone local scan is recorded for Slice 0 |
+| Secret hygiene local scan | NOT_RUN | no standalone local scan is recorded for Slice 0 |
 
 **Slice 0 structural foundation: `PASS`.**
-
-This PASS means only that the architecture/contract/test-definition foundation exists. It does not convert any executable `NOT_RUN` item to PASS and does not advance Gate A automatically.
 
 ---
 
@@ -52,15 +51,31 @@ This PASS means only that the architecture/contract/test-definition foundation e
 
 Purpose: allow reliable integrated research/backtesting. This does **not** authorize paper or live trading.
 
-### Required domains
+### Current accepted decision
 
-- E1 historical market-data path
-- E2 deterministic Strategy Runtime
-- E3 backtest/validation path
-- E6 minimal strategy/result persistence or registry integration required by the evaluated slice
-- E7 canonical contracts/integration tests
+```text
+GATE_A = PASS / RESEARCH-INTEGRATION ONLY
+```
 
-### Criteria
+Authoritative accepted evidence:
+
+- Gate A execution evidence PR `#32`
+  - merge: `154b3164ce579672d601a23bbc17a485f3ebcbb1`
+  - execution branch head: `633261d58a4c86d7b6d760e23660b48c471bcc31`
+  - approved project source revision: `4da559bbbb569ea4f32246a40ef35f4bd8477a71`
+  - artifact: `status/e7/GATE_A_LOCAL_RERUN4_20260824.md`
+  - result: `127` fresh local tests / zero failure or error
+- Gate A evidence review PR `#33`
+  - merge: `429e8961dc4c32996e12fa7258c734571ea7d823`
+  - review branch head: `e18f35b9513a4912390ed9920e98e9572be88cc7`
+  - artifact: `status/e7/GATE_A_EVIDENCE_REVIEW_20260824.md`
+  - disposition: `GATE_A = PASS / RESEARCH-INTEGRATION ONLY`
+
+The accepted PASS is bounded to Gate A. It does not authorize Gate B/C/D, PAPER, SHADOW, LIVE, provider/private API activity, exchange credentials, capital exposure, or lifecycle promotion beyond existing authority.
+
+### Historical Gate A construction criteria
+
+The table below preserves the original construction-era baseline for audit history. Its old `Initial status` values are not the current Gate A disposition and are superseded by the accepted evidence above.
 
 | Criterion | Initial status | Required evidence |
 |---|---|---|
@@ -78,7 +93,7 @@ Purpose: allow reliable integrated research/backtesting. This does **not** autho
 | No real secrets in tracked research artifacts | NOT_RUN | local repository scan + review |
 | GitHub CI/Actions not used for verification | PASS | policy baseline; must remain true during integration |
 
-**Gate A current state: `BLOCKED`.**
+**Gate A current state: `PASS / RESEARCH-INTEGRATION ONLY`.**
 
 ---
 
@@ -88,26 +103,34 @@ Purpose: authorize controlled paper-trading integration only. No real order subm
 
 Prerequisite: Gate A PASS unless E7 records an explicit narrower dependency exception that does not weaken safety.
 
-### Criteria
+### Current canonical evidence state after E7-20260824-026 static preflight
 
-| Criterion | Initial status | Required evidence |
+| Criterion | Current status | Required evidence / blocker |
 |---|---|---|
-| Gate A | BLOCKED | Gate A PASS evidence |
-| TradeIntent -> E5 RiskDecision boundary implemented | BLOCKED | E2/E5 integration code + local tests |
-| E5 can reject valid strategy intents | NOT_RUN | local risk-rejection tests |
-| ApprovedTradePlan is the only E4 strategy-originated execution input | BLOCKED | contract/code review + local safety test |
-| PaperBroker conforms to broker contract | BLOCKED | E4 implementation + local broker tests |
-| Partial fill semantics preserve actual quantity | NOT_RUN | local E4/E5 integration test |
-| Required protection follows actual filled quantity | NOT_RUN | local E4/E5 safety test |
-| Protection failure triggers emergency path | NOT_RUN | local failure-injection test |
-| Stale/unknown market state blocks exposure | NOT_RUN | local E1/E5 safety test |
-| Unknown order/position state blocks new exposure | NOT_RUN | local E4/E5 safety test |
-| Drawdown/daily/position/kill-switch rules enforced | NOT_RUN | local E5 safety suite |
-| Restart/persistence preserves required state | BLOCKED | E5/E6 implementation + local restart test |
-| Paper E2E closes to TradeResult and persists audit | NOT_RUN | local E2E command/result |
-| GitHub CI/Actions not used for verification | PASS | must remain true |
+| Gate A | PASS | PR `#32` execution evidence + PR `#33` accepted evidence review |
+| TradeIntent -> E5 RiskDecision boundary implemented | NOT_RUN | static implementation exists; bounded local E2/E5 verification still required |
+| E5 can reject valid strategy intents | NOT_RUN | E5 fail-closed implementation/test definitions exist; local risk/safety execution required |
+| ApprovedTradePlan is the only E4 strategy-originated execution input | NOT_RUN | E4 gateway statically enforces boundary; local execution/safety evidence required |
+| PaperBroker conforms to broker contract | NOT_RUN | E4 `PaperBroker` + broker tests exist; approved local broker verification required |
+| Partial fill semantics preserve actual quantity | NOT_RUN | E4 broker primitive exists; cross-module Paper integration definition/evidence still required |
+| Required protection follows actual filled quantity | BLOCKED | Slice 3 fill -> E5 protection quantity -> E4 protection execution path is not yet materialized |
+| Protection failure triggers emergency path | BLOCKED | E5 lifecycle transition exists, but integrated protection operation/failure path is not yet materialized |
+| Stale/unknown market state blocks exposure | NOT_RUN | E5 static fail-closed implementation/test definitions exist; local safety execution required |
+| Unknown order/position state blocks new exposure | NOT_RUN | E5 static fail-closed implementation/test definitions exist; local safety execution required |
+| Drawdown/daily/position/kill-switch rules enforced | BLOCKED | E5 policy/engine contains the controls, but complete criterion-level test/evidence coverage is not yet established |
+| Restart/persistence preserves required state | BLOCKED | E6 persistence is currently research Registry/CANDIDATE only; no Slice 3 risk/position/order/trade runtime persistence |
+| Paper E2E closes to TradeResult and persists audit | BLOCKED | no complete Slice 3 Paper E2E implementation/test materialization yet |
+| GitHub CI/Actions not used for verification | PASS | static repo inspection found no `.github` directory; policy remains hard requirement |
 
-**Gate B current state: `BLOCKED`.**
+Preflight detail and owners are recorded in `status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md`.
+
+```text
+GATE_B_STATIC_PREFLIGHT = READY_FOR_BOUNDED_NEXT_TASKS
+Gate B = BLOCKED / NOT YET PASS
+PAPER = UNAUTHORIZED
+```
+
+`READY_FOR_BOUNDED_NEXT_TASKS` is a planning/preflight disposition only. It does not convert any `NOT_RUN`/`BLOCKED` criterion to PASS and does not authorize PaperBroker runtime execution.
 
 ---
 
@@ -133,7 +156,9 @@ Prerequisite: Gate B PASS.
 | Real secrets absent from Git/logs/fixtures/UI | NOT_RUN | local secret scan + runtime redaction tests |
 | GitHub CI/Actions not used for verification | PASS | must remain true |
 
-**Gate C current state: `BLOCKED`.**
+**Gate C current state: `BLOCKED / UNCHANGED`.**
+
+Documentation drift note: this historical Gate C table still names Pionex, while the active Product Owner broker-target decision is OKX (`docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`). This naming drift is non-blocking for Paper-only Gate B semantics and is intentionally deferred; `E7-20260824-026` does not broaden into Gate C/private-provider scope.
 
 ---
 
@@ -161,7 +186,7 @@ Prerequisite: Gate C PASS and all current strategy lifecycle evidence satisfied.
 | Product Owner explicit LIVE approval captured | BLOCKED | immutable ApprovalRecord / explicit authorization |
 | GitHub CI/Actions not used for verification | PASS | must remain true |
 
-**Gate D current state: `BLOCKED`.**
+**Gate D current state: `BLOCKED / UNCHANGED`.**
 
 `LIVE_READY` must not be reported as PASS until every required criterion is PASS. Even then, actual LIVE activation must bind to the exact approved strategy/release/mode and Product Owner authorization.
 

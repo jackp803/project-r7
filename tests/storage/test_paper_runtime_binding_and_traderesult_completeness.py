@@ -157,6 +157,15 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
             pass
         self.temp.cleanup()
 
+    def _reset(self) -> None:
+        self.journal.close()
+        self.temp.cleanup()
+        self.temp = tempfile.TemporaryDirectory()
+        self.db_path = Path(self.temp.name) / "paper-runtime.sqlite3"
+        self.journal = open_paper_runtime_journal(self.db_path)
+        self.journal.persist_risk_decision(risk_decision())
+        self.journal.persist_approved_trade_plan(approved_plan())
+
     def _project_open_protected(self) -> tuple[dict, dict]:
         source = base_position()
         genesis = lifecycle_projection(
@@ -249,15 +258,10 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         )
         self.journal.persist_position_projection(genesis)
         self.journal.persist_position_projection(closed)
-
-        entry_request = entry_order_request()
-        self.journal.persist_order_request(entry_request)
+        self.journal.persist_order_request(entry_order_request())
         self.journal.persist_fill(entry_fill())
-
-        action = protect_action()
-        request = order_request()
-        self.journal.persist_position_action(action)
-        self.journal.persist_order_request(request)
+        self.journal.persist_position_action(protect_action())
+        self.journal.persist_order_request(order_request())
         self.journal.persist_order_result(
             order_result(
                 observed_at="2026-08-24T07:00:40Z",
@@ -267,7 +271,6 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
             )
         )
         self.journal.persist_fill(fill())
-
         binding = self._binding_for(closed)
         self.journal.persist_lifecycle_execution_binding(binding)
         funding = funding_evidence()
@@ -313,20 +316,11 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         self.assertNotEqual("READY", recovery.status)
 
     def test_later_partial_or_filled_protection_truth_requires_fresh_e5_interpretation(self) -> None:
-        projection, _ = self._persist_exact_current_binding()
         for index, status in enumerate(("PARTIALLY_FILLED", "FILLED"), start=1):
             with self.subTest(status=status):
                 if index > 1:
-                    # Use a fresh database because terminal FILLED cannot be meaningfully
-                    # compared to the earlier subcase without adding unrelated semantics.
-                    self.journal.close()
-                    self.temp.cleanup()
-                    self.temp = tempfile.TemporaryDirectory()
-                    self.db_path = Path(self.temp.name) / "paper-runtime.sqlite3"
-                    self.journal = open_paper_runtime_journal(self.db_path)
-                    self.journal.persist_risk_decision(risk_decision())
-                    self.journal.persist_approved_trade_plan(approved_plan())
-                    projection, _ = self._persist_exact_current_binding()
+                    self._reset()
+                projection, _ = self._persist_exact_current_binding()
                 self.journal.persist_order_result(
                     order_result(
                         observed_at=f"2026-08-24T07:00:2{index + 2}Z",
@@ -345,13 +339,7 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         for index, status in enumerate(("CANCELED", "EXPIRED", "REJECTED"), start=1):
             with self.subTest(status=status):
                 if index > 1:
-                    self.journal.close()
-                    self.temp.cleanup()
-                    self.temp = tempfile.TemporaryDirectory()
-                    self.db_path = Path(self.temp.name) / "paper-runtime.sqlite3"
-                    self.journal = open_paper_runtime_journal(self.db_path)
-                    self.journal.persist_risk_decision(risk_decision())
-                    self.journal.persist_approved_trade_plan(approved_plan())
+                    self._reset()
                 projection, _ = self._persist_exact_current_binding()
                 self.journal.persist_order_result(
                     order_result(
@@ -372,13 +360,7 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         ):
             with self.subTest(role=role):
                 if index > 1:
-                    self.journal.close()
-                    self.temp.cleanup()
-                    self.temp = tempfile.TemporaryDirectory()
-                    self.db_path = Path(self.temp.name) / "paper-runtime.sqlite3"
-                    self.journal = open_paper_runtime_journal(self.db_path)
-                    self.journal.persist_risk_decision(risk_decision())
-                    self.journal.persist_approved_trade_plan(approved_plan())
+                    self._reset()
                 projection, _ = self._persist_exact_current_binding()
                 action = reduction_action(action_id=f"posact-e6-{index}", action=action_name)
                 request = reduction_request(
@@ -409,7 +391,12 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
 
     def test_execution_identity_conflicts_remain_fail_closed(self) -> None:
         projection, _ = self._persist_exact_current_binding()
-        changed_result = order_result(status="FILLED", filled="0.0012", broker_id="paper-e6-order-001")
+        changed_result = order_result(
+            observed_at="2026-08-24T07:00:22Z",
+            status="FILLED",
+            filled="0.0012",
+            broker_id="paper-e6-order-001",
+        )
         with self.assertRaises(RuntimeConflictError):
             self.journal.persist_order_result(changed_result)
 
@@ -474,13 +461,15 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
 
     def test_entry_execution_is_outside_binding_scope_and_not_joined_by_trade_plan(self) -> None:
         _, protected = self._project_open_protected()
-        entry_request = entry_order_request()
-        self.journal.persist_order_request(entry_request)
+        self.journal.persist_order_request(entry_order_request())
         self.journal.persist_fill(entry_fill())
         binding = self._binding_for(protected)
         self.assertEqual([], binding["order_evidence"])
         self.journal.persist_lifecycle_execution_binding(binding)
-        recovery = self.journal.recover(position_id=protected["position_id"])
+        recovery = self.journal.recover(
+            position_id=protected["position_id"],
+            trade_plan_id="plan-e6-paper-001",
+        )
         self.assertEqual("READY", recovery.status)
 
     def test_complete_trade_result_reference_graph_can_recover_normally(self) -> None:
@@ -491,6 +480,29 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         self.assertEqual("READY", recovery.status)
         self.assertEqual(binding, recovery.current_lifecycle_execution_binding.payload)
         self.assertEqual(result, recovery.trade_result.payload)
+
+    def _persist_closed_graph_without_result(self) -> tuple[dict, dict]:
+        source = base_position(lifecycle="OPEN_PROTECTED")
+        closed_source = base_position(
+            observed_at="2026-08-24T07:00:50Z",
+            quantity="0",
+            lifecycle="CLOSED",
+            closed_at="2026-08-24T07:00:50Z",
+        )
+        genesis = lifecycle_projection(source, revision=0, previous_id=None, kind="GENESIS", event=None, lifecycle_state="OPEN_PROTECTED", interpreted_at="2026-08-24T07:00:20Z")
+        closed = lifecycle_projection(closed_source, revision=1, previous_id=genesis["lifecycle_projection_id"], kind="TRANSITION", event="POSITION_CLOSED", lifecycle_state="CLOSED", interpreted_at="2026-08-24T07:00:51Z")
+        self.journal.persist_position_projection(genesis)
+        self.journal.persist_position_projection(closed)
+        self.journal.persist_order_request(entry_order_request())
+        self.journal.persist_fill(entry_fill())
+        self.journal.persist_position_action(protect_action())
+        self.journal.persist_order_request(order_request())
+        self.journal.persist_order_result(order_result(observed_at="2026-08-24T07:00:40Z", status="FILLED", filled="0.0012", broker_id="paper-e6-order-001"))
+        self.journal.persist_fill(fill())
+        self.journal.persist_lifecycle_execution_binding(self._binding_for(closed))
+        funding = funding_evidence()
+        self.journal.persist_funding_evidence(funding)
+        return closed, funding
 
     def test_missing_trade_result_referenced_objects_are_rejected_and_not_ready(self) -> None:
         cases = (
@@ -511,33 +523,8 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         for index, (field, value) in enumerate(cases):
             with self.subTest(field=field):
                 if index:
-                    self.journal.close()
-                    self.temp.cleanup()
-                    self.temp = tempfile.TemporaryDirectory()
-                    self.db_path = Path(self.temp.name) / "paper-runtime.sqlite3"
-                    self.journal = open_paper_runtime_journal(self.db_path)
-                    self.journal.persist_risk_decision(risk_decision())
-                    self.journal.persist_approved_trade_plan(approved_plan())
-                source = base_position(lifecycle="OPEN_PROTECTED")
-                closed_source = base_position(
-                    observed_at="2026-08-24T07:00:50Z",
-                    quantity="0",
-                    lifecycle="CLOSED",
-                    closed_at="2026-08-24T07:00:50Z",
-                )
-                genesis = lifecycle_projection(source, revision=0, previous_id=None, kind="GENESIS", event=None, lifecycle_state="OPEN_PROTECTED", interpreted_at="2026-08-24T07:00:20Z")
-                closed = lifecycle_projection(closed_source, revision=1, previous_id=genesis["lifecycle_projection_id"], kind="TRANSITION", event="POSITION_CLOSED", lifecycle_state="CLOSED", interpreted_at="2026-08-24T07:00:51Z")
-                self.journal.persist_position_projection(genesis)
-                self.journal.persist_position_projection(closed)
-                self.journal.persist_order_request(entry_order_request())
-                self.journal.persist_fill(entry_fill())
-                self.journal.persist_position_action(protect_action())
-                self.journal.persist_order_request(order_request())
-                self.journal.persist_order_result(order_result(observed_at="2026-08-24T07:00:40Z", status="FILLED", filled="0.0012", broker_id="paper-e6-order-001"))
-                self.journal.persist_fill(fill())
-                self.journal.persist_lifecycle_execution_binding(self._binding_for(closed))
-                funding = funding_evidence()
-                self.journal.persist_funding_evidence(funding)
+                    self._reset()
+                closed, funding = self._persist_closed_graph_without_result()
                 result = trade_result(funding)
                 result[field] = value
                 with self.assertRaises(RuntimeValidationError):
@@ -547,20 +534,7 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
                 self.assertIsNone(recovery.trade_result)
 
     def test_trade_result_reference_lineage_mismatch_fails_closed(self) -> None:
-        source = base_position(lifecycle="OPEN_PROTECTED")
-        closed_source = base_position(observed_at="2026-08-24T07:00:50Z", quantity="0", lifecycle="CLOSED", closed_at="2026-08-24T07:00:50Z")
-        genesis = lifecycle_projection(source, revision=0, previous_id=None, kind="GENESIS", event=None, lifecycle_state="OPEN_PROTECTED", interpreted_at="2026-08-24T07:00:20Z")
-        closed = lifecycle_projection(closed_source, revision=1, previous_id=genesis["lifecycle_projection_id"], kind="TRANSITION", event="POSITION_CLOSED", lifecycle_state="CLOSED", interpreted_at="2026-08-24T07:00:51Z")
-        self.journal.persist_position_projection(genesis)
-        self.journal.persist_position_projection(closed)
-        self.journal.persist_order_request(entry_order_request())
-        self.journal.persist_fill(entry_fill())
-        self.journal.persist_position_action(protect_action())
-        self.journal.persist_order_request(order_request())
-        self.journal.persist_fill(fill())
-        self.journal.persist_lifecycle_execution_binding(self._binding_for(closed))
-        funding = funding_evidence()
-        self.journal.persist_funding_evidence(funding)
+        closed, funding = self._persist_closed_graph_without_result()
         result = trade_result(funding)
         result["exit_authority_refs"] = [{
             "position_action_id": "posact-e6-protect-001",
@@ -570,6 +544,8 @@ class BindingAndTradeResultCompletenessDefinitions(unittest.TestCase):
         }]
         with self.assertRaises(RuntimeValidationError):
             self.journal.persist_trade_result(result)
+        recovery = self.journal.recover(position_id=closed["position_id"])
+        self.assertNotEqual("READY", recovery.status)
 
 
 if __name__ == "__main__":

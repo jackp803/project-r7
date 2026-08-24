@@ -1,37 +1,47 @@
 # E6 Platform Status
 
-- task_id: `E6-20260824-015`
+- task_id: `E6-20260824-017`
 - agent: `E6`
-- state: `DONE / STATIC REMEDIATION MATERIALIZED / EXECUTABLE NOT_RUN`
-- branch: `agent/e6-gate-b-paper-runtime-durability-v2-20260824`
-- authoritative_main: `5b07a6805de2e0df1f16d558eaff801d5c8be4c5`
+- state: `DONE / STATIC IMPLEMENTATION + TEST DEFINITIONS MATERIALIZED / EXECUTABLE NOT_RUN`
+- branch: `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824`
+- authoritative_main: `70aac8dc972eb24a436ab4c86e2dc77d2f383bca`
 - task_id_match: `YES`
-- synchronization_merge: `eba37192d406ed03776f345363fef7b9daf6d6ae`
-- source_commit: `eead5ca166ad1b6814075245a59dc8924d1b8cbc`
-- test_definition_commit: `0989aabc8a47dfb94c554ed601d935087e60d0ff`
-- evidence_path: `status/E6_GATE_B_LIFECYCLE_VOCABULARY_REMEDIATION_20260824.md`
-- evidence_commit: `c722b4ea1a31cc8b9c97d2d7e38e8fe0ee627fe5`
+- implementation_tests_docs_head_before_handoff: `430b957e6214b79f8cd43aaad4bb3108c8205f4a`
+- handoff_path: `status/E6_GATE_B_BINDING_CONSUMER_TRADERESULT_COMPLETENESS_20260824.md`
+- handoff_commit: `5e6d9a063cc31d731d4caee76f6e55429b201783`
 
 ## Result
 
-The accepted PR #60 lifecycle vocabulary clarification is now enforced mechanically at the E6 restart-authoritative Position storage-validation boundary.
+The two bounded E6 Gate B durability repairs are materialized statically.
 
-Exact consumer vocabulary mirrored from the E7-owned contract:
+### Lifecycle execution binding consumer
+
+E6 now persists one immutable `position-lifecycle-execution-binding-v0.1` per exact lifecycle projection and validates exact shared profile/scope/projection/revision/interpreted-time/snapshot/binding identities.
+
+Recovery mechanically recomputes the accepted Position-linked reduction-order snapshot from durable:
 
 ```text
-lifecycle_state: 8 accepted values
-TRANSITION.lifecycle_event: 13 accepted values
-lifecycle_projection_kind: GENESIS | TRANSITION | REATTESTATION
-GENESIS / REATTESTATION lifecycle_event: null only
+POSITION_ACTION-authorized OrderRequests
+roles = PROTECTION_STOP | POSITION_EXIT | EMERGENCY_EXIT
++ every durable OrderResult observation
++ every durable matching Fill
 ```
 
-Unsupported state/event/kind fails closed before durable current projection advancement. The E6 validator does not import E5 production code or reproduce the E5 transition relation.
+The canonical request/result/fill hash, ordering, count and set-hash rules mirror the accepted E7 contract / E5 producer. Entry-v0.1 evidence is not joined by trade plan and remains outside this execution-binding scope.
 
-All E6-013 durability semantics outside this bounded validation remediation remain unchanged, including lifecycle revision/predecessor/identity/broker-anchor/replay/conflict/re-attestation rules.
+Current projection with missing/invalid/conflicting binding or changed durable execution snapshot cannot recover as READY. Execution mismatch is surfaced as `E5_EXECUTION_REINTERPRETATION_REQUIRED`. Existing raw E4 Position freshness remains a separate `E5_REATTESTATION_REQUIRED` axis.
+
+### TradeResult referenced-object completeness
+
+Before the supported journal persists a TradeResult, E6 now requires every serialized entry/exit OrderRequest, entry/exit Fill and exit/protection PositionAction reference to exist durably and match exact plan/position/symbol/risk/action/role lineage. Recovery rechecks any durable TradeResult referenced graph and fails closed when referenced objects are missing or mismatched.
+
+Existing funding, immutability, lifecycle vocabulary/revision/predecessor/broker-anchor and early Registry behavior are preserved.
 
 ## Deterministic definitions
 
-`tests/storage/test_paper_runtime_lifecycle_vocabulary.py` defines regression coverage for unsupported state/event non-advancement, supported vocabulary acceptance, null-event rules, transition event requirement and unknown projection kind rejection.
+Added/updated E6 definitions cover the binding freshness matrix, exact duplicate replay, execution identity conflicts, re-attestation with a fresh matching binding, raw Position freshness independence, entry scope exclusion, complete TradeResult references, and missing/mismatched request/fill/action references.
+
+Existing durability definitions that previously expected READY now materialize the required binding; closed TradeResult definitions now persist the exact referenced entry/exit request/fill/action graph.
 
 ## Verification
 
@@ -39,9 +49,9 @@ All E6-013 durability semantics outside this bounded validation remediation rema
 local_verification = NOT_RUN
 ```
 
-No approved exact-revision local execution action was authorized. No tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute or Computer Adapter project workload was executed.
+No separate exact-revision Product-Owner/PM-approved Local Runner action was authorized. No tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute, Computer Adapter or other project executable workload was run.
 
-Exact future commands:
+Exact future Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -55,11 +65,12 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 ## Scope / release
 
 - contracts/ADR changed by E6: `NONE`
-- E1-E5/E7 production changed: `NONE`
-- provider/private/credentials: `NONE`
-- strategy lifecycle expansion: `NONE`
+- E1-E5/E7 production/tests changed: `NONE`
+- provider/private/network/credentials: `NONE`
+- strategy lifecycle promotion: `NONE`
 - PAPER/SHADOW/LIVE authority: `NONE`
+- GitHub Actions/CI/workflow use: `NONE`
 
 No Restart/persistence PASS, Paper E2E PASS, Gate B/PAPER_READY PASS, or PAPER/SHADOW/LIVE authorization is claimed.
 
-E6 stops after the terminal mailbox STATUS is pushed and does not self-start another task.
+E6 stops after the terminal mailbox STATUS for this task is pushed and does not self-start another task.

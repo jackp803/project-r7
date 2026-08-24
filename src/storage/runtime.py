@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -71,7 +72,11 @@ class PaperRuntimeJournal:
         position_id: str | None = None,
         trade_plan_id: str | None = None,
     ) -> PaperRuntimeRecovery:
-        return self._store.recover(position_id=position_id, trade_plan_id=trade_plan_id)
+        recovery = self._store.recover(position_id=position_id, trade_plan_id=trade_plan_id)
+        if recovery.position_id is None:
+            reasons = tuple(dict.fromkeys((*recovery.reason_codes, "POSITION_LINEAGE_UNRESOLVED")))
+            return replace(recovery, status="INCOMPLETE", reason_codes=reasons)
+        return recovery
 
 
 def open_paper_runtime_journal(path: str | Path) -> PaperRuntimeJournal:

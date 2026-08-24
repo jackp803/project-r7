@@ -4,9 +4,9 @@ from dataclasses import replace
 from pathlib import Path
 from typing import Any, Mapping
 
-from ._lifecycle_execution_binding import (
+from ._lifecycle_execution_binding import persist_lifecycle_execution_binding
+from ._traderesult_reference_remediation import (
     augment_recovery_with_binding_and_trade_result,
-    persist_lifecycle_execution_binding,
     validate_trade_result_reference_graph,
 )
 from ._paper_runtime import _PaperRuntimeStore, _open_paper_runtime_store

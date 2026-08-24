@@ -17,6 +17,7 @@ The first materialized baseline is:
 Compatible executable object-profile refinements currently registered under that baseline:
 
 - [`EXECUTION_OBJECT_PROFILES_V0_1.md`](./EXECUTION_OBJECT_PROFILES_V0_1.md) — `entry-v0.1` + `base-asset-v0.1`
+- [`PROTECTION_OBJECT_PROFILE_V0_1.md`](./PROTECTION_OBJECT_PROFILE_V0_1.md) — `protection-v0.1` actual-fill PositionAction -> protective OrderRequest semantics
 
 ## Authority and ownership
 
@@ -63,6 +64,7 @@ Object-profile identifiers are explicit and independently versioned, for example
 ```text
 entry-v0.1
 base-asset-v0.1
+protection-v0.1
 ```
 
 An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.

@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from storage._lifecycle_execution_binding import recompute_position_linked_execution_snapshot
 from storage._sqlite_registry import _apply_migrations, _connect
 from storage.runtime import (
     RuntimeConflictError,
@@ -163,6 +164,32 @@ def order_request(*, request_id: str = "ordreq-e6-protect-001", client_id: str =
     }
 
 
+def entry_order_request() -> dict:
+    return {
+        "schema_version": "contracts-v0.1",
+        "order_request_id": "ordreq-entry-e6-001",
+        "trade_plan_id": "plan-e6-paper-001",
+        "client_order_id": "client-entry-e6-001",
+        "symbol": "BTC_USDT_PERP",
+        "side": "BUY",
+        "order_type": "MARKET",
+        "quantity": "0.0012",
+        "quantity_profile_version": "base-asset-v0.1",
+        "quantity_unit": "BASE_ASSET",
+        "quantity_asset": "BTC",
+        "created_at": "2026-08-24T07:00:05Z",
+        "authorization_type": None,
+        "position_action_id": None,
+        "position_id": None,
+        "risk_decision_id": None,
+        "order_role": None,
+        "limit_price": None,
+        "stop_price": None,
+        "reduce_only": False,
+        "time_in_force": None,
+    }
+
+
 def order_result(*, observed_at: str = "2026-08-24T07:00:20Z", status: str = "OPEN", health: str = "HEALTHY", filled: str = "0", broker_id: str | None = "paper-e6-order-001") -> dict:
     return {
         "schema_version": "contracts-v0.1",
@@ -197,6 +224,27 @@ def fill(*, fill_id: str = "fill-e6-protect-001", price: str = "59400", filled_a
         "position_action_id": "posact-e6-protect-001",
         "position_id": "position-e6-paper-001",
         "order_role": "PROTECTION_STOP",
+    }
+
+
+def entry_fill() -> dict:
+    return {
+        "schema_version": "contracts-v0.1",
+        "fill_id": "fill-entry-e6-001",
+        "broker_order_id": "paper-entry-e6-001",
+        "client_order_id": "client-entry-e6-001",
+        "trade_plan_id": "plan-e6-paper-001",
+        "symbol": "BTC_USDT_PERP",
+        "side": "BUY",
+        "quantity": "0.0012",
+        "price": "60000",
+        "filled_at": "2026-08-24T07:00:10Z",
+        "fee": "0.01",
+        "fee_currency": "USDT",
+        "liquidity_role": "TAKER",
+        "position_action_id": None,
+        "position_id": None,
+        "order_role": None,
     }
 
 
@@ -304,6 +352,28 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         self.journal.persist_approved_trade_plan(plan)
         return risk, plan
 
+    def _binding_for(self, projection: dict) -> dict:
+        snapshot = recompute_position_linked_execution_snapshot(
+            self.journal._store,
+            projection["position_id"],
+        )
+        payload = {
+            "schema_version": "contracts-v0.1",
+            "lifecycle_execution_binding_profile_version": "position-lifecycle-execution-binding-v0.1",
+            "position_id": projection["position_id"],
+            "lifecycle_projection_id": projection["lifecycle_projection_id"],
+            "lifecycle_revision": projection["lifecycle_revision"],
+            "execution_interpreted_at": projection["lifecycle_interpreted_at"],
+            "execution_scope": "POSITION_LINKED_REDUCTION_ORDERS_V0_1",
+            "order_evidence": snapshot["order_evidence"],
+            "execution_snapshot_hash": snapshot["execution_snapshot_hash"],
+        }
+        material = dict(payload)
+        payload["lifecycle_execution_binding_id"] = "posexecbind_" + hashlib.sha256(
+            json.dumps(material, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        ).hexdigest()
+        return payload
+
     def _persist_open_protection_graph(self, *, ambiguous: bool = False) -> dict:
         self._persist_core()
         source = base_position()
@@ -343,7 +413,16 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
             partial_fill = fill(fill_id="fill-e6-partial-001", price="59450", filled_at="2026-08-24T07:00:22Z")
             partial_fill["quantity"] = "0.0004"
             self.journal.persist_fill(partial_fill)
-        return {"genesis": genesis, "protected": protected, "action": action, "request": request, "result": result}
+        binding = self._binding_for(protected)
+        self.journal.persist_lifecycle_execution_binding(binding)
+        return {"genesis": genesis, "protected": protected, "action": action, "request": request, "result": result, "binding": binding}
+
+    def _persist_trade_result_reference_graph(self) -> None:
+        self.journal.persist_order_request(entry_order_request())
+        self.journal.persist_fill(entry_fill())
+        self.journal.persist_position_action(protect_action())
+        self.journal.persist_order_request(order_request())
+        self.journal.persist_fill(fill())
 
     def test_additive_migration_preserves_existing_registry_schema_and_data(self) -> None:
         self.journal.close()
@@ -387,6 +466,7 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
             self.assertEqual(("DRAFT", 0), row)
             tables = {r[0] for r in verify.execute("SELECT name FROM sqlite_master WHERE type='table'")}
             self.assertIn("paper_position_lifecycle_projections", tables)
+            self.assertIn("paper_position_lifecycle_execution_bindings", tables)
             self.assertIn("paper_trade_results", tables)
         finally:
             verify.close()
@@ -449,6 +529,8 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         self.assertEqual(2, recovery.current_position_projection.payload["lifecycle_revision"])
         self.assertEqual(reattested, recovery.current_position_projection.payload)
         self.assertEqual([0, 1, 2], [item.payload["lifecycle_revision"] for item in recovery.lifecycle_history])
+        self.assertNotEqual("READY", recovery.status)
+        self.assertIn("LIFECYCLE_EXECUTION_BINDING_MISSING", recovery.reason_codes)
 
     def test_lifecycle_same_revision_changed_projection_conflicts(self) -> None:
         source = base_position()
@@ -544,6 +626,7 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
 
     def test_trade_result_is_immutable_and_retains_exact_funding_binding(self) -> None:
         self._persist_core()
+        self._persist_trade_result_reference_graph()
         funding = funding_evidence()
         self.journal.persist_funding_evidence(funding)
         result = trade_result(funding)
@@ -563,6 +646,7 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         recovery = self.journal.recover(position_id="position-e6-paper-001")
         self.assertEqual("READY", recovery.status)
         self.assertEqual(graph["protected"], recovery.current_position_projection.payload)
+        self.assertEqual(graph["binding"], recovery.current_lifecycle_execution_binding.payload)
         self.assertEqual(graph["action"], recovery.position_actions[0].payload)
         self.assertEqual(graph["request"], recovery.order_requests[0].payload)
         self.assertEqual("PARTIALLY_FILLED", recovery.current_order_results[0].payload["order_status"])
@@ -586,12 +670,16 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         closed = lifecycle_projection(flat, revision=2, previous_id=exit_requested["lifecycle_projection_id"], kind="TRANSITION", event="POSITION_CLOSED", lifecycle_state="CLOSED", interpreted_at="2026-08-24T07:00:51Z")
         for projection in (genesis, exit_requested, closed):
             self.journal.persist_position_projection(projection)
+        self.journal.persist_order_request(entry_order_request())
+        self.journal.persist_fill(entry_fill())
         action = protect_action()
         self.journal.persist_position_action(action)
         request = order_request()
         self.journal.persist_order_request(request)
         self.journal.persist_order_result(order_result(observed_at="2026-08-24T07:00:40Z", status="FILLED", filled="0.0012"))
         self.journal.persist_fill(fill())
+        binding = self._binding_for(closed)
+        self.journal.persist_lifecycle_execution_binding(binding)
         funding = funding_evidence()
         self.journal.persist_funding_evidence(funding)
         result = trade_result(funding)
@@ -601,6 +689,7 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         recovery = self.journal.recover(position_id="position-e6-paper-001")
         self.assertEqual("READY", recovery.status)
         self.assertEqual(closed, recovery.current_position_projection.payload)
+        self.assertEqual(binding, recovery.current_lifecycle_execution_binding.payload)
         self.assertEqual(funding, recovery.funding_evidence[0].payload)
         self.assertEqual(result, recovery.trade_result.payload)
         self.assertEqual(funding["funding_evidence_id"], recovery.trade_result.payload["funding_evidence_id"])

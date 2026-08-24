@@ -1,208 +1,141 @@
 # Integration Status
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Updated: 2026-08-20 11:12 +08:00  
-> Source branch: `agent/e7-integration`  
-> Merge target: `main`  
-> Review disposition: **APPROVED FOR MAIN MERGE**
+> Current review: `E7-20260824-026` / 2026-08-24  
+> Reviewed main: `6e166c4a3c8204617d920e6919c8d2b114917e0c`  
+> Contract baseline: `contracts-v0.1 / BASELINE`
 
 ## Current integration target
 
-**Slice 0 — Shared Foundation**
+**Gate B / Slice 3 Paper readiness — static preflight only**
 
-Objective: provide one stable construction surface for E1–E6 before deep implementation integration.
+This status replaces the stale Slice 0-only view. No project code is executed by E7-026 and no Paper runtime is authorized.
 
-## Integrated revisions
+## Release-gate state
 
-Slice 0 has completed E7 review on `agent/e7-integration` and is approved for merge into `main`.
+```text
+Gate A — RESEARCH_READY = PASS / RESEARCH-INTEGRATION ONLY
+Gate B — PAPER_READY    = BLOCKED / NOT YET PASS
+Gate C — SHADOW_READY   = BLOCKED / UNCHANGED
+Gate D — LIVE_READY     = BLOCKED / UNCHANGED
 
-Materialized artifacts:
+GATE_B_STATIC_PREFLIGHT = READY_FOR_BOUNDED_NEXT_TASKS
+PAPER / SHADOW / LIVE   = UNAUTHORIZED
+provider/private API    = NOT AUTHORIZED
+```
 
-- `docs/architecture/COMMON_CONSTRUCTION_MAP.md`
-- `contracts/README.md`
-- `contracts/SHARED_CONTRACTS_V1.md`
-- `docs/adr/ADR-0001-canonical-contract-first-architecture.md`
-- `status/RELEASE_GATES.md`
-- `tests/integration/README.md`
-- `tests/safety/README.md`
-- this integration status
+Gate A acceptance is authoritative from:
 
-After merge, these artifacts form the authoritative Slice 0 baseline on `main`.
+- PR `#32` merge `154b3164ce579672d601a23bbc17a485f3ebcbb1` — fresh 8-suite local matrix, approved source `4da559bbbb569ea4f32246a40ef35f4bd8477a71`, `127` tests / zero failure or error;
+- PR `#33` merge `429e8961dc4c32996e12fa7258c734571ea7d823` — separate evidence review, `GATE_A = PASS / RESEARCH-INTEGRATION ONLY`.
 
-## Contracts
+Gate A PASS does not authorize Paper or later gates.
 
-Current canonical contract set:
+## Gate B static integration observations
 
-- `contracts-v0.1`
-- status: `BASELINE`
-- authority: E7
+### E2 — Strategy / TradeIntent
 
-Materialized shared concepts:
+Static state: **boundary materialized**.
 
-- Candle
-- MarketSnapshot
-- StrategyDefinition
-- Signal
-- TradeIntent
-- RiskDecision
-- ApprovedTradePlan
-- OrderRequest
-- OrderResult
-- Fill
-- Position
-- PositionAction
-- RiskState
-- TradeResult
-- BacktestResult
-- ValidationDecision
-- StrategyLifecycleState
-- OperationalMode
-- HealthStatus
-- ApprovalRecord
-- release evidence statuses
+`src/strategy/trade_intent.py` emits provider-neutral `TradeIntent`, requires explicit supported executable profile when execution eligibility is requested, and rejects provider-specific/risk/sizing/order authority fields.
 
-Key frozen baseline semantics:
+Gate B implication: usable input boundary exists, but current Gate B executable evidence remains `NOT_RUN`.
 
-- UTC internally.
-- Candle interval = `[open_time, close_time)`.
-- financial values use Decimal semantics and decimal-string interchange.
-- strategy versions become immutable once evidence is attached.
-- E3/Paper/Live-compatible paths share E2 Strategy Runtime semantics.
-- only E5-approved plans/actions may reach E4 executable broker requests.
-- unknown/stale market/account/order/position/risk/approval state fails closed for new exposure.
-- E4 owns actual broker order/fill/exposure truth; E5 owns risk/lifecycle interpretation.
-- GitHub is never the project execution/test/compute platform.
+### E5 — Risk / position semantics
 
-## ADR
+Static state: **substantial primitives materialized; evidence/operation gaps remain**.
 
-- `ADR-0001-canonical-contract-first-architecture.md` — **ACCEPTED**
+`src/risk/engine.py` and `src/risk/policy.py` implement fail-closed market/account/order/position checks, kill switch, daily/open-position/drawdown/consecutive-loss limits, sizing/risk caps, REJECT authority, and ApprovedTradePlan production.
 
-No additional ADR is required for Slice 0. Material shared-semantic changes from E1–E6 must trigger E7 impact review and, when appropriate, a new/amended ADR.
+`src/position/state_machine.py` defines unprotected/protected/emergency/reconciliation lifecycle semantics.
 
-## Slice 0 review findings
+Remaining Gate B gaps:
 
-### Blocking findings
+- targeted criterion-level evidence for the complete daily/open-position/drawdown/kill-switch set is incomplete;
+- actual-fill -> protection quantity/action orchestration is not materialized;
+- integrated protection-failure -> emergency operation path is not materialized.
 
-- none.
+### E4 — Execution / PaperBroker
 
-### Corrected before merge
+Static state: **broker and authority primitives materialized**.
 
-- integration status previously described the source branch as merely ahead of `main`; this file was updated so the merged baseline does not immediately contain stale branch-state wording.
+`src/execution/gateway.py` accepts only profiled ApprovedTradePlan as strategy-originated execution input and rejects raw TradeIntent.
 
-### Scope review
+`src/brokers/paper.py` implements deterministic PaperBroker semantics, actual fill accounting, requested-vs-filled separation, exposure cap, idempotency, and reconciliation-before-retry.
 
-- changes are limited to E7-owned architecture, contracts, ADR, integration/safety test definitions, and status paths.
-- no E1–E6 domain implementation was modified.
-- no GitHub Actions/workflow/runner configuration was added.
-- no live enablement or risk bypass was introduced.
+Remaining Gate B gap: no complete current-main protection execution / close-to-TradeResult orchestration across E4/E5/E6.
 
-## Agent statuses
+### E6 — persistence / Registry
 
-Status here means integration readiness evidence observed by E7, not agent competence.
+Static state: **research persistence materialized; Slice 3 persistence absent**.
 
-| Agent | Status | Current E7 observation | Next required handoff |
-|---|---|---|---|
-| E1 Market Data | BLOCKED | no implementation handoff integrated yet | implement Slice 1 Candle/historical-data boundary against `contracts-v0.1`; provide local-test evidence or `NOT_RUN` |
-| E2 Strategy Engine | BLOCKED | no implementation handoff integrated yet | implement StrategyDefinition/Signal runtime boundary and determinism; provide local evidence |
-| E3 Backtest Validation | BLOCKED | no implementation handoff integrated yet | implement BacktestResult/replay path consuming E2 runtime; provide local evidence |
-| E4 Execution | BLOCKED | not required for Slice 1 yet | later implement broker boundary against approved contracts |
-| E5 Risk / Position | BLOCKED | not required for Slice 1 yet | later implement RiskDecision/ApprovedTradePlan/PositionAction |
-| E6 Platform | BLOCKED | no implementation delta integrated yet | begin registry/persistence work only against E7 lifecycle/contracts; no gate bypass |
-| E7 Integration | PASS for Slice 0 structure | shared blueprint/contracts/ADR/gate/test-definition skeleton reviewed | merge Slice 0 to `main`, then begin Slice 1 integration |
+Current E6 storage is explicitly capped at:
 
-## Local tests
+```text
+DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
+```
 
-No project code was executed for Slice 0 because this slice materializes architecture, contracts, status, and test definitions only.
+The E6 handoff explicitly states no PAPER/later lifecycle behavior and no Slice 3 execution/provider persistence. Gate B therefore lacks durable Paper runtime state/restart/audit persistence for risk/position/order/protection/trade results.
 
-### Executed locally
+### E7 — integration / safety definitions
 
-- none
+Static state: **Gate B Paper integration definitions incomplete**.
 
-### NOT_RUN
+`tests/integration/README.md` and `tests/safety/README.md` specify the required Slice 3 scenarios, but the current executable integration directory has no complete Paper E2E test materialization. E7 must define those tests only after the required domain interfaces are materialized and stable.
 
-- executable contract/schema validation — no executable shared schema/type implementation yet.
-- GitHub compute-policy local repository scan.
-- secret-hygiene local repository scan.
-- all E1–E6 domain tests.
-- all integration/E2E/failure-injection/regression tests.
+## Gate B critical blockers
 
-These remain `NOT_RUN`; none are inferred PASS.
-
-## GitHub compute policy status
-
-**PASS for E7 behavior in Slice 0.**
-
-E7 did not create or use:
-
-- GitHub Actions;
-- GitHub CI;
-- GitHub-hosted runners;
-- GitHub-triggered runners;
-- scheduled GitHub jobs;
-- GitHub-hosted backtests/E2E/bug reproduction/regression/failure injection/performance tests.
-
-A local repository scan remains `NOT_RUN` and is still required before later release gates can use it as evidence.
-
-## Integration failures
-
-Current confirmed cross-module integration failures: **none yet**, because no domain implementation has been integrated into Slice 0.
-
-This is not evidence that E1–E6 implementations pass.
-
-## Responsible owners / current blockers
-
-| Blocker | Owner | State |
+| Blocker | Owner(s) | State |
 |---|---|---|
-| E1 Candle/historical implementation absent from integration | E1 | BLOCKED |
-| E2 Strategy Runtime implementation absent from integration | E2 | BLOCKED |
-| E3 replay/BacktestResult implementation absent from integration | E3 | BLOCKED |
-| Slice 1 executable integration not available | E7 after E1–E3 handoffs | NOT_RUN |
-| Local repo policy/secret scans unavailable in current GitHub-only context | E7 / Product Owner approved local environment | NOT_RUN |
+| actual fill -> exact protection quantity/action -> E4 protection execution | E5 + E4 | `IMPLEMENTATION_GAP` |
+| integrated protection failure/loss -> emergency operational path | E5 + E4 | `IMPLEMENTATION_GAP` |
+| complete daily/open-position/drawdown/kill-switch criterion evidence | E5 | `EVIDENCE_GAP` |
+| Paper risk/position/order/protection/trade persistence + restart | E6 | `IMPLEMENTATION_GAP` |
+| close path -> canonical TradeResult -> durable audit | E4 + E5 + E6 | `IMPLEMENTATION_GAP` |
+| Paper cross-module E2E/safety test materialization | E7 after domain interfaces | `INTEGRATION_TEST_DEFINITION_GAP` |
+| approved-local Gate B execution evidence | E7/PM after implementation/tests exist | `NOT_RUN` |
 
-## Release gate
+No unresolved architecture/shared-contract blocker was identified. These are bounded implementation/test/evidence dependencies. PM remains tasking authority; E7 does not assign agent work from this status.
 
-- Slice 0 structural foundation: **PASS**
-- Gate A — `RESEARCH_READY`: **BLOCKED**
-- Gate B — `PAPER_READY`: **BLOCKED**
-- Gate C — `SHADOW_READY`: **BLOCKED**
-- Gate D — `LIVE_READY`: **BLOCKED**
+## Dependency order
 
-No downstream gate is promoted by the Slice 0 documentation/contract PASS.
+1. close E5 risk-evidence gaps;
+2. materialize E5/E4 actual-fill protection and emergency paths;
+3. materialize E6 Paper runtime persistence/restart and E4/E5/E6 TradeResult audit closure;
+4. materialize E7 Paper integration/E2E/safety definitions;
+5. only then authorize and execute a bounded local-only Gate B matrix.
 
-## Codex bug tickets
+Existing E4/E5 domain suites may be locally executable before the full matrix when PM explicitly authorizes a bounded verification task, but their future PASS would not substitute for missing cross-module implementation/E2E evidence.
 
-- none
+## Provider naming drift
 
-Reason: no reproducible bounded implementation defect has been integrated yet. Missing domain implementation is not a Codex bug ticket.
+Active Product Owner broker target is OKX under `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`. Historical Gate C release text still contains Pionex wording.
 
-Any future Codex ticket must contain:
+For E7-026 this is classified as **non-blocking documentation/governance drift** for later cleanup. It does not affect provider-neutral PaperBroker Gate B semantics and does not authorize Gate C/private-provider work.
 
-- Expected
-- Actual
-- Reproduction
-- Failing local test
-- Writable scope
-- Architecture constraint
-- Verification command
+## Verification / compute / safety
 
-Bug reproduction and regression verification remain local-only.
+```text
+project executable verification = NOT_RUN / NOT REQUIRED FOR STATIC PREFLIGHT
+PaperBroker runtime              = NOT_RUN
+provider/private requests        = NOT_SENT
+exchange credentials             = NOT_USED
+GitHub Actions / CI              = NOT_USED
+hosted/GitHub-triggered compute  = NOT_USED
+PAPER / SHADOW / LIVE            = UNAUTHORIZED
+Registry real/live promotion     = NONE
+production/test/contract edits   = NONE
+Codex bug ticket                 = NONE
+```
 
-## Security findings
+Static GitHub content inspection found no `.github` directory on reviewed `main`; this is not a substitute for a later approved-local repository policy scan.
 
-Confirmed security incident: **none observed in the Slice 0 E7 changes**.
+## Detailed evidence
 
-Repository-wide secret scan: **NOT_RUN**.
+Criterion-by-criterion audit, evidence paths, preflight classifications, owners, and dependency order:
 
-No real secret may be added to this public repository. Discovery of any tracked credential immediately becomes a release blocker requiring Product Owner notification, rotation, and appropriate history remediation.
+`status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md`
 
 ## Next integration action
 
-After Slice 0 is merged into `main`, move to **Slice 1 — Research Skeleton** as soon as E1/E2/E3 implementation handoffs are available:
-
-```text
-E1 Historical Candle
-    -> E2 Strategy Runtime
-    -> E3 BacktestResult
-```
-
-E7 will first check contract compatibility and dependency direction, then define/inspect executable integration tests, and require local command/environment/result evidence. If local execution is unavailable, affected checks remain `NOT_RUN`; GitHub CI will not be introduced.
+E7-026 stops at static preflight. The next action is for PM to select bounded tasks from the dependency order above. E7 does not begin implementation, Gate B executable verification, provider work, PAPER, SHADOW, LIVE, or another task automatically.

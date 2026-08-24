@@ -18,6 +18,7 @@ Compatible executable object-profile refinements currently registered under that
 
 - [`EXECUTION_OBJECT_PROFILES_V0_1.md`](./EXECUTION_OBJECT_PROFILES_V0_1.md) — `entry-v0.1` + `base-asset-v0.1`
 - [`PROTECTION_OBJECT_PROFILE_V0_1.md`](./PROTECTION_OBJECT_PROFILE_V0_1.md) — `protection-v0.1` actual-fill PositionAction -> protective OrderRequest semantics
+- [`CLOSE_TRADE_RESULT_PROFILE_V0_1.md`](./CLOSE_TRADE_RESULT_PROFILE_V0_1.md) — `close-v0.1` + `trade-result-v0.1` + `linear-base-asset-pnl-v0.1` close authority, authoritative flatness, fill-set closure, and canonical TradeResult semantics
 
 ## Authority and ownership
 
@@ -65,6 +66,9 @@ Object-profile identifiers are explicit and independently versioned, for example
 entry-v0.1
 base-asset-v0.1
 protection-v0.1
+close-v0.1
+trade-result-v0.1
+linear-base-asset-pnl-v0.1
 ```
 
 An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.

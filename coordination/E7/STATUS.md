@@ -1,20 +1,21 @@
 # E7 Status
 
-- task_id: `E7-20260824-034`
+- task_id: `E7-20260824-036`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-gate-b-protection-failure-integration-20260824`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-034 before work and remained ACTIVE before terminal write`
-- reviewed_main: `afd8198e2a0723ead53b366b389c7879a302e923`
-- reviewed_task_blob: `f6dcd553aa0cb61ddf0049a0f52589d378a6f3b3`
+- branch: `agent/e7-gate-b-close-trade-result-contract-20260824`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-036 before work and remained ACTIVE before terminal write`
+- reviewed_main: `03f06827e9f4659f54afb20b43b0bfc806525b96`
+- reviewed_task_blob: `17f791baea3ee95c8bc601ff9aa71d50a749607d`
 - contracts_baseline: `contracts-v0.1 / BASELINE`
-- protection_profile: `protection-v0.1`
-- accepted_e5_result_bridge_pr: `#41 / merge 4c3d0f47d26cb23d9baeb17d227a3a1a9185667f`
-- accepted_e7_lifecycle_review_pr: `#42 / merge 05181bf06e9d1f2ad71990b94c446b6bf66d3582`
-- accepted_e4_terminal_truth_pr: `#43 / merge d9394c18ca35406831e8966700c3a5210966fbb6 / head 1cded31e141912f2bfe86d04621973182d7bfc05`
-- failure_loss_static_review: `PASS STATIC / COHERENT`
+- close_trade_result_contract_classification: `ADDITIVE_PROFILE_REQUIRED / MATERIALIZED`
+- close_profile: `close-v0.1`
+- trade_result_profile: `trade-result-v0.1`
+- pnl_profile: `linear-base-asset-pnl-v0.1`
+- set_wide_schema_bump: `NO / schema_version remains contracts-v0.1`
 - shared_contract_contradiction: `NONE FOUND`
-- project_executable_verification: `NOT_RUN / DEFERRED TO LATER APPROVED-LOCAL TASK`
+- accepted_e4_protection_fill_lineage_pr: `#45 / merge e18fc08d110b0addb77229b1bf47cd7632548427 / head f8f85923a7dea0c47d7e5f1da46bc0c92a462368`
+- project_executable_verification: `NOT_RUN / NOT REQUIRED FOR STATIC CONTRACT DECISION`
 - local_job: `NOT_REQUESTED / TASK FORBIDS EXECUTION`
 - github_compute: `NOT_USED`
 - github_actions_ci_hosted_runner: `NOT_USED`
@@ -26,141 +27,139 @@
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
 - required_protection_actual_fill: `NOT_RUN / unchanged`
+- protection_failure_emergency: `NOT_RUN / unchanged`
 - drawdown_daily_position_kill_switch: `NOT_RUN / unchanged`
-- protection_failure_emergency: `NOT_RUN / implementation + real cross-module definitions materialized; approved-local evidence required`
+- protection_fill_lineage: `MATERIALIZED / PR #45 / executable evidence remains NOT_RUN`
+- e5_close_action_producer: `IMPLEMENTATION_GAP`
+- e4_close_order_consumer: `IMPLEMENTATION_GAP`
+- e5_trade_result_builder: `IMPLEMENTATION_GAP`
 - restart_persistence: `BLOCKED / E6 IMPLEMENTATION_GAP`
 - paper_e2e_trade_result_audit: `BLOCKED / IMPLEMENTATION_GAP`
-- protection_fill_lineage: `BLOCKED / E4 IMPLEMENTATION_GAP`
-- e4_e5_production_changes_by_e7: `NONE`
-- contracts_adr_changes_by_e7: `NONE`
+- e1_e6_production_changes_by_e7: `NONE`
 - codex_ticket: `NONE`
 
 ## Persisted E7 outputs
 
-### Real protection failure/loss integration definitions
+### Close / TradeResult contract profile
 
-`tests/integration/test_gate_b_protection_failure_lifecycle.py`
+`contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`
 
-- commit: `c741067d0be3afb0b882e54d0b1ed7bdae1ea535`
-- uses real accepted E5 producer/result bridge, E4 protection translator, and PR #43 PaperBroker reject/cancel/expire/query/reconcile APIs;
-- real configured `REJECTED / HEALTHY` -> `PROTECTION_FAILED -> EMERGENCY`;
-- real query-verified `OPEN / HEALTHY` -> `CANCELED / HEALTHY` -> `PROTECTION_LOST -> EMERGENCY`;
-- real query-verified `OPEN / HEALTHY` -> explicit `EXPIRED / HEALTHY` -> `PROTECTION_LOST -> EMERGENCY`;
-- exact request/client/requested-quantity and broker-order lineage where applicable;
-- real terminal reconciliation resolves exact status with `retry_allowed=false` and `retry_token=None`;
-- E5 lifecycle outcome carries no broker retry authority.
+- commit: `f238c536940183b8704e756820135154150860e4`
+- defines `close-v0.1`, `trade-result-v0.1`, and `linear-base-asset-pnl-v0.1` under unchanged `contracts-v0.1`;
+- defines exact E5 EXIT/EMERGENCY_EXIT authority payload from current CONSISTENT Position truth;
+- close quantity equals exact current `Position.actual_quantity` in canonical base-asset units;
+- defines E4 MARKET / reduce-only close mapping and `POSITION_EXIT` / `EMERGENCY_EXIT` roles;
+- defines authoritative-flat Position proof before `POSITION_CLOSED`;
+- defines explicit partial-close/protection-triggered-close behavior;
+- defines exact entry/exit Fill evidence, quantity conservation, fee/funding/PnL semantics and deterministic TradeResult identity.
 
-### Terminal fail-closed safety definitions
+### Architecture decision
 
-`tests/safety/test_gate_b_protection_terminal_safety.py`
+`docs/adr/ADR-0005-close-authority-and-trade-result-boundary.md`
 
-- commit: `cb7423bb58283aed103f3c66ccbb46b9237218ce`
-- uses canonical protection requests created through real E5/E4 APIs and real PaperBroker terminal controls;
-- unknown order cannot be canceled/expired;
-- FILLED cannot be canceled/expired or reopened;
-- PARTIALLY_FILLED is not reclassified into protection failure/loss by the bounded terminal surface;
-- REJECTED/CANCELED/EXPIRED orders do not reopen on repeated identical submit;
-- terminal orders cannot receive later fill/exposure.
+- commit: `ca137260731d847ec8ef62f8163cbe319623ef57`
+- records authority separation, compatibility decision, close lifecycle/flatness boundary, TradeResult ownership, financial semantics, rejected unsafe alternatives and sequential dependency order.
 
-### Integration review evidence
+### Contract registry
 
-`status/e7/GATE_B_PROTECTION_FAILURE_INTEGRATION_REVIEW_20260824.md`
+`contracts/README.md`
 
-- commit: `b42f1d17efe66843e0ee20e572e7d69b6ec6352a`
-- records PR #43 static compatibility, real failure/loss chains, reconciliation/no-retry safety, Gate B evidence reconciliation, remaining dependencies, and future local commands.
+- commit: `b35eb4c7da35f3029c348fc28ee476c25e26e660`
+- registers the three new compatible profile identifiers.
+
+### Contract decision evidence
+
+`status/e7/GATE_B_CLOSE_TRADE_RESULT_CONTRACT_DECISION_20260824.md`
+
+- commit: `155b7331d60e8fb589932f2964827ffd648ad0af`
+- records inspected accepted source surfaces, PR #45 Fill lineage, E5/E4/E6 implementation state, exact contract decisions, financial profile, dependency order and Gate B impact.
 
 ### Release-gate reconciliation
 
 `status/RELEASE_GATES.md`
 
-- commit: `9558b651ef625a8ed7aeb180ec334b5403ebd216`
-- `Protection failure triggers emergency path`: `BLOCKED -> NOT_RUN`, never PASS;
-- `Required protection follows actual filled quantity`: remains `NOT_RUN`;
-- `Drawdown/daily/position/kill-switch rules enforced`: remains `NOT_RUN`;
-- restart/persistence and Paper E2E/TradeResult/audit remain BLOCKED;
+- commit: `8e9a2ab3a39a1ba4cb5f3432778175e1e10cd84e`
+- prior executable criteria remain NOT_RUN, never PASS;
+- restart/persistence remains BLOCKED;
+- Paper E2E / TradeResult durable audit remains BLOCKED;
+- the prior protection Fill-lineage implementation gap is recognized as resolved by PR #45;
+- close-to-TradeResult implementation blocker is decomposed into sequential E5/E4/E5/E6/E7 work;
 - Gate B remains BLOCKED and PAPER remains unauthorized.
 
 ### Integration status
 
 `status/INTEGRATION_STATUS.md`
 
-- commit: `ed85d72aee53ddac7fb696a36398bd13f8f81605`
-- records that the PR #42 PaperBroker terminal-state blocker is removed by PR #43;
-- preserves remaining Fill-lineage, close-to-TradeResult, persistence/restart/audit, full E2E, and approved-local evidence dependencies.
+- commit: `e8c24f1783d51756d2120b62c04a0ef97cda9f0c`
+- records the new authority/truth boundary, authoritative flatness rule, TradeResult financial/idempotency semantics, E6 persistence limitation and exact sequential next dependencies.
 
-## Static integration decision
+## Static architecture decision
 
-The complete provider-neutral protection failure/loss callable path is now statically materialized:
+The parent baseline was directionally correct but not executable-close complete. The missing semantics were additive underspecification rather than contradiction, so E7 materialized a compatible profile instead of changing the set-wide schema version.
 
-```text
-E5 PositionAction.PROTECT
--> E4 canonical protection OrderRequest
--> real PaperBroker terminal truth
--> E5 interpret_protection_result(...)
--> PROTECTION_FAILED / PROTECTION_LOST
--> existing EMERGENCY transition
-```
-
-Classification:
+The canonical close path is now specified as:
 
 ```text
-real initial REJECTED -> PROTECTION_FAILED -> EMERGENCY       = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
-verified OPEN -> real CANCELED -> PROTECTION_LOST -> EMERGENCY = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
-verified OPEN -> real EXPIRED -> PROTECTION_LOST -> EMERGENCY  = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
-real terminal reconcile / no retry                              = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
-terminal safety/idempotency                                     = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
-CONTRACT_OR_SEMANTIC_GAP                                        = NO
+exact current E4-normalized CONSISTENT Position truth
+-> E5 close-v0.1 EXIT or EMERGENCY_EXIT PositionAction
+-> E4 close-v0.1 MARKET / reduce-only OrderRequest
+-> authoritative E4 OrderResult / Fill / Position truth
+-> E5 lifecycle interpretation
+-> authoritative flat Position proof
+-> POSITION_CLOSED
+-> E5 trade-result-v0.1 construction from exact E4 facts
+-> E6 durable persistence/audit
 ```
 
-The prior implementation blocker is removed. Because no approved-local execution occurred, the canonical criterion is `NOT_RUN`, not PASS.
-
-## Remaining Gate B dependency map
+Key invariants:
 
 ```text
-Gate A                                               PASS
-TradeIntent -> E5 RiskDecision                      NOT_RUN
-E5 reject                                            NOT_RUN
-ApprovedTradePlan-only strategy execution boundary  NOT_RUN
-PaperBroker contract                                 NOT_RUN
-Partial fill actual quantity                         NOT_RUN
-Required protection follows actual filled quantity  NOT_RUN
-Protection failure -> emergency                      NOT_RUN
-Stale/unknown market blocks exposure                 NOT_RUN
-Unknown order/position blocks exposure               NOT_RUN
-Drawdown/daily/position/kill-switch                  NOT_RUN
-Restart/persistence                                  BLOCKED / IMPLEMENTATION_GAP
-Paper E2E -> TradeResult + audit                     BLOCKED / IMPLEMENTATION_GAP
-GitHub CI/Actions not used                           PASS
-
-Gate B                                               BLOCKED / NOT YET PASS
-PAPER                                                UNAUTHORIZED
+close quantity = exact current Position.actual_quantity
+OrderStatus.FILLED != proof of flat Position
+POSITION_CLOSED requires same-position actual_quantity=0 + CONSISTENT truth
+final entry quantity = total exit quantity
+unknown / duplicated / unreconciled evidence cannot finalize TradeResult
 ```
+
+Financial semantics for the current BTC/USDT linear base-asset profile are:
+
+```text
+LONG  gross_pnl = exit_notional - entry_notional
+SHORT gross_pnl = entry_notional - exit_notional
+net_pnl = gross_pnl - total_fees - funding_cost_effective
+```
+
+Actual Fill prices determine realized PnL; optional slippage analysis is not subtracted a second time. Missing fees are not silently zero. Funding must be explicitly included or explicitly zero-confirmed.
 
 ## Next bounded PM dependency
 
-E7 does not issue the task. Recommended next owner/dependency:
+E7 does not issue or start the next task. The safe sequential dependency order is:
 
 ```text
-next_owner = E4
-bounded_dependency = PaperBroker protection Fill lineage propagation
+1. next_owner = E5
+   bounded_dependency = close-v0.1 EXIT / EMERGENCY_EXIT producer + EXIT_REQUESTED / EXIT_FAILED / deterministic reason semantics
+
+2. E4 close-v0.1 OrderRequest consumer + close Fill/residual Position truth
+
+3. E5 authoritative-flat POSITION_CLOSED + trade-result-v0.1 builder
+
+4. E6 durable Paper runtime persistence/restart/audit
+
+5. E7 full Paper E2E/safety definitions
+
+6. PM-authorized approved-local Gate B verification
 ```
 
-The shared `Fill` object already supports `position_action_id`, `position_id`, and `order_role`, but current `PaperBroker.record_fill()` still leaves those protection lineage fields unset. This is the smallest upstream implementation gap before protective-close truth can safely feed canonical TradeResult and durable audit.
-
-Safe later dependency order:
-
-```text
-E4 protection Fill lineage
--> E4/E5 close-to-TradeResult semantics
--> E6 durable Paper persistence/restart/audit
--> E7 full Paper E2E definitions
--> PM-authorized approved-local Gate B verification
-```
+Downstream implementation should not be started concurrently when the consumed serialized interface depends on an unfinished upstream implementation.
 
 ## Verification / safety
 
-No project code or tests were executed. The new definitions are `NOT_RUN`. No Local Job, GitHub Actions/CI/hosted runner, GitHub-triggered compute, Computer Adapter, provider/private request, exchange credential, PAPER, SHADOW, or LIVE activity was used.
+No project code or tests were executed. No Local Job, GitHub Actions/CI/hosted runner, GitHub-triggered compute, Computer Adapter, provider/private request, exchange credential, PAPER, SHADOW, or LIVE activity was used.
+
+```text
+project executable verification = NOT_RUN / NOT REQUIRED FOR STATIC CONTRACT DECISION
+```
 
 ## Completion
 
-E7 completed only `E7-20260824-034` and stops on `DONE`. E7 does not self-start approved-local verification, protection Fill lineage, restart/persistence, full Paper E2E, provider/private work, Gate C, PAPER, SHADOW, LIVE, or another task.
+E7 completed only `E7-20260824-036` and stops on `DONE`. E7 does not self-start E5/E4 implementation, E6 persistence, full Paper E2E, approved-local verification, provider/private work, Gate C, PAPER, SHADOW, LIVE, or another task.

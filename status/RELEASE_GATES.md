@@ -2,78 +2,43 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
-> Current reconciliation: 2026-08-24 / `E7-20260824-034`  
+> Current reconciliation: 2026-08-24 / `E7-20260824-036`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
 
-Every canonical criterion uses exactly one of:
+Canonical criterion states:
 
 - `PASS` — required evidence exists and satisfies the criterion.
 - `FAIL` — evidence shows the criterion is not satisfied.
 - `BLOCKED` — prerequisite/contract/implementation/environment prevents evaluation.
 - `NOT_RUN` — executable verification is required but has not run in an allowed environment.
-- `NOT_APPLICABLE` — criterion is explicitly outside the evaluated slice/gate.
+- `NOT_APPLICABLE` — explicitly outside the evaluated slice/gate.
 
 Hard rules:
 
 - `BLOCKED != PASS`.
 - `NOT_RUN != PASS`.
-- component-level PASS never implies a later release gate PASS.
-- GitHub Actions/CI/runners cannot be used as evidence.
-- local command, environment, result, and relevant revision must be recorded for executable evidence.
-- first LIVE activation requires explicit Product Owner approval even if all technical criteria pass.
+- component success never implies a later gate PASS.
+- GitHub Actions/CI/runners cannot be used as project verification evidence.
+- executable evidence must record local command/environment/result/revision.
+- LIVE activation still requires explicit Product Owner approval even after technical readiness.
 
 ---
 
 ## Foundation — Slice 0
 
-This is a construction foundation, not a live/research release authorization.
-
-| Criterion | Status | Evidence / blocker |
-|---|---|---|
-| Common construction map exists | PASS | `docs/architecture/COMMON_CONSTRUCTION_MAP.md` |
-| Shared contract governance exists | PASS | `contracts/README.md` |
-| Canonical baseline contracts materialized | PASS | `contracts/SHARED_CONTRACTS_V1.md` (`contracts-v0.1`) |
-| Architecture baseline ADR exists | PASS | `docs/adr/ADR-0001-canonical-contract-first-architecture.md` |
-| Release evidence vocabulary defined | PASS | this file + canonical contracts |
-| Integration test structure exists | PASS | `tests/integration/README.md` |
-| Safety/policy test structure exists | PASS | `tests/safety/README.md` |
-| Local executable contract verification | NOT_RUN | historical Slice 0 item; later executable slices provide their own evidence |
-| GitHub compute policy local scan | NOT_RUN | no standalone local scan is recorded for Slice 0 |
-| Secret hygiene local scan | NOT_RUN | no standalone local scan is recorded for Slice 0 |
-
-**Slice 0 structural foundation: `PASS`.**
+The accepted structural foundation remains PASS. This does not itself authorize research, PAPER, SHADOW, or LIVE.
 
 ---
 
 ## Gate A — RESEARCH_READY
 
-Purpose: allow reliable integrated research/backtesting. This does **not** authorize paper or live trading.
-
-### Current accepted decision
-
 ```text
 GATE_A = PASS / RESEARCH-INTEGRATION ONLY
 ```
 
-Authoritative accepted evidence:
-
-- Gate A execution evidence PR `#32`
-  - merge: `154b3164ce579672d601a23bbc17a485f3ebcbb1`
-  - execution branch head: `633261d58a4c86d7b6d760e23660b48c471bcc31`
-  - approved project source revision: `4da559bbbb569ea4f32246a40ef35f4bd8477a71`
-  - artifact: `status/e7/GATE_A_LOCAL_RERUN4_20260824.md`
-  - result: `127` fresh local tests / zero failure or error
-- Gate A evidence review PR `#33`
-  - merge: `429e8961dc4c32996e12fa7258c734571ea7d823`
-  - review branch head: `e18f35b9513a4912390ed9920e98e9572be88cc7`
-  - artifact: `status/e7/GATE_A_EVIDENCE_REVIEW_20260824.md`
-  - disposition: `GATE_A = PASS / RESEARCH-INTEGRATION ONLY`
-
-The accepted PASS is bounded to Gate A. It does not authorize Gate B/C/D, PAPER, SHADOW, LIVE, provider/private API activity, exchange credentials, capital exposure, or lifecycle promotion beyond existing authority.
-
-**Gate A current state: `PASS / RESEARCH-INTEGRATION ONLY`.**
+Accepted evidence remains PR #32 execution evidence plus PR #33 E7 evidence review. Gate A does not authorize Gate B/C/D, PAPER, SHADOW, LIVE, provider/private API activity, credentials, or capital exposure.
 
 ---
 
@@ -81,120 +46,116 @@ The accepted PASS is bounded to Gate A. It does not authorize Gate B/C/D, PAPER,
 
 Purpose: authorize controlled paper-trading integration only. No real order submission.
 
-Prerequisite: Gate A PASS unless E7 records an explicit narrower dependency exception that does not weaken safety.
+### Current accepted static chain
 
-### Current canonical evidence state after E7-20260824-034 protection failure/loss integration review
-
-Accepted static prerequisites relevant to this reconciliation:
+Relevant accepted prerequisites now include:
 
 - Gate B static preflight PR `#34`;
-- E5 risk-limit evidence PR `#35`, merge `133e62b2ad8aa5c31d3f0aef1679c0449aa2a10c`;
-- protection contract PR `#37`, merge `e6769b5b78f1b5f699ae4000204b803b2f8b69d5`;
-- E5 protection producer PR `#38`, merge `268ac8708f84d0c856ac2d1d7436dcb100347a46`;
-- E4 protection consumer PR `#39`, merge `44ec171817f6c13fa632f2e7658dccc6b518f777`;
-- E7 protection boundary review PR `#40`, merge `0c2202742c6fa601ac79b32603620a0553b95e2e`;
-- E5 protection-result bridge PR `#41`, merge `4c3d0f47d26cb23d9baeb17d227a3a1a9185667f`;
-- E7 protection lifecycle review PR `#42`, merge `05181bf06e9d1f2ad71990b94c446b6bf66d3582`;
-- E4 PaperBroker terminal truth PR `#43`, merge `d9394c18ca35406831e8966700c3a5210966fbb6`;
-- E7 review artifact `status/e7/GATE_B_PROTECTION_FAILURE_INTEGRATION_REVIEW_20260824.md`;
-- E7 real failure/loss definitions:
-  - `tests/integration/test_gate_b_protection_failure_lifecycle.py`;
-  - `tests/safety/test_gate_b_protection_terminal_safety.py`.
+- E5 risk-limit definitions PR `#35`;
+- protection contract PR `#37`;
+- E5 protection producer PR `#38`;
+- E4 protection consumer PR `#39`;
+- E7 protection integration PR `#40`;
+- E5 protection-result bridge PR `#41`;
+- E7 protection lifecycle review PR `#42`;
+- E4 PaperBroker terminal truth PR `#43`;
+- E7 protection failure/loss integration PR `#44`;
+- E4 protection Fill-lineage PR `#45`, merge `e18fc08d110b0addb77229b1bf47cd7632548427`;
+- E7 close/TradeResult contract decision `E7-20260824-036`:
+  - `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`;
+  - `docs/adr/ADR-0005-close-authority-and-trade-result-boundary.md`;
+  - `status/e7/GATE_B_CLOSE_TRADE_RESULT_CONTRACT_DECISION_20260824.md`.
 
-All executable verification for these newly materialized Gate B definitions remains `NOT_RUN`.
+The close-to-TradeResult contract classification is:
+
+```text
+ADDITIVE_PROFILE_REQUIRED / MATERIALIZED
+schema_version = contracts-v0.1
+```
+
+This resolves the shared semantic boundary only. It does not implement E5/E4/E6 production paths and does not provide executable evidence.
+
+### Canonical Gate B criteria
 
 | Criterion | Current status | Required evidence / blocker |
 |---|---|---|
-| Gate A | PASS | PR `#32` execution evidence + PR `#33` accepted evidence review |
-| TradeIntent -> E5 RiskDecision boundary implemented | NOT_RUN | static implementation exists; bounded local E2/E5 verification still required |
-| E5 can reject valid strategy intents | NOT_RUN | E5 fail-closed implementation/test definitions exist; local risk/safety execution required |
-| ApprovedTradePlan is the only E4 strategy-originated execution input | NOT_RUN | E4 gateway statically enforces boundary; local execution/safety evidence required |
-| PaperBroker conforms to broker contract | NOT_RUN | E4 `PaperBroker` + broker/terminal-state definitions exist; approved local broker verification required |
-| Partial fill semantics preserve actual quantity | NOT_RUN | E4 actual-fill primitive and E7 cross-module definitions exercise exact actual quantity; executable evidence required |
-| Required protection follows actual filled quantity | NOT_RUN | `protection-v0.1` + merged E5 producer + merged E4 consumer + E7 integration/safety definitions statically materialize exact actual-quantity propagation; approved-local execution remains required |
-| Protection failure triggers emergency path | NOT_RUN | PR `#41` E5 bridge + PR `#43` real PaperBroker `REJECTED`, `OPEN->CANCELED`, `OPEN->EXPIRED` truth + E7 real cross-module failure/loss definitions materialize `PROTECTION_FAILED/PROTECTION_LOST -> EMERGENCY`; approved-local execution remains required |
-| Stale/unknown market state blocks exposure | NOT_RUN | E5 static fail-closed implementation/test definitions exist; local safety execution required |
-| Unknown order/position state blocks new exposure | NOT_RUN | E5 static fail-closed definitions plus protection lifecycle definitions reject unknown/mismatch/reconciliation-required truth; local safety execution required |
-| Drawdown/daily/position/kill-switch rules enforced | NOT_RUN | PR `#35` adds explicit daily/open-position/drawdown boundary definitions; existing safety definitions cover kill switch; executable local evidence remains required |
-| Restart/persistence preserves required state | BLOCKED | E6 persistence remains research Registry/CANDIDATE only; no Slice 3 risk/position/order/protection/trade runtime persistence/restart |
-| Paper E2E closes to TradeResult and persists audit | BLOCKED | no complete Slice 3 Paper E2E/TradeResult/durable audit; current PaperBroker protection Fill still does not propagate additive position-action lineage required for close/audit parity |
-| GitHub CI/Actions not used for verification | PASS | policy remains hard requirement; E7-034 used no GitHub project compute |
+| Gate A | PASS | accepted PR #32/#33 evidence |
+| TradeIntent -> E5 RiskDecision boundary implemented | NOT_RUN | local E2/E5 verification still required |
+| E5 can reject valid strategy intents | NOT_RUN | local risk/safety verification required |
+| ApprovedTradePlan is the only E4 strategy-originated execution input | NOT_RUN | local execution/safety verification required |
+| PaperBroker conforms to broker contract | NOT_RUN | approved-local broker verification required |
+| Partial fill semantics preserve actual quantity | NOT_RUN | implementation/definitions exist; local evidence required |
+| Required protection follows actual filled quantity | NOT_RUN | protection-v0.1 implementation/definitions exist; local evidence required |
+| Protection failure triggers emergency path | NOT_RUN | real PaperBroker terminal truth + E5 bridge + E7 definitions exist; local evidence required |
+| Stale/unknown market state blocks exposure | NOT_RUN | local safety evidence required |
+| Unknown order/position state blocks new exposure | NOT_RUN | local safety/reconciliation evidence required |
+| Drawdown/daily/position/kill-switch rules enforced | NOT_RUN | criterion-level definitions exist; local evidence required |
+| Restart/persistence preserves required state | BLOCKED | E6 remains early Slice 2 Registry/CANDIDATE persistence only; no Paper risk/position/action/order/fill/result runtime persistence/restart |
+| Paper E2E closes to TradeResult and persists audit | BLOCKED | protection Fill lineage is now materialized, but close-v0.1 E5 producer, E4 consumer, E5 trade-result-v0.1 builder, E6 durable runtime/audit and full E7 Paper E2E are not yet implemented |
+| GitHub CI/Actions not used for verification | PASS | hard policy remains satisfied by this static task |
 
-Detailed static classification and dependency order are recorded in:
+### Close-to-TradeResult blocker decomposition
 
-`status/e7/GATE_B_PROTECTION_FAILURE_INTEGRATION_REVIEW_20260824.md`
+The prior Fill-lineage gap is closed by PR #45.
+
+The remaining sequential implementation chain is now explicit:
+
+```text
+E5 close-v0.1 EXIT / EMERGENCY_EXIT producer + lifecycle/reasons
+-> E4 close-v0.1 MARKET reduce-only consumer + close Fill/residual Position truth
+-> E5 authoritative-flat POSITION_CLOSED + trade-result-v0.1 builder
+-> E6 durable Paper runtime persistence/restart/audit
+-> E7 full Paper E2E/safety definitions
+-> approved-local Gate B verification
+```
+
+Key safety rule:
+
+```text
+OrderStatus.FILLED != proof of flat Position
+```
+
+Final closure requires exact same-position normalized truth with `actual_quantity=0` and `reconciliation_status=CONSISTENT` at/after the latest included exit Fill.
+
+### Current Gate B state
 
 ```text
 Gate B = BLOCKED / NOT YET PASS
 PAPER = UNAUTHORIZED
-project executable verification = NOT_RUN / DEFERRED TO LATER APPROVED-LOCAL TASK
+project executable verification = NOT_RUN / NOT REQUIRED FOR E7-036 STATIC CONTRACT DECISION
 ```
 
-`Protection failure triggers emergency path` moved only from `BLOCKED` to `NOT_RUN` because the implementation/test-definition blocker is removed but approved-local executable evidence is still absent. No static implementation or test-definition acceptance converts any criterion into executable `PASS`.
+No existing `NOT_RUN` is converted to PASS by this task.
 
 ---
 
 ## Gate C — SHADOW_READY
 
-Purpose: permit live market/account observation and full execution planning/reconciliation without real order submission.
+Gate C remains:
 
-Prerequisite: Gate B PASS.
+```text
+BLOCKED / UNCHANGED
+```
 
-### Criteria
-
-| Criterion | Initial status | Required evidence |
-|---|---|---|
-| Gate B | BLOCKED | Gate B PASS evidence |
-| Pionex private adapter auth/signature behavior verified safely | NOT_RUN | historical wording; active V1 provider target is OKX and later Gate C work must use the current Product Owner decision |
-| Account/balance/position query mapping verified | NOT_RUN | approved local integration evidence |
-| Idempotent client order identity implemented | BLOCKED | E4 implementation + local tests |
-| Timeout/ambiguous acknowledgement reconciles before retry | NOT_RUN | local failure-injection test |
-| Local/exchange mismatch blocks new exposure | NOT_RUN | local reconciliation test |
-| Restart with open order/position recovers safely | NOT_RUN | local restart/reconciliation test |
-| Live order submission remains disabled | BLOCKED | mode gate implementation + local safety test |
-| Shadow monitoring/audit surfaces degraded state accurately | BLOCKED | E6 implementation + local test |
-| Real secrets absent from Git/logs/fixtures/UI | NOT_RUN | local secret scan + runtime redaction tests |
-| GitHub CI/Actions not used for verification | PASS | must remain true |
-
-**Gate C current state: `BLOCKED / UNCHANGED`.**
-
-The historical Pionex label is documentation drift; the active Product Owner target is OKX under `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`. E7-034 does not broaden into Gate C/private-provider work.
+Prerequisite Gate B is not PASS. The historical Pionex wording remains documentation drift; active V1 provider target is OKX. E7-036 does not broaden into provider/private work.
 
 ---
 
 ## Gate D — LIVE_READY
 
-Purpose: establish technical readiness for a tiny controlled live pilot. Technical readiness alone does not activate LIVE.
+Gate D remains:
 
-Prerequisite: Gate C PASS and all current strategy lifecycle evidence satisfied.
+```text
+BLOCKED / UNCHANGED
+```
 
-### Criteria
-
-| Criterion | Initial status | Required evidence |
-|---|---|---|
-| Gate C | BLOCKED | Gate C PASS evidence |
-| Exact strategy version is lifecycle-eligible | BLOCKED | E6 registry/evidence record |
-| E3 validation policy satisfied for exact version | BLOCKED | accepted ValidationDecision/evidence |
-| Required paper/forward evidence satisfied | BLOCKED | E6/E7 evidence record |
-| E4 live execution/recovery safety tests pass | NOT_RUN | local execution regression evidence |
-| E5 risk/kill-switch/protection safety tests pass | NOT_RUN | local safety regression evidence |
-| E6 audit/approval/operational controls ready | BLOCKED | local platform tests + integration review |
-| Critical E2E/failure-injection suite passes | NOT_RUN | local E7 test command/result |
-| Semantic parity backtest/paper/live-compatible path passes | NOT_RUN | local parity suite |
-| No unresolved critical/high security finding | BLOCKED | security review evidence |
-| No unresolved critical integration blocker | BLOCKED | E7 integration status |
-| Product Owner explicit LIVE approval captured | BLOCKED | immutable ApprovalRecord / explicit authorization |
-| GitHub CI/Actions not used for verification | PASS | must remain true |
-
-**Gate D current state: `BLOCKED / UNCHANGED`.**
-
-`LIVE_READY` must not be reported as PASS until every required criterion is PASS. Even then, actual LIVE activation must bind to the exact approved strategy/release/mode and Product Owner authorization.
+Gate C is not PASS, operational/audit/security evidence remains incomplete, and Product Owner LIVE approval is absent. No LIVE authority changes in E7-036.
 
 ---
 
 ## Evidence record format
 
-When executable evidence begins, record at minimum:
+Executable evidence must record at minimum:
 
 ```text
 Criterion:
@@ -209,4 +170,4 @@ Timestamp UTC:
 Notes:
 ```
 
-Never write invented local test counts or results.
+Never invent local test counts or results.

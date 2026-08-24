@@ -1,23 +1,22 @@
 # E7 Status
 
-- task_id: `E7-20260824-028`
+- task_id: `E7-20260824-030`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-gate-b-protection-contract-20260824`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-028 before work`
-- reviewed_main: `6299df81c1fc0986e28f9fc6cd0a81fdb60d3a48`
-- reviewed_task_blob: `8f54d1a28dc307645faa09ba7ef72a14dfcbe67b`
+- branch: `agent/e7-gate-b-protection-integration-20260824`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-030 before work`
+- reviewed_main: `0617221eada56390db482ab3d758f39ea5f7457f`
+- reviewed_task_blob: `6c6392b671de9bb5ab68099afae5c55c9ee5a635`
 - contracts_baseline: `contracts-v0.1 / BASELINE`
-- accepted_blocker: `E5-20260824-008 / CONTRACT_OR_SEMANTIC_GAP`
-- blocker_pr: `#36 / merge d4467e50d300114401b7fda6d5d9f8b688d82638`
-- blocker_artifact: `status/E5_GATE_B_FILL_PROTECTION_BLOCKER_20260824.md`
-- contract_decision: `protection-v0.1 / ADDITIVE_COMPATIBLE_OBJECT_PROFILE`
-- contract_set_version_bump: `NO`
-- semantic_blocker: `RESOLVED BY CONTRACT`
-- e5_downstream_sufficiency: `PASS STATIC`
-- e4_downstream_sufficiency: `PASS STATIC`
-- project_executable_verification: `NOT_RUN / NOT REQUIRED FOR STATIC CONTRACT DECISION`
-- local_job: `NOT_REQUESTED / NOT REQUIRED`
+- protection_profile: `protection-v0.1`
+- accepted_contract_pr: `#37 / merge e6769b5b78f1b5f699ae4000204b803b2f8b69d5`
+- accepted_e5_producer_pr: `#38 / merge 268ac8708f84d0c856ac2d1d7436dcb100347a46 / head b98188691f7b9468204bf4f8f3164c07367741db`
+- accepted_e4_consumer_pr: `#39 / merge 44ec171817f6c13fa632f2e7658dccc6b518f777 / head 5dd502f53b3eeb564ee917a8c5fa2090074908bc`
+- accepted_e5_risk_evidence_pr: `#35 / merge 133e62b2ad8aa5c31d3f0aef1679c0449aa2a10c`
+- producer_consumer_static_review: `PASS STATIC / COHERENT`
+- shared_contract_contradiction: `NONE FOUND`
+- project_executable_verification: `NOT_RUN / DEFERRED TO LATER APPROVED-LOCAL TASK`
+- local_job: `NOT_REQUESTED / TASK FORBIDS EXECUTION`
 - github_compute: `NOT_USED`
 - github_actions_ci_hosted_runner: `NOT_USED`
 - provider_private_api: `NOT AUTHORIZED / NOT_SENT`
@@ -27,157 +26,125 @@
 - gate_b: `BLOCKED / NOT YET PASS`
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
-- actual_fill_protection_criterion: `BLOCKED pending E5/E4 implementation + local evidence`
-- protection_failure_emergency_criterion: `BLOCKED pending implementation + local evidence`
-- production_domain_changes: `NONE`
-- domain_test_changes: `NONE`
+- required_protection_actual_fill: `NOT_RUN / implementation + E7 definitions materialized; approved-local executable evidence required`
+- drawdown_daily_position_kill_switch: `NOT_RUN / criterion-level definitions materialized; approved-local executable evidence required`
+- protection_failure_emergency: `BLOCKED / IMPLEMENTATION_GAP`
+- restart_persistence: `BLOCKED / IMPLEMENTATION_GAP`
+- paper_e2e_trade_result_audit: `BLOCKED / IMPLEMENTATION_GAP`
+- paperbroker_protection_fill_lineage: `IMPLEMENTATION_GAP / later dependency before full TradeResult-audit parity`
+- e4_e5_production_changes_by_e7: `NONE`
+- contracts_adr_changes_by_e7: `NONE`
 - codex_ticket: `NONE`
 
-## Persisted outputs
+## Persisted E7 outputs
 
-### Contract profile
+### Cross-module integration definitions
 
-`contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`
+`tests/integration/test_gate_b_protection_boundary.py`
 
-- commit: `ffc312098dc3bec326fc87a329c66d385d3cde6b`
-- profile: `protection-v0.1`
-- parent schema: `contracts-v0.1`
-- exact actual protective quantity comes from known `Position.actual_quantity` with `reconciliation_status=CONSISTENT`;
-- V1 quantity remains `base-asset-v0.1 / BASE_ASSET / BTC` for `BTC_USDT_PERP`;
-- zero/unknown/unreconciled/mismatched or over-approved exposure fails closed for ordinary PROTECT;
-- action binds exact `trade_plan_id`, `risk_decision_id`, risk policy, Position observation, quantity, and parent protection bounds;
-- `MODIFY_PROTECTION` is not executable under this profile;
-- parent `trade_plan_id` remains OrderRequest plan lineage, with additive immediate `position_action_id` authority lineage;
-- protective request is deterministic `PROTECTION_STOP / STOP_MARKET / reduce_only=true`;
-- request/submission is not `PROTECTION_VERIFIED`.
+- commit: `d7ff963c4e12bd800c42ea7c174a1f6b67742833`
+- uses actual E5 `build_protect_position_action(...)`, E4 `prepare_protection_order(...)`, and real `PaperBroker` only for the submit-vs-verification boundary definition;
+- covers partial/full actual quantity propagation, canonical units, exact protection bounds, authority/idempotency lineage, entry-TTL independence, and no request-created verification claim.
 
-### ADR
+### Cross-module safety definitions
 
-`docs/adr/ADR-0004-actual-fill-protection-action-boundary.md`
+`tests/safety/test_gate_b_protection_safety.py`
 
-- commit: `a6028bb7539045f64404c3cd50fd3c27ec1b1fb9`
-- disposition: `ACCEPTED`
-- records authority separation, actual-fill quantity decision, additive compatibility decision, OrderRequest lineage, lifecycle verification boundary, and rejected unsafe alternatives.
+- commit: `ee29ce9dfe99a3dd723681c1d12b38ffe00c865a`
+- uses actual E5/E4 production APIs;
+- covers fail-closed ambiguous Position truth, over-approved exposure, protection-bound tampering, unsupported/legacy profile, `MODIFY_PROTECTION`, expired PositionAction, and current `OPEN_UNPROTECTED` requirement.
 
-### Contract registry
+### Integration review evidence
 
-`contracts/README.md`
+`status/e7/GATE_B_PROTECTION_INTEGRATION_REVIEW_20260824.md`
 
-- commit: `e9e715f4f410c394e2fbe819e041b47c62d21a5d`
-- registers `PROTECTION_OBJECT_PROFILE_V0_1.md / protection-v0.1` as a compatible executable profile under `contracts-v0.1`.
+- commit: `844f0f5f5700372c7b54ab2cf092fb5062c30346`
+- records source/PR evidence, static producer-consumer coherence, Gate B reconciliation, protection verification/failure classification, and dependency order.
 
-### E7 decision evidence
+### Release-gate reconciliation
 
-`status/e7/GATE_B_PROTECTION_CONTRACT_DECISION_20260824.md`
+`status/RELEASE_GATES.md`
 
-- commit: `200081b0aa56f1e92ce30809affee18bee6b737b`
-- records source/blocker evidence, compatibility reasoning, static producer/consumer sufficiency, release impact, and dependency-ordered follow-up boundaries.
+- commit: `0577b8ff487a411ac77643a0918307d37a83e071`
+- `Required protection follows actual filled quantity`: `BLOCKED -> NOT_RUN`, never PASS;
+- `Drawdown/daily/position/kill-switch rules enforced`: `BLOCKED -> NOT_RUN`, never PASS;
+- `Protection failure triggers emergency path`: remains `BLOCKED / IMPLEMENTATION_GAP`;
+- restart/persistence and Paper E2E/TradeResult audit remain BLOCKED;
+- Gate B remains BLOCKED and PAPER remains unauthorized.
 
-## Contract decision
+### Integration status
 
-```text
-actual broker/open exposure truth
--> E5 protection-v0.1 PositionAction.PROTECT
--> E4 deterministic protection OrderRequest
--> broker OrderResult/reconciliation
--> E5 PROTECTION_VERIFIED or failure lifecycle event
-```
+`status/INTEGRATION_STATUS.md`
 
-### Actual quantity
+- commit: `c1eb3eedf486e5c3ea2c3b7bd73f46db318eaaa8`
+- reconciles accepted PR #35/#37/#38/#39, current protection boundary, test-definition state, remaining blockers, and next bounded dependency.
 
-For ordinary initial protection:
+## Static integration decision
+
+The accepted provider-neutral path is coherent:
 
 ```text
-PositionAction.quantity = exact known canonical Position.actual_quantity
-```
-
-not requested entry quantity and not automatically the full ApprovedTradePlan quantity. Partial fills are therefore unambiguous.
-
-The source Position must be `CONSISTENT`, positive, known, and exactly bound by position identity/observation/profile. An actual quantity above the parent ApprovedTradePlan maximum does not expand normal protection authority; it becomes an exceptional reconciliation/emergency condition.
-
-### Approved bounds
-
-For `PROTECT`, action stop/optional target/max-hold values equal the exact parent ApprovedTradePlan protection instruction. E4 may verify or reject; it cannot loosen or substitute those values.
-
-V0.1 translates only the protective stop. Target/max-hold remain binding E5 lifecycle facts and are not silently converted into target/OCO/timer behavior.
-
-### OrderRequest lineage
-
-For a protection request:
-
-```text
-trade_plan_id      = parent plan lineage
-authorization_type = POSITION_ACTION
-position_action_id = immediate E5 executable authority
-position_id        = exact position lineage
-risk_decision_id   = exact parent risk lineage
-order_role         = PROTECTION_STOP
-```
-
-Mechanical mapping:
-
-```text
-LONG -> SELL
-SHORT -> BUY
-order_type = STOP_MARKET
-quantity = exact action canonical quantity
-stop_price = exact approved stop
-reduce_only = true
-```
-
-Provider-native contract counts/OKX `sz` remain downstream E4 adapter facts.
-
-### Lifecycle
-
-No action/request/submit shortcut exists to `OPEN_PROTECTED`.
-
-```text
-OPEN_UNPROTECTED + PROTECTION_VERIFIED -> OPEN_PROTECTED
-OPEN_UNPROTECTED + PROTECTION_FAILED   -> EMERGENCY
-OPEN_PROTECTED/PROFIT_PROTECTED + PROTECTION_LOST -> EMERGENCY
-```
-
-Unknown/reconciliation-required truth cannot count as verified protection.
-
-## Static downstream sufficiency
-
-### E5 — PASS STATIC
-
-A bounded E5 producer task can now implement:
-
-```text
-known CONSISTENT Position observation + exact ApprovedTradePlan
+normalized Position actual exposure
+-> E5 build_protect_position_action(...)
 -> protection-v0.1 PositionAction.PROTECT
+-> E4 prepare_protection_order(...)
+-> canonical STOP_MARKET / reduce_only protection OrderRequest
 ```
 
-without inventing cross-module fields or provider units.
+Static review confirms:
 
-### E4 — PASS STATIC
+- partial fill uses exact smaller `Position.actual_quantity`, not requested/approved maximum;
+- full fill preserves exact canonical quantity;
+- canonical quantity remains `base-asset-v0.1 / BASE_ASSET / BTC` for `BTC_USDT_PERP`;
+- E5 binds exact parent stop/target/max-hold values;
+- E4 independently revalidates parent/action/current Position truth and maps only the approved stop;
+- E4 does not invent target/OCO/timer behavior;
+- plan/risk/position/action lineage remains exact;
+- identical immediate authority yields deterministic request identity and materially changed authority changes identity/fingerprint;
+- unknown/mismatch/reconciliation-required Position truth fails closed;
+- actual exposure above the approved maximum cannot silently expand ordinary authority;
+- legacy/missing/unsupported profile and `MODIFY_PROTECTION` remain non-executable;
+- an expired parent entry TTL alone does not invalidate a still-live post-fill PositionAction;
+- an expired PositionAction fails closed;
+- creating an action, preparing a request, or generic submit intent does not equal `PROTECTION_VERIFIED` and does not change `OPEN_UNPROTECTED` to protected.
 
-After E5 materializes the producer, a bounded E4 consumer task can implement:
+No shared semantic contradiction was found.
+
+## Protection verification / failure classification
 
 ```text
-PositionAction + exact parent ApprovedTradePlan + current normalized Position truth
--> deterministic protection OrderRequest
+E5 PositionAction producer                       = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
+E4 protection OrderRequest translator           = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
+PaperBroker generic submit/query/reconcile       = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE
+E5 broker-truth -> lifecycle-event bridge        = IMPLEMENTATION_GAP
+PROTECTION_FAILED -> integrated EMERGENCY path   = IMPLEMENTATION_GAP
+PROTECTION_LOST -> integrated EMERGENCY path     = IMPLEMENTATION_GAP
+PaperBroker protection Fill lineage propagation  = IMPLEMENTATION_GAP
+CONTRACT_OR_SEMANTIC_GAP                         = NO for reviewed request boundary
 ```
 
-without selecting risk quantity, loosening bounds, or guessing lineage/unit semantics.
+The existing state-machine transitions are correct but are not sufficient by themselves: there is currently no accepted callable bridge that consumes the exact protection OrderRequest plus authoritative E4/PaperBroker OrderResult/query/reconciliation truth and decides `PROTECTION_VERIFIED`, `PROTECTION_FAILED`, `PROTECTION_LOST`, or fail-closed reconciliation behavior.
 
-## Dependency order for PM tasking
+## Next bounded PM dependency
 
-E7 does not issue these tasks. Safe bounded order is:
+E7 does not issue the next task. The recommended next dependency for PM is:
 
-1. E5 producer implementation for `protection-v0.1`.
-2. E4 consumer/translation implementation after the producer shape exists.
-3. E7 cross-module integration/safety test definitions after both interfaces materialize.
-4. Explicitly authorized approved-local executable verification afterward.
+```text
+E5 protection-result lifecycle bridge
+```
 
-## Verification / release safety
+Bounded responsibility:
 
-No project code was executed. No Local Job was requested. No GitHub Actions/CI/hosted runner, provider/private request, PaperBroker runtime, exchange credential, PAPER, SHADOW, or LIVE activity was used.
+```text
+exact canonical protection OrderRequest
++ authoritative E4/PaperBroker OrderResult/query/reconciliation truth
+-> E5 PROTECTION_VERIFIED | PROTECTION_FAILED | PROTECTION_LOST | fail-closed reconciliation event
+```
 
-The shared semantic blocker is resolved, but neither the actual-fill protection release criterion nor Gate B is PASS.
+Rationale: E4 already owns normalized broker/order truth; E5 owns lifecycle/risk interpretation. Unknown/reconciliation-required truth must never become verified protection. If implementation demonstrates that a new shared serialized evidence object is genuinely required, the domain task must stop and return to E7 contract review rather than invent a private cross-module DTO.
+
+After that bridge exists, E7 can materialize the real PaperBroker result -> E5 event -> state-machine verification/failure integration definitions. Approved-local execution comes only after the required implementations/definitions are complete.
 
 ## Completion
 
-E7 completed only `E7-20260824-028` and stops on `DONE`. It does not start E5/E4 implementation, Paper E2E, provider/private work, Gate C, PAPER, SHADOW, LIVE, or another task automatically.
+E7 completed only `E7-20260824-030` and stops on `DONE`. No project executable verification was performed; `NOT_RUN` remains `NOT_RUN`. E7 does not self-start the E5 bridge, approved-local verification, full Paper E2E, provider/private work, Gate C, PAPER, SHADOW, LIVE, or another task.

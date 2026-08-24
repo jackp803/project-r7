@@ -200,13 +200,6 @@ def _validate_position_payload(
     if not isinstance(position, Mapping):
         raise LifecycleProjectionError("INVALID_POSITION", "Position must be a mapping")
 
-    allowed = _BASE_POSITION_FIELDS | (_PROJECTION_FIELDS if profiled else frozenset())
-    unknown = sorted(set(position.keys()) - allowed)
-    if unknown:
-        raise LifecycleProjectionError(
-            "UNSUPPORTED_POSITION_FIELDS",
-            "Position contains unsupported fields: " + ", ".join(unknown),
-        )
     if not profiled:
         unexpected_profile = sorted(set(position.keys()) & _PROJECTION_FIELDS)
         if unexpected_profile:
@@ -214,6 +207,14 @@ def _validate_position_payload(
                 "SOURCE_POSITION_ALREADY_PROFILED",
                 "exact E4 source Position must not carry lifecycle projection metadata",
             )
+
+    allowed = _BASE_POSITION_FIELDS | (_PROJECTION_FIELDS if profiled else frozenset())
+    unknown = sorted(set(position.keys()) - allowed)
+    if unknown:
+        raise LifecycleProjectionError(
+            "UNSUPPORTED_POSITION_FIELDS",
+            "Position contains unsupported fields: " + ", ".join(unknown),
+        )
 
     missing = sorted(_REQUIRED_BASE_POSITION_FIELDS - set(position.keys()))
     if missing:
@@ -235,7 +236,11 @@ def _validate_position_payload(
         )
     lifecycle = _canonical_state(position.get("lifecycle_state"))
 
-    _canonical_decimal(position.get("actual_quantity"), "Position.actual_quantity", allow_negative=False)
+    actual_quantity = _canonical_decimal(
+        position.get("actual_quantity"),
+        "Position.actual_quantity",
+        allow_negative=False,
+    )
     _canonical_decimal(
         position.get("average_entry_price"),
         "Position.average_entry_price",
@@ -267,6 +272,7 @@ def _validate_position_payload(
     _canonical_json(dict(position))
     return {
         "lifecycle_state": lifecycle,
+        "actual_quantity": actual_quantity,
         "broker_state_observed_at": observed_at,
     }
 
@@ -290,6 +296,16 @@ def stable_lifecycle_projection_id(projection: Mapping[str, Any]) -> str:
     material.pop("lifecycle_projection_id", None)
     digest = hashlib.sha256(_canonical_json(material).encode("utf-8")).hexdigest()
     return "posproj_" + digest
+
+
+def _event_can_reach_state(event: PositionEvent, state: PositionLifecycleState) -> bool:
+    for candidate in PositionLifecycleState:
+        try:
+            if transition(candidate, event) == state:
+                return True
+        except UnsafeTransitionError:
+            continue
+    return False
 
 
 def validate_position_lifecycle_projection(projection: Mapping[str, Any]) -> dict[str, Any]:
@@ -363,7 +379,12 @@ def validate_position_lifecycle_projection(projection: Mapping[str, Any]) -> dic
                     "INVALID_LIFECYCLE_EVENT",
                     "TRANSITION requires a canonical lifecycle_event string",
                 )
-            _requested_event(event_value)
+            event = _requested_event(event_value)
+            if not _event_can_reach_state(event, facts["lifecycle_state"]):
+                raise LifecycleProjectionError(
+                    "DECLARED_TRANSITION_STATE_INVALID",
+                    "lifecycle_event cannot produce the declared lifecycle_state",
+                )
         elif event_value is not None:
             raise LifecycleProjectionError(
                 "INVALID_REATTESTATION_PROJECTION",
@@ -493,17 +514,14 @@ def build_position_lifecycle_genesis(
     )
 
 
-def build_position_lifecycle_transition(
+def _build_transition(
     source_position: Mapping[str, Any],
     previous_projection: Mapping[str, Any],
     *,
-    lifecycle_event: PositionEvent | str,
-    lifecycle_interpreted_at: datetime,
+    event: PositionEvent,
+    interpreted_at: datetime,
 ) -> dict[str, Any]:
-    """Apply one canonical E5 PositionEvent and serialize the next revision."""
-
     _, previous_facts = _validate_source_and_previous(source_position, previous_projection)
-    event = _requested_event(lifecycle_event)
     try:
         target_state = transition(previous_facts["lifecycle_state"], event)
     except UnsafeTransitionError as exc:
@@ -511,7 +529,6 @@ def build_position_lifecycle_transition(
             "INVALID_LIFECYCLE_TRANSITION",
             str(exc),
         ) from exc
-    interpreted_at = _explicit_interpretation_time(lifecycle_interpreted_at)
     return _projection_payload(
         source_position,
         lifecycle_state=target_state,
@@ -519,6 +536,114 @@ def build_position_lifecycle_transition(
         previous_id=previous_facts["projection_id"],
         kind=TRANSITION,
         event=event,
+        interpreted_at=interpreted_at,
+    )
+
+
+def build_position_lifecycle_transition(
+    source_position: Mapping[str, Any],
+    previous_projection: Mapping[str, Any],
+    *,
+    lifecycle_event: PositionEvent | str,
+    lifecycle_interpreted_at: datetime,
+) -> dict[str, Any]:
+    """Apply a canonical non-closure E5 PositionEvent and serialize the next revision.
+
+    POSITION_CLOSED is deliberately excluded. Final closure must use
+    build_position_lifecycle_closed_transition() with a successful real
+    TradeResultBuildOutcome so caller-supplied event material cannot bypass
+    authoritative-flat/funding/fee validation.
+    """
+
+    event = _requested_event(lifecycle_event)
+    if event == PositionEvent.POSITION_CLOSED:
+        raise LifecycleProjectionError(
+            "TRADE_RESULT_CLOSURE_OUTCOME_REQUIRED",
+            "POSITION_CLOSED projection requires a successful TradeResultBuildOutcome",
+        )
+    interpreted_at = _explicit_interpretation_time(lifecycle_interpreted_at)
+    return _build_transition(
+        source_position,
+        previous_projection,
+        event=event,
+        interpreted_at=interpreted_at,
+    )
+
+
+def build_position_lifecycle_closed_transition(
+    source_position: Mapping[str, Any],
+    previous_projection: Mapping[str, Any],
+    *,
+    trade_result_outcome: Any,
+    lifecycle_interpreted_at: datetime,
+) -> dict[str, Any]:
+    """Serialize POSITION_CLOSED only from E5's successful TradeResult outcome."""
+
+    # Local import avoids a module-import cycle while still requiring the exact
+    # current E5 outcome type rather than a caller-authored event substitute.
+    from .trade_result import TradeResultBuildOutcome
+
+    if not isinstance(trade_result_outcome, TradeResultBuildOutcome):
+        raise LifecycleProjectionError(
+            "INVALID_TRADE_RESULT_OUTCOME",
+            "closure projection requires TradeResultBuildOutcome",
+        )
+    if (
+        trade_result_outcome.event != PositionEvent.POSITION_CLOSED
+        or trade_result_outcome.next_state != PositionLifecycleState.CLOSED
+    ):
+        raise LifecycleProjectionError(
+            "INVALID_TRADE_RESULT_OUTCOME",
+            "TradeResultBuildOutcome must authorize POSITION_CLOSED -> CLOSED",
+        )
+    trade_result = trade_result_outcome.trade_result
+    if not isinstance(trade_result, Mapping):
+        raise LifecycleProjectionError(
+            "INVALID_TRADE_RESULT_OUTCOME",
+            "TradeResultBuildOutcome.trade_result must be a mapping",
+        )
+
+    source_facts = _validate_position_payload(source_position, profiled=False)
+    previous_facts = validate_position_lifecycle_projection(previous_projection)
+    if source_position.get("position_id") != previous_projection.get("position_id"):
+        raise LifecycleProjectionError("POSITION_ID_MISMATCH", "closure Position ID does not match previous projection")
+    if trade_result.get("position_id") != source_position.get("position_id"):
+        raise LifecycleProjectionError("TRADE_RESULT_POSITION_MISMATCH", "TradeResult position_id mismatch")
+    if trade_result.get("symbol") != source_position.get("symbol"):
+        raise LifecycleProjectionError("TRADE_RESULT_SYMBOL_MISMATCH", "TradeResult symbol mismatch")
+    if source_facts["actual_quantity"] != Decimal("0"):
+        raise LifecycleProjectionError(
+            "CLOSURE_SOURCE_NOT_FLAT",
+            "POSITION_CLOSED projection requires exact source Position.actual_quantity=0",
+        )
+    if source_position.get("reconciliation_status") != "CONSISTENT":
+        raise LifecycleProjectionError(
+            "CLOSURE_SOURCE_NOT_CONSISTENT",
+            "POSITION_CLOSED projection requires source reconciliation_status=CONSISTENT",
+        )
+    flat_anchor = source_position.get("broker_state_observed_at")
+    if trade_result.get("closed_at") != flat_anchor or trade_result.get("flat_position_observed_at") != flat_anchor:
+        raise LifecycleProjectionError(
+            "TRADE_RESULT_FLAT_ANCHOR_MISMATCH",
+            "TradeResult closed/flat observation must equal exact source broker observation",
+        )
+    if source_facts["broker_state_observed_at"] < previous_facts["source_anchor"]:
+        raise LifecycleProjectionError(
+            "BROKER_OBSERVATION_REGRESSION",
+            "closure broker observation cannot regress below previous lifecycle anchor",
+        )
+    if source_facts["broker_state_observed_at"] == previous_facts["source_anchor"]:
+        if _broker_fact_payload(source_position) != _broker_fact_payload(previous_projection):
+            raise LifecycleProjectionError(
+                "EQUAL_TIME_BROKER_FACT_CONFLICT",
+                "equal broker observation time requires identical E4-owned Position facts",
+            )
+
+    interpreted_at = _explicit_interpretation_time(lifecycle_interpreted_at)
+    return _build_transition(
+        source_position,
+        previous_projection,
+        event=PositionEvent.POSITION_CLOSED,
         interpreted_at=interpreted_at,
     )
 

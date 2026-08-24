@@ -36,7 +36,7 @@ Read latest `main` and at minimum:
 - E6-013 branch `src/storage/_runtime_validation.py`, tests, handoff and terminal STATUS read-only;
 - `coordination/E6/TASK.md` and E6-013 terminal branch STATUS;
 - `status/RELEASE_GATES.md`, `status/INTEGRATION_STATUS.md`;
-- GitHub Issue #59 as prior PM defect evidence, but do not assume its earlier classification is authoritative.
+- GitHub Issue #59 as prior PM defect evidence only. PM has reclassified that initial bounded-bug diagnosis as superseded pending this E7 contract review; do not treat Issue #59 ownership/classification as authoritative.
 
 ## Required decision
 

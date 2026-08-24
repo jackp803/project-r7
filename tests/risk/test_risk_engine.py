@@ -94,6 +94,15 @@ class RiskEngineTests(unittest.TestCase):
     def setUp(self):
         self.now = datetime(2026, 8, 20, 4, 0, 10, tzinfo=timezone.utc)
 
+    def _decision(self, *, risk_policy=None, trade_intent=None, **context_changes):
+        return evaluate_trade_intent(
+            intent() if trade_intent is None else trade_intent,
+            context(**context_changes),
+            proposal(),
+            policy() if risk_policy is None else risk_policy,
+            decided_at=self.now,
+        )
+
     def test_valid_profiled_intent_can_be_approved_and_planned(self):
         decision = evaluate_trade_intent(intent(), context(), proposal(), policy(), decided_at=self.now)
         self.assertEqual("APPROVE", decision["decision"])
@@ -160,6 +169,100 @@ class RiskEngineTests(unittest.TestCase):
         )
         self.assertEqual("REJECT", decision["decision"])
         self.assertIn("REWARD_RISK_BELOW_MINIMUM", decision["reason_codes"])
+
+    def test_gate_b_daily_trade_cap_uses_configured_policy_boundary(self):
+        risk_policy = policy()
+        below_limit = risk_policy.max_trades_per_day - 1
+
+        below_decision = self._decision(
+            risk_policy=risk_policy,
+            trades_today=below_limit,
+        )
+        self.assertEqual("APPROVE", below_decision["decision"])
+        self.assertNotIn("DAILY_TRADE_LIMIT_REACHED", below_decision["reason_codes"])
+
+        for trades_today in (
+            risk_policy.max_trades_per_day,
+            risk_policy.max_trades_per_day + 1,
+        ):
+            with self.subTest(trades_today=trades_today):
+                decision = self._decision(
+                    risk_policy=risk_policy,
+                    trades_today=trades_today,
+                )
+                self.assertEqual("REJECT", decision["decision"])
+                self.assertIn("DAILY_TRADE_LIMIT_REACHED", decision["reason_codes"])
+
+    def test_gate_b_open_position_cap_uses_configured_policy_boundary(self):
+        risk_policy = policy()
+        below_limit = risk_policy.max_open_positions - 1
+
+        below_decision = self._decision(
+            risk_policy=risk_policy,
+            open_position_count=below_limit,
+            same_symbol_position_open=False,
+        )
+        self.assertEqual("APPROVE", below_decision["decision"])
+        self.assertNotIn("SIMULTANEOUS_POSITION_LIMIT_REACHED", below_decision["reason_codes"])
+
+        for open_position_count in (
+            risk_policy.max_open_positions,
+            risk_policy.max_open_positions + 1,
+        ):
+            with self.subTest(open_position_count=open_position_count):
+                decision = self._decision(
+                    risk_policy=risk_policy,
+                    open_position_count=open_position_count,
+                    same_symbol_position_open=False,
+                )
+                self.assertEqual("REJECT", decision["decision"])
+                self.assertIn("SIMULTANEOUS_POSITION_LIMIT_REACHED", decision["reason_codes"])
+                self.assertNotIn("AVERAGING_DOWN_OR_POSITION_ADD_BLOCKED", decision["reason_codes"])
+
+    def test_gate_b_drawdown_lock_uses_configured_policy_threshold(self):
+        risk_policy = policy()
+        self.assertGreater(risk_policy.max_drawdown, Decimal("0"))
+        below_threshold = risk_policy.max_drawdown / Decimal("2")
+
+        below_decision = self._decision(
+            risk_policy=risk_policy,
+            drawdown=below_threshold,
+        )
+        self.assertEqual("APPROVE", below_decision["decision"])
+        self.assertNotIn("DRAWDOWN_LOCK_ACTIVE", below_decision["reason_codes"])
+
+        for drawdown in (
+            risk_policy.max_drawdown,
+            risk_policy.max_drawdown * Decimal("2"),
+        ):
+            with self.subTest(drawdown=drawdown):
+                decision = self._decision(
+                    risk_policy=risk_policy,
+                    drawdown=drawdown,
+                )
+                self.assertEqual("REJECT", decision["decision"])
+                self.assertIn("DRAWDOWN_LOCK_ACTIVE", decision["reason_codes"])
+
+    def test_gate_b_new_intent_identity_does_not_bypass_active_limit_locks(self):
+        risk_policy = policy()
+        new_intent = intent()
+        new_intent["intent_id"] = "intent-002"
+        new_intent["signal_id"] = "signal-002"
+
+        cases = (
+            ({"trades_today": risk_policy.max_trades_per_day}, "DAILY_TRADE_LIMIT_REACHED"),
+            ({"open_position_count": risk_policy.max_open_positions}, "SIMULTANEOUS_POSITION_LIMIT_REACHED"),
+            ({"drawdown": risk_policy.max_drawdown}, "DRAWDOWN_LOCK_ACTIVE"),
+        )
+        for context_changes, expected_reason in cases:
+            with self.subTest(expected_reason=expected_reason):
+                decision = self._decision(
+                    risk_policy=risk_policy,
+                    trade_intent=new_intent,
+                    **context_changes,
+                )
+                self.assertEqual("REJECT", decision["decision"])
+                self.assertIn(expected_reason, decision["reason_codes"])
 
 
 if __name__ == "__main__":

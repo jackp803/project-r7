@@ -272,6 +272,13 @@ class PaperBroker(Broker):
         if order is None:
             raise UnknownOrderError(client_order_id)
         require_utc(filled_at, "filled_at")
+        if order.result.order_status not in {
+            OrderStatus.OPEN,
+            OrderStatus.PARTIALLY_FILLED,
+        }:
+            raise InvalidOrderTransitionError(
+                f"cannot record a fill after order is {order.result.order_status.value}"
+            )
         if quantity <= 0 or not quantity.is_finite():
             raise ValueError("fill quantity must be finite and > 0")
         if price <= 0 or not price.is_finite():

@@ -1,157 +1,153 @@
 # E5 Status
 
-- task_id: `E5-20260824-012`
+- task_id: `E5-20260824-014`
 - agent: `E5`
 - state: `DONE`
-- branch: `agent/e5-gate-b-protection-result-bridge-20260824`
-- base_main_sha: `1e63f15a7e9db2fce4e0c72786a6c0d25a6277e8`
-- implementation_evidence_head_before_terminal_status: `1c779dabd0909571fe146cbb1f21bc33755d23c6`
-- summary: `Materialized the E5-owned protection-result lifecycle interpretation bridge. The bridge consumes an exact canonical protection OrderRequest plus already-normalized E4 order/query/reconciliation evidence and maps only unambiguous truth into existing PROTECTION_VERIFIED / PROTECTION_FAILED / PROTECTION_LOST / STATE_UNKNOWN lifecycle semantics. Submit acknowledgement alone never verifies protection.`
-- files_changed: `src/position/protection_result.py; src/position/__init__.py; tests/position/test_protection_result_bridge.py; status/E5_GATE_B_PROTECTION_RESULT_BRIDGE_20260824.md; coordination/E5/STATUS.md`
+- branch: `agent/e5-gate-b-close-producer-20260824`
+- base_main_sha: `70fc437b6f2b13bba094be7cbe6d6b6e4a3f9f15`
+- implementation_evidence_head_before_terminal_status: `bc11e20d5cfa3b4e3d74db0c3a4a26f5c0d23f81`
+- summary: `Materialized the E5 close-v0.1 EXIT / EMERGENCY_EXIT PositionAction producer and immediate EXIT_REQUESTED lifecycle intent. Close quantity equals exact current CONSISTENT Position.actual_quantity; parent plan/risk/strategy lineage, source lifecycle, deterministic E5 reason sequence and independent action freshness are bound into stable authority identity. No closure, E4 execution, TradeResult, persistence or release authority was added.`
+- files_changed: `src/position/close.py; src/position/__init__.py; tests/position/test_close_action.py; status/E5_GATE_B_CLOSE_PRODUCER_20260824.md; coordination/E5/STATUS.md`
 - contracts_changed: `NONE`
 - lifecycle_enum_or_transition_table_changed: `NO`
-- e4_or_paperbroker_changed: `NO`
-- broker_operations_called_by_bridge: `NO`
+- e4_or_broker_changed: `NO`
+- trade_result_or_flat_closure_added: `NO`
 - provider_native_behavior_added: `NO`
-- persistence_or_trade_result_changed: `NO`
+- persistence_changed: `NO`
 - paper_shadow_live_authority_changed: `NO`
 - local_verification: `NOT_RUN`
-- evidence_path: `status/E5_GATE_B_PROTECTION_RESULT_BRIDGE_20260824.md`
+- evidence_path: `status/E5_GATE_B_CLOSE_PRODUCER_20260824.md`
 - next_owner: `PM/E7`
 
 ## Implemented boundary
 
 ```text
-exact canonical protection OrderRequest
-+ authoritative normalized E4 order/query/reconciliation truth
-+ current E5 lifecycle context
--> existing E5 PositionEvent / lifecycle outcome
+exact current E4-normalized CONSISTENT Position truth
++ exact parent ApprovedTradePlan / risk / strategy lineage
++ deterministic E5-owned exit reason sequence
+-> close-v0.1 PositionAction.EXIT | EMERGENCY_EXIT
+-> existing PositionEvent.EXIT_REQUESTED
 ```
 
-Callable:
-
-```python
-interpret_protection_result(request, evidence, current_state)
-```
-
-The bridge has no broker argument and performs no submit/query/retry/cancel/provider operation.
-
-## Verification versus submit acknowledgement
-
-A submit result by itself never yields `PROTECTION_VERIFIED`.
-
-Initial verification requires an explicit authoritative query for the exact canonical request and requires:
+### Supported lifecycle/action matrix
 
 ```text
-order_request_id == request.order_request_id
-client_order_id == request.client_order_id
-requested_quantity == request.quantity
-0 <= filled_quantity <= requested_quantity
-order_status = OPEN
-execution_health_status = HEALTHY
-broker_order_id = known/non-empty
-current lifecycle = OPEN_UNPROTECTED
-position reconciliation = CONSISTENT
-no contradictory reconciliation evidence
+OPEN_UNPROTECTED -> EXIT
+OPEN_PROTECTED   -> EXIT
+PROFIT_PROTECTED -> EXIT
+EMERGENCY        -> EMERGENCY_EXIT
 ```
 
-Then the bridge applies only the existing transition:
+All wrong action/state combinations, `PENDING_ENTRY`, `EXIT_REQUESTED`, `CLOSED`, `RECONCILIATION_REQUIRED`, unknown lifecycle values and unsupported actions fail closed.
+
+### Exact actual quantity
+
+For valid close authority:
 
 ```text
-OPEN_UNPROTECTED + PROTECTION_VERIFIED -> OPEN_PROTECTED
+PositionAction.quantity = exact Position.actual_quantity
 ```
 
-If the original submit result was `UNKNOWN` / `RECONCILIATION_REQUIRED`, the queried OPEN/HEALTHY evidence must also have consistent exact reconciliation resolving the same client order to OPEN with `retry_allowed=false` before verification.
+The source Position must be `CONSISTENT`, positive/finite, canonical quantity-compatible with the parent plan, and not exceed the parent ApprovedTradePlan maximum. Original requested/plan-max/provider-native quantity is never substituted for current exposure.
 
-## Definitive failure / loss
+### Canonical close payload / lineage
 
-Exact healthy/unambiguous protection order statuses:
+Producer emits accepted `close-v0.1` fields, including exact:
 
 ```text
-REJECTED
-CANCELED
-EXPIRED
+schema_version = contracts-v0.1
+close_profile_version = close-v0.1
+action = EXIT | EMERGENCY_EXIT
+position_id
+trade_plan_id
+risk_decision_id
+strategy_id
+strategy_version
+risk_policy_version
+symbol
+position_side
+source_lifecycle_state
+position_observed_at
+position_reconciliation_status = CONSISTENT
+quantity
+quantity_profile_version = base-asset-v0.1
+quantity_unit = BASE_ASSET
+quantity_asset
+close_order_type = MARKET
+reason_codes
+created_at
+expires_at
+position_action_id
 ```
 
-map to existing semantics:
+Parent plan/risk/strategy lineage and exact source Position identity/side/lifecycle/observation/quantity semantics are revalidated fail closed.
+
+### E5 reason semantics
+
+Default deterministic E5 reason sequences:
 
 ```text
-OPEN_UNPROTECTED -> PROTECTION_FAILED -> EMERGENCY
-OPEN_PROTECTED   -> PROTECTION_LOST   -> EMERGENCY
-PROFIT_PROTECTED -> PROTECTION_LOST   -> EMERGENCY
+EXIT           -> [E5_EXIT_REQUESTED]
+EMERGENCY_EXIT -> [E5_EMERGENCY_EXIT_REQUIRED]
 ```
 
-The bridge does not resubmit or retry protection.
+An explicit non-empty deterministic E5 reason sequence may carry more specific E5 lifecycle/risk context. The exact sequence is identity-bearing; changed reason material changes `position_action_id`. Broker/E4/provider data does not select reasons.
 
-## Unknown / reconciliation-required truth
+### Identity / freshness
 
-These never verify protection:
+Identical logical authority material yields the same `position_action_id`. Changes in action type, parent/risk lineage, Position identity/side/lifecycle/observation, exact quantity semantics, reason sequence, policy or freshness material change identity.
 
-- query not performed;
-- authoritative query completed but order not found without sufficient definitive reconciliation;
-- UNKNOWN / RECONCILIATION_REQUIRED order status;
-- DEGRADED / UNKNOWN execution health;
-- request/client identity mismatch;
-- requested/fill quantity inconsistency;
-- contradictory reconciliation/query evidence;
-- current position reconciliation status not CONSISTENT;
-- malformed/non-protection request.
+Parent entry-plan TTL remains lineage only after exposure exists. The close action has independent `created_at` / `expires_at`; `expires_at > created_at`, creation cannot predate its source Position observation, and expired action material fails closed.
 
-For active states they use existing `STATE_UNKNOWN -> RECONCILIATION_REQUIRED`. If the state is already `RECONCILIATION_REQUIRED`, repeated ambiguous evidence leaves it there without inventing a new lifecycle self-transition.
+## Lifecycle boundary
 
-## Query-not-found distinction
-
-The E5-internal non-serialized `ProtectionResultEvidence.query_performed` flag preserves the required distinction:
+`authorize_close_position_action()` applies only existing:
 
 ```text
-query_performed = false
--> authoritative query not performed / unavailable
-
-query_performed = true + queried_order = None
--> authoritative query completed and exact order not found
+EXIT_REQUESTED
 ```
 
-The first is always unknown/reconciliation-required. The second is also unknown unless accompanying normalized reconciliation is sufficient to resolve the exact authority to a definitive inactive status; only then may existing failure/loss semantics be used.
+and yields `EXIT_REQUESTED` from normal open states or `EMERGENCY`. It never emits `POSITION_CLOSED` and does not mutate shared state-machine definitions.
 
-No new shared object or persisted DTO was introduced.
+Existing later semantics remain separate:
 
-## Triggered protective stop handling
+```text
+EXIT_REQUESTED + EXIT_FAILED -> EMERGENCY
+EXIT_REQUESTED + POSITION_CLOSED -> CLOSED
+```
 
-`PARTIALLY_FILLED` and `FILLED` are not mapped to `PROTECTION_FAILED` or `PROTECTION_LOST` and do not directly produce a protected state.
+No broker result interpretation, authoritative-flat proof or TradeResult production is implemented in this task.
 
-They remain fail-closed/reconciliation-required because the later authoritative position-close / TradeResult chain is outside this task.
+## Deterministic test definitions
 
-## Deterministic tests materialized
+`tests/position/test_close_action.py` covers at minimum:
 
-`tests/position/test_protection_result_bridge.py` defines coverage for:
-
-- submit OPEN without authoritative query -> never verified;
-- exact authoritative OPEN/HEALTHY -> PROTECTION_VERIFIED -> OPEN_PROTECTED;
-- missing broker order ID -> no verification;
-- order-request/client mismatch -> STATE_UNKNOWN/reconciliation-required;
-- UNKNOWN/RECONCILIATION_REQUIRED order status -> unknown path;
-- DEGRADED/UNKNOWN execution health -> unknown path;
-- initial REJECTED/CANCELED/EXPIRED -> PROTECTION_FAILED -> EMERGENCY;
-- already protected/profit-protected definitive inactive truth -> PROTECTION_LOST -> EMERGENCY;
-- query-not-performed versus query-not-found distinction;
-- sufficiently reconciled query-not-found definitive failure;
-- ambiguous submit requires consistent reconciliation before OPEN can verify;
-- contradictory reconciliation/query evidence never verifies;
-- PARTIALLY_FILLED/FILLED are not mislabeled as failure/loss;
-- repeated identical authoritative evidence is deterministic;
-- malformed/non-protection request fails closed;
-- unreconciled current position truth fails closed;
-- repeated unknown evidence preserves existing reconciliation-required state;
-- bridge API has no broker submit/query/retry dependency;
-- existing state-machine entry-fill transition remains unchanged.
-
-Tests use the accepted real E5 producer, E4 `prepare_protection_order`, and E4 shared `OrderResult` / `ReconciliationResult` model semantics.
+- OPEN_UNPROTECTED EXIT exact actual quantity and parent lineage;
+- OPEN_PROTECTED / PROFIT_PROTECTED ordinary EXIT;
+- EMERGENCY -> EMERGENCY_EXIT;
+- wrong action/lifecycle fail closed;
+- zero/negative/non-finite actual quantity fail closed;
+- UNKNOWN/MISMATCH/RECONCILIATION_REQUIRED Position truth fail closed;
+- over-approved actual exposure fail closed;
+- symbol/side/profile/unit/asset mismatch fail closed;
+- plan/risk/strategy lineage tamper fail closed;
+- independent close expiry despite expired parent entry TTL;
+- deterministic reason sequence and action identity;
+- identity changes on observation/quantity/reason/risk/action changes;
+- close creation reaches only EXIT_REQUESTED, never CLOSED;
+- existing EXIT_FAILED/POSITION_CLOSED transitions remain later separate evidence paths;
+- protection-v0.1 producer compatibility;
+- provider-native/credential fields absent.
 
 ## Executable verification
 
-Result: `NOT_RUN`
+Result:
 
-Reason: no explicitly PM/Product-Owner-approved AgentBridge Local Runner action pinned to this exact new target revision is exposed in this session. No project code/tests were executed through GitHub, arbitrary cloud compute, Computer Adapter, provider API, or live credentials.
+```text
+NOT_RUN
+```
+
+Reason: no explicitly PM/Product-Owner-approved AgentBridge Local Runner action pinned to this exact new target revision is exposed in this session. No project code/tests were executed.
 
 Exact future Windows PowerShell commands from repository root:
 
@@ -164,18 +160,6 @@ python -m unittest discover -s tests/safety -p "test_*.py" -v
 
 `NOT_RUN` is not PASS.
 
-## Release impact
-
-```text
-E5 protection-result lifecycle bridge = MATERIALIZED STATICALLY
-Protection failure -> EMERGENCY executable evidence = NOT_RUN
-Required protection follows actual filled quantity = NOT_RUN
-Gate B = BLOCKED / NOT YET PASS
-PAPER / SHADOW / LIVE = UNAUTHORIZED
-```
-
-No Gate B criterion is declared PASS by E5.
-
 ## GitHub compute / security
 
 - GitHub Actions / CI / hosted runner used: `NO`
@@ -185,4 +169,15 @@ No Gate B criterion is declared PASS by E5.
 - provider/private request used: `NO`
 - credentials used: `NO`
 
-E5 stops on `DONE` for `E5-20260824-012`. Do not self-start E7 integration, restart/persistence, E4 Fill lineage, Paper E2E, provider/private work, Gate C, PAPER, SHADOW, or LIVE.
+## Release impact
+
+```text
+E5 close-v0.1 producer = MATERIALIZED STATICALLY
+E4 close consumer = NOT IMPLEMENTED BY THIS TASK
+E5 authoritative-flat / trade-result-v0.1 builder = NOT IMPLEMENTED BY THIS TASK
+Paper E2E / durable audit = BLOCKED
+Gate B = BLOCKED / NOT YET PASS
+PAPER / SHADOW / LIVE = UNAUTHORIZED
+```
+
+E5 stops on `DONE` for `E5-20260824-014`. Do not self-start E4 close consumer, E5 TradeResult builder, E6 persistence, E7 Paper E2E, approved-local verification, provider/private work, Gate C, PAPER, SHADOW, or LIVE.

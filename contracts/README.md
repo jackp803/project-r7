@@ -8,7 +8,7 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, or funding allocation evidence.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, or lifecycle execution-evidence freshness.
 
 The first materialized baseline is:
 
@@ -22,6 +22,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 - [`FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`](./FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md) — `funding-allocation-v0.1` provider-neutral exact-interval funding evidence, completeness, identity, ownership, TradeResult binding, and persistence semantics
 - [`POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md) — `position-lifecycle-projection-v0.1` E5-owned lifecycle ordering/identity over unchanged E4 broker Position facts for deterministic persistence/restart
 - [`POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md) — normative exhaustive lifecycle state/event/kind consumer vocabulary for restart-authoritative `position-lifecycle-projection-v0.1`; unknown values fail closed
+- [`POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`](./POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md) — `position-lifecycle-execution-binding-v0.1` immutable E5 companion proof binding one lifecycle projection to the exact Position-linked E4 PROTECTION_STOP / POSITION_EXIT / EMERGENCY_EXIT OrderRequest, OrderResult-observation, and Fill snapshot it interpreted; changed durable execution evidence requires fresh E5 interpretation before restart `READY`
 
 ## Authority and ownership
 
@@ -45,6 +46,14 @@ For `position-lifecycle-projection-v0.1` specifically:
 - E6 persists/replays/indexes the serialized projection and enforces shared profile/vocabulary/ordering/conflict rules without deriving lifecycle or assigning revisions;
 - the exhaustive restart-authoritative lifecycle vocabulary is the E7-owned `POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`; E6 may validate membership but must not copy/import E5 transition semantics;
 - E7 owns profile/version/integration/release semantics.
+
+For `position-lifecycle-execution-binding-v0.1` specifically:
+
+- E4 remains authoritative for the canonical Position-linked OrderRequest / OrderResult / Fill facts;
+- E5 alone declares which exact execution-evidence snapshot it interpreted for one lifecycle projection and emits the immutable companion binding;
+- E6 may persist, recompute the fixed shared evidence snapshot from durable E4 objects, compare exact equality, and fail closed on mismatch; it must not map execution statuses/fills to lifecycle states;
+- the companion does not alter `lifecycle_projection_id` and is mandatory only when a consumer requires current Gate B restart-authoritative execution freshness;
+- changed/new in-scope durable execution evidence after the binding requires a new E5 TRANSITION or REATTESTATION plus a new companion binding before restart `READY` can be restored.
 
 ## Contract status
 
@@ -89,6 +98,7 @@ trade-result-v0.1
 linear-base-asset-pnl-v0.1
 funding-allocation-v0.1
 position-lifecycle-projection-v0.1
+position-lifecycle-execution-binding-v0.1
 ```
 
 An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.
@@ -119,7 +129,7 @@ Any cross-module change must follow this sequence:
 6. **ADR** — create/update an ADR when semantics, authority, state machines, or dependency direction materially change.
 7. **Contract revision** — update the canonical contract and version.
 8. **Tests** — add/adjust relevant local test definitions.
-9. **Local verification** — execute only on a local or Product-Owner-approved non-GitHub environment; otherwise record `NOT_RUN` and the exact command.
+9. **Local verification** — execute only on a local or Product-Owner-approved non-GitHub environment; otherwise record `NOT_RUN` and the exact local command.
 10. **Integration** — E7 accepts dependent revisions only after contract evidence is coherent.
 
 A temporary adapter may bridge versions when approved. A temporary duplicate model may not silently become permanent.
@@ -147,6 +157,7 @@ A consumer must:
 - never infer funding zero from missing/unavailable evidence;
 - never infer lifecycle ordering from persistence arrival order, storage timestamps, row IDs or unrelated execution rows;
 - never accept unsupported lifecycle state/event/kind as restart-authoritative;
+- when Gate B restart execution freshness is required, never claim the latest lifecycle projection is current if its `position-lifecycle-execution-binding-v0.1` companion is missing, conflicting, or differs from the current durable in-scope E4 execution snapshot;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy

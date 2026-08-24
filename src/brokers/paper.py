@@ -36,6 +36,10 @@ class UnknownOrderError(KeyError):
     pass
 
 
+class InvalidOrderTransitionError(RuntimeError):
+    pass
+
+
 @dataclass
 class _PaperOrder:
     request: OrderRequest
@@ -55,13 +59,28 @@ def _retry_token(client_order_id: str) -> str:
 class PaperBroker(Broker):
     """Deterministic in-memory broker for E4 contract and failure-path tests.
 
-    ambiguous_outcomes maps client_order_id -> whether the broker actually accepted
-    the order while the caller received an ambiguous acknowledgement. This lets
-    tests model both lost-ack-after-accept and no-accept cases without blind retry.
+    ``ambiguous_outcomes`` maps client_order_id -> whether the broker actually
+    accepted the order while the caller received an ambiguous acknowledgement.
+    ``rejected_outcomes`` maps client_order_id -> deterministic rejection reason
+    for a first submit that is definitively rejected before Paper acceptance.
+
+    These are Paper-only simulation controls. They do not alter the shared Broker
+    interface, infer E5 lifecycle meaning, or model provider/private semantics.
     """
 
-    def __init__(self, *, ambiguous_outcomes: Mapping[str, bool] | None = None) -> None:
+    def __init__(
+        self,
+        *,
+        ambiguous_outcomes: Mapping[str, bool] | None = None,
+        rejected_outcomes: Mapping[str, str] | None = None,
+    ) -> None:
         self._ambiguous_outcomes = dict(ambiguous_outcomes or {})
+        self._rejected_outcomes = dict(rejected_outcomes or {})
+        overlap = set(self._ambiguous_outcomes) & set(self._rejected_outcomes)
+        if overlap:
+            raise ValueError(
+                "one client_order_id cannot be configured for both ambiguous and rejected outcomes"
+            )
         self._submissions: dict[str, tuple[OrderRequest, OrderResult]] = {}
         self._orders: dict[str, _PaperOrder] = {}
         self._retry_tokens: dict[str, tuple[object, ...]] = {}
@@ -80,6 +99,27 @@ class PaperBroker(Broker):
             filled_quantity=Decimal("0"),
         )
         return _PaperOrder(request=request, result=result, fills=[])
+
+    def _new_rejected_order(self, request: OrderRequest, reason: str) -> _PaperOrder:
+        if not isinstance(reason, str) or not reason.strip():
+            raise ValueError("Paper rejection reason must be a non-empty sanitized string")
+        result = OrderResult(
+            schema_version=SCHEMA_VERSION,
+            order_request_id=request.order_request_id,
+            client_order_id=request.client_order_id,
+            broker_order_id=None,
+            order_status=OrderStatus.REJECTED,
+            observed_at=request.created_at,
+            execution_health_status=ExecutionHealthStatus.HEALTHY,
+            requested_quantity=request.quantity,
+            filled_quantity=Decimal("0"),
+            reject_reason=reason,
+        )
+        return _PaperOrder(request=request, result=result, fills=[])
+
+    def _store_order_result(self, order: _PaperOrder, result: OrderResult) -> None:
+        order.result = result
+        self._submissions[order.request.client_order_id] = (order.request, result)
 
     def submit_order(self, request: OrderRequest) -> OrderResult:
         if request.schema_version != SCHEMA_VERSION:
@@ -102,6 +142,13 @@ class PaperBroker(Broker):
                 return previous_result
             actual = self._orders.get(request.client_order_id)
             return actual.result if actual is not None else previous_result
+
+        rejection_reason = self._rejected_outcomes.get(request.client_order_id)
+        if rejection_reason is not None:
+            rejected = self._new_rejected_order(request, rejection_reason)
+            self._orders[request.client_order_id] = rejected
+            self._submissions[request.client_order_id] = (request, rejected.result)
+            return rejected.result
 
         if request.client_order_id in self._ambiguous_outcomes:
             accepted = self._ambiguous_outcomes[request.client_order_id]
@@ -142,6 +189,73 @@ class PaperBroker(Broker):
     def query_fills(self, client_order_id: str) -> tuple[Fill, ...]:
         order = self._orders.get(client_order_id)
         return () if order is None else tuple(order.fills)
+
+    def _terminalize_open_order(
+        self,
+        client_order_id: str,
+        *,
+        terminal_status: OrderStatus,
+        observed_at,
+    ) -> OrderResult:
+        if terminal_status not in {OrderStatus.CANCELED, OrderStatus.EXPIRED}:
+            raise ValueError("Paper terminal transition supports CANCELED or EXPIRED only")
+        require_utc(observed_at, "observed_at")
+        order = self._orders.get(client_order_id)
+        if order is None:
+            raise UnknownOrderError(client_order_id)
+
+        current = order.result.order_status
+        if current == terminal_status:
+            return order.result
+        if current == OrderStatus.PARTIALLY_FILLED:
+            raise InvalidOrderTransitionError(
+                "PARTIALLY_FILLED cannot be terminalized by this bounded Paper protection task"
+            )
+        if current == OrderStatus.FILLED:
+            raise InvalidOrderTransitionError(
+                "FILLED cannot be rewritten to CANCELED or EXPIRED"
+            )
+        if current in {OrderStatus.REJECTED, OrderStatus.CANCELED, OrderStatus.EXPIRED}:
+            raise InvalidOrderTransitionError(
+                f"terminal order {current.value} cannot transition to {terminal_status.value}"
+            )
+        if current != OrderStatus.OPEN:
+            raise InvalidOrderTransitionError(
+                f"only exact OPEN Paper orders can transition to {terminal_status.value}"
+            )
+        if observed_at < order.result.observed_at:
+            raise InvalidOrderTransitionError(
+                "terminal observation cannot precede the current order observation"
+            )
+
+        terminal = replace(
+            order.result,
+            order_status=terminal_status,
+            observed_at=observed_at,
+            execution_health_status=ExecutionHealthStatus.HEALTHY,
+        )
+        self._store_order_result(order, terminal)
+        return terminal
+
+    def cancel_order(self, client_order_id: str, *, observed_at) -> OrderResult:
+        """Paper-only deterministic OPEN -> CANCELED observation."""
+        return self._terminalize_open_order(
+            client_order_id,
+            terminal_status=OrderStatus.CANCELED,
+            observed_at=observed_at,
+        )
+
+    def expire_order(self, client_order_id: str, *, observed_at) -> OrderResult:
+        """Paper-only deterministic OPEN -> EXPIRED observation.
+
+        Expiry is an explicit Paper event. No ApprovedTradePlan or protection
+        authority TTL is consulted or reinterpreted here.
+        """
+        return self._terminalize_open_order(
+            client_order_id,
+            terminal_status=OrderStatus.EXPIRED,
+            observed_at=observed_at,
+        )
 
     def record_fill(
         self,
@@ -202,7 +316,7 @@ class PaperBroker(Broker):
             if new_filled == order.request.quantity
             else OrderStatus.PARTIALLY_FILLED
         )
-        order.result = replace(
+        updated = replace(
             order.result,
             order_status=status,
             observed_at=filled_at,
@@ -210,6 +324,7 @@ class PaperBroker(Broker):
             filled_quantity=new_filled,
             average_fill_price=average,
         )
+        self._store_order_result(order, updated)
         return fill
 
     def reconcile(
@@ -229,11 +344,17 @@ class PaperBroker(Broker):
             OrderStatus.UNKNOWN,
             OrderStatus.RECONCILIATION_REQUIRED,
         }:
+            authoritative_order = self.query_order(request.client_order_id)
+            resolved_status = (
+                authoritative_order.order_status
+                if authoritative_order is not None
+                else previous_result.order_status
+            )
             return ReconciliationResult(
                 client_order_id=request.client_order_id,
-                resolved_status=previous_result.order_status,
+                resolved_status=resolved_status,
                 retry_allowed=False,
-                reason="ORDER_NOT_AMBIGUOUS",
+                reason="ORDER_DEFINITIVE_NO_RETRY",
             )
 
         authoritative_order = self.query_order(request.client_order_id)

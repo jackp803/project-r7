@@ -56,6 +56,18 @@ The Gate B Paper durability slice is additive and does not replace or expand the
 - complete TradeResult referenced-object graph recovery;
 - missing entry/exit OrderRequest, missing entry/exit Fill, missing PositionAction, and reference-lineage mismatch failing closed before durable TradeResult acceptance/READY recovery.
 
+`test_paper_runtime_reference_remediation.py` defines the bounded E6-20260824-018 remediation regressions for:
+
+- a legacy/direct-SQL TradeResult row with duplicate/shape-invalid referenced graph material never recovering `READY`;
+- generic `TRADE_RESULT_REFERENCED_GRAPH_INVALID` downgrading a previously READY recovery to `INCOMPLETE`;
+- referenced `PROTECT / PROTECTION_STOP` PositionAction requiring exact `protection-v0.1` parent/policy/symbol lineage;
+- referenced `EXIT / POSITION_EXIT` and `EMERGENCY_EXIT / EMERGENCY_EXIT` PositionAction requiring exact `close-v0.1` parent/strategy/policy lineage;
+- missing required PositionAction lineage recovering/persisting fail-closed as incomplete/invalid;
+- mismatched required PositionAction lineage recovering as `CONFLICT`;
+- the valid E6-017 complete closed graph remaining definition-compatible.
+
+The E6-018 remediation does not alter the E6-017 lifecycle-execution-binding freshness definitions or E5 lifecycle semantics.
+
 `test_paper_runtime_conflict_and_time_ordering.py` preserves focused definitions for:
 
 - true `0001_strategy_registry.sql -> 0002_paper_runtime_durability.sql` additive migration;

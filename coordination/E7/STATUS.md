@@ -1,258 +1,231 @@
 # E7 Status
 
-- task_id: `E7-20260824-045`
+- task_id: `E7-20260824-047`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-gate-b-paper-trade-result-integration-20260824`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-045 before work and remained ACTIVE immediately before terminal write`
-- reviewed_main: `36e9c06ab4d614738bea9a2582e8493fdd3e6d9f`
-- reviewed_task_blob: `10da19325df595d401392247fbaff4a694dcaa50`
+- branch: `agent/e7-gate-b-position-lifecycle-ordering-contract-20260824`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-047 before work and remained ACTIVE immediately before terminal write`
+- reviewed_main: `0159ddb4afad4db02fa97a29b07ce8d952d68067`
+- reviewed_task_blob: `4496317ef1dddfcab450d21af154b9b68a51183f`
 - contracts_baseline: `contracts-v0.1 / BASELINE`
-- profiles: `protection-v0.1 / close-v0.1 / trade-result-v0.1 / linear-base-asset-pnl-v0.1 / funding-allocation-v0.1`
+- architecture_classification: `ADDITIVE_PROFILE_REQUIRED`
+- lifecycle_projection_profile: `position-lifecycle-projection-v0.1 / MATERIALIZED`
+- set_wide_schema_bump: `NO / schema_version remains contracts-v0.1`
+- pr56_blocker_diagnosis: `CONFIRMED`
+- position_lifecycle_durability_contract_rule: `RESOLVED STATIC`
+- e4_position_broker_truth_adaptation: `NONE REQUIRED`
+- e5_lifecycle_projection_producer: `IMPLEMENTATION GAP / NEXT DEPENDENCY`
+- e6_paper_runtime_durability: `BLOCKED / AFTER E5 PRODUCER`
+- restart_persistence: `BLOCKED`
+- paper_e2e_trade_result_durable_audit: `BLOCKED`
+- gate_a: `PASS / RESEARCH-INTEGRATION ONLY`
+- gate_b: `BLOCKED / NOT YET PASS`
+- gate_c: `BLOCKED / UNCHANGED`
+- gate_d: `BLOCKED / UNCHANGED`
+- paper_shadow_live: `UNAUTHORIZED`
+- provider_private_api: `NOT AUTHORIZED / NOT_SENT`
+- exchange_credentials: `NOT_USED`
 - project_executable_verification: `NOT_RUN`
 - local_job: `NOT_REQUESTED / TASK FORBIDS EXECUTION`
 - github_compute: `NOT_USED`
 - github_actions_ci_hosted_runner: `NOT_USED`
 - computer_adapter: `NOT_USED`
-- provider_private_api: `NOT AUTHORIZED / NOT_SENT`
-- exchange_credentials: `NOT_USED`
-- paper_shadow_live: `UNAUTHORIZED`
-- ordinary_exit_in_memory_trade_result: `IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN`
-- emergency_exit_in_memory_trade_result: `IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN`
-- protection_stop_in_memory_trade_result: `IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN`
-- funding_producer_consumer_chain: `PASS STATIC / IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN`
-- contract_or_semantic_gap: `NONE FOUND`
-- e4_e5_implementation_gap_in_supported_in_memory_closure_paths: `NONE FOUND`
-- restart_persistence: `BLOCKED / E6 IMPLEMENTATION_GAP`
-- paper_e2e_trade_result_durable_audit: `BLOCKED / E6 DURABILITY + APPROVED-LOCAL E2E EVIDENCE`
-- gate_a: `PASS / RESEARCH-INTEGRATION ONLY`
-- gate_b: `BLOCKED / NOT YET PASS`
-- gate_c: `BLOCKED / UNCHANGED`
-- gate_d: `BLOCKED / UNCHANGED`
-- required_protection_actual_fill: `NOT_RUN / unchanged`
-- protection_failure_emergency: `NOT_RUN / unchanged`
-- drawdown_daily_position_kill_switch: `NOT_RUN / unchanged`
 - e1_e6_production_changes_by_e7: `NONE`
-- contracts_adr_changes_by_e7: `NONE`
 - codex_ticket: `NONE`
 
-## Accepted prerequisites reviewed
+## Independent blocker decision
+
+PR #56 correctly identified a real shared semantic gap.
+
+Baseline Position contains E4-owned `broker_state_observed_at` and E5-owned `lifecycle_state`, but no serialized E5 lifecycle projection ordering authority.
+
+Accepted PR #55 proves that legitimate lifecycle-only changes may share the same exact broker observation:
 
 ```text
-PR #47 E5 close producer
-  merge e4caa0e1398f2a3cdf1209fa7bc74516f6a94d15
-PR #48 E4 close consumer + same-position residual/flat truth
-  merge 3f7bba953ece100d23c88b86b47df52696adb3a0
-PR #49 E5 TradeResult builder
-  merge a9edc5db9f31efb0c4a8a0c33d54766093c70392
-PR #51 funding-allocation-v0.1 contract
-  merge 6950824f6e2e7842718fc29f5e0808f9d8e7b04e
-PR #52 E4 canonical Paper ZERO_CONFIRMED funding producer
-  merge 844395fce0504573b5ee4932e3aca09101998080
-PR #53 E5 canonical funding consumer / audit binding
-  merge 84d12e4b7ef3638af6690d38f07ce27d10c54fcd
-PR #54 E4 PROTECTION_STOP same-position full-fill flat truth
-  merge 62605e7abc86f13a1f3102d057aece3d72d465f1
+T / OPEN_UNPROTECTED
+T / OPEN_PROTECTED
+T / EXIT_REQUESTED
 ```
 
-All executable verification for these accepted prerequisites remains NOT_RUN.
+Therefore E6 cannot safely use equal broker timestamp, row order, insertion time, persisted_at, auto-increment, last-write-wins, PositionAction.created_at, OrderResult.observed_at, or lifecycle reconstruction from other rows to choose restart-authoritative lifecycle state.
 
-## Static integration disposition
+## Materialized profile
 
-All three currently supported in-memory Paper closure paths now compose through real accepted production APIs without a synthetic replacement for order/fill/flat/funding truth:
+`contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`
+
+- commit: `722c504592caae6ed8d55f358931513d1154422b`
+- profile: `position-lifecycle-projection-v0.1`
+- additive under unchanged `contracts-v0.1`;
+- preserves E4 broker authority and E5 lifecycle authority;
+- defines E5-owned lifecycle revision/predecessor/identity/event/interpreted-time ordering;
+- allows multiple lifecycle revisions for one broker observation;
+- defines GENESIS / TRANSITION / REATTESTATION;
+- defines stale/gap/duplicate/conflict/restart/legacy behavior;
+- forbids E6 arrival-order authority or lifecycle reconstruction.
+
+Additional required profile fields:
 
 ```text
-1. ordinary EXIT
-   E5 EXIT authority
-   -> E4 POSITION_EXIT MARKET reduce-only request
-   -> PaperBroker actual full Fill
-   -> same-position authoritative flat Position
-   -> E4 canonical Paper funding evidence
-   -> E5 build_trade_result
-   -> POSITION_CLOSED / CLOSED
-
-2. EMERGENCY_EXIT
-   E5 EMERGENCY_EXIT authority + deterministic emergency reasons
-   -> E4 EMERGENCY_EXIT MARKET reduce-only request
-   -> PaperBroker actual full Fill
-   -> same-position authoritative flat Position
-   -> E4 canonical Paper funding evidence
-   -> E5 build_trade_result
-   -> POSITION_CLOSED / CLOSED
-
-3. full PROTECTION_STOP
-   E5 PROTECT authority
-   -> E4 PROTECTION_STOP request
-   -> PaperBroker submit/query OPEN truth
-   -> E5 interpret_protection_result
-   -> PROTECTION_VERIFIED / OPEN_PROTECTED
-   -> actual full PROTECTION_STOP Fill
-   -> PR #54 same-position authoritative flat Position
-   -> E4 canonical Paper funding evidence
-   -> E5 build_trade_result
-   -> PROTECTION_STOP_FILLED
-   -> POSITION_CLOSED / CLOSED
+position_lifecycle_projection_profile_version
+lifecycle_projection_id
+lifecycle_revision
+previous_lifecycle_projection_id
+lifecycle_projection_kind
+lifecycle_event
+lifecycle_interpreted_at
+lifecycle_source_broker_state_observed_at
 ```
 
-For the protection path, E7 projects only the real E5-owned lifecycle outcome onto the same Position mapping. The E4-owned `position_id`, `actual_quantity`, `broker_state_observed_at` and `reconciliation_status` facts are not fabricated or replaced.
+## Architecture ADR
 
-## Funding producer -> consumer result
+`docs/adr/ADR-0007-position-lifecycle-projection-ordering.md`
 
-PR #52 and PR #53 are statically compatible.
-
-The actual mapping returned by:
-
-```python
-produce_paper_zero_funding_evidence(...)
-```
-
-is directly consumable by:
-
-```python
-build_trade_result(..., funding_evidence=evidence)
-```
-
-without an E7 reconstruction or E5-private DTO.
-
-Exact shared semantics are preserved:
+- commit: `774f470e943ad81b2d6f4c751a6abc97f76b62de`
+- records the two independent authority/order axes:
 
 ```text
-schema_version = contracts-v0.1
-funding_evidence_profile_version = funding-allocation-v0.1
-source_kind = PAPER_MODEL
-source = R7_PAPER_FUNDING_MODEL
-source_version = paper-zero-funding-v0.1
-status = ZERO_CONFIRMED
-funding_cost = "0"
-cost_currency = USDT
-interval = [opened_at, closed_at)
-exact plan / position / symbol lineage
-canonical funding_evidence_id
+E4 broker ordering = broker_state_observed_at
+E5 lifecycle ordering = lifecycle_revision
 ```
 
-TradeResult records the exact funding evidence profile/ID/status. `calculated_at` is non-identity audit metadata; changing only it does not change the canonical funding evidence ID or TradeResult financial identity.
+- E6 may validate/persist but never allocate lifecycle order;
+- newer E4 broker truth without a corresponding E5 lifecycle projection/reattestation cannot be merged into a synthetic canonical Position.
 
-## Fail-closed behavior retained
+## Contract registry
 
-The current production chain/test definitions preserve at minimum:
+`contracts/README.md`
 
-- `OrderStatus.FILLED` without later exact same-position flat truth cannot finalize;
-- partial PROTECTION_STOP cannot emit ordinary `CONSISTENT` closure truth;
-- zero/untriggered protection cannot emit flat truth;
-- definitive rejected protection maps to `PROTECTION_FAILED -> EMERGENCY`, not CLOSED;
-- ambiguous/degraded protection without accepted reconciliation cannot verify/close;
-- missing/corrupt funding evidence cannot become zero;
-- cross-plan/cross-position/action/Fill/funding lineage mismatch fails closed;
-- quantity conservation remains required;
-- explicit fee evidence remains required;
-- no provider/private credential/network or release authority is inferred.
+- commit: `3f3a428b64f978bf7ed80f3bda3370e6768a01c0`
+- registers `position-lifecycle-projection-v0.1` and explicit E4/E5/E6/E7 ownership.
 
-## Persisted E7 outputs
+## Detailed evidence
 
-### Current integrated positive definitions
+`status/e7/GATE_B_POSITION_LIFECYCLE_ORDERING_CONTRACT_DECISION_20260824.md`
 
-`tests/integration/test_gate_b_paper_trade_result_integration.py`
+- commit: `e646facb80f4f4d867bce28f342195a46d68d195`
+- records independent PR #56 diagnosis, deterministic examples, replay/conflict rules, legacy handling and producer/consumer impact inventory.
 
-- commit: `0a7c89e35d4b3f53d831e24a258175e024383383`
-- defines ordinary EXIT, EMERGENCY_EXIT and verified full PROTECTION_STOP real in-memory chains to canonical TradeResult;
-- consumes real E4 funding evidence directly;
-- defines funding/TradeResult deterministic replay identity excluding `calculated_at`;
-- contains no persistence/restart/release-authority claim.
-
-### Current safety definitions
-
-`tests/safety/test_gate_b_paper_trade_result_safety.py`
-
-- commit: `f396e2d53628b5385954db099dcb406cb2d7a66a`
-- defines filled-without-flat, partial/untriggered/rejected/ambiguous protection, missing/corrupt funding, lineage mismatch, quantity conservation and fee-evidence fail-closed scenarios.
-
-### Superseded historical blocker test
-
-`tests/integration/test_gate_b_close_trade_result_chain.py`
-
-- commit: `5d30146cb373d6bce52c4b17f6d5ccea1d7dabce`
-- historical pre-PR #52/#54 blocker assumptions were retired so a later local suite does not assert obsolete behavior;
-- Git history remains the audit record.
-
-### Detailed E7 review evidence
-
-`status/e7/GATE_B_PAPER_TRADE_RESULT_INTEGRATION_REVIEW_20260824.md`
-
-- commit: `85852bd5ac8bd9133a9f6cfa06d7466b8474bc40`
-
-### Release-gate reconciliation
+## Release reconciliation
 
 `status/RELEASE_GATES.md`
 
-- commit: `7d2c3ffe4ccc0854acc8a8ebeeaaa9aa88450d43`
-- all three supported in-memory closure paths are `NOT_RUN / IMPLEMENTED_NEEDS_LOCAL_EVIDENCE`;
-- funding producer/consumer is `NOT_RUN / IMPLEMENTED_NEEDS_LOCAL_EVIDENCE`;
-- no executable status becomes PASS;
-- restart/persistence and durable Paper E2E remain BLOCKED;
-- Gate B remains BLOCKED / PAPER unauthorized.
-
-### Integration status
+- commit: `99b52b62f4115b2b94c3338d483e9fc3424c0d34`
+- Position lifecycle durability contract/rule is `RESOLVED STATIC`;
+- E5 lifecycle projection producer is still an implementation gap;
+- restart/persistence remains BLOCKED;
+- durable Paper E2E remains BLOCKED;
+- no executable NOT_RUN criterion becomes PASS;
+- Gate B remains BLOCKED and PAPER unauthorized.
 
 `status/INTEGRATION_STATUS.md`
 
-- commit: `e341ba17ffd6a0cd01768a0d57e9b59a2dfa0294`
-- records complete static in-memory composition, failure boundaries, exact E6 durability handoff and future approved-local commands.
+- commit: `0bb45e080fa6c7553125ad6970fcef172f3e08df`
+- records exact producer/consumer sequence and durable replay semantics.
 
-## Exact remaining Gate B dependency
+## Canonical ordering / replay rules
 
-There is no remaining E4/E5 domain or shared-contract gap in the three supported in-memory closure paths.
-
-The next bounded structural dependency for PM assignment is:
+### Broker axis
 
 ```text
-next_owner = E6
-bounded_dependency = durable Paper runtime persistence / restart / audit
+later broker_state_observed_at -> later E4 broker observation
+same time + identical E4 broker facts -> duplicate
+same time + changed E4 broker facts -> conflict / fail closed
 ```
 
-E7 does not issue that task.
-
-At minimum E6 must preserve exact immutable identities/payloads for:
+### Lifecycle axis
 
 ```text
-strategy_id + strategy_version
-risk_decision_id
-trade_plan_id
-position_id + lifecycle/reconciliation projection
-position_action_id
-order_request_id + client_order_id + broker_order_id when known
-OrderResult observation/reconciliation state
-fill_id + request/action/position/order-role lineage
-funding_evidence_id + funding lineage/source identity
-trade_result_id + exact funding_evidence_id binding
+revision 0 -> GENESIS
+revision n+1 -> exact predecessor + 1
 ```
 
-Funding replay/conflict semantics must remain:
+E5 owns revision allocation.
+
+Multiple revisions may share one broker observation timestamp.
+
+### Re-attestation
+
+When E4 broker facts advance but lifecycle state remains unchanged, E5 must explicitly emit a `REATTESTATION` projection. E6 may not copy the old lifecycle state onto newer broker facts by itself.
+
+### Replay/conflict
 
 ```text
-same funding_evidence_id + identical identity material -> idempotent replay
-same funding_evidence_id + different identity material -> corrupt/conflict / fail closed
-different funding_evidence_id for same exact lineage key -> reconciliation conflict / never last-write-wins
-existing durable TradeResult + later conflicting funding evidence -> no silent historical rewrite
+same revision + same ID + identical payload -> idempotent replay
+same revision + changed payload/ID -> conflict
+same ID + changed payload -> corrupt/conflict
+lower exact stored revision -> historical replay only
+lower changed revision -> stale branch conflict
+revision gap -> cannot advance
+predecessor mismatch -> branch/conflict
+higher lifecycle revision with older broker anchor -> stale/invalid
 ```
 
-Restart must restore exact state rather than recompute identities or infer zero/flat/closed/protected state from missing data.
+Current projection may advance only through the highest contiguous conflict-free E5 revision with exact predecessor chain and nondecreasing broker anchors.
 
-## Future approved-local verification
+## Producer / consumer impact
 
-Not run in this task. Relevant future commands after E6 durability prerequisites and explicit PM authorization:
+### E4
 
-```powershell
-$env:PYTHONPATH="src"
-python -m unittest discover -s tests/execution -p "test_*.py" -v
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
-python -m unittest discover -s tests/position -p "test_*.py" -v
-python -m unittest discover -s tests/integration -p "test_*.py" -v
-python -m unittest discover -s tests/safety -p "test_*.py" -v
-python -m unittest discover -s tests/storage -p "test_*.py" -v
+No production adaptation required. E4 keeps current Position broker facts and `broker_state_observed_at` semantics unchanged.
+
+### E5 — exact next dependency
+
+A bounded E5 task is required to materialize a canonical profile producer for:
+
+```text
+exact E4 Position
++ prior profiled Position when applicable
++ E5 lifecycle interpretation
+-> next position-lifecycle-projection-v0.1 Position
 ```
 
-These are not PASS evidence until executed against an exact approved revision in a Product Owner-approved local environment.
+It must cover at minimum:
 
-## Completion
+- GENESIS;
+- protection verified/failed/lost outcomes;
+- ordinary/emergency EXIT_REQUESTED;
+- supported reconciliation transitions;
+- final POSITION_CLOSED / CLOSED after TradeResult validation;
+- REATTESTATION on newer broker observations with unchanged lifecycle.
 
-E7 completed only `E7-20260824-045` and stops on `DONE`. E7 does not self-start E6 persistence/restart/audit, approved-local verification, Gate C, PAPER, SHADOW, LIVE or another task.
+### E6
+
+E6 durability implementation must wait for the E5 producer. After that it may persist exact profiled Position history/current projection and the rest of the canonical Paper runtime evidence graph without lifecycle recomputation.
+
+### E7
+
+PR #55 remains valid for non-durable in-memory semantics. Later durability/E2E definitions should consume the E5 profile producer instead of manually assigning `lifecycle_state` in a test mapping.
+
+## Legacy handling
+
+Legacy Positions without the profile remain historical/in-memory evidence only. They are not restart-authoritative Gate B current Position projections and must not be backfilled from storage row order.
+
+Safe profile entry requires:
+
+```text
+fresh E4 broker observation
+-> explicit E5 interpretation
+-> GENESIS revision 0
+```
+
+## Gate state
+
+```text
+Position lifecycle durability contract/rule = RESOLVED STATIC
+E5 profiled lifecycle producer = IMPLEMENTATION GAP / NEXT DEPENDENCY
+E6 durability implementation = BLOCKED pending E5 producer
+Restart/persistence preserves required state = BLOCKED
+Paper E2E closes to TradeResult and persists audit = BLOCKED
+Gate B = BLOCKED / NOT YET PASS
+PAPER / SHADOW / LIVE = UNAUTHORIZED
+```
+
+## Verification / completion
+
+No project code/tests were executed. No Local Runner, GitHub Actions/CI/hosted runner, GitHub-triggered compute, Computer Adapter, provider/private request or credential was used.
+
+```text
+project_executable_verification = NOT_RUN
+```
+
+E7 completed only `E7-20260824-047` and stops on `DONE`. E7 does not self-start the E5 projection producer, E6 persistence/restart/audit, full Paper E2E, approved-local verification, Gate C, PAPER, SHADOW, LIVE or another task.

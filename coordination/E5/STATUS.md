@@ -1,134 +1,99 @@
 # E5 Status
 
-- task_id: `E5-20260824-021`
+- task_id: `E5-20260824-023`
 - agent: `E5`
 - state: `DONE`
-- branch: `agent/e5-gate-b-position-lifecycle-projection-producer-20260824`
-- base_main_sha: `d4ad044566b64f160c29dbfb1cd7b1dd5da90925`
-- implementation_evidence_head_before_terminal_status: `a7df5f11b01c9476f4000f1e36e59ab6aaa55160`
-- summary: `Materialized the E5 position-lifecycle-projection-v0.1 producer/composition surface. E5 now emits deterministic GENESIS/TRANSITION/REATTESTATION Position projections with E5-owned contiguous lifecycle revisions, exact predecessor links, broker-anchor non-regression/equal-time conflict checks, and posproj_ content identity while preserving E4 broker facts. POSITION_CLOSED projection is structurally restricted to a successful real TradeResultBuildOutcome and exact flat CONSISTENT Position truth.`
-- files_changed: `src/position/lifecycle_projection.py; src/position/__init__.py; tests/position/test_lifecycle_projection.py; status/E5_GATE_B_POSITION_LIFECYCLE_PROJECTION_PRODUCER_20260824.md; coordination/E5/STATUS.md`
+- branch: `agent/e5-gate-b-lifecycle-execution-binding-producer-20260824`
+- base_main_sha: `67be8a6f34fca77456e2d21f5d36473b36c4918b`
+- implementation_evidence_head_before_terminal_status: `46cf736fd96798bd2bcabadf6e3665fbe7b615f5`
+- summary: `Materialized the E5 position-lifecycle-execution-binding-v0.1 companion producer. E5 can now deterministically bind one accepted lifecycle projection to the exact Position-linked E4 reduction-order OrderRequest/OrderResult/Fill snapshot it interpreted, with canonical hashes/counts/timestamps, deterministic posexecbind_ identity, entry-path exclusion, fail-closed identity/lineage/conflict validation, and GENESIS/TRANSITION/REATTESTATION composition helpers that preserve the accepted lifecycle projection semantics and identities.`
+- files_changed: `src/position/lifecycle_execution_binding.py; src/position/__init__.py; tests/position/test_lifecycle_execution_binding.py; status/E5_GATE_B_LIFECYCLE_EXECUTION_BINDING_PRODUCER_20260824.md; coordination/E5/STATUS.md`
 - contracts_changed: `NONE`
 - adr_changed: `NONE`
-- lifecycle_enum_or_transition_table_changed: `NO`
-- e4_or_broker_changed: `NO`
-- e6_storage_or_persistence_changed: `NO`
+- lifecycle_projection_identity_changed: `NO`
+- lifecycle_transition_semantics_changed: `NO`
+- e4_production_changed: `NO`
+- e6_storage_or_platform_changed: `NO`
 - provider_private_behavior_added: `NO`
 - paper_shadow_live_authority_changed: `NO`
 - local_verification: `NOT_RUN`
-- evidence_path: `status/E5_GATE_B_POSITION_LIFECYCLE_PROJECTION_PRODUCER_20260824.md`
+- evidence_path: `status/E5_GATE_B_LIFECYCLE_EXECUTION_BINDING_PRODUCER_20260824.md`
 - next_owner: `PM/E7`
 
 ## Implemented boundary
 
 ```text
-exact E4 Position broker observation
-+ exact prior position-lifecycle-projection-v0.1 Position when applicable
-+ real E5 lifecycle interpretation/outcome
--> canonical position-lifecycle-projection-v0.1 Position
+exact position-lifecycle-projection-v0.1 Position
++ exact E4 Position-linked reduction OrderRequest evidence considered by E5
++ complete canonical OrderResult observation sets considered by E5
++ complete canonical Fill sets considered by E5
+-> immutable position-lifecycle-execution-binding-v0.1 companion
 ```
 
-## Canonical producer behavior
-
-### GENESIS
+## Companion contract
 
 ```text
-lifecycle_revision = 0
-previous_lifecycle_projection_id = null
-lifecycle_projection_kind = GENESIS
-lifecycle_event = null
+schema_version = contracts-v0.1
+lifecycle_execution_binding_profile_version = position-lifecycle-execution-binding-v0.1
+execution_scope = POSITION_LINKED_REDUCTION_ORDERS_V0_1
 ```
 
-The source must be an exact unprofiled canonical Position. E5 explicitly supplies the lifecycle interpretation and UTC interpretation time; revision/ID are not caller-controlled.
-
-### TRANSITION
-
-For ordinary lifecycle changes:
+The binding references exactly the existing projection through:
 
 ```text
-lifecycle_revision = previous + 1
-previous_lifecycle_projection_id = exact previous ID
-lifecycle_projection_kind = TRANSITION
-lifecycle_event = exact canonical PositionEvent
-lifecycle_state = transition(previous.lifecycle_state, lifecycle_event)
+position_id
+lifecycle_projection_id
+lifecycle_revision
+execution_interpreted_at == lifecycle_interpreted_at
 ```
 
-The producer directly reuses the existing canonical E5 state machine. It supports the current real E5 protection/close/unknown outcomes and compatible reconciliation/profit-protection events without duplicating transition semantics.
+No field was added to the lifecycle projection itself and no accepted `lifecycle_projection_id` was rewritten.
 
-### CLOSED transition guard
+## Evidence scope and canonical snapshot
 
-Generic `build_position_lifecycle_transition()` rejects caller-supplied `POSITION_CLOSED` with:
+In-scope requests require:
 
 ```text
-TRADE_RESULT_CLOSURE_OUTCOME_REQUIRED
+position_id == projection.position_id
+authorization_type == POSITION_ACTION
+order_role in {PROTECTION_STOP, POSITION_EXIT, EMERGENCY_EXIT}
 ```
 
-`build_position_lifecycle_closed_transition()` requires a real successful E5 `TradeResultBuildOutcome` with `POSITION_CLOSED -> CLOSED`, exact TradeResult/Position identity, exact flat `actual_quantity=0`, `reconciliation_status=CONSISTENT`, and exact flat observation binding before producing the CLOSED projection.
+Clean pre-position entry-v0.1 request/result/fill evidence is excluded and is not associated by `trade_plan_id` heuristics.
 
-### REATTESTATION
+The producer materializes:
+
+- complete canonical OrderRequest payload SHA-256;
+- full OrderResult logical observation sets `(observed_at, payload_hash)` sorted by semantic UTC time/hash;
+- full Fill logical sets `(fill_id, filled_at, payload_hash)` sorted by fill time/ID;
+- exact logical counts and latest semantic timestamps;
+- lexicographically sorted `order_evidence`;
+- `execution_snapshot_hash` over exact scope/position/order-evidence material;
+- deterministic `posexecbind_<sha256>` binding identity over the complete binding excluding only its ID.
+
+Exact duplicate result/fill replay is idempotent. Equal-time changed OrderResult, changed Fill identity, changed OrderRequest identity, unsupported/noncanonical payload material, or request/result/fill lineage mismatch fails closed.
+
+## Lifecycle composition
+
+Existing accepted E5 lifecycle projection production remains authoritative and unchanged.
+
+E5 now has bounded composition helpers for:
 
 ```text
-lifecycle_revision = previous + 1
-previous_lifecycle_projection_id = exact previous ID
-lifecycle_projection_kind = REATTESTATION
-lifecycle_event = null
-lifecycle_state = previous E5 lifecycle state
-broker anchor >= previous broker anchor
+GENESIS + binding
+TRANSITION + binding
+REATTESTATION + binding
 ```
 
-A newer E4 broker observation may update broker facts, but E5 explicitly re-attests lifecycle; E6/storage arrival order is never lifecycle authority.
+When execution evidence advances without a lifecycle-state change, equal-broker-anchor REATTESTATION can allocate the next lifecycle revision and emit a new binding. When E5 interpretation changes lifecycle, the existing TRANSITION semantics are used before emitting the matching new binding.
 
-## Broker fact / ordering safety
-
-E5 preserves current canonical E4-owned Position facts unchanged.
-
-```text
-same broker timestamp + same broker facts
--> lifecycle-only revision allowed
-
-same broker timestamp + changed broker facts
--> fail closed / EQUAL_TIME_BROKER_FACT_CONFLICT
-
-older broker timestamp
--> fail closed / BROKER_OBSERVATION_REGRESSION
-```
-
-No SQLite row order, `persisted_at`, last-write-wins, provider field or storage revision is used.
-
-## Identity / validation
-
-`lifecycle_projection_id` is deterministic:
-
-```text
-complete serialized profiled Position except lifecycle_projection_id
--> sorted compact UTF-8 JSON
--> SHA-256
--> posproj_<lowercase hex>
-```
-
-The producer/validator rejects unsupported profile/state/event/kind, malformed revision/predecessor, invalid ID, broker-anchor mismatch/regression, noncanonical timestamps/decimals, invalid event/state edges and unknown undeclared Position fields.
-
-Public producer APIs do not accept caller-provided `lifecycle_revision` or `lifecycle_projection_id`.
+Older projections/bindings are not mutated to claim later evidence.
 
 ## Tests materialized
 
-`tests/position/test_lifecycle_projection.py` defines deterministic coverage for:
+`tests/position/test_lifecycle_execution_binding.py` defines deterministic coverage for the task-required empty/protection/partial/full/inactive/explicit-close/reattestation/ordering/idempotency/conflict/lineage/entry-exclusion/profile-reference/noncanonical-value scenarios.
 
-- GENESIS/profile/revision/predecessor/identity/idempotent replay;
-- real `interpret_protection_result()` verified/failure/loss/unknown outcomes;
-- profit protection transition compatibility;
-- real `authorize_close_position_action()` ordinary/emergency EXIT_REQUESTED;
-- supported reconciliation transition;
-- real successful `build_trade_result()` closure requirement;
-- generic manual POSITION_CLOSED rejection;
-- exact flat CLOSED projection;
-- REATTESTATION on newer broker truth;
-- multiple lifecycle revisions on one broker observation;
-- broker anchor regression/equal-time broker conflict;
-- corrupt previous profile/ID/revision/predecessor;
-- invalid event/state edge;
-- deterministic identity/timestamp checks;
-- no E6/storage/provider/release/caller revision or ID authority.
+Existing lifecycle projection, protection, close, TradeResult and state-machine production files are otherwise unchanged.
 
 ## Executable verification
 
@@ -136,15 +101,13 @@ Public producer APIs do not accept caller-provided `lifecycle_revision` or `life
 local_verification = NOT_RUN
 ```
 
-Reason: no explicitly PM/Product-Owner-approved AgentBridge Local Runner action pinned to this exact target revision is exposed in this session. No project code/tests were executed.
+No separate Product-Owner/PM-approved exact-revision Local Runner action is available in this session. No project code/tests were executed.
 
-Exact future Windows PowerShell commands from repository root:
+Exact future Windows PowerShell command from repository root:
 
 ```powershell
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests/position -p "test_*.py" -v
-python -m unittest discover -s tests/risk -p "test_*.py" -v
-python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
 `NOT_RUN != PASS`.
@@ -153,22 +116,20 @@ python -m unittest discover -s tests/safety -p "test_*.py" -v
 
 - GitHub Actions / CI / hosted runner used: `NO`
 - GitHub-triggered self-hosted compute used: `NO`
-- arbitrary cloud project execution used: `NO`
-- Computer Adapter used: `NO`
-- provider/private API used: `NO`
-- credentials used: `NO`
+- provider/private API/network used: `NO`
+- credentials used/stored: `NO`
 
 ## Release impact
 
 ```text
-position-lifecycle-projection-v0.1 contract = ACCEPTED / prior PR #57
-E5 lifecycle projection producer = MATERIALIZED STATICALLY
-E6 durable Paper persistence/restart/audit = LATER DEPENDENCY / NOT IMPLEMENTED HERE
-Restart/persistence preserves required state = BLOCKED pending E6 + approved-local evidence
+E7 execution-lifecycle freshness contract = RESOLVED STATIC / PR #63
+E5 binding producer = MATERIALIZED / executable NOT_RUN
+E6 mechanical binding consumer/recovery = SEPARATE / NOT DONE HERE
+E6 TradeResult graph-completeness repair = SEPARATE / STILL BLOCKED
+Restart/persistence executable criterion = BLOCKED / NOT_RUN
 Paper E2E durable audit = BLOCKED
-approved-local Gate B verification = NOT_RUN
 Gate B = BLOCKED / NOT YET PASS
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-E5 stops on `DONE` for `E5-20260824-021`. Do not self-start E6 persistence/migrations/restart/audit, E7 durability/E2E work, approved-local verification, provider/private work, Gate C, PAPER, SHADOW or LIVE.
+E5 stops on `DONE` for `E5-20260824-023`. Do not self-start E6 consumer work, E7 integration, approved-local verification, Gate C, provider/private APIs, PAPER, SHADOW or LIVE.

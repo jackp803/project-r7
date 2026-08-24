@@ -2,7 +2,7 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
-> Current reconciliation: 2026-08-24 / `E7-20260824-040`  
+> Current reconciliation: 2026-08-24 / `E7-20260824-041`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
@@ -57,9 +57,13 @@ Relevant accepted prerequisites include:
 - E5 close producer PR `#47`, merge `e4caa0e1398f2a3cdf1209fa7bc74516f6a94d15`;
 - E4 close consumer/residual-flat truth PR `#48`, merge `3f7bba953ece100d23c88b86b47df52696adb3a0`;
 - E5 TradeResult builder PR `#49`, merge `a9edc5db9f31efb0c4a8a0c33d54766093c70392`;
-- E7 review `status/e7/GATE_B_TRADE_RESULT_INTEGRATION_REVIEW_20260824.md`.
+- E7 blocker review PR `#50` / `status/e7/GATE_B_TRADE_RESULT_INTEGRATION_REVIEW_20260824.md`;
+- E7 funding contract decision `E7-20260824-041`:
+  - `contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`;
+  - `docs/adr/ADR-0006-funding-allocation-evidence-boundary.md`;
+  - `status/e7/GATE_B_FUNDING_EVIDENCE_CONTRACT_DECISION_20260824.md`.
 
-All new close/TradeResult executable evidence remains `NOT_RUN`.
+All close/funding executable evidence remains `NOT_RUN`.
 
 ### Canonical Gate B criteria
 
@@ -76,11 +80,41 @@ All new close/TradeResult executable evidence remains `NOT_RUN`.
 | Stale/unknown market state blocks exposure | NOT_RUN | local safety evidence required |
 | Unknown order/position state blocks new exposure | NOT_RUN | local safety/reconciliation evidence required |
 | Drawdown/daily/position/kill-switch rules enforced | NOT_RUN | criterion-level definitions exist; local evidence required |
-| Restart/persistence preserves required state | BLOCKED | E6 remains early Slice 2 Registry/CANDIDATE persistence only; no durable Paper runtime state/restart |
-| Paper E2E closes to TradeResult and persists audit | BLOCKED | explicit EXIT/EMERGENCY close-to-flat is materialized, but a governed funding evidence boundary/producer is missing, PROTECTION_STOP lacks real same-position flat observation, E6 durable Paper persistence/audit is absent, and full E7 E2E/local evidence is incomplete |
-| GitHub CI/Actions not used for verification | PASS | hard policy remains satisfied by E7-040 |
+| Restart/persistence preserves required state | BLOCKED | E6 remains early Slice 2 Registry/CANDIDATE persistence only; no durable Paper Position/Action/Order/Fill/Funding/TradeResult runtime state/restart |
+| Paper E2E closes to TradeResult and persists audit | BLOCKED | funding shared semantics are now defined, but E4 canonical Paper funding producer is not implemented, E5 has not yet adapted its builder to consume the shared evidence, PROTECTION_STOP lacks real same-position flat observation, E6 durable Paper persistence/audit is absent, and full E7 E2E/local evidence remains incomplete |
+| GitHub CI/Actions not used for verification | PASS | hard policy remains satisfied by E7-041 |
 
-### E7-040 close-to-TradeResult decomposition
+### E7-041 funding evidence decision
+
+```text
+funding evidence shared boundary
+= RESOLVED BY CONTRACT
+
+versioning
+= ADDITIVE_PROFILE_REQUIRED
+schema_version = contracts-v0.1
+profile = funding-allocation-v0.1
+
+funding canonical producer
+= IMPLEMENTATION_GAP / next_owner=E4
+
+E5 shared-evidence consumer adaptation
+= IMPLEMENTATION_GAP / later E5 task
+```
+
+The profile defines exact provider-neutral source/completeness/position/plan/interval/status/cost/currency/identity/conflict semantics. It forbids empty/unavailable source results from becoming zero evidence.
+
+Canonical interval is:
+
+```text
+[TradeResult.opened_at, TradeResult.closed_at)
+```
+
+with `ZERO_CONFIRMED` requiring explicit complete zero authority, not missing rows.
+
+The first Gate B producer is expected to be an E4-owned local versioned Paper funding model requiring no provider credentials/private API.
+
+### Close-to-TradeResult decomposition
 
 ```text
 ordinary EXIT close-to-authoritative-flat
@@ -90,16 +124,11 @@ EMERGENCY_EXIT close-to-authoritative-flat
 = IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN
 
 ordinary/EMERGENCY final TradeResult system chain
-= BLOCKED / FUNDING_EVIDENCE_SHARED_BOUNDARY_MISSING
+= BLOCKED / E4 FUNDING PRODUCER + E5 CONSUMER ADAPTATION + E6 PERSISTENCE
 
 PROTECTION_STOP -> authoritative same-position flat -> TradeResult
 = BLOCKED / E4 IMPLEMENTATION_GAP
-
-funding evidence producer/source
-= CONTRACT_OR_SEMANTIC_GAP / next_owner=E7
 ```
-
-The current E5 `FundingEvidence` is explicitly an E5-internal validation type, while current E4 Broker/PaperBroker and E6 persistence expose no governed provider-neutral producer/source. E4/E6 must not silently depend on a private E5 DTO or undocumented mapping.
 
 Key safety rules remain:
 
@@ -108,6 +137,8 @@ OrderStatus.FILLED != flat Position proof
 same-position actual_quantity=0 + CONSISTENT truth is required
 flat observation >= latest exit Fill
 missing fee/funding evidence cannot silently become zero
+funding source must prove complete exact-interval coverage
+conflicting funding evidence is not last-write-wins
 ```
 
 ### Current Gate B state
@@ -115,7 +146,7 @@ missing fee/funding evidence cannot silently become zero
 ```text
 Gate B = BLOCKED / NOT YET PASS
 PAPER = UNAUTHORIZED
-project executable verification = NOT_RUN / NOT REQUIRED FOR E7-040 STATIC REVIEW
+project executable verification = NOT_RUN / NOT REQUIRED FOR E7-041 STATIC CONTRACT DECISION
 ```
 
 No executable `NOT_RUN` is converted to PASS.
@@ -128,7 +159,7 @@ No executable `NOT_RUN` is converted to PASS.
 BLOCKED / UNCHANGED
 ```
 
-Gate B is not PASS. No provider/private scope is opened by E7-040.
+Gate B is not PASS. No provider/private scope is opened by E7-041.
 
 ---
 
@@ -138,7 +169,7 @@ Gate B is not PASS. No provider/private scope is opened by E7-040.
 BLOCKED / UNCHANGED
 ```
 
-Gate C is not PASS and Product Owner LIVE approval is absent. No LIVE authority changes in E7-040.
+Gate C is not PASS and Product Owner LIVE approval is absent. No LIVE authority changes in E7-041.
 
 ---
 

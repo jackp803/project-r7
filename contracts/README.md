@@ -8,17 +8,18 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, or release evidence.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, or funding allocation evidence.
 
 The first materialized baseline is:
 
 - [`SHARED_CONTRACTS_V1.md`](./SHARED_CONTRACTS_V1.md)
 
-Compatible executable object-profile refinements currently registered under that baseline:
+Compatible executable/evidence object-profile refinements currently registered under that baseline:
 
 - [`EXECUTION_OBJECT_PROFILES_V0_1.md`](./EXECUTION_OBJECT_PROFILES_V0_1.md) — `entry-v0.1` + `base-asset-v0.1`
 - [`PROTECTION_OBJECT_PROFILE_V0_1.md`](./PROTECTION_OBJECT_PROFILE_V0_1.md) — `protection-v0.1` actual-fill PositionAction -> protective OrderRequest semantics
 - [`CLOSE_TRADE_RESULT_PROFILE_V0_1.md`](./CLOSE_TRADE_RESULT_PROFILE_V0_1.md) — `close-v0.1` + `trade-result-v0.1` + `linear-base-asset-pnl-v0.1` close authority, authoritative flatness, fill-set closure, and canonical TradeResult semantics
+- [`FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`](./FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md) — `funding-allocation-v0.1` provider-neutral exact-interval funding evidence, completeness, identity, ownership, TradeResult binding, and persistence semantics
 
 ## Authority and ownership
 
@@ -27,6 +28,13 @@ Compatible executable object-profile refinements currently registered under that
 - Domain producers own production of valid contract instances inside their domain.
 - Domain consumers must reject incompatible/invalid contract instances rather than guessing missing semantics.
 - A domain agent may not create a permanent parallel shared model merely to avoid requesting a contract change.
+
+For `funding-allocation-v0.1` specifically:
+
+- E4 owns Paper/provider funding-source acquisition, completeness, normalization, interval allocation and canonical evidence emission;
+- E5 validates/consumes canonical funding evidence for TradeResult but does not manufacture source truth;
+- E6 persists/replays/audits evidence but does not invent or rewrite funding truth;
+- E7 owns profile/version/release semantics.
 
 ## Contract status
 
@@ -51,7 +59,7 @@ Every serialized shared object must carry `schema_version` once executable imple
 
 ### Compatible object-profile versioning
 
-A previously underspecified nested/optional semantic may be refined through an E7-approved **object profile** without forcing an unrelated set-wide schema bump only when all of the following hold:
+A previously underspecified nested/optional semantic or previously undefined evidence family may be refined through an E7-approved **object profile** without forcing an unrelated set-wide schema bump only when all of the following hold:
 
 1. the parent contract did not already guarantee a conflicting meaning;
 2. profile fields/identifiers are additive;
@@ -69,6 +77,7 @@ protection-v0.1
 close-v0.1
 trade-result-v0.1
 linear-base-asset-pnl-v0.1
+funding-allocation-v0.1
 ```
 
 An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.
@@ -80,7 +89,7 @@ Unless an approved ADR says otherwise:
 - field names use `snake_case`;
 - timestamps are RFC 3339 UTC strings ending in `Z` at interchange boundaries;
 - internal timezone is UTC;
-- price, quantity, notional, margin, fee, PnL, and other financial decimals serialize as base-10 decimal strings, not binary floating-point JSON numbers;
+- price, quantity, notional, margin, fee, PnL, funding and other financial decimals serialize as base-10 decimal strings, not binary floating-point JSON numbers;
 - identifiers are opaque strings and must not encode business meaning that consumers depend on;
 - enums are explicit uppercase strings;
 - unknown required enum/state values fail closed;
@@ -113,7 +122,7 @@ A producer must:
 - emit only fields/values valid for the declared schema/profile version;
 - preserve required units/time semantics;
 - not manufacture valid-looking values when source state is unknown;
-- expose degraded/unknown state explicitly;
+- expose degraded/unknown state explicitly or withhold a final evidence object where the profile requires completeness;
 - keep immutable identities immutable.
 
 ### Consumers
@@ -124,6 +133,7 @@ A consumer must:
 - reject or safely degrade on incompatible required semantics;
 - never infer LIVE authority from credentials, strategy success, or UI state;
 - never treat `UNKNOWN` as healthy;
+- never infer funding zero from missing/unavailable evidence;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy

@@ -2,7 +2,7 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
-> Current reconciliation: 2026-08-24 / `E7-20260824-045`  
+> Current reconciliation: 2026-08-24 / `E7-20260824-047`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
@@ -46,7 +46,7 @@ Accepted evidence remains PR #32 execution evidence plus PR #33 E7 evidence revi
 
 Purpose: authorize controlled paper-trading integration only. No real order submission.
 
-### Current accepted static chain
+### Accepted static prerequisites
 
 Relevant accepted prerequisites include:
 
@@ -54,17 +54,21 @@ Relevant accepted prerequisites include:
 - E5 risk-limit definitions PR `#35`;
 - protection chain PR `#37` through `#45`;
 - close/TradeResult contract PR `#46`;
-- E5 close producer PR `#47`, merge `e4caa0e1398f2a3cdf1209fa7bc74516f6a94d15`;
-- E4 close consumer/residual-flat truth PR `#48`, merge `3f7bba953ece100d23c88b86b47df52696adb3a0`;
-- E5 TradeResult builder PR `#49`, merge `a9edc5db9f31efb0c4a8a0c33d54766093c70392`;
-- E7 close-to-TradeResult blocker review PR `#50`;
-- funding-allocation-v0.1 contract PR `#51`, merge `6950824f6e2e7842718fc29f5e0808f9d8e7b04e`;
-- E4 canonical Paper ZERO_CONFIRMED producer PR `#52`, merge `844395fce0504573b5ee4932e3aca09101998080`;
-- E5 canonical funding consumer PR `#53`, merge `84d12e4b7ef3638af6690d38f07ce27d10c54fcd`;
-- E4 PROTECTION_STOP same-position full-fill flat truth PR `#54`, merge `62605e7abc86f13a1f3102d057aece3d72d465f1`;
-- E7 current integration review: `status/e7/GATE_B_PAPER_TRADE_RESULT_INTEGRATION_REVIEW_20260824.md`.
+- E5 close producer PR `#47`;
+- E4 close consumer/residual-flat truth PR `#48`;
+- E5 TradeResult builder PR `#49`;
+- funding-allocation-v0.1 contract PR `#51`;
+- E4 canonical Paper funding producer PR `#52`;
+- E5 canonical funding consumer PR `#53`;
+- E4 PROTECTION_STOP same-position full-fill flat truth PR `#54`;
+- E7 complete in-memory Paper integration PR `#55 / merge d6302eb89b9319bfd00d5c26e315bd2fe1923b65`;
+- E6 durability blocker PR `#56 / merge 649ae522b71f3992e48b81882662b6d7d0222324`;
+- E7 lifecycle durability contract decision `E7-20260824-047`:
+  - `contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`;
+  - `docs/adr/ADR-0007-position-lifecycle-projection-ordering.md`;
+  - `status/e7/GATE_B_POSITION_LIFECYCLE_ORDERING_CONTRACT_DECISION_20260824.md`.
 
-All new Gate B executable evidence remains `NOT_RUN`.
+All relevant executable verification remains `NOT_RUN`.
 
 ### Canonical Gate B criteria
 
@@ -81,81 +85,78 @@ All new Gate B executable evidence remains `NOT_RUN`.
 | Stale/unknown market state blocks exposure | NOT_RUN | approved-local safety evidence required |
 | Unknown order/position state blocks new exposure | NOT_RUN | approved-local safety/reconciliation evidence required |
 | Drawdown/daily/position/kill-switch rules enforced | NOT_RUN | criterion-level definitions exist; local evidence required |
-| Ordinary EXIT in-memory close -> canonical TradeResult | NOT_RUN | E5 authority -> E4 MARKET reduce-only -> real Paper Fill -> authoritative same-position flat -> E4 funding-allocation-v0.1 -> E5 TradeResult is statically materialized; approved-local evidence required |
-| EMERGENCY_EXIT in-memory close -> canonical TradeResult | NOT_RUN | distinct emergency authority/reasons/order role survive the same real in-memory chain; approved-local evidence required |
-| Full verified PROTECTION_STOP trigger -> canonical TradeResult | NOT_RUN | real protection verification -> real full protective Fill -> PR #54 same-position flat truth -> E4 funding evidence -> E5 TradeResult is statically materialized; approved-local evidence required |
-| Funding producer -> consumer compatibility | NOT_RUN | PR #52 canonical E4 funding object is directly consumed by PR #53 E5 builder with exact identity/audit binding; approved-local evidence required |
-| Restart/persistence preserves required state | BLOCKED | E6 remains early Slice 2 Registry persistence only; no durable Paper Position/Action/Order/Fill/Funding/TradeResult state graph or restart recovery |
-| Paper E2E closes to TradeResult and persists audit | BLOCKED | in-memory close-to-TradeResult is statically materialized, but E6 durable runtime persistence/restart/audit and approved-local E2E evidence are absent |
-| GitHub CI/Actions not used for verification | PASS | hard policy remains satisfied by E7-045 |
+| Ordinary EXIT in-memory close -> canonical TradeResult | NOT_RUN | statically materialized through real E4/E5/Paper/funding path; approved-local evidence required |
+| EMERGENCY_EXIT in-memory close -> canonical TradeResult | NOT_RUN | statically materialized through real E4/E5/Paper/funding path; approved-local evidence required |
+| Full verified PROTECTION_STOP trigger -> canonical TradeResult | NOT_RUN | statically materialized through real verification/fill/flat/funding/result path; approved-local evidence required |
+| Funding producer -> consumer compatibility | NOT_RUN | E4 canonical funding evidence is directly consumed by E5 with exact identity/audit binding; approved-local evidence required |
+| Position lifecycle durability ordering contract/rule | PASS STATIC / RESOLVED | `position-lifecycle-projection-v0.1` + ADR-0007 resolve the shared ordering/authority semantic gap; this is not executable PASS evidence |
+| E5 durability-eligible Position lifecycle projection producer | BLOCKED | bounded E5 implementation is required to emit GENESIS/TRANSITION/REATTESTATION profiled Position projections; no E4 change required |
+| Restart/persistence preserves required state | BLOCKED | E6 cannot implement safe Paper current Position/restart until the E5 profiled lifecycle projection producer exists; E6 Paper runtime durability remains unimplemented |
+| Paper E2E closes to TradeResult and persists audit | BLOCKED | in-memory close-to-TradeResult is statically materialized, but E5 durability projection producer, E6 durable runtime persistence/restart/audit, and approved-local E2E evidence remain absent |
+| GitHub CI/Actions not used for verification | PASS | hard policy remains satisfied by E7-047 |
 
-### E7-045 in-memory Paper integration disposition
+### E7-047 lifecycle durability decision
 
-```text
-ordinary EXIT in-memory close -> TradeResult
-= IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN
+PR #56 blocker diagnosis is confirmed.
 
-EMERGENCY_EXIT in-memory close -> TradeResult
-= IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN
+The baseline allows legitimate lifecycle-only changes with the same E4 `broker_state_observed_at`, so storage arrival order cannot decide authoritative Position lifecycle.
 
-full verified PROTECTION_STOP trigger -> TradeResult
-= IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN
-
-funding producer -> consumer
-= IMPLEMENTED_NEEDS_LOCAL_EVIDENCE / NOT_RUN
-
-CONTRACT_OR_SEMANTIC_GAP = NO
-E4/E5 IMPLEMENTATION_GAP IN THESE THREE IN-MEMORY PATHS = NO
-```
-
-The current positive chains use actual E4/E5 production surfaces and do not substitute synthetic `OrderResult`, `Fill`, flat Position or funding evidence.
-
-### Key safety rules retained
+Classification:
 
 ```text
-OrderStatus.FILLED != flat Position proof
-same-position actual_quantity=0 + CONSISTENT truth is required
-PROTECTION_STOP must be verified before protected closure semantics are claimed
-partial / zero / failed / ambiguous protection cannot finalize normally
-missing/corrupt funding evidence cannot silently become zero
-funding source must prove complete exact-interval coverage
-calculated_at does not change funding financial identity
-quantity conservation and explicit fee evidence remain required
+ADDITIVE_PROFILE_REQUIRED
+schema_version = contracts-v0.1
+profile = position-lifecycle-projection-v0.1
 ```
 
-### Remaining Gate B structural blocker
-
-Current E6 production is still research Registry persistence only. The next bounded persistence/restart/audit boundary must durably preserve, without recomputation or authority invention, exact identities/payloads for at least:
+Authority remains:
 
 ```text
-strategy/version
-RiskDecision / ApprovedTradePlan
-Position + lifecycle/reconciliation projection
-PositionAction
-OrderRequest / OrderResult / reconciliation state
-Fill
-FundingAllocationEvidence
-TradeResult
+E4 broker facts/order              -> broker_state_observed_at
+E5 lifecycle interpretation/order  -> lifecycle_revision
+E6 persistence/replay              -> no domain inference
 ```
 
-Funding replay/conflict behavior must preserve:
+Multiple E5 lifecycle revisions may share one broker observation.
+
+Profile ordering rules include:
 
 ```text
-same funding_evidence_id + identical identity material -> idempotent replay
-same funding_evidence_id + changed identity material -> corruption/conflict
-same funding lineage key + different valid evidence IDs -> reconciliation conflict, never last-write-wins
-existing TradeResult funding binding + later conflict -> no silent historical rewrite
+revision 0 = GENESIS
+revision n+1 = exact predecessor + 1
+TRANSITION = explicit PositionEvent changes lifecycle
+REATTESTATION = same lifecycle explicitly bound by E5 to newer/equal broker observation
+same revision + identical ID/payload = idempotent replay
+same revision + changed payload = conflict
+revision gap / predecessor mismatch = cannot advance
+higher lifecycle revision with older broker anchor = stale/invalid
 ```
+
+A newer E4 broker observation without a corresponding E5 projection/reattestation must not be merged by E6 with an older lifecycle state to manufacture a current canonical Position.
+
+### Producer impact
+
+```text
+E4 adaptation = NONE
+E5 adaptation = REQUIRED / next dependency
+E6 durability = AFTER E5 producer
+```
+
+Accepted PR #55 remains valid for its non-durable in-memory scope but is not restart-authoritative durable Position evidence until an E5 producer emits the new profile.
 
 ### Current Gate B state
 
 ```text
+Position lifecycle durability contract/rule = RESOLVED STATIC
+E5 lifecycle projection producer = BLOCKED / NOT YET MATERIALIZED
+Restart/persistence = BLOCKED
+Paper E2E durable audit = BLOCKED
 Gate B = BLOCKED / NOT YET PASS
 PAPER = UNAUTHORIZED
 project executable verification = NOT_RUN
 ```
 
-No executable `NOT_RUN` is converted to PASS by E7-045.
+No executable `NOT_RUN` is converted to PASS by E7-047.
 
 ---
 
@@ -165,7 +166,7 @@ No executable `NOT_RUN` is converted to PASS by E7-045.
 BLOCKED / UNCHANGED
 ```
 
-Gate B is not PASS. No provider/private scope is opened by E7-045.
+Gate B is not PASS. No provider/private scope is opened by E7-047.
 
 ---
 
@@ -175,7 +176,7 @@ Gate B is not PASS. No provider/private scope is opened by E7-045.
 BLOCKED / UNCHANGED
 ```
 
-Gate C is not PASS and Product Owner LIVE approval is absent. No LIVE authority changes in E7-045.
+Gate C is not PASS and Product Owner LIVE approval is absent. No LIVE authority changes in E7-047.
 
 ---
 

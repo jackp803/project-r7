@@ -1,26 +1,26 @@
 # E4 Status
 
-- task_id: `E4-20260824-011`
+- task_id: `E4-20260824-013`
 - agent: `E4`
 - state: `DONE`
-- branch: `agent/e4-gate-b-paper-funding-producer-20260824`
-- baseline_main_sha: `599f1d7100a52b105af5d8a32437d44dbf7c2aa5`
-- head_sha: `48252e7c7fd72a43618d256a7afdd8d725f3fa0c` (source/tests/docs/handoff HEAD immediately before this terminal STATUS-only commit)
-- summary: `Implemented only the E4-owned provider-neutral local Paper funding-allocation-v0.1 producer. The registered immutable R7_PAPER_FUNDING_MODEL / paper-zero-funding-v0.1 positively asserts funding=0 for every instant in the exact authoritative [Position.opened_at, Position.broker_state_observed_at) interval and emits canonical ZERO_CONFIRMED FundingAllocationEvidence only from exact flat CONSISTENT same-position truth. Source material hash and fundev_<sha256> evidence identity are deterministic per the accepted profile; calculated_at is non-identity metadata. Unknown/unregistered/incomplete source or Position truth fails closed. No E5 consumer, E6 persistence, PROTECTION_STOP flat observer, provider/private, or release authority was implemented.`
-- files_changed: `src/execution/funding.py; tests/execution/test_funding.py; docs/execution/PAPER_FUNDING_MODEL_V0_1.md; status/e4/E4_GATE_B_PAPER_FUNDING_PRODUCER_20260824.md; coordination/E4/STATUS.md`
+- branch: `agent/e4-gate-b-protection-stop-flat-truth-20260824`
+- baseline_main_sha: `4222a9989d86b9f9ed61b01b30d291768132f2a6`
+- head_sha: `1dc4a7375c9780ed0ec146f77e443ef8d972389f` (source/tests/handoff HEAD immediately before this terminal STATUS-only commit)
+- summary: `Implemented only the E4-owned PaperBroker PROTECTION_STOP same-position authoritative flat-truth gap. The existing position-reduction observer now accepts exact canonical protection-v0.1 STOP_MARKET/reduce-only requests from already OPEN_PROTECTED/PROFIT_PROTECTED source Position truth. Exact full protection Fill + FILLED + HEALTHY/unambiguous OrderResult + exact lineage/quantity/time consistency may refresh only E4-owned Position facts to actual_quantity="0", new broker_state_observed_at and reconciliation_status=CONSISTENT. Partial/zero/terminal/ambiguous/degraded/mismatched protection execution fails closed and cannot return ordinary CONSISTENT residual truth. Existing POSITION_EXIT/EMERGENCY_EXIT residual/full semantics, Fill lineage, terminal/reconciliation, funding producer and entry behavior were not intentionally changed.`
+- files_changed: `src/brokers/paper.py; tests/brokers/test_paper_broker_protection_stop_flat_truth.py; status/e4/E4_GATE_B_PROTECTION_STOP_FLAT_TRUTH_20260824.md; coordination/E4/STATUS.md`
 - contracts_changed: `NO`
 - local_verification: `NOT_RUN`
-- not_run: `No explicitly PM/Product-Owner-approved Local Runner action is available in this session for the exact clean target revision. Required Windows PowerShell commands from repository root: $env:PYTHONPATH="src" ; python -m unittest discover -s tests/execution -p "test_*.py" -v ; python -m unittest discover -s tests/brokers -p "test_*.py" -v`
-- blockers: `NONE for bounded static/source completion. Executable evidence remains outstanding and NOT_RUN is not PASS. Separate PROTECTION_STOP same-position flat-truth implementation gap remains unchanged and outside this task.`
-- handoff_path: `status/e4/E4_GATE_B_PAPER_FUNDING_PRODUCER_20260824.md`
-- next_owner: `E7/PM for bounded static review; a later separately assigned E5 task may adapt TradeResult consumption only after PM acceptance`
+- not_run: `No explicitly PM/Product-Owner-approved exact-revision Local Runner action is available in this session. Required Windows PowerShell commands from repository root: $env:PYTHONPATH="src" ; python -m unittest discover -s tests/brokers -p "test_*.py" -v ; python -m unittest discover -s tests/execution -p "test_*.py" -v`
+- blockers: `NONE for bounded static/source completion. Executable evidence remains outstanding; NOT_RUN is not PASS.`
+- handoff_path: `status/e4/E4_GATE_B_PROTECTION_STOP_FLAT_TRUTH_20260824.md`
+- next_owner: `E7/PM for bounded static integration review and explicitly approved-local verification planning`
 
 ## Wake / authority verification
 
 Wake message task ID:
 
 ```text
-E4-20260824-011
+E4-20260824-013
 ```
 
 Latest `main:coordination/E4/TASK.md` matched exactly before implementation work began.
@@ -39,29 +39,27 @@ Only E4's TASK was read; no other Agent TASK was read or executed.
 At task start:
 
 ```text
-main = 599f1d7100a52b105af5d8a32437d44dbf7c2aa5
-agent/e4-gate-b-paper-funding-producer-20260824 = identical
+main = 4222a9989d86b9f9ed61b01b30d291768132f2a6
+agent/e4-gate-b-protection-stop-flat-truth-20260824 = identical
 ```
 
 No merge, rebase, force update, or history rewrite was required.
 
-## Required dependency inspection
+## Contract-first inspection
 
-Read-only authority/dependency surfaces included:
+Read-only dependencies included:
 
-- `contracts/README.md`
-- `contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`
-- `docs/adr/ADR-0006-funding-allocation-evidence-boundary.md`
-- `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`
-- `contracts/EXECUTION_OBJECT_PROFILES_V0_1.md`
 - `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`
-- `src/brokers/base.py`
+- `contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md`
+- `contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md` only to avoid overlap
+- current `src/brokers/base.py`
 - current `src/brokers/paper.py`
 - current `src/execution/models.py`
+- current `src/execution/protection.py`
+- existing E4 protection/terminal/Fill-lineage/close tests
 - E5 `src/position/trade_result.py` read-only
-- current E4 broker/execution tests
-- `status/RELEASE_GATES.md`
-- accepted E7 PR #50/#51 review/contract evidence
+- accepted E4/E7/E5 evidence around PR #48/#50/#52/#53
+- current `status/RELEASE_GATES.md` read-only
 
 Disposition:
 
@@ -69,217 +67,135 @@ Disposition:
 CONTRACT_OR_SEMANTIC_GAP = NO
 ```
 
-The accepted funding profile is sufficient to emit canonical evidence without inventing any new shared serialized field, enum, currency meaning, financial formula, or authority boundary. E5's existing `FundingEvidence` remains a private helper and is not imported or replicated as the shared contract.
+The accepted contracts already define `PROTECTION_STOP` request/Fill authority and explicitly require a later same-position flat observation after full protection execution. The existing shared Position shape can carry this truth without a new DTO, state, enum, or Broker abstract method.
 
-## Registered local Paper funding source
+## Implemented PaperBroker truth boundary
 
-Exact immutable V0.1 semantics:
+Supported position-reduction roles at the observer are now:
 
 ```text
-source_kind = PAPER_MODEL
-source = R7_PAPER_FUNDING_MODEL
-source_version = paper-zero-funding-v0.1
-interval_semantics = START_INCLUSIVE_END_EXCLUSIVE
-status = ZERO_CONFIRMED
-funding_cost = "0"
-cost_currency = USDT
-source_record_count = 0
+POSITION_EXIT
+EMERGENCY_EXIT
+PROTECTION_STOP
 ```
 
-Positive model assertions:
+Existing explicit-close semantics remain:
 
 ```text
-zero_assertion = FUNDING_EQUALS_ZERO_FOR_EVERY_INSTANT_IN_EXACT_INTERVAL
-completeness_assertion = MODEL_COMPLETE_THROUGH_EXACT_INTERVAL_END
+POSITION_EXIT / EMERGENCY_EXIT
+order_type = MARKET
+reduce_only = true
 ```
 
-This is explicit source authority, not empty-row inference. Missing rows, unavailable provider access, network failure, absent credentials or arbitrary/generic empty source state cannot produce ZERO_CONFIRMED.
-
-## Exact final-position / interval boundary
-
-The producer requires exact:
+Canonical protection-stop observation requires:
 
 ```text
-ApprovedTradePlan.schema_version = contracts-v0.1
-ApprovedTradePlan.trade_plan_id = non-empty canonical identity
-ApprovedTradePlan.symbol = non-empty canonical symbol
-
-final Position.schema_version = contracts-v0.1
-final Position.position_id = non-empty exact identity
-final Position.symbol = ApprovedTradePlan.symbol
-final Position.actual_quantity = 0
-final Position.reconciliation_status = CONSISTENT
-final Position.opened_at = RFC3339 UTC Z
-final Position.broker_state_observed_at = RFC3339 UTC Z
-opened_at < broker_state_observed_at
+authorization_type = POSITION_ACTION
+order_role = PROTECTION_STOP
+order_type = STOP_MARKET
+reduce_only = true
+stop_price > 0
+limit_price = null
+time_in_force = null
 ```
 
-Optional `closed_at`, if supplied, must equal the authoritative flat observation time.
-
-Canonical allocation is:
+and exact/non-empty request lineage:
 
 ```text
-interval_start = final Position.opened_at
-interval_end = final Position.broker_state_observed_at
-interval_semantics = START_INCLUSIVE_END_EXCLUSIVE
-source_complete_through = interval_end
-calculated_at >= interval_end
-```
-
-No symbol-level net exposure and no OrderStatus.FILLED value is accepted as a substitute for exact same-position flat Position truth. E4 does not emit lifecycle POSITION_CLOSED.
-
-## Canonical FundingAllocationEvidence emission
-
-`src/execution/funding.py` emits exactly:
-
-```text
-schema_version
-funding_evidence_profile_version
-funding_evidence_id
-source_kind
-source
-source_version
-source_material_hash
-source_record_count
-source_complete_through
 trade_plan_id
+position_action_id
 position_id
-symbol
-interval_start
-interval_end
-interval_semantics
-status
-funding_cost
-cost_currency
-calculated_at
+risk_decision_id
 ```
 
-with:
+The exact source Position must be:
 
 ```text
 schema_version = contracts-v0.1
-funding_evidence_profile_version = funding-allocation-v0.1
-status = ZERO_CONFIRMED
-funding_cost = "0"
-cost_currency = USDT
+same position_id / symbol
+side opposite request side
+actual_quantity > 0
+request.quantity = source actual_quantity
+reconciliation_status = CONSISTENT
+quantity_profile_version = base-asset-v0.1
+quantity_unit = BASE_ASSET
+quantity_asset = BTC
+lifecycle_state = OPEN_PROTECTED | PROFIT_PROTECTED
 ```
 
-No provider-native, credential, account, risk-decision, strategy-authority, persistence or release-mode fields are added.
+`OPEN_UNPROTECTED` cannot be used as proof that a protection stop was established before trigger execution.
 
-## Source material hash
+## Full protection execution
 
-The exact normalized source assertion material is documented in:
+A protection-stop observation may return authoritative flat broker truth only when:
 
 ```text
-docs/execution/PAPER_FUNDING_MODEL_V0_1.md
+sum(exact protection Fill.quantity)
+= OrderResult.filled_quantity
+= OrderRequest.quantity
+= source Position.actual_quantity
+
+OrderResult.order_status = FILLED
+execution_health_status = HEALTHY
+observed_at >= latest included Fill.filled_at
 ```
 
-It includes source/version, exact plan/position/symbol interval lineage, explicit zero/completeness assertions, completeness watermark, record count, status/cost/currency and interval semantics.
-
-Hash algorithm:
+Every Fill must match exact:
 
 ```text
-json.dumps(material, sort_keys=True, separators=(",", ":"))
--> UTF-8
--> SHA-256 lowercase hex
-```
-
-Therefore `source_material_hash` represents an explicit complete zero-model assertion and not an accidental empty response.
-
-## Stable evidence identity
-
-Normative identity material contains exactly the 17 accepted profile fields:
-
-```text
-schema_version
-funding_evidence_profile_version
-source_kind
-source
-source_version
-source_material_hash
-source_record_count
-source_complete_through
 trade_plan_id
+position_action_id
 position_id
+order_role = PROTECTION_STOP
 symbol
-interval_start
-interval_end
-interval_semantics
-status
-funding_cost
-cost_currency
+side
 ```
 
-Identity algorithm:
+The returned Position preserves identity and E5-owned lifecycle and refreshes only:
 
 ```text
-lexicographically sorted compact JSON
--> UTF-8
--> SHA-256
--> fundev_<lowercase hex>
+actual_quantity = "0"
+broker_state_observed_at = exact observation time
+reconciliation_status = CONSISTENT
 ```
 
-`calculated_at` is excluded by design.
+No `closed_at`, `POSITION_CLOSED`, exit reason, TradeResult, or risk/lifecycle event is emitted by E4.
 
-Consequences:
+## Partial / ambiguous / terminal behavior
+
+Partial protection execution intentionally fails closed:
 
 ```text
-same immutable allocation material -> same funding_evidence_id
-later calculated_at only -> same funding_evidence_id
-changed identity-bearing material -> different funding_evidence_id
+0 < summed protection Fill < source actual_quantity
+-> ReconciliationRequiredError
 ```
 
-No UUID/random identity and no producer-level last-write-wins conflict rule were introduced.
+No ordinary `CONSISTENT` residual Position is returned because residual/replacement protection semantics are outside the accepted V0.1 contract.
 
-## Fail-closed behavior
+Also blocked from flat truth:
 
-No canonical evidence is emitted on:
+- zero/no Fill / untriggered OPEN protection order;
+- REJECTED/CANCELED/EXPIRED protection order;
+- UNKNOWN/RECONCILIATION_REQUIRED submit/order truth;
+- non-HEALTHY execution truth;
+- stale observation;
+- wrong role/type/reduce-only/stop/limit/TIF semantics;
+- request/source/Fill lineage mismatch;
+- wrong side/symbol/quantity;
+- over-fill;
+- another same-symbol Fill after the source Position observation.
 
-- unsupported/missing schema;
-- missing/blank/non-canonical lineage identifiers;
-- plan/Position symbol mismatch;
-- nonzero/malformed/non-finite final Position quantity;
-- reconciliation status other than CONSISTENT;
-- malformed/non-UTC timestamps;
-- start >= end;
-- optional closed_at conflict;
-- calculated_at < interval_end;
-- unregistered source kind/source/version;
-- changed model zero/completeness assertion;
-- unsupported status/funding cost/currency/record-count semantics;
-- arbitrary/generic unknown source.
-
-No unknown/unavailable source fallback to ZERO_CONFIRMED exists.
+Symbol-level net exposure and `OrderStatus.FILLED` alone are never used as same-position flat proof.
 
 ## Deterministic test definitions materialized
 
 Added:
 
 ```text
-tests/execution/test_funding.py
+tests/brokers/test_paper_broker_protection_stop_flat_truth.py
 ```
 
-Definitions cover:
-
-- exact canonical ZERO_CONFIRMED field set/values;
-- explicit zero/completeness authority;
-- deterministic source-material hash;
-- exact 17-field funding evidence ID derivation;
-- calculated_at exclusion;
-- repeated immutable material idempotency;
-- changed plan/position/symbol/interval identity;
-- unsupported source/model semantics fail closed;
-- non-flat and non-CONSISTENT Position fail closed;
-- plan/Position symbol mismatch;
-- missing/schema/time/interval failures;
-- calculated-at boundary;
-- optional closed_at consistency;
-- no random UUID;
-- no E5-private FundingEvidence import;
-- no network/provider credentials/private API behavior;
-- no provider/persistence/release fields;
-- no mutation of producer inputs;
-- existing PaperBroker order/fill behavior remains compatible.
+Definitions cover full LONG/SHORT stop closure, PROFIT_PROTECTED, exact lineage, FILLED/quantity equality, stale observation, OPEN_UNPROTECTED rejection, partial/zero fail-closed, rejected/canceled/expired/ambiguous/degraded truth, malformed protection request semantics, mismatched/tampered lineage, overfill, same-symbol interference, explicit-close no-regression, funding producer compatibility, and entry compatibility.
 
 Definitions only; none were executed.
 
@@ -299,38 +215,18 @@ Required future approved-local Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/execution -p "test_*.py" -v
 python -m unittest discover -s tests/brokers -p "test_*.py" -v
+python -m unittest discover -s tests/execution -p "test_*.py" -v
 ```
 
 `NOT_RUN` is not PASS.
 
-## Separate blocker / downstream scope
-
-Unchanged separate blocker:
-
-```text
-PROTECTION_STOP -> same-position residual/flat Position truth
-= BLOCKED / E4 IMPLEMENTATION_GAP
-```
-
-Not implemented in this task.
-
-Also not implemented:
-
-- E5 canonical funding-evidence consumer adaptation / TradeResult audit refs;
-- E6 funding/runtime persistence, conflict state, restart/replay/audit;
-- broker/provider ledger funding acquisition or INCLUDED source model;
-- provider/private networking or credentials;
-- full Paper E2E;
-- approved-local Gate B execution.
-
 ## Completion boundary
 
-This task does not claim:
+This task does **not** claim:
 
 ```text
-TradeResult finalization = PASS
+PROTECTION_STOP -> TradeResult = PASS
 Paper E2E = PASS
 Restart/persistence = PASS
 Gate B = PASS
@@ -338,11 +234,4 @@ PAPER_READY = PASS
 PAPER / SHADOW / LIVE = AUTHORIZED
 ```
 
-Current release meaning remains:
-
-```text
-Gate B = BLOCKED / NOT YET PASS
-PAPER / SHADOW / LIVE = UNAUTHORIZED
-```
-
-E4 stops after this terminal STATUS and does not self-start E5 consumer adaptation, PROTECTION_STOP flat-truth remediation, E6 persistence, E7 Paper E2E, approved-local verification, Gate C, PAPER, SHADOW, or LIVE.
+Gate/release authority remains unchanged. E4 stops after this terminal STATUS and does not self-start E6 persistence, E7 integration/E2E, approved-local verification, Gate C, PAPER, SHADOW, or LIVE.

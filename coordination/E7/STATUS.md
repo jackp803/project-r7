@@ -1,231 +1,115 @@
 # E7 Status
 
-- task_id: `E7-20260824-047`
+- task_id: `E7-20260824-050`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-gate-b-position-lifecycle-ordering-contract-20260824`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-047 before work and remained ACTIVE immediately before terminal write`
-- reviewed_main: `0159ddb4afad4db02fa97a29b07ce8d952d68067`
-- reviewed_task_blob: `4496317ef1dddfcab450d21af154b9b68a51183f`
+- branch: `agent/e7-gate-b-lifecycle-event-vocabulary-contract-20260824`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260824-050 before work and remained ACTIVE immediately before terminal write`
+- reviewed_main: `20f46faf0067e17ba83fd57bd869f0cdc3a2b079`
+- reviewed_task_blob: `d5579cc16497bc7b5870e81aefe16b2349326c77`
 - contracts_baseline: `contracts-v0.1 / BASELINE`
-- architecture_classification: `ADDITIVE_PROFILE_REQUIRED`
-- lifecycle_projection_profile: `position-lifecycle-projection-v0.1 / MATERIALIZED`
-- set_wide_schema_bump: `NO / schema_version remains contracts-v0.1`
-- pr56_blocker_diagnosis: `CONFIRMED`
-- position_lifecycle_durability_contract_rule: `RESOLVED STATIC`
-- e4_position_broker_truth_adaptation: `NONE REQUIRED`
-- e5_lifecycle_projection_producer: `IMPLEMENTATION GAP / NEXT DEPENDENCY`
-- e6_paper_runtime_durability: `BLOCKED / AFTER E5 PRODUCER`
-- restart_persistence: `BLOCKED`
-- paper_e2e_trade_result_durable_audit: `BLOCKED`
-- gate_a: `PASS / RESEARCH-INTEGRATION ONLY`
-- gate_b: `BLOCKED / NOT YET PASS`
-- gate_c: `BLOCKED / UNCHANGED`
-- gate_d: `BLOCKED / UNCHANGED`
-- paper_shadow_live: `UNAUTHORIZED`
-- provider_private_api: `NOT AUTHORIZED / NOT_SENT`
-- exchange_credentials: `NOT_USED`
+- lifecycle_projection_profile: `position-lifecycle-projection-v0.1 / UNCHANGED`
 - project_executable_verification: `NOT_RUN`
 - local_job: `NOT_REQUESTED / TASK FORBIDS EXECUTION`
-- github_compute: `NOT_USED`
 - github_actions_ci_hosted_runner: `NOT_USED`
-- computer_adapter: `NOT_USED`
-- e1_e6_production_changes_by_e7: `NONE`
-- codex_ticket: `NONE`
+- provider_private_api: `NOT AUTHORIZED / NOT_SENT`
+- exchange_credentials: `NOT_USED`
+- paper_shadow_live: `UNAUTHORIZED`
 
-## Independent blocker decision
-
-PR #56 correctly identified a real shared semantic gap.
-
-Baseline Position contains E4-owned `broker_state_observed_at` and E5-owned `lifecycle_state`, but no serialized E5 lifecycle projection ordering authority.
-
-Accepted PR #55 proves that legitimate lifecycle-only changes may share the same exact broker observation:
+## Independent blocker disposition
 
 ```text
-T / OPEN_UNPROTECTED
-T / OPEN_PROTECTED
-T / EXIT_REQUESTED
+PR #57 ordering/profile semantics = SUFFICIENT
+PR #58 E5 projection producer semantics = COHERENT
+shared lifecycle_state vocabulary = ALREADY EXHAUSTIVE IN contracts-v0.1
+shared TRANSITION lifecycle_event vocabulary = PREVIOUSLY INSUFFICIENTLY MATERIALIZED
+E6-013 current vocabulary validation = INCOMPLETE STATIC
+Issue #59 prior Codex/bug classification = SUPERSEDED / NOT AUTHORITATIVE
 ```
 
-Therefore E6 cannot safely use equal broker timestamp, row order, insertion time, persisted_at, auto-increment, last-write-wins, PositionAction.created_at, OrderResult.observed_at, or lifecycle reconstruction from other rows to choose restart-authoritative lifecycle state.
+The E6/PM semantic blocker was confirmed narrowly: E6 cannot determine the exhaustive allowed `PositionEvent` strings from an E7-owned shared contract without importing/duplicating E5 production vocabulary. Existing E6-013 validation checks lifecycle state/event as non-empty strings while correctly validating profile kind/nullability and other structural rules.
 
-## Materialized profile
-
-`contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`
-
-- commit: `722c504592caae6ed8d55f358931513d1154422b`
-- profile: `position-lifecycle-projection-v0.1`
-- additive under unchanged `contracts-v0.1`;
-- preserves E4 broker authority and E5 lifecycle authority;
-- defines E5-owned lifecycle revision/predecessor/identity/event/interpreted-time ordering;
-- allows multiple lifecycle revisions for one broker observation;
-- defines GENESIS / TRANSITION / REATTESTATION;
-- defines stale/gap/duplicate/conflict/restart/legacy behavior;
-- forbids E6 arrival-order authority or lifecycle reconstruction.
-
-Additional required profile fields:
+## Accepted contract resolution
 
 ```text
-position_lifecycle_projection_profile_version
-lifecycle_projection_id
-lifecycle_revision
-previous_lifecycle_projection_id
-lifecycle_projection_kind
-lifecycle_event
-lifecycle_interpreted_at
-lifecycle_source_broker_state_observed_at
+resolution = COMPATIBLE NORMATIVE CLARIFICATION
+schema_version = contracts-v0.1 / UNCHANGED
+position_lifecycle_projection_profile_version = position-lifecycle-projection-v0.1 / UNCHANGED
+new serialized fields = NONE
+Position lifecycle vocabulary contract = RESOLVED STATIC
 ```
 
-## Architecture ADR
+### Normative vocabulary contract
 
-`docs/adr/ADR-0007-position-lifecycle-projection-ordering.md`
+`contracts/POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`
 
-- commit: `774f470e943ad81b2d6f4c751a6abc97f76b62de`
-- records the two independent authority/order axes:
+- commit: `07737fc05a020c77014a7aa9865950bd27b4107a`
+- exhaustive restart-authoritative lifecycle states: `PENDING_ENTRY`, `OPEN_UNPROTECTED`, `OPEN_PROTECTED`, `PROFIT_PROTECTED`, `EXIT_REQUESTED`, `CLOSED`, `EMERGENCY`, `RECONCILIATION_REQUIRED`;
+- exhaustive restart-authoritative TRANSITION events: `ENTRY_FILL_OBSERVED`, `ENTRY_TERMINATED`, `PROTECTION_VERIFIED`, `PROFIT_PROTECTION_VERIFIED`, `PROTECTION_FAILED`, `PROTECTION_LOST`, `EXIT_REQUESTED`, `EXIT_FAILED`, `POSITION_CLOSED`, `STATE_UNKNOWN`, `RECONCILED_FLAT`, `RECONCILED_OPEN_UNPROTECTED`, `RECONCILED_OPEN_PROTECTED`;
+- `GENESIS` and `REATTESTATION` require `lifecycle_event=null`;
+- unsupported state/event/kind fails closed and cannot advance current/restart-authoritative Position.
 
-```text
-E4 broker ordering = broker_state_observed_at
-E5 lifecycle ordering = lifecycle_revision
-```
+### Architecture clarification
 
-- E6 may validate/persist but never allocate lifecycle order;
-- newer E4 broker truth without a corresponding E5 lifecycle projection/reattestation cannot be merged into a synthetic canonical Position.
+`docs/adr/ADR-0008-position-lifecycle-vocabulary-validation-boundary.md`
 
-## Contract registry
+- commit: `b1e7451c88546f524e8535b8ab91dc1513a7418d`
+- E5 retains full `(previous_state, event) -> next_state` transition authority;
+- E6 validates only shared vocabulary/profile/shape/order/identity/reference rules;
+- E6 must not import/copy the E5 transition table or infer lifecycle from Orders/Fills/Actions/TradeResult.
+
+### Contract registry
 
 `contracts/README.md`
 
-- commit: `3f3a428b64f978bf7ed80f3bda3370e6768a01c0`
-- registers `position-lifecycle-projection-v0.1` and explicit E4/E5/E6/E7 ownership.
+- commit: `c1912276936111881fac5757cc6cc51cd38696ba`
+- registers the normative lifecycle vocabulary companion and consumer obligations.
 
-## Detailed evidence
+### Review evidence
 
-`status/e7/GATE_B_POSITION_LIFECYCLE_ORDERING_CONTRACT_DECISION_20260824.md`
+`status/e7/GATE_B_LIFECYCLE_VOCABULARY_CONTRACT_DECISION_20260824.md`
 
-- commit: `e646facb80f4f4d867bce28f342195a46d68d195`
-- records independent PR #56 diagnosis, deterministic examples, replay/conflict rules, legacy handling and producer/consumer impact inventory.
+- commit: `50be02326ba894cc343fba9507cd8c98f78f773d`
 
-## Release reconciliation
+## Exact bounded E6 follow-up contract
 
-`status/RELEASE_GATES.md`
+E6 remediation is mechanically bounded to storage-consumer validation:
 
-- commit: `99b52b62f4115b2b94c3338d483e9fc3424c0d34`
-- Position lifecycle durability contract/rule is `RESOLVED STATIC`;
-- E5 lifecycle projection producer is still an implementation gap;
-- restart/persistence remains BLOCKED;
-- durable Paper E2E remains BLOCKED;
-- no executable NOT_RUN criterion becomes PASS;
-- Gate B remains BLOCKED and PAPER unauthorized.
+1. exact membership validation for the eight shared lifecycle states;
+2. exact membership validation for the thirteen shared TRANSITION lifecycle events;
+3. retain GENESIS/REATTESTATION null-event rules;
+4. reject unsupported vocabulary before durable current-projection advancement;
+5. deterministic storage definitions proving rejection does not replace the prior valid current projection;
+6. preserve PR #57 revision/predecessor/identity/broker-anchor/replay/conflict rules unchanged.
 
-`status/INTEGRATION_STATUS.md`
+E6 does not evaluate the E5 transition table and does not gain lifecycle authority.
 
-- commit: `0bb45e080fa6c7553125ad6970fcef172f3e08df`
-- records exact producer/consumer sequence and durable replay semantics.
-
-## Canonical ordering / replay rules
-
-### Broker axis
+## Release state
 
 ```text
-later broker_state_observed_at -> later E4 broker observation
-same time + identical E4 broker facts -> duplicate
-same time + changed E4 broker facts -> conflict / fail closed
-```
-
-### Lifecycle axis
-
-```text
-revision 0 -> GENESIS
-revision n+1 -> exact predecessor + 1
-```
-
-E5 owns revision allocation.
-
-Multiple revisions may share one broker observation timestamp.
-
-### Re-attestation
-
-When E4 broker facts advance but lifecycle state remains unchanged, E5 must explicitly emit a `REATTESTATION` projection. E6 may not copy the old lifecycle state onto newer broker facts by itself.
-
-### Replay/conflict
-
-```text
-same revision + same ID + identical payload -> idempotent replay
-same revision + changed payload/ID -> conflict
-same ID + changed payload -> corrupt/conflict
-lower exact stored revision -> historical replay only
-lower changed revision -> stale branch conflict
-revision gap -> cannot advance
-predecessor mismatch -> branch/conflict
-higher lifecycle revision with older broker anchor -> stale/invalid
-```
-
-Current projection may advance only through the highest contiguous conflict-free E5 revision with exact predecessor chain and nondecreasing broker anchors.
-
-## Producer / consumer impact
-
-### E4
-
-No production adaptation required. E4 keeps current Position broker facts and `broker_state_observed_at` semantics unchanged.
-
-### E5 — exact next dependency
-
-A bounded E5 task is required to materialize a canonical profile producer for:
-
-```text
-exact E4 Position
-+ prior profiled Position when applicable
-+ E5 lifecycle interpretation
--> next position-lifecycle-projection-v0.1 Position
-```
-
-It must cover at minimum:
-
-- GENESIS;
-- protection verified/failed/lost outcomes;
-- ordinary/emergency EXIT_REQUESTED;
-- supported reconciliation transitions;
-- final POSITION_CLOSED / CLOSED after TradeResult validation;
-- REATTESTATION on newer broker observations with unchanged lifecycle.
-
-### E6
-
-E6 durability implementation must wait for the E5 producer. After that it may persist exact profiled Position history/current projection and the rest of the canonical Paper runtime evidence graph without lifecycle recomputation.
-
-### E7
-
-PR #55 remains valid for non-durable in-memory semantics. Later durability/E2E definitions should consume the E5 profile producer instead of manually assigning `lifecycle_state` in a test mapping.
-
-## Legacy handling
-
-Legacy Positions without the profile remain historical/in-memory evidence only. They are not restart-authoritative Gate B current Position projections and must not be backfilled from storage row order.
-
-Safe profile entry requires:
-
-```text
-fresh E4 broker observation
--> explicit E5 interpretation
--> GENESIS revision 0
-```
-
-## Gate state
-
-```text
-Position lifecycle durability contract/rule = RESOLVED STATIC
-E5 profiled lifecycle producer = IMPLEMENTATION GAP / NEXT DEPENDENCY
-E6 durability implementation = BLOCKED pending E5 producer
-Restart/persistence preserves required state = BLOCKED
+Position lifecycle vocabulary contract = RESOLVED STATIC
+E6 durability implementation = MATERIALIZED / PM REVIEW BLOCKED pending bounded remediation + PM re-review
+Restart/persistence preserves required state = BLOCKED / executable criterion NOT_RUN
 Paper E2E closes to TradeResult and persists audit = BLOCKED
+Gate A = PASS / RESEARCH-INTEGRATION ONLY
 Gate B = BLOCKED / NOT YET PASS
+Gate C = BLOCKED / UNCHANGED
+Gate D = BLOCKED / UNCHANGED
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-## Verification / completion
+No executable `NOT_RUN` criterion was converted to PASS. Existing `status/RELEASE_GATES.md` and `status/INTEGRATION_STATUS.md` remain conservatively BLOCKED and did not require a state change for this static clarification.
 
-No project code/tests were executed. No Local Runner, GitHub Actions/CI/hosted runner, GitHub-triggered compute, Computer Adapter, provider/private request or credential was used.
+## Scope / safety
 
-```text
-project_executable_verification = NOT_RUN
-```
+- E1-E6 production/tests changed by E7: `NONE`
+- E6 branch edits: `NONE`
+- E5 transition semantics changed: `NONE`
+- provider/private API/network: `NONE`
+- credentials/secrets: `NONE`
+- GitHub Actions/CI/compute: `NONE`
+- Codex ticket: `NONE / Issue #59 superseded`
 
-E7 completed only `E7-20260824-047` and stops on `DONE`. E7 does not self-start the E5 projection producer, E6 persistence/restart/audit, full Paper E2E, approved-local verification, Gate C, PAPER, SHADOW, LIVE or another task.
+## Completion
+
+E7 completed only `E7-20260824-050` and stops on `DONE`. E7 does not self-start E6 remediation, Paper E2E integration, approved-local verification, Gate C, PAPER, SHADOW, LIVE, provider/private work, or another task.

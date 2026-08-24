@@ -21,6 +21,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 - [`CLOSE_TRADE_RESULT_PROFILE_V0_1.md`](./CLOSE_TRADE_RESULT_PROFILE_V0_1.md) — `close-v0.1` + `trade-result-v0.1` + `linear-base-asset-pnl-v0.1` close authority, authoritative flatness, fill-set closure, and canonical TradeResult semantics
 - [`FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`](./FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md) — `funding-allocation-v0.1` provider-neutral exact-interval funding evidence, completeness, identity, ownership, TradeResult binding, and persistence semantics
 - [`POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md) — `position-lifecycle-projection-v0.1` E5-owned lifecycle ordering/identity over unchanged E4 broker Position facts for deterministic persistence/restart
+- [`POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md) — normative exhaustive lifecycle state/event/kind consumer vocabulary for restart-authoritative `position-lifecycle-projection-v0.1`; unknown values fail closed
 
 ## Authority and ownership
 
@@ -41,7 +42,8 @@ For `position-lifecycle-projection-v0.1` specifically:
 
 - E4 continues to own the broker Position fact payload and `broker_state_observed_at`; it does not allocate lifecycle order;
 - E5 owns `lifecycle_state` plus the lifecycle projection revision/predecessor/event/identity metadata and emits the durability-eligible profiled Position;
-- E6 persists/replays/indexes the serialized projection and enforces the shared ordering/conflict rules without deriving lifecycle or assigning revisions;
+- E6 persists/replays/indexes the serialized projection and enforces shared profile/vocabulary/ordering/conflict rules without deriving lifecycle or assigning revisions;
+- the exhaustive restart-authoritative lifecycle vocabulary is the E7-owned `POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`; E6 may validate membership but must not copy/import E5 transition semantics;
 - E7 owns profile/version/integration/release semantics.
 
 ## Contract status
@@ -144,6 +146,7 @@ A consumer must:
 - never treat `UNKNOWN` as healthy;
 - never infer funding zero from missing/unavailable evidence;
 - never infer lifecycle ordering from persistence arrival order, storage timestamps, row IDs or unrelated execution rows;
+- never accept unsupported lifecycle state/event/kind as restart-authoritative;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy

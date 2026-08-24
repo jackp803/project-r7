@@ -2,7 +2,7 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
-> Current reconciliation: 2026-08-24 / `E7-20260824-032`  
+> Current reconciliation: 2026-08-24 / `E7-20260824-034`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
@@ -83,7 +83,7 @@ Purpose: authorize controlled paper-trading integration only. No real order subm
 
 Prerequisite: Gate A PASS unless E7 records an explicit narrower dependency exception that does not weaken safety.
 
-### Current canonical evidence state after E7-20260824-032 protection lifecycle integration review
+### Current canonical evidence state after E7-20260824-034 protection failure/loss integration review
 
 Accepted static prerequisites relevant to this reconciliation:
 
@@ -92,12 +92,14 @@ Accepted static prerequisites relevant to this reconciliation:
 - protection contract PR `#37`, merge `e6769b5b78f1b5f699ae4000204b803b2f8b69d5`;
 - E5 protection producer PR `#38`, merge `268ac8708f84d0c856ac2d1d7436dcb100347a46`;
 - E4 protection consumer PR `#39`, merge `44ec171817f6c13fa632f2e7658dccc6b518f777`;
-- E7 protection integration PR `#40`, merge `0c2202742c6fa601ac79b32603620a0553b95e2e`;
-- E5 protection-result lifecycle bridge PR `#41`, merge `4c3d0f47d26cb23d9baeb17d227a3a1a9185667f`;
-- E7 lifecycle review artifact `status/e7/GATE_B_PROTECTION_LIFECYCLE_INTEGRATION_REVIEW_20260824.md`;
-- E7 lifecycle integration/safety definitions:
-  - `tests/integration/test_gate_b_protection_lifecycle.py`;
-  - `tests/safety/test_gate_b_protection_result_safety.py`.
+- E7 protection boundary review PR `#40`, merge `0c2202742c6fa601ac79b32603620a0553b95e2e`;
+- E5 protection-result bridge PR `#41`, merge `4c3d0f47d26cb23d9baeb17d227a3a1a9185667f`;
+- E7 protection lifecycle review PR `#42`, merge `05181bf06e9d1f2ad71990b94c446b6bf66d3582`;
+- E4 PaperBroker terminal truth PR `#43`, merge `d9394c18ca35406831e8966700c3a5210966fbb6`;
+- E7 review artifact `status/e7/GATE_B_PROTECTION_FAILURE_INTEGRATION_REVIEW_20260824.md`;
+- E7 real failure/loss definitions:
+  - `tests/integration/test_gate_b_protection_failure_lifecycle.py`;
+  - `tests/safety/test_gate_b_protection_terminal_safety.py`.
 
 All executable verification for these newly materialized Gate B definitions remains `NOT_RUN`.
 
@@ -107,20 +109,20 @@ All executable verification for these newly materialized Gate B definitions rema
 | TradeIntent -> E5 RiskDecision boundary implemented | NOT_RUN | static implementation exists; bounded local E2/E5 verification still required |
 | E5 can reject valid strategy intents | NOT_RUN | E5 fail-closed implementation/test definitions exist; local risk/safety execution required |
 | ApprovedTradePlan is the only E4 strategy-originated execution input | NOT_RUN | E4 gateway statically enforces boundary; local execution/safety evidence required |
-| PaperBroker conforms to broker contract | NOT_RUN | E4 `PaperBroker` + broker tests exist; approved local broker verification required |
+| PaperBroker conforms to broker contract | NOT_RUN | E4 `PaperBroker` + broker/terminal-state definitions exist; approved local broker verification required |
 | Partial fill semantics preserve actual quantity | NOT_RUN | E4 actual-fill primitive and E7 cross-module definitions exercise exact actual quantity; executable evidence required |
 | Required protection follows actual filled quantity | NOT_RUN | `protection-v0.1` + merged E5 producer + merged E4 consumer + E7 integration/safety definitions statically materialize exact actual-quantity propagation; approved-local execution remains required |
-| Protection failure triggers emergency path | BLOCKED | E5 PR `#41` bridge can interpret normalized `REJECTED/CANCELED/EXPIRED` into failure/loss lifecycle events, but real PaperBroker has no callable exact-request source/transition for those definitive inactive states or previously verified protection loss; bounded E4 implementation is required before system-level evaluation |
+| Protection failure triggers emergency path | NOT_RUN | PR `#41` E5 bridge + PR `#43` real PaperBroker `REJECTED`, `OPEN->CANCELED`, `OPEN->EXPIRED` truth + E7 real cross-module failure/loss definitions materialize `PROTECTION_FAILED/PROTECTION_LOST -> EMERGENCY`; approved-local execution remains required |
 | Stale/unknown market state blocks exposure | NOT_RUN | E5 static fail-closed implementation/test definitions exist; local safety execution required |
 | Unknown order/position state blocks new exposure | NOT_RUN | E5 static fail-closed definitions plus protection lifecycle definitions reject unknown/mismatch/reconciliation-required truth; local safety execution required |
 | Drawdown/daily/position/kill-switch rules enforced | NOT_RUN | PR `#35` adds explicit daily/open-position/drawdown boundary definitions; existing safety definitions cover kill switch; executable local evidence remains required |
 | Restart/persistence preserves required state | BLOCKED | E6 persistence remains research Registry/CANDIDATE only; no Slice 3 risk/position/order/protection/trade runtime persistence/restart |
-| Paper E2E closes to TradeResult and persists audit | BLOCKED | no complete Slice 3 Paper E2E/TradeResult/durable audit; PaperBroker still does not propagate protection Fill lineage and lacks definitive protection inactive-state behavior |
-| GitHub CI/Actions not used for verification | PASS | policy remains hard requirement; E7-032 used no GitHub project compute |
+| Paper E2E closes to TradeResult and persists audit | BLOCKED | no complete Slice 3 Paper E2E/TradeResult/durable audit; current PaperBroker protection Fill still does not propagate additive position-action lineage required for close/audit parity |
+| GitHub CI/Actions not used for verification | PASS | policy remains hard requirement; E7-034 used no GitHub project compute |
 
 Detailed static classification and dependency order are recorded in:
 
-`status/e7/GATE_B_PROTECTION_LIFECYCLE_INTEGRATION_REVIEW_20260824.md`
+`status/e7/GATE_B_PROTECTION_FAILURE_INTEGRATION_REVIEW_20260824.md`
 
 ```text
 Gate B = BLOCKED / NOT YET PASS
@@ -128,7 +130,7 @@ PAPER = UNAUTHORIZED
 project executable verification = NOT_RUN / DEFERRED TO LATER APPROVED-LOCAL TASK
 ```
 
-No static implementation or test-definition acceptance converts `NOT_RUN` or `BLOCKED` into executable `PASS`.
+`Protection failure triggers emergency path` moved only from `BLOCKED` to `NOT_RUN` because the implementation/test-definition blocker is removed but approved-local executable evidence is still absent. No static implementation or test-definition acceptance converts any criterion into executable `PASS`.
 
 ---
 
@@ -156,7 +158,7 @@ Prerequisite: Gate B PASS.
 
 **Gate C current state: `BLOCKED / UNCHANGED`.**
 
-The historical Pionex label is documentation drift; the active Product Owner target is OKX under `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`. E7-032 does not broaden into Gate C/private-provider work.
+The historical Pionex label is documentation drift; the active Product Owner target is OKX under `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`. E7-034 does not broaden into Gate C/private-provider work.
 
 ---
 

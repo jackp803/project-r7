@@ -52,11 +52,47 @@ Notification evidence:
 AgentBridge delivered the durable execution-result notification to the E7 conversation.
 ```
 
+### 2. GATE_A_INDICATORS — PASS
+
+Delivered AgentBridge result identity:
+
+```text
+request_id = REQ-E7-GATEA-024-02-7B91D4E2
+task_id = E7-20260824-024
+action_id = GATE_A_INDICATORS
+job_id = JOB-B6401E246AEE0542
+state = SUCCEEDED
+exit_code = 0
+duration_seconds = 0.312
+```
+
+Registered command:
+
+```powershell
+python -m unittest discover -s tests/indicators -p "test_*.py" -v
+```
+
+Delivered bounded execution summary:
+
+```text
+Ran 3 tests in 0.001s
+OK
+```
+
+Delivered stderr excerpt confirms all three SMA tests passed, including exact Decimal SMA behavior, binary-float rejection, and insufficient-history handling.
+
+The delivered result did not separately expose Python executable/version, OS identity, cwd, explicit detached-HEAD/clean-worktree fields, SQLite row identifier, notification-state field, or execution-count field. E7 does not invent missing values. No source/worktree mismatch or execution refusal was reported.
+
+Notification evidence:
+
+```text
+AgentBridge delivered the durable execution-result notification to the E7 conversation.
+```
+
 ### Remaining suites
 
 ```text
-2. GATE_A_INDICATORS  = PENDING REQUEST
-3. GATE_A_STRATEGY    = NOT_RUN
+3. GATE_A_STRATEGY    = PENDING REQUEST
 4. GATE_A_BACKTEST    = NOT_RUN
 5. GATE_A_VALIDATION  = NOT_RUN
 6. GATE_A_REGISTRY    = NOT_RUN
@@ -72,4 +108,4 @@ GATE_A_REVIEW_CANDIDATE = NO
 Gate A = BLOCKED / MATRIX IN PROGRESS
 ```
 
-No Gate A PASS is claimed. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.
+No Gate A PASS is claimed. Two of eight required suites have fresh successful evidence. The matrix remains event-driven and must stop on the first failed/error/timed-out/unexpected-refused suite.

@@ -6,6 +6,17 @@ from .close import (
     default_close_reason_codes,
     validate_close_position_action,
 )
+from .lifecycle_execution_binding import (
+    EXECUTION_SCOPE,
+    LIFECYCLE_EXECUTION_BINDING_PROFILE_VERSION,
+    LifecycleExecutionBindingError,
+    LifecycleProjectionExecutionBindingOutcome,
+    build_position_lifecycle_execution_evidence_binding,
+    build_position_lifecycle_genesis_with_execution_binding,
+    build_position_lifecycle_reattestation_with_execution_binding,
+    build_position_lifecycle_transition_with_execution_binding,
+    validate_position_lifecycle_execution_evidence_binding,
+)
 from .lifecycle_projection import (
     LifecycleProjectionError,
     POSITION_LIFECYCLE_PROJECTION_PROFILE_VERSION,
@@ -49,6 +60,15 @@ __all__ = [
     "build_close_position_action",
     "default_close_reason_codes",
     "validate_close_position_action",
+    "EXECUTION_SCOPE",
+    "LIFECYCLE_EXECUTION_BINDING_PROFILE_VERSION",
+    "LifecycleExecutionBindingError",
+    "LifecycleProjectionExecutionBindingOutcome",
+    "build_position_lifecycle_execution_evidence_binding",
+    "build_position_lifecycle_genesis_with_execution_binding",
+    "build_position_lifecycle_reattestation_with_execution_binding",
+    "build_position_lifecycle_transition_with_execution_binding",
+    "validate_position_lifecycle_execution_evidence_binding",
     "LifecycleProjectionError",
     "POSITION_LIFECYCLE_PROJECTION_PROFILE_VERSION",
     "build_position_lifecycle_closed_transition",

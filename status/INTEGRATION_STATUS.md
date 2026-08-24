@@ -1,15 +1,16 @@
 # Integration Status
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Current review: `E7-20260824-026` / 2026-08-24  
-> Reviewed main: `6e166c4a3c8204617d920e6919c8d2b114917e0c`  
-> Contract baseline: `contracts-v0.1 / BASELINE`
+> Current review: `E7-20260824-030` / 2026-08-24  
+> Reviewed main: `0617221eada56390db482ab3d758f39ea5f7457f`  
+> Contract baseline: `contracts-v0.1 / BASELINE`  
+> Protection profile: `protection-v0.1`
 
 ## Current integration target
 
-**Gate B / Slice 3 Paper readiness — static preflight only**
+**Gate B / Slice 3 Paper readiness — actual-fill protection producer/consumer integration**
 
-This status replaces the stale Slice 0-only view. No project code is executed by E7-026 and no Paper runtime is authorized.
+This review is static/test-definition only. No project code, tests, Paper runtime, provider/private API, migration, Local Runner action, GitHub CI, SHADOW, or LIVE activity was executed.
 
 ## Release-gate state
 
@@ -19,123 +20,148 @@ Gate B — PAPER_READY    = BLOCKED / NOT YET PASS
 Gate C — SHADOW_READY   = BLOCKED / UNCHANGED
 Gate D — LIVE_READY     = BLOCKED / UNCHANGED
 
-GATE_B_STATIC_PREFLIGHT = READY_FOR_BOUNDED_NEXT_TASKS
 PAPER / SHADOW / LIVE   = UNAUTHORIZED
 provider/private API    = NOT AUTHORIZED
+project executable verification = NOT_RUN / DEFERRED TO LATER APPROVED-LOCAL TASK
 ```
 
-Gate A acceptance is authoritative from:
+## Accepted Gate B protection prerequisites
 
-- PR `#32` merge `154b3164ce579672d601a23bbc17a485f3ebcbb1` — fresh 8-suite local matrix, approved source `4da559bbbb569ea4f32246a40ef35f4bd8477a71`, `127` tests / zero failure or error;
-- PR `#33` merge `429e8961dc4c32996e12fa7258c734571ea7d823` — separate evidence review, `GATE_A = PASS / RESEARCH-INTEGRATION ONLY`.
+- PR `#37` merge `e6769b5b78f1b5f699ae4000204b803b2f8b69d5` — `protection-v0.1` + ADR-0004.
+- PR `#38` merge `268ac8708f84d0c856ac2d1d7436dcb100347a46` — E5 producer `src/position/protection.py`.
+- PR `#39` merge `44ec171817f6c13fa632f2e7658dccc6b518f777` — E4 consumer `src/execution/protection.py` + additive request/fill lineage.
+- PR `#35` merge `133e62b2ad8aa5c31d3f0aef1679c0449aa2a10c` — explicit daily/open-position/drawdown risk-limit test definitions.
 
-Gate A PASS does not authorize Paper or later gates.
+All producer/consumer executable evidence remains `NOT_RUN`.
 
-## Gate B static integration observations
+## E5 -> E4 protection boundary
 
-### E2 — Strategy / TradeIntent
+Static disposition: **COHERENT / IMPLEMENTED_NEEDS_LOCAL_EVIDENCE**.
 
-Static state: **boundary materialized**.
-
-`src/strategy/trade_intent.py` emits provider-neutral `TradeIntent`, requires explicit supported executable profile when execution eligibility is requested, and rejects provider-specific/risk/sizing/order authority fields.
-
-Gate B implication: usable input boundary exists, but current Gate B executable evidence remains `NOT_RUN`.
-
-### E5 — Risk / position semantics
-
-Static state: **substantial primitives materialized; evidence/operation gaps remain**.
-
-`src/risk/engine.py` and `src/risk/policy.py` implement fail-closed market/account/order/position checks, kill switch, daily/open-position/drawdown/consecutive-loss limits, sizing/risk caps, REJECT authority, and ApprovedTradePlan production.
-
-`src/position/state_machine.py` defines unprotected/protected/emergency/reconciliation lifecycle semantics.
-
-Remaining Gate B gaps:
-
-- targeted criterion-level evidence for the complete daily/open-position/drawdown/kill-switch set is incomplete;
-- actual-fill -> protection quantity/action orchestration is not materialized;
-- integrated protection-failure -> emergency operation path is not materialized.
-
-### E4 — Execution / PaperBroker
-
-Static state: **broker and authority primitives materialized**.
-
-`src/execution/gateway.py` accepts only profiled ApprovedTradePlan as strategy-originated execution input and rejects raw TradeIntent.
-
-`src/brokers/paper.py` implements deterministic PaperBroker semantics, actual fill accounting, requested-vs-filled separation, exposure cap, idempotency, and reconciliation-before-retry.
-
-Remaining Gate B gap: no complete current-main protection execution / close-to-TradeResult orchestration across E4/E5/E6.
-
-### E6 — persistence / Registry
-
-Static state: **research persistence materialized; Slice 3 persistence absent**.
-
-Current E6 storage is explicitly capped at:
+Materialized path:
 
 ```text
-DRAFT -> BACKTESTING -> REJECTED | CANDIDATE
+normalized Position actual exposure
+-> E5 build_protect_position_action(...)
+-> protection-v0.1 PositionAction.PROTECT
+-> E4 prepare_protection_order(...)
+-> canonical STOP_MARKET / reduce_only protection OrderRequest
 ```
 
-The E6 handoff explicitly states no PAPER/later lifecycle behavior and no Slice 3 execution/provider persistence. Gate B therefore lacks durable Paper runtime state/restart/audit persistence for risk/position/order/protection/trade results.
+Verified statically:
 
-### E7 — integration / safety definitions
+- partial fill uses exact smaller `Position.actual_quantity`, not parent requested/approved maximum;
+- full fill preserves exact canonical quantity;
+- quantity profile/unit/asset remains `base-asset-v0.1 / BASE_ASSET / BTC` for `BTC_USDT_PERP`;
+- exact parent stop/target/max-hold values are bound into the E5 action;
+- E4 emits only the approved stop request and does not invent target/OCO/timer behavior;
+- plan/risk/position/action lineage remains exact;
+- identical action yields deterministic request identity; materially changed immediate authority changes identity/fingerprint;
+- unknown/mismatch/reconciliation-required Position truth fails closed;
+- over-approved actual exposure cannot expand ordinary protection authority;
+- legacy/missing/unsupported profile and `MODIFY_PROTECTION` remain non-executable;
+- expired parent entry TTL alone does not invalidate a fresh post-fill PositionAction;
+- expired PositionAction fails closed;
+- action creation/request preparation/submission intent does not equal `PROTECTION_VERIFIED` and does not change `OPEN_UNPROTECTED` to protected state.
 
-Static state: **Gate B Paper integration definitions incomplete**.
+No shared contract contradiction was found.
 
-`tests/integration/README.md` and `tests/safety/README.md` specify the required Slice 3 scenarios, but the current executable integration directory has no complete Paper E2E test materialization. E7 must define those tests only after the required domain interfaces are materialized and stable.
+## E7-owned test definitions added
 
-## Gate B critical blockers
+### Integration
 
-| Blocker | Owner(s) | State |
+`tests/integration/test_gate_b_protection_boundary.py`
+
+- commit `d7ff963c4e12bd800c42ea7c174a1f6b67742833`
+- uses real E5 producer, real E4 translator, and real PaperBroker where submit-vs-verification distinction is defined.
+
+### Safety
+
+`tests/safety/test_gate_b_protection_safety.py`
+
+- commit `ee29ce9dfe99a3dd723681c1d12b38ffe00c865a`
+- uses real E5/E4 production APIs for fail-closed cross-module definitions.
+
+No test was executed by E7-030.
+
+## Gate B evidence reconciliation
+
+The following criteria now have implementation/test definitions and only approved-local executable evidence remains:
+
+```text
+Partial fill semantics preserve actual quantity                = NOT_RUN
+Required protection follows actual filled quantity            = NOT_RUN
+Drawdown/daily/position/kill-switch rules enforced             = NOT_RUN
+```
+
+The risk-limit move from `BLOCKED` to `NOT_RUN` is supported by PR #35 plus existing kill-switch safety definitions. The protection move from `BLOCKED` to `NOT_RUN` is supported by PR #37/#38/#39 plus the new E7 integration/safety definitions.
+
+Neither is PASS.
+
+## Protection verification / failure gap
+
+Current callable pieces:
+
+| Behavior | Classification | Evidence |
 |---|---|---|
-| actual fill -> exact protection quantity/action -> E4 protection execution | E5 + E4 | `IMPLEMENTATION_GAP` |
-| integrated protection failure/loss -> emergency operational path | E5 + E4 | `IMPLEMENTATION_GAP` |
-| complete daily/open-position/drawdown/kill-switch criterion evidence | E5 | `EVIDENCE_GAP` |
+| E5 actual-exposure PositionAction producer | `IMPLEMENTED_NEEDS_LOCAL_EVIDENCE` | PR #38 |
+| E4 PositionAction -> canonical protection OrderRequest | `IMPLEMENTED_NEEDS_LOCAL_EVIDENCE` | PR #39 |
+| Generic PaperBroker submit/query/reconcile OrderResult primitives | `IMPLEMENTED_NEEDS_LOCAL_EVIDENCE` | `src/brokers/paper.py` |
+| E5 broker-truth -> protection lifecycle-event bridge | `IMPLEMENTATION_GAP` | no callable accepted implementation |
+| definitive protection failure -> `PROTECTION_FAILED` -> EMERGENCY | `IMPLEMENTATION_GAP` | transition exists; result-to-event bridge absent |
+| previously verified protection loss -> `PROTECTION_LOST` -> EMERGENCY | `IMPLEMENTATION_GAP` | transition exists; result-to-event bridge absent |
+| PaperBroker protection Fill lineage propagation | `IMPLEMENTATION_GAP` | Fill model supports lineage, but `record_fill()` does not populate it |
+
+The state machine alone is not enough to close the Gate B `Protection failure triggers emergency path` criterion.
+
+### Next bounded PM dependency
+
+E7 does not assign work. Recommended next dependency is **E5 protection-result lifecycle bridge** using existing normalized E4 shared truth:
+
+```text
+exact protection OrderRequest
++ authoritative OrderResult/query/reconciliation state
+-> E5 PROTECTION_VERIFIED | PROTECTION_FAILED | PROTECTION_LOST | fail-closed reconciliation event
+```
+
+Rationale: E4 already owns and exposes normalized broker/order truth; E5 owns lifecycle interpretation. Unknown/reconciliation-required truth must never become verified protection. If implementation demonstrates that a new cross-module serialized evidence object is actually required, the domain task must stop and return to E7 contract review rather than invent a private DTO.
+
+After that bridge materializes, E7 can define the real PaperBroker result -> E5 event -> state-machine failure/verification integration scenarios. E4 protection Fill lineage remains a later dependency before full close-to-TradeResult/audit parity.
+
+## Remaining Gate B blockers
+
+| Blocker | Owner boundary | State |
+|---|---|---|
+| protection broker truth -> E5 verified/failed/lost lifecycle event | E5 consuming E4 normalized truth | `IMPLEMENTATION_GAP` |
+| protection failure/loss -> integrated emergency behavior | E5 lifecycle bridge + E7 integration evidence | `IMPLEMENTATION_GAP` |
 | Paper risk/position/order/protection/trade persistence + restart | E6 | `IMPLEMENTATION_GAP` |
 | close path -> canonical TradeResult -> durable audit | E4 + E5 + E6 | `IMPLEMENTATION_GAP` |
-| Paper cross-module E2E/safety test materialization | E7 after domain interfaces | `INTEGRATION_TEST_DEFINITION_GAP` |
-| approved-local Gate B execution evidence | E7/PM after implementation/tests exist | `NOT_RUN` |
+| full Paper E2E/failure/restart suite | E7 after domain interfaces | `INTEGRATION_TEST_DEFINITION_GAP` |
+| approved-local Gate B executable evidence | E7/PM after prerequisites | `NOT_RUN` |
 
-No unresolved architecture/shared-contract blocker was identified. These are bounded implementation/test/evidence dependencies. PM remains tasking authority; E7 does not assign agent work from this status.
-
-## Dependency order
-
-1. close E5 risk-evidence gaps;
-2. materialize E5/E4 actual-fill protection and emergency paths;
-3. materialize E6 Paper runtime persistence/restart and E4/E5/E6 TradeResult audit closure;
-4. materialize E7 Paper integration/E2E/safety definitions;
-5. only then authorize and execute a bounded local-only Gate B matrix.
-
-Existing E4/E5 domain suites may be locally executable before the full matrix when PM explicitly authorizes a bounded verification task, but their future PASS would not substitute for missing cross-module implementation/E2E evidence.
-
-## Provider naming drift
-
-Active Product Owner broker target is OKX under `docs/architecture/BROKER_TARGET_OKX_DECISION_20260821.md`. Historical Gate C release text still contains Pionex wording.
-
-For E7-026 this is classified as **non-blocking documentation/governance drift** for later cleanup. It does not affect provider-neutral PaperBroker Gate B semantics and does not authorize Gate C/private-provider work.
+Gate B remains blocked until all required criteria have actual PASS evidence.
 
 ## Verification / compute / safety
 
 ```text
-project executable verification = NOT_RUN / NOT REQUIRED FOR STATIC PREFLIGHT
-PaperBroker runtime              = NOT_RUN
+project executable verification = NOT_RUN / DEFERRED TO LATER APPROVED-LOCAL TASK
 provider/private requests        = NOT_SENT
 exchange credentials             = NOT_USED
 GitHub Actions / CI              = NOT_USED
 hosted/GitHub-triggered compute  = NOT_USED
+Local Runner                     = NOT_REQUESTED
+Computer Adapter                 = NOT_USED
 PAPER / SHADOW / LIVE            = UNAUTHORIZED
 Registry real/live promotion     = NONE
-production/test/contract edits   = NONE
+E4/E5 production edits by E7     = NONE
+contracts / ADR edits by E7      = NONE
 Codex bug ticket                 = NONE
 ```
 
-Static GitHub content inspection found no `.github` directory on reviewed `main`; this is not a substitute for a later approved-local repository policy scan.
-
 ## Detailed evidence
 
-Criterion-by-criterion audit, evidence paths, preflight classifications, owners, and dependency order:
+`status/e7/GATE_B_PROTECTION_INTEGRATION_REVIEW_20260824.md`
 
-`status/e7/GATE_B_STATIC_PREFLIGHT_20260824.md`
+## Completion
 
-## Next integration action
-
-E7-026 stops at static preflight. The next action is for PM to select bounded tasks from the dependency order above. E7 does not begin implementation, Gate B executable verification, provider work, PAPER, SHADOW, LIVE, or another task automatically.
+E7-030 stops after persisting bounded E7-owned test definitions/evidence/status. E7 does not self-start the E5 bridge, approved-local verification, full Paper E2E, provider/private work, Gate C, PAPER, SHADOW, LIVE, or another task.

@@ -25,6 +25,12 @@ from .state_machine import (
     state_blocks_new_exposure,
     transition,
 )
+from .trade_result import (
+    FundingEvidence,
+    TradeResultBuildError,
+    TradeResultBuildOutcome,
+    build_trade_result,
+)
 
 __all__ = [
     "CloseActionError",
@@ -46,4 +52,8 @@ __all__ = [
     "state_allows_safe_open_claim",
     "state_blocks_new_exposure",
     "transition",
+    "FundingEvidence",
+    "TradeResultBuildError",
+    "TradeResultBuildOutcome",
+    "build_trade_result",
 ]

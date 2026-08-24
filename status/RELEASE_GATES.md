@@ -2,7 +2,7 @@
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
 > Baseline: 2026-08-20  
-> Current reconciliation: 2026-08-24 / `E7-20260824-053`  
+> Current reconciliation: 2026-08-24 / `E7-20260824-057`  
 > Policy: no gate may PASS without evidence from an allowed environment.
 
 ## Evidence status vocabulary
@@ -37,109 +37,99 @@ Accepted PR #32 execution evidence plus PR #33 evidence review remain authoritat
 
 Purpose: controlled Paper integration only; no real order submission.
 
-### Accepted static chain now on main / current E7 branch
+### Accepted source chain through E7-057
 
-Relevant accepted chain includes:
+Relevant accepted chain includes Gate B PR `#34` through `#65`, including:
 
-- Gate B static/risk/protection work PR `#34` through `#45`;
-- close/TradeResult chain PR `#46` through `#55`;
-- `position-lifecycle-projection-v0.1` contract PR `#57` / ADR-0007;
-- E5 lifecycle projection producer PR `#58`;
-- lifecycle vocabulary clarification PR `#60` / ADR-0008;
-- E6 durable Paper runtime implementation PR `#61 / merge 42f6d015ea5c9387983a822820dde211608a249e`;
-- E7 durable review PR `#62 / merge 383cc6bf622c10f441d082a36b03612a1a8f2a32`;
-- E7-053 companion freshness contract:
-  - `contracts/POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`;
-  - `docs/adr/ADR-0009-position-lifecycle-execution-evidence-freshness.md`;
-  - `status/e7/GATE_B_EXECUTION_LIFECYCLE_FRESHNESS_CONTRACT_DECISION_20260824.md`.
+- in-memory close-to-TradeResult PR `#55`;
+- lifecycle projection/vocabulary PR `#57/#58/#60`;
+- E6 durability PR `#61`;
+- E7 blocker review PR `#62`;
+- execution-freshness companion PR `#63`;
+- E5 companion producer PR `#64 / merge d36d1897ccb4ee06ed9a2dbf981dc4814d7a8541`;
+- E6 binding consumer + TradeResult reference remediation PR `#65 / merge 43eeb2bba236a12d641a30a807eb120990b6e595`;
+- E7-057 static re-review `status/e7/GATE_B_DURABLE_PAPER_REREVIEW_20260824.md`.
 
-All executable verification for the current Gate B chain remains unperformed.
+All Gate B executable verification remains unperformed.
 
-### Canonical Gate B criteria after E7-053
+### Canonical Gate B criteria after E7-057
 
-| Criterion | Current status | Evidence / blocker |
+| Criterion | Current status | Evidence / remaining requirement |
 |---|---|---|
 | Gate A | PASS | accepted PR #32/#33 evidence |
 | TradeIntent -> E5 RiskDecision boundary | NOT_RUN | implementation/definitions exist; approved-local evidence required |
 | E5 risk rejection and stale/unknown exposure gates | NOT_RUN | implementation/definitions exist; approved-local evidence required |
 | ApprovedTradePlan-only E4 strategy execution boundary | NOT_RUN | implementation/definitions exist; approved-local evidence required |
 | PaperBroker contract / partial-fill semantics | NOT_RUN | implementation/definitions exist; approved-local evidence required |
-| Required protection follows actual filled quantity | NOT_RUN | protection chain exists; approved-local evidence required |
-| Protection failure triggers emergency path | NOT_RUN | terminal truth + E5 bridge + E7 definitions exist; approved-local evidence required |
-| Drawdown/daily/position/kill-switch rules | NOT_RUN | criterion definitions exist; approved-local evidence required |
-| Ordinary EXIT in-memory -> TradeResult | NOT_RUN | accepted real E4/E5/Paper/funding path exists |
-| EMERGENCY_EXIT in-memory -> TradeResult | NOT_RUN | accepted real E4/E5/Paper/funding path exists |
-| Full verified PROTECTION_STOP -> TradeResult | NOT_RUN | accepted real verification/fill/flat/funding/result path exists |
-| Funding producer -> consumer compatibility | NOT_RUN | canonical E4 evidence directly consumed by E5; local evidence required |
+| Required protection follows actual filled quantity | NOT_RUN | implementation/definitions exist; approved-local evidence required |
+| Protection failure triggers emergency path | NOT_RUN | implementation/definitions exist; approved-local evidence required |
+| Drawdown/daily/position/kill-switch rules | NOT_RUN | implementation/definitions exist; approved-local evidence required |
+| Ordinary EXIT -> TradeResult durable chain | NOT_RUN | real E4/E5/Paper/funding/E6 definition now materialized |
+| EMERGENCY_EXIT -> TradeResult durable chain | NOT_RUN | real E4/E5/Paper/funding/E6 definition now materialized |
+| Full verified PROTECTION_STOP -> TradeResult durable chain | NOT_RUN | real verify/fill/flat/funding/result/persistence definition now materialized |
+| Funding producer -> consumer compatibility | NOT_RUN | source/consumer/persistence semantics statically coherent; local evidence required |
 | Position lifecycle ordering/profile | PASS STATIC / RESOLVED | PR #57/ADR-0007; not executable PASS |
 | Position lifecycle vocabulary | PASS STATIC / RESOLVED | PR #60/ADR-0008; not executable PASS |
-| E5 lifecycle projection producer | NOT_RUN / MATERIALIZED | PR #58 accepted; executable evidence absent |
-| E6 durable Paper runtime implementation | NOT_RUN / MATERIALIZED | PR #61 accepted for source integration; executable evidence absent |
-| Durable E4 execution truth -> E5 lifecycle freshness contract | PASS STATIC / RESOLVED | `position-lifecycle-execution-binding-v0.1` + ADR-0009 define the shared mechanical freshness rule; not executable PASS |
-| E5 execution-binding producer | BLOCKED | bounded producer adaptation required to emit one immutable companion binding for each Gate B restart-authoritative lifecycle projection |
-| E6 execution-binding persistence/recovery consumer | BLOCKED | bounded mechanical persistence/recompute/compare adaptation required; E6 must not infer lifecycle |
-| Durable TradeResult reference completeness | BLOCKED | separate E6 settled-contract defect from E7-052 remains; referenced OrderRequest/Fill/PositionAction graph must exist/match before READY |
-| Restart/persistence preserves required state | BLOCKED | E5/E6 companion adaptation + E6 TradeResult completeness repair required; executable evidence also absent |
-| Paper E2E closes to TradeResult and persists audit | BLOCKED | durable implementation chain is not complete and executable evidence is absent |
-| GitHub CI/Actions not used for verification | PASS | E7-053 uses no GitHub project compute |
+| E5 lifecycle projection producer | NOT_RUN / MATERIALIZED | PR #58 |
+| Durable E4 execution truth -> E5 lifecycle freshness contract | PASS STATIC / RESOLVED | PR #63/ADR-0009; not executable PASS |
+| E5 execution-binding producer | NOT_RUN / MATERIALIZED | PR #64 |
+| E6 durable Paper runtime + binding consumer | NOT_RUN / MATERIALIZED | PR #61/#65 |
+| Durable TradeResult referenced-object completeness | NOT_RUN / MATERIALIZED | PR #65 statically closes E7-052 defect; executable evidence absent |
+| Restart/persistence preserves required state | NOT_RUN | no remaining known static blocker; approved-local restart matrix required |
+| Paper E2E closes to TradeResult and persists audit | NOT_RUN | E7 durable E2E definition materialized; approved-local evidence required |
+| GitHub CI/Actions not used for verification | PASS | hard policy remains satisfied by E7-057 |
 
-### E7-053 shared freshness decision
+### Static disposition
 
-Classification:
-
-```text
-ADDITIVE_COMPANION_PROFILE
-schema_version = contracts-v0.1 / unchanged
-position-lifecycle-projection-v0.1 = unchanged
-position-lifecycle-execution-binding-v0.1 = new companion
-```
-
-The companion binds one exact lifecycle projection to all durable E4 Position-linked reduction-order evidence currently interpreted by E5 for:
+The two E7-052 blockers are now statically remediated:
 
 ```text
-PROTECTION_STOP
-POSITION_EXIT
-EMERGENCY_EXIT
+execution-truth/lifecycle freshness false READY = RESOLVED STATIC
+TradeResult referenced-object completeness       = RESOLVED STATIC
 ```
 
-For every in-scope request it covers exact OrderRequest payload identity plus the complete canonical OrderResult observation set and Fill set.
+PR #64 produces the exact immutable companion binding. PR #65 persists/recomputes the same fixed shared execution snapshot and refuses stale/missing/conflicting bindings without importing E5 lifecycle semantics.
 
-Recovery rule:
+PR #65 also requires the declared TradeResult request/fill/action reference graph and settled PositionAction lineage to exist/match; invalid/corrupt recovered graphs cannot remain READY.
 
-```text
-current durable execution snapshot == latest E5 binding snapshot
--> execution-freshness axis current
-
-current durable execution snapshot != latest E5 binding snapshot
--> fresh E5 interpretation required
--> old lifecycle projection cannot be restart READY
-```
-
-E6 does not infer the next lifecycle state. New evidence requires E5 to emit a new TRANSITION or REATTESTATION plus a new companion binding.
-
-Existing raw Position re-attestation rules remain a separate required freshness axis.
-
-### Entry path boundary
-
-Pre-position `entry-v0.1` execution is not uniformly `position_id`-linked and is not silently joined by `trade_plan_id`. A future restart-authoritative `PENDING_ENTRY` design requires explicit E7 refinement. Until then that case is not Gate B restart READY.
+No new shared contract or domain implementation blocker was found in E7-057 for the reviewed Gate B durable slice.
 
 ### Current Gate B state
 
 ```text
 Gate A = PASS / RESEARCH-INTEGRATION ONLY
-execution-truth/lifecycle freshness shared contract = RESOLVED STATIC
-E5 companion binding producer = BLOCKED / NOT YET MATERIALIZED
-E6 companion binding consumer/recovery = BLOCKED / NOT YET MATERIALIZED
-E6 TradeResult graph completeness repair = BLOCKED / NOT YET REMEDIATED
-Restart/persistence executable criterion = BLOCKED
-Paper E2E durable audit executable criterion = BLOCKED
-READY_FOR_APPROVED_LOCAL_GATE_B_VERIFICATION = NO
+E5 lifecycle projection producer = MATERIALIZED / executable NOT_RUN
+E5 lifecycle execution-binding producer = MATERIALIZED / executable NOT_RUN
+E6 durability + binding consumer + TradeResult completeness = MATERIALIZED / executable NOT_RUN
+Restart/persistence executable criterion = NOT_RUN
+Paper E2E durable audit executable criterion = NOT_RUN
+READY_FOR_APPROVED_LOCAL_GATE_B_VERIFICATION = YES
 Gate B = BLOCKED / NOT YET PASS
 PAPER = UNAUTHORIZED
 project executable verification = NOT_RUN
 ```
 
-No static finding converts an executable criterion to PASS.
+`READY_FOR_APPROVED_LOCAL_GATE_B_VERIFICATION` means source/contracts/test definitions are statically coherent enough for the next separately authorized local verification task. It is **not** Gate B PASS and does not authorize PAPER.
+
+### Required later local matrix
+
+After PM explicitly authorizes an exact accepted revision:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m unittest discover -s tests/strategy -p "test_*.py" -v
+python -m unittest discover -s tests/execution -p "test_*.py" -v
+python -m unittest discover -s tests/brokers -p "test_*.py" -v
+python -m unittest discover -s tests/position -p "test_*.py" -v
+python -m unittest discover -s tests/storage -p "test_*.py" -v
+python -m unittest discover -s tests/platform -p "test_*.py" -v
+python -m unittest discover -s tests/registry -p "test_*.py" -v
+python -m unittest discover -s tests/integration -p "test_*.py" -v
+python -m unittest discover -s tests/e2e -p "test_*.py" -v
+python -m unittest discover -s tests/safety -p "test_*.py" -v
+```
+
+No result from these commands exists yet.
 
 ---
 
@@ -149,7 +139,7 @@ No static finding converts an executable criterion to PASS.
 BLOCKED / UNCHANGED
 ```
 
-Gate B is not PASS. No provider/private scope is opened by E7-053.
+Gate B is not PASS. No provider/private scope is opened by E7-057.
 
 ---
 
@@ -165,8 +155,6 @@ Gate C is not PASS and Product Owner LIVE approval is absent.
 
 ## Future approved-local evidence format
 
-When E5/E6 remediation is accepted and PM authorizes an exact local revision, evidence must record:
-
 ```text
 Criterion:
 Status: PASS | FAIL | BLOCKED | NOT_RUN | NOT_APPLICABLE
@@ -180,15 +168,4 @@ Timestamp UTC:
 Notes:
 ```
 
-Minimum later commands include:
-
-```powershell
-$env:PYTHONPATH="src"
-python -m unittest discover -s tests/position -p "test_*.py" -v
-python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/integration -p "test_*.py" -v
-python -m unittest discover -s tests/e2e -p "test_*.py" -v
-python -m unittest discover -s tests/safety -p "test_*.py" -v
-```
-
-Never invent local results. Missing `tests/e2e` at an accepted revision is not PASS and must be materialized before the complete Gate B run.
+Never invent local results.

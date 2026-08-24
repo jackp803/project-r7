@@ -1,47 +1,41 @@
 # E6 Platform Status
 
-- task_id: `E6-20260824-017`
+- task_id: `E6-20260824-018`
 - agent: `E6`
-- state: `DONE / STATIC IMPLEMENTATION + TEST DEFINITIONS MATERIALIZED / EXECUTABLE NOT_RUN`
+- state: `DONE / STATIC REMEDIATION + TEST DEFINITIONS MATERIALIZED / EXECUTABLE NOT_RUN`
 - branch: `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824`
-- authoritative_main: `70aac8dc972eb24a436ab4c86e2dc77d2f383bca`
+- authoritative_main: `575e43a7aabb9b09cb161a2ce9b9b449e49fdcd6`
 - task_id_match: `YES`
-- implementation_tests_docs_head_before_handoff: `430b957e6214b79f8cd43aaad4bb3108c8205f4a`
-- handoff_path: `status/E6_GATE_B_BINDING_CONSUMER_TRADERESULT_COMPLETENESS_20260824.md`
-- handoff_commit: `5e6d9a063cc31d731d4caee76f6e55429b201783`
+- parent_e6_017_terminal_head: `d94432de7462064bb84b566043a1e368a4f5474f`
+- remediation_source_test_docs_head_before_evidence: `670fffc2f2181974285f6425c364c0f51dff8205`
+- evidence_path: `status/E6_GATE_B_TRADERESULT_REFERENCE_REMEDIATION_20260824.md`
+- evidence_commit: `7914d2bc64a7c553b1076a9d4f1dd7b8e05f851c`
 
 ## Result
 
-The two bounded E6 Gate B durability repairs are materialized statically.
+The two bounded PM static-review defects from unaccepted E6-017 are remediated in E6-owned storage code only.
 
-### Lifecycle execution binding consumer
+### TradeResult recovery severity
 
-E6 now persists one immutable `position-lifecycle-execution-binding-v0.1` per exact lifecycle projection and validates exact shared profile/scope/projection/revision/interpreted-time/snapshot/binding identities.
+Every TradeResult referenced-graph validation failure is now guaranteed non-READY on recovery. Identity/lineage mismatch or conflict is classified as `CONFLICT`; missing required graph/lineage and generic duplicate/unused/shape-invalid graph material are fail-closed and cannot retain `READY`. In particular, `TRADE_RESULT_REFERENCED_GRAPH_INVALID` is downgraded to `INCOMPLETE` when the underlying recovery would otherwise be READY.
 
-Recovery mechanically recomputes the accepted Position-linked reduction-order snapshot from durable:
+### Mandatory referenced PositionAction lineage
 
-```text
-POSITION_ACTION-authorized OrderRequests
-roles = PROTECTION_STOP | POSITION_EXIT | EMERGENCY_EXIT
-+ every durable OrderResult observation
-+ every durable matching Fill
-```
+TradeResult reference validation now requires settled-profile authority lineage rather than treating missing persisted lineage as optional.
 
-The canonical request/result/fill hash, ordering, count and set-hash rules mirror the accepted E7 contract / E5 producer. Entry-v0.1 evidence is not joined by trade plan and remains outside this execution-binding scope.
+For `PROTECT / PROTECTION_STOP`, exact required parent/policy/symbol lineage plus `protection_profile_version=protection-v0.1` is required.
 
-Current projection with missing/invalid/conflicting binding or changed durable execution snapshot cannot recover as READY. Execution mismatch is surfaced as `E5_EXECUTION_REINTERPRETATION_REQUIRED`. Existing raw E4 Position freshness remains a separate `E5_REATTESTATION_REQUIRED` axis.
+For `EXIT / POSITION_EXIT` and `EMERGENCY_EXIT / EMERGENCY_EXIT`, exact parent/strategy/policy/symbol lineage plus `close_profile_version=close-v0.1` is required.
 
-### TradeResult referenced-object completeness
+Missing required fields fail closed as incomplete/invalid. Mismatched lineage fails closed as conflict. No PositionEvent or lifecycle transition is inferred by E6.
 
-Before the supported journal persists a TradeResult, E6 now requires every serialized entry/exit OrderRequest, entry/exit Fill and exit/protection PositionAction reference to exist durably and match exact plan/position/symbol/risk/action/role lineage. Recovery rechecks any durable TradeResult referenced graph and fails closed when referenced objects are missing or mismatched.
-
-Existing funding, immutability, lifecycle vocabulary/revision/predecessor/broker-anchor and early Registry behavior are preserved.
+The E6-017 lifecycle execution-binding freshness implementation, raw Position re-attestation axis, UNKNOWN/reconciliation behavior, funding semantics, TradeResult immutability, and existing complete-graph behavior are preserved.
 
 ## Deterministic definitions
 
-Added/updated E6 definitions cover the binding freshness matrix, exact duplicate replay, execution identity conflicts, re-attestation with a fresh matching binding, raw Position freshness independence, entry scope exclusion, complete TradeResult references, and missing/mismatched request/fill/action references.
+`tests/storage/test_paper_runtime_reference_remediation.py` adds deterministic definitions for legacy generic-invalid recovery, PROTECT missing lineage, EXIT missing strategy lineage, EMERGENCY_EXIT policy mismatch, recovery conflict/incomplete severity, and valid complete closed-graph compatibility.
 
-Existing durability definitions that previously expected READY now materialize the required binding; closed TradeResult definitions now persist the exact referenced entry/exit request/fill/action graph.
+The prior E6-017 lifecycle execution-binding test definitions remain unchanged.
 
 ## Verification
 
@@ -49,7 +43,7 @@ Existing durability definitions that previously expected READY now materialize t
 local_verification = NOT_RUN
 ```
 
-No separate exact-revision Product-Owner/PM-approved Local Runner action was authorized. No tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute, Computer Adapter or other project executable workload was run.
+No separate exact-revision Product-Owner/PM-approved local action was authorized. No project tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute, or other project executable workload was run.
 
 Exact future Windows PowerShell commands:
 
@@ -67,7 +61,7 @@ python -m unittest discover -s tests/registry -p "test_*.py" -v
 - contracts/ADR changed by E6: `NONE`
 - E1-E5/E7 production/tests changed: `NONE`
 - provider/private/network/credentials: `NONE`
-- strategy lifecycle promotion: `NONE`
+- strategy promotion: `NONE`
 - PAPER/SHADOW/LIVE authority: `NONE`
 - GitHub Actions/CI/workflow use: `NONE`
 

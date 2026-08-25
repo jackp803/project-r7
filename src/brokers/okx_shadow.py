@@ -550,8 +550,8 @@ class OKXShadowProviderReader:
     def _send(self, request: PreparedOKXShadowRequest, failure_code: str) -> Mapping[str, Any]:
         try:
             response = self._transport.send(request)
-        except Exception as exc:  # transport/provider details are intentionally suppressed
-            raise OKXShadowProtocolError(failure_code) from exc
+        except Exception:  # transport/provider detail is deliberately discarded
+            raise OKXShadowProtocolError(failure_code) from None
         if not isinstance(response, Mapping):
             raise OKXShadowProtocolError(failure_code)
         return response

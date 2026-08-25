@@ -1,46 +1,56 @@
 # E5 Status
 
-- task_id: `E5-20260825-025`
+- task_id: `E5-20260825-027`
 - agent: `E5`
 - state: `DONE`
-- branch: `agent/e5-gate-b-test-remediation-20260825`
-- base_main_sha: `10d3eaedc0606c7e8c484376e7d58a27cf951899`
-- implementation_head_before_terminal_status: `ba3a630757e3fe602f3f3ce125046cbb816c2ba7`
-- summary: `Remediated only the stale lexical-zero assertion identified by E7-20260825-061. The lifecycle closure test now validates actual_quantity as Decimal numerical zero while retaining the existing exact broker-fact preservation assertion, lifecycle assertions, TradeResult closure assertions, and production semantics unchanged.`
-- files_changed: `tests/position/test_lifecycle_projection.py; coordination/E5/STATUS.md`
-- production_changed: `NO`
+- branch: `agent/e5-gate-c-risk-context-20260825`
+- base_main_sha: `43b3d5bd1746773c4018c9e30182e3e60024ab88`
+- implementation_evidence_head_before_terminal_status: `21fb8b6250757fd4e1a9acd3c176c07fac1b3692`
+- summary: `Materialized the bounded E5 Gate C pure RiskContext derivation/validation surface. Accepted normalized E1 current-market and E4 read-only Shadow batch facts now deterministically derive the existing E5 RiskContext without caller-supplied market/account/position/order safety flags or a second balance input. Market freshness is re-evaluated at the E5 decision boundary; normalized E4 identity/health/clock/read-only/account/balance/position/order/fill-checkpoint facts fail closed; same-batch runtime balance remains runtime-only; existing RiskPolicy and risk-engine semantics are unchanged.`
+- files_changed: `src/risk/context_derivation.py; src/risk/__init__.py; tests/risk/test_gate_c_context_derivation.py; status/E5_GATE_C_RISK_CONTEXT_DERIVATION_20260825.md; coordination/E5/STATUS.md`
+- production_policy_or_caps_changed: `NO`
+- risk_engine_validation_changed: `NO`
 - contracts_changed: `NONE`
 - adr_changed: `NONE`
-- other_agent_files_changed: `NO`
+- other_agent_production_or_tests_changed: `NO`
+- provider_network_or_auth_added: `NO`
+- provider_private_request_executed: `NO`
+- credentials_used_or_persisted: `NO`
+- runtime_balance_persisted_or_publicly_recorded: `NO`
+- paper_shadow_live_authority_changed: `NO`
 - local_verification: `NOT_RUN`
-- diagnostic_evidence: `status/e7/GATE_B_BOUNDED_DIAGNOSTIC_RERUN_20260825.md`
+- evidence_path: `status/E5_GATE_C_RISK_CONTEXT_DERIVATION_20260825.md`
 - next_owner: `PM/E7`
 
-## Remediation
+## Implemented boundary
 
-Affected test:
-
-`tests/position/test_lifecycle_projection.py` — `test_position_closed_requires_real_trade_result_outcome_and_exact_flat_position`
-
-Changed only:
-
-```python
-self.assertEqual("0", closed["actual_quantity"])
+```text
+accepted E1 MarketSnapshot
++ accepted E4 normalized OKX Shadow read result / same-batch runtime balance
++ explicit UTC E5 risk-evaluation time
++ E5 kill-switch/counters/drawdown
+-> existing RiskContext
 ```
 
-to contract-valid numerical-zero validation:
+No independent caller safety booleans or independently supplied available balance exist in the derivation API.
 
-```python
-self.assertEqual(Decimal("0"), Decimal(closed["actual_quantity"]))
-```
+## Fail-closed behavior
 
-The following exact broker-fact preservation assertion remains unchanged and still proves E5 does not rewrite E4 serialized scale:
+The derivation rejects or marks unsafe at minimum for stale/future/malformed/identity-mismatched/non-healthy market truth; degraded/contradictory Shadow health; non-read-only permission; clock/account/sub-account/mode/balance uncertainty; unknown/unexpected position exposure; pending orders; new/unreconciled fill activity; unknown fill checkpoint; provider/environment/instrument mismatch; and invalid E5 risk-runtime state.
 
-```python
-self._assert_broker_facts_preserved(flat_position, closed)
-```
+Exact market freshness is re-evaluated at the risk decision boundary with the accepted `5000 ms` Gate C limit.
 
-No E5 production lifecycle or TradeResult logic changed.
+Only safe normalized position truth derives `FLAT`, `open_position_count=0`, and `same_symbol_position_open=False`. Unsafe position truth is conservative and cannot enable new exposure.
+
+`new_exposure_allowed` is derived false whenever any observation axis is unsafe or the E5 kill switch is active. Existing daily-trade, open-position, drawdown, consecutive-loss, sizing, cost, leverage and other policy thresholds remain enforced by the unchanged existing risk engine.
+
+## Runtime-sensitive balance
+
+The exact same-batch runtime Decimal is passed only into the in-memory existing `RiskContext.available_balance` when account derivation is safe. The derivation result repr redacts the context and this STATUS/evidence contains no runtime balance value.
+
+## Tests materialized
+
+`tests/risk/test_gate_c_context_derivation.py` defines credential-free coverage for healthy derivation, runtime-balance redaction, 5000 ms boundary, stale/future/malformed/identity market failures, degraded/contradictory E4 facts, missing/invalid balance, position/order/fill failures, provider/account/permission/clock contradictions, kill switch and policy-counter preservation, invalid E5 runtime state, absence of caller-supplied safe booleans, and downstream existing risk-engine compatibility.
 
 ## Executable verification
 
@@ -48,15 +58,22 @@ No E5 production lifecycle or TradeResult logic changed.
 local_verification = NOT_RUN
 ```
 
-E7-20260825-061 is pre-remediation diagnostic FAIL evidence only and is not post-fix PASS evidence. This task grants no new project execution authority.
+Product Owner authorization permits approved-local credential-free verification for this task, but no exact-revision approved local runner action is exposed in this GitHub-connected session. No project code/tests were executed here.
 
-Exact future Windows PowerShell command from repository root:
+Exact future Windows PowerShell commands from repository root:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/position -p "test_*.py" -v
+python -m unittest discover -s tests/risk -p "test_*.py" -v
+python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
+
+`NOT_RUN != PASS`.
 
 GitHub Actions / CI / hosted runner / GitHub-triggered compute used: `NO`.
 
-E5 stops on `DONE` for `E5-20260825-025` and does not start any additional remediation or verification work.
+## Release boundary
+
+This task does not claim Gate C/SHADOW_READY PASS, does not perform provider verification, does not start SHADOW runtime, and does not authorize LIVE/capital exposure.
+
+E5 stops on `DONE` for `E5-20260825-027` and does not self-start E7 composition, provider verification, Gate C qualification, SHADOW runtime or LIVE work.

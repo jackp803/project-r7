@@ -1,28 +1,34 @@
 # E7 Current Task
 
-- task_id: `E7-20260825-069`
-- issued_at: `2026-08-25T14:31:00+08:00`
+- task_id: `E7-20260825-070`
+- issued_at: `2026-08-25T17:26:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-c-credential-free-qualification-20260825`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, Gate C baseline PR #75, accepted Phase-1/2 PRs #76/#77/#78/#79/#80, accepted Phase-3 PR #81 merge `9b3370cbf29ce47abe048cc18860cc89b5fd532d`, Product Owner Gate C / SHADOW-only authorization
+- target_branch: `agent/e7-gate-c-storage-diagnostic-20260825`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline PR #75, accepted Phase-1/2/3 work through PR #81, accepted E7-069 failed credential-free qualification evidence PR #82 merge `0d24fa68994e1d7ee36fbe46b30e179472042c9c`, Product Owner Gate C / SHADOW-only authorization including approved local-only verification
 
 ## Objective
 
-Execute only Gate C Phase 4: one complete **credential-free, fake/sanitized, approved-local Gate C qualification** against the exact accepted source revision below.
+Recover enough sanitized executable evidence to identify the exact `tests/storage` failure that caused the first Gate C credential-free qualification `E7-20260825-069` to FAIL.
 
-This task is executable evidence collection only. Do not modify production code, test definitions, contracts, ADRs, migrations, risk policy, or provider semantics. Do not perform remediation in this task.
+This is a **diagnostic/evidence-only** task. It is not a second Gate C qualification and must not change the authoritative result of E7-069:
 
-## Exact executable source revision
+```text
+E7-069 credential-free Gate C qualification = FAIL
+original failing suite                         = tests/storage / 87 tests / exit 1
+Gate C                                         = BLOCKED
+```
 
-The only revision that may be executed for qualification is:
+Do not modify production code, test definitions, contracts, ADRs, migrations, risk policy, provider semantics, or any E1-E6-owned file. Do not remediate in this task.
+
+## Exact diagnostic source revision
+
+Any project-code diagnostic execution must use exactly the same source revision as the failed qualification:
 
 ```text
 9b3370cbf29ce47abe048cc18860cc89b5fd532d
 ```
 
-This is the accepted `main` revision immediately after PR #81 and before this TASK issuance. The TASK issuance commit itself is coordination-only and is intentionally not part of the executable source revision.
-
-Before execution, local evidence must prove:
+Before any new execution, prove:
 
 - repository revision exactly equals the SHA above;
 - working tree is clean;
@@ -30,130 +36,120 @@ Before execution, local evidence must prove:
 - Python executable/version and `PYTHONPATH=src`;
 - no GitHub Actions/CI/hosted/GitHub-triggered compute.
 
-If exact revision/clean-tree/environment identity cannot be established, do not run and stop `BLOCKED` with exact evidence.
+If those preconditions cannot be established, stop `BLOCKED` with exact evidence.
 
-## Qualification matrix
+## Evidence-recovery priority
 
-Run the complete credential-free repository test matrix on the approved local environment. Use the exact source revision above and record each suite separately with command, start/end timestamp, test count, failures/errors/skips if reported, exit code, and PASS/FAIL.
+First, if the approved local bridge can retrieve the complete sanitized stdout/stderr/result for the existing failed job **without executing project code again**, recover the missing failure detail from:
 
-Required suites:
+```text
+request_id = REQ-E7-GATEC-069-01-6F8C2A41
+action_id  = GATE_C_CREDENTIAL_FREE_QUALIFICATION
+job_id     = JOB-B92E542317631555
+```
+
+Persist only the minimum sanitized material needed to identify:
+
+- every failing/erroring storage test name;
+- failure vs error classification;
+- exception/assertion type and sanitized message/reason;
+- relevant traceback frames/file/line information;
+- unittest failure/error summary.
+
+If complete existing-job failure detail is successfully recovered, **do not run project code again**.
+
+## Bounded diagnostic execution fallback
+
+If complete existing-job detail cannot be recovered from the prior job, Product Owner authority permits exactly one bounded approved-local diagnostic execution of the storage suite against the exact source revision above:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/market_data -p "test_*.py" -v
-python -m unittest discover -s tests/indicators -p "test_*.py" -v
-python -m unittest discover -s tests/strategy -p "test_*.py" -v
-python -m unittest discover -s tests/backtest -p "test_*.py" -v
-python -m unittest discover -s tests/execution -p "test_*.py" -v
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
-python -m unittest discover -s tests/risk -p "test_*.py" -v
-python -m unittest discover -s tests/position -p "test_*.py" -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/platform -p "test_*.py" -v
-python -m unittest discover -s tests/registry -p "test_*.py" -v
-python -m unittest discover -s tests/integration -p "test_*.py" -v
-python -m unittest discover -s tests/e2e -p "test_*.py" -v
-python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
-A suite is PASS only if its command exits `0` and unittest reports no failures/errors. `NOT_RUN != PASS`.
-
-The qualification is PASS only if **all required suites PASS in the same approved-local qualification job/run against the exact source revision**.
-
-## Local-job execution boundary
-
-Product Owner has already authorized approved-local, non-GitHub, credential-free verification for Gate C work.
-
-If the repository's approved local execution bridge is available, request exactly one bounded local job for this task using the existing E7 local-job mailbox mechanism. Use an action name specific to this task such as:
+Use a diagnostic-specific local action such as:
 
 ```text
-GATE_C_CREDENTIAL_FREE_QUALIFICATION
+GATE_C_STORAGE_FAILURE_DIAGNOSTIC
 ```
 
-The local job must execute only the matrix above against the exact source revision. It must not use provider credentials or real provider/private network access.
+Capture enough sanitized stdout/stderr so that failing/erroring test identity and reason cannot be lost to a short callback excerpt. Use the existing local-job mechanism only; do not use GitHub compute.
 
-If the approved local bridge/operator surface is genuinely unavailable, persist the exact blocker and stop `BLOCKED`; do not substitute GitHub compute or another environment.
+This single-suite diagnostic is **not** a qualification rerun. Its result cannot convert E7-069 from FAIL to PASS and cannot be combined with the thirteen earlier passing suites to manufacture a Gate C PASS.
 
-## Credential-free / network safety rules
+### Diagnostic interpretation
 
-This phase uses only fake/sanitized test inputs.
+If `tests/storage` FAILs again:
 
-Forbidden during this task:
+- preserve every failing/erroring test identity and sanitized reason;
+- classify only whether the evidence points to E6-owned storage implementation/test definition, E7 integration expectation, environment/reproducibility, or still-unknown ownership;
+- recommend an owner, but do not modify or remediate that owner's files.
+
+If `tests/storage` PASSes in the diagnostic:
+
+- record `NON_REPRODUCED / REPRODUCIBILITY GAP`;
+- preserve that the original E7-069 qualification remains FAIL;
+- do not declare the issue fixed and do not mark Gate C credential-free qualification PASS;
+- stop for PM review so a bounded reproducibility/remediation decision can be made.
+
+If the diagnostic itself cannot execute or its output is again insufficient, stop `PARTIAL` or `BLOCKED` with the exact remaining evidence gap.
+
+## Credential-free / safety boundary
+
+This task must remain completely credential-free and provider-disconnected.
+
+Forbidden:
 
 - real API key/secret/passphrase/token/cookie/browser-auth material;
-- real provider/private authenticated request;
-- external exchange account read;
+- provider/private authenticated requests;
+- external exchange account reads;
 - order submission/place/cancel/amend/close;
 - leverage/account/position-mode mutation;
 - transfer/deposit/withdrawal/capital movement;
 - PAPER or SHADOW runtime start;
-- LIVE/Gate D/capital exposure;
-- GitHub Actions/CI/hosted/GitHub-triggered execution.
-
-Public internet/provider access is not required for this qualification and must not be added merely to make tests pass.
-
-## Failure handling
-
-If any required suite fails or errors:
-
-1. preserve enough sanitized executable evidence to identify every failing/erroring test, exception/reason, command, exit code, source revision and environment;
-2. mark the qualification `FAIL`;
-3. do **not** selectively rerun, repair production/tests, weaken assertions, or start a remediation task yourself;
-4. update E7 STATUS and evidence artifact and stop `PARTIAL` or `BLOCKED` as appropriate for PM review.
-
-A failed first qualification attempt remains evidence. Do not hide it with a second attempt in the same task.
+- Gate D/LIVE/capital exposure;
+- GitHub Actions/CI/hosted/GitHub-triggered execution;
+- any production/test/contract/migration change;
+- selective test edits, assertion weakening, or remediation.
 
 ## Required evidence artifact
 
-Create/update only E7-owned evidence, for example:
+Create/update only E7-owned diagnostic evidence, for example:
 
 ```text
-status/e7/GATE_C_CREDENTIAL_FREE_QUALIFICATION_20260825.md
+status/e7/GATE_C_STORAGE_FAILURE_DIAGNOSTIC_20260825.md
 ```
 
-It must contain, in sanitized form:
+Include:
 
-- task ID;
-- exact execution source revision;
-- Product Owner authority reference;
-- local request/action/job identifiers if used;
-- OS/Python/environment evidence;
-- clean-tree proof;
-- exact matrix commands;
-- per-suite counts/exits/results;
-- total tests if determinable;
-- proof credential/private-provider/network mutation was not used;
-- proof GitHub compute was not used;
-- overall qualification result.
+- task ID and authority;
+- original E7-069 request/action/job IDs;
+- exact diagnostic source revision;
+- whether evidence was recovered from the original job or obtained by one bounded storage diagnostic run;
+- approved-local environment/clean-tree evidence if execution occurred;
+- exact diagnostic command if execution occurred;
+- storage test count, exit code, PASS/FAIL/NON_REPRODUCED;
+- every failing/erroring test identity and sanitized reason if present;
+- ownership classification/recommendation only, with no remediation;
+- explicit statement that E7-069 remains FAIL and Gate C remains BLOCKED;
+- proof no credentials/provider/private/mutation/GitHub compute/SHADOW/LIVE activity occurred.
 
-Do not include secrets, raw provider payloads, raw UID/account identifiers, exact balances, provider order/fill IDs, cookies/tokens, or browser-auth material.
-
-## Release interpretation
-
-Even if this credential-free qualification PASSes:
-
-```text
-Gate C — SHADOW_READY = BLOCKED / CREDENTIAL-DEPENDENT EVIDENCE STILL REQUIRED
-SHADOW runtime = NOT STARTED
-Gate D / LIVE = BLOCKED / NOT AUTHORIZED
-```
-
-Do not mark Gate C PASS from this task alone. The accepted Gate C baseline separately requires operator-gated production read-only verification after safe regional-domain/read-only credential setup and PM review.
+Do not include secrets, raw provider payloads, raw UID/account identifiers, exact balances, provider order/fill IDs, cookies/tokens, browser-auth material, or unnecessary user-specific filesystem paths.
 
 ## Writable scope
 
-Only E7-owned qualification/evidence/control paths needed for this task:
+Only:
 
-- `coordination/E7/LOCAL_JOB_REQUEST.json` using the existing local-job mailbox mechanism if required;
+- `coordination/E7/LOCAL_JOB_REQUEST.json` if a bounded diagnostic local job is needed;
 - `coordination/E7/STATUS.md`;
-- `status/e7/**` for this qualification evidence;
-- `status/INTEGRATION_STATUS.md` / `status/RELEASE_GATES.md` only to record non-promotional qualification state, never Gate C PASS.
+- `status/e7/GATE_C_STORAGE_FAILURE_DIAGNOSTIC_20260825.md`;
+- optionally `status/INTEGRATION_STATUS.md` / `status/RELEASE_GATES.md` only to preserve the non-promotional Gate C BLOCKED state.
 
 Forbidden:
 
 - all production source changes;
 - all test-definition changes;
-- E1-E6 STATUS/TASK or owned code/tests;
+- E1-E6 TASK/STATUS or owned code/tests;
 - contracts/ADRs/migrations;
 - remediation;
 - credentials/secrets;
@@ -166,17 +162,19 @@ Forbidden:
 
 ### DONE
 
-- exact source revision and clean approved-local environment are proven;
-- exactly one complete credential-free Gate C qualification matrix is executed;
-- every required suite PASSes with exit `0` and no unittest failure/error;
-- sanitized evidence is committed/pushed;
-- Gate C remains blocked pending credential-dependent read-only evidence and PM review.
+- exact missing storage failure identity/reason is recovered with sanitized evidence, either from the original job or from at most one bounded storage diagnostic execution; **or** the storage suite passes in that diagnostic and the result is correctly classified `NON_REPRODUCED / REPRODUCIBILITY GAP`;
+- no remediation or source/test change occurs;
+- E7-069 remains recorded as FAIL;
+- Gate C remains BLOCKED;
+- evidence and terminal E7 STATUS are committed/pushed to the target branch.
 
 ### PARTIAL / BLOCKED
 
-- any required suite fails/errors, exact revision cannot be proven, approved-local execution is unavailable, or evidence is insufficient.
-- preserve evidence, update STATUS, and stop without remediation or rerun.
+- exact source/clean approved-local environment cannot be established when execution is needed;
+- original job evidence cannot be recovered and bounded diagnostic execution is unavailable;
+- diagnostic output is again insufficient to identify the failure;
+- any authority/safety boundary cannot be satisfied.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E7-20260825-069`, execute only this TASK, update `coordination/E7/STATUS.md`, commit/push required evidence to the target branch, and stop on `DONE`, `PARTIAL`, or `BLOCKED`. Do not self-start credential setup/provider verification, remediation, SHADOW runtime, Gate D, or LIVE work.
+Read latest `main`, verify wake task ID `E7-20260825-070`, execute only this TASK, update `coordination/E7/STATUS.md`, commit/push required evidence to the target branch, and stop on `DONE`, `PARTIAL`, or `BLOCKED`. Do not self-start E6 remediation, another qualification, credential setup/provider verification, SHADOW runtime, Gate D, or LIVE work.

@@ -1,17 +1,17 @@
 # Integration Status
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Current review: `E7-20260825-064` / 2026-08-25  
-> Qualification source revision: `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8`  
+> PM formal review: 2026-08-25  
+> Qualified source revision: `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8`  
 > Contract baseline: `contracts-v0.1 / BASELINE`
 
-## Current integration target
+## Current integration state
 
-**Gate B / Slice 3 Paper readiness — post-remediation approved-local qualification evidence pending PM review**
+**Gate B / Slice 3 Paper readiness — formally accepted PASS; PAPER runtime remains unauthorized.**
 
-E7-064 authorized exactly one complete ten-suite qualification run. No production/test/contract/ADR remediation is authorized in this task.
+E7-20260825-064 completed exactly one authorized post-remediation ten-suite qualification in the Product-Owner-approved local Windows / non-GitHub environment.
 
-## Approved-local result
+## Accepted executable result
 
 ```text
 request_id = REQ-E7-GATEB-064-01-7B3E91C4
@@ -21,6 +21,7 @@ job_state  = SUCCEEDED
 exit_code  = 0
 duration   = 33.500 seconds
 overall_matrix_result = PASS
+PM evidence review = ACCEPTED
 ```
 
 Matrix:
@@ -40,9 +41,9 @@ safety      PASS / 50 tests / exit 0
 
 Total tests reported as run: `450`.
 
-All ten suites ran under the same approved local request/job, in the required order, against exact revision `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8` with a clean pre-run working tree and `PYTHONPATH=src`.
+All ten suites ran under the same approved local request/job, in required order, against exact revision `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8` with a clean pre-run working tree and `PYTHONPATH=src`.
 
-Detailed durable evidence:
+Durable evidence:
 
 `status/e7/GATE_B_POST_REMEDIATION_QUALIFICATION_20260825.md`
 
@@ -50,21 +51,23 @@ Detailed durable evidence:
 
 ```text
 Gate A — RESEARCH_READY = PASS / RESEARCH-INTEGRATION ONLY
-Gate B — PAPER_READY    = BLOCKED / PENDING_PM_EVIDENCE_REVIEW
-Gate C — SHADOW_READY   = BLOCKED / UNCHANGED
-Gate D — LIVE_READY     = BLOCKED / UNCHANGED
+Gate B — PAPER_READY    = PASS
+Gate C — SHADOW_READY   = BLOCKED / NOT AUTHORIZED TO START
+Gate D — LIVE_READY     = BLOCKED / NOT READY
 
-PAPER / SHADOW / LIVE = UNAUTHORIZED
+PAPER runtime = UNAUTHORIZED / NOT STARTED
+SHADOW = UNAUTHORIZED / NOT STARTED
+LIVE = UNAUTHORIZED / NOT STARTED
 ```
 
-The executable matrix passed, but E7-064 does not authorize E7 to promote Gate B. PM evidence review is the remaining authority step for formal Gate B disposition.
+Gate B PASS is a technical readiness disposition only. It does not itself start PAPER, promote a strategy, open provider/private API work, authorize credentials/exchange traffic, or authorize Gate C/SHADOW/LIVE.
 
 ## Scope / safety confirmation
 
 ```text
-production code changes = NONE
-test-definition changes = NONE
-contract / ADR changes = NONE
+production code changes during qualification = NONE
+test-definition changes during qualification = NONE
+contract / ADR changes during qualification = NONE
 second qualification / selective rerun = NONE
 GitHub Actions / CI / hosted runner = NOT USED
 GitHub-triggered compute = NOT USED
@@ -80,7 +83,7 @@ capital exposure = NONE
 ## Next authority
 
 ```text
-next_authority = PM evidence review
+next_authority = Product Owner decision on any PAPER runtime activation or later-stage authorization
 ```
 
-E7 stops after persisting this qualification evidence and terminal task status. No Gate C, provider/private work, PAPER, SHADOW, LIVE, remediation, or another task is self-started.
+Until such authorization is issued through PM governance, E7 and domain agents remain on HOLD for new execution/release-stage work.

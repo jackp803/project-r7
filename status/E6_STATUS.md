@@ -1,70 +1,59 @@
 # E6 Platform Status
 
-- task_id: `E6-20260824-018`
+- task_id: `E6-20260825-022`
 - agent: `E6`
-- state: `DONE / STATIC REMEDIATION + TEST DEFINITIONS MATERIALIZED / EXECUTABLE NOT_RUN`
-- branch: `agent/e6-gate-b-binding-consumer-traderesult-completeness-20260824`
-- authoritative_main: `575e43a7aabb9b09cb161a2ce9b9b449e49fdcd6`
+- state: `DONE / STATIC IMPLEMENTATION + TEST DEFINITIONS MATERIALIZED / EXECUTABLE NOT_RUN`
+- branch: `agent/e6-gate-c-shadow-mode-20260825`
+- authoritative_main_at_branch_creation: `952b57e45f673a0af16c8f3b23640996c88e4d1c`
 - task_id_match: `YES`
-- parent_e6_017_terminal_head: `d94432de7462064bb84b566043a1e368a4f5474f`
-- remediation_source_test_docs_head_before_evidence: `670fffc2f2181974285f6425c364c0f51dff8205`
-- evidence_path: `status/E6_GATE_B_TRADERESULT_REFERENCE_REMEDIATION_20260824.md`
-- evidence_commit: `7914d2bc64a7c553b1076a9d4f1dd7b8e05f851c`
+- implementation_tests_docs_head: `6c4c238c435f403506503b3ff7a475bb2a80d14d`
+- evidence_path: `status/E6_GATE_C_OPERATIONAL_MODE_SHADOW_20260825.md`
+- evidence_commit: `fd157a9a182b26457a08c74a3abf0919bbc03b4c`
 
 ## Result
 
-The two bounded PM static-review defects from unaccepted E6-017 are remediated in E6-owned storage code only.
+The bounded E6 Phase-1 Gate C gap is materialized statically.
 
-### TradeResult recovery severity
+E6 now persists the accepted shared `OperationalMode` vocabulary as authoritative durable backend state with append-only transition audit/revision identity. SHADOW requires an explicit audited transition; StrategyLifecycleState remains separate.
 
-Every TradeResult referenced-graph validation failure is now guaranteed non-READY on recovery. Identity/lineage mismatch or conflict is classified as `CONFLICT`; missing required graph/lineage and generic duplicate/unused/shape-invalid graph material are fail-closed and cannot retain `READY`. In particular, `TRADE_RESULT_REFERENCED_GRAPH_INVALID` is downgraded to `INCOMPLETE` when the underlying recovery would otherwise be READY.
+The supported Gate C surface does not initialize or transition into LIVE. The additive SQL migration also rejects revisioned transitions into LIVE. Existing/future-authorized LIVE remains representable as a distinct shared value, but Gate C recovery classifies it `LIVE_UNAUTHORIZED` and exposes no execution authority.
 
-### Mandatory referenced PositionAction lineage
+Sanitized Shadow checkpoints are append-only, bound to the exact SHADOW mode revision, and accept only the bounded production-read-only OKX evidence shape. Required provider truth must be known/healthy with `read_only` permission, no unexpected exposure, no pending order and no unreconciled fill. Extra secret/provider-private/account-sensitive fields are rejected.
 
-TradeResult reference validation now requires settled-profile authority lineage rather than treating missing persisted lineage as optional.
+Database restart restores the exact mode and last accepted checkpoint, but a pre-restart checkpoint is historical evidence only. A newly opened store remains `RECONCILIATION_REQUIRED` until a strictly newer accepted checkpoint is recorded; exact old-checkpoint replay does not grant freshness.
 
-For `PROTECT / PROTECTION_STOP`, exact required parent/policy/symbol lineage plus `protection_profile_version=protection-v0.1` is required.
+Paper runtime evidence is not queried or reinterpreted as Shadow provider truth. Shadow evidence cannot become LIVE order/account-mutation authority.
 
-For `EXIT / POSITION_EXIT` and `EMERGENCY_EXIT / EMERGENCY_EXIT`, exact parent/strategy/policy/symbol lineage plus `close_profile_version=close-v0.1` is required.
+## Migration
 
-Missing required fields fail closed as incomplete/invalid. Mismatched lineage fails closed as conflict. No PositionEvent or lifecycle transition is inferred by E6.
-
-The E6-017 lifecycle execution-binding freshness implementation, raw Position re-attestation axis, UNKNOWN/reconciliation behavior, funding semantics, TradeResult immutability, and existing complete-graph behavior are preserved.
-
-## Deterministic definitions
-
-`tests/storage/test_paper_runtime_reference_remediation.py` adds deterministic definitions for legacy generic-invalid recovery, PROTECT missing lineage, EXIT missing strategy lineage, EMERGENCY_EXIT policy mismatch, recovery conflict/incomplete severity, and valid complete closed-graph compatibility.
-
-The prior E6-017 lifecycle execution-binding test definitions remain unchanged.
+`0004_operational_mode_shadow.sql` is additive over accepted Gate B `0001/0002/0003`. No existing migration or Gate B durability implementation was modified.
 
 ## Verification
+
+Product Owner authorized approved-local credential-free verification, but this ChatGPT GitHub session has no approved local runner/computer execution surface.
 
 ```text
 local_verification = NOT_RUN
 ```
 
-No separate exact-revision Product-Owner/PM-approved local action was authorized. No project tests, migrations, restart runtime, provider/private request, GitHub Actions/CI/hosted runner, GitHub-triggered compute, or other project executable workload was run.
-
-Exact future Windows PowerShell commands:
+Exact future commands:
 
 ```powershell
 $env:PYTHONPATH="src"
 python -m unittest discover -s tests/storage -p "test_*.py" -v
 python -m unittest discover -s tests/platform -p "test_*.py" -v
-python -m unittest discover -s tests/registry -p "test_*.py" -v
 ```
 
-`NOT_RUN != PASS`.
+No GitHub Actions/CI/hosted/GitHub-triggered compute, provider/private network call, credentials, PAPER runtime start, SHADOW runtime start, order/account mutation, or LIVE path was used.
 
 ## Scope / release
 
-- contracts/ADR changed by E6: `NONE`
+- shared contracts/ADR changed: `NONE`
 - E1-E5/E7 production/tests changed: `NONE`
-- provider/private/network/credentials: `NONE`
-- strategy promotion: `NONE`
-- PAPER/SHADOW/LIVE authority: `NONE`
-- GitHub Actions/CI/workflow use: `NONE`
+- provider/private/auth/network implementation: `NONE`
+- risk/strategy/execution semantics changed: `NONE`
+- executable verification: `NOT_RUN`
+- Gate C / SHADOW_READY PASS: `NOT CLAIMED`
+- LIVE: `UNAUTHORIZED`
 
-No Restart/persistence PASS, Paper E2E PASS, Gate B/PAPER_READY PASS, or PAPER/SHADOW/LIVE authorization is claimed.
-
-E6 stops after the terminal mailbox STATUS for this task is pushed and does not self-start another task.
+E6 stops on DONE and does not self-start E5 composition, provider verification, Gate C qualification, or another task.

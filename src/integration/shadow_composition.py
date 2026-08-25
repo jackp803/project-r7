@@ -16,7 +16,6 @@ from market_data import Candle, MarketSnapshot
 from risk import (
     RiskPolicy,
     RiskProposal,
-    build_approved_trade_plan,
     derive_gate_c_risk_context,
     evaluate_trade_intent,
 )
@@ -32,6 +31,7 @@ from strategy import (
 SCHEMA_VERSION = "contracts-v0.1"
 SHADOW_MODE = "SHADOW"
 SHADOW_ENVIRONMENT_CLASSIFICATION = "PRODUCTION_READ_ONLY_SHADOW"
+SHADOW_PLANNING_PROFILE = "shadow-hypothetical-planning-v0.1"
 
 SHADOW_CAPABILITY_MANIFEST = (
     "observe_provider_read_only",
@@ -39,7 +39,7 @@ SHADOW_CAPABILITY_MANIFEST = (
     "derive_existing_gate_c_risk_context",
     "evaluate_existing_risk_policy",
     "persist_sanitized_shadow_checkpoint",
-    "materialize_hypothetical_provider_neutral_plan",
+    "emit_non_authoritative_shadow_planning_evidence",
 )
 
 _FORBIDDEN_PROVIDER_CALLABLES = frozenset(
@@ -75,6 +75,22 @@ class ShadowCompositionError(RuntimeError):
         self.code = code
 
 
+@dataclass(frozen=True)
+class ShadowPlanningEvidence:
+    """E7-local audit view; explicitly not ApprovedTradePlan or execution authority."""
+
+    profile_version: str
+    operational_mode: str
+    provider_observation_ref: str
+    signal_id: str
+    intent_id: str
+    risk_decision_id: str
+    risk_decision: str
+    hypothetical_new_exposure_allowed: bool
+    provider_submit_reachable: bool = False
+    provider_mutation_reachable: bool = False
+
+
 @dataclass(frozen=True, repr=False)
 class ShadowCycleResult:
     """Sanitized/auditable Shadow result with no provider execution authority."""
@@ -86,7 +102,7 @@ class ShadowCycleResult:
     signal: Mapping[str, Any]
     trade_intent: Mapping[str, Any] | None
     risk_decision: Mapping[str, Any] | None
-    hypothetical_trade_plan: Mapping[str, Any] | None
+    planning_evidence: ShadowPlanningEvidence | None
     ready_for_hypothetical_new_exposure: bool
     reason_codes: tuple[str, ...]
 
@@ -97,15 +113,10 @@ class ShadowCycleResult:
             if isinstance(self.risk_decision, Mapping)
             else None
         )
-        plan_id = (
-            self.hypothetical_trade_plan.get("trade_plan_id")
-            if isinstance(self.hypothetical_trade_plan, Mapping)
-            else None
-        )
         return (
             "ShadowCycleResult(mode_revision={!r}, provider_observation_ref={!r}, "
             "provider_read_healthy={!r}, shadow_checkpoint_id={!r}, signal_id={!r}, "
-            "risk_decision_id={!r}, hypothetical_trade_plan_id={!r}, "
+            "risk_decision_id={!r}, planning_evidence_profile={!r}, "
             "ready_for_hypothetical_new_exposure={!r}, reason_codes={!r})"
         ).format(
             self.mode_revision,
@@ -114,7 +125,7 @@ class ShadowCycleResult:
             self.shadow_checkpoint_id,
             signal_id,
             risk_id,
-            plan_id,
+            None if self.planning_evidence is None else self.planning_evidence.profile_version,
             self.ready_for_hypothetical_new_exposure,
             self.reason_codes,
         )
@@ -313,10 +324,10 @@ def _checkpoint_payload(
 class ShadowComposition:
     """Gate C no-submit composition over accepted E1/E2/E4/E5/E6 surfaces.
 
-    This object intentionally has no broker, execution gateway, order request,
-    provider request builder, or generic transport dependency. The only E4
-    operation retained is the bound read-only `observe` capability from the exact
-    accepted `OKXShadowProviderReader` type.
+    The object intentionally has no Broker, ExecutionGateway, OrderRequest,
+    provider request builder, generic authenticated transport, or ApprovedTradePlan
+    output. The only E4 operation retained is the bound read-only `observe`
+    capability from the exact accepted `OKXShadowProviderReader` type.
     """
 
     __slots__ = ("_mode_store", "_observe_provider", "_strategy_runtime")
@@ -421,7 +432,7 @@ class ShadowComposition:
                 signal=dict(signal),
                 trade_intent=None,
                 risk_decision=None,
-                hypothetical_trade_plan=None,
+                planning_evidence=None,
                 ready_for_hypothetical_new_exposure=False,
                 reason_codes=tuple(sorted(reasons)),
             )
@@ -444,29 +455,30 @@ class ShadowComposition:
             decided_at=evaluation_time,
         )
 
-        hypothetical_plan: Mapping[str, Any] | None = None
-        if risk_decision.get("decision") == "APPROVE":
-            if checkpoint is None or post_reconciliation is None or not post_reconciliation.shadow_planning_safe:
-                raise ShadowCompositionError("RISK_APPROVAL_WITHOUT_FRESH_SHADOW_RECONCILIATION")
-            hypothetical_plan = build_approved_trade_plan(
-                trade_intent,
-                risk_decision,
-                risk_policy,
-                created_at=evaluation_time,
-            )
+        ready = (
+            risk_decision.get("decision") == "APPROVE"
+            and checkpoint is not None
+            and post_reconciliation is not None
+            and post_reconciliation.shadow_planning_safe
+        )
+        planning_evidence = ShadowPlanningEvidence(
+            profile_version=SHADOW_PLANNING_PROFILE,
+            operational_mode=SHADOW_MODE,
+            provider_observation_ref=provider_ref,
+            signal_id=str(signal.get("signal_id", "")),
+            intent_id=str(trade_intent.get("intent_id", "")),
+            risk_decision_id=str(risk_decision.get("risk_decision_id", "")),
+            risk_decision=str(risk_decision.get("decision", "")),
+            hypothetical_new_exposure_allowed=ready,
+            provider_submit_reachable=False,
+            provider_mutation_reachable=False,
+        )
 
         reasons = set(derivation.reason_codes)
         reasons.update(str(code) for code in risk_decision.get("reason_codes", ()))
         if checkpoint is None:
             reasons.update(initial_recovery.reason_codes)
 
-        ready = (
-            hypothetical_plan is not None
-            and risk_decision.get("decision") == "APPROVE"
-            and checkpoint is not None
-            and post_reconciliation is not None
-            and post_reconciliation.shadow_planning_safe
-        )
         return ShadowCycleResult(
             mode_revision=initial_recovery.current_mode.mode_revision,
             provider_observation_ref=provider_ref,
@@ -475,7 +487,7 @@ class ShadowComposition:
             signal=dict(signal),
             trade_intent=dict(trade_intent),
             risk_decision=dict(risk_decision),
-            hypothetical_trade_plan=(None if hypothetical_plan is None else dict(hypothetical_plan)),
+            planning_evidence=planning_evidence,
             ready_for_hypothetical_new_exposure=ready,
             reason_codes=tuple(sorted(reasons)),
         )
@@ -483,7 +495,9 @@ class ShadowComposition:
 
 __all__ = [
     "SHADOW_CAPABILITY_MANIFEST",
+    "SHADOW_PLANNING_PROFILE",
     "ShadowComposition",
     "ShadowCompositionError",
     "ShadowCycleResult",
+    "ShadowPlanningEvidence",
 ]

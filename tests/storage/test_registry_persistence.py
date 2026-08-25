@@ -231,7 +231,15 @@ class RegistryPersistenceTests(unittest.TestCase):
             migrations = connection.execute(
                 "SELECT migration_name FROM schema_migrations ORDER BY migration_name"
             ).fetchall()
-            self.assertEqual(["0001_strategy_registry.sql"], [row[0] for row in migrations])
+            expected = sorted(path.name for path in Path("src/storage/migrations").glob("*.sql"))
+            self.assertTrue(
+                {
+                    "0001_strategy_registry.sql",
+                    "0002_paper_runtime_durability.sql",
+                    "0003_lifecycle_execution_binding.sql",
+                }.issubset(expected)
+            )
+            self.assertEqual(expected, [row[0] for row in migrations])
         finally:
             connection.close()
 

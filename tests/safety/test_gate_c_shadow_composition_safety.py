@@ -253,7 +253,7 @@ class GateCShadowCompositionSafetyTests(unittest.TestCase):
                 snapshot, candles = _market()
                 result = _run(composition, snapshot, candles)
                 self.assertFalse(result.provider_read_healthy)
-                self.assertEqual("REJECT", result.risk_decision["decision"])
+                self.assertEqual("REJECT", result.planning_evidence.risk_decision)
                 self.assertFalse(result.ready_for_hypothetical_new_exposure)
                 self.assertFalse(result.planning_evidence.hypothetical_new_exposure_allowed)
                 self.assertIsNone(result.shadow_checkpoint_id)
@@ -365,6 +365,8 @@ class GateCShadowCompositionSafetyTests(unittest.TestCase):
         self.assertNotIn("runtime_available_balance", checkpoint_text)
         self.assertFalse(result.planning_evidence.provider_submit_reachable)
         self.assertFalse(result.planning_evidence.provider_mutation_reachable)
+        self.assertFalse(hasattr(result, "trade_intent"))
+        self.assertFalse(hasattr(result, "risk_decision"))
         self.assertFalse(hasattr(result.planning_evidence, "trade_plan_id"))
         store.close()
 

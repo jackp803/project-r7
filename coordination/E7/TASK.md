@@ -1,130 +1,182 @@
 # E7 Current Task
 
-- task_id: `E7-20260825-068`
-- issued_at: `2026-08-25T13:55:00+08:00`
+- task_id: `E7-20260825-069`
+- issued_at: `2026-08-25T14:31:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-c-shadow-composition-20260825`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, Gate C baseline PR #75 merge `c158c8ca4fd01fa9314dd2e7a1a9c0c0d2935624`, accepted E1 PR #76 merge `61ea28f8b6d3ea6cd54e0abb84299303d490a63d`, accepted E6 PR #77 merge `64eb6f6689cb6f3e2d067af029df36ac58f4a321`, accepted E4 PR #78 merge `562c4c324129557e5d565b1a37deb49d2c007429`, accepted E4 balance handoff PR #79 merge `9de9a7f457f4c3d577229b9a667e8d14cc2226ee`, accepted E5 PR #80 merge `fda1d8805c8807ea66196b11fcccc24c55ced239`, Product Owner Gate C / SHADOW-only authorization
+- target_branch: `agent/e7-gate-c-credential-free-qualification-20260825`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, Gate C baseline PR #75, accepted Phase-1/2 PRs #76/#77/#78/#79/#80, accepted Phase-3 PR #81 merge `9b3370cbf29ce47abe048cc18860cc89b5fd532d`, Product Owner Gate C / SHADOW-only authorization
 
 ## Objective
 
-Execute only Gate C Phase 3 from `status/e7/GATE_C_READINESS_BASELINE_20260825.md`: materialize the cross-module **Shadow composition boundary plus integration/E2E/safety test definitions** now that E1/E4/E5/E6 dependencies are accepted.
+Execute only Gate C Phase 4: one complete **credential-free, fake/sanitized, approved-local Gate C qualification** against the exact accepted source revision below.
 
-This task is credential-free and must not start a real SHADOW provider session. It must prove by architecture/test definition that the Shadow runtime can observe and reason about production-read-only provider state while provider mutation/order submission remains structurally unreachable.
+This task is executable evidence collection only. Do not modify production code, test definitions, contracts, ADRs, migrations, risk policy, or provider semantics. Do not perform remediation in this task.
 
-## Composition requirements
+## Exact executable source revision
 
-Build the smallest E7-owned cross-cutting composition/glue necessary to define and test this path using accepted owner surfaces without reimplementing domain semantics:
+The only revision that may be executed for qualification is:
 
 ```text
-E1 current OKX public MarketSnapshot + finalized Candle
--> unchanged E2 Strategy Runtime
--> E5 Gate C RiskContext derivation / existing risk evaluation
--> hypothetical/no-submit Shadow planning boundary only
--> E6 OperationalMode.SHADOW sanitized checkpoint/audit/restart
+9b3370cbf29ce47abe048cc18860cc89b5fd532d
 ```
 
-Requirements:
+This is the accepted `main` revision immediately after PR #81 and before this TASK issuance. The TASK issuance commit itself is coordination-only and is intentionally not part of the executable source revision.
 
-1. Reuse E1 current-market/finalized-candle implementation unchanged.
-2. Reuse E2 StrategyDefinition/runtime semantics unchanged; no private Shadow strategy fork.
-3. Reuse E5 `derive_gate_c_risk_context(...)` and existing risk-policy evaluation unchanged.
-4. Consume E4 `OKXShadowProviderReader`/`OKXShadowReadResult` only through its accepted read-only capability surface. A submit-capable Demo/live broker object must not be injected into or reachable from the Shadow composition graph.
-5. Reuse E6 authoritative `OperationalMode`/SHADOW checkpoint store. SHADOW mode/checkpoint evidence must remain distinct from PAPER and must never become LIVE authority.
-6. Synthetic credential objects may be used only as fake-test inputs to prove capability shape/redaction. Credential presence must not activate a submit branch.
-7. No E7 code may parse provider payloads, implement auth/signing, define risk caps, redefine MarketSnapshot/RiskContext/OperationalMode, or duplicate domain logic.
-8. If a shared contract is genuinely insufficient, stop `BLOCKED` with exact evidence before inventing a parallel shared type.
+Before execution, local evidence must prove:
 
-## Mandatory integration/safety proofs
+- repository revision exactly equals the SHA above;
+- working tree is clean;
+- approved local Windows / non-GitHub environment;
+- Python executable/version and `PYTHONPATH=src`;
+- no GitHub Actions/CI/hosted/GitHub-triggered compute.
 
-Add E7-owned definitions proving at minimum:
+If exact revision/clean-tree/environment identity cannot be established, do not run and stop `BLOCKED` with exact evidence.
 
-- authoritative persisted mode must be `SHADOW` before Shadow planning/evaluation can be considered ready;
-- restart of SHADOW requires the E6 fresh-reconciliation rule before planning can become safe again;
-- healthy E1 + healthy E4 + safe E5 state can flow through unchanged E2/E5 semantics and produce a hypothetical/auditable Shadow decision without any provider mutation;
-- stale/future/non-healthy E1 market truth fails closed;
-- E4 auth/permission/clock/domain/account/position/order/fill degradation fails closed through E5 and cannot become new-exposure permission;
-- E4 same-batch runtime balance may be consumed in memory but never enters E6 durable/public Shadow checkpoint material;
-- Paper evidence cannot satisfy Shadow provider truth/checkpoint requirements;
-- Shadow evidence cannot authorize LIVE or instantiate a LIVE execution path;
-- no submit/place/cancel/amend/close/leverage/mode/transfer/deposit/withdraw/generic authenticated request capability is reachable from the Shadow composition object graph;
-- attempts to miswire a submit-capable E4 adapter/broker into Shadow are rejected structurally or at composition validation before any transport call;
-- fake transport audit for a healthy Shadow observation contains only the accepted public time read plus exact private GET allowlist and zero mutation methods/requests;
-- synthetic valid credentials do not alter the reachable capability graph;
-- exceptions/loggable integration evidence redact credential material, exact runtime balance, raw UID/main UID/API label/bound IP, provider order/fill IDs and full raw responses;
-- missing/corrupt/contradictory E6 state/checkpoint fails closed;
-- SHADOW -> LIVE is never automatic or inferred.
+## Qualification matrix
 
-## Test locations
+Run the complete credential-free repository test matrix on the approved local environment. Use the exact source revision above and record each suite separately with command, start/end timestamp, test count, failures/errors/skips if reported, exit code, and PASS/FAIL.
 
-Use only E7-owned cross-module test paths as appropriate:
-
-- `tests/integration/**`
-- `tests/e2e/**`
-- cross-module `tests/safety/**`
-
-You may add narrowly scoped E7-owned composition code under an already accepted cross-cutting location (for example `src/domain/**` or a clearly integration-owned module) only if needed. Do not modify E1-E6 production behavior to make integration tests pass; return any domain defect to its owner instead.
-
-## Executable verification
-
-Product Owner authorizes approved-local, non-GitHub, **credential-free fake/sanitized** verification for this task. If the approved local runner is available, run only relevant E7 integration/E2E/safety suites, for example:
+Required suites:
 
 ```powershell
 $env:PYTHONPATH="src"
+python -m unittest discover -s tests/market_data -p "test_*.py" -v
+python -m unittest discover -s tests/indicators -p "test_*.py" -v
+python -m unittest discover -s tests/strategy -p "test_*.py" -v
+python -m unittest discover -s tests/backtest -p "test_*.py" -v
+python -m unittest discover -s tests/execution -p "test_*.py" -v
+python -m unittest discover -s tests/brokers -p "test_*.py" -v
+python -m unittest discover -s tests/risk -p "test_*.py" -v
+python -m unittest discover -s tests/position -p "test_*.py" -v
+python -m unittest discover -s tests/storage -p "test_*.py" -v
+python -m unittest discover -s tests/platform -p "test_*.py" -v
+python -m unittest discover -s tests/registry -p "test_*.py" -v
 python -m unittest discover -s tests/integration -p "test_*.py" -v
 python -m unittest discover -s tests/e2e -p "test_*.py" -v
 python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
-No real provider/private network request, real credential, SHADOW runtime start, order submission, provider mutation, LIVE, or capital exposure is authorized. If approved-local execution is unavailable, record `NOT_RUN` with exact commands. `NOT_RUN != PASS`.
+A suite is PASS only if its command exits `0` and unittest reports no failures/errors. `NOT_RUN != PASS`.
 
-This task is **not** the final Gate C executable qualification. A separate exact-revision full credential-free Gate C matrix will be issued after PM reviews and merges these definitions.
+The qualification is PASS only if **all required suites PASS in the same approved-local qualification job/run against the exact source revision**.
+
+## Local-job execution boundary
+
+Product Owner has already authorized approved-local, non-GitHub, credential-free verification for Gate C work.
+
+If the repository's approved local execution bridge is available, request exactly one bounded local job for this task using the existing E7 local-job mailbox mechanism. Use an action name specific to this task such as:
+
+```text
+GATE_C_CREDENTIAL_FREE_QUALIFICATION
+```
+
+The local job must execute only the matrix above against the exact source revision. It must not use provider credentials or real provider/private network access.
+
+If the approved local bridge/operator surface is genuinely unavailable, persist the exact blocker and stop `BLOCKED`; do not substitute GitHub compute or another environment.
+
+## Credential-free / network safety rules
+
+This phase uses only fake/sanitized test inputs.
+
+Forbidden during this task:
+
+- real API key/secret/passphrase/token/cookie/browser-auth material;
+- real provider/private authenticated request;
+- external exchange account read;
+- order submission/place/cancel/amend/close;
+- leverage/account/position-mode mutation;
+- transfer/deposit/withdrawal/capital movement;
+- PAPER or SHADOW runtime start;
+- LIVE/Gate D/capital exposure;
+- GitHub Actions/CI/hosted/GitHub-triggered execution.
+
+Public internet/provider access is not required for this qualification and must not be added merely to make tests pass.
+
+## Failure handling
+
+If any required suite fails or errors:
+
+1. preserve enough sanitized executable evidence to identify every failing/erroring test, exception/reason, command, exit code, source revision and environment;
+2. mark the qualification `FAIL`;
+3. do **not** selectively rerun, repair production/tests, weaken assertions, or start a remediation task yourself;
+4. update E7 STATUS and evidence artifact and stop `PARTIAL` or `BLOCKED` as appropriate for PM review.
+
+A failed first qualification attempt remains evidence. Do not hide it with a second attempt in the same task.
+
+## Required evidence artifact
+
+Create/update only E7-owned evidence, for example:
+
+```text
+status/e7/GATE_C_CREDENTIAL_FREE_QUALIFICATION_20260825.md
+```
+
+It must contain, in sanitized form:
+
+- task ID;
+- exact execution source revision;
+- Product Owner authority reference;
+- local request/action/job identifiers if used;
+- OS/Python/environment evidence;
+- clean-tree proof;
+- exact matrix commands;
+- per-suite counts/exits/results;
+- total tests if determinable;
+- proof credential/private-provider/network mutation was not used;
+- proof GitHub compute was not used;
+- overall qualification result.
+
+Do not include secrets, raw provider payloads, raw UID/account identifiers, exact balances, provider order/fill IDs, cookies/tokens, or browser-auth material.
+
+## Release interpretation
+
+Even if this credential-free qualification PASSes:
+
+```text
+Gate C — SHADOW_READY = BLOCKED / CREDENTIAL-DEPENDENT EVIDENCE STILL REQUIRED
+SHADOW runtime = NOT STARTED
+Gate D / LIVE = BLOCKED / NOT AUTHORIZED
+```
+
+Do not mark Gate C PASS from this task alone. The accepted Gate C baseline separately requires operator-gated production read-only verification after safe regional-domain/read-only credential setup and PM review.
 
 ## Writable scope
 
-Only E7-owned integration/architecture/test/status paths needed for this task:
+Only E7-owned qualification/evidence/control paths needed for this task:
 
-- `tests/integration/**`;
-- `tests/e2e/**`;
-- E7-owned cross-module `tests/safety/**`;
-- narrowly required E7-owned composition/glue under shared/integration locations allowed by the E7 role contract;
-- `docs/architecture/**` if needed;
-- `status/e7/**`;
-- `status/INTEGRATION_STATUS.md` and `status/RELEASE_GATES.md` only for non-promotional work-in-progress reconciliation;
-- `coordination/E7/STATUS.md`.
+- `coordination/E7/LOCAL_JOB_REQUEST.json` using the existing local-job mailbox mechanism if required;
+- `coordination/E7/STATUS.md`;
+- `status/e7/**` for this qualification evidence;
+- `status/INTEGRATION_STATUS.md` / `status/RELEASE_GATES.md` only to record non-promotional qualification state, never Gate C PASS.
 
 Forbidden:
 
-- E1-E6 production/test modifications;
-- strategy logic changes;
-- risk-policy/cap changes;
-- provider auth/signing/payload parsing implementation;
-- storage/migration changes owned by E6;
-- shared contract/ADR changes unless the task stops for explicit architecture escalation;
-- real credentials/secrets/tokens/cookies/browser-auth material;
-- real provider/private requests;
-- provider mutation/order submission/cancel/amend;
+- all production source changes;
+- all test-definition changes;
+- E1-E6 STATUS/TASK or owned code/tests;
+- contracts/ADRs/migrations;
+- remediation;
+- credentials/secrets;
+- provider/private real execution;
 - PAPER/SHADOW runtime start;
 - Gate D/LIVE/capital exposure;
-- GitHub Actions/CI/hosted/GitHub-triggered compute;
-- unrelated cleanup.
+- GitHub compute.
 
 ## Acceptance
 
 ### DONE
 
-- cross-module Shadow composition/test definitions cover the mandatory no-submit, fail-closed, mode/restart, redaction and separation proofs;
-- accepted E1/E2/E4/E5/E6 semantics are reused rather than reimplemented;
-- no submit-capable dependency is reachable in the valid Shadow graph;
-- no domain production behavior or shared contract/ADR was changed;
-- local evidence is PASS or explicitly `NOT_RUN` without misclassification;
-- required status/evidence is committed and pushed to the target branch;
-- Gate C/SHADOW_READY is **not** claimed PASS by worker completion alone.
+- exact source revision and clean approved-local environment are proven;
+- exactly one complete credential-free Gate C qualification matrix is executed;
+- every required suite PASSes with exit `0` and no unittest failure/error;
+- sanitized evidence is committed/pushed;
+- Gate C remains blocked pending credential-dependent read-only evidence and PM review.
 
-### BLOCKED
+### PARTIAL / BLOCKED
 
-Stop with exact evidence if integration proves a domain defect or shared-contract gap. Do not silently repair another owner or broaden scope.
+- any required suite fails/errors, exact revision cannot be proven, approved-local execution is unavailable, or evidence is insufficient.
+- preserve evidence, update STATUS, and stop without remediation or rerun.
 
 ## Completion
 
-Execute only this TASK, update `coordination/E7/STATUS.md`, commit/push required work to the target branch, and stop. Do not self-start the full Gate C qualification, credential-dependent provider verification, SHADOW runtime, Gate D or LIVE work.
+Read latest `main`, verify wake task ID `E7-20260825-069`, execute only this TASK, update `coordination/E7/STATUS.md`, commit/push required evidence to the target branch, and stop on `DONE`, `PARTIAL`, or `BLOCKED`. Do not self-start credential setup/provider verification, remediation, SHADOW runtime, Gate D, or LIVE work.

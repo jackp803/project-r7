@@ -1,91 +1,50 @@
 # E4 Current Task
 
-- task_id: `E4-20260825-017`
-- issued_at: `2026-08-25T12:10:00+08:00`
+- task_id: `E4-20260825-018`
+- issued_at: `2026-08-25T13:13:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e4-gate-c-shadow-reader-20260825`
-- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline PR #75 merge `c158c8ca4fd01fa9314dd2e7a1a9c0c0d2935624`, Product Owner Gate C / SHADOW-only authorization
+- target_branch: `agent/e4-gate-c-shadow-balance-handoff-20260825`
+- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline PR #75, accepted E4 read-only Shadow boundary PR #78 merge `562c4c324129557e5d565b1a37deb49d2c007429`, Product Owner Gate C / SHADOW-only authorization
 
 ## Objective
 
-Close only the E4 Phase-1 Gate C gap from `status/e7/GATE_C_READINESS_BASELINE_20260825.md`: construct a dedicated OKX production **read-only Shadow provider surface** whose dependency graph cannot submit orders or mutate provider/account state even when valid credentials later exist.
+Close one bounded Phase-1 handoff gap discovered during PM review before E5 may start Gate C risk-context derivation.
 
-The existing submit-capable `OKXDemoAdapter` remains separate and must not be reused as the Gate C Shadow runtime dependency.
+The accepted E4 Shadow reader correctly performs `GET /api/v5/account/balance?ccy=USDT` and validates `availBal`, but the current normalized result retains only `usdt_balance_known=True` and discards the exact runtime Decimal balance. The existing E5 `RiskContext.available_balance` requires a real known Decimal value for sizing/insufficient-balance checks. E5 must not be forced to re-trust an unrelated caller-supplied account balance.
 
-## Required architecture
+Add a **runtime-only, non-durable exact USDT available-balance handoff** from the already-accepted read-only Shadow batch to later E5 consumption, while preserving the public/durable redaction boundary.
 
-Implement an E4-owned read-only provider component (name may follow existing conventions) with these hard properties:
+## Required behavior
 
-1. Provider = OKX API V5; provider instrument = `BTC-USDT-SWAP`.
-2. Authenticated transport is default-deny and permits only HTTP `GET` to the exact Gate C allowlist.
-3. The Shadow-facing object exposes no `submit`, `place`, `cancel`, `amend`, leverage/mode mutation, transfer, withdrawal/deposit, or generic arbitrary-request method.
-4. Valid credentials must not change the reachable method/capability graph.
-5. No `x-simulated-trading: 1` header is used for production read-only Shadow.
-6. Query parameters are included in the signed request path; GET has no request body; current OKX V5 HMAC/Base64 signing semantics are preserved.
-7. Before a private-read batch, provider time is checked. Gate C policy requires absolute local/provider clock skew `<= 5 seconds`; otherwise fail closed before private account reads.
-8. `GET /api/v5/account/config` permission must be validated as exactly `read_only` before other private Gate C evidence is accepted. Trade or Withdraw permission is a hard abort.
-9. Regional REST hostname is explicit configuration supplied/confirmed by the local operator later. Unknown/mismatched domain must fail closed; do not guess the operator's account region.
-10. Produce normalized, timestamped, sanitized E4 observations sufficient for later E5/E6 consumption without exposing secrets or durable sensitive identifiers.
+1. Parse the accepted USDT `availBal` as finite non-negative `Decimal` and retain it in the in-memory Shadow read result when and only when balance truth is known.
+2. Bind that exact balance to the same observation batch/account-config/clock/provider boundary as the existing `OKXShadowObservation`; do not create an independently caller-assertable balance flag/value pair.
+3. Preserve one read-only `observe(...)` network batch; do not add provider endpoints, additional provider calls, WebSocket, submit, cancel, amend, leverage/mode mutation, transfer, deposit, withdrawal, or generic request authority.
+4. The exact balance is **runtime-sensitive data, not durable/public evidence**:
+   - it must not appear in `repr`, exception messages, logs, docs examples with real values, STATUS/handoff evidence, checkpoint payloads, callback payloads, or any serializer intended for durable/public evidence;
+   - existing E6 sanitized Shadow checkpoint semantics must continue to persist only `balance_known`, never the exact balance;
+   - no credential/provider identifier redaction rule may be weakened.
+5. Healthy observation must expose the runtime exact balance to a later E5 pure derivation layer without E5 parsing provider payloads or using credentials/network.
+6. Any missing/malformed/negative/non-finite balance remains fail closed and must not expose a usable runtime balance.
+7. Preserve all accepted PR #78 invariants: exact GET allowlist/default deny, production/no-Demo header, operator-confirmed domain, <=5s clock check, exact `read_only` permission, dedicated sub-account/account/position-mode checks, unexpected exposure/order/fill fail closed, and structurally unreachable submit/mutation surface.
+8. No shared contract/ADR change. If a safe runtime-only handoff cannot be represented without changing shared architecture, stop `BLOCKED` with exact evidence for E7.
 
-## Exact private GET allowlist
-
-Only these authenticated paths are allowed for Gate C V0.1:
-
-```text
-GET /api/v5/account/config
-GET /api/v5/account/balance?ccy=USDT
-GET /api/v5/account/positions?instId=BTC-USDT-SWAP
-GET /api/v5/account/leverage-info?instId=BTC-USDT-SWAP&mgnMode=isolated
-GET /api/v5/trade/orders-pending?instType=SWAP&instId=BTC-USDT-SWAP
-GET /api/v5/trade/fills?instType=SWAP&instId=BTC-USDT-SWAP
-```
-
-Public provider time may use:
-
-```text
-GET /api/v5/public/time
-```
-
-Everything else is denied before transport. Private WebSocket is disabled for Gate C V0.1.
-
-## Observation / fail-closed requirements
-
-The read-only batch/projection must make it possible to determine, in sanitized normalized form:
-
-- provider/domain identity;
-- observation timestamps and clock-skew status;
-- permission category = `read_only` only;
-- account/position-mode/config known-status without raw UID/main UID/API label/bound-IP persistence;
-- USDT balance known-status without persisting exact balance in public evidence;
-- BTC-USDT-SWAP position known/zero-or-unexpected-exposure status;
-- isolated leverage/margin prerequisite known-status;
-- pending-order count/status;
-- recent-fill checkpoint/new-unreconciled-activity status without exposing durable provider IDs;
-- provider/auth/parse failures as explicit unknown/degraded outcomes.
-
-Unexpected non-zero position, pending order, new/unreconciled fill, permission mismatch, malformed/missing response, auth/signature/provider failure, domain uncertainty, or clock skew must fail closed. Do not fabricate exchange truth.
+Implementation shape is E4-owned. Prefer the smallest representation that keeps `observe(...)` as the single Shadow network operation and makes the distinction between sanitized durable observation fields and runtime-sensitive balance unambiguous.
 
 ## Tests
 
-Add/update E4-owned unit tests using injected fake transports/sanitized fixtures proving at minimum:
+Update/add only E4-owned fake-transport tests proving at minimum:
 
-- exact signing/path behavior for allowed GETs;
-- clock skew `<=5s` accepted and `>5s` rejected before private batch;
-- permission exactly `read_only` required;
-- Trade/Withdraw or ambiguous permission aborts;
-- every allowlisted path works through fake transport;
-- any non-GET or non-allowlisted private path is rejected before transport;
-- no submit/cancel/amend/mutation method is reachable from the Shadow reader;
-- credentials do not activate a hidden submit branch;
-- production Shadow requests never add Demo header;
-- redaction: exceptions/loggable evidence cannot contain key/secret/passphrase/signature/raw UID/API label/bound IP/exact balances/provider order/fill IDs;
-- malformed/contradictory/unexpected exposure/order/fill responses fail closed.
-
-Do not perform a real provider/private network request in this implementation task.
+- healthy batch exposes the exact Decimal USDT available balance in memory;
+- value is bound to the same observation batch and is absent/unusable on balance failure;
+- zero balance is valid known Decimal zero; negative/non-finite/malformed balance fails closed;
+- `repr`/loggable/sanitized evidence does not contain the exact balance;
+- any durable/public projection used by the E4 handoff excludes the exact balance;
+- existing allowlist/no-submit/no-Demo/permission/clock/domain/redaction/fail-closed tests remain semantically unchanged;
+- credentials do not change capability graph.
 
 ## Executable verification
 
-Product Owner authorizes approved-local, non-GitHub, **credential-free fake-based** verification for this task. If available, run only relevant E4 broker/execution tests, for example:
+Product Owner authorizes approved-local, non-GitHub, credential-free fake-based verification for this bounded task. If the approved local runner is available, run only:
 
 ```powershell
 $env:PYTHONPATH="src"
@@ -93,49 +52,44 @@ python -m unittest discover -s tests/brokers -p "test_*.py" -v
 python -m unittest discover -s tests/execution -p "test_*.py" -v
 ```
 
-No external provider network request or real credential is authorized in this task. If approved-local execution is unavailable, record `NOT_RUN` with exact commands. `NOT_RUN != PASS`.
+No real provider/private request or credential is authorized. If approved-local execution is unavailable, record `NOT_RUN` with the exact commands. `NOT_RUN != PASS`.
 
 ## Writable scope
 
-Only E4-owned paths necessary for this task:
+Only:
 
-- `src/brokers/**`;
-- `src/execution/**` only for read-only provider composition/helper boundaries genuinely owned by E4;
-- `tests/brokers/**`;
-- `tests/execution/**`;
-- `docs/execution/**`;
+- `src/brokers/okx_shadow.py` and narrowly required E4 exports;
+- `tests/brokers/test_okx_shadow.py` and narrowly required E4 tests;
+- `docs/execution/OKX_GATE_C_SHADOW_READER.md` if needed;
+- E4 status/handoff artifacts;
 - `coordination/E4/STATUS.md`.
 
 Forbidden:
 
 - E1/E2/E3/E5/E6/E7 production/tests;
-- shared contract/ADR changes without escalation;
-- provider/private real requests in this task;
-- real credentials/secrets/local secret files;
-- order submission, simulated or real;
-- cancel/amend/close/leverage/mode/account mutation;
-- transfer/deposit/withdrawal/capital movement;
-- generic authenticated arbitrary-request surface exposed to Shadow;
-- GitHub Actions/CI/hosted/GitHub-triggered compute;
+- contracts/ADR changes;
+- real credentials/secrets;
+- provider/private real requests;
+- additional provider endpoints;
+- order submission or any provider/account mutation;
 - PAPER/SHADOW runtime start;
 - LIVE/capital exposure;
+- GitHub Actions/CI/hosted/GitHub-triggered compute;
 - unrelated cleanup.
 
 ## Acceptance
 
 ### DONE
 
-- dedicated production read-only Shadow provider surface exists and is structurally non-submit-capable;
-- exact allowlist/default-deny/permission/clock/domain/redaction/fail-closed semantics have tests;
-- existing Demo submit-capable adapter remains separate;
-- no real provider/private execution or credential use occurred;
-- local evidence is PASS or explicitly `NOT_RUN` without misclassification;
-- commit/push to target branch and terminal E4 STATUS.
+- exact runtime Decimal available balance can flow from the accepted E4 read-only batch to later E5 derivation without caller assertion;
+- exact balance remains non-durable/non-loggable/non-public;
+- PR #78 safety invariants are preserved;
+- tests define the behavior;
+- local verification is PASS or explicitly `NOT_RUN` without misclassification;
+- commit/push to target branch and terminal STATUS.
 
 ### BLOCKED
 
-If this cannot be built safely without changing a shared contract/architecture baseline, stop with exact evidence for E7. If only operator domain/credential setup is missing, that does not block this credential-free construction task; record it as a later prerequisite.
+Stop if safe balance handoff requires a shared contract/architecture change. Do not broaden scope.
 
-## Completion
-
-Execute only this TASK, update `coordination/E4/STATUS.md`, commit/push required work to the target branch, and stop. Do not self-start provider verification or the next Gate C task.
+Execute only this TASK, update `coordination/E4/STATUS.md`, commit/push required work, and stop. Do not self-start E5 or credential-dependent verification.

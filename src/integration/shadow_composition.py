@@ -328,9 +328,14 @@ class ShadowComposition:
     provider request builder, generic authenticated transport, or ApprovedTradePlan
     output. The only E4 operation retained is the bound read-only `observe`
     capability from the exact accepted `OKXShadowProviderReader` type.
+
+    The E4 fill checkpoint is retained only inside this trusted composition object;
+    callers cannot supply or forge it. A newly constructed composition after restart
+    therefore starts with no trusted checkpoint and remains fail-closed if provider
+    fill history cannot be established safely.
     """
 
-    __slots__ = ("_mode_store", "_observe_provider", "_strategy_runtime")
+    __slots__ = ("_mode_store", "_observe_provider", "_strategy_runtime", "_fill_checkpoint")
 
     def __init__(
         self,
@@ -348,6 +353,7 @@ class ShadowComposition:
         self._mode_store = mode_store
         self._observe_provider = reader.observe
         self._strategy_runtime = runtime
+        self._fill_checkpoint: ShadowFillCheckpoint | None = None
 
     @staticmethod
     def capability_manifest() -> tuple[str, ...]:
@@ -376,7 +382,6 @@ class ShadowComposition:
         trades_today: int,
         consecutive_losses: int,
         drawdown: Decimal,
-        previous_fill_checkpoint: ShadowFillCheckpoint | None = None,
         strategy_stop_level: Decimal | str | None = None,
         strategy_target_level: Decimal | str | None = None,
         max_hold_seconds: int | None = None,
@@ -393,7 +398,7 @@ class ShadowComposition:
             symbol=market_snapshot.symbol,
         )
 
-        shadow_result = self._observe_provider(previous_fill_checkpoint=previous_fill_checkpoint)
+        shadow_result = self._observe_provider(previous_fill_checkpoint=self._fill_checkpoint)
         if type(shadow_result) is not OKXShadowReadResult:
             raise ShadowCompositionError("E4_SHADOW_READ_RESULT_REQUIRED")
 
@@ -417,6 +422,7 @@ class ShadowComposition:
             post_reconciliation = self.recover_shadow_state()
             if not post_reconciliation.shadow_planning_safe:
                 raise ShadowCompositionError("FRESH_SHADOW_RECONCILIATION_NOT_ESTABLISHED")
+            self._fill_checkpoint = shadow_result.sanitized_observation.fill_checkpoint
 
         signal = self._strategy_runtime.evaluate(strategy, finalized, evaluation_time)
         if signal.get("direction") == "NO_TRADE":

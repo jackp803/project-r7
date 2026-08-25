@@ -7,6 +7,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from storage._lifecycle_execution_binding import recompute_position_linked_execution_snapshot
 from storage._sqlite_registry import _apply_migrations, _connect
 from storage.runtime import RuntimeConflictError, open_paper_runtime_journal
 
@@ -164,6 +165,24 @@ def _order_result(observed_at: str, status: str, filled: str) -> dict:
     }
 
 
+def _binding_for(journal, projection: dict) -> dict:
+    snapshot = recompute_position_linked_execution_snapshot(journal._store, projection["position_id"])
+    payload = {
+        "schema_version": "contracts-v0.1",
+        "lifecycle_execution_binding_profile_version": "position-lifecycle-execution-binding-v0.1",
+        "position_id": projection["position_id"],
+        "lifecycle_projection_id": projection["lifecycle_projection_id"],
+        "lifecycle_revision": projection["lifecycle_revision"],
+        "execution_interpreted_at": projection["lifecycle_interpreted_at"],
+        "execution_scope": "POSITION_LINKED_REDUCTION_ORDERS_V0_1",
+        "order_evidence": snapshot["order_evidence"],
+        "execution_snapshot_hash": snapshot["execution_snapshot_hash"],
+    }
+    material = dict(payload)
+    payload["lifecycle_execution_binding_id"] = "posexecbind_" + hashlib.sha256(_json(material).encode("utf-8")).hexdigest()
+    return payload
+
+
 def _funding() -> dict:
     payload = {
         "schema_version": "contracts-v0.1",
@@ -281,7 +300,15 @@ class PaperRuntimeConflictAndOrderingDefinitions(unittest.TestCase):
             ).fetchone()
             self.assertEqual(("DRAFT", 0), strategy)
             migrations = {row[0] for row in verify.execute("SELECT migration_name FROM schema_migrations")}
-            self.assertEqual({"0001_strategy_registry.sql", "0002_paper_runtime_durability.sql"}, migrations)
+            expected = {path.name for path in Path("src/storage/migrations").glob("*.sql")}
+            self.assertTrue(
+                {
+                    "0001_strategy_registry.sql",
+                    "0002_paper_runtime_durability.sql",
+                    "0003_lifecycle_execution_binding.sql",
+                }.issubset(expected)
+            )
+            self.assertEqual(expected, migrations)
         finally:
             verify.close()
         self.journal = open_paper_runtime_journal(self.db_path)
@@ -340,7 +367,7 @@ class PaperRuntimeConflictAndOrderingDefinitions(unittest.TestCase):
         self.assertEqual("PARTIALLY_FILLED", recovery.current_order_results[0].payload["order_status"])
 
     def test_fractional_newer_raw_position_requires_reattestation(self) -> None:
-        self._parents()
+        self._order_parent_graph()
         genesis = _projection(
             _position("2026-08-24T07:00:20Z"),
             revision=0,
@@ -351,6 +378,12 @@ class PaperRuntimeConflictAndOrderingDefinitions(unittest.TestCase):
             interpreted_at="2026-08-24T07:00:20Z",
         )
         self.journal.persist_position_projection(genesis)
+        self.journal.persist_lifecycle_execution_binding(_binding_for(self.journal, genesis))
+
+        baseline = self.journal.recover(position_id="position-e6-time-001")
+        self.assertEqual("READY", baseline.status)
+        self.assertEqual(genesis, baseline.current_position_projection.payload)
+
         newer = _position("2026-08-24T07:00:20.500000Z", quantity="0.0010")
         self.journal.persist_raw_position_observation(newer)
         recovery = self.journal.recover(position_id="position-e6-time-001")

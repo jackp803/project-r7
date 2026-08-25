@@ -318,10 +318,18 @@ class GateBPaperTradeResultSafetyDefinitions(unittest.TestCase):
             self._build(evidence, funding=wrong_funding)
         self.assertEqual("FUNDING_TRADE_PLAN_MISMATCH", funding_mismatch.exception.code)
 
-        wrong_fill = replace(evidence["exit_fill"], position_id="position-other")
-        with self.assertRaises(TradeResultBuildError) as fill_mismatch:
-            self._build(evidence, exit_fills=(wrong_fill,))
-        self.assertEqual("EXIT_FILL_AUTHORITY_MISMATCH", fill_mismatch.exception.code)
+        wrong_position_fill = replace(evidence["exit_fill"], position_id="position-other")
+        with self.assertRaises(TradeResultBuildError) as position_mismatch:
+            self._build(evidence, exit_fills=(wrong_position_fill,))
+        self.assertEqual("EXIT_FILL_POSITION_MISMATCH", position_mismatch.exception.code)
+
+        wrong_authority_fill = replace(
+            evidence["exit_fill"],
+            position_action_id="position-action-other",
+        )
+        with self.assertRaises(TradeResultBuildError) as authority_mismatch:
+            self._build(evidence, exit_fills=(wrong_authority_fill,))
+        self.assertEqual("EXIT_FILL_AUTHORITY_MISMATCH", authority_mismatch.exception.code)
 
     def test_quantity_conservation_and_fee_evidence_remain_required(self):
         evidence = self._completed_explicit_chain()

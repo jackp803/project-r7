@@ -128,42 +128,50 @@ class TradeResultReferenceRemediationDefinitions(unittest.TestCase):
         self.journal.persist_fill(fill())
         return action, request
 
-    def _persist_complete_closed_graph(self) -> dict:
+    def _persist_complete_closed_prerequisites(self, action: dict | None = None) -> dict:
         self._persist_core()
         closed = self._persist_closed_projection()
         self._persist_entry()
-        self._persist_protection_exit()
+        self._persist_protection_exit(action)
         binding = _binding_for(self.journal, closed)
         self.journal.persist_lifecycle_execution_binding(binding)
         funding = funding_evidence()
         self.journal.persist_funding_evidence(funding)
-        result = trade_result(funding)
+        return trade_result(funding)
+
+    def _persist_complete_closed_graph(self) -> dict:
+        result = self._persist_complete_closed_prerequisites()
         self.journal.persist_trade_result(result)
         return result
 
-    def _direct_replace_object_payload(self, kind: str, canonical_id: str, payload: dict) -> None:
-        payload_json = _canonical_json(payload)
-        payload_hash = _sha256_json(payload)
-        self.journal._store._connection.execute(
-            """
-            UPDATE paper_runtime_objects
-            SET payload_json = ?, payload_hash = ?
-            WHERE object_kind = ? AND canonical_id = ?
-            """,
-            (payload_json, payload_hash, kind, canonical_id),
-        )
-        self.journal._store._connection.commit()
+    def _direct_insert_legacy_trade_result(self, payload: dict) -> None:
+        """Represent pre-remediation durable material without mutating canonical rows.
 
-    def _direct_replace_trade_result_payload(self, trade_result_id: str, payload: dict) -> None:
+        The production immutability triggers remain installed and untouched.  A
+        legacy invalid TradeResult is introduced only as an INSERT fixture so
+        recovery can prove that already-durable historical material fails closed.
+        """
+
         payload_json = _canonical_json(payload)
         payload_hash = _sha256_json(payload)
         self.journal._store._connection.execute(
             """
-            UPDATE paper_trade_results
-            SET payload_json = ?, payload_hash = ?
-            WHERE trade_result_id = ?
+            INSERT INTO paper_trade_results (
+                trade_result_id, trade_plan_id, position_id,
+                strategy_id, strategy_version, funding_evidence_id,
+                payload_json, payload_hash
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (payload_json, payload_hash, trade_result_id),
+            (
+                payload["trade_result_id"],
+                payload["trade_plan_id"],
+                payload["position_id"],
+                payload["strategy_id"],
+                payload["strategy_version"],
+                payload["funding_evidence_id"],
+                payload_json,
+                payload_hash,
+            ),
         )
         self.journal._store._connection.commit()
 
@@ -175,10 +183,10 @@ class TradeResultReferenceRemediationDefinitions(unittest.TestCase):
         self.assertNotIn("TRADE_RESULT_REFERENCED_GRAPH_INVALID", recovery.reason_codes)
 
     def test_legacy_generic_invalid_trade_result_graph_cannot_recover_ready(self) -> None:
-        result = self._persist_complete_closed_graph()
+        result = self._persist_complete_closed_prerequisites()
         legacy = dict(result)
         legacy["entry_fill_ids"] = ["fill-entry-e6-001", "fill-entry-e6-001"]
-        self._direct_replace_trade_result_payload(result["trade_result_id"], legacy)
+        self._direct_insert_legacy_trade_result(legacy)
 
         recovery = self.journal.recover(position_id="position-e6-paper-001")
         self.assertNotEqual("READY", recovery.status)
@@ -257,33 +265,40 @@ class TradeResultReferenceRemediationDefinitions(unittest.TestCase):
                 self.assertEqual(expected, ctx.exception.code)
 
     def test_recovered_position_action_lineage_mismatch_is_conflict(self) -> None:
-        self._persist_complete_closed_graph()
         action = protect_action()
         action["risk_policy_version"] = "wrong-policy"
-        self._direct_replace_object_payload(
-            "POSITION_ACTION",
-            action["position_action_id"],
-            action,
-        )
+        result = self._persist_complete_closed_prerequisites(action)
+        self._direct_insert_legacy_trade_result(result)
 
         recovery = self.journal.recover(position_id="position-e6-paper-001")
         self.assertEqual("CONFLICT", recovery.status)
         self.assertIn("TRADE_RESULT_POSITION_ACTION_LINEAGE_MISMATCH", recovery.reason_codes)
 
     def test_recovered_position_action_missing_lineage_is_non_ready_incomplete(self) -> None:
-        self._persist_complete_closed_graph()
         action = protect_action()
         action.pop("risk_policy_version")
-        self._direct_replace_object_payload(
-            "POSITION_ACTION",
-            action["position_action_id"],
-            action,
-        )
+        result = self._persist_complete_closed_prerequisites(action)
+        self._direct_insert_legacy_trade_result(result)
 
         recovery = self.journal.recover(position_id="position-e6-paper-001")
         self.assertNotEqual("READY", recovery.status)
         self.assertEqual("INCOMPLETE", recovery.status)
         self.assertIn("TRADE_RESULT_POSITION_ACTION_LINEAGE_MISSING", recovery.reason_codes)
+
+    def test_production_canonical_rows_remain_immutable_during_legacy_fixture_recovery(self) -> None:
+        result = self._persist_complete_closed_graph()
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.journal._store._connection.execute(
+                "UPDATE paper_trade_results SET payload_hash = 'sha256:forbidden' WHERE trade_result_id = ?",
+                (result["trade_result_id"],),
+            )
+        self.journal._store._connection.rollback()
+        with self.assertRaises(sqlite3.IntegrityError):
+            self.journal._store._connection.execute(
+                "UPDATE paper_runtime_objects SET payload_hash = 'sha256:forbidden' WHERE object_kind = 'POSITION_ACTION' AND canonical_id = ?",
+                (protect_action()["position_action_id"],),
+            )
+        self.journal._store._connection.rollback()
 
 
 if __name__ == "__main__":

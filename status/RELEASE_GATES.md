@@ -1,14 +1,14 @@
 # Release Gates
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Current reconciliation: 2026-08-25 / `E7-20260825-064`  
+> PM formal disposition: 2026-08-25  
 > Policy: no gate may PASS without accepted evidence from an allowed environment.
 
 ## Evidence vocabulary
 
 - `PASS` — required evidence exists and satisfies the criterion.
-- `FAIL` — actual approved evidence shows the criterion is not satisfied.
-- `BLOCKED` — prerequisite, review, contract, implementation, or evidence prevents advancement.
+- `FAIL` — approved evidence shows the criterion is not satisfied.
+- `BLOCKED` — prerequisite, review, contract, implementation, authorization, or evidence prevents advancement.
 - `NOT_RUN` — executable verification required but not executed.
 
 `BLOCKED != PASS`, `NOT_RUN != PASS`, and task completion does not imply release-gate PASS.
@@ -19,11 +19,11 @@
 Gate A = PASS / RESEARCH-INTEGRATION ONLY
 ```
 
-Accepted Gate A evidence remains unchanged and does not authorize Paper/Shadow/Live.
+Accepted Gate A evidence remains unchanged.
 
 ## Gate B — PAPER_READY
 
-### Post-remediation approved-local qualification identity
+### Accepted post-remediation qualification
 
 ```text
 source task_id       = E7-20260825-064
@@ -33,11 +33,12 @@ job_id               = JOB-3EE69A58605DF9D2
 job_state            = SUCCEEDED
 job_exit_code        = 0
 overall_matrix       = PASS
+PM evidence review   = ACCEPTED
 ```
 
-All ten required suites ran exactly once in the registered Product-Owner-approved local Windows / non-GitHub action and returned exit `0`.
+All ten required Gate B suites ran exactly once in the Product-Owner-approved local Windows / non-GitHub environment, on a clean checkout of the exact qualified revision with `PYTHONPATH=src`.
 
-| Suite | Tests run | Exit | Qualification result |
+| Suite | Tests run | Exit | Result |
 |---|---:|---:|---|
 | strategy | 21 | 0 | PASS |
 | execution | 52 | 0 | PASS |
@@ -52,41 +53,39 @@ All ten required suites ran exactly once in the registered Product-Owner-approve
 
 Total tests reported as run: `450`.
 
-Detailed qualification evidence:
+Durable evidence:
 
 `status/e7/GATE_B_POST_REMEDIATION_QUALIFICATION_20260825.md`
 
-### Gate B disposition
+### Formal Gate B disposition
 
 ```text
-complete approved-local post-remediation matrix executed = YES
-overall_matrix_result = PASS
-PM evidence review = PENDING
-Gate B = BLOCKED / PENDING_PM_EVIDENCE_REVIEW
-PAPER = UNAUTHORIZED
+Gate B — PAPER_READY = PASS
+qualified revision = d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8
+PAPER runtime = UNAUTHORIZED / NOT STARTED
 ```
 
-The matrix PASS is executable evidence only. E7 does not promote Gate B to PASS in this task; PM must review and accept the evidence first.
+This is a technical readiness gate only. It does not authorize starting PAPER runtime, strategy promotion, provider/private APIs, credentials, exchange traffic, SHADOW, LIVE, Gate C, or capital exposure.
 
-Historical E7-059 FAIL evidence remains valid for its older source revision and is retained in Git history. It does not override the later post-remediation qualification for revision `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8`.
+Historical E7-059 FAIL evidence remains valid for its older source revision and is retained in Git history; it is superseded for Gate B disposition by the accepted post-remediation qualification above.
 
 ## Gate C — SHADOW_READY
 
 ```text
-Gate C = BLOCKED / UNCHANGED
+Gate C = BLOCKED / NOT AUTHORIZED TO START
 ```
 
-Gate B has not been formally accepted as PASS. Provider/private work remains unauthorized.
+Gate B PASS removes the prior Gate-B prerequisite blocker, but provider/private API work, credentials, exchange traffic, and Shadow execution remain outside current Product Owner authorization.
 
 ## Gate D — LIVE_READY
 
 ```text
-Gate D = BLOCKED / UNCHANGED
+Gate D = BLOCKED / NOT READY
 ```
 
 Gate C is not PASS and Product Owner LIVE authorization is absent.
 
-## Compute / security policy evidence
+## Compute / security / trading boundary
 
 ```text
 E7-064 execution environment = PRODUCT-OWNER-APPROVED LOCAL WINDOWS / NON-GITHUB
@@ -97,4 +96,5 @@ provider/private API = NOT USED
 external exchange traffic = NOT USED
 exchange credentials = NOT USED
 PAPER / SHADOW / LIVE runtime = NOT STARTED
+capital exposure = NONE
 ```

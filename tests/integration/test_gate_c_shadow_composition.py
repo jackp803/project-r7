@@ -164,7 +164,6 @@ class GateCShadowCompositionIntegrationTests(unittest.TestCase):
         transport = _Transport(_responses())
         composition = ShadowComposition(mode_store=store, provider_reader=_reader(transport))
         snapshot, candles = _market_inputs()
-
         result = _run(composition, snapshot, candles)
 
         self.assertTrue(result.provider_read_healthy)
@@ -240,6 +239,32 @@ class GateCShadowCompositionIntegrationTests(unittest.TestCase):
         self.assertIn("GATE_C_MARKET_FUTURE_AT_DECISION", result.reason_codes)
         self.assertIsNone(result.shadow_checkpoint_id)
         store.close()
+
+    def test_stale_or_nonhealthy_market_snapshot_fails_closed_through_e5(self):
+        for label, health_status, observed_at, received_at, freshness_ms in (
+            ("stale", "HEALTHY", NOW - timedelta(seconds=6), NOW, 6000),
+            ("nonhealthy", "DEGRADED", NOW, NOW, 0),
+        ):
+            with self.subTest(label=label), tempfile.TemporaryDirectory() as directory:
+                store = open_operational_mode_store(Path(directory) / "market.sqlite3")
+                _enter_shadow(store)
+                transport = _Transport(_responses())
+                composition = ShadowComposition(mode_store=store, provider_reader=_reader(transport))
+                healthy, candles = _market_inputs()
+                unsafe = MarketSnapshot(
+                    schema_version=healthy.schema_version, symbol=healthy.symbol,
+                    observed_at=observed_at, received_at=received_at,
+                    health_status=health_status, source=healthy.source,
+                    last_price=healthy.last_price, best_bid=healthy.best_bid, best_ask=healthy.best_ask,
+                    freshness_ms=freshness_ms,
+                )
+                result = _run(composition, unsafe, candles)
+                self.assertEqual("REJECT", result.planning_evidence.risk_decision)
+                self.assertFalse(result.ready_for_hypothetical_new_exposure)
+                self.assertIsNone(result.shadow_checkpoint_id)
+                self.assertFalse(store.recover().shadow_planning_safe)
+                self.assertTrue(all(request.method == "GET" for request in transport.requests))
+                store.close()
 
 
 if __name__ == "__main__":

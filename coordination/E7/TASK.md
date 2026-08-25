@@ -1,188 +1,235 @@
 # E7 Current Task
 
-- task_id: `E7-20260825-072`
-- issued_at: `2026-08-25T19:05:00+08:00`
+- task_id: `E7-20260825-073`
+- issued_at: `2026-08-25T21:44:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-c-credential-free-requalification-20260825`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline PR #75, accepted Phase-1/2/3 work through PR #81, preserved failed qualification PR #82, recovered diagnostic PR #83, accepted E6 storage export remediation PR #84 merge `83be94fbc4ee666156c2aaf7a7141b3eda9a4b4c`, Product Owner Gate C / SHADOW-only authorization including approved local-only credential-free verification
+- target_branch: `agent/e7-gate-c-production-readonly-verification-20260825`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline PR #75, accepted Phase-1/2/3 work through PR #81, preserved failed credential-free qualification PR #82, diagnostic PR #83, accepted E6 remediation PR #84, accepted credential-free requalification PR #85 merge `e8d0c956b4e504acb91f6aa9323526d2fea4d2e9`, Product Owner Gate C / SHADOW-only authorization including separately governed production-provider read-only verification after safe local operator configuration
 
 ## Objective
 
-Execute only a new complete **credential-free Gate C requalification** after the accepted E6 storage export compatibility remediation.
+Execute only the operator-gated **Gate C credential-dependent production read-only verification** for the accepted OKX Shadow provider boundary.
 
-The prior E7-069 qualification remains immutable historical evidence:
+The credential-free Gate C blocker is already closed by accepted E7-072 evidence:
 
 ```text
-E7-069 qualification source = 9b3370cbf29ce47abe048cc18860cc89b5fd532d
-E7-069 result               = FAIL
-historical failing suite    = tests/storage
-historical failure          = storage.__all__ public-export compatibility
+credential-free source revision = 83be94fbc4ee666156c2aaf7a7141b3eda9a4b4c
+credential-free result          = PASS / 579 tests / 14 of 14 suites
+Gate C                          = BLOCKED / credential-dependent read-only evidence still required
+SHADOW runtime                  = NOT STARTED
+Gate D / LIVE                   = BLOCKED / NOT AUTHORIZED
 ```
 
-Do not erase, relabel, or combine the old result with this requalification. This task qualifies only the exact remediated source revision below.
+This task must not start a SHADOW runtime. It verifies only the accepted production read-only provider boundary and sanitized evidence needed for Gate C review.
 
 ## Exact executable source revision
 
-The only revision permitted for project-code execution is:
+All project-code/provider verification must use exactly the credential-free-qualified source revision:
 
 ```text
 83be94fbc4ee666156c2aaf7a7141b3eda9a4b4c
 ```
 
-This is accepted `main` immediately after PR #84 merged. Later mailbox-only coordination commits are intentionally outside the executable source revision.
+Before any provider request, local evidence must prove:
 
-Before execution, local evidence must prove:
-
-- repository revision exactly equals the SHA above;
+- repository revision exactly equals that SHA;
 - working tree is clean;
 - approved local Windows / non-GitHub environment;
 - Python executable/version and `PYTHONPATH=src`;
 - no GitHub Actions/CI/hosted/GitHub-triggered compute.
 
-If exact revision, clean tree, or approved environment cannot be established, do not run; stop `BLOCKED` with exact evidence.
+If any source/environment precondition cannot be established, stop `BLOCKED` without provider traffic.
 
-## Required requalification matrix
+## Operator prerequisites — fail before provider traffic if absent
 
-Run all required suites in one bounded approved-local job/run against the exact source revision:
+The local operator must have configured all of the following outside Git and outside chat:
 
-```powershell
-$env:PYTHONPATH="src"
-python -m unittest discover -s tests/market_data -p "test_*.py" -v
-python -m unittest discover -s tests/indicators -p "test_*.py" -v
-python -m unittest discover -s tests/strategy -p "test_*.py" -v
-python -m unittest discover -s tests/backtest -p "test_*.py" -v
-python -m unittest discover -s tests/execution -p "test_*.py" -v
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
-python -m unittest discover -s tests/risk -p "test_*.py" -v
-python -m unittest discover -s tests/position -p "test_*.py" -v
-python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/platform -p "test_*.py" -v
-python -m unittest discover -s tests/registry -p "test_*.py" -v
-python -m unittest discover -s tests/integration -p "test_*.py" -v
-python -m unittest discover -s tests/e2e -p "test_*.py" -v
-python -m unittest discover -s tests/safety -p "test_*.py" -v
+1. a dedicated R7 OKX **sub-account** for Gate C observation;
+2. an OKX API key for that sub-account with provider permission intended as **Read only** — no Trade and no Withdraw permission;
+3. key/secret/passphrase stored only in an ignored local secret/config surface or OS/local secret store consumed by the approved local execution mechanism;
+4. the official OKX REST hostname for the account-registration region explicitly confirmed in local configuration;
+5. no expectation that this task will place/cancel/amend orders, change leverage/modes, transfer assets, or clean account state by mutation.
+
+Never ask the Product Owner to paste key, secret, passphrase, token, cookie, browser auth, raw UID, exact balance, or provider order/fill IDs into chat, Git, task files, callbacks, screenshots, or logs.
+
+If the dedicated sub-account, regional hostname, or locally stored credentials are unavailable, stop `BLOCKED` and state only the exact operator action required. Do not invent credentials or guess a regional hostname.
+
+## Verification implementation boundary
+
+Reuse the accepted E4 production read-only Gate C surface unchanged:
+
+- `OKXShadowProviderReader` / `OKXShadowReadResult`;
+- exact read-only allowlist and signing semantics already accepted;
+- no `OKXDemoAdapter` injection;
+- no broker submitter;
+- no `ExecutionGateway.submit_approved_plan`;
+- no generic authenticated transport exposing non-GET methods.
+
+Do not modify provider/auth implementation, tests, contracts, risk policy, storage, strategy logic, or execution semantics in this task. A reproducible implementation defect must be persisted and returned to PM for bounded owner remediation.
+
+## Allowed provider requests
+
+### Required public clock request
+
+```text
+GET /api/v5/public/time
 ```
 
-A suite is PASS only if the command exits `0` with no unittest failures/errors. `NOT_RUN != PASS`.
+This must precede the private batch. Absolute local/provider clock skew must be `<= 5000 ms`; otherwise abort before private evidence is accepted.
 
-The credential-free requalification is PASS only if **every required suite PASSes in the same approved-local requalification job/run** against the exact source revision.
+### Exact private authenticated allowlist
+
+Only these six GET requests are authorized:
+
+```text
+GET /api/v5/account/config
+GET /api/v5/account/balance?ccy=USDT
+GET /api/v5/account/positions?instId=BTC-USDT-SWAP
+GET /api/v5/account/leverage-info?instId=BTC-USDT-SWAP&mgnMode=isolated
+GET /api/v5/trade/orders-pending?instType=SWAP&instId=BTC-USDT-SWAP
+GET /api/v5/trade/fills?instType=SWAP&instId=BTC-USDT-SWAP
+```
+
+`GET /api/v5/account/config` must be the first private read. Its normalized permission category must be exactly `read_only`; if provider evidence indicates Trade, Withdraw, unknown, malformed, or contradictory permission, hard-abort the remainder as required by the accepted fail-closed implementation.
+
+No other private endpoint is authorized. `GET /api/v5/trade/order` is not authorized. Private WebSocket is not authorized.
+
+### Optional public non-authenticated verification
+
+Only if the existing bounded verification harness already requires it, the following public GETs are additionally allowed without changing production code:
+
+```text
+GET /api/v5/public/instruments?instType=SWAP&instId=BTC-USDT-SWAP
+GET /api/v5/market/ticker?instId=BTC-USDT-SWAP
+GET /api/v5/market/candles?instId=BTC-USDT-SWAP&bar=<required 1m|15m|1H|4H>
+```
+
+Do not widen this list.
+
+## Absolute no-mutation boundary
+
+The verification must prove:
+
+```text
+allowed authenticated HTTP method = GET only
+mutation_request_count             = 0
+submit_request_count               = 0
+```
+
+Forbidden before, during, and after verification:
+
+- order place/batch-place;
+- cancel/batch-cancel;
+- amend/batch-amend;
+- close position;
+- algo/trigger/conditional order mutation;
+- leverage mutation;
+- account mode / position mode mutation;
+- isolated-margin add/reduce;
+- transfer/sub-account transfer;
+- deposit/withdrawal/funding movement;
+- Demo balance adjustment;
+- POST/PUT/PATCH/DELETE provider request;
+- PAPER or SHADOW runtime start;
+- Gate D/LIVE/capital exposure.
+
+Unexpected provider position, pending order, fill activity, unknown account truth, or other contradictory state is evidence of a fail-closed Gate C observation. Do not mutate the account to make verification pass.
+
+## Required sanitized evidence
+
+Persist E7-owned evidence such as:
+
+```text
+status/e7/GATE_C_PRODUCTION_READONLY_VERIFICATION_20260825.md
+```
+
+It may contain only sanitized release evidence, including:
+
+- task/request/action/job IDs;
+- exact source revision and clean-tree proof;
+- OS/Python/PYTHONPATH;
+- provider = OKX and environment = production-read-only Shadow verification;
+- configured regional hostname;
+- canonical/provider instrument identities;
+- provider permission category = `read_only` when verified;
+- account-level / position-mode / dedicated-subaccount classification without raw UID values;
+- clock skew milliseconds;
+- `balance_known` but never exact balance;
+- position-known / unexpected-exposure boolean;
+- leverage-known/acceptable boolean;
+- pending-order count only;
+- recent/unreconciled fill bounded counts/checkpoint status without provider IDs;
+- exact outbound endpoint names/methods and call counts;
+- `mutation_request_count=0` and `submit_request_count=0`;
+- normalized health/fail-closed reason codes;
+- overall verification PASS/FAIL/BLOCKED.
+
+Durable/public evidence must not contain raw key/secret/passphrase/signature, UID/main UID, API label, bound IP list, exact balance, provider order/fill IDs, full provider responses, cookies/tokens/browser auth, or unnecessary user-specific filesystem paths.
+
+## Result interpretation
+
+### PASS
+
+Credential-dependent read-only verification may be marked PASS only if:
+
+- exact source/clean approved-local environment is proven;
+- operator-confirmed regional hostname is used;
+- `account/config` verifies permission exactly `read_only`;
+- the accepted read-only observation batch completes without provider/auth/clock/domain/account-state safety violation;
+- authenticated outbound calls are only the exact GET allowlist;
+- `mutation_request_count=0` and `submit_request_count=0`;
+- no secret/sensitive material appears in durable evidence.
+
+A PASS in this task is **evidence for PM Gate C review only**. Worker must not independently set Gate C PASS or start SHADOW runtime.
+
+### FAIL / BLOCKED
+
+Fail closed and stop if any of the following occurs:
+
+- operator prerequisites absent;
+- regional hostname unknown/unconfirmed;
+- credential source unavailable;
+- provider permission not exactly `read_only`;
+- provider/auth/signature/clock failure;
+- unexpected position/pending-order/new-unreconciled-fill state;
+- malformed/unknown required account truth;
+- any non-GET or non-allowlisted request attempt;
+- redaction cannot be guaranteed;
+- any authority/safety boundary cannot be satisfied.
+
+Do not repair source, widen allowlists, mutate provider state, rerun repeatedly to hide a failure, or start another task.
 
 ## Local-job boundary
 
-Use the existing approved E7 local-job mailbox mechanism if available. Request exactly one requalification job with a task-specific action such as:
+Use only the approved local non-GitHub AgentBridge/local-job mechanism. Use a task-specific action such as:
 
 ```text
-GATE_C_CREDENTIAL_FREE_REQUALIFICATION
+GATE_C_PRODUCTION_READONLY_VERIFICATION
 ```
 
-The job may use only repository fake/sanitized fixtures and local storage/temp files required by the tests.
-
-No real provider/private network access or real credential is required or permitted.
-
-## Failure handling
-
-If any suite fails/errors:
-
-1. preserve sanitized evidence sufficient to identify every failing/erroring test, failure/error classification, assertion/exception reason, relevant traceback location, command, source revision, environment and exit code;
-2. mark this requalification `FAIL`;
-3. do not selectively rerun, repair source/tests, weaken assertions, or start remediation inside this task;
-4. update E7 STATUS/evidence and stop `PARTIAL` or `BLOCKED` for PM review.
-
-Do not hide a failed first requalification attempt with a second attempt in the same task.
-
-## Required evidence
-
-Persist bounded E7-owned evidence, for example:
-
-```text
-status/e7/GATE_C_CREDENTIAL_FREE_REQUALIFICATION_20260825.md
-```
-
-Include in sanitized form:
-
-- task ID;
-- exact executable source revision;
-- local request/action/job IDs;
-- OS/Python/PYTHONPATH/clean-tree evidence;
-- all exact commands;
-- per-suite test counts, start/end timestamps, exits and PASS/FAIL;
-- failure identities/reasons if any;
-- total test count if determinable;
-- explicit comparison that E7-069 remains historical FAIL evidence and is not overwritten;
-- proof no real credentials/provider/private requests/mutation/runtime/GitHub compute were used;
-- overall requalification result.
-
-Do not include secrets, raw provider payloads, raw UID/account identifiers, exact balances, provider order/fill IDs, cookies/tokens/browser-auth material, or unnecessary user-specific local paths.
-
-## Credential-free / financial safety boundary
-
-Forbidden:
-
-- real API key/secret/passphrase/token/cookie/browser-auth material;
-- real provider/private authenticated request;
-- external exchange account read;
-- order submission/place/cancel/amend/close;
-- leverage/account/position-mode mutation;
-- transfer/deposit/withdrawal/capital movement;
-- PAPER or SHADOW runtime start;
-- Gate D/LIVE/capital exposure;
-- GitHub Actions/CI/hosted/GitHub-triggered execution;
-- production/test/contract/migration remediation in this evidence task.
-
-## Release interpretation
-
-Even if every credential-free suite PASSes:
-
-```text
-credential-free Gate C blocker = CLOSED / PASS FOR EXACT REMEDIATED REVISION
-Gate C — SHADOW_READY          = BLOCKED / CREDENTIAL-DEPENDENT READ-ONLY EVIDENCE STILL REQUIRED
-SHADOW runtime                 = NOT STARTED
-Gate D / LIVE                  = BLOCKED / NOT AUTHORIZED
-LIVE                           = UNAUTHORIZED
-```
-
-Do not start credential setup, provider verification, SHADOW runtime, Gate D or LIVE in this task. PM will review the result and issue any later operator-gated work separately.
+The task may execute at most the bounded read-only verification needed to produce one reviewable result. No GitHub compute is allowed.
 
 ## Writable scope
 
-Only E7-owned requalification/control/evidence paths:
+Only E7-owned provider-verification control/evidence paths:
 
-- `coordination/E7/LOCAL_JOB_REQUEST.json` if required by the existing mailbox mechanism;
+- `coordination/E7/LOCAL_JOB_REQUEST.json` if required;
 - `coordination/E7/STATUS.md`;
-- `status/e7/**` for this requalification evidence;
-- `status/INTEGRATION_STATUS.md` / `status/RELEASE_GATES.md` only for accurate non-promotional credential-free qualification state.
+- `status/e7/**` for sanitized verification evidence;
+- `status/INTEGRATION_STATUS.md` / `status/RELEASE_GATES.md` only to preserve an accurate non-promotional Gate C state.
 
 Forbidden:
 
-- all production source changes;
-- all test-definition changes;
+- production source/test changes;
 - E1-E6 TASK/STATUS or owned code/tests;
 - contracts/ADRs/migrations;
-- remediation;
-- provider/private real execution;
-- credentials/secrets;
+- provider implementation/auth changes;
+- real secret values in Git/chat/evidence;
+- provider mutation/order submission;
 - PAPER/SHADOW runtime start;
 - Gate D/LIVE/capital exposure;
-- GitHub compute.
-
-## Acceptance
-
-### DONE
-
-- exact remediated source revision and clean approved-local environment are proven;
-- exactly one complete required requalification matrix is executed;
-- every required suite PASSes with exit `0` and no unittest failure/error;
-- sanitized evidence is committed/pushed;
-- Gate C remains blocked pending credential-dependent read-only evidence and PM review.
-
-### PARTIAL / BLOCKED
-
-- any required suite fails/errors;
-- exact revision/clean tree cannot be proven;
-- approved-local execution is unavailable;
-- evidence is insufficient to diagnose a failure;
-- any safety/authority constraint cannot be satisfied.
+- GitHub Actions/CI/hosted/GitHub-triggered compute.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E7-20260825-072`, execute only this TASK, update `coordination/E7/STATUS.md`, commit/push required evidence to the target branch, and stop on `DONE`, `PARTIAL`, or `BLOCKED`. Do not self-start credential-dependent provider verification, SHADOW runtime, Gate D, LIVE, remediation, or another task.
+Read latest `main`, verify wake task ID `E7-20260825-073`, execute only this TASK, update `coordination/E7/STATUS.md`, commit/push required sanitized evidence to the target branch, and stop on `DONE`, `PARTIAL`, or `BLOCKED`. Do not self-start SHADOW runtime, Gate D, LIVE, remediation, or another task.

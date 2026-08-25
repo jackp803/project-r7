@@ -2,7 +2,7 @@
 
 ## Scope
 
-This document records the E4 Phase-1 Gate C component introduced by task `E4-20260825-017`.
+This document records the E4 Phase-1 Gate C component introduced by task `E4-20260825-017` and the bounded runtime-balance handoff added by `E4-20260825-018`.
 
 The component is intentionally separate from the submit-capable `OKXDemoAdapter`.
 
@@ -39,8 +39,8 @@ GET /api/v5/account/config
 GET /api/v5/account/balance?ccy=USDT
 GET /api/v5/account/positions?instId=BTC-USDT-SWAP
 GET /api/v5/account/leverage-info?instId=BTC-USDT-SWAP&mgnMode=isolated
-GET /api/v5/trade/orders-pending?instId=BTC-USDT-SWAP&instType=SWAP
-GET /api/v5/trade/fills?instId=BTC-USDT-SWAP&instType=SWAP
+GET /api/v5/trade/orders-pending?instType=SWAP&instId=BTC-USDT-SWAP
+GET /api/v5/trade/fills?instType=SWAP&instId=BTC-USDT-SWAP
 ```
 
 The implementation canonicalizes query ordering before signing. Query keys/values must match the allowlist exactly. Extra, missing, or changed query material is denied.
@@ -128,7 +128,40 @@ Raw `uid`, `mainUid`, API label, and bound-IP values are used only transiently f
 - private GET count;
 - `HEALTHY | DEGRADED` and stable sanitized reason codes.
 
-No exact balance, raw credential, raw UID/main UID, API label, bound IP, provider order ID, provider fill ID, provider response body, or signature is present in the observation.
+No exact balance, raw credential, raw UID/main UID, API label, bound IP, provider order ID, provider fill ID, provider response body, or signature is present in `OKXShadowObservation`.
+
+## Runtime-sensitive USDT balance handoff
+
+The same `observe(...)` batch also returns an `OKXShadowReadResult`. It binds two different data classes of authority without adding another provider read:
+
+```text
+OKXShadowReadResult.sanitized_observation
+    -> OKXShadowObservation
+    -> balance-known boolean only
+    -> durable/public-safe projection
+
+OKXShadowReadResult.runtime_available_balance
+    -> Decimal | None
+    -> exact USDT availBal from the same accepted balance response
+    -> runtime-only E4 -> later E5 handoff
+```
+
+The exact value is retained only after all of these earlier batch facts have already been established by the same reader invocation:
+
+```text
+provider/domain identity
+provider clock check <= 5 seconds
+account config parsed
+permission exactly read_only
+dedicated sub-account/account/position-mode checks accepted
+USDT balance response parsed as one finite non-negative Decimal
+```
+
+A zero Decimal balance is valid known truth. Missing USDT detail, malformed Decimal, negative Decimal, NaN, or infinity leaves `usdt_balance_known=false`, exposes no runtime balance, and terminates the batch fail closed.
+
+The runtime value is deliberately not a field on `OKXShadowObservation`. `OKXShadowReadResult` is a slots-based non-dataclass wrapper with a redacted `repr`; its explicit `sanitized_observation` projection is the object intended for durable/public persistence. The exact runtime balance must not be copied into checkpoints, callback/public evidence payloads, logs, STATUS/handoff evidence, or general-purpose durable serializers.
+
+Later E5 derivation may consume the exact Decimal together with `sanitized_observation`; E5 does not need provider credentials, provider response parsing, or an independently caller-asserted balance value.
 
 ## Fail-closed batch order
 
@@ -137,7 +170,7 @@ The production-read batch is intentionally sequential:
 ```text
 public time
 -> account config / permission
--> USDT balance known
+-> USDT balance known + runtime-only exact Decimal
 -> BTC-USDT-SWAP positions
 -> isolated leverage info
 -> pending orders
@@ -152,7 +185,7 @@ Blocking conditions include:
 - permission not exactly `read_only`;
 - account-level/position-mode/sub-account mismatch;
 - malformed/missing required response;
-- unknown USDT balance;
+- unknown/malformed/negative/non-finite USDT balance;
 - non-isolated or malformed position/leverage evidence;
 - unexpected non-zero BTC-USDT-SWAP exposure;
 - unexpected pending order;
@@ -171,6 +204,8 @@ latest_fill_timestamp_ms
 records_at_latest_timestamp
 ```
 
+It never contains the runtime available balance.
+
 If no prior checkpoint exists, any returned recent fill is treated as new/unreconciled provider activity and the batch fails closed.
 
 If a prior checkpoint exists:
@@ -184,7 +219,7 @@ This checkpoint is intentionally sanitized and is not a substitute for future du
 
 ## Capability graph
 
-The Shadow-facing class exposes only one operational callable:
+The Shadow-facing reader exposes only one operational callable:
 
 ```text
 observe(...)
@@ -208,7 +243,7 @@ The injected transport remains private to the reader. The repository provides no
 
 ## Verification state
 
-This task authorizes only approved-local, credential-free fake-based verification. If no approved local runner is available to the E4 conversation, verification remains:
+Task `E4-20260825-018` authorizes only approved-local, credential-free fake-based verification. If no approved local runner is available to the E4 conversation, verification remains:
 
 ```text
 NOT_RUN

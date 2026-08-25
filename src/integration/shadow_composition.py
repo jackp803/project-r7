@@ -7,18 +7,9 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from typing import Any, Mapping, Sequence
 
-from brokers.okx_shadow import (
-    OKXShadowProviderReader,
-    OKXShadowReadResult,
-    ShadowFillCheckpoint,
-)
+from brokers.okx_shadow import OKXShadowProviderReader, OKXShadowReadResult, ShadowFillCheckpoint
 from market_data import Candle, MarketSnapshot
-from risk import (
-    RiskPolicy,
-    RiskProposal,
-    derive_gate_c_risk_context,
-    evaluate_trade_intent,
-)
+from risk import RiskPolicy, RiskProposal, derive_gate_c_risk_context, evaluate_trade_intent
 from storage import OperationalModeRecovery, OperationalModeStore, ShadowCheckpoint
 from strategy import (
     ENTRY_ORDER_TYPE_MARKET,
@@ -44,25 +35,9 @@ SHADOW_CAPABILITY_MANIFEST = (
 
 _FORBIDDEN_PROVIDER_CALLABLES = frozenset(
     {
-        "submit",
-        "submit_entry",
-        "submit_order",
-        "retry_entry",
-        "retry_order",
-        "place_order",
-        "cancel",
-        "cancel_order",
-        "amend",
-        "amend_order",
-        "close_position",
-        "set_leverage",
-        "set_position_mode",
-        "set_account_mode",
-        "transfer",
-        "withdraw",
-        "deposit",
-        "request",
-        "send",
+        "submit", "submit_entry", "submit_order", "retry_entry", "retry_order", "place_order",
+        "cancel", "cancel_order", "amend", "amend_order", "close_position", "set_leverage",
+        "set_position_mode", "set_account_mode", "transfer", "withdraw", "deposit", "request", "send",
     }
 )
 
@@ -77,7 +52,7 @@ class ShadowCompositionError(RuntimeError):
 
 @dataclass(frozen=True)
 class ShadowPlanningEvidence:
-    """E7-local audit view; explicitly not ApprovedTradePlan or execution authority."""
+    """E7-local audit view; not TradeIntent, RiskDecision, ApprovedTradePlan, or execution authority."""
 
     profile_version: str
     operational_mode: str
@@ -93,26 +68,20 @@ class ShadowPlanningEvidence:
 
 @dataclass(frozen=True, repr=False)
 class ShadowCycleResult:
-    """Sanitized/auditable Shadow result with no provider execution authority."""
+    """Sanitized Shadow result that deliberately exports no executable authority object."""
 
     mode_revision: int
     provider_observation_ref: str
     provider_read_healthy: bool
     shadow_checkpoint_id: str | None
     signal: Mapping[str, Any]
-    trade_intent: Mapping[str, Any] | None
-    risk_decision: Mapping[str, Any] | None
     planning_evidence: ShadowPlanningEvidence | None
     ready_for_hypothetical_new_exposure: bool
     reason_codes: tuple[str, ...]
 
     def __repr__(self) -> str:
         signal_id = self.signal.get("signal_id") if isinstance(self.signal, Mapping) else None
-        risk_id = (
-            self.risk_decision.get("risk_decision_id")
-            if isinstance(self.risk_decision, Mapping)
-            else None
-        )
+        risk_id = None if self.planning_evidence is None else self.planning_evidence.risk_decision_id
         return (
             "ShadowCycleResult(mode_revision={!r}, provider_observation_ref={!r}, "
             "provider_read_healthy={!r}, shadow_checkpoint_id={!r}, signal_id={!r}, "
@@ -148,11 +117,7 @@ def _format_utc(value: datetime) -> str:
 def _canonical_json(value: Any) -> str:
     try:
         return json.dumps(
-            value,
-            sort_keys=True,
-            separators=(",", ":"),
-            ensure_ascii=False,
-            allow_nan=False,
+            value, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False
         )
     except (TypeError, ValueError) as exc:
         raise ShadowCompositionError("SANITIZED_AUDIT_MATERIAL_INVALID") from exc
@@ -173,8 +138,6 @@ def _public_callables(value: object) -> frozenset[str]:
 
 
 def _validate_provider_reader(provider_reader: object) -> OKXShadowProviderReader:
-    # Exact accepted E4 type only. A Demo/live Broker or arbitrary duck-typed object
-    # must never be able to enter the Shadow composition graph.
     if type(provider_reader) is not OKXShadowProviderReader:
         raise ShadowCompositionError("SHADOW_PROVIDER_READER_TYPE_REQUIRED")
     public = _public_callables(provider_reader)
@@ -186,10 +149,7 @@ def _validate_provider_reader(provider_reader: object) -> OKXShadowProviderReade
 
 
 def _require_finalized_e1_candles(
-    candles: Sequence[Candle],
-    *,
-    evaluated_at: datetime,
-    symbol: str,
+    candles: Sequence[Candle], *, evaluated_at: datetime, symbol: str
 ) -> tuple[Candle, ...]:
     if isinstance(candles, (str, bytes, bytearray)) or not isinstance(candles, Sequence):
         raise ShadowCompositionError("E1_FINALIZED_CANDLE_SEQUENCE_REQUIRED")
@@ -220,8 +180,7 @@ def _fill_checkpoint_material(value: object) -> Mapping[str, Any] | None:
 
 
 def _sanitized_observation_material(
-    market_snapshot: MarketSnapshot,
-    shadow_result: OKXShadowReadResult,
+    market_snapshot: MarketSnapshot, shadow_result: OKXShadowReadResult
 ) -> dict[str, Any]:
     observation = shadow_result.sanitized_observation
     return {
@@ -242,9 +201,7 @@ def _sanitized_observation_material(
             "canonical_symbol": observation.canonical_symbol,
             "provider_instrument_id": observation.provider_instrument_id,
             "observed_at": _format_utc(observation.observed_at),
-            "provider_time": (
-                None if observation.provider_time is None else _format_utc(observation.provider_time)
-            ),
+            "provider_time": None if observation.provider_time is None else _format_utc(observation.provider_time),
             "clock_skew_ms": observation.clock_skew_ms,
             "clock_status": observation.clock_status,
             "permission_category": observation.permission_category,
@@ -269,8 +226,7 @@ def _sanitized_observation_material(
 
 
 def _observation_identity(
-    market_snapshot: MarketSnapshot,
-    shadow_result: OKXShadowReadResult,
+    market_snapshot: MarketSnapshot, shadow_result: OKXShadowReadResult
 ) -> tuple[str, str]:
     material = _canonical_json(_sanitized_observation_material(market_snapshot, shadow_result))
     digest = hashlib.sha256(material.encode("utf-8")).hexdigest()
@@ -278,8 +234,7 @@ def _observation_identity(
 
 
 def _checkpoint_payload(
-    market_snapshot: MarketSnapshot,
-    shadow_result: OKXShadowReadResult,
+    market_snapshot: MarketSnapshot, shadow_result: OKXShadowReadResult
 ) -> dict[str, Any]:
     observation = shadow_result.sanitized_observation
     provider_ref, provider_hash = _observation_identity(market_snapshot, shadow_result)
@@ -324,15 +279,14 @@ def _checkpoint_payload(
 class ShadowComposition:
     """Gate C no-submit composition over accepted E1/E2/E4/E5/E6 surfaces.
 
-    The object intentionally has no Broker, ExecutionGateway, OrderRequest,
-    provider request builder, generic authenticated transport, or ApprovedTradePlan
-    output. The only E4 operation retained is the bound read-only `observe`
-    capability from the exact accepted `OKXShadowProviderReader` type.
+    There is no Broker, ExecutionGateway, OrderRequest, generic authenticated transport,
+    TradeIntent/RiskDecision output, or ApprovedTradePlan output in the public composition
+    result. The only E4 operation retained is the bound read-only `observe` capability.
 
-    The E4 fill checkpoint is retained only inside this trusted composition object;
-    callers cannot supply or forge it. A newly constructed composition after restart
-    therefore starts with no trusted checkpoint and remains fail-closed if provider
-    fill history cannot be established safely.
+    E4 fill checkpoint provenance is held only inside this trusted composition object;
+    callers cannot inject a checkpoint. A new composition after restart starts without a
+    trusted fill checkpoint and therefore fails closed if provider fill history cannot be
+    reconciled safely.
     """
 
     __slots__ = ("_mode_store", "_observe_provider", "_strategy_runtime", "_fill_checkpoint")
@@ -393,9 +347,7 @@ class ShadowComposition:
         if not isinstance(strategy, ParsedStrategyDefinition):
             raise ShadowCompositionError("E2_PARSED_STRATEGY_REQUIRED")
         finalized = _require_finalized_e1_candles(
-            candles,
-            evaluated_at=evaluation_time,
-            symbol=market_snapshot.symbol,
+            candles, evaluated_at=evaluation_time, symbol=market_snapshot.symbol
         )
 
         shadow_result = self._observe_provider(previous_fill_checkpoint=self._fill_checkpoint)
@@ -436,8 +388,6 @@ class ShadowComposition:
                 provider_read_healthy=shadow_result.healthy,
                 shadow_checkpoint_id=None if checkpoint is None else checkpoint.checkpoint_id,
                 signal=dict(signal),
-                trade_intent=None,
-                risk_decision=None,
                 planning_evidence=None,
                 ready_for_hypothetical_new_exposure=False,
                 reason_codes=tuple(sorted(reasons)),
@@ -491,8 +441,6 @@ class ShadowComposition:
             provider_read_healthy=shadow_result.healthy,
             shadow_checkpoint_id=None if checkpoint is None else checkpoint.checkpoint_id,
             signal=dict(signal),
-            trade_intent=dict(trade_intent),
-            risk_decision=dict(risk_decision),
             planning_evidence=planning_evidence,
             ready_for_hypothetical_new_exposure=ready,
             reason_codes=tuple(sorted(reasons)),

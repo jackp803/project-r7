@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sqlite3
 import tempfile
 import unittest
@@ -8,9 +9,14 @@ from decimal import Decimal
 from pathlib import Path
 
 from brokers.okx_demo import OKXCredentials, OKXDemoAdapter, OKXDemoAdapterConfig
-from brokers.okx_shadow import OKXShadowCredentials, OKXShadowProviderReader, OKXShadowReaderConfig
+from brokers.okx_shadow import (
+    OKXShadowConfigurationError,
+    OKXShadowCredentials,
+    OKXShadowProviderReader,
+    OKXShadowReaderConfig,
+)
 from integration import ShadowComposition, ShadowCompositionError
-from market_data import MarketSnapshot, normalize_okx_current_candles, normalize_okx_ticker
+from market_data import normalize_okx_current_candles, normalize_okx_ticker
 from risk import RiskPolicy, RiskProposal
 from storage import OperationalModeAuthorityError, OperationalModeValidationError, open_operational_mode_store
 from strategy import RUNTIME_FAMILY, RUNTIME_VERSION, compute_content_hash, parse_strategy_definition
@@ -258,32 +264,54 @@ class GateCShadowCompositionSafetyTests(unittest.TestCase):
     def test_synthetic_credentials_do_not_change_reachable_composition_or_reader_capabilities(self):
         store = open_operational_mode_store(self.db_path)
         _enter_shadow(store)
-        first_transport = _AuditTransport()
-        second_transport = _AuditTransport()
-        first_reader = _shadow_reader(first_transport)
+        first_reader = _shadow_reader(_AuditTransport())
         second_reader = _shadow_reader(
-            second_transport,
+            _AuditTransport(),
             credentials=OKXShadowCredentials("different-key", "different-secret", "different-passphrase"),
         )
         first = ShadowComposition(mode_store=store, provider_reader=first_reader)
+        second = ShadowComposition(mode_store=store, provider_reader=second_reader)
         first_surface = {name for name in dir(first) if not name.startswith("_")}
-        second_surface = {name for name in dir(ShadowComposition) if not name.startswith("_")}
+        second_surface = {name for name in dir(second) if not name.startswith("_")}
         reader_one = {name for name in dir(first_reader) if not name.startswith("_")}
         reader_two = {name for name in dir(second_reader) if not name.startswith("_")}
+        self.assertEqual(first_surface, second_surface)
         self.assertEqual(reader_one, reader_two)
         self.assertEqual({"observe", "provider", "environment"}, reader_one)
         forbidden_fragments = (
-            "submit", "place", "cancel", "amend", "close", "leverage", "mode", "transfer", "deposit", "withdraw", "request", "send"
+            "submit", "place", "cancel", "amend", "close", "leverage", "mode", "transfer",
+            "deposit", "withdraw", "request", "send",
         )
-        self.assertFalse(any(any(fragment in name.lower() for fragment in forbidden_fragments) for name in first_surface))
-        self.assertFalse(any(any(fragment in name.lower() for fragment in forbidden_fragments) for name in second_surface))
+        self.assertFalse(
+            any(any(fragment in name.lower() for fragment in forbidden_fragments) for name in first_surface)
+        )
         store.close()
+
+    def test_invalid_provider_domain_is_rejected_before_composition_or_transport(self):
+        transport = _AuditTransport({})
+        with self.assertRaises(OKXShadowConfigurationError):
+            OKXShadowProviderReader(
+                credentials=OKXShadowCredentials(FAKE_KEY, FAKE_SECRET, FAKE_PASSPHRASE),
+                config=OKXShadowReaderConfig(
+                    rest_base_url="https://example.com",
+                    operator_confirmed_rest_base_url="https://example.com",
+                    expected_account_level="2",
+                    expected_position_mode="net_mode",
+                ),
+                transport=transport,
+                utc_now_provider=lambda: NOW,
+            )
+        self.assertEqual([], transport.requests)
 
     def test_e4_degradation_axes_flow_to_e5_reject_with_zero_mutations(self):
         cases = []
 
         clock = _healthy_responses(NOW - timedelta(seconds=6))
         cases.append(("clock", clock))
+
+        auth = _healthy_responses()
+        auth[ACCOUNT_CONFIG] = {"code": "50113", "msg": RAW_PROVIDER_MESSAGE, "data": []}
+        cases.append(("auth", auth))
 
         account = _healthy_responses()
         account[ACCOUNT_CONFIG]["data"][0]["acctLv"] = "3"
@@ -350,7 +378,8 @@ class GateCShadowCompositionSafetyTests(unittest.TestCase):
         self.assertEqual("E1_UNFINALIZED_CANDLE_REJECTED", caught.exception.code)
         self.assertEqual([], transport.requests)
 
-        future = list(candles)
+        snapshot, fresh_candles = _market()
+        future = list(fresh_candles)
         object.__setattr__(future[-1], "close_time", NOW + timedelta(seconds=1))
         with self.assertRaises(ShadowCompositionError) as caught:
             _run(composition, snapshot, future)
@@ -414,11 +443,46 @@ class GateCShadowCompositionSafetyTests(unittest.TestCase):
         store = open_operational_mode_store(corrupt_path)
         _enter_shadow(store)
         store.close()
+
+        corrupt_payload = {
+            "schema_version": "contracts-v0.1",
+            "provider": "OKX",
+            "environment_classification": "PRODUCTION_READ_ONLY_SHADOW",
+            "regional_hostname_ref": "openapi.okx.com",
+            "canonical_instrument": "BTC_USDT_PERP",
+            "provider_instrument": "BTC-USDT-SWAP",
+            "observed_at": "2026-08-25T04:15:00Z",
+            "permission_category": "read_only",
+            "market_healthy": True,
+            "account_config_known": True,
+            "balance_known": True,
+            "position_truth_known": True,
+            "isolated_leverage_known": True,
+            "unexpected_exposure": False,
+            "pending_order_count": 0,
+            "unreconciled_fill_count": 0,
+            "provider_observation_ref": "r7obs_corrupt_synthetic",
+            "provider_observation_hash": "sha256:" + "2" * 64,
+            "reason_codes": [],
+        }
+        payload_json = json.dumps(
+            corrupt_payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False
+        )
         connection = sqlite3.connect(corrupt_path)
-        connection.execute("PRAGMA foreign_keys = ON")
         connection.execute(
-            "UPDATE operational_mode_transitions SET payload_hash = ? WHERE mode_revision = 1",
-            ("sha256:" + "0" * 64,),
+            """
+            INSERT INTO shadow_provider_checkpoints (
+                checkpoint_id, checkpoint_revision, mode_revision,
+                observed_at, provider_observation_ref, payload_json, payload_hash
+            ) VALUES (?, 0, 1, ?, ?, ?, ?)
+            """,
+            (
+                "shadowcp_" + "0" * 64,
+                corrupt_payload["observed_at"],
+                corrupt_payload["provider_observation_ref"],
+                payload_json,
+                "sha256:" + "0" * 64,
+            ),
         )
         connection.commit()
         connection.close()
@@ -431,15 +495,14 @@ class GateCShadowCompositionSafetyTests(unittest.TestCase):
         )
         with self.assertRaises(ShadowCompositionError) as caught:
             corrupt.recover_shadow_state()
-        self.assertEqual("AUTHORITATIVE_OPERATIONAL_MODE_MISSING", caught.exception.code)
+        self.assertEqual("AUTHORITATIVE_OPERATIONAL_MODE_UNSAFE", caught.exception.code)
         self.assertEqual([], corrupt_transport.requests)
         corrupt_store.close()
 
     def test_loggable_healthy_result_and_durable_checkpoint_redact_runtime_sensitive_material(self):
         store = open_operational_mode_store(self.db_path)
         _enter_shadow(store)
-        responses = _healthy_responses()
-        transport = _AuditTransport(responses)
+        transport = _AuditTransport(_healthy_responses())
         composition = ShadowComposition(mode_store=store, provider_reader=_shadow_reader(transport))
         snapshot, candles = _market()
         result = _run(composition, snapshot, candles)

@@ -2,6 +2,7 @@ import base64
 import hashlib
 import hmac
 import unittest
+from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
@@ -170,6 +171,7 @@ class OKXShadowReaderTests(unittest.TestCase):
         observation = reader.observe()
         self.assertFalse(observation.healthy)
         self.assertEqual(("CLOCK_SKEW_EXCEEDED",), observation.reason_codes)
+        self.assertIsNone(observation.runtime_available_balance)
         self.assertEqual(0, observation.private_get_count)
         self.assertEqual([PUBLIC_TIME], [request.request_path for request in transport.requests])
 
@@ -182,6 +184,7 @@ class OKXShadowReaderTests(unittest.TestCase):
                 observation = reader.observe()
                 self.assertFalse(observation.healthy)
                 self.assertEqual(("PERMISSION_NOT_READ_ONLY",), observation.reason_codes)
+                self.assertIsNone(observation.runtime_available_balance)
                 self.assertEqual(1, observation.private_get_count)
                 self.assertEqual(
                     [PUBLIC_TIME, ACCOUNT_CONFIG],
@@ -200,6 +203,8 @@ class OKXShadowReaderTests(unittest.TestCase):
         self.assertEqual("net_mode", observation.position_mode)
         self.assertEqual("SUBACCOUNT", observation.subaccount_status)
         self.assertTrue(observation.usdt_balance_known)
+        self.assertEqual(Decimal(RAW_BALANCE), observation.runtime_available_balance)
+        self.assertEqual(observation.observed_at, observation.sanitized_observation.observed_at)
         self.assertTrue(observation.position_known)
         self.assertFalse(observation.unexpected_exposure)
         self.assertTrue(observation.isolated_leverage_known)
@@ -207,6 +212,51 @@ class OKXShadowReaderTests(unittest.TestCase):
         self.assertEqual(0, observation.pending_order_count)
         self.assertEqual(0, observation.recent_fill_window_count)
         self.assertEqual(0, observation.new_unreconciled_fill_count)
+
+    def test_runtime_balance_is_same_batch_sensitive_data_and_sanitized_projection_excludes_it(self):
+        reader, _ = _reader()
+        result = reader.observe()
+        self.assertTrue(result.healthy)
+        self.assertEqual(Decimal(RAW_BALANCE), result.runtime_available_balance)
+        self.assertTrue(result.sanitized_observation.usdt_balance_known)
+        self.assertEqual(result.observed_at, result.sanitized_observation.observed_at)
+
+        loggable = repr(result)
+        self.assertNotIn(RAW_BALANCE, loggable)
+        self.assertIn("runtime_available_balance=<redacted>", loggable)
+
+        durable = asdict(result.sanitized_observation)
+        self.assertNotIn("runtime_available_balance", durable)
+        self.assertNotIn("available_balance", durable)
+        self.assertNotIn(RAW_BALANCE, repr(durable))
+
+    def test_zero_runtime_balance_is_known_and_valid(self):
+        responses = _healthy_responses()
+        responses[BALANCE]["data"][0]["details"][0]["availBal"] = "0"
+        reader, _ = _reader(responses=responses)
+        result = reader.observe()
+        self.assertTrue(result.healthy)
+        self.assertTrue(result.usdt_balance_known)
+        self.assertEqual(Decimal("0"), result.runtime_available_balance)
+        self.assertNotIn("runtime_available_balance", asdict(result.sanitized_observation))
+
+    def test_invalid_runtime_balance_fails_closed_and_never_exposes_usable_value(self):
+        cases = ("-0.01", "NaN", "Infinity", "not-a-decimal", "")
+        for value in cases:
+            with self.subTest(value=value):
+                responses = _healthy_responses()
+                responses[BALANCE]["data"][0]["details"][0]["availBal"] = value
+                reader, transport = _reader(responses=responses)
+                result = reader.observe()
+                self.assertFalse(result.healthy)
+                self.assertEqual(("BALANCE_USDT_MALFORMED",), result.reason_codes)
+                self.assertFalse(result.usdt_balance_known)
+                self.assertIsNone(result.runtime_available_balance)
+                self.assertEqual(
+                    [PUBLIC_TIME, ACCOUNT_CONFIG, BALANCE],
+                    [request.request_path for request in transport.requests],
+                )
+                self.assertNotIn(value, repr(result))
 
     def test_non_get_and_non_allowlisted_private_request_are_denied_before_transport(self):
         transport = _FakeTransport()
@@ -300,7 +350,8 @@ class OKXShadowReaderTests(unittest.TestCase):
     def test_public_observation_and_errors_redact_credentials_sensitive_account_values_and_provider_ids(self):
         reader, _ = _reader()
         healthy = reader.observe()
-        combined = repr(healthy) + repr(reader) + repr(_credentials())
+        self.assertEqual(Decimal(RAW_BALANCE), healthy.runtime_available_balance)
+        combined = repr(healthy) + repr(healthy.sanitized_observation) + repr(reader) + repr(_credentials())
         for forbidden in (
             FAKE_API_KEY,
             FAKE_SECRET,
@@ -329,6 +380,7 @@ class OKXShadowReaderTests(unittest.TestCase):
         self.assertEqual(("UNEXPECTED_PENDING_ORDER",), pending.reason_codes)
         self.assertNotIn(RAW_ORDER_ID, repr(pending))
         self.assertNotIn("also-sensitive-client-order-id", repr(pending))
+        self.assertNotIn(RAW_BALANCE, repr(pending))
 
         responses = _healthy_responses()
         responses[FILLS] = {
@@ -347,6 +399,7 @@ class OKXShadowReaderTests(unittest.TestCase):
         self.assertEqual(("NEW_UNRECONCILED_FILL_ACTIVITY",), fills.reason_codes)
         self.assertNotIn(RAW_FILL_ID, repr(fills))
         self.assertNotIn(RAW_ORDER_ID, repr(fills))
+        self.assertNotIn(RAW_BALANCE, repr(fills))
 
     def test_transport_exception_material_is_suppressed_from_loggable_observation(self):
         responses = _healthy_responses()
@@ -360,6 +413,7 @@ class OKXShadowReaderTests(unittest.TestCase):
         self.assertNotIn(FAKE_API_KEY, loggable)
         self.assertNotIn(FAKE_SECRET, loggable)
         self.assertNotIn(FAKE_PASSPHRASE, loggable)
+        self.assertIsNone(observation.runtime_available_balance)
 
     def test_unexpected_position_pending_order_and_new_fill_fail_closed(self):
         cases = []
@@ -398,12 +452,16 @@ class OKXShadowReaderTests(unittest.TestCase):
                 observation = reader.observe()
                 self.assertFalse(observation.healthy)
                 self.assertEqual((expected,), observation.reason_codes)
+                self.assertNotIn(RAW_BALANCE, repr(observation))
 
     def test_malformed_balance_wrong_margin_and_fill_checkpoint_regression_fail_closed(self):
         malformed = _healthy_responses()
         malformed[BALANCE] = {"code": "0", "data": [{"details": []}]}
         reader, _ = _reader(responses=malformed)
-        self.assertEqual(("BALANCE_USDT_UNKNOWN",), reader.observe().reason_codes)
+        malformed_result = reader.observe()
+        self.assertEqual(("BALANCE_USDT_UNKNOWN",), malformed_result.reason_codes)
+        self.assertFalse(malformed_result.usdt_balance_known)
+        self.assertIsNone(malformed_result.runtime_available_balance)
 
         wrong_margin = _healthy_responses()
         wrong_margin[LEVERAGE] = {
@@ -449,7 +507,9 @@ class OKXShadowReaderTests(unittest.TestCase):
         self.assertEqual(1, observation.recent_fill_window_count)
         self.assertEqual(0, observation.new_unreconciled_fill_count)
         self.assertEqual(prior, observation.fill_checkpoint)
+        self.assertEqual(Decimal(RAW_BALANCE), observation.runtime_available_balance)
         self.assertNotIn(RAW_FILL_ID, repr(observation))
+        self.assertNotIn(RAW_BALANCE, repr(observation))
 
     def test_account_identity_and_position_mode_mismatch_fail_closed_without_raw_identity_persistence(self):
         main_account = _healthy_responses()
@@ -458,6 +518,7 @@ class OKXShadowReaderTests(unittest.TestCase):
         observation = reader.observe()
         self.assertEqual(("DEDICATED_SUBACCOUNT_NOT_CONFIRMED",), observation.reason_codes)
         self.assertNotIn(RAW_UID, repr(observation))
+        self.assertIsNone(observation.runtime_available_balance)
 
         wrong_mode = _healthy_responses()
         wrong_mode[ACCOUNT_CONFIG]["data"][0]["posMode"] = "long_short_mode"

@@ -256,7 +256,8 @@ class OKXShadowReaderTests(unittest.TestCase):
                     [PUBLIC_TIME, ACCOUNT_CONFIG, BALANCE],
                     [request.request_path for request in transport.requests],
                 )
-                self.assertNotIn(value, repr(result))
+                if value:
+                    self.assertNotIn(value, repr(result))
 
     def test_non_get_and_non_allowlisted_private_request_are_denied_before_transport(self):
         transport = _FakeTransport()

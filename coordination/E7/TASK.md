@@ -1,198 +1,100 @@
 # E7 Current Task
 
-- task_id: `E7-20260825-061`
-- issued_at: `2026-08-25T08:32:00+08:00`
+- task_id: `E7-20260825-062`
+- issued_at: `2026-08-25T09:10:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-gate-b-bounded-diagnostic-rerun-20260825`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate B source chain through PR #66, approved-local FAIL evidence PR #67 merge `3f676ed3245d78a54e232292e817c965934ca489`, accepted failure-evidence recovery blocker PR #68 merge `e6d210000e607c1dbcda5b43e4ef26b26bbd3814`, Product Owner explicit approval in PM control channel on `2026-08-25T08:32:00+08:00` for this bounded diagnostic rerun only
-- source_execution_revision: `62bef3cedda7f7b65116defd9802e2aee37a4fb0`
+- target_branch: `agent/e7-gate-b-test-remediation-20260825`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate B chain through PR #69 merge `a044ff6e382b4fd93308f73169f0952705f922f4`, E7 diagnostic evidence `status/e7/GATE_B_BOUNDED_DIAGNOSTIC_RERUN_20260825.md`
 
 ## Objective
 
-Execute only a bounded approved-local diagnostic rerun of the five Gate B suites that failed in E7-059:
+Remediate only the two E7-owned integration/safety test-definition defects proven by E7-20260825-061. Do not change shared contracts or production semantics.
 
-```text
-brokers
-position
-storage
-integration
-safety
-```
+### Cause B — lexical zero over-constraint in integration definitions
 
-The sole purpose is to capture complete diagnostic evidence sufficient for PM/E7 to identify actual root cause(s) and assign bounded remediation to the correct owner(s).
+Affected tests: the ordinary EXIT and EMERGENCY_EXIT cases in `tests/integration/test_gate_b_paper_trade_result_integration.py` that assert `flat_position.actual_quantity == "0"`.
 
-This task does **not** authorize remediation, production/test changes, a new ten-suite Gate B qualification run, Gate C, provider/private APIs, PAPER, SHADOW, LIVE, strategy promotion, exchange traffic, credentials, GitHub Actions/CI, hosted runners, or GitHub-triggered compute.
+Required remediation:
 
-## Exact source revision rule
+- validate that the authoritative E4 flat Position quantity is a valid Decimal string numerically equal to zero;
+- preserve exact broker fact, lineage, TradeResult, funding, lifecycle, execution-binding and close/reopen assertions;
+- do not normalize or rewrite the E4 Position fact merely for E7 tests;
+- no new shared zero-normalization contract is needed.
 
-All five diagnostic suites must execute against exactly:
+### Cause F — safety test expects wrong specific diagnostic
 
-```text
-62bef3cedda7f7b65116defd9802e2aee37a4fb0
-```
+Affected test: `tests/safety/test_gate_b_paper_trade_result_safety.py::test_cross_plan_position_fill_and_funding_lineage_fail_closed`.
 
-This is the exact source revision that produced the authoritative E7-059 Gate B FAIL.
+The fixture changes only `exit_fill.position_id`; accepted E5 validation returns `EXIT_FILL_POSITION_MISMATCH`. `EXIT_FILL_AUTHORITY_MISMATCH` is reserved for `position_action_id` mismatch.
 
-Before execution:
+Required remediation:
 
-1. verify latest `main` TASK task_id is exactly `E7-20260825-061` and ACTIVE;
-2. read `README.md`, `agents/README.md`, `agents/E7_INTEGRATION.md`, E7-059/E7-060 evidence, `status/RELEASE_GATES.md`, and `status/INTEGRATION_STATUS.md`;
-3. use the Product Owner-approved local Windows/non-GitHub environment;
-4. check out/use exact source revision `62bef3cedda7f7b65116defd9802e2aee37a4fb0` for project execution;
-5. verify project source/test content at execution time is exactly that revision and clean before the first unittest command;
-6. do not substitute current `main`, the diagnostic branch, or any newer production/test revision for execution;
-7. create/use the target Git evidence branch separately for evidence/status commits after execution, without changing the diagnosed source/test content.
+- update the specific expected diagnostic for the existing position-id mutation to `EXIT_FILL_POSITION_MISMATCH`;
+- retain or add clear distinct coverage that position-action authority mismatch still fails closed with `EXIT_FILL_AUTHORITY_MISMATCH` if already within the bounded existing test structure;
+- do not weaken exact exit Fill authority/position/role lineage validation.
 
-If exact revision or approved environment cannot be satisfied, stop `BLOCKED / REVISION_OR_ENVIRONMENT_MISMATCH` with `project_executable_verification = NOT_RUN`.
+## Writable scope
 
-## Approved environment metadata
+Only:
 
-Before the first test command, capture and later persist sanitized evidence for:
+- `tests/integration/test_gate_b_paper_trade_result_integration.py`;
+- `tests/safety/test_gate_b_paper_trade_result_safety.py`;
+- bounded E7-owned helper under `tests/integration/**` / `tests/safety/**` only if strictly necessary;
+- `coordination/E7/STATUS.md`.
 
-- approved local machine/environment label;
-- OS/version;
-- Python executable path and Python version;
-- repository path;
-- exact checked-out revision;
-- clean/dirty working-tree state;
-- `PYTHONPATH`;
-- diagnostic start timestamp.
+Forbidden:
 
-Do not expose secrets, tokens, private keys, account identifiers, provider data, or sensitive user paths beyond what is needed to prove local execution.
+- production code changes;
+- contracts/ADR changes;
+- E1-E6 tests/production;
+- release-gate promotion;
+- GitHub Actions/CI/hosted runners/GitHub-triggered compute;
+- provider/private API/network/credentials;
+- PAPER/SHADOW/LIVE/Gate C;
+- unrelated cleanup.
 
-## Exact diagnostic commands
+## Executable verification
 
-From repository root in approved local Windows PowerShell:
+This remediation task does not authorize a new project execution run.
+
+Record `local_verification = NOT_RUN` and provide exact later approved-local commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
-python -m unittest discover -s tests/position -p "test_*.py" -v
-python -m unittest discover -s tests/storage -p "test_*.py" -v
 python -m unittest discover -s tests/integration -p "test_*.py" -v
 python -m unittest discover -s tests/safety -p "test_*.py" -v
 ```
 
-Run all five even if an earlier suite fails, provided the approved environment remains valid.
+E7-061 diagnostic execution is pre-remediation FAIL evidence, not post-fix PASS.
 
-Do not execute strategy, execution, platform, registry, e2e, backtests, network/provider calls, Paper daemons, exchange adapters, or any other project workload in this task.
+## Dependency / release state
 
-## Diagnostic evidence requirements
+E4, E5, E6 and E7 bounded test remediations may proceed independently. Do not self-start cross-domain integration or a new Gate B qualification run after this task.
 
-For each of the five suites, persist all actual evidence needed to avoid another truncated-callback blocker:
-
-- exact command;
-- suite start/end timestamp;
-- exit code;
-- tests run count;
-- complete failing test identifiers;
-- whether each item is FAILURE or ERROR;
-- assertion/error type and message;
-- concise but sufficient traceback frames including repository file path, line number, and function/test name;
-- first-order causal exception where chained exceptions exist;
-- any repeated identical failure signature grouped without losing the list of affected tests.
-
-Also persist:
-
-- exact source revision;
-- approved local environment metadata listed above;
-- all five suite result summary;
-- job/request identity if AgentBridge/local runner is used;
-- explicit proof that all five results belong to this one approved bounded diagnostic request.
-
-### Anti-truncation requirement
-
-Do not rely on the terminal chat/AgentBridge callback as the only carrier of failure detail.
-
-Before terminal STATUS, materialize a durable sanitized diagnostic artifact in Git under:
-
-```text
-status/e7/GATE_B_BOUNDED_DIAGNOSTIC_RERUN_20260825.md
-```
-
-That artifact must contain the failing test identifiers, error/assertion text, traceback locations, counts, timestamps, environment metadata, and exact revision needed for root-cause triage. Raw logs need not be committed if they contain excessive/noisy output, but every failure/error must be represented faithfully enough to reproduce ownership/contract triage without rerunning tests.
-
-If the local runner cannot provide enough output to populate that artifact, stop `BLOCKED / DIAGNOSTIC_OUTPUT_INSUFFICIENT`; do not infer root cause and do not launch another job.
-
-## Evidence-only triage
-
-After the five suites finish, E7 may perform static Git read-only inspection against contracts/source to classify each distinct first-order failure cause as one of:
-
-- `SETTLED_CONTRACT_IMPLEMENTATION_DEFECT`;
-- `E7_TEST_OR_INTEGRATION_DEFINITION_DEFECT`;
-- `ENVIRONMENT_OR_CONFIGURATION_DEFECT`;
-- `CONTRACT_OR_SEMANTIC_GAP`;
-- `INSUFFICIENT_EVIDENCE`.
-
-For each distinct cause, record:
-
-- affected failing tests/suites;
-- exact evidence;
-- responsible owner recommendation only where supported by traceback + contract/source ownership;
-- whether one upstream cause fans out into multiple suites.
-
-Do not assign owner from suite directory alone. Do not fix anything in this task.
-
-## Release interpretation
-
-The authoritative release state remains:
+Formal state remains:
 
 ```text
 Gate B = BLOCKED / EXECUTABLE_VERIFICATION_FAIL
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-This diagnostic rerun cannot promote Gate B even if one or more rerun suites unexpectedly pass. A later full Gate B qualification rerun, if justified after remediation, will require a separate PM/PO decision and exact-revision task.
+After all bounded remediation branches are PM-reviewed and merged, the next full Gate B qualification execution requires a separate exact-revision PM/Product Owner decision.
 
-## Writable scope
-
-E7 evidence/status only:
-
-- `status/e7/GATE_B_BOUNDED_DIAGNOSTIC_RERUN_20260825.md`;
-- `coordination/E7/STATUS.md` on target branch;
-- `status/INTEGRATION_STATUS.md` / `status/RELEASE_GATES.md` only if needed to record factual diagnostic disposition while keeping Gate B BLOCKED.
-
-Forbidden:
-
-- production code changes;
-- any E1-E6 test changes;
-- E7 test-definition changes;
-- contracts/ADR changes;
-- `.github/workflows/**` or any GitHub compute;
-- provider/private API/network/credentials;
-- PAPER/SHADOW/LIVE;
-- strategy promotion;
-- remediation implementation;
-- another task.
-
-## Terminal states
+## Acceptance
 
 ### DONE
 
-Use DONE only when all five approved diagnostic suites actually ran at exact source revision and the durable diagnostic artifact contains sufficient evidence for bounded root-cause/owner triage.
-
-STATUS must include:
-
-- task_id `E7-20260825-061`;
-- exact source revision;
-- all five suite exit codes/counts;
-- diagnostic artifact path;
-- distinct failure classifications;
-- evidence-supported next_owner recommendation(s), if determinable;
-- `project_executable_verification = RAN / DIAGNOSTIC_ONLY`;
-- Gate B still BLOCKED;
-- no remediation started.
-
-### PARTIAL
-
-Use PARTIAL if execution starts but not all five suites complete. Persist all obtained diagnostics and exact cause.
+- E7 integration lexical-zero assertions are contract-valid numerical-zero checks;
+- safety diagnostic expectation matches the exact mutated lineage field and remains fail closed;
+- no production/shared-contract change;
+- no scope expansion;
+- executable verification remains `NOT_RUN` unless separately authorized;
+- commit/push to target branch and terminal E7 STATUS.
 
 ### BLOCKED
 
-Use BLOCKED if approved environment/exact revision cannot be satisfied or diagnostic output is still insufficient for evidence-based triage. Do not start remediation.
+If these test-only changes require a new contract or production behavior change, stop with exact evidence; do not broaden scope.
 
-## Completion / mailbox rule
+## Completion
 
-Commit/push only allowed E7 evidence/status changes to `agent/e7-gate-b-bounded-diagnostic-rerun-20260825`, write terminal `coordination/E7/STATUS.md`, and stop.
-
-Do not self-start remediation, another verification run, Gate C, provider/private work, PAPER, SHADOW, LIVE, or another task. PM will review terminal evidence and assign any bounded remediation through the correct owner TASK mailbox.
+Execute only this TASK, update `coordination/E7/STATUS.md`, commit/push to target branch, and stop. Do not start another task.

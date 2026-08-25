@@ -70,13 +70,33 @@ The E6-018 remediation does not alter the E6-017 lifecycle-execution-binding fre
 
 `test_paper_runtime_conflict_and_time_ordering.py` preserves focused definitions for:
 
-- true `0001_strategy_registry.sql -> 0002_paper_runtime_durability.sql` additive migration;
+- true additive migration from the Registry-only database to the current accepted migration inventory;
 - declared lifecycle-projection ID corruption -> durable conflict;
 - declared funding evidence ID corruption -> durable conflict;
 - fractional-second OrderResult ordering without RFC3339 lexical-order assumptions;
 - fractional-second newer raw Position observation -> `REATTESTATION_REQUIRED`.
 
-`tests/platform/test_paper_runtime_storage_surface.py` defines the supported `storage.runtime` public surface, including bounded lifecycle-execution-binding persistence, and rejects raw SQLite, provider-private, strategy-promotion, PAPER/SHADOW/LIVE and provider-submit capabilities.
+## Gate C OperationalMode / Shadow durability definitions
+
+`test_operational_mode_shadow.py` defines the bounded E6-20260825-022 credential-free storage regressions for:
+
+- exact shared OperationalMode vocabulary `RESEARCH | PAPER | SHADOW | LIVE | PAUSED | LOCKED` as distinct durable values;
+- `SHADOW` remaining operational mode state rather than StrategyLifecycleState;
+- append-only/revisioned audited transition into SHADOW;
+- no supported or SQL transition from a current non-LIVE mode into LIVE under the Gate C migration/surface;
+- existing/legacy LIVE representation restoring distinctly but always as `LIVE_UNAUTHORIZED` on the Gate C surface;
+- sanitized production-read-only OKX Shadow checkpoint identity and restart replay;
+- restart requiring a newly accepted provider checkpoint before `shadow_planning_safe=true`;
+- exact replay of a pre-restart checkpoint not masquerading as fresh provider evidence;
+- missing/corrupt checkpoint recovery failing closed;
+- Paper evidence never satisfying the Shadow provider-checkpoint requirement;
+- credential/provider-presence-like fields and prohibited provider/account material being rejected rather than persisted;
+- non-read-only permission, unknown required truth, unexpected exposure, pending orders, unreconciled fills, unhealthy market, or Demo classification never becoming an accepted Shadow checkpoint;
+- additive/idempotent `0004_operational_mode_shadow.sql` behavior while retaining accepted Gate B data.
+
+The Gate C storage surface does not perform provider/network/auth operations, derive E5 risk state, submit orders, mutate provider/account state, or authorize LIVE.
+
+`tests/platform/test_paper_runtime_storage_surface.py` continues to define the supported Gate B `storage.runtime` public surface and rejects raw SQLite, provider-private, strategy-promotion, PAPER/SHADOW/LIVE and provider-submit capabilities.
 
 Synthetic fixtures are deterministic test doubles only; they are **not** project executable PASS evidence.
 
@@ -97,6 +117,6 @@ Current result:
 NOT_RUN
 ```
 
-Reason: this ChatGPT GitHub environment is not an explicitly approved local execution environment for project code.
+Reason: Product Owner authorized credential-free approved-local verification for E6-20260825-022, but this ChatGPT GitHub session has no approved local runner/computer execution surface available. GitHub is not used as a substitute.
 
 Never use GitHub Actions/CI/hosted runners, GitHub-triggered self-hosted compute, arbitrary cloud project execution, provider/private APIs, or credentials for these verification suites.

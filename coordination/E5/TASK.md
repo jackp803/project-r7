@@ -1,39 +1,74 @@
 # E5 Current Task
 
-- task_id: `E5-20260824-024`
-- issued_at: `2026-08-24T22:55:00+08:00`
-- state: `HOLD`
-- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, `position-lifecycle-projection-v0.1`, `position-lifecycle-execution-binding-v0.1`, accepted E5 task `E5-20260824-023`, PR #64 merge `d36d1897ccb4ee06ed9a2dbf981dc4814d7a8541`
+- task_id: `E5-20260825-025`
+- issued_at: `2026-08-25T09:10:00+08:00`
+- state: `ACTIVE`
+- target_branch: `agent/e5-gate-b-test-remediation-20260825`
+- authority: `agents/E5_RISK_POSITION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate B chain through PR #69 merge `a044ff6e382b4fd93308f73169f0952705f922f4`, E7 diagnostic evidence `status/e7/GATE_B_BOUNDED_DIAGNOSTIC_RERUN_20260825.md`
 
 ## Objective
 
-Hold after PM static/source review accepted `E5-20260824-023` and merged the E5 lifecycle execution-evidence companion producer.
+Remediate only the E5-owned stale test assertion proven by E7-20260825-061.
 
-Accepted source state:
+Affected test:
 
-```text
-E5 position-lifecycle-execution-binding-v0.1 producer = MATERIALIZED / MERGED
-existing lifecycle projection identities = UNCHANGED
-existing lifecycle transition semantics = UNCHANGED
-local executable verification = NOT_RUN
-Gate B = BLOCKED / NOT YET PASS
-PAPER / SHADOW / LIVE = UNAUTHORIZED
-```
+`tests/position/test_lifecycle_projection.py` — `test_position_closed_requires_real_trade_result_outcome_and_exact_flat_position`.
 
-The next dependency is E6-owned mechanical persistence/recovery consumption of the accepted companion binding plus the separate settled TradeResult durable referenced-object completeness repair identified by E7-052.
+The authoritative E4 flat Position may serialize numerically zero `actual_quantity` with preserved Decimal scale such as `"0.0000"`. `contracts-v0.1` requires base-10 Decimal strings and E5 TradeResult validation requires numerical zero; it does not require every zero quantity to be lexically exactly `"0"`.
 
-## Required actions while HOLD
+Required remediation:
 
-- Preserve merged PR #64 producer semantics and PR #63 contract/ADR semantics.
-- Do not modify E5 production/tests unless PM replaces this HOLD after downstream integration review proves a bounded E5-owned defect.
-- Do not run or request project executable verification for this HOLD.
-- Do not start E6 storage work, E7 integration, provider/private APIs, Gate C, PAPER, SHADOW, or LIVE.
-- Do not treat `NOT_RUN` as PASS.
+- replace only the stale exact-string zero assertion with a Decimal-valid numerical-zero assertion;
+- continue to prove the lifecycle projection preserves exact E4 broker facts rather than rewriting them;
+- preserve all lifecycle revision/predecessor/event/state/TradeResult and broker-fact preservation assertions;
+- do not change E5 production lifecycle or TradeResult logic.
 
 ## Writable scope
 
-Only `coordination/E5/STATUS.md` for HOLD acknowledgement if needed.
+Only:
+
+- `tests/position/test_lifecycle_projection.py`;
+- E5-owned test helper in `tests/position/**` only if strictly necessary;
+- `coordination/E5/STATUS.md`.
+
+Forbidden:
+
+- `src/**` production changes;
+- contracts/ADR changes;
+- other agents' tests/production;
+- provider/private APIs/network/credentials;
+- GitHub Actions/CI/hosted runners/GitHub-triggered compute;
+- PAPER/SHADOW/LIVE/Gate C;
+- unrelated cleanup.
+
+## Executable verification
+
+This task does not grant new project execution authority.
+
+Record `local_verification = NOT_RUN` and provide:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m unittest discover -s tests/position -p "test_*.py" -v
+```
+
+E7-061 diagnostic evidence is pre-remediation FAIL evidence, not post-fix PASS.
+
+## Acceptance
+
+### DONE
+
+- stale lexical-zero assertion corrected to contract-valid numerical-zero validation;
+- E4 broker-fact preservation remains exact;
+- no production semantic change;
+- no scope expansion;
+- executable verification remains `NOT_RUN` unless separately authorized;
+- commit/push to target branch and terminal E5 STATUS.
+
+### BLOCKED
+
+If this cannot be fixed test-only without changing settled production/contract semantics, stop with exact evidence.
 
 ## Completion
 
-Acknowledge HOLD if needed and stop. Wait for PM.
+Execute only this TASK, update `coordination/E5/STATUS.md`, commit/push to target branch, and stop.

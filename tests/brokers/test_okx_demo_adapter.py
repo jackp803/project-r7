@@ -147,6 +147,28 @@ def _adapter(effects, *, position_mode="net_mode"):
     return adapter, transport
 
 
+def _issued_materialization(
+    adapter,
+    *,
+    side=Side.BUY,
+    quantity="0.010",
+    position_mode="net_mode",
+    plan_id="plan-okx-demo-001",
+):
+    request = _request(side=side, quantity=quantity, plan_id=plan_id)
+    metadata = _metadata()
+    sizing = size_okx_market_entry(request, metadata, now=NOW)
+    prerequisites = _prerequisites(position_mode=position_mode)
+    materialized = adapter.prepare_entry(
+        request,
+        sizing,
+        metadata,
+        prerequisites,
+        now=NOW,
+    )
+    return request, metadata, sizing, prerequisites, materialized
+
+
 class OKXDemoAdapterTests(unittest.TestCase):
     def test_signature_and_demo_headers_use_fake_runtime_credentials(self):
         body = {
@@ -296,7 +318,8 @@ class OKXDemoAdapterTests(unittest.TestCase):
             )
 
     def test_success_ack_is_pending_not_fill_truth(self):
-        _, _, _, _, materialized = _materialization()
+        adapter, transport = _adapter(())
+        _, _, _, _, materialized = _issued_materialization(adapter)
         response = {
             "code": "0",
             "data": [{
@@ -306,15 +329,15 @@ class OKXDemoAdapterTests(unittest.TestCase):
                 "sMsg": "",
             }],
         }
-        adapter, transport = _adapter((response,))
+        transport.effects.append(response)
         result = adapter.submit_entry(materialized, observed_at=NOW)
         self.assertEqual(result.order_status, OrderStatus.PENDING)
         self.assertEqual(result.filled_quantity, Decimal("0"))
         self.assertEqual(len(transport.requests), 1)
 
     def test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent(self):
-        _, _, _, _, materialized = _materialization()
         adapter, transport = _adapter((TimeoutError("fake timeout"),))
+        _, _, _, _, materialized = _issued_materialization(adapter)
         first = adapter.submit_entry(materialized, observed_at=NOW)
         second = adapter.submit_entry(materialized, observed_at=NOW)
         self.assertEqual(first.order_status, OrderStatus.RECONCILIATION_REQUIRED)
@@ -342,7 +365,6 @@ class OKXDemoAdapterTests(unittest.TestCase):
             )
 
     def test_reconciliation_queries_truth_but_never_authorizes_retry(self):
-        _, _, _, _, materialized = _materialization()
         effects = (
             TimeoutError("fake submit timeout"),
             {"code": "51603", "msg": "fixture provider error", "data": []},
@@ -351,6 +373,7 @@ class OKXDemoAdapterTests(unittest.TestCase):
             {"code": "0", "msg": "", "data": []},
         )
         adapter, transport = _adapter(effects)
+        _, _, _, _, materialized = _issued_materialization(adapter)
         ambiguous = adapter.submit_entry(materialized, observed_at=NOW)
         self.assertEqual(ambiguous.order_status, OrderStatus.RECONCILIATION_REQUIRED)
         evidence = adapter.reconcile_ambiguous(materialized, observed_at=NOW)
@@ -365,7 +388,6 @@ class OKXDemoAdapterTests(unittest.TestCase):
         self.assertEqual(len(transport.requests), 5)
 
     def test_forged_mutated_replayed_or_cross_materialization_evidence_cannot_submit(self):
-        _, _, _, _, materialized = _materialization()
         effects = (
             TimeoutError("fake submit timeout"),
             {"code": "51603", "data": []},
@@ -374,13 +396,18 @@ class OKXDemoAdapterTests(unittest.TestCase):
             {"code": "0", "data": []},
         )
         adapter, transport = _adapter(effects)
+        _, _, _, _, materialized = _issued_materialization(adapter)
         adapter.submit_entry(materialized, observed_at=NOW)
         evidence = adapter.reconcile_ambiguous(materialized, observed_at=NOW)
         forged = replace(evidence, retry_allowed=True, reason="FORGED")
         for candidate in (forged, evidence, forged):
             with self.assertRaises(OKXReconciliationError):
                 adapter.retry_entry(materialized, candidate, observed_at=NOW)
-        _, _, _, _, other = _materialization(plan_id="other-plan")
+
+        other_adapter, _ = _adapter(())
+        _, _, _, _, other = _issued_materialization(other_adapter, plan_id="other-plan")
+        with self.assertRaises(OKXProtocolError):
+            adapter.submit_entry(other, observed_at=NOW)
         with self.assertRaises(OKXReconciliationError):
             adapter.retry_entry(other, forged, observed_at=NOW)
         self.assertEqual(len(transport.requests), 5)

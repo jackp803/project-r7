@@ -616,7 +616,8 @@ class PaperBrokerProtectionStopFlatTruthTests(unittest.TestCase):
             emergency_source,
             observed_at=datetime(2026, 8, 24, 3, 7, 5, tzinfo=timezone.utc),
         )
-        self.assertEqual("0", flat["actual_quantity"])
+        self.assertIsInstance(flat["actual_quantity"], str)
+        self.assertEqual(Decimal("0"), Decimal(flat["actual_quantity"]))
         self.assertEqual("EMERGENCY", flat["lifecycle_state"])
 
     def test_funding_producer_and_entry_path_remain_compatible(self):

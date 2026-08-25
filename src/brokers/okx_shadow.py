@@ -218,6 +218,60 @@ class OKXShadowObservation:
         return self.health_status == "HEALTHY"
 
 
+class OKXShadowReadResult:
+    """One Shadow batch with an explicit sanitized/runtime-sensitive split.
+
+    `sanitized_observation` is the only durable/public projection. The exact
+    available balance remains private in this in-memory wrapper and is exposed
+    only through `runtime_available_balance` when balance truth was established
+    by the same batch. Repr intentionally never renders the value.
+    """
+
+    __slots__ = ("_sanitized_observation", "_runtime_available_balance")
+
+    def __init__(
+        self,
+        sanitized_observation: OKXShadowObservation,
+        runtime_available_balance: Decimal | None,
+    ) -> None:
+        if not isinstance(sanitized_observation, OKXShadowObservation):
+            raise OKXShadowConfigurationError("SHADOW_OBSERVATION_REQUIRED")
+        if runtime_available_balance is not None:
+            if (
+                not isinstance(runtime_available_balance, Decimal)
+                or not runtime_available_balance.is_finite()
+                or runtime_available_balance < 0
+            ):
+                raise OKXShadowConfigurationError("RUNTIME_BALANCE_INVALID")
+        if sanitized_observation.usdt_balance_known != (runtime_available_balance is not None):
+            raise OKXShadowConfigurationError("RUNTIME_BALANCE_BINDING_MISMATCH")
+        self._sanitized_observation = sanitized_observation
+        self._runtime_available_balance = runtime_available_balance
+
+    @property
+    def sanitized_observation(self) -> OKXShadowObservation:
+        """Return the balance-free object suitable for durable/public evidence."""
+
+        return self._sanitized_observation
+
+    @property
+    def runtime_available_balance(self) -> Decimal | None:
+        """Exact runtime-only USDT availBal from this same provider batch."""
+
+        return self._runtime_available_balance
+
+    def __getattr__(self, name: str) -> Any:
+        if name.startswith("_"):
+            raise AttributeError(name)
+        return getattr(self._sanitized_observation, name)
+
+    def __repr__(self) -> str:
+        return (
+            "OKXShadowReadResult(sanitized_observation={!r}, "
+            "runtime_available_balance=<redacted>)"
+        ).format(self._sanitized_observation)
+
+
 @dataclass
 class _ObservationState:
     observed_at: datetime
@@ -230,6 +284,7 @@ class _ObservationState:
     position_mode: str | None = None
     subaccount_status: str = "UNKNOWN"
     usdt_balance_known: bool = False
+    usdt_available_balance: Decimal | None = None
     position_known: bool = False
     unexpected_exposure: bool | None = None
     isolated_leverage_known: bool = False
@@ -407,7 +462,7 @@ def _parse_account_config(
     return permission, account_level, position_mode, "SUBACCOUNT"
 
 
-def _parse_usdt_balance_known(response: Mapping[str, Any]) -> bool:
+def _parse_usdt_available_balance(response: Mapping[str, Any]) -> Decimal:
     data = _require_success_data(response, "BALANCE")
     if len(data) != 1 or not isinstance(data[0], Mapping):
         raise OKXShadowProtocolError("BALANCE_MALFORMED")
@@ -417,8 +472,7 @@ def _parse_usdt_balance_known(response: Mapping[str, Any]) -> bool:
     matches = [item for item in details if isinstance(item, Mapping) and item.get("ccy") == "USDT"]
     if len(matches) != 1:
         raise OKXShadowProtocolError("BALANCE_USDT_UNKNOWN")
-    _parse_decimal(matches[0].get("availBal"), "BALANCE_USDT_MALFORMED")
-    return True
+    return _parse_decimal(matches[0].get("availBal"), "BALANCE_USDT_MALFORMED")
 
 
 def _parse_positions(
@@ -604,11 +658,17 @@ class OKXShadowProviderReader:
             reason_codes=reason_codes,
         )
 
+    def _result(self, state: _ObservationState, *, reason_codes: tuple[str, ...]) -> OKXShadowReadResult:
+        return OKXShadowReadResult(
+            self._observation(state, reason_codes=reason_codes),
+            state.usdt_available_balance,
+        )
+
     def observe(
         self,
         *,
         previous_fill_checkpoint: ShadowFillCheckpoint | None = None,
-    ) -> OKXShadowObservation:
+    ) -> OKXShadowReadResult:
         """Read one fail-closed production Shadow batch using only the fixed GET allowlist."""
 
         if previous_fill_checkpoint is not None and not isinstance(
@@ -642,9 +702,10 @@ class OKXShadowProviderReader:
             state.subaccount_status = subaccount_status
             state.account_config_known = True
 
-            state.usdt_balance_known = _parse_usdt_balance_known(
+            state.usdt_available_balance = _parse_usdt_available_balance(
                 self._private_get("balance", state=state)
             )
+            state.usdt_balance_known = True
 
             state.unexpected_exposure = _parse_positions(
                 self._private_get("positions", state=state),
@@ -677,6 +738,6 @@ class OKXShadowProviderReader:
                 raise OKXShadowSafetyError("NEW_UNRECONCILED_FILL_ACTIVITY")
 
         except (OKXShadowProtocolError, OKXShadowSafetyError) as exc:
-            return self._observation(state, reason_codes=(exc.code,))
+            return self._result(state, reason_codes=(exc.code,))
 
-        return self._observation(state, reason_codes=())
+        return self._result(state, reason_codes=())

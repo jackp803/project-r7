@@ -317,7 +317,7 @@ class PositionLifecycleProjectionV01Tests(unittest.TestCase):
         )
         self.assertEqual("CLOSED", closed["lifecycle_state"])
         self.assertEqual("POSITION_CLOSED", closed["lifecycle_event"])
-        self.assertEqual("0", closed["actual_quantity"])
+        self.assertEqual(Decimal("0"), Decimal(closed["actual_quantity"]))
         self.assertEqual(flat_position["broker_state_observed_at"], closed["broker_state_observed_at"])
         self._assert_broker_facts_preserved(flat_position, closed)
 

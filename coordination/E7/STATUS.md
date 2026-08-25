@@ -1,74 +1,66 @@
 # E7 Status
 
-- task_id: `E7-20260825-062`
+- task_id: `E7-20260825-064`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-gate-b-test-remediation-20260825`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260825-062 before work and remained ACTIVE immediately before terminal write`
-- task_blob: `41db0ddf3cabf5f58d04102af660e6f887ac5c5b`
-- authority_evidence: `status/e7/GATE_B_BOUNDED_DIAGNOSTIC_RERUN_20260825.md`
-- local_verification: `NOT_RUN / TASK DOES NOT AUTHORIZE NEW PROJECT EXECUTION`
-- project_executable_verification: `NOT_RUN`
+- branch: `agent/e7-gate-b-post-remediation-qualification-20260825`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260825-064 and remained ACTIVE immediately before terminal write`
+- task_blob: `2304b6f343102a47b4c96f3d4fd8200fdad9d231`
+- qualification_source_revision: `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8`
+- request_id: `REQ-E7-GATEB-064-01-7B3E91C4`
+- action_id: `GATE_B_POST_REMEDIATION_QUALIFICATION`
+- job_id: `JOB-3EE69A58605DF9D2`
+- job_state: `SUCCEEDED`
+- job_exit_code: `0`
+- project_executable_verification: `RAN / ONE AUTHORIZED TEN-SUITE QUALIFICATION`
+- local_verification: `PASS`
+- overall_matrix_result: `PASS`
+- evidence_artifact: `status/e7/GATE_B_POST_REMEDIATION_QUALIFICATION_20260825.md`
 - github_actions_ci_hosted_runner: `NOT_USED`
 - github_triggered_compute: `NOT_USED`
-- provider_private_api: `NOT AUTHORIZED / NOT_SENT`
+- provider_private_api: `NOT_AUTHORIZED / NOT_USED`
+- external_exchange_traffic: `NOT_AUTHORIZED / NOT_USED`
 - exchange_credentials: `NOT_USED`
 - paper_shadow_live: `UNAUTHORIZED`
-- gate_b: `BLOCKED / EXECUTABLE_VERIFICATION_FAIL`
+- gate_b: `BLOCKED / PENDING_PM_EVIDENCE_REVIEW`
 
-## Remediation completed
+## Qualification matrix
 
-### Cause B — integration lexical-zero over-constraint
+Executed exactly once, in the required order, under the same approved local request/job and exact clean source revision:
 
-`tests/integration/test_gate_b_paper_trade_result_integration.py`
+| Suite | Tests run | Exit | Result |
+|---|---:|---:|---|
+| strategy | 21 | 0 | PASS |
+| execution | 52 | 0 | PASS |
+| brokers | 107 | 0 | PASS |
+| position | 97 | 0 | PASS |
+| storage | 77 | 0 | PASS |
+| platform | 3 | 0 | PASS |
+| registry | 19 | 0 | PASS |
+| integration | 21 | 0 | PASS |
+| e2e | 3 | 0 | PASS |
+| safety | 50 | 0 | PASS |
 
-- commit: `e14d0872d593b82ecb8c471a86658b5dd772f073`
-- ordinary EXIT / EMERGENCY_EXIT flat Position assertion now requires `actual_quantity` to remain a string and parse as Decimal numerically equal to zero;
-- E4 broker fact is not normalized or rewritten;
-- existing request/fill lineage, funding, lifecycle, close-result and TradeResult assertions remain unchanged;
-- PROTECTION_STOP's existing exact `"0"` assertion is unchanged because this task only remediates the proven explicit-close lexical over-constraint.
+Total tests reported as run: `450`.
 
-### Cause F — safety diagnostic expectation
+Approved environment evidence records Windows `10.0.19045.0`, Python `3.10.6`, `PYTHONPATH=src`, exact revision `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8`, and pre-run `WORKING_TREE=CLEAN`. Full sanitized paths, timestamps, commands, and same-job evidence are persisted in the evidence artifact.
 
-`tests/safety/test_gate_b_paper_trade_result_safety.py`
+No non-passing unittest result was reported. No selective rerun or second qualification attempt was performed.
 
-- commit: `4543f10459765390e765b246b66f1ad35b552128`
-- position-id-only exit Fill mutation now expects exact `EXIT_FILL_POSITION_MISMATCH`;
-- distinct position-action-id mutation coverage remains fail closed and explicitly expects `EXIT_FILL_AUTHORITY_MISMATCH`;
-- no exit Fill authority/position/role validation was weakened.
-
-## Scope confirmation
-
-Pre-terminal branch comparison against current task base showed exactly two modified files before STATUS write:
-
-```text
-tests/integration/test_gate_b_paper_trade_result_integration.py
-tests/safety/test_gate_b_paper_trade_result_safety.py
-```
-
-No production code, E1-E6 tests, contracts, ADRs, release-gate promotion, provider/private work, PAPER, SHADOW, LIVE, or unrelated cleanup was performed.
-
-## Later approved-local commands
-
-Not executed in this task. Exact commands required after separate authorization:
-
-```powershell
-$env:PYTHONPATH="src"
-python -m unittest discover -s tests/integration -p "test_*.py" -v
-python -m unittest discover -s tests/safety -p "test_*.py" -v
-```
-
-E7-061 remains pre-remediation diagnostic FAIL evidence and is not post-fix PASS evidence.
-
-## Release state
+## Release interpretation
 
 ```text
-Gate B = BLOCKED / EXECUTABLE_VERIFICATION_FAIL
+overall_matrix_result = PASS
+Gate B = BLOCKED / PENDING_PM_EVIDENCE_REVIEW
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-A future full Gate B qualification run requires a separate PM/Product Owner exact-revision authorization after all bounded remediations are reviewed and merged.
+The executable matrix PASS does not itself promote Gate B. PM evidence review remains required before formal Gate B acceptance. Gate C and all provider/private activity remain outside this task and unauthorized.
+
+## Scope confirmation
+
+No production code, test definition, contract, or ADR changes were made. No remediation was started. GitHub was used only for source/evidence collaboration; no GitHub Actions, CI, hosted runner, or GitHub-triggered project compute was used. No provider/private API, external exchange traffic, credentials, PAPER, SHADOW, LIVE, or capital exposure occurred.
 
 ## Completion
 
-E7 completed only `E7-20260825-062` and stops on `DONE`. E7 does not self-start cross-domain integration, remediation outside this task, another verification run, Gate C, provider/private work, PAPER, SHADOW, LIVE, or another task.
+E7 completed only `E7-20260825-064` and stops on `DONE`. No additional verification, remediation, Gate C, provider/private work, PAPER, SHADOW, LIVE, or another task is self-started.

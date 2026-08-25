@@ -13,7 +13,7 @@ from registry import (
     StrategyVersionRecord,
     ValidationEvidenceRecord,
 )
-from storage import open_sqlite_platform
+from storage import OperationalModeRecovery, OperationalModeStore, ShadowCheckpoint, open_sqlite_platform
 from storage._sqlite_registry import (
     _SQLiteRegistryStore,
     _apply_migrations,
@@ -138,6 +138,18 @@ class PublicPersistenceBoundaryTests(unittest.TestCase):
         ):
             with self.subTest(raw_name=raw_name):
                 self.assertFalse(hasattr(storage, raw_name))
+
+    def test_gate_c_explicit_import_compatibility_does_not_expand_supported_exports(self) -> None:
+        self.assertIs(storage.OperationalModeRecovery, OperationalModeRecovery)
+        self.assertIs(storage.OperationalModeStore, OperationalModeStore)
+        self.assertIs(storage.ShadowCheckpoint, ShadowCheckpoint)
+        for compatibility_name in (
+            "OperationalModeRecovery",
+            "OperationalModeStore",
+            "ShadowCheckpoint",
+        ):
+            with self.subTest(compatibility_name=compatibility_name):
+                self.assertNotIn(compatibility_name, storage.__all__)
 
     def test_factory_returns_service_without_public_raw_writer_or_connection(self) -> None:
         service = open_sqlite_platform(":memory:")

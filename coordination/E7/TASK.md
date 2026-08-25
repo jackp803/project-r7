@@ -1,49 +1,71 @@
 # E7 Current Task
 
-- task_id: `E7-20260825-074`
-- issued_at: `2026-08-25T21:53:00+08:00`
-- state: `HOLD`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline PR #75, accepted Phase-1/2/3 work through PR #81, accepted E6 remediation PR #84, accepted credential-free requalification PR #85 merge `e8d0c956b4e504acb91f6aa9323526d2fea4d2e9`, accepted E7-073 operator-blocker evidence PR #86 merge `5bf0fd9d87c3f6202bbd98c6f0dd10a8eb3073a3`, Product Owner Gate C / SHADOW-only authorization
+- task_id: `E7-20260825-075`
+- issued_at: `2026-08-25T22:45:00+08:00`
+- state: `ACTIVE`
+- target_branch: `agent/e7-gate-c-zero-funds-decision-20260825`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline and credential-free requalification, Product Owner instruction to continue without depositing real funds
 
 ## Objective
 
-Hold Gate C work after the accepted credential-dependent production read-only verification attempt stopped safely before provider traffic because required local operator prerequisites were not configured.
+Make a static, evidence-backed Gate C decision for a dedicated production OKX sub-account that authenticated successfully with read-only credentials but has no available capital and whose balance response does not contain exactly one USDT detail.
 
-Current authoritative state:
+The Product Owner has stated that no spare funds are available and does not authorize depositing capital merely to satisfy verification.
+
+## Sanitized local evidence already established
 
 ```text
-credential-free Gate C blocker = CLOSED / PASS
-E7-073 production read-only verification = BLOCKED / OPERATOR_PREREQUISITES_MISSING
-provider traffic = NOT PERFORMED
-Gate C = BLOCKED
-SHADOW runtime = NOT STARTED
-Gate D / LIVE = BLOCKED / NOT AUTHORIZED
+REST hostname                 openapi.okx.com
+TLS/public-time read          PASS
+clock status                  HEALTHY
+provider permission           read_only
+account level                 2
+position mode                 net_mode
+dedicated sub-account         CONFIRMED
+account authentication        PASS
+balance interpretation        BALANCE_USDT_UNKNOWN
+provider mutation             NONE
+order/transfer/withdraw       NONE
+credential disclosure         NONE
 ```
 
-## Operator prerequisites required before PM may issue another verification task
+AgentBridge durable local jobs: `JOB-7D0BC5AA6E72` and `JOB-EB98D5532783`.
 
-The local operator must complete all of the following outside Git and outside chat:
+No exact balance, credential, UID, provider response body, order/fill identity, cookie, token, or browser-auth material may be placed in Git or chat.
 
-1. create or confirm a dedicated R7 OKX sub-account for Gate C observation;
-2. create API credentials for that sub-account with provider permission `Read only` and with no Trade/Withdraw permission;
-3. store key/secret/passphrase only in an ignored local configuration/secret surface or OS/local secret store consumable by the approved AgentBridge/local execution mechanism;
-4. explicitly confirm the official OKX REST hostname for the account-registration region in local configuration.
+## Required decision work
 
-Never place secret values, raw UID/account identifiers, exact balances, provider order/fill IDs, cookies, tokens or browser-auth material into chat, Git, task/status files, screenshots or public evidence.
+1. Re-read the production Shadow reader, tests, Gate C contracts/ADRs, and current official OKX API V5 documentation.
+2. Determine whether a balance response with no USDT detail is normatively and unambiguously equivalent to available USDT balance zero.
+3. Only if official documentation and project safety semantics support that interpretation, write an E7-owned decision defining the fail-closed boundary and assign minimal implementation to `next_owner = E4`. Do not modify E4 production code.
+4. Otherwise retain `BALANCE_USDT_UNKNOWN` as fail-closed and decide whether a separately governed OKX Demo verification path is the correct zero-capital route. Specify credential separation, simulated-trading headers, environment identity, evidence, and prohibition on treating Demo as production PASS.
+5. If neither route is supported, report `BLOCKED / PROVIDER_SEMANTICS_UNRESOLVED` with the missing authority.
 
-## Required actions while HOLD
+## Prohibited
 
-- Preserve the accepted credential-free PASS and E7-073 BLOCKED evidence.
-- Do not request or execute another provider verification job until PM replaces this HOLD after the operator confirms prerequisites are complete.
-- Do not guess the regional hostname or invent credentials.
-- Do not modify production code/tests/contracts/ADRs/provider implementation merely to bypass the operator blocker.
-- Do not start PAPER/SHADOW runtime, provider mutation/order submission, Gate D or LIVE.
-- Do not use GitHub Actions/CI/hosted/GitHub-triggered compute.
+- provider/private requests or executable verification;
+- deposits, transfers, orders, cancellations, Trade/Withdraw permission, or capital exposure;
+- production code/test changes or another Agent's STATUS;
+- interpreting unknown data as zero without normative authority;
+- treating Demo evidence as production evidence;
+- PAPER/SHADOW runtime start, Gate D, or LIVE;
+- GitHub Actions/CI/hosted/GitHub-triggered compute;
+- exposing credentials or sensitive provider/account material.
 
 ## Writable scope
 
-Only `coordination/E7/STATUS.md` for HOLD acknowledgement if needed.
+- `coordination/E7/STATUS.md`
+- `status/e7/GATE_C_ZERO_FUNDS_DECISION_20260825.md`
+- E7-owned decision artifact only if required, never implementation
 
 ## Completion
 
-Acknowledge HOLD if needed and stop. Do not self-start another verification attempt, remediation, SHADOW runtime, Gate D or LIVE work.
+Commit and push the target branch, then report one of:
+
+```text
+DONE / ZERO_BALANCE_SEMANTICS_ACCEPTED / next_owner=E4
+DONE / DEMO_PATH_REQUIRED / next_owner=PM
+BLOCKED / PROVIDER_SEMANTICS_UNRESOLVED / next_owner=PM
+```
+
+Gate C remains BLOCKED. SHADOW, Gate D and LIVE remain unauthorized.

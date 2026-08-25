@@ -469,6 +469,8 @@ def _parse_usdt_available_balance(response: Mapping[str, Any]) -> Decimal:
     details = data[0].get("details")
     if not isinstance(details, Sequence) or isinstance(details, (str, bytes)):
         raise OKXShadowProtocolError("BALANCE_MALFORMED")
+    if len(details) == 0:
+        return Decimal("0")
     matches = [item for item in details if isinstance(item, Mapping) and item.get("ccy") == "USDT"]
     if len(matches) != 1:
         raise OKXShadowProtocolError("BALANCE_USDT_UNKNOWN")

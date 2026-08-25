@@ -1,32 +1,34 @@
 # E7 Status
 
-- task_id: `E7-20260825-059`
+- task_id: `E7-20260825-060`
 - agent: `E7`
-- state: `DONE`
-- branch: `agent/e7-gate-b-approved-local-verification-20260825`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260825-059 before work and remained ACTIVE immediately before terminal write`
-- execution_revision: `62bef3cedda7f7b65116defd9802e2aee37a4fb0`
-- pre_authorization_revision: `399b817093dc555e18204027e46ff62c6fbb948e`
-- revision_scope_check: `PASS — only coordination/E7/TASK.md changed between pre-authorization and execution revision`
-- request_id: `REQ-E7-GATEB-059-01-8C4F2A71`
-- action_id: `GATE_B_APPROVED_LOCAL_VERIFICATION`
-- job_id: `JOB-EA9AE3F80AD335AE`
-- job_state: `FAILED`
-- job_exit_code: `1`
-- job_duration_seconds: `32.657`
-- overall_matrix_result: `FAIL`
-- project_executable_verification: `RAN / COMPLETE TEN-SUITE MATRIX / FAIL`
+- state: `BLOCKED`
+- branch: `agent/e7-gate-b-failure-evidence-recovery-20260825`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260825-060 before work and remained ACTIVE immediately before terminal write`
+- source_execution_revision: `62bef3cedda7f7b65116defd9802e2aee37a4fb0`
+- source_request_id: `REQ-E7-GATEB-059-01-8C4F2A71`
+- source_action_id: `GATE_B_APPROVED_LOCAL_VERIFICATION`
+- source_job_id: `JOB-EA9AE3F80AD335AE`
+- source_job_state: `FAILED`
+- source_job_exit_code: `1`
+- source_job_duration_seconds: `32.657`
+- source_overall_matrix_result: `FAIL`
+- blocker: `LOCAL_FAILURE_EVIDENCE_UNAVAILABLE`
+- classification: `INSUFFICIENT_EVIDENCE`
+- project_executable_verification: `NO_NEW_RUN`
+- local_job: `NOT_REQUESTED`
 - github_actions_ci_hosted_runner: `NOT_USED`
 - github_triggered_compute: `NOT_USED`
 - provider_private_api: `NOT AUTHORIZED / NOT_SENT`
 - exchange_credentials: `NOT_USED`
 - paper_shadow_live: `UNAUTHORIZED`
 - gate_a: `PASS / RESEARCH-INTEGRATION ONLY`
-- gate_b: `BLOCKED / PENDING_PM_EVIDENCE_REVIEW`
+- gate_b: `BLOCKED / EXECUTABLE_VERIFICATION_FAIL`
 - gate_c: `BLOCKED / UNCHANGED`
 - gate_d: `BLOCKED / UNCHANGED`
+- next_authority: `PM / Product Owner decision whether to authorize a bounded failing-suite rerun solely for complete diagnostics`
 
-## Matrix
+## Source executable result retained
 
 ```text
 strategy    PASS / exit 0
@@ -39,51 +41,67 @@ registry    PASS / exit 0
 integration FAIL / exit 1
 e2e         PASS / exit 0
 safety      FAIL / exit 1
+
+overall_matrix_result = FAIL
 ```
 
-All ten required suites actually ran. Therefore terminal TASK state is `DONE` and `overall_matrix_result = FAIL` per the TASK rules.
+All ten suites ran under E7-059. E7-060 performs no new execution.
 
-The delivered AgentBridge notification explicitly reports `Ran 21 tests` / `OK` for the strategy suite. Detailed failing-test identifiers, traceback locations, per-suite counts beyond strategy, and detailed local environment metadata were truncated from the delivered notification excerpt. E7 does not invent missing evidence or guess root cause.
+## Evidence recovery result
 
-## Evidence
+Required recovered evidence artifact:
 
-`status/e7/GATE_B_APPROVED_LOCAL_VERIFICATION_20260825.md`
+`status/e7/GATE_B_LOCAL_FAILURE_EVIDENCE_RECOVERY_20260825.md`
 
-- commit: `94514fdb64d55205643f4935df537973c15bdd2b`
+- commit: `79f81287562350cf6ad82664fc0b1c534274b203`
+
+Evidence sources inspected include PR #67 metadata/body, changed-file inventory, PR discussion/comments, E7-059 approved-local evidence/status, source mailbox request, and repository evidence for the exact request/job identities.
+
+The persisted material available to E7-060 does not contain the full local stdout/stderr transcript or a retrievable full job-log artifact.
+
+The following required details are unavailable and were not invented:
+
+```text
+approved local machine/environment label
+OS/version
+Python executable path/version
+repository path
+pre-run clean/dirty working-tree state
+per-suite execution timestamps
+per-suite counts except strategy=21
+failing test identifiers for brokers/position/storage/integration/safety
+assertion/error messages
+traceback locations
+```
+
+Because exact failing tests/tracebacks are unavailable, E7 cannot safely classify the failures as settled-contract implementation defects, E7 test-definition defects, environment/configuration defects, or contract/semantic gaps, and cannot assign a root-cause owner from suite names alone.
+
+## Release reconciliation
 
 `status/RELEASE_GATES.md`
 
-- commit: `cf46f78aacd1ae56f0de9ef17fb21135b6444a3c`
+- commit: `a4708e0857312b4db88ee8f36f00f2e1b85a96ec`
 
 `status/INTEGRATION_STATUS.md`
 
-- commit: `3519fb3f1c657fd3f4e40a776746cfd2568d52e1`
+- commit: `5bd89f110c522610f4c77b630d6522bc67946029`
 
-## Failure triage boundary
-
-Observed failing suite surfaces:
+Canonical release interpretation:
 
 ```text
-brokers     -> E4-owned surface
-position    -> E5-owned surface
-storage     -> E6-owned surface
-integration -> E7 cross-module surface
-safety      -> E7 cross-module safety surface
-```
-
-This is not root-cause assignment. The truncated notification does not provide sufficient failing-test/traceback detail to classify one or more settled-contract implementation defects versus a new shared semantic gap without guessing.
-
-E7-059 does not modify production code or test definitions and does not start remediation.
-
-## Release interpretation
-
-```text
-Gate B = BLOCKED / PENDING_PM_EVIDENCE_REVIEW
+Gate B = BLOCKED / EXECUTABLE_VERIFICATION_FAIL
 PAPER / SHADOW / LIVE = UNAUTHORIZED
 ```
 
-Task completion does not imply Gate B PASS.
+The original approved-local executable FAIL remains authoritative. The evidence-recovery blocker only prevents safe remediation assignment.
 
-## Completion
+## Terminal disposition
 
-E7 completed only `E7-20260825-059` and stops on `DONE`. E7 does not self-start remediation, Gate C, provider/private work, PAPER, SHADOW, LIVE, or another task.
+```text
+state = BLOCKED
+blocker = LOCAL_FAILURE_EVIDENCE_UNAVAILABLE
+project_executable_verification = NO_NEW_RUN
+next_authority = PM / Product Owner decision whether to authorize a bounded failing-suite rerun solely for complete diagnostics
+```
+
+E7 stops on BLOCKED and does not self-start a rerun, remediation, Gate C, provider/private work, PAPER, SHADOW, LIVE, or another task.

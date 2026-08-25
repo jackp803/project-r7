@@ -177,7 +177,9 @@ class GateBPaperTradeResultIntegrationDefinitions(unittest.TestCase):
         self.assertEqual(request.position_action_id, evidence["exit_fill"].position_action_id)
         self.assertEqual(request.position_id, evidence["exit_fill"].position_id)
         self.assertEqual(expected_role, evidence["exit_fill"].order_role)
-        self.assertEqual("0", evidence["flat_position"]["actual_quantity"])
+        flat_quantity = evidence["flat_position"]["actual_quantity"]
+        self.assertIsInstance(flat_quantity, str)
+        self.assertEqual(Decimal("0"), Decimal(flat_quantity))
         self.assertEqual("CONSISTENT", evidence["flat_position"]["reconciliation_status"])
         self.assertEqual(PositionEvent.POSITION_CLOSED, evidence["outcome"].event)
         self.assertEqual(PositionLifecycleState.CLOSED, evidence["outcome"].next_state)

@@ -1,8 +1,8 @@
-"""Typed E1 market-data failures for the bounded OKX historical slice."""
+"""Typed E1 market-data failures for public historical/current OKX data."""
 
 
 class MarketDataError(Exception):
-    """Base class for E1 historical market-data failures."""
+    """Base class for E1 market-data failures."""
 
 
 class UnsupportedTimeframeError(MarketDataError):
@@ -50,4 +50,16 @@ class ProviderUnavailableError(MarketDataError):
 
 
 class ProviderRateLimitError(MarketDataError):
+    pass
+
+
+class StaleMarketDataError(MarketDataError):
+    pass
+
+
+class FutureMarketDataError(MarketDataError):
+    pass
+
+
+class NonMonotonicMarketDataError(MarketDataError):
     pass

@@ -1,7 +1,7 @@
 # Release Gates
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> PM formal disposition: 2026-08-25  
+> Current reconciliation: 2026-08-25 / `E7-20260825-066`  
 > Policy: no gate may PASS without accepted evidence from an allowed environment.
 
 ## Evidence vocabulary
@@ -36,51 +36,84 @@ overall_matrix       = PASS
 PM evidence review   = ACCEPTED
 ```
 
-All ten required Gate B suites ran exactly once in the Product-Owner-approved local Windows / non-GitHub environment, on a clean checkout of the exact qualified revision with `PYTHONPATH=src`.
-
-| Suite | Tests run | Exit | Result |
-|---|---:|---:|---|
-| strategy | 21 | 0 | PASS |
-| execution | 52 | 0 | PASS |
-| brokers | 107 | 0 | PASS |
-| position | 97 | 0 | PASS |
-| storage | 77 | 0 | PASS |
-| platform | 3 | 0 | PASS |
-| registry | 19 | 0 | PASS |
-| integration | 21 | 0 | PASS |
-| e2e | 3 | 0 | PASS |
-| safety | 50 | 0 | PASS |
-
-Total tests reported as run: `450`.
+All ten required Gate B suites ran exactly once in the Product-Owner-approved local Windows / non-GitHub environment. Total tests reported as run: `450`; every required suite exited `0`.
 
 Durable evidence:
 
 `status/e7/GATE_B_POST_REMEDIATION_QUALIFICATION_20260825.md`
 
-### Formal Gate B disposition
+Formal disposition:
 
 ```text
 Gate B — PAPER_READY = PASS
 qualified revision = d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8
-PAPER runtime = UNAUTHORIZED / NOT STARTED
+PAPER runtime = NOT STARTED
 ```
 
-This is a technical readiness gate only. It does not authorize starting PAPER runtime, strategy promotion, provider/private APIs, credentials, exchange traffic, SHADOW, LIVE, Gate C, or capital exposure.
-
-Historical E7-059 FAIL evidence remains valid for its older source revision and is retained in Git history; it is superseded for Gate B disposition by the accepted post-remediation qualification above.
+Gate B PASS is technical readiness evidence and does not itself activate PAPER or authorize SHADOW/LIVE execution.
 
 ## Gate C — SHADOW_READY
 
+### Product Owner authority
+
+At `2026-08-25T11:34+08:00`, Product Owner authorized governed work through a reviewable Gate C / SHADOW_READY result, including bounded design, implementation, local testing, and later provider/private **read-only** verification after safe operator credential setup.
+
+This authority does not permit LIVE, order placement/submission (including simulated order submission as Shadow evidence), account/position/leverage/margin mutation, capital movement/exposure, credential disclosure, or GitHub project compute.
+
+### E7-066 readiness baseline
+
+Durable baseline:
+
+`status/e7/GATE_C_READINESS_BASELINE_20260825.md`
+
+Settled technical target:
+
 ```text
-Gate C = BLOCKED / NOT AUTHORIZED TO START
+provider                     = OKX API V5
+canonical instrument         = BTC_USDT_PERP
+provider instrument          = BTC-USDT-SWAP
+private Shadow environment   = production-provider READ-ONLY observation
+operational account boundary = dedicated R7 OKX sub-account
+API key permission           = read_only exactly
+regional REST hostname       = local-operator confirmed for account registration
+Shadow order submission      = FORBIDDEN / MUST BE STRUCTURALLY UNREACHABLE
+Shadow provider mutation     = FORBIDDEN
 ```
 
-Gate B PASS removes the prior Gate-B prerequisite blocker, but provider/private API work, credentials, exchange traffic, and Shadow execution remain outside current Product Owner authorization.
+The existing `OKXDemoAdapter` remains a separate Demo component and is not accepted as the Gate C Shadow provider dependency because it contains submit capability. Gate C requires a dedicated read-only E4 provider surface with an exact GET allowlist and default-deny transport boundary.
+
+Current Gate C blockers/gaps:
+
+```text
+E1 current OKX MarketSnapshot/current finalized-candle surface = IMPLEMENTATION_GAP
+E4 production read-only provider/no-submit boundary             = IMPLEMENTATION_GAP
+E4 Shadow composition submit reachability                       = CONTRACT_OR_ARCHITECTURE_GAP
+E5 trusted observation-to-risk derivation                       = IMPLEMENTATION_GAP / TEST_DEFINITION_GAP
+E6 authoritative SHADOW OperationalMode persistence/restart      = IMPLEMENTATION_GAP / TEST_DEFINITION_GAP
+E7 Shadow integration/E2E/safety definitions                    = TEST_DEFINITION_GAP
+credential-free local Gate C qualification                       = LOCAL_EXECUTION_EVIDENCE_GAP
+credential-dependent production read-only evidence               = CREDENTIAL_DEPENDENT_EVIDENCE_GAP
+regional host + read-only key setup                              = OPERATOR_ACTION_BLOCKER for later phase
+```
+
+No shared-contract or ADR change is required by the E7-066 baseline. Existing `contracts-v0.1` already defines `MarketSnapshot`, fail-closed health/risk semantics, and `OperationalMode.SHADOW`.
+
+### Gate C disposition
+
+```text
+Gate C — SHADOW_READY = BLOCKED / AUTHORIZED_WORK_IN_PROGRESS
+SHADOW runtime = NOT STARTED
+provider/private calls in E7-066 = NONE
+credential use in E7-066 = NONE
+```
+
+Gate C may not PASS until the bounded implementation/test gaps are closed, credential-free approved-local evidence passes on an exact reviewed revision, the local operator satisfies the later read-only credential/account/domain prerequisites, separately authorized credential-dependent read-only evidence is accepted, and PM completes evidence review.
 
 ## Gate D — LIVE_READY
 
 ```text
-Gate D = BLOCKED / NOT READY
+Gate D = BLOCKED / NOT AUTHORIZED
+LIVE = UNAUTHORIZED
 ```
 
 Gate C is not PASS and Product Owner LIVE authorization is absent.
@@ -88,13 +121,15 @@ Gate C is not PASS and Product Owner LIVE authorization is absent.
 ## Compute / security / trading boundary
 
 ```text
-E7-064 execution environment = PRODUCT-OWNER-APPROVED LOCAL WINDOWS / NON-GITHUB
-GitHub Actions / CI = NOT USED
-GitHub-hosted runner = NOT USED
-GitHub-triggered compute = NOT USED
-provider/private API = NOT USED
-external exchange traffic = NOT USED
-exchange credentials = NOT USED
-PAPER / SHADOW / LIVE runtime = NOT STARTED
-capital exposure = NONE
+E7-066 project executable verification = NOT_RUN / STATIC BASELINE TASK
+GitHub Actions / CI                     = NOT USED
+GitHub-hosted runner                    = NOT USED
+GitHub-triggered compute                = NOT USED
+provider/private API                    = NOT USED
+external exchange traffic               = NOT USED
+exchange credentials                    = NOT USED
+PAPER runtime                           = NOT STARTED
+SHADOW runtime                          = NOT STARTED
+LIVE                                    = UNAUTHORIZED
+capital exposure                        = NONE
 ```

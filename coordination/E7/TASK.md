@@ -1,71 +1,44 @@
 # E7 Current Task
 
-- task_id: `E7-20260825-075`
-- issued_at: `2026-08-25T22:45:00+08:00`
-- state: `ACTIVE`
-- target_branch: `agent/e7-gate-c-zero-funds-decision-20260825`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C baseline and credential-free requalification, Product Owner instruction to continue without depositing real funds
+- task_id: `E7-20260825-076`
+- issued_at: `2026-08-25T22:55:00+08:00`
+- state: `HOLD`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, `contracts-v0.1`, accepted Gate C work through credential-free requalification, accepted zero-funds decision PR #87 merge `6c4523778949998687c1f8ac6866b9bde223a2cf`, Product Owner Gate C / SHADOW-only authorization
 
 ## Objective
 
-Make a static, evidence-backed Gate C decision for a dedicated production OKX sub-account that authenticated successfully with read-only credentials but has no available capital and whose balance response does not contain exactly one USDT detail.
+Hold after E7-075 established the narrow production zero-funds balance semantic and PM assigned the implementation to E4.
 
-The Product Owner has stated that no spare funds are available and does not authorize depositing capital merely to satisfy verification.
-
-## Sanitized local evidence already established
+Current authoritative state:
 
 ```text
-REST hostname                 openapi.okx.com
-TLS/public-time read          PASS
-clock status                  HEALTHY
-provider permission           read_only
-account level                 2
-position mode                 net_mode
-dedicated sub-account         CONFIRMED
-account authentication        PASS
-balance interpretation        BALANCE_USDT_UNKNOWN
-provider mutation             NONE
-order/transfer/withdraw       NONE
-credential disclosure         NONE
+zero-funds semantic decision = ACCEPTED / exact USDT query + valid empty details only
+E4-20260825-020              = ACTIVE / bounded zero-balance normalization
+credential-free prior Gate C qualification = PASS only for the previously qualified source revision
+Gate C                       = BLOCKED / E4 implementation + new exact-revision verification required
+SHADOW runtime               = NOT STARTED
+Gate D / LIVE                = BLOCKED / NOT AUTHORIZED
 ```
 
-AgentBridge durable local jobs: `JOB-7D0BC5AA6E72` and `JOB-EB98D5532783`.
+## Required actions while HOLD
 
-No exact balance, credential, UID, provider response body, order/fill identity, cookie, token, or browser-auth material may be placed in Git or chat.
+- Preserve E7-075 provider-semantics decision and its fail-closed boundary.
+- Do not modify E4-owned provider parsing/tests.
+- Do not execute project code or request local/provider jobs under this HOLD.
+- Do not start credential-free requalification or production read-only re-verification until PM accepts E4-20260825-020 and locks a new exact source revision.
+- Do not request/handle real credentials or provider/private traffic.
+- Do not start Demo verification, PAPER/SHADOW runtime, Gate D, LIVE, or capital exposure.
+- Do not use GitHub Actions/CI/hosted/GitHub-triggered compute.
+- Do not claim Gate C PASS.
 
-## Required decision work
+## Dependency
 
-1. Re-read the production Shadow reader, tests, Gate C contracts/ADRs, and current official OKX API V5 documentation.
-2. Determine whether a balance response with no USDT detail is normatively and unambiguously equivalent to available USDT balance zero.
-3. Only if official documentation and project safety semantics support that interpretation, write an E7-owned decision defining the fail-closed boundary and assign minimal implementation to `next_owner = E4`. Do not modify E4 production code.
-4. Otherwise retain `BALANCE_USDT_UNKNOWN` as fail-closed and decide whether a separately governed OKX Demo verification path is the correct zero-capital route. Specify credential separation, simulated-trading headers, environment identity, evidence, and prohibition on treating Demo as production PASS.
-5. If neither route is supported, report `BLOCKED / PROVIDER_SEMANTICS_UNRESOLVED` with the missing authority.
-
-## Prohibited
-
-- provider/private requests or executable verification;
-- deposits, transfers, orders, cancellations, Trade/Withdraw permission, or capital exposure;
-- production code/test changes or another Agent's STATUS;
-- interpreting unknown data as zero without normative authority;
-- treating Demo evidence as production evidence;
-- PAPER/SHADOW runtime start, Gate D, or LIVE;
-- GitHub Actions/CI/hosted/GitHub-triggered compute;
-- exposing credentials or sensitive provider/account material.
+Wait for PM review of `E4-20260825-020`. If accepted, PM may issue a new E7 exact-revision credential-free qualification/requalification and only after that a separately governed production read-only verification using the already-established safe local credential boundary.
 
 ## Writable scope
 
-- `coordination/E7/STATUS.md`
-- `status/e7/GATE_C_ZERO_FUNDS_DECISION_20260825.md`
-- E7-owned decision artifact only if required, never implementation
+Only `coordination/E7/STATUS.md` for HOLD acknowledgement if needed.
 
 ## Completion
 
-Commit and push the target branch, then report one of:
-
-```text
-DONE / ZERO_BALANCE_SEMANTICS_ACCEPTED / next_owner=E4
-DONE / DEMO_PATH_REQUIRED / next_owner=PM
-BLOCKED / PROVIDER_SEMANTICS_UNRESOLVED / next_owner=PM
-```
-
-Gate C remains BLOCKED. SHADOW, Gate D and LIVE remain unauthorized.
+Acknowledge HOLD if needed and stop. Do not self-start another task.

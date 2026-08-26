@@ -283,10 +283,10 @@ def _checkpoint_payload(
 class ShadowComposition:
     """Gate C no-submit composition over accepted E1/E2/E4/E5/E6 surfaces.
 
-    Strategy/candle evaluation uses the caller-supplied deterministic strategy timestamp.
-    Provider/account observation occurs next. The E7-owned risk decision timestamp is then
-    sampled from an injected UTC clock after provider observation so E5 never interprets a
-    newly read provider batch against a pre-observation decision boundary.
+    Strategy/candle evaluation uses the deterministic strategy timestamp. Provider/account
+    observation occurs next. E7 then invokes the risk clock and uses that post-observation
+    timestamp for E5 context derivation and RiskDecision. The deprecated `risk_evaluation_time`
+    keyword is accepted only as a compatibility alias for `strategy_evaluation_time`.
 
     There is no Broker, ExecutionGateway, OrderRequest, generic authenticated transport,
     TradeIntent/RiskDecision output, or ApprovedTradePlan output in the public composition
@@ -298,13 +298,7 @@ class ShadowComposition:
     reconciled safely.
     """
 
-    __slots__ = (
-        "_mode_store",
-        "_observe_provider",
-        "_strategy_runtime",
-        "_risk_time_provider",
-        "_fill_checkpoint",
-    )
+    __slots__ = ("_mode_store", "_observe_provider", "_strategy_runtime", "_fill_checkpoint")
 
     def __init__(
         self,
@@ -312,7 +306,6 @@ class ShadowComposition:
         mode_store: OperationalModeStore,
         provider_reader: OKXShadowProviderReader,
         strategy_runtime: StrategyRuntime | None = None,
-        risk_time_provider: Callable[[], datetime] = _utc_now,
     ) -> None:
         if type(mode_store) is not OperationalModeStore:
             raise ShadowCompositionError("E6_OPERATIONAL_MODE_STORE_REQUIRED")
@@ -320,12 +313,9 @@ class ShadowComposition:
         runtime = StrategyRuntime() if strategy_runtime is None else strategy_runtime
         if type(runtime) is not StrategyRuntime:
             raise ShadowCompositionError("E2_STRATEGY_RUNTIME_REQUIRED")
-        if not callable(risk_time_provider):
-            raise ShadowCompositionError("RISK_DECISION_CLOCK_PROVIDER_REQUIRED")
         self._mode_store = mode_store
         self._observe_provider = reader.observe
         self._strategy_runtime = runtime
-        self._risk_time_provider = risk_time_provider
         self._fill_checkpoint: ShadowFillCheckpoint | None = None
 
     @staticmethod
@@ -350,7 +340,7 @@ class ShadowComposition:
         market_snapshot: MarketSnapshot,
         risk_policy: RiskPolicy,
         risk_proposal: RiskProposal,
-        strategy_evaluation_time: datetime,
+        strategy_evaluation_time: datetime | None = None,
         kill_switch_active: bool,
         trades_today: int,
         consecutive_losses: int,
@@ -358,11 +348,23 @@ class ShadowComposition:
         strategy_stop_level: Decimal | str | None = None,
         strategy_target_level: Decimal | str | None = None,
         max_hold_seconds: int | None = None,
+        risk_time_provider: Callable[[], datetime] | None = None,
+        risk_evaluation_time: datetime | None = None,
     ) -> ShadowCycleResult:
-        strategy_time = _require_utc(
-            strategy_evaluation_time,
-            "STRATEGY_EVALUATION_TIME_UTC_REQUIRED",
-        )
+        if strategy_evaluation_time is None:
+            if risk_evaluation_time is None:
+                raise ShadowCompositionError("STRATEGY_EVALUATION_TIME_REQUIRED")
+            strategy_input = risk_evaluation_time
+        elif risk_evaluation_time is not None:
+            raise ShadowCompositionError("AMBIGUOUS_STRATEGY_EVALUATION_TIME")
+        else:
+            strategy_input = strategy_evaluation_time
+        strategy_time = _require_utc(strategy_input, "STRATEGY_EVALUATION_TIME_UTC_REQUIRED")
+
+        risk_clock = _utc_now if risk_time_provider is None else risk_time_provider
+        if not callable(risk_clock):
+            raise ShadowCompositionError("RISK_DECISION_CLOCK_PROVIDER_REQUIRED")
+
         initial_recovery = self.recover_shadow_state()
         if type(market_snapshot) is not MarketSnapshot:
             raise ShadowCompositionError("E1_MARKET_SNAPSHOT_REQUIRED")
@@ -377,7 +379,7 @@ class ShadowComposition:
             raise ShadowCompositionError("E4_SHADOW_READ_RESULT_REQUIRED")
 
         risk_decision_time = _require_utc(
-            self._risk_time_provider(),
+            risk_clock(),
             "RISK_DECISION_TIME_UTC_REQUIRED",
         )
         if risk_decision_time < strategy_time:

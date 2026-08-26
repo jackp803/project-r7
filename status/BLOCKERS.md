@@ -3,7 +3,7 @@
 ## ZERO_CAPITAL_SHADOW_THIRD_SESSION_REQUIRES_PRODUCT_OWNER_AUTHORITY — 2026-08-26 — ACTIVE
 
 ```text
-state = ACTIVE / PRODUCT OWNER DECISION REQUIRED / FAIL-CLOSED
+state = ACTIVE / THIRD SESSION PRODUCT OWNER DECISION REQUIRED / TECHNICAL REMEDIATION IN PROGRESS
 latest_execution_task = E7-20260826-090 / PARTIAL / FAIL_CLOSED
 latest_local_job_id = JOB-79100A97B3B2AC08
 terminal_stop_reason = UNSAFE_PROVIDER_OR_RECONCILIATION_STATE
@@ -17,19 +17,20 @@ capital_exposure = NONE
 operational_mode = LOCKED
 complete_safe_shadow_cycles = 0
 successful_SHADOW_runtime_evidence = NOT ESTABLISHED
-worker_dispatch = NONE / E7-20260826-091 HOLD
+technical_remediation = E7-20260826-092 / ACTIVE / OFFLINE SOURCE+TEST ONLY
+worker_dispatch = E7-20260826-092 ACTIVE
 PAPER = NOT AUTHORIZED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 ```
 
-PM accepted the E7-090 branch only as terminal fail-closed evidence and merged it through PR #98. The replacement session used the authorized read-only boundary and preserved the hard safety invariants, but it did not establish a complete safe provider/reconciliation state and therefore stopped `LOCKED` after one nine-GET envelope.
+PM accepted the E7-090 branch only as terminal fail-closed evidence. The replacement session used the authorized read-only boundary and preserved the hard safety invariants, but it did not establish a complete safe provider/reconciliation state and therefore stopped `LOCKED` after one nine-GET envelope.
 
 Both Product Owner session allowances are now consumed. The original E7-088 authorization and the replacement authorization `PO-ZERO-CAPITAL-SHADOW-REAUTH-20260826-01` must remain append-only historical evidence and must not be reset, deleted, renamed, overwritten, or reused.
 
-Unblock condition: any third or replacement zero-capital SHADOW session requires a new explicit Product Owner authorization defining its own bounded runtime/safety limits, followed by a fresh PM task and unique request ID. The existing canonical action registration, Gate C PASS, prior authorization artifacts, or the E7-090 fail-closed result do not grant further execution authority.
+PM source review identified a bounded E7 integration remediation that does not require provider/runtime authority: AgentBridge `2ac9a79` captures the caller risk/evaluation timestamp before `ShadowComposition.run_cycle()` performs E4 provider observation internally, while E5 correctly fails closed if provider `observed_at` is later than `risk_evaluation_time`. E7-092 is authorized only to confirm/remediate this temporal-ordering/API boundary in E7-owned source/tests/ADR and to preserve sanitized diagnostic reason codes. E5 temporal safety semantics must not be weakened. E7-092 may not call OKX, read credentials, create a Local Job Request, start SHADOW/PAPER, or reset either consumption marker.
 
-Until that authority exists, E1-E7 remain HOLD and no Local Job Request, provider session, PAPER, recurring SHADOW, provider/account mutation, order submission, capital movement/exposure, Gate D, or LIVE action is permitted.
+Unblock condition for **runtime execution** remains unchanged: any third or replacement zero-capital SHADOW session requires a new explicit Product Owner authorization defining its own bounded runtime/safety limits, followed by remediation/requalification/operator-consumer review, a fresh PM task, and a unique request ID. E7-092 technical remediation does not recreate or imply runtime authority.
 
 ## ZERO_CAPITAL_SHADOW_SESSION_REAUTHORIZATION_REQUIRED — 2026-08-26 — RESOLVED
 
@@ -54,7 +55,7 @@ PAPER = NOT AUTHORIZED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 idle_watchdog_fingerprint = BE22BE5910A35AC6
-worker_dispatch = SUPERSEDED BY E7-090 TERMINAL PARTIAL AND E7-091 HOLD
+worker_dispatch = SUPERSEDED BY E7-090 TERMINAL PARTIAL; E7-092 OFFLINE REMEDIATION NOW ACTIVE
 ```
 
 This blocker was resolved when the Product Owner explicitly authorized one replacement session. That replacement was subsequently consumed by E7-090 and terminated fail closed. It remains preserved as historical authority/evidence only.

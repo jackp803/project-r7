@@ -43,10 +43,12 @@ pre-dispatch 300-GET budget across E1 and E4, uses a monotonic 1800-second deadl
 redirects/non-GET/mutation/submission, requires explicitly zero available capital, and stops
 fail closed on every E7-086 safety condition. It emits sanitized evidence only.
 
-The action uses a durable local consumption marker created immediately before session network
-operation. Once a session starts, a later request cannot consume the same Product Owner
-authorization again. Registration does not itself start or consume the authorized session;
-execution still requires a fresh matching PM TASK and E7 Local Job Request.
+The action uses a durable authorization-specific local consumption marker created immediately
+before session network operation. Once a session starts, a later request cannot consume the same
+Product Owner authorization again. Historical markers are append-only and must not be reset or
+reused. The currently registered authorization generation is
+`PO-ZERO-CAPITAL-SHADOW-REAUTH-20260826-01`; registration does not itself start or consume it.
+Execution still requires a fresh matching PM TASK and E7 Local Job Request.
 
 ## Worktree preparation
 

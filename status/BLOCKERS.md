@@ -1,13 +1,14 @@
 # Project Blockers
 
-## ZERO_CAPITAL_SHADOW_SESSION_REAUTHORIZATION_REQUIRED — 2026-08-26 — ACTIVE
+## ZERO_CAPITAL_SHADOW_SESSION_REAUTHORIZATION_REQUIRED — 2026-08-26 — RESOLVED
 
 ```text
-state = ACTIVE / PRODUCT OWNER DECISION REQUIRED
+state = RESOLVED / NEW SINGLE REPLACEMENT AUTHORITY RECORDED
 execution_task = E7-20260826-088 / PARTIAL / FAIL_CLOSED
 local_job_id = JOB-BDD0CC050B903B74
 terminal_reason = UNEXPECTED_OPERATIONALMODEVALIDATIONERROR
 session_authorization = CONSUMED / NO RETRY
+replacement_authorization = PO-ZERO-CAPITAL-SHADOW-REAUTH-20260826-01 / ACTIVE / NOT CONSUMED
 provider_gets = 0
 mutation_requests = 0
 submit_requests = 0
@@ -15,6 +16,7 @@ capital_exposure = NONE
 operator_root_cause = REPAIRED
 AgentBridge_fix_revision = 26556e4
 operator_remediation_evidence = status/AGENTBRIDGE_ZERO_CAPITAL_SHADOW_INCIDENT_REMEDIATION_20260826.md
+operator_reauthorization_evidence = status/AGENTBRIDGE_ZERO_CAPITAL_SHADOW_REAUTHORIZATION_REGISTRATION_20260826.md
 successful_SHADOW_runtime_evidence = NOT ESTABLISHED
 Gate_C = PASS / UNCHANGED
 PAPER = NOT AUTHORIZED
@@ -22,19 +24,20 @@ Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 idle_watchdog_fingerprint = BE22BE5910A35AC6
 last_revalidated_at = 2026-08-26T17:33:58+08:00
-worker_dispatch = NONE / E1-E7 HOLD
+worker_dispatch = PM MAY ISSUE ONE FRESH E7 TASK AFTER REVIEW
 ```
 
-The one Product-Owner-authorized bounded session was consumed and failed closed before any
-provider request. AgentBridge's operational-mode audit-token integration defect is repaired and
-verified, but that repair does not restore or extend the consumed authorization. A future run
-requires a new explicit Product Owner authorization followed by a fresh PM task and unique
-request. No worker or local operator may infer, retry, or recreate that authority.
+The first Product-Owner-authorized bounded session remains consumed and failed closed before any
+provider request. The Product Owner has now explicitly authorized one replacement session under
+the same safety boundary. AgentBridge revision `2ac9a79` binds that authority to a distinct
+append-only consumption marker and retains the first marker unchanged.
 
-The idle watchdog fingerprint `BE22BE5910A35AC6` was revalidated against current `main` on
-2026-08-26 at 17:33:58 +08:00. No new Product Owner authorization exists, E7 remains on
-`E7-20260826-089` HOLD, and no remaining Worker TASK is already authorized and dispatchable.
-The repaired supervisor and Gate C PASS do not constitute authority for a replacement session.
+PM may review the new authorization and operator registration evidence, then issue one fresh E7
+task and unique request. No worker or local operator may infer a retry, third session, recurring
+SHADOW, PAPER, provider mutation, order submission, capital exposure, Gate D, or LIVE authority.
+
+The earlier idle-watchdog revalidation is preserved as historical evidence of the pre-authority
+state. It is superseded only by the explicit replacement authorization recorded above.
 
 ## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26 — RESOLVED
 

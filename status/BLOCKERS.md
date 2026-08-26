@@ -19,6 +19,8 @@ Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 capital_exposure = NONE
 worker_dispatch = NONE / E7 HOLD PENDING OPERATOR ACTION REGISTRATION
+idle_watchdog_fingerprint = 51952EC76025BBBA
+watchdog_revalidation = CURRENT MAIN CONFIRMS DEPENDENCY UNRESOLVED
 ```
 
 The Product Owner has already authorized exactly one bounded zero-capital SHADOW runtime session under `status/PRODUCT_OWNER_ZERO_CAPITAL_SHADOW_AUTHORIZATION_20260826.md`: current registered local Windows computer only, exact qualified revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`, `openapi.okx.com`, maximum 1800 seconds, maximum 300 HTTPS GET attempts, zero available capital, zero provider/account mutation, zero order submission and zero capital exposure.
@@ -26,6 +28,8 @@ The Product Owner has already authorized exactly one bounded zero-capital SHADOW
 Accepted E7-086 readiness review established that the merged E1/E2/E4/E5/E6/E7 implementation can support the authorized session without architecture or domain-code changes. However, `coordination/LOCAL_ACTION_CATALOG.md` does not contain a canonical action whose operator-owned contract enforces that exact bounded session. The existing `GATE_C_OKX_PRODUCTION_READONLY` action is a one-shot read-only verification capability and must not be reused or reinterpreted as the 30-minute/300-GET runtime session.
 
 Unblock condition: the local AgentBridge operator must register/allowlist one deny-by-default canonical action matching the E7-086 readiness contract, including exact revision/worktree pinning, approved Windows-only execution, secure local credential consumption, `openapi.okx.com` pinning, one shared pre-dispatch 300-GET cap across E1/E4, monotonic 1800-second deadline, no-submit/no-mutation dependency graph, mandatory fail-closed stop conditions, and sanitized durable session evidence. E7 proposed `GATE_C_ZERO_CAPITAL_SHADOW_SESSION` as an identity only; Git/PM does not assume it exists until operator registration and catalog reconciliation are authoritative.
+
+The idle watchdog fingerprint `51952EC76025BBBA` was revalidated against current `main`. The canonical action catalog still has no matching bounded SHADOW-session action, E7 remains on `E7-20260826-087` HOLD, and the Product Owner's single authorized session remains unconsumed. No ACTIVE Worker TASK may be issued until authoritative operator registration/allowlisting evidence exists.
 
 Until that external dependency is satisfied, no Local Job Request may be created and the authorized one-session allowance remains unconsumed. E1-E7 remain HOLD. PAPER, recurring/continuous SHADOW, provider mutation, order submission, capital movement/exposure, Gate D and LIVE remain unauthorized.
 

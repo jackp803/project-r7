@@ -1,134 +1,59 @@
 # E7 Current Task
 
-- task_id: `E7-20260826-093`
-- issued_at: `2026-08-26T23:43:00+08:00`
-- state: `ACTIVE`
-- target_branch: `agent/e7-shadow-temporal-requalification-20260826`
-- authority: `agents/E7_INTEGRATION.md`, `agents/PROJECT_MANAGER.md`, `agents/README.md`, accepted `E7-20260826-092`, `docs/adr/ADR-0010-shadow-strategy-risk-temporal-ordering.md`, `status/e7/SHADOW_TEMPORAL_ORDERING_REMEDIATION_20260826.md`, `status/PM_E7_092_REVIEW_20260826.md`, `status/BLOCKERS.md`, `coordination/LOCAL_ACTION_CATALOG.md`
+- task_id: `E7-20260826-094`
+- issued_at: `2026-08-26T23:52:00+08:00`
+- state: `HOLD`
+- authority: `agents/E7_INTEGRATION.md`, `agents/PROJECT_MANAGER.md`, `agents/README.md`, accepted terminal `E7-20260826-093`, `status/e7/SHADOW_TEMPORAL_ORDERING_CREDENTIAL_FREE_REQUALIFICATION_20260826.md`, `status/BLOCKERS.md`, `coordination/LOCAL_ACTION_CATALOG.md`
 
 ## Objective
 
-Perform the approved-local **credential-free Gate C requalification** of the merged E7 temporal-ordering remediation candidate. Do not perform provider verification or any SHADOW runtime.
+Hold after PM accepted E7-20260826-093 only as terminal infrastructure-blocked evidence. Preserve the unqualified temporal-ordering remediation candidate and wait for the approved-local exact-revision preparation dependency to be satisfied.
 
-This task exists because E7-092 changed executable integration source/tests but correctly reported `local_verification = NOT_RUN`. `NOT_RUN != PASS`.
-
-## Exact candidate
+Authoritative state:
 
 ```text
-candidate_revision = 8fbf5fcae2eaf44accdf535121d8abf29ef5c93c
-prior_qualified_revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
-canonical_qualification_action = GATE_C_CREDENTIAL_FREE_REQUALIFICATION
-qualification_request_id = REQ-E7-GATEC-093-01-4F7C2A91
+candidate revision = 8fbf5fcae2eaf44accdf535121d8abf29ef5c93c
+candidate qualification = NOT_QUALIFIED
+E7-093 preparation action = PREPARE_EXACT_REVISION / REFUSED
+preparation job = JOB-5CF665C8F9DD49B8
+qualification request = NOT CREATED
+credential-free qualification suites = NOT_RUN / NOT_PASS
+prior qualified Gate C revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+provider requests = 0
+credentials = NONE
+SHADOW runtime = NOT_STARTED
+PAPER runtime = NOT_STARTED
+capital exposure = NONE
+third SHADOW session = NOT AUTHORIZED
+Gate D / LIVE = BLOCKED / NOT AUTHORIZED
+LIVE = UNAUTHORIZED
 ```
 
-The candidate revision is reachable from current `origin/main` and contains the accepted E7-092 source/test/ADR remediation. Do not silently qualify a different revision.
+## Required actions while HOLD
 
-## Runtime / financial boundary
+- Do not create any Local Job Request.
+- Do not retry `PREPARE_EXACT_REVISION` under the same or a new request ID.
+- Do not invent or substitute another preparation action or alias.
+- Do not run qualification on another revision or an unverified worktree.
+- Do not use GitHub Actions/CI/hosted/GitHub-triggered compute.
+- Do not call OKX, read credentials, start SHADOW/PAPER, reset either consumed SHADOW marker, mutate provider/account state, submit/cancel/amend/close orders, move/expose capital, start Gate D or LIVE.
+- Preserve E7-092 source/ADR/test remediation and E7-093 `NOT_RUN` evidence without relabeling it as PASS.
 
-E7-093 authorizes only credential-free local verification on the approved Windows/non-GitHub environment.
+## Unblock condition
 
-Forbidden:
+The local operator must either:
 
-- OKX/provider requests of any kind;
-- credential read/request/use;
-- `GATE_C_ZERO_CAPITAL_SHADOW_SESSION`;
-- production read-only provider action;
-- SHADOW or PAPER runtime;
-- resetting/deleting/reusing either consumed SHADOW marker;
-- provider/account mutation;
-- order submit/cancel/amend/close;
-- capital movement/exposure;
-- Gate D or LIVE;
-- GitHub Actions/CI/hosted/GitHub-triggered compute.
+1. register/allowlist the governed `PREPARE_EXACT_REVISION` action for `project-r7`; or
+2. provide authoritative approved-local evidence that a clean active worktree at exact revision `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` is already prepared.
 
-Both prior SHADOW session authorizations remain consumed. This task grants no third-session authority.
+After that dependency is satisfied, PM may issue a fresh E7 credential-free Gate C requalification task with fresh request IDs. No new Product Owner trading/runtime authority is required for credential-free requalification itself.
 
-## Preflight
-
-Read latest `main` and verify:
-
-1. wake task ID is exactly `E7-20260826-093` and task remains ACTIVE;
-2. `candidate_revision` is exactly `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` and reachable from registered `origin/main`;
-3. `GATE_C_CREDENTIAL_FREE_REQUALIFICATION` remains in `coordination/LOCAL_ACTION_CATALOG.md`;
-4. no authoritative blocker forbids credential-free local verification;
-5. no provider/runtime authority is inferred from this task.
-
-If the approved local active worktree is not already the exact candidate revision, E7 may use the governed `PREPARE_EXACT_REVISION` capability only if it is locally enabled and only to prepare this exact revision. Use a fresh preparation request ID if required:
-
-```text
-REQ-E7-PREPARE-093-01-8D31B5C4
-```
-
-If preparation is required but unavailable/refused, stop `BLOCKED`; do not substitute GitHub/cloud/container execution and do not qualify another revision.
-
-## Qualification execution
-
-After exact clean candidate worktree is established, create at most one qualification Local Job Request using exactly:
-
-```text
-request_id = REQ-E7-GATEC-093-01-4F7C2A91
-action_id  = GATE_C_CREDENTIAL_FREE_REQUALIFICATION
-```
-
-Do not add shell text, executable paths, arguments, environment secrets, provider credentials, branch names, remotes or local filesystem paths to the Local Job Request.
-
-The canonical action is expected to run the governed Gate C credential-free project verification matrix. Record the exact revision, OS/Python/worktree classifications, per-suite results/counts, aggregate result, and explicit confirmation of zero provider/credential/runtime activity.
-
-If any suite fails, report `PARTIAL` or `BLOCKED` according to the actual terminal condition; do not weaken/remove tests and do not call the candidate qualified.
-
-If execution cannot occur in the approved local environment, record `NOT_RUN` and stop `BLOCKED`; do not treat it as PASS.
-
-## Required evidence
-
-Create/update only E7-owned evidence/status needed for this qualification, including:
-
-`status/e7/SHADOW_TEMPORAL_ORDERING_CREDENTIAL_FREE_REQUALIFICATION_20260826.md`
-
-Evidence must state at minimum:
-
-- task/request/action IDs;
-- exact candidate revision and clean worktree classification;
-- approved local Windows environment classification;
-- each suite result and test count;
-- aggregate PASS/FAIL;
-- provider requests = 0;
-- credentials read/requested/used = none;
-- mutation/submit = 0;
-- SHADOW/PAPER runtime = not started;
-- capital exposure = none;
-- GitHub compute = not used;
-- candidate qualification decision.
-
-## Downstream interpretation
-
-### DONE
-
-Use `DONE` only if the exact candidate revision passes the full governed credential-free Gate C requalification locally. Even then:
-
-- do not start provider verification or SHADOW;
-- do not self-authorize a third session;
-- AgentBridge consumer migration against ADR-0010 remains required before any future provider session;
-- new explicit Product Owner authority remains required for any third/replacement SHADOW session.
-
-### PARTIAL
-
-Use `PARTIAL` when verification ran but one or more suites failed or evidence is incomplete. Preserve exact failure evidence and stop.
-
-### BLOCKED
-
-Use `BLOCKED` when exact local preparation/qualification cannot run or an authoritative dependency prevents verification. `NOT_RUN` remains `NOT_RUN`.
+Any future third/replacement provider SHADOW session remains separately blocked on a new explicit Product Owner authorization, successful exact-revision requalification, and AgentBridge ADR-0010 consumer migration/review.
 
 ## Writable scope
 
-Only:
-
-- `coordination/E7/LOCAL_JOB_REQUEST.json` while required by the local mechanism, then clear according to normal handling;
-- `coordination/E7/STATUS.md`;
-- `status/e7/SHADOW_TEMPORAL_ORDERING_CREDENTIAL_FREE_REQUALIFICATION_20260826.md`;
-- optionally `status/INTEGRATION_STATUS.md` for non-promotional qualification state.
-
-Do not modify production source/tests/contracts/ADR in E7-093. If verification exposes a defect, stop with evidence; remediation requires a new bounded task.
+Only `coordination/E7/STATUS.md` for HOLD acknowledgement if needed.
 
 ## Completion
 
-Execute only E7-20260826-093, persist evidence, update STATUS, commit/push to the target branch, and stop on DONE, PARTIAL or BLOCKED. Do not self-start AgentBridge remediation, provider execution, a third SHADOW session, PAPER, Gate D, LIVE, provider mutation, order submission or capital movement.
+Acknowledge HOLD if needed and stop. Do not self-start preparation, requalification, AgentBridge remediation, provider execution, SHADOW/PAPER, Gate D, LIVE, mutation, order action or capital movement/exposure.

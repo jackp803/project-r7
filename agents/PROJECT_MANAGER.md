@@ -349,6 +349,21 @@ A good review:
 - gives concrete ownership and next actions;
 - does not require the user to read seven chats to understand project state.
 
+## AgentBridge Local Action Governance
+
+When a TASK requires AgentBridge local execution, PM and the assigned Worker must use an
+existing canonical `action_id` from `coordination/LOCAL_ACTION_CATALOG.md`. A task-specific
+request ID is required, but a task-specific action ID is prohibited.
+
+Do not invent a new action name merely to describe a new task or revision. The executable,
+arguments, working directory, network policy, timeout and output bound are operator-owned
+deny-by-default configuration. If no catalogued action exactly matches the required execution,
+set the TASK to `HOLD / LOCAL_ACTION_NOT_REGISTERED`, identify the proposed capability and
+wait for operator review/allowlisting before issuing an executable request.
+
+An AgentBridge `REFUSED` result is terminal evidence for that request ID. Correct the TASK or
+obtain operator allowlisting, then issue a new request ID; never loop the same refused request.
+
 ## Project Manager Launch Prompt
 
 Use the prompt below whenever assigning a GPT conversation to project-manager duty:

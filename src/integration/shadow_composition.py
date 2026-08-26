@@ -284,9 +284,11 @@ class ShadowComposition:
     """Gate C no-submit composition over accepted E1/E2/E4/E5/E6 surfaces.
 
     Strategy/candle evaluation uses the deterministic strategy timestamp. Provider/account
-    observation occurs next. E7 then invokes the risk clock and uses that post-observation
-    timestamp for E5 context derivation and RiskDecision. The deprecated `risk_evaluation_time`
-    keyword is accepted only as a compatibility alias for `strategy_evaluation_time`.
+    observation occurs next. E7 then invokes the explicit risk clock and uses that
+    post-observation timestamp for E5 context derivation and RiskDecision. The deprecated
+    `risk_evaluation_time` keyword is accepted only as a compatibility alias for the strategy
+    timestamp and retains its legacy fixed decision-time behavior; runtime consumers must
+    migrate to `strategy_evaluation_time` plus `risk_time_provider`.
 
     There is no Broker, ExecutionGateway, OrderRequest, generic authenticated transport,
     TradeIntent/RiskDecision output, or ApprovedTradePlan output in the public composition
@@ -351,19 +353,30 @@ class ShadowComposition:
         risk_time_provider: Callable[[], datetime] | None = None,
         risk_evaluation_time: datetime | None = None,
     ) -> ShadowCycleResult:
+        legacy_decision_time: datetime | None = None
         if strategy_evaluation_time is None:
             if risk_evaluation_time is None:
                 raise ShadowCompositionError("STRATEGY_EVALUATION_TIME_REQUIRED")
             strategy_input = risk_evaluation_time
+            legacy_decision_time = risk_evaluation_time
         elif risk_evaluation_time is not None:
             raise ShadowCompositionError("AMBIGUOUS_STRATEGY_EVALUATION_TIME")
         else:
             strategy_input = strategy_evaluation_time
         strategy_time = _require_utc(strategy_input, "STRATEGY_EVALUATION_TIME_UTC_REQUIRED")
 
-        risk_clock = _utc_now if risk_time_provider is None else risk_time_provider
-        if not callable(risk_clock):
-            raise ShadowCompositionError("RISK_DECISION_CLOCK_PROVIDER_REQUIRED")
+        if risk_time_provider is not None and legacy_decision_time is not None:
+            raise ShadowCompositionError("AMBIGUOUS_RISK_DECISION_TIME")
+        if risk_time_provider is None:
+            risk_clock: Callable[[], datetime]
+            if legacy_decision_time is None:
+                risk_clock = _utc_now
+            else:
+                risk_clock = lambda: legacy_decision_time  # type: ignore[return-value]
+        else:
+            if not callable(risk_time_provider):
+                raise ShadowCompositionError("RISK_DECISION_CLOCK_PROVIDER_REQUIRED")
+            risk_clock = risk_time_provider
 
         initial_recovery = self.recover_shadow_state()
         if type(market_snapshot) is not MarketSnapshot:

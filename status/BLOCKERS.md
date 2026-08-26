@@ -1,5 +1,33 @@
 # Project Blockers
 
+## ZERO_CAPITAL_SHADOW_SESSION_REAUTHORIZATION_REQUIRED — 2026-08-26 — ACTIVE
+
+```text
+state = ACTIVE / PRODUCT OWNER DECISION REQUIRED
+execution_task = E7-20260826-088 / PARTIAL / FAIL_CLOSED
+local_job_id = JOB-BDD0CC050B903B74
+terminal_reason = UNEXPECTED_OPERATIONALMODEVALIDATIONERROR
+session_authorization = CONSUMED / NO RETRY
+provider_gets = 0
+mutation_requests = 0
+submit_requests = 0
+capital_exposure = NONE
+operator_root_cause = REPAIRED
+AgentBridge_fix_revision = 26556e4
+operator_remediation_evidence = status/AGENTBRIDGE_ZERO_CAPITAL_SHADOW_INCIDENT_REMEDIATION_20260826.md
+successful_SHADOW_runtime_evidence = NOT ESTABLISHED
+Gate_C = PASS / UNCHANGED
+PAPER = NOT AUTHORIZED
+Gate_D = BLOCKED / NOT AUTHORIZED
+LIVE = UNAUTHORIZED
+```
+
+The one Product-Owner-authorized bounded session was consumed and failed closed before any
+provider request. AgentBridge's operational-mode audit-token integration defect is repaired and
+verified, but that repair does not restore or extend the consumed authorization. A future run
+requires a new explicit Product Owner authorization followed by a fresh PM task and unique
+request. No worker or local operator may infer, retry, or recreate that authority.
+
 ## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26 — RESOLVED
 
 ```text

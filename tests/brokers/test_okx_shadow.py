@@ -455,14 +455,18 @@ class OKXShadowReaderTests(unittest.TestCase):
                 self.assertEqual((expected,), observation.reason_codes)
                 self.assertNotIn(RAW_BALANCE, repr(observation))
 
-    def test_malformed_balance_wrong_margin_and_fill_checkpoint_regression_fail_closed(self):
-        malformed = _healthy_responses()
-        malformed[BALANCE] = {"code": "0", "data": [{"details": []}]}
-        reader, _ = _reader(responses=malformed)
-        malformed_result = reader.observe()
-        self.assertEqual(("BALANCE_USDT_UNKNOWN",), malformed_result.reason_codes)
-        self.assertFalse(malformed_result.usdt_balance_known)
-        self.assertIsNone(malformed_result.runtime_available_balance)
+    def test_empty_balance_known_zero_wrong_margin_and_fill_checkpoint_regression_fail_closed(self):
+        empty_balance = _healthy_responses()
+        empty_balance[BALANCE] = {"code": "0", "data": [{"details": []}]}
+        reader, _ = _reader(responses=empty_balance)
+        empty_result = reader.observe()
+        self.assertTrue(empty_result.healthy)
+        self.assertEqual((), empty_result.reason_codes)
+        self.assertTrue(empty_result.usdt_balance_known)
+        self.assertEqual(Decimal("0"), empty_result.runtime_available_balance)
+        self.assertNotIn("runtime_available_balance", asdict(empty_result.sanitized_observation))
+        self.assertNotIn("Decimal('0')", repr(empty_result))
+        self.assertIn("runtime_available_balance=<redacted>", repr(empty_result))
 
         wrong_margin = _healthy_responses()
         wrong_margin[LEVERAGE] = {

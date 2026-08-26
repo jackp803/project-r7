@@ -1,7 +1,7 @@
 # Release Gates
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Current reconciliation: 2026-08-25 / `E7-20260825-066`  
+> Current reconciliation: 2026-08-26 / `E7-20260826-084`  
 > Policy: no gate may PASS without accepted evidence from an allowed environment.
 
 ## Evidence vocabulary
@@ -54,60 +54,85 @@ Gate B PASS is technical readiness evidence and does not itself activate PAPER o
 
 ## Gate C — SHADOW_READY
 
-### Product Owner authority
+### Final accepted disposition
 
-At `2026-08-25T11:34+08:00`, Product Owner authorized governed work through a reviewable Gate C / SHADOW_READY result, including bounded design, implementation, local testing, and later provider/private **read-only** verification after safe operator credential setup.
+PM final review:
 
-This authority does not permit LIVE, order placement/submission (including simulated order submission as Shadow evidence), account/position/leverage/margin mutation, capital movement/exposure, credential disclosure, or GitHub project compute.
-
-### E7-066 readiness baseline
-
-Durable baseline:
-
-`status/e7/GATE_C_READINESS_BASELINE_20260825.md`
-
-Settled technical target:
+`status/PM_GATE_C_FINAL_REVIEW_20260826.md`
 
 ```text
-provider                     = OKX API V5
-canonical instrument         = BTC_USDT_PERP
-provider instrument          = BTC-USDT-SWAP
-private Shadow environment   = production-provider READ-ONLY observation
-operational account boundary = dedicated R7 OKX sub-account
-API key permission           = read_only exactly
-regional REST hostname       = local-operator confirmed for account registration
-Shadow order submission      = FORBIDDEN / MUST BE STRUCTURALLY UNREACHABLE
-Shadow provider mutation     = FORBIDDEN
+PM final review = ACCEPTED
+qualified executable revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+Gate C — SHADOW_READY = PASS
+SHADOW runtime = NOT STARTED
 ```
 
-The existing `OKXDemoAdapter` remains a separate Demo component and is not accepted as the Gate C Shadow provider dependency because it contains submit capability. Gate C requires a dedicated read-only E4 provider surface with an exact GET allowlist and default-deny transport boundary.
+Gate C PASS is technical readiness for the governed Shadow gate only. It does not authorize starting Shadow, order submission, provider/account mutation, capital exposure, Gate D, or LIVE.
 
-Current Gate C blockers/gaps:
+### Accepted credential-free exact-revision qualification
+
+Durable evidence:
+
+`status/e7/GATE_C_POST_TEST_COMPAT_CREDENTIAL_FREE_REQUALIFICATION_20260826.md`
 
 ```text
-E1 current OKX MarketSnapshot/current finalized-candle surface = IMPLEMENTATION_GAP
-E4 production read-only provider/no-submit boundary             = IMPLEMENTATION_GAP
-E4 Shadow composition submit reachability                       = CONTRACT_OR_ARCHITECTURE_GAP
-E5 trusted observation-to-risk derivation                       = IMPLEMENTATION_GAP / TEST_DEFINITION_GAP
-E6 authoritative SHADOW OperationalMode persistence/restart      = IMPLEMENTATION_GAP / TEST_DEFINITION_GAP
-E7 Shadow integration/E2E/safety definitions                    = TEST_DEFINITION_GAP
-credential-free local Gate C qualification                       = LOCAL_EXECUTION_EVIDENCE_GAP
-credential-dependent production read-only evidence               = CREDENTIAL_DEPENDENT_EVIDENCE_GAP
-regional host + read-only key setup                              = OPERATOR_ACTION_BLOCKER for later phase
+task_id = E7-20260826-080
+revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+approved environment = local Windows / non-GitHub
+required suites = 14 / 14 PASS
+total tests = 587
+result = PASS
+GitHub project compute = NOT USED
 ```
 
-No shared-contract or ADR change is required by the E7-066 baseline. Existing `contracts-v0.1` already defines `MarketSnapshot`, fail-closed health/risk semantics, and `OperationalMode.SHADOW`.
+This qualification is bound to the accepted executable source/test revision above and does not replace historical E7-077/E7-078 evidence from the earlier revision.
+
+### Accepted production OKX read-only evidence
+
+Durable evidence:
+
+`status/e7/GATE_C_COMPLETE_SANITIZED_READONLY_EVIDENCE_20260826.md`
+
+```text
+task_id = E7-20260826-083
+revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+provider = OKX / V5 / production_read_only_shadow
+permission = read_only
+dedicated sub-account = CONFIRMED
+AVAILABLE_BALANCE_IS_ZERO = YES
+private_get_count = 6
+https_get_count = 7
+MUTATION_REQUEST_COUNT = 0
+SUBMIT_REQUEST_COUNT = 0
+health_status = HEALTHY
+reason_codes = []
+```
+
+The accepted evidence also established account level `2`, position mode `net_mode`, healthy provider clock, known position state with no unexpected exposure, valid isolated leverage observation, zero pending orders, and zero new/unreconciled fill activity. Durable evidence contains no credential values, exact balance, UID, raw provider response, signature, provider order/fill identifier, or browser-auth material.
+
+### Historical Gate C evidence preserved
+
+The current PASS does not relabel or erase earlier results:
+
+```text
+E7-077 = historical credential-free FAIL on earlier revision
+E7-078 = diagnostic of E7-077 failure
+E7-081 = REFUSED / BLOCKED pre-execution action-alias attempt
+E7-082 = PARTIAL healthy provider observation with incomplete durable sanitized fields
+E7-083 = COMPLETE / HEALTHY production read-only evidence / review candidate
+E7-080 = PASS credential-free qualification for ab725965...
+```
+
+The original E7-066 readiness baseline remains historical architecture/readiness evidence. Its implementation/evidence-gap language describes the state at that time and is no longer the current Gate C disposition.
 
 ### Gate C disposition
 
 ```text
-Gate C — SHADOW_READY = BLOCKED / AUTHORIZED_WORK_IN_PROGRESS
+Gate C — SHADOW_READY = PASS
+qualified executable revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+PM final review = ACCEPTED
 SHADOW runtime = NOT STARTED
-provider/private calls in E7-066 = NONE
-credential use in E7-066 = NONE
 ```
-
-Gate C may not PASS until the bounded implementation/test gaps are closed, credential-free approved-local evidence passes on an exact reviewed revision, the local operator satisfies the later read-only credential/account/domain prerequisites, separately authorized credential-dependent read-only evidence is accepted, and PM completes evidence review.
 
 ## Gate D — LIVE_READY
 
@@ -116,20 +141,20 @@ Gate D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 ```
 
-Gate C is not PASS and Product Owner LIVE authorization is absent.
+Gate C PASS does not imply Gate D readiness or Product Owner LIVE authorization.
 
-## Compute / security / trading boundary
+## Current runtime / compute / security boundary
 
 ```text
-E7-066 project executable verification = NOT_RUN / STATIC BASELINE TASK
-GitHub Actions / CI                     = NOT USED
-GitHub-hosted runner                    = NOT USED
-GitHub-triggered compute                = NOT USED
-provider/private API                    = NOT USED
-external exchange traffic               = NOT USED
-exchange credentials                    = NOT USED
 PAPER runtime                           = NOT STARTED
 SHADOW runtime                          = NOT STARTED
 LIVE                                    = UNAUTHORIZED
+Gate D                                  = BLOCKED / NOT AUTHORIZED
+E7-084 project executable verification = NOT_RUN / NOT REQUIRED FOR DOCS-ONLY RECONCILIATION
+E7-084 provider/private API             = NOT USED
+E7-084 exchange credentials             = NOT READ / NOT REQUESTED / NOT USED
+GitHub Actions / CI                     = NOT USED
+GitHub-hosted runner                    = NOT USED
+GitHub-triggered compute                = NOT USED
 capital exposure                        = NONE
 ```

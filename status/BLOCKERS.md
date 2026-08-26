@@ -23,9 +23,13 @@ PAPER_runtime = NOT_STARTED
 capital_exposure = NONE
 GitHub_compute = NOT_USED
 worker_dispatch = E7 HOLD
+idle_watchdog_fingerprint = 4E851ED697246EF5
+last_revalidated_at = 2026-08-26T23:59:00+08:00
 ```
 
 PM reviewed E7-093 and accepted it only as terminal infrastructure-blocked evidence. `PREPARE_EXACT_REVISION` is named in the repository canonical action catalog, but the approved local AgentBridge refused the action before any project execution because it is not locally allowlisted for `project-r7`. No credential-free qualification suite ran; `NOT_RUN` is not PASS and the candidate remains unqualified.
+
+Idle-watchdog revalidation for fingerprint `4E851ED697246EF5` found no newer authoritative operator registration/allowlisting evidence and no authoritative evidence that a clean approved-local active worktree at exact revision `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` has already been prepared. The blocker therefore remains fail-closed and no ACTIVE Worker task is justified.
 
 Unblock condition: the local operator must register/allowlist the governed `PREPARE_EXACT_REVISION` capability for `project-r7`, or provide authoritative approved-local evidence that a clean active worktree at exact revision `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` has already been prepared. After that dependency is satisfied, PM may issue a fresh E7 credential-free requalification task with new request IDs. Do not substitute another revision, GitHub/cloud/container execution, or an invented action alias.
 

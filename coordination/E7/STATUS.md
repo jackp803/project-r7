@@ -1,148 +1,179 @@
 # E7 Status
 
-- task_id: `E7-20260826-090`
+- task_id: `E7-20260826-092`
 - agent: `E7`
 - state: `PARTIAL`
-- branch: `agent/e7-zero-capital-shadow-replacement-20260826`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260826-090 and remained ACTIVE immediately before terminal write`
-- task_blob: `ea7542da6b2425bbfc7889b2e261a0d462726ee9`
-- task_type: `SINGLE REPLACEMENT BOUNDED ZERO-CAPITAL SHADOW RUNTIME SESSION`
-- replacement_authorization_id: `PO-ZERO-CAPITAL-SHADOW-REAUTH-20260826-01`
-- qualified_executable_revision: `ab725965e96cac7a9769fd1ab15a3e626f920b95`
-- local_request_id: `REQ-E7-SHADOW-090-01-6A9D3F12`
-- local_action_id: `GATE_C_ZERO_CAPITAL_SHADOW_SESSION`
-- local_job_id: `JOB-79100A97B3B2AC08`
-- local_job_state: `FAILED`
-- local_job_exit_code: `2`
-- local_job_duration_seconds: `2.969`
-- request_disposition: `COMPLETED / CLEARED / NO RETRY`
-- evidence_artifact: `status/e7/ZERO_CAPITAL_SHADOW_REPLACEMENT_SESSION_RESULT_20260826.md`
-- evidence_commit: `90c70fe584049b60c76a24486b894231cb43e880`
-- completed_request_cleared_revision: `65b6447d4515c873d3b320d6652ded807571a691`
-- session_result: `FAIL_CLOSED`
-- terminal_stop_reason: `UNSAFE_PROVIDER_OR_RECONCILIATION_STATE`
-- historical_first_session_marker_preserved: `YES / VERIFIED BY AUTHORITATIVE PREFLIGHT AND APPEND-ONLY REGISTRATION`
-- replacement_authorization_consumed: `YES`
-- session_id: `SHADOW-70C0E3658C9F4808`
-- start_timestamp_utc: `2026-08-26T15:06:35.379Z`
-- end_timestamp_utc: `2026-08-26T15:06:37.876Z`
-- elapsed_seconds: `2.156`
-- maximum_duration_seconds: `1800`
-- total_https_get_count: `9`
-- maximum_https_get_count: `300`
-- private_get_count: `6`
-- public_market_get_count: `2`
-- public_provider_time_get_count: `1`
-- mutation_request_count: `0`
-- submit_request_count: `0`
-- available_balance_is_zero: `YES`
-- provider: `OKX`
-- api_version: `V5`
-- environment: `production_read_only_shadow`
-- rest_hostname: `openapi.okx.com`
-- permission_category: `read_only`
-- account_level: `2`
-- position_mode: `net_mode`
-- dedicated_subaccount: `YES`
-- clock_status: `HEALTHY`
-- market_freshness_finality_health: `UNKNOWN / COMPLETE SAFE CYCLE NOT ESTABLISHED`
-- position_known: `UNKNOWN`
-- unexpected_exposure: `UNKNOWN`
-- isolated_leverage_known_valid: `UNKNOWN`
-- pending_order_count: `UNKNOWN`
-- unreconciled_fill_count: `UNKNOWN`
-- operational_mode: `LOCKED`
-- mode_revision: `2`
-- checkpoint_classification: `UNKNOWN`
-- fresh_reconciliation: `UNKNOWN`
-- cycle_count_completed: `0`
-- credential_values_displayed: `NO`
-- exact_balance_displayed: `NO`
-- raw_uid_displayed: `NO`
-- raw_private_response_displayed: `NO`
-- provider_order_fill_ids_displayed: `NO`
-- unnecessary_local_paths_displayed: `NO`
-- provider_order_mutation: `NONE`
+- branch: `agent/e7-shadow-temporal-ordering-remediation-20260826`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260826-092 and remained ACTIVE immediately before terminal write`
+- task_blob: `a6953d49e0564a6c3e3d7787f9cc69ceb0064538`
+- task_type: `E7 SOURCE / TEST / ADR TEMPORAL-ORDERING REMEDIATION ONLY`
+- incident_task: `E7-20260826-090 / PARTIAL / FAIL_CLOSED`
+- incident_terminal_reason: `UNSAFE_PROVIDER_OR_RECONCILIATION_STATE`
+- prior_qualified_executable_revision: `ab725965e96cac7a9769fd1ab15a3e626f920b95`
+- remediation_code_test_candidate_revision: `63951625cb3ffd57bca0c58b06d7067db6973c2b`
+- adr: `docs/adr/ADR-0010-shadow-strategy-risk-temporal-ordering.md`
+- adr_commit: `9eea6d92523aa3c8ef7628871d85f000d8741cfa`
+- evidence_artifact: `status/e7/SHADOW_TEMPORAL_ORDERING_REMEDIATION_20260826.md`
+- evidence_commit: `fd88dc16b24ef60cf94b71a621bbdb0b742bf603`
+- root_cause: `CONFIRMED REAL E7 TEMPORAL-ORDERING DEFECT / EXCLUSIVE E7-090 ATTRIBUTION NOT PROVABLE FROM DURABLE REASON MATERIAL`
+- e5_temporal_semantics_changed: `NO`
+- e4_provider_semantics_changed: `NO`
+- e6_reconciliation_semantics_changed: `NO`
+- contracts_changed: `NO`
+- agentbridge_source_changed_in_this_task: `NO`
+- agentbridge_consumer_update_required: `YES`
+- new_executable_candidate: `YES / NOT QUALIFIED`
+- gate_c_credential_free_requalification_required: `YES / NOT_RUN`
+- local_verification: `NOT_RUN`
+- provider_requests: `0 / FORBIDDEN`
+- credentials_read_requested_used: `NONE / FORBIDDEN`
+- local_job_request: `NOT CREATED / FORBIDDEN`
+- mutation_requests: `0`
+- submit_requests: `0`
 - capital_exposure: `NONE`
-- retry_or_third_session: `NOT AUTHORIZED / NOT STARTED`
-- paper_runtime: `NOT AUTHORIZED / NOT STARTED`
-- shadow_runtime: `STOPPED / LOCKED / FAIL-CLOSED / NOT RECURRING`
+- paper_runtime: `NOT STARTED / NOT AUTHORIZED`
+- shadow_runtime: `NOT STARTED IN E7-092 / BOTH PRIOR SESSION AUTHORITIES CONSUMED`
+- third_shadow_session: `NOT AUTHORIZED / NOT STARTED`
 - gate_a: `PASS`
 - gate_b: `PASS`
-- gate_c: `PASS / UNCHANGED`
+- gate_c: `PASS / UNCHANGED FOR PRIOR QUALIFIED REVISION ab725965...`
 - gate_d: `BLOCKED / NOT AUTHORIZED`
 - live: `UNAUTHORIZED`
 - github_actions_ci_hosted_runner: `NOT_USED`
 - github_triggered_compute: `NOT_USED`
+- next_owner: `PM / AGENTBRIDGE CONSUMER REMEDIATION + APPROVED-LOCAL GATE C REQUALIFICATION GOVERNANCE`
 
-## Terminal result
+## Root-cause determination
 
-The single replacement E7-090 local SHADOW-session job was accepted by AgentBridge and entered the repaired operator-owned supervisor. It dispatched one bounded nine-GET cycle envelope and terminated fail closed with exit code `2` and sanitized terminal reason:
+E7 independently confirmed the temporal-ordering defect described by PM source review.
 
-```text
-UNSAFE_PROVIDER_OR_RECONCILIATION_STATE
-```
+At the prior qualified revision, `ShadowComposition.run_cycle(...)` used one caller-supplied `risk_evaluation_time` for deterministic Candle/strategy evaluation, then called E4 `OKXShadowProviderReader.observe(...)`, then reused the older caller timestamp for E5 risk-context derivation and RiskDecision.
 
-The run established the following current session facts before fail-closed termination:
-
-```text
-HTTPS_GET_COUNT             = 9
-private_get_count           = 6
-public_market_get_count     = 2
-public_provider_time_get_count = 1
-MUTATION_REQUEST_COUNT      = 0
-SUBMIT_REQUEST_COUNT        = 0
-available_balance_is_zero   = YES
-permission_category         = read_only
-account_level               = 2
-position_mode               = net_mode
-dedicated_subaccount        = YES
-clock_status                = HEALTHY
-cycle_count_completed       = 0
-operational_mode            = LOCKED
-```
-
-The supervisor did not establish a complete safe provider/reconciliation state, so market, position, leverage, pending-order, fill, checkpoint and fresh-reconciliation classifications remain `UNKNOWN`. E7 does not infer those values from prior Gate C evidence.
-
-## Authorization consumption
-
-The historical E7-088 marker remained preserved under the append-only operator contract and was verified in authoritative preflight before this request. The replacement supervisor then dispatched provider GETs, so the replacement authorization `PO-ZERO-CAPITAL-SHADOW-REAUTH-20260826-01` is consumed.
-
-No retry, third session, recurring SHADOW runtime, or consumption-marker reset is authorized or started.
-
-## Safety invariant disposition
+The historical AgentBridge `2ac9a79` supervisor captured its `evaluation_time` before invoking `run_cycle(...)`. E4 correctly stamped the later provider observation from its own advancing UTC clock. E5 correctly and unchanged rejects:
 
 ```text
-elapsed_seconds <= 1800            = YES / 2.156
-HTTPS_GET_COUNT <= 300              = YES / 9
-MUTATION_REQUEST_COUNT = 0          = YES
-SUBMIT_REQUEST_COUNT = 0            = YES
-available_balance_is_zero = YES     = YES
-capital_exposure                    = NONE
+provider observed_at > risk_evaluation_time
 ```
 
-The session failed closed into `LOCKED`; no account repair, provider mutation, order action, funding, PAPER, Gate D, LIVE, retry escalation, or scope expansion occurred.
+with:
+
+```text
+GATE_C_SHADOW_OBSERVATION_TIME_INVALID
+```
+
+Therefore the pre-provider decision timestamp was an invalid E7 integration sequencing boundary under a real advancing clock.
+
+The E7-090 durable artifact did not persist the internal `ShadowCycleResult.reason_codes`; only supervisor-level `UNSAFE_PROVIDER_OR_RECONCILIATION_STATE` survived. E7 therefore preserves other historically possible sanitized provider/risk/checkpoint/reconciliation reasons and does not relabel the temporal defect as the proven exclusive E7-090 blocker.
+
+## Remediation
+
+E7 separated the two semantic clocks in `src/integration/shadow_composition.py`:
+
+```text
+strategy_evaluation_time
+  -> finalized Candle / StrategyRuntime / TradeIntent generated_at boundary
+
+E4 observe()
+  -> provider/account observation
+
+risk_time_provider()
+  -> invoked by E7 only after E4 returns
+  -> E5 context derivation / RiskDecision decided_at boundary
+```
+
+A post-observation risk timestamp earlier than the strategy timestamp fails closed with:
+
+```text
+RISK_DECISION_PRECEDES_STRATEGY_EVALUATION
+```
+
+E5 temporal safety was not widened, bypassed or special-cased. A genuinely future provider observation remains rejected by unchanged E5 semantics as `GATE_C_SHADOW_OBSERVATION_TIME_INVALID`.
+
+The prior `risk_evaluation_time=` keyword remains only as a deprecated compatibility alias for the strategy timestamp. It intentionally retains legacy fixed decision-time semantics and is not a valid advancing-clock runtime remediation. Future runtime consumers must use explicit `strategy_evaluation_time` plus `risk_time_provider`.
+
+## Diagnostic evidence boundary
+
+E7 added stable sanitized stage classifications to `ShadowCycleResult.reason_codes`:
+
+```text
+E7_PROVIDER_READ_DEGRADED
+E7_RISK_CONTEXT_UNSAFE
+E7_SHADOW_CHECKPOINT_NOT_RECORDED
+```
+
+The existing sanitized `FRESH_SHADOW_RECONCILIATION_NOT_ESTABLISHED` error remains the post-checkpoint reconciliation failure signal.
+
+No raw provider payload, credential, identifier, exact balance, signature, token/cookie, sensitive exception text or local path is exposed by the new diagnostic material.
+
+## Test-definition work
+
+`tests/integration/test_gate_c_shadow_composition.py` now defines:
+
+- old pre-provider temporal defect reproduction through unchanged E5 derivation;
+- advancing-clock healthy provider observation with risk clock invocation proven after all seven E4 observation requests;
+- no false temporal rejection when risk time is post-provider;
+- genuine future/contradictory provider timestamps remaining fail closed;
+- sanitized distinction between provider-read degradation and risk/checkpoint rejection;
+- healthy non-authoritative Shadow output/checkpoint behavior.
+
+`tests/e2e/test_gate_c_shadow_no_submit_e2e.py` now uses the explicit separated timing API while preserving restart/reconciliation and exact read-only/no-mutation behavior.
+
+Existing `tests/safety/test_gate_c_shadow_composition_safety.py` remains compatible through the deprecated fixed-time alias and continues to cover finalized/future Candle rejection before provider transport, submit-capable adapter rejection, no capability expansion, provider degradation, E6 unsafe state and redaction/no-authority invariants.
+
+## Verification status
+
+No approved local project execution was performed in E7-092. This chat environment is not the Product-Owner-approved local Windows project environment, and E7-092 explicitly forbids creating a Local Job Request.
+
+```text
+local_verification = NOT_RUN
+NOT_RUN != PASS
+```
+
+Required approved-local PowerShell commands:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests/integration -p 'test_gate_c_shadow_composition.py' -v
+python -m unittest discover -s tests/e2e -p 'test_gate_c_shadow_no_submit_e2e.py' -v
+python -m unittest discover -s tests/safety -p 'test_gate_c_shadow_composition_safety.py' -v
+```
+
+No GitHub Actions, CI, hosted runner or GitHub-triggered project compute was used.
+
+## Downstream dependencies
+
+The AgentBridge supervisor remains an external consumer requiring migration before any future authorized SHADOW runtime. Historical `2ac9a79` calls `risk_evaluation_time=evaluation_time`; the governed consumer update must instead pass the deterministic strategy boundary and an E7-invoked post-provider clock callback, e.g.:
+
+```text
+strategy_evaluation_time=evaluation_time
+risk_time_provider=_utc_now
+```
+
+AgentBridge must not precompute a guessed/future risk timestamp.
+
+Because executable E7 source/tests changed, revision `63951625cb3ffd57bca0c58b06d7067db6973c2b` is a new **unqualified candidate** and requires approved-local Gate C credential-free requalification before it can replace the accepted `ab725965...` executable baseline.
+
+Both previous bounded SHADOW session authorizations remain consumed. Any future provider session requires a new explicit Product Owner decision after consumer remediation, exact-revision requalification and PM/E7 evidence review.
 
 ## Release interpretation
 
 ```text
-Gate C — SHADOW_READY                              = PASS / UNCHANGED
-replacement bounded zero-capital SHADOW session   = FAIL_CLOSED / PARTIAL / PM REVIEW REQUIRED
-replacement Product Owner authorization           = CONSUMED / NO RETRY
-SHADOW runtime                                     = STOPPED / LOCKED / not recurring
-PAPER                                              = NOT AUTHORIZED
-Gate D / LIVE                                      = BLOCKED / NOT AUTHORIZED
-LIVE                                               = UNAUTHORIZED
+Gate A — RESEARCH_READY = PASS
+Gate B — PAPER_READY    = PASS
+Gate C — SHADOW_READY   = PASS / UNCHANGED FOR PRIOR QUALIFIED REVISION ab725965...
+new E7 temporal-remediation candidate = UNQUALIFIED / REQUALIFICATION REQUIRED
+Gate D — LIVE_READY     = BLOCKED / NOT AUTHORIZED
+LIVE                    = UNAUTHORIZED
 ```
 
-This PARTIAL result does not revoke Gate C technical readiness, does not establish successful bounded SHADOW runtime evidence, and does not authorize another release gate or runtime session.
+E7-092 does not revoke historical Gate C PASS and does not qualify or authorize the new candidate by source review alone.
 
-## Safety / disclosure confirmation
+## Safety / execution confirmation
 
-The local result reported no credential values, exact balance, raw UID, raw private provider response, provider order/fill IDs or unnecessary local paths displayed. E7 persisted no API key, secret, passphrase, exact balance, UID/mainUID, signature, token/cookie, browser-auth material, raw private provider response, provider order/fill ID or unnecessary local path.
-
-GitHub was used only for source-control/evidence coordination. No GitHub Actions, CI, hosted runner or GitHub-triggered project compute was used.
+E7-092 performed no provider request, credential access, project runtime, SHADOW/PAPER session, account/provider mutation, order action, capital movement/exposure, Gate D or LIVE execution. No Local Job Request was created and no consumption marker was reset, deleted or reused.
 
 ## Completion
 
-E7 stops on `PARTIAL / FAIL_CLOSED / UNSAFE_PROVIDER_OR_RECONCILIATION_STATE` for `E7-20260826-090`. No retry, third SHADOW session, remediation execution, PAPER, Gate D, LIVE, provider mutation, order submission, or capital movement is started.
+E7 stops on `PARTIAL` for `E7-20260826-092` because the E7-owned source/test/ADR remediation is complete enough for handoff, but the external AgentBridge consumer update and approved-local credential-free requalification remain required before this becomes an executable accepted candidate.
+
+No requalification, AgentBridge remediation, provider execution, third SHADOW session, PAPER, Gate D, LIVE, provider mutation, order submission or capital movement is self-started.

@@ -1,46 +1,33 @@
 # Project Blockers
 
-## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26 — OPERATOR RESOLVED
+## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26 — RESOLVED
 
 ```text
-state = RESOLVED / OPERATOR REGISTERED / PM REVIEW REQUIRED
+state = RESOLVED / OPERATOR REGISTRATION ACCEPTED BY PM
 current_release_gate = Gate C — SHADOW_READY = PASS
 qualified_gate_c_revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
 product_owner_zero_capital_shadow_authorization = ACTIVE / NOT YET CONSUMED
 shadow_readiness_task = E7-20260826-086 / ACCEPTED
 shadow_readiness_evidence = status/e7/ZERO_CAPITAL_SHADOW_SESSION_READINESS_20260826.md
 architecture_or_domain_change_required = NO
-execution_dependency = SATISFIED / OPERATOR REGISTRATION COMPLETE
+execution_dependency = SATISFIED
 registered_matching_session_action = GATE_C_ZERO_CAPITAL_SHADOW_SESSION
-existing_Gate_C_readonly_action = GATE_C_OKX_PRODUCTION_READONLY / ONE-SHOT ONLY / MUST NOT BE REINTERPRETED
+operator_registration_evidence = status/AGENTBRIDGE_ZERO_CAPITAL_SHADOW_ACTION_REGISTRATION_20260826.md
 SHADOW_runtime = NOT STARTED
 PAPER_runtime = NOT STARTED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 capital_exposure = NONE
-worker_dispatch = PM MAY ISSUE FRESH BOUNDED E7 EXECUTION TASK AFTER REVIEW
+worker_dispatch = E7-20260826-088 / SINGLE BOUNDED SHADOW EXECUTION AUTHORIZED
 idle_watchdog_fingerprint = 51952EC76025BBBA
-watchdog_revalidation = OPERATOR EVIDENCE PUBLISHED / PM REVIEW PENDING
+resolved_at = 2026-08-26T17:12:00+08:00
 ```
 
-Operator resolution evidence is recorded in
-`status/AGENTBRIDGE_ZERO_CAPITAL_SHADOW_ACTION_REGISTRATION_20260826.md`. The canonical
-action is registered and locally allowlisted, its fixed supervisor contract passed the full
-AgentBridge test suite, the exact worktree remains clean, and no consumption marker exists.
-Registration performed no provider request and did not consume the authorized session.
+PM reviewed the authoritative operator registration evidence and the reconciled canonical action catalog. `GATE_C_ZERO_CAPITAL_SHADOW_SESSION` is registered and locally allowlisted as a distinct single-consumption deny-by-default action matching the accepted E7-086 readiness contract. Registration itself sent no provider request and did not consume the Product Owner's one-session authorization.
 
-The Product Owner has already authorized exactly one bounded zero-capital SHADOW runtime session under `status/PRODUCT_OWNER_ZERO_CAPITAL_SHADOW_AUTHORIZATION_20260826.md`: current registered local Windows computer only, exact qualified revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`, `openapi.okx.com`, maximum 1800 seconds, maximum 300 HTTPS GET attempts, zero available capital, zero provider/account mutation, zero order submission and zero capital exposure.
+The Product Owner authorization remains limited to exactly one bounded zero-capital SHADOW session on the current registered local Windows computer, exact clean revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`, `https://openapi.okx.com`, maximum 1800 monotonic seconds, maximum 300 shared HTTPS GET attempts, exactly zero available capital, zero provider/account mutation, zero order submission and zero capital exposure.
 
-Accepted E7-086 readiness review established that the merged E1/E2/E4/E5/E6/E7 implementation can support the authorized session without architecture or domain-code changes. However, `coordination/LOCAL_ACTION_CATALOG.md` does not contain a canonical action whose operator-owned contract enforces that exact bounded session. The existing `GATE_C_OKX_PRODUCTION_READONLY` action is a one-shot read-only verification capability and must not be reused or reinterpreted as the 30-minute/300-GET runtime session.
-
-Unblock condition: the local AgentBridge operator must register/allowlist one deny-by-default canonical action matching the E7-086 readiness contract, including exact revision/worktree pinning, approved Windows-only execution, secure local credential consumption, `openapi.okx.com` pinning, one shared pre-dispatch 300-GET cap across E1/E4, monotonic 1800-second deadline, no-submit/no-mutation dependency graph, mandatory fail-closed stop conditions, and sanitized durable session evidence. E7 proposed `GATE_C_ZERO_CAPITAL_SHADOW_SESSION` as an identity only; Git/PM does not assume it exists until operator registration and catalog reconciliation are authoritative.
-
-The idle watchdog fingerprint `51952EC76025BBBA` was revalidated against current `main`. The canonical action catalog still has no matching bounded SHADOW-session action, E7 remains on `E7-20260826-087` HOLD, and the Product Owner's single authorized session remains unconsumed. No ACTIVE Worker TASK may be issued until authoritative operator registration/allowlisting evidence exists.
-
-The former external dependency is satisfied. PM may now replace E7-087 HOLD with one fresh
-bounded E7 execution task referencing the canonical action and a unique request ID. PAPER,
-recurring/continuous SHADOW, provider mutation, order submission, capital movement/exposure,
-Gate D and LIVE remain unauthorized.
+PM may therefore replace E7-087 HOLD with one fresh bounded E7 execution task using exactly `GATE_C_ZERO_CAPITAL_SHADOW_SESSION` and a unique request ID. This resolution does not authorize PAPER, a second or recurring SHADOW session, provider mutation, order submission, capital movement/exposure, Gate D or LIVE.
 
 ## NEXT_PHASE_REQUIRES_PRODUCT_OWNER_AUTHORITY — 2026-08-26 — RESOLVED
 
@@ -53,16 +40,12 @@ SHADOW_runtime = NOT STARTED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 capital_exposure = NONE
-worker_dispatch = PM PLANNING / MINIMUM BOUNDED SHADOW TASK REQUIRED
+worker_dispatch = BOUNDED ZERO-CAPITAL SHADOW PHASE AUTHORIZED
 idle_watchdog_fingerprint = 24C0E5F6F0BA64B5
 resolved_at = 2026-08-26T15:52:50+08:00
 resolution_revision = 99427f5b097e9ac142aae7bdcffd2fe834754853
 ```
 
-This blocker accurately described the project before revision `99427f5b097e9ac142aae7bdcffd2fe834754853` and is preserved as history. It was resolved by the newer authoritative Product Owner decision in `status/PRODUCT_OWNER_ZERO_CAPITAL_SHADOW_AUTHORIZATION_20260826.md`.
+This blocker accurately described the project before revision `99427f5b097e9ac142aae7bdcffd2fe834754853` and is preserved as history. It was resolved by `status/PRODUCT_OWNER_ZERO_CAPITAL_SHADOW_AUTHORIZATION_20260826.md`.
 
-PM is now authorized to issue the minimum tasks needed to prepare, execute, review, and reconcile exactly one bounded zero-capital SHADOW session. The authorization is limited to the current registered local Windows computer, qualified revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`, official OKX read-only GET observation, a maximum 30-minute session and 300 GETs, zero available capital, and zero mutation/submission/exposure.
-
-The subsequent PM revalidation commit `dd27498f6b489f9d1765deae4f31a141eee46772` did not inspect or reconcile the newer Product Owner authorization and therefore does not revoke it.
-
-All order submission, POST/PUT/PATCH/DELETE, provider/account mutation, transfer, capital movement/exposure, recurring operation, PAPER, Gate D, and LIVE remain blocked and unauthorized. Any broader phase still requires a new explicit Product Owner decision.
+All broader operation remains unauthorized: PAPER, recurring/continuous SHADOW, provider/account mutation, order submission, capital movement/exposure, Gate D and LIVE require separate explicit Product Owner authority.

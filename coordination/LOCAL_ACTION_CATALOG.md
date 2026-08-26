@@ -29,6 +29,25 @@ DPAPI-protected local credentials, the fixed GET allowlist, sanitized output and
 Its presence is not authorization to run it; the PM TASK, operator prerequisites and runtime
 flags must also permit the exact verification.
 
+## Bounded zero-capital SHADOW session
+
+- `GATE_C_ZERO_CAPITAL_SHADOW_SESSION`
+
+This is a distinct, single-consumption runtime-session action. It is not an alias for
+`GATE_C_OKX_PRODUCTION_READONLY` and must not be used for recurring operation.
+
+The operator-owned supervisor is fixed to the registered local Windows computer and exact
+clean revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`. It pins all E1/E4 traffic to
+`https://openapi.okx.com`, admits only the fixed public/read-only GET paths, shares one
+pre-dispatch 300-GET budget across E1 and E4, uses a monotonic 1800-second deadline, denies
+redirects/non-GET/mutation/submission, requires explicitly zero available capital, and stops
+fail closed on every E7-086 safety condition. It emits sanitized evidence only.
+
+The action uses a durable local consumption marker created immediately before session network
+operation. Once a session starts, a later request cannot consume the same Product Owner
+authorization again. Registration does not itself start or consume the authorized session;
+execution still requires a fresh matching PM TASK and E7 Local Job Request.
+
 ## Worktree preparation
 
 - `PREPARE_EXACT_REVISION`

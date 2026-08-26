@@ -1,27 +1,33 @@
 # Project Blockers
 
-## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26
+## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26 — OPERATOR RESOLVED
 
 ```text
-state = BLOCKED / FAIL-CLOSED / EXTERNAL OPERATOR DEPENDENCY
+state = RESOLVED / OPERATOR REGISTERED / PM REVIEW REQUIRED
 current_release_gate = Gate C — SHADOW_READY = PASS
 qualified_gate_c_revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
 product_owner_zero_capital_shadow_authorization = ACTIVE / NOT YET CONSUMED
 shadow_readiness_task = E7-20260826-086 / ACCEPTED
 shadow_readiness_evidence = status/e7/ZERO_CAPITAL_SHADOW_SESSION_READINESS_20260826.md
 architecture_or_domain_change_required = NO
-execution_dependency = LOCAL_ACTION_NOT_REGISTERED
-registered_matching_session_action = NONE
+execution_dependency = SATISFIED / OPERATOR REGISTRATION COMPLETE
+registered_matching_session_action = GATE_C_ZERO_CAPITAL_SHADOW_SESSION
 existing_Gate_C_readonly_action = GATE_C_OKX_PRODUCTION_READONLY / ONE-SHOT ONLY / MUST NOT BE REINTERPRETED
 SHADOW_runtime = NOT STARTED
 PAPER_runtime = NOT STARTED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 capital_exposure = NONE
-worker_dispatch = NONE / E7 HOLD PENDING OPERATOR ACTION REGISTRATION
+worker_dispatch = PM MAY ISSUE FRESH BOUNDED E7 EXECUTION TASK AFTER REVIEW
 idle_watchdog_fingerprint = 51952EC76025BBBA
-watchdog_revalidation = CURRENT MAIN CONFIRMS DEPENDENCY UNRESOLVED
+watchdog_revalidation = OPERATOR EVIDENCE PUBLISHED / PM REVIEW PENDING
 ```
+
+Operator resolution evidence is recorded in
+`status/AGENTBRIDGE_ZERO_CAPITAL_SHADOW_ACTION_REGISTRATION_20260826.md`. The canonical
+action is registered and locally allowlisted, its fixed supervisor contract passed the full
+AgentBridge test suite, the exact worktree remains clean, and no consumption marker exists.
+Registration performed no provider request and did not consume the authorized session.
 
 The Product Owner has already authorized exactly one bounded zero-capital SHADOW runtime session under `status/PRODUCT_OWNER_ZERO_CAPITAL_SHADOW_AUTHORIZATION_20260826.md`: current registered local Windows computer only, exact qualified revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`, `openapi.okx.com`, maximum 1800 seconds, maximum 300 HTTPS GET attempts, zero available capital, zero provider/account mutation, zero order submission and zero capital exposure.
 
@@ -31,7 +37,10 @@ Unblock condition: the local AgentBridge operator must register/allowlist one de
 
 The idle watchdog fingerprint `51952EC76025BBBA` was revalidated against current `main`. The canonical action catalog still has no matching bounded SHADOW-session action, E7 remains on `E7-20260826-087` HOLD, and the Product Owner's single authorized session remains unconsumed. No ACTIVE Worker TASK may be issued until authoritative operator registration/allowlisting evidence exists.
 
-Until that external dependency is satisfied, no Local Job Request may be created and the authorized one-session allowance remains unconsumed. E1-E7 remain HOLD. PAPER, recurring/continuous SHADOW, provider mutation, order submission, capital movement/exposure, Gate D and LIVE remain unauthorized.
+The former external dependency is satisfied. PM may now replace E7-087 HOLD with one fresh
+bounded E7 execution task referencing the canonical action and a unique request ID. PAPER,
+recurring/continuous SHADOW, provider mutation, order submission, capital movement/exposure,
+Gate D and LIVE remain unauthorized.
 
 ## NEXT_PHASE_REQUIRES_PRODUCT_OWNER_AUTHORITY — 2026-08-26 — RESOLVED
 

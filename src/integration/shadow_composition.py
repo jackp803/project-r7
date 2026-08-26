@@ -5,7 +5,7 @@ import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from decimal import Decimal
-from typing import Any, Mapping, Sequence
+from typing import Any, Callable, Mapping, Sequence
 
 from brokers.okx_shadow import OKXShadowProviderReader, OKXShadowReadResult, ShadowFillCheckpoint
 from market_data import Candle, MarketSnapshot
@@ -106,6 +106,10 @@ def _require_utc(value: datetime, code: str) -> datetime:
     if value.utcoffset() != timezone.utc.utcoffset(value):
         raise ShadowCompositionError(code)
     return value.astimezone(timezone.utc)
+
+
+def _utc_now() -> datetime:
+    return datetime.now(timezone.utc)
 
 
 def _format_utc(value: datetime) -> str:
@@ -279,6 +283,13 @@ def _checkpoint_payload(
 class ShadowComposition:
     """Gate C no-submit composition over accepted E1/E2/E4/E5/E6 surfaces.
 
+    Strategy/candle evaluation uses the deterministic strategy timestamp. Provider/account
+    observation occurs next. E7 then invokes the explicit risk clock and uses that
+    post-observation timestamp for E5 context derivation and RiskDecision. The deprecated
+    `risk_evaluation_time` keyword is accepted only as a compatibility alias for the strategy
+    timestamp and retains its legacy fixed decision-time behavior; runtime consumers must
+    migrate to `strategy_evaluation_time` plus `risk_time_provider`.
+
     There is no Broker, ExecutionGateway, OrderRequest, generic authenticated transport,
     TradeIntent/RiskDecision output, or ApprovedTradePlan output in the public composition
     result. The only E4 operation retained is the bound read-only `observe` capability.
@@ -331,7 +342,7 @@ class ShadowComposition:
         market_snapshot: MarketSnapshot,
         risk_policy: RiskPolicy,
         risk_proposal: RiskProposal,
-        risk_evaluation_time: datetime,
+        strategy_evaluation_time: datetime | None = None,
         kill_switch_active: bool,
         trades_today: int,
         consecutive_losses: int,
@@ -339,25 +350,58 @@ class ShadowComposition:
         strategy_stop_level: Decimal | str | None = None,
         strategy_target_level: Decimal | str | None = None,
         max_hold_seconds: int | None = None,
+        risk_time_provider: Callable[[], datetime] | None = None,
+        risk_evaluation_time: datetime | None = None,
     ) -> ShadowCycleResult:
-        evaluation_time = _require_utc(risk_evaluation_time, "RISK_EVALUATION_TIME_UTC_REQUIRED")
+        legacy_decision_time: datetime | None = None
+        if strategy_evaluation_time is None:
+            if risk_evaluation_time is None:
+                raise ShadowCompositionError("STRATEGY_EVALUATION_TIME_REQUIRED")
+            strategy_input = risk_evaluation_time
+            legacy_decision_time = risk_evaluation_time
+        elif risk_evaluation_time is not None:
+            raise ShadowCompositionError("AMBIGUOUS_STRATEGY_EVALUATION_TIME")
+        else:
+            strategy_input = strategy_evaluation_time
+        strategy_time = _require_utc(strategy_input, "STRATEGY_EVALUATION_TIME_UTC_REQUIRED")
+
+        if risk_time_provider is not None and legacy_decision_time is not None:
+            raise ShadowCompositionError("AMBIGUOUS_RISK_DECISION_TIME")
+        if risk_time_provider is None:
+            risk_clock: Callable[[], datetime]
+            if legacy_decision_time is None:
+                risk_clock = _utc_now
+            else:
+                risk_clock = lambda: legacy_decision_time  # type: ignore[return-value]
+        else:
+            if not callable(risk_time_provider):
+                raise ShadowCompositionError("RISK_DECISION_CLOCK_PROVIDER_REQUIRED")
+            risk_clock = risk_time_provider
+
         initial_recovery = self.recover_shadow_state()
         if type(market_snapshot) is not MarketSnapshot:
             raise ShadowCompositionError("E1_MARKET_SNAPSHOT_REQUIRED")
         if not isinstance(strategy, ParsedStrategyDefinition):
             raise ShadowCompositionError("E2_PARSED_STRATEGY_REQUIRED")
         finalized = _require_finalized_e1_candles(
-            candles, evaluated_at=evaluation_time, symbol=market_snapshot.symbol
+            candles, evaluated_at=strategy_time, symbol=market_snapshot.symbol
         )
 
         shadow_result = self._observe_provider(previous_fill_checkpoint=self._fill_checkpoint)
         if type(shadow_result) is not OKXShadowReadResult:
             raise ShadowCompositionError("E4_SHADOW_READ_RESULT_REQUIRED")
 
+        risk_decision_time = _require_utc(
+            risk_clock(),
+            "RISK_DECISION_TIME_UTC_REQUIRED",
+        )
+        if risk_decision_time < strategy_time:
+            raise ShadowCompositionError("RISK_DECISION_PRECEDES_STRATEGY_EVALUATION")
+
         derivation = derive_gate_c_risk_context(
             market_snapshot,
             shadow_result,
-            risk_evaluation_time=evaluation_time,
+            risk_evaluation_time=risk_decision_time,
             kill_switch_active=kill_switch_active,
             trades_today=trades_today,
             consecutive_losses=consecutive_losses,
@@ -376,12 +420,19 @@ class ShadowComposition:
                 raise ShadowCompositionError("FRESH_SHADOW_RECONCILIATION_NOT_ESTABLISHED")
             self._fill_checkpoint = shadow_result.sanitized_observation.fill_checkpoint
 
-        signal = self._strategy_runtime.evaluate(strategy, finalized, evaluation_time)
+        base_reasons = set(derivation.reason_codes)
+        if not shadow_result.healthy:
+            base_reasons.add("E7_PROVIDER_READ_DEGRADED")
+        if derivation.reason_codes:
+            base_reasons.add("E7_RISK_CONTEXT_UNSAFE")
+        if checkpoint is None:
+            base_reasons.add("E7_SHADOW_CHECKPOINT_NOT_RECORDED")
+            base_reasons.update(initial_recovery.reason_codes)
+
+        signal = self._strategy_runtime.evaluate(strategy, finalized, strategy_time)
         if signal.get("direction") == "NO_TRADE":
-            reasons = set(derivation.reason_codes)
+            reasons = set(base_reasons)
             reasons.update(str(code) for code in signal.get("reason_codes", ()))
-            if checkpoint is None:
-                reasons.update(initial_recovery.reason_codes)
             return ShadowCycleResult(
                 mode_revision=initial_recovery.current_mode.mode_revision,
                 provider_observation_ref=provider_ref,
@@ -397,7 +448,7 @@ class ShadowComposition:
             signal,
             entry_profile_version=ENTRY_PROFILE_VERSION,
             entry_order_type=ENTRY_ORDER_TYPE_MARKET,
-            generated_at=evaluation_time,
+            generated_at=strategy_time,
             entry_reference_price=signal.get("reference_price"),
             strategy_stop_level=strategy_stop_level,
             strategy_target_level=strategy_target_level,
@@ -408,7 +459,7 @@ class ShadowComposition:
             derivation.context,
             risk_proposal,
             risk_policy,
-            decided_at=evaluation_time,
+            decided_at=risk_decision_time,
         )
 
         ready = (
@@ -430,10 +481,8 @@ class ShadowComposition:
             provider_mutation_reachable=False,
         )
 
-        reasons = set(derivation.reason_codes)
+        reasons = set(base_reasons)
         reasons.update(str(code) for code in risk_decision.get("reason_codes", ()))
-        if checkpoint is None:
-            reasons.update(initial_recovery.reason_codes)
 
         return ShadowCycleResult(
             mode_revision=initial_recovery.current_mode.mode_revision,

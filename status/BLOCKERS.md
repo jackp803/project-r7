@@ -20,6 +20,9 @@ Gate_C = PASS / UNCHANGED
 PAPER = NOT AUTHORIZED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
+idle_watchdog_fingerprint = BE22BE5910A35AC6
+last_revalidated_at = 2026-08-26T17:33:58+08:00
+worker_dispatch = NONE / E1-E7 HOLD
 ```
 
 The one Product-Owner-authorized bounded session was consumed and failed closed before any
@@ -27,6 +30,11 @@ provider request. AgentBridge's operational-mode audit-token integration defect 
 verified, but that repair does not restore or extend the consumed authorization. A future run
 requires a new explicit Product Owner authorization followed by a fresh PM task and unique
 request. No worker or local operator may infer, retry, or recreate that authority.
+
+The idle watchdog fingerprint `BE22BE5910A35AC6` was revalidated against current `main` on
+2026-08-26 at 17:33:58 +08:00. No new Product Owner authorization exists, E7 remains on
+`E7-20260826-089` HOLD, and no remaining Worker TASK is already authorized and dispatchable.
+The repaired supervisor and Gate C PASS do not constitute authority for a replacement session.
 
 ## ZERO_CAPITAL_SHADOW_LOCAL_ACTION_NOT_REGISTERED — 2026-08-26 — RESOLVED
 

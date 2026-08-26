@@ -9,7 +9,7 @@ from pathlib import Path
 from brokers.okx_shadow import OKXShadowCredentials, OKXShadowProviderReader, OKXShadowReaderConfig
 from integration import SHADOW_PLANNING_PROFILE, ShadowComposition, ShadowCompositionError
 from market_data import MarketSnapshot, normalize_okx_current_candles, normalize_okx_ticker
-from risk import RiskPolicy, RiskProposal
+from risk import RiskPolicy, RiskProposal, derive_gate_c_risk_context
 from storage import open_operational_mode_store
 from strategy import RUNTIME_FAMILY, RUNTIME_VERSION, compute_content_hash, parse_strategy_definition
 
@@ -34,9 +34,9 @@ def _ms(value: datetime) -> str:
     return str(int(value.timestamp() * 1000))
 
 
-def _responses(*, permission: str = "read_only") -> dict:
+def _responses(*, now: datetime = NOW, permission: str = "read_only") -> dict:
     return {
-        PUBLIC_TIME: {"code": "0", "data": [{"ts": _ms(NOW)}]},
+        PUBLIC_TIME: {"code": "0", "data": [{"ts": _ms(now)}]},
         ACCOUNT_CONFIG: {
             "code": "0",
             "data": [{"acctLv": "2", "posMode": "net_mode", "uid": RAW_UID, "mainUid": RAW_MAIN_UID, "perm": permission}],
@@ -59,7 +59,7 @@ class _Transport:
         return self.responses[request.request_path]
 
 
-def _reader(transport: _Transport):
+def _reader(transport: _Transport, *, now: datetime = NOW):
     return OKXShadowProviderReader(
         credentials=OKXShadowCredentials("fake-key", "fake-secret", "fake-passphrase"),
         config=OKXShadowReaderConfig(
@@ -69,25 +69,25 @@ def _reader(transport: _Transport):
             expected_position_mode="net_mode",
         ),
         transport=transport,
-        utc_now_provider=lambda: NOW,
+        utc_now_provider=lambda: now,
     )
 
 
-def _market_inputs():
+def _market_inputs(*, now: datetime = NOW):
     snapshot = normalize_okx_ticker(
-        {"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "last": "64000", "bidPx": "63999", "askPx": "64001", "ts": _ms(NOW)}]},
+        {"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "last": "64000", "bidPx": "63999", "askPx": "64001", "ts": _ms(now)}]},
         symbol="BTC_USDT_PERP",
-        received_at=NOW,
+        received_at=now,
     )
     rows = []
     for hour, close in ((3, 13), (2, 12), (1, 11), (0, 10)):
-        opened = NOW.replace(hour=hour, minute=0, second=0, microsecond=0)
+        opened = now.replace(hour=hour, minute=0, second=0, microsecond=0)
         rows.append([_ms(opened), str(close), str(close + 1), str(close - 1), str(close), "100", "100", "1000", "1"])
     candles = normalize_okx_current_candles(
         {"code": "0", "msg": "", "data": rows},
         symbol="BTC_USDT_PERP",
         timeframe="1h",
-        received_at=NOW,
+        received_at=now,
     )
     return snapshot, candles
 
@@ -141,10 +141,22 @@ def _enter_shadow(store) -> None:
     store.transition("SHADOW", expected_revision=0, changed_at="2026-08-25T04:00:01Z", changed_by="product-owner", reason_codes=["SHADOW_ONLY_TEST_AUTHORITY"], evidence_ref="shadow-only-test-authority")
 
 
-def _run(composition: ShadowComposition, snapshot, candles):
+def _run(
+    composition: ShadowComposition,
+    snapshot,
+    candles,
+    *,
+    strategy_time: datetime = NOW,
+    risk_time: datetime | None = None,
+    risk_clock=None,
+):
+    if risk_clock is None:
+        decided_at = strategy_time if risk_time is None else risk_time
+        risk_clock = lambda: decided_at
     return composition.run_cycle(
         strategy=_strategy(), candles=candles, market_snapshot=snapshot,
-        risk_policy=_policy(), risk_proposal=_proposal(), risk_evaluation_time=NOW,
+        risk_policy=_policy(), risk_proposal=_proposal(), strategy_evaluation_time=strategy_time,
+        risk_time_provider=risk_clock,
         kill_switch_active=False, trades_today=0, consecutive_losses=0, drawdown=Decimal("0.01"),
         strategy_stop_level="63000", strategy_target_level="65000", max_hold_seconds=900,
     )
@@ -180,6 +192,7 @@ class GateCShadowCompositionIntegrationTests(unittest.TestCase):
         self.assertFalse(hasattr(result, "hypothetical_trade_plan"))
         self.assertFalse(hasattr(result.planning_evidence, "trade_plan_id"))
         self.assertIsNotNone(result.shadow_checkpoint_id)
+        self.assertEqual((), result.reason_codes)
 
         recovery = store.recover()
         self.assertEqual("SHADOW", recovery.current_mode.mode)
@@ -191,6 +204,77 @@ class GateCShadowCompositionIntegrationTests(unittest.TestCase):
         self.assertNotIn("runtime_available_balance", durable)
         self.assertEqual(EXPECTED_BATCH_PATHS, tuple(request.request_path for request in transport.requests))
         self.assertTrue(all(request.method == "GET" for request in transport.requests))
+        store.close()
+
+    def test_advancing_clock_reproduces_old_pre_provider_boundary_and_new_clock_runs_after_observation(self):
+        provider_now = NOW + timedelta(seconds=1)
+        risk_now = NOW + timedelta(seconds=2)
+        snapshot, candles = _market_inputs()
+
+        legacy_transport = _Transport(_responses(now=provider_now))
+        legacy_read = _reader(legacy_transport, now=provider_now).observe()
+        legacy_derivation = derive_gate_c_risk_context(
+            snapshot,
+            legacy_read,
+            risk_evaluation_time=NOW,
+            kill_switch_active=False,
+            trades_today=0,
+            consecutive_losses=0,
+            drawdown=Decimal("0.01"),
+        )
+        self.assertIn("GATE_C_SHADOW_OBSERVATION_TIME_INVALID", legacy_derivation.reason_codes)
+        self.assertFalse(legacy_derivation.safe_for_new_exposure)
+
+        store = open_operational_mode_store(self.db_path)
+        _enter_shadow(store)
+        transport = _Transport(_responses(now=provider_now))
+        composition = ShadowComposition(
+            mode_store=store,
+            provider_reader=_reader(transport, now=provider_now),
+        )
+
+        def post_provider_clock():
+            self.assertEqual(EXPECTED_BATCH_PATHS, tuple(request.request_path for request in transport.requests))
+            return risk_now
+
+        result = _run(
+            composition,
+            snapshot,
+            candles,
+            strategy_time=NOW,
+            risk_clock=post_provider_clock,
+        )
+        self.assertTrue(result.provider_read_healthy)
+        self.assertTrue(result.ready_for_hypothetical_new_exposure)
+        self.assertNotIn("GATE_C_SHADOW_OBSERVATION_TIME_INVALID", result.reason_codes)
+        store.close()
+
+    def test_provider_observation_genuinely_after_risk_clock_remains_fail_closed(self):
+        provider_now = NOW + timedelta(seconds=3)
+        risk_now = NOW + timedelta(seconds=2)
+        store = open_operational_mode_store(self.db_path)
+        _enter_shadow(store)
+        transport = _Transport(_responses(now=provider_now))
+        composition = ShadowComposition(
+            mode_store=store,
+            provider_reader=_reader(transport, now=provider_now),
+        )
+        snapshot, candles = _market_inputs()
+        result = _run(
+            composition,
+            snapshot,
+            candles,
+            strategy_time=NOW,
+            risk_time=risk_now,
+        )
+        self.assertTrue(result.provider_read_healthy)
+        self.assertEqual("REJECT", result.planning_evidence.risk_decision)
+        self.assertFalse(result.ready_for_hypothetical_new_exposure)
+        self.assertIsNone(result.shadow_checkpoint_id)
+        self.assertIn("GATE_C_SHADOW_OBSERVATION_TIME_INVALID", result.reason_codes)
+        self.assertIn("E7_RISK_CONTEXT_UNSAFE", result.reason_codes)
+        self.assertIn("E7_SHADOW_CHECKPOINT_NOT_RECORDED", result.reason_codes)
+        self.assertNotIn("E7_PROVIDER_READ_DEGRADED", result.reason_codes)
         store.close()
 
     def test_authoritative_mode_must_be_shadow_before_any_provider_observation(self):
@@ -205,7 +289,7 @@ class GateCShadowCompositionIntegrationTests(unittest.TestCase):
         self.assertEqual([], transport.requests)
         store.close()
 
-    def test_permission_degradation_flows_through_e5_as_reject_and_never_checkpoints(self):
+    def test_permission_degradation_flows_through_e5_as_reject_and_has_sanitized_stage_codes(self):
         store = open_operational_mode_store(self.db_path)
         _enter_shadow(store)
         transport = _Transport(_responses(permission="trade"))
@@ -217,6 +301,9 @@ class GateCShadowCompositionIntegrationTests(unittest.TestCase):
         self.assertFalse(result.ready_for_hypothetical_new_exposure)
         self.assertFalse(result.planning_evidence.hypothetical_new_exposure_allowed)
         self.assertIsNone(result.shadow_checkpoint_id)
+        self.assertIn("E7_PROVIDER_READ_DEGRADED", result.reason_codes)
+        self.assertIn("E7_RISK_CONTEXT_UNSAFE", result.reason_codes)
+        self.assertIn("E7_SHADOW_CHECKPOINT_NOT_RECORDED", result.reason_codes)
         self.assertFalse(store.recover().shadow_planning_safe)
         self.assertTrue(all(request.method == "GET" for request in transport.requests))
         store.close()

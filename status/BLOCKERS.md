@@ -1,9 +1,9 @@
 # Project Blockers
 
-## NEXT_PHASE_REQUIRES_PRODUCT_OWNER_AUTHORITY — 2026-08-26
+## NEXT_PHASE_REQUIRES_PRODUCT_OWNER_AUTHORITY — 2026-08-26 — RESOLVED
 
 ```text
-state = BLOCKED / FAIL-CLOSED
+state = RESOLVED / SUPERSEDED BY BOUNDED PRODUCT OWNER AUTHORIZATION
 current_release_gate = Gate C — SHADOW_READY = PASS
 qualified_gate_c_revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
 PAPER_runtime = NOT STARTED
@@ -11,15 +11,16 @@ SHADOW_runtime = NOT STARTED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 capital_exposure = NONE
-worker_dispatch = NONE / ALL E1-E7 HOLD
+worker_dispatch = PM PLANNING / MINIMUM BOUNDED SHADOW TASK REQUIRED
 idle_watchdog_fingerprint = 24C0E5F6F0BA64B5
-last_revalidated_at = 2026-08-26T15:53:00+08:00
+resolved_at = 2026-08-26T15:52:50+08:00
+resolution_revision = 99427f5b097e9ac142aae7bdcffd2fe834754853
 ```
 
-Gate C / SHADOW_READY technical readiness and formal release reconciliation are complete. The Product Owner authority used for the completed work extends through a reviewable Gate C / SHADOW_READY result only; it does not authorize starting PAPER or SHADOW runtime, continuous/private provider operation beyond the accepted bounded verification, Gate D work, LIVE enablement, order submission, provider/account mutation, capital movement, or capital exposure.
+This blocker accurately described the project before revision `99427f5b097e9ac142aae7bdcffd2fe834754853` and is preserved as history. It was resolved by the newer authoritative Product Owner decision in `status/PRODUCT_OWNER_ZERO_CAPITAL_SHADOW_AUTHORIZATION_20260826.md`.
 
-No remaining Worker task is already authorized and dispatchable. E1-E7 must remain on their current HOLD tasks until the Product Owner explicitly authorizes a next phase and its exact safety/runtime boundary. PM must not invent that authority or create an ACTIVE Worker task merely to satisfy an idle watchdog.
+PM is now authorized to issue the minimum tasks needed to prepare, execute, review, and reconcile exactly one bounded zero-capital SHADOW session. The authorization is limited to the current registered local Windows computer, qualified revision `ab725965e96cac7a9769fd1ab15a3e626f920b95`, official OKX read-only GET observation, a maximum 30-minute session and 300 GETs, zero available capital, and zero mutation/submission/exposure.
 
-The idle watchdog fingerprint `24C0E5F6F0BA64B5` was revalidated against current `main` on 2026-08-26 at 15:53 +08:00. `README.md`, `agents/README.md`, `status/RELEASE_GATES.md`, and the current E7 HOLD mailbox remain consistent with the same fail-closed boundary. No authoritative release state, Worker authorization, or Product Owner authority changed; therefore no ACTIVE Worker TASK is issued.
+The subsequent PM revalidation commit `dd27498f6b489f9d1765deae4f31a141eee46772` did not inspect or reconcile the newer Product Owner authorization and therefore does not revoke it.
 
-Unblock condition: a new explicit Product Owner decision identifies the next authorized phase (for example a bounded SHADOW runtime phase) and its permitted provider/runtime/capital boundary. LIVE and capital exposure require separate explicit authority.
+All order submission, POST/PUT/PATCH/DELETE, provider/account mutation, transfer, capital movement/exposure, recurring operation, PAPER, Gate D, and LIVE remain blocked and unauthorized. Any broader phase still requires a new explicit Product Owner decision.

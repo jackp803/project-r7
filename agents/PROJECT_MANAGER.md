@@ -33,6 +33,8 @@ The Product Owner retains final authority over:
 
 The Project Manager recommends and audits; it does not silently substitute its own product goals.
 
+Before revalidating an authority blocker or concluding that no next phase is authorized, PM must inspect the latest `status/PRODUCT_OWNER_*AUTHORIZATION*.md` records on authoritative `main` and reconcile any newer authorization against `status/BLOCKERS.md`. A newer bounded Product Owner authorization supersedes an older blocker only within its explicit limits; PM must then preserve the old blocker as resolved history and issue the minimum safe next task. PM must not ignore a newer authorization merely because existing Worker TASK files remain on `HOLD`.
+
 ## Hard Infrastructure Constraint
 
 GitHub is the project's source-control/collaboration surface, **not a compute or CI platform**.

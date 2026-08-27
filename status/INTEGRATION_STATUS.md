@@ -1,166 +1,108 @@
 # Integration Status
 
 > Owner: E7 Integration / Architecture / System QA / Release Engineer  
-> Current review: `E7-20260826-084` / 2026-08-26  
-> Gate C qualified executable revision: `ab725965e96cac7a9769fd1ab15a3e626f920b95`  
-> Gate B qualified source: `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8`  
+> Current review: `E7-20260827-096` / 2026-08-27  
 > Contract baseline: `contracts-v0.1 / BASELINE`
 
-## Current integration state
-
-**Gate C / SHADOW_READY has completed its bounded implementation, credential-free exact-revision qualification, production read-only evidence run, and PM final evidence review. Gate C is now formally accepted PASS.**
-
-Current authoritative release state:
+## Current authoritative integration state
 
 ```text
 Gate A — RESEARCH_READY = PASS
 Gate B — PAPER_READY    = PASS
-Gate C — SHADOW_READY   = PASS
+Gate C — SHADOW_READY   = PASS / HISTORICAL PROVIDER-QUALIFIED BASELINE PRESERVED
 Gate D — LIVE_READY     = BLOCKED / NOT AUTHORIZED
 
-PAPER runtime  = NOT STARTED
-SHADOW runtime = NOT STARTED
-LIVE           = UNAUTHORIZED
-```
+historical Gate C provider-qualified revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+current temporal-remediation credential-free baseline = 8fbf5fcae2eaf44accdf535121d8abf29ef5c93c
+provider verification on 8fbf5fca... = NOT_RUN / NOT_INFERRED
 
-Gate C PASS is technical readiness for the governed Shadow gate only. It does not authorize starting Shadow, submitting orders, mutating provider/account state, exposing capital, or beginning Gate D/LIVE work.
-
-## Accepted Gate C evidence chain
-
-PM final decision:
-
-`status/PM_GATE_C_FINAL_REVIEW_20260826.md`
-
-```text
-PM final review = ACCEPTED
-Gate C — SHADOW_READY = PASS
-qualified executable revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
-SHADOW runtime = NOT STARTED
-Gate D — LIVE_READY = BLOCKED / NOT AUTHORIZED
-LIVE = UNAUTHORIZED
-```
-
-Credential-free exact-revision qualification:
-
-`status/e7/GATE_C_POST_TEST_COMPAT_CREDENTIAL_FREE_REQUALIFICATION_20260826.md`
-
-```text
-E7-080 = PASS
-revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
-approved local Windows / non-GitHub environment
-14 / 14 required suites PASS
-587 total tests
-```
-
-Production OKX read-only evidence:
-
-`status/e7/GATE_C_COMPLETE_SANITIZED_READONLY_EVIDENCE_20260826.md`
-
-```text
-E7-083 = COMPLETE / HEALTHY
-provider = OKX / V5 / production_read_only_shadow
-permission = read_only
-dedicated sub-account = CONFIRMED
-AVAILABLE_BALANCE_IS_ZERO = YES
-private_get_count = 6
-https_get_count = 7
-MUTATION_REQUEST_COUNT = 0
-SUBMIT_REQUEST_COUNT = 0
-health_status = HEALTHY
-reason_codes = []
-```
-
-The accepted provider evidence also established account level `2`, position mode `net_mode`, healthy clock, known position state without unexpected exposure, valid isolated leverage observation, zero pending orders, and zero new/unreconciled fill activity. Sensitive provider/account values remain excluded from durable public evidence.
-
-## Gate C architecture / provider boundary
-
-The accepted Gate C target remains:
-
-```text
-provider                     = OKX API V5
-canonical instrument         = BTC_USDT_PERP
-provider instrument          = BTC-USDT-SWAP
-private Shadow environment   = production-provider READ-ONLY observation
-operational account boundary = dedicated R7 OKX sub-account
-API permission               = read_only exactly
-regional REST hostname       = openapi.okx.com
-SHADOW provider mutation     = FORBIDDEN
-SHADOW order submission      = STRUCTURALLY UNREACHABLE
-```
-
-The Demo submit-capable adapter remains outside the accepted Shadow dependency graph. Strategy, Risk, Execution, persistence/restart authority, and provider observation remain separated under the existing accepted architecture and `contracts-v0.1` baseline.
-
-## E7-066 baseline reconciliation
-
-`status/e7/GATE_C_READINESS_BASELINE_20260825.md` remains authoritative historical evidence for the state when Gate C implementation/test/evidence gaps were first enumerated.
-
-Its then-current statements such as:
-
-```text
-E1 current market surface = IMPLEMENTATION_GAP
-E4 production read-only boundary = IMPLEMENTATION_GAP
-E5 observation-to-risk derivation = IMPLEMENTATION_GAP / TEST_DEFINITION_GAP
-E6 SHADOW persistence/restart authority = IMPLEMENTATION_GAP / TEST_DEFINITION_GAP
-E7 integration/E2E/safety definitions = TEST_DEFINITION_GAP
-credential-free qualification = LOCAL_EXECUTION_EVIDENCE_GAP
-production read-only evidence = CREDENTIAL_DEPENDENT_EVIDENCE_GAP
-```
-
-are historical baseline findings, not current blockers. The accepted bounded Gate C implementation sequence closed those gaps, E7-080 supplied the complete credential-free qualification, E7-083 supplied complete healthy production read-only evidence, and PM final review accepted Gate C.
-
-The historical baseline artifact is retained unchanged rather than rewritten.
-
-## Historical evidence preservation
-
-```text
-E7-077 = historical credential-free FAIL on earlier revision
-E7-078 = diagnostic of E7-077 failure
-E7-081 = REFUSED / BLOCKED pre-execution action-alias attempt
-E7-082 = PARTIAL healthy provider observation with incomplete durable sanitized fields
-E7-083 = COMPLETE / HEALTHY production read-only evidence / review candidate
-E7-080 = PASS credential-free qualification for ab725965...
-```
-
-These records retain their original classifications and are not relabeled by the current Gate C PASS.
-
-## Current release / runtime boundary
-
-```text
-Gate A — RESEARCH_READY = PASS
-Gate B — PAPER_READY    = PASS
-Gate C — SHADOW_READY   = PASS
-Gate D — LIVE_READY     = BLOCKED / NOT AUTHORIZED
-
-PAPER runtime  = NOT STARTED
-SHADOW runtime = NOT STARTED
+PAPER runtime  = NOT STARTED / NOT AUTHORIZED
+SHADOW runtime = NOT STARTED / NO NEW AUTHORITY
 LIVE           = UNAUTHORIZED
 capital exposure = NONE
 ```
 
-No current authoritative evidence says PAPER or SHADOW runtime has started.
+Gate C's historical technical PASS remains bound to the evidence actually accepted for `ab725965e96cac7a9769fd1ab15a3e626f920b95`. No historical provider evidence is rebound to the remediated revision.
 
-## E7-084 execution / security state
+## Accepted temporal-remediation credential-free baseline
 
-E7-084 is documentation/status reconciliation only:
+PM accepted E7-095 approved-local credential-free requalification:
 
-```text
-project executable verification = NOT_RUN / NOT REQUIRED
-provider/private requests        = NOT SENT / FORBIDDEN
-credentials                      = NOT READ / NOT REQUESTED / NOT USED
-GitHub Actions / CI              = NOT USED
-GitHub-hosted runner             = NOT USED
-GitHub-triggered compute         = NOT USED
-PAPER runtime                    = NOT STARTED
-SHADOW runtime                   = NOT STARTED
-Gate D / LIVE                    = NOT STARTED / NOT AUTHORIZED
-capital exposure                 = NONE
-```
-
-## Next governed boundary
+- project revision: `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`
+- evidence: `status/e7/SHADOW_TEMPORAL_ORDERING_CREDENTIAL_FREE_REQUALIFICATION_20260827.md`
+- PM review: `status/PM_E7_095_REVIEW_20260827.md`
+- local job: `JOB-3296319DD36E588C / SUCCEEDED / exit 0`
+- environment: approved local Windows / non-GitHub / exact clean worktree
+- result: `14 / 14 suites PASS / 589 tests`
 
 ```text
-Gate C release/status reconciliation = COMPLETE
-SHADOW runtime start = NOT AUTHORIZED BY E7-084
-Gate D / LIVE work = NOT AUTHORIZED
-next work requires a separately authoritative task/approval
+provider requests = 0
+credentials = NONE
+mutation requests = 0
+submit requests = 0
+SHADOW runtime = NOT_STARTED
+PAPER runtime = NOT_STARTED
+capital exposure = NONE
+GitHub compute = NOT_USED
 ```
+
+This establishes `8fbf5fca...` as the accepted credential-free requalified project baseline for ADR-0010 temporal-ordering semantics. It is not provider-facing verification.
+
+## Historical Gate C provider evidence preserved
+
+The previously accepted Gate C provider/runtime evidence remains tied to:
+
+```text
+revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
+```
+
+Accepted chain includes:
+
+- credential-free exact-revision qualification: `status/e7/GATE_C_POST_TEST_COMPAT_CREDENTIAL_FREE_REQUALIFICATION_20260826.md` — 14/14 suites, 587 tests;
+- production OKX read-only evidence: `status/e7/GATE_C_COMPLETE_SANITIZED_READONLY_EVIDENCE_20260826.md` — healthy read-only observation, zero mutation/submit;
+- PM final Gate C acceptance: `status/PM_GATE_C_FINAL_REVIEW_20260826.md`.
+
+That chain remains historical/current evidence for its exact revision only. It must not be copied, rebound, or inferred as provider verification for `8fbf5fca...`.
+
+## ADR-0010 integration consequence
+
+`docs/adr/ADR-0010-shadow-strategy-risk-temporal-ordering.md` requires future SHADOW consumers to separate:
+
+```text
+strategy_evaluation_time
+E4 provider observation
+post-provider risk_time_provider
+```
+
+AgentBridge remains an external consumer that must be migrated and reviewed against ADR-0010 before any future provider SHADOW session.
+
+## Remaining prerequisites before any future provider SHADOW session
+
+All remain required independently:
+
+1. AgentBridge consumer migration/review against ADR-0010 and binding to `8fbf5fca...`;
+2. any separately required/authorized provider-facing verification for `8fbf5fca...` with fresh evidence rather than inference from `ab725965...`;
+3. new explicit Product Owner authority for a third/replacement bounded SHADOW session.
+
+Both prior bounded SHADOW session authorizations are consumed and remain historical append-only evidence.
+
+## E7-096 execution / security state
+
+```text
+project executable verification = NOT_RUN / NOT REQUIRED FOR DOCS-ONLY RECONCILIATION
+provider requests = 0
+credentials = NOT READ / NOT REQUESTED / NOT USED
+mutation requests = 0
+submit requests = 0
+PAPER runtime = NOT STARTED
+SHADOW runtime = NOT STARTED
+Gate D / LIVE = BLOCKED / NOT AUTHORIZED
+GitHub Actions / CI / hosted / GitHub-triggered compute = NOT_USED
+capital exposure = NONE
+```
+
+E7-095 remains the executable credential-free evidence. E7-096 performs no project/provider execution and does not self-promote any gate.
+
+## Reconciliation artifact
+
+`status/e7/SHADOW_TEMPORAL_ORDERING_RELEASE_RECONCILIATION_20260827.md`

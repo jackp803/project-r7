@@ -47,9 +47,14 @@ PAPER = NOT AUTHORIZED
 Gate_D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 capital_exposure = NONE
+idle_watchdog_fingerprint = 2B44846F163A3797
+watchdog_revalidation = CURRENT MAIN CONFIRMS EXTERNAL CONSUMER DEPENDENCY UNRESOLVED
+worker_dispatch = NONE / E1-E7 HOLD
 ```
 
 PM accepts the new project revision only for its completed credential-free qualification. Historical provider-read-only and bounded-SHADOW evidence generated against `ab725965e96cac7a9769fd1ab15a3e626f920b95` must not be rebound, copied, or inferred as provider evidence for `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`.
+
+Idle-watchdog revalidation for fingerprint `2B44846F163A3797` found no newer authoritative AgentBridge ADR-0010 consumer migration/review evidence on current `main`. The watchdog's `LOCAL_EXACT_REVISION:8fbf5fcae2eaf44accdf535121d8abf29ef5c93c:EXACT_CLEAN:PREPARE_EXACT_REVISION:JOB-852ABEE9A8CC` fact reconfirms the already accepted exact-clean project worktree only; it does not satisfy the separate external consumer-migration prerequisite. No ACTIVE project-r7 Worker task is therefore justified.
 
 Before any future provider SHADOW session, all of the following must be satisfied independently:
 

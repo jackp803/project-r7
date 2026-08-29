@@ -1,18 +1,18 @@
 # E7 Current Task
 
-- task_id: `E7-20260829-111`
-- issued_at: `2026-08-29T19:40:00+08:00`
+- task_id: `E7-20260829-112`
+- issued_at: `2026-08-29T19:56:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-p0-integrated-safety-matrix-20260829`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, accepted FP-03/FP-04/FP-05/FP-10/FP-11/FP-16 profiles/designs, merged owner static candidates through E6-20260829-029, `status/PM_E6_029_REVIEW_20260829.md`, `contracts/BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md`, active LF-0 exact-revision infrastructure blocker
+- target_branch: `agent/e7-fp16-runtime-preflight-implementation-20260829`
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, accepted `runtime-preflight-v0.1`, merged E7-20260829-111 static integration baseline PR #122, `status/PM_E7_111_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
 
 ## Objective
 
-Define the smallest **credential-free cross-module P0 integrated deterministic safety/E2E qualification matrix and test definitions** for the currently merged owner-level static candidates.
+Implement the smallest deterministic **provider-neutral FP-16 RuntimePreflightEvidence validator/evaluator** under E7 cross-module ownership.
 
-This is an integration/test-definition task only. Do not execute project code, create Local Job Requests, prepare exact revisions, call provider endpoints, read/request credentials, start SHADOW/PAPER/live runtime, submit/cancel/amend/close orders, mutate provider/account state, or expose/move capital.
+This task closes only the current project implementation gap between the accepted `runtime-preflight-v0.1` contract and executable project code. It must consume already-supplied sanitized authority/evidence facts and deterministically produce only `ELIGIBLE | FAIL_CLOSED` plus accepted deterministic reason codes.
 
-The task must make the future approved-local qualification mechanically clear while preserving every current fail-closed boundary. Test definitions or merge status must never be represented as executable PASS.
+It must not launch or restart a process, create a Local Job Request, prepare an exact revision, call provider endpoints, inspect/request credentials, mutate provider/account state, submit/cancel/amend/close orders, enable SHADOW/PAPER/LIVE, move/expose capital, or modify AgentBridge/operator infrastructure.
 
 ## Required reading
 
@@ -21,140 +21,153 @@ Read latest `main` and at minimum:
 - `README.md`;
 - `agents/README.md`;
 - `agents/E7_INTEGRATION.md`;
+- `contracts/RUNTIME_PREFLIGHT_PROFILE_V0_1.md` in full, especially role matrix, OperationalMode binding, heartbeat, supervisor, capability, reconciliation, dependency, external-consumer, authorization, reason ordering and deterministic identity sections;
 - `contracts/BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md`;
-- `contracts/PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md`;
-- `contracts/EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md`;
-- `contracts/EXTERNAL_MANUAL_CLOSE_LIFECYCLE_CONVERGENCE_PROFILE_V0_1.md`;
-- `contracts/PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md`;
-- `contracts/RUNTIME_PREFLIGHT_PROFILE_V0_1.md`;
-- E4 accepted FP-02 capability matrix/design and merged provider-neutral FP-03/FP-04/FP-05/FP-10/FP-11 implementation surfaces currently on `main`;
-- E5 merged FP-03, FP-04/FP-10, and FP-11 policy/lifecycle consumer surfaces currently on `main`;
-- E6 merged FP-04/FP-10 and remediated FP-11 persistence/currentness/restart surfaces currently on `main`;
-- `status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`;
-- `status/PM_10U_BOUNDED_LIVE_FIRE_READINESS_PLAN_20260829.md`;
-- `status/PM_E6_029_REVIEW_20260829.md`;
-- `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`.
+- current E6 OperationalMode record/storage public surface and accepted restart/reconciliation facts only as input shapes, without modifying E6 semantics;
+- merged E7-111 integration files and `status/e7/P0_INTEGRATED_DETERMINISTIC_SAFETY_MATRIX_20260829.md`;
+- `status/PM_E7_111_REVIEW_20260829.md`;
+- active `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`.
 
-E7 may read the repository broadly for integration, but do not execute another Worker's TASK mailbox.
+E7 may read broadly for integration. Do not execute another Worker's TASK mailbox.
 
-## Integration boundary
+## Implementation boundary
 
-Add E7-owned deterministic integration/safety/E2E test definitions and a durable matrix that compose the accepted/merged owner surfaces without reimplementing their domain semantics.
+Add an E7-owned pure/provider-neutral runtime-preflight module, preferably:
 
-At minimum, the matrix must distinguish:
+- `src/integration/runtime_preflight.py`;
+- minimal export changes in `src/integration/__init__.py` only if needed.
 
-1. **implemented static candidate behavior** that can be exercised later credential-free;
-2. **contract/design-only behavior** that has no project implementation yet;
-3. **provider-specific capability facts still unresolved/fail-closed**;
-4. **approved-local executable verification still NOT_RUN / NOT_PASS**;
-5. **future Product Owner authority dependencies** for provider read-only, SHADOW/PAPER, bounded live-fire, Gate D/LIVE.
+The implementation may define typed/provider-neutral input helpers and pure deterministic functions that:
 
-Do not redefine shared contracts merely to make the matrix green. If integration exposes a genuine contract contradiction, document a precise E7-owned contract/change request and stop at PARTIAL rather than weakening a fail-closed invariant.
+1. validate the exact `RuntimePreflightEvidence` field set and accepted profile/schema vocabulary;
+2. validate canonical timestamps, hashes, sequences and deterministic identity;
+3. validate exact revision/worktree binding;
+4. validate role-specific OperationalMode requirements without creating/changing OperationalMode;
+5. validate process identity, single-instance and heartbeat generation/freshness bindings;
+6. validate supervisor/watchdog compatibility and restart-permission evidence;
+7. validate required action IDs against both registered and allowlisted exact capability generation;
+8. validate reconciliation readiness where the role requires it;
+9. validate required owner dependency references/readiness/current generation supplied by the caller;
+10. validate external-consumer compatibility according to the accepted role rules;
+11. validate exact role/revision/capability authorization evidence;
+12. deterministically derive only `ELIGIBLE` or `FAIL_CLOSED` and accepted ordered reason codes;
+13. provide deterministic identity/currentness comparison helpers only if required by the accepted profile.
 
-## Required integrated safety scenarios
+The evaluator is an admission-evidence interpreter only. `ELIGIBLE` must never be exposed as provider authority, order authority, process-launch authority, restart execution, SHADOW/PAPER authority, bounded-live-fire authority, Gate D, LIVE, or capital authorization.
 
-Define provider/network/credential-free cross-module tests for at least the following.
+## Required fail-closed semantics
 
-### FP-03 trigger validity + protection policy
+### Exact revision/worktree
 
-- LONG stop at/above LAST_PRICE and SHORT stop at/below LAST_PRICE remain non-actionable/fail closed;
-- equality remains breached/non-actionable;
-- unchanged breached evidence cannot be blindly retried into protection success;
-- materially newer market/Position/lifecycle evidence invalidates prior trigger-validity decision;
-- trigger geometry does not choose provider triggerPxType or create mutation authority.
+- revision-qualified roles require exact matching full revision authority and `EXACT_CLEAN` where the profile requires it;
+- historical exact-clean evidence for another revision is non-transferable;
+- `CLEAN_UNQUALIFIED`, `DIRTY`, `UNKNOWN`, mismatched authority hash/ref or revision mismatch fail closed;
+- the current LF-0 blocker remains unchanged and must not be bypassed by constructing a preflight object.
 
-### FP-04 ownership + external/manual truth
+### Role isolation
 
-- current-generation-owned exact object may remain current only with exact immutable provider snapshot/reference/generation lineage;
-- external/manual/prior-generation/unknown/conflicting ownership cannot be silently adopted;
-- newer external/manual Position truth requires E5 reinterpretation;
-- missing local rows or similarity cannot establish ownership;
-- uncertain ownership grants no cleanup/cancel/mutation authority.
+A preflight result is bound to exactly one runtime role:
 
-### FP-05 close/residual sizing
+- `CREDENTIAL_FREE_LOCAL_VERIFICATION`
+- `PROVIDER_READ_ONLY_OBSERVATION`
+- `SHADOW_RUNTIME`
+- `PAPER_RUNTIME`
+- `BOUNDED_LIVE_FIRE_RUNTIME`
 
-- close sizing is driven by fresh actual current Position/provider-reducible exposure, never original entry/requested quantity;
-- positive representable residual is not flat;
-- positive non-representable residual remains explicit fail-closed state;
-- metadata/capability unknown or stale remains `CLOSE_CAPABILITY_UNPROVEN` / `METADATA_STALE_OR_UNKNOWN` as applicable;
-- generic canonical `reduce_only=true` never proves unresolved provider-native close semantics;
-- ACK/FILLED close order alone never proves flatness.
+Evidence/results for one role are never transferable to another role.
 
-### FP-10 lifecycle close convergence
+### OperationalMode
 
-- terminal/FILLED order + positive Position cannot close lifecycle;
-- external/manual partial reduction remains open/reinterpretation-required;
-- flat provider Position with unresolved execution/fill ambiguity cannot force CLOSED;
-- flat Position with unresolved active protection cannot force terminal convergence;
-- `LIFECYCLE_CLOSE_ELIGIBLE` remains input evidence to E5 only, not a transition emitted by E4/E6;
-- TradeResult completeness remains distinct and no Fill/OrderRequest lineage is fabricated.
+- consume exact current E6 transition ID/revision/mode/payload hash supplied as authority;
+- requested mode must equal current durable truth and satisfy the accepted role-specific mode rule;
+- environment variables/UI/defaults/prior process memory are not substitutes;
+- do not invent a bounded-live-fire OperationalMode mapping where the contract says it remains future authority.
 
-### FP-11 protection registry / multiplicity
+### Process / heartbeat
 
-- only exact one intended/current-owned/current-known-owned/exact-lineage object with complete/current set may be healthy;
-- zero active protection cannot itself authorize create/PROTECT;
-- two or more active protection objects cannot select a winner;
-- intended + external/prior/orphan remains non-converged;
-- ownership conflict/unknown/stale/incomplete set remains non-green;
-- flat/CLOSED + unresolved active protection remains FP-10 terminal-protection convergence/reconciliation-required;
-- no cleanup target, cancel-all, create-another, or provider mutation authority is produced.
+- exact process instance/start generation must match heartbeat evidence;
+- heartbeat policy generation/hash must be present and current as supplied;
+- stale/unknown heartbeat, prior-boot heartbeat, invalid temporal ordering or non-single instance fails closed;
+- do not invent a numeric heartbeat TTL.
 
-### E6 restart/currentness composition
+### Supervisor / restart
 
-- real E6 Paper lifecycle writer output composes with remediated FP-11 restart currentness using lifecycle projection payload hash in its own domain and Position hash in its own domain;
-- current-head selection depends only on explicit valid supersession, never insertion/evaluation/persist time;
-- competing heads, missing predecessor, cycle, cross-lineage supersession, stored payload/hash corruption, missing current E5 interpretation, stale FP-04 dependency, lifecycle/binding/provider-set/runtime mismatch all prevent healthy read model;
-- restart cannot false-green protected or CLOSED state from row existence alone.
+- supervisor compatibility/restart-permission fields are interpreted exactly as the profile defines;
+- dead process alone never authorizes restart;
+- `launch_intent=RESTART` must recompute current preflight and may not inherit prior process heartbeat/mode/authorization;
+- this module must never itself restart or launch anything.
 
-### Runtime-preflight / capability gaps
+### Capability / allowlist
 
-Do not invent missing implementation.
+- every required canonical action ID must exist in both accepted registered and allowlisted sets for the exact capability generation;
+- catalog registration alone is not allowlisting;
+- allowlisting alone is not Product Owner/runtime authority;
+- refused/terminal request evidence cannot become READY by retry inference;
+- no filesystem path, shell command or secret belongs in the shared evidence.
 
-- Represent `runtime-preflight-v0.1` as a required future runtime authority boundary where the current repository lacks a qualified implementation;
-- keep role-specific runtime preflight non-transferable across credential-free/provider-read-only/SHADOW/PAPER/bounded-live-fire roles;
-- absence, stale generation, dead process, missing heartbeat/supervisor/action allowlist or incompatible external consumer must remain non-authorizing;
-- keep FP-02 unresolved provider-native close/protection capability facts explicit and fail closed;
-- test/matrix status must distinguish `STATIC_TEST_DEFINED`, `IMPLEMENTED_UNQUALIFIED`, `CONTRACT_ONLY`, `UNRESOLVED_PROVIDER_FACT`, and `NOT_RUN / NOT_PASS` rather than collapsing them into PASS.
+### Reconciliation / dependencies
 
-## Deterministic qualification manifest
+- roles that can observe/plan/mutate provider/exposure state require accepted current reconciliation readiness exactly as the profile defines;
+- required dependency evidence missing, stale, conflicting, `NOT_READY` or `UNKNOWN` fails closed;
+- do not duplicate E1/E4/E5/E6 owner semantics: consume their supplied readiness classifications/references only.
 
-Create a durable E7 manifest for the future approved-local credential-free P0 qualification that lists:
+### External consumer
 
-- exact test modules/suites to run after this integration work is merged;
-- dependency/order expectations;
-- exact Windows PowerShell commands from repository root;
-- required environment assertions (approved non-GitHub local host, exact revision, clean worktree, expected Python/runtime assumptions already accepted by project evidence);
-- explicit zero-provider-request / zero-credential / zero-mutation assertions;
-- expected evidence fields to record per suite;
-- explicit rule that qualification revision is **TBD until the integration candidate is merged and exact-clean preparation succeeds**;
-- explicit rule that historical exact-clean `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` does not qualify the new integrated candidate;
-- explicit rule that E7-101 request/job IDs are terminal and must not be reused.
+- enforce fixed role requirements from the accepted profile;
+- when external consumer evidence is present, require exact compatible generation/hash/status/current timestamp material;
+- SHADOW must retain the ADR-0010 external-consumer compatibility prerequisite;
+- do not modify or call AgentBridge/operator infrastructure.
 
-Do not create/submit any Local Job Request in this task.
+### Authorization
 
-## Required tests/files
+- exact authorization class/role/revision/capability generation must match the requested preflight role;
+- only `VALID` exact current authority may contribute to `ELIGIBLE`;
+- `MISSING`, `MISMATCH`, `EXPIRED`, `CONSUMED`, `UNKNOWN` fail closed;
+- credentials being present locally never create authorization;
+- synthetic test fixtures are not real Product Owner/runtime authority.
 
-Preferred E7-owned writable paths:
+## E7-111 test migration requirement
 
-- `tests/integration/`;
-- `tests/e2e/`;
-- `tests/safety/` only for genuinely cross-module safety scenarios not owned by E4/E5;
-- `status/e7/` for the integrated P0 matrix/qualification manifest/handoff;
-- `coordination/E7/STATUS.md`.
+`tests/safety/test_p0_integrated_fail_closed.py` currently asserts that `src/integration/runtime_preflight.py` does not exist. That assertion was valid only for the E7-111 contract-only baseline.
 
-You may add a minimal E7-owned integration fixture/helper under `tests/` if needed. Do not modify E1-E6 production source merely to make integration tests easier. If a domain defect is found, persist a bounded defect/change request for the owner.
+In this task, replace that stale absence assertion with real provider-neutral fail-closed evaluator tests. Do not delete FP-16 safety coverage; migrate it from `CONTRACT_ONLY file absence` to `IMPLEMENTED_UNQUALIFIED behavior`.
 
-Do not modify provider adapters/auth/config/credentials, AgentBridge/local-action infrastructure, Product Owner authorization artifacts, leverage/risk/capital thresholds, operational LIVE policy, or GitHub Actions/CI.
+Update E7-owned P0 matrix/qualification manifest only as needed so FP-16 classification becomes `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`, not PASS, after this candidate is materialized.
+
+## Required deterministic tests to define
+
+Add E7-owned tests, preferably `tests/integration/test_runtime_preflight.py` plus bounded safety updates, covering at minimum:
+
+- one internally coherent synthetic `CREDENTIAL_FREE_LOCAL_VERIFICATION` evidence object deterministically evaluates `ELIGIBLE` while granting no provider/runtime/capital authority;
+- same exact evidence is deterministic and identity-stable;
+- role substitution/transfer invalidates the evidence;
+- revision mismatch and non-`EXACT_CLEAN` qualified worktree fail closed;
+- OperationalMode transition/revision/hash/mode mismatch fails closed;
+- duplicate/unknown single-instance state fails closed;
+- stale/unknown heartbeat, wrong process instance, wrong start generation and invalid temporal ordering fail closed;
+- supervisor incompatible/unknown and RESTART without current restart permission fail closed where applicable;
+- required action registered but not allowlisted fails closed;
+- required action allowlisted but not registered fails closed;
+- capability status unknown/not-ready fails closed;
+- reconciliation required but not ready/current fails closed;
+- required dependency missing/not-ready/unknown fails closed;
+- required external consumer missing/incompatible for a role that requires it fails closed;
+- authorization missing/mismatched/expired/consumed/unknown fails closed;
+- provider-role fixtures without real authority remain synthetic test data and do not alter repository authorization state;
+- no provider/network/credential/mutation/process-launch dependency;
+- E7-111 integrated P0 safety test no longer relies on implementation-file absence.
+
+Do not execute tests through GitHub.
 
 ## Verification boundary
 
-All executable verification is local-only. LF-0 remains blocked.
+All executable verification remains local-only. LF-0 approved-local exact-revision preparation is still blocked.
 
-Unless separately authoritative approved-local execution evidence becomes available during this task—which must itself already exist in repository authority, not be invented—record:
+Unless separately authoritative approved-local execution evidence already exists for the exact resulting revision, record:
 
 ```text
 project executable verification = NOT_RUN / NOT_PASS
-integrated P0 safety/E2E matrix execution = NOT_RUN / NOT_PASS
+FP-16 runtime-preflight tests = NOT_RUN / NOT_PASS
 LF-0 = BLOCKED / UNCHANGED
 LF-1 = NOT_RUN / NOT_PASS
 LF-2 = PARTIAL / NOT PASS
@@ -162,6 +175,7 @@ provider requests = 0
 private API = NONE
 credentials = NONE
 provider/account mutation = 0
+process launch/restart = 0
 order/protection actions = 0
 SHADOW/PAPER = NOT_AUTHORIZED
 10U bounded live-fire = NOT_AUTHORIZED
@@ -170,35 +184,53 @@ capital exposure = NONE
 GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
 
-`NOT_RUN` is not PASS. Static composition must not alter release readiness.
+`NOT_RUN` is not PASS. Do not create a Local Job Request or exact-revision preparation request in this task.
 
 ## Required durable evidence
 
-Create at minimum:
+Create:
 
-- `status/e7/P0_INTEGRATED_DETERMINISTIC_SAFETY_MATRIX_20260829.md`;
-- `status/e7/P0_CREDENTIAL_FREE_QUALIFICATION_MANIFEST_20260829.md`.
+`status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md`
 
-Document task ID, exact files changed, owner surfaces composed, scenario matrix, implementation-vs-contract-only-vs-provider-fact gaps, exact future local commands, LF-0 blocker, limitations/next owner dependencies, and confirmation of zero provider/credential/runtime/capital authority.
+Document task ID, exact files changed, accepted contract consumed, pure evaluator boundary, deterministic identity/reason/currentness behavior, role/OperationalMode/heartbeat/supervisor/capability/reconciliation/dependency/external-consumer/authorization handling, migrated E7-111 tests, exact future approved-local commands, limitations, and confirmation of zero provider/credential/process-launch/runtime/capital authority.
+
+Update `status/e7/P0_INTEGRATED_DETERMINISTIC_SAFETY_MATRIX_20260829.md` and `status/e7/P0_CREDENTIAL_FREE_QUALIFICATION_MANIFEST_20260829.md` only as needed to register the new FP-16 test module and `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` classification.
 
 Update `coordination/E7/STATUS.md`, commit, and push the target branch.
+
+## Writable scope
+
+Only E7-owned paths:
+
+- `src/integration/runtime_preflight.py`;
+- `src/integration/__init__.py` only minimal exports if needed;
+- `tests/integration/`;
+- `tests/e2e/` only if directly required by the pure preflight boundary;
+- cross-module `tests/safety/` only for FP-16/E7-111 migrated safety coverage;
+- `status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md`;
+- E7-owned P0 matrix/qualification manifest;
+- `coordination/E7/STATUS.md`.
+
+Do not modify shared contracts/ADRs unless a true contradiction is discovered; if one is discovered, document a precise E7 dependency/change request and stop at PARTIAL rather than silently changing the accepted profile in the same implementation task.
+
+Do not modify E1-E6 production code, E6 OperationalMode semantics/storage, provider adapters/auth/config/credentials, AgentBridge/local-action infrastructure, Product Owner authorization artifacts, risk/leverage/capital thresholds, LIVE/release policy, or GitHub Actions/CI files.
 
 ## Result classification
 
 ### DONE
 
-Use DONE only if integration definitions are complete **and** required executable verification actually ran on an approved local exact revision with PASS evidence. Under the current LF-0 blocker, DONE is not expected.
+Use DONE only if implementation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
 
 ### PARTIAL
 
-Use PARTIAL when integration/test definitions and durable matrix/manifest are complete but executable verification remains `NOT_RUN / NOT_PASS`, or a precise owner/shared-contract dependency remains.
+Use PARTIAL when implementation/test definitions are complete but executable verification remains `NOT_RUN / NOT_PASS`, or a precise accepted-contract contradiction is surfaced.
 
 ### BLOCKED
 
-Use BLOCKED only for a contradictory authoritative requirement that prevents even bounded static integration definition.
+Use BLOCKED only for contradictory authoritative requirements that prevent bounded implementation within E7 scope.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E7-20260829-111`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
+Read latest `main`, verify wake task ID `E7-20260829-112`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
 
-Do not self-start exact-revision preparation, Local Job Requests, qualification execution, provider verification, SHADOW/PAPER, 10U bounded live-fire, Gate D, LIVE, mutation, order action, or capital movement/exposure.
+Do not self-start E6 persistence work, exact-revision preparation, Local Job Requests, qualification execution, provider verification, AgentBridge migration, SHADOW/PAPER, 10U bounded live-fire, Gate D, LIVE, mutation, process launch/restart, order action or capital movement/exposure.

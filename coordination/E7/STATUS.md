@@ -1,23 +1,46 @@
 # E7 Status
 
-- task_id: `E7-20260827-096`
+- task_id: `E7-20260829-098`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-shadow-temporal-release-reconciliation-20260827`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260827-096 and remained ACTIVE immediately before terminal write`
-- task_blob: `f4b1dc7760999a635d4354ee5b293c6d975f0617`
-- task_type: `DOCS / STATUS-ONLY RELEASE RECONCILIATION`
-- temporal_remediation_revision: `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`
-- historical_provider_runtime_revision: `ab725965e96cac7a9769fd1ab15a3e626f920b95`
-- credential_free_qualification: `PASS / PM ACCEPTED / 14 OF 14 SUITES / 589 TESTS`
-- credential_free_evidence: `status/e7/SHADOW_TEMPORAL_ORDERING_CREDENTIAL_FREE_REQUALIFICATION_20260827.md`
-- pm_acceptance: `status/PM_E7_095_REVIEW_20260827.md`
-- provider_verification_on_temporal_remediation_revision: `NOT_RUN / NOT_INFERRED`
-- reconciliation_artifact: `status/e7/SHADOW_TEMPORAL_ORDERING_RELEASE_RECONCILIATION_20260827.md`
-- reconciliation_artifact_commit: `3e3abaa6a2a97ed478d1fabcd91ca88773c05dbc`
-- integration_status_commit: `a6887135e12bed58819a4d05a11a791c054b71a9`
-- release_gates_commit: `cde9a09023c2d03b1435e0823078a7dd0f3e259b`
-- executable_verification: `NOT_RUN / NOT REQUIRED FOR DOCS-ONLY RECONCILIATION`
+- branch: `agent/e7-mature-okx-failure-gap-audit-20260829`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-098 and remained ACTIVE immediately before terminal write`
+- task_blob: `d81043c07f66fc3ba295ed5a28a8bbb204431bfa`
+- task_type: `DOCS / STATUS-ONLY MATURE OKX FAILURE-PREVENTION STATIC GAP AUDIT`
+- audit_baseline: `status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`
+- audit_artifact: `status/e7/MATURE_OKX_FAILURE_PREVENTION_GAP_AUDIT_20260829.md`
+- audit_artifact_commit: `6632f18a8c936cedf81b30f623aba268192d4dff`
+- executable_source_baseline: `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`
+- executable_drift_after_baseline: `NONE FOUND — main changes after 8fbf5fca were coordination/status only`
+- accepted_credential_free_evidence: `E7-20260827-095 / 14 OF 14 SUITES PASS / 589 TESTS`
+- accepted_gate_b_evidence: `E7-20260825-064 / 10 OF 10 SUITES PASS / 450 TESTS`
+- historical_provider_evidence: `E7-20260826-083 / ab725965e96cac7a9769fd1ab15a3e626f920b95 / NOT REBOUND TO 8fbf5fca`
+- classification_implemented_and_locally_verified: `4`
+- classification_implemented_not_locally_verified: `0`
+- classification_partial: `10`
+- classification_missing: `2`
+- classification_not_applicable_to_swap: `0`
+- fp01: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
+- fp02: `PARTIAL`
+- fp03: `MISSING`
+- fp04: `PARTIAL`
+- fp05: `PARTIAL`
+- fp06: `PARTIAL`
+- fp07: `PARTIAL`
+- fp08: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
+- fp09: `PARTIAL`
+- fp10: `PARTIAL`
+- fp11: `PARTIAL`
+- fp12: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
+- fp13: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
+- fp14: `PARTIAL`
+- fp15: `MISSING`
+- fp16: `PARTIAL`
+- p0_pre_provider_runtime: `FP-03, FP-02, FP-05, FP-04, FP-11, FP-16, FP-10`
+- p1_pre_paper_or_shadow: `FP-07, FP-06, FP-09`
+- p2_pre_live: `FP-14, FP-15`
+- p3_operational_hardening: `OBSERVABILITY + HEARTBEAT HARDENING AFTER CORE ADMISSION/STATE CONTROLS`
+- executable_verification: `NOT_RUN / NOT REQUIRED FOR DOCS-ONLY STATIC GAP AUDIT`
 - local_job_request: `NOT CREATED / FORBIDDEN BY TASK`
 - provider_requests: `0`
 - credentials_read_requested_used: `NONE`
@@ -31,49 +54,42 @@
 - first_shadow_authorization: `CONSUMED / UNCHANGED`
 - replacement_shadow_authorization: `CONSUMED / UNCHANGED`
 - third_shadow_session: `NOT_AUTHORIZED / PRODUCT OWNER REQUIRED`
-- agentbridge_adr0010_consumer_migration: `REQUIRED BEFORE FUTURE PROVIDER SHADOW`
-- separately_authorized_provider_verification_for_8fbf5fca: `REQUIRED IF GOVERNANCE REQUIRES / NOT YET RUN`
-- gate_a: `PASS`
-- gate_b: `PASS`
-- gate_c_historical_provider_qualified_pass: `PRESERVED / ab725965e96cac7a9769fd1ab15a3e626f920b95`
-- current_temporal_remediation_credential_free_baseline: `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c / PM ACCEPTED`
-- gate_c_provider_pass_for_8fbf5fca: `NOT ESTABLISHED / NOT INFERRED`
+- gate_a: `UNCHANGED`
+- gate_b: `UNCHANGED`
+- gate_c: `UNCHANGED / NO PROVIDER EVIDENCE REBINDING`
 - gate_d: `BLOCKED / NOT AUTHORIZED`
 - live: `UNAUTHORIZED`
 
-## Reconciliation result
+## Audit result
 
-E7 reconciled the formal integration/release status so revision and evidence provenance are explicit and non-transferable:
+E7 classified every mature-bot failure-prevention item `FP-01` through `FP-16` against current R7 SWAP contracts/source/tests and accepted local evidence. The audit deliberately translated Spot incidents into SWAP invariants rather than copying Spot parameters.
+
+The current executable source remains the locally credential-free-qualified `8fbf5fca...` baseline: repository comparison to current main found no later executable source/test/contract/ADR drift. Historical production read-only evidence remains bound only to `ab725965...` and was not inferred as provider verification of `8fbf5fca...`.
+
+Fully covered/local-verified controls that should be reused rather than rebuilt are:
 
 ```text
-8fbf5fcae2eaf44accdf535121d8abf29ef5c93c
-  = accepted credential-free requalified ADR-0010 project baseline
-  = PM accepted E7-095 / 14 of 14 suites / 589 tests
-  = provider verification NOT_RUN / NOT_INFERRED
-
-ab725965e96cac7a9769fd1ab15a3e626f920b95
-  = historical provider-qualified Gate C revision
-  = historical credential-free + production read-only evidence remains bound here
+FP-01 operational mode persistence + restart reconciliation
+FP-08 provider/local clock skew + ADR-0010 temporal ordering
+FP-12 ACK/pending does not become fill/exposure truth
+FP-13 exact stale Position/execution evidence invalidation
 ```
 
-No historical provider evidence was copied, rebound, or inferred onto `8fbf5fca...`. No new provider-facing Gate C PASS was fabricated.
+Core missing controls are:
 
-## Remaining future-provider prerequisites
+```text
+FP-03 fresh-market protection trigger geometry / already-breached trigger handling
+FP-15 executable staged breakeven/trailing/profit-protection authority and replacement verification
+```
 
-Before any future provider SHADOW session, all remain independently required:
-
-1. AgentBridge consumer migration/review against ADR-0010 and binding to the remediated project revision;
-2. any separately required/authorized provider-facing verification for `8fbf5fca...` with its own evidence;
-3. new explicit Product Owner authorization for a third/replacement bounded SHADOW session.
-
-Both prior bounded SHADOW authorizations remain consumed and untouched.
+The audit artifact records all ten PARTIAL controls, residual risks, exact owners, smallest safe follow-ups, requalification implications, provider/credential/PO authority requirements, and explicitly rejects literal Spot transplantation including `tdMode=cash`, Spot-only `reduceOnly` rules, wallet dust flatness, and generic Spot algo-order `ccy` assumptions.
 
 ## Verification / authority boundary
 
-E7-096 executed no project code or tests. `NOT_RUN / NOT REQUIRED FOR DOCS-ONLY RECONCILIATION` is not executable PASS; E7-095 remains the executable credential-free evidence.
+E7-098 executed no project code or tests. `NOT_RUN / NOT REQUIRED FOR DOCS-ONLY STATIC GAP AUDIT` is not executable PASS evidence. Existing E7-095/E7-064 accepted local evidence remains historical qualification evidence for the unchanged source it materially covers.
 
-No Local Job Request, provider request, credential access, mutation, submit, SHADOW/PAPER runtime, capital exposure, GitHub compute, Gate D or LIVE action occurred.
+No Local Job Request, provider request, credential access, provider/account mutation, submit/cancel/amend/close action, SHADOW/PAPER runtime, capital exposure, GitHub compute, Gate D or LIVE action occurred. No source, tests, contracts, ADR semantics, AgentBridge, local action catalog, Product Owner authorization artifact, risk threshold, execution semantics, or release criteria were modified.
 
 ## Completion
 
-E7 stops on `DONE / RELEASE RECONCILED` for `E7-20260827-096`. No AgentBridge remediation, provider verification, third SHADOW session, PAPER, Gate D, LIVE, provider mutation, order action, or capital movement is started.
+E7 stops on `DONE / FP-01..FP-16 STATIC GAP AUDIT COMPLETE` for `E7-20260829-098`. No E4/E5/E6 remediation, executable verification, provider verification, AgentBridge migration, third SHADOW session, PAPER, Gate D, LIVE, mutation, order action, or capital movement is self-started.

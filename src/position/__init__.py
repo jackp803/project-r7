@@ -19,14 +19,14 @@ from .external_close_reinterpretation import (
     ExternalCloseReinterpretationError,
     stable_external_close_convergence_evidence_id,
     stable_external_provider_ownership_evidence_id,
-    validate_external_manual_close_convergence_evidence,
-    validate_external_provider_ownership_evidence,
 )
 from .external_close_policy import (
     external_close_convergence_evidence_is_current,
     external_close_reinterpretation_decision_is_current,
     external_provider_ownership_evidence_is_current,
     interpret_external_close_convergence,
+    validate_external_manual_close_convergence_evidence,
+    validate_external_provider_ownership_evidence,
 )
 from .lifecycle_execution_binding import (
     EXECUTION_SCOPE,

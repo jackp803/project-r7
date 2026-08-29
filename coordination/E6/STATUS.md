@@ -1,71 +1,87 @@
 # E6 Status
 
-- task_id: `E6-20260829-026`
+- task_id: `E6-20260829-029`
 - agent: `E6`
 - state: `PARTIAL`
-- branch: `agent/e6-fp04-fp10-persistence-currentness-20260829`
+- branch: `agent/e6-fp11-persistence-currentness-20260829`
 - task_id_match: `YES`
-- authoritative_main_at_task_start: `db20f61cfbd54a1467aba28f30ee33ec23ab7727`
-- implementation_test_evidence_head: `b042e019d5b15456e790349634cf8a969a6c462f` (branch head before this mailbox-only terminal commit)
-- summary: `Materialized only the E6-owned provider-neutral immutable persistence/currentness/restart consumer for accepted FP-04 ownership evidence, FP-10 external/manual close convergence evidence, and merged E5 reinterpretation decision audit references. Current selection uses explicit supersession/reference/generation material rather than arrival order; missing, competing, superseded or mismatched dependencies fail closed; historical close eligibility or stale E5 close decisions cannot false-green CLOSED.`
-- files_changed: `src/storage/migrations/0005_external_close_currentness.sql; src/storage/external_close_currentness.py; tests/storage/test_external_close_currentness.py; tests/storage/test_external_close_currentness_supersession.py; status/e6/FP04_FP10_PERSISTENCE_CURRENTNESS_CONSUMER_20260829.md; coordination/E6/STATUS.md`
+- authoritative_main_at_task_start: `eaa2b0ac62e6bc7ace283653a15775d32f8f0ee1`
+- implementation_test_evidence_head: `8a6d0229eda88d7106cfef26f63fc2a6853afa56` (branch head before this mailbox-only terminal commit)
+- summary: `Remediated only the PM-identified E6 FP-11 restart/currentness hash-domain defect. Canonical Position hash remains the FP-11/E5 authority hash, while lifecycle projection current-index/history validation now uses the exact canonical lifecycle projection payload JSON/hash produced with the same E6 canonical_payload primitive as the existing Paper writer. Regression definitions now seed projections through the real existing Paper runtime writer and keep mismatched/corrupt projection storage fail closed.`
+- files_changed_this_task: `src/storage/protection_registry_currentness.py; tests/storage/test_protection_registry_currentness.py; status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md; status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md; coordination/E6/STATUS.md`
+- migrations_changed_this_task: `NONE`
 - contracts_changed: `NONE`
 - E4_E5_E7_code_changed: `NONE`
+- paper_runtime_writer_changed: `NONE`
+- storage_public_wildcard_boundary_changed: `NONE`
 - provider_network_auth_changed: `NONE`
 - local_verification: `NOT_RUN / NOT_PASS`
-- executable_blocker: `LF-0 approved-local exact-revision infrastructure remains unavailable; no executable qualification can be claimed.`
-- handoff_path: `status/e6/FP04_FP10_PERSISTENCE_CURRENTNESS_CONSUMER_20260829.md`
-- next_owner: `PM/E7 review queue after LF-0/local qualification path is available`
+- executable_blocker: `LF-0 approved-local exact-revision infrastructure remains blocked; no executable qualification can be claimed.`
+- handoff_path: `status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md`
+- superseded_handoff_defect_note: `status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md`
+- next_owner: `PM/E7 review/requalification queue under a separate task after approved-local exact-revision execution is available`
 
-## Static implementation result
+## Static remediation result
 
-- FP-04 and FP-10 histories are immutable and replay-idempotent; same deterministic ID with changed payload is a durable conflict.
-- FP-10 current projection is derived only from explicit `supersedes_close_convergence_evidence_id` chains; competing unsuperseded heads, cycles or missing predecessors fail closed.
-- Referenced FP-04 currentness is derived only from its logical provider-object lineage and explicit `supersedes_ownership_evidence_id`; superseded or competing ownership evidence cannot remain current.
-- Exact FP-10 -> FP-04 payload/object/snapshot hashes, Position lifecycle projection ID/revision/hash, lifecycle execution-binding hash/snapshot hash, and E5 decision -> FP-10/lifecycle references are mechanically checked on restart.
-- E6 persists E5 decision/event/next-state/close-eligible flags as owner-produced audit facts and revalidates the deterministic `e5extclose_*` identity; E6 does not calculate or apply an E5 lifecycle transition.
-- `LIFECYCLE_CLOSE_ELIGIBLE` alone never changes persisted lifecycle state to CLOSED.
-- CLOSED presentation is allowed only when the already-persisted authoritative lifecycle projection is CLOSED and an exact current E5/FP-10 chain remains current; otherwise recovery fail-closes.
-- `TRADE_RESULT_EVIDENCE_INCOMPLETE` remains separately auditable.
-- `storage.__all__` and prior Gate B/Gate C storage public-boundary semantics are unchanged.
+- The E6 current authority keeps `position_hash` separate from `projection_payload_json` / `projection_payload_hash`.
+- Lifecycle projection payload canonicalization reuses E6 `_runtime_validation.canonical_payload`, matching `_PaperRuntimeStore.persist_position_projection()` serialization/hash semantics.
+- `paper_position_current_projection` currentness now mechanically requires exact Position ID, lifecycle projection ID, lifecycle revision, broker-state observation anchor, and lifecycle projection payload hash.
+- `paper_position_lifecycle_projections` now mechanically requires exact Position/revision/broker-anchor index material plus exact canonical lifecycle projection payload JSON and lifecycle projection payload hash.
+- FP-11 top-level Position hash, intended-lineage Position hash, and E5 interpretation Position hash continue to use only the canonical Position authority hash.
+- Existing FP-11 immutable history, explicit supersession, competing/missing/cycle/cross-lineage failure, FP-04 dependency, E5 interpretation binding, provider/runtime currentness, terminal-flat FP-10 dependency and false-green prevention remain unchanged.
+- E6 still mechanically rejects provider mutation authority and cleanup targets.
 
-## Deterministic test definitions
+## Deterministic regression definitions
 
-E6-owned storage definitions cover immutable replay/conflict, missing dependencies, exact hash/reference mismatch, explicit FP-04/FP-10 supersession, competing unsuperseded heads independent of insert order, newer lifecycle projection invalidation, newer normalized/FP-05/FP-11/runtime reference invalidation, restart reconstruction, historical close eligibility, stale E5 close decision false-green prevention, TradeResult-incomplete audit, additive/idempotent migration behavior, and absence of provider mutation/runtime surfaces.
+`tests/storage/test_protection_registry_currentness.py` now seeds lifecycle projections through the existing real E6 writer:
+
+```text
+_open_paper_runtime_store(...)
+-> persist_position_projection(...)
+-> persist_lifecycle_execution_binding(...)
+```
+
+Definitions cover normal writer compatibility; independent projection-payload and Position hash domains; corrupted current projection hash; corrupted durable projection payload JSON/hash; current projection ID/revision/broker-anchor mismatch; independent Position-hash invalidation; preserved exact healthy-chain dependencies; terminal flat/CLOSED non-green behavior; and no provider/network/credential/mutation dependency.
+
+These definitions were not executed in this GitHub session.
 
 ## Executable verification
 
-The active LF-0 blocker prevents approved exact-revision local verification in this session.
+The active LF-0 exact-revision infrastructure blocker remains unchanged.
 
 ```text
-local_verification = NOT_RUN
-result = NOT_PASS
+project executable verification = NOT_RUN / NOT_PASS
+bounded FP-11 remediation regression = NOT_RUN / NOT_PASS
 ```
 
 Exact future approved-local Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest tests.storage.test_external_close_currentness -v
-python -m unittest tests.storage.test_external_close_currentness_supersession -v
+python -m unittest tests.storage.test_protection_registry_currentness -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/platform -p "test_*.py" -v
+python -m unittest tests.execution.test_protection_registry_evidence -v
+python -m unittest tests.position.test_protection_registry_policy -v
+python -m unittest tests.safety.test_fp11_protection_registry_false_green -v
 ```
 
-No test, migration, restart runtime, provider request, private API, credential, account/order mutation, PAPER/SHADOW runtime, bounded live-fire, GitHub Actions/CI/hosted/GitHub-triggered compute, Gate D, LIVE, or capital exposure was executed.
+No GitHub Actions/CI/hosted/GitHub-triggered compute or substitute executable verification was used. `NOT_RUN != PASS`.
 
-`NOT_RUN != PASS`.
-
-## Terminal classification / stop
-
-The bounded implementation and deterministic test definitions are materialized, but task `DONE` requires approved-local executable PASS. Therefore:
+## Authority state / stop
 
 ```text
-E6-20260829-026 = PARTIAL
-implementation = MATERIALIZED
-executable qualification = NOT_RUN / NOT_PASS
-FP-04 / FP-10 = NOT CLAIMED QUALIFIED
+LF-0 = BLOCKED / UNCHANGED
+LF-2 = NOT PASS
+provider requests = 0
+private API = NONE
+credentials = NONE
+provider/account mutation = 0
+protection query/create/cancel/amend/replace = 0
+order actions = 0
+SHADOW/PAPER = NOT_STARTED / NOT_AUTHORIZED
+10U live-fire = NOT_AUTHORIZED
 Gate D / LIVE = BLOCKED / UNAUTHORIZED
+capital exposure = NONE
 ```
 
-E6 stops on PARTIAL and does not self-start provider-specific producers, exact-revision qualification, SHADOW/PAPER runtime, live-fire, Gate D, LIVE, or another task.
+`DONE` requires approved-local exact-revision executable PASS, which does not exist. E6 therefore stops on `PARTIAL` and does not self-start qualification, provider verification, SHADOW/PAPER, live-fire, Gate D, LIVE, mutation, capital exposure, or another task.

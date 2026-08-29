@@ -1,175 +1,211 @@
-# P0 Integrated Deterministic Safety Matrix — E7-20260829-111 / E7-20260829-112 update
+# P0 Integrated Deterministic Safety Matrix — E7-20260829-116
 
-## Authority and scope
+## Authority / purpose
 
-- original matrix task: `E7-20260829-111`
-- FP-16 implementation update: `E7-20260829-112`
-- E7-112 branch: `agent/e7-fp16-runtime-preflight-implementation-20260829`
-- E7-112 branch base main: `70fb2fbaad43773d0c2278de84e8e47f8fc2fdea`
-- purpose: credential-free cross-module deterministic test definitions for the LF-2 P0 safety seam
+- task: `E7-20260829-116`
+- branch: `agent/e7-p0-static-closure-20260829`
+- scope: final credential-free static integration closure for merged FP-02/03/04/05/10/11/16 owner candidates
+- latest newly accepted owner boundary: E4 FP-02 through `E4-20260829-035` / merged revision `37b6a8f5dd54ef1461dcb446a68367b1f7699d28`
+- E7 FP-16 merged source: `runtime-preflight-v0.1` pure evaluator on current `main`
 - executable verification: `NOT_RUN / NOT_PASS`
-- Local Job Request: `NONE`
-- provider/private access: `NONE`
-- credentials: `NONE`
-- provider/account mutation: `0`
-- process launch/restart: `0`
-- submit/cancel/amend/close/protection provider actions: `0`
-- SHADOW/PAPER: `NOT_STARTED / NOT_AUTHORIZED`
-- bounded 10U live-fire: `NOT_AUTHORIZED`
-- capital exposure: `NONE`
-- GitHub Actions/CI/hosted/GitHub-triggered compute: `NOT_USED`
+- LF-0 exact-revision infrastructure: `BLOCKED / UNCHANGED`
 
-This matrix defines later local qualification evidence. It is not executable PASS and does not alter any release gate.
+This matrix is static integration evidence only. It does not create provider verification, runtime authority, mutation authority, Product Owner authorization, release-gate PASS, or capital authority.
 
-## Status vocabulary
+## Classification vocabulary
 
-| Status | Meaning |
+| Classification | Meaning |
 |---|---|
-| `STATIC_TEST_DEFINED` | A deterministic test definition exists in Git and can later run credential-free on an approved local exact revision. It has not been executed under current exact-revision evidence. |
-| `IMPLEMENTED_UNQUALIFIED` | Executable behavior exists in project source, but current integrated exact-revision local qualification is `NOT_RUN / NOT_PASS`. |
-| `CONTRACT_ONLY` | The accepted profile/design exists but no current executable producer/consumer exists for that required behavior. |
-| `UNRESOLVED_PROVIDER_FACT` | Provider-native endpoint/field/mode/trigger/close semantics are intentionally unresolved and must fail closed. |
-| `NOT_RUN / NOT_PASS` | No approved-local execution evidence exists for the current integrated candidate. This is never PASS. |
+| `IMPLEMENTED_UNQUALIFIED` | Deterministic project behavior exists in merged source/test definitions but has no fresh approved-local exact-revision PASS. |
+| `STATIC_TEST_DEFINED` | E7 or owner test definition exists in Git but has not been executed for the current candidate. |
+| `UNRESOLVED_PROVIDER_FACT` | Provider-native endpoint/fieldset/position-mode/trigger/reduce-only semantics remain intentionally unresolved and must fail closed. |
+| `NOT_RUN / NOT_PASS` | No accepted approved-local exact-revision execution establishes PASS. |
 
-## E7-owned integrated test definitions
+`NOT_RUN != PASS`; static closure does not make LF-1, LF-2, Gate D, or LIVE pass.
 
-| Module | Role |
-|---|---|
-| `tests/integration/test_p0_integrated_failure_prevention.py` | FP-03 -> E4 binding, FP-04 -> FP-10, FP-05 -> FP-10, FP-11 -> E5 policy composition. |
-| `tests/integration/test_runtime_preflight.py` | FP-16 pure provider-neutral runtime-preflight identity, role, mode, process/heartbeat, supervisor, capability, reconciliation, dependency, external-consumer and authorization admission behavior. |
-| `tests/safety/test_p0_integrated_fail_closed.py` | No mutation/cleanup authority from unresolved capability, FP-10 eligibility, FP-11 non-green states, or FP-16 `ELIGIBLE` admission evidence. |
-| `tests/e2e/test_p0_reconciliation_restart_e2e.py` | E4/E5/E6 FP-11 durable restart/currentness composition, false-green prevention, terminal-flat FP-10 dependency. |
+## E7-owned cross-module definitions
 
-All are `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS`. FP-16 source is additionally `IMPLEMENTED_UNQUALIFIED` after E7-112; this does not imply executable PASS.
+| Module | Integration role | Current classification |
+|---|---|---|
+| `tests/integration/test_p0_fp02_fp16_composition.py` | New E7-116 composition of E4 FP-02 with FP-03/05/11 and E7 FP-16 authority layers. | `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS` |
+| `tests/integration/test_p0_integrated_failure_prevention.py` | FP-03 -> E4, FP-04 -> FP-10, FP-05 -> FP-10, FP-11 -> E5 composition. | `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS` |
+| `tests/integration/test_runtime_preflight.py` | FP-16 exact revision/mode/config/process/heartbeat/capability/reconciliation/external-consumer/authorization semantics. | `IMPLEMENTED_UNQUALIFIED + STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS` |
+| `tests/safety/test_p0_integrated_fail_closed.py` | Authority-layer non-upgrade and provider-mutation fail-closed checks. | `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS` |
+| `tests/e2e/test_p0_reconciliation_restart_e2e.py` | FP-11/E6 restart/currentness and FP-10 terminal-flat dependency. | `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS` |
 
-## Integrated P0 scenario matrix
+## FP-02 — OKX SWAP action-role capability boundary
 
-### FP-03 — protection trigger validity / breached-stop safety
+| ID | Scenario | Expected deterministic result | Classification |
+|---|---|---|---|
+| FP02-01 | Exact E4 ENTRY owner row: exact role/mode/descriptor/hash/ref/generation | Only provider-local `REPO_EVIDENCED`; no provider dispatch/runtime/Product Owner/mutation/capital authority | `IMPLEMENTED_UNQUALIFIED` |
+| FP02-02 | Copied descriptor/hash with forged or mismatched ref/generation | `UNRESOLVED_FAIL_CLOSED`; cannot become `REPO_EVIDENCED` | `IMPLEMENTED_UNQUALIFIED` |
+| FP02-03 | Owner row reused across role or position mode | Fail closed; no positive capability transfer | `IMPLEMENTED_UNQUALIFIED` |
+| FP02-04 | FP-03 `ACTIONABLE` + FP-11 `CONVERGED_EXACTLY_ONE_INTENDED` for `PROTECTION_STOP` | Provider trigger basis/fieldset remain unresolved; no mutation | `IMPLEMENTED_UNQUALIFIED + UNRESOLVED_PROVIDER_FACT` |
+| FP02-05 | Coherent FP-05 reducible sizing for `POSITION_EXIT` | Provider endpoint/fieldset/`posSide`/native reduce semantics remain unresolved | `IMPLEMENTED_UNQUALIFIED + UNRESOLVED_PROVIDER_FACT` |
+| FP02-06 | Coherent FP-05 sizing for `EMERGENCY_EXIT` | Emergency urgency does not waive capability proof; fail closed | `IMPLEMENTED_UNQUALIFIED + UNRESOLVED_PROVIDER_FACT` |
+| FP02-07 | `READ_ONLY_RECONCILIATION` exact owner row | GET-only/default-deny repository evidence; mutation operation is forbidden | `IMPLEMENTED_UNQUALIFIED` |
+| FP02-08 | `REPO_EVIDENCED` treated as provider verification, mutation allowlist, runtime or PO authority | Forbidden interpretation; evidence layer remains provider-local repository mapping only | `STATIC_TEST_DEFINED` |
+| FP02-09 | Owner-row provenance/current material changes | Prior positive evidence no longer current; new evidence identity/result required | `IMPLEMENTED_UNQUALIFIED` |
+| FP02-10 | E7 integration fixture | No provider/network/credential/mutation/process/capital dependency | `STATIC_TEST_DEFINED` |
 
-| ID | Scenario | Owner surfaces composed | Expected deterministic result | Classification |
-|---|---|---|---|---|
-| P0-FP03-01 | LONG stop equal to LAST_PRICE | E1 `MarketSnapshot` + E5 trigger-validity + E4 trigger consumer | `FAIL_CLOSED / TRIGGER_ALREADY_BREACHED`; E4 rejects create evidence | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-02 | LONG stop above LAST_PRICE | same | fail closed; no create/retry authority | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-03 | SHORT stop equal to LAST_PRICE | same | `FAIL_CLOSED / TRIGGER_ALREADY_BREACHED` | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-04 | SHORT stop below LAST_PRICE | same | fail closed | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-05 | Unchanged breached evidence with later wall-clock only | E5 currentness | remains non-actionable; timestamp alone cannot create retry authority | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-06 | Newer market truth after ACTIONABLE evidence | E5 evidence + E4 immediate pre-mutation binding | old evidence rejected as `E4_TRIGGER_VALIDITY_NOT_CURRENT` | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-07 | Newer Position/lifecycle authority | E5/E4 currentness | old evidence stale/non-current; refresh/reinterpret required | owner tests covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP03-08 | Provider trigger basis/type | FP-02 design + FP-03 shared profile | shared LAST_PRICE geometry does not select OKX trigger field/type | `UNRESOLVED_PROVIDER_FACT` |
+### FP-02 unresolved provider facts preserved
 
-### FP-04 — external/manual ownership and reconciliation
+The following remain `UNRESOLVED_PROVIDER_FACT` and are intentionally non-positive:
 
-| ID | Scenario | Owner surfaces composed | Expected deterministic result | Classification |
-|---|---|---|---|---|
-| P0-FP04-01 | Exact current-generation exact snapshot/lineage | E4 FP-04 producer | only case eligible for `KNOWN_OWNED_CURRENT_GENERATION / CURRENT_KNOWN_OWNED`; still no mutation authority | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP04-02 | External/manual provider object | E4 FP-04 -> FP-10 | `EXTERNAL_UNTRACKED`; no adoption; E5 lifecycle reinterpretation required | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP04-03 | Prior-generation object | E4 FP-04 | provenance only; fresh reconciliation required | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP04-04 | Unknown/stale/conflicting ownership | E4 FP-04 | fail closed / reconciliation or manual review | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP04-05 | Missing local state or similarity only | FP-04 profile + E4 producer | cannot prove ownership | owner/profile covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP04-06 | New provider snapshot/generation | E4 FP-04 currentness | invalidates old evidence ID/currentness | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP04-07 | Uncertain ownership cleanup/cancel | FP-04 + FP-11/E5 policy | no cleanup target and no provider mutation authority | integrated FP-11 safety definition + `IMPLEMENTED_UNQUALIFIED` |
+- PROTECTION_STOP provider conditional/algo endpoint and exact fieldset;
+- provider trigger basis / `triggerPxType` compatibility;
+- PROTECTION_STOP `posSide` and native reduce semantics;
+- POSITION_EXIT provider endpoint/fieldset/`posSide`/native reduce-only semantics;
+- EMERGENCY_EXIT provider endpoint/fieldset/`posSide`/native reduce-only semantics;
+- production provider/account/instrument verification for the exact future candidate.
 
-### FP-05 — close/residual sizing
+These are not deterministic project-code gaps merely because they are unresolved; current project behavior rejects them before dispatch.
 
-| ID | Scenario | Owner surfaces composed | Expected deterministic result | Classification |
-|---|---|---|---|---|
-| P0-FP05-01 | Exact fresh current Position/provider reducible exposure | E5 close authority + E4 FP-04 + E4 FP-05 | provider-local sizing bounded to authoritative reducible exposure | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP05-02 | Fresh positive representable residual | E4 FP-05 -> FP-10 | `RESIDUAL_NONZERO_REPRESENTABLE`; lifecycle remains non-flat | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP05-03 | Fresh positive unrepresentable residual | E4 FP-05 | `RESIDUAL_NONZERO_UNREPRESENTABLE`; no provider size; newer evidence required before reevaluation | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP05-04 | Unknown/stale close capability | E4 FP-02 evidence -> E4 FP-05 | `CLOSE_CAPABILITY_UNPROVEN`; no provider size | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP05-05 | Unknown/stale metadata/applicability | E4 metadata + FP-05 | fail closed; no provider size | owner tests covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP05-06 | Shared `reduce_only=true` used as provider proof | shared close profile + FP-02 design | forbidden inference; provider-native semantics remain unresolved | `UNRESOLVED_PROVIDER_FACT` |
-| P0-FP05-07 | ACK/FILLED or arithmetic remainder used as flat truth | E4 close/FP-05 + FP-10 | insufficient; authoritative fresh Position zero required | owner + integrated tests / `IMPLEMENTED_UNQUALIFIED` |
+## FP-03 — protection trigger geometry/currentness
 
-### FP-10 — external/manual close lifecycle convergence
+Preserved merged invariants:
 
-| ID | Scenario | Owner surfaces composed | Expected deterministic result | Classification |
-|---|---|---|---|---|
-| P0-FP10-01 | Terminal/FILLED close order but positive Position | E4 execution evidence + FP-10 | not `LIFECYCLE_CLOSE_ELIGIBLE` | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-02 | External/manual partial reduction | FP-04 external ownership + FP-10 | remains open/reinterpretation; no silent order adoption | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-03 | Flat Position + ambiguous execution/fill evidence | E4 execution + FP-10 | `FLAT_BUT_EXECUTION_OR_FILL_RECONCILIATION_REQUIRED` | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-04 | Flat Position + active/unresolved protection | FP-11 terminal dependency + FP-10 | `FLAT_BUT_PROTECTION_CONVERGENCE_REQUIRED`; no cleanup authorization | owner/E2E covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-05 | Exact fresh zero Position + current FP-04 + clear terminal protection + current lifecycle/binding | E4/E5/FP-04/FP-10/FP-11 | emits `LIFECYCLE_CLOSE_ELIGIBLE` evidence only | owner + safety definition / `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-06 | `LIFECYCLE_CLOSE_ELIGIBLE` treated as direct lifecycle transition | FP-10 -> E5 | forbidden; E5 alone chooses event/transition | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-07 | Close eligibility treated as final TradeResult | FP-10 + `trade-result-v0.1` | forbidden; no fabricated fill lineage or TradeResult IDs | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP10-08 | New provider/FP-04/FP-05/FP-11/lifecycle/runtime evidence | FP-10 currentness | old convergence evidence invalid | owner tests covered + `IMPLEMENTED_UNQUALIFIED` |
+- LONG requires `stop_level < LAST_PRICE`; equality/crossed stop fails closed;
+- SHORT requires `stop_level > LAST_PRICE`; equality/crossed stop fails closed;
+- stale/unknown market fails closed using E1-owned freshness classification;
+- newer market, Position or lifecycle authority invalidates prior trigger evidence;
+- time-only reevaluation does not create retry authority;
+- E4 requires exact current ACTIONABLE evidence immediately before mutation preparation;
+- `LAST_PRICE` shared geometry never chooses a provider trigger basis;
+- `REPLACE`/MODIFY_PROTECTION remains non-executable under the current baseline.
 
-### FP-11 — unique protection registry / multiplicity
+Classification: `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`; provider trigger basis remains `UNRESOLVED_PROVIDER_FACT`.
 
-| ID | Scenario | Owner surfaces composed | Expected deterministic result | Classification |
-|---|---|---|---|---|
-| P0-FP11-01 | Complete/current set with exactly one current-owned exact-lineage protection | E4 FP-04 + FP-11 evidence + E5 policy | only healthy unique-protection case; mutation authority remains false | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP11-02 | Complete/current set has zero protection | FP-11 -> E5 | missing/reinterpretation; no create authority from registry evidence | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP11-03 | Two current-owned protections for one intended lineage | FP-11 -> E5 | multiplicity conflict; no automatic winner or cleanup target | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP11-04 | Intended object + external/prior/orphan extra | FP-04 + FP-11 -> E5 | non-converged; no silent adoption/ignore | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP11-05 | Stale/incomplete/unknown/conflicting provider set/ownership | FP-04 + FP-11 -> E5 | non-green/reconciliation | owner tests + `IMPLEMENTED_UNQUALIFIED` |
-| P0-FP11-06 | Flat/CLOSED Position + active external protection | FP-11 -> E5 -> FP-10 | false-green CLOSED reopened to reconciliation; terminal-close dependency explicit | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP11-07 | Any non-green registry evidence supplies provider cleanup target | FP-11/E5 | forbidden; `cleanup_target_ref=None`, mutation authority false | safety definition + `IMPLEMENTED_UNQUALIFIED` |
+## FP-04 — external/manual object ownership
 
-### E6 restart/currentness composition
+Preserved merged invariants:
 
-| ID | Scenario | Owner surfaces composed | Expected deterministic result | Classification |
-|---|---|---|---|---|
-| P0-E6-01 | Real Paper lifecycle writer + FP-11 healthy exact chain | E5 lifecycle/binding + E4 FP-11 + E6 storage | lifecycle projection payload hash remains its own storage domain; Position authority hash remains independent; healthy exact chain recoverable | E6 owner + E7 E2E / `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-02 | Restart exact healthy chain | E6 persistence/recovery | same exact head can recover healthy; never mutation authority | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-03 | Timestamp-only later FP-11 row without explicit supersession | E6 head selection | competing unsuperseded heads -> conflict before and after restart | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-04 | Material explicit valid supersession | E6 append-only/head selection | only declared valid successor may become head | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-05 | Missing predecessor | E6 | incomplete/non-current | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-06 | Cycle or cross-lineage supersession | E6 | conflict/fail closed | owner tests covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-07 | Current-index or durable projection payload/hash corruption | E6 | stale/conflict; never healthy | E7 E2E + owner tests / `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-08 | Missing current E5 interpretation/binding | E5/E6 | non-green/incomplete/stale | owner tests covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-09 | Missing/stale FP-04 dependency | E4/E6 | non-green/incomplete | owner test covered + `IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-10 | Position/lifecycle/provider-set/runtime generation changes | E4/E5/E6 | old health invalidated | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-E6-11 | Flat/CLOSED row exists while active external protection remains | E5 FP-11 + E6 restart + FP-10 dependency | `STATUS_RECONCILIATION_REQUIRED`, no false-green closed/protected state | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+- exact current-generation snapshot/lineage is the only route to `KNOWN_OWNED_CURRENT_GENERATION / CURRENT_KNOWN_OWNED`;
+- external/manual objects remain `EXTERNAL_UNTRACKED`; no silent adoption;
+- prior-generation ownership does not inherit current-generation mutation authority;
+- unknown/stale/conflicting ownership fails closed;
+- similarity, local-row absence/presence, symbol/side/quantity/client-ID resemblance are not ownership proof;
+- newer provider snapshot/generation invalidates older ownership evidence;
+- no ownership classification creates provider mutation authority.
 
-### FP-16 runtime preflight and provider-capability unresolved facts
+Classification: `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`.
 
-| ID | Scenario | Current evidence | Expected result | Classification |
-|---|---|---|---|---|
-| P0-FP16-01 | Runtime preflight executable producer/consumer | accepted `runtime-preflight-v0.1` + E7 pure evaluator `src/integration/runtime_preflight.py` | coherent supplied facts may produce admission-only `ELIGIBLE`; no runtime/provider authority | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` |
-| P0-FP16-02 | Role PASS reused for different role | evaluator + exact role authorization binding | fail closed; role admission non-transferable | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-03 | Missing/stale heartbeat or wrong process/start generation | evaluator heartbeat/currentness boundary | fail closed with accepted deterministic reasons | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-04 | Supervisor/watchdog unknown/incompatible or RESTART without permission | evaluator supervisor/restart boundary | fail closed; evaluator never launches/restarts | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-05 | Catalog registration without local allowlisting | evaluator capability boundary + active LF-0 blocker | `PREFLIGHT_ACTION_CAPABILITY_NOT_ALLOWLISTED` / non-eligible | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED / LF-0 BLOCKED` |
-| P0-FP16-06 | External consumer/AgentBridge compatibility missing/stale | evaluator consumes supplied compatibility facts only | fail closed where role/external participation requires it | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-07 | OperationalMode/config/revision/worktree current authority mismatch | evaluator + caller-supplied E6/revision/config facts | fail closed; no mode mutation or exact-revision preparation | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-08 | Reconciliation/dependency evidence missing/not-ready/unknown | evaluator consumes owner readiness classifications only | fail closed; owner semantics are not duplicated | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-09 | Authorization missing/mismatched/expired/consumed/unknown | evaluator role/revision/capability authority binding | fail closed; consumed single-session authority remains non-reusable | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
-| P0-FP16-10 | Bounded-live-fire OperationalMode mapping | accepted profile intentionally leaves mapping future-governed | `PREFLIGHT_ROLE_MODE_POLICY_UNDEFINED`; never invent LIVE mapping | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED / FAIL-CLOSED` |
-| P0-FP02-UNRESOLVED-01 | OKX protection endpoint/trigger basis/readback/cancel mapping | FP-02 design | no provider mutation path may be inferred | `UNRESOLVED_PROVIDER_FACT` |
-| P0-FP02-UNRESOLVED-02 | OKX POSITION_EXIT/EMERGENCY_EXIT native field set/position-mode/reduce semantics | FP-02/FP-05 design | no provider close mutation path may be inferred | `UNRESOLVED_PROVIDER_FACT` |
+## FP-05 — provider-local close/residual sizing
 
-## Owner-level deterministic modules required in later qualification
+Preserved merged invariants:
 
-The E7 integrated files do not replace these owner suites. At minimum later exact-revision qualification must include:
+- sizing is derived from exact current reducible provider exposure + current Position/action + applicable current metadata;
+- original entry-request quantity is not a close fallback;
+- representable positive residual remains non-flat;
+- unrepresentable positive residual remains real and requires newer evidence rather than write-off/retry storm;
+- unknown/stale capability, metadata, provider exposure or ownership fails closed;
+- shared `reduce_only=true` is canonical intent only and not provider-native proof;
+- ACK/FILLED/arithmetic-zero is not authoritative flatness.
 
-- FP-03 E5: `tests/position/test_protection_trigger_validity.py`
-- FP-03 E4: `tests/execution/test_protection_trigger_consumer.py`
-- FP-04/FP-10 E4 evidence: `tests/execution/test_external_close_evidence.py`
-- FP-10 E5 reinterpretation: `tests/position/test_external_close_reinterpretation.py`
-- FP-05 E4: `tests/brokers/test_okx_close_sizing.py`
-- FP-11 E4: `tests/execution/test_protection_registry_evidence.py`
-- FP-11 E5: `tests/position/test_protection_registry_policy.py`
-- FP-11 E6: `tests/storage/test_protection_registry_currentness.py`
-- FP-10 E6 currentness: `tests/storage/test_external_close_currentness.py` and supersession companion
-- lifecycle binding/restart: current relevant `tests/storage/test_paper_runtime_*` and `tests/position/test_lifecycle_*`
-- FP-16 E7: `tests/integration/test_runtime_preflight.py`
-- E7 integrated: `tests/integration/test_p0_integrated_failure_prevention.py`, `tests/safety/test_p0_integrated_fail_closed.py`, and `tests/e2e/test_p0_reconciliation_restart_e2e.py`.
+Classification: `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`; final provider-native exit fieldsets remain `UNRESOLVED_PROVIDER_FACT`.
 
-No historical suite PASS is rebound to the new executable integration candidate.
+## FP-10 — external/manual close lifecycle convergence
 
-## LF gate interpretation
+Preserved merged invariants:
+
+- terminal/FILLED order with positive Position cannot close lifecycle;
+- external/manual partial reduction stays open/reinterpretation-required without silent ownership rewrite;
+- zero exposure requires fresh authoritative provider/normalized Position truth;
+- flat exposure plus ambiguous execution/fill remains reconciliation-required;
+- flat exposure plus unresolved protection remains protection-convergence-required;
+- only the exact flat/current/ownership/execution/protection/lifecycle chain may emit `LIFECYCLE_CLOSE_ELIGIBLE` evidence;
+- `LIFECYCLE_CLOSE_ELIGIBLE` is input to E5, not a lifecycle transition and not a TradeResult;
+- newer FP-04, provider Position, lifecycle, FP-05, FP-11 or runtime material invalidates older convergence evidence.
+
+Classification: `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`.
+
+## FP-11 — protection registry / multiplicity
+
+Preserved merged invariants:
+
+- exactly one current-generation-owned provider object with exact intended-lineage binding in a complete/current set is the sole converged case;
+- zero protection does not authorize automatic create;
+- multiple protections produce conflict; no automatic winner;
+- intended object plus external/prior/orphan extra remains non-converged;
+- stale/incomplete/unknown/conflicting set or FP-04 dependency never becomes healthy;
+- non-green states never produce cleanup target or provider mutation authority;
+- flat/CLOSED Position with unresolved active external protection reopens reconciliation and feeds FP-10 terminal protection convergence.
+
+Classification: `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`.
+
+## E6 persistence / restart / currentness seam
+
+Static inspection confirms the registered E6 owner tests define:
+
+- immutable FP-04/FP-10/FP-11 evidence storage;
+- lifecycle projection payload/hash verification in its own storage domain;
+- exact head/currentness resolution rather than latest-arrival heuristics;
+- timestamp-only unsuperseded rows do not become current authority;
+- missing predecessor, competing heads, cross-lineage supersession and corruption fail closed;
+- newer FP-04/provider/lifecycle/FP-05/FP-11/runtime facts invalidate older healthy/closed presentation;
+- restart reloads exact persisted evidence and cannot false-green stale or incomplete state.
+
+Classification: `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`.
+
+## FP-16 — runtime preflight composition
+
+| ID | Scenario | Expected deterministic result | Classification |
+|---|---|---|---|
+| FP16-01 | Coherent credential-free facts | `ELIGIBLE` is admission evidence only | `IMPLEMENTED_UNQUALIFIED` |
+| FP16-02 | FP-16 `ELIGIBLE`/local action allowlist supplied as FP-02 provider proof | Cannot upgrade unresolved FP-02 provider capability | `STATIC_TEST_DEFINED` |
+| FP16-03 | FP-02 ENTRY `REPO_EVIDENCED` but runtime authorization missing | FP-16 remains `FAIL_CLOSED / PREFLIGHT_RUNTIME_AUTHORITY_UNKNOWN` | `STATIC_TEST_DEFINED` |
+| FP16-04 | Current external-consumer authority exists but compatibility evidence missing | `FAIL_CLOSED / PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED` | `IMPLEMENTED_UNQUALIFIED` |
+| FP16-05 | Role result reused for another role | Fail closed; authority non-transferable | `IMPLEMENTED_UNQUALIFIED` |
+| FP16-06 | Bounded-live-fire role under current V0.1 | `PREFLIGHT_ROLE_MODE_POLICY_UNDEFINED`; fail closed | `IMPLEMENTED_UNQUALIFIED` |
+| FP16-07 | Historical exact-clean revision substituted for current candidate | Revision mismatch/non-current; cannot qualify current candidate | `IMPLEMENTED_UNQUALIFIED` |
+
+FP-16 local-action capability evidence, E4 provider-native capability evidence, runtime/Product Owner authorization, and provider verification are separate authority layers and may not substitute for one another.
+
+## Static closure answer
+
+Question:
 
 ```text
-LF-0 = BLOCKED / UNCHANGED
-LF-1 = NOT_RUN / NOT_PASS
-LF-2 = PARTIAL / NOT PASS / FP-16 IMPLEMENTED_UNQUALIFIED
-LF-3 = NOT_RUN / NOT_PASS
-LF-4 = NOT_STARTED / future Product Owner provider-readonly authority required
-LF-5 = SHADOW/PAPER NOT_STARTED / NOT_AUTHORIZED
-LF-6 = bounded 10U live-fire NOT_STARTED / NOT_AUTHORIZED
-Gate D = BLOCKED / NOT AUTHORIZED
-LIVE = UNAUTHORIZED
+Are any deterministic credential-free project implementation/test-definition gaps still visible in FP-02/03/04/05/10/11/16 after the currently merged owner candidates?
 ```
 
-E7-112 closes the project-source FP-16 `CONTRACT_ONLY` gap only. It does not establish executable qualification, external operator/AgentBridge implementation evidence, provider facts, or any release/runtime authority.
+Conclusion:
+
+```text
+NO_STATIC_IMPLEMENTATION_GAP_IDENTIFIED / UNQUALIFIED
+```
+
+Basis:
+
+1. all accepted deterministic P0 owner behaviors have merged producer/consumer or persistence/currentness surfaces;
+2. E7-116 adds the previously missing FP-02/FP-16 cross-module composition definitions without changing owner semantics;
+3. unresolved provider-native protection/exit facts are explicitly represented as fail-closed dependencies, not guessed as positive capability;
+4. no owner production-code contradiction or missing deterministic behavior was identified that requires an E1-E6 production patch before credential-free qualification;
+5. executable verification has not run on the resulting exact candidate.
+
+This conclusion means only that repository inspection found no additional deterministic static project-code/test-definition gap. It is not LF-1 PASS, LF-2 PASS, provider verification, or release readiness.
+
+## Verification / authority state
+
+```text
+project executable verification = NOT_RUN / NOT_PASS
+P0 integrated credential-free execution = NOT_RUN / NOT_PASS
+FP-02 executable verification = NOT_RUN / NOT PASS
+FP-16 executable verification = NOT_RUN / NOT PASS
+LF-0 = BLOCKED / UNCHANGED
+LF-1 = NOT_RUN / NOT PASS
+LF-2 = PARTIAL / NOT PASS
+provider requests = 0
+private API = NONE
+credentials = NONE
+provider/account mutation = 0
+order/protection actions = 0
+process launch/restart = 0
+SHADOW/PAPER = NOT_AUTHORIZED
+10U bounded live fire = NOT_AUTHORIZED
+Gate D / LIVE = BLOCKED / UNAUTHORIZED
+capital exposure = NONE
+GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
+```
+
+Future provider read-only, SHADOW/PAPER, bounded live-fire, Gate D and LIVE remain separate gated stages with Product Owner authority where required.

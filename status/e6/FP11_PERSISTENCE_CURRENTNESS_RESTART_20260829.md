@@ -1,5 +1,7 @@
 # E6 FP-11 Persistence / Currentness / Restart Consumer — 2026-08-29
 
+> **E6-20260829-029 remediation notice:** PM review of E6-028 found that the original restart consumer compared `paper_position_lifecycle_projections.payload_hash` and `paper_position_current_projection.payload_hash` against the FP-11 canonical Position hash. That comparison was defective because the Paper writer stores the canonical **lifecycle projection payload hash** in those columns. E6-029 corrects this by keeping Position hash and lifecycle-projection payload JSON/hash as separate evidence domains and validating each against its own authoritative material. The current remediation evidence is `status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md`. Any E6-028 wording below about lifecycle projection currentness must be read with this correction; the defective hash-domain comparison is not accepted behavior.
+
 ## Task
 
 ```text
@@ -187,7 +189,7 @@ CONFLICT
 - complete/current provider set;
 - exactly one current compatible FP-04 dependency bound to the exact intended lineage;
 - exact current Position/ref/hash/broker observation;
-- exact current lifecycle projection/revision;
+- exact current lifecycle projection/revision and, after E6-029, exact lifecycle projection payload JSON/hash in the Paper persistence domain;
 - exact current lifecycle execution binding when represented;
 - exact represented provider/runtime generation material;
 - one exact current E5 interpretation bound to that FP-11 source;
@@ -246,7 +248,8 @@ If the source FP-11 head or current Position/lifecycle/provider/runtime material
 - missing/superseded FP-04 dependency handling;
 - flat/CLOSED unresolved-protection FP-10 terminal dependency;
 - unknown/unavailable current authority;
-- proof that E5 healthy interpretation never yields E6 provider mutation/cleanup authority.
+- proof that E5 healthy interpretation never yields E6 provider mutation/cleanup authority;
+- after E6-029, real `_PaperRuntimeStore.persist_position_projection()` writer compatibility plus independent lifecycle-projection payload-hash and Position-hash corruption/currentness regressions.
 
 These are test **definitions only** in this GitHub session.
 

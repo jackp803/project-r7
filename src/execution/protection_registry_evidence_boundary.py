@@ -43,6 +43,32 @@ def _has_ambiguous_ownership_or_lineage(value: ProtectionRegistryMultiplicityInp
     return False
 
 
+def _material_without_refresh_fields(evidence: Mapping[str, Any]) -> dict[str, Any]:
+    material = dict(evidence)
+    for field in (
+        "protection_registry_evidence_id",
+        "supersedes_registry_evidence_id",
+        "evaluated_at",
+    ):
+        material.pop(field, None)
+    return material
+
+
+def _enforce_strict_supersession_material_change(
+    evidence: Mapping[str, Any],
+    supersedes_evidence: Mapping[str, Any] | None,
+) -> None:
+    if supersedes_evidence is None:
+        return
+    if _material_without_refresh_fields(evidence) == _material_without_refresh_fields(
+        supersedes_evidence
+    ):
+        raise ProtectionRegistryEvidenceError(
+            "SUPERSESSION_REQUIRES_MATERIAL_CHANGE",
+            "evaluated_at alone cannot justify strict FP-11 supersession",
+        )
+
+
 def build_protection_registry_multiplicity_evidence(
     value: ProtectionRegistryMultiplicityInput,
     *,
@@ -71,7 +97,9 @@ def build_protection_registry_multiplicity_evidence(
         )
         updated["protection_registry_evidence_id"] = _evidence_id(updated)
         validate_protection_registry_multiplicity_evidence(updated)
+        _enforce_strict_supersession_material_change(updated, supersedes_evidence)
         return updated
+    _enforce_strict_supersession_material_change(evidence, supersedes_evidence)
     return evidence
 
 

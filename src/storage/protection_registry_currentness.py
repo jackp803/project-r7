@@ -776,7 +776,7 @@ def _validate_authority(authority: ProtectionRegistryCurrentAuthority) -> dict[s
         raise ProtectionRegistryValidationError("CURRENT_POSITION_LIFECYCLE_MISMATCH", "current Position/lifecycle mismatch")
     try:
         projection, projection_payload_json, projection_payload_hash = canonical_payload(projection)
-    except ValueError as exc:
+    except RuntimeError as exc:
         raise ProtectionRegistryValidationError(
             "CURRENT_LIFECYCLE_PAYLOAD_INVALID",
             "current lifecycle projection is not canonical paper-runtime payload",

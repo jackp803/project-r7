@@ -24,6 +24,10 @@ PAPER = NOT_STARTED
 capital_exposure = NONE
 Gate_D = BLOCKED / NOT_AUTHORIZED
 LIVE = UNAUTHORIZED
+latest_idle_watchdog_fingerprint = 993BD98269D985DA
+latest_watchdog_local_exact_revision = 8fbf5fcae2eaf44accdf535121d8abf29ef5c93c / EXACT_CLEAN / JOB-852ABEE9A8CC
+latest_watchdog_revalidation = DOES_NOT_SATISFY CANDIDATE 9462b259... EXACT-CLEAN PRECONDITION
+worker_dispatch = NONE / E1-E7 REMAIN HOLD
 ```
 
 ## Unblock condition
@@ -34,6 +38,16 @@ This blocker is resolved only when authoritative approved-local evidence establi
 2. an equivalent approved-local operator fact proves that the exact candidate worktree already exists and is `EXACT_CLEAN` under current governance.
 
 The refused E7-101 preparation request ID is terminal and must not be retried or reused. After unblock, PM must issue a fresh E7 requalification task with fresh request IDs.
+
+## Watchdog revalidation — 993BD98269D985DA
+
+The idle watchdog reported all Workers on HOLD and only the historical approved-local fact:
+
+```text
+LOCAL_EXACT_REVISION:8fbf5fcae2eaf44accdf535121d8abf29ef5c93c:EXACT_CLEAN:PREPARE_EXACT_REVISION:JOB-852ABEE9A8CC
+```
+
+That evidence remains valid only for historical revision `8fbf5fca...`. It does not prove `EXACT_CLEAN` for the current FP-03 combined candidate `9462b259...` and therefore does not unblock E7 requalification. No new Worker TASK is justified from this watchdog signal. E7 remains on `E7-20260829-102 / HOLD`; E1-E6 remain on their existing HOLD tasks.
 
 ## Authority boundary
 

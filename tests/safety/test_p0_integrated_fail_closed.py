@@ -100,25 +100,24 @@ class P0IntegratedFailClosedSafetyTests(unittest.TestCase):
         self.assertTrue(contract_path.is_file())
         self.assertFalse(implementation_path.exists())
 
-        contract = contract_path.read_text(encoding="utf-8")
+        contract = contract_path.read_text(encoding="utf-8").lower()
         self.assertIn("runtime-preflight-v0.1", contract)
-        self.assertIn("one runtime role", contract.lower())
-        self.assertIn("not transferable", contract.lower())
-        self.assertIn("heartbeat", contract.lower())
-        self.assertIn("supervisor", contract.lower())
-        self.assertIn("allowlist", contract.lower())
-        self.assertIn("external consumer", contract.lower())
+        self.assertIn("for one role is never transferable to another role", contract)
+        self.assertIn("heartbeat", contract)
+        self.assertIn("supervisor", contract)
+        self.assertIn("allowlist", contract)
+        self.assertIn("external consumer", contract)
 
     def test_contract_only_runtime_preflight_cannot_be_mistaken_for_provider_authority(self):
         repo_root = Path(__file__).resolve().parents[2]
         contract = (repo_root / "contracts" / "RUNTIME_PREFLIGHT_PROFILE_V0_1.md").read_text(
             encoding="utf-8"
-        )
-        lowered = contract.lower()
-        self.assertIn("grants no provider", lowered)
-        self.assertIn("mutation", lowered)
-        self.assertIn("capital", lowered)
-        self.assertIn("live", lowered)
+        ).lower()
+        self.assertIn("is not provider authority", contract)
+        self.assertIn("order authority", contract)
+        self.assertIn("bounded-live-fire authority", contract)
+        self.assertIn("live authorization", contract)
+        self.assertIn("capital", contract)
 
 
 if __name__ == "__main__":

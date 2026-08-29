@@ -8,7 +8,7 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, or protection-trigger validity.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, or bounded live-fire readiness evidence.
 
 The first materialized baseline is:
 
@@ -25,13 +25,27 @@ Compatible executable/evidence object-profile refinements currently registered u
 - [`POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md) — normative exhaustive lifecycle state/event/kind consumer vocabulary for restart-authoritative `position-lifecycle-projection-v0.1`; unknown values fail closed
 - [`POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`](./POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md) — `position-lifecycle-execution-binding-v0.1` immutable E5 companion proof binding one lifecycle projection to the exact Position-linked E4 PROTECTION_STOP / POSITION_EXIT / EMERGENCY_EXIT OrderRequest, OrderResult-observation, and Fill snapshot it interpreted; changed durable execution evidence requires fresh E5 interpretation before restart `READY`
 
+Release/readiness evidence profiles registered under E7 authority:
+
+- [`BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md`](./BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md) — `bounded-live-fire-readiness-v0.1` fail-closed LF-0..LF-6 exact-revision/evidence gates, P0 failure-prevention closure map, failure-injection/recovery requirements, provider read-only boundary, SHADOW/PAPER prerequisites, and future single-session 10 USDT Product Owner authorization boundary. This profile grants no provider, runtime, mutation, capital, Gate D, or LIVE authority.
+
 ## Authority and ownership
 
 - Product Owner has final authority over product scope, capital exposure, live enablement, and infrastructure policy.
-- E7 has final technical approval/versioning authority over shared contracts.
+- E7 has final technical approval/versioning authority over shared contracts and release/readiness evidence profiles.
 - Domain producers own production of valid contract instances inside their domain.
 - Domain consumers must reject incompatible/invalid contract instances rather than guessing missing semantics.
 - A domain agent may not create a permanent parallel shared model merely to avoid requesting a contract change.
+
+For `bounded-live-fire-readiness-v0.1` specifically:
+
+- E7 owns LF gate definitions, exact revision/evidence compatibility and cross-module release/readiness interpretation;
+- PM audits gate evidence and may request a future Product Owner authorization only after prerequisites are accepted; PM cannot grant provider mutation/capital authority;
+- Product Owner alone grants any future bounded provider mutation/capital exposure and Gate D/LIVE authority;
+- E1/E4/E5/E6 remain authoritative for their existing market, execution, risk/lifecycle and persistence facts respectively;
+- AgentBridge/operator remains authoritative for approved-local action allowlisting, exact worktree/process infrastructure, watchdog/process identity and secure local credential injection when later authorized;
+- historical evidence from a different revision is not rebound to a newer executable candidate;
+- `NOT_RUN`, `PARTIAL`, merge status, docs-only completion and historical PASS are never equivalent to current executable PASS.
 
 For `protection-trigger-validity-v0.1` specifically:
 
@@ -68,10 +82,10 @@ For `position-lifecycle-execution-binding-v0.1` specifically:
 
 ## Contract status
 
-Every shared contract uses one of these states:
+Every shared contract/profile uses one of these states:
 
 - `DRAFT` — not safe for downstream implementation dependency.
-- `BASELINE` — approved minimum contract for current construction; additive compatible refinement is allowed through E7 review.
+- `BASELINE` — approved minimum contract/profile for current construction; additive compatible refinement is allowed through E7 review.
 - `STABLE` — compatibility guarantees are release-significant.
 - `DEPRECATED` — supported only during an explicit migration window.
 - `RETIRED` — no longer valid for new production use.
@@ -113,7 +127,9 @@ position-lifecycle-projection-v0.1
 position-lifecycle-execution-binding-v0.1
 ```
 
-An object profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, or required-state behavior is changed incompatibly, normal major-version rules apply.
+Release/readiness profiles such as `bounded-live-fire-readiness-v0.1` are independently versioned governance/evidence profiles. They do not alter serialized object identities unless a later explicit contract says otherwise.
+
+An object or readiness profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, required-state behavior, or release authority is changed incompatibly, normal contract/ADR/governance rules apply.
 
 ## Canonical interchange conventions
 
@@ -136,13 +152,13 @@ Any cross-module change must follow this sequence:
 1. **Request** — domain owner documents why the current contract is insufficient.
 2. **Producer inventory** — E7 identifies every producer.
 3. **Consumer inventory** — E7 identifies every consumer.
-4. **Impact** — identify behavioral, persistence, replay, migration, and release impact.
+4. **Impact** — identify behavioral, persistence, replay, migration, release and authority impact.
 5. **Compatibility** — classify the change as compatible or breaking.
-6. **ADR** — create/update an ADR when semantics, authority, state machines, or dependency direction materially change.
-7. **Contract revision** — update the canonical contract and version.
+6. **ADR** — create/update an ADR when semantics, authority, state machines, runtime architecture or dependency direction materially change.
+7. **Contract/profile revision** — update the canonical contract/profile and version.
 8. **Tests** — add/adjust relevant local test definitions.
 9. **Local verification** — execute only on a local or Product-Owner-approved non-GitHub environment; otherwise record `NOT_RUN` and the exact local command.
-10. **Integration** — E7 accepts dependent revisions only after contract evidence is coherent.
+10. **Integration** — E7 accepts dependent revisions only after contract/evidence provenance is coherent.
 
 A temporary adapter may bridge versions when approved. A temporary duplicate model may not silently become permanent.
 
@@ -162,23 +178,24 @@ A producer must:
 
 A consumer must:
 
-- validate the schema version and any required object profile it supports;
+- validate the schema version and any required object/profile version it supports;
 - reject or safely degrade on incompatible required semantics;
-- never infer LIVE authority from credentials, strategy success, or UI state;
+- never infer LIVE authority from credentials, strategy success, UI state, a bounded live-fire session, or prior gate PASS;
 - never treat `UNKNOWN` as healthy;
 - never infer funding zero from missing/unavailable evidence;
 - never infer lifecycle ordering from persistence arrival order, storage timestamps, row IDs or unrelated execution rows;
 - never accept unsupported lifecycle state/event/kind as restart-authoritative;
 - when Gate B restart execution freshness is required, never claim the latest lifecycle projection is current if its `position-lifecycle-execution-binding-v0.1` companion is missing, conflicting, or differs from the current durable in-scope E4 execution snapshot;
 - when a protection mutation requires `protection-trigger-validity-v0.1`, never treat stale/unknown/mismatched/already-breached evidence as actionable and never retry unchanged breached truth merely because time advanced;
+- when an LF gate requires exact-revision evidence, never reuse another revision's qualification/provider/runtime result as current PASS;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy
 
 GitHub stores these contracts, source code, tests, PRs, issues, documentation, and shared project history only.
 
-Do **not** add or rely on GitHub Actions, GitHub CI, GitHub-hosted runners, GitHub-triggered self-hosted runners, scheduled Actions, or GitHub-based project-code execution for contract verification. Local evidence or `NOT_RUN` is required.
+Do **not** add or rely on GitHub Actions, GitHub CI, GitHub-hosted runners, GitHub-triggered self-hosted runners, scheduled Actions, or GitHub-based project-code execution for contract or LF-gate verification. Approved local evidence or explicit `NOT_RUN` is required.
 
 ## Security
 
-This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only.
+This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF evidence.

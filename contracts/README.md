@@ -8,7 +8,7 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, external-provider object ownership/reconciliation, bounded live-fire readiness evidence, or runtime-preflight identity/readiness evidence.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, external-provider object ownership/reconciliation, protection-registry multiplicity/currentness, bounded live-fire readiness evidence, or runtime-preflight identity/readiness evidence.
 
 The first materialized baseline is:
 
@@ -25,6 +25,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 - [`POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_VOCABULARY_V0_1.md) — normative exhaustive lifecycle state/event/kind consumer vocabulary for restart-authoritative `position-lifecycle-projection-v0.1`; unknown values fail closed
 - [`POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`](./POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md) — `position-lifecycle-execution-binding-v0.1` immutable E5 companion proof binding one lifecycle projection to the exact Position-linked E4 PROTECTION_STOP / POSITION_EXIT / EMERGENCY_EXIT OrderRequest, OrderResult-observation, and Fill snapshot it interpreted; changed durable execution evidence requires fresh E5 interpretation before restart `READY`
 - [`EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md`](./EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md) — `external-provider-object-ownership-reconciliation-v0.1` immutable provider-object ownership/reconciliation evidence for positions, orders, fills, protection and unknown provider objects; external/prior-generation/conflicting truth fails closed and adoption is always a separate exact-snapshot policy decision.
+- [`PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md`](./PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md) — `protection-registry-multiplicity-v0.1` complete/current active-protection-set evidence requiring exactly one current-generation-owned provider protection that exact-matches the one intended E5 lineage; zero/multiple/orphan/external/prior-generation/stale/unknown/conflicting sets fail closed and never authorize cleanup or mutation.
 
 Release/readiness evidence profiles registered under E7 authority:
 
@@ -38,6 +39,19 @@ Release/readiness evidence profiles registered under E7 authority:
 - Domain producers own production of valid contract instances inside their domain.
 - Domain consumers must reject incompatible/invalid contract instances rather than guessing missing semantics.
 - A domain agent may not create a permanent parallel shared model merely to avoid requesting a contract change.
+
+For `protection-registry-multiplicity-v0.1` specifically:
+
+- E4 owns provider protection observation, normalized provider object identity/snapshot references, provider observation generation/completeness/currentness, provider readback and exact E4-created protection-lineage comparison facts; future provider create/cancel/query mappings remain E4 capability scope;
+- E5 owns the one currently intended protection policy/`PositionAction.PROTECT` lineage, lifecycle/protection safety interpretation and permission/veto for create/replace/emergency/cleanup actions;
+- E6 may persist immutable FP-11 evidence, validate references/hashes/currentness/conflicts and project current-vs-historical registry state; it must not select the intended provider object by arrival order, timestamp, price similarity or client-ID resemblance;
+- E7 owns the profile, multiplicity/currentness/status/disposition/reason vocabulary, deterministic set/evidence identity and integration/release interpretation;
+- every observed `ACTIVE_PROTECTION` object must carry current accepted `external-provider-object-ownership-reconciliation-v0.1` evidence;
+- `KNOWN_OWNED_CURRENT_GENERATION` is necessary but not sufficient: the exact provider object/snapshot must also exact-match the one intended protection lineage;
+- only a complete/current set containing exactly one such object is converged; zero/multiple/orphan/external/prior-generation/stale/unknown/conflicting states are fail closed;
+- no registry status/disposition directly authorizes create/cancel/replace/cleanup, and blind cancel-all/create-another behavior is forbidden;
+- FP-03 ACTIONABLE evidence proves only pre-mutation trigger geometry and cannot prove provider protection existence/uniqueness/ownership;
+- FP-10 must later consume FP-11 state so flat/reduced exposure does not silently erase unresolved provider protection objects.
 
 For `external-provider-object-ownership-reconciliation-v0.1` specifically:
 
@@ -153,6 +167,7 @@ funding-allocation-v0.1
 position-lifecycle-projection-v0.1
 position-lifecycle-execution-binding-v0.1
 external-provider-object-ownership-reconciliation-v0.1
+protection-registry-multiplicity-v0.1
 ```
 
 Release/readiness profiles such as `bounded-live-fire-readiness-v0.1` and `runtime-preflight-v0.1` are independently versioned governance/evidence profiles. They do not alter serialized domain-object identities unless a later explicit contract says otherwise.
@@ -216,6 +231,7 @@ A consumer must:
 - when Gate B restart execution freshness is required, never claim the latest lifecycle projection is current if its `position-lifecycle-execution-binding-v0.1` companion is missing, conflicting, or differs from the current durable in-scope E4 execution snapshot;
 - when a protection mutation requires `protection-trigger-validity-v0.1`, never treat stale/unknown/mismatched/already-breached evidence as actionable and never retry unchanged breached truth merely because time advanced;
 - when `external-provider-object-ownership-reconciliation-v0.1` is required, never treat local-state absence, provider-object similarity, prior-generation provenance, stale adoption evidence, or unresolved conflicting ownership as current mutation authority; external/manual objects require explicit reconciliation and any adoption is a separate exact-snapshot policy decision;
+- when `protection-registry-multiplicity-v0.1` is required, never treat zero/incomplete/stale protection observations, current ownership without exact intended-lineage match, or any extra external/prior-generation/unknown/conflicting active protection as converged; registry dispositions never directly authorize create/cancel/replace/cleanup;
 - when an LF gate requires exact-revision evidence, never reuse another revision's qualification/provider/runtime result as current PASS;
 - when `runtime-preflight-v0.1` is required, never treat another role's result, prior-process heartbeat, catalog-only action registration, stale mode/config/reconciliation evidence, or missing runtime authorization as `ELIGIBLE`;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
@@ -228,4 +244,4 @@ Do **not** add or rely on GitHub Actions, GitHub CI, GitHub-hosted runners, GitH
 
 ## Security
 
-This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF, runtime-preflight, or external-provider ownership/reconciliation evidence.
+This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF, runtime-preflight, external-provider ownership/reconciliation, or protection-registry evidence.

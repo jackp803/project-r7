@@ -1,41 +1,56 @@
 # E7 Status
 
-- task_id: `E7-20260829-103`
+- task_id: `E7-20260829-105`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-bounded-live-fire-readiness-profile-20260829`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-103 and remained ACTIVE immediately before terminal write`
-- task_blob: `f37953cb0fbe13d92de1d1cf5244f9824938e93a`
-- task_type: `CONTRACT / DOCS / STATUS-ONLY BOUNDED LIVE-FIRE READINESS PROFILE`
-- profile_id: `bounded-live-fire-readiness-v0.1`
-- profile_artifact: `contracts/BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md`
-- profile_commit: `4067baf0529498a1ad359f5039c3d1c001bfcee2`
-- contract_registry_commit: `fc5743b98eaa059a35b0eba3cdf34d97e2439ace`
-- handoff_artifact: `status/e7/BOUNDED_LIVE_FIRE_READINESS_HANDOFF_20260829.md`
-- handoff_commit: `b0429268aa14d8167cd488399c3c1193fcb85753`
+- branch: `agent/e7-fp16-runtime-preflight-contract-20260829`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-105 and remained ACTIVE immediately before terminal write`
+- task_blob: `b2b02a92dc3737810fd0c9db115d3f197b0d355c`
+- task_type: `CONTRACT / DOCS / STATUS-ONLY FP-16 RUNTIME PREFLIGHT IDENTITY/READINESS`
+- profile_id: `runtime-preflight-v0.1`
+- profile_artifact: `contracts/RUNTIME_PREFLIGHT_PROFILE_V0_1.md`
+- profile_commit: `7e5e10dbd174a854a2b5add95a0867a1a4bb1aa7`
+- contract_registry_commit: `1207b4d9521b7a087affb6b5f2ed5f00bc9058b1`
+- handoff_artifact: `status/e7/FP16_RUNTIME_PREFLIGHT_CONTRACT_HANDOFF_20260829.md`
+- handoff_commit: `4bfa5f381479aa0496716f25b0e736b59e769c82`
 - new_adr: `NO / NOT REQUIRED`
-- lf0_exact_revision_infrastructure: `BLOCKED`
-- lf1_credential_free_qualification: `NOT_RUN / NOT_PASS`
-- lf2_p0_failure_prevention_closure: `PARTIAL / FP-02,04,05,10,11,16 OPEN + FP-03 UNQUALIFIED`
-- lf3_failure_injection_recovery: `NOT_RUN`
-- lf4_provider_readonly: `NOT_STARTED / FUTURE PRODUCT OWNER AUTHORITY REQUIRED`
-- lf5_shadow_paper_readiness: `NOT_STARTED / NOT_AUTHORIZED`
-- lf6_bounded_live_fire_authorization: `NOT_STARTED / NOT_AUTHORIZED`
-- fp03_combined_candidate: `IMPLEMENTED / UNQUALIFIED`
+- compatibility: `ADDITIVE SHARED EVIDENCE PROFILE / CONTRACTS-V0.1 UNCHANGED`
+- operational_mode_semantics: `REFERENCED / UNCHANGED / NO NEW MODE`
+- preflight_result_vocabulary: `ELIGIBLE | FAIL_CLOSED`
+- eligible_authority_meaning: `ROLE-SCOPED ADMISSION EVIDENCE ONLY / NO PROVIDER OR RUNTIME AUTHORITY CREATED`
+- runtime_roles: `CREDENTIAL_FREE_LOCAL_VERIFICATION, PROVIDER_READ_ONLY_OBSERVATION, SHADOW_RUNTIME, PAPER_RUNTIME, BOUNDED_LIVE_FIRE_RUNTIME`
+- role_pass_transferability: `FORBIDDEN`
+- exact_revision_binding: `REQUIRED`
+- exact_clean_worktree_when_revision_qualified: `REQUIRED`
+- operational_mode_binding: `TRANSITION_ID + MODE_REVISION + MODE + PAYLOAD_HASH`
+- runtime_config_binding: `GENERATION_ID + HASH REQUIRED`
+- process_identity_binding: `PROCESS_INSTANCE_ID + PROCESS_START_GENERATION_ID REQUIRED`
+- single_instance: `SINGLE REQUIRED`
+- heartbeat_binding: `PROCESS + START GENERATION + POLICY GENERATION/HASH + FRESHNESS CLASSIFICATION + TIMES`
+- heartbeat_numeric_ttl: `NOT INVENTED / OWNED BY BOUND CONFIG-POLICY GENERATION`
+- supervisor_watchdog_binding: `IDENTITY + GENERATION + CONFIG HASH + RESTART PERMISSION`
+- action_capability_binding: `REQUIRED + REGISTERED + ALLOWLISTED CANONICAL ACTION SETS`
+- catalog_registration_equals_allowlist: `NO`
+- local_allowlist_equals_runtime_authority: `NO`
+- reconciliation_binding: `REQUIRED FOR PROVIDER/EXPOSURE ROLES`
+- dependency_evidence: `OWNER-AUTHORITATIVE REFERENCES ONLY / SEMANTICS NOT DUPLICATED`
+- external_consumer_compatibility: `REQUIRED WHERE ORCHESTRATOR MATERIALLY PARTICIPATES`
+- adr0010_shadow_consumer_dependency: `PRESERVED / REQUIRED BEFORE FUTURE SHADOW`
+- authorization_binding: `ROLE + EXACT REVISION + CAPABILITY GENERATION + STATUS`
+- consumed_authorization_reuse: `FORBIDDEN`
+- watchdog_restart_rule: `DEAD PROCESS ALONE NEVER AUTHORIZES RESTART / FULL CURRENT PREFLIGHT RECOMPUTED`
+- prior_process_heartbeat_authority_after_restart: `FORBIDDEN`
+- financial_kill_switch_vs_operational_mode: `DISTINCT AUTHORITY PLANES`
+- lf0_exact_revision_infrastructure: `BLOCKED / UNCHANGED`
 - fp03_candidate_revision: `9462b2594675b2e28388f55a2af189100b7cbdfc`
 - exact_clean_candidate: `NOT_ESTABLISHED`
-- active_blocker: `PREPARE_EXACT_REVISION LOCAL ALLOWLIST / APPROVED-LOCAL INFRASTRUCTURE`
-- provider_facing_verification_on_candidate: `NOT_RUN / NOT_INFERRED`
-- historical_gate_b_evidence: `d5ddb4cec47c15e8d3ed7045dce4bed043fb6aa8 / PRESERVED / NOT REBOUND`
-- historical_adr0010_credential_free_evidence: `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c / PRESERVED / NOT REBOUND`
-- historical_provider_evidence: `ab725965e96cac7a9769fd1ab15a3e626f920b95 / PRESERVED / NOT REBOUND`
-- sequencing_fp02: `FIRST PROVIDER ACTION CAPABILITY VOCABULARY / FEEDS FP-05 AND FP-11`
-- sequencing_fp16: `PARALLEL CONTRACT TRACK / RUNTIME IDENTITY`
-- sequencing_fp04: `BEFORE FP-11 AND FP-10`
-- sequencing_fp11: `AFTER FP-04`
-- sequencing_fp05: `AFTER FP-02`
-- sequencing_fp10: `AFTER FP-04 + FP-05 / PREFER FP-11 IDENTITY-CLEANUP SEMANTICS`
-- final_p0_release_qualification_strategy: `ONE FRESH COMPLETE CREDENTIAL-FREE MATRIX ON EXACT INTEGRATED P0 CANDIDATE`
+- fp03_combined_qualification: `NOT_RUN / NOT_PASS`
+- fp16_prior_audit_classification: `PARTIAL`
+- fp16_contract_design: `DEFINED`
+- fp16_executable_project_implementation: `NOT_STARTED`
+- fp16_external_operator_implementation: `NOT_STARTED`
+- future_project_executable_change_requalification: `YES / IF PROJECT EXECUTABLE PREFLIGHT CODE IS ADDED`
+- provider_facing_verification_on_current_candidate: `NOT_RUN / NOT_INFERRED`
 - executable_verification: `NOT_RUN / NOT REQUIRED FOR CONTRACT-DOCS TASK`
 - local_job_request: `NONE`
 - provider_requests: `0`
@@ -43,8 +58,8 @@
 - credentials_read_requested_used: `NONE`
 - provider_account_mutation: `0`
 - submit_cancel_amend_close_requests: `0`
-- shadow_runtime: `NOT_STARTED / NOT AUTHORIZED`
-- paper_runtime: `NOT_STARTED / NOT AUTHORIZED`
+- shadow_runtime: `NOT_STARTED / NOT_AUTHORIZED`
+- paper_runtime: `NOT_STARTED / NOT_AUTHORIZED`
 - bounded_10u_live_fire: `NOT_AUTHORIZED`
 - capital_exposure: `NONE`
 - github_actions_ci_hosted_runner: `NOT_USED`
@@ -55,18 +70,29 @@
 
 ## Result
 
-E7 created the fail-closed `bounded-live-fire-readiness-v0.1` profile with distinct LF-0 through LF-6 evidence gates, stable gate-state vocabulary, exact-revision/evidence binding, P0 closure ownership, dependency sequencing, deterministic failure-injection/recovery requirements, a future provider read-only boundary, SHADOW/PAPER prerequisites, and a future single-session 10 USDT Product Owner authorization boundary.
+E7 defined `runtime-preflight-v0.1`, a provider-neutral fail-closed runtime admission evidence profile binding one exact role to exact project revision/worktree authority, E6 durable OperationalMode generation, runtime config generation, process/start-generation identity, single-instance status, heartbeat policy/freshness, supervisor generation, canonical local-action capability state, reconciliation readiness, owner-authoritative dependency references, external-consumer compatibility and exact role authorization.
 
-The profile preserves the active FP-03 exact-revision preparation blocker and all current `NOT_RUN / NOT_PASS` classifications. Historical qualification/provider evidence remains bound only to the exact revisions that generated it.
+The profile explicitly separates process liveness, watchdog restart permission, durable OperationalMode, reconciliation readiness, E5 financial kill-switch/risk veto and provider/runtime/capital authorization. A dead process does not authorize restart; a fresh heartbeat does not prove reconciliation; a mode value does not grant runtime authority; catalog registration does not mean local allowlisting; credentials do not create provider or LIVE authority.
 
-The recommended blocker-safe next work is contract/docs-only FP-02, FP-16 and FP-04 definition work in parallel where independent; no executable Worker task is issued by E7-103. FP-04 precedes FP-11 and FP-10; FP-02 precedes FP-05; FP-10 consumes FP-04 + FP-05 and preferably FP-11 cleanup identity. After executable P0 implementation, release evidence should use one fresh complete credential-free qualification on the exact integrated candidate rather than rebinding historical PASS results.
+No numeric heartbeat TTL/retry/restart timeout was invented. Freshness thresholds remain behavior-affecting configuration owned by the bound runtime/supervisor policy generation and missing/unknown policy fails closed.
+
+The existing LF-0 blocker is preserved exactly. `PREPARE_EXACT_REVISION` remains locally blocked for the current FP-03 candidate, exact clean `9462b259...` is not established, FP-03 combined qualification remains `NOT_RUN / NOT_PASS`, and historical qualification/provider evidence is not rebound.
+
+## Future handoff
+
+The durable handoff defines two smallest future implementation boundaries without issuing them:
+
+1. project-r7 E7/E6 provider-free validator/composer + deterministic tests;
+2. external operator/AgentBridge process/start generation, heartbeat, single-instance, supervisor/restart admission, action allowlist snapshot and external-consumer compatibility implementation.
+
+Future project executable changes require fresh approved-local credential-free qualification for the exact integrated revision. Operator-only changes require their own operator verification and do not constitute project qualification.
 
 ## Verification / authority boundary
 
-E7-103 executed no project code/tests. `NOT_RUN / NOT REQUIRED FOR CONTRACT-DOCS TASK` is not executable PASS.
+E7-105 executed no project code/tests. `NOT_RUN / NOT REQUIRED FOR CONTRACT-DOCS TASK` is not executable PASS.
 
-No Local Job Request, provider request, credential access, provider/account mutation, submit/cancel/amend/close order action, SHADOW/PAPER runtime, capital exposure, GitHub compute, Product Owner authorization artifact, Gate D or LIVE action occurred.
+No Local Job Request, provider request, private API access, credential read/request/use, provider/account mutation, submit/cancel/amend/close order action, SHADOW/PAPER runtime, bounded 10U live-fire, capital exposure, GitHub compute, release-gate change, Gate D or LIVE action occurred.
 
 ## Completion
 
-E7 stops on `DONE / BOUNDED LIVE-FIRE READINESS PROFILE COMPLETE` for `E7-20260829-103`. No FP-02/04/05/10/11/16 implementation, exact-revision preparation, credential-free requalification, provider verification, SHADOW/PAPER, 10U live-fire, Gate D, LIVE, mutation, order action or capital movement/exposure is self-started.
+E7 stops on `DONE / FP-16 RUNTIME PREFLIGHT CONTRACT COMPLETE` for `E7-20260829-105`. No FP-16 executable implementation, AgentBridge change, FP-04/05/10/11 work, exact-revision preparation, qualification, provider verification, SHADOW/PAPER, 10U live-fire, Gate D, LIVE, mutation, order action or capital movement/exposure is self-started.

@@ -1,21 +1,22 @@
-# P0 Credential-Free Qualification Manifest — E7-20260829-111
+# P0 Credential-Free Qualification Manifest — E7-20260829-111 / E7-20260829-112 update
 
 ## Purpose
 
-This manifest defines the exact future approved-local qualification sequence for the integrated P0 static candidate after:
+This manifest defines the exact future approved-local qualification sequence for the integrated P0 executable candidate after:
 
-1. E7-111 test definitions are merged;
-2. PM identifies the exact merged integration candidate revision;
+1. E7-111 static integration definitions and E7-112 FP-16 implementation are merged;
+2. PM identifies the exact merged executable candidate revision;
 3. approved-local infrastructure establishes that exact revision as `EXACT_CLEAN`;
 4. a fresh E7 qualification task authorizes execution.
 
-E7-111 itself executes nothing.
+E7-112 itself executes nothing.
 
 ## Current qualification state
 
 ```text
-qualification_revision = TBD AFTER MERGE + EXACT-CLEAN PREPARATION
+qualification_revision = TBD AFTER E7-112 MERGE + EXACT-CLEAN PREPARATION
 project executable verification = NOT_RUN / NOT_PASS
+FP-16 runtime-preflight tests = NOT_RUN / NOT_PASS
 integrated P0 safety/E2E matrix = NOT_RUN / NOT_PASS
 LF-0 = BLOCKED / UNCHANGED
 LF-1 = NOT_RUN / NOT_PASS
@@ -24,6 +25,7 @@ provider requests = 0
 private API = NONE
 credentials = NONE
 provider/account mutation = 0
+process launch/restart = 0
 order/protection actions = 0
 SHADOW/PAPER = NOT_AUTHORIZED
 bounded 10U live-fire = NOT_AUTHORIZED
@@ -36,12 +38,13 @@ GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 
 ## Revision provenance rules
 
-- The future qualification revision is **not yet known** because the E7-111 branch is not the merged integration candidate while this manifest is authored.
+- The future qualification revision is **not yet known** because the E7-112 branch is not the merged executable candidate while this manifest update is authored.
+- E7-111 merge commit `ae2fcc5daacaf7045f1efab5e0778b921f12efed` predates the E7-112 executable FP-16 source and therefore cannot qualify the resulting E7-112 candidate.
 - Historical exact-clean revision `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` does **not** qualify this candidate.
-- FP-03 combined candidate `9462b2594675b2e28388f55a2af189100b7cbdfc` is not `EXACT_CLEAN` under current accepted evidence and does not qualify the E7-111 integrated candidate.
+- FP-03 combined candidate `9462b2594675b2e28388f55a2af189100b7cbdfc` is not `EXACT_CLEAN` under current accepted evidence and does not qualify the E7-112 integrated candidate.
 - E7-101 preparation request `REQ-E7-PREPARE-101-01-72A4C9E1` is terminal/non-reusable.
 - E7-101 local job `JOB-41D0F958C484CCF7` is `REFUSED` and is terminal/non-reusable evidence.
-- A fresh exact-clean preparation/equivalent operator fact and a fresh qualification task/request identity are required after merge.
+- A fresh exact-clean preparation/equivalent operator fact and a fresh qualification task/request identity are required after E7-112 merge.
 - No historical test PASS or provider-facing evidence may be rebound to the future merged candidate.
 
 ## Required approved-local environment assertions
@@ -58,6 +61,7 @@ The qualification host must be:
 - no provider/private API access for this qualification;
 - no credentials read/requested/used;
 - no provider/account mutation;
+- no process launch/restart by FP-16 tests;
 - no order/protection submit/cancel/amend/close;
 - no SHADOW/PAPER/live runtime;
 - no capital exposure.
@@ -68,7 +72,7 @@ Run from repository root on the approved Windows host only. PM must replace the 
 
 ```powershell
 $ErrorActionPreference = 'Stop'
-$ExpectedRevision = '<PM_BIND_EXACT_MERGED_P0_INTEGRATION_REVISION_AFTER_PREPARATION>'
+$ExpectedRevision = '<PM_BIND_EXACT_MERGED_P0_EXECUTABLE_REVISION_AFTER_PREPARATION>'
 
 if ($ExpectedRevision -like '<*') {
     throw 'P0 qualification revision is still TBD; do not execute qualification.'
@@ -90,13 +94,14 @@ Write-Output "EXECUTION_REVISION=$ActualRevision"
 Write-Output 'WORKING_TREE=CLEAN'
 Write-Output 'PROVIDER_ACCESS=FORBIDDEN'
 Write-Output 'CREDENTIALS=NONE'
+Write-Output 'PROCESS_LAUNCH_RESTART=0_EXPECTED'
 Write-Output 'MUTATION_REQUESTS=0_EXPECTED'
 Write-Output 'GITHUB_COMPUTE=FORBIDDEN'
 ```
 
 The future durable result must record the actual OS build, Python version, exact revision, and clean-worktree result. Do not persist local filesystem paths or secrets.
 
-## Phase 1 — focused P0 owner + integrated matrix
+## Phase 1 — focused P0 owner + E7 matrix
 
 Run these exact commands after the preflight succeeds:
 
@@ -117,6 +122,7 @@ python -m unittest discover -s tests/storage -p 'test_protection_registry_curren
 python -m unittest discover -s tests/storage -p 'test_external_close_currentness.py' -v
 python -m unittest discover -s tests/storage -p 'test_external_close_currentness_supersession.py' -v
 
+python -m unittest discover -s tests/integration -p 'test_runtime_preflight.py' -v
 python -m unittest discover -s tests/integration -p 'test_p0_integrated_failure_prevention.py' -v
 python -m unittest discover -s tests/safety -p 'test_p0_integrated_fail_closed.py' -v
 python -m unittest discover -s tests/e2e -p 'test_p0_reconciliation_restart_e2e.py' -v
@@ -151,12 +157,13 @@ Required future qualification result:
 
 ```text
 14 / 14 suite directories PASS
-focused P0 modules PASS
+focused P0 modules PASS including FP-16
 same exact revision for every command
 same clean approved-local worktree
 zero provider/private requests
 zero credentials
 zero provider/account mutation
+zero process launch/restart
 zero submit/cancel/amend/close/protection action
 zero GitHub compute
 ```
@@ -170,11 +177,12 @@ Actual test counts must be measured at execution time. Do not reuse historical c
 3. FP-04/FP-10 owner evidence + E5 reinterpretation tests;
 4. FP-05 owner close/residual tests;
 5. FP-11 E4 evidence + E5 policy + E6 currentness tests;
-6. E7 integration test;
-7. E7 safety test;
-8. E7 restart E2E test;
-9. full 14-suite current project matrix;
-10. E7/PM evidence reconciliation.
+6. FP-16 E7 pure runtime-preflight test;
+7. E7 P0 integration test;
+8. E7 safety test;
+9. E7 restart E2E test;
+10. full 14-suite current project matrix;
+11. E7/PM evidence reconciliation.
 
 A failure stops the qualification. Do not continue to provider-readonly, SHADOW, PAPER, bounded live-fire, Gate D or LIVE from a failing/partial credential-free result.
 
@@ -197,7 +205,8 @@ Persist sanitized durable evidence containing at minimum:
 - `provider_requests = 0`
 - `private_api_access = NONE`
 - `credentials_read_requested_used = NONE`
-- `mutation_requests = 0`
+- `provider_account_mutation = 0`
+- `process_launch_restart = 0`
 - `submit_cancel_amend_close_protection = 0`
 - `shadow_runtime = NOT_STARTED`
 - `paper_runtime = NOT_STARTED`
@@ -223,23 +232,24 @@ Do not persist:
 | FP-05 | E4 close/residual tests + E7 integrated/safety tests |
 | FP-10 | E4 convergence evidence + E5 reinterpretation + E6 currentness + E7 integrated/safety/E2E |
 | FP-11 | E4 registry evidence + E5 policy + E6 restart/currentness + E7 integrated/safety/E2E |
-| FP-16 | E7 safety static contract assertion only until an executable runtime-preflight implementation exists; remains `CONTRACT_ONLY` and cannot PASS as executable runtime preflight |
+| FP-16 | `src/integration/runtime_preflight.py` + `tests/integration/test_runtime_preflight.py` + migrated E7 safety coverage; classification remains `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` until approved-local execution succeeds |
 | FP-02 provider-native protection/close facts | remain `UNRESOLVED_PROVIDER_FACT`; credential-free tests must prove fail-closed non-authorizing behavior, not simulate provider compatibility |
 
 ## Qualification interpretation
 
-Passing this future credential-free manifest can establish only the exact revision's credential-free static/integration safety result. It does not by itself establish:
+Passing this future credential-free manifest can establish only the exact revision's credential-free project/integration safety result. It does not by itself establish:
 
 - production OKX provider compatibility;
 - provider read-only verification;
+- external operator/AgentBridge launcher/runtime-preflight enforcement evidence;
 - provider mutation capability;
 - SHADOW or PAPER runtime authorization;
 - bounded 10U live-fire authorization;
 - Gate D;
 - LIVE.
 
-FP-16 executable runtime-preflight and unresolved FP-02 provider-native facts remain separate dependencies even if every currently implemented credential-free suite passes.
+FP-16 project source is now implemented but unqualified. It must pass the future exact-revision qualification together with the rest of the candidate. Unresolved FP-02 provider-native facts remain separate fail-closed dependencies.
 
 ## Current blocker preservation
 
-LF-0 remains blocked by approved-local exact-revision preparation infrastructure. E7-111 creates no Local Job Request and does not retry/reuse E7-101 evidence. The future PM/E7 flow must first establish the newly merged exact candidate as `EXACT_CLEAN` with fresh authoritative evidence before any command in this manifest may be executed.
+LF-0 remains blocked by approved-local exact-revision preparation infrastructure. E7-112 creates no Local Job Request and does not retry/reuse E7-101 evidence. The future PM/E7 flow must first establish the newly merged exact executable candidate as `EXACT_CLEAN` with fresh authoritative evidence before any command in this manifest may be executed.

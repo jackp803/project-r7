@@ -8,15 +8,155 @@ from typing import Any, Mapping
 from .external_close_reinterpretation import (
     CURRENT,
     DECISION_RECONCILE,
+    LIFECYCLE_CLOSE_ELIGIBLE,
+    NO_ACTION_CURRENT_KNOWN_OWNED,
     CurrentExternalCloseAuthority,
     ExternalCloseReinterpretationDecision,
     ExternalCloseReinterpretationError,
     external_close_convergence_evidence_is_current as _base_evidence_is_current,
     interpret_external_close_convergence as _base_interpret,
-    validate_external_provider_ownership_evidence,
+    validate_external_manual_close_convergence_evidence as _base_validate_fp10,
+    validate_external_provider_ownership_evidence as _base_validate_fp04,
 )
 from .lifecycle_projection import LifecycleProjectionError, validate_position_lifecycle_projection
 from .state_machine import PositionEvent, PositionLifecycleState, UnsafeTransitionError, transition
+
+_FP04_REASON_ORDER = (
+    "EXTERNAL_OWNERSHIP_PROFILE_UNSUPPORTED",
+    "PROVIDER_OBJECT_CLASS_UNKNOWN",
+    "PROVIDER_IDENTITY_UNBOUND",
+    "PROVIDER_SNAPSHOT_UNBOUND",
+    "PROVIDER_OBJECT_LINEAGE_NOT_PROVEN",
+    "PROVIDER_OBJECT_PRIOR_RUNTIME_GENERATION",
+    "EXTERNAL_PROVIDER_OBJECT_UNTRACKED",
+    "EXPLICIT_ADOPTION_POLICY_REQUIRED",
+    "OWNERSHIP_MANUAL_REVIEW_REQUIRED",
+    "LOCAL_LINEAGE_OWNERSHIP_CONFLICT",
+    "PROVIDER_OBJECT_MULTIPLICITY_CONFLICT",
+    "LINEAGE_PROVIDER_IDENTIFIER_MISMATCH",
+    "LINEAGE_PROVIDER_SNAPSHOT_MISMATCH",
+    "PROVIDER_OBJECT_INSTRUMENT_MISMATCH",
+    "PROVIDER_OBJECT_SIDE_MISMATCH",
+    "PROVIDER_OBJECT_QUANTITY_MISMATCH",
+    "PROVIDER_OBSERVATION_NEWER_THAN_OWNERSHIP_EVIDENCE",
+    "LOCAL_EVIDENCE_NEWER_OR_CONTRADICTORY",
+    "OWNERSHIP_EVIDENCE_STALE",
+    "ADOPTION_EVIDENCE_MISSING_OR_INVALID",
+    "ADOPTION_EVIDENCE_STALE_OR_MISMATCHED",
+    "ADOPTION_EVIDENCE_ALREADY_CONSUMED",
+    "PROTECTION_REGISTRY_CONVERGENCE_REQUIRED",
+    "LIFECYCLE_REINTERPRETATION_REQUIRED",
+    "TERMINAL_FLAT_CONVERGENCE_PENDING",
+    "OWNERSHIP_RECONCILIATION_INCOMPLETE",
+    "CURRENT_GENERATION_OWNERSHIP_PROVEN",
+)
+_FP04_REASON_INDEX = {value: index for index, value in enumerate(_FP04_REASON_ORDER)}
+_FP04_DISPOSITIONS = frozenset(
+    {
+        "NO_ACTION_CURRENT_KNOWN_OWNED",
+        "FRESH_RECONCILIATION_REQUIRED",
+        "BLOCK_NEW_EXPOSURE",
+        "BLOCK_PROTECTION_MUTATION",
+        "BLOCK_CLOSE_EXIT_MUTATION",
+        "ADOPTION_POLICY_EVALUATION_REQUIRED",
+        "DETACH_IGNORE_POLICY_EVALUATION_REQUIRED",
+        "MANUAL_REVIEW_REQUIRED",
+        "LIFECYCLE_REINTERPRETATION_REQUIRED",
+        "PROTECTION_REGISTRY_CONVERGENCE_REQUIRED",
+        "TERMINAL_FLAT_CONVERGENCE_PENDING",
+    }
+)
+_LINEAGE_FIELDS = frozenset(
+    {
+        "owner",
+        "evidence_class",
+        "evidence_ref",
+        "evidence_hash",
+        "evidence_generation_id",
+        "observed_or_created_at",
+        "lineage_role",
+        "claim_status",
+    }
+)
+_REGISTRY_FIELDS = frozenset(
+    {
+        "owner",
+        "evidence_class",
+        "evidence_ref",
+        "evidence_hash",
+        "evidence_generation_id",
+        "observed_at",
+        "currentness_status",
+    }
+)
+
+
+def _utc_text(value: Any, field: str):
+    if not isinstance(value, str) or not value.endswith("Z"):
+        raise ExternalCloseReinterpretationError("INVALID_TIMESTAMP", f"{field} must be RFC3339 UTC Z")
+    try:
+        from datetime import datetime, timezone
+
+        parsed = datetime.fromisoformat(value[:-1] + "+00:00")
+    except ValueError as exc:
+        raise ExternalCloseReinterpretationError("INVALID_TIMESTAMP", f"{field} is invalid") from exc
+    if parsed.utcoffset() != timezone.utc.utcoffset(parsed):
+        raise ExternalCloseReinterpretationError("INVALID_TIMESTAMP", f"{field} must be UTC")
+    return parsed
+
+
+def validate_external_provider_ownership_evidence(evidence: Mapping[str, Any]) -> None:
+    """Validate FP-04 shape, vocabulary, deterministic ordering, and false-current claims."""
+
+    _base_validate_fp04(evidence)
+    reasons = evidence["reason_codes"]
+    if any(code not in _FP04_REASON_INDEX for code in reasons):
+        raise ExternalCloseReinterpretationError("FP04_REASON_UNKNOWN", "unknown FP-04 reason code")
+    if reasons != sorted(set(reasons), key=_FP04_REASON_INDEX.__getitem__):
+        raise ExternalCloseReinterpretationError("FP04_REASON_ORDER_INVALID", "FP-04 reasons are not deterministic")
+
+    dispositions = evidence["required_dispositions"]
+    if any(value not in _FP04_DISPOSITIONS for value in dispositions):
+        raise ExternalCloseReinterpretationError("FP04_DISPOSITION_UNKNOWN", "unknown FP-04 disposition")
+    if dispositions != sorted(set(dispositions)):
+        raise ExternalCloseReinterpretationError("FP04_DISPOSITION_ORDER_INVALID", "FP-04 dispositions must be sorted and unique")
+    if NO_ACTION_CURRENT_KNOWN_OWNED in dispositions and dispositions != [NO_ACTION_CURRENT_KNOWN_OWNED]:
+        raise ExternalCloseReinterpretationError("FP04_FALSE_NO_ACTION", "NO_ACTION_CURRENT_KNOWN_OWNED is exclusive")
+
+    lineage = evidence["local_lineage_evidence"]
+    for item in lineage:
+        if set(item) != _LINEAGE_FIELDS:
+            raise ExternalCloseReinterpretationError("FP04_LINEAGE_FIELDS_INVALID", "FP-04 local lineage entry fields mismatch")
+    registry = evidence["local_registry_evidence"]
+    for item in registry:
+        if set(item) != _REGISTRY_FIELDS:
+            raise ExternalCloseReinterpretationError("FP04_REGISTRY_FIELDS_INVALID", "FP-04 registry entry fields mismatch")
+
+    if evidence["reconciliation_status"] == "CURRENT_KNOWN_OWNED":
+        if any(item.get("claim_status") in {"CONTRADICTS_LINEAGE", "UNKNOWN"} for item in lineage):
+            raise ExternalCloseReinterpretationError("FP04_FALSE_CURRENT_OWNERSHIP", "current ownership cannot include contradictory/unknown lineage")
+        if any(item.get("currentness_status") != CURRENT for item in registry):
+            raise ExternalCloseReinterpretationError("FP04_FALSE_CURRENT_OWNERSHIP", "current ownership cannot depend on stale/conflicting registry evidence")
+
+
+def validate_external_manual_close_convergence_evidence(evidence: Mapping[str, Any]) -> None:
+    """Validate FP-10 and enforce post-flat terminal-protection ordering before close eligibility."""
+
+    _base_validate_fp10(evidence)
+    if evidence.get("convergence_state") == LIFECYCLE_CLOSE_ELIGIBLE:
+        provider_received = _utc_text(
+            evidence.get("provider_position_received_at"),
+            "provider_position_received_at",
+        )
+        terminal_received = _utc_text(
+            evidence.get("terminal_protection_received_at"),
+            "terminal_protection_received_at",
+        )
+        if terminal_received < provider_received:
+            raise ExternalCloseReinterpretationError(
+                "FP10_TERMINAL_PROTECTION_PRECEDES_FLAT_ACCEPTANCE",
+                "close eligibility requires terminal protection observation after the flat Position acceptance boundary",
+            )
 
 
 def external_provider_ownership_evidence_is_current(
@@ -56,11 +196,12 @@ def external_close_convergence_evidence_is_current(
     evidence: Mapping[str, Any],
     authority: CurrentExternalCloseAuthority,
 ) -> bool:
-    """Fail closed on stale/unknown FP-10 provider truth before using the base exact-binding check."""
+    """Fail closed on stale/unknown FP-10 truth before using the base exact-binding check."""
 
     if evidence.get("provider_position_currentness_status") != CURRENT:
         return False
     try:
+        validate_external_manual_close_convergence_evidence(evidence)
         return _base_evidence_is_current(evidence, authority)
     except (ExternalCloseReinterpretationError, InvalidOperation, ValueError, TypeError):
         return False
@@ -136,13 +277,7 @@ def interpret_external_close_convergence(
     evidence: Mapping[str, Any],
     authority: CurrentExternalCloseAuthority,
 ) -> ExternalCloseReinterpretationDecision:
-    """Safe E5 FP-04/FP-10 consumer used by the package public surface.
-
-    A stale/unknown currentness axis is reconciled before the base policy may
-    consider closure. Positive authoritative exposure can never preserve or
-    produce a CLOSED lifecycle state, including when a stale local projection
-    already says CLOSED.
-    """
+    """Safe E5 FP-04/FP-10 consumer used by the package public surface."""
 
     if not external_close_convergence_evidence_is_current(evidence, authority):
         return _reconcile_decision(
@@ -192,7 +327,7 @@ def external_close_reinterpretation_decision_is_current(
     latest_evidence: Mapping[str, Any],
     authority: CurrentExternalCloseAuthority,
 ) -> bool:
-    """A newer FP-10 object invalidates a prior E5 decision even if only its immutable evidence ID changed."""
+    """A newer accepted FP-10 evidence object invalidates a decision bound to older evidence."""
 
     if not external_close_convergence_evidence_is_current(latest_evidence, authority):
         return False

@@ -1,71 +1,70 @@
 # E6 Status
 
-- task_id: `E6-20260829-026`
+- task_id: `E6-20260829-028`
 - agent: `E6`
 - state: `PARTIAL`
-- branch: `agent/e6-fp04-fp10-persistence-currentness-20260829`
+- branch: `agent/e6-fp11-persistence-currentness-20260829`
 - task_id_match: `YES`
-- authoritative_main_at_task_start: `db20f61cfbd54a1467aba28f30ee33ec23ab7727`
-- implementation_test_evidence_head: `b042e019d5b15456e790349634cf8a969a6c462f` (branch head before this mailbox-only terminal commit)
-- summary: `Materialized only the E6-owned provider-neutral immutable persistence/currentness/restart consumer for accepted FP-04 ownership evidence, FP-10 external/manual close convergence evidence, and merged E5 reinterpretation decision audit references. Current selection uses explicit supersession/reference/generation material rather than arrival order; missing, competing, superseded or mismatched dependencies fail closed; historical close eligibility or stale E5 close decisions cannot false-green CLOSED.`
-- files_changed: `src/storage/migrations/0005_external_close_currentness.sql; src/storage/external_close_currentness.py; tests/storage/test_external_close_currentness.py; tests/storage/test_external_close_currentness_supersession.py; status/e6/FP04_FP10_PERSISTENCE_CURRENTNESS_CONSUMER_20260829.md; coordination/E6/STATUS.md`
+- authoritative_main_at_task_start: `c912d5630531ddd21a600d1790d2cf3f4ee40e41`
+- implementation_test_evidence_head: `22a3cc0b609b4ff837888ce160914db0e7741250` (branch head before this mailbox-only terminal commit)
+- summary: `Materialized the bounded E6-owned provider-neutral immutable FP-11 persistence/current-head/restart read model and exact E5 FP-11 interpretation audit binding. Currentness uses owner-defined lineage, exact hashes/generations, explicit supersession, current lifecycle/binding and FP-04 dependencies; missing, stale, unknown, competing or mismatched chains fail closed and cannot false-green protection or CLOSED state.`
+- files_changed: `src/storage/migrations/0006_protection_registry_currentness.sql; src/storage/protection_registry_currentness.py; tests/storage/test_protection_registry_currentness.py; status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md; coordination/E6/STATUS.md`
 - contracts_changed: `NONE`
 - E4_E5_E7_code_changed: `NONE`
+- storage_public_wildcard_boundary_changed: `NONE`
 - provider_network_auth_changed: `NONE`
 - local_verification: `NOT_RUN / NOT_PASS`
-- executable_blocker: `LF-0 approved-local exact-revision infrastructure remains unavailable; no executable qualification can be claimed.`
-- handoff_path: `status/e6/FP04_FP10_PERSISTENCE_CURRENTNESS_CONSUMER_20260829.md`
-- next_owner: `PM/E7 review queue after LF-0/local qualification path is available`
+- executable_blocker: `LF-0 approved-local exact-revision infrastructure remains blocked; no executable qualification can be claimed.`
+- handoff_path: `status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md`
+- next_owner: `PM/E7 review/requalification queue under separate task after approved-local exact-revision execution is available`
 
-## Static implementation result
+## Static implementation boundary
 
-- FP-04 and FP-10 histories are immutable and replay-idempotent; same deterministic ID with changed payload is a durable conflict.
-- FP-10 current projection is derived only from explicit `supersedes_close_convergence_evidence_id` chains; competing unsuperseded heads, cycles or missing predecessors fail closed.
-- Referenced FP-04 currentness is derived only from its logical provider-object lineage and explicit `supersedes_ownership_evidence_id`; superseded or competing ownership evidence cannot remain current.
-- Exact FP-10 -> FP-04 payload/object/snapshot hashes, Position lifecycle projection ID/revision/hash, lifecycle execution-binding hash/snapshot hash, and E5 decision -> FP-10/lifecycle references are mechanically checked on restart.
-- E6 persists E5 decision/event/next-state/close-eligible flags as owner-produced audit facts and revalidates the deterministic `e5extclose_*` identity; E6 does not calculate or apply an E5 lifecycle transition.
-- `LIFECYCLE_CLOSE_ELIGIBLE` alone never changes persisted lifecycle state to CLOSED.
-- CLOSED presentation is allowed only when the already-persisted authoritative lifecycle projection is CLOSED and an exact current E5/FP-10 chain remains current; otherwise recovery fail-closes.
-- `TRADE_RESULT_EVIDENCE_INCOMPLETE` remains separately auditable.
-- `storage.__all__` and prior Gate B/Gate C storage public-boundary semantics are unchanged.
-
-## Deterministic test definitions
-
-E6-owned storage definitions cover immutable replay/conflict, missing dependencies, exact hash/reference mismatch, explicit FP-04/FP-10 supersession, competing unsuperseded heads independent of insert order, newer lifecycle projection invalidation, newer normalized/FP-05/FP-11/runtime reference invalidation, restart reconstruction, historical close eligibility, stale E5 close decision false-green prevention, TradeResult-incomplete audit, additive/idempotent migration behavior, and absence of provider mutation/runtime surfaces.
+- `ProtectionRegistryMultiplicityEvidence` is stored append-only by deterministic identity and canonical hash; same-ID changed content is rejected.
+- Current FP-11 head is selected only from the exact E4-defined logical lineage and explicit `supersedes_registry_evidence_id`; insertion/row/time order is not authority.
+- Missing predecessor, competing heads, cycle/disconnected chain, cross-lineage predecessor, canonical/index mismatch, missing/superseded/competing FP-04 dependency, or current Position/lifecycle/provider/runtime mismatch remains explicit non-green state.
+- Exact E5 `e5protreg_*` interpretations retain source FP-11 ID/full hash/material hash plus Position/lifecycle authority; E6 stores but does not choose lifecycle events.
+- Healthy protection requires the exact current FP-11 success tuple plus current compatible FP-04/lifecycle/E5 interpretation evidence. Row existence alone cannot become healthy.
+- `FP10_TERMINAL_FLAT_PROTECTION_CONVERGENCE_REQUIRED`, flat Position with active protection, or CLOSED with unresolved protection remains reconciliation-required; E6 creates no terminal-clear fact.
+- `provider_mutation_authorized` remains false and `cleanup_target_ref` remains null in the E6 read model.
+- No provider query/create/cancel/amend/replace, order action, credential, runtime, live-fire, Gate D, LIVE, or capital authority is added.
 
 ## Executable verification
 
-The active LF-0 blocker prevents approved exact-revision local verification in this session.
+The active LF-0 exact-revision infrastructure dependency prevents approved-local execution in this session.
 
 ```text
-local_verification = NOT_RUN
-result = NOT_PASS
+project executable verification = NOT_RUN / NOT_PASS
 ```
 
 Exact future approved-local Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest tests.storage.test_external_close_currentness -v
-python -m unittest tests.storage.test_external_close_currentness_supersession -v
+python -m unittest tests.storage.test_protection_registry_currentness -v
 python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest discover -s tests/platform -p "test_*.py" -v
+python -m unittest tests.execution.test_protection_registry_evidence -v
+python -m unittest tests.position.test_protection_registry_policy -v
+python -m unittest tests.safety.test_fp11_protection_registry_false_green -v
 ```
 
-No test, migration, restart runtime, provider request, private API, credential, account/order mutation, PAPER/SHADOW runtime, bounded live-fire, GitHub Actions/CI/hosted/GitHub-triggered compute, Gate D, LIVE, or capital exposure was executed.
+No GitHub Actions/CI/hosted/GitHub-triggered compute or substitute executable verification was used. `NOT_RUN != PASS`.
 
-`NOT_RUN != PASS`.
-
-## Terminal classification / stop
-
-The bounded implementation and deterministic test definitions are materialized, but task `DONE` requires approved-local executable PASS. Therefore:
+## Authority state / stop
 
 ```text
-E6-20260829-026 = PARTIAL
-implementation = MATERIALIZED
-executable qualification = NOT_RUN / NOT_PASS
-FP-04 / FP-10 = NOT CLAIMED QUALIFIED
+LF-0 = BLOCKED / UNCHANGED
+LF-2 = NOT PASS
+provider requests = 0
+private API = NONE
+credentials = NONE
+provider/account mutation = 0
+protection query/create/cancel/amend/replace = 0
+order actions = 0
+SHADOW/PAPER = NOT_STARTED / NOT_AUTHORIZED
+10U live-fire = NOT_AUTHORIZED
 Gate D / LIVE = BLOCKED / UNAUTHORIZED
+capital exposure = NONE
 ```
 
-E6 stops on PARTIAL and does not self-start provider-specific producers, exact-revision qualification, SHADOW/PAPER runtime, live-fire, Gate D, LIVE, or another task.
+`DONE` requires approved-local executable PASS; that evidence does not exist. E6 therefore stops on `PARTIAL` and does not self-start provider work, qualification, runtime, live-fire, Gate D, LIVE, or another task.

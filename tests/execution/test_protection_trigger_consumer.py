@@ -10,6 +10,7 @@ from src.execution.protection_trigger import (
     require_provider_trigger_basis_compatibility,
     validate_protection_trigger_create_evidence,
 )
+from src.position.protection import build_protect_position_action
 from src.position.protection_trigger_validity import (
     build_protection_trigger_validity_evidence,
     stable_protection_trigger_validity_id,
@@ -19,9 +20,10 @@ from src.position.protection_trigger_validity import (
 class ProtectionTriggerConsumerTests(unittest.TestCase):
     def setUp(self):
         self.position_observed_at = "2026-08-29T14:00:00Z"
-        self.action_created_at = "2026-08-29T14:00:05Z"
         self.market_observed_at = "2026-08-29T14:00:10Z"
         self.market_received_at = "2026-08-29T14:00:11Z"
+        self.action_created_at = datetime(2026, 8, 29, 14, 0, 5, tzinfo=timezone.utc)
+        self.action_expires_at = datetime(2026, 8, 29, 14, 5, 0, tzinfo=timezone.utc)
         self.evaluated_at = datetime(2026, 8, 29, 14, 0, 12, tzinfo=timezone.utc)
         self.now = datetime(2026, 8, 29, 14, 0, 15, tzinfo=timezone.utc)
 
@@ -76,33 +78,15 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         values.update(changes)
         return values
 
-    def _action(self, **changes):
-        values = {
-            "schema_version": "contracts-v0.1",
-            "protection_profile_version": "protection-v0.1",
-            "position_action_id": "posact-fp03-001",
-            "trade_plan_id": "plan-fp03-001",
-            "risk_decision_id": "risk-fp03-001",
-            "position_id": "position-fp03-001",
-            "action": "PROTECT",
-            "reason_codes": [],
-            "risk_policy_version": "e5-fp03-policy-v0.1",
-            "symbol": "BTC_USDT_PERP",
-            "position_side": "LONG",
-            "position_observed_at": self.position_observed_at,
-            "position_reconciliation_status": "CONSISTENT",
-            "quantity": "0.0012",
-            "quantity_profile_version": "base-asset-v0.1",
-            "quantity_unit": "BASE_ASSET",
-            "quantity_asset": "BTC",
-            "protection_instruction": {
-                "stop_level": "59400.00",
-                "target_level": "61200.00",
-                "max_hold_seconds": 1800,
-            },
-            "created_at": self.action_created_at,
-            "expires_at": "2026-08-29T14:05:00Z",
-        }
+    def _action(self, *, position=None, plan=None, **changes):
+        position = self._position() if position is None else position
+        plan = self._plan() if plan is None else plan
+        values = build_protect_position_action(
+            position,
+            plan,
+            created_at=self.action_created_at,
+            expires_at=self.action_expires_at,
+        )
         values.update(changes)
         return values
 
@@ -121,20 +105,24 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         return values
 
     def _evidence(self, *, position=None, action=None, plan=None, market=None, **kwargs):
+        position = self._position() if position is None else position
+        plan = self._plan() if plan is None else plan
+        action = self._action(position=position, plan=plan) if action is None else action
+        market = self._market() if market is None else market
         return build_protection_trigger_validity_evidence(
-            self._position() if position is None else position,
-            self._action() if action is None else action,
-            self._plan() if plan is None else plan,
-            self._market() if market is None else market,
+            position,
+            action,
+            plan,
+            market,
             market_freshness_classification=kwargs.pop("market_freshness_classification", "FRESH"),
             evaluated_at=kwargs.pop("evaluated_at", self.evaluated_at),
             **kwargs,
         )
 
     def _validate(self, *, action=None, plan=None, position=None, evidence=None, market=None, now=None):
-        action = self._action() if action is None else action
-        plan = self._plan() if plan is None else plan
         position = self._position() if position is None else position
+        plan = self._plan() if plan is None else plan
+        action = self._action(position=position, plan=plan) if action is None else action
         market = self._market() if market is None else market
         if evidence is None:
             evidence = self._evidence(position=position, action=action, plan=plan, market=market)
@@ -149,9 +137,9 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         )
 
     def _prepare(self, *, action=None, plan=None, position=None, evidence=None, market=None, now=None):
-        action = self._action() if action is None else action
-        plan = self._plan() if plan is None else plan
         position = self._position() if position is None else position
+        plan = self._plan() if plan is None else plan
+        action = self._action(position=position, plan=plan) if action is None else action
         market = self._market() if market is None else market
         if evidence is None:
             evidence = self._evidence(position=position, action=action, plan=plan, market=market)
@@ -174,9 +162,10 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         self.assertEqual("LAST_PRICE", facts["trigger_reference_semantic"])
 
     def test_missing_and_unsupported_evidence_fail_closed(self):
+        action = self._action()
         with self.assertRaises(ProtectionTriggerConsumerError) as missing:
             validate_protection_trigger_create_evidence(
-                self._action(),
+                action,
                 self._plan(),
                 self._position(),
                 None,
@@ -194,14 +183,15 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
 
     def test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry(self):
         breached_market = self._market(last_price="59000.00")
-        evidence = self._evidence(market=breached_market)
+        action = self._action()
+        evidence = self._evidence(action=action, market=breached_market)
         self.assertEqual("FAIL_CLOSED", evidence["validity_status"])
         self.assertIn("TRIGGER_ALREADY_BREACHED", evidence["reason_codes"])
         for now in (self.now, self.now + timedelta(seconds=30)):
             with self.subTest(now=now):
                 with self.assertRaises(ProtectionTriggerConsumerError) as caught:
                     validate_protection_trigger_create_evidence(
-                        self._action(),
+                        action,
                         self._plan(),
                         self._position(),
                         evidence,
@@ -270,7 +260,7 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
 
         newer_position = self._position(broker_state_observed_at="2026-08-29T14:00:20Z")
         with self.assertRaises(ProtectionTriggerConsumerError) as position_caught:
-            self._validate(evidence=evidence, position=newer_position)
+            self._validate(evidence=evidence, position=newer_position, action=self._action())
         self.assertEqual("E4_TRIGGER_VALIDITY_NOT_CURRENT", position_caught.exception.code)
 
     def test_replace_remains_non_executable_under_current_baseline(self):
@@ -294,7 +284,7 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
             self._prepare(action=bad_action, evidence=evidence)
 
         with self.assertRaises(ProtectionAuthorityError) as expired:
-            self._prepare(now=datetime(2026, 8, 29, 14, 5, 0, tzinfo=timezone.utc))
+            self._prepare(now=self.action_expires_at)
         self.assertEqual("POSITION_ACTION_EXPIRED", expired.exception.code)
 
     def test_provider_neutral_request_contains_no_provider_native_trigger_basis(self):
@@ -333,9 +323,6 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         self._validate(evidence=evidence)
         request = self._prepare(evidence=evidence)
         self.assertEqual("PROTECTION_STOP", request.order_role)
-        # Only plain mappings + pure E5/E4 functions are used. No broker adapter,
-        # transport, credential object, callback, request sender, or mutation API
-        # exists in this test module or the FP-03 consumer signature.
         consumer_names = set(validate_protection_trigger_create_evidence.__code__.co_varnames)
         for forbidden in ("credentials", "transport", "client", "submit", "cancel", "amend"):
             self.assertNotIn(forbidden, consumer_names)

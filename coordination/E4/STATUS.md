@@ -1,26 +1,25 @@
 # E4 Status
 
-- task_id: `E4-20260829-032`
+- task_id: `E4-20260829-034`
 - agent: `E4`
 - state: `PARTIAL`
-- branch: `agent/e4-fp11-protection-registry-evidence-20260829`
-- baseline_main_sha: `74bafe9bd52f95a2fe1b5d26ba0f3b0c7fffe7a0`
-- head_sha: `f558b2ffe391edd4ccf918077090d45a223f4577` (source/tests/handoff HEAD immediately before this terminal STATUS-only commit)
-- summary: `Implemented the bounded provider-neutral FP-11 ProtectionRegistryMultiplicityEvidence producer/currentness boundary from supplied in-memory Position, intended protection lineage, complete provider protection-set, exact per-object FP-04 ownership/currentness, lifecycle/runtime generation and optional prior evidence. It canonicalizes the complete active-protection set, preserves every observed object, enforces the sole exact-one current-owned EXACT_MATCH convergence tuple, fails closed on missing/stale/incomplete/multiple/orphan/external/prior/conflicting/unknown truth, routes ambiguous ownership/lineage through explicit manual review, preserves unresolved active protection after terminal/flat Position for FP-10 convergence, and provides immutable protregmul_<sha256> identity/currentness/supersession semantics. Executable verification remains NOT_RUN because LF-0 approved-local exact-revision preparation is blocked.`
-- files_changed: `src/execution/protection_registry_evidence.py; src/execution/protection_registry_evidence_boundary.py; tests/execution/test_protection_registry_evidence.py; tests/execution/test_protection_registry_evidence_boundary.py; status/e4/FP11_PROTECTION_REGISTRY_MULTIPLICITY_EVIDENCE_20260829.md; coordination/E4/STATUS.md`
+- branch: `agent/e4-fp02-action-capability-evidence-20260829`
+- baseline_main_sha: `f56240f039367c878fcf06ad2503d76d59585d9f`
+- head_sha: `65326ea214fcb786916b6d9da0fb7a084b4da5d0` (source/tests/handoff HEAD immediately before this terminal STATUS-only commit)
+- summary: `Implemented the bounded pure E4-local FP-02 OKX SWAP action-role capability resolver and direct deterministic test definitions. Exact ENTRY net_mode/long_short_mode and GET-only READ_ONLY_RECONCILIATION rows can resolve only to repository-evidenced mapping facts after exact closed fieldset ref/hash/generation matching. Caller capability assertions are rejected. PROTECTION_STOP, POSITION_EXIT and EMERGENCY_EXIT remain UNRESOLVED_FAIL_CLOSED even when FP-03/FP-05/FP-11 dependency evidence is otherwise coherent; unresolved provider-native trigger/posSide/reduce-only/close fieldsets are not inferred. Deterministic okxswapcap_<sha256> identity ignores evaluated_at-only changes while material facts invalidate currentness. Executable verification remains NOT_RUN because LF-0 approved-local exact-revision preparation is blocked.`
+- files_changed: `src/brokers/okx_action_capability.py; tests/brokers/test_okx_action_capability.py; status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md; coordination/E4/STATUS.md`
 - contracts_changed: `NO`
 - shared_architecture_changed: `NO`
-- e5_policy_changed: `NO`
-- e6_persistence_changed: `NO`
-- provider_transport_changed: `NO`
+- provider_transport_auth_changed: `NO`
+- provider_private_api_used: `NO`
 - executable_verification: `NOT_RUN / NOT_PASS`
-- blockers: `Executable qualification only: LF-0 approved-local exact-revision preparation remains blocked/unavailable. Source/test-definition scope is complete.`
-- handoff_path: `status/e4/FP11_PROTECTION_REGISTRY_MULTIPLICITY_EVIDENCE_20260829.md`
-- gate_effect: `Implementation candidate only. FP-11 executable PASS, provider protection capability/query/cleanup, LF-2 closure, SHADOW/PAPER, bounded 10U live-fire, Gate D and LIVE are not claimed or authorized.`
+- blockers: `Executable qualification only: LF-0 approved-local exact-revision preparation remains blocked/unavailable. Source/test-definition scope is complete; unresolved provider-native protection/exit/emergency facts intentionally remain fail closed.`
+- handoff_path: `status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md`
+- gate_effect: `Static implementation candidate only. FP-02 executable PASS, provider verification, SHADOW/PAPER, bounded live-fire, Gate D and LIVE are not claimed or authorized.`
 
 ## Wake / authority verification
 
-Wake task ID `E4-20260829-032` matched latest `main:coordination/E4/TASK.md` exactly before implementation/write work.
+Wake task ID `E4-20260829-034` matched latest `main:coordination/E4/TASK.md` exactly before implementation/write work.
 
 Read first from latest `main`:
 
@@ -29,139 +28,145 @@ Read first from latest `main`:
 - `agents/E4_EXECUTION.md`
 - `coordination/E4/TASK.md`
 
-Only E4's TASK mailbox was read; no other Worker TASK mailbox was read or executed.
+Only E4's TASK mailbox was read. No other Worker TASK mailbox was read or executed.
 
-## Baseline / branch
+## Baseline / main movement
 
 At task start:
 
 ```text
-main = 74bafe9bd52f95a2fe1b5d26ba0f3b0c7fffe7a0
+main = f56240f039367c878fcf06ad2503d76d59585d9f
 target branch = did not exist
 ```
 
-The target branch was created from that exact main revision. No merge, rebase, force update, destructive history rewrite, GitHub Actions, CI, hosted runner or GitHub-triggered compute was used.
+The target branch was created from that exact revision.
 
-## Accepted profile inputs
+During implementation `main` advanced to `75208bb33cf7385bb1cc63228bc4d606dbe2252e` only through PM stale-idle-watchdog revalidation. E4 re-read latest `main:coordination/E4/TASK.md`; it remained exactly `E4-20260829-034` with unchanged scope/target branch. No merge, rebase, force update or destructive history rewrite was performed.
 
-Read-only implementation evidence included:
+## Accepted evidence consumed
 
-- `contracts/PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md`
-- `contracts/EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md`
-- `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`
-- `contracts/POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`
-- `contracts/POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`
-- merged E4 FP-04 producer/currentness surfaces in `src/execution/external_close_evidence.py`
-- current E4 `src/execution/protection.py` protection authority/identity surface
-- `status/PM_E4_031_REVIEW_20260829.md`
-- `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`
+Read-only authority/reference material included:
 
-No provider web/API semantics were substituted for repository authority and no provider request was made.
+- full `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md`;
+- `contracts/PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md` and merged `src/execution/protection_trigger.py` consumer boundary;
+- `contracts/EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md` and merged FP-04 producer handoff/currentness surface;
+- `docs/execution/OKX_SWAP_CLOSE_RESIDUAL_SIZING_V0_1.md` and merged FP-05 implementation handoff;
+- `contracts/PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md` and merged FP-11 implementation handoff;
+- merged E7 `src/integration/runtime_preflight.py` FP-16 authority boundary only;
+- `status/PM_E7_114_REVIEW_20260829.md`;
+- `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`;
+- current `src/brokers/okx_demo.py` ENTRY repository mapping facts;
+- current `src/brokers/okx_shadow.py` GET-only/default-deny observation allowlist.
 
-## FP-11 producer / strict boundary
+No web/provider documentation or runtime/provider observation was substituted for repository authority.
 
-Implemented:
+## FP-02 resolver boundary
 
-```text
-src/execution/protection_registry_evidence.py
-src/execution/protection_registry_evidence_boundary.py
-```
-
-The base producer consumes only supplied deterministic facts and validates the exact shared evidence field set. The strict boundary is the recommended E4 integration surface and makes ambiguous FP-04 ownership/reconciliation or intended-lineage `UNKNOWN` explicitly route through the already-accepted manual-review reason/disposition vocabulary without changing shared schema.
-
-No provider query/create/cancel/amend/replace/cleanup operation exists in either module.
-
-## Provider-set normalization and exact-one invariant
-
-Only FP-04 `ACTIVE_PROTECTION` objects are admitted.
-
-Observed entries are normalized and sorted by:
+Implemented only:
 
 ```text
-(provider_object_ref, provider_snapshot_hash, ownership_evidence_ref)
+src/brokers/okx_action_capability.py
 ```
 
-The complete set hash binds provider identity/instrument/generation/observation coverage/currentness and every normalized object. No object is dropped to manufacture convergence.
+The resolver is pure and provider-local. It accepts sanitized supplied facts, validates exact profile/provider/instrument/account/mode/margin/operation bindings and exact repository-evidenced fieldset ref/hash/generation where applicable, then emits deterministic provider-local evidence.
 
-The only converged tuple is exactly:
+It performs no I/O and contains no provider client, credential reader, account balance access, private request, order/protection mutation, process action or runtime launcher.
+
+### Repository-evidenced rows
+
+Only these current rows can resolve `REPO_EVIDENCED`:
 
 ```text
-multiplicity_state = EXACTLY_ONE_INTENDED_ACTIVE_PROTECTION
-registry_status = CONVERGED_EXACTLY_ONE_INTENDED
-required_dispositions = [NO_ACTION_REGISTRY_CONVERGED]
-reason_codes = [EXACT_SINGLE_INTENDED_PROTECTION_CONVERGED]
+ENTRY
+- OKX / V5
+- BTC_USDT_PERP -> BTC-USDT-SWAP / SWAP
+- acctLv=2
+- isolated
+- net_mode or long_short_mode ENTRY mapping
+- exact POST /api/v5/trade/order closed field descriptor
+
+READ_ONLY_RECONCILIATION
+- exact GET: OBSERVATION_ONLY operation
+- acctLv=2
+- net_mode or long_short_mode
+- isolated baseline
+- exact current Shadow GET-only/default-deny allowlist descriptor
 ```
 
-It requires complete/current set truth, exactly one object, exact current/hash-valid FP-04 ownership for the same provider snapshot/generation, `KNOWN_OWNED_CURRENT_GENERATION`, `CURRENT_KNOWN_OWNED`, exact `EXACT_MATCH` lineage binding with proof, current Position/intended lineage/lifecycle/runtime anchors, and valid deterministic identity.
+`REPO_EVIDENCED` is repository mapping evidence only, not provider verification or dispatch authority.
 
-## Fail-closed behavior
+### Caller assertion rejection
 
-Implemented profile outcomes include:
-
-- complete/current empty set -> `NO_ACTIVE_PROTECTION_OBSERVED`, never healthy/converged;
-- incomplete/unknown provider coverage -> `PROTECTION_SET_UNKNOWN`;
-- stale provider/FP-04/lifecycle/runtime truth -> `PROTECTION_SET_STALE` / refresh routing;
-- two or more objects -> `MULTIPLE_ACTIVE_PROTECTIONS`, no newest/oldest/closest/client-ID winner;
-- intended plus external/prior/orphan extra object remains multiple/non-converged;
-- single external/prior/not-matching object -> orphan/external reconciliation path;
-- FP-04 conflict -> ownership conflict/manual-review path;
-- FP-04/lineage `UNKNOWN` -> fail-closed unknown plus explicit manual-review routing at the strict boundary;
-- uncertain cleanup -> `BLOCK_UNCERTAIN_PROTECTION_CLEANUP_CANCEL`;
-- no blind cancel-all or create-another authority.
-
-## Terminal / flat handling
-
-If current Position truth is flat or lifecycle is terminal while active protection remains, every observed provider object is preserved and evidence includes:
+Any non-null caller capability boolean/mapping is rejected as authority with:
 
 ```text
-FP10_TERMINAL_FLAT_PROTECTION_CONVERGENCE_REQUIRED
+UNRESOLVED_FAIL_CLOSED
+OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED
 ```
 
-A previously exact-one active object does not remain falsely converged after terminal/flat Position truth. E4 does not erase/cancel protection or emit cleanup mutation authority.
+The arbitrary caller assertion payload is never serialized into capability evidence.
 
-## Identity / currentness / supersession
+### Protection / exit / emergency fail closed
 
-Evidence identity is the accepted deterministic:
+`PROTECTION_STOP` always remains `UNRESOLVED_FAIL_CLOSED` because provider protection/algo endpoint, fieldset, provider trigger basis/`triggerPxType`, protection-specific `posSide`, native reduce-only and exact readback/cancel identity are not currently repository-proven.
+
+Exact current FP-03 `ACTIONABLE` and FP-11 `CONVERGED_EXACTLY_ONE_INTENDED` facts remain necessary upstream but do not create provider capability. Shared `LAST_PRICE` never selects provider trigger basis.
+
+`POSITION_EXIT` and `EMERGENCY_EXIT` always remain `UNRESOLVED_FAIL_CLOSED`. Current coherent FP-05 sizing evidence may remove only the reducible-size dependency reason; it cannot prove unresolved provider endpoint/fieldset/`posSide`/native reduce-only/close semantics. Emergency urgency provides no bypass.
+
+### Read-only mutation rejection
+
+Any mutation operation presented under `READ_ONLY_RECONCILIATION` is:
 
 ```text
-protregmul_<sha256>
+FORBIDDEN
+OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN
 ```
 
-over the complete canonical evidence payload except the ID field.
+No submit/cancel/amend/close/protection/set-mode mutation method is created.
 
-Material currentness invalidates prior evidence on changed Position, intended lineage, provider set/object/snapshot/generation, FP-04 ownership/currentness, lifecycle projection/execution binding, or runtime process/start/config generation.
+## Identity / currentness
 
-Later `evaluated_at` alone is ignored for material currentness and cannot justify explicit supersession. The strict ambiguity boundary rechecks this after adding manual-review routing so timestamp-only supersession cannot pass through normalization differences.
+Evidence identity is:
+
+```text
+okxswapcap_<sha256>
+```
+
+over all material facts and derived state/reasons except `capability_evidence_id` and `evaluated_at`.
+
+Therefore later wall-clock evaluation alone preserves identity/currentness, while changed role/instrument/mode/operation/fieldset hash or generation/dependency status changes identity/currentness. No numeric TTL is invented.
 
 ## Tests defined
 
-Added provider-free deterministic definitions:
+Added:
 
-- `tests/execution/test_protection_registry_evidence.py`
-- `tests/execution/test_protection_registry_evidence_boundary.py`
+```text
+tests/brokers/test_okx_action_capability.py
+```
 
-Definitions cover the required missing/exact-one/not-match/stale/unknown/conflict/multiple/external/prior/incomplete/stale-set/terminal-flat/determinism/currentness/supersession/no-authority cases plus explicit strict ambiguity manual-review and timestamp-only supersession behavior.
+Definitions cover exact ENTRY net/long-short rows, instrument/account/position-mode failures, Spot cash prohibition, caller assertion rejection, exact fieldset enforcement, FP-03 insufficiency for provider trigger basis, unresolved protection/ordinary exit/emergency exit, reconciliation/stale dependency behavior, exact GET-only read-only row, read-only mutation rejection, deterministic identity/currentness and absence of provider/network/credential/runtime/capital dependencies.
 
-No test was executed in this conversation.
+No tests were executed in this conversation.
 
 ## Verification / execution state
 
-LF-0 approved-local exact-revision preparation remains blocked. No independently approved local execution action exists in this session.
-
 ```text
 project executable verification = NOT_RUN / NOT_PASS
+FP-02 capability resolver tests = NOT_RUN / NOT_PASS
+LF-0 = BLOCKED / UNCHANGED
+LF-1 = NOT_RUN / NOT_PASS
+LF-2 = PARTIAL / NOT PASS
 provider requests = 0
 private API = NONE
 credentials = NONE
 provider/account mutation = 0
-protection query/create/cancel/amend/replace = 0
-order actions = 0
-SHADOW/PAPER runtime = NOT_STARTED / NOT_AUTHORIZED
-10U live-fire = NOT_AUTHORIZED
-capital exposure = NONE
-LF-0 = BLOCKED / UNCHANGED
-LF-2 = NOT PASS
+order/protection actions = 0
+process launch/restart = 0
+SHADOW/PAPER = NOT_AUTHORIZED
+10U bounded live-fire = NOT_AUTHORIZED
 Gate D / LIVE = BLOCKED / UNAUTHORIZED
+capital exposure = NONE
 GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
 
@@ -169,13 +174,9 @@ Required future approved-local Windows PowerShell commands:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m unittest tests.execution.test_protection_registry_evidence -v
-python -m unittest tests.execution.test_protection_registry_evidence_boundary -v
-python -m unittest tests.execution.test_external_close_evidence -v
-python -m unittest tests.execution.test_protection -v
+python -m unittest tests.brokers.test_okx_action_capability -v
+python -m unittest discover -s tests/brokers -p "test_okx_*.py" -v
 python -m unittest discover -s tests/execution -p "test_*.py" -v
-python -m unittest tests.brokers.test_paper_broker_protection_stop_flat_truth -v
-python -m unittest discover -s tests/brokers -p "test_*.py" -v
 ```
 
 All remain `NOT_RUN / NOT_PASS`. Historical qualification evidence is not rebound to this branch.
@@ -185,12 +186,14 @@ All remain `NOT_RUN / NOT_PASS`. Historical qualification evidence is not reboun
 ```text
 real secrets read/requested/committed = NO
 provider/private network = NONE
-provider transport/mutation path added = NO
-E5 risk/protection/lifecycle policy change = NO
-E6 persistence/current-head policy change = NO
-shared contract change = NO
-provider cleanup target selection = NO
-runtime/live/capital authority = NONE
+provider transport/auth/signing change = NO
+provider/account/order/protection mutation = 0
+runtime/process action = 0
+risk/lifecycle policy change = NO
+E6 persistence/current-head change = NO
+shared contract/ADR change = NO
+Product Owner trading/runtime authority consumed = NO
+capital movement/exposure = NONE
 ```
 
 ## Terminal classification / stop
@@ -202,4 +205,4 @@ approved-local executable verification = NOT_RUN / NOT_PASS
 state = PARTIAL
 ```
 
-`NOT_RUN != PASS`, therefore `DONE` is not claimed. E4 stops here and does not self-start provider verification, protection mutation/cleanup, E5 policy work, E6 persistence, E7 integration/requalification, exact-revision preparation, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, order action or capital movement/exposure.
+`NOT_RUN != PASS`; therefore `DONE` is not claimed. E4 stops and does not self-start provider verification, credentials, protection/exit mutation, exact-revision preparation, Local Job Requests, qualification execution, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, process action, order action or capital movement/exposure.

@@ -8,7 +8,7 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, or bounded live-fire readiness evidence.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, bounded live-fire readiness evidence, or runtime-preflight identity/readiness evidence.
 
 The first materialized baseline is:
 
@@ -28,6 +28,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 Release/readiness evidence profiles registered under E7 authority:
 
 - [`BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md`](./BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md) — `bounded-live-fire-readiness-v0.1` fail-closed LF-0..LF-6 exact-revision/evidence gates, P0 failure-prevention closure map, failure-injection/recovery requirements, provider read-only boundary, SHADOW/PAPER prerequisites, and future single-session 10 USDT Product Owner authorization boundary. This profile grants no provider, runtime, mutation, capital, Gate D, or LIVE authority.
+- [`RUNTIME_PREFLIGHT_PROFILE_V0_1.md`](./RUNTIME_PREFLIGHT_PROFILE_V0_1.md) — `runtime-preflight-v0.1` provider-neutral exact revision/worktree/mode/config/process/start-generation/heartbeat/supervisor/action-capability/reconciliation/external-consumer/authorization admission evidence for credential-free verification, provider read-only, SHADOW, PAPER, and bounded live-fire runtime roles. `ELIGIBLE` is role-scoped admission evidence only and grants no provider, runtime, mutation, capital, Gate D, or LIVE authority.
 
 ## Authority and ownership
 
@@ -36,6 +37,19 @@ Release/readiness evidence profiles registered under E7 authority:
 - Domain producers own production of valid contract instances inside their domain.
 - Domain consumers must reject incompatible/invalid contract instances rather than guessing missing semantics.
 - A domain agent may not create a permanent parallel shared model merely to avoid requesting a contract change.
+
+For `runtime-preflight-v0.1` specifically:
+
+- E7 owns the shared evidence schema, runtime-role compatibility, deterministic identity/reason vocabulary, cross-module composition and release interpretation;
+- E6 owns durable OperationalMode and recovery/reconciliation-readiness storage facts and may later persist/display sanitized preflight evidence only under a separate task;
+- E4/E5 retain ownership of provider/execution and financial-risk/kill-switch semantics; preflight consumes only exact owner-authoritative readiness references and does not reinterpret them;
+- external operator/AgentBridge owns approved-local exact-worktree/process/start-generation/single-instance/heartbeat/supervisor/local-action allowlisting and external-consumer compatibility facts where it materially participates;
+- PM reviews exact revision/config/evidence generations and cannot transfer historical PASS or grant Product Owner-only authority;
+- Product Owner remains final authority for provider/private runtime, bounded live-fire/capital, Gate D and LIVE stages under current governance;
+- one runtime role's `ELIGIBLE` result is not transferable to another role;
+- catalog registration is not local allowlisting, and local allowlisting is not runtime/Product Owner authority;
+- prior-process heartbeat or admission evidence does not survive restart as authority;
+- the profile introduces no numeric heartbeat TTL and no new OperationalMode; heartbeat thresholds and any future bounded-live-fire mode representation must be explicitly bound to accepted configuration/governance.
 
 For `bounded-live-fire-readiness-v0.1` specifically:
 
@@ -127,7 +141,7 @@ position-lifecycle-projection-v0.1
 position-lifecycle-execution-binding-v0.1
 ```
 
-Release/readiness profiles such as `bounded-live-fire-readiness-v0.1` are independently versioned governance/evidence profiles. They do not alter serialized object identities unless a later explicit contract says otherwise.
+Release/readiness profiles such as `bounded-live-fire-readiness-v0.1` and `runtime-preflight-v0.1` are independently versioned governance/evidence profiles. They do not alter serialized domain-object identities unless a later explicit contract says otherwise.
 
 An object or readiness profile cannot be used to disguise a real breaking change. If existing field meaning, units, authority, required-state behavior, or release authority is changed incompatibly, normal contract/ADR/governance rules apply.
 
@@ -188,6 +202,7 @@ A consumer must:
 - when Gate B restart execution freshness is required, never claim the latest lifecycle projection is current if its `position-lifecycle-execution-binding-v0.1` companion is missing, conflicting, or differs from the current durable in-scope E4 execution snapshot;
 - when a protection mutation requires `protection-trigger-validity-v0.1`, never treat stale/unknown/mismatched/already-breached evidence as actionable and never retry unchanged breached truth merely because time advanced;
 - when an LF gate requires exact-revision evidence, never reuse another revision's qualification/provider/runtime result as current PASS;
+- when `runtime-preflight-v0.1` is required, never treat another role's result, prior-process heartbeat, catalog-only action registration, stale mode/config/reconciliation evidence, or missing runtime authorization as `ELIGIBLE`;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy
@@ -198,4 +213,4 @@ Do **not** add or rely on GitHub Actions, GitHub CI, GitHub-hosted runners, GitH
 
 ## Security
 
-This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF evidence.
+This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF or runtime-preflight evidence.

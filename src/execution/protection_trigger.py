@@ -18,11 +18,7 @@ from src.position.protection_trigger_validity import (
 )
 
 from .models import OrderRequest
-from .protection import (
-    ProtectionAuthorityError,
-    prepare_protection_order,
-    validate_protection_authority,
-)
+from .protection import prepare_protection_order, validate_protection_authority
 
 
 class ProtectionTriggerConsumerError(ValueError):
@@ -141,6 +137,18 @@ def _require_exact_create_binding(
     action: Mapping[str, Any],
     current_position: Mapping[str, Any],
 ) -> None:
+    evidence_position_time = _utc_text(evidence.get("position_observed_at"))
+    current_position_time = _utc_text(current_position.get("broker_state_observed_at"))
+    if (
+        evidence_position_time is not None
+        and current_position_time is not None
+        and current_position_time > evidence_position_time
+    ):
+        raise ProtectionTriggerConsumerError(
+            "E4_TRIGGER_VALIDITY_NOT_CURRENT",
+            "newer current Position truth invalidates the bound trigger-validity evidence",
+        )
+
     expected_pairs = (
         ("position_action_id", action.get("position_action_id")),
         ("position_id", current_position.get("position_id")),
@@ -156,6 +164,11 @@ def _require_exact_create_binding(
                 f"trigger-validity {field} does not match the current protection mutation",
             )
 
+    if action.get("position_id") != current_position.get("position_id"):
+        raise ProtectionTriggerConsumerError(
+            "E4_BINDING_MISMATCH",
+            "PositionAction position_id does not match current Position identity",
+        )
     if evidence.get("order_role") != PROTECTION_STOP_ORDER_ROLE:
         raise ProtectionTriggerConsumerError(
             "E4_BINDING_MISMATCH",

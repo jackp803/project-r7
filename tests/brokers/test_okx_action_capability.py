@@ -43,6 +43,7 @@ from src.brokers.okx_action_capability import (
     OKXActionCapabilityFacts,
     canonical_okx_action_capability_hash,
     expected_repo_fieldset,
+    expected_repo_fieldset_identity,
     okx_swap_action_capability_evidence_is_current,
     resolve_okx_swap_action_capability,
     validate_okx_swap_action_capability_evidence,
@@ -67,7 +68,7 @@ class OKXActionCapabilityTests(unittest.TestCase):
         else:
             operation = "UNKNOWN"
 
-        fieldset = expected_repo_fieldset(role, mode)
+        owner_row = expected_repo_fieldset_identity(role, mode)
         values = dict(
             capability_profile_version=CAPABILITY_PROFILE_VERSION,
             action_role=role,
@@ -81,32 +82,121 @@ class OKXActionCapabilityTests(unittest.TestCase):
             margin_mode=ISOLATED,
             operation_class=operation,
             evaluated_at=self.now,
-            provider_fieldset_ref=(f"repo-fieldset:{role}:{mode}" if fieldset is not None else None),
+            provider_fieldset_ref=(
+                owner_row["provider_fieldset_ref"] if owner_row is not None else None
+            ),
             provider_fieldset_hash=(
-                canonical_okx_action_capability_hash(fieldset) if fieldset is not None else None
+                owner_row["provider_fieldset_hash"] if owner_row is not None else None
             ),
             provider_fieldset_generation_id=(
-                "repo-generation:fp02-v0.1" if fieldset is not None else None
+                owner_row["provider_fieldset_generation_id"] if owner_row is not None else None
             ),
-            provider_fieldset=fieldset,
+            provider_fieldset=(
+                owner_row["provider_fieldset"] if owner_row is not None else None
+            ),
             reconciliation_status=CURRENT,
         )
         values.update(changes)
         return OKXActionCapabilityFacts(**values)
 
-    def test_entry_net_mode_exact_repo_row_only(self):
-        evidence = resolve_okx_swap_action_capability(self._facts())
+    def _assert_fieldset_unproven(self, facts):
+        evidence = resolve_okx_swap_action_capability(facts)
+        self.assertEqual(UNRESOLVED_FAIL_CLOSED, evidence["capability_state"])
+        self.assertEqual([OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN], evidence["reason_codes"])
+        return evidence
+
+    def test_entry_net_mode_exact_owner_row_is_repo_evidenced(self):
+        facts = self._facts()
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        self.assertEqual(owner_row["provider_fieldset_ref"], facts.provider_fieldset_ref)
+        self.assertEqual(owner_row["provider_fieldset_generation_id"], facts.provider_fieldset_generation_id)
+        evidence = resolve_okx_swap_action_capability(facts)
         self.assertEqual(REPO_EVIDENCED, evidence["capability_state"])
         self.assertEqual([], evidence["reason_codes"])
-        self.assertEqual(ENTRY, evidence["action_role"])
         validate_okx_swap_action_capability_evidence(evidence)
 
-    def test_entry_long_short_mode_exact_repo_row_only(self):
+    def test_entry_long_short_mode_exact_owner_row_is_repo_evidenced(self):
         facts = self._facts(mode=LONG_SHORT_MODE)
         descriptor = facts.provider_fieldset
         self.assertEqual("BUY=long|SELL=short", descriptor["pos_side_rule"])
         evidence = resolve_okx_swap_action_capability(facts)
         self.assertEqual(REPO_EVIDENCED, evidence["capability_state"])
+
+    def test_read_only_exact_owner_rows_are_repo_evidenced(self):
+        for mode in (NET_MODE, LONG_SHORT_MODE):
+            with self.subTest(mode=mode):
+                evidence = resolve_okx_swap_action_capability(
+                    self._facts(role=READ_ONLY_RECONCILIATION, mode=mode)
+                )
+                self.assertEqual(REPO_EVIDENCED, evidence["capability_state"])
+                self.assertEqual([], evidence["reason_codes"])
+
+    def test_copied_descriptor_and_hash_with_forged_ref_fails_closed(self):
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        self._assert_fieldset_unproven(
+            self._facts(
+                provider_fieldset=owner_row["provider_fieldset"],
+                provider_fieldset_hash=owner_row["provider_fieldset_hash"],
+                provider_fieldset_ref="caller-forged:fieldset-ref",
+                provider_fieldset_generation_id=owner_row["provider_fieldset_generation_id"],
+            )
+        )
+
+    def test_copied_descriptor_and_hash_with_forged_generation_fails_closed(self):
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        self._assert_fieldset_unproven(
+            self._facts(
+                provider_fieldset=owner_row["provider_fieldset"],
+                provider_fieldset_hash=owner_row["provider_fieldset_hash"],
+                provider_fieldset_ref=owner_row["provider_fieldset_ref"],
+                provider_fieldset_generation_id="caller-forged:generation",
+            )
+        )
+
+    def test_valid_owner_row_identity_cannot_cross_role_or_mode(self):
+        entry_net = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        self._assert_fieldset_unproven(
+            self._facts(
+                role=READ_ONLY_RECONCILIATION,
+                mode=NET_MODE,
+                provider_fieldset=entry_net["provider_fieldset"],
+                provider_fieldset_hash=entry_net["provider_fieldset_hash"],
+                provider_fieldset_ref=entry_net["provider_fieldset_ref"],
+                provider_fieldset_generation_id=entry_net["provider_fieldset_generation_id"],
+            )
+        )
+        self._assert_fieldset_unproven(
+            self._facts(
+                role=ENTRY,
+                mode=LONG_SHORT_MODE,
+                provider_fieldset=entry_net["provider_fieldset"],
+                provider_fieldset_hash=entry_net["provider_fieldset_hash"],
+                provider_fieldset_ref=entry_net["provider_fieldset_ref"],
+                provider_fieldset_generation_id=entry_net["provider_fieldset_generation_id"],
+            )
+        )
+
+    def test_descriptor_or_hash_mismatch_fails_closed(self):
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        mutated = dict(owner_row["provider_fieldset"])
+        mutated["fields"] = [*mutated["fields"], "reduceOnly"]
+        self._assert_fieldset_unproven(
+            self._facts(
+                provider_fieldset=mutated,
+                provider_fieldset_hash=owner_row["provider_fieldset_hash"],
+            )
+        )
+        self._assert_fieldset_unproven(
+            self._facts(provider_fieldset_hash="sha256:" + "0" * 64)
+        )
+
+    def test_missing_ref_or_generation_fails_closed(self):
+        for changes in (
+            {"provider_fieldset_ref": None},
+            {"provider_fieldset_generation_id": None},
+        ):
+            with self.subTest(changes=changes):
+                self._assert_fieldset_unproven(self._facts(**changes))
 
     def test_wrong_canonical_provider_instrument_or_non_swap_fails_closed(self):
         for changes in (
@@ -150,29 +240,6 @@ class OKXActionCapabilityTests(unittest.TestCase):
                     [OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED],
                     evidence["reason_codes"],
                 )
-
-    def test_mutated_or_unknown_entry_fieldset_is_unproven(self):
-        fieldset = expected_repo_fieldset(ENTRY, NET_MODE)
-        mutated = dict(fieldset)
-        mutated["fields"] = [*fieldset["fields"], "reduceOnly"]
-        evidence = resolve_okx_swap_action_capability(
-            self._facts(
-                provider_fieldset=mutated,
-                provider_fieldset_hash=canonical_okx_action_capability_hash(mutated),
-            )
-        )
-        self.assertEqual(UNRESOLVED_FAIL_CLOSED, evidence["capability_state"])
-        self.assertEqual([OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN], evidence["reason_codes"])
-
-        missing = resolve_okx_swap_action_capability(
-            self._facts(
-                provider_fieldset=None,
-                provider_fieldset_ref=None,
-                provider_fieldset_hash=None,
-                provider_fieldset_generation_id=None,
-            )
-        )
-        self.assertEqual([OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN], missing["reason_codes"])
 
     def test_fp03_actionable_still_cannot_select_provider_trigger_basis(self):
         facts = self._facts(
@@ -239,13 +306,7 @@ class OKXActionCapabilityTests(unittest.TestCase):
         self.assertIn(OKX_SWAP_REDUCIBLE_SIZE_UNPROVEN, stale_fp05["reason_codes"])
         self.assertEqual(UNRESOLVED_FAIL_CLOSED, stale_fp05["capability_state"])
 
-    def test_read_only_reconciliation_accepts_only_exact_get_observation_row(self):
-        evidence = resolve_okx_swap_action_capability(
-            self._facts(role=READ_ONLY_RECONCILIATION)
-        )
-        self.assertEqual(REPO_EVIDENCED, evidence["capability_state"])
-        self.assertEqual([], evidence["reason_codes"])
-
+    def test_read_only_mutation_rejection_remains_intact(self):
         mutation = resolve_okx_swap_action_capability(
             self._facts(
                 role=READ_ONLY_RECONCILIATION,
@@ -266,21 +327,38 @@ class OKXActionCapabilityTests(unittest.TestCase):
         self.assertEqual(first["capability_evidence_id"], later["capability_evidence_id"])
         self.assertTrue(okx_swap_action_capability_evidence_is_current(first, later_facts))
 
-    def test_material_generation_change_invalidates_currentness_and_identity(self):
+    def test_material_owner_row_ref_generation_or_hash_change_invalidates_currentness(self):
         facts = self._facts()
         first = resolve_okx_swap_action_capability(facts)
-        changed = replace(
-            facts,
-            provider_fieldset_generation_id="repo-generation:fp02-v0.2",
-            evaluated_at=self.now + timedelta(seconds=1),
+        changes = (
+            {"provider_fieldset_ref": "forged:row-ref"},
+            {"provider_fieldset_generation_id": "forged:generation"},
+            {"provider_fieldset_hash": "sha256:" + "1" * 64},
         )
-        second = resolve_okx_swap_action_capability(changed)
-        self.assertNotEqual(first["capability_evidence_id"], second["capability_evidence_id"])
-        self.assertFalse(okx_swap_action_capability_evidence_is_current(first, changed))
+        for change in changes:
+            with self.subTest(change=change):
+                changed = replace(
+                    facts,
+                    evaluated_at=self.now + timedelta(seconds=1),
+                    **change,
+                )
+                second = resolve_okx_swap_action_capability(changed)
+                self.assertEqual(UNRESOLVED_FAIL_CLOSED, second["capability_state"])
+                self.assertNotEqual(first["capability_evidence_id"], second["capability_evidence_id"])
+                self.assertFalse(okx_swap_action_capability_evidence_is_current(first, changed))
+
+    def test_expected_descriptor_is_copy_not_mutable_owner_authority(self):
+        descriptor = expected_repo_fieldset(ENTRY, NET_MODE)
+        descriptor["fields"].append("callerMutation")
+        fresh = expected_repo_fieldset(ENTRY, NET_MODE)
+        self.assertNotIn("callerMutation", fresh["fields"])
+        self.assertNotEqual(
+            canonical_okx_action_capability_hash(descriptor),
+            canonical_okx_action_capability_hash(fresh),
+        )
 
     def test_resolver_has_no_provider_or_runtime_dependency(self):
-        facts = self._facts()
-        evidence = resolve_okx_swap_action_capability(facts)
+        evidence = resolve_okx_swap_action_capability(self._facts())
         self.assertEqual(REPO_EVIDENCED, evidence["capability_state"])
         for forbidden_name in (
             "credentials",

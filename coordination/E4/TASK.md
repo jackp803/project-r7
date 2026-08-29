@@ -1,18 +1,18 @@
 # E4 Current Task
 
-- task_id: `E4-20260829-030`
-- issued_at: `2026-08-29T17:18:00+08:00`
+- task_id: `E4-20260829-031`
+- issued_at: `2026-08-29T17:37:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e4-fp04-fp10-evidence-producer-20260829`
-- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, accepted `external-provider-object-ownership-reconciliation-v0.1`, accepted `external-manual-close-lifecycle-convergence-v0.1`, accepted Position/lifecycle execution evidence profiles, accepted FP-11 profile, accepted E4 FP-05 design, merged E5/E6 FP-04/FP-10 static candidates, `status/PM_E6_026_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
+- target_branch: `agent/e4-fp05-close-residual-sizing-implementation-20260829`
+- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, accepted `okx-swap-action-role-capability-v0.1`, accepted `okx-swap-close-residual-sizing-v0.1`, accepted FP-04 ownership/reconciliation profile and merged E4 producer candidate, existing E5 `close-v0.1` PositionAction/current Position semantics, `status/PM_E4_030_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
 
 ## Objective
 
-Implement the smallest **provider-neutral E4 FP-04 ownership/reconciliation evidence producer plus FP-10 convergence evidence assembler** from already-supplied authoritative broker/Position/order/fill/protection observations and owner-authoritative references.
+Implement the smallest deterministic **FP-05 OKX SWAP close/residual sizing evaluator and immutable provider-local sizing evidence** described by `docs/execution/OKX_SWAP_CLOSE_RESIDUAL_SIZING_V0_1.md`.
 
-This task is deterministic and provider-free. It must not perform network I/O, invoke OKX/private/public endpoints, read credentials, submit/cancel/amend/close orders, mutate account/provider state, retry ambiguous mutations, start SHADOW/PAPER/live runtime, or infer provider capability that remains unproven.
+This task is provider-free. It operates only on supplied in-memory/fixture facts. It must not call OKX or any network endpoint, read credentials, submit/cancel/amend/close orders, mutate provider/account state, retry an ambiguous close, start SHADOW/PAPER/live runtime, or infer unproven close-role capability/metadata semantics.
 
-The implementation may construct accepted shared evidence objects, but must not redefine their schemas/vocabularies or take over E5 lifecycle policy / E6 persistence semantics.
+The evaluator produces sizing/representability evidence only. It does not dispatch an order and does not create E5 lifecycle authority.
 
 ## Required reading
 
@@ -21,114 +21,113 @@ Read latest `main` and at minimum:
 - `README.md`;
 - `agents/README.md`;
 - `agents/E4_EXECUTION.md`;
-- `contracts/EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md`;
-- `contracts/EXTERNAL_MANUAL_CLOSE_LIFECYCLE_CONVERGENCE_PROFILE_V0_1.md`;
-- accepted Position / lifecycle projection / lifecycle execution-binding profiles;
-- `contracts/PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md`;
-- accepted E4 `docs/execution/OKX_SWAP_CLOSE_RESIDUAL_SIZING_V0_1.md` only as provider-local FP-05 evidence vocabulary;
-- current E4 provider Position/order/fill/reconciliation snapshot types and deterministic evidence identity conventions;
-- merged E5 FP-04/FP-10 consumer public input expectations;
-- merged E6 FP-04/FP-10 persistence/currentness public storage expectations;
-- `status/PM_E6_026_REVIEW_20260829.md`;
+- `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md`;
+- `docs/execution/OKX_SWAP_CLOSE_RESIDUAL_SIZING_V0_1.md`;
+- current E4 close consumer / provider-neutral execution authority binding;
+- current OKX deterministic sizing/metadata types only as repository evidence;
+- accepted FP-04 ownership/reconciliation profile and merged E4 FP-04 producer/currentness helper;
+- current E5 `close-v0.1` PositionAction and canonical Position quantity semantics;
+- `status/PM_E4_030_REVIEW_20260829.md`;
 - active `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`.
 
 Do not read or execute another Worker's TASK mailbox.
 
 ## Implementation boundary
 
-Add provider-neutral deterministic E4 functions/types under E4-owned paths that operate only on supplied in-memory/fixture facts.
+Add E4-owned deterministic functions/types that consume supplied facts and produce an immutable E4-local evidence object equivalent to `OKXCloseResidualSizingEvidence` under profile `okx-swap-close-residual-sizing-v0.1`.
 
-At minimum provide:
+At minimum bind:
 
-1. an FP-04 evidence producer for one exact provider object/exposure observation that binds exact provider identity, object/snapshot/generation, local lineage/registry evidence, runtime/project generations, ownership classification, reconciliation status, dispositions/reasons and supersession reference exactly as allowed by the accepted profile;
-2. deterministic validation/currentness helpers sufficient to reject malformed, stale, contradictory or unsupported FP-04 producer inputs before evidence is emitted;
-3. an FP-10 convergence evidence assembler that binds exact current provider Position/normalized Position facts, execution/fill evidence set, FP-04 evidence rows, optional FP-05 residual evidence, FP-11/terminal-protection evidence, lifecycle projection/execution binding, runtime/project generation and exact convergence state/reasons/dispositions supplied by the accepted owner-authoritative interpretation boundary;
-4. deterministic evidence IDs/hashes exactly matching accepted canonical profile rules;
-5. explicit supersession references when replacing prior immutable FP-04/FP-10 evidence;
-6. zero provider/network/credential dependency.
+1. exact action role `POSITION_EXIT | EMERGENCY_EXIT` and exact E5 PositionAction identity;
+2. exact current canonical Position ID/observation/actual quantity and quantity profile/unit/asset;
+3. exact current provider Position/reducible-exposure snapshot/ref/hash/generation/observation;
+4. exact current FP-04 Position-exposure ownership evidence/ref/classification/reconciliation/currentness;
+5. exact accepted FP-02 capability row/reference for the close role;
+6. exact close-applicable instrument metadata generation/reference/freshness/applicability proof;
+7. provider-local conversion/lot/step/min/max facts only when explicitly proven applicable to that close role;
+8. raw provider close size, quantized provider close size and effective canonical close quantity when calculable;
+9. sizing/residual state, deterministic reason codes, evaluation time and deterministic evidence ID/hash.
 
-Do not create a parallel shared contract. If accepted profiles lack a field required for safe deterministic production, record a precise E7 change request and stop at PARTIAL rather than inventing a field or semantic.
+Do not create a new shared contract. This evidence remains E4/provider-local. If safe implementation needs an undefined shared field/semantic, record a precise E7 change request and stop at PARTIAL rather than inventing it.
 
-## FP-04 ownership / reconciliation rules
+## Required evaluation order / fail-closed behavior
 
-E4 may produce only classifications/reconciliation states that are justified by exact supplied lineage/registry/provider facts under the accepted FP-04 profile.
+Preserve the accepted FP-05 precedence:
 
-Required fail-closed behavior includes:
+1. validate exact E5 close action profile/role;
+2. bind to exact current canonical Position observation and exact current quantity;
+3. unresolved prior close outcome -> `RECONCILIATION_REQUIRED` before sizing;
+4. FP-04 missing/stale/conflicting/external-without-accepted-disposition -> no sizing authority;
+5. provider Position/reducible exposure unknown -> `REDUCIBLE_EXPOSURE_UNKNOWN`;
+6. fresh authoritative zero exposure -> `EXPOSURE_ALREADY_FLAT`, with no close request produced;
+7. provider/canonical exposure mismatch -> `RECONCILIATION_REQUIRED`;
+8. unaccepted/unproven exact close-role FP-02 capability -> `CLOSE_CAPABILITY_UNPROVEN`;
+9. missing/stale/conflicting/unproven close-applicable metadata -> `METADATA_STALE_OR_UNKNOWN`;
+10. only then calculate bounded provider-native representability;
+11. never round upward beyond authoritative reducible exposure or E5/current Position canonical authority;
+12. after any future mutation, arithmetic remainder is not residual authority; a fresh provider Position observation is required.
 
-- provider object identity/snapshot/generation missing or mismatched -> no current-known-owned evidence;
-- current project/runtime/process/config generation mismatch -> fail closed;
-- contradictory or unknown local lineage -> no `CURRENT_KNOWN_OWNED`;
-- stale/conflicting registry evidence -> no `CURRENT_KNOWN_OWNED`;
-- external/manual/untracked object -> preserve external ownership classification and required reinterpretation/reconciliation dispositions; do not silently adopt it;
-- prior-generation project object -> preserve prior-generation classification; prior ownership does not transfer current mutation authority;
-- ambiguous/multiple object identity -> reconciliation/manual-review path, not guessed ownership;
-- `NO_ACTION_CURRENT_KNOWN_OWNED` may be emitted only for the exact accepted current-owned success tuple;
-- newer materially different provider/local evidence requires a new immutable evidence object; a later evaluation timestamp alone does not refresh stale evidence.
+No Spot-specific rule or ENTRY-only `minSz/maxMktSz/posSide/reduceOnly` assumption may be transplanted into close roles without an explicit accepted close-role applicability proof.
 
-This task does not authorize provider cleanup/adoption/mutation.
+## Required sizing states
 
-## FP-10 assembly rules
+Implement the accepted provider-local vocabulary exactly:
 
-The assembler must not decide E5 lifecycle policy. It may only combine exact owner-authoritative facts into the accepted FP-10 evidence shape.
+- `FULLY_REDUCIBLE`
+- `PARTIALLY_REDUCIBLE`
+- `RESIDUAL_NONZERO_REPRESENTABLE`
+- `RESIDUAL_NONZERO_UNREPRESENTABLE`
+- `EXPOSURE_ALREADY_FLAT`
+- `REDUCIBLE_EXPOSURE_UNKNOWN`
+- `METADATA_STALE_OR_UNKNOWN`
+- `RECONCILIATION_REQUIRED`
+- `CLOSE_CAPABILITY_UNPROVEN`
 
-Required structural invariants:
+These states are evidence/routing facts only and do not authorize provider mutation or lifecycle transition.
 
-- terminal/FILLED order status alone never produces `LIFECYCLE_CLOSE_ELIGIBLE`;
-- positive normalized actual exposure cannot produce any flat/close-eligible state;
-- representable/unrepresentable positive residual remains non-flat;
-- provider Position currentness and normalized Position reconciliation must be explicit;
-- execution/fill evidence set must be complete/current/compatible when close eligibility is claimed;
-- each referenced FP-04 row must bind exact immutable FP-04 evidence ID/hash/object/snapshot/currentness;
-- external/manual lineage remains external/manual; assembler must not relabel it current-generation project execution;
-- flat exposure does not erase protection; terminal protection clear requires exact accepted current terminal-protection observation/reference;
-- FP-10 lifecycle projection and execution-binding refs/hashes must bind exact supplied E5 lifecycle authority;
-- runtime/process/config generation is bound when applicable;
-- any materially newer provider/Position/execution/FP-04/FP-05/FP-11/lifecycle/runtime generation invalidates prior assembled evidence;
-- `LIFECYCLE_CLOSE_ELIGIBLE` may be emitted only when the exact accepted success invariant is already satisfied by supplied facts; it remains evidence for E5 interpretation, not a transition or mutation authority.
+## Quantization / safety invariants
 
-Do not manufacture missing Fill/Order/protection/lifecycle evidence.
+When calculable, require all of:
 
-## E5 / E6 boundary
+```text
+provider_requested_close_size > 0
+provider_requested_close_size <= exact authoritative provider reducible exposure
+provider_effective_canonical_quantity <= E5-authorized close quantity
+provider_effective_canonical_quantity <= exact current Position.actual_quantity
+all role-proven step/lot constraints satisfied
+all role-proven min/max constraints satisfied
+```
 
-The produced objects must be consumable by the merged E5 and E6 static candidates without special-case bypasses.
+If no positive valid provider size exists for positive fresh exposure, classify explicit `RESIDUAL_NONZERO_UNREPRESENTABLE`; do not round the residual to zero and do not create retry authority.
 
-E4 must not:
+## Currentness / supersession
 
-- call E5 transition functions to decide lifecycle state;
-- persist or select current heads using E6 storage logic;
-- infer `CLOSED` from missing Position/order rows;
-- turn ownership/convergence evidence into provider mutation authority;
-- treat accepted static E5/E6 implementations as executable PASS.
+Provide deterministic currentness behavior so materially newer or changed action/Position/provider snapshot/FP-04/capability/metadata facts invalidate prior sizing evidence. A later `evaluated_at` alone must not refresh stale evidence.
+
+If immutable supersession is represented, bind the exact prior sizing evidence identity and require same logical Position/role lineage.
 
 ## Required tests to define
 
-Add provider-free deterministic E4-owned tests covering at minimum:
+Add provider-free E4-owned deterministic tests covering at minimum:
 
-### FP-04
-
-- exact current known-owned provider Position/object evidence -> exact accepted current-owned tuple;
-- external/manual object -> external classification + reinterpretation/reconciliation disposition, never silent adoption;
-- prior runtime/process/config generation -> fail closed / prior-generation path;
-- contradictory local lineage -> conflict/reconciliation path;
-- stale registry evidence -> no current-known-owned success;
-- provider object/snapshot/generation mismatch -> fail closed;
-- exact deterministic ID/hash stable across equivalent canonical input;
-- materially changed provider/local evidence -> new immutable evidence ID and explicit supersession reference;
-- later timestamp alone cannot convert stale/mismatched evidence into current.
-
-### FP-10
-
-- positive Position + terminal order -> not close eligible;
-- partial/manual reduction -> external/manual reinterpretation path, no lineage adoption;
-- positive representable residual -> non-flat;
-- positive unrepresentable residual -> explicit non-flat/fail-closed;
-- flat Position + execution/fill ambiguity -> reconciliation-required state;
-- flat Position + non-converged terminal protection -> protection-convergence-required state;
-- exact flat/current/compatible execution + current FP-04 + terminal protection clear + current lifecycle/binding -> deterministic close-eligible evidence object only;
-- missing/mismatched FP-04 dependency -> no close eligibility;
-- newer provider/FP-04/FP-05/FP-11/lifecycle/runtime facts invalidate old evidence/currentness;
-- deterministic evidence identity independent of input mapping insertion order;
-- no provider/network/credentials required.
+- exact current close action + Position + provider exposure + current FP-04 + proven close capability + close-applicable metadata -> `FULLY_REDUCIBLE` when exactly representable;
+- valid strict subset -> `PARTIALLY_REDUCIBLE`;
+- fresh post-action positive residual representable -> `RESIDUAL_NONZERO_REPRESENTABLE`;
+- positive residual with no positive valid close size -> `RESIDUAL_NONZERO_UNREPRESENTABLE`, no retry authority;
+- fresh exact zero provider/canonical exposure -> `EXPOSURE_ALREADY_FLAT`, no provider request size;
+- unknown provider reducible exposure -> `REDUCIBLE_EXPOSURE_UNKNOWN`;
+- stale/conflicting Position/provider/FP-04 -> fail closed;
+- external/manual FP-04 without accepted close disposition -> fail closed;
+- unproven POSITION_EXIT/EMERGENCY_EXIT capability -> `CLOSE_CAPABILITY_UNPROVEN`;
+- ENTRY-only constraint evidence cannot satisfy close-role applicability;
+- stale/missing close metadata -> `METADATA_STALE_OR_UNKNOWN`;
+- unresolved prior outcome -> `RECONCILIATION_REQUIRED` and no sizing;
+- quantization never exceeds provider reducible exposure or E5/current Position canonical authority;
+- below-minimum/dust-style positive exposure is explicit unrepresentable unless close-role proof says otherwise;
+- changed Position/provider/FP-04/capability/metadata invalidates old evidence;
+- later timestamp alone does not refresh old evidence;
+- deterministic evidence identity independent of mapping insertion order;
+- zero provider/network/credentials/mutation surface.
 
 Do not execute tests through GitHub.
 
@@ -136,15 +135,13 @@ Do not execute tests through GitHub.
 
 All executable verification remains local-only. LF-0 approved-local exact-revision preparation remains blocked.
 
-Unless an independently approved local execution path is explicitly available in current authoritative evidence:
+Unless independently approved local execution authority is explicitly available in current repository evidence:
 
 ```text
 project executable verification = NOT_RUN / NOT_PASS
 ```
 
-Record exact Windows/local commands for the bounded E4 tests plus relevant existing execution/broker suites. `NOT_RUN` is not PASS.
-
-No provider/network/private API/credential use is required or authorized:
+Record exact future Windows/local commands for the bounded FP-05 tests and relevant existing execution/broker/position regressions. `NOT_RUN` is not PASS.
 
 ```text
 provider requests = 0
@@ -155,6 +152,8 @@ order submit/cancel/amend/close = 0
 SHADOW/PAPER runtime = NOT_STARTED / NOT_AUTHORIZED
 10U live-fire = NOT_AUTHORIZED
 capital exposure = NONE
+LF-0 = BLOCKED / UNCHANGED
+LF-2 = NOT PASS
 Gate D / LIVE = BLOCKED / UNAUTHORIZED
 GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
@@ -163,21 +162,9 @@ GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 
 Create:
 
-`status/e4/FP04_FP10_EVIDENCE_PRODUCER_20260829.md`
+`status/e4/FP05_CLOSE_RESIDUAL_SIZING_IMPLEMENTATION_20260829.md`
 
-Document:
-
-- task ID;
-- exact source/test files changed;
-- accepted profiles consumed;
-- FP-04 producer semantics and fail-closed classification/currentness behavior;
-- FP-10 assembler semantics and exact close-eligibility structural conditions;
-- deterministic ID/hash/supersession behavior;
-- E5/E6 boundary;
-- tests defined;
-- local commands/result (`NOT_RUN` if unavailable);
-- known limitations / exact E7 dependency if any;
-- no provider/credential/runtime/capital authority.
+Document task ID, exact source/test files changed, accepted design/profile inputs, evaluator/evidence semantics, sizing-state precedence, quantization/currentness/supersession behavior, exact tests defined, future local commands/result, known limitations/provider-specific facts still unresolved, and confirmation that no provider/credential/runtime/capital authority was used.
 
 Update `coordination/E4/STATUS.md`, commit, and push the target branch.
 
@@ -186,42 +173,30 @@ Update `coordination/E4/STATUS.md`, commit, and push the target branch.
 Only E4-owned paths:
 
 - `src/execution/`;
-- `src/brokers/` only if an existing provider-neutral reconciliation/evidence module belongs there;
+- `src/brokers/` only for deterministic provider-local sizing/metadata helpers without transport behavior;
 - `tests/execution/`;
 - `tests/brokers/` only if directly required;
-- `status/e4/FP04_FP10_EVIDENCE_PRODUCER_20260829.md`;
+- `status/e4/FP05_CLOSE_RESIDUAL_SIZING_IMPLEMENTATION_20260829.md`;
 - `coordination/E4/STATUS.md`.
 
-Do not modify:
-
-- `contracts/**`;
-- E5/E6/E7 implementation or docs;
-- risk/lifecycle policy;
-- E6 storage/migrations;
-- AgentBridge/local action catalog;
-- provider credentials/config/private allowlists;
-- provider network clients or mutation dispatch paths unless merely imported as read-only type definitions without behavior change;
-- Product Owner authorization artifacts;
-- risk limits/leverage/capital thresholds;
-- release criteria;
-- GitHub Actions/CI files.
+Do not modify `contracts/**`, E5/E6/E7 code/docs, provider transport/auth/config/credentials, AgentBridge/local action catalog, release criteria, Product Owner authorization artifacts, risk limits/leverage/capital thresholds, or GitHub Actions/CI files.
 
 ## Result classification
 
 ### DONE
 
-Use DONE only if bounded implementation/test definitions are complete **and** all required executable verification was actually performed on an approved local environment with PASS evidence.
+Use DONE only if implementation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
 
 ### PARTIAL
 
-Use PARTIAL when source/test implementation is complete but executable verification remains `NOT_RUN`, or when a precise shared-contract dependency prevents safe completion without inventing semantics.
+Use PARTIAL when implementation/test definitions are complete but executable verification remains `NOT_RUN`, or a precise accepted-contract/provider-capability dependency prevents safe completion without invented semantics.
 
 ### BLOCKED
 
-Use BLOCKED only if authoritative repository requirements are contradictory or implementation cannot safely proceed within E4 scope.
+Use BLOCKED only for contradictory authoritative requirements or a safety dependency that prevents bounded implementation within E4 scope.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E4-20260829-030`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
+Read latest `main`, verify wake task ID `E4-20260829-031`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
 
-Do not self-start provider verification, FP-05 provider mutation translation, FP-11 provider cleanup, E7 integration/requalification, exact-revision preparation, SHADOW/PAPER, 10U live-fire, Gate D, LIVE, mutation, order action or capital movement/exposure.
+Do not self-start provider verification, mutation translation/dispatch, FP-11 cleanup, E7 integration/requalification, exact-revision preparation, SHADOW/PAPER, 10U live-fire, Gate D, LIVE, order action, or capital movement/exposure.

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, fields, is_dataclass
+from dataclasses import fields, is_dataclass
 from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from typing import Any, Mapping
@@ -28,23 +28,6 @@ class ProtectionTriggerConsumerError(ValueError):
         super().__init__(message)
         self.code = code
         self.message = message
-
-
-@dataclass(frozen=True)
-class ProviderTriggerBasisCompatibility:
-    """E4-private proof that a separate provider capability boundary is compatible.
-
-    This proof intentionally does not contain a provider-native trigger-price
-    parameter or spelling. In particular, shared LAST_PRICE evidence does not
-    select or imply OKX `triggerPxType` (or any equivalent provider field).
-    """
-
-    capability_boundary_ref: str
-    canonical_symbol: str
-    order_role: str
-    protection_operation: str
-    shared_trigger_reference_semantic: str
-    compatible: bool
 
 
 def _mapping(value: Any, field: str) -> Mapping[str, Any]:
@@ -251,11 +234,11 @@ def validate_protection_trigger_create_evidence(
     market_freshness_classification: str,
     now: datetime,
 ) -> dict[str, Any]:
-    """Validate FP-03 evidence immediately before protection CREATE mutation readiness.
+    """Validate FP-03 evidence immediately before protection CREATE translation.
 
-    This is provider-neutral and performs no provider request or mutation. It
-    consumes E5's accepted public evidence validator/currentness surface rather
-    than duplicating the shared evidence schema or reason vocabulary.
+    This function performs no provider request or mutation. It consumes E5's
+    accepted public validator/currentness surface rather than duplicating the
+    shared evidence schema or reason vocabulary.
     """
 
     evidence = _mapping(trigger_validity_evidence, "ProtectionTriggerValidityEvidence")
@@ -265,9 +248,6 @@ def validate_protection_trigger_create_evidence(
             "protection mutation requires protection-trigger-validity-v0.1 evidence",
         )
 
-    # Mutation-input binding is checked before semantic actionability so an
-    # otherwise well-formed object for a different role/action/Position cannot
-    # be confused with current authorization.
     _require_exact_create_binding(evidence, action, current_position)
 
     try:
@@ -306,8 +286,6 @@ def validate_protection_trigger_create_evidence(
             "trigger-validity evidence is not bound to the exact current mutation inputs",
         )
 
-    # Existing protection-v0.1 authority/quantity/expiry/reconciliation rules
-    # remain independently mandatory after FP-03 validity succeeds.
     authority_facts = validate_protection_authority(
         action,
         parent_plan,
@@ -322,61 +300,21 @@ def validate_protection_trigger_create_evidence(
     }
 
 
-def validate_provider_trigger_basis_compatibility(
-    proof: ProviderTriggerBasisCompatibility | None,
-    *,
-    evidence: Mapping[str, Any],
-) -> None:
-    """Require a separate capability-bound compatibility proof without inferring native basis."""
-
-    if proof is None:
-        raise ProtectionTriggerConsumerError(
-            "PROVIDER_TRIGGER_BASIS_NOT_PROVEN",
-            "shared LAST_PRICE evidence alone cannot authorize a provider-native trigger basis",
-        )
-    if not isinstance(proof, ProviderTriggerBasisCompatibility):
-        raise ProtectionTriggerConsumerError(
-            "PROVIDER_TRIGGER_BASIS_NOT_PROVEN",
-            "provider trigger-basis compatibility must come from the E4 capability boundary",
-        )
-    if not isinstance(proof.capability_boundary_ref, str) or not proof.capability_boundary_ref.strip():
-        raise ProtectionTriggerConsumerError(
-            "PROVIDER_TRIGGER_BASIS_NOT_PROVEN",
-            "provider capability boundary reference is required",
-        )
-    expected = (
-        proof.canonical_symbol == evidence.get("market_symbol"),
-        proof.order_role == PROTECTION_STOP_ORDER_ROLE,
-        proof.protection_operation == PROTECTION_OPERATION_CREATE,
-        proof.shared_trigger_reference_semantic == TRIGGER_REFERENCE_LAST_PRICE,
-    )
-    if not all(expected):
-        raise ProtectionTriggerConsumerError(
-            "PROVIDER_TRIGGER_BASIS_INCOMPATIBLE",
-            "provider capability proof does not match the current shared protection intent",
-        )
-    if proof.compatible is not True:
-        raise ProtectionTriggerConsumerError(
-            "PROVIDER_TRIGGER_BASIS_INCOMPATIBLE",
-            "provider trigger-basis compatibility is not proven",
-        )
-
-
-def prepare_mutation_ready_protection_create_order(
+def prepare_trigger_validated_protection_order(
     action: Mapping[str, Any],
     parent_plan: Mapping[str, Any],
     current_position: Mapping[str, Any],
     trigger_validity_evidence: Mapping[str, Any] | None,
     current_market_snapshot: Any,
-    provider_trigger_basis_compatibility: ProviderTriggerBasisCompatibility | None,
     *,
     market_freshness_classification: str,
     now: datetime,
 ) -> OrderRequest:
-    """Return a canonical protection request only after FP-03 and provider-basis gates pass.
+    """Prepare only the provider-neutral OrderRequest after the FP-03 gate passes.
 
-    The returned request is still provider-neutral. This function performs no
-    network call and does not select a provider-native trigger parameter.
+    The result is not proof that any provider-native trigger basis is compatible
+    and is not provider-mutation authority. Provider translation must still pass
+    a separate applicable provider capability boundary.
     """
 
     validate_protection_trigger_create_evidence(
@@ -388,14 +326,47 @@ def prepare_mutation_ready_protection_create_order(
         market_freshness_classification=market_freshness_classification,
         now=now,
     )
-    evidence = _mapping(trigger_validity_evidence, "ProtectionTriggerValidityEvidence")
-    validate_provider_trigger_basis_compatibility(
-        provider_trigger_basis_compatibility,
-        evidence=evidence,
-    )
     return prepare_protection_order(
         action,
         parent_plan,
         current_position,
         now=now,
+    )
+
+
+def require_provider_trigger_basis_compatibility(
+    trigger_validity_evidence: Mapping[str, Any],
+    provider_capability_evidence: Any = None,
+) -> None:
+    """Fail closed until an applicable provider capability boundary proves compatibility.
+
+    FP-03 deliberately does not invent, accept, or infer provider-native trigger
+    basis semantics. The current repository has no accepted provider capability
+    proof object for this boundary, so neither an arbitrary caller value nor
+    shared LAST_PRICE evidence can make a provider mutation ready. A later
+    separately scoped E4 provider capability implementation must replace/extend
+    this guard with its own accepted proof semantics rather than caller booleans.
+    """
+
+    evidence = _mapping(trigger_validity_evidence, "ProtectionTriggerValidityEvidence")
+    try:
+        validate_protection_trigger_validity_evidence(evidence)
+    except ProtectionTriggerValidityError as exc:
+        raise ProtectionTriggerConsumerError(
+            "E4_TRIGGER_VALIDITY_EVIDENCE_INVALID",
+            "provider capability guard received invalid trigger-validity evidence",
+        ) from exc
+    if evidence.get("trigger_reference_semantic") != TRIGGER_REFERENCE_LAST_PRICE:
+        raise ProtectionTriggerConsumerError(
+            "PROVIDER_TRIGGER_BASIS_INCOMPATIBLE",
+            "unsupported shared trigger semantic cannot be mapped to provider mutation",
+        )
+
+    # Intentionally no positive path in FP-03: accepting an arbitrary Mapping,
+    # bool, string, or callback as proof would create caller-assertable provider
+    # authority and silently bundle the separate provider capability work.
+    del provider_capability_evidence
+    raise ProtectionTriggerConsumerError(
+        "PROVIDER_TRIGGER_BASIS_NOT_PROVEN",
+        "shared LAST_PRICE evidence alone does not prove a provider-native trigger basis",
     )

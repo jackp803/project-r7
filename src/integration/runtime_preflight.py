@@ -617,7 +617,12 @@ def evaluate_runtime_preflight(
         if not _dependency_authority_matches(dependency_items, authority.required_dependencies):
             reasons.add("PREFLIGHT_DEPENDENCY_EVIDENCE_NOT_READY")
 
-    external_required = role in EXTERNAL_CONSUMER_ALWAYS_REQUIRED_ROLES or supervisor_present
+    external_participation_authority_supplied = authority.external_consumer_authority is not None
+    external_required = (
+        role in EXTERNAL_CONSUMER_ALWAYS_REQUIRED_ROLES
+        or supervisor_present
+        or external_participation_authority_supplied
+    )
     external = payload["external_consumer_evidence"]
     external_authority = _authority_mapping(authority.external_consumer_authority)
     if external is None:

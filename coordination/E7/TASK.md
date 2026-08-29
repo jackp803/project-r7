@@ -1,18 +1,16 @@
 # E7 Current Task
 
-- task_id: `E7-20260829-112`
-- issued_at: `2026-08-29T19:56:00+08:00`
+- task_id: `E7-20260829-113`
+- issued_at: `2026-08-29T20:00:00+08:00`
 - state: `ACTIVE`
 - target_branch: `agent/e7-fp16-runtime-preflight-implementation-20260829`
-- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, accepted `runtime-preflight-v0.1`, merged E7-20260829-111 static integration baseline PR #122, `status/PM_E7_111_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
+- authority: `agents/E7_INTEGRATION.md`, `agents/README.md`, accepted `runtime-preflight-v0.1`, `status/PM_E7_112_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
 
 ## Objective
 
-Implement the smallest deterministic **provider-neutral FP-16 RuntimePreflightEvidence validator/evaluator** under E7 cross-module ownership.
+Remediate only the PM-identified FP-16 **external-consumer participation fail-open defect** in the existing unmerged E7-112 branch, add deterministic regression definitions, update E7 evidence/status, and stop.
 
-This task closes only the current project implementation gap between the accepted `runtime-preflight-v0.1` contract and executable project code. It must consume already-supplied sanitized authority/evidence facts and deterministically produce only `ELIGIBLE | FAIL_CLOSED` plus accepted deterministic reason codes.
-
-It must not launch or restart a process, create a Local Job Request, prepare an exact revision, call provider endpoints, inspect/request credentials, mutate provider/account state, submit/cancel/amend/close orders, enable SHADOW/PAPER/LIVE, move/expose capital, or modify AgentBridge/operator infrastructure.
+Do not expand FP-16 semantics, change the accepted shared contract, execute project code, create Local Job Requests, prepare exact revisions, call providers, read/request credentials, launch/restart processes, mutate provider/account state, submit/cancel/amend/close orders, start SHADOW/PAPER/live runtime, expose/move capital, or modify AgentBridge/operator infrastructure.
 
 ## Required reading
 
@@ -21,147 +19,67 @@ Read latest `main` and at minimum:
 - `README.md`;
 - `agents/README.md`;
 - `agents/E7_INTEGRATION.md`;
-- `contracts/RUNTIME_PREFLIGHT_PROFILE_V0_1.md` in full, especially role matrix, OperationalMode binding, heartbeat, supervisor, capability, reconciliation, dependency, external-consumer, authorization, reason ordering and deterministic identity sections;
-- `contracts/BOUNDED_LIVE_FIRE_READINESS_PROFILE_V0_1.md`;
-- current E6 OperationalMode record/storage public surface and accepted restart/reconciliation facts only as input shapes, without modifying E6 semantics;
-- merged E7-111 integration files and `status/e7/P0_INTEGRATED_DETERMINISTIC_SAFETY_MATRIX_20260829.md`;
-- `status/PM_E7_111_REVIEW_20260829.md`;
-- active `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`.
+- `contracts/RUNTIME_PREFLIGHT_PROFILE_V0_1.md`, especially sections 5.1 and 12;
+- `status/PM_E7_112_REVIEW_20260829.md`;
+- current branch `src/integration/runtime_preflight.py`;
+- current branch `tests/integration/test_runtime_preflight.py`;
+- current branch `tests/safety/test_p0_integrated_fail_closed.py`;
+- current branch FP-16 handoff/matrix/qualification manifest;
+- active LF-0 blocker.
 
 E7 may read broadly for integration. Do not execute another Worker's TASK mailbox.
 
-## Implementation boundary
+## Precise defect to fix
 
-Add an E7-owned pure/provider-neutral runtime-preflight module, preferably:
+Accepted `runtime-preflight-v0.1` requires:
 
-- `src/integration/runtime_preflight.py`;
-- minimal export changes in `src/integration/__init__.py` only if needed.
+- `external_consumer_evidence` may be null only when the declared role proves no external orchestrator materially participates;
+- when an external orchestrator/launcher/AgentBridge supervisor/operator-owned runtime materially participates, exact compatible external-consumer evidence is required.
 
-The implementation may define typed/provider-neutral input helpers and pure deterministic functions that:
+Current branch implementation computes external requirement from only:
 
-1. validate the exact `RuntimePreflightEvidence` field set and accepted profile/schema vocabulary;
-2. validate canonical timestamps, hashes, sequences and deterministic identity;
-3. validate exact revision/worktree binding;
-4. validate role-specific OperationalMode requirements without creating/changing OperationalMode;
-5. validate process identity, single-instance and heartbeat generation/freshness bindings;
-6. validate supervisor/watchdog compatibility and restart-permission evidence;
-7. validate required action IDs against both registered and allowlisted exact capability generation;
-8. validate reconciliation readiness where the role requires it;
-9. validate required owner dependency references/readiness/current generation supplied by the caller;
-10. validate external-consumer compatibility according to the accepted role rules;
-11. validate exact role/revision/capability authorization evidence;
-12. deterministically derive only `ELIGIBLE` or `FAIL_CLOSED` and accepted ordered reason codes;
-13. provide deterministic identity/currentness comparison helpers only if required by the accepted profile.
+```text
+fixed role requirement OR supervisor_present
+```
 
-The evaluator is an admission-evidence interpreter only. `ELIGIBLE` must never be exposed as provider authority, order authority, process-launch authority, restart execution, SHADOW/PAPER authority, bounded-live-fire authority, Gate D, LIVE, or capital authorization.
+and does not treat non-null/current caller-supplied `RuntimePreflightAuthority.external_consumer_authority` as evidence that an external consumer materially participates.
 
-## Required fail-closed semantics
+This permits a fail-open case for conditional roles such as `CREDENTIAL_FREE_LOCAL_VERIFICATION` and `PROVIDER_READ_ONLY_OBSERVATION`: external authority can be present/current while input omits `external_consumer_evidence` and supervisor is absent, without necessarily emitting `PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED`.
 
-### Exact revision/worktree
+## Required remediation
 
-- revision-qualified roles require exact matching full revision authority and `EXACT_CLEAN` where the profile requires it;
-- historical exact-clean evidence for another revision is non-transferable;
-- `CLEAN_UNQUALIFIED`, `DIRTY`, `UNKNOWN`, mismatched authority hash/ref or revision mismatch fail closed;
-- the current LF-0 blocker remains unchanged and must not be bypassed by constructing a preflight object.
+Within E7-owned FP-16 code/tests only:
 
-### Role isolation
+1. preserve the existing fixed unconditional requirement for `SHADOW_RUNTIME` and `BOUNDED_LIVE_FIRE_RUNTIME`;
+2. preserve supervisor-triggered conditional participation;
+3. additionally treat non-null supplied current `external_consumer_authority` as material external participation that requires exact `external_consumer_evidence`;
+4. when external participation is required and input evidence is missing, emit accepted `PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED`;
+5. when external evidence is present, require exact ID/generation/config/profile/evidence hash/status/timestamp compatibility against the supplied current authority as already defined;
+6. if evidence is present but current external authority is absent/does not match, remain fail closed rather than silently accepting historical/unsupported consumer evidence;
+7. do not invent any new reason code or contract field;
+8. preserve pure evaluator/no-I/O/no-authority side-effect behavior;
+9. preserve deterministic evidence identity/currentness behavior.
 
-A preflight result is bound to exactly one runtime role:
+Do not change shared `runtime-preflight-v0.1` semantics to accommodate the implementation.
 
-- `CREDENTIAL_FREE_LOCAL_VERIFICATION`
-- `PROVIDER_READ_ONLY_OBSERVATION`
-- `SHADOW_RUNTIME`
-- `PAPER_RUNTIME`
-- `BOUNDED_LIVE_FIRE_RUNTIME`
+## Required deterministic regression definitions
 
-Evidence/results for one role are never transferable to another role.
+Add/adjust E7-owned tests covering at minimum:
 
-### OperationalMode
-
-- consume exact current E6 transition ID/revision/mode/payload hash supplied as authority;
-- requested mode must equal current durable truth and satisfy the accepted role-specific mode rule;
-- environment variables/UI/defaults/prior process memory are not substitutes;
-- do not invent a bounded-live-fire OperationalMode mapping where the contract says it remains future authority.
-
-### Process / heartbeat
-
-- exact process instance/start generation must match heartbeat evidence;
-- heartbeat policy generation/hash must be present and current as supplied;
-- stale/unknown heartbeat, prior-boot heartbeat, invalid temporal ordering or non-single instance fails closed;
-- do not invent a numeric heartbeat TTL.
-
-### Supervisor / restart
-
-- supervisor compatibility/restart-permission fields are interpreted exactly as the profile defines;
-- dead process alone never authorizes restart;
-- `launch_intent=RESTART` must recompute current preflight and may not inherit prior process heartbeat/mode/authorization;
-- this module must never itself restart or launch anything.
-
-### Capability / allowlist
-
-- every required canonical action ID must exist in both accepted registered and allowlisted sets for the exact capability generation;
-- catalog registration alone is not allowlisting;
-- allowlisting alone is not Product Owner/runtime authority;
-- refused/terminal request evidence cannot become READY by retry inference;
-- no filesystem path, shell command or secret belongs in the shared evidence.
-
-### Reconciliation / dependencies
-
-- roles that can observe/plan/mutate provider/exposure state require accepted current reconciliation readiness exactly as the profile defines;
-- required dependency evidence missing, stale, conflicting, `NOT_READY` or `UNKNOWN` fails closed;
-- do not duplicate E1/E4/E5/E6 owner semantics: consume their supplied readiness classifications/references only.
-
-### External consumer
-
-- enforce fixed role requirements from the accepted profile;
-- when external consumer evidence is present, require exact compatible generation/hash/status/current timestamp material;
-- SHADOW must retain the ADR-0010 external-consumer compatibility prerequisite;
-- do not modify or call AgentBridge/operator infrastructure.
-
-### Authorization
-
-- exact authorization class/role/revision/capability generation must match the requested preflight role;
-- only `VALID` exact current authority may contribute to `ELIGIBLE`;
-- `MISSING`, `MISMATCH`, `EXPIRED`, `CONSUMED`, `UNKNOWN` fail closed;
-- credentials being present locally never create authorization;
-- synthetic test fixtures are not real Product Owner/runtime authority.
-
-## E7-111 test migration requirement
-
-`tests/safety/test_p0_integrated_fail_closed.py` currently asserts that `src/integration/runtime_preflight.py` does not exist. That assertion was valid only for the E7-111 contract-only baseline.
-
-In this task, replace that stale absence assertion with real provider-neutral fail-closed evaluator tests. Do not delete FP-16 safety coverage; migrate it from `CONTRACT_ONLY file absence` to `IMPLEMENTED_UNQUALIFIED behavior`.
-
-Update E7-owned P0 matrix/qualification manifest only as needed so FP-16 classification becomes `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`, not PASS, after this candidate is materialized.
-
-## Required deterministic tests to define
-
-Add E7-owned tests, preferably `tests/integration/test_runtime_preflight.py` plus bounded safety updates, covering at minimum:
-
-- one internally coherent synthetic `CREDENTIAL_FREE_LOCAL_VERIFICATION` evidence object deterministically evaluates `ELIGIBLE` while granting no provider/runtime/capital authority;
-- same exact evidence is deterministic and identity-stable;
-- role substitution/transfer invalidates the evidence;
-- revision mismatch and non-`EXACT_CLEAN` qualified worktree fail closed;
-- OperationalMode transition/revision/hash/mode mismatch fails closed;
-- duplicate/unknown single-instance state fails closed;
-- stale/unknown heartbeat, wrong process instance, wrong start generation and invalid temporal ordering fail closed;
-- supervisor incompatible/unknown and RESTART without current restart permission fail closed where applicable;
-- required action registered but not allowlisted fails closed;
-- required action allowlisted but not registered fails closed;
-- capability status unknown/not-ready fails closed;
-- reconciliation required but not ready/current fails closed;
-- required dependency missing/not-ready/unknown fails closed;
-- required external consumer missing/incompatible for a role that requires it fails closed;
-- authorization missing/mismatched/expired/consumed/unknown fails closed;
-- provider-role fixtures without real authority remain synthetic test data and do not alter repository authorization state;
-- no provider/network/credential/mutation/process-launch dependency;
-- E7-111 integrated P0 safety test no longer relies on implementation-file absence.
+- credential-free role + `supervisor_present=false` + non-null current `external_consumer_authority` + missing `external_consumer_evidence` -> `FAIL_CLOSED / PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED`;
+- provider-read-only role with the same authority/evidence mismatch -> fail closed;
+- credential-free no-external case remains eligible only when both input external evidence and current external authority represent no material external consumer;
+- exact current external evidence + exact current external authority remains admissible when all other required facts are coherent;
+- mismatched/stale/incompatible external consumer evidence remains fail closed;
+- SHADOW unconditional requirement remains intact;
+- role-transfer/no-authority-side-effect safety remains intact;
+- no provider/network/credential/process-launch/restart/mutation/capital dependency.
 
 Do not execute tests through GitHub.
 
 ## Verification boundary
 
-All executable verification remains local-only. LF-0 approved-local exact-revision preparation is still blocked.
+All executable verification remains local-only. LF-0 remains blocked.
 
 Unless separately authoritative approved-local execution evidence already exists for the exact resulting revision, record:
 
@@ -184,53 +102,41 @@ capital exposure = NONE
 GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
 
-`NOT_RUN` is not PASS. Do not create a Local Job Request or exact-revision preparation request in this task.
+`NOT_RUN` is not PASS.
 
 ## Required durable evidence
 
-Create:
+Update/create E7-owned evidence so the remediation is explicit:
 
-`status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md`
-
-Document task ID, exact files changed, accepted contract consumed, pure evaluator boundary, deterministic identity/reason/currentness behavior, role/OperationalMode/heartbeat/supervisor/capability/reconciliation/dependency/external-consumer/authorization handling, migrated E7-111 tests, exact future approved-local commands, limitations, and confirmation of zero provider/credential/process-launch/runtime/capital authority.
-
-Update `status/e7/P0_INTEGRATED_DETERMINISTIC_SAFETY_MATRIX_20260829.md` and `status/e7/P0_CREDENTIAL_FREE_QUALIFICATION_MANIFEST_20260829.md` only as needed to register the new FP-16 test module and `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` classification.
-
-Update `coordination/E7/STATUS.md`, commit, and push the target branch.
+- update `status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md` with the corrected external participation rule and regression definitions;
+- update E7 P0 matrix/qualification manifest only if needed for exact test registration/classification;
+- update `coordination/E7/STATUS.md` with task `E7-20260829-113` and terminal state.
 
 ## Writable scope
 
-Only E7-owned paths:
+Only E7-owned paths already used by E7-112:
 
 - `src/integration/runtime_preflight.py`;
-- `src/integration/__init__.py` only minimal exports if needed;
-- `tests/integration/`;
-- `tests/e2e/` only if directly required by the pure preflight boundary;
-- cross-module `tests/safety/` only for FP-16/E7-111 migrated safety coverage;
-- `status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md`;
-- E7-owned P0 matrix/qualification manifest;
+- `tests/integration/test_runtime_preflight.py`;
+- `tests/safety/test_p0_integrated_fail_closed.py` only if directly required;
+- E7-owned FP-16 status/matrix/qualification artifacts;
 - `coordination/E7/STATUS.md`.
 
-Do not modify shared contracts/ADRs unless a true contradiction is discovered; if one is discovered, document a precise E7 dependency/change request and stop at PARTIAL rather than silently changing the accepted profile in the same implementation task.
-
-Do not modify E1-E6 production code, E6 OperationalMode semantics/storage, provider adapters/auth/config/credentials, AgentBridge/local-action infrastructure, Product Owner authorization artifacts, risk/leverage/capital thresholds, LIVE/release policy, or GitHub Actions/CI files.
+Do not modify shared contracts/ADRs, E1-E6 production code, E6 OperationalMode semantics/storage, provider adapter/auth/config/credentials, AgentBridge/local-action infrastructure, Product Owner authorization artifacts, risk/leverage/capital thresholds, LIVE/release policy, or GitHub Actions/CI files.
 
 ## Result classification
 
 ### DONE
-
-Use DONE only if implementation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
+Use DONE only if remediation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
 
 ### PARTIAL
-
-Use PARTIAL when implementation/test definitions are complete but executable verification remains `NOT_RUN / NOT_PASS`, or a precise accepted-contract contradiction is surfaced.
+Use PARTIAL when remediation/test definitions are complete but executable verification remains `NOT_RUN / NOT_PASS`.
 
 ### BLOCKED
-
-Use BLOCKED only for contradictory authoritative requirements that prevent bounded implementation within E7 scope.
+Use BLOCKED only if accepted contract semantics make the bounded remediation impossible or contradictory.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E7-20260829-112`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
+Read latest `main`, verify wake task ID `E7-20260829-113`, continue only the existing E7 FP-16 branch, apply the bounded remediation, persist evidence, update STATUS, commit/push, and stop on DONE, PARTIAL, or BLOCKED.
 
-Do not self-start E6 persistence work, exact-revision preparation, Local Job Requests, qualification execution, provider verification, AgentBridge migration, SHADOW/PAPER, 10U bounded live-fire, Gate D, LIVE, mutation, process launch/restart, order action or capital movement/exposure.
+Do not self-start E6 persistence work, exact-revision preparation, Local Job Requests, qualification execution, provider verification, AgentBridge migration, SHADOW/PAPER, bounded 10U live-fire, Gate D, LIVE, mutation, process launch/restart, order action or capital movement/exposure.

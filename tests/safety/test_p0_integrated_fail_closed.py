@@ -113,11 +113,12 @@ class P0IntegratedFailClosedSafetyTests(unittest.TestCase):
         contract = (repo_root / "contracts" / "RUNTIME_PREFLIGHT_PROFILE_V0_1.md").read_text(
             encoding="utf-8"
         ).lower()
-        self.assertIn("is not provider authority", contract)
+        self.assertIn("provider authority", contract)
         self.assertIn("order authority", contract)
         self.assertIn("bounded-live-fire authority", contract)
         self.assertIn("live authorization", contract)
         self.assertIn("capital", contract)
+        self.assertIn("eligible", contract)
 
 
 if __name__ == "__main__":

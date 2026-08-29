@@ -1,20 +1,21 @@
-# P0 Credential-Free Qualification Manifest — E7-111 / E7-112 / E7-113 update
+# P0 Credential-Free Qualification Manifest — E7-111 / E7-112 / E7-113 / E7-114 update
 
 ## Purpose
 
-This manifest defines the exact future approved-local qualification sequence for the integrated P0 executable candidate after:
+This manifest defines the future approved-local qualification sequence for the integrated P0 executable candidate after the FP-16 source candidate and E7-114 governance/test-layout remediation are merged.
 
-1. E7-111 static integration definitions, E7-112 FP-16 implementation, and E7-113 external-consumer fail-closed remediation are merged;
-2. PM identifies the exact merged executable candidate revision;
-3. approved-local infrastructure establishes that exact revision as `EXACT_CLEAN`;
-4. a fresh E7 qualification task authorizes execution.
+Prerequisites remain:
 
-E7-113 itself executes nothing.
+1. PM identifies the exact merged executable candidate revision;
+2. approved-local infrastructure establishes that exact revision as `EXACT_CLEAN`;
+3. a fresh E7 qualification task authorizes execution.
+
+E7-114 itself executes nothing.
 
 ## Current qualification state
 
 ```text
-qualification_revision = TBD AFTER E7-113 REMEDIATED BRANCH MERGE + EXACT-CLEAN PREPARATION
+qualification_revision = TBD AFTER MERGE + FRESH EXACT-CLEAN PREPARATION
 project executable verification = NOT_RUN / NOT_PASS
 FP-16 runtime-preflight tests = NOT_RUN / NOT_PASS
 integrated P0 safety/E2E matrix = NOT_RUN / NOT_PASS
@@ -38,37 +39,32 @@ GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 
 ## Revision provenance rules
 
-- The future qualification revision is **not yet known** because the remediated E7-112/E7-113 branch is not yet the merged executable candidate while this manifest update is authored.
-- E7-111 merge commit `ae2fcc5daacaf7045f1efab5e0778b921f12efed` predates the FP-16 executable source/remediation and cannot qualify the resulting candidate.
-- Historical exact-clean revision `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` does **not** qualify this candidate.
-- FP-03 combined candidate `9462b2594675b2e28388f55a2af189100b7cbdfc` is not `EXACT_CLEAN` under current accepted evidence and does not qualify the remediated integrated candidate.
-- E7-101 preparation request `REQ-E7-PREPARE-101-01-72A4C9E1` is terminal/non-reusable.
-- E7-101 local job `JOB-41D0F958C484CCF7` is `REFUSED` and terminal/non-reusable.
-- A fresh exact-clean preparation/equivalent operator fact and a fresh qualification task/request identity are required after merge.
-- No historical test PASS or provider-facing evidence may be rebound to the future merged candidate.
+- The future qualification revision is not yet known while this branch remains unmerged.
+- E7-111 merge commit `ae2fcc5daacaf7045f1efab5e0778b921f12efed` predates the FP-16 executable candidate and cannot qualify it.
+- Historical exact-clean revision `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c` does not qualify this candidate.
+- FP-03 combined candidate `9462b2594675b2e28388f55a2af189100b7cbdfc` is not established `EXACT_CLEAN` under current accepted evidence and does not qualify this candidate.
+- E7-101 preparation request `REQ-E7-PREPARE-101-01-72A4C9E1` and job `JOB-41D0F958C484CCF7` are terminal/non-reusable.
+- A fresh exact-clean preparation/equivalent approved-local operator fact plus a fresh qualification task/request identity are required after merge.
+- No historical test PASS, suite count, or provider-facing evidence may be rebound to the future merged candidate.
 
 ## Required approved-local environment assertions
 
-The qualification host must be:
+The future qualification host must be Product-Owner-approved Windows/non-GitHub execution, repository root, exact PM-bound merged revision, clean worktree, Python 3.10-compatible, and `PYTHONPATH=src`.
 
-- Product-Owner-approved Windows/non-GitHub local execution environment;
-- repository root working directory;
-- exact PM-bound merged candidate revision;
-- clean worktree with no untracked/modified project files affecting execution;
-- Python 3.10-compatible project runtime; prior accepted Windows evidence used Python `3.10.6`, but the future task must record the actual interpreter version;
-- `PYTHONPATH=src`;
-- no GitHub Actions/CI/hosted runner/GitHub-triggered runner;
-- no provider/private API access for this qualification;
-- no credentials read/requested/used;
-- no provider/account mutation;
-- no process launch/restart by FP-16 tests;
-- no order/protection submit/cancel/amend/close;
-- no SHADOW/PAPER/live runtime;
-- no capital exposure.
+The qualification must use:
 
-## PowerShell preflight — exact future command block
+```text
+provider/private API access = FORBIDDEN
+credentials = NONE
+provider/account mutation = 0
+process launch/restart = 0
+order/protection submit/cancel/amend/close = 0
+SHADOW/PAPER/live runtime = NOT_STARTED
+capital exposure = NONE
+GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
+```
 
-Run from repository root on the approved Windows host only. PM must replace the placeholder with the exact merged revision after integration and exact-clean preparation is accepted.
+## Exact future PowerShell preflight
 
 ```powershell
 $ErrorActionPreference = 'Stop'
@@ -99,11 +95,11 @@ Write-Output 'MUTATION_REQUESTS=0_EXPECTED'
 Write-Output 'GITHUB_COMPUTE=FORBIDDEN'
 ```
 
-The future durable result must record the actual OS build, Python version, exact revision, and clean-worktree result. Do not persist local filesystem paths or secrets.
+The durable result must record actual OS/build, Python version, exact revision, and clean/exact-clean fact. Do not persist local filesystem paths or secrets.
 
 ## Phase 1 — focused P0 owner + E7 matrix
 
-Run these exact commands after the preflight succeeds:
+Run, on the same approved exact-clean revision:
 
 ```powershell
 $env:PYTHONPATH = 'src'
@@ -123,28 +119,29 @@ python -m unittest discover -s tests/storage -p 'test_external_close_currentness
 python -m unittest discover -s tests/storage -p 'test_external_close_currentness_supersession.py' -v
 
 python -m unittest discover -s tests/integration -p 'test_runtime_preflight.py' -v
-python -m unittest discover -s tests/integration -p 'test_runtime_preflight_external_consumer_regression.py' -v
 python -m unittest discover -s tests/integration -p 'test_p0_integrated_failure_prevention.py' -v
 python -m unittest discover -s tests/safety -p 'test_p0_integrated_fail_closed.py' -v
 python -m unittest discover -s tests/e2e -p 'test_p0_reconciliation_restart_e2e.py' -v
 ```
 
-Every command must exit `0`. Actual tests run, failures, errors and skips must be recorded per module. A skipped critical P0 test is not automatically accepted; PM/E7 must review the skip reason.
+Every command must exit `0`. Actual test counts, failures, errors, and skips must be recorded. A skipped critical P0 test is not automatically accepted.
 
-The dedicated E7-113 regression module must materially cover:
+The consolidated `test_runtime_preflight.py` module must materially cover the E7-113/E7-114 external-consumer regressions:
 
-- credential-free conditional participation from current external-consumer authority;
-- provider-read-only conditional participation from current external-consumer authority;
-- no-external eligible case only when both input evidence and current authority show no external consumer;
+- credential-free conditional participation from non-null current external-consumer authority;
+- provider-read-only conditional participation from non-null current external-consumer authority;
+- true no-external eligible case only when both input evidence and current authority show no external consumer;
 - exact current external evidence + authority admissibility;
 - evidence-without-authority and authority-without-evidence fail closed;
 - stale/mismatched/incompatible external consumer fail closed;
 - SHADOW unconditional external-consumer requirement;
 - no provider/network/credential/process/order/runtime/capital authority side effects.
 
-## Phase 2 — current full credential-free matrix
+There is no separate external-consumer regression module or command after E7-114.
 
-After focused P0 suites pass, run the full current project matrix on the same exact revision/worktree/environment:
+## Phase 2 — full current credential-free matrix
+
+After focused P0 suites pass, run the full current matrix on the same exact revision/worktree/environment:
 
 ```powershell
 $env:PYTHONPATH = 'src'
@@ -169,7 +166,7 @@ Required future qualification result:
 
 ```text
 14 / 14 suite directories PASS
-focused P0 modules PASS including FP-16 base + E7-113 external-consumer regression
+focused P0 modules PASS including consolidated FP-16 tests
 same exact revision for every command
 same clean approved-local worktree
 zero provider/private requests
@@ -180,7 +177,7 @@ zero submit/cancel/amend/close/protection action
 zero GitHub compute
 ```
 
-Actual test counts must be measured at execution time. Do not reuse historical counts.
+Actual counts must be measured at execution time.
 
 ## Dependency / execution order
 
@@ -189,43 +186,18 @@ Actual test counts must be measured at execution time. Do not reuse historical c
 3. FP-04/FP-10 owner evidence + E5 reinterpretation tests;
 4. FP-05 owner close/residual tests;
 5. FP-11 E4 evidence + E5 policy + E6 currentness tests;
-6. FP-16 E7 base runtime-preflight tests;
-7. FP-16 E7-113 external-consumer participation regressions;
-8. E7 P0 integration test;
-9. E7 safety test;
-10. E7 restart E2E test;
-11. full 14-suite current project matrix;
-12. E7/PM evidence reconciliation.
+6. consolidated FP-16 E7 runtime-preflight tests;
+7. E7 P0 integration test;
+8. E7 safety test;
+9. E7 restart E2E test;
+10. full 14-suite current project matrix;
+11. E7/PM evidence reconciliation.
 
-A failure stops the qualification. Do not continue to provider-readonly, SHADOW, PAPER, bounded live-fire, Gate D or LIVE from a failing/partial credential-free result.
+A failure stops qualification. Do not continue to provider-readonly, SHADOW, PAPER, bounded live-fire, Gate D, or LIVE from a failing/partial credential-free result.
 
-## Evidence fields required per focused/full suite
+## Evidence fields required
 
-Persist sanitized durable evidence containing at minimum:
-
-- `task_id`;
-- future `request_id` / `action_id` / `job_id` when AgentBridge is used under a fresh task;
-- `execution_revision`;
-- `working_tree = CLEAN / EXACT_CLEAN` as authoritative evidence permits;
-- OS product/build;
-- Python version;
-- `PYTHONPATH=src`;
-- suite/module command identity;
-- test count actually run;
-- pass/failure/error/skip counts;
-- process exit code;
-- start/end or duration;
-- `provider_requests = 0`;
-- `private_api_access = NONE`;
-- `credentials_read_requested_used = NONE`;
-- `provider_account_mutation = 0`;
-- `process_launch_restart = 0`;
-- `submit_cancel_amend_close_protection = 0`;
-- `shadow_runtime = NOT_STARTED`;
-- `paper_runtime = NOT_STARTED`;
-- `capital_exposure = NONE`;
-- `github_actions_ci_hosted_runner = NOT_USED`;
-- `github_triggered_compute = NOT_USED`.
+Future focused/full-suite evidence must record at minimum task/request/action/job identity where applicable, exact execution revision, clean/exact-clean fact, OS/build, Python version, `PYTHONPATH=src`, command identity, actual test counts/results/exit code/duration, and zero provider/private/credential/mutation/process/order/runtime/capital/GitHub-compute classifications.
 
 Do not persist local filesystem paths, secrets, provider signatures/tokens/cookies, raw private provider payloads, unrelated shell history, or private exact balances unless a future separately authorized provider task explicitly defines a sanitized field.
 
@@ -238,15 +210,11 @@ Do not persist local filesystem paths, secrets, provider signatures/tokens/cooki
 | FP-05 | E4 close/residual tests + E7 integrated/safety tests |
 | FP-10 | E4 convergence evidence + E5 reinterpretation + E6 currentness + E7 integrated/safety/E2E |
 | FP-11 | E4 registry evidence + E5 policy + E6 restart/currentness + E7 integrated/safety/E2E |
-| FP-16 | `src/integration/runtime_preflight.py` + `tests/integration/test_runtime_preflight.py` + `tests/integration/test_runtime_preflight_external_consumer_regression.py` + migrated E7 safety coverage; classification remains `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` until approved-local execution succeeds |
+| FP-16 | `src/integration/runtime_preflight.py` + consolidated `tests/integration/test_runtime_preflight.py` + migrated E7 safety coverage; remains `IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` until approved-local execution succeeds |
 | FP-02 provider-native protection/close facts | remain `UNRESOLVED_PROVIDER_FACT`; credential-free tests prove fail-closed non-authorizing behavior, not provider compatibility |
 
-## Qualification interpretation
+## Qualification interpretation / blocker preservation
 
-Passing this future credential-free manifest can establish only the exact revision's credential-free project/integration safety result. It does not by itself establish production OKX provider compatibility, provider read-only verification, external operator/AgentBridge launcher enforcement, provider mutation capability, SHADOW/PAPER runtime authorization, bounded 10U live-fire authorization, Gate D, or LIVE.
+Passing this future credential-free manifest can establish only the exact revision's credential-free project/integration safety result. It does not itself establish production OKX compatibility, provider read-only verification, external operator/AgentBridge launcher enforcement, provider mutation capability, SHADOW/PAPER authorization, bounded 10U live-fire authorization, Gate D, or LIVE.
 
-FP-16 project source remains implemented but unqualified after E7-113 static remediation. It must pass the future exact-revision qualification together with the rest of the candidate. Unresolved FP-02 provider-native facts remain separate fail-closed dependencies.
-
-## Current blocker preservation
-
-LF-0 remains blocked by approved-local exact-revision preparation infrastructure. E7-113 creates no Local Job Request and does not retry/reuse E7-101 evidence. The future PM/E7 flow must first establish the newly merged exact executable candidate as `EXACT_CLEAN` with fresh authoritative evidence before any command in this manifest may be executed.
+LF-0 remains blocked by approved-local exact-revision preparation infrastructure. E7-114 creates no Local Job Request and does not retry/reuse E7-101 evidence. The future flow must first establish the newly merged exact candidate as `EXACT_CLEAN` with fresh authoritative evidence before any command in this manifest may execute.

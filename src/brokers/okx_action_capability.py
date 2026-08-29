@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from copy import deepcopy
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Mapping
@@ -91,6 +92,29 @@ _SUPPORTED_POSITION_MODES = frozenset({NET_MODE, LONG_SHORT_MODE})
 _MUTATION_ROLES = frozenset({ENTRY, PROTECTION_STOP, POSITION_EXIT, EMERGENCY_EXIT})
 _HASH_RE = re.compile(r"^sha256:[0-9a-f]{64}$")
 _ID_RE = re.compile(r"^okxswapcap_[0-9a-f]{64}$")
+
+# E4-owner-authoritative immutable provenance for the only four positive rows.
+# These values are repository identity, not caller capability assertions and not
+# provider verification. A caller may present them for comparison, but cannot
+# choose a different ref/generation and still obtain REPO_EVIDENCED.
+_OWNER_ROW_PROVENANCE = {
+    (ENTRY, NET_MODE): (
+        "e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:ENTRY:net_mode:v0.1",
+        "e4-repo-generation:okx-swap-action-role-capability-v0.1:ENTRY:net_mode:1",
+    ),
+    (ENTRY, LONG_SHORT_MODE): (
+        "e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:ENTRY:long_short_mode:v0.1",
+        "e4-repo-generation:okx-swap-action-role-capability-v0.1:ENTRY:long_short_mode:1",
+    ),
+    (READ_ONLY_RECONCILIATION, NET_MODE): (
+        "e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:READ_ONLY_RECONCILIATION:net_mode:v0.1",
+        "e4-repo-generation:okx-swap-action-role-capability-v0.1:READ_ONLY_RECONCILIATION:net_mode:1",
+    ),
+    (READ_ONLY_RECONCILIATION, LONG_SHORT_MODE): (
+        "e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:READ_ONLY_RECONCILIATION:long_short_mode:v0.1",
+        "e4-repo-generation:okx-swap-action-role-capability-v0.1:READ_ONLY_RECONCILIATION:long_short_mode:1",
+    ),
+}
 
 
 class OKXActionCapabilityError(ValueError):
@@ -251,35 +275,60 @@ def _read_only_fieldset() -> dict[str, Any]:
     }
 
 
-def expected_repo_fieldset(action_role: str, position_mode: str) -> dict[str, Any] | None:
-    """Return a copy of the bounded repository descriptor; never mutation authority."""
-
+def _owner_repository_row(action_role: str, position_mode: str) -> dict[str, Any] | None:
+    provenance = _OWNER_ROW_PROVENANCE.get((action_role, position_mode))
+    if provenance is None:
+        return None
     if action_role == ENTRY:
-        return _entry_fieldset(position_mode)
-    if action_role == READ_ONLY_RECONCILIATION and position_mode in _SUPPORTED_POSITION_MODES:
-        return _read_only_fieldset()
-    return None
+        descriptor = _entry_fieldset(position_mode)
+    elif action_role == READ_ONLY_RECONCILIATION:
+        descriptor = _read_only_fieldset()
+    else:
+        return None
+    ref, generation = provenance
+    return {
+        "capability_profile_version": CAPABILITY_PROFILE_VERSION,
+        "action_role": action_role,
+        "position_mode": position_mode,
+        "provider_fieldset_ref": ref,
+        "provider_fieldset_generation_id": generation,
+        "provider_fieldset_hash": canonical_okx_action_capability_hash(descriptor),
+        "provider_fieldset": descriptor,
+    }
+
+
+def expected_repo_fieldset(action_role: str, position_mode: str) -> dict[str, Any] | None:
+    """Return only the resolver-owned descriptor; this is not capability authority."""
+
+    row = _owner_repository_row(action_role, position_mode)
+    if row is None:
+        return None
+    return deepcopy(row["provider_fieldset"])
+
+
+def expected_repo_fieldset_identity(action_role: str, position_mode: str) -> dict[str, Any] | None:
+    """Return a copy of the canonical E4-owner repository row identity.
+
+    This helper exposes repository evidence material for deterministic consumers
+    and tests. Callers cannot choose the positive ref/generation: the resolver
+    separately compares supplied facts with its own immutable canonical row.
+    """
+
+    row = _owner_repository_row(action_role, position_mode)
+    return None if row is None else deepcopy(row)
 
 
 def _fieldset_is_repo_evidenced(facts: OKXActionCapabilityFacts) -> bool:
-    expected = expected_repo_fieldset(facts.action_role, facts.position_mode)
-    if expected is None:
-        return False
-    if facts.provider_fieldset is None:
-        return False
-    if not all(
-        value is not None
-        for value in (
-            facts.provider_fieldset_ref,
-            facts.provider_fieldset_hash,
-            facts.provider_fieldset_generation_id,
-        )
-    ):
+    owner_row = _owner_repository_row(facts.action_role, facts.position_mode)
+    if owner_row is None or facts.provider_fieldset is None:
         return False
     supplied = _canonicalize(facts.provider_fieldset)
-    if supplied != expected:
-        return False
-    return facts.provider_fieldset_hash == canonical_okx_action_capability_hash(expected)
+    return (
+        supplied == owner_row["provider_fieldset"]
+        and facts.provider_fieldset_hash == owner_row["provider_fieldset_hash"]
+        and facts.provider_fieldset_ref == owner_row["provider_fieldset_ref"]
+        and facts.provider_fieldset_generation_id == owner_row["provider_fieldset_generation_id"]
+    )
 
 
 def _base_evidence(facts: OKXActionCapabilityFacts) -> dict[str, Any]:
@@ -389,8 +438,6 @@ def _derive_capability(facts: OKXActionCapabilityFacts) -> tuple[str, list[str]]
             or facts.fp11_registry_currentness != CURRENT
         ):
             reasons.append(OKX_SWAP_PROTECTION_REGISTRY_NOT_CURRENT)
-        # Exact current FP-03 ACTIONABLE evidence is necessary upstream but is
-        # intentionally insufficient for provider trigger-basis compatibility.
         if (
             facts.fp03_trigger_validity_ref is None
             or facts.fp03_trigger_validity_status != FP03_ACTIONABLE
@@ -445,6 +492,36 @@ def resolve_okx_swap_action_capability(facts: OKXActionCapabilityFacts) -> dict[
     return evidence
 
 
+def _repo_evidenced_claim_matches_owner_row(evidence: Mapping[str, Any]) -> bool:
+    owner_row = _owner_repository_row(evidence.get("action_role"), evidence.get("position_mode"))
+    if owner_row is None:
+        return False
+    if (
+        evidence.get("capability_profile_version") != CAPABILITY_PROFILE_VERSION
+        or evidence.get("provider") != OKX_PROVIDER
+        or evidence.get("api_version") != OKX_API_VERSION
+        or evidence.get("canonical_symbol") != CANONICAL_SYMBOL
+        or evidence.get("provider_instrument_id") != OKX_INSTRUMENT_ID
+        or evidence.get("inst_type") != OKX_INST_TYPE
+        or evidence.get("account_level") != ACCOUNT_LEVEL
+        or evidence.get("margin_mode") != ISOLATED
+        or evidence.get("caller_capability_assertion_present") is not False
+        or evidence.get("provider_fieldset_ref") != owner_row["provider_fieldset_ref"]
+        or evidence.get("provider_fieldset_hash") != owner_row["provider_fieldset_hash"]
+        or evidence.get("provider_fieldset_generation_id")
+        != owner_row["provider_fieldset_generation_id"]
+    ):
+        return False
+    if evidence.get("action_role") == ENTRY:
+        return (
+            evidence.get("operation_class") == ENTRY_OPERATION
+            and evidence.get("reconciliation_status") == CURRENT
+        )
+    if evidence.get("action_role") == READ_ONLY_RECONCILIATION:
+        return evidence.get("operation_class") == READ_ONLY_OPERATION
+    return False
+
+
 def validate_okx_swap_action_capability_evidence(evidence: Mapping[str, Any]) -> None:
     required = {
         "capability_profile_version",
@@ -494,8 +571,12 @@ def validate_okx_swap_action_capability_evidence(evidence: Mapping[str, Any]) ->
     reasons = evidence["reason_codes"]
     if not isinstance(reasons, list) or reasons != _sorted_reasons(reasons):
         raise OKXActionCapabilityError("REASON_ORDER_INVALID", "reason_codes must be deterministic")
-    if evidence["capability_state"] == REPO_EVIDENCED and reasons:
-        raise OKXActionCapabilityError("FALSE_REPO_EVIDENCED", "repo-evidenced capability cannot carry failure reasons")
+    if evidence["capability_state"] == REPO_EVIDENCED:
+        if reasons or not _repo_evidenced_claim_matches_owner_row(evidence):
+            raise OKXActionCapabilityError(
+                "FALSE_REPO_EVIDENCED",
+                "repo-evidenced capability must bind the exact E4-owner repository row",
+            )
     _utc_text(evidence["evaluated_at"], "evaluated_at")
     _optional_hash(evidence["provider_fieldset_hash"], "provider_fieldset_hash")
 

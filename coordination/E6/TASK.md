@@ -1,16 +1,18 @@
 # E6 Current Task
 
-- task_id: `E6-20260829-028`
-- issued_at: `2026-08-29T18:42:00+08:00`
+- task_id: `E6-20260829-029`
+- issued_at: `2026-08-29T18:55:00+08:00`
 - state: `ACTIVE`
 - target_branch: `agent/e6-fp11-persistence-currentness-20260829`
-- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, accepted `protection-registry-multiplicity-v0.1`, merged E4 FP-11 producer static candidate, merged E5 FP-11 policy consumer static candidate, `status/PM_E5_033_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
+- authority: `agents/E6_PLATFORM.md`, `agents/README.md`, accepted `protection-registry-multiplicity-v0.1`, merged E4 FP-11 producer static candidate, merged E5 FP-11 policy consumer static candidate, `status/PM_E6_028_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
 
 ## Objective
 
-Implement the smallest deterministic **provider-neutral E6 FP-11 immutable persistence, current-head/currentness and restart/read-model consumer** for accepted `ProtectionRegistryMultiplicityEvidence` plus the merged E5 FP-11 interpretation result.
+Remediate the bounded E6-owned FP-11 restart/currentness **hash-domain mismatch** identified by PM review of E6-20260829-028, without expanding scope.
 
-The platform must preserve exact evidence history and expose fail-closed current state across restart. It must never infer `protected`, `healthy`, `converged`, cleanup authority, provider mutation authority, or lifecycle truth merely because a database row exists.
+Continue the existing unmerged branch `agent/e6-fp11-persistence-currentness-20260829`. Bring in latest `main` non-destructively as needed; do not force-push/rewrite history. Preserve the E6-028 implementation except for the minimum correction and regression definitions required by this task.
+
+The defect is precise: existing `_PaperRuntimeStore.persist_position_projection()` stores the canonical **lifecycle projection payload hash** in `paper_position_lifecycle_projections.payload_hash` and `paper_position_current_projection.payload_hash`, while E6-028 `recover()` compares those storage hashes to the canonical **Position hash**. These are distinct evidence domains and must remain distinct.
 
 No provider/network/credential/runtime/live authority is granted.
 
@@ -21,75 +23,64 @@ Read latest `main` and at minimum:
 - `README.md`;
 - `agents/README.md`;
 - `agents/E6_PLATFORM.md`;
-- `contracts/PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md`;
+- `status/PM_E6_028_REVIEW_20260829.md`;
+- `src/storage/_paper_runtime.py`, specifically normal `persist_position_projection()` hash/index semantics;
+- `src/storage/migrations/0002_paper_runtime_durability.sql`;
+- current branch `src/storage/protection_registry_currentness.py` and its tests/handoff;
 - accepted position lifecycle projection/execution-binding profiles;
-- merged E4 FP-11 producer/currentness public boundary;
-- merged E5 `src/position/protection_registry_policy.py` public interpretation/result shape;
-- current E6 FP-04/FP-10 append-only/currentness/restart patterns from E6-20260829-026;
-- `status/PM_E5_033_REVIEW_20260829.md`;
 - active `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`.
 
 Do not read or execute another Worker's TASK mailbox.
 
-## Implementation boundary
+## Required remediation
 
-Within E6-owned storage/platform paths, add deterministic persistence/read-model behavior for:
+Within E6-owned storage/test paths only:
 
-1. immutable FP-11 registry evidence history keyed by exact `protection_registry_evidence_id` and canonical payload/hash identity;
-2. explicit supersession-chain storage for the same logical Position/intended-protection lineage;
-3. deterministic current-head selection that rejects competing heads, missing predecessors, cycles, cross-lineage supersession, duplicate ID with changed payload, or reference/hash corruption;
-4. immutable E5 FP-11 interpretation/audit records bound to exact Position/lifecycle/binding + exact FP-11 source evidence/material hash;
-5. restart/reload currentness evaluation that rebinds the selected FP-11 head and E5 interpretation to exact current Position/lifecycle/provider-set/runtime material supplied by owner-authoritative inputs;
-6. a platform/read-model health state that distinguishes at least current healthy unique protection, non-converged/reconciliation-required, incomplete/conflict, stale/superseded, and unknown/unavailable without inventing new shared lifecycle semantics.
+1. keep canonical Position hash and canonical lifecycle-projection payload hash as separate values;
+2. derive/validate the exact current lifecycle projection canonical payload hash from the supplied current lifecycle projection;
+3. require `paper_position_current_projection` to match the exact current projection by at least:
+   - `position_id`;
+   - `lifecycle_projection_id`;
+   - `lifecycle_revision`;
+   - `broker_state_observed_at`;
+   - lifecycle projection `payload_hash`;
+4. require the selected `paper_position_lifecycle_projections` row to have exact canonical `payload_json` and `payload_hash` for the supplied current lifecycle projection;
+5. keep FP-11 top-level `position_hash`, intended-lineage `position_hash`, and E5 interpretation `position_hash` bound to the canonical Position hash only;
+6. do not weaken any existing FP-11 exact Position/lifecycle/binding/provider-set/runtime reference/currentness checks;
+7. preserve append-only evidence, explicit supersession-chain selection, competing-head failure, FP-04 dependency checks, E5 decision binding, terminal-flat FP-10 dependency and false-green prevention;
+8. keep `provider_mutation_authorized = false` and `cleanup_target_ref = null` mechanically enforced.
 
-Use existing E6 migration/repository/currentness conventions where possible. Do not create a parallel shared contract. If a shared semantic is missing, persist a precise E7 change request and stop at PARTIAL rather than inventing it.
+Do not solve the mismatch by changing existing `_PaperRuntimeStore.persist_position_projection()` semantics, migration-0002 semantics, lifecycle contracts, or Position hashing semantics. The FP-11 E6 consumer must integrate with the existing authoritative writer.
 
-## Fail-closed persistence/currentness requirements
+## Required regression tests to define
 
-- FP-11 evidence is append-only and immutable; update/delete of accepted immutable evidence must be rejected mechanically.
-- same evidence ID + changed payload/hash is corruption/conflict, never overwrite.
-- explicit supersession is the only basis for selecting a newer immutable evidence object in one logical lineage; insertion time, max row ID, latest `evaluated_at`, or newest database timestamp is not authority.
-- competing unsuperseded heads -> conflict/reconciliation-required, not arbitrary winner selection.
-- missing predecessor, broken supersession link, cycle, cross-Position/cross-lineage link -> incomplete/conflict, never current healthy.
-- stale/mismatched Position/lifecycle/projection/binding/provider-set/runtime generation invalidates current FP-11 health.
-- a persisted exact-one/converged FP-11 row is not healthy if current E5 interpretation is missing, stale, source-mismatched, non-current, or no longer bound to the same exact current authority.
-- a persisted E5 `healthy_protection=True` record is never sufficient by itself; current FP-11 evidence and current Position/lifecycle bindings must still match.
-- missing/multiple/orphan/external/conflict/stale/unknown FP-11 evidence remains visible and fail closed after restart; do not cosmetically map it to green/healthy.
-- terminal/flat Position with unresolved active protection must preserve the FP-10 terminal protection convergence dependency; restart must not render false-green `CLOSED` solely from flat Position/local lifecycle rows.
-- no storage/read-model state may authorize provider query/create/cancel/amend/replace/cleanup or new exposure.
+Add/adjust E6-owned deterministic tests covering at minimum:
 
-## Required deterministic tests to define
+- normal lifecycle projection persisted through the existing `_PaperRuntimeStore.persist_position_projection()` writer is accepted by FP-11 restart/currentness when all other exact current evidence matches;
+- lifecycle projection payload hash is not compared to canonical Position hash;
+- corrupted/mismatched `paper_position_current_projection.payload_hash` fails closed;
+- corrupted/mismatched durable lifecycle projection `payload_json`/`payload_hash` fails closed;
+- current projection ID/revision/broker observation mismatch fails closed;
+- canonical Position hash mismatch still independently invalidates FP-11/E5 currentness;
+- healthy FP-11 read model remains possible only with exact converged FP-11 + exact current E5 interpretation + exact current Position/lifecycle/FP-04/provider-set/runtime dependencies;
+- flat/CLOSED with unresolved protection remains reconciliation-required;
+- no provider/network/credentials/mutation dependency.
 
-Add E6-owned provider-free tests covering at minimum:
-
-- immutable insert/read/reload of one valid FP-11 evidence row;
-- update/delete rejection for immutable FP-11 evidence;
-- duplicate ID + changed payload/hash rejection;
-- explicit same-lineage supersession selects one current head;
-- timestamp-only/newer-row insertion without valid supersession does not replace authority;
-- competing heads -> conflict/non-green;
-- missing predecessor/cycle/cross-lineage supersession -> fail closed;
-- exact current converged FP-11 + current matching E5 interpretation + current Position/lifecycle/binding -> healthy unique-protection read model only;
-- missing/stale/mismatched E5 interpretation prevents healthy read model;
-- missing/multiple/orphan/external/conflict/stale/unknown FP-11 remains non-green after restart;
-- changed Position/lifecycle/provider-set/runtime generation invalidates previously healthy persisted evidence;
-- flat/CLOSED + unresolved active protection remains terminal convergence/reconciliation-required after restart;
-- no provider/network/credentials/mutation dependency;
-- migrations/restart behavior are included in later approved-local verification.
+Prefer exercising the real existing E6 persistence writer rather than manually inserting a current projection row with invented hash semantics.
 
 Do not execute tests through GitHub.
 
 ## Verification boundary
 
-All executable verification is local-only. LF-0 approved-local exact-revision preparation remains blocked.
+All executable verification remains local-only. LF-0 approved-local exact-revision preparation remains blocked.
 
-Unless an independently approved local exact-revision path is explicitly available:
+Unless an independently approved local exact-revision execution path is explicitly present in current repository evidence:
 
 ```text
 project executable verification = NOT_RUN / NOT_PASS
 ```
 
-Record exact future Windows/local commands for bounded storage/migration/restart tests and relevant FP-11 E4/E5/E6 regressions. `NOT_RUN` is not PASS.
+Record exact future Windows/local commands for the corrected FP-11 storage tests and relevant existing storage/runtime/FP-11 regressions. `NOT_RUN` is not PASS.
 
 ```text
 provider requests = 0
@@ -111,9 +102,11 @@ GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 
 Create:
 
-`status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md`
+`status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md`
 
-Document task ID, exact schema/migration/source/test files changed, immutable/supersession/current-head behavior, E5 interpretation binding, restart/read-model fail-closed behavior, tests defined, exact future local commands/result, limitations/downstream E7 integration needs, and confirmation of zero provider/credential/runtime/capital authority.
+Also update the existing E6-028 handoff if necessary so it no longer describes the defective hash comparison as accepted behavior.
+
+Document the exact defect, corrected hash domains, files changed, regression definitions, exact future local commands/result, and authority/gate state.
 
 Update `coordination/E6/STATUS.md`, commit, and push the target branch.
 
@@ -121,29 +114,27 @@ Update `coordination/E6/STATUS.md`, commit, and push the target branch.
 
 Only E6-owned paths:
 
-- `src/storage/`;
-- `src/platform/` only for bounded read-model/currentness integration;
-- `tests/storage/`;
-- `tests/platform/` only if directly required;
-- E6-owned migrations/schema files under existing project conventions;
-- `status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md`;
+- `src/storage/protection_registry_currentness.py`;
+- `tests/storage/test_protection_registry_currentness.py`;
+- `status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md` only if correction is needed;
+- `status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md`;
 - `coordination/E6/STATUS.md`.
 
-Do not modify `contracts/**`, E4/E5/E7 implementation/docs, provider transport/auth/config/credentials, AgentBridge/local action catalog, provider allowlists, Product Owner authorization artifacts, risk/lifecycle policy, release criteria, leverage/capital thresholds, or GitHub Actions/CI files.
+Do not modify `contracts/**`, migration-0002 semantics, E4/E5/E7 implementation/docs, provider transport/auth/config/credentials, AgentBridge/local action catalog, provider allowlists, Product Owner authorization artifacts, risk/lifecycle policy, release criteria, leverage/capital thresholds, or GitHub Actions/CI files.
 
 ## Result classification
 
 ### DONE
-Use DONE only if implementation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
+Use DONE only if remediation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
 
 ### PARTIAL
-Use PARTIAL when bounded implementation/test definitions are complete but executable verification remains `NOT_RUN`, or a precise shared-contract dependency prevents safe completion.
+Use PARTIAL if the static remediation and regression definitions are complete but executable verification remains `NOT_RUN / NOT_PASS`.
 
 ### BLOCKED
-Use BLOCKED only for contradictory authoritative requirements or a safety dependency that prevents bounded implementation within E6 scope.
+Use BLOCKED only if an authoritative contradiction prevents correcting the integration within E6 scope. If a shared semantic truly must change, record the precise dependency instead of inventing one.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E6-20260829-028`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
+Read latest `main`, verify wake task ID `E6-20260829-029`, execute only this remediation task, persist evidence, update STATUS, commit/push the existing target branch, and stop on DONE, PARTIAL, or BLOCKED.
 
-Do not self-start provider verification, E7 integration/requalification, exact-revision preparation, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, mutation, order action, or capital movement/exposure.
+Do not self-start E7 integration/requalification, exact-revision preparation, provider verification, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, mutation, order action, or capital movement/exposure.

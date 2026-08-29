@@ -1,18 +1,16 @@
 # E4 Current Task
 
-- task_id: `E4-20260829-034`
-- issued_at: `2026-08-29T20:46:00+08:00`
+- task_id: `E4-20260829-035`
+- issued_at: `2026-08-29T21:00:00+08:00`
 - state: `ACTIVE`
 - target_branch: `agent/e4-fp02-action-capability-evidence-20260829`
-- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, accepted E4 design profile `okx-swap-action-role-capability-v0.1`, `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md`, merged FP-03/04/05/10/11 owner static candidates, merged FP-16 static candidate, `status/PM_E7_114_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
+- authority: `agents/E4_EXECUTION.md`, `agents/README.md`, accepted E4 design profile `okx-swap-action-role-capability-v0.1`, `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md`, `status/PM_E4_034_REVIEW_20260829.md`, active LF-0 exact-revision infrastructure blocker
 
 ## Objective
 
-Implement the smallest deterministic E4-owned **OKX SWAP action-role capability evidence/resolution boundary** for FP-02 using only caller-supplied sanitized repository/provider-capability facts.
+Remediate only the PM-identified FP-02 **positive repository-evidence provenance fail-open** on the existing unmerged E4-034 branch, add deterministic regression definitions in the existing authorized test module, update E4 evidence/status, and stop.
 
-This task converts the accepted E4 docs-only capability matrix into provider-local executable logic that can distinguish `REPO_EVIDENCED`, `UNRESOLVED_FAIL_CLOSED`, `FORBIDDEN`, and `NOT_APPLICABLE` facts before any provider dispatch. It must not create provider-native facts that are currently unresolved.
-
-No provider/network/credential/mutation/runtime/capital authority is granted.
+Do not expand provider semantics, execute project code, call provider endpoints, inspect/request credentials, change provider transport/auth/signing/private API calls, launch runtime/processes, mutate provider/account state, submit/cancel/amend/close/protection orders, start SHADOW/PAPER/live runtime, expose/move capital, create Local Job Requests, prepare exact revisions, or use GitHub compute.
 
 ## Required reading
 
@@ -21,159 +19,88 @@ Read latest `main` and at minimum:
 - `README.md`;
 - `agents/README.md`;
 - `agents/E4_EXECUTION.md`;
-- `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md` in full;
-- accepted FP-03 protection-trigger-validity profile and merged E4 consumer;
-- accepted FP-04 ownership/reconciliation profile and merged E4 producer;
-- accepted FP-05 close/residual sizing design and merged E4 sizing candidate;
-- accepted FP-11 protection registry profile and merged E4 producer;
-- merged E7 FP-16 runtime-preflight implementation only as an authority boundary, without modifying it;
-- `status/PM_E7_114_REVIEW_20260829.md`;
+- `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md`;
+- `status/PM_E4_034_REVIEW_20260829.md`;
+- current branch `src/brokers/okx_action_capability.py`;
+- current branch `tests/brokers/test_okx_action_capability.py`;
+- current branch `status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md`;
 - active `status/FP03_COMBINED_REQUALIFICATION_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`.
 
-Do not read or execute another Worker's TASK mailbox.
+Verify wake task ID exactly `E4-20260829-035`. Execute only this task and do not read/execute another Worker's TASK mailbox.
 
-## Implementation boundary
+## Precise defect to fix
 
-Implement an E4-local pure/provider-neutral resolver, preferably under:
+The E4-034 resolver currently allows a positive repository capability row when a caller supplies:
 
-- `src/brokers/okx_action_capability.py`, or an equivalently bounded E4-owned provider-local module;
-- minimal direct tests under `tests/brokers/`.
+- a fieldset equal to the public expected descriptor;
+- the deterministic hash of that descriptor;
+- any non-null `provider_fieldset_ref`;
+- any non-null `provider_fieldset_generation_id`.
 
-The resolver may define typed/provider-local sanitized inputs/evidence and deterministic helper functions, but must not modify shared `contracts/` or invent a new cross-module contract.
+Because descriptor and hash are publicly reproducible and ref/generation are not matched to an E4-owner-authoritative current repository identity, a caller can manufacture `REPO_EVIDENCED` by copying the descriptor, recomputing the hash, and inventing ref/generation values.
 
-The resolver must consume only explicit supplied facts such as:
+That violates the accepted requirement that positive capability bind the exact current E4 repository-evidenced field-set rather than caller-manufactured fields.
 
-- capability profile version;
-- action role;
-- canonical/provider instrument identity and `instType=SWAP`;
-- account level;
-- position mode;
-- margin mode;
-- operation class;
-- exact provider field-set evidence/ref/hash/generation where already repo-evidenced;
-- current reconciliation classification where applicable;
-- FP-03/FP-05/FP-11 evidence refs/status only when required by the accepted role row;
-- caller capability assertions, if supplied, solely so they can be rejected as authority.
+## Required remediation
 
-It must perform no I/O and must never inspect credentials, account balances, raw provider payloads, filesystem paths, shell commands, or secrets.
+Within the existing E4-local module/test/evidence paths only:
 
-## Required capability semantics
+1. Preserve the pure/provider-local/no-I/O resolver boundary.
+2. Define or consume an **E4-owner-authoritative immutable repository row identity** for each currently positive row:
+   - `ENTRY / net_mode`;
+   - `ENTRY / long_short_mode`;
+   - `READ_ONLY_RECONCILIATION / net_mode`;
+   - `READ_ONLY_RECONCILIATION / long_short_mode`.
+3. That owner-authoritative identity must bind, as one exact row, at least:
+   - action role;
+   - position mode;
+   - exact repository fieldset descriptor;
+   - exact deterministic descriptor hash;
+   - exact stable E4-owned fieldset reference;
+   - exact stable E4-owned fieldset generation identifier.
+4. A positive `REPO_EVIDENCED` result must require exact match to that owner-authoritative row identity. Merely supplying a correct public descriptor/hash with arbitrary ref/generation is insufficient.
+5. Do not treat a generic caller-passed "authority" boolean/dictionary as proof. If a helper/typed owner row is introduced, its positive values must be resolver/E4-owned canonical row material, not caller-selected arbitrary identity strings.
+6. Forged/arbitrary/mismatched fieldset ref, generation, descriptor, hash, role/mode cross-use, or missing owner-row material must fail closed using the existing accepted E4-local vocabulary, preferably `OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN` where applicable.
+7. Preserve current caller capability assertion rejection.
+8. Preserve all existing unresolved provider facts:
+   - `PROTECTION_STOP = UNRESOLVED_FAIL_CLOSED`;
+   - `POSITION_EXIT = UNRESOLVED_FAIL_CLOSED`;
+   - `EMERGENCY_EXIT = UNRESOLVED_FAIL_CLOSED`;
+   - FP-03 `LAST_PRICE` never selects provider trigger basis;
+   - FP-05 sizing never proves endpoint/`posSide`/native reduce-only/close fieldset;
+   - emergency urgency grants no bypass.
+9. Preserve `READ_ONLY_RECONCILIATION` as exact GET-only/default-deny observation capability; mutation remains `FORBIDDEN / OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN`.
+10. Preserve deterministic identity/currentness: wall-clock-only change does not upgrade evidence; material owner-row generation/hash/ref change invalidates prior evidence. Do not invent TTLs.
+11. Do not add provider-native endpoint/field facts beyond already accepted ENTRY/read-only repository mapping.
+12. Do not change shared contracts/ADRs.
 
-Use the accepted E4-local states exactly:
+## Required regression definitions
 
-- `REPO_EVIDENCED`
-- `UNRESOLVED_FAIL_CLOSED`
-- `FORBIDDEN`
-- `NOT_APPLICABLE`
+Modify the existing authorized file only:
 
-Use stable E4-local reasons from the accepted matrix, including where applicable:
-
-- `OKX_SWAP_CAPABILITY_PROFILE_UNSUPPORTED`
-- `OKX_SWAP_ACTION_ROLE_UNSUPPORTED`
-- `OKX_SWAP_INSTRUMENT_UNSUPPORTED`
-- `OKX_SWAP_ACCOUNT_LEVEL_UNSUPPORTED`
-- `OKX_SWAP_POSITION_MODE_UNSUPPORTED`
-- `OKX_SWAP_MARGIN_MODE_UNSUPPORTED`
-- `OKX_SWAP_SPOT_TRADE_MODE_FORBIDDEN`
-- `OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN`
-- `OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED`
-- `OKX_SWAP_TRIGGER_BASIS_UNPROVEN`
-- `OKX_SWAP_REDUCIBLE_SIZE_UNPROVEN`
-- `OKX_SWAP_PROTECTION_REGISTRY_NOT_CURRENT`
-- `OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN`
-- `OKX_SWAP_RECONCILIATION_REQUIRED`
-
-Do not add provider-native facts merely to produce a green state.
-
-### ENTRY
-
-`ENTRY` may resolve only against the currently repository-evidenced bounded entry mapping when all required facts exactly match the accepted design, including:
-
-- provider OKX / API V5 target identity;
-- canonical `BTC_USDT_PERP` -> provider `BTC-USDT-SWAP` / `instType=SWAP`;
-- `acctLv=2`;
-- `tdMode=isolated`;
-- accepted `net_mode` or entry-specific accepted `long_short_mode` mapping;
-- exact current bounded entry provider field-set evidence rather than caller-manufactured fields.
-
-Any caller-provided capability boolean/dictionary that attempts to create authority must be rejected.
-
-A `REPO_EVIDENCED` ENTRY capability remains repository mapping evidence only. It is not provider verification or order authority.
-
-### PROTECTION_STOP
-
-`PROTECTION_STOP` must remain `UNRESOLVED_FAIL_CLOSED` for provider dispatch under current repository facts.
-
-Even with exact current FP-03 `ACTIONABLE` shared geometry and exact current FP-11 registry facts, the resolver must not infer:
-
-- provider protection/algo endpoint;
-- trigger field names;
-- provider trigger basis / `triggerPxType`;
-- provider-native reduce-only semantics;
-- provider protection `posSide` semantics;
-- exact provider readback/cancel identity.
-
-Shared FP-03 `LAST_PRICE` geometry is never provider trigger-basis proof.
-
-### POSITION_EXIT / EMERGENCY_EXIT
-
-Both roles must remain `UNRESOLVED_FAIL_CLOSED` for provider dispatch under current repository facts.
-
-Exact FP-05 sizing evidence may prove canonical/provider-local quantity constraints for sizing, but it must not prove unresolved provider-native:
-
-- endpoint/field set;
-- `posSide` close behavior;
-- native reduce-only behavior;
-- role-specific provider close semantics.
-
-Original entry quantity/requested quantity must never substitute for fresh actual reducible exposure.
-
-Emergency urgency does not waive provider proof.
-
-### READ_ONLY_RECONCILIATION
-
-The role may resolve only as the currently repository-evidenced observation-only capability when the supplied facts bind the accepted GET-only/default-deny Shadow observation surface.
-
-It must never resolve a mutation operation. Any attempted POST/create/cancel/amend/close/protection mutation through this role must fail closed with `OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN` or the exact equivalent accepted E4-local reason.
-
-## Currentness / identity
-
-If the implementation persists/returns a provider-local evidence object:
-
-- use deterministic canonical serialization and identity;
-- bind exact profile/action role/instrument/account/mode/margin/operation and supplied evidence generation/hash facts;
-- material capability changes must produce a different identity/currentness result;
-- wall-clock/evaluated-at change alone must not upgrade unresolved facts or manufacture supersession;
-- do not invent numeric TTLs.
-
-A helper may recompute whether evidence remains current against fresh supplied facts, but it must remain pure and provider-neutral.
-
-## Required deterministic tests to define
+`tests/brokers/test_okx_action_capability.py`
 
 Cover at minimum:
 
-1. exact supported ENTRY `net_mode` row -> repository-evidenced capability only;
-2. exact supported ENTRY `long_short_mode` row -> repository-evidenced capability only for ENTRY;
-3. wrong canonical/provider instrument or non-SWAP -> fail closed;
-4. wrong/unknown account level -> fail closed;
-5. wrong/unknown position mode -> fail closed;
-6. non-isolated/Spot `tdMode=cash` -> forbidden/fail closed;
-7. caller capability assertion cannot create capability;
-8. caller-mutated/unknown provider field set -> `OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN`;
-9. FP-03 ACTIONABLE protection evidence still cannot select provider trigger basis or provider protection field set;
-10. PROTECTION_STOP remains unresolved with no provider mutation materialization;
-11. POSITION_EXIT remains unresolved even when supplied FP-05 sizing evidence is otherwise coherent;
-12. EMERGENCY_EXIT remains unresolved and receives no emergency bypass;
-13. stale/unknown/reconciliation-required facts remain non-authorizing;
-14. READ_ONLY_RECONCILIATION accepts only the exact observation role and rejects any mutation request;
-15. deterministic same-input output/identity and material-currentness invalidation if evidence identity is implemented;
-16. no provider/network/credentials/private API/process/runtime/order mutation/capital dependency.
+- exact canonical ENTRY net_mode owner row -> `REPO_EVIDENCED`;
+- exact canonical ENTRY long_short_mode owner row -> `REPO_EVIDENCED`;
+- exact canonical READ_ONLY owner row -> `REPO_EVIDENCED`;
+- copied correct descriptor + correct reproducible hash + forged ref -> `UNRESOLVED_FAIL_CLOSED / OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN`;
+- copied correct descriptor + correct hash + forged generation -> fail closed;
+- valid ref/generation paired with wrong role or wrong mode -> fail closed;
+- descriptor/hash mismatch -> fail closed;
+- missing ref/generation -> fail closed;
+- existing caller capability assertion remains rejected;
+- existing PROTECTION_STOP / POSITION_EXIT / EMERGENCY_EXIT unresolved tests remain intact;
+- read-only mutation rejection remains intact;
+- deterministic identity/currentness remains intact;
+- no provider/network/credentials/private API/process/runtime/order mutation/capital dependency.
 
-Do not execute tests through GitHub.
+Do not execute tests through GitHub or in this ChatGPT environment.
 
 ## Verification boundary
 
-All project-code execution remains local-only. LF-0 approved-local exact-revision preparation remains blocked.
+All executable verification remains local-only. LF-0 approved-local exact-revision preparation remains blocked.
 
 Unless separately authoritative approved-local exact-revision evidence already exists for the exact resulting revision, record:
 
@@ -196,43 +123,42 @@ capital exposure = NONE
 GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
 
-`NOT_RUN` is not PASS. Do not create a Local Job Request or exact-revision preparation request in this task.
+`NOT_RUN` is not PASS.
 
 ## Required durable evidence
 
-Create:
+Update:
 
 `status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md`
 
-Document task ID, exact files changed, accepted design consumed, implemented provider-local states/reasons, exact ENTRY/read-only repo-evidenced boundaries, unresolved protection/exit/emergency behavior, currentness/identity behavior if applicable, future local commands, limitations, and zero provider/credential/mutation/runtime/capital authority.
+Document the PM defect, exact owner-authoritative repository-row binding used, regression definitions, unchanged unresolved provider semantics, future local commands, and zero provider/credential/mutation/runtime/capital authority.
 
-Update `coordination/E4/STATUS.md`, commit, and push the target branch.
+Update `coordination/E4/STATUS.md`, commit, and push the existing target branch.
 
 ## Writable scope
 
-Only E4-owned paths needed directly for this task:
+Only:
 
-- `src/brokers/okx_action_capability.py` or one equivalently named new E4-local capability module;
-- minimal `src/brokers/__init__.py` export only if needed;
-- `tests/brokers/test_okx_action_capability.py` or one direct E4-owned test module;
+- `src/brokers/okx_action_capability.py`;
+- `tests/brokers/test_okx_action_capability.py`;
 - `status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md`;
 - `coordination/E4/STATUS.md`.
 
-Do not modify existing provider transport/auth/signing/private API calls, shared contracts/ADRs, E1/E2/E3/E5/E6/E7 production code, AgentBridge/local-action infrastructure, Product Owner authorization artifacts, risk/leverage/capital thresholds, LIVE/release policy, or GitHub Actions/CI files.
+Do not add another test module. Do not modify `src/brokers/__init__.py`, provider transport/auth/signing/private API code, shared contracts/ADRs, E1/E2/E3/E5/E6/E7 production code, AgentBridge/local-action infrastructure, Product Owner authorization artifacts, risk/leverage/capital thresholds, LIVE/release policy, or GitHub Actions/CI files.
 
 ## Result classification
 
 ### DONE
-Use DONE only if implementation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
+Use DONE only if remediation/test definitions are complete and required executable verification actually ran on an approved local exact revision with PASS evidence.
 
 ### PARTIAL
-Use PARTIAL when implementation/test definitions are complete but executable verification remains `NOT_RUN / NOT_PASS`, or a precise provider fact remains intentionally unresolved/fail-closed.
+Use PARTIAL when remediation/test definitions are complete but executable verification remains `NOT_RUN / NOT_PASS`.
 
 ### BLOCKED
-Use BLOCKED only for a contradictory authoritative requirement that prevents this bounded E4-local implementation.
+Use BLOCKED only if accepted E4 design semantics make the bounded provenance remediation impossible or contradictory.
 
 ## Completion
 
-Read latest `main`, verify wake task ID `E4-20260829-034`, execute only this task, persist evidence, update STATUS, commit/push the target branch, and stop on DONE, PARTIAL, or BLOCKED.
+Read latest `main`, verify `E4-20260829-035`, continue only the existing unmerged FP-02 branch, apply this exact provenance remediation, persist evidence, update STATUS, commit/push, and stop on DONE, PARTIAL, or BLOCKED.
 
-Do not self-start provider verification, credential use, protection/exit mutation, exact-revision preparation, Local Job Requests, qualification execution, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, process action, order action or capital movement/exposure.
+Do not self-start provider verification, credentials, protection/exit mutation, exact-revision preparation, Local Job Requests, qualification execution, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, process action, order action, or capital movement/exposure.

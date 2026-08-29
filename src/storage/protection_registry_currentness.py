@@ -11,6 +11,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
+from ._runtime_validation import canonical_payload
 from ._sqlite_registry import _apply_migrations, _connect
 
 SCHEMA_VERSION = "contracts-v0.1"
@@ -773,6 +774,13 @@ def _validate_authority(authority: ProtectionRegistryCurrentAuthority) -> dict[s
         or projection.get("lifecycle_state") != position.get("lifecycle_state")
     ):
         raise ProtectionRegistryValidationError("CURRENT_POSITION_LIFECYCLE_MISMATCH", "current Position/lifecycle mismatch")
+    try:
+        projection, projection_payload_json, projection_payload_hash = canonical_payload(projection)
+    except ValueError as exc:
+        raise ProtectionRegistryValidationError(
+            "CURRENT_LIFECYCLE_PAYLOAD_INVALID",
+            "current lifecycle projection is not canonical paper-runtime payload",
+        ) from exc
 
     binding_id = None
     if authority.lifecycle_execution_binding is not None:
@@ -830,6 +838,8 @@ def _validate_authority(authority: ProtectionRegistryCurrentAuthority) -> dict[s
         "lineage_key_hash": _logical_lineage_hash(position_id, lineage),
         "projection": projection,
         "projection_id": projection_id,
+        "projection_payload_json": projection_payload_json,
+        "projection_payload_hash": projection_payload_hash,
         "lifecycle_revision": revision,
         "binding_id": binding_id,
         "provider_identity_ref": authority.provider_identity_ref,
@@ -1402,9 +1412,11 @@ class ProtectionRegistryCurrentnessStore:
         if projection_current is None:
             add(STATUS_INCOMPLETE, "CURRENT_LIFECYCLE_PROJECTION_MISSING")
         elif (
-            projection_current["lifecycle_projection_id"] != current["projection_id"]
+            projection_current["position_id"] != current["position_id"]
+            or projection_current["lifecycle_projection_id"] != current["projection_id"]
             or projection_current["lifecycle_revision"] != current["lifecycle_revision"]
-            or projection_current["payload_hash"] != current["position_hash"]
+            or projection_current["broker_state_observed_at"] != current["position_observed_at"]
+            or projection_current["payload_hash"] != current["projection_payload_hash"]
         ):
             add(STATUS_STALE, "CURRENT_LIFECYCLE_PROJECTION_SUPERSEDED_OR_MISMATCHED")
 
@@ -1414,8 +1426,17 @@ class ProtectionRegistryCurrentnessStore:
         ).fetchone()
         if projection_row is None:
             add(STATUS_INCOMPLETE, "FP11_LIFECYCLE_PROJECTION_DEPENDENCY_MISSING")
-        elif projection_row["payload_hash"] != current["position_hash"]:
-            add(STATUS_CONFLICT, "FP11_LIFECYCLE_PROJECTION_HASH_MISMATCH")
+        else:
+            if (
+                projection_row["position_id"] != current["position_id"]
+                or projection_row["lifecycle_revision"] != current["lifecycle_revision"]
+                or projection_row["broker_state_observed_at"] != current["position_observed_at"]
+            ):
+                add(STATUS_CONFLICT, "FP11_LIFECYCLE_PROJECTION_INDEX_MISMATCH")
+            if projection_row["payload_json"] != current["projection_payload_json"]:
+                add(STATUS_CONFLICT, "FP11_LIFECYCLE_PROJECTION_PAYLOAD_MISMATCH")
+            if projection_row["payload_hash"] != current["projection_payload_hash"]:
+                add(STATUS_CONFLICT, "FP11_LIFECYCLE_PROJECTION_HASH_MISMATCH")
 
         binding_row = self._connection.execute(
             "SELECT * FROM paper_position_lifecycle_execution_bindings WHERE lifecycle_projection_id = ?",

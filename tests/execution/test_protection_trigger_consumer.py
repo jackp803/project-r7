@@ -1,14 +1,13 @@
 import copy
 import unittest
-from dataclasses import fields
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
 from src.execution.protection import ProtectionAuthorityError
 from src.execution.protection_trigger import (
     ProtectionTriggerConsumerError,
-    ProviderTriggerBasisCompatibility,
-    prepare_mutation_ready_protection_create_order,
+    prepare_trigger_validated_protection_order,
+    require_provider_trigger_basis_compatibility,
     validate_protection_trigger_create_evidence,
 )
 from src.position.protection_trigger_validity import (
@@ -132,18 +131,6 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
             **kwargs,
         )
 
-    def _proof(self, **changes):
-        values = {
-            "capability_boundary_ref": "e4-provider-capability-proof-fp03-test-only",
-            "canonical_symbol": "BTC_USDT_PERP",
-            "order_role": "PROTECTION_STOP",
-            "protection_operation": "CREATE",
-            "shared_trigger_reference_semantic": "LAST_PRICE",
-            "compatible": True,
-        }
-        values.update(changes)
-        return ProviderTriggerBasisCompatibility(**values)
-
     def _validate(self, *, action=None, plan=None, position=None, evidence=None, market=None, now=None):
         action = self._action() if action is None else action
         plan = self._plan() if plan is None else plan
@@ -161,24 +148,21 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
             now=self.now if now is None else now,
         )
 
-    def _prepare(self, *, action=None, plan=None, position=None, evidence=None, market=None, proof=None):
+    def _prepare(self, *, action=None, plan=None, position=None, evidence=None, market=None, now=None):
         action = self._action() if action is None else action
         plan = self._plan() if plan is None else plan
         position = self._position() if position is None else position
         market = self._market() if market is None else market
         if evidence is None:
             evidence = self._evidence(position=position, action=action, plan=plan, market=market)
-        if proof is None:
-            proof = self._proof()
-        return prepare_mutation_ready_protection_create_order(
+        return prepare_trigger_validated_protection_order(
             action,
             plan,
             position,
             evidence,
             market,
-            proof,
             market_freshness_classification="FRESH",
-            now=self.now,
+            now=self.now if now is None else now,
         )
 
     def test_actionable_matching_create_evidence_is_accepted_by_pre_mutation_consumer(self):
@@ -310,48 +294,10 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
             self._prepare(action=bad_action, evidence=evidence)
 
         with self.assertRaises(ProtectionAuthorityError) as expired:
-            validate_protection_trigger_create_evidence(
-                self._action(),
-                self._plan(),
-                self._position(),
-                self._evidence(),
-                self._market(),
-                market_freshness_classification="FRESH",
-                now=datetime(2026, 8, 29, 14, 5, 0, tzinfo=timezone.utc),
-            )
+            self._prepare(now=datetime(2026, 8, 29, 14, 5, 0, tzinfo=timezone.utc))
         self.assertEqual("POSITION_ACTION_EXPIRED", expired.exception.code)
 
-    def test_shared_last_price_evidence_does_not_infer_or_authorize_provider_trigger_basis(self):
-        evidence = self._evidence()
-        self._validate(evidence=evidence)
-        with self.assertRaises(ProtectionTriggerConsumerError) as caught:
-            prepare_mutation_ready_protection_create_order(
-                self._action(),
-                self._plan(),
-                self._position(),
-                evidence,
-                self._market(),
-                None,
-                market_freshness_classification="FRESH",
-                now=self.now,
-            )
-        self.assertEqual("PROVIDER_TRIGGER_BASIS_NOT_PROVEN", caught.exception.code)
-        self.assertNotIn("triggerPxType", {item.name for item in fields(ProviderTriggerBasisCompatibility)})
-        self.assertNotIn("provider_trigger_type", {item.name for item in fields(ProviderTriggerBasisCompatibility)})
-
-    def test_provider_native_mapping_incompatibility_fails_closed(self):
-        for proof in (
-            self._proof(compatible=False),
-            self._proof(shared_trigger_reference_semantic="MARK_PRICE"),
-            self._proof(order_role="POSITION_EXIT"),
-            self._proof(protection_operation="REPLACE"),
-        ):
-            with self.subTest(proof=proof):
-                with self.assertRaises(ProtectionTriggerConsumerError) as caught:
-                    self._prepare(proof=proof)
-                self.assertEqual("PROVIDER_TRIGGER_BASIS_INCOMPATIBLE", caught.exception.code)
-
-    def test_matching_separate_capability_proof_allows_only_provider_neutral_order_preparation(self):
+    def test_provider_neutral_request_contains_no_provider_native_trigger_basis(self):
         request = self._prepare()
         self.assertEqual("PROTECTION_STOP", request.order_role)
         self.assertEqual("STOP_MARKET", request.order_type)
@@ -360,16 +306,39 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         self.assertFalse(hasattr(request, "triggerPxType"))
         self.assertFalse(hasattr(request, "provider_trigger_type"))
 
-    def test_no_provider_client_request_credentials_or_mutation_are_required(self):
-        # These tests use only plain dictionaries and the E4/E5 pure functions.
-        # No broker adapter, transport, credential object, provider request, or
-        # mutation callback is constructed anywhere in this test module.
-        proof_fields = {item.name for item in fields(ProviderTriggerBasisCompatibility)}
-        self.assertNotIn("credentials", proof_fields)
-        self.assertNotIn("provider_request", proof_fields)
-        self.assertNotIn("submit", proof_fields)
-        self.assertNotIn("cancel", proof_fields)
-        self.assertNotIn("amend", proof_fields)
+    def test_shared_last_price_evidence_alone_does_not_authorize_provider_trigger_basis(self):
+        evidence = self._evidence()
+        self._validate(evidence=evidence)
+        for caller_asserted_value in (None, True, {"compatible": True}, "LAST_PRICE"):
+            with self.subTest(caller_asserted_value=caller_asserted_value):
+                with self.assertRaises(ProtectionTriggerConsumerError) as caught:
+                    require_provider_trigger_basis_compatibility(
+                        evidence,
+                        provider_capability_evidence=caller_asserted_value,
+                    )
+                self.assertEqual("PROVIDER_TRIGGER_BASIS_NOT_PROVEN", caught.exception.code)
+
+    def test_provider_native_mapping_incompatibility_is_fail_closed(self):
+        unsupported = self._evidence(trigger_reference_semantic="MARK_PRICE")
+        self.assertEqual("FAIL_CLOSED", unsupported["validity_status"])
+        with self.assertRaises(ProtectionTriggerConsumerError) as caught:
+            require_provider_trigger_basis_compatibility(
+                unsupported,
+                provider_capability_evidence={"claimed_provider_basis": "mark"},
+            )
+        self.assertEqual("PROVIDER_TRIGGER_BASIS_INCOMPATIBLE", caught.exception.code)
+
+    def test_no_provider_client_request_credentials_or_mutation_are_required_or_invoked(self):
+        evidence = self._evidence()
+        self._validate(evidence=evidence)
+        request = self._prepare(evidence=evidence)
+        self.assertEqual("PROTECTION_STOP", request.order_role)
+        # Only plain mappings + pure E5/E4 functions are used. No broker adapter,
+        # transport, credential object, callback, request sender, or mutation API
+        # exists in this test module or the FP-03 consumer signature.
+        consumer_names = set(validate_protection_trigger_create_evidence.__code__.co_varnames)
+        for forbidden in ("credentials", "transport", "client", "submit", "cancel", "amend"):
+            self.assertNotIn(forbidden, consumer_names)
 
 
 if __name__ == "__main__":

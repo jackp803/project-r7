@@ -42,7 +42,7 @@ The current blocker is persisted at:
 
 `status/P0_CREDENTIAL_FREE_EXACT_REVISION_PREPARATION_BLOCKER_20260829.md`
 
-Historical exact-clean `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`, historical candidate `9462b2594675b2eaf44accdf535121d8abf29ef5c93c`, and E7-101 request/job identities are non-transferable/non-reusable and do not unblock this candidate.
+Historical exact-clean `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`, historical candidate `9462b2594675b2e28388f55a2af189100b7cbdfc`, and E7-101 request/job identities are non-transferable/non-reusable and do not unblock this candidate.
 
 ## Required actions while HOLD
 

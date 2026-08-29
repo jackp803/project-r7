@@ -1,28 +1,27 @@
 # E4 FP-02 OKX SWAP Action Capability Implementation — 2026-08-29
 
-- task_id: `E4-20260829-034`
+- task_id: `E4-20260829-035`
 - agent: `E4`
 - target_branch: `agent/e4-fp02-action-capability-evidence-20260829`
-- task-start baseline main: `f56240f039367c878fcf06ad2503d76d59585d9f`
-- implementation_classification: `STATIC IMPLEMENTATION / TEST-DEFINITION CANDIDATE`
+- task-start latest main: `8a3d9e8c83c1dacfb8d5bacab89b151224f693eb`
+- predecessor task: `E4-20260829-034`
+- PM review: `status/PM_E4_034_REVIEW_20260829.md`
+- implementation_classification: `BOUNDED PROVENANCE REMEDIATION / TEST-DEFINITION CANDIDATE`
 - executable_verification: `NOT_RUN / NOT_PASS`
 
 ## Scope / authority
 
-This task implements only the E4-local deterministic FP-02 resolver described by:
+E4-035 remediates only the PM-identified positive `REPO_EVIDENCED` provenance fail-open in the existing E4-034 FP-02 resolver.
 
-- `docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md` (`okx-swap-action-role-capability-v0.1`);
-- accepted `protection-trigger-validity-v0.1` and merged E4 FP-03 consumer;
-- accepted `external-provider-object-ownership-reconciliation-v0.1` and merged E4 FP-04 producer/currentness;
-- accepted `okx-swap-close-residual-sizing-v0.1` and merged E4 FP-05 sizing candidate;
-- accepted `protection-registry-multiplicity-v0.1` and merged E4 FP-11 producer/currentness;
-- merged E7 FP-16 runtime-preflight candidate only as an external authority boundary;
-- `status/PM_E7_114_REVIEW_20260829.md`;
-- active LF-0 exact-revision preparation blocker.
+The accepted design remains:
 
-No shared contract, ADR, E5 policy, E6 persistence, E7 runtime/release semantics, provider transport/auth/signing/private API behavior, Product Owner authorization artifact, risk/leverage/capital threshold, or GitHub Actions/CI surface changed.
+```text
+okx-swap-action-role-capability-v0.1
+```
 
-## Files changed
+No shared contract, ADR, provider transport/auth/signing/private API code, E5 policy, E6 persistence, E7 runtime/release logic, Product Owner authorization artifact, risk/leverage/capital threshold, Local Job Request, exact-revision preparation, or GitHub Actions/CI surface changed.
+
+Files changed by the bounded remediation:
 
 ```text
 src/brokers/okx_action_capability.py
@@ -31,238 +30,219 @@ status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md
 coordination/E4/STATUS.md
 ```
 
-No `src/brokers/__init__.py` export was required.
+## PM defect remediated
 
-## Provider-local states and reasons
-
-The resolver uses only the accepted E4-local capability states:
+E4-034 allowed `_fieldset_is_repo_evidenced(...)` to accept a positive row when a caller supplied:
 
 ```text
-REPO_EVIDENCED
-UNRESOLVED_FAIL_CLOSED
-FORBIDDEN
-NOT_APPLICABLE
+public expected descriptor
++ reproducible descriptor hash
++ any non-null fieldset ref
++ any non-null generation id
 ```
 
-`NOT_APPLICABLE` is also used explicitly for role dependencies that do not participate in the selected role; it is never upgraded into mutation authority.
+That meant arbitrary caller provenance strings could manufacture `REPO_EVIDENCED`.
 
-Stable fail-closed reasons are the matrix vocabulary:
+E4-035 removes that positive path. Descriptor/hash correctness remains necessary, but is no longer sufficient.
+
+## E4-owner-authoritative repository row identity
+
+The resolver now owns one immutable canonical provenance tuple for each currently positive row:
 
 ```text
-OKX_SWAP_CAPABILITY_PROFILE_UNSUPPORTED
-OKX_SWAP_ACTION_ROLE_UNSUPPORTED
-OKX_SWAP_INSTRUMENT_UNSUPPORTED
-OKX_SWAP_ACCOUNT_LEVEL_UNSUPPORTED
-OKX_SWAP_POSITION_MODE_UNSUPPORTED
-OKX_SWAP_MARGIN_MODE_UNSUPPORTED
-OKX_SWAP_SPOT_TRADE_MODE_FORBIDDEN
-OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN
-OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED
-OKX_SWAP_TRIGGER_BASIS_UNPROVEN
-OKX_SWAP_REDUCIBLE_SIZE_UNPROVEN
-OKX_SWAP_PROTECTION_REGISTRY_NOT_CURRENT
-OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN
-OKX_SWAP_RECONCILIATION_REQUIRED
+ENTRY / net_mode
+ENTRY / long_short_mode
+READ_ONLY_RECONCILIATION / net_mode
+READ_ONLY_RECONCILIATION / long_short_mode
 ```
 
-The reason order is deterministic and provider-local; no shared enum was added.
-
-## Pure input/evidence boundary
-
-`src/brokers/okx_action_capability.py` adds:
+Each canonical row binds exactly:
 
 ```text
-OKXActionCapabilityFacts
-resolve_okx_swap_action_capability(...)
-validate_okx_swap_action_capability_evidence(...)
-okx_swap_action_capability_evidence_is_current(...)
-expected_repo_fieldset(...)
-canonical_okx_action_capability_hash(...)
-```
-
-The resolver accepts only supplied sanitized facts and performs no I/O. It binds:
-
-```text
-profile/action role
-provider=OKX / api=V5
-BTC_USDT_PERP -> BTC-USDT-SWAP / instType=SWAP
-acctLv=2
+capability profile version
+action role
 position mode
-margin mode
-operation class
-exact provider field-set ref/hash/generation when a repo-evidenced row exists
-reconciliation classification
-FP-03/FP-05/FP-11 ref/status/currentness only where applicable
-caller capability assertion presence only so it can be rejected
+exact repository fieldset descriptor
+exact deterministic descriptor hash
+exact stable E4-owned fieldset reference
+exact stable E4-owned fieldset generation identifier
 ```
 
-It does not inspect credentials, account balances, raw provider payloads, filesystem paths, shell commands, process state, private tokens, or capital state.
+The stable refs are:
 
-## ENTRY repository-evidenced boundary
+```text
+e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:ENTRY:net_mode:v0.1
+e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:ENTRY:long_short_mode:v0.1
+e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:READ_ONLY_RECONCILIATION:net_mode:v0.1
+e4-repo-fieldset:okx-v5:BTC-USDT-SWAP:READ_ONLY_RECONCILIATION:long_short_mode:v0.1
+```
 
-`ENTRY` is `REPO_EVIDENCED` only for the exact bounded current repository row:
+The corresponding stable generations are role/mode-specific values under:
+
+```text
+e4-repo-generation:okx-swap-action-role-capability-v0.1:<ROLE>:<MODE>:1
+```
+
+These values are repository identity only. They are not provider verification, mutation authority, runtime authority, credentials, or a release gate.
+
+`expected_repo_fieldset_identity(...)` returns a defensive copy of resolver-owned canonical row material for deterministic consumers/tests. The positive resolver path independently recomputes/looks up its own canonical row and compares every supplied provenance field to it; callers cannot select arbitrary positive ref/generation strings.
+
+## Positive capability rule after remediation
+
+A positive ENTRY or READ_ONLY row now requires all of the following exact matches:
+
+```text
+provider/api/instrument/account/margin/role/mode/operation
++ canonical E4 owner row descriptor
++ canonical owner row descriptor hash
++ canonical owner row fieldset ref
++ canonical owner row generation id
++ existing reconciliation/caller-assertion gates
+```
+
+Any of the following fails closed:
+
+```text
+forged/arbitrary fieldset ref
+forged/arbitrary generation
+role/mode cross-use of another valid owner row
+missing ref or generation
+descriptor mutation
+descriptor/hash mismatch
+unknown/non-owner fieldset
+caller capability assertion
+```
+
+The preferred existing reason remains:
+
+```text
+UNRESOLVED_FAIL_CLOSED
+OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN
+```
+
+Caller capability booleans/dictionaries still force:
+
+```text
+UNRESOLVED_FAIL_CLOSED
+OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED
+```
+
+## Evidence validator hardening
+
+`validate_okx_swap_action_capability_evidence(...)` now also rejects a `REPO_EVIDENCED` claim unless its provider-local evidence ref/hash/generation and role/mode/operation/common identity facts match the resolver-owned canonical row.
+
+Therefore a syntactically valid evidence object cannot claim `REPO_EVIDENCED` merely because it has no reason codes and a self-consistent public hash identity.
+
+## ENTRY semantics unchanged
+
+The only positive ENTRY rows remain the accepted existing repository mapping:
 
 ```text
 provider/api = OKX/V5
-instrument = BTC_USDT_PERP -> BTC-USDT-SWAP / SWAP
+canonical/provider instrument = BTC_USDT_PERP / BTC-USDT-SWAP / SWAP
 acctLv = 2
 margin/tdMode = isolated
 operation = MUTATION: MARKET_ORDER_CREATE
 position mode = net_mode | long_short_mode
-```
-
-The exact closed descriptor is derived from current E4 repository behavior:
-
-```text
 POST /api/v5/trade/order
 fields = clOrdId, instId, ordType, posSide, side, sz, tdMode
-instId = BTC-USDT-SWAP
 ordType = market
-tdMode = isolated
-side = LONG->buy | SHORT->sell
-net_mode posSide = net
-long_short_mode ENTRY posSide = LONG->long | SHORT->short
-sz source = validated current entry sizing metadata
 ```
 
-The caller must supply an exact sanitized descriptor plus exact ref/hash/generation that matches the resolver's internal closed repository row. Extra, missing, mutated, unknown, or hash-mismatched role fields are not accepted as compatibility proof.
+`net_mode` keeps `posSide=net`; ENTRY `long_short_mode` keeps LONG->long and SHORT->short. No new provider field or endpoint fact was added.
 
-`REPO_EVIDENCED` here means only that the repository mapping exists. It is not provider verification, submit authority, runtime authority, or release authorization.
+`REPO_EVIDENCED` remains repository mapping evidence only; it is not provider verification or order authority.
 
-## Caller authority rejection
+## READ_ONLY_RECONCILIATION semantics unchanged
 
-A supplied caller capability boolean/dictionary is never consumed as a positive proof. Any non-null caller capability assertion forces:
+The only positive read-only rows remain the accepted GET-only/default-deny observation surface for `net_mode | long_short_mode`.
 
-```text
-UNRESOLVED_FAIL_CLOSED
-OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED
-```
+The fixed allowlist remains account config, USDT balance, BTC-USDT-SWAP position, isolated leverage information, pending SWAP orders, SWAP fills, plus public provider time.
 
-The returned evidence records only that an assertion was present; the arbitrary caller payload is not serialized as authority.
-
-## PROTECTION_STOP remains unresolved
-
-`PROTECTION_STOP` has no positive provider-dispatch path in this implementation.
-
-Even when supplied dependencies say:
-
-```text
-FP-03 = ACTIONABLE / CURRENT
-FP-11 = CONVERGED_EXACTLY_ONE_INTENDED / CURRENT
-```
-
-the capability remains:
-
-```text
-UNRESOLVED_FAIL_CLOSED
-```
-
-because the current repository still does not prove the protection/algo endpoint, provider trigger field set, `triggerPxType`/trigger basis, protection-specific `posSide`, provider-native reduce-only behavior, or exact readback/cancel identity.
-
-Shared FP-03 `LAST_PRICE` geometry is never provider trigger-basis proof. Missing/non-current FP-11 also emits `OKX_SWAP_PROTECTION_REGISTRY_NOT_CURRENT`, but a current FP-11 registry still does not create provider capability.
-
-No provider protection materialization is created.
-
-## POSITION_EXIT / EMERGENCY_EXIT remain unresolved
-
-Both close roles have no positive provider-dispatch path.
-
-Current exact FP-05 sizing evidence can remove only the `OKX_SWAP_REDUCIBLE_SIZE_UNPROVEN` dependency reason when its supplied ref/status/currentness is coherent. It cannot remove:
-
-```text
-OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN
-```
-
-because the repository still does not prove role-specific endpoint/fieldset, `posSide`, provider-native reduce-only behavior, or exact close semantics.
-
-Emergency urgency creates no bypass. Original entry requested quantity is never used by this resolver as fresh reducible-exposure proof.
-
-## READ_ONLY_RECONCILIATION repository-evidenced boundary
-
-The role is `REPO_EVIDENCED` only for:
-
-```text
-operation = GET: OBSERVATION_ONLY
-acctLv = 2
-position mode = net_mode | long_short_mode
-isolated baseline
-closed GET-only/default-deny Shadow descriptor
-```
-
-The exact private allowlist is:
-
-```text
-GET /api/v5/account/config
-GET /api/v5/account/balance?ccy=USDT
-GET /api/v5/account/positions?instId=BTC-USDT-SWAP
-GET /api/v5/account/leverage-info?instId=BTC-USDT-SWAP&mgnMode=isolated
-GET /api/v5/trade/orders-pending?instId=BTC-USDT-SWAP&instType=SWAP
-GET /api/v5/trade/fills?instId=BTC-USDT-SWAP&instType=SWAP
-```
-
-plus public provider time.
-
-Any mutation operation through this role returns:
+Any mutation operation through this role remains:
 
 ```text
 FORBIDDEN
 OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN
 ```
 
-No submit/cancel/amend/close/protection/set-mode mutation surface is added.
+No submit/cancel/amend/close/protection/set-mode mutation surface was added.
 
-## Reconciliation / mode behavior
+## Unresolved provider semantics unchanged
 
-Mutation roles require supplied reconciliation classification `CURRENT`. Any other value remains non-authorizing and routes through `OKX_SWAP_RECONCILIATION_REQUIRED` before role-specific materialization.
+The remediation does not create a positive provider row for:
 
-Known Spot `margin_mode=cash` is explicitly `FORBIDDEN / OKX_SWAP_SPOT_TRADE_MODE_FORBIDDEN`. Other unsupported margin/account/position/instrument facts fail closed and are never coerced into the accepted row.
+```text
+PROTECTION_STOP
+POSITION_EXIT
+EMERGENCY_EXIT
+```
+
+All remain:
+
+```text
+UNRESOLVED_FAIL_CLOSED
+```
+
+Specifically:
+
+- FP-03 `LAST_PRICE` / ACTIONABLE shared geometry does not select provider `triggerPxType`, trigger basis, protection endpoint, protection `posSide`, native reduce-only behavior, or readback/cancel identity.
+- FP-05 coherent sizing evidence can establish provider-local sizing constraints only; it does not prove endpoint, close `posSide`, native reduce-only behavior, or close fieldset.
+- EMERGENCY_EXIT receives no provider-proof bypass.
+- original entry requested quantity never substitutes for fresh actual reducible exposure.
 
 ## Deterministic identity / currentness
 
-The returned immutable provider-local evidence uses:
+Capability evidence identity remains:
 
 ```text
 capability_evidence_id = okxswapcap_<sha256>
 ```
 
-over all material resolver facts and the derived state/reasons, excluding only the ID itself and `evaluated_at`.
+`evaluated_at` is excluded from material identity/currentness.
 
 Therefore:
 
 ```text
-same material facts + later evaluated_at -> same identity / still materially current
-changed role/instrument/mode/operation/fieldset hash or generation/dependency status -> different identity/currentness
+same material + later wall clock -> same identity/currentness
+changed owner-row ref -> different identity / old evidence not current
+changed owner-row generation -> different identity / old evidence not current
+changed owner-row hash -> different identity / old evidence not current
 ```
 
-No numeric TTL is invented. A wall-clock change alone cannot turn unresolved provider facts into `REPO_EVIDENCED` and cannot manufacture supersession.
+A forged material change resolves fail closed rather than upgrading capability. No TTL was invented.
 
-## Deterministic tests defined
+## Regression definitions
 
-`tests/brokers/test_okx_action_capability.py` defines provider-free cases for:
+`tests/brokers/test_okx_action_capability.py` now uses resolver-owned canonical owner-row material instead of arbitrary positive fixture provenance.
 
-- ENTRY exact `net_mode` row;
-- ENTRY exact `long_short_mode` row;
-- wrong canonical/provider instrument and non-SWAP;
-- wrong/unknown account level;
-- wrong/unknown position mode;
-- Spot `tdMode/cash` forbidden behavior;
-- caller capability assertion rejection;
-- mutated/missing provider field set;
-- FP-03 ACTIONABLE protection evidence remaining insufficient for provider trigger basis;
-- PROTECTION_STOP remaining unresolved;
-- POSITION_EXIT remaining unresolved even with coherent FP-05 sizing evidence;
-- EMERGENCY_EXIT remaining unresolved with no urgency bypass;
-- reconciliation-required and stale FP-05 facts remaining non-authorizing;
-- READ_ONLY exact GET row and mutation rejection;
-- deterministic identity and timestamp-only currentness;
-- material generation invalidation;
-- no provider/network/credential/runtime/capital dependency in the returned evidence.
+Definitions cover at minimum:
 
-No test was executed through GitHub.
+- canonical ENTRY `net_mode` owner row -> `REPO_EVIDENCED`;
+- canonical ENTRY `long_short_mode` owner row -> `REPO_EVIDENCED`;
+- canonical READ_ONLY rows -> `REPO_EVIDENCED`;
+- copied descriptor/hash + forged ref -> `UNRESOLVED_FAIL_CLOSED / OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN`;
+- copied descriptor/hash + forged generation -> fail closed;
+- valid owner-row provenance cross-used with wrong role or mode -> fail closed;
+- descriptor mismatch or hash mismatch -> fail closed;
+- missing ref or generation -> fail closed;
+- caller capability assertions remain rejected;
+- FP-03 protection still cannot prove provider trigger basis;
+- PROTECTION_STOP remains unresolved;
+- POSITION_EXIT remains unresolved with coherent FP-05 sizing;
+- EMERGENCY_EXIT remains unresolved with no urgency bypass;
+- reconciliation-required/stale facts remain non-authorizing;
+- read-only mutation remains forbidden;
+- time-only identity/currentness remains stable;
+- ref/generation/hash material changes invalidate currentness;
+- returned descriptor copies cannot mutate resolver-owned row material;
+- no provider/network/credential/runtime/order/capital dependency is introduced.
+
+No test was executed in this task.
 
 ## Verification / execution state
 
-LF-0 approved-local exact-revision preparation remains blocked. No separately authoritative approved-local exact-revision PASS exists for this resulting branch revision.
+LF-0 approved-local exact-revision preparation remains blocked. No authoritative approved-local PASS exists for the resulting E4-035 revision.
 
 ```text
 project executable verification = NOT_RUN / NOT_PASS
@@ -292,30 +272,16 @@ python -m unittest discover -s tests/brokers -p "test_okx_*.py" -v
 python -m unittest discover -s tests/execution -p "test_*.py" -v
 ```
 
-Result for all commands in this task: `NOT_RUN / NOT_PASS`.
-
-Historical qualification evidence is revision-bound and is not rebound to this branch.
-
-## Main movement during task
-
-Task work began from exact `main` revision:
-
-```text
-f56240f039367c878fcf06ad2503d76d59585d9f
-```
-
-During implementation, `main` advanced to `75208bb33cf7385bb1cc63228bc4d606dbe2252e` only by PM stale-idle-watchdog revalidation. E4 re-read latest `main:coordination/E4/TASK.md`; task ID remained exactly `E4-20260829-034` with the same target branch/scope. No rebase/merge/force update was performed and no new scope was inferred from the unrelated watchdog commit.
+All remain `NOT_RUN / NOT_PASS`. Historical qualification evidence is revision-bound and is not rebound to this branch.
 
 ## Security / authority boundary
 
 ```text
 real secrets read/requested/committed = NO
-provider/private request = 0
+provider/private network = NONE
 provider transport/auth/signing change = NO
 provider/account/order/protection mutation = 0
 runtime/process action = 0
-risk/lifecycle policy change = NO
-E6 persistence change = NO
 shared contract/ADR change = NO
 Product Owner trading authorization consumed = NO
 capital movement/exposure = NONE
@@ -324,8 +290,8 @@ capital movement/exposure = NONE
 ## Terminal classification
 
 ```text
-bounded source implementation = COMPLETE
-bounded deterministic test definitions = COMPLETE
+bounded provenance remediation = COMPLETE
+bounded regression definitions = COMPLETE
 approved-local executable verification = NOT_RUN / NOT_PASS
 state = PARTIAL
 ```

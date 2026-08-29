@@ -1,95 +1,74 @@
 # E7 Status
 
-- task_id: `E7-20260829-098`
+- task_id: `E7-20260829-099`
 - agent: `E7`
 - state: `DONE`
-- branch: `agent/e7-mature-okx-failure-gap-audit-20260829`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-098 and remained ACTIVE immediately before terminal write`
-- task_blob: `d81043c07f66fc3ba295ed5a28a8bbb204431bfa`
-- task_type: `DOCS / STATUS-ONLY MATURE OKX FAILURE-PREVENTION STATIC GAP AUDIT`
-- audit_baseline: `status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`
-- audit_artifact: `status/e7/MATURE_OKX_FAILURE_PREVENTION_GAP_AUDIT_20260829.md`
-- audit_artifact_commit: `6632f18a8c936cedf81b30f623aba268192d4dff`
-- executable_source_baseline: `8fbf5fcae2eaf44accdf535121d8abf29ef5c93c`
-- executable_drift_after_baseline: `NONE FOUND — main changes after 8fbf5fca were coordination/status only`
-- accepted_credential_free_evidence: `E7-20260827-095 / 14 OF 14 SUITES PASS / 589 TESTS`
-- accepted_gate_b_evidence: `E7-20260825-064 / 10 OF 10 SUITES PASS / 450 TESTS`
-- historical_provider_evidence: `E7-20260826-083 / ab725965e96cac7a9769fd1ab15a3e626f920b95 / NOT REBOUND TO 8fbf5fca`
-- classification_implemented_and_locally_verified: `4`
-- classification_implemented_not_locally_verified: `0`
-- classification_partial: `10`
-- classification_missing: `2`
-- classification_not_applicable_to_swap: `0`
-- fp01: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
-- fp02: `PARTIAL`
-- fp03: `MISSING`
-- fp04: `PARTIAL`
-- fp05: `PARTIAL`
-- fp06: `PARTIAL`
-- fp07: `PARTIAL`
-- fp08: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
-- fp09: `PARTIAL`
-- fp10: `PARTIAL`
-- fp11: `PARTIAL`
-- fp12: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
-- fp13: `IMPLEMENTED_AND_LOCALLY_VERIFIED`
-- fp14: `PARTIAL`
-- fp15: `MISSING`
-- fp16: `PARTIAL`
-- p0_pre_provider_runtime: `FP-03, FP-02, FP-05, FP-04, FP-11, FP-16, FP-10`
-- p1_pre_paper_or_shadow: `FP-07, FP-06, FP-09`
-- p2_pre_live: `FP-14, FP-15`
-- p3_operational_hardening: `OBSERVABILITY + HEARTBEAT HARDENING AFTER CORE ADMISSION/STATE CONTROLS`
-- executable_verification: `NOT_RUN / NOT REQUIRED FOR DOCS-ONLY STATIC GAP AUDIT`
+- branch: `agent/e7-fp03-protection-trigger-contract-20260829`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-099 and remained ACTIVE immediately before terminal write`
+- task_blob: `fc5a733078389db7eed83e6fae28767d919d09a7`
+- task_type: `CONTRACT / DOCS-ONLY FP-03 PROTECTION TRIGGER VALIDITY BOUNDARY`
+- parent_schema: `contracts-v0.1 / UNCHANGED`
+- new_profile: `protection-trigger-validity-v0.1 / BASELINE`
+- contract_artifact: `contracts/PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md`
+- contract_commit: `5bd03c3e2643a8e7666ce220fa196f635d9fd35b`
+- contract_registry_commit: `b34fd6761cea2d18eb9d1d6429302926eeb9f040`
+- handoff_artifact: `status/e7/FP03_PROTECTION_TRIGGER_CONTRACT_HANDOFF_20260829.md`
+- handoff_commit: `8ebc75929f95cd6d2ea1e12c787d8478eae5b627`
+- existing_protection_profile: `protection-v0.1 / REFERENCED / NOT AMENDED`
+- lifecycle_profiles: `REFERENCED / NOT AMENDED`
+- adr_created: `NO / NOT REQUIRED`
+- trigger_reference_semantic: `LAST_PRICE / SHARED PRE-MUTATION GEOMETRY ONLY / NOT PROVIDER TRIGGER-PX TYPE`
+- long_actionable_geometry: `stop_level < trigger_reference_price`
+- short_actionable_geometry: `stop_level > trigger_reference_price`
+- equality_boundary: `FAIL_CLOSED / TRIGGER_ALREADY_BREACHED`
+- unchanged_breach_retry: `FORBIDDEN / MATERIALLY NEW EVIDENCE OR NEW E5 AUTHORITY REQUIRED`
+- newer_market_invalidation: `DEFINED`
+- newer_position_lifecycle_invalidation: `DEFINED`
+- provider_trigger_basis: `E4 CAPABILITY/MAPPING DEPENDENCY / NOT INVENTED BY SHARED PROFILE`
+- e1_dependency: `CANONICAL CURRENT MarketSnapshot / HEALTH + FRESHNESS + LAST_PRICE`
+- e5_owner_boundary: `POLICY / LIFECYCLE RESPONSE / AUTHORITY CHANGES`
+- e4_owner_boundary: `EXACT VALIDITY-EVIDENCE CONSUMPTION + PROVIDER MAPPING + FAIL-CLOSED REJECTION`
+- e6_owner_boundary: `OPTIONAL PERSIST/DISPLAY/PROVENANCE ONLY / NO POLICY REINTERPRETATION`
+- downstream_e5_e4_executable_change_required: `YES / SEPARATE TASKS`
+- fresh_approved_local_credential_free_requalification_after_executable_changes: `YES`
+- executable_verification: `NOT_RUN / NOT REQUIRED FOR CONTRACT-DOCS TASK`
 - local_job_request: `NOT CREATED / FORBIDDEN BY TASK`
 - provider_requests: `0`
 - credentials_read_requested_used: `NONE`
 - mutation_requests: `0`
-- submit_requests: `0`
-- shadow_runtime: `NOT_STARTED / NO NEW AUTHORITY`
-- paper_runtime: `NOT_STARTED / NOT AUTHORIZED`
+- submit_cancel_amend_close_requests: `0`
+- shadow_runtime: `NOT_STARTED`
+- paper_runtime: `NOT_STARTED`
+- product_owner_authority_required_for_this_contract_task: `NO`
 - capital_exposure: `NONE`
 - github_actions_ci_hosted_runner: `NOT_USED`
 - github_triggered_compute: `NOT_USED`
-- first_shadow_authorization: `CONSUMED / UNCHANGED`
-- replacement_shadow_authorization: `CONSUMED / UNCHANGED`
-- third_shadow_session: `NOT_AUTHORIZED / PRODUCT OWNER REQUIRED`
-- gate_a: `UNCHANGED`
-- gate_b: `UNCHANGED`
-- gate_c: `UNCHANGED / NO PROVIDER EVIDENCE REBINDING`
-- gate_d: `BLOCKED / NOT AUTHORIZED`
-- live: `UNAUTHORIZED`
+- release_gate_change: `NONE`
+- gate_d: `BLOCKED / NOT AUTHORIZED / UNCHANGED`
+- live: `UNAUTHORIZED / UNCHANGED`
 
-## Audit result
+## Contract result
 
-E7 classified every mature-bot failure-prevention item `FP-01` through `FP-16` against current R7 SWAP contracts/source/tests and accepted local evidence. The audit deliberately translated Spot incidents into SWAP invariants rather than copying Spot parameters.
+E7 defined an additive immutable `ProtectionTriggerValidityEvidence` profile that binds one exact protection action and Position authority to one exact E1 current-market observation and a post-observation evaluation boundary.
 
-The current executable source remains the locally credential-free-qualified `8fbf5fca...` baseline: repository comparison to current main found no later executable source/test/contract/ADR drift. Historical production read-only evidence remains bound only to `ab725965...` and was not inferred as provider verification of `8fbf5fca...`.
+V0.1 uses canonical `MarketSnapshot.last_price` only as the shared geometry reference. It does not choose an OKX provider trigger-price type. Provider trigger basis remains an E4 capability/mapping dependency and execution must fail closed when compatibility cannot be proven.
 
-Fully covered/local-verified controls that should be reused rather than rebuilt are:
+The profile defines strict side-correct geometry, equality-as-breached behavior, deterministic fail-closed reason codes, routing-only handoff categories back to E5 policy/reconciliation authority, invalidation by newer market/Position/lifecycle evidence, and a no-blind-retry rule for unchanged breached truth.
 
-```text
-FP-01 operational mode persistence + restart reconciliation
-FP-08 provider/local clock skew + ADR-0010 temporal ordering
-FP-12 ACK/pending does not become fill/exposure truth
-FP-13 exact stale Position/execution evidence invalidation
-```
+No new numeric freshness threshold was invented. E1 remains authoritative for market health/freshness under its source-specific policy and E7-099 reuses ADR-0010's post-observation temporal-ordering principle without changing ADR-0010.
 
-Core missing controls are:
+## Downstream handoff
 
-```text
-FP-03 fresh-market protection trigger geometry / already-breached trigger handling
-FP-15 executable staged breakeven/trailing/profit-protection authority and replacement verification
-```
+Separate bounded E5 and E4 implementation tasks are required before FP-03 can become executable/verified. The committed handoff defines required LONG/SHORT valid cases, equality/crossed breaches, stale/unknown market, stale Position authority, side mismatch, unsupported reference semantics, temporal-precompute rejection, unchanged-evidence retry rejection, newer-evidence invalidation, exact E4 binding, and provider-trigger-basis non-inference.
 
-The audit artifact records all ten PARTIAL controls, residual risks, exact owners, smallest safe follow-ups, requalification implications, provider/credential/PO authority requirements, and explicitly rejects literal Spot transplantation including `tdMode=cash`, Spot-only `reduceOnly` rules, wallet dust flatness, and generic Spot algo-order `ccy` assumptions.
+Any executable E5/E4 implementation requires fresh approved-local credential-free requalification. Provider/private access, credentials, Product Owner trading authority and capital exposure are not required for deterministic implementation/test work; any future provider mutation/verification remains separately governed.
 
 ## Verification / authority boundary
 
-E7-098 executed no project code or tests. `NOT_RUN / NOT REQUIRED FOR DOCS-ONLY STATIC GAP AUDIT` is not executable PASS evidence. Existing E7-095/E7-064 accepted local evidence remains historical qualification evidence for the unchanged source it materially covers.
+E7-099 executed no project code or tests. `NOT_RUN / NOT REQUIRED FOR CONTRACT-DOCS TASK` is not executable PASS evidence.
 
-No Local Job Request, provider request, credential access, provider/account mutation, submit/cancel/amend/close action, SHADOW/PAPER runtime, capital exposure, GitHub compute, Gate D or LIVE action occurred. No source, tests, contracts, ADR semantics, AgentBridge, local action catalog, Product Owner authorization artifact, risk threshold, execution semantics, or release criteria were modified.
+No Local Job Request, provider request, credential access, provider/account mutation, submit/cancel/amend/close action, SHADOW/PAPER runtime, capital exposure, GitHub compute, release-gate change, Gate D or LIVE action occurred.
 
 ## Completion
 
-E7 stops on `DONE / FP-01..FP-16 STATIC GAP AUDIT COMPLETE` for `E7-20260829-098`. No E4/E5/E6 remediation, executable verification, provider verification, AgentBridge migration, third SHADOW session, PAPER, Gate D, LIVE, mutation, order action, or capital movement is self-started.
+E7 stops on `DONE / FP-03 SHARED PROTECTION TRIGGER VALIDITY CONTRACT COMPLETE` for `E7-20260829-099`. No E5/E4 implementation, E6 persistence work, executable verification, provider verification, AgentBridge work, SHADOW/PAPER, Gate D, LIVE, mutation, order action or capital movement is self-started.

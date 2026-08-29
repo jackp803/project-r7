@@ -1,20 +1,16 @@
 # E7 Current Task
 
-- task_id: `E7-20260829-098`
-- issued_at: `2026-08-29T13:13:00+08:00`
+- task_id: `E7-20260829-099`
+- issued_at: `2026-08-29T13:30:00+08:00`
 - state: `ACTIVE`
-- target_branch: `agent/e7-mature-okx-failure-gap-audit-20260829`
-- authority: `agents/E7_INTEGRATION.md`, `agents/PROJECT_MANAGER.md`, `agents/README.md`, Product Owner instruction on 2026-08-29 to incorporate lessons from a mature OKX BTC bot, `status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`, accepted E7-095/E7-096 release provenance, `status/RELEASE_GATES.md`, `status/BLOCKERS.md`
+- target_branch: `agent/e7-fp03-protection-trigger-contract-20260829`
+- authority: `agents/E7_INTEGRATION.md`, `agents/PROJECT_MANAGER.md`, `agents/README.md`, accepted `E7-20260829-098`, `status/e7/MATURE_OKX_FAILURE_PREVENTION_GAP_AUDIT_20260829.md`, `status/PM_E7_098_REVIEW_20260829.md`, `status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`, current shared contracts/ADRs
 
 ## Objective
 
-Perform a **repository-grounded, docs/status-only cross-module failure-prevention gap audit** against FP-01 through FP-16 in:
+Define the **shared contract-first safety boundary for FP-03 only**: protection-trigger validity and already-breached-trigger handling for project-r7's OKX `BTC-USDT-SWAP` architecture.
 
-`status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`
-
-The Product Owner supplied operational incident history from a separate, mature OKX Spot bot. Your job is **not** to copy Spot implementation details into project-r7. Project-r7 currently targets OKX `BTC-USDT-SWAP`; translate each incident into the correct perpetual/instrument-mode safety invariant and determine whether current R7 contracts/source/tests/evidence already cover it.
-
-This task is an audit and handoff task only. Do not change executable source, tests, contracts, runtime behavior, provider configuration, AgentBridge, risk thresholds, execution semantics, or release criteria in E7-098.
+Do not implement E4/E5 runtime behavior in this task. The purpose is to give E5 policy and E4 execution one authoritative, deterministic contract so later domain tasks cannot invent incompatible trigger/freshness semantics.
 
 ## Required reading
 
@@ -25,173 +21,135 @@ Read latest `main` and at minimum:
 - `agents/E7_INTEGRATION.md`;
 - `agents/E4_EXECUTION.md`;
 - `agents/E5_RISK_POSITION.md`;
-- `agents/E6_PLATFORM.md`;
-- `status/PM_MATURE_OKX_BOT_FAILURE_PREVENTION_BASELINE_20260829.md`;
-- current relevant `contracts/**`, `docs/adr/**`, `src/brokers/**`, `src/execution/**`, `src/risk/**`, `src/position/**`, `src/storage/**`, `src/platform/**`, `src/integration/**`;
-- current relevant `tests/brokers/**`, `tests/execution/**`, `tests/risk/**`, `tests/position/**`, `tests/storage/**`, `tests/platform/**`, `tests/integration/**`, `tests/e2e/**`, `tests/safety/**`;
-- accepted local qualification/provider/release evidence under `status/e7/**`, `status/RELEASE_GATES.md`, and current blockers.
+- `agents/E1_MARKET_DATA.md` only for current `MarketSnapshot`/freshness semantics;
+- `contracts/README.md`;
+- `contracts/SHARED_CONTRACTS_V1.md`;
+- `contracts/PROTECTION_OBJECT_PROFILE_V0_1.md`;
+- current Position lifecycle/execution-evidence binding profiles;
+- relevant ADRs including ADR-0010 temporal ordering;
+- current `src/position/protection.py`, `src/execution/protection.py`, and relevant tests for evidence only;
+- accepted E7-098 FP-03 audit evidence.
 
-Do not read or execute another Worker's `coordination/<ID>/TASK.md`.
+Do not read another Worker's TASK mailbox.
 
-## Mandatory classification
+## Contract requirements
 
-For every FP item `FP-01` through `FP-16`, assign exactly one status:
+Create an additive V0.1 protection-trigger validity profile that defines, without provider calls:
 
-- `IMPLEMENTED_AND_LOCALLY_VERIFIED`
-- `IMPLEMENTED_NOT_LOCALLY_VERIFIED`
-- `PARTIAL`
-- `MISSING`
-- `NOT_APPLICABLE_TO_SWAP`
+1. **Required evidence inputs**
+   - exact Position identity/revision or equivalent current lifecycle binding;
+   - intended protection action/role and stop trigger;
+   - Position side/direction;
+   - a canonical current-market observation/evidence reference using existing project market semantics;
+   - market observation timestamp/freshness classification;
+   - deterministic evaluation timestamp/order consistent with existing temporal rules.
 
-Rules:
+2. **Trigger geometry semantics**
+   - define the side-correct condition for a protective trigger to remain actionable relative to the accepted canonical reference price;
+   - define boundary/equality behavior explicitly;
+   - do not copy Spot `cash`, Spot `reduceOnly`, wallet-dust, or Spot algo `ccy` rules;
+   - do not silently choose an OKX provider trigger-price type if the shared project contract does not already authorize one. If provider trigger basis is a broker capability concern, define that as an E4 mapping dependency rather than inventing it here.
 
-1. `IMPLEMENTED_AND_LOCALLY_VERIFIED` requires both concrete implementation evidence **and accepted local executable evidence already committed in Git** that materially covers the failure mode. Source/test definitions alone are insufficient.
-2. `IMPLEMENTED_NOT_LOCALLY_VERIFIED` requires concrete implementation but no accepted local executable evidence sufficient for that exact failure mode.
-3. `PARTIAL` means some invariant is implemented/tested but a meaningful edge of the failure class remains uncovered.
-4. `MISSING` means no adequate implementation/control exists.
-5. `NOT_APPLICABLE_TO_SWAP` may be used only for the literal Spot-specific mechanism. You must still identify the corresponding SWAP substitute invariant and classify that substitute separately within the same FP row/narrative.
-6. `NOT_RUN != PASS`. Do not infer coverage from historical tests that did not exercise the relevant semantics.
+3. **Fail-closed outcomes / reason vocabulary**
+   At minimum distinguish:
+   - valid/actionable protection trigger;
+   - stale or unknown market evidence;
+   - Position/evidence mismatch or stale Position authority;
+   - invalid side/geometry;
+   - trigger already breached/crossed before create/replace;
+   - unsupported/unknown trigger reference semantics.
 
-## Required audit dimensions
+   Names may follow existing project vocabulary, but meanings must be deterministic and non-overlapping.
 
-For each FP item record:
+4. **Already-breached behavior**
+   - an already-breached/contradictory trigger must never be interpreted as permission to blindly submit/re-submit the same protection mutation;
+   - define the required fail-closed handoff category back to E5 lifecycle/reconciliation/emergency policy without making the policy decision on E4's behalf;
+   - define that retry requires materially new evidence or a new E5 action, not a tight loop on unchanged truth.
 
-- failure class;
-- Spot-specific lesson vs SWAP-applicable invariant;
-- current R7 implementation paths/classes/functions/contracts;
-- current test-definition paths;
-- accepted local verification evidence, if any;
-- current classification;
-- exact residual risk/gap;
-- exact owner: E4 / E5 / E6 / E7 / external AgentBridge/operator;
-- smallest safe follow-up task;
-- whether the follow-up changes executable source;
-- whether a new credential-free local qualification would be required after that change;
-- whether provider/private API access would be required;
-- whether credentials would be required;
-- whether Product Owner authority would be required;
-- whether capital exposure would be required (expected `NO` for all prevention implementation/test tasks unless a later separately authorized runtime phase says otherwise).
+5. **Freshness / temporal binding**
+   - reuse existing E1/E7 freshness and ADR-0010 temporal principles where possible;
+   - do not invent a new numeric freshness threshold unless an authoritative current policy already defines one;
+   - specify how a newer market/Position observation invalidates older trigger-validity evidence.
 
-## Specific failure classes that must not be lost in aggregation
+6. **Ownership boundary**
+   - E1 owns canonical market observation/freshness facts;
+   - E5 owns whether invalid/breached protection leads to HOLD, EXIT, EMERGENCY_EXIT, RECONCILIATION_REQUIRED, or another approved lifecycle action;
+   - E4 owns provider capability/parameter translation and must reject execution that violates the shared validity evidence;
+   - E6 may later persist/display validity evidence and reason codes but must not reinterpret them;
+   - E7 owns this shared profile and cross-module compatibility.
 
-Even if multiple FP items map to one existing subsystem, audit these explicitly:
-
-- startup operational-mode drift / environment-default ambiguity;
-- instrument/account/margin/position-mode order-parameter capability matrix;
-- protection trigger already breached before create/replace;
-- manual/external provider order/fill/position reconciliation policy;
-- lot/minimum/reducible-quantity residual handling without retry storms;
-- current-state reporting provenance/freshness;
-- desync/reconciliation lock vs financial kill-switch separation;
-- provider/local clock-skew preflight;
-- state-aware watchdog/restart recovery;
-- partial-fill/aggregate-close/manual-flat lifecycle correctness;
-- unique protection registry/linkage;
-- pending/acknowledged execution not mutating fill-derived position truth;
-- invalidation of stale pre-reconcile snapshots;
-- bounded stable waiting/retry states;
-- staged breakeven/trailing/profit-protection maturity;
-- exact runtime identity/revision/mode/heartbeat preflight.
-
-## Do not over-apply Spot fixes
-
-Explicitly reject literal transplantation where inappropriate, including:
-
-- `tdMode=cash` as a SWAP rule;
-- Spot-specific prohibition of `reduceOnly` as a SWAP rule;
-- BTC wallet dust tolerance as the direct SWAP flatness definition;
-- Spot algo-order `ccy` requirements as a generic SWAP requirement.
-
-Instead identify the exact OKX SWAP capability/precision/position-mode invariant R7 needs.
-
-## Required durable evidence
+## Required durable artifacts
 
 Create:
 
-`status/e7/MATURE_OKX_FAILURE_PREVENTION_GAP_AUDIT_20260829.md`
+`contracts/PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md`
 
-It must contain:
+Update `contracts/README.md` so the new profile and ownership are discoverable.
 
-1. an executive summary with counts by classification;
-2. a complete FP-01..FP-16 matrix;
-3. a prioritized list of only the residual gaps, ranked:
-   - `P0_PRE_PROVIDER_RUNTIME`
-   - `P1_PRE_PAPER_OR_SHADOW`
-   - `P2_PRE_LIVE`
-   - `P3_OPERATIONAL_HARDENING`
-4. recommended bounded next tasks by owner;
-5. explicit statement of which items are already sufficiently covered and must **not** be reimplemented;
-6. explicit statement of which historical Spot fixes are non-applicable literally;
-7. confirmation that this audit made no executable/runtime change.
+Create an ADR only if necessary to resolve a genuinely architectural ambiguity; do not create one merely to duplicate the contract profile.
+
+Create:
+
+`status/e7/FP03_PROTECTION_TRIGGER_CONTRACT_HANDOFF_20260829.md`
+
+The handoff must identify:
+
+- exact contract/profile version;
+- whether any existing shared profile is amended or only referenced;
+- E5 implementation obligations;
+- E4 implementation obligations;
+- any E1 evidence dependency;
+- any E6 persistence/display follow-up;
+- exact deterministic test scenarios that later E5/E4 tasks must add, including LONG/SHORT valid, equality boundary, breached trigger, stale market, stale Position evidence, mismatched side, and retry-on-unchanged-evidence rejection;
+- whether executable changes will require fresh approved-local credential-free requalification (`YES` expected after E5/E4 implementation);
+- provider/credential/PO/capital requirements for this contract task (`NO`).
 
 Update `coordination/E7/STATUS.md` on the task branch.
 
-Optionally update `status/INTEGRATION_STATUS.md` only if needed to record a non-promotional audit state. Do not change release-gate PASS/FAIL criteria or promote/demote a gate in E7-098.
+## Verification boundary
 
-## Verification / execution boundary
+This is a contract/docs task only.
 
-E7-098 is static repository/evidence review only.
-
-- Do not execute project code or tests.
-- Do not create `coordination/E7/LOCAL_JOB_REQUEST.json`.
-- Do not call OKX or any provider.
+- Do not execute project code/tests.
+- Do not create a Local Job Request.
+- Do not call OKX/provider endpoints.
 - Do not read/request/use credentials.
-- Do not start SHADOW or PAPER runtime.
-- Do not reset/delete/reuse either consumed SHADOW authorization marker.
-- Do not mutate provider/account state.
-- Do not submit/cancel/amend/close orders.
-- Do not move or expose capital.
+- Do not modify E4/E5 executable source or tests.
+- Do not start SHADOW/PAPER runtime.
+- Do not mutate provider/account state or submit/cancel/amend/close orders.
+- Do not move/expose capital.
 - Do not use GitHub Actions/CI/hosted/GitHub-triggered compute.
-- Do not modify AgentBridge source/config.
 
 Record executable verification as:
 
-```text
-NOT_RUN / NOT REQUIRED FOR DOCS-ONLY STATIC GAP AUDIT
-```
+`NOT_RUN / NOT REQUIRED FOR CONTRACT-DOCS TASK`
 
-This is not executable PASS evidence.
-
-## Current release/runtime boundary remains unchanged
-
-```text
-historical provider-qualified Gate C revision = ab725965e96cac7a9769fd1ab15a3e626f920b95
-current ADR-0010 credential-free requalified baseline = 8fbf5fcae2eaf44accdf535121d8abf29ef5c93c
-provider-facing verification on 8fbf5fca... = NOT_RUN / NOT_INFERRED
-AgentBridge ADR-0010 consumer migration = external dependency / not yet accepted
-first SHADOW authorization = CONSUMED / NO RETRY
-replacement SHADOW authorization = CONSUMED / NO RETRY
-third/replacement SHADOW authority = NOT GRANTED / PRODUCT OWNER REQUIRED
-PAPER runtime = NOT AUTHORIZED
-Gate D / LIVE = BLOCKED / NOT AUTHORIZED
-LIVE = UNAUTHORIZED
-capital exposure = NONE
-```
-
-E7-098 grants no new provider/runtime authority.
+This is not executable PASS.
 
 ## Writable scope
 
 Only:
 
-- `status/e7/MATURE_OKX_FAILURE_PREVENTION_GAP_AUDIT_20260829.md`;
-- `status/INTEGRATION_STATUS.md` only if needed for non-promotional audit state;
+- `contracts/PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md`;
+- `contracts/README.md`;
+- one E7-owned ADR only if strictly necessary;
+- `status/e7/FP03_PROTECTION_TRIGGER_CONTRACT_HANDOFF_20260829.md`;
 - `coordination/E7/STATUS.md`.
 
-Do not modify production source, tests, contracts, ADRs, E1-E6 files, AgentBridge, local action catalog, Product Owner authorization artifacts, or release-gate criteria.
+Do not modify production source, E1-E6 tests/source, provider config, AgentBridge, local action catalog, Product Owner authorization artifacts, risk thresholds, release criteria, or runtime mode.
 
 ## Completion
 
 ### DONE
 
-Use `DONE` when FP-01..FP-16 are all classified with repository/evidence citations, residual gaps are prioritized, and bounded owner-specific follow-up tasks are recommended without implementing them.
+Use `DONE` only when the V0.1 shared profile is complete, internally consistent with current market/Position/temporal contracts, and the E5/E4 implementation handoff is precise enough for separate bounded domain tasks.
 
 ### PARTIAL
 
-Use `PARTIAL` if one or more failure classes cannot be classified because authoritative implementation/evidence is ambiguous, but the rest of the audit is complete.
+Use `PARTIAL` if an authoritative cross-module ambiguity remains and cannot be resolved safely within E7 contract ownership. Record the exact unresolved dependency and do not guess.
 
 ### BLOCKED
 
-Use `BLOCKED` only if repository contradictions prevent a safe audit classification.
+Use `BLOCKED` only if authoritative repository requirements conflict such that no safe shared trigger-validity contract can be defined.
 
-Stop after E7-098. Do not self-start E4/E5/E6 remediation, executable test work, provider verification, AgentBridge migration, a third SHADOW session, PAPER, Gate D, LIVE, mutation, order action, or capital movement/exposure.
+Stop after E7-099. Do not self-start E5/E4 implementation, local executable verification, provider verification, AgentBridge work, SHADOW/PAPER, Gate D, LIVE, mutation, order action, or capital movement/exposure.

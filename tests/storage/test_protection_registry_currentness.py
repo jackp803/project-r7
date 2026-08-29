@@ -13,6 +13,8 @@ from position import interpret_protection_registry_evidence
 from src.execution.protection_registry_evidence_boundary import (
     build_protection_registry_multiplicity_evidence,
 )
+from storage._lifecycle_execution_binding import persist_lifecycle_execution_binding
+from storage._paper_runtime import _open_paper_runtime_store
 from storage.external_close_currentness import open_external_close_currentness_store
 from storage.protection_registry_currentness import (
     HEALTHY_UNIQUE_PROTECTION,
@@ -51,6 +53,7 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.db_path = Path(self.temp.name) / "fp11-currentness.sqlite3"
         self.store = None
+        self.persisted_projection_hash = None
         self.fixture = policy_fixture_module.ProtectionRegistryPolicyTests(
             methodName="test_converged_exact_current_registry_preserves_existing_protected_state_only"
         )
@@ -114,108 +117,136 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
     def _seed_lifecycle(self, owner_authority) -> None:
         projection = dict(owner_authority.lifecycle_projection)
         binding = None if owner_authority.lifecycle_execution_binding is None else dict(owner_authority.lifecycle_execution_binding)
-        position_id = projection["position_id"]
-        projection_json = _json(projection)
-        projection_hash = _sha(projection)
-        connection = self.store._connection
-        existing = connection.execute(
-            "SELECT lifecycle_projection_id FROM paper_position_lifecycle_projections WHERE lifecycle_projection_id = ?",
-            (projection["lifecycle_projection_id"],),
-        ).fetchone()
-        if existing is None:
-            connection.execute(
-                """
-                INSERT INTO paper_position_lifecycle_projections (
-                    lifecycle_projection_id, position_id, lifecycle_revision,
-                    previous_lifecycle_projection_id, lifecycle_projection_kind,
-                    lifecycle_event, lifecycle_state, broker_state_observed_at,
-                    lifecycle_source_broker_state_observed_at, lifecycle_interpreted_at,
-                    broker_fact_hash, payload_json, payload_hash
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """,
-                (
-                    projection["lifecycle_projection_id"],
-                    position_id,
-                    projection["lifecycle_revision"],
-                    projection["previous_lifecycle_projection_id"],
-                    projection["lifecycle_projection_kind"],
-                    projection["lifecycle_event"],
-                    projection["lifecycle_state"],
-                    projection["broker_state_observed_at"],
-                    projection["lifecycle_source_broker_state_observed_at"],
-                    projection["lifecycle_interpreted_at"],
-                    _sha(
-                        {
-                            "position_id": position_id,
-                            "broker_state_observed_at": projection["broker_state_observed_at"],
-                            "actual_quantity": projection["actual_quantity"],
-                        }
-                    ),
-                    projection_json,
-                    projection_hash,
-                ),
-            )
-        connection.execute(
-            """
-            INSERT INTO paper_position_current_projection (
-                position_id, lifecycle_projection_id, lifecycle_revision,
-                broker_state_observed_at, payload_hash
-            ) VALUES (?, ?, ?, ?, ?)
-            ON CONFLICT(position_id) DO UPDATE SET
-                lifecycle_projection_id=excluded.lifecycle_projection_id,
-                lifecycle_revision=excluded.lifecycle_revision,
-                broker_state_observed_at=excluded.broker_state_observed_at,
-                payload_hash=excluded.payload_hash
-            """,
-            (
-                position_id,
-                projection["lifecycle_projection_id"],
-                projection["lifecycle_revision"],
-                projection["broker_state_observed_at"],
-                projection_hash,
-            ),
-        )
-        if binding is not None:
-            binding_json = _json(binding)
-            binding_hash = _sha(binding)
-            existing_binding = connection.execute(
-                "SELECT lifecycle_execution_binding_id FROM paper_position_lifecycle_execution_bindings WHERE lifecycle_execution_binding_id = ?",
-                (binding["lifecycle_execution_binding_id"],),
-            ).fetchone()
-            if existing_binding is None:
-                connection.execute(
-                    """
-                    INSERT INTO paper_position_lifecycle_execution_bindings (
-                        lifecycle_execution_binding_id, lifecycle_projection_id,
-                        position_id, lifecycle_revision, execution_interpreted_at,
-                        execution_scope, execution_snapshot_hash, payload_json, payload_hash
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    """,
-                    (
-                        binding["lifecycle_execution_binding_id"],
-                        binding["lifecycle_projection_id"],
-                        binding["position_id"],
-                        binding["lifecycle_revision"],
-                        binding["execution_interpreted_at"],
-                        binding["execution_scope"],
-                        binding["execution_snapshot_hash"],
-                        binding_json,
-                        binding_hash,
-                    ),
-                )
-        connection.commit()
+        runtime_store = _open_paper_runtime_store(self.db_path)
+        try:
+            stored_projection = runtime_store.persist_position_projection(projection)
+            self.persisted_projection_hash = stored_projection.payload_hash
+            if binding is not None:
+                persist_lifecycle_execution_binding(runtime_store, binding)
+        finally:
+            runtime_store.close()
 
     def _setup_case(self, kind: str = "success", **kwargs):
         evidence, owner_authority, value = self._owner_case(kind, **kwargs)
         self._persist_fp04_dependencies(value)
-        self.store = open_protection_registry_currentness_store(self.db_path)
         self._seed_lifecycle(owner_authority)
+        self.store = open_protection_registry_currentness_store(self.db_path)
         authority = self._current_authority(evidence, owner_authority)
         return evidence, owner_authority, value, authority
 
     def _persist_decision(self, evidence: dict, owner_authority, authority):
         decision = interpret_protection_registry_evidence(evidence, owner_authority)
         return self.store.persist_e5_interpretation(decision, evidence=evidence, authority=authority)
+
+    def _persist_healthy_chain(self):
+        evidence, owner_authority, value, authority = self._setup_case()
+        self.store.persist_fp11(evidence)
+        self._persist_decision(evidence, owner_authority, authority)
+        return evidence, owner_authority, value, authority
+
+    def test_normal_paper_runtime_writer_projection_is_accepted_by_fp11_restart_currentness(self):
+        _, _, _, authority = self._persist_healthy_chain()
+        current = self.store._connection.execute(
+            "SELECT * FROM paper_position_current_projection WHERE position_id = ?",
+            (authority.position["position_id"],),
+        ).fetchone()
+        history = self.store._connection.execute(
+            "SELECT * FROM paper_position_lifecycle_projections WHERE lifecycle_projection_id = ?",
+            (authority.lifecycle_projection["lifecycle_projection_id"],),
+        ).fetchone()
+        self.assertIsNotNone(current)
+        self.assertIsNotNone(history)
+        self.assertEqual(self.persisted_projection_hash, current["payload_hash"])
+        self.assertEqual(self.persisted_projection_hash, history["payload_hash"])
+        self.assertEqual(_json(authority.lifecycle_projection), history["payload_json"])
+        result = self.store.recover(authority)
+        self.assertEqual(HEALTHY_UNIQUE_PROTECTION, result.status)
+        self.assertTrue(result.healthy_protection)
+
+    def test_lifecycle_projection_payload_hash_is_checked_in_its_own_storage_domain(self):
+        evidence, owner_authority, _, authority = self._persist_healthy_chain()
+        interpretation = self.store.interpretation_history(evidence["position_id"])[0]
+        self.assertEqual(evidence["position_hash"], interpretation.payload["position_hash"])
+        self.assertEqual(_sha(authority.position), evidence["position_hash"])
+        current = self.store._connection.execute(
+            "SELECT payload_hash FROM paper_position_current_projection WHERE position_id = ?",
+            (evidence["position_id"],),
+        ).fetchone()
+        self.assertEqual(_sha(authority.lifecycle_projection), current["payload_hash"])
+        self.assertEqual(HEALTHY_UNIQUE_PROTECTION, self.store.recover(authority).status)
+
+    def test_corrupted_current_projection_payload_hash_fails_closed(self):
+        _, _, _, authority = self._persist_healthy_chain()
+        self.store._connection.execute(
+            "UPDATE paper_position_current_projection SET payload_hash = ? WHERE position_id = ?",
+            (_sha({"corrupt": "current-projection-hash"}), authority.position["position_id"]),
+        )
+        self.store._connection.commit()
+        result = self.store.recover(authority)
+        self.assertEqual(STATUS_STALE, result.status)
+        self.assertIn("CURRENT_LIFECYCLE_PROJECTION_SUPERSEDED_OR_MISMATCHED", result.reason_codes)
+        self.assertFalse(result.healthy_protection)
+
+    def test_corrupted_durable_projection_payload_hash_fails_closed(self):
+        _, _, _, authority = self._persist_healthy_chain()
+        self.store._connection.execute("DROP TRIGGER paper_position_projection_immutable_update")
+        self.store._connection.execute(
+            "UPDATE paper_position_lifecycle_projections SET payload_hash = ? WHERE lifecycle_projection_id = ?",
+            (_sha({"corrupt": "history-projection-hash"}), authority.lifecycle_projection["lifecycle_projection_id"]),
+        )
+        self.store._connection.commit()
+        result = self.store.recover(authority)
+        self.assertEqual(STATUS_CONFLICT, result.status)
+        self.assertIn("FP11_LIFECYCLE_PROJECTION_HASH_MISMATCH", result.reason_codes)
+        self.assertFalse(result.healthy_protection)
+
+    def test_corrupted_durable_projection_payload_json_fails_closed(self):
+        _, _, _, authority = self._persist_healthy_chain()
+        self.store._connection.execute("DROP TRIGGER paper_position_projection_immutable_update")
+        self.store._connection.execute(
+            "UPDATE paper_position_lifecycle_projections SET payload_json = ? WHERE lifecycle_projection_id = ?",
+            (_json({"corrupt": "history-projection-json"}), authority.lifecycle_projection["lifecycle_projection_id"]),
+        )
+        self.store._connection.commit()
+        result = self.store.recover(authority)
+        self.assertEqual(STATUS_CONFLICT, result.status)
+        self.assertIn("FP11_LIFECYCLE_PROJECTION_PAYLOAD_MISMATCH", result.reason_codes)
+        self.assertFalse(result.healthy_protection)
+
+    def test_current_projection_id_revision_or_broker_anchor_mismatch_fails_closed(self):
+        mutations = (
+            ("lifecycle_projection_id", "posproj_" + "0" * 64),
+            ("lifecycle_revision", 999),
+            ("broker_state_observed_at", "2026-08-29T23:59:59Z"),
+        )
+        for index, (column, bad_value) in enumerate(mutations):
+            with self.subTest(column=column):
+                if self.store is not None:
+                    self.store.close()
+                self.db_path = Path(self.temp.name) / f"fp11-current-index-{index}.sqlite3"
+                self.store = None
+                _, _, _, authority = self._persist_healthy_chain()
+                if column == "lifecycle_projection_id":
+                    self.store._connection.execute("PRAGMA foreign_keys = OFF")
+                self.store._connection.execute(
+                    f"UPDATE paper_position_current_projection SET {column} = ? WHERE position_id = ?",
+                    (bad_value, authority.position["position_id"]),
+                )
+                self.store._connection.commit()
+                result = self.store.recover(authority)
+                self.assertEqual(STATUS_STALE, result.status)
+                self.assertIn("CURRENT_LIFECYCLE_PROJECTION_SUPERSEDED_OR_MISMATCHED", result.reason_codes)
+                self.assertFalse(result.healthy_protection)
+
+    def test_canonical_position_hash_mismatch_independently_invalidates_fp11_currentness(self):
+        evidence, _, _, authority = self._persist_healthy_chain()
+        changed_position = dict(authority.position)
+        changed_position["actual_quantity"] = "0.0011"
+        result = self.store.recover(replace(authority, position=changed_position))
+        self.assertEqual(STATUS_STALE, result.status)
+        self.assertIn("FP11_CURRENT_AUTHORITY_MISMATCH", result.reason_codes)
+        self.assertNotEqual(_sha(changed_position), evidence["position_hash"])
+        self.assertFalse(result.healthy_protection)
 
     def test_immutable_insert_read_and_restart_reloads_exact_fp11_history(self):
         evidence, _, _, authority = self._setup_case()
@@ -257,7 +288,7 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
     def test_explicit_same_lineage_supersession_selects_only_declared_head(self):
         first, _, _, _ = self._setup_case()
         self.store.persist_fp11(first)
-        second_base, second_owner, second_value = self._owner_case("multiple")
+        _, second_owner, second_value = self._owner_case("multiple")
         self._persist_fp04_dependencies(second_value)
         second = build_protection_registry_multiplicity_evidence(
             second_value,
@@ -292,7 +323,7 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
 
     def test_missing_predecessor_is_incomplete_not_current(self):
         first, _, _, _ = self._setup_case()
-        second_base, second_owner, second_value = self._owner_case("multiple")
+        _, second_owner, second_value = self._owner_case("multiple")
         self._persist_fp04_dependencies(second_value)
         second = build_protection_registry_multiplicity_evidence(
             second_value,
@@ -328,7 +359,7 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
     def test_storage_cycle_or_supersession_reference_corruption_fails_closed(self):
         first, _, _, authority = self._setup_case()
         self.store.persist_fp11(first)
-        second_base, _, second_value = self._owner_case("multiple")
+        _, _, second_value = self._owner_case("multiple")
         self._persist_fp04_dependencies(second_value)
         second = build_protection_registry_multiplicity_evidence(second_value, supersedes_evidence=first)
         self.store.persist_fp11(second)
@@ -365,7 +396,7 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
         first, first_owner, _, first_authority = self._setup_case()
         self.store.persist_fp11(first)
         self._persist_decision(first, first_owner, first_authority)
-        second_base, second_owner, second_value = self._owner_case("multiple")
+        _, second_owner, second_value = self._owner_case("multiple")
         self._persist_fp04_dependencies(second_value)
         second = build_protection_registry_multiplicity_evidence(second_value, supersedes_evidence=first)
         self.store.persist_fp11(second)

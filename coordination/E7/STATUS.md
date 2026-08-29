@@ -1,64 +1,66 @@
 # E7 Status
 
-- task_id: `E7-20260829-113`
+- task_id: `E7-20260829-114`
 - agent: `E7`
 - state: `PARTIAL`
 - branch: `agent/e7-fp16-runtime-preflight-implementation-20260829`
-- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-113 and remained ACTIVE immediately before terminal write`
-- task_blob: `cdecf3da6cdd50a6229312e1d71fa646b6653562`
-- predecessor_branch_head_before_E7_113: `b088e73b7c02ebc6cf663ef8c2ad04013a28aff3`
-- task_type: `BOUNDED FP-16 FAIL-CLOSED BUG REMEDIATION + REGRESSION DEFINITIONS`
-- result_classification_reason: `PM-IDENTIFIED STATIC DEFECT REMEDIATED IN SOURCE/TEST DEFINITIONS; APPROVED-LOCAL EXECUTABLE VERIFICATION REMAINS NOT_RUN / NOT_PASS`
+- wake_task_id_verified: `YES — latest main coordination/E7/TASK.md exactly matched E7-20260829-114 and remained ACTIVE immediately before terminal write`
+- task_blob: `5c82bba46cad996d6030b7b834342a4a3de5b628`
+- predecessor_E7_113_terminal_head: `0975539b0b3222503a397e463a22b1d3c3e15d48`
+- task_type: `GOVERNANCE / TEST-LAYOUT REMEDIATION ONLY`
+- result_classification_reason: `E7-113 WRITABLE-SCOPE VIOLATION REMEDIATED; EXECUTABLE VERIFICATION REMAINS NOT_RUN / NOT_PASS UNDER ACTIVE LF-0 BLOCKER`
 
-## Defect / remediation
+## Source semantics preservation
 
 - accepted_profile: `runtime-preflight-v0.1 / UNCHANGED`
-- pm_review: `status/PM_E7_112_REVIEW_20260829.md`
-- defect: `CONDITIONAL ROLES DID NOT TREAT NON-NULL CURRENT external_consumer_authority AS MATERIAL EXTERNAL PARTICIPATION`
-- old_requirement_predicate: `FIXED UNCONDITIONAL ROLE OR supervisor_present`
-- corrected_requirement_predicate: `FIXED UNCONDITIONAL ROLE OR supervisor_present OR external_consumer_authority IS NON-NULL`
+- production_source: `src/integration/runtime_preflight.py`
+- E7_114_source_change: `NONE`
+- preserved_E7_113_source_commit: `1da35a78ef2fcd12b09f14ca4bfda0bf2f37b6c2`
+- external_participation_rule: `FIXED UNCONDITIONAL ROLE OR supervisor_present OR non-null current external_consumer_authority`
 - missing_required_external_evidence_reason: `PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED`
 - new_reason_codes: `NONE`
 - new_contract_fields: `NONE`
 - shared_contract_change: `NONE`
-- evaluator_io_change: `NONE`
-- authority_side_effect_change: `NONE`
+- authority_semantics_change: `NONE`
 
-The implementation remains pure/provider-neutral. Current external-consumer authority is interpreted only as evidence of material participation requiring matching input compatibility evidence; it does not create provider/runtime authority.
+## E7-114 layout remediation
 
-## E7-113 commits / files
-
-- code: `src/integration/runtime_preflight.py`
-- code_commit: `1da35a78ef2fcd12b09f14ca4bfda0bf2f37b6c2`
-- code_delta_vs_E7_112_head: `6 ADDITIONS / 1 DELETION`
-- regression_test: `tests/integration/test_runtime_preflight_external_consumer_regression.py`
-- regression_test_commit: `0b0ffd84b295a6b9eec3cf9995c1c9a89ee7876c`
-- implementation_evidence: `status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md`
-- implementation_evidence_commit: `ab7a2466f4f812a1e1214024d57a1629d1d1ab79`
+- existing_test_module: `tests/integration/test_runtime_preflight.py`
+- consolidated_regression_commit: `4870373389e2a98bc503a976af80e861d1ecf2c0`
+- unauthorized_standalone_module: `tests/integration/test_runtime_preflight_external_consumer_regression.py`
+- standalone_module_action: `DELETED`
+- standalone_module_delete_commit: `8e63f14e4d24286808af918f891cdf2f4c566ede`
+- implementation_handoff: `status/e7/FP16_RUNTIME_PREFLIGHT_IMPLEMENTATION_20260829.md`
+- implementation_handoff_commit: `3b1e20f56ac9e5e37cd4e99ffc797bceb509ad58`
 - qualification_manifest: `status/e7/P0_CREDENTIAL_FREE_QUALIFICATION_MANIFEST_20260829.md`
-- qualification_manifest_commit: `905fb9ed0a0b24d8b2fa6d5d42f05a1b003b8867`
-- p0_matrix: `UNCHANGED / FP-16 CLASSIFICATION REMAINS IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS`
-- safety_test: `UNCHANGED / EXISTING ROLE-TRANSFER + NO-AUTHORITY-SIDE-EFFECT COVERAGE PRESERVED`
+- qualification_manifest_commit: `683143ee9090e89c0d271cbf48649138a1e77661`
+- p0_matrix: `UNCHANGED / NO STALE STANDALONE REGRESSION FILE REFERENCE FOUND`
+- safety_test: `UNCHANGED`
 
-## Regression definitions
+## Consolidated regression definitions
+
+The existing `test_runtime_preflight.py` now includes the external-consumer participation cases required by E7-114:
 
 - credential_free_external_authority_without_evidence: `DEFINED -> EXPECT FAIL_CLOSED / PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED`
-- provider_readonly_external_authority_without_evidence: `DEFINED -> EXPECT FAIL_CLOSED / PREFLIGHT_EXTERNAL_CONSUMER_NOT_ACCEPTED`
-- credential_free_no_external_authority_and_no_external_evidence: `DEFINED -> EXPECT ELIGIBLE WHEN ALL OTHER SYNTHETIC FACTS COHERENT`
-- exact_external_evidence_plus_exact_external_authority: `DEFINED -> EXPECT ADMISSIBLE WHEN ALL OTHER FACTS COHERENT`
+- provider_readonly_external_authority_without_evidence: `DEFINED -> EXPECT FAIL_CLOSED`
+- credential_free_true_no_external: `DEFINED -> EXPECT ELIGIBLE WHEN ALL OTHER SYNTHETIC FACTS COHERENT`
+- exact_external_evidence_and_authority: `DEFINED -> EXPECT ADMISSIBLE`
 - external_evidence_without_current_authority: `DEFINED -> EXPECT FAIL_CLOSED`
 - stale_or_mismatched_external_generation: `DEFINED -> EXPECT FAIL_CLOSED`
 - incompatible_external_status: `DEFINED -> EXPECT FAIL_CLOSED`
 - shadow_missing_external_evidence: `DEFINED -> UNCONDITIONAL FAIL_CLOSED PRESERVED`
-- no_provider_network_credential_process_order_runtime_capital_authority: `DEFINED / PRESERVED`
-- deterministic_identity_currentness: `PRESERVED BY UNCHANGED EVALUATION/IDENTITY PIPELINE EXCEPT MATERIAL PARTICIPATION INPUT`
+- provider_network_credential_process_order_runtime_capital_side_effects: `NONE / REGRESSION ASSERTIONS PRESERVED`
 
 ## Static scope verification
 
-- branch_compare_base: `b088e73b7c02ebc6cf663ef8c2ad04013a28aff3`
-- pre_terminal_changed_files: `4 / ALL E7-113 WRITABLE SCOPE`
-- production_change_scope: `src/integration/runtime_preflight.py ONLY / 7-LINE DIFF`
-- test_change_scope: `NEW E7 INTEGRATION REGRESSION MODULE ONLY`
+- compare_base: `0975539b0b3222503a397e463a22b1d3c3e15d48`
+- pre_status_E7_114_changed_files: `4`
+- production_source_changed_by_E7_114: `NO`
+- authorized_existing_test_module_changed: `YES`
+- unauthorized_extra_test_file: `REMOVED`
+- E7_handoff_changed: `YES`
+- E7_qualification_manifest_changed: `YES`
+- P0_matrix_changed: `NO / NO STALE REFERENCE FOUND`
 - shared_contracts_adrs: `UNCHANGED`
 - e1_e6_production: `UNCHANGED`
 - e6_operational_mode_storage: `UNCHANGED`
@@ -73,9 +75,9 @@ The implementation remains pure/provider-neutral. Current external-consumer auth
 
 - project_executable_verification: `NOT_RUN / NOT_PASS`
 - fp16_runtime_preflight_tests: `NOT_RUN / NOT_PASS`
-- regression_red_green_execution: `NOT_RUN / TASK EXPLICITLY FORBIDS PROJECT EXECUTION`
-- local_job_request: `NONE / FORBIDDEN BY E7-113`
-- exact_revision_preparation: `NOT_STARTED / FORBIDDEN BY E7-113`
+- regression_execution: `NOT_RUN / TASK EXPLICITLY FORBIDS PROJECT EXECUTION`
+- local_job_request: `NONE / FORBIDDEN BY E7-114`
+- exact_revision_preparation: `NOT_STARTED / FORBIDDEN BY E7-114`
 - provider_requests: `0`
 - private_api_access: `NONE`
 - credentials_read_requested_used: `NONE`
@@ -93,7 +95,7 @@ The implementation remains pure/provider-neutral. Current external-consumer auth
 
 - lf0_exact_revision_infrastructure: `BLOCKED / UNCHANGED`
 - lf1_integrated_credential_free_qualification: `NOT_RUN / NOT_PASS`
-- lf2_p0_failure_prevention_closure: `PARTIAL / NOT PASS / FP-16 REMEDIATED STATIC CANDIDATE STILL UNQUALIFIED`
+- lf2_p0_failure_prevention_closure: `PARTIAL / NOT PASS / FP-16 IMPLEMENTED_UNQUALIFIED`
 - lf3_failure_injection_recovery: `NOT_RUN / NOT_PASS`
 - lf4_provider_readonly: `NOT_STARTED / FUTURE PRODUCT OWNER AUTHORITY REQUIRED`
 - lf5_shadow_paper: `NOT_STARTED / NOT_AUTHORIZED`
@@ -107,14 +109,13 @@ The implementation remains pure/provider-neutral. Current external-consumer auth
 ```powershell
 $env:PYTHONPATH = 'src'
 python -m unittest discover -s tests/integration -p 'test_runtime_preflight.py' -v
-python -m unittest discover -s tests/integration -p 'test_runtime_preflight_external_consumer_regression.py' -v
 python -m unittest discover -s tests/safety -p 'test_p0_integrated_fail_closed.py' -v
 ```
 
-These commands are recorded only for a future fresh authorized exact-clean local qualification. They were not executed by E7-113.
+No command references the deleted standalone regression module. These commands were not executed by E7-114.
 
 ## Completion
 
-E7 stops on `PARTIAL / E7-113 FP-16 EXTERNAL-CONSUMER PARTICIPATION REMEDIATION + REGRESSION DEFINITIONS PERSISTED; EXECUTABLE VERIFICATION NOT_RUN / NOT_PASS`.
+E7 stops on `PARTIAL / E7-114 GOVERNANCE + TEST-LAYOUT REMEDIATION PERSISTED; EXECUTABLE VERIFICATION NOT_RUN / NOT_PASS`.
 
 No next task, Local Job Request, exact-revision preparation, qualification execution, provider verification, AgentBridge change, SHADOW/PAPER, bounded 10U live-fire, Gate D, LIVE, mutation, process action, order/protection action, or capital movement/exposure is self-started.

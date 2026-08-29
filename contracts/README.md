@@ -8,7 +8,7 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, or lifecycle execution-evidence freshness.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, or protection-trigger validity.
 
 The first materialized baseline is:
 
@@ -18,6 +18,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 
 - [`EXECUTION_OBJECT_PROFILES_V0_1.md`](./EXECUTION_OBJECT_PROFILES_V0_1.md) — `entry-v0.1` + `base-asset-v0.1`
 - [`PROTECTION_OBJECT_PROFILE_V0_1.md`](./PROTECTION_OBJECT_PROFILE_V0_1.md) — `protection-v0.1` actual-fill PositionAction -> protective OrderRequest semantics
+- [`PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md`](./PROTECTION_TRIGGER_VALIDITY_PROFILE_V0_1.md) — `protection-trigger-validity-v0.1` current-market/Position-bound protective-trigger geometry evidence, already-breached fail-closed handling, temporal invalidation, and no-blind-retry semantics
 - [`CLOSE_TRADE_RESULT_PROFILE_V0_1.md`](./CLOSE_TRADE_RESULT_PROFILE_V0_1.md) — `close-v0.1` + `trade-result-v0.1` + `linear-base-asset-pnl-v0.1` close authority, authoritative flatness, fill-set closure, and canonical TradeResult semantics
 - [`FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md`](./FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md) — `funding-allocation-v0.1` provider-neutral exact-interval funding evidence, completeness, identity, ownership, TradeResult binding, and persistence semantics
 - [`POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md`](./POSITION_LIFECYCLE_PROJECTION_PROFILE_V0_1.md) — `position-lifecycle-projection-v0.1` E5-owned lifecycle ordering/identity over unchanged E4 broker Position facts for deterministic persistence/restart
@@ -31,6 +32,16 @@ Compatible executable/evidence object-profile refinements currently registered u
 - Domain producers own production of valid contract instances inside their domain.
 - Domain consumers must reject incompatible/invalid contract instances rather than guessing missing semantics.
 - A domain agent may not create a permanent parallel shared model merely to avoid requesting a contract change.
+
+For `protection-trigger-validity-v0.1` specifically:
+
+- E1 owns canonical current-market observation, health and freshness facts; it does not judge protection geometry or lifecycle policy;
+- E5 owns protection/risk policy, the exact PositionAction authority and the lifecycle/risk response to fail-closed trigger evidence;
+- E4 owns provider capability/parameter translation and must reject a provider protection mutation unless exact current shared validity evidence is actionable and still current;
+- E6 may persist/display/provenance-check the evidence but must not reinterpret breached/stale evidence into a lifecycle decision;
+- E7 owns profile/version/cross-module compatibility;
+- V0.1 shared geometry uses canonical `MarketSnapshot.last_price` only as the pre-mutation reference; this does not select an OKX provider trigger-price type;
+- unchanged breached evidence never authorizes a blind retry; materially new market/Position/E5 authority is required before reevaluation.
 
 For `funding-allocation-v0.1` specifically:
 
@@ -93,6 +104,7 @@ Object-profile identifiers are explicit and independently versioned, for example
 entry-v0.1
 base-asset-v0.1
 protection-v0.1
+protection-trigger-validity-v0.1
 close-v0.1
 trade-result-v0.1
 linear-base-asset-pnl-v0.1
@@ -158,6 +170,7 @@ A consumer must:
 - never infer lifecycle ordering from persistence arrival order, storage timestamps, row IDs or unrelated execution rows;
 - never accept unsupported lifecycle state/event/kind as restart-authoritative;
 - when Gate B restart execution freshness is required, never claim the latest lifecycle projection is current if its `position-lifecycle-execution-binding-v0.1` companion is missing, conflicting, or differs from the current durable in-scope E4 execution snapshot;
+- when a protection mutation requires `protection-trigger-validity-v0.1`, never treat stale/unknown/mismatched/already-breached evidence as actionable and never retry unchanged breached truth merely because time advanced;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
 
 ## GitHub execution policy

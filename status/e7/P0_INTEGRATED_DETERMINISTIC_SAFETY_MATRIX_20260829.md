@@ -1,16 +1,18 @@
-# P0 Integrated Deterministic Safety Matrix — E7-20260829-111
+# P0 Integrated Deterministic Safety Matrix — E7-20260829-111 / E7-20260829-112 update
 
 ## Authority and scope
 
-- task: `E7-20260829-111`
-- branch: `agent/e7-p0-integrated-safety-matrix-20260829`
-- task baseline main at branch creation: `a099a5acd5cbc8fa9d89f107bae527ee6d5c41d0`
+- original matrix task: `E7-20260829-111`
+- FP-16 implementation update: `E7-20260829-112`
+- E7-112 branch: `agent/e7-fp16-runtime-preflight-implementation-20260829`
+- E7-112 branch base main: `70fb2fbaad43773d0c2278de84e8e47f8fc2fdea`
 - purpose: credential-free cross-module deterministic test definitions for the LF-2 P0 safety seam
-- executable verification in this task: `NOT_RUN / NOT_PASS`
+- executable verification: `NOT_RUN / NOT_PASS`
 - Local Job Request: `NONE`
 - provider/private access: `NONE`
 - credentials: `NONE`
 - provider/account mutation: `0`
+- process launch/restart: `0`
 - submit/cancel/amend/close/protection provider actions: `0`
 - SHADOW/PAPER: `NOT_STARTED / NOT_AUTHORIZED`
 - bounded 10U live-fire: `NOT_AUTHORIZED`
@@ -23,21 +25,22 @@ This matrix defines later local qualification evidence. It is not executable PAS
 
 | Status | Meaning |
 |---|---|
-| `STATIC_TEST_DEFINED` | A deterministic test definition exists in Git and can later run credential-free on an approved local exact revision. It has not been executed by E7-111. |
-| `IMPLEMENTED_UNQUALIFIED` | Owner-level executable behavior exists on current main, but current integrated exact-revision local qualification is `NOT_RUN / NOT_PASS`. |
-| `CONTRACT_ONLY` | The accepted profile/design exists but no current executable producer/consumer is qualified for the required runtime behavior. |
+| `STATIC_TEST_DEFINED` | A deterministic test definition exists in Git and can later run credential-free on an approved local exact revision. It has not been executed under current exact-revision evidence. |
+| `IMPLEMENTED_UNQUALIFIED` | Executable behavior exists in project source, but current integrated exact-revision local qualification is `NOT_RUN / NOT_PASS`. |
+| `CONTRACT_ONLY` | The accepted profile/design exists but no current executable producer/consumer exists for that required behavior. |
 | `UNRESOLVED_PROVIDER_FACT` | Provider-native endpoint/field/mode/trigger/close semantics are intentionally unresolved and must fail closed. |
-| `NOT_RUN / NOT_PASS` | No approved-local execution evidence exists for this E7-111 integrated matrix. This is never PASS. |
+| `NOT_RUN / NOT_PASS` | No approved-local execution evidence exists for the current integrated candidate. This is never PASS. |
 
 ## E7-owned integrated test definitions
 
 | Module | Role |
 |---|---|
 | `tests/integration/test_p0_integrated_failure_prevention.py` | FP-03 -> E4 binding, FP-04 -> FP-10, FP-05 -> FP-10, FP-11 -> E5 policy composition. |
-| `tests/safety/test_p0_integrated_fail_closed.py` | No mutation/cleanup authority from unresolved capability, FP-10 eligibility, FP-11 non-green states, or contract-only runtime preflight. |
+| `tests/integration/test_runtime_preflight.py` | FP-16 pure provider-neutral runtime-preflight identity, role, mode, process/heartbeat, supervisor, capability, reconciliation, dependency, external-consumer and authorization admission behavior. |
+| `tests/safety/test_p0_integrated_fail_closed.py` | No mutation/cleanup authority from unresolved capability, FP-10 eligibility, FP-11 non-green states, or FP-16 `ELIGIBLE` admission evidence. |
 | `tests/e2e/test_p0_reconciliation_restart_e2e.py` | E4/E5/E6 FP-11 durable restart/currentness composition, false-green prevention, terminal-flat FP-10 dependency. |
 
-All three are `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS`.
+All are `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS`. FP-16 source is additionally `IMPLEMENTED_UNQUALIFIED` after E7-112; this does not imply executable PASS.
 
 ## Integrated P0 scenario matrix
 
@@ -123,12 +126,16 @@ All three are `STATIC_TEST_DEFINED / NOT_RUN / NOT_PASS`.
 
 | ID | Scenario | Current evidence | Expected result | Classification |
 |---|---|---|---|---|
-| P0-FP16-01 | Runtime preflight executable producer/consumer | accepted `runtime-preflight-v0.1`; no `src/integration/runtime_preflight.py` | no executable runtime-preflight PASS can be claimed | `STATIC_TEST_DEFINED + CONTRACT_ONLY` |
-| P0-FP16-02 | Role PASS reused for different role | runtime-preflight contract | forbidden; role admission non-transferable | `STATIC_TEST_DEFINED + CONTRACT_ONLY` |
-| P0-FP16-03 | Missing/stale/dead heartbeat or wrong process/start generation | runtime-preflight contract | fail closed | `CONTRACT_ONLY` |
-| P0-FP16-04 | Supervisor/watchdog absent/unknown/incompatible | runtime-preflight contract | non-authorizing where role requires it | `CONTRACT_ONLY` |
-| P0-FP16-05 | Catalog registration without local allowlisting | runtime-preflight contract + active LF-0 blocker | not capability READY | `CONTRACT_ONLY / LF-0 BLOCKED` |
-| P0-FP16-06 | External consumer/AgentBridge compatibility missing/stale | runtime-preflight contract | non-authorizing | `CONTRACT_ONLY` |
+| P0-FP16-01 | Runtime preflight executable producer/consumer | accepted `runtime-preflight-v0.1` + E7 pure evaluator `src/integration/runtime_preflight.py` | coherent supplied facts may produce admission-only `ELIGIBLE`; no runtime/provider authority | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED / NOT_RUN / NOT_PASS` |
+| P0-FP16-02 | Role PASS reused for different role | evaluator + exact role authorization binding | fail closed; role admission non-transferable | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-03 | Missing/stale heartbeat or wrong process/start generation | evaluator heartbeat/currentness boundary | fail closed with accepted deterministic reasons | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-04 | Supervisor/watchdog unknown/incompatible or RESTART without permission | evaluator supervisor/restart boundary | fail closed; evaluator never launches/restarts | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-05 | Catalog registration without local allowlisting | evaluator capability boundary + active LF-0 blocker | `PREFLIGHT_ACTION_CAPABILITY_NOT_ALLOWLISTED` / non-eligible | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED / LF-0 BLOCKED` |
+| P0-FP16-06 | External consumer/AgentBridge compatibility missing/stale | evaluator consumes supplied compatibility facts only | fail closed where role/external participation requires it | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-07 | OperationalMode/config/revision/worktree current authority mismatch | evaluator + caller-supplied E6/revision/config facts | fail closed; no mode mutation or exact-revision preparation | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-08 | Reconciliation/dependency evidence missing/not-ready/unknown | evaluator consumes owner readiness classifications only | fail closed; owner semantics are not duplicated | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-09 | Authorization missing/mismatched/expired/consumed/unknown | evaluator role/revision/capability authority binding | fail closed; consumed single-session authority remains non-reusable | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED` |
+| P0-FP16-10 | Bounded-live-fire OperationalMode mapping | accepted profile intentionally leaves mapping future-governed | `PREFLIGHT_ROLE_MODE_POLICY_UNDEFINED`; never invent LIVE mapping | `STATIC_TEST_DEFINED + IMPLEMENTED_UNQUALIFIED / FAIL-CLOSED` |
 | P0-FP02-UNRESOLVED-01 | OKX protection endpoint/trigger basis/readback/cancel mapping | FP-02 design | no provider mutation path may be inferred | `UNRESOLVED_PROVIDER_FACT` |
 | P0-FP02-UNRESOLVED-02 | OKX POSITION_EXIT/EMERGENCY_EXIT native field set/position-mode/reduce semantics | FP-02/FP-05 design | no provider close mutation path may be inferred | `UNRESOLVED_PROVIDER_FACT` |
 
@@ -146,16 +153,17 @@ The E7 integrated files do not replace these owner suites. At minimum later exac
 - FP-11 E6: `tests/storage/test_protection_registry_currentness.py`
 - FP-10 E6 currentness: `tests/storage/test_external_close_currentness.py` and supersession companion
 - lifecycle binding/restart: current relevant `tests/storage/test_paper_runtime_*` and `tests/position/test_lifecycle_*`
-- E7 integrated: the three E7-owned files listed above.
+- FP-16 E7: `tests/integration/test_runtime_preflight.py`
+- E7 integrated: `tests/integration/test_p0_integrated_failure_prevention.py`, `tests/safety/test_p0_integrated_fail_closed.py`, and `tests/e2e/test_p0_reconciliation_restart_e2e.py`.
 
-No historical suite PASS is rebound to this new integration candidate.
+No historical suite PASS is rebound to the new executable integration candidate.
 
 ## LF gate interpretation
 
 ```text
 LF-0 = BLOCKED / UNCHANGED
 LF-1 = NOT_RUN / NOT_PASS
-LF-2 = PARTIAL / NOT PASS
+LF-2 = PARTIAL / NOT PASS / FP-16 IMPLEMENTED_UNQUALIFIED
 LF-3 = NOT_RUN / NOT_PASS
 LF-4 = NOT_STARTED / future Product Owner provider-readonly authority required
 LF-5 = SHADOW/PAPER NOT_STARTED / NOT_AUTHORIZED
@@ -164,4 +172,4 @@ Gate D = BLOCKED / NOT AUTHORIZED
 LIVE = UNAUTHORIZED
 ```
 
-E7-111 defines the deterministic composition needed to make a later LF-1/LF-2/LF-3 local qualification meaningful. It does not satisfy those gates by itself.
+E7-112 closes the project-source FP-16 `CONTRACT_ONLY` gap only. It does not establish executable qualification, external operator/AgentBridge implementation evidence, provider facts, or any release/runtime authority.

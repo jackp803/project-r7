@@ -1,7 +1,6 @@
 import inspect
 import unittest
 from dataclasses import replace
-from pathlib import Path
 
 from src.brokers.okx_close_sizing import (
     CLOSE_CAPABILITY_UNPROVEN,
@@ -12,9 +11,15 @@ from src.brokers.okx_demo import OKXDemoAdapter
 from src.execution.external_close_evidence import (
     build_external_manual_close_convergence_evidence,
 )
+from src.integration.runtime_preflight import (
+    ELIGIBLE,
+    FAIL_CLOSED,
+    evaluate_runtime_preflight,
+)
 from src.position import interpret_protection_registry_evidence
 import tests.brokers.test_okx_close_sizing as fp05_fixture_module
 import tests.execution.test_external_close_evidence as fp10_fixture_module
+import tests.integration.test_runtime_preflight as fp16_fixture_module
 import tests.position.test_protection_registry_policy as fp11_policy_fixture_module
 
 
@@ -41,6 +46,14 @@ class P0IntegratedFailClosedSafetyTests(unittest.TestCase):
     def _fp11_fixture():
         fixture = fp11_policy_fixture_module.ProtectionRegistryPolicyTests(
             methodName="test_converged_exact_current_registry_preserves_existing_protected_state_only"
+        )
+        fixture.setUp()
+        return fixture
+
+    @staticmethod
+    def _fp16_fixture():
+        fixture = fp16_fixture_module.RuntimePreflightV01Tests(
+            methodName="test_coherent_credential_free_evidence_is_eligible_without_runtime_authority_side_effects"
         )
         fixture.setUp()
         return fixture
@@ -93,32 +106,53 @@ class P0IntegratedFailClosedSafetyTests(unittest.TestCase):
                 self.assertFalse(decision.provider_mutation_authorized)
                 self.assertIsNone(decision.cleanup_target_ref)
 
-    def test_runtime_preflight_is_contract_only_and_role_scoped_not_transferable(self):
-        repo_root = Path(__file__).resolve().parents[2]
-        contract_path = repo_root / "contracts" / "RUNTIME_PREFLIGHT_PROFILE_V0_1.md"
-        implementation_path = repo_root / "src" / "integration" / "runtime_preflight.py"
-        self.assertTrue(contract_path.is_file())
-        self.assertFalse(implementation_path.exists())
+    def test_runtime_preflight_is_implemented_unqualified_and_role_scoped_not_transferable(self):
+        fixture = self._fp16_fixture()
+        value = fixture._input()
+        authority = fixture._authority(value)
+        evidence = evaluate_runtime_preflight(value, authority)
+        self.assertEqual(ELIGIBLE, evidence["preflight_status"])
 
-        contract = contract_path.read_text(encoding="utf-8").lower()
-        self.assertIn("runtime-preflight-v0.1", contract)
-        self.assertIn("for one role is never transferable to another role", contract)
-        self.assertIn("heartbeat", contract)
-        self.assertIn("supervisor", contract)
-        self.assertIn("allowlist", contract)
-        self.assertIn("external consumer", contract)
+        substituted = replace(
+            value,
+            runtime_role="SHADOW_RUNTIME",
+            requested_operational_mode="SHADOW",
+        )
+        substituted_authority = fixture._authority(
+            substituted,
+            operational_mode_authority={
+                "transition_id": "opmode-fixture-001",
+                "mode_revision": 7,
+                "mode": "SHADOW",
+                "payload_hash": fixture.mode_hash,
+            },
+        )
+        substituted_evidence = evaluate_runtime_preflight(substituted, substituted_authority)
+        self.assertEqual(FAIL_CLOSED, substituted_evidence["preflight_status"])
+        self.assertIn("PREFLIGHT_ROLE_AUTHORITY_EXCEEDED", substituted_evidence["reason_codes"])
+        self.assertNotEqual(evidence["runtime_preflight_id"], substituted_evidence["runtime_preflight_id"])
 
-    def test_contract_only_runtime_preflight_cannot_be_mistaken_for_provider_authority(self):
-        repo_root = Path(__file__).resolve().parents[2]
-        contract = (repo_root / "contracts" / "RUNTIME_PREFLIGHT_PROFILE_V0_1.md").read_text(
-            encoding="utf-8"
-        ).lower()
-        self.assertIn("provider authority", contract)
-        self.assertIn("order authority", contract)
-        self.assertIn("bounded-live-fire authority", contract)
-        self.assertIn("live authorization", contract)
-        self.assertIn("capital", contract)
-        self.assertIn("eligible", contract)
+    def test_runtime_preflight_eligible_is_admission_evidence_only_not_provider_or_process_authority(self):
+        fixture = self._fp16_fixture()
+        evidence = fixture._evaluate()
+        self.assertEqual(ELIGIBLE, evidence["preflight_status"])
+        self.assertEqual(
+            ["value", "authority"],
+            list(inspect.signature(evaluate_runtime_preflight).parameters),
+        )
+        for forbidden in (
+            "provider_authority",
+            "order_authority",
+            "process_launch_authority",
+            "restart_execution",
+            "shadow_authority",
+            "paper_authority",
+            "bounded_live_fire_authority",
+            "live_authority",
+            "capital_authority",
+            "credentials",
+        ):
+            self.assertNotIn(forbidden, evidence)
 
 
 if __name__ == "__main__":

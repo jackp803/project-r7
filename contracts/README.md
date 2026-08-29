@@ -8,7 +8,7 @@
 
 `contracts/` is the canonical cross-module interface surface for E1–E7.
 
-Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, external-provider object ownership/reconciliation, protection-registry multiplicity/currentness, bounded live-fire readiness evidence, or runtime-preflight identity/readiness evidence.
+Domain agents may propose changes, but no E1–E6 implementation may silently redefine a shared concept such as Candle, StrategyDefinition, TradeIntent, ApprovedTradePlan, Order, Fill, Position, BacktestResult, lifecycle state, operational mode, release evidence, funding allocation evidence, lifecycle execution-evidence freshness, protection-trigger validity, external-provider object ownership/reconciliation, protection-registry multiplicity/currentness, external/manual close lifecycle convergence, bounded live-fire readiness evidence, or runtime-preflight identity/readiness evidence.
 
 The first materialized baseline is:
 
@@ -26,6 +26,7 @@ Compatible executable/evidence object-profile refinements currently registered u
 - [`POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md`](./POSITION_LIFECYCLE_EXECUTION_EVIDENCE_BINDING_V0_1.md) — `position-lifecycle-execution-binding-v0.1` immutable E5 companion proof binding one lifecycle projection to the exact Position-linked E4 PROTECTION_STOP / POSITION_EXIT / EMERGENCY_EXIT OrderRequest, OrderResult-observation, and Fill snapshot it interpreted; changed durable execution evidence requires fresh E5 interpretation before restart `READY`
 - [`EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md`](./EXTERNAL_PROVIDER_OBJECT_OWNERSHIP_RECONCILIATION_PROFILE_V0_1.md) — `external-provider-object-ownership-reconciliation-v0.1` immutable provider-object ownership/reconciliation evidence for positions, orders, fills, protection and unknown provider objects; external/prior-generation/conflicting truth fails closed and adoption is always a separate exact-snapshot policy decision.
 - [`PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md`](./PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md) — `protection-registry-multiplicity-v0.1` complete/current active-protection-set evidence requiring exactly one current-generation-owned provider protection that exact-matches the one intended E5 lineage; zero/multiple/orphan/external/prior-generation/stale/unknown/conflicting sets fail closed and never authorize cleanup or mutation.
+- [`EXTERNAL_MANUAL_CLOSE_LIFECYCLE_CONVERGENCE_PROFILE_V0_1.md`](./EXTERNAL_MANUAL_CLOSE_LIFECYCLE_CONVERGENCE_PROFILE_V0_1.md) — `external-manual-close-lifecycle-convergence-v0.1` immutable provider-neutral convergence evidence for project-owned/manual/external/prior-generation reductions and flatness; terminal order/arithmetic/local absence never substitute for fresh zero-exposure Position truth, unresolved execution/protection/ownership remains explicit, and close eligibility is input to E5 rather than a lifecycle transition.
 
 Release/readiness evidence profiles registered under E7 authority:
 
@@ -40,6 +41,19 @@ Release/readiness evidence profiles registered under E7 authority:
 - Domain consumers must reject incompatible/invalid contract instances rather than guessing missing semantics.
 - A domain agent may not create a permanent parallel shared model merely to avoid requesting a contract change.
 
+For `external-manual-close-lifecycle-convergence-v0.1` specifically:
+
+- E4 owns provider Position/order/fill observations, normalized broker Position truth, provider object identity/snapshots, ambiguous-outcome reconciliation, and provider-local FP-05 close/residual evidence; terminal order state never becomes flatness authority by itself;
+- E5 owns all lifecycle/risk reinterpretation and transitions. `LIFECYCLE_CLOSE_ELIGIBLE` is evidence for E5 only and never emits `RECONCILED_FLAT`, `POSITION_CLOSED`, `CLOSED`, emergency handling, or TradeResult;
+- E6 may persist immutable FP-10 evidence and mechanically validate references/hashes/currentness/conflicts, but it must not infer flatness from storage absence/order or map execution status into lifecycle state;
+- E7 owns the profile, convergence/disposition/reason vocabulary, deterministic identity/currentness rules, cross-module consistency and release interpretation;
+- fresh provider/normalized Position `actual_quantity=0` with `CONSISTENT` reconciliation is required for flatness; ACK, terminal/FILLED order status, requested close size, arithmetic zero, missing local Position or zero pending orders are insufficient alone;
+- current FP-04 evidence is required for materially relevant provider Position/order/fill/protection objects; external/manual execution may remain external rather than being silently adopted, while its authoritative provider Position truth still feeds E5 reconciliation;
+- a project close path must bind current FP-05 residual evidence; any positive representable or unrepresentable residual is explicitly not flat and unchanged evidence never creates blind retry authority;
+- prior open-position FP-11 evidence is retained as lineage/history, but a newer flat Position supersedes that open-position currentness and requires a fresh post-flat terminal protection observation using FP-11 completeness/currentness and FP-04 ownership principles;
+- unresolved active protection after flatness blocks terminal convergence; FP-10 never authorizes blind cancel-all, silent ignore, detach or cleanup;
+- lifecycle close eligibility and `trade-result-v0.1` eligibility are separate. Missing external/manual canonical exit Fill lineage may leave `TRADE_RESULT_EVIDENCE_INCOMPLETE` even after E5 can interpret authoritative provider flatness.
+
 For `protection-registry-multiplicity-v0.1` specifically:
 
 - E4 owns provider protection observation, normalized provider object identity/snapshot references, provider observation generation/completeness/currentness, provider readback and exact E4-created protection-lineage comparison facts; future provider create/cancel/query mappings remain E4 capability scope;
@@ -51,7 +65,7 @@ For `protection-registry-multiplicity-v0.1` specifically:
 - only a complete/current set containing exactly one such object is converged; zero/multiple/orphan/external/prior-generation/stale/unknown/conflicting states are fail closed;
 - no registry status/disposition directly authorizes create/cancel/replace/cleanup, and blind cancel-all/create-another behavior is forbidden;
 - FP-03 ACTIONABLE evidence proves only pre-mutation trigger geometry and cannot prove provider protection existence/uniqueness/ownership;
-- FP-10 must later consume FP-11 state so flat/reduced exposure does not silently erase unresolved provider protection objects.
+- FP-10 consumes FP-11 state so flat/reduced exposure does not silently erase unresolved provider protection objects.
 
 For `external-provider-object-ownership-reconciliation-v0.1` specifically:
 
@@ -63,7 +77,7 @@ For `external-provider-object-ownership-reconciliation-v0.1` specifically:
 - `ADOPTABLE_BY_EXPLICIT_POLICY` is eligibility for a separate exact-snapshot adoption decision, not adoption itself;
 - prior-generation project ownership remains provenance only and never automatically transfers current-generation mutation authority;
 - unknown/external/conflicting safety-relevant provider truth blocks unsafe new exposure and dependent mutation until reconciliation/convergence;
-- FP-11 must classify every observed active protection under this profile before unique-protection registry convergence; FP-10 must consume this evidence plus authoritative Position/fill truth before external/manual flat/reduced lifecycle convergence.
+- FP-11 classifies every observed active protection under this profile before unique-protection registry convergence; FP-10 consumes this evidence plus authoritative Position/fill truth before external/manual flat/reduced lifecycle convergence.
 
 For `runtime-preflight-v0.1` specifically:
 
@@ -168,6 +182,7 @@ position-lifecycle-projection-v0.1
 position-lifecycle-execution-binding-v0.1
 external-provider-object-ownership-reconciliation-v0.1
 protection-registry-multiplicity-v0.1
+external-manual-close-lifecycle-convergence-v0.1
 ```
 
 Release/readiness profiles such as `bounded-live-fire-readiness-v0.1` and `runtime-preflight-v0.1` are independently versioned governance/evidence profiles. They do not alter serialized domain-object identities unless a later explicit contract says otherwise.
@@ -232,6 +247,7 @@ A consumer must:
 - when a protection mutation requires `protection-trigger-validity-v0.1`, never treat stale/unknown/mismatched/already-breached evidence as actionable and never retry unchanged breached truth merely because time advanced;
 - when `external-provider-object-ownership-reconciliation-v0.1` is required, never treat local-state absence, provider-object similarity, prior-generation provenance, stale adoption evidence, or unresolved conflicting ownership as current mutation authority; external/manual objects require explicit reconciliation and any adoption is a separate exact-snapshot policy decision;
 - when `protection-registry-multiplicity-v0.1` is required, never treat zero/incomplete/stale protection observations, current ownership without exact intended-lineage match, or any extra external/prior-generation/unknown/conflicting active protection as converged; registry dispositions never directly authorize create/cancel/replace/cleanup;
+- when `external-manual-close-lifecycle-convergence-v0.1` is required, never infer flatness from order ACK/terminal/FILLED status, requested quantity, arithmetic remainder, missing local rows, zero pending orders, or stale ledgers; positive representable/unrepresentable residual remains non-flat, external/manual execution is not silently adopted, unresolved post-flat protection remains explicit, and close eligibility never substitutes for E5 transition or TradeResult evidence;
 - when an LF gate requires exact-revision evidence, never reuse another revision's qualification/provider/runtime result as current PASS;
 - when `runtime-preflight-v0.1` is required, never treat another role's result, prior-process heartbeat, catalog-only action registration, stale mode/config/reconciliation evidence, or missing runtime authorization as `ELIGIBLE`;
 - never bypass the Strategy -> Risk -> ApprovedTradePlan -> Execution chain.
@@ -244,4 +260,4 @@ Do **not** add or rely on GitHub Actions, GitHub CI, GitHub-hosted runners, GitH
 
 ## Security
 
-This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF, runtime-preflight, external-provider ownership/reconciliation, or protection-registry evidence.
+This is a public repository. Real secrets are forbidden in contract examples, fixtures, logs, screenshots, issues, PR text, and tracked configuration. Use fake or empty values only. Future provider-read-only or live-fire credentials must remain local and may not be persisted in LF, runtime-preflight, external-provider ownership/reconciliation, protection-registry, or external/manual close-convergence evidence.

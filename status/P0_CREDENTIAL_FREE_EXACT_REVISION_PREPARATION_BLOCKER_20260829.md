@@ -1,57 +1,31 @@
-# P0 Credential-Free Exact-Revision Preparation Blocker
+# P0 Credential-Free Exact-Revision Preparation Blocker — Historical Resolution
 
 ```text
-state = ACTIVE / FAIL-CLOSED / EXTERNAL APPROVED-LOCAL INFRASTRUCTURE DEPENDENCY
-source_task = E7-20260829-116 / PARTIAL / STATIC CLOSURE ACCEPTED
-integrated_executable_candidate = bacb5205ac9b895bb968459f88f148323bcc5da6
-static_closure = NO_STATIC_IMPLEMENTATION_GAP_IDENTIFIED / UNQUALIFIED
-exact_clean_candidate = NOT_ESTABLISHED
-qualification = NOT_RUN / NOT_PASS
-LF-0 = BLOCKED
-LF-1 = NOT_RUN / NOT PASS
-LF-2 = PARTIAL / NOT PASS
+state = RESOLVED / HISTORICAL
+historical_candidate = bacb5205ac9b895bb968459f88f148323bcc5da6
+exact_clean = ESTABLISHED BY PRODUCT-OWNER-APPROVED LOCAL WINDOWS EVIDENCE
+qualification = EXECUTED / FAIL / NOT_PASS
+phase_1 = 11/16 commands PASS; 212 passed; 21 failed; 8 errors; 0 skipped
+phase_2 = 10/14 suites PASS; 828 passed; 21 failed; 8 errors; 0 skipped
 provider_requests = 0
 credentials = NONE
 provider/account mutation = 0
 order/protection actions = 0
-process launch/restart = 0
-SHADOW/PAPER = NOT_AUTHORIZED
-bounded_10U_live_fire = NOT_AUTHORIZED
-Gate_D = BLOCKED / NOT_AUTHORIZED
-LIVE = UNAUTHORIZED
+SHADOW/PAPER/LIVE = NOT_STARTED
 capital_exposure = NONE
+GitHub_compute = NOT_USED
 ```
 
-## Precise blocker
+## Resolution
 
-The credential-free P0 deterministic implementation graph is statically closed, but the exact merged executable candidate `bacb5205ac9b895bb968459f88f148323bcc5da6` has **not** been established as `EXACT_CLEAN` on the Product-Owner-approved non-GitHub Windows execution environment.
+The original blocker for exact revision `bacb5205ac9b895bb968459f88f148323bcc5da6` was later resolved by Product-Owner-approved local Windows operator evidence establishing the exact revision with a clean worktree. The complete authoritative credential-free qualification was then executed without early termination.
 
-Project governance therefore forbids creating or interpreting a qualification PASS for this candidate. No Worker can resolve this by repository-only code work.
+The qualification did **not** pass. It deterministically exposed three root-cause classes: E6 FP-11 storage/recovery timestamp normalization, E4 FP-02 reason-code aggregation, and duplicate `src.position` / `position` Python module identity affecting integration/safety authority validation.
 
-## Unblock condition
+Those defects were remediated and statically converged later. This file is retained only as historical provenance and is no longer the current blocker.
 
-LF-0 is unblocked only when authoritative approved-local evidence establishes one of the following for **exact revision** `bacb5205ac9b895bb968459f88f148323bcc5da6`:
+## Non-transferability
 
-1. the canonical approved-local `PREPARE_EXACT_REVISION` action is restored/allowlisted and a **fresh** preparation request produces `EXACT_CLEAN`; or
-2. an equivalent Product-Owner-approved local operator fact proves that this exact revision is already checked out with a clean worktree under the current local-only governance.
+The `EXACT_CLEAN` fact and failing qualification counts above bind only to `bacb5205ac9b895bb968459f88f148323bcc5da6`. They do not establish exact-clean or PASS for any later remediation revision.
 
-After that fact exists, PM may issue a **fresh** E7 credential-free qualification task using the sequence in `status/e7/P0_CREDENTIAL_FREE_QUALIFICATION_MANIFEST_20260829.md`.
-
-## Non-transferable historical evidence
-
-The following do **not** satisfy this blocker:
-
-```text
-8fbf5fcae2eaf44accdf535121d8abf29ef5c93c / HISTORICAL EXACT_CLEAN / NON-TRANSFERABLE
-9462b2594675b2e28388f55a2af189100b7cbdfc / HISTORICAL CANDIDATE / NON-TRANSFERABLE
-REQ-E7-PREPARE-101-01-72A4C9E1 / TERMINAL / NON-REUSABLE
-JOB-41D0F958C484CCF7 / REFUSED / TERMINAL / NON-REUSABLE
-```
-
-No historical test count, PASS, provider evidence, or exact-clean fact may be rebound to the current candidate.
-
-## Authority boundary
-
-Resolving this blocker requires an external approved-local infrastructure/operator fact. It does **not** itself grant or require provider credentials, provider mutation, SHADOW/PAPER, bounded 10U live-fire, Gate D, LIVE, or capital authority.
-
-Until LF-0 is resolved, all Workers remain on HOLD and no qualification execution, provider verification, process launch/restart, order/protection action, or capital exposure is authorized.
+Current requalification state is tracked separately in `status/P0_CREDENTIAL_FREE_REMEDIATION_REQUALIFICATION_BLOCKER_20260830.md`.

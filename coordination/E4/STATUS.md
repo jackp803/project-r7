@@ -1,137 +1,155 @@
 # E4 Status
 
-- task: `PRODUCT_OWNER_DIRECT_FP02_REASON_AGGREGATION_REMEDIATION_20260830`
-- formal_mailbox_task_id: `NONE — direct Product Owner bounded defect remediation after approved-local qualification`
+- task_id: `E4-20260830-037`
 - agent: `E4`
 - state: `PARTIAL`
-- branch: `agent/e4-fp02-reason-aggregation-20260830`
-- authoritative_main_at_task_start: `2fe9912429cad3eebebac1fa46f933b78f024b78`
-- reproduced_qualification_revision: `bacb5205ac9b895bb968459f88f148323bcc5da6`
-- source_fix_commit: `632ec79d7a3fdeb9491750ef44f6861afc869b34`
-- regression_definition_commit: `84a9cdb76d217dc4f1ddfee71cfe6f3442ae7c09`
-- handoff_commit: `d7f92f5c109b0c76fd117ce6ab6a7116ad29be62`
-- head_before_terminal_status_commit: `d7f92f5c109b0c76fd117ce6ab6a7116ad29be62`
-- handoff_path: `status/e4/FP02_REASON_AGGREGATION_REMEDIATION_20260830.md`
-- summary: `Fixed only the deterministic FP-02 reason-code aggregation defect. Common validation no longer first-returns after the first rejection; independently valid common and role-specific diagnostics are collected, deduplicated, and ordered by the existing accepted FP-02 reason ordering while pre-existing capability-state precedence is preserved. E4-035 exact owner-row provenance hardening and all unresolved mutation-role semantics remain unchanged.`
-- local_regression: `NOT_RUN / NOT_PASS — this ChatGPT session has no approved-local Windows checkout/execution surface`
-- next_owner: `PM integrated requalification after approved-local execution of the corrected exact revision`
+- branch: `agent/e4-canonical-position-import-convergence-20260830`
+- baseline_main_sha: `b783fd68d057705fd1c08d063fad26809b066d72`
+- regression_definition_commit: `6a25bf6db9f1162c959f9226e58bfc6a8556a5d0`
+- production_convergence_commit: `670c3560888dd72f20bddda47821ab1991c7e242`
+- handoff_commit: `73c8258d0600c87db9609ae98089f4cb5e69ec98`
+- head_before_terminal_status_commit: `73c8258d0600c87db9609ae98089f4cb5e69ec98`
+- handoff_path: `status/e4/CANONICAL_POSITION_IMPORT_NORMALIZATION_20260830.md`
+- summary: `Converged only the previously accepted canonical Position import normalization onto latest main. Three E4 execution modules now import position.* rather than src.position.*; the accepted E4 canonical import identity regression definition was carried forward unchanged. No production logic, authority validation, lifecycle/provider/financial semantics, shared contracts, E5/E6/E7 code, or E7 tests changed.`
+- fp02_reason_aggregation: `MERGED / PRESERVED / UNCHANGED`
+- executable_verification: `NOT_RUN / NOT_PASS`
+- blocker: `Executable qualification only: this ChatGPT session has no approved-local Windows checkout/execution surface.`
+- next_owner: `PM/E7 for approved-local requalification/integration handling; E4 stops here.`
 
-## Exact root cause
+## Wake / authority verification
 
-`src/brokers/okx_action_capability.py::_common_failures()` returned immediately on the first matching common rejection. `_derive_capability()` then returned immediately whenever that common state was non-null. Therefore independently valid role-specific diagnostics were unreachable.
+Wake task ID `E4-20260830-037` matched latest `main:coordination/E4/TASK.md` exactly before any write work.
 
-The accepted matrix independently defines:
+Read first from latest `main`:
+
+- `README.md`
+- `agents/README.md`
+- `agents/E4_EXECUTION.md`
+- only `coordination/E4/TASK.md`
+
+No other Agent TASK mailbox was read or executed.
+
+Latest task-start main:
 
 ```text
-OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED
-OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN
+b783fd68d057705fd1c08d063fad26809b066d72
 ```
 
-and the E7 integration definition `tests/integration/test_p0_fp02_fp16_composition.py::test_runtime_preflight_eligible_and_allowlist_facts_cannot_upgrade_fp02_provider_capability` requires both when a caller capability assertion is invalid while the PROTECTION_STOP provider-native fieldset remains unresolved.
-
-## Exact fix boundary
-
-- `_common_failures()` records all independently true accepted common reasons instead of returning after the first.
-- The first common state-bearing rejection still preserves the resolver's previous deterministic state precedence.
-- Role-specific evaluation always computes applicable diagnostics.
-- Role state applies only when common validation found no state-bearing rejection.
-- Common + role reasons are merged once.
-- `_sorted_reasons()` now deduplicates explicitly without relying on set iteration order, then orders by existing `_REASON_ORDER` / `_REASON_INDEX`.
-- Evidence construction, evidence identity, currentness semantics, vocabulary, and capability state labels are unchanged.
-
-## Preserved E4-035 provenance hardening
-
-Positive `REPO_EVIDENCED` rows remain only:
+Ancestry checks confirmed latest main contains the accepted merged remediations:
 
 ```text
-ENTRY / net_mode
-ENTRY / long_short_mode
-READ_ONLY_RECONCILIATION / net_mode
-READ_ONLY_RECONCILIATION / long_short_mode
+PR #126 merge = e5732b9dbe78e33fff6a9301969ee4240ae62666
+PR #127 merge = 4ea6f4a2016f80af084ef7c7a2e50ad20177b51b
+PR #128 merge = 970e5a5ebe2402d651bc74bea3bc08c489a6ab4e
 ```
 
-They still require exact resolver-owned role/mode/descriptor/hash/ref/generation binding. Forged ref, forged generation, descriptor/hash mismatch, row cross-use, missing provenance, and caller-manufactured provenance remain fail closed.
+## Exact convergence
 
-## Mutation-role safety remains unchanged
+Old accepted-but-unmerged source:
 
 ```text
-PROTECTION_STOP = UNRESOLVED_FAIL_CLOSED
-POSITION_EXIT = UNRESOLVED_FAIL_CLOSED
-EMERGENCY_EXIT = UNRESOLVED_FAIL_CLOSED
+branch = agent/e4-canonical-position-import-normalization-20260830
+head = 3ef910c5bb98cf15a55d341a031ea4cca9f8a133
+PR #129 = CLOSED / NOT_MERGED
 ```
 
-FP-03 ACTIONABLE does not prove trigger capability. FP-11 convergence does not prove provider protection mutation capability. FP-05 coherent sizing does not prove provider close capability. READ_ONLY_RECONCILIATION remains GET_ONLY/default-deny; mutation remains FORBIDDEN.
-
-## Regression definitions
-
-Updated only:
+PR #129 production patches were rechecked and proved to contain only the accepted import spelling replacements. On a fresh branch from latest main, E4 applied only:
 
 ```text
+src.position.* -> position.*
+```
+
+to:
+
+```text
+src/execution/protection_trigger.py
+src/execution/external_close_evidence.py
+src/execution/protection_registry_evidence.py
+```
+
+Current branch diff versus task-start main for those production files remains exactly:
+
+```text
+protection_trigger.py              +1 / -1
+external_close_evidence.py         +4 / -4
+protection_registry_evidence.py    +2 / -2
+```
+
+No function, validator, type check, reason code, lifecycle semantics, provider semantics, authority validation, or financial behavior changed.
+
+## Regression definition
+
+Carried forward unchanged:
+
+```text
+tests/execution/test_canonical_position_import_identity.py
+```
+
+It preserves strict identity and genuine wrong-type rejection expectations. E7-owned `tests/integration/test_canonical_import_identity.py` was not modified.
+
+## FP-02 preservation proof
+
+Merged PR #128 content remains byte-identical to latest main on the convergence branch:
+
+```text
+src/brokers/okx_action_capability.py
+sha = ff499291bced02adc5a9bc8739131f22de6253ed
+
 tests/brokers/test_okx_action_capability.py
+sha = b3ff572b66c1f84b9c5efa710c2f393a4f0b4d57
+
+status/e4/FP02_REASON_AGGREGATION_REMEDIATION_20260830.md
+sha = e7b654ae2a735b0d82dba500e03c327eba98b28d
 ```
 
-Coverage includes:
-
-- existing single-rejection reason/state behavior;
-- caller assertion rejected + provider fieldset unresolved -> both reasons;
-- deterministic accepted reason order;
-- duplicate reason deduplication;
-- PROTECTION_STOP + FP-03 ACTIONABLE + FP-11 converged remains unresolved and keeps fieldset/trigger diagnostics;
-- POSITION_EXIT + coherent FP-05 remains unresolved;
-- EMERGENCY_EXIT no bypass;
-- READ_ONLY mutation remains FORBIDDEN;
-- exact ENTRY owner row remains REPO_EVIDENCED;
-- forged owner provenance remains fail closed;
-- aggregated evidence identity/currentness remains deterministic;
-- same repeated input returns exact same ordered reason_codes;
-- no provider/network/runtime/credential/capital dependency.
-
-No E7-owned integration/safety test was modified.
+Therefore accepted FP-02 reason aggregation, capability-state precedence, E4-035 provenance hardening, READ_ONLY default-deny, and unresolved mutation-role semantics remain merged/preserved.
 
 ## Verification
 
-Approved-local reproduction supplied by Product Owner for exact revision `bacb5205ac9b895bb968459f88f148323bcc5da6`:
+No approved-local Windows execution surface is exposed in this ChatGPT session. GitHub Actions, CI, hosted runners, GitHub-triggered self-hosted runners, and GitHub compute were not used.
 
 ```text
-Phase 1: 11/16 commands PASS; 212 passed; 21 failed; 8 errors; 0 skipped
-Phase 2: 10/14 suites PASS; 828 passed; 21 failed; 8 errors; 0 skipped
+executable_verification = NOT_RUN / NOT_PASS
 ```
 
-Post-fix executable verification cannot be run from this chat because no approved-local Windows checkout/execution surface is exposed. GitHub Actions/CI/hosted/GitHub-triggered compute was not used.
-
-```text
-post_fix_project_executable_verification = NOT_RUN / NOT_PASS
-```
-
-Exact future approved-local Windows PowerShell commands:
+Exact required approved-local Windows commands:
 
 ```powershell
 $env:PYTHONPATH='src'
-python -m unittest discover -s tests/brokers -p 'test_okx_action_capability.py' -v
-python -m unittest discover -s tests/integration -p 'test_p0_fp02_fp16_composition.py' -v
-python -m unittest discover -s tests/safety -p 'test_p0_integrated_fail_closed.py' -v
+python -m unittest discover -s tests/execution -p 'test_canonical_position_import_identity.py' -v
+python -m unittest discover -s tests/execution -p 'test_protection_trigger_consumer.py' -v
+python -m unittest discover -s tests/execution -p 'test_external_close_evidence.py' -v
+python -m unittest discover -s tests/execution -p 'test_protection_registry_evidence.py' -v
+python -m unittest discover -s tests/integration -p 'test_canonical_import_identity.py' -v
 ```
 
-`NOT_RUN` is not PASS.
+`NOT_RUN != PASS`; therefore terminal state is `PARTIAL`, not `DONE`.
 
-## Scope / safety
+## Safety / authority boundary
 
 ```text
-files changed = src/brokers/okx_action_capability.py; tests/brokers/test_okx_action_capability.py; status/e4/FP02_REASON_AGGREGATION_REMEDIATION_20260830.md; coordination/E4/STATUS.md
-contracts changed = NONE
-E5/E6/E7 production changed = NONE
-E7 tests changed = NONE
 provider requests = 0
 private API = NONE
 credentials = NONE
 provider/account mutation = 0
 order/protection actions = 0
-runtime/process launch = 0
-SHADOW = NOT_STARTED
-PAPER = NOT_STARTED
-LIVE = NOT_STARTED
+process/runtime launch = 0
+SHADOW/PAPER/LIVE = NOT_STARTED / NOT_AUTHORIZED
 capital exposure = NONE
-GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
+GitHub compute = NOT_USED
+shared contracts changed = NO
+E5/E6/E7 production changed = NO
+E7 tests changed = NO
 ```
 
-E4 stops on `PARTIAL`. Do not self-start integrated requalification or another task.
+## Terminal stop
+
+```text
+static convergence = COMPLETE
+regression definition = COMPLETE
+FP-02 merged remediation = PRESERVED
+approved-local executable verification = NOT_RUN / NOT_PASS
+state = PARTIAL
+```
+
+E4 stops here. Do not self-start integrated qualification, provider verification, SHADOW/PAPER, bounded live fire, Gate D, LIVE, or capital work.

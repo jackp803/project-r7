@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from typing import Any, Mapping
 
-from src.position.protection_trigger_validity import (
+from position.protection_trigger_validity import (
     ACTIONABLE,
     PROTECTION_OPERATION_CREATE,
     PROTECTION_STOP_ORDER_ROLE,

@@ -1,87 +1,116 @@
 # E6 Status
 
-- task_id: `E6-20260829-029`
+- task: `PRODUCT_OWNER_DIRECT_FP11_TIMESTAMP_NORMALIZATION_REMEDIATION_20260830`
+- formal_mailbox_task_id: `NONE — direct Product Owner bounded defect remediation after approved-local qualification`
 - agent: `E6`
 - state: `PARTIAL`
-- branch: `agent/e6-fp11-persistence-currentness-20260829`
-- task_id_match: `YES`
-- authoritative_main_at_task_start: `eaa2b0ac62e6bc7ace283653a15775d32f8f0ee1`
-- implementation_test_evidence_head: `8a6d0229eda88d7106cfef26f63fc2a6853afa56` (branch head before this mailbox-only terminal commit)
-- summary: `Remediated only the PM-identified E6 FP-11 restart/currentness hash-domain defect. Canonical Position hash remains the FP-11/E5 authority hash, while lifecycle projection current-index/history validation now uses the exact canonical lifecycle projection payload JSON/hash produced with the same E6 canonical_payload primitive as the existing Paper writer. Regression definitions now seed projections through the real existing Paper runtime writer and keep mismatched/corrupt projection storage fail closed.`
-- files_changed_this_task: `src/storage/protection_registry_currentness.py; tests/storage/test_protection_registry_currentness.py; status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md; status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md; coordination/E6/STATUS.md`
-- migrations_changed_this_task: `NONE`
-- contracts_changed: `NONE`
-- E4_E5_E7_code_changed: `NONE`
-- paper_runtime_writer_changed: `NONE`
-- storage_public_wildcard_boundary_changed: `NONE`
-- provider_network_auth_changed: `NONE`
-- local_verification: `NOT_RUN / NOT_PASS`
-- executable_blocker: `LF-0 approved-local exact-revision infrastructure remains blocked; no executable qualification can be claimed.`
-- handoff_path: `status/e6/FP11_PROJECTION_HASH_DOMAIN_REMEDIATION_20260829.md`
-- superseded_handoff_defect_note: `status/e6/FP11_PERSISTENCE_CURRENTNESS_RESTART_20260829.md`
-- next_owner: `PM/E7 review/requalification queue under a separate task after approved-local exact-revision execution is available`
+- branch: `agent/e6-fp11-timestamp-normalization-20260830`
+- authoritative_main_at_task_start: `2fe9912429cad3eebebac1fa46f933b78f024b78`
+- reproduced_qualification_revision: `bacb5205ac9b895bb968459f88f148323bcc5da6`
+- source_fix_commit: `7ee23600d35693e8bf98cd559a9fdedb96af73ad`
+- regression_definition_commit: `8b4a56f8cd97bc79fae50b2ee24158e070029bcc`
+- handoff_commit: `8797948f7a4b9afd6fce65ce5d65077077febf0d`
+- handoff_path: `status/e6/FP11_TIMESTAMP_NORMALIZATION_REMEDIATION_20260830.md`
+- summary: `Fixed only the deterministic E6 FP-11 lifecycle storage-anchor timestamp comparison defect. Recovery now maps the raw current Position broker_state_observed_at through the existing E6 ordering_time() fixed-width UTC storage-key semantics before comparing paper_position_current_projection / paper_position_lifecycle_projections anchors. Raw Position, FP-11, intended-lineage, E5 and lifecycle payload/hash identity material remains unchanged.`
+- local_regression: `NOT_RUN / NOT_PASS — this ChatGPT session has no approved-local Windows checkout/execution surface`
+- next_owner: `PM/E7 integrated requalification after approved-local execution of the corrected exact revision`
 
-## Static remediation result
+## Root cause
 
-- The E6 current authority keeps `position_hash` separate from `projection_payload_json` / `projection_payload_hash`.
-- Lifecycle projection payload canonicalization reuses E6 `_runtime_validation.canonical_payload`, matching `_PaperRuntimeStore.persist_position_projection()` serialization/hash semantics.
-- `paper_position_current_projection` currentness now mechanically requires exact Position ID, lifecycle projection ID, lifecycle revision, broker-state observation anchor, and lifecycle projection payload hash.
-- `paper_position_lifecycle_projections` now mechanically requires exact Position/revision/broker-anchor index material plus exact canonical lifecycle projection payload JSON and lifecycle projection payload hash.
-- FP-11 top-level Position hash, intended-lineage Position hash, and E5 interpretation Position hash continue to use only the canonical Position authority hash.
-- Existing FP-11 immutable history, explicit supersession, competing/missing/cycle/cross-lineage failure, FP-04 dependency, E5 interpretation binding, provider/runtime currentness, terminal-flat FP-10 dependency and false-green prevention remain unchanged.
-- E6 still mechanically rejects provider mutation authority and cleanup targets.
-
-## Deterministic regression definitions
-
-`tests/storage/test_protection_registry_currentness.py` now seeds lifecycle projections through the existing real E6 writer:
+The existing Paper writer already canonicalizes lifecycle storage anchors through:
 
 ```text
-_open_paper_runtime_store(...)
--> persist_position_projection(...)
--> persist_lifecycle_execution_binding(...)
+utc_text(...)
+-> ordering_time(...)
+-> %Y-%m-%dT%H:%M:%S.%fZ
 ```
 
-Definitions cover normal writer compatibility; independent projection-payload and Position hash domains; corrupted current projection hash; corrupted durable projection payload JSON/hash; current projection ID/revision/broker-anchor mismatch; independent Position-hash invalidation; preserved exact healthy-chain dependencies; terminal flat/CLOSED non-green behavior; and no provider/network/credential/mutation dependency.
+But FP-11 recovery compared that stored fixed-width value directly to the caller's raw `Position.broker_state_observed_at` string.
 
-These definitions were not executed in this GitHub session.
-
-## Executable verification
-
-The active LF-0 exact-revision infrastructure blocker remains unchanged.
+Thus:
 
 ```text
-project executable verification = NOT_RUN / NOT_PASS
-bounded FP-11 remediation regression = NOT_RUN / NOT_PASS
+2026-08-29T10:10:05Z
+!= textually
+2026-08-29T10:10:05.000000Z
+```
+
+although both represent the exact same UTC instant. This produced a false lifecycle currentness conflict/stale result for otherwise healthy persisted FP-11 evidence.
+
+## Exact fix boundary
+
+- Reuse existing `src/storage/_runtime_validation.py::ordering_time`; no second timestamp policy was created.
+- `_validate_authority()` retains raw `position_observed_at` for canonical payload/hash/reference domains and additionally derives `position_observed_at_storage` for storage-key comparisons only.
+- `paper_position_current_projection.broker_state_observed_at` is compared to `position_observed_at_storage`.
+- `paper_position_lifecycle_projections.broker_state_observed_at` is compared to `position_observed_at_storage`.
+- Truly different UTC instants remain `STALE` / `CONFLICT` under existing semantics.
+- Malformed timestamps remain rejected.
+- No fuzzy window, prefix comparison, truncation, tolerance, arbitrary threshold or exception bypass exists.
+
+## Regression definitions
+
+Added credential-free deterministic coverage in:
+
+```text
+tests/storage/test_protection_registry_timestamp_normalization.py
+```
+
+Coverage includes:
+
+- no fractional seconds;
+- `.1Z` vs `.100000Z`;
+- `.123Z` vs `.123000Z`;
+- canonical `.123456Z`;
+- real Paper writer + restart/recovery semantic equality remains healthy;
+- genuinely different current storage timestamp fails closed;
+- malformed timestamp remains non-green/rejected;
+- persisted lifecycle payload JSON/hash/current-index hash remains unchanged;
+- newer storage anchor cannot false-green stale evidence;
+- provider mutation authority remains false and cleanup target remains null.
+
+Existing `tests/storage/test_protection_registry_currentness.py` remains the directly affected FP-11 storage/currentness regression suite.
+
+## Verification
+
+Approved-local reproduction supplied by Product Owner for exact revision `bacb520...`:
+
+```text
+Phase 1: 11/16 commands PASS; 212 passed; 21 failed; 8 errors; 0 skipped
+Phase 2: 10/14 suites PASS; 828 passed; 21 failed; 8 errors; 0 skipped
+```
+
+Post-fix executable verification cannot be run from this chat because no approved-local Windows checkout/execution surface is exposed. GitHub Actions/CI/hosted/GitHub-triggered compute was not used.
+
+```text
+post_fix_project_executable_verification = NOT_RUN / NOT_PASS
 ```
 
 Exact future approved-local Windows PowerShell commands:
 
 ```powershell
-$env:PYTHONPATH="src"
-python -m unittest tests.storage.test_protection_registry_currentness -v
-python -m unittest discover -s tests/storage -p "test_*.py" -v
-python -m unittest tests.execution.test_protection_registry_evidence -v
-python -m unittest tests.position.test_protection_registry_policy -v
-python -m unittest tests.safety.test_fp11_protection_registry_false_green -v
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests/storage -p 'test_protection_registry_timestamp_normalization.py' -v
+python -m unittest discover -s tests/storage -p 'test_protection_registry_currentness.py' -v
+python -m unittest discover -s tests/storage -p 'test_*.py' -v
 ```
 
-No GitHub Actions/CI/hosted/GitHub-triggered compute or substitute executable verification was used. `NOT_RUN != PASS`.
+`NOT_RUN` is not PASS.
 
-## Authority state / stop
+## Scope / safety
 
 ```text
-LF-0 = BLOCKED / UNCHANGED
-LF-2 = NOT PASS
+contracts changed = NONE
+migrations changed = NONE
+E4/E5/E7 code changed = NONE
 provider requests = 0
 private API = NONE
 credentials = NONE
 provider/account mutation = 0
-protection query/create/cancel/amend/replace = 0
-order actions = 0
-SHADOW/PAPER = NOT_STARTED / NOT_AUTHORIZED
-10U live-fire = NOT_AUTHORIZED
-Gate D / LIVE = BLOCKED / UNAUTHORIZED
+orders = 0
+protection actions = 0
+SHADOW/PAPER/LIVE = NOT_STARTED / NOT_AUTHORIZED
 capital exposure = NONE
+GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
 
-`DONE` requires approved-local exact-revision executable PASS, which does not exist. E6 therefore stops on `PARTIAL` and does not self-start qualification, provider verification, SHADOW/PAPER, live-fire, Gate D, LIVE, mutation, capital exposure, or another task.
+E6 stops on `PARTIAL`. Do not self-start integrated requalification, provider work, runtime, SHADOW/PAPER/LIVE, mutation, order action, capital movement, or another task.

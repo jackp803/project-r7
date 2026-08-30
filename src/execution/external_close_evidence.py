@@ -9,16 +9,16 @@ from decimal import Decimal, InvalidOperation
 from enum import Enum
 from typing import Any, Mapping, Sequence
 
-from src.position.external_close_policy import (
+from position.external_close_policy import (
     validate_external_manual_close_convergence_evidence,
     validate_external_provider_ownership_evidence,
 )
-from src.position.external_close_reinterpretation import ExternalCloseReinterpretationError
-from src.position.lifecycle_execution_binding import (
+from position.external_close_reinterpretation import ExternalCloseReinterpretationError
+from position.lifecycle_execution_binding import (
     LifecycleExecutionBindingError,
     validate_position_lifecycle_execution_evidence_binding,
 )
-from src.position.lifecycle_projection import (
+from position.lifecycle_projection import (
     LifecycleProjectionError,
     validate_position_lifecycle_projection,
 )

@@ -229,7 +229,13 @@ def _optional_hash(value: Any, field: str) -> str | None:
 def _sorted_reasons(values: list[str]) -> list[str]:
     if any(value not in _REASON_INDEX for value in values):
         raise OKXActionCapabilityError("UNKNOWN_REASON", "reason outside accepted FP-02 vocabulary")
-    return sorted(set(values), key=_REASON_INDEX.__getitem__)
+    seen: set[str] = set()
+    deduplicated: list[str] = []
+    for value in values:
+        if value not in seen:
+            seen.add(value)
+            deduplicated.append(value)
+    return sorted(deduplicated, key=_REASON_INDEX.__getitem__)
 
 
 def _entry_fieldset(position_mode: str) -> dict[str, Any]:
@@ -386,10 +392,19 @@ def _base_evidence(facts: OKXActionCapabilityFacts) -> dict[str, Any]:
 
 
 def _common_failures(facts: OKXActionCapabilityFacts) -> tuple[str | None, list[str]]:
+    state: str | None = None
+    reasons: list[str] = []
+
+    def record(candidate_state: str, reason: str) -> None:
+        nonlocal state
+        if state is None:
+            state = candidate_state
+        reasons.append(reason)
+
     if facts.capability_profile_version != CAPABILITY_PROFILE_VERSION:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_CAPABILITY_PROFILE_UNSUPPORTED]
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_CAPABILITY_PROFILE_UNSUPPORTED)
     if facts.action_role not in _SUPPORTED_ROLES:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_ACTION_ROLE_UNSUPPORTED]
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_ACTION_ROLE_UNSUPPORTED)
     if (
         facts.provider != OKX_PROVIDER
         or facts.api_version != OKX_API_VERSION
@@ -397,66 +412,80 @@ def _common_failures(facts: OKXActionCapabilityFacts) -> tuple[str | None, list[
         or facts.provider_instrument_id != OKX_INSTRUMENT_ID
         or facts.inst_type != OKX_INST_TYPE
     ):
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_INSTRUMENT_UNSUPPORTED]
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_INSTRUMENT_UNSUPPORTED)
     if facts.account_level != ACCOUNT_LEVEL:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_ACCOUNT_LEVEL_UNSUPPORTED]
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_ACCOUNT_LEVEL_UNSUPPORTED)
     if facts.position_mode not in _SUPPORTED_POSITION_MODES:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_POSITION_MODE_UNSUPPORTED]
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_POSITION_MODE_UNSUPPORTED)
     if facts.margin_mode == "cash":
-        return FORBIDDEN, [OKX_SWAP_SPOT_TRADE_MODE_FORBIDDEN]
-    if facts.margin_mode != ISOLATED:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_MARGIN_MODE_UNSUPPORTED]
+        record(FORBIDDEN, OKX_SWAP_SPOT_TRADE_MODE_FORBIDDEN)
+    elif facts.margin_mode != ISOLATED:
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_MARGIN_MODE_UNSUPPORTED)
     if facts.caller_capability_assertion is not None:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED]
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED)
     if facts.action_role in _MUTATION_ROLES and facts.reconciliation_status != CURRENT:
-        return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_RECONCILIATION_REQUIRED]
-    return None, []
+        record(UNRESOLVED_FAIL_CLOSED, OKX_SWAP_RECONCILIATION_REQUIRED)
+    return state, _sorted_reasons(reasons)
 
 
 def _derive_capability(facts: OKXActionCapabilityFacts) -> tuple[str, list[str]]:
     state, reasons = _common_failures(facts)
-    if state is not None:
-        return state, reasons
+    role_state: str
+    role_reasons: list[str]
 
     if facts.action_role == ENTRY:
         if facts.operation_class != ENTRY_OPERATION or not _fieldset_is_repo_evidenced(facts):
-            return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN]
-        return REPO_EVIDENCED, []
-
-    if facts.action_role == READ_ONLY_RECONCILIATION:
+            role_state = UNRESOLVED_FAIL_CLOSED
+            role_reasons = [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN]
+        else:
+            role_state = REPO_EVIDENCED
+            role_reasons = []
+    elif facts.action_role == READ_ONLY_RECONCILIATION:
         if facts.operation_class != READ_ONLY_OPERATION:
-            return FORBIDDEN, [OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN]
-        if not _fieldset_is_repo_evidenced(facts):
-            return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN]
-        return REPO_EVIDENCED, []
-
-    if facts.action_role == PROTECTION_STOP:
-        reasons = [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN, OKX_SWAP_TRIGGER_BASIS_UNPROVEN]
+            role_state = FORBIDDEN
+            role_reasons = [OKX_SWAP_READ_ONLY_MUTATION_FORBIDDEN]
+        elif not _fieldset_is_repo_evidenced(facts):
+            role_state = UNRESOLVED_FAIL_CLOSED
+            role_reasons = [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN]
+        else:
+            role_state = REPO_EVIDENCED
+            role_reasons = []
+    elif facts.action_role == PROTECTION_STOP:
+        role_state = UNRESOLVED_FAIL_CLOSED
+        role_reasons = [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN, OKX_SWAP_TRIGGER_BASIS_UNPROVEN]
         if (
             facts.fp11_registry_ref is None
             or facts.fp11_registry_status != FP11_CONVERGED
             or facts.fp11_registry_currentness != CURRENT
         ):
-            reasons.append(OKX_SWAP_PROTECTION_REGISTRY_NOT_CURRENT)
+            role_reasons.append(OKX_SWAP_PROTECTION_REGISTRY_NOT_CURRENT)
         if (
             facts.fp03_trigger_validity_ref is None
             or facts.fp03_trigger_validity_status != FP03_ACTIONABLE
             or facts.fp03_trigger_validity_currentness != CURRENT
         ):
-            reasons.append(OKX_SWAP_TRIGGER_BASIS_UNPROVEN)
-        return UNRESOLVED_FAIL_CLOSED, _sorted_reasons(reasons)
-
-    if facts.action_role in {POSITION_EXIT, EMERGENCY_EXIT}:
-        reasons = [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN]
+            role_reasons.append(OKX_SWAP_TRIGGER_BASIS_UNPROVEN)
+    elif facts.action_role in {POSITION_EXIT, EMERGENCY_EXIT}:
+        role_state = UNRESOLVED_FAIL_CLOSED
+        role_reasons = [OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN]
         if (
             facts.fp05_close_sizing_ref is None
             or facts.fp05_close_sizing_status not in _FP05_SIZING_PROVEN
             or facts.fp05_close_sizing_currentness != CURRENT
         ):
-            reasons.append(OKX_SWAP_REDUCIBLE_SIZE_UNPROVEN)
-        return UNRESOLVED_FAIL_CLOSED, _sorted_reasons(reasons)
+            role_reasons.append(OKX_SWAP_REDUCIBLE_SIZE_UNPROVEN)
+    else:
+        role_state = UNRESOLVED_FAIL_CLOSED
+        role_reasons = [OKX_SWAP_ACTION_ROLE_UNSUPPORTED]
 
-    return UNRESOLVED_FAIL_CLOSED, [OKX_SWAP_ACTION_ROLE_UNSUPPORTED]
+    # Preserve the resolver's established state precedence: the earliest common
+    # state-bearing rejection still determines state; role evaluation supplies
+    # state only when common validation found no rejection. Diagnostics are
+    # aggregated independently and then deterministically ordered/deduplicated.
+    if state is None:
+        state = role_state
+    reasons.extend(role_reasons)
+    return state, _sorted_reasons(reasons)
 
 
 def _identity_payload(evidence: Mapping[str, Any]) -> dict[str, Any]:

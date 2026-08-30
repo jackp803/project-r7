@@ -1,58 +1,47 @@
 # E4 Status
 
-- task_id: `E4-20260829-035`
+- task: `PRODUCT_OWNER_DIRECT_FP02_REASON_AGGREGATION_REMEDIATION_20260830`
+- formal_mailbox_task_id: `NONE — direct Product Owner bounded defect remediation after approved-local qualification`
 - agent: `E4`
 - state: `PARTIAL`
-- branch: `agent/e4-fp02-action-capability-evidence-20260829`
-- task_start_main_sha: `8a3d9e8c83c1dacfb8d5bacab89b151224f693eb`
-- predecessor_branch_head: `c67f17294a7c805d6a64fbd2d0aaa49890bbfe20`
-- head_sha: `edf7705b7d538d38af7acbf65e3a542114211a08` (source/tests/evidence HEAD immediately before this terminal STATUS-only commit)
-- summary: `Remediated only the PM-identified FP-02 positive repository-evidence provenance fail-open. The resolver now owns four immutable canonical repository rows (ENTRY net_mode, ENTRY long_short_mode, READ_ONLY_RECONCILIATION net_mode, READ_ONLY_RECONCILIATION long_short_mode) that bind exact role/mode/descriptor/hash/E4-owned ref/E4-owned generation. Positive REPO_EVIDENCED requires exact match to that owner row; copied public descriptor/hash with forged/arbitrary ref or generation, row cross-use, missing provenance, or descriptor/hash mismatch fails closed with OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN. The evidence validator also rejects false REPO_EVIDENCED claims not bound to the canonical owner row. Existing caller-assertion rejection, unresolved PROTECTION_STOP/POSITION_EXIT/EMERGENCY_EXIT semantics, and GET-only read-only mutation prohibition remain unchanged. Executable verification remains NOT_RUN / NOT_PASS because LF-0 approved-local exact-revision preparation remains blocked.`
-- files_changed: `src/brokers/okx_action_capability.py; tests/brokers/test_okx_action_capability.py; status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md; coordination/E4/STATUS.md`
-- contracts_changed: `NO`
-- shared_architecture_changed: `NO`
-- provider_transport_auth_changed: `NO`
-- provider_private_api_used: `NO`
-- executable_verification: `NOT_RUN / NOT_PASS`
-- blockers: `Executable qualification only: LF-0 approved-local exact-revision preparation remains blocked/unavailable. Bounded provenance remediation and deterministic regression definitions are complete.`
-- handoff_path: `status/e4/FP02_OKX_SWAP_ACTION_CAPABILITY_IMPLEMENTATION_20260829.md`
-- gate_effect: `Static remediation candidate only. FP-02 executable PASS, provider verification, SHADOW/PAPER, bounded live-fire, Gate D and LIVE are not claimed or authorized.`
+- branch: `agent/e4-fp02-reason-aggregation-20260830`
+- authoritative_main_at_task_start: `2fe9912429cad3eebebac1fa46f933b78f024b78`
+- reproduced_qualification_revision: `bacb5205ac9b895bb968459f88f148323bcc5da6`
+- source_fix_commit: `632ec79d7a3fdeb9491750ef44f6861afc869b34`
+- regression_definition_commit: `84a9cdb76d217dc4f1ddfee71cfe6f3442ae7c09`
+- handoff_commit: `d7f92f5c109b0c76fd117ce6ab6a7116ad29be62`
+- head_before_terminal_status_commit: `d7f92f5c109b0c76fd117ce6ab6a7116ad29be62`
+- handoff_path: `status/e4/FP02_REASON_AGGREGATION_REMEDIATION_20260830.md`
+- summary: `Fixed only the deterministic FP-02 reason-code aggregation defect. Common validation no longer first-returns after the first rejection; independently valid common and role-specific diagnostics are collected, deduplicated, and ordered by the existing accepted FP-02 reason ordering while pre-existing capability-state precedence is preserved. E4-035 exact owner-row provenance hardening and all unresolved mutation-role semantics remain unchanged.`
+- local_regression: `NOT_RUN / NOT_PASS — this ChatGPT session has no approved-local Windows checkout/execution surface`
+- next_owner: `PM integrated requalification after approved-local execution of the corrected exact revision`
 
-## Wake / authority verification
+## Exact root cause
 
-Wake task ID `E4-20260829-035` matched latest `main:coordination/E4/TASK.md` exactly before write work.
+`src/brokers/okx_action_capability.py::_common_failures()` returned immediately on the first matching common rejection. `_derive_capability()` then returned immediately whenever that common state was non-null. Therefore independently valid role-specific diagnostics were unreachable.
 
-Read first from latest `main`:
-
-- `README.md`
-- `agents/README.md`
-- `agents/E4_EXECUTION.md`
-- `coordination/E4/TASK.md`
-
-Only E4's TASK mailbox was read. No other Worker TASK mailbox was read or executed.
-
-Required task evidence was read from latest `main` and the existing target branch, including the accepted FP-02 matrix, `status/PM_E4_034_REVIEW_20260829.md`, the active LF-0 blocker, and the E4-034 source/test/evidence files.
-
-## Bounded remediation
-
-The E4-034 defect was:
+The accepted matrix independently defines:
 
 ```text
-public descriptor + reproducible hash + any non-null ref/generation
--> could obtain REPO_EVIDENCED
+OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED
+OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN
 ```
 
-E4-035 replaces that with exact owner-row matching:
+and the E7 integration definition `tests/integration/test_p0_fp02_fp16_composition.py::test_runtime_preflight_eligible_and_allowlist_facts_cannot_upgrade_fp02_provider_capability` requires both when a caller capability assertion is invalid while the PROTECTION_STOP provider-native fieldset remains unresolved.
 
-```text
-(role, position_mode)
--> resolver-owned canonical descriptor
--> canonical descriptor hash
--> canonical E4-owned fieldset ref
--> canonical E4-owned fieldset generation
-```
+## Exact fix boundary
 
-Only four positive rows exist:
+- `_common_failures()` records all independently true accepted common reasons instead of returning after the first.
+- The first common state-bearing rejection still preserves the resolver's previous deterministic state precedence.
+- Role-specific evaluation always computes applicable diagnostics.
+- Role state applies only when common validation found no state-bearing rejection.
+- Common + role reasons are merged once.
+- `_sorted_reasons()` now deduplicates explicitly without relying on set iteration order, then orders by existing `_REASON_ORDER` / `_REASON_INDEX`.
+- Evidence construction, evidence identity, currentness semantics, vocabulary, and capability state labels are unchanged.
+
+## Preserved E4-035 provenance hardening
+
+Positive `REPO_EVIDENCED` rows remain only:
 
 ```text
 ENTRY / net_mode
@@ -61,83 +50,88 @@ READ_ONLY_RECONCILIATION / net_mode
 READ_ONLY_RECONCILIATION / long_short_mode
 ```
 
-A caller cannot choose arbitrary provenance strings and receive a positive row. The resolver and positive evidence validator both compare against the module-owned canonical identity.
+They still require exact resolver-owned role/mode/descriptor/hash/ref/generation binding. Forged ref, forged generation, descriptor/hash mismatch, row cross-use, missing provenance, and caller-manufactured provenance remain fail closed.
 
-No provider-native field or endpoint fact was added.
+## Mutation-role safety remains unchanged
+
+```text
+PROTECTION_STOP = UNRESOLVED_FAIL_CLOSED
+POSITION_EXIT = UNRESOLVED_FAIL_CLOSED
+EMERGENCY_EXIT = UNRESOLVED_FAIL_CLOSED
+```
+
+FP-03 ACTIONABLE does not prove trigger capability. FP-11 convergence does not prove provider protection mutation capability. FP-05 coherent sizing does not prove provider close capability. READ_ONLY_RECONCILIATION remains GET_ONLY/default-deny; mutation remains FORBIDDEN.
 
 ## Regression definitions
 
-The existing authorized test module now defines deterministic cases for:
-
-- exact canonical ENTRY net/long-short owner rows;
-- exact canonical READ_ONLY owner rows;
-- forged ref;
-- forged generation;
-- valid owner row cross-used with wrong role/mode;
-- descriptor/hash mismatch;
-- missing ref/generation;
-- caller assertion rejection;
-- unchanged unresolved PROTECTION_STOP / POSITION_EXIT / EMERGENCY_EXIT;
-- unchanged read-only mutation rejection;
-- wall-clock-only identity stability;
-- owner-row ref/generation/hash material-currentness invalidation;
-- defensive descriptor copies;
-- no provider/network/credential/runtime/order/capital dependency.
-
-No test was executed in this task.
-
-## Verification / execution state
+Updated only:
 
 ```text
-project executable verification = NOT_RUN / NOT_PASS
-FP-02 capability resolver tests = NOT_RUN / NOT_PASS
-LF-0 = BLOCKED / UNCHANGED
-LF-1 = NOT_RUN / NOT_PASS
-LF-2 = PARTIAL / NOT PASS
+tests/brokers/test_okx_action_capability.py
+```
+
+Coverage includes:
+
+- existing single-rejection reason/state behavior;
+- caller assertion rejected + provider fieldset unresolved -> both reasons;
+- deterministic accepted reason order;
+- duplicate reason deduplication;
+- PROTECTION_STOP + FP-03 ACTIONABLE + FP-11 converged remains unresolved and keeps fieldset/trigger diagnostics;
+- POSITION_EXIT + coherent FP-05 remains unresolved;
+- EMERGENCY_EXIT no bypass;
+- READ_ONLY mutation remains FORBIDDEN;
+- exact ENTRY owner row remains REPO_EVIDENCED;
+- forged owner provenance remains fail closed;
+- aggregated evidence identity/currentness remains deterministic;
+- same repeated input returns exact same ordered reason_codes;
+- no provider/network/runtime/credential/capital dependency.
+
+No E7-owned integration/safety test was modified.
+
+## Verification
+
+Approved-local reproduction supplied by Product Owner for exact revision `bacb5205ac9b895bb968459f88f148323bcc5da6`:
+
+```text
+Phase 1: 11/16 commands PASS; 212 passed; 21 failed; 8 errors; 0 skipped
+Phase 2: 10/14 suites PASS; 828 passed; 21 failed; 8 errors; 0 skipped
+```
+
+Post-fix executable verification cannot be run from this chat because no approved-local Windows checkout/execution surface is exposed. GitHub Actions/CI/hosted/GitHub-triggered compute was not used.
+
+```text
+post_fix_project_executable_verification = NOT_RUN / NOT_PASS
+```
+
+Exact future approved-local Windows PowerShell commands:
+
+```powershell
+$env:PYTHONPATH='src'
+python -m unittest discover -s tests/brokers -p 'test_okx_action_capability.py' -v
+python -m unittest discover -s tests/integration -p 'test_p0_fp02_fp16_composition.py' -v
+python -m unittest discover -s tests/safety -p 'test_p0_integrated_fail_closed.py' -v
+```
+
+`NOT_RUN` is not PASS.
+
+## Scope / safety
+
+```text
+files changed = src/brokers/okx_action_capability.py; tests/brokers/test_okx_action_capability.py; status/e4/FP02_REASON_AGGREGATION_REMEDIATION_20260830.md; coordination/E4/STATUS.md
+contracts changed = NONE
+E5/E6/E7 production changed = NONE
+E7 tests changed = NONE
 provider requests = 0
 private API = NONE
 credentials = NONE
 provider/account mutation = 0
 order/protection actions = 0
-process launch/restart = 0
-SHADOW/PAPER = NOT_AUTHORIZED
-10U bounded live-fire = NOT_AUTHORIZED
-Gate D / LIVE = BLOCKED / UNAUTHORIZED
+runtime/process launch = 0
+SHADOW = NOT_STARTED
+PAPER = NOT_STARTED
+LIVE = NOT_STARTED
 capital exposure = NONE
 GitHub Actions/CI/hosted/GitHub-triggered compute = NOT_USED
 ```
 
-Required future approved-local Windows PowerShell commands:
-
-```powershell
-$env:PYTHONPATH="src"
-python -m unittest tests.brokers.test_okx_action_capability -v
-python -m unittest discover -s tests/brokers -p "test_okx_*.py" -v
-python -m unittest discover -s tests/execution -p "test_*.py" -v
-```
-
-All remain `NOT_RUN / NOT_PASS`. Historical qualification evidence is not rebound to this branch.
-
-## Security / authority boundary
-
-```text
-real secrets read/requested/committed = NO
-provider/private network = NONE
-provider transport/auth/signing change = NO
-provider/account/order/protection mutation = 0
-runtime/process action = 0
-shared contract/ADR change = NO
-Product Owner trading/runtime authority consumed = NO
-capital movement/exposure = NONE
-```
-
-## Terminal classification / stop
-
-```text
-bounded provenance remediation = COMPLETE
-bounded regression definitions = COMPLETE
-approved-local executable verification = NOT_RUN / NOT_PASS
-state = PARTIAL
-```
-
-`NOT_RUN != PASS`; therefore `DONE` is not claimed. E4 stops here and does not self-start provider verification, credential use, protection/exit mutation, exact-revision preparation, Local Job Requests, qualification execution, SHADOW/PAPER, bounded live-fire, Gate D, LIVE, process action, order action, or capital movement/exposure.
+E4 stops on `PARTIAL`. Do not self-start integrated requalification or another task.

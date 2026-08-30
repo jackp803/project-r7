@@ -8,8 +8,8 @@ from datetime import datetime, timezone
 from decimal import Decimal, InvalidOperation
 from typing import Any, Mapping, Sequence
 
-from src.position.external_close_policy import validate_external_provider_ownership_evidence
-from src.position.external_close_reinterpretation import ExternalCloseReinterpretationError
+from position.external_close_policy import validate_external_provider_ownership_evidence
+from position.external_close_reinterpretation import ExternalCloseReinterpretationError
 
 from .external_close_evidence import (
     CONFLICTING_OWNERSHIP_EVIDENCE,

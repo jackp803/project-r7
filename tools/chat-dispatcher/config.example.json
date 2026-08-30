@@ -1,0 +1,47 @@
+{
+  "poll_seconds": 30,
+  "dispatch_mode": "prepare_only",
+  "allow_unsafe_ui_automation": false,
+  "startup_delay_seconds": 4,
+  "state_file": ".dispatcher-state.json",
+  "log_file": "dispatcher.log",
+  "projects": [
+    {
+      "id": "project-r7",
+      "repo_path": "C:\\path\\to\\project-r7",
+      "remote": "origin",
+      "branch": "main",
+      "coordination_root": "coordination",
+      "dispatch_states": ["ACTIVE", "HOLD"],
+      "terminal_status_states": ["DONE", "COMPLETED", "PARTIAL", "BLOCKED"],
+      "extra_prompt": "所有 executable verification 遵守 local-only 規則；沒有核准本機環境則維持 NOT_RUN，禁止 GitHub Actions / CI / hosted runner / GitHub-triggered project compute。",
+      "pm": {
+        "chat_url": "https://chatgpt.com/c/REPLACE_PM_CHAT_ID"
+      },
+      "agents": [
+        { "id": "E1", "chat_url": "https://chatgpt.com/c/REPLACE_E1_CHAT_ID" },
+        { "id": "E2", "chat_url": "https://chatgpt.com/c/REPLACE_E2_CHAT_ID" },
+        { "id": "E3", "chat_url": "https://chatgpt.com/c/REPLACE_E3_CHAT_ID" },
+        { "id": "E4", "chat_url": "https://chatgpt.com/c/REPLACE_E4_CHAT_ID" },
+        { "id": "E5", "chat_url": "https://chatgpt.com/c/REPLACE_E5_CHAT_ID" },
+        { "id": "E6", "chat_url": "https://chatgpt.com/c/REPLACE_E6_CHAT_ID" },
+        { "id": "E7", "chat_url": "https://chatgpt.com/c/REPLACE_E7_CHAT_ID" }
+      ]
+    },
+    {
+      "id": "future-project-example",
+      "repo_path": "C:\\work\\future-project",
+      "remote": "origin",
+      "branch": "main",
+      "coordination_root": "coordination",
+      "dispatch_states": ["ACTIVE"],
+      "pm": {
+        "chat_url": "https://chatgpt.com/c/REPLACE_FUTURE_PM_CHAT_ID"
+      },
+      "agents": [
+        { "id": "A1", "chat_url": "https://chatgpt.com/c/REPLACE_A1_CHAT_ID" },
+        { "id": "A2", "chat_url": "https://chatgpt.com/c/REPLACE_A2_CHAT_ID" }
+      ]
+    }
+  ]
+}

@@ -241,6 +241,91 @@ class OKXActionCapabilityTests(unittest.TestCase):
                     evidence["reason_codes"],
                 )
 
+    def test_caller_assertion_and_unproven_entry_fieldset_preserve_both_reasons(self):
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        evidence = resolve_okx_swap_action_capability(
+            self._facts(
+                provider_fieldset_ref="caller-forged:fieldset-ref",
+                provider_fieldset_hash=owner_row["provider_fieldset_hash"],
+                provider_fieldset_generation_id=owner_row["provider_fieldset_generation_id"],
+                provider_fieldset=owner_row["provider_fieldset"],
+                caller_capability_assertion={"compatible": True},
+            )
+        )
+        self.assertEqual(UNRESOLVED_FAIL_CLOSED, evidence["capability_state"])
+        self.assertEqual(
+            [
+                OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN,
+                OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED,
+            ],
+            evidence["reason_codes"],
+        )
+
+    def test_protection_reason_aggregation_is_ordered_and_deduplicated(self):
+        facts = self._facts(
+            role=PROTECTION_STOP,
+            caller_capability_assertion={"runtime_preflight": "eligible-evidence-only"},
+            fp03_trigger_validity_ref="protection-trigger-validity:fixture",
+            fp03_trigger_validity_status=FP03_ACTIONABLE,
+            fp03_trigger_validity_currentness=CURRENT,
+            fp11_registry_ref="protection-registry:fixture",
+            fp11_registry_status=FP11_CONVERGED,
+            fp11_registry_currentness=CURRENT,
+        )
+        first = resolve_okx_swap_action_capability(facts)
+        second = resolve_okx_swap_action_capability(facts)
+        expected = [
+            OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN,
+            OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED,
+            OKX_SWAP_TRIGGER_BASIS_UNPROVEN,
+        ]
+        self.assertEqual(UNRESOLVED_FAIL_CLOSED, first["capability_state"])
+        self.assertEqual(expected, first["reason_codes"])
+        self.assertEqual(expected, second["reason_codes"])
+        self.assertEqual(1, first["reason_codes"].count(OKX_SWAP_TRIGGER_BASIS_UNPROVEN))
+
+    def test_forbidden_state_precedence_is_unchanged_when_other_reasons_also_apply(self):
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        evidence = resolve_okx_swap_action_capability(
+            self._facts(
+                margin_mode="cash",
+                provider_fieldset_ref="caller-forged:fieldset-ref",
+                provider_fieldset_hash=owner_row["provider_fieldset_hash"],
+                provider_fieldset_generation_id=owner_row["provider_fieldset_generation_id"],
+                provider_fieldset=owner_row["provider_fieldset"],
+                caller_capability_assertion=True,
+            )
+        )
+        self.assertEqual(FORBIDDEN, evidence["capability_state"])
+        self.assertEqual(
+            [
+                OKX_SWAP_SPOT_TRADE_MODE_FORBIDDEN,
+                OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN,
+                OKX_SWAP_CALLER_CAPABILITY_ASSERTION_REJECTED,
+            ],
+            evidence["reason_codes"],
+        )
+
+    def test_aggregated_reason_identity_and_currentness_are_deterministic(self):
+        owner_row = expected_repo_fieldset_identity(ENTRY, NET_MODE)
+        facts = self._facts(
+            provider_fieldset_ref="caller-forged:fieldset-ref",
+            provider_fieldset_hash=owner_row["provider_fieldset_hash"],
+            provider_fieldset_generation_id=owner_row["provider_fieldset_generation_id"],
+            provider_fieldset=owner_row["provider_fieldset"],
+            caller_capability_assertion={"compatible": True},
+        )
+        first = resolve_okx_swap_action_capability(facts)
+        repeated = resolve_okx_swap_action_capability(facts)
+        later_facts = replace(facts, evaluated_at=self.now + timedelta(minutes=5))
+        later = resolve_okx_swap_action_capability(later_facts)
+        self.assertEqual(first["reason_codes"], repeated["reason_codes"])
+        self.assertEqual(first["reason_codes"], later["reason_codes"])
+        self.assertEqual(first["capability_evidence_id"], repeated["capability_evidence_id"])
+        self.assertEqual(first["capability_evidence_id"], later["capability_evidence_id"])
+        self.assertTrue(okx_swap_action_capability_evidence_is_current(first, later_facts))
+        validate_okx_swap_action_capability_evidence(first)
+
     def test_fp03_actionable_still_cannot_select_provider_trigger_basis(self):
         facts = self._facts(
             role=PROTECTION_STOP,

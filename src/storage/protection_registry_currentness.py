@@ -11,7 +11,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Mapping, Sequence
 
-from ._runtime_validation import canonical_payload
+from ._runtime_validation import canonical_payload, ordering_time
 from ._sqlite_registry import _apply_migrations, _connect
 
 SCHEMA_VERSION = "contracts-v0.1"
@@ -364,6 +364,12 @@ def _utc(value: Any, field: str) -> datetime:
     if parsed.utcoffset() != timezone.utc.utcoffset(parsed):
         raise ProtectionRegistryValidationError("INVALID_TIMESTAMP", f"{field} must be UTC")
     return parsed.astimezone(timezone.utc)
+
+
+def _canonical_storage_timestamp(value: Any, field: str = "timestamp") -> str:
+    """Map one validated UTC timestamp to the existing fixed-width E6 storage key."""
+
+    return ordering_time(_utc(value, field))
 
 
 def _string_sequence(value: Any, field: str, *, nonempty: bool = True) -> list[str]:
@@ -746,7 +752,10 @@ def _validate_authority(authority: ProtectionRegistryCurrentAuthority) -> dict[s
         raise ProtectionRegistryValidationError("CURRENT_POSITION_INVALID", "current Position must be object")
     position_id = _text(position.get("position_id"), "current.position_id")
     position_observed_at = _text(position.get("broker_state_observed_at"), "current.broker_state_observed_at")
-    _utc(position_observed_at, "current.broker_state_observed_at")
+    position_observed_at_storage = _canonical_storage_timestamp(
+        position_observed_at,
+        "current.broker_state_observed_at",
+    )
     _text(position.get("lifecycle_state"), "current.lifecycle_state")
     quantity_text = _text(str(position.get("actual_quantity")), "current.actual_quantity")
     try:
@@ -831,6 +840,7 @@ def _validate_authority(authority: ProtectionRegistryCurrentAuthority) -> dict[s
         "position_ref": authority.position_ref,
         "position_hash": _sha256_json(position),
         "position_observed_at": position_observed_at,
+        "position_observed_at_storage": position_observed_at_storage,
         "quantity": quantity,
         "lifecycle_state": position["lifecycle_state"],
         "lineage": lineage,
@@ -1415,7 +1425,7 @@ class ProtectionRegistryCurrentnessStore:
             projection_current["position_id"] != current["position_id"]
             or projection_current["lifecycle_projection_id"] != current["projection_id"]
             or projection_current["lifecycle_revision"] != current["lifecycle_revision"]
-            or projection_current["broker_state_observed_at"] != current["position_observed_at"]
+            or projection_current["broker_state_observed_at"] != current["position_observed_at_storage"]
             or projection_current["payload_hash"] != current["projection_payload_hash"]
         ):
             add(STATUS_STALE, "CURRENT_LIFECYCLE_PROJECTION_SUPERSEDED_OR_MISMATCHED")
@@ -1430,7 +1440,7 @@ class ProtectionRegistryCurrentnessStore:
             if (
                 projection_row["position_id"] != current["position_id"]
                 or projection_row["lifecycle_revision"] != current["lifecycle_revision"]
-                or projection_row["broker_state_observed_at"] != current["position_observed_at"]
+                or projection_row["broker_state_observed_at"] != current["position_observed_at_storage"]
             ):
                 add(STATUS_CONFLICT, "FP11_LIFECYCLE_PROJECTION_INDEX_MISMATCH")
             if projection_row["payload_json"] != current["projection_payload_json"]:

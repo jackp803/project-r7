@@ -4,7 +4,7 @@ from dataclasses import replace
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from src.brokers.okx_demo import (
+from brokers.okx_demo import (
     OKXAccountConfigSnapshot,
     OKXCredentials,
     OKXDemoAdapter,
@@ -12,8 +12,8 @@ from src.brokers.okx_demo import (
     OKXPrerequisiteSnapshot,
     OKXProtocolError,
 )
-from src.brokers.okx_sizing import OKXInstrumentMetadata, size_okx_market_entry
-from src.execution.models import (
+from brokers.okx_sizing import OKXInstrumentMetadata, size_okx_market_entry
+from execution.models import (
     SCHEMA_VERSION,
     OrderRequest,
     OrderStatus,

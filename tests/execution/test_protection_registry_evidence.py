@@ -2,7 +2,7 @@ import unittest
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 
-from src.execution.external_close_evidence import (
+from execution.external_close_evidence import (
     CONFLICT,
     CURRENT,
     LINEAGE_CONFLICT,
@@ -19,7 +19,7 @@ from src.execution.external_close_evidence import (
     build_external_provider_ownership_evidence,
     canonical_evidence_hash,
 )
-from src.execution.protection_registry_evidence import (
+from execution.protection_registry_evidence import (
     BLOCK_PROTECTION_CREATE_REPLACE,
     BLOCK_UNCERTAIN_PROTECTION_CLEANUP_CANCEL,
     COMPLETE,

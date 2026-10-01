@@ -2,21 +2,21 @@ import inspect
 import unittest
 from dataclasses import replace
 
-from src.brokers.okx_close_sizing import (
+from brokers.okx_close_sizing import (
     CLOSE_CAPABILITY_UNPROVEN,
     UNRESOLVED_FAIL_CLOSED,
     evaluate_okx_close_residual_sizing,
 )
-from src.brokers.okx_demo import OKXDemoAdapter
-from src.execution.external_close_evidence import (
+from brokers.okx_demo import OKXDemoAdapter
+from execution.external_close_evidence import (
     build_external_manual_close_convergence_evidence,
 )
-from src.integration.runtime_preflight import (
+from integration.runtime_preflight import (
     ELIGIBLE,
     FAIL_CLOSED,
     evaluate_runtime_preflight,
 )
-from src.position import interpret_protection_registry_evidence
+from position import interpret_protection_registry_evidence
 import tests.brokers.test_okx_close_sizing as fp05_fixture_module
 import tests.execution.test_external_close_evidence as fp10_fixture_module
 import tests.integration.test_runtime_preflight as fp16_fixture_module

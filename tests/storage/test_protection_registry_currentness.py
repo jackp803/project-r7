@@ -6,11 +6,11 @@ import sqlite3
 import tempfile
 import unittest
 from dataclasses import replace
-from datetime import timedelta
+from datetime import datetime, timedelta
 from pathlib import Path
 
 from position import interpret_protection_registry_evidence
-from src.execution.protection_registry_evidence_boundary import (
+from execution.protection_registry_evidence_boundary import (
     build_protection_registry_multiplicity_evidence,
 )
 from storage._lifecycle_execution_binding import persist_lifecycle_execution_binding
@@ -25,6 +25,7 @@ from storage.protection_registry_currentness import (
     STATUS_UNKNOWN,
     ProtectionRegistryConflictError,
     ProtectionRegistryCurrentAuthority,
+    ProtectionRegistryValidationError,
     open_protection_registry_currentness_store,
 )
 import tests.position.test_protection_registry_policy as policy_fixture_module
@@ -345,7 +346,7 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
         cross["intended_protection_lineage"] = lineage
         cross["intended_protection_lineage_hash"] = _lineage_hash(lineage)
         cross["supersedes_registry_evidence_id"] = first["protection_registry_evidence_id"]
-        cross["evaluated_at"] = "2026-08-29T09:30:00Z"
+        # Keep valid temporal anchors so recovery reaches the lineage conflict.
         cross["protection_registry_evidence_id"] = _fp11_id(cross)
         self.store.persist_fp11(cross)
         cross_authority = replace(
@@ -355,6 +356,18 @@ class ProtectionRegistryCurrentnessPersistenceTests(unittest.TestCase):
         result = self.store.recover(cross_authority)
         self.assertEqual(STATUS_CONFLICT, result.status)
         self.assertIn("FP11_SUPERSESSION_LINEAGE_MISMATCH", result.reason_codes)
+
+    def test_evaluation_before_provider_receipt_is_rejected(self):
+        first, _, _, _ = self._setup_case()
+        invalid = json.loads(_json(first))
+        received = datetime.fromisoformat(first["provider_received_at"].replace("Z", "+00:00"))
+        invalid["evaluated_at"] = (received - timedelta(microseconds=1)).isoformat().replace("+00:00", "Z")
+        invalid["protection_registry_evidence_id"] = _fp11_id(invalid)
+        with self.assertRaises(ProtectionRegistryValidationError) as raised:
+            self.store.persist_fp11(invalid)
+        self.assertEqual("FP11_TEMPORAL_ORDER_INVALID", raised.exception.code)
+        action_id = first["intended_protection_lineage"]["position_action_id"]
+        self.assertEqual((), self.store.fp11_history(first["position_id"], action_id))
 
     def test_storage_cycle_or_supersession_reference_corruption_fails_closed(self):
         first, _, _, authority = self._setup_case()

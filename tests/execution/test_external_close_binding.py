@@ -2,12 +2,12 @@ import unittest
 from dataclasses import replace
 from datetime import datetime, timedelta
 
-from src.execution.external_close_binding import (
+from execution.external_close_binding import (
     build_external_manual_close_convergence_evidence,
     external_manual_close_convergence_evidence_is_current,
     validate_fp10_position_fp04_binding,
 )
-from src.execution.external_close_evidence import (
+from execution.external_close_evidence import (
     CURRENT,
     FP04EvidenceDependency,
     LINEAGE_CURRENT_GENERATION,
@@ -24,7 +24,7 @@ from src.execution.external_close_evidence import (
     build_external_provider_ownership_evidence,
     canonical_evidence_hash,
 )
-from src.position import (
+from position import (
     build_position_lifecycle_genesis_with_execution_binding,
     validate_external_manual_close_convergence_evidence,
 )

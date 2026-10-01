@@ -3,13 +3,13 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
 from position import build_protect_position_action
-from src.brokers.paper import (
+from brokers.paper import (
     InvalidOrderTransitionError,
     PaperBroker,
     UnknownOrderError,
 )
-from src.execution.models import OrderStatus
-from src.execution.protection import prepare_protection_order
+from execution.models import OrderStatus
+from execution.protection import prepare_protection_order
 
 
 class GateBProtectionTerminalSafetyTests(unittest.TestCase):

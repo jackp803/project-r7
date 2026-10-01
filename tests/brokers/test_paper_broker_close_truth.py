@@ -2,14 +2,14 @@ import unittest
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.brokers.paper import (
+from brokers.paper import (
     ExposureLimitError,
     InvalidOrderTransitionError,
     PaperBroker,
     ReconciliationRequiredError,
 )
-from src.execution.close import prepare_close_order
-from src.execution.models import (
+from execution.close import prepare_close_order
+from execution.models import (
     SCHEMA_VERSION,
     OrderRequest,
     OrderStatus,

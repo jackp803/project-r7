@@ -3,15 +3,15 @@ import unittest
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.execution.protection import ProtectionAuthorityError
-from src.execution.protection_trigger import (
+from execution.protection import ProtectionAuthorityError
+from execution.protection_trigger import (
     ProtectionTriggerConsumerError,
     prepare_trigger_validated_protection_order,
     require_provider_trigger_basis_compatibility,
     validate_protection_trigger_create_evidence,
 )
-from src.position.protection import build_protect_position_action
-from src.position.protection_trigger_validity import (
+from position.protection import build_protect_position_action
+from position.protection_trigger_validity import (
     build_protection_trigger_validity_evidence,
     stable_protection_trigger_validity_id,
 )

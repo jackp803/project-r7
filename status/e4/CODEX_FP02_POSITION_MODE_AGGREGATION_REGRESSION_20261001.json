@@ -1,0 +1,52 @@
+{
+  "authority": "status/PM_CODEX_LOCAL_COMPLETION_DELEGATION_20261001.md",
+  "classification": "B: deterministic test defect",
+  "initial_failing_candidate": "782c886c73ec21ea3b2e2a782fd9c5947056317d",
+  "remediation_base": "a2e56b6279fa53369e758a035bc2b42da863da9e",
+  "failing_command": "python -m unittest discover -s tests/brokers -p 'test_okx_action_capability.py' -v",
+  "failing_test": "OKXActionCapabilityTests.test_wrong_or_unknown_position_mode_fails_closed",
+  "failing_subtests": ["mode=portfolio", "mode=UNKNOWN"],
+  "exception": "AssertionError: expected only OKX_SWAP_POSITION_MODE_UNSUPPORTED; actual ordered reasons also contain OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN",
+  "before": {
+    "tests_run": 27,
+    "passed_test_methods": 26,
+    "failed_test_methods": 1,
+    "failure_events": 2,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 1,
+    "counting_note": "unittest reports two failing subtests in one failed test method; failure events are not distinct test methods"
+  },
+  "root_cause": "The unsupported-position-mode assertion retained the former first-rejection expectation after complete common and role-specific diagnostic aggregation was accepted. No owner row exists for the unsupported mode, so the provider fieldset is independently unproven.",
+  "accepted_semantics": [
+    "docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md: provider-local reason vocabulary and exact role/mode rows",
+    "status/e4/FP02_REASON_AGGREGATION_REMEDIATION_20260830.md: aggregate independently true common and role reasons; retain state precedence and deterministic ordering",
+    "src/brokers/okx_action_capability.py: _owner_repository_row, _common_failures, _derive_capability"
+  ],
+  "change": "Correct the exact expected reason list and exercise both ENTRY and READ_ONLY_RECONCILIATION, both copied accepted owner modes, and both unsupported modes. Retain UNRESOLVED_FAIL_CLOSED and validate the resulting evidence.",
+  "production_source_changed": false,
+  "shared_contract_or_architecture_changed": false,
+  "regression_after": {
+    "command": "python -m unittest discover -s tests/brokers -p 'test_okx_action_capability.py' -v",
+    "tests_run": 27,
+    "passed": 27,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "exit_code": 0,
+    "negative_mode_cases": 8
+  },
+  "qualification": "Fresh full Phase 1 and Phase 2 required on the committed remediation candidate; focused PASS alone is insufficient",
+  "antigravity": "Not used: workspace trust guard refused delegation; no trust was added and no paid fallback used",
+  "safety": {
+    "provider_requests": 0,
+    "private_api": "NONE",
+    "credentials": "NONE",
+    "provider_account_mutation": 0,
+    "order_protection_actions": 0,
+    "trading_runtime": "NOT_STARTED",
+    "shadow_paper_live": "NOT_STARTED",
+    "capital_exposure": "NONE",
+    "github_compute": "NOT_USED"
+  }
+}

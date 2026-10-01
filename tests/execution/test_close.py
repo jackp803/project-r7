@@ -3,13 +3,13 @@ from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.execution.close import (
+from execution.close import (
     CloseAuthorityError,
     EMERGENCY_EXIT_ROLE,
     POSITION_EXIT_ROLE,
     prepare_close_order,
 )
-from src.execution.models import Side
+from execution.models import Side
 
 
 class CloseV01ConsumerTests(unittest.TestCase):

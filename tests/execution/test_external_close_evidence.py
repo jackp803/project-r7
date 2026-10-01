@@ -3,7 +3,7 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.execution.external_close_evidence import (
+from execution.external_close_evidence import (
     CONFLICT,
     CURRENT,
     EXTERNAL_MANUAL,
@@ -34,7 +34,7 @@ from src.execution.external_close_evidence import (
     external_manual_close_convergence_evidence_is_current,
     external_provider_ownership_evidence_is_current,
 )
-from src.position import (
+from position import (
     build_position_lifecycle_genesis_with_execution_binding,
     validate_external_manual_close_convergence_evidence,
     validate_external_provider_ownership_evidence,

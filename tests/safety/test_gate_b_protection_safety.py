@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timezone
 
 from position import ProtectionActionError, build_protect_position_action
-from src.execution.protection import ProtectionAuthorityError, prepare_protection_order
+from execution.protection import ProtectionAuthorityError, prepare_protection_order
 
 
 class GateBProtectionSafetyTests(unittest.TestCase):

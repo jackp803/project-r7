@@ -7,9 +7,9 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-import src.execution.funding as funding_module
-from src.brokers.paper import PaperBroker
-from src.execution.funding import (
+import execution.funding as funding_module
+from brokers.paper import PaperBroker
+from execution.funding import (
     DEFAULT_PAPER_ZERO_FUNDING_MODEL,
     FundingEvidenceError,
     PaperZeroFundingModel,
@@ -18,7 +18,7 @@ from src.execution.funding import (
     produce_paper_zero_funding_evidence,
     stable_funding_evidence_id,
 )
-from src.execution.models import (
+from execution.models import (
     SCHEMA_VERSION,
     OrderRequest,
     OrderStatus,

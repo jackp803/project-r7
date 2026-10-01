@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 
-from src.execution.models import (
+from execution.models import (
     Fill,
     OrderRequest,
     OrderResult,

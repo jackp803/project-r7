@@ -4,9 +4,9 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
 from position import build_protect_position_action, state_allows_safe_open_claim
-from src.brokers.paper import PaperBroker
-from src.execution.models import OrderStatus
-from src.execution.protection import prepare_protection_order
+from brokers.paper import PaperBroker
+from execution.models import OrderStatus
+from execution.protection import prepare_protection_order
 
 
 class GateBProtectionBoundaryIntegrationTests(unittest.TestCase):

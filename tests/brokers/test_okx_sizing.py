@@ -3,7 +3,7 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.brokers.okx_sizing import (
+from brokers.okx_sizing import (
     OKXInstrumentMetadata,
     OKXMetadataValidationError,
     OKXScheduledInstrumentChange,
@@ -13,7 +13,7 @@ from src.brokers.okx_sizing import (
     size_okx_market_entry,
     validate_okx_submit_metadata,
 )
-from src.execution.models import (
+from execution.models import (
     SCHEMA_VERSION,
     OrderRequest,
     Side,

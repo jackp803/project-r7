@@ -11,7 +11,7 @@ from decimal import Decimal, InvalidOperation
 from typing import Any, Callable, Mapping, Protocol, Sequence
 from urllib.parse import urlencode
 
-from src.brokers.okx_sizing import (
+from brokers.okx_sizing import (
     OKXEntrySizingAudit,
     OKXInstrumentMetadata,
     OKX_PROVIDER,
@@ -20,8 +20,8 @@ from src.brokers.okx_sizing import (
     size_okx_market_entry,
     validate_okx_submit_metadata,
 )
-from src.execution.gateway import CANONICAL_SYMBOL
-from src.execution.models import (
+from execution.gateway import CANONICAL_SYMBOL
+from execution.models import (
     SCHEMA_VERSION,
     ExecutionHealthStatus,
     Fill,

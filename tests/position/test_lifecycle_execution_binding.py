@@ -16,7 +16,7 @@ from position import (
     stable_lifecycle_projection_id,
     validate_position_lifecycle_execution_evidence_binding,
 )
-from src.execution.models import ExecutionHealthStatus, Fill, OrderRequest, OrderResult, OrderStatus, Side
+from execution.models import ExecutionHealthStatus, Fill, OrderRequest, OrderResult, OrderStatus, Side
 
 
 class PositionLifecycleExecutionBindingV01Tests(unittest.TestCase):

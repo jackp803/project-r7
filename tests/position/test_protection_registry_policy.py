@@ -17,13 +17,13 @@ from position import (
     protection_registry_interpretation_is_current,
     validate_fp11_registry_evidence,
 )
-from src.execution.protection_registry_evidence import (
+from execution.protection_registry_evidence import (
     COMPLETE,
     INCOMPLETE,
     STALE,
     UNKNOWN,
 )
-from src.execution.protection_registry_evidence_boundary import (
+from execution.protection_registry_evidence_boundary import (
     build_protection_registry_multiplicity_evidence,
 )
 import tests.execution.test_protection_registry_evidence as fp11_fixture_module

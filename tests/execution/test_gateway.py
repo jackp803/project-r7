@@ -3,12 +3,12 @@ import unittest
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.execution.gateway import (
+from execution.gateway import (
     AuthorityBoundaryError,
     ContractMismatchError,
     ExecutionGateway,
 )
-from src.execution.models import Side
+from execution.models import Side
 
 
 def _approved_plan(now: datetime, *, direction: str = "LONG") -> dict:

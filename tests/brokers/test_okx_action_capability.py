@@ -217,12 +217,23 @@ class OKXActionCapabilityTests(unittest.TestCase):
                 self.assertEqual([OKX_SWAP_ACCOUNT_LEVEL_UNSUPPORTED], evidence["reason_codes"])
 
     def test_wrong_or_unknown_position_mode_fails_closed(self):
-        for mode in ("portfolio", "UNKNOWN"):
-            with self.subTest(mode=mode):
-                facts = self._facts(mode=NET_MODE, position_mode=mode)
-                evidence = resolve_okx_swap_action_capability(facts)
-                self.assertEqual(UNRESOLVED_FAIL_CLOSED, evidence["capability_state"])
-                self.assertEqual([OKX_SWAP_POSITION_MODE_UNSUPPORTED], evidence["reason_codes"])
+        for role in (ENTRY, READ_ONLY_RECONCILIATION):
+            for owner_mode in (NET_MODE, LONG_SHORT_MODE):
+                for mode in ("portfolio", "UNKNOWN"):
+                    with self.subTest(role=role, owner_mode=owner_mode, mode=mode):
+                        facts = self._facts(role=role, mode=owner_mode, position_mode=mode)
+                        evidence = resolve_okx_swap_action_capability(facts)
+                        self.assertEqual(UNRESOLVED_FAIL_CLOSED, evidence["capability_state"])
+                        # A copied valid row cannot prove an unsupported mode;
+                        # common and role-specific rejections must both survive.
+                        self.assertEqual(
+                            [
+                                OKX_SWAP_POSITION_MODE_UNSUPPORTED,
+                                OKX_SWAP_PROVIDER_FIELDSET_UNPROVEN,
+                            ],
+                            evidence["reason_codes"],
+                        )
+                        validate_okx_swap_action_capability_evidence(evidence)
 
     def test_spot_cash_trade_mode_is_forbidden(self):
         evidence = resolve_okx_swap_action_capability(self._facts(margin_mode="cash"))

@@ -1,0 +1,521 @@
+{
+  "schema_version": 1,
+  "profile": "bounded-live-fire-readiness-v0.1",
+  "authority_revision": "5a78fcb831d5855ce5823832286e438d86c65261",
+  "accepted_baseline": "cec90965a0cd29fe59bec604987ebeebfb5ad09d",
+  "applicable_scenarios": 20,
+  "not_applicable_scenarios": [],
+  "classification": "deterministic local unit/integration/storage-reopen simulation; no process launcher or actual provider",
+  "rows": [
+    {
+      "row": 1,
+      "scenario": "ACK/pending vs fill truth",
+      "applicable": true,
+      "required_assertions": "Successful ACK remains PENDING with zero filled quantity; observed fill enters OPEN_UNPROTECTED before verified protection.",
+      "tests": [
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_success_ack_is_pending_not_fill_truth",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 320
+        },
+        {
+          "test_id": "tests.position.test_state_machine.PositionStateMachineTests.test_fill_is_unprotected_until_protection_is_verified",
+          "source": "tests/position/test_state_machine.py",
+          "line": 14
+        },
+        {
+          "test_id": "tests.position.test_state_machine.PositionStateMachineTests.test_pending_entry_cannot_skip_unprotected_state",
+          "source": "tests/position/test_state_machine.py",
+          "line": 33
+        }
+      ]
+    },
+    {
+      "row": 2,
+      "scenario": "Ambiguous outcome",
+      "applicable": true,
+      "required_assertions": "Timeout remains reconciliation-required; repeated submit sends no second fake transport request; query/reconciliation precede any retry and provider absence is not fabricated.",
+      "tests": [
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 338
+        },
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_reconciliation_queries_truth_but_never_authorizes_retry",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 367
+        },
+        {
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_ambiguous_ack_does_not_blind_duplicate_submit_when_order_exists",
+          "source": "tests/brokers/test_paper_broker.py",
+          "line": 77
+        },
+        {
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_retry_requires_query_and_reconcile_evidence",
+          "source": "tests/brokers/test_paper_broker.py",
+          "line": 95
+        }
+      ]
+    },
+    {
+      "row": 3,
+      "scenario": "Partial fill",
+      "applicable": true,
+      "required_assertions": "Requested and actual quantities remain distinct; actual filled exposure is propagated exactly from E5 action to E4 protection request; partial close remains nonfinal.",
+      "tests": [
+        {
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_partial_fill_keeps_requested_and_filled_quantity_distinct",
+          "source": "tests/brokers/test_paper_broker.py",
+          "line": 41
+        },
+        {
+          "test_id": "tests.integration.test_gate_b_protection_boundary.GateBProtectionBoundaryIntegrationTests.test_partial_fill_exact_actual_exposure_propagates_e5_to_e4",
+          "source": "tests/integration/test_gate_b_protection_boundary.py",
+          "line": 103
+        },
+        {
+          "test_id": "tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_partial_close_residual_cannot_finalize_trade_result",
+          "source": "tests/safety/test_gate_b_close_trade_result_safety.py",
+          "line": 136
+        }
+      ]
+    },
+    {
+      "row": 4,
+      "scenario": "Stale market evidence",
+      "applicable": true,
+      "required_assertions": "STALE/UNKNOWN market cannot authorize new exposure or actionable protection; caller freshness flag cannot override unsafe status.",
+      "tests": [
+        {
+          "test_id": "tests.safety.test_e5_fail_closed.FailClosedBoundaryTests.test_unsafe_market_status_cannot_be_overridden_by_fresh_flag",
+          "source": "tests/safety/test_e5_fail_closed.py",
+          "line": 140
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_market_uses_e1_attested_classification_without_second_threshold",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 185
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unknown_market_fails_closed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 192
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_newer_market_or_position_truth_invalidates_prior_evidence",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 250
+        }
+      ]
+    },
+    {
+      "row": 5,
+      "scenario": "Stale Position evidence",
+      "applicable": true,
+      "required_assertions": "New raw authoritative Position requires E5 reattestation independently of execution; older protection authority and interpreted evidence cannot remain current.",
+      "tests": [
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_raw_position_truth_remains_independent_reattestation_axis",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 288
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_position_evidence_fails_closed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 199
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_new_position_requires_new_protection_authority",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 299
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_newer_position_provider_lifecycle_or_runtime_authority_invalidates_prior_health",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 131
+        }
+      ]
+    },
+    {
+      "row": 6,
+      "scenario": "Stale execution evidence",
+      "applicable": true,
+      "required_assertions": "New partial Fill or canceled OrderResult invalidates prior lifecycle execution binding after storage reopen and requires fresh E5 interpretation.",
+      "tests": [
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 228
+        },
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_canceled_protection_invalidates_old_e5_binding",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 263
+        }
+      ]
+    },
+    {
+      "row": 7,
+      "scenario": "Breached/equality protection trigger",
+      "applicable": true,
+      "required_assertions": "LONG/SHORT equality and crossed geometry fail closed; neither validation nor preparation returns a protection request; time-only retry remains rejected; replace stays nonexecutable.",
+      "tests": [
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_equality_breached",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 163
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_equality_breached",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 170
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_crossed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 175
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_crossed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 180
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 184
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_replace_remains_non_executable_under_current_baseline",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 266
+        }
+      ]
+    },
+    {
+      "row": 8,
+      "scenario": "Duplicate protection",
+      "applicable": true,
+      "required_assertions": "Multiple active protections route reconciliation without winner, cleanup target, or mutation authority; the result remains non-green after restart.",
+      "tests": [
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_multiple_protections_fail_closed_without_winner_or_cleanup_target",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 182
+        },
+        {
+          "test_id": "tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_nonconverged_registry_states_remain_non_green_after_restart",
+          "source": "tests/storage/test_protection_registry_currentness.py",
+          "line": 421
+        }
+      ]
+    },
+    {
+      "row": 9,
+      "scenario": "Orphan protection",
+      "applicable": true,
+      "required_assertions": "Nonmatching owned lineage is orphan; external extra is not adopted or trusted and has explicit reconciliation disposition.",
+      "tests": [
+        {
+          "test_id": "tests.execution.test_protection_registry_evidence.ProtectionRegistryMultiplicityEvidenceTests.test_exact_one_current_owned_but_not_matching_lineage_is_orphan",
+          "source": "tests/execution/test_protection_registry_evidence.py",
+          "line": 310
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 190
+        }
+      ]
+    },
+    {
+      "row": 10,
+      "scenario": "Missing protection",
+      "applicable": true,
+      "required_assertions": "Protected claim with complete missing set enters EMERGENCY; unprotected exposure stays OPEN_UNPROTECTED with no mutation authority; repeated restarts never grant protection health.",
+      "tests": [
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_complete_current_missing_protection_rejects_protected_claim_as_protection_lost",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 164
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 173
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "row": 11,
+      "scenario": "Restart flat",
+      "applicable": true,
+      "required_assertions": "Durable CLOSED recovery restores exact flat projection, execution binding, funding and aggregate TradeResult; restart preflight rejects wrong identity/heartbeat or reconciliation still needed; absence of local rows is not proof of flatness.",
+      "tests": [
+        {
+          "test_id": "tests.e2e.test_lf3_restart_flat.LF3RestartFlatCompositionTests.test_restored_flat_requires_fresh_reconciliation_and_new_positive_exposure_invalidates_it",
+          "source": "tests/e2e/test_lf3_restart_flat.py",
+          "line": 64
+        },
+        {
+          "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
+          "source": "tests/storage/test_paper_runtime_durability.py",
+          "line": 689
+        },
+        {
+          "test_id": "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation",
+          "source": "tests/integration/test_lf3_restart_preflight.py",
+          "line": 14
+        },
+        {
+          "test_id": "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness",
+          "source": "tests/position/test_external_close_reinterpretation.py",
+          "line": 449
+        }
+      ]
+    },
+    {
+      "row": 12,
+      "scenario": "Restart open protected",
+      "applicable": true,
+      "required_assertions": "Exact durable lifecycle/execution binding restores protected state; registry health additionally requires exact current owner/provider chain; newer execution invalidates it.",
+      "tests": [
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_matching_e5_binding_is_restart_authoritative_before_new_execution_truth",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 212
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_real_paper_lifecycle_writer_and_fp11_currentness_remain_healthy_after_restart_only_for_exact_chain",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 73
+        },
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 228
+        }
+      ]
+    },
+    {
+      "row": 13,
+      "scenario": "Restart open unprotected",
+      "applicable": true,
+      "required_assertions": "Repeated recovery with missing protection preserves OPEN_UNPROTECTED, blocks new exposure, and grants neither healthy-protection nor mutation authority.",
+      "tests": [
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 39
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 173
+        }
+      ]
+    },
+    {
+      "row": 14,
+      "scenario": "Restart reconciliation-required",
+      "applicable": true,
+      "required_assertions": "Ambiguous execution remains reconciliation-required across storage reopen; missing protection cannot auto-promote reconciliation state and new exposure stays blocked.",
+      "tests": [
+        {
+          "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_preserves_reconciliation_required_truth",
+          "source": "tests/storage/test_paper_runtime_durability.py",
+          "line": 655
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 39
+        },
+        {
+          "test_id": "tests.position.test_state_machine.PositionStateMachineTests.test_unknown_state_requires_reconciliation",
+          "source": "tests/position/test_state_machine.py",
+          "line": 27
+        }
+      ]
+    },
+    {
+      "row": 15,
+      "scenario": "Unchanged failure evidence",
+      "applicable": true,
+      "required_assertions": "Advancing time alone cannot make breached trigger retryable; timestamp-only registry row yields competing-head conflict after restart; repeated ambiguous ACK cannot duplicate submission.",
+      "tests": [
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unchanged_breached_evidence_does_not_become_retryable_when_only_time_advances",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 237
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 184
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_timestamp_only_fp11_row_never_becomes_current_head_and_restart_fails_closed",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 94
+        },
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 338
+        }
+      ]
+    },
+    {
+      "row": 16,
+      "scenario": "Clock/temporal ordering",
+      "applicable": true,
+      "required_assertions": "Decision before observation/receipt fails closed; excessive clock skew rejects before private read; preflight heartbeat after decision or from prior boot is rejected.",
+      "tests": [
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_temporal_precompute_fails_closed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 231
+        },
+        {
+          "test_id": "tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_evaluation_before_provider_receipt_is_rejected",
+          "source": "tests/storage/test_protection_registry_currentness.py",
+          "line": 360
+        },
+        {
+          "test_id": "tests.brokers.test_okx_shadow.OKXShadowReaderTests.test_clock_skew_over_policy_limit_fails_before_any_private_read",
+          "source": "tests/brokers/test_okx_shadow.py",
+          "line": 166
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 349
+        },
+        {
+          "test_id": "tests.integration.test_gate_c_shadow_composition.GateCShadowCompositionIntegrationTests.test_provider_observation_genuinely_after_risk_clock_remains_fail_closed",
+          "source": "tests/integration/test_gate_c_shadow_composition.py",
+          "line": 252
+        }
+      ]
+    },
+    {
+      "row": 17,
+      "scenario": "External/manual provider objects",
+      "applicable": true,
+      "required_assertions": "External manual exposure and orphan protection retain external ownership, route reconciliation, and never silently adopt or grant cleanup/mutation authority.",
+      "tests": [
+        {
+          "test_id": "tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp04_external_manual_position_never_silently_adopts_and_routes_fp10",
+          "source": "tests/integration/test_p0_integrated_failure_prevention.py",
+          "line": 135
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 190
+        },
+        {
+          "test_id": "tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp04_external_manual_preserves_external_classification_and_never_adopts",
+          "source": "tests/execution/test_external_close_evidence.py",
+          "line": 334
+        }
+      ]
+    },
+    {
+      "row": 18,
+      "scenario": "Close on order status only",
+      "applicable": true,
+      "required_assertions": "Filled OrderResult with nonflat authoritative Position cannot finalize; absent Position is not flat; positive residuals never close. Durable flat closure separately requires aggregate execution and matching binding.",
+      "tests": [
+        {
+          "test_id": "tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_filled_order_without_authoritative_flat_position_cannot_finalize",
+          "source": "tests/safety/test_gate_b_close_trade_result_safety.py",
+          "line": 143
+        },
+        {
+          "test_id": "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness",
+          "source": "tests/position/test_external_close_reinterpretation.py",
+          "line": 449
+        },
+        {
+          "test_id": "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_representable_and_unrepresentable_positive_residuals_never_close",
+          "source": "tests/position/test_external_close_reinterpretation.py",
+          "line": 329
+        },
+        {
+          "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
+          "source": "tests/storage/test_paper_runtime_durability.py",
+          "line": 689
+        }
+      ]
+    },
+    {
+      "row": 19,
+      "scenario": "Residual below actionable provider size",
+      "applicable": true,
+      "required_assertions": "Dust produces explicit unrepresentable residual with no provider close size and no unchanged retry authority; downstream FP10 remains nonflat.",
+      "tests": [
+        {
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable",
+          "source": "tests/brokers/test_okx_close_sizing.py",
+          "line": 340
+        },
+        {
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority",
+          "source": "tests/brokers/test_okx_close_sizing.py",
+          "line": 350
+        },
+        {
+          "test_id": "tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp10_positive_unrepresentable_residual_is_explicit_and_blocks_retry",
+          "source": "tests/execution/test_external_close_evidence.py",
+          "line": 509
+        },
+        {
+          "test_id": "tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp05_unrepresentable_residual_and_unproven_capability_never_create_retry_authority",
+          "source": "tests/integration/test_p0_integrated_failure_prevention.py",
+          "line": 210
+        }
+      ]
+    },
+    {
+      "row": 20,
+      "scenario": "Wrong runtime revision/mode/heartbeat",
+      "applicable": true,
+      "required_assertions": "Wrong revision, dirty classification, mode/generation, stale/unknown/wrong-process/prior-boot heartbeat reject preflight. Pure evaluator never launches process or mutates provider.",
+      "tests": [
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_revision_mismatch_and_non_exact_clean_worktree_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 311
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_operational_mode_value_and_generation_mismatch_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 320
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 349
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_coherent_credential_free_evidence_is_eligible_without_runtime_authority_side_effects",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 261
+        },
+        {
+          "test_id": "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation",
+          "source": "tests/integration/test_lf3_restart_preflight.py",
+          "line": 14
+        }
+      ]
+    }
+  ]
+}

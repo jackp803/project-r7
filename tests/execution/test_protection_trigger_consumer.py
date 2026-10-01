@@ -182,24 +182,24 @@ class ProtectionTriggerConsumerTests(unittest.TestCase):
         self.assertEqual("UNSUPPORTED_TRIGGER_VALIDITY_PROFILE", caught.exception.code)
 
     def test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry(self):
-        breached_market = self._market(last_price="59000.00")
-        action = self._action()
-        evidence = self._evidence(action=action, market=breached_market)
-        self.assertEqual("FAIL_CLOSED", evidence["validity_status"])
-        self.assertIn("TRIGGER_ALREADY_BREACHED", evidence["reason_codes"])
-        for now in (self.now, self.now + timedelta(seconds=30)):
-            with self.subTest(now=now):
-                with self.assertRaises(ProtectionTriggerConsumerError) as caught:
-                    validate_protection_trigger_create_evidence(
-                        action,
-                        self._plan(),
-                        self._position(),
-                        evidence,
-                        breached_market,
-                        market_freshness_classification="FRESH",
-                        now=now,
-                    )
-                self.assertEqual("E4_TRIGGER_VALIDITY_FAIL_CLOSED", caught.exception.code)
+        cases = (("LONG", "59400.00", "59000.00"), ("SHORT", "60600.00", "61000.00"))
+        for side, stop, crossed in cases:
+            plan = self._plan(direction=side, protection_instruction={
+                "stop_level": stop, "target_level": "61200.00" if side == "LONG" else "58800.00", "max_hold_seconds": 1800,
+            })
+            position = self._position(side=side)
+            action = self._action(position=position, plan=plan)
+            for price in (stop, crossed):
+                market = self._market(last_price=price)
+                evidence = self._evidence(position=position, action=action, plan=plan, market=market)
+                self.assertEqual("FAIL_CLOSED", evidence["validity_status"])
+                self.assertIn("TRIGGER_ALREADY_BREACHED", evidence["reason_codes"])
+                for now in (self.now, self.now + timedelta(seconds=30)):
+                    with self.subTest(side=side, price=price, now=now):
+                        for consumer in (self._validate, self._prepare):
+                            with self.assertRaises(ProtectionTriggerConsumerError) as caught:
+                                consumer(action=action, plan=plan, position=position, evidence=evidence, market=market, now=now)
+                            self.assertEqual("E4_TRIGGER_VALIDITY_FAIL_CLOSED", caught.exception.code)
 
     def test_e4_binding_mismatch_rejects_different_action_position_side_symbol_stop_role_operation(self):
         base = self._evidence()

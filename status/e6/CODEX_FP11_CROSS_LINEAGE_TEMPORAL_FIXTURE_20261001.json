@@ -1,0 +1,30 @@
+{
+  "authority": "status/PM_CODEX_LOCAL_COMPLETION_DELEGATION_20261001.md",
+  "classification": "B: deterministic test defect",
+  "failing_candidate": "2c6f51b5424f3b3252954481be0db90b59aa467c",
+  "inherited_remediation": "FP-02 unsupported-position-mode complete-reason regression",
+  "failing_command": "python -m unittest discover -s tests/storage -p 'test_protection_registry_currentness.py' -v",
+  "failing_test": "ProtectionRegistryCurrentnessPersistenceTests.test_cross_lineage_supersession_is_conflict",
+  "exception": "storage.protection_registry_currentness.ProtectionRegistryValidationError: FP-11 temporal ordering invalid",
+  "before": {"tests": 25, "passed": 24, "failed": 0, "errors": 1, "skipped": 0, "exit_code": 1},
+  "targeted_red": {"tests": 1, "passed": 0, "failed": 0, "errors": 1, "skipped": 0, "exit_code": 1},
+  "root_cause": "The cross-lineage fixture overwrote the valid evaluation anchor with 2026-08-29T09:30:00Z, before provider observation 10:10:10Z and receipt 10:10:11Z. Correct temporal rejection prevented the intended recovery lineage-conflict assertion from being reached.",
+  "accepted_contract": "contracts/PROTECTION_REGISTRY_MULTIPLICITY_PROFILE_V0_1.md: evaluated_at must be at or after provider receipt and Position observation; supersession belongs to the same intended lineage",
+  "change": "Retain the copied valid evaluation timestamp while changing the lineage and explicit predecessor. Add a distinct negative regression proving evaluation one microsecond before provider receipt is rejected and no FP-11 row is persisted.",
+  "production_source_changed": false,
+  "shared_contract_or_architecture_changed": false,
+  "focused_green": {"tests": 26, "passed": 26, "failed": 0, "errors": 0, "skipped": 0, "exit_code": 0},
+  "negative_regression": "test_evaluation_before_provider_receipt_is_rejected: FP11_TEMPORAL_ORDER_INVALID and empty history",
+  "qualification": "Fresh complete Phase 1 and Phase 2 required on the committed candidate; no result transferred from the failing candidate",
+  "safety": {
+    "provider_requests": 0,
+    "private_api": "NONE",
+    "credentials": "NONE",
+    "provider_account_mutation": 0,
+    "order_protection_actions": 0,
+    "trading_runtime": "NOT_STARTED",
+    "shadow_paper_live": "NOT_STARTED",
+    "capital_exposure": "NONE",
+    "github_compute": "NOT_USED"
+  }
+}

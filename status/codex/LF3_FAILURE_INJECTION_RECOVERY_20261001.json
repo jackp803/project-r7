@@ -1,0 +1,1811 @@
+{
+  "schema_version": 1,
+  "task_identity": "PM_CODEX_LF3_DELEGATION_20261001",
+  "repository": "jackp803/project-r7",
+  "source_remote": "https://github.com/jackp803/project-r7.git",
+  "governance_revision": "5a78fcb831d5855ce5823832286e438d86c65261",
+  "accepted_baseline": "cec90965a0cd29fe59bec604987ebeebfb5ad09d",
+  "final_executable_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+  "profile": "bounded-live-fire-readiness-v0.1",
+  "mapping": "status/codex/LF3_SCENARIO_TEST_MAP_20261001.json",
+  "mapping_blob": "657b6cd5d5aaf5e9387bc806d2f76fa5d72a354d",
+  "environment": {
+    "os": "Windows",
+    "windows_version": "10.0.26200",
+    "architecture": "AMD64",
+    "python_version": "3.14.3",
+    "pythonpath": "src",
+    "execution": "PM-authorized approved-local Windows / non-GitHub"
+  },
+  "started_at_utc": "2026-10-01T08:07:50.006238+00:00",
+  "initial_exact_clean_proof": {
+    "observed_at_utc": "2026-10-01T08:07:49.860894+00:00",
+    "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+    "head_exit_code": 0,
+    "status_porcelain": "EMPTY",
+    "status_exit_code": 0,
+    "diff_exit_code": 0,
+    "cached_diff_exit_code": 0,
+    "exact_clean": true
+  },
+  "safety": {
+    "provider_requests": 0,
+    "private_api": "NONE",
+    "credentials": "NONE",
+    "provider_account_mutation": 0,
+    "order_protection_actions": 0,
+    "trading_runtime": "NOT_STARTED",
+    "shadow": "NOT_STARTED",
+    "paper": "NOT_STARTED",
+    "live": "NOT_STARTED",
+    "capital_exposure": "NONE",
+    "github_compute": "NOT_USED",
+    "provider_environment_inherited": false
+  },
+  "rows": [
+    {
+      "row": 1,
+      "scenario": "ACK/pending vs fill truth",
+      "applicable": true,
+      "required_assertions": "Successful ACK remains PENDING with zero filled quantity; observed fill enters OPEN_UNPROTECTED before verified protection.",
+      "tests": 3,
+      "identity": "lf3-01",
+      "command": "python -m unittest tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_success_ack_is_pending_not_fill_truth tests.position.test_state_machine.PositionStateMachineTests.test_fill_is_unprotected_until_protection_is_verified tests.position.test_state_machine.PositionStateMachineTests.test_pending_entry_cannot_skip_unprotected_state -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:50.123690+00:00",
+      "finished_at_utc": "2026-10-01T08:07:50.376430+00:00",
+      "duration_seconds": 0.252746,
+      "exit_code": 0,
+      "log_sha256": "3f34c1241857f91f5936e88a95d2cc1a32ad8afd22f7b500e90ee6ddd2902166",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:50.123672+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:50.492931+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.001,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_success_ack_is_pending_not_fill_truth",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 320
+        },
+        {
+          "test_id": "tests.position.test_state_machine.PositionStateMachineTests.test_fill_is_unprotected_until_protection_is_verified",
+          "source": "tests/position/test_state_machine.py",
+          "line": 14
+        },
+        {
+          "test_id": "tests.position.test_state_machine.PositionStateMachineTests.test_pending_entry_cannot_skip_unprotected_state",
+          "source": "tests/position/test_state_machine.py",
+          "line": 33
+        }
+      ],
+      "executed_test_ids": [
+        "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_success_ack_is_pending_not_fill_truth",
+        "tests.position.test_state_machine.PositionStateMachineTests.test_fill_is_unprotected_until_protection_is_verified",
+        "tests.position.test_state_machine.PositionStateMachineTests.test_pending_entry_cannot_skip_unprotected_state"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-01.log",
+      "persisted_log_sha256": "6a664b66c9c2170b665c4cfd1459874c22f69459b4db30bcfcb91901b5edbc93",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 2,
+      "scenario": "Ambiguous outcome",
+      "applicable": true,
+      "required_assertions": "Timeout remains reconciliation-required; repeated submit sends no second fake transport request; query/reconciliation precede any retry and provider absence is not fabricated.",
+      "tests": 4,
+      "identity": "lf3-02",
+      "command": "python -m unittest tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_reconciliation_queries_truth_but_never_authorizes_retry tests.brokers.test_paper_broker.PaperBrokerTests.test_ambiguous_ack_does_not_blind_duplicate_submit_when_order_exists tests.brokers.test_paper_broker.PaperBrokerTests.test_retry_requires_query_and_reconcile_evidence -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:50.610912+00:00",
+      "finished_at_utc": "2026-10-01T08:07:50.726987+00:00",
+      "duration_seconds": 0.116086,
+      "exit_code": 0,
+      "log_sha256": "6e25326147f14ac94e43492f4077bb05967996f44347a619a5c762feaa00125c",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:50.610898+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:50.844434+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.002,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 338
+        },
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_reconciliation_queries_truth_but_never_authorizes_retry",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 367
+        },
+        {
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_ambiguous_ack_does_not_blind_duplicate_submit_when_order_exists",
+          "source": "tests/brokers/test_paper_broker.py",
+          "line": 77
+        },
+        {
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_retry_requires_query_and_reconcile_evidence",
+          "source": "tests/brokers/test_paper_broker.py",
+          "line": 95
+        }
+      ],
+      "executed_test_ids": [
+        "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent",
+        "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_reconciliation_queries_truth_but_never_authorizes_retry",
+        "tests.brokers.test_paper_broker.PaperBrokerTests.test_ambiguous_ack_does_not_blind_duplicate_submit_when_order_exists",
+        "tests.brokers.test_paper_broker.PaperBrokerTests.test_retry_requires_query_and_reconcile_evidence"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-02.log",
+      "persisted_log_sha256": "b3482a47ac481bd055053b3c6c2ea1ed748f3387429a240868218900fcec68ca",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 3,
+      "scenario": "Partial fill",
+      "applicable": true,
+      "required_assertions": "Requested and actual quantities remain distinct; actual filled exposure is propagated exactly from E5 action to E4 protection request; partial close remains nonfinal.",
+      "tests": 3,
+      "identity": "lf3-03",
+      "command": "python -m unittest tests.brokers.test_paper_broker.PaperBrokerTests.test_partial_fill_keeps_requested_and_filled_quantity_distinct tests.integration.test_gate_b_protection_boundary.GateBProtectionBoundaryIntegrationTests.test_partial_fill_exact_actual_exposure_propagates_e5_to_e4 tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_partial_close_residual_cannot_finalize_trade_result -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:50.960748+00:00",
+      "finished_at_utc": "2026-10-01T08:07:51.118979+00:00",
+      "duration_seconds": 0.15824,
+      "exit_code": 0,
+      "log_sha256": "58086cb98151319c47ca91f0a548e162aba583ecf2be943f3dc180bcafe5abef",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:50.960732+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:51.240111+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.001,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_partial_fill_keeps_requested_and_filled_quantity_distinct",
+          "source": "tests/brokers/test_paper_broker.py",
+          "line": 41
+        },
+        {
+          "test_id": "tests.integration.test_gate_b_protection_boundary.GateBProtectionBoundaryIntegrationTests.test_partial_fill_exact_actual_exposure_propagates_e5_to_e4",
+          "source": "tests/integration/test_gate_b_protection_boundary.py",
+          "line": 103
+        },
+        {
+          "test_id": "tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_partial_close_residual_cannot_finalize_trade_result",
+          "source": "tests/safety/test_gate_b_close_trade_result_safety.py",
+          "line": 136
+        }
+      ],
+      "executed_test_ids": [
+        "tests.brokers.test_paper_broker.PaperBrokerTests.test_partial_fill_keeps_requested_and_filled_quantity_distinct",
+        "tests.integration.test_gate_b_protection_boundary.GateBProtectionBoundaryIntegrationTests.test_partial_fill_exact_actual_exposure_propagates_e5_to_e4",
+        "tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_partial_close_residual_cannot_finalize_trade_result"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-03.log",
+      "persisted_log_sha256": "287ac618d1fea71851ebf80a45d7f3052dee916cc8ae2a3bfd691f1c0ecc658f",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 4,
+      "scenario": "Stale market evidence",
+      "applicable": true,
+      "required_assertions": "STALE/UNKNOWN market cannot authorize new exposure or actionable protection; caller freshness flag cannot override unsafe status.",
+      "tests": 4,
+      "identity": "lf3-04",
+      "command": "python -m unittest tests.safety.test_e5_fail_closed.FailClosedBoundaryTests.test_unsafe_market_status_cannot_be_overridden_by_fresh_flag tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_market_uses_e1_attested_classification_without_second_threshold tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unknown_market_fails_closed tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_newer_market_or_position_truth_invalidates_prior_evidence -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:51.358581+00:00",
+      "finished_at_utc": "2026-10-01T08:07:51.589487+00:00",
+      "duration_seconds": 0.230912,
+      "exit_code": 0,
+      "log_sha256": "6343a4084f3eb18b90b2ef408ea6a0b541d38616645cd9f46517329a0db490aa",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:51.358567+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:51.705741+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.002,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.safety.test_e5_fail_closed.FailClosedBoundaryTests.test_unsafe_market_status_cannot_be_overridden_by_fresh_flag",
+          "source": "tests/safety/test_e5_fail_closed.py",
+          "line": 140
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_market_uses_e1_attested_classification_without_second_threshold",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 185
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unknown_market_fails_closed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 192
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_newer_market_or_position_truth_invalidates_prior_evidence",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 250
+        }
+      ],
+      "executed_test_ids": [
+        "tests.safety.test_e5_fail_closed.FailClosedBoundaryTests.test_unsafe_market_status_cannot_be_overridden_by_fresh_flag",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_market_uses_e1_attested_classification_without_second_threshold",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unknown_market_fails_closed",
+        "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_newer_market_or_position_truth_invalidates_prior_evidence"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-04.log",
+      "persisted_log_sha256": "9cb6766fdf635dac0bba90817682535bb333278687d24bf28d262359e0854a1e",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 5,
+      "scenario": "Stale Position evidence",
+      "applicable": true,
+      "required_assertions": "New raw authoritative Position requires E5 reattestation independently of execution; older protection authority and interpreted evidence cannot remain current.",
+      "tests": 4,
+      "identity": "lf3-05",
+      "command": "python -m unittest tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_raw_position_truth_remains_independent_reattestation_axis tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_position_evidence_fails_closed tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_new_position_requires_new_protection_authority tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_newer_position_provider_lifecycle_or_runtime_authority_invalidates_prior_health -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:51.822438+00:00",
+      "finished_at_utc": "2026-10-01T08:07:52.690455+00:00",
+      "duration_seconds": 0.868025,
+      "exit_code": 0,
+      "log_sha256": "01cd27dc3af520f163ffd90dab46163a22686fbddf0ebd039b61010e7ee38872",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:51.822422+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:52.811205+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.473,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_raw_position_truth_remains_independent_reattestation_axis",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 288
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_position_evidence_fails_closed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 199
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_new_position_requires_new_protection_authority",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 299
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_newer_position_provider_lifecycle_or_runtime_authority_invalidates_prior_health",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 131
+        }
+      ],
+      "executed_test_ids": [
+        "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_raw_position_truth_remains_independent_reattestation_axis",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_stale_position_evidence_fails_closed",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_new_position_requires_new_protection_authority",
+        "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_newer_position_provider_lifecycle_or_runtime_authority_invalidates_prior_health"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-05.log",
+      "persisted_log_sha256": "397f8e08f7d2ac1aba5a50e88f5b913d624e56d4877abffd59b73fb9f19de757",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 6,
+      "scenario": "Stale execution evidence",
+      "applicable": true,
+      "required_assertions": "New partial Fill or canceled OrderResult invalidates prior lifecycle execution binding after storage reopen and requires fresh E5 interpretation.",
+      "tests": 2,
+      "identity": "lf3-06",
+      "command": "python -m unittest tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_canceled_protection_invalidates_old_e5_binding -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:52.930622+00:00",
+      "finished_at_utc": "2026-10-01T08:07:53.585446+00:00",
+      "duration_seconds": 0.654836,
+      "exit_code": 0,
+      "log_sha256": "dcc7fecfc1337829d6c725f46aad5116ce2c1c8f388126a12ef3c424c71b926c",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:52.930605+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:53.714420+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.47,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 228
+        },
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_canceled_protection_invalidates_old_e5_binding",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 263
+        }
+      ],
+      "executed_test_ids": [
+        "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding",
+        "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_canceled_protection_invalidates_old_e5_binding"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-06.log",
+      "persisted_log_sha256": "42a1fd8df6fd9006426a277b765391207e63b9f1dad63bc98d07064cf824938e",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 7,
+      "scenario": "Breached/equality protection trigger",
+      "applicable": true,
+      "required_assertions": "LONG/SHORT equality and crossed geometry fail closed; neither validation nor preparation returns a protection request; time-only retry remains rejected; replace stays nonexecutable.",
+      "tests": 6,
+      "identity": "lf3-07",
+      "command": "python -m unittest tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_equality_breached tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_equality_breached tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_crossed tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_crossed tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_replace_remains_non_executable_under_current_baseline -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:53.835658+00:00",
+      "finished_at_utc": "2026-10-01T08:07:53.998489+00:00",
+      "duration_seconds": 0.162839,
+      "exit_code": 0,
+      "log_sha256": "b0e64c9c1de35ea2cd65df91dd2effbb386edd8de35231a888c6a36a6c4d8ad0",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:53.835643+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:54.114720+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 6,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.003,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_equality_breached",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 163
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_equality_breached",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 170
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_crossed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 175
+        },
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_crossed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 180
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 184
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_replace_remains_non_executable_under_current_baseline",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 266
+        }
+      ],
+      "executed_test_ids": [
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_equality_breached",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_equality_breached",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_long_crossed",
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_short_crossed",
+        "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry",
+        "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_replace_remains_non_executable_under_current_baseline"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-07.log",
+      "persisted_log_sha256": "34b599b27485eb60c391a6646a36bea9066f748079b0212e6f4ad937b8bb4f31",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 8,
+      "scenario": "Duplicate protection",
+      "applicable": true,
+      "required_assertions": "Multiple active protections route reconciliation without winner, cleanup target, or mutation authority; the result remains non-green after restart.",
+      "tests": 2,
+      "identity": "lf3-08",
+      "command": "python -m unittest tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_multiple_protections_fail_closed_without_winner_or_cleanup_target tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_nonconverged_registry_states_remain_non_green_after_restart -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:54.232070+00:00",
+      "finished_at_utc": "2026-10-01T08:07:56.244193+00:00",
+      "duration_seconds": 2.012131,
+      "exit_code": 0,
+      "log_sha256": "c0b3db5e0128e2601018141ec1d70774c95c6254544c5409fdc386a760415aa1",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:54.232055+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:56.370297+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 1.81,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_multiple_protections_fail_closed_without_winner_or_cleanup_target",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 182
+        },
+        {
+          "test_id": "tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_nonconverged_registry_states_remain_non_green_after_restart",
+          "source": "tests/storage/test_protection_registry_currentness.py",
+          "line": 421
+        }
+      ],
+      "executed_test_ids": [
+        "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_multiple_protections_fail_closed_without_winner_or_cleanup_target",
+        "tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_nonconverged_registry_states_remain_non_green_after_restart"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-08.log",
+      "persisted_log_sha256": "cf6214942c31bee7bd2cddb4f38b5a107855e293fe91f60f24195a85683ec75a",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 9,
+      "scenario": "Orphan protection",
+      "applicable": true,
+      "required_assertions": "Nonmatching owned lineage is orphan; external extra is not adopted or trusted and has explicit reconciliation disposition.",
+      "tests": 2,
+      "identity": "lf3-09",
+      "command": "python -m unittest tests.execution.test_protection_registry_evidence.ProtectionRegistryMultiplicityEvidenceTests.test_exact_one_current_owned_but_not_matching_lineage_is_orphan tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:56.500576+00:00",
+      "finished_at_utc": "2026-10-01T08:07:56.652897+00:00",
+      "duration_seconds": 0.152328,
+      "exit_code": 0,
+      "log_sha256": "a09887fdbfc9a7970ee0fef048e630909c2b8d39a9a54d9182b924b78de8267f",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:56.500558+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:56.779253+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.004,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.execution.test_protection_registry_evidence.ProtectionRegistryMultiplicityEvidenceTests.test_exact_one_current_owned_but_not_matching_lineage_is_orphan",
+          "source": "tests/execution/test_protection_registry_evidence.py",
+          "line": 310
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 190
+        }
+      ],
+      "executed_test_ids": [
+        "tests.execution.test_protection_registry_evidence.ProtectionRegistryMultiplicityEvidenceTests.test_exact_one_current_owned_but_not_matching_lineage_is_orphan",
+        "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-09.log",
+      "persisted_log_sha256": "c9d835561ed1dc33715313f925b6b9cb2058cf1d441ba7599d5a893b31e9a0a5",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 10,
+      "scenario": "Missing protection",
+      "applicable": true,
+      "required_assertions": "Protected claim with complete missing set enters EMERGENCY; unprotected exposure stays OPEN_UNPROTECTED with no mutation authority; repeated restarts never grant protection health.",
+      "tests": 3,
+      "identity": "lf3-10",
+      "command": "python -m unittest tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_complete_current_missing_protection_rejects_protected_claim_as_protection_lost tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:56.931338+00:00",
+      "finished_at_utc": "2026-10-01T08:07:57.846364+00:00",
+      "duration_seconds": 0.915034,
+      "exit_code": 0,
+      "log_sha256": "1823672d7c072d2db506c6189a7babb8dbbf5853ee5be87ace2f155ddebd071d",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:56.931322+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:57.965791+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.707,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_complete_current_missing_protection_rejects_protected_claim_as_protection_lost",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 164
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 173
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 39
+        }
+      ],
+      "executed_test_ids": [
+        "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_complete_current_missing_protection_rejects_protected_claim_as_protection_lost",
+        "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation",
+        "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-10.log",
+      "persisted_log_sha256": "3e72a4c169bbe899dd76a5effa5f6e44434b27e7396dbce578f88d548d3b9d19",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 11,
+      "scenario": "Restart flat",
+      "applicable": true,
+      "required_assertions": "Durable CLOSED recovery restores exact flat projection, execution binding, funding and aggregate TradeResult; restart preflight rejects wrong identity/heartbeat or reconciliation still needed; absence of local rows is not proof of flatness.",
+      "tests": 4,
+      "identity": "lf3-11",
+      "command": "python -m unittest tests.e2e.test_lf3_restart_flat.LF3RestartFlatCompositionTests.test_restored_flat_requires_fresh_reconciliation_and_new_positive_exposure_invalidates_it tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:58.080041+00:00",
+      "finished_at_utc": "2026-10-01T08:07:58.886358+00:00",
+      "duration_seconds": 0.806325,
+      "exit_code": 0,
+      "log_sha256": "19f25d44c3cb30c35ea7737922d478666088a5cecfcc2c4cad92d73d056e2b44",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:58.080025+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:07:59.002699+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.487,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.e2e.test_lf3_restart_flat.LF3RestartFlatCompositionTests.test_restored_flat_requires_fresh_reconciliation_and_new_positive_exposure_invalidates_it",
+          "source": "tests/e2e/test_lf3_restart_flat.py",
+          "line": 64
+        },
+        {
+          "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
+          "source": "tests/storage/test_paper_runtime_durability.py",
+          "line": 689
+        },
+        {
+          "test_id": "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation",
+          "source": "tests/integration/test_lf3_restart_preflight.py",
+          "line": 14
+        },
+        {
+          "test_id": "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness",
+          "source": "tests/position/test_external_close_reinterpretation.py",
+          "line": 449
+        }
+      ],
+      "executed_test_ids": [
+        "tests.e2e.test_lf3_restart_flat.LF3RestartFlatCompositionTests.test_restored_flat_requires_fresh_reconciliation_and_new_positive_exposure_invalidates_it",
+        "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
+        "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation",
+        "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-11.log",
+      "persisted_log_sha256": "da39f2ed9746c304ea1f9b91bdd9a2a4355cddcbd980106937d68f3660990a1a",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 12,
+      "scenario": "Restart open protected",
+      "applicable": true,
+      "required_assertions": "Exact durable lifecycle/execution binding restores protected state; registry health additionally requires exact current owner/provider chain; newer execution invalidates it.",
+      "tests": 3,
+      "identity": "lf3-12",
+      "command": "python -m unittest tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_matching_e5_binding_is_restart_authoritative_before_new_execution_truth tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_real_paper_lifecycle_writer_and_fp11_currentness_remain_healthy_after_restart_only_for_exact_chain tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:07:59.117938+00:00",
+      "finished_at_utc": "2026-10-01T08:08:00.023732+00:00",
+      "duration_seconds": 0.905802,
+      "exit_code": 0,
+      "log_sha256": "d83bbfe12727288796ab1d279b11fdcbc031d6d87f134da454a936eef4edb13d",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:07:59.117923+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:00.144859+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.689,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_matching_e5_binding_is_restart_authoritative_before_new_execution_truth",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 212
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_real_paper_lifecycle_writer_and_fp11_currentness_remain_healthy_after_restart_only_for_exact_chain",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 73
+        },
+        {
+          "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding",
+          "source": "tests/safety/test_gate_b_durable_lifecycle_freshness.py",
+          "line": 228
+        }
+      ],
+      "executed_test_ids": [
+        "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_matching_e5_binding_is_restart_authoritative_before_new_execution_truth",
+        "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_real_paper_lifecycle_writer_and_fp11_currentness_remain_healthy_after_restart_only_for_exact_chain",
+        "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-12.log",
+      "persisted_log_sha256": "b5711f143abf78815e1a3e4aa37b234ef3e06a7836268cd4fe0d3cb448937a44",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 13,
+      "scenario": "Restart open unprotected",
+      "applicable": true,
+      "required_assertions": "Repeated recovery with missing protection preserves OPEN_UNPROTECTED, blocks new exposure, and grants neither healthy-protection nor mutation authority.",
+      "tests": 2,
+      "identity": "lf3-13",
+      "command": "python -m unittest tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:00.264224+00:00",
+      "finished_at_utc": "2026-10-01T08:08:01.145902+00:00",
+      "duration_seconds": 0.881685,
+      "exit_code": 0,
+      "log_sha256": "f1da405fae06c5c7ad61b65848f03974fe2f342e5c608312f27d48b71ab1abe9",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:00.264209+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:01.261547+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 2,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.684,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 39
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 173
+        }
+      ],
+      "executed_test_ids": [
+        "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+        "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_missing_protection_does_not_authorize_protect_mutation"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-13.log",
+      "persisted_log_sha256": "cfe47d52c7a613d819470609ee7caf34bb463ceb6fcc81df672c3f69030540d9",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 14,
+      "scenario": "Restart reconciliation-required",
+      "applicable": true,
+      "required_assertions": "Ambiguous execution remains reconciliation-required across storage reopen; missing protection cannot auto-promote reconciliation state and new exposure stays blocked.",
+      "tests": 3,
+      "identity": "lf3-14",
+      "command": "python -m unittest tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_preserves_reconciliation_required_truth tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition tests.position.test_state_machine.PositionStateMachineTests.test_unknown_state_requires_reconciliation -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:01.379761+00:00",
+      "finished_at_utc": "2026-10-01T08:08:02.482414+00:00",
+      "duration_seconds": 1.102662,
+      "exit_code": 0,
+      "log_sha256": "eec2f710cb9cccb6e12bb6c9c51db7eea97840657b97c89e49801c95d67c893a",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:01.379746+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:02.598762+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.899,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_preserves_reconciliation_required_truth",
+          "source": "tests/storage/test_paper_runtime_durability.py",
+          "line": 655
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 39
+        },
+        {
+          "test_id": "tests.position.test_state_machine.PositionStateMachineTests.test_unknown_state_requires_reconciliation",
+          "source": "tests/position/test_state_machine.py",
+          "line": 27
+        }
+      ],
+      "executed_test_ids": [
+        "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_preserves_reconciliation_required_truth",
+        "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition",
+        "tests.position.test_state_machine.PositionStateMachineTests.test_unknown_state_requires_reconciliation"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-14.log",
+      "persisted_log_sha256": "06ded41d8ec1790a25c2f75c7537bd80b45b1d9f97cc6235f70af23249ca5fe7",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 15,
+      "scenario": "Unchanged failure evidence",
+      "applicable": true,
+      "required_assertions": "Advancing time alone cannot make breached trigger retryable; timestamp-only registry row yields competing-head conflict after restart; repeated ambiguous ACK cannot duplicate submission.",
+      "tests": 4,
+      "identity": "lf3-15",
+      "command": "python -m unittest tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unchanged_breached_evidence_does_not_become_retryable_when_only_time_advances tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_timestamp_only_fp11_row_never_becomes_current_head_and_restart_fails_closed tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:02.716048+00:00",
+      "finished_at_utc": "2026-10-01T08:08:03.205194+00:00",
+      "duration_seconds": 0.489155,
+      "exit_code": 0,
+      "log_sha256": "ca352921cc86101c5da73d3697dcf1c808f329b102eff3809cc67aac3d5c3df2",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:02.716033+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:03.323405+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.229,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unchanged_breached_evidence_does_not_become_retryable_when_only_time_advances",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 237
+        },
+        {
+          "test_id": "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry",
+          "source": "tests/execution/test_protection_trigger_consumer.py",
+          "line": 184
+        },
+        {
+          "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_timestamp_only_fp11_row_never_becomes_current_head_and_restart_fails_closed",
+          "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
+          "line": 94
+        },
+        {
+          "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent",
+          "source": "tests/brokers/test_okx_demo_adapter.py",
+          "line": 338
+        }
+      ],
+      "executed_test_ids": [
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_unchanged_breached_evidence_does_not_become_retryable_when_only_time_advances",
+        "tests.execution.test_protection_trigger_consumer.ProtectionTriggerConsumerTests.test_fail_closed_breached_evidence_never_authorizes_create_or_time_only_retry",
+        "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_timestamp_only_fp11_row_never_becomes_current_head_and_restart_fails_closed",
+        "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-15.log",
+      "persisted_log_sha256": "eb86eb88f9b29c968bd64e916e7c007d86f991f121248ad42aee3e3e7e27fccc",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 16,
+      "scenario": "Clock/temporal ordering",
+      "applicable": true,
+      "required_assertions": "Decision before observation/receipt fails closed; excessive clock skew rejects before private read; preflight heartbeat after decision or from prior boot is rejected.",
+      "tests": 5,
+      "identity": "lf3-16",
+      "command": "python -m unittest tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_temporal_precompute_fails_closed tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_evaluation_before_provider_receipt_is_rejected tests.brokers.test_okx_shadow.OKXShadowReaderTests.test_clock_skew_over_policy_limit_fails_before_any_private_read tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed tests.integration.test_gate_c_shadow_composition.GateCShadowCompositionIntegrationTests.test_provider_observation_genuinely_after_risk_clock_remains_fail_closed -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:03.436953+00:00",
+      "finished_at_utc": "2026-10-01T08:08:04.178578+00:00",
+      "duration_seconds": 0.741633,
+      "exit_code": 0,
+      "log_sha256": "1ba99844d7c6a5a6585179d7fb664d4a93ffc67fa9783751720cf3922ecbd4cb",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:03.436938+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:04.298552+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.453,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_temporal_precompute_fails_closed",
+          "source": "tests/position/test_protection_trigger_validity.py",
+          "line": 231
+        },
+        {
+          "test_id": "tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_evaluation_before_provider_receipt_is_rejected",
+          "source": "tests/storage/test_protection_registry_currentness.py",
+          "line": 360
+        },
+        {
+          "test_id": "tests.brokers.test_okx_shadow.OKXShadowReaderTests.test_clock_skew_over_policy_limit_fails_before_any_private_read",
+          "source": "tests/brokers/test_okx_shadow.py",
+          "line": 166
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 349
+        },
+        {
+          "test_id": "tests.integration.test_gate_c_shadow_composition.GateCShadowCompositionIntegrationTests.test_provider_observation_genuinely_after_risk_clock_remains_fail_closed",
+          "source": "tests/integration/test_gate_c_shadow_composition.py",
+          "line": 252
+        }
+      ],
+      "executed_test_ids": [
+        "tests.position.test_protection_trigger_validity.ProtectionTriggerValidityV01Tests.test_temporal_precompute_fails_closed",
+        "tests.storage.test_protection_registry_currentness.ProtectionRegistryCurrentnessPersistenceTests.test_evaluation_before_provider_receipt_is_rejected",
+        "tests.brokers.test_okx_shadow.OKXShadowReaderTests.test_clock_skew_over_policy_limit_fails_before_any_private_read",
+        "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed",
+        "tests.integration.test_gate_c_shadow_composition.GateCShadowCompositionIntegrationTests.test_provider_observation_genuinely_after_risk_clock_remains_fail_closed"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-16.log",
+      "persisted_log_sha256": "4623f842144328a108a3b3eb0f7bc8b44d9700bbe32fbb3cc874f491151afca5",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 17,
+      "scenario": "External/manual provider objects",
+      "applicable": true,
+      "required_assertions": "External manual exposure and orphan protection retain external ownership, route reconciliation, and never silently adopt or grant cleanup/mutation authority.",
+      "tests": 3,
+      "identity": "lf3-17",
+      "command": "python -m unittest tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp04_external_manual_position_never_silently_adopts_and_routes_fp10 tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp04_external_manual_preserves_external_classification_and_never_adopts -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:04.414313+00:00",
+      "finished_at_utc": "2026-10-01T08:08:04.670236+00:00",
+      "duration_seconds": 0.255932,
+      "exit_code": 0,
+      "log_sha256": "01904a7180d78e81591af33e51ae596fe649c7ea80f6150bf4268570057dbc4c",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:04.414298+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:04.787826+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 3,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.004,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp04_external_manual_position_never_silently_adopts_and_routes_fp10",
+          "source": "tests/integration/test_p0_integrated_failure_prevention.py",
+          "line": 135
+        },
+        {
+          "test_id": "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption",
+          "source": "tests/position/test_protection_registry_policy.py",
+          "line": 190
+        },
+        {
+          "test_id": "tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp04_external_manual_preserves_external_classification_and_never_adopts",
+          "source": "tests/execution/test_external_close_evidence.py",
+          "line": 334
+        }
+      ],
+      "executed_test_ids": [
+        "tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp04_external_manual_position_never_silently_adopts_and_routes_fp10",
+        "tests.position.test_protection_registry_policy.ProtectionRegistryPolicyTests.test_one_intended_plus_external_extra_fails_closed_without_adoption",
+        "tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp04_external_manual_preserves_external_classification_and_never_adopts"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-17.log",
+      "persisted_log_sha256": "54d066b09a128a603f7e1b63e3f688ebdb2489d5c5ad04e220d4388fc15a8dbb",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 18,
+      "scenario": "Close on order status only",
+      "applicable": true,
+      "required_assertions": "Filled OrderResult with nonflat authoritative Position cannot finalize; absent Position is not flat; positive residuals never close. Durable flat closure separately requires aggregate execution and matching binding.",
+      "tests": 4,
+      "identity": "lf3-18",
+      "command": "python -m unittest tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_filled_order_without_authoritative_flat_position_cannot_finalize tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_representable_and_unrepresentable_positive_residuals_never_close tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:04.905114+00:00",
+      "finished_at_utc": "2026-10-01T08:08:05.327775+00:00",
+      "duration_seconds": 0.422668,
+      "exit_code": 0,
+      "log_sha256": "a621755b0752fc141c7b9654a03f328f040ce98ebd3b2449087ce59dd48e9ae0",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:04.905099+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:05.441693+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.24,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_filled_order_without_authoritative_flat_position_cannot_finalize",
+          "source": "tests/safety/test_gate_b_close_trade_result_safety.py",
+          "line": 143
+        },
+        {
+          "test_id": "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness",
+          "source": "tests/position/test_external_close_reinterpretation.py",
+          "line": 449
+        },
+        {
+          "test_id": "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_representable_and_unrepresentable_positive_residuals_never_close",
+          "source": "tests/position/test_external_close_reinterpretation.py",
+          "line": 329
+        },
+        {
+          "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
+          "source": "tests/storage/test_paper_runtime_durability.py",
+          "line": 689
+        }
+      ],
+      "executed_test_ids": [
+        "tests.safety.test_gate_b_close_trade_result_safety.GateBCloseTradeResultSafetyDefinitions.test_real_filled_order_without_authoritative_flat_position_cannot_finalize",
+        "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_missing_local_position_row_and_no_pending_order_are_not_flatness",
+        "tests.position.test_external_close_reinterpretation.ExternalCloseReinterpretationTests.test_representable_and_unrepresentable_positive_residuals_never_close",
+        "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-18.log",
+      "persisted_log_sha256": "4a2c4967bf3304de5fa9b992600169762d2dd55016d1ad01131e6318a8dfde75",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 19,
+      "scenario": "Residual below actionable provider size",
+      "applicable": true,
+      "required_assertions": "Dust produces explicit unrepresentable residual with no provider close size and no unchanged retry authority; downstream FP10 remains nonflat.",
+      "tests": 4,
+      "identity": "lf3-19",
+      "command": "python -m unittest tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp10_positive_unrepresentable_residual_is_explicit_and_blocks_retry tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp05_unrepresentable_residual_and_unproven_capability_never_create_retry_authority -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:05.557346+00:00",
+      "finished_at_utc": "2026-10-01T08:08:05.767983+00:00",
+      "duration_seconds": 0.210645,
+      "exit_code": 0,
+      "log_sha256": "6b541d99c6324c429ff9f9e2f914344bb8c0ae6597db098f9c0abd522f31df8d",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:05.557331+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:05.885641+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 4,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.005,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable",
+          "source": "tests/brokers/test_okx_close_sizing.py",
+          "line": 340
+        },
+        {
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority",
+          "source": "tests/brokers/test_okx_close_sizing.py",
+          "line": 350
+        },
+        {
+          "test_id": "tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp10_positive_unrepresentable_residual_is_explicit_and_blocks_retry",
+          "source": "tests/execution/test_external_close_evidence.py",
+          "line": 509
+        },
+        {
+          "test_id": "tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp05_unrepresentable_residual_and_unproven_capability_never_create_retry_authority",
+          "source": "tests/integration/test_p0_integrated_failure_prevention.py",
+          "line": 210
+        }
+      ],
+      "executed_test_ids": [
+        "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable",
+        "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority",
+        "tests.execution.test_external_close_evidence.ExternalCloseEvidenceProducerTests.test_fp10_positive_unrepresentable_residual_is_explicit_and_blocks_retry",
+        "tests.integration.test_p0_integrated_failure_prevention.P0IntegratedFailurePreventionTests.test_fp05_unrepresentable_residual_and_unproven_capability_never_create_retry_authority"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-19.log",
+      "persisted_log_sha256": "dd516d0c3f29bce27b510d0a6cfcf22e81b08258aa6abd339d8a2a77481ca676",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    },
+    {
+      "row": 20,
+      "scenario": "Wrong runtime revision/mode/heartbeat",
+      "applicable": true,
+      "required_assertions": "Wrong revision, dirty classification, mode/generation, stale/unknown/wrong-process/prior-boot heartbeat reject preflight. Pure evaluator never launches process or mutates provider.",
+      "tests": 5,
+      "identity": "lf3-20",
+      "command": "python -m unittest tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_revision_mismatch_and_non_exact_clean_worktree_fail_closed tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_operational_mode_value_and_generation_mismatch_fail_closed tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_coherent_credential_free_evidence_is_eligible_without_runtime_authority_side_effects tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation -v",
+      "revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+      "started_at_utc": "2026-10-01T08:08:06.003214+00:00",
+      "finished_at_utc": "2026-10-01T08:08:06.183182+00:00",
+      "duration_seconds": 0.179976,
+      "exit_code": 0,
+      "log_sha256": "be6588d92202fb2403543daf67ede6f712919877eab8f95c40d39fbdf2e11c24",
+      "exact_clean_before": {
+        "observed_at_utc": "2026-10-01T08:08:06.003199+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "exact_clean_after": {
+        "observed_at_utc": "2026-10-01T08:08:06.300468+00:00",
+        "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+        "head_exit_code": 0,
+        "status_porcelain": "EMPTY",
+        "status_exit_code": 0,
+        "diff_exit_code": 0,
+        "cached_diff_exit_code": 0,
+        "exact_clean": true
+      },
+      "passed": 5,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "unittest_duration_seconds": 0.006,
+      "summary_parsed": true,
+      "unittest_summary": "OK",
+      "safety": {
+        "provider_requests": 0,
+        "private_api": "NONE",
+        "credentials": "NONE",
+        "provider_account_mutation": 0,
+        "order_protection_actions": 0,
+        "trading_runtime": "NOT_STARTED",
+        "shadow": "NOT_STARTED",
+        "paper": "NOT_STARTED",
+        "live": "NOT_STARTED",
+        "capital_exposure": "NONE",
+        "github_compute": "NOT_USED",
+        "provider_environment_inherited": false
+      },
+      "test_references": [
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_revision_mismatch_and_non_exact_clean_worktree_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 311
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_operational_mode_value_and_generation_mismatch_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 320
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 349
+        },
+        {
+          "test_id": "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_coherent_credential_free_evidence_is_eligible_without_runtime_authority_side_effects",
+          "source": "tests/integration/test_runtime_preflight.py",
+          "line": 261
+        },
+        {
+          "test_id": "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation",
+          "source": "tests/integration/test_lf3_restart_preflight.py",
+          "line": 14
+        }
+      ],
+      "executed_test_ids": [
+        "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_revision_mismatch_and_non_exact_clean_worktree_fail_closed",
+        "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_operational_mode_value_and_generation_mismatch_fail_closed",
+        "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_heartbeat_stale_unknown_wrong_process_prior_boot_and_temporal_order_fail_closed",
+        "tests.integration.test_runtime_preflight.RuntimePreflightV01Tests.test_coherent_credential_free_evidence_is_eligible_without_runtime_authority_side_effects",
+        "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation"
+      ],
+      "pass": true,
+      "persisted_log": "status/codex/lf3-20261001/logs/lf3-20.log",
+      "persisted_log_sha256": "40de2b65367b42794897df83f2a328ec61d7585f7f469ab0c23064da48647ad1",
+      "persisted_log_format": "UTF-8 / LF; original raw log_sha256 retained separately"
+    }
+  ],
+  "result": "LF3_PASS",
+  "totals": {
+    "tests": 70,
+    "passed": 70,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "commands": 20,
+    "commands_passed": 20
+  },
+  "finished_at_utc": "2026-10-01T08:08:06.301506+00:00",
+  "final_exact_clean_proof": {
+    "observed_at_utc": "2026-10-01T08:08:06.419509+00:00",
+    "actual_revision": "1cd9a408d0c4f22b8e8f22f567005e1af45a0035",
+    "head_exit_code": 0,
+    "status_porcelain": "EMPTY",
+    "status_exit_code": 0,
+    "diff_exit_code": 0,
+    "cached_diff_exit_code": 0,
+    "exact_clean": true
+  },
+  "unique_test_methods": 59,
+  "artifact_audit": "status/codex/LF3_ARTIFACT_AUDIT_20261001.json",
+  "log_sanitization": "Successful test IDs, counts and duration only; no local paths or provider payloads; LF normalization only"
+}

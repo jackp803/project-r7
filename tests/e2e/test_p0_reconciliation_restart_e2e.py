@@ -15,6 +15,8 @@ from storage.protection_registry_currentness import (
     open_protection_registry_currentness_store,
 )
 import tests.storage.test_protection_registry_currentness as fp11_storage_fixture_module
+from position import interpret_protection_registry_evidence
+from position.state_machine import state_blocks_new_exposure
 
 
 def _sha(value):
@@ -33,6 +35,33 @@ class P0ReconciliationRestartE2ETests(unittest.TestCase):
 
     def tearDown(self):
         self.fixture.tearDown()
+
+    def test_repeated_restart_with_missing_protection_preserves_safe_e5_disposition(self):
+        cases = (
+            ("OPEN_UNPROTECTED", "OPEN_UNPROTECTED"),
+            ("OPEN_PROTECTED", "EMERGENCY"),
+            ("RECONCILIATION_REQUIRED", "RECONCILIATION_REQUIRED"),
+        )
+        for lifecycle, expected in cases:
+            with self.subTest(lifecycle=lifecycle):
+                self.fixture.tearDown()
+                self.fixture.setUp()
+                evidence, owner, _, authority = self.fixture._setup_case("missing", lifecycle=lifecycle)
+                self.fixture.store.persist_fp11(evidence)
+                self.fixture._persist_decision(evidence, owner, authority)
+                for _ in range(2):
+                    self.fixture.store.close()
+                    self.fixture.store = open_protection_registry_currentness_store(self.fixture.db_path)
+                    recovered = self.fixture.store.recover(authority)
+                    decision = interpret_protection_registry_evidence(recovered.current_fp11.payload, owner)
+                    self.assertEqual(expected, decision.next_state.value)
+                    self.assertTrue(state_blocks_new_exposure(decision.next_state))
+                    self.assertFalse(recovered.healthy_protection)
+                    self.assertFalse(decision.healthy_protection)
+                    self.assertFalse(recovered.provider_mutation_authorized)
+                    self.assertFalse(decision.provider_mutation_authorized)
+                    self.assertIsNone(recovered.cleanup_target_ref)
+                    self.assertEqual(evidence, recovered.current_fp11.payload)
 
     def test_real_paper_lifecycle_writer_and_fp11_currentness_remain_healthy_after_restart_only_for_exact_chain(self):
         evidence, owner_authority, _, authority = self.fixture._persist_healthy_chain()

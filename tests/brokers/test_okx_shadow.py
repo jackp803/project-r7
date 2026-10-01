@@ -6,7 +6,7 @@ from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.brokers.okx_shadow import (
+from brokers.okx_shadow import (
     CLOCK_SKEW_LIMIT_MS,
     OKXShadowConfigurationError,
     OKXShadowCredentials,

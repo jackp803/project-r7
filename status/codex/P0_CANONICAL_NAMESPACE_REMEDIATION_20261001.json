@@ -1,0 +1,56 @@
+{
+  "authority": "status/PM_CODEX_LOCAL_COMPLETION_DELEGATION_20261001.md",
+  "accepted_architecture": "docs/architecture/CANONICAL_PYTHON_IMPORT_NAMESPACE.md",
+  "failing_candidate": "bab879dcda2d90bb9facb82f49377529e6b8d35f",
+  "classification": "C: deterministic import/package/integration defect",
+  "failing_command": "python -m unittest discover -s tests/integration -p 'test_p0_integrated_failure_prevention.py' -v",
+  "failing_tests": [
+    "test_fp11_flat_closed_with_external_protection_reopens_false_green_lifecycle",
+    "test_fp11_only_exact_single_current_owned_lineage_is_healthy_and_never_mutation_authority"
+  ],
+  "exception": "ProtectionRegistryPolicyError: CURRENT_AUTHORITY_INVALID; current authority must be typed",
+  "red": {"tests": 7, "passed": 5, "failed": 0, "errors": 2, "skipped": 0, "exit_code": 1},
+  "root_cause": "Remaining src.<package> imports load duplicate module/type identities alongside canonical source-root packages. Integration fixtures create position.CurrentProtectionRegistryAuthority but the src.position consumer owns a distinct class; strict validation correctly rejects that foreign identity.",
+  "correction": "Normalize all remaining static source-root application imports in the connected source/test graph to accepted top-level packages, including one explicitly aliased import. Preserve the alias binding and every other executable AST node.",
+  "mechanical_verification": {
+    "source_files": 5,
+    "test_files": 52,
+    "import_prefixes_changed": 144,
+    "normalized_ast_equivalent": true,
+    "report": "status/codex/P0_CANONICAL_NAMESPACE_AST_VERIFICATION_20261001.json"
+  },
+  "regression": {
+    "file": "tests/integration/test_canonical_import_identity.py",
+    "extended_guard_red": {"tests": 8, "passed": 5, "failed": 3, "errors": 0, "skipped": 0, "exit_code": 1},
+    "coverage": "Source/test import graph rejects static src.* imports; real consumer imports create no parallel src module tree; canonical class identity and truly wrong authority rejection remain tested"
+  },
+  "additional_test_defect": {
+    "classification": "B: deterministic test defect",
+    "test": "test_import_rule_has_no_provider_network_runtime_dependency",
+    "root_cause": "The textual source scan matches its own forbidden string literals and fails even when no forbidden dependency is imported or called.",
+    "isolated_original_red": {"tests": 1, "passed": 0, "failed": 1, "errors": 0, "skipped": 0, "exit_code": 1},
+    "correction": "Inspect actual AST import roots and called function/method names, ignoring comments and string literals while rejecting actual prohibited dependencies and runtime action calls"
+  },
+  "focused_green": {"modules": 9, "tests": 117, "passed": 117, "failed": 0, "errors": 0, "skipped": 0, "exit_code": 0},
+  "preserved": [
+    "strict authority/type validation; no duck typing or dual-type acceptance",
+    "no sys.modules aliases or monkey patches",
+    "existing contracts and accepted architecture",
+    "FP-02 complete ordered reason aggregation and provider unresolved roles",
+    "FP-11 temporal validation and immutable currentness",
+    "E5 risk veto and lifecycle rules"
+  ],
+  "shared_contract_or_architecture_changed": false,
+  "qualification": "A new committed exact-clean candidate must receive fresh complete Phase 1 and Phase 2 qualification",
+  "safety": {
+    "provider_requests": 0,
+    "private_api": "NONE",
+    "credentials": "NONE",
+    "provider_account_mutation": 0,
+    "order_protection_actions": 0,
+    "trading_runtime": "NOT_STARTED",
+    "shadow_paper_live": "NOT_STARTED",
+    "capital_exposure": "NONE",
+    "github_compute": "NOT_USED"
+  }
+}

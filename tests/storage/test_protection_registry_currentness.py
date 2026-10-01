@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 from position import interpret_protection_registry_evidence
-from src.execution.protection_registry_evidence_boundary import (
+from execution.protection_registry_evidence_boundary import (
     build_protection_registry_multiplicity_evidence,
 )
 from storage._lifecycle_execution_binding import persist_lifecycle_execution_binding

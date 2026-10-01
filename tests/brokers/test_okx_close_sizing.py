@@ -3,7 +3,7 @@ from dataclasses import fields, replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.brokers.okx_close_sizing import (
+from brokers.okx_close_sizing import (
     APPLICABLE_CONSTRAINT,
     CLOSE_CAPABILITY_UNPROVEN,
     CLOSE_ROLE_SCOPE,
@@ -32,8 +32,8 @@ from src.brokers.okx_close_sizing import (
     okx_close_residual_sizing_evidence_is_current,
     validate_okx_close_residual_sizing_evidence,
 )
-from src.brokers.okx_sizing import OKXInstrumentMetadata
-from src.execution.external_close_evidence import (
+from brokers.okx_sizing import OKXInstrumentMetadata
+from execution.external_close_evidence import (
     CURRENT,
     LINEAGE_CURRENT_GENERATION,
     LINEAGE_EXTERNAL,

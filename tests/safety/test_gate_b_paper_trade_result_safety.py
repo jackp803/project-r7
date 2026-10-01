@@ -13,12 +13,12 @@ from position import (
     build_trade_result,
     interpret_protection_result,
 )
-from src.brokers.paper import PaperBroker, ReconciliationRequiredError
-from src.execution.close import prepare_close_order
-from src.execution.funding import produce_paper_zero_funding_evidence
-from src.execution.gateway import ExecutionGateway
-from src.execution.models import OrderStatus
-from src.execution.protection import prepare_protection_order
+from brokers.paper import PaperBroker, ReconciliationRequiredError
+from execution.close import prepare_close_order
+from execution.funding import produce_paper_zero_funding_evidence
+from execution.gateway import ExecutionGateway
+from execution.models import OrderStatus
+from execution.protection import prepare_protection_order
 
 
 class GateBPaperTradeResultSafetyDefinitions(unittest.TestCase):

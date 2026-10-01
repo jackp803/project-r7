@@ -2,7 +2,7 @@ import unittest
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from src.brokers.okx_demo import (
+from brokers.okx_demo import (
     OKXAccountConfigSnapshot,
     OKXDemoAdapterConfig,
     OKXPrerequisiteSnapshot,
@@ -10,8 +10,8 @@ from src.brokers.okx_demo import (
     materialize_demo_market_order,
     parse_order_lookup_response,
 )
-from src.brokers.okx_sizing import OKXInstrumentMetadata, size_okx_market_entry
-from src.execution.models import (
+from brokers.okx_sizing import OKXInstrumentMetadata, size_okx_market_entry
+from execution.models import (
     SCHEMA_VERSION,
     OrderRequest,
     OrderStatus,

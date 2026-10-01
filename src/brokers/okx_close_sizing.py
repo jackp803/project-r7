@@ -9,13 +9,13 @@ from decimal import Decimal, InvalidOperation, ROUND_FLOOR
 from enum import Enum
 from typing import Any, Mapping
 
-from src.brokers.okx_sizing import (
+from brokers.okx_sizing import (
     OKXInstrumentMetadata,
     OKXMetadataValidationError,
     OKXUnsupportedConversionError,
     validate_okx_instrument_metadata,
 )
-from src.execution.close import (
+from execution.close import (
     CLOSE_PROFILE_VERSION,
     EMERGENCY_EXIT,
     EMERGENCY_EXIT_ROLE,
@@ -24,7 +24,7 @@ from src.execution.close import (
     CloseAuthorityError,
     validate_close_authority,
 )
-from src.execution.external_close_evidence import (
+from execution.external_close_evidence import (
     CURRENT,
     CURRENT_KNOWN_OWNED,
     KNOWN_OWNED_CURRENT_GENERATION,

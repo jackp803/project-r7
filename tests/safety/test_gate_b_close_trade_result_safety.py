@@ -3,9 +3,9 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
 from position import TradeResultBuildError, authorize_close_position_action, build_trade_result
-from src.brokers.paper import PaperBroker
-from src.execution.close import prepare_close_order
-from src.execution.gateway import ExecutionGateway
+from brokers.paper import PaperBroker
+from execution.close import prepare_close_order
+from execution.gateway import ExecutionGateway
 
 
 class GateBCloseTradeResultSafetyDefinitions(unittest.TestCase):

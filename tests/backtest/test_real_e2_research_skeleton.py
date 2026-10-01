@@ -20,7 +20,7 @@ from strategy import (
     StrategyValidationError,
     compute_content_hash,
 )
-from src.backtest import (
+from backtest import (
     DatasetDescriptor,
     FeeModel,
     FixedFundingModel,

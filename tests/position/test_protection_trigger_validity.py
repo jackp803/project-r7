@@ -21,7 +21,7 @@ from position import (
     validate_protection_action,
     validate_protection_trigger_validity_evidence,
 )
-from src.market_data.current import MarketSnapshot
+from market_data.current import MarketSnapshot
 
 
 class ProtectionTriggerValidityV01Tests(unittest.TestCase):

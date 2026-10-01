@@ -19,6 +19,7 @@ import tests.storage.test_protection_registry_currentness as fp11_storage_fixtur
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_ROOT = REPOSITORY_ROOT / "src"
+TEST_ROOT = REPOSITORY_ROOT / "tests"
 
 
 class CanonicalImportIdentityTests(unittest.TestCase):
@@ -29,18 +30,18 @@ class CanonicalImportIdentityTests(unittest.TestCase):
     """
 
     @staticmethod
-    def _forbidden_src_position_imports(root: Path) -> list[str]:
+    def _forbidden_src_imports(root: Path) -> list[str]:
         offenders: list[str] = []
         for path in sorted(root.rglob("*.py")):
             tree = ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
             for node in ast.walk(tree):
                 if isinstance(node, ast.ImportFrom):
                     module = node.module or ""
-                    if module == "src.position" or module.startswith("src.position."):
+                    if module == "src" or module.startswith("src."):
                         offenders.append(f"{path.relative_to(REPOSITORY_ROOT)}:{node.lineno}:{module}")
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
-                        if alias.name == "src.position" or alias.name.startswith("src.position."):
+                        if alias.name == "src" or alias.name.startswith("src."):
                             offenders.append(
                                 f"{path.relative_to(REPOSITORY_ROOT)}:{node.lineno}:{alias.name}"
                             )
@@ -55,17 +56,26 @@ class CanonicalImportIdentityTests(unittest.TestCase):
         self.assertIs(CurrentProtectionRegistryAuthority, policy.CurrentProtectionRegistryAuthority)
         self.assertEqual("position.protection_registry_policy", CurrentProtectionRegistryAuthority.__module__)
 
-    def test_production_source_never_imports_src_position_namespace(self):
-        self.assertEqual([], self._forbidden_src_position_imports(SOURCE_ROOT))
+    def test_source_and_qualification_tests_never_import_src_namespace(self):
+        offenders = self._forbidden_src_imports(SOURCE_ROOT) + self._forbidden_src_imports(TEST_ROOT)
+        self.assertEqual([], offenders)
 
-    def test_importing_cross_module_consumers_does_not_create_src_position_tree(self):
-        importlib.import_module("execution.protection_trigger")
-        importlib.import_module("execution.external_close_evidence")
-        importlib.import_module("execution.protection_registry_evidence")
+    def test_importing_cross_module_consumers_does_not_create_src_package_tree(self):
+        for module in (
+            "execution.protection_trigger",
+            "execution.external_close_evidence",
+            "execution.protection_registry_evidence",
+            "brokers.base",
+            "brokers.paper",
+            "brokers.okx_demo",
+            "brokers.okx_sizing",
+            "brokers.okx_close_sizing",
+        ):
+            importlib.import_module(module)
         duplicate_keys = sorted(
             key
             for key in sys.modules
-            if key == "src.position" or key.startswith("src.position.")
+            if key == "src" or key.startswith("src.")
         )
         self.assertEqual([], duplicate_keys)
 
@@ -111,18 +121,21 @@ class CanonicalImportIdentityTests(unittest.TestCase):
         self.assertFalse((SOURCE_ROOT / "__init__.py").exists())
 
     def test_import_rule_has_no_provider_network_runtime_dependency(self):
-        source = Path(__file__).read_text(encoding="utf-8")
-        for forbidden in (
-            "requests.",
-            "urllib.",
-            "socket.",
-            "subprocess.",
-            "submit_order",
-            "cancel_order",
-            "amend_order",
-            "start_runtime",
-        ):
-            self.assertNotIn(forbidden, source)
+        tree = ast.parse(Path(__file__).read_text(encoding="utf-8"))
+        imported_roots: set[str] = set()
+        called_names: set[str] = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ImportFrom):
+                imported_roots.add((node.module or "").split(".")[0])
+            elif isinstance(node, ast.Import):
+                imported_roots.update(alias.name.split(".")[0] for alias in node.names)
+            elif isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Attribute):
+                    called_names.add(node.func.attr)
+                elif isinstance(node.func, ast.Name):
+                    called_names.add(node.func.id)
+        self.assertFalse(imported_roots & {"requests", "urllib", "socket", "subprocess"})
+        self.assertFalse(called_names & {"submit_order", "cancel_order", "amend_order", "start_runtime"})
 
 
 if __name__ == "__main__":

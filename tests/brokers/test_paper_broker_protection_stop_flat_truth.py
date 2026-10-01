@@ -3,14 +3,14 @@ from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.brokers.paper import (
+from brokers.paper import (
     ExposureLimitError,
     PaperBroker,
     ReconciliationRequiredError,
 )
-from src.execution.close import prepare_close_order
-from src.execution.funding import produce_paper_zero_funding_evidence
-from src.execution.models import (
+from execution.close import prepare_close_order
+from execution.funding import produce_paper_zero_funding_evidence
+from execution.models import (
     SCHEMA_VERSION,
     ExecutionHealthStatus,
     OrderRequest,
@@ -19,7 +19,7 @@ from src.execution.models import (
     stable_client_order_id,
     stable_order_request_id,
 )
-from src.execution.protection import prepare_protection_order
+from execution.protection import prepare_protection_order
 
 
 class PaperBrokerProtectionStopFlatTruthTests(unittest.TestCase):

@@ -2,12 +2,12 @@ import unittest
 from dataclasses import replace
 
 import tests.brokers.test_okx_close_sizing as fixture_module
-from src.brokers.okx_close_sizing import canonical_okx_close_sizing_hash
-from src.brokers.okx_close_sizing_binding import (
+from brokers.okx_close_sizing import canonical_okx_close_sizing_hash
+from brokers.okx_close_sizing_binding import (
     OKXCloseMetadataBindingEvidence,
     evaluate_okx_close_residual_sizing,
 )
-from src.brokers.okx_close_sizing import OKXCloseSizingError, FULLY_REDUCIBLE
+from brokers.okx_close_sizing import OKXCloseSizingError, FULLY_REDUCIBLE
 
 
 class OKXCloseSizingMetadataBindingTests(unittest.TestCase):

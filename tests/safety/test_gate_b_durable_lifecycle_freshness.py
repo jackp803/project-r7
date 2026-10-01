@@ -13,8 +13,8 @@ from position import (
     build_protect_position_action,
     interpret_protection_result,
 )
-from src.brokers.paper import PaperBroker
-from src.execution.protection import prepare_protection_order
+from brokers.paper import PaperBroker
+from execution.protection import prepare_protection_order
 from storage.runtime import open_paper_runtime_journal
 
 

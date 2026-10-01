@@ -2,7 +2,7 @@ from decimal import Decimal
 from types import SimpleNamespace
 import unittest
 
-from src.backtest.metrics import calculate_metrics
+from backtest.metrics import calculate_metrics
 
 
 def trade(*, gross: str, net: str, fees: str, slippage: str, funding: str):

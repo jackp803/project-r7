@@ -4,9 +4,9 @@ from dataclasses import asdict
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
-from src.execution.gateway import ExecutionGateway
-from src.execution.models import Fill, Side
-from src.execution.protection import (
+from execution.gateway import ExecutionGateway
+from execution.models import Fill, Side
+from execution.protection import (
     AUTHORIZATION_TYPE,
     ORDER_ROLE,
     ORDER_TYPE,

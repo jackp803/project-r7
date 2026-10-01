@@ -4,7 +4,7 @@ import unittest
 from dataclasses import replace
 from datetime import timedelta
 
-from src.execution.protection_registry_evidence_boundary import (
+from execution.protection_registry_evidence_boundary import (
     build_protection_registry_multiplicity_evidence,
 )
 from storage.protection_registry_currentness import (

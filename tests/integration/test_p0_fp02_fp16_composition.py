@@ -1,7 +1,7 @@
 import unittest
 from dataclasses import replace
 
-from src.brokers.okx_action_capability import (
+from brokers.okx_action_capability import (
     CURRENT,
     EMERGENCY_EXIT,
     ENTRY,
@@ -20,8 +20,8 @@ from src.brokers.okx_action_capability import (
     okx_swap_action_capability_evidence_is_current,
     resolve_okx_swap_action_capability,
 )
-from src.brokers.okx_close_sizing import FULLY_REDUCIBLE, evaluate_okx_close_residual_sizing
-from src.integration.runtime_preflight import ELIGIBLE, FAIL_CLOSED, evaluate_runtime_preflight
+from brokers.okx_close_sizing import FULLY_REDUCIBLE, evaluate_okx_close_residual_sizing
+from integration.runtime_preflight import ELIGIBLE, FAIL_CLOSED, evaluate_runtime_preflight
 import tests.brokers.test_okx_action_capability as fp02_fixture_module
 import tests.brokers.test_okx_close_sizing as fp05_fixture_module
 import tests.integration.test_runtime_preflight as fp16_fixture_module

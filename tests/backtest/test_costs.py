@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 import unittest
 
-from src.backtest.costs import FeeModel, FixedFundingModel, SlippageModel
+from backtest.costs import FeeModel, FixedFundingModel, SlippageModel
 
 UTC = timezone.utc
 

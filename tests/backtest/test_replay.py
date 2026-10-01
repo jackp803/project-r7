@@ -2,8 +2,8 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 import unittest
 
-from src.backtest.costs import FeeModel, FixedFundingModel, SlippageModel
-from src.backtest.replay import (
+from backtest.costs import FeeModel, FixedFundingModel, SlippageModel
+from backtest.replay import (
     DatasetDescriptor,
     E2RuntimeBinding,
     HistoricalReplayEngine,

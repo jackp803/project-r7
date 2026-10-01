@@ -5,14 +5,14 @@ from datetime import datetime, timedelta, timezone
 from decimal import Decimal, InvalidOperation, ROUND_FLOOR
 from typing import Any, Mapping, Sequence
 
-from src.execution.gateway import (
+from execution.gateway import (
     CANONICAL_SYMBOL,
     ENTRY_ORDER_TYPE,
     QUANTITY_ASSET,
     QUANTITY_PROFILE_VERSION,
     QUANTITY_UNIT,
 )
-from src.execution.models import OrderRequest, Side
+from execution.models import OrderRequest, Side
 
 OKX_PROVIDER = "OKX"
 OKX_INSTRUMENT_ID = "BTC-USDT-SWAP"

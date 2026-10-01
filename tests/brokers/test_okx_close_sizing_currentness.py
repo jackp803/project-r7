@@ -3,7 +3,7 @@ from dataclasses import replace
 from datetime import timedelta
 
 import tests.brokers.test_okx_close_sizing as fixture_module
-from src.brokers.okx_close_sizing import (
+from brokers.okx_close_sizing import (
     evaluate_okx_close_residual_sizing,
     okx_close_residual_sizing_evidence_is_current,
 )

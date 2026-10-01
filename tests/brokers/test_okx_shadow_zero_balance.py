@@ -3,7 +3,7 @@ from dataclasses import asdict
 from datetime import datetime, timezone
 from decimal import Decimal
 
-from src.brokers.okx_shadow import (
+from brokers.okx_shadow import (
     OKXShadowCredentials,
     OKXShadowProviderReader,
     OKXShadowReaderConfig,

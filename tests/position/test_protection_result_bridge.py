@@ -12,13 +12,13 @@ from position import (
     interpret_protection_result,
     transition,
 )
-from src.execution.models import (
+from execution.models import (
     ExecutionHealthStatus,
     OrderResult,
     OrderStatus,
     ReconciliationResult,
 )
-from src.execution.protection import prepare_protection_order
+from execution.protection import prepare_protection_order
 
 
 class ProtectionResultBridgeTests(unittest.TestCase):

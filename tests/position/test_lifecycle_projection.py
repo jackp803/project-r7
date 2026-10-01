@@ -19,10 +19,10 @@ from position import (
     stable_lifecycle_projection_id,
     validate_position_lifecycle_projection,
 )
-from src.brokers.paper import PaperBroker
-from src.execution.close import prepare_close_order
-from src.execution.funding import produce_paper_zero_funding_evidence
-from src.execution.gateway import ExecutionGateway
+from brokers.paper import PaperBroker
+from execution.close import prepare_close_order
+from execution.funding import produce_paper_zero_funding_evidence
+from execution.gateway import ExecutionGateway
 
 
 class PositionLifecycleProjectionV01Tests(unittest.TestCase):

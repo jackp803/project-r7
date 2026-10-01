@@ -2,12 +2,12 @@ import unittest
 from dataclasses import replace
 from datetime import timedelta
 
-from src.execution.protection_registry_evidence import (
+from execution.protection_registry_evidence import (
     OWNERSHIP_MANUAL_REVIEW_REQUIRED,
     PROTECTION_SET_UNKNOWN,
     ProtectionRegistryEvidenceError,
 )
-from src.execution.protection_registry_evidence_boundary import (
+from execution.protection_registry_evidence_boundary import (
     build_protection_registry_multiplicity_evidence,
     protection_registry_multiplicity_evidence_is_current,
 )

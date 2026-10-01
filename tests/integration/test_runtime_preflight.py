@@ -2,7 +2,7 @@ import copy
 import unittest
 from dataclasses import replace
 
-from src.integration.runtime_preflight import (
+from integration.runtime_preflight import (
     ELIGIBLE,
     FAIL_CLOSED,
     RuntimePreflightAuthority,

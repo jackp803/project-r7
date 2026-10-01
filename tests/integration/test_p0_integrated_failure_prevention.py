@@ -2,7 +2,7 @@ import unittest
 from dataclasses import replace
 from datetime import timedelta
 
-from src.brokers.okx_close_sizing import (
+from brokers.okx_close_sizing import (
     CLOSE_CAPABILITY_UNPROVEN,
     POST_ACTION_RESIDUAL,
     RESIDUAL_NONZERO_REPRESENTABLE,
@@ -10,16 +10,16 @@ from src.brokers.okx_close_sizing import (
     UNRESOLVED_FAIL_CLOSED,
     evaluate_okx_close_residual_sizing,
 )
-from src.execution.external_close_evidence import (
+from execution.external_close_evidence import (
     EXTERNAL_MANUAL,
     LINEAGE_EXTERNAL,
     build_external_manual_close_convergence_evidence,
 )
-from src.execution.protection_trigger import (
+from execution.protection_trigger import (
     ProtectionTriggerConsumerError,
     validate_protection_trigger_create_evidence,
 )
-from src.position import (
+from position import (
     FAIL_CLOSED,
     FRESH,
     interpret_protection_registry_evidence,

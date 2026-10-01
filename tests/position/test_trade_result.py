@@ -17,10 +17,10 @@ from position import (
     build_trade_result,
     transition,
 )
-from src.execution.close import prepare_close_order
-from src.execution.gateway import ExecutionGateway
-from src.execution.models import Fill, Side
-from src.execution.protection import prepare_protection_order
+from execution.close import prepare_close_order
+from execution.gateway import ExecutionGateway
+from execution.models import Fill, Side
+from execution.protection import prepare_protection_order
 
 
 FUNDING_IDENTITY_FIELDS = (

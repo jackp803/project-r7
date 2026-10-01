@@ -2,7 +2,7 @@ import unittest
 from dataclasses import replace
 from datetime import datetime, timedelta, timezone
 
-from src.brokers.okx_action_capability import (
+from brokers.okx_action_capability import (
     ACCOUNT_LEVEL,
     CAPABILITY_PROFILE_VERSION,
     CURRENT,

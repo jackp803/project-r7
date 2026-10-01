@@ -28,3 +28,12 @@ objects in tests do not represent started SHADOW/PAPER/LIVE processes.
 The guarded Antigravity advisory attempt was refused before dispatch because
 this worktree was not already trusted. The audit proceeds locally without
 changing trust or selecting a paid fallback.
+
+Independent review of the first candidate identified two coverage gaps despite
+passing execution: restart-flat checks needed a composed fresh-reconciliation
+test, and repeated missing-protection recovery needed assertions on the durable
+E5 interpretation itself. The updated tests reopen the exact flat graph, require
+a new simulated provider observation/E5 decision and bound FP16 preflight, then
+prove fresh positive exposure overrides stored flat truth. Repeated missing
+protection also checks the exact persisted interpretation and lifecycle binding.
+The first candidate's evidence remains historical and is not the final LF-3 PASS.

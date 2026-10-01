@@ -133,7 +133,7 @@
         {
           "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_newer_position_provider_lifecycle_or_runtime_authority_invalidates_prior_health",
           "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
-          "line": 124
+          "line": 131
         }
       ]
     },
@@ -259,9 +259,14 @@
       "required_assertions": "Durable CLOSED recovery restores exact flat projection, execution binding, funding and aggregate TradeResult; restart preflight rejects wrong identity/heartbeat or reconciliation still needed; absence of local rows is not proof of flatness.",
       "tests": [
         {
+          "test_id": "tests.e2e.test_lf3_restart_flat.LF3RestartFlatCompositionTests.test_restored_flat_requires_fresh_reconciliation_and_new_positive_exposure_invalidates_it",
+          "source": "tests/e2e/test_lf3_restart_flat.py",
+          "line": 64
+        },
+        {
           "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
           "source": "tests/storage/test_paper_runtime_durability.py",
-          "line": 664
+          "line": 689
         },
         {
           "test_id": "tests.integration.test_lf3_restart_preflight.LF3RestartPreflightTests.test_restart_requires_current_identity_heartbeat_and_fresh_reconciliation",
@@ -289,7 +294,7 @@
         {
           "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_real_paper_lifecycle_writer_and_fp11_currentness_remain_healthy_after_restart_only_for_exact_chain",
           "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
-          "line": 66
+          "line": 73
         },
         {
           "test_id": "tests.safety.test_gate_b_durable_lifecycle_freshness.GateBDurableLifecycleFreshnessDefinitions.test_newer_partial_protection_fill_invalidates_old_e5_binding",
@@ -358,7 +363,7 @@
         {
           "test_id": "tests.e2e.test_p0_reconciliation_restart_e2e.P0ReconciliationRestartE2ETests.test_timestamp_only_fp11_row_never_becomes_current_head_and_restart_fails_closed",
           "source": "tests/e2e/test_p0_reconciliation_restart_e2e.py",
-          "line": 87
+          "line": 94
         },
         {
           "test_id": "tests.brokers.test_okx_demo_adapter.OKXDemoAdapterTests.test_timeout_is_reconciliation_required_and_ordinary_resubmit_is_not_sent",
@@ -447,7 +452,7 @@
         {
           "test_id": "tests.storage.test_paper_runtime_durability.PaperRuntimeDurabilityDefinitions.test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result",
           "source": "tests/storage/test_paper_runtime_durability.py",
-          "line": 664
+          "line": 689
         }
       ]
     },

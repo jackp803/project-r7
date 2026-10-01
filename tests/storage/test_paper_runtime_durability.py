@@ -661,7 +661,7 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         self.assertEqual("RECONCILIATION_REQUIRED", recovery.current_order_results[0].payload["order_status"])
         self.assertEqual("DEGRADED", recovery.current_order_results[0].payload["execution_health_status"])
 
-    def test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result(self) -> None:
+    def _persist_closed_graph(self) -> dict:
         self._persist_core()
         source = base_position(lifecycle="OPEN_PROTECTED")
         genesis = lifecycle_projection(source, revision=0, previous_id=None, kind="GENESIS", event=None, lifecycle_state="OPEN_PROTECTED", interpreted_at="2026-08-24T07:00:20Z")
@@ -684,15 +684,19 @@ class PaperRuntimeDurabilityDefinitions(unittest.TestCase):
         self.journal.persist_funding_evidence(funding)
         result = trade_result(funding)
         self.journal.persist_trade_result(result)
+        return {"closed": closed, "binding": binding, "funding": funding, "result": result}
+
+    def test_close_reopen_recovers_exact_closed_projection_funding_and_trade_result(self) -> None:
+        graph = self._persist_closed_graph()
         self.journal.close()
         self.journal = open_paper_runtime_journal(self.db_path)
         recovery = self.journal.recover(position_id="position-e6-paper-001")
         self.assertEqual("READY", recovery.status)
-        self.assertEqual(closed, recovery.current_position_projection.payload)
-        self.assertEqual(binding, recovery.current_lifecycle_execution_binding.payload)
-        self.assertEqual(funding, recovery.funding_evidence[0].payload)
-        self.assertEqual(result, recovery.trade_result.payload)
-        self.assertEqual(funding["funding_evidence_id"], recovery.trade_result.payload["funding_evidence_id"])
+        self.assertEqual(graph["closed"], recovery.current_position_projection.payload)
+        self.assertEqual(graph["binding"], recovery.current_lifecycle_execution_binding.payload)
+        self.assertEqual(graph["funding"], recovery.funding_evidence[0].payload)
+        self.assertEqual(graph["result"], recovery.trade_result.payload)
+        self.assertEqual(graph["funding"]["funding_evidence_id"], recovery.trade_result.payload["funding_evidence_id"])
 
     def test_conflicting_runtime_graph_recovers_fail_closed(self) -> None:
         self._persist_open_protection_graph()

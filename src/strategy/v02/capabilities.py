@@ -22,7 +22,7 @@ def _revision():
     root=Path(__file__).resolve().parent
     source_root=root.parents[1]
     digest=hashlib.sha256()
-    files=[root.parent/'runtime.py',*root.glob('*.py'),*(source_root/'indicators/v02').glob('*.py')]
+    files=list(source_root.rglob('*.py'))
     for path in sorted(files,key=lambda path:path.relative_to(source_root).as_posix()):
         relative=path.relative_to(source_root).as_posix()
         raw=path.read_bytes().replace(b'\r\n',b'\n')

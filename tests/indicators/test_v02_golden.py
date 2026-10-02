@@ -5,6 +5,17 @@ from tests.indicators.v02_fixtures import api,bars,spec
 
 
 class GoldenIndicatorTests(unittest.TestCase):
+    def test_derived_numeric_series_preserves_declared_units_in_value_and_snapshot_identity(self):
+        module=api(self)
+        import inspect
+        self.assertIn('source_dimensions',inspect.signature(module.FeatureSpec).parameters)
+        scalar=module.FeatureSpec('EMA','r7-ema-v1',{'window':2},'value','1h',source_dimensions=(0,0))
+        price=module.FeatureSpec('EMA','r7-ema-v1',{'window':2},'value','1h')
+        observed=module.evaluate_feature(scalar,module.CandlePrefix(bars([1,2]),(Decimal('10'),Decimal('12'))))
+        self.assertEqual(Decimal('11'),observed.value)
+        self.assertEqual('dimensionless',observed.units)
+        self.assertNotEqual(price.spec_hash,scalar.spec_hash)
+
     def test_all_families_flat_gap_and_insufficient_prefix(self):
         module=api(self)
         profiles=[('SMA','value',{'window':2},'5'),('EMA','value',{'window':2},'5'),

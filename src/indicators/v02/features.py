@@ -37,6 +37,7 @@ class FeatureSpec:
     output: str
     timeframe: str
     source_field: str='close'
+    source_dimensions: tuple[int,int] | None=None
     minimum_history: int=field(init=False)
     spec_hash: str=field(init=False)
 
@@ -45,6 +46,12 @@ class FeatureSpec:
         if not isinstance(self.timeframe,str) or self.timeframe not in SUPPORTED_TIMEFRAMES: raise ValueError('Unsupported timeframe')
         if not isinstance(self.source_field,str) or self.source_field not in {'open','high','low','close','volume'}:
             raise ValueError('Unsupported candle source field')
+        dimensions=self.source_dimensions if self.source_dimensions is not None else (0,1) if self.source_field=='volume' else (1,0)
+        if (not isinstance(dimensions,tuple) or len(dimensions)!=2 or
+                any(type(power) is not int or abs(power)>4096 for power in dimensions)):
+            raise ValueError('Bounded numeric source dimensions required')
+        if self.name=='RSI' and dimensions!=(1,0): raise ValueError('RSI requires price source')
+        object.__setattr__(self,'source_dimensions',dimensions)
         if not isinstance(self.parameters,dict): raise ValueError('Parameter mapping required')
         node={'kind':'indicator','name':self.name,'semantic_version':self.semantic_version,
               'parameters':dict(self.parameters),'output':self.output}
@@ -58,7 +65,7 @@ class FeatureSpec:
         object.__setattr__(self,'minimum_history',parsed.minimum_history)
         object.__setattr__(self,'spec_hash',_hash({'name':self.name,'version':self.semantic_version,
                      'parameters':parameters,'output':self.output,'timeframe':self.timeframe,
-                     'source_field':self.source_field,'arithmetic_profile':ARITHMETIC_PROFILE}))
+                     'source_field':self.source_field,'source_dimensions':dimensions,'arithmetic_profile':ARITHMETIC_PROFILE}))
 
 
 @dataclass(frozen=True)
@@ -109,7 +116,8 @@ class FeatureUpdate:
 
 def _observation(state,value=None):
     spec=state.spec
-    units='dimensionless' if spec.name in {'RSI','ADX'} else 'volume' if spec.source_field=='volume' and spec.name not in {'ATR','DONCHIAN'} else 'price'
+    dimensions=(0,0) if spec.name in {'RSI','ADX'} else (1,0) if spec.name in {'ATR','DONCHIAN'} else spec.source_dimensions
+    units={(0,0):'dimensionless',(1,0):'price',(0,1):'volume'}.get(dimensions,f'price^{dimensions[0]}*volume^{dimensions[1]}')
     ready=state.issue is None and value is not None
     return FeatureValue(ready,value if ready else None,state.issue or ('READY' if ready else 'INSUFFICIENT_HISTORY'),
                         units,state.previous.close_time if state.previous else None,

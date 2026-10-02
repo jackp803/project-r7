@@ -6,6 +6,23 @@ from tests.strategy.v02_fixtures import definition_v02
 
 
 class CapabilityTests(unittest.TestCase):
+    def test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding(self):
+        api=self.api()
+        from pathlib import Path
+        from unittest.mock import patch
+        source=Path(api.__file__).resolve().parents[2]
+        initial=api.build_capability_snapshot().snapshot_hash
+        actual_read=Path.read_bytes
+        for relative in ('market_data/aggregation.py','position/exit_requests.py'):
+            target=source/relative
+            with self.subTest(module=relative):
+                def changed_read(path):
+                    raw=actual_read(path)
+                    return raw+b'\n# owner semantics changed\n' if path.resolve()==target.resolve() else raw
+                with patch.object(Path,'read_bytes',changed_read):
+                    changed=api.build_capability_snapshot().snapshot_hash
+                self.assertNotEqual(initial,changed)
+
     def test_checkout_line_endings_do_not_create_different_implementation_identity(self):
         api=self.api()
         from pathlib import Path

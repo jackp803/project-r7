@@ -707,6 +707,13 @@ class StrategyRuntime:
         candles: Sequence[Any],
         evaluated_at: Union[str, datetime],
     ) -> Dict[str, Any]:
+        from strategy.v02.models import ParsedStrategyV02
+        if isinstance(strategy,ParsedStrategyV02):
+            from strategy.v02.evaluation import evaluate_v02
+            from strategy.v02.temporal import AsOfBundle
+            if not isinstance(candles,AsOfBundle) or candles.boundary!=_parse_utc(evaluated_at,'evaluated_at'):
+                raise MarketBoundaryError('EXPLICIT_ASOF_BUNDLE_REQUIRED','v0.2 requires matching explicit information boundary')
+            return evaluate_v02(strategy,candles)
         if not isinstance(strategy, ParsedStrategyDefinition):
             raise StrategyValidationError(
                 "UNPARSED_STRATEGY",

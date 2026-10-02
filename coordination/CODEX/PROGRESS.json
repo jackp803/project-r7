@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S01",
-  "next_step": "S02",
+  "active_step": "S02",
+  "next_step": "S03",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -30,8 +30,8 @@
     "M11": "NOT_STARTED"
   },
   "steps": {
-    "S01": "IN_PROGRESS",
-    "S02": "NOT_STARTED",
+    "S01": "PASS",
+    "S02": "IN_PROGRESS",
     "S03": "NOT_STARTED",
     "S04": "NOT_STARTED",
     "S05": "NOT_STARTED",
@@ -120,10 +120,31 @@
       "errors": 0,
       "skips": 0,
       "result": "PASS"
+    },
+    {
+      "step": "S01",
+      "phase": "EXACT_CLEAN_QUALIFICATION",
+      "revision": "3d395f48c268e4e6893f632de96cf6e9ea41116b",
+      "result": "PASS",
+      "counts": {
+        "phase_1": {
+          "commands": 16,
+          "tests": 247
+        },
+        "phase_2": {
+          "commands": 16,
+          "tests": 922
+        }
+      },
+      "tests_run": 1169,
+      "failure": 0,
+      "error": 0,
+      "skip": 0
     }
   ],
   "evidence_refs": [
-    "status/codex/productization/S01/failed-cbae796/qualification.json"
+    "status/codex/productization/S01/failed-cbae796/qualification.json",
+    "status/codex/productization/S01/passed-3d395f4/qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -148,5 +169,6 @@
     "CPython 3.12 selected product minor; development source tests currently 3.14.3 do not qualify native 3.12 builds",
     "S01 memory enforcement is SOFT_LIMIT_ONLY; Windows Job Objects enforce owned tree cleanup, not a memory hard cap",
     "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories"
-  ]
+  ],
+  "executable_revision": "3d395f48c268e4e6893f632de96cf6e9ea41116b"
 }

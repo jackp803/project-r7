@@ -8,7 +8,7 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S01, portable configuration/resource/process foundation. Next: S02.
+Active step: S02, verified cloud snapshots, transactional intake and outbox. Next: S03.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
@@ -31,9 +31,18 @@ accounting zero preceded descendant exit. Remediation now waits on stable
 owned process handles and covers repr-escaped path redaction. Preserve this
 failed evidence; never transplant its earlier passes to the repaired candidate.
 
-Next action: qualify the new exact clean revision
-with the complete legacy focused sequence and all inventory directories, persist
-sanitized evidence in a separate commit, then advance to S02. Product Python
+S01 exact-clean executable `3d395f48c268e4e6893f632de96cf6e9ea41116b`
+passed all 32 commands: phase 1 247 tests; phase 2 922 tests across all 16
+directories; total 1,169 occurrences, zero failures/errors/skips. Evidence is
+under status/codex/productization/S01/passed-3d395f4/. This later evidence commit
+is distinct from the qualified executable. M1 remains IN_PROGRESS through S02.
+
+Next action: S02 TDD for strict separate v0.1/v0.2 manifests, safe bounded reads
+and sealed snapshots, generation-fenced leases, crash after real E6 registration,
+and immutable durable outbox receipts. Use actual E2 parsing and E6 DRAFT intake;
+keep parser acceptance separate from executed compatibility/promotion authority.
+Add bounded E6 intake operation support if necessary to make receipt/registration
+replay idempotent across the app/E6 database seam. Product Python
 minor is selected as 3.12; current 3.14.3 source results do not certify frozen
 3.12 packages. Build/dependency locks remain pending native verification.
 Use canonical packages and preserve every legacy LF/FP test. Keep code/evidence

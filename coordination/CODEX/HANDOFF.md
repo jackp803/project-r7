@@ -8,19 +8,32 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S08, full canonical E6 lifecycle/product/approval authority. Next: S09.
-S08 partial source now adds full canonical model/migration/retirement, executable
-SQL source commitments, actual product-evidence adapter and immutable E6 product
-records, pre-run selected E5 risk policy, and service/store legacy-bypass denial.
-Actual selected-risk fixture can enter CANDIDATE; actual quantitative FAIL enters
-REJECTED; sample BLOCKED/missing risk remains BACKTESTING. Affected checks:
-registry32/storage138/application74/strategy64/validation43/safety66, all pass.
-This is not S08 PASS or a new full qualification. Next implement named downstream
-PAPER/forward/immutable human approval/deployment/degrade/resume gates with
-default-denied owner ports and isolated fixtures, then full clean qualification.
-Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
-same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
-startup checkpoint as milestone completion.
+Active step: S09, actual continuous PAPER/scheduler/first-fill durability. Next: S10.
+S08 exact-clean executable `aa0e2e9431374a6838359d04ef80bc7df5cb0d38` passed32/32 commands on
+Windows/Python3.12.10: phase1 247, phase2 1120, total1367,
+zero failures/errors/skips and all owned trees reaped. Evidence is under
+status/codex/productization/S08/passed-aa0e2e9-py312/. Actual clean fixture
+pipelines persist positive CANDIDATE, quantitative REJECTED, insufficient final
+BACKTESTING/BLOCKED, and missing-risk diagnostic PASS/BACKTESTING. Each has7 final
+closed trades,12 distinct trials,13 robustness replays and13 persisted stages.
+The canonical edge matrix executes19 legal edges and denies81 illegal pairs;
+operational fixture states remain SIMULATED_MECHANICS with no runtime/provider/
+real forward/build/capital permission. JSON owner audits are retained; no active
+SQLite database is tracked. Approval/gate/transition/command receipt is atomic;
+old policy/source/release/runtime generations, forged principals, revoked or
+expired consent cannot grant new entries. Retirement preserves the actual E6
+historical exposure/protection graph. Read S08/IMPLEMENTATION.md and RESULT.md.
+
+Continue S09 automatically on the same branch/task. Integrate actual E2/E5/E4
+PaperBroker/E6 with separate entry and protective/deadline clocks, durable stable
+operation IDs, restart snapshots and anchored first fill. Wire S08 selected PAPER
+policy/owner evidence into the actual producer; accelerated fixtures cannot
+satisfy real forward elapsed time. Preserve legacy financial/FP/LF semantics,
+actual partial size, protection/flat truth and separate research process limits.
+Real producer, S10 server authentication, S12 current E7/E5/E4 admission, native
+build/Ubuntu/cloud/real dataset/forward/provider/capital remain distinct gates.
+Never interpret a fixture canonical LIVE state or a command receipt as real
+operational authority. Per-command qualification UTC/config mapping is S15.
 
 S07 exact-clean executable `1d5b9a07c83eed7efe767aedaf36cbb898633349` passed32/32
 commands on Windows/Python3.12.10: phase1 247, phase2 1086,

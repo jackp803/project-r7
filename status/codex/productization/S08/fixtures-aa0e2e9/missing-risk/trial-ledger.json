@@ -1,0 +1,423 @@
+[
+  {
+    "rowid": 1,
+    "event_id": "sha256:6936b51b8ea46ac8163f8c26a31bfdae4c9d2cc8966ff3c06f6f192805cb4bda",
+    "family_id": "fixture-family",
+    "kind": "RUN_STARTED",
+    "payload_hash": "sha256:7d282b5b01b0c6e14954151b429ecc260ca73c5e831835fdb4c6da889dd99165",
+    "created_at": "2026-10-02T17:06:33.974490Z",
+    "payload": {
+      "input_hash": "sha256:8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "strategy_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 2,
+    "event_id": "sha256:19521ef23321627b659564d8a861fbb95acc4411f6dc2122c59bdcb588d8ed71",
+    "family_id": "fixture-family",
+    "kind": "POLICY_SELECTION",
+    "payload_hash": "sha256:2c64756acf06346997aefc104af17df6d7ce3f4f7cd096620a4581af9a75916c",
+    "created_at": "2026-10-02T17:06:33.978326Z",
+    "payload": {
+      "research_policy_hash": "sha256:564e3776825328f27eea888c741d1b72e165cd01a5ccd25bc010af385bf90b8c",
+      "robustness_policy_hash": "sha256:03c9f396e633d70ca04e5d4d9b9e98e6cb9016ffbe346aff4bbcb7d7e667b07c",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6"
+    }
+  },
+  {
+    "rowid": 3,
+    "event_id": "sha256:d1b6d9dfbeb6311cbdd121b5b28475b02f1cb26552fec8f6d84f0b2cd79e3680",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:353a1de958b6971b3079830ac9eb4394424f224b1b9c7b7c01ab80bc53f70832",
+    "created_at": "2026-10-02T17:06:34.522480Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:1a7891e3f97c62727df7af5094122659f4eb7188cc44b8b78c7c14d66ae9635d",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4",
+      "variant_hash": "sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4"
+    }
+  },
+  {
+    "rowid": 4,
+    "event_id": "sha256:229396ed80bcd06dbafe89d9d671828e4c165069b80166881fae57e51e7c40e1",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:b7ff2a7cddb2c8ad7b72010318b1a40a04ecf6d986fe9b482821a926cc01967c",
+    "created_at": "2026-10-02T17:06:34.532832Z",
+    "payload": {
+      "reason_codes": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "result_hash": "sha256:0074e3a87e28af022105964a8f47023cd73798a42092e7943f84dcc7de202dde",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "BLOCKED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4",
+      "variant_hash": "sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4"
+    }
+  },
+  {
+    "rowid": 5,
+    "event_id": "sha256:5b4a6860587f1c02d32063c5d5ce63b5bdb04f2922aa524f225916e1fbd6038f",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:607b72ec3a54c023c6a8e9e3845563adb8c98c0846c4abcac601691101ea00eb",
+    "created_at": "2026-10-02T17:06:34.536977Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:ba65d72cf76393d88a1b7cf979b7de58b7ec9b925adf351cbeea2470d33e3603",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "variant_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 6,
+    "event_id": "sha256:9253baae61de617a543c7093ade94cc83b3785688d9e46a4dff16842e3fb9943",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:b2cd7ade863195b9474e6b886765ffa3ec557cd30043339136a135948d26327b",
+    "created_at": "2026-10-02T17:06:34.555317Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:f6dad9f1c791f9da444c6df81439a985e6ddadfdedfc5619a31382b725e9b122",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "PASS",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "variant_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 7,
+    "event_id": "sha256:4cbc635a24d7a26b50fd607c56f05f232ccddc812b7415faf7e336eb0ec86dae",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:696e16c15e1425c47c445149d8ec43e6a6f3482fecfe210e4bbe33a9cf6284b5",
+    "created_at": "2026-10-02T17:06:34.557455Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:e96585661b35c6a3a08a0667d1089220c86cbe51e1fcee7514d53a0c15dbfeef",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc",
+      "variant_hash": "sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc"
+    }
+  },
+  {
+    "rowid": 8,
+    "event_id": "sha256:1d17212808a06e55cb18d4caf18b6a29ab8c2f106c4dd19bbff5635017e57f3d",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:d34bfc8cabe8a09c3c86a36eea5ddd27fdf953720cbeb4088377f120d3c7d28b",
+    "created_at": "2026-10-02T17:06:34.574450Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:287e47c7611295f2e7bddaca4641281272007d58a30f5aca2b4dddead651d048",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "PASS",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc",
+      "variant_hash": "sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc"
+    }
+  },
+  {
+    "rowid": 9,
+    "event_id": "sha256:c4b9a0e13cef8c3c10cb42754d19828d8358a0fff24434f722c009a450ac23e8",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:f3a4fb44de6321f970d5e925bd4c60d40609699abd7ad8556332b042990e2ee7",
+    "created_at": "2026-10-02T17:06:34.578731Z",
+    "payload": {
+      "reason_codes": [
+        "INVALID_WINDOW"
+      ],
+      "result_hash": "sha256:90c7b99c93b627d421c5daf9934e97b6f5aa1d816eff7be25c4950c62744391b",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "neighborhood",
+      "status": "INVALID",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:neighborhood:sha256:05ea010de2402460754e20d7d76d0be2f9a40d74c62f77fce9ee2fa48c052aaf",
+      "variant_hash": "sha256:05ea010de2402460754e20d7d76d0be2f9a40d74c62f77fce9ee2fa48c052aaf"
+    }
+  },
+  {
+    "rowid": 10,
+    "event_id": "sha256:51dd47fc80e0de75be965f02ebd2feee2adc6b4b7740457c0224ff10d3de5d6a",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:e9a9feb93aad9d25eb76418bca4b1146782002d4457fc66940c69678e2291320",
+    "created_at": "2026-10-02T17:06:34.578731Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:1a7891e3f97c62727df7af5094122659f4eb7188cc44b8b78c7c14d66ae9635d",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4",
+      "variant_hash": "sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4"
+    }
+  },
+  {
+    "rowid": 11,
+    "event_id": "sha256:76a99e029fb59547371ab708a4c6b0fff6bbf4782dc5a211dcdd0cd73ac915cd",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:fa1c8609a92f04a6f0702e6b7f7ef671161964df42734e54458393d9c46faa05",
+    "created_at": "2026-10-02T17:06:34.582456Z",
+    "payload": {
+      "reason_codes": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "result_hash": "sha256:135f72b2ae36a513a218aa175867c7474b7562f36c08144e4d4542f9feaf0c09",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "BLOCKED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4",
+      "variant_hash": "sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4"
+    }
+  },
+  {
+    "rowid": 12,
+    "event_id": "sha256:e47b8e774249b8738f6d672063c65c66da1550a099889a54ccab07dd94e56406",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:b35fe9f0d3b341b3b44f097d11a48c0e3b3ae509d444d31e3362e48dc8e62317",
+    "created_at": "2026-10-02T17:06:34.582456Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:ba65d72cf76393d88a1b7cf979b7de58b7ec9b925adf351cbeea2470d33e3603",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "variant_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 13,
+    "event_id": "sha256:dde465d173cbc25e201bd5e8e99e71c0671f757b68ae741ef3db5127745095cc",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:7d1ad2e21557165422c35227474dad4cb305aa86d7ec872e1675ffdbfb2ddd69",
+    "created_at": "2026-10-02T17:06:34.591841Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:00567f7e15eb0e8192aa045431c5d044bf4a07fd6910536e30f565d7e8b1bafe",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "PASS",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "variant_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 14,
+    "event_id": "sha256:9eaef165d9865ebf903be3209b800fbcea043ad152a26e1620c02511c1307f6a",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:da3200da2fe4994f21998800ac04b8ff7db6f57a34f2933b88e018ade29e7b4a",
+    "created_at": "2026-10-02T17:06:34.593845Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:e96585661b35c6a3a08a0667d1089220c86cbe51e1fcee7514d53a0c15dbfeef",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc",
+      "variant_hash": "sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc"
+    }
+  },
+  {
+    "rowid": 15,
+    "event_id": "sha256:b867fc0c517c042c909368aaeec7af0e9d649902037944a0ceb73cf207c084c8",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:40a24bd92469b6302b0b99996d763ba7af7422a61601592f51d2e790ffd3f2b3",
+    "created_at": "2026-10-02T17:06:34.599125Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:1fa3dd80a28dad9fd8ce77cfd469e8219beaeb85fe6ec869e1e5e8dc935530cf",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "PASS",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc",
+      "variant_hash": "sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc"
+    }
+  },
+  {
+    "rowid": 16,
+    "event_id": "sha256:10919272f33efb1c943e9aaaee2b7df3ba2f577a592fe50ef31850694e552ed1",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:14a1204d484f2c33e65c49d9d89403252bfb0ff231942f63bf692840f64e99e4",
+    "created_at": "2026-10-02T17:06:34.599125Z",
+    "payload": {
+      "reason_codes": [
+        "INVALID_WINDOW"
+      ],
+      "result_hash": "sha256:90c7b99c93b627d421c5daf9934e97b6f5aa1d816eff7be25c4950c62744391b",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_0",
+      "status": "INVALID",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_0:sha256:05ea010de2402460754e20d7d76d0be2f9a40d74c62f77fce9ee2fa48c052aaf",
+      "variant_hash": "sha256:05ea010de2402460754e20d7d76d0be2f9a40d74c62f77fce9ee2fa48c052aaf"
+    }
+  },
+  {
+    "rowid": 17,
+    "event_id": "sha256:e9fd581715736f6897fa060219b37ef53f7084483be11f7a8809bade8b273d20",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:89dd72f5c5f53257b81e5876ee93adffeeb6e7e846c13f9bbe5d78ddd26787a0",
+    "created_at": "2026-10-02T17:06:34.603626Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:1a7891e3f97c62727df7af5094122659f4eb7188cc44b8b78c7c14d66ae9635d",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4",
+      "variant_hash": "sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4"
+    }
+  },
+  {
+    "rowid": 18,
+    "event_id": "sha256:5c6301b09fd9828bda594501e7a840eb9631791459fad464979085385e4ae894",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:0d48a6d60188ed8964dc7b2adb788265e7d502597eb1d09f7b3be63d3edbd099",
+    "created_at": "2026-10-02T17:06:34.609802Z",
+    "payload": {
+      "reason_codes": [
+        "INSUFFICIENT_EVIDENCE"
+      ],
+      "result_hash": "sha256:fc199999b7c27165fc6e44f04b3a540860cc41ce941df28e5cad247e38616259",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "BLOCKED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4",
+      "variant_hash": "sha256:9bd4c1be636241d14f94c1bae0081072c538193d9c1d6c969216703c3deba5c4"
+    }
+  },
+  {
+    "rowid": 19,
+    "event_id": "sha256:a2a84950279f432712ea49eba0c60fe6ec28cc78e5a39e0556aadba3de8d804b",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:5ea442efd9d542ffef01739d2f186a4987ae7ab7fcd1104ad72934459ab5351b",
+    "created_at": "2026-10-02T17:06:34.611661Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:ba65d72cf76393d88a1b7cf979b7de58b7ec9b925adf351cbeea2470d33e3603",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "variant_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 20,
+    "event_id": "sha256:7a7b0bb54f0c11501b7262afd80e279090c78c6820346de24af7bdd3e3bdefcd",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:49f5faa42f362b6c29b883eb4b34b763e0fe3a9cd5a7299ebb90dac5c8384abd",
+    "created_at": "2026-10-02T17:06:34.622478Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:3e958820832565e9c0fcfa651050fdc36344bd14e9c6263c3c8d72f8b2f866f8",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "PASS",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "variant_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b"
+    }
+  },
+  {
+    "rowid": 21,
+    "event_id": "sha256:349ead1db0646ab303219a0285ee91c6ccddd5ea71649cfcd889acaf2ec1bc08",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:484fa3b28c76103ae48b1ff8362b73984262e9ec6829575440a12caf75bea104",
+    "created_at": "2026-10-02T17:06:34.624108Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:e96585661b35c6a3a08a0667d1089220c86cbe51e1fcee7514d53a0c15dbfeef",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "STARTED",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc",
+      "variant_hash": "sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc"
+    }
+  },
+  {
+    "rowid": 22,
+    "event_id": "sha256:5de65477d6ac46f68b56209e3e45e7c780f654b118824890c3acd1e2d343586a",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:d89fb9590c01d09309b8b35516c4133bcd1e27449663cf68a382bd363d250593",
+    "created_at": "2026-10-02T17:06:34.628595Z",
+    "payload": {
+      "reason_codes": [],
+      "result_hash": "sha256:60933d769dbf51aa84e436ccc01248832b35b3542dee3c7d90cdf518a1d0824b",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "PASS",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc",
+      "variant_hash": "sha256:711d5bb2bd3670a297b833543750107921e1245b9fbf8670944ed41b1e0adddc"
+    }
+  },
+  {
+    "rowid": 23,
+    "event_id": "sha256:0a78d966c891909a55947814ba1cce7c6f665158cf8c03cd749d760e194d29f3",
+    "family_id": "fixture-family",
+    "kind": "TRIAL",
+    "payload_hash": "sha256:4651b3ecfc8978c13d9652dab76185907a127ec58b218afa1dafd39df497f4ad",
+    "created_at": "2026-10-02T17:06:34.632468Z",
+    "payload": {
+      "reason_codes": [
+        "INVALID_WINDOW"
+      ],
+      "result_hash": "sha256:90c7b99c93b627d421c5daf9934e97b6f5aa1d816eff7be25c4950c62744391b",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6",
+      "stage": "walk_forward_training_1",
+      "status": "INVALID",
+      "trial_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6:walk_forward_training_1:sha256:05ea010de2402460754e20d7d76d0be2f9a40d74c62f77fce9ee2fa48c052aaf",
+      "variant_hash": "sha256:05ea010de2402460754e20d7d76d0be2f9a40d74c62f77fce9ee2fa48c052aaf"
+    }
+  },
+  {
+    "rowid": 24,
+    "event_id": "sha256:3fff5852088af2d2d0931b89dc838c94d164fa2cd5b4a4fb0f2ac3eedb90e5da",
+    "family_id": "fixture-family",
+    "kind": "FINALIST_FROZEN",
+    "payload_hash": "sha256:c1185f406fcacd78932a1625428769e8b586d13369455333185d6c5171ae5830",
+    "created_at": "2026-10-02T17:06:34.828628Z",
+    "payload": {
+      "finalist_id": "finalist-c98f763a3e33ad92d2ada9aa76a76fc51f33d4ad304a5a8098e225e0208b4852",
+      "frozen_hash": "sha256:c4b359145a6c89f6f2f1f079b502277f490131fc26f0ff4f668c58945e92a993",
+      "run_id": "run-8b7ef251b6f701cff0c771319895bbe1a27cce0b973efd25bb71a982025b59f6"
+    }
+  },
+  {
+    "rowid": 25,
+    "event_id": "sha256:2c3cb84c5c41a223182a755bb696ee62b3c178de85ecfc81e7e721f89acf1639",
+    "family_id": "fixture-family",
+    "kind": "ASSESSMENT_RECORDED",
+    "payload_hash": "sha256:42043e79592f764894da8aa0361c3581b665ae3a5ac070342697141f94276c03",
+    "created_at": "2026-10-02T17:06:35.119960Z",
+    "payload": {
+      "finalist_id": "finalist-c98f763a3e33ad92d2ada9aa76a76fc51f33d4ad304a5a8098e225e0208b4852",
+      "result_hash": "sha256:2df8d6f3076ce59771a68555ca4cd801a068b8bb551b50708e7e569d9f1a1172",
+      "status": "PASS"
+    }
+  }
+]

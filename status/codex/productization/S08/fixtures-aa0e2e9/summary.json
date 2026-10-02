@@ -1,0 +1,50 @@
+[
+  {
+    "scenario": "positive",
+    "status": "PASS",
+    "lifecycle": "CANDIDATE",
+    "candidate_gate": "PASS",
+    "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+    "closed_sealed_trades": 7,
+    "trial_count": 12,
+    "replays": 13,
+    "phase_attempts": 13,
+    "report_sha256": "16455424cf7f4d10b570da2d9786587ac8ede3bf06ac29b4d4744a4107ea8649"
+  },
+  {
+    "scenario": "quantitative-negative",
+    "status": "FAIL",
+    "lifecycle": "REJECTED",
+    "candidate_gate": "FAIL",
+    "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+    "closed_sealed_trades": 7,
+    "trial_count": 12,
+    "replays": 13,
+    "phase_attempts": 13,
+    "report_sha256": "84dbc812ad01abc46ea80098eae1d83cdeb1d3fe0f470bcf07a9face44b92199"
+  },
+  {
+    "scenario": "insufficient-final",
+    "status": "BLOCKED",
+    "lifecycle": "BACKTESTING",
+    "candidate_gate": "BLOCKED",
+    "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+    "closed_sealed_trades": 7,
+    "trial_count": 12,
+    "replays": 13,
+    "phase_attempts": 13,
+    "report_sha256": "99e6a8e8a3b27d13075c223df60a8d6d93de82cb7d6008b368762fdf140d0bf2"
+  },
+  {
+    "scenario": "missing-risk",
+    "status": "PASS",
+    "lifecycle": "BACKTESTING",
+    "candidate_gate": "BLOCKED",
+    "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+    "closed_sealed_trades": 7,
+    "trial_count": 12,
+    "replays": 13,
+    "phase_attempts": 13,
+    "report_sha256": "f4365a8f3599726447393abfec5c090c55e35983080f5ce88e52ef587ec70db0"
+  }
+]

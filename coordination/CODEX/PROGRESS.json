@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S08",
-  "next_step": "S09",
+  "active_step": "S09",
+  "next_step": "S10",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -21,7 +21,7 @@
     "M2": "IN_PROGRESS",
     "M3": "IN_PROGRESS",
     "M4": "IN_PROGRESS",
-    "M5": "NOT_STARTED",
+    "M5": "IN_PROGRESS",
     "M6": "NOT_STARTED",
     "M7": "NOT_STARTED",
     "M8": "NOT_STARTED",
@@ -37,8 +37,8 @@
     "S05": "PASS",
     "S06": "PASS",
     "S07": "PASS",
-    "S08": "IN_PROGRESS",
-    "S09": "NOT_STARTED",
+    "S08": "PASS",
+    "S09": "IN_PROGRESS",
     "S10": "NOT_STARTED",
     "S11": "NOT_STARTED",
     "S12": "NOT_STARTED",
@@ -243,6 +243,39 @@
       "evidence_ref": "status/codex/productization/S07/fixtures-1d5b9a0/summary.json",
       "provider_requests": 0,
       "lifecycle": "BACKTESTING"
+    },
+    {
+      "step": "S08",
+      "phase": "EXACT_CLEAN_FULL_QUALIFICATION",
+      "status": "PASS",
+      "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+      "phase_1": 247,
+      "phase_2": 1120,
+      "total": 1367,
+      "commands": 32,
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S08/passed-aa0e2e9-py312/qualification.json"
+    },
+    {
+      "step": "S08",
+      "phase": "EXACT_CLEAN_ACTUAL_FIXTURE_PIPELINES_AND_EDGE_MATRIX",
+      "status": "PASS",
+      "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+      "scenarios": [
+        "positive:PASS/CANDIDATE",
+        "quantitative-negative:FAIL/REJECTED",
+        "insufficient-final:BLOCKED/BACKTESTING",
+        "missing-risk:PASS/BACKTESTING"
+      ],
+      "legal_edges": 19,
+      "illegal_pairs": 81,
+      "namespace": "FIXTURE",
+      "operational_runtime": "NOT_STARTED",
+      "real_forward": "NOT_RUN",
+      "evidence_ref": "status/codex/productization/S08/fixtures-aa0e2e9/summary.json"
     }
   ],
   "evidence_refs": [
@@ -253,7 +286,9 @@
     "status/codex/productization/S03/passed-5af4f73-py312/qualification.json",
     "status/codex/productization/S04/passed-c377917-py312/qualification.json",
     "status/codex/productization/S05/passed-ef9f055-py312/qualification.json",
-    "status/codex/productization/S06/passed-d33d891-py312/qualification.json"
+    "status/codex/productization/S06/passed-d33d891-py312/qualification.json",
+    "status/codex/productization/S08/passed-aa0e2e9-py312/qualification.json",
+    "status/codex/productization/S08/fixtures-aa0e2e9/lifecycle-mechanics/edge-matrix.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -278,8 +313,9 @@
     "CPython 3.12 selected product minor; development source tests currently 3.14.3 do not qualify native 3.12 builds",
     "S01 memory enforcement is SOFT_LIMIT_ONLY; Windows Job Objects enforce owned tree cleanup, not a memory hard cap",
     "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories",
-    "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN"
+    "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN",
+    "S08 typed owner ports qualify isolated canonical mechanics; actual PAPER/auth/admission integrations remain S09/S10/S12 and no legacy E7 role is relabelled LIVE"
   ],
-  "executable_revision": "1d5b9a07c83eed7efe767aedaf36cbb898633349",
-  "qualified_executable_revision": "1d5b9a07c83eed7efe767aedaf36cbb898633349"
+  "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+  "qualified_executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38"
 }

@@ -1,0 +1,548 @@
+{
+  "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
+  "namespace": "FIXTURE",
+  "operational_runtime_started": false,
+  "provider_requests": 0,
+  "real_forward": "NOT_RUN",
+  "legal": [
+    {
+      "source": "APPROVED",
+      "target": "LIVE",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-0"
+    },
+    {
+      "source": "APPROVED",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-1"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "CANDIDATE",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-2"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "REJECTED",
+      "status": "PASS",
+      "evidence_ref": "quantitative-negative/research-report.json"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "PAPER",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-4"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "REJECTED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-5"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-6"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "LIVE",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-7"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-8"
+    },
+    {
+      "source": "DRAFT",
+      "target": "BACKTESTING",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-9"
+    },
+    {
+      "source": "DRAFT",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-10"
+    },
+    {
+      "source": "LIVE",
+      "target": "DEGRADED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-11"
+    },
+    {
+      "source": "LIVE",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-12"
+    },
+    {
+      "source": "PAPER",
+      "target": "READY_FOR_APPROVAL",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-13"
+    },
+    {
+      "source": "PAPER",
+      "target": "REJECTED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-14"
+    },
+    {
+      "source": "PAPER",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-15"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "APPROVED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-16"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "REJECTED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-17"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "RETIRED",
+      "status": "PASS",
+      "scope": "FIXTURE_SIMULATED_MECHANICS",
+      "audit_ref": "edge-18"
+    }
+  ],
+  "illegal": [
+    {
+      "source": "DRAFT",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "REJECTED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DRAFT",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "BACKTESTING",
+      "target": "RETIRED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "REJECTED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "REJECTED",
+      "target": "RETIRED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "CANDIDATE",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "PAPER",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "READY_FOR_APPROVAL",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "REJECTED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "APPROVED",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "REJECTED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "LIVE",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "REJECTED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "DEGRADED",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "DRAFT",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "BACKTESTING",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "REJECTED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "CANDIDATE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "PAPER",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "READY_FOR_APPROVAL",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "APPROVED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "LIVE",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "DEGRADED",
+      "status": "REJECTED_AS_REQUIRED"
+    },
+    {
+      "source": "RETIRED",
+      "target": "RETIRED",
+      "status": "REJECTED_AS_REQUIRED"
+    }
+  ]
+}

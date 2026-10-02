@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S07",
-  "next_step": "S08",
+  "active_step": "S08",
+  "next_step": "S09",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -19,8 +19,8 @@
   "milestones": {
     "M1": "IN_PROGRESS",
     "M2": "IN_PROGRESS",
-    "M3": "NOT_STARTED",
-    "M4": "NOT_STARTED",
+    "M3": "IN_PROGRESS",
+    "M4": "IN_PROGRESS",
     "M5": "NOT_STARTED",
     "M6": "NOT_STARTED",
     "M7": "NOT_STARTED",
@@ -36,8 +36,8 @@
     "S04": "PASS",
     "S05": "PASS",
     "S06": "PASS",
-    "S07": "IN_PROGRESS",
-    "S08": "NOT_STARTED",
+    "S07": "PASS",
+    "S08": "IN_PROGRESS",
     "S09": "NOT_STARTED",
     "S10": "NOT_STARTED",
     "S11": "NOT_STARTED",
@@ -214,6 +214,35 @@
       "failures": 0,
       "errors": 0,
       "skips": 0
+    },
+    {
+      "step": "S07",
+      "phase": "EXACT_CLEAN_FULL_QUALIFICATION",
+      "status": "PASS",
+      "executable_revision": "1d5b9a07c83eed7efe767aedaf36cbb898633349",
+      "phase_1": 247,
+      "phase_2": 1086,
+      "total": 1333,
+      "commands": 32,
+      "evidence_ref": "status/codex/productization/S07/passed-1d5b9a0-py312/qualification.json",
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "step": "S07",
+      "phase": "EXACT_CLEAN_ACTUAL_FIXTURE_PIPELINES",
+      "status": "PASS",
+      "executable_revision": "1d5b9a07c83eed7efe767aedaf36cbb898633349",
+      "scenarios": [
+        "positive=PASS",
+        "quantitative-negative=FAIL",
+        "insufficient-final=BLOCKED"
+      ],
+      "evidence_ref": "status/codex/productization/S07/fixtures-1d5b9a0/summary.json",
+      "provider_requests": 0,
+      "lifecycle": "BACKTESTING"
     }
   ],
   "evidence_refs": [
@@ -251,5 +280,6 @@
     "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories",
     "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN"
   ],
-  "executable_revision": "d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0"
+  "executable_revision": "1d5b9a07c83eed7efe767aedaf36cbb898633349",
+  "qualified_executable_revision": "1d5b9a07c83eed7efe767aedaf36cbb898633349"
 }

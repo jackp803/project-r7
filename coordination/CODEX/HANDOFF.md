@@ -8,10 +8,39 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S07, actual robustness, trial ledger and sealed OOS. Next: S08.
+Active step: S08, full canonical E6 lifecycle/product/approval authority. Next: S09.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
+
+S07 exact-clean executable `1d5b9a07c83eed7efe767aedaf36cbb898633349` passed32/32
+commands on Windows/Python3.12.10: phase1 247, phase2 1086,
+total1333, zero failure/error/skip and all owned trees reaped. Evidence:
+status/codex/productization/S07/passed-1d5b9a0-py312/. Exact-clean actual fixture
+pipelines retain PASS, quantitative FAIL and insufficient final BLOCKED, each
+with7 closed sealed trades,12 distinct trial identities,13 robustness replays,
+12 persisted stages and E6 BACKTESTING. Exact Parquet/policy/report/trial inputs
+are in fixtures-1d5b9a0/. No trading/provider/private/credentials/capital.
+
+S07 sealing now freezes split clocks from strict manifest before price decode;
+full byte commitment and development logical hashes precede adaptive work, full
+financial E1/logical verification occurs after finalist freeze and durable read
+claim. Final reports record FULL_LOGICAL_VERIFIED; no eager financial OOS read.
+Actual E3 per-window and stitched aggregate criteria, mandatory MC methods,
+typed grids/all invalid/unfavorable results, leased trial-start/outcome receipts,
+global namespace/symbol/time holdout observations, and exact source/policy/run
+freeze bindings now exist. No author PASS payload is accepted. The incomplete
+read remains consumed and another reader cannot overwrite the owned result.
+
+Next S08: materialize all canonical legal edges in actual E6 service/store;
+enforce full product assessment on both current and legacy candidate APIs,
+preserve FAIL versus BLOCKED, persist immutable exact approval/envelope with
+stale/revoked/forged/direct-store negative tests. Do not create a second lifecycle
+database or turn fixture evidence into real permissions. Reconcile the crash
+between E6 evidence save and app attempt receipt idempotently. First-fill durable
+clocks and management remain S09. Source resource/native/frozen evidence remains
+S13/S15; per-command UTC/config qualification mapping remains S15. Real
+Ubuntu/data/cloud/forward/provider/capital remain explicit external gaps.
 
 S06 exact-clean executable `d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0`
 passed32 commands on Windows/Python3.12.10: phase1 247, phase2 1050,

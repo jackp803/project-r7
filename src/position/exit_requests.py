@@ -168,12 +168,10 @@ class ExitOutcome:
     reason_codes: tuple[str,...]=()
 
 
-def interpret_exit_request(request,current_e5_authority):
-    if not isinstance(current_e5_authority,CurrentExitAuthority): fail('CURRENT_E5_AUTHORITY_REQUIRED')
-    authority=current_e5_authority
-    position,plan,anchor=authority.position,authority.parent_plan,authority.anchor
+def _validate_exit_anchor_binding(request,position,plan,anchor):
+    """Shared E5 binding checks for live interpretation and durable recovery."""
+    if not isinstance(anchor,ExitAnchor): fail('EXIT_ANCHOR_REQUIRED')
     constraints=resolve_exit_constraints(request)
-    value=request.as_dict()
     if (anchor.request_hash!=request.request_hash or anchor.position_id!=position['position_id']
             or anchor.trade_plan_id!=plan['trade_plan_id'] or anchor.side!=position['side']
             or anchor.approved_plan_hash!=_plan_hash(plan)):
@@ -181,12 +179,20 @@ def interpret_exit_request(request,current_e5_authority):
     facts=_validate_position(position,plan,'EXIT')
     plan_facts=_validate_parent_plan(plan)
     if facts['actual_quantity']>plan_facts['maximum_quantity']: fail('ACTUAL_QUANTITY_EXCEEDS_APPROVED_MAXIMUM')
-    if facts['observed_at']>authority.now or authority.action_expires_at<=authority.now: fail('INVALID_ACTION_TIME')
     if positive(plan['protection_instruction']['stop_level'])!=anchor.initial_stop: fail('APPROVED_STOP_CHANGED')
     if anchor.first_fill_at>_parse_utc(position['opened_at'],'opened_at'): fail('FIRST_FILL_CLOCK_MISMATCH')
     plan_hold=plan['protection_instruction']['max_hold_seconds']
     allowed_hold=min(plan_hold,constraints.max_hold_seconds) if constraints.max_hold_seconds is not None else plan_hold
     if anchor.hold_deadline!=anchor.first_fill_at+timedelta(seconds=allowed_hold): fail('HOLD_BOUND_CHANGED')
+    return facts,constraints
+
+
+def interpret_exit_request(request,current_e5_authority):
+    if not isinstance(current_e5_authority,CurrentExitAuthority): fail('CURRENT_E5_AUTHORITY_REQUIRED')
+    authority=current_e5_authority
+    position,plan,anchor=authority.position,authority.parent_plan,authority.anchor
+    facts,constraints=_validate_exit_anchor_binding(request,position,plan,anchor)
+    if facts['observed_at']>authority.now or authority.action_expires_at<=authority.now: fail('INVALID_ACTION_TIME')
     if authority.now>=anchor.hold_deadline:
         reason='E5_MAX_HOLD_REACHED'
         closed=authorize_close_position_action(position,plan,action='EXIT',created_at=authority.now,

@@ -126,6 +126,17 @@ class PaperBroker(Broker):
         self._orders: dict[str, _PaperOrder] = {}
         self._retry_tokens: dict[str, tuple[object, ...]] = {}
 
+    def export_state(self) -> dict[str, Any]:
+        """Versioned simulation facts, without transferable retry permissions."""
+        from .paper_state import export_state
+        return export_state(self)
+
+    @classmethod
+    def from_state(cls, state: Mapping[str, Any]) -> "PaperBroker":
+        """Restore validated facts; application admission still needs reconciliation."""
+        from .paper_state import restore_state
+        return restore_state(state)
+
     def _new_open_order(self, request: OrderRequest) -> _PaperOrder:
         broker_order_id = _paper_order_id(request.client_order_id)
         result = OrderResult(

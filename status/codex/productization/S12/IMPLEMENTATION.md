@@ -85,3 +85,5 @@ Native secure-vault composition and actual supervisor acceptance remain S13.
 This is a stable S12 foundation checkpoint pending full exact-clean qualification,
 not S12 completion. Continue the provider role/translation/readback/durable effect
 and recovery stages above on the same task/branch after this checkpoint.
+
+Exact-clean foundation qualification PASS: executable `370bdcbfaa9a6301b2f88cba722268f775821d41`, commands33, phase1 247, phase2 1278, total1525; see FOUNDATION_RESULT.md and machine report. S12 remains IN_PROGRESS and continues the remaining stages automatically.

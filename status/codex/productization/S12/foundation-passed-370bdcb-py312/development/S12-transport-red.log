@@ -1,0 +1,152 @@
+test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback (test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback) ... FAIL
+test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch (test_okx_production_transport.OKXProductionTransportTests.test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch) ... FAIL
+test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry (test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry) ... FAIL
+test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body (test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body) ... FAIL
+test_timeout_is_ambiguous_sanitized_and_not_retried (test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried) ... FAIL
+
+======================================================================
+FAIL: test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback (test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 22, in api
+    try:return importlib.import_module('brokers.okx_production_transport')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'brokers.okx_production_transport'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 85, in test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback
+    api=self.api();requested=[]
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 23, in api
+    except ModuleNotFoundError:self.fail('Missing bounded production request/HTTPS and local credential interface')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing bounded production request/HTTPS and local credential interface
+
+======================================================================
+FAIL: test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch (test_okx_production_transport.OKXProductionTransportTests.test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 22, in api
+    try:return importlib.import_module('brokers.okx_production_transport')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'brokers.okx_production_transport'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 47, in test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch
+    api,config,transport,credentials,calls=self.fixture()
+                                           ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 26, in fixture
+    api=self.api(); calls=[]
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 23, in api
+    except ModuleNotFoundError:self.fail('Missing bounded production request/HTTPS and local credential interface')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing bounded production request/HTTPS and local credential interface
+
+======================================================================
+FAIL: test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry (test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 22, in api
+    try:return importlib.import_module('brokers.okx_production_transport')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'brokers.okx_production_transport'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 61, in test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry
+    api,config,transport,credentials,calls=self.fixture()
+                                           ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 26, in fixture
+    api=self.api(); calls=[]
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 23, in api
+    except ModuleNotFoundError:self.fail('Missing bounded production request/HTTPS and local credential interface')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing bounded production request/HTTPS and local credential interface
+
+======================================================================
+FAIL: test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body (test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 22, in api
+    try:return importlib.import_module('brokers.okx_production_transport')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'brokers.okx_production_transport'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 35, in test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body
+    api,config,transport,credentials,calls=self.fixture()
+                                           ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 26, in fixture
+    api=self.api(); calls=[]
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 23, in api
+    except ModuleNotFoundError:self.fail('Missing bounded production request/HTTPS and local credential interface')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing bounded production request/HTTPS and local credential interface
+
+======================================================================
+FAIL: test_timeout_is_ambiguous_sanitized_and_not_retried (test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 22, in api
+    try:return importlib.import_module('brokers.okx_production_transport')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'brokers.okx_production_transport'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 73, in test_timeout_is_ambiguous_sanitized_and_not_retried
+    api,config,transport,credentials,calls=self.fixture()
+                                           ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 26, in fixture
+    api=self.api(); calls=[]
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 23, in api
+    except ModuleNotFoundError:self.fail('Missing bounded production request/HTTPS and local credential interface')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing bounded production request/HTTPS and local credential interface
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+FAILED (failures=5)

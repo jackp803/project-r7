@@ -1,0 +1,820 @@
+{
+  "schema_version": "r7-local-qualification-v0.2",
+  "source_before": {
+    "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+    "worktree": "CLEAN"
+  },
+  "python": "3.12.10",
+  "os": "Windows",
+  "os_version": "10.0.26200",
+  "architecture": "AMD64",
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "inventory": [
+    {
+      "suite": "market_data",
+      "files": 5
+    },
+    {
+      "suite": "indicators",
+      "files": 3
+    },
+    {
+      "suite": "strategy",
+      "files": 10
+    },
+    {
+      "suite": "backtest",
+      "files": 5
+    },
+    {
+      "suite": "validation",
+      "files": 6
+    },
+    {
+      "suite": "execution",
+      "files": 10
+    },
+    {
+      "suite": "brokers",
+      "files": 18
+    },
+    {
+      "suite": "risk",
+      "files": 2
+    },
+    {
+      "suite": "position",
+      "files": 13
+    },
+    {
+      "suite": "storage",
+      "files": 15
+    },
+    {
+      "suite": "platform",
+      "files": 1
+    },
+    {
+      "suite": "integration",
+      "files": 14
+    },
+    {
+      "suite": "e2e",
+      "files": 4
+    },
+    {
+      "suite": "safety",
+      "files": 10
+    },
+    {
+      "suite": "application",
+      "files": 12
+    },
+    {
+      "suite": "product",
+      "files": 15
+    },
+    {
+      "suite": "registry",
+      "files": 10
+    }
+  ],
+  "commands": [
+    {
+      "phase": "phase_1",
+      "suite": "brokers",
+      "pattern": "test_okx_action_capability.py",
+      "tests_run": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 27,
+      "duration_seconds": 0.17200000000593718,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "001-phase_1-brokers.log",
+      "log_sha256": "90f20a6c39dc7238215886173dd33094ddbf365cd3c26f75791a23314fd7b7ef"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "position",
+      "pattern": "test_protection_trigger_validity.py",
+      "tests_run": 21,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 21,
+      "duration_seconds": 0.23399999999674037,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "002-phase_1-position.log",
+      "log_sha256": "e8e0a3000aa3919a3f7eb77acd12d74c902dcb289b22fe3b65dad2afd0f16ab8"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "execution",
+      "pattern": "test_protection_trigger_consumer.py",
+      "tests_run": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 12,
+      "duration_seconds": 0.20399999999790452,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "003-phase_1-execution.log",
+      "log_sha256": "4ebd8544caa2ff690f1645353f11c2abc0103f1a69910af1958a819dbafad044"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "execution",
+      "pattern": "test_external_close_evidence.py",
+      "tests_run": 22,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 22,
+      "duration_seconds": 0.21899999999732245,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "004-phase_1-execution.log",
+      "log_sha256": "49d9a4b36af783e7814d2b0ccbfadc2e8ad5aa8449d3d807b2e6a872b4c4374f"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "position",
+      "pattern": "test_external_close_reinterpretation.py",
+      "tests_run": 16,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 16,
+      "duration_seconds": 0.21900000001187436,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "005-phase_1-position.log",
+      "log_sha256": "7074aa6b24c5c089cbda46f106d3889bea2927bd9704e7d039fa9636355b3c0b"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "brokers",
+      "pattern": "test_okx_close_sizing.py",
+      "tests_run": 20,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 20,
+      "duration_seconds": 0.21799999999348074,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "006-phase_1-brokers.log",
+      "log_sha256": "82b8824a1094bd7b291b3a9899a7f6ed7d03198ebbaadd4d5394dca66974eba2"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "execution",
+      "pattern": "test_protection_registry_evidence.py",
+      "tests_run": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 14,
+      "duration_seconds": 0.21899999999732245,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "007-phase_1-execution.log",
+      "log_sha256": "7c59c8703a7a72d947f43f29342ffcc618fcdf09a2723691df95ece5000721ea"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "position",
+      "pattern": "test_protection_registry_policy.py",
+      "tests_run": 14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 14,
+      "duration_seconds": 0.23399999999674037,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "008-phase_1-position.log",
+      "log_sha256": "b0338cf01fb3869bfdaadf171033e0912147e5ac8b306a8abc277fdc50cda354"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "storage",
+      "pattern": "test_protection_registry_currentness.py",
+      "tests_run": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 26,
+      "duration_seconds": 9.203000000008615,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "009-phase_1-storage.log",
+      "log_sha256": "ef0525c311da708d65b9977fb181d99a2e7d8cb9b89631a39fbc3b457aba8770"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "storage",
+      "pattern": "test_external_close_currentness.py",
+      "tests_run": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 13,
+      "duration_seconds": 3.9210000000020955,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "010-phase_1-storage.log",
+      "log_sha256": "a3bfd3c3f3fabd56ac468e099d646fc8a046beba942fec06115ef1130b0cc8a8"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "storage",
+      "pattern": "test_external_close_currentness_supersession.py",
+      "tests_run": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 3,
+      "duration_seconds": 1.0,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "011-phase_1-storage.log",
+      "log_sha256": "0430b2575469c641329210ac2134aa9e0c3c57f75a2755ec24023d3f9b697c00"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "integration",
+      "pattern": "test_runtime_preflight.py",
+      "tests_run": 29,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 29,
+      "duration_seconds": 0.2649999999994179,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "012-phase_1-integration.log",
+      "log_sha256": "677b5681d717befb1303a03e5671a7e3ff76efc165673397f899a73543633b4e"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "integration",
+      "pattern": "test_p0_fp02_fp16_composition.py",
+      "tests_run": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 11,
+      "duration_seconds": 0.28100000000267755,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "013-phase_1-integration.log",
+      "log_sha256": "e95d4dbd88f13b72cc6e85d96d7826ad540cba74a803d09e16adaad215b08f22"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "integration",
+      "pattern": "test_p0_integrated_failure_prevention.py",
+      "tests_run": 7,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 7,
+      "duration_seconds": 0.2649999999994179,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "014-phase_1-integration.log",
+      "log_sha256": "05220458ecdb9f335cfb232f64b42d042f531c9f9f26be60466ae93d6395abad"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "safety",
+      "pattern": "test_p0_integrated_fail_closed.py",
+      "tests_run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 6,
+      "duration_seconds": 0.28100000000267755,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "015-phase_1-safety.log",
+      "log_sha256": "f222d9f9face6310eaf597678862a2574eddd6c15dfafe4fa190c11491fbb8c2"
+    },
+    {
+      "phase": "phase_1",
+      "suite": "e2e",
+      "pattern": "test_p0_reconciliation_restart_e2e.py",
+      "tests_run": 6,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 6,
+      "duration_seconds": 2.327999999994063,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "016-phase_1-e2e.log",
+      "log_sha256": "16512d8605731547d8d2e58af92ff45f8665131f85a0ccfeba1e524b1c09d653"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "market_data",
+      "pattern": "test_*.py",
+      "tests_run": 36,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 36,
+      "duration_seconds": 0.21799999999348074,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "017-phase_2-market_data.log",
+      "log_sha256": "bd5b81b18fcb4468f68ec1657d87bb6dafea39c9781cc977e1acde6d6a2b5e5d"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "indicators",
+      "pattern": "test_*.py",
+      "tests_run": 27,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 27,
+      "duration_seconds": 0.3279999999940628,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "018-phase_2-indicators.log",
+      "log_sha256": "839fda61e42cc9e0316d0421b4e99f1a981ad13f24aed0d486a39bbbfa03436c"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "strategy",
+      "pattern": "test_*.py",
+      "tests_run": 64,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 64,
+      "duration_seconds": 1.0,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "019-phase_2-strategy.log",
+      "log_sha256": "d486206b06b031e89d58a559d25f5d67fb037e0471d67639272fa979378fba8c"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "backtest",
+      "pattern": "test_*.py",
+      "tests_run": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 26,
+      "duration_seconds": 0.46899999999732245,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "020-phase_2-backtest.log",
+      "log_sha256": "e299dcc86164fa8d04453060a13b8af3f44f512afbcef8ee200b4ce599892e65"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "validation",
+      "pattern": "test_*.py",
+      "tests_run": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 45,
+      "duration_seconds": 5.5310000000026776,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "021-phase_2-validation.log",
+      "log_sha256": "90cbe5c4ced727cebd912898e405bf9bca05b326da2a3cafb73686aa96792ae8"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "execution",
+      "pattern": "test_*.py",
+      "tests_run": 127,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 127,
+      "duration_seconds": 0.32800000000861473,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "022-phase_2-execution.log",
+      "log_sha256": "a42706138250a0884e91e48c9cffbb6089846d20b0552f1eeddf31c1c455dbfa"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "brokers",
+      "pattern": "test_*.py",
+      "tests_run": 205,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 205,
+      "duration_seconds": 0.39100000000325963,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "023-phase_2-brokers.log",
+      "log_sha256": "d4b90e2f43e940b19dc0be407575b9bee8c73135d0b2988371e780090e6e2268"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "risk",
+      "pattern": "test_*.py",
+      "tests_run": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 24,
+      "duration_seconds": 0.21899999999732245,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "024-phase_2-risk.log",
+      "log_sha256": "b9b6363a434018c60eb59e1b89a5186bf0d37c665a0ed277df91fef532bfe50a"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "position",
+      "pattern": "test_*.py",
+      "tests_run": 168,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 168,
+      "duration_seconds": 0.4220000000059372,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "025-phase_2-position.log",
+      "log_sha256": "e5910a0b477baa4bef0c03be9e43e1ea4cecfb7ac27b50849406d54cbee94afb"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "storage",
+      "pattern": "test_*.py",
+      "tests_run": 153,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 153,
+      "duration_seconds": 37.75,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "026-phase_2-storage.log",
+      "log_sha256": "274494559ae179fd4dffa755a9fd1c3f4380882f70b347eb498ef0faf3f4fbab"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "platform",
+      "pattern": "test_*.py",
+      "tests_run": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 3,
+      "duration_seconds": 0.6710000000020955,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "027-phase_2-platform.log",
+      "log_sha256": "e186a4d42c904928f2bde2de9bf61a0568aadf69fd00532a3d68c1f25a846355"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "integration",
+      "pattern": "test_*.py",
+      "tests_run": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 90,
+      "duration_seconds": 3.4689999999973224,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "028-phase_2-integration.log",
+      "log_sha256": "b70dc11004e2877cb29d6fd4dd7b4934a1a8ec5236e212c32a2c99b66158cf98"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "e2e",
+      "pattern": "test_*.py",
+      "tests_run": 12,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 12,
+      "duration_seconds": 3.952999999994063,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "029-phase_2-e2e.log",
+      "log_sha256": "7bfc34a69670f58e040178dd9f59721890bd8eeaefc7470e2f34342b49943ec0"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "safety",
+      "pattern": "test_*.py",
+      "tests_run": 66,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 66,
+      "duration_seconds": 5.125,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "030-phase_2-safety.log",
+      "log_sha256": "868c2ad15760f22cb0e8d9a612c31f15fa843607b86674e3458cf0f5964f2ba2"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "application",
+      "pattern": "test_*.py",
+      "tests_run": 76,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 76,
+      "duration_seconds": 24.578000000008615,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "031-phase_2-application.log",
+      "log_sha256": "5a5d953b9f8000feafe3d418b556b3381afd373628d373846b8b8fd9bedbf92d"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "product",
+      "pattern": "test_*.py",
+      "tests_run": 112,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 112,
+      "duration_seconds": 140.93700000000536,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "032-phase_2-product.log",
+      "log_sha256": "22c1453185affdbdba0fe439d29a436e71a11bd3a833571b2c21b27aec4bdcde"
+    },
+    {
+      "phase": "phase_2",
+      "suite": "registry",
+      "pattern": "test_*.py",
+      "tests_run": 44,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "returncode": 0,
+      "passed": true,
+      "tests_passed": 44,
+      "duration_seconds": 40.0,
+      "tree_reaped": true,
+      "source_after": {
+        "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+        "worktree": "CLEAN"
+      },
+      "log": "033-phase_2-registry.log",
+      "log_sha256": "0e55717b7a4d66104a4543e2e049bec943e1660f12617cdf78a07cb7400fc679"
+    }
+  ],
+  "passed": true,
+  "source_after": {
+    "revision": "370bdcbfaa9a6301b2f88cba722268f775821d41",
+    "worktree": "CLEAN"
+  },
+  "tests_run": 1525
+}

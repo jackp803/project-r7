@@ -10,6 +10,8 @@ also stay under that project folder, never the desktop root.
 
 Active step: S12, production provider/admission implementation with fake transport verification. Next: S13.
 
+S12 foundation executable `370bdcbfaa9a6301b2f88cba722268f775821d41` passed 33 exact-clean commands: phase1 247, phase2 1278, total 1525; zero failures/errors/skips and all owned trees reaped. Evidence: status/codex/productization/S12/foundation-passed-370bdcb-py312. S12 remains IN_PROGRESS: continue actual E4 versioned roles/readback and durable dispatch/recovery, then owner projections/approval control integration. No milestone exit.
+
 S11 exact-clean executable `1ce69a7060fc47c39d16d8db6acb0781066046db` passed 33 Python commands: phase1 247, phase2 1262, total 1509; pinned UI6 commands, unit10, native Edge browser8. Zero failures/errors/skips; all owned command trees reaped. Evidence: status/codex/productization/S11/passed-1ce69a7-py312.
 Functional six-screen Traditional-Chinese UI uses actual authenticated owner APIs, canonical author/timeframe/validity facts and accepted PAPER inventory/ACK/fill. Protected remaining exposure survives pause; session revocation and stale resource conflicts are visible. Exact build/input hashes and checked screenshots are retained. Financial approval remains fixture-denied/uncommissioned. Continue same task/branch at S12 with current official public provider docs, versioned capability gap inventory, tests before additions and no real provider/credentials/capital. Ubuntu/native/cloud/real-forward remain NOT_RUN.
 

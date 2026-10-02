@@ -1,7 +1,7 @@
 """Executable validation inventory; availability never substitutes for evidence.
 
-S03 has grammar implementations. Indicator execution and end-to-end runtime
-qualification are separate work packages; all their admission flags fail closed.
+Inventory is generated from numerical execution handlers. Reference/platform,
+PAPER and provider authority remain separately qualified evidence.
 """
 
 from dataclasses import dataclass
@@ -58,6 +58,7 @@ class CompatibilityReport:
 
 
 def build_capability_snapshot() -> CapabilitySnapshot:
+    from indicators.v02.features import INDICATOR_HANDLERS
     revision=_revision()
     entries=[]
     for name,version in sorted(PRIMITIVE_VERSIONS.items()):
@@ -76,7 +77,7 @@ def build_capability_snapshot() -> CapabilitySnapshot:
                                'BOLLINGER':'n','DONCHIAN':'n+lag_bars'}[name],
             'missing_data_behavior':'NO_TRADE/INSUFFICIENT_HISTORY; no forward fill',
             'arithmetic_profile':ARITHMETIC_PROFILE,'implementation_revision':revision,
-            'validator_available':True,'IMPLEMENTED':False,'VERIFIED_REFERENCE':False,
+            'validator_available':True,'IMPLEMENTED':callable(INDICATOR_HANDLERS.get(name)),'VERIFIED_REFERENCE':False,
             'PAPER_AVAILABLE':False,'LIVE_PROVIDER_AVAILABLE':False,'verification_refs':[],
         })
     entries.append({'capability_id':'grammar:0.2','semantic_version':'r7-closed-bar-v0.2',
@@ -91,7 +92,7 @@ def build_capability_snapshot() -> CapabilitySnapshot:
               'implementation_revision':revision,'capabilities':entries,
               'limits':{'ast_depth':32,'ast_nodes':4096,'features':128,'strategy_bytes':262144,
                         'window':10000,'lag':10000,'required_timeframes':4},
-              'runtime_0_2_execution':'NOT_IMPLEMENTED','platform_verification':{
+              'runtime_0_2_execution':'IMPLEMENTED','platform_verification':{
                   'Windows11':'NOT_RUN','Ubuntu24.04':'NOT_RUN','Ubuntu26.04':'NOT_RUN'}}
     raw=_canonical(document)
     return CapabilitySnapshot(raw,'sha256:'+hashlib.sha256(raw.encode('utf-8')).hexdigest())

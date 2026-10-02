@@ -87,6 +87,16 @@ def resolve_exit_constraints(request):
     if hold is not None and (type(hold) is not int or not 1<=hold<=31536000): fail('INVALID_MAX_HOLD')
     return ExitConstraints(stop,target,trailing,hold)
 
+def propose_trailing_stop(side,initial_stop,previous_stop,high_water,low_water,distance):
+    """Shared E5 geometry only; this proposal grants no execution authority."""
+    if side not in ('LONG','SHORT'): fail('INVALID_EXIT_DIRECTION')
+    initial_stop,previous_stop,high_water,low_water,distance=(positive(str(value)) for value in
+        (initial_stop,previous_stop,high_water,low_water,distance))
+    if low_water>high_water: fail('INVALID_MARKET_EXTREMES')
+    if previous_stop<initial_stop if side=='LONG' else previous_stop>initial_stop: fail('LOSS_BOUND_WIDENED')
+    with localcontext(REFERENCE_CONTEXT):
+        return max(previous_stop,high_water-distance) if side=='LONG' else min(previous_stop,low_water+distance)
+
 
 @dataclass(frozen=True)
 class ExitAnchor:
@@ -210,7 +220,7 @@ def interpret_exit_request(request,current_e5_authority):
     with localcontext(REFERENCE_CONTEXT):
         high=max(anchor.high_water,price)
         low=min(anchor.low_water,price)
-        proposed=max(anchor.proposed_stop,high-constraints.trailing_distance) if long else min(anchor.proposed_stop,low+constraints.trailing_distance)
+        proposed=propose_trailing_stop(anchor.side,anchor.initial_stop,anchor.proposed_stop,high,low,constraints.trailing_distance)
     advanced=replace(anchor,high_water=high,low_water=low,proposed_stop=proposed,last_market_at=market.observed_at)
     if (proposed>=price if long else proposed<=price):
         return ExitOutcome('BLOCKED',advanced,reason_codes=('TRAILING_TRIGGER_NOT_ACTIONABLE',))

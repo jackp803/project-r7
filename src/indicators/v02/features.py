@@ -182,58 +182,67 @@ def _true_range(bar,previous):
     return max(bar.high-bar.low,abs(bar.high-previous.close),abs(bar.low-previous.close))
 
 
-def _compute(state,bar,source):
-    spec=state.spec
-    name,params,kernel=spec.name,spec.parameters,state.kernel
-    n=params.get('window',1)
-    if name in {'ATR','ADX','DONCHIAN'}:
-        if name=='ATR': return kernel['tr'].push(_true_range(bar,state.previous))
-        if name=='DONCHIAN':
-            state.series.append((bar.high,bar.low))
-            lag=params['lag_bars']
-            if len(state.series)<n+lag: return None
-            values=list(state.series)
-            selected=values[-n-lag:-lag] if lag else values[-n:]
-            return donchian(selected)[spec.output]
-        if state.previous is None: return None
-        up=bar.high-state.previous.high
-        down=state.previous.low-bar.low
-        plus=up if up>down and up>0 else Decimal(0)
-        minus=down if down>up and down>0 else Decimal(0)
-        tr=kernel['tr'].push(_true_range(bar,state.previous))
-        sm_plus=kernel['plus'].push(plus)
-        sm_minus=kernel['minus'].push(minus)
-        if tr is None: return None
-        plus_di=Decimal(100)*sm_plus/tr if tr else Decimal(0)
-        minus_di=Decimal(100)*sm_minus/tr if tr else Decimal(0)
-        denominator=plus_di+minus_di
-        dx=Decimal(100)*abs(plus_di-minus_di)/denominator if denominator else Decimal(0)
-        adx=kernel['adx'].push(dx)
-        return {'value':adx,'plus_di':plus_di,'minus_di':minus_di}[spec.output]
+def _atr(state,bar,source):
+    return state.kernel['tr'].push(_true_range(bar,state.previous))
+
+def _donchian(state,bar,source):
+    state.series.append((bar.high,bar.low))
+    params=state.spec.parameters; n=params['window']; lag=params['lag_bars']
+    if len(state.series)<n+lag: return None
+    values=list(state.series); selected=values[-n-lag:-lag] if lag else values[-n:]
+    return donchian(selected)[state.spec.output]
+
+def _adx(state,bar,source):
+    if state.previous is None: return None
+    kernel=state.kernel
+    up=bar.high-state.previous.high; down=state.previous.low-bar.low
+    plus=up if up>down and up>0 else Decimal(0)
+    minus=down if down>up and down>0 else Decimal(0)
+    tr=kernel['tr'].push(_true_range(bar,state.previous))
+    sm_plus=kernel['plus'].push(plus); sm_minus=kernel['minus'].push(minus)
+    if tr is None: return None
+    plus_di=Decimal(100)*sm_plus/tr if tr else Decimal(0)
+    minus_di=Decimal(100)*sm_minus/tr if tr else Decimal(0)
+    denominator=plus_di+minus_di
+    dx=Decimal(100)*abs(plus_di-minus_di)/denominator if denominator else Decimal(0)
+    adx=kernel['adx'].push(dx)
+    return {'value':adx,'plus_di':plus_di,'minus_di':minus_di}[state.spec.output]
+
+def _sma(state,bar,source):
     state.series.append(source)
-    if name=='SMA': return sum(state.series,Decimal(0))/Decimal(n) if len(state.series)==n else None
-    if name=='EMA': return kernel['ema'].push(source)
-    if name=='RSI':
-        if state.previous_value is None: return None
-        change=source-state.previous_value
-        gain=kernel['gain'].push(max(change,Decimal(0)))
-        loss=kernel['loss'].push(max(-change,Decimal(0)))
-        if gain is None: return None
-        if gain==loss==0: return Decimal(50)
-        if loss==0: return Decimal(100)
-        if gain==0: return Decimal(0)
-        return Decimal(100)-Decimal(100)/(Decimal(1)+gain/loss)
-    if name=='MACD':
-        fast=kernel['fast'].push(source)
-        slow=kernel['slow'].push(source)
-        if slow is None: return None
-        line=fast-slow
-        signal=kernel['signal'].push(line)
-        return {'line':line,'signal':signal,'histogram':line-signal if signal is not None else None}[spec.output]
-    if name=='BOLLINGER':
-        if len(state.series)<n: return None
-        return population_bands(state.series,finite_decimal(params['k']))[spec.output]
-    raise ValueError('Unimplemented primitive')
+    n=state.spec.parameters['window']
+    return sum(state.series,Decimal(0))/Decimal(n) if len(state.series)==n else None
+
+def _ema(state,bar,source):
+    state.series.append(source)
+    return state.kernel['ema'].push(source)
+
+def _rsi(state,bar,source):
+    state.series.append(source)
+    if state.previous_value is None: return None
+    change=source-state.previous_value; kernel=state.kernel
+    gain=kernel['gain'].push(max(change,Decimal(0))); loss=kernel['loss'].push(max(-change,Decimal(0)))
+    if gain is None: return None
+    if gain==loss==0: return Decimal(50)
+    if loss==0: return Decimal(100)
+    if gain==0: return Decimal(0)
+    return Decimal(100)-Decimal(100)/(Decimal(1)+gain/loss)
+
+def _macd(state,bar,source):
+    state.series.append(source); kernel=state.kernel
+    fast=kernel['fast'].push(source); slow=kernel['slow'].push(source)
+    if slow is None: return None
+    line=fast-slow; signal=kernel['signal'].push(line)
+    return {'line':line,'signal':signal,'histogram':line-signal if signal is not None else None}[state.spec.output]
+
+def _bollinger(state,bar,source):
+    state.series.append(source); params=state.spec.parameters
+    if len(state.series)<params['window']: return None
+    return population_bands(state.series,finite_decimal(params['k']))[state.spec.output]
+
+# Execution and generated inventory consume the same real callables.
+INDICATOR_HANDLERS={'SMA':_sma,'EMA':_ema,'RSI':_rsi,'ATR':_atr,'ADX':_adx,
+                    'MACD':_macd,'BOLLINGER':_bollinger,'DONCHIAN':_donchian}
 
 
 def update_feature(state,bar,*,source_value=_FIELD_SOURCE):
@@ -247,7 +256,9 @@ def update_feature(state,bar,*,source_value=_FIELD_SOURCE):
     with localcontext(REFERENCE_CONTEXT):
         if not state.issue:
             state.prefix_hash=_hash({'previous':state.prefix_hash,'bar':_material(bar,source)})
-            try: value=_compute(state,bar,source)
+            handler=INDICATOR_HANDLERS.get(state.spec.name)
+            if not callable(handler): state.issue='NOT_IMPLEMENTED'
+            try: value=handler(state,bar,source) if callable(handler) else None
             except DecimalException: state.issue='INVALID_ARITHMETIC'
         else:
             state.prefix_hash=_hash({'previous':state.prefix_hash,'invalid_observation':state.issue,'count':state.count})

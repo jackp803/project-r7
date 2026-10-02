@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://r7.local/contracts/dataset_profile_v0_2.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "r7-dataset-v0.2"
+    },
+    "dataset_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "dataset_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "namespace": {
+      "enum": [
+        "FIXTURE",
+        "LOCAL_RESEARCH"
+      ]
+    },
+    "symbol": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "source_instrument": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "normalization_version": {
+      "const": "r7-canonical-e1-v0.2"
+    },
+    "alignment": {
+      "const": "UTC"
+    },
+    "availability_model": {
+      "enum": [
+        "recorded_received_at",
+        "historical_close_assumption"
+      ]
+    },
+    "information_cutoff": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "maxLength": 40
+    },
+    "units": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "const": "USDT_PER_BASE"
+        },
+        "volume": {
+          "const": "BASE"
+        },
+        "quantity": {
+          "const": "BASE"
+        },
+        "settlement": {
+          "const": "USDT"
+        },
+        "instrument_type": {
+          "const": "LINEAR_PERPETUAL"
+        }
+      },
+      "required": [
+        "price",
+        "volume",
+        "quantity",
+        "settlement",
+        "instrument_type"
+      ],
+      "additionalProperties": false
+    },
+    "candles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 384,
+            "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_.-]+\\.parquet$"
+          },
+          "timeframe": {
+            "enum": [
+              "1m",
+              "15m",
+              "1h",
+              "4h"
+            ]
+          },
+          "start": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "maxLength": 40
+          },
+          "end": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "Z$",
+            "maxLength": 40
+          },
+          "rows": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200000
+          },
+          "finalized_rows": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 200000
+          },
+          "missing_ranges": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "duplicate_ranges": {
+            "type": "array",
+            "maxItems": 0
+          },
+          "logical_hash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "byte_hash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "path",
+          "timeframe",
+          "start",
+          "end",
+          "rows",
+          "finalized_rows",
+          "missing_ranges",
+          "duplicate_ranges",
+          "logical_hash",
+          "byte_hash"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "funding": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "MISSING"
+            }
+          },
+          "required": [
+            "mode"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "mode": {
+              "const": "RECORDED"
+            },
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 384,
+              "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_.-]+\\.parquet$"
+            },
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "rows": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200000
+            },
+            "interval_seconds": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 86400
+            },
+            "logical_hash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "byte_hash": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$"
+            },
+            "rate_unit": {
+              "const": "FRACTION_PER_EVENT"
+            },
+            "notional_basis": {
+              "const": "ENTRY_FILL_PRICE_X_BASE_QUANTITY"
+            }
+          },
+          "required": [
+            "mode",
+            "path",
+            "start",
+            "end",
+            "rows",
+            "interval_seconds",
+            "logical_hash",
+            "byte_hash",
+            "rate_unit",
+            "notional_basis"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$",
+      "maxLength": 40
+    }
+  },
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "dataset_version",
+    "namespace",
+    "symbol",
+    "source_instrument",
+    "normalization_version",
+    "alignment",
+    "availability_model",
+    "information_cutoff",
+    "units",
+    "candles",
+    "funding",
+    "created_at"
+  ],
+  "additionalProperties": false
+}

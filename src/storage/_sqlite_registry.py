@@ -11,6 +11,7 @@ from registry.models import (
     CompatibilityEvidence,
     ConcurrencyConflict,
     IdentityConflict,
+    EvidenceGateError,
     IntakeReceipt,
     IntakeOutcome,
     InvalidTransition,
@@ -149,6 +150,21 @@ class _SQLiteRegistryStore:
 
     def close(self):
         self._connection.close()
+
+    def bind_research_namespace(self,namespace):
+        self._require_writer_capability()
+        if namespace not in ('FIXTURE','LOCAL_RESEARCH'): raise EvidenceGateError('Invalid research namespace')
+        with self._connection:
+            self._connection.execute('BEGIN IMMEDIATE')
+            self._connection.execute('CREATE TABLE IF NOT EXISTS registry_research_namespace(singleton INTEGER PRIMARY KEY CHECK(singleton=1), namespace TEXT NOT NULL)')
+            row=self._connection.execute('SELECT namespace FROM registry_research_namespace WHERE singleton=1').fetchone()
+            if row is None:
+                if self._connection.execute('SELECT COUNT(*) FROM strategy_versions').fetchone()[0]:
+                    raise EvidenceGateError('Existing unclassified registry requires explicit namespace migration')
+                self._connection.execute('INSERT INTO registry_research_namespace VALUES(1,?)',(namespace,))
+                self._connection.execute("CREATE TRIGGER registry_research_namespace_immutable BEFORE UPDATE ON registry_research_namespace BEGIN SELECT RAISE(ABORT,'registry namespace is immutable'); END")
+                self._connection.execute("CREATE TRIGGER registry_research_namespace_no_delete BEFORE DELETE ON registry_research_namespace BEGIN SELECT RAISE(ABORT,'registry namespace cannot be deleted'); END")
+            elif row['namespace']!=namespace: raise EvidenceGateError('Fixture and real research registry namespaces cannot mix')
 
     def _commit_intake_write(self):
         if not self._atomic_intake_active:

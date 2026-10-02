@@ -148,6 +148,13 @@ class ExitRequestTests(unittest.TestCase):
         self.assertEqual('EXIT_REQUESTED',outcome.lifecycle_intent)
         self.assertEqual(anchor.first_fill_at,outcome.anchor.first_fill_at)
 
+    def test_shared_trailing_geometry_tightens_both_sides_and_rejects_widened_loss_bound(self):
+        from position import exit_requests as api
+        self.assertTrue(hasattr(api,'propose_trailing_stop'),'Missing shared E5 geometry owner')
+        self.assertEqual(Decimal(103),api.propose_trailing_stop('LONG',Decimal(90),Decimal(100),Decimal(104),Decimal(99),Decimal(1)))
+        self.assertEqual(Decimal(97),api.propose_trailing_stop('SHORT',Decimal(110),Decimal(100),Decimal(104),Decimal(96),Decimal(1)))
+        with self.assertRaises(api.ExitRequestError): api.propose_trailing_stop('LONG',Decimal(100),Decimal(90),Decimal(104),Decimal(99),Decimal(1))
+
     def test_trailing_proposal_is_monotonic_without_claiming_provider_execution(self):
         request,api=self.request(trailing={'kind':'fixed_distance','value':'300'},hold=1800)
         position,plan=self.facts(request)

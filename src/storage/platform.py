@@ -12,6 +12,7 @@ def open_sqlite_platform(
     path: str | Path,
     *,
     compatibility_boundary: StrategyCompatibilityBoundary | None = None,
+    research_namespace: str | None = None,
 ) -> StrategyPlatformService:
     """Return the supported E6 SQLite-backed platform service.
 
@@ -22,6 +23,11 @@ def open_sqlite_platform(
     """
 
     store = _open_authorized_store(path)
+    try:
+        if research_namespace is not None: store.bind_research_namespace(research_namespace)
+    except BaseException:
+        store.close()
+        raise
     return StrategyPlatformService(store, compatibility_boundary)
 
 

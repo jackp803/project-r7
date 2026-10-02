@@ -60,20 +60,31 @@ class CapabilityTests(unittest.TestCase):
         snapshot=self.api().build_capability_snapshot()
         ema=next(row for row in snapshot.as_dict()['capabilities'] if row['capability_id']=='indicator:EMA')
         self.assertTrue(ema['validator_available'])
-        self.assertFalse(ema['IMPLEMENTED'])
+        self.assertTrue(ema['IMPLEMENTED'])
         self.assertFalse(ema['VERIFIED_REFERENCE'])
         self.assertFalse(ema['PAPER_AVAILABLE'])
         self.assertFalse(ema['LIVE_PROVIDER_AVAILABLE'])
         report=self.api().check_compatibility(definition_v02(),snapshot)
         self.assertEqual('BLOCKED',report.status)
-        self.assertIn('NOT_IMPLEMENTED',[gap.reason for gap in report.gaps])
+        self.assertIn('EXECUTION_NOT_QUALIFIED',[gap.reason for gap in report.gaps])
+
+    def test_missing_actual_handler_is_never_advertised_as_implemented(self):
+        from indicators.v02 import features
+        self.assertTrue(hasattr(features,'INDICATOR_HANDLERS'),'Missing executable handler registry')
+        from unittest.mock import patch
+        with patch.dict(features.INDICATOR_HANDLERS,{'EMA':None}):
+            snapshot=self.api().build_capability_snapshot()
+            ema=next(row for row in snapshot.as_dict()['capabilities'] if row['capability_id']=='indicator:EMA')
+            self.assertFalse(ema['IMPLEMENTED'])
+            report=self.api().check_compatibility(definition_v02(),snapshot)
+            self.assertIn('NOT_IMPLEMENTED',[gap.reason for gap in report.gaps])
 
     def test_snapshot_hash_is_deterministic_and_snapshot_cannot_be_mutated(self):
         api=self.api()
         snapshot=api.build_capability_snapshot()
         initial=snapshot.as_dict()
         self.assertEqual(snapshot.snapshot_hash,api.build_capability_snapshot().snapshot_hash)
-        initial['capabilities'][0]['IMPLEMENTED']=True
+        initial['capabilities'][0]['IMPLEMENTED']=not initial['capabilities'][0]['IMPLEMENTED']
         self.assertNotEqual(initial,snapshot.as_dict())
         self.assertRegex(snapshot.snapshot_hash,r'^sha256:[0-9a-f]{64}$')
 

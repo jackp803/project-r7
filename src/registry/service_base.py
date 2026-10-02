@@ -222,14 +222,26 @@ class StrategyPlatformService:
         _scan_secret_keys(raw)
         identity, runtime = _validate_strategy_envelope(raw)
         canonical = _canonical_json(raw)
+        # Long E2 work precedes all canonical writer transactions. A short
+        # atomic callback may persist this result, never execute the runtime.
+        compatibility = self._compatibility.check(raw)
+        if compatibility.identity != identity:
+            raise EvidenceGateError("E2 compatibility evidence identity does not match intake identity")
+        if compatibility.status not in EVIDENCE_STATUSES:
+            raise EvidenceGateError("E2 compatibility evidence has unsupported status")
+        if compatibility.verification_kind not in VERIFICATION_KINDS:
+            raise EvidenceGateError("E2 compatibility evidence has unsupported verification_kind")
         if operation_id is not None:
             operation = _nonempty(operation_id, "operation_id")
             if len(operation) > 256:
                 raise IntakeRejected("operation_id exceeds limit")
             return self._store.run_intake_once(
                 operation, _payload_hash(canonical), actor,
-                lambda: self.intake(raw, source_actor=actor),
+                lambda: self._persist_intake(raw,actor,identity,runtime,canonical,compatibility),
             )
+        return self._persist_intake(raw,actor,identity,runtime,canonical,compatibility)
+
+    def _persist_intake(self,raw,actor,identity,runtime,canonical,compatibility):
         registered_at = _utc_now()
         proposed = StrategyVersionRecord(
             identity=identity,
@@ -245,13 +257,6 @@ class StrategyPlatformService:
         )
         stored, created = self._store.register_strategy(proposed)
 
-        compatibility = self._compatibility.check(raw)
-        if compatibility.identity != identity:
-            raise EvidenceGateError("E2 compatibility evidence identity does not match intake identity")
-        if compatibility.status not in EVIDENCE_STATUSES:
-            raise EvidenceGateError("E2 compatibility evidence has unsupported status")
-        if compatibility.verification_kind not in VERIFICATION_KINDS:
-            raise EvidenceGateError("E2 compatibility evidence has unsupported verification_kind")
         self._store.save_compatibility(compatibility)
 
         status_map = {
@@ -276,6 +281,10 @@ class StrategyPlatformService:
     def close(self) -> None:
         """Close owned persistence without exposing an authoritative writer."""
         self._store.close()
+
+    def get_strategy(self,identity: StrategyIdentity) -> StrategyVersionRecord:
+        """Read current canonical state without exposing a persistence writer."""
+        return self._require_strategy(identity)
 
     def __enter__(self):
         return self

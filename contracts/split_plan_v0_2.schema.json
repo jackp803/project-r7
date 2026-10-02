@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://r7.local/contracts/split_plan_v0_2.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "r7-frozen-split-plan-v0.2"
+    },
+    "dataset_manifest_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "policy_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "namespace": {
+      "enum": [
+        "FIXTURE",
+        "LOCAL_RESEARCH"
+      ]
+    },
+    "partitions": {
+      "type": "object",
+      "properties": {
+        "training": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "enum": [
+                "training",
+                "development",
+                "sealed_oos"
+              ]
+            },
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "warmup_start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "entry_start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "entry_end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "sealed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "start",
+            "end",
+            "warmup_start",
+            "entry_start",
+            "entry_end",
+            "sealed"
+          ],
+          "additionalProperties": false
+        },
+        "development": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "enum": [
+                "training",
+                "development",
+                "sealed_oos"
+              ]
+            },
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "warmup_start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "entry_start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "entry_end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "sealed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "start",
+            "end",
+            "warmup_start",
+            "entry_start",
+            "entry_end",
+            "sealed"
+          ],
+          "additionalProperties": false
+        },
+        "sealed_oos": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "enum": [
+                "training",
+                "development",
+                "sealed_oos"
+              ]
+            },
+            "start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "warmup_start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "entry_start": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "entry_end": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "Z$",
+              "maxLength": 40
+            },
+            "sealed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "name",
+            "start",
+            "end",
+            "warmup_start",
+            "entry_start",
+            "entry_end",
+            "sealed"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "training",
+        "development",
+        "sealed_oos"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "dataset_manifest_hash",
+    "policy_hash",
+    "namespace",
+    "partitions"
+  ],
+  "additionalProperties": false
+}

@@ -114,6 +114,7 @@ class E2RuntimeBinding:
     runtime: Any
     runtime_version: str
     invoke: Callable[[Any, Any, tuple[Any, ...], datetime], Any]
+    exit_constraints: Callable[[Any, tuple[Any, ...], datetime], Any] | None = None
 
     def __post_init__(self) -> None:
         if self.runtime is None:
@@ -143,6 +144,10 @@ class ReplayConfig:
     funding_model: FixedFundingModel
     close_open_position_at_dataset_end: bool = True
     run_created_at: datetime | None = None
+    scored_start: datetime | None = None
+    scored_end: datetime | None = None
+    entry_start: datetime | None = None
+    entry_end: datetime | None = None
 
     def __post_init__(self) -> None:
         quantity = _decimal(self.fixed_quantity, "fixed_quantity")
@@ -154,15 +159,28 @@ class ReplayConfig:
             created_at = _utc(self.run_created_at, "run_created_at")
             object.__setattr__(self, "run_created_at", created_at)
         object.__setattr__(self, "fixed_quantity", quantity)
+        window=(self.scored_start,self.scored_end,self.entry_start,self.entry_end)
+        if any(value is not None for value in window):
+            if not all(value is not None for value in window): raise ValueError('Complete scored/entry window required')
+            normalized=tuple(_utc(value,'research_window') for value in window)
+            start,end,entry_start,entry_end=normalized
+            if not start<=entry_start<entry_end<=end: raise ValueError('Invalid scored/entry window')
+            for key,value in zip(('scored_start','scored_end','entry_start','entry_end'),normalized): object.__setattr__(self,key,value)
 
     def cost_assumptions(self) -> dict[str, Any]:
-        return {
+        result = {
             "cost_model_version": self.cost_model_version,
             "fixed_quantity": str(self.fixed_quantity),
             "fee": self.fee_model.assumptions(),
             "slippage": self.slippage_model.assumptions(),
             "funding": self.funding_model.assumptions(),
         }
+        if self.scored_start is not None:
+            result['scoring']={'start':_z(self.scored_start),'end':_z(self.scored_end),
+                               'entry_start':_z(self.entry_start),'entry_end':_z(self.entry_end),
+                               'warmup':'FEATURE_ONLY','boundary_overlap':'PURGED',
+                               'time_exit_price':'NEXT_OBSERVED_OPEN; no invented intrabar timestamp'}
+        return result
 
 
 @dataclass(frozen=True)
@@ -222,6 +240,7 @@ class BacktestResult:
     trades: tuple[ReplayTrade, ...]
     runtime_invocations: int
     cost_assumptions: dict[str, Any]
+    replay_engine_version: str = REPLAY_ENGINE_VERSION
 
     def to_contract(self, *, include_trades: bool = False) -> dict[str, Any]:
         payload: dict[str, Any] = {
@@ -237,7 +256,7 @@ class BacktestResult:
             "dataset_end": _z(self.dataset_end),
             "cost_model_version": self.cost_model_version,
             "created_at": _z(self.created_at),
-            "replay_engine_version": REPLAY_ENGINE_VERSION,
+            "replay_engine_version": self.replay_engine_version,
             **self.metrics.to_contract_fields(),
             "reproducibility": {
                 "runtime_provider": "E2",
@@ -289,6 +308,7 @@ class _PendingEntry:
     stop_level: Decimal | None
     target_level: Decimal | None
     max_hold_seconds: int | None
+    trailing_distance: Decimal | None = None
 
 
 @dataclass
@@ -304,6 +324,10 @@ class _OpenPosition:
     stop_level: Decimal | None
     target_level: Decimal | None
     max_hold_seconds: int | None
+    trailing_distance: Decimal | None = None
+    initial_stop: Decimal | None = None
+    high_water: Decimal | None = None
+    low_water: Decimal | None = None
 
 
 class HistoricalReplayEngine:
@@ -331,16 +355,21 @@ class HistoricalReplayEngine:
         required_timeframes = _read(strategy_definition, "required_timeframes")
         if isinstance(required_timeframes, str) or not isinstance(required_timeframes, Sequence):
             raise ReplayValidationError("required_timeframes must be a sequence")
-        if len(required_timeframes) != 1:
+        if self._runtime.runtime_version=='0.2.0':
+            required_timeframe=str(_read(strategy_definition,'evaluation_timeframe'))
+        elif len(required_timeframes) != 1:
             raise ReplayValidationError(
                 "Slice 1 replay supports exactly one required timeframe; multi-timeframe replay is not implemented"
             )
-        required_timeframe = str(required_timeframes[0])
+        else: required_timeframe = str(required_timeframes[0])
 
         frames = tuple(self._project_candle(raw) for raw in candles)
         if not frames:
             raise ReplayValidationError("historical replay requires at least one Candle")
         self._validate_frames(frames, strategy_symbol, required_timeframe, dataset)
+        if self._config.scored_start is not None:
+            if self._config.scored_start<frames[0].open_time or self._config.scored_end>frames[-1].close_time:
+                raise ReplayValidationError('Scored interval outside bound input')
 
         trades: list[ReplayTrade] = []
         position: _OpenPosition | None = None
@@ -391,6 +420,17 @@ class HistoricalReplayEngine:
                     position = None
                     pending_exit_reason = None
 
+            # Newly observed extremes may tighten the next bar's research stop,
+            # never retroactively obtain a favorable same-bar trailing fill.
+            if position is not None and position.trailing_distance is not None:
+                from position.exit_requests import propose_trailing_stop
+                if position.initial_stop is None or position.stop_level is None:
+                    raise ReplayValidationError('Trailing research requires an initial stop')
+                position.high_water=max(position.high_water,frame.high)
+                position.low_water=min(position.low_water,frame.low)
+                position.stop_level=propose_trailing_stop(position.direction,position.initial_stop,position.stop_level,
+                    position.high_water,position.low_water,position.trailing_distance)
+
             # The E2 runtime receives only the finalized prefix available at this boundary.
             history = tuple(item.raw for item in frames[: index + 1])
             if any(item.close_time > frame.close_time for item in frames[: index + 1]):
@@ -407,13 +447,18 @@ class HistoricalReplayEngine:
             )
 
             if position is None:
-                if signal.direction in ("LONG", "SHORT"):
+                eligible=(self._config.entry_start is None or
+                          self._config.entry_start<=frame.close_time<self._config.entry_end)
+                if signal.direction in ("LONG", "SHORT") and eligible:
+                    constraints=(self._runtime.exit_constraints(strategy_definition,history,frame.close_time)
+                                 if self._runtime.exit_constraints else None)
                     pending_entry = _PendingEntry(
                         direction=signal.direction,
                         signal_id=signal.signal_id,
-                        stop_level=signal.stop_level,
-                        target_level=signal.target_level,
-                        max_hold_seconds=signal.max_hold_seconds,
+                        stop_level=constraints.stop_level if constraints else signal.stop_level,
+                        target_level=constraints.target_level if constraints else signal.target_level,
+                        max_hold_seconds=constraints.max_hold_seconds if constraints else signal.max_hold_seconds,
+                        trailing_distance=constraints.trailing_distance if constraints else None,
                     )
             elif signal.direction in ("LONG", "SHORT") and signal.direction != position.direction:
                 pending_exit_reason = "OPPOSITE_SIGNAL"
@@ -429,6 +474,9 @@ class HistoricalReplayEngine:
                 )
             )
 
+        if self._config.scored_start is not None:
+            trades=[trade for trade in trades if self._config.scored_start<=trade.opened_at<self._config.scored_end
+                    and trade.closed_at<self._config.scored_end]
         metrics = calculate_metrics(trades)
         created_at = self._config.run_created_at or datetime.now(UTC)
         result_id = self._result_id(
@@ -438,6 +486,13 @@ class HistoricalReplayEngine:
             dataset=dataset,
             trades=trades,
         )
+        assumptions=self._config.cost_assumptions()
+        if self._runtime.runtime_version=='0.2.0':
+            assumptions['exit_execution_model']={'profile':'e3-v02-prior-bar-trailing-v1',
+                'trailing':'E5 monotonic proposal applied from next observed bar; research simulation',
+                'protective_event_time':'CANDLE_CLOSE; OHLC event order unknown',
+                'time_exit_price':'NEXT_OBSERVED_OPEN; no fabricated intrabar quote',
+                'provider_modification_authority':'NOT_ESTABLISHED'}
         return BacktestResult(
             backtest_result_id=result_id,
             strategy_id=strategy_id,
@@ -446,14 +501,15 @@ class HistoricalReplayEngine:
             runtime_version=self._runtime.runtime_version,
             dataset_id=dataset.dataset_id,
             dataset_hash=dataset.dataset_hash,
-            dataset_start=_utc(dataset.dataset_start, "dataset_start"),
-            dataset_end=_utc(dataset.dataset_end, "dataset_end"),
+            dataset_start=self._config.scored_start or _utc(dataset.dataset_start, "dataset_start"),
+            dataset_end=self._config.scored_end or _utc(dataset.dataset_end, "dataset_end"),
             cost_model_version=self._config.cost_model_version,
             created_at=created_at,
             metrics=metrics,
             trades=tuple(trades),
             runtime_invocations=runtime_invocations,
-            cost_assumptions=self._config.cost_assumptions(),
+            cost_assumptions=assumptions,
+            replay_engine_version='e3-replay-v02-v1' if self._runtime.runtime_version=='0.2.0' else REPLAY_ENGINE_VERSION,
         )
 
     @staticmethod
@@ -627,6 +683,8 @@ class HistoricalReplayEngine:
             stop_level=request.stop_level,
             target_level=request.target_level,
             max_hold_seconds=request.max_hold_seconds,
+            trailing_distance=request.trailing_distance,initial_stop=request.stop_level,
+            high_water=fill,low_water=fill,
         )
 
     @staticmethod

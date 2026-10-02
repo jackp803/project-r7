@@ -8,7 +8,7 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S03, explicit DSL profile routing and bounded capability grammar. Next: S04.
+Active step: S04, eight Decimal indicator families and incremental parity. Next: S05.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
@@ -72,3 +72,19 @@ No real cloud/private provider/credentials/capital/hosted compute is authorized.
 
 Antigravity's guard refused this untrusted workspace before advisory dispatch.
 Continue locally without adding trust, paid fallback, or a second Codex runner.
+
+S03 exact-clean executable `5af4f730e78c9cad0beb85dff1d3d3ce8b535e9d`
+passed 32/32 commands: phase 1 247, phase 2 962, total 1209 occurrences;
+zero failure/error/skip on Windows26200 / CPython3.12.10. Evidence is under
+status/codex/productization/S03/passed-5af4f73-py312/. Explicit routing leaves
+legacy exports/hashes and four pinned complete signal goldens unchanged.
+Strict bounded DAG/units, structured hostile-input rejection, authoring schemas
+and immutable capability gap snapshots exist. Recognition does not claim
+numerical execution/reference/PAPER/LIVE availability. Existing jsonschema4.26.0
+is declared as an optional qualification dependency; build locks remain pending.
+Next action: S04 tests first for all eight STR-04 indicator vectors, independent
+output warmup, gaps/flat markets/ADX ties, ambient-context independence, actual
+incremental updates and prefix-bound snapshot recovery. Use canonical E1 Candle
+and Decimal34; retain legacy indicators.sma. Do not edit the pinned legacy fixture.
+S05 then integrates as-of evaluation and E5 exits; numerical existence alone
+must not authorize a compatibility PASS or provider operation.

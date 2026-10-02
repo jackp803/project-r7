@@ -9,6 +9,15 @@ backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
 Active step: S08, full canonical E6 lifecycle/product/approval authority. Next: S09.
+S08 partial source now adds full canonical model/migration/retirement, executable
+SQL source commitments, actual product-evidence adapter and immutable E6 product
+records, pre-run selected E5 risk policy, and service/store legacy-bypass denial.
+Actual selected-risk fixture can enter CANDIDATE; actual quantitative FAIL enters
+REJECTED; sample BLOCKED/missing risk remains BACKTESTING. Affected checks:
+registry32/storage138/application74/strategy64/validation43/safety66, all pass.
+This is not S08 PASS or a new full qualification. Next implement named downstream
+PAPER/forward/immutable human approval/deployment/degrade/resume gates with
+default-denied owner ports and isolated fixtures, then full clean qualification.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.

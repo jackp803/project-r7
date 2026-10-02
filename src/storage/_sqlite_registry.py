@@ -19,7 +19,7 @@ from registry.models import (
     StrategyIdentity,
     StrategyVersionRecord,
     ValidationEvidenceRecord,
-    is_early_lifecycle_transition_allowed,
+    is_canonical_lifecycle_transition_allowed,
 )
 
 _MIGRATIONS_DIR = Path(__file__).with_name("migrations")
@@ -62,12 +62,22 @@ def _apply_migrations(
         if migration.name in applied:
             continue
         script = migration.read_text(encoding="utf-8")
-        connection.executescript(script)
-        connection.execute(
-            "INSERT INTO schema_migrations(migration_name) VALUES (?)",
-            (migration.name,),
-        )
-        connection.commit()
+        rebuilding=script.startswith('-- r7-migration-transaction: foreign-key-rebuild')
+        if rebuilding and connection.in_transaction: raise EvidenceGateError('Schema rebuild requires an idle connection')
+        try:
+            if rebuilding:
+                connection.execute('PRAGMA foreign_keys=OFF')
+                connection.executescript('BEGIN IMMEDIATE;\n'+script)
+                if connection.execute('PRAGMA foreign_key_check').fetchone() is not None:
+                    raise sqlite3.IntegrityError('Registry schema rebuild failed foreign-key verification')
+            else: connection.executescript(script)
+            connection.execute("INSERT INTO schema_migrations(migration_name) VALUES (?)",(migration.name,))
+            connection.commit()
+        except BaseException:
+            connection.rollback()
+            raise
+        finally:
+            if rebuilding: connection.execute('PRAGMA foreign_keys=ON')
 
 
 def _strategy_from_row(row: sqlite3.Row) -> StrategyVersionRecord:
@@ -150,6 +160,49 @@ class _SQLiteRegistryStore:
 
     def close(self):
         self._connection.close()
+
+    def get_research_namespace(self):
+        exists=self._connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='registry_research_namespace'").fetchone()
+        if not exists: return None
+        row=self._connection.execute('SELECT namespace FROM registry_research_namespace WHERE singleton=1').fetchone()
+        return None if row is None else row['namespace']
+
+    def product_assessment_for_decision(self,decision_id):
+        row=self._connection.execute('SELECT * FROM product_assessments WHERE validation_evidence_id=?',(decision_id,)).fetchone()
+        return self._product_from_row(row)
+
+    @staticmethod
+    def _product_from_row(row):
+        from registry.product_assessment import ProductAssessmentRecord
+        if row is None: return None
+        values=dict(row)
+        values['identity']=StrategyIdentity(values.pop('strategy_id'),values.pop('strategy_version'))
+        return ProductAssessmentRecord(**values)
+
+    def get_product_assessment(self,run_id):
+        return self._product_from_row(self._connection.execute('SELECT * FROM product_assessments WHERE run_id=?',(run_id,)).fetchone())
+
+    def product_assessment_by_id(self,assessment_id):
+        return self._product_from_row(self._connection.execute('SELECT * FROM product_assessments WHERE assessment_id=?',(assessment_id,)).fetchone())
+
+    def _save_product_assessment(self,record,*,capability):
+        from dataclasses import asdict
+        from registry.product_assessment import _PRODUCT_EVIDENCE_CAPABILITY,ProductAssessmentRecord
+        self._require_writer_capability()
+        if capability is not _PRODUCT_EVIDENCE_CAPABILITY or not isinstance(record,ProductAssessmentRecord):
+            raise EvidenceGateError('Trusted E6 product evidence writer required')
+        with self._connection:
+            self._connection.execute('BEGIN IMMEDIATE')
+            existing=self.get_product_assessment(record.run_id)
+            if existing is not None:
+                if replace(record,recorded_at=existing.recorded_at)!=existing:
+                    raise EvidenceGateError('Immutable product evidence conflict')
+                return existing
+            values=asdict(record); values.pop('identity')
+            values.update(strategy_id=record.identity.strategy_id,strategy_version=record.identity.strategy_version)
+            columns=tuple(values)
+            self._connection.execute('INSERT INTO product_assessments('+','.join(columns)+') VALUES('+','.join('?' for _ in columns)+')',tuple(values.values()))
+            return record
 
     def bind_research_namespace(self,namespace):
         self._require_writer_capability()
@@ -410,11 +463,11 @@ class _SQLiteRegistryStore:
 
     def append_transition(self, transition: LifecycleTransitionRecord) -> StrategyVersionRecord:
         self._require_writer_capability()
-        if not is_early_lifecycle_transition_allowed(
+        if not is_canonical_lifecycle_transition_allowed(
             transition.previous_state, transition.new_state
         ):
             raise InvalidTransition(
-                "early Slice 2 persistence does not allow lifecycle transition "
+                "canonical persistence does not allow lifecycle transition "
                 f"{transition.previous_state} -> {transition.new_state}"
             )
 

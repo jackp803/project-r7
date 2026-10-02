@@ -90,6 +90,8 @@ def require_candidate_authority(
     strategy: StrategyVersionRecord,
     primary_evidence_id: str | None,
 ) -> tuple[ValidationEvidenceRecord, ValidationEvidenceRecord]:
+    from .product_assessment import product_managed,require_product_candidate
+    if product_managed(store,strategy): require_product_candidate(store,strategy,primary_evidence_id)
     if not isinstance(primary_evidence_id, str) or not primary_evidence_id.strip():
         raise EvidenceGateError("BACKTESTING -> CANDIDATE requires authoritative ValidationDecision evidence")
 
@@ -166,6 +168,13 @@ def require_rejection_authority(
     reason_codes: Sequence[str],
     primary_evidence_id: str | None,
 ) -> None:
+    from .product_assessment import product_managed,require_product_record
+    if product_managed(store,strategy):
+        references=[reason.partition(':')[2] for reason in reason_codes if isinstance(reason,str) and reason.startswith('PRODUCT_ASSESSMENT:')]
+        if len(references)!=1: raise EvidenceGateError('Quantitative rejection requires exact product assessment reference')
+        record=store.product_assessment_by_id(references[0])
+        require_product_record(store,strategy,record,status='FAIL')
+        if record.validation_evidence_id!=primary_evidence_id: raise EvidenceGateError('Rejection decision lineage mismatch')
     reasons = tuple(reason for reason in reason_codes if isinstance(reason, str) and reason.strip())
     if not reasons:
         raise EvidenceGateError("REJECTED requires at least one reason code")
@@ -183,6 +192,12 @@ def require_transition_authority(
     transition: LifecycleTransitionRecord,
 ) -> None:
     edge = (transition.previous_state, transition.new_state)
+    if transition.new_state=='RETIRED':
+        from .models import is_canonical_lifecycle_transition_allowed
+        if not is_canonical_lifecycle_transition_allowed(*edge): raise EvidenceGateError('Forbidden retirement edge')
+        if not isinstance(transition.changed_by,str) or not transition.changed_by.strip() or not transition.reason_codes:
+            raise EvidenceGateError('Retirement requires actor and auditable reasons')
+        return
     if edge == ("DRAFT", "BACKTESTING"):
         require_backtesting_authority(store, strategy)
         return

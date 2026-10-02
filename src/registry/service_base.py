@@ -22,6 +22,7 @@ from .models import (
     VALIDATION_DECISIONS,
     VERIFICATION_KINDS,
     ValidationEvidenceRecord,
+    CANONICAL_LIFECYCLE_TRANSITIONS,
 )
 from .ports import RegistryStore, StrategyCompatibilityBoundary
 
@@ -495,6 +496,17 @@ class StrategyPlatformService:
             primary_evidence_id=decision.evidence_id,
         )
 
+    def retire(self,identity: StrategyIdentity,*,actor: str,reason_codes: Sequence[str]) -> StrategyVersionRecord:
+        """Inhibit future strategy entries, retaining every exposure/history record.
+
+        Retirement is not an assertion of flat broker state or a protection
+        cancellation. Existing exposure management remains an E4/E5 responsibility.
+        """
+        strategy=self._require_strategy(identity)
+        if not isinstance(reason_codes,(tuple,list)) or not reason_codes or any(not isinstance(r,str) or not r.strip() for r in reason_codes):
+            raise EvidenceGateError('Retirement requires explicit reason codes')
+        return self._transition(strategy,'RETIRED',actor=actor,reason_codes=tuple(reason_codes),primary_evidence_id=None)
+
     def _require_strategy(self, identity: StrategyIdentity) -> StrategyVersionRecord:
         strategy = self._store.get_strategy(identity)
         if strategy is None:
@@ -510,15 +522,11 @@ class StrategyPlatformService:
         reason_codes: tuple[str, ...],
         primary_evidence_id: str | None,
     ) -> StrategyVersionRecord:
-        allowed = {
-            ("DRAFT", "BACKTESTING"),
-            ("BACKTESTING", "REJECTED"),
-            ("BACKTESTING", "CANDIDATE"),
-        }
+        allowed = CANONICAL_LIFECYCLE_TRANSITIONS
         edge = (strategy.current_lifecycle_state, new_state)
         if edge not in allowed:
             raise InvalidTransition(
-                f"early Slice 2 service does not expose lifecycle transition {edge[0]} -> {edge[1]}"
+                f"canonical lifecycle forbids transition {edge[0]} -> {edge[1]}"
             )
         changed_by = _nonempty(actor, "actor")
         transition = LifecycleTransitionRecord(

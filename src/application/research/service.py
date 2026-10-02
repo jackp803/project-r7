@@ -27,6 +27,7 @@ from strategy.v02.models import ParsedStrategyV02
 from validation.robustness.evaluator import DevelopmentBinding,evaluate_robustness
 from validation.robustness.policies import ResearchPolicy,parse_robustness_policy
 from validation.robustness.common import integer as research_integer
+from application.research.product_assessment import ExecutedProductAssessmentBoundary
 
 class ResearchError(ValueError):
     def __init__(self,code): self.code=code; super().__init__(code)
@@ -63,18 +64,18 @@ class ResearchService:
         self.journal=ResearchJournal(database_path); self.orchestrator=ResearchOrchestrator(self.journal,owner_id)
         self.ledger=ResearchTrialLedger(database_path); self._active_run_context=None
     def run(self,*,submission_id,definition,dataset_ref,split_policy_ref,cost_policy_ref,
-            research_policy_ref=None,robustness_policy_ref=None,family_id=None,seed=None):
+            research_policy_ref=None,robustness_policy_ref=None,family_id=None,seed=None,risk_policy_ref=None):
         self._active_run_context=None
         try:
             return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
-                cost_policy_ref=cost_policy_ref,research_policy_ref=research_policy_ref,robustness_policy_ref=robustness_policy_ref,family_id=family_id,seed=seed)
+                cost_policy_ref=cost_policy_ref,research_policy_ref=research_policy_ref,robustness_policy_ref=robustness_policy_ref,family_id=family_id,seed=seed,risk_policy_ref=risk_policy_ref)
         except Exception as error:
             if self._active_run_context:
                 family,run_id=self._active_run_context
                 self.ledger.record_event(family,'RUN_FAILED',dict(run_id=run_id,reason_code=type(error).__name__))
             raise
     def _run(self,*,submission_id,definition,dataset_ref,split_policy_ref,cost_policy_ref,
-             research_policy_ref,robustness_policy_ref,family_id,seed):
+             research_policy_ref,robustness_policy_ref,family_id,seed,risk_policy_ref):
         text(submission_id)
         parsed=parse_strategy_definition(definition)
         if not isinstance(parsed,ParsedStrategyV02): raise ResearchError('EXPLICIT_V02_RESEARCH_PROFILE_REQUIRED')
@@ -88,6 +89,10 @@ class ResearchService:
         if not selected and (family_id is not None or seed is not None): raise ResearchError('POLICY_REQUIRED_FOR_ADAPTIVE_RUN')
         selected_research=decode(read_local(self.root,research_policy_ref,65536)) if selected else None
         selected_robustness=decode(read_local(self.root,robustness_policy_ref,262144)) if selected else None
+        selected_risk=None
+        if risk_policy_ref is not None:
+            from risk.product_policy import parse_product_risk_policy
+            selected_risk=json.loads(parse_product_risk_policy(decode(read_local(self.root,risk_policy_ref,65536)),namespace=self.namespace).canonical_json)
         if selected: text(family_id); research_integer(seed,0,(1<<64)-1)
         provenance=capture_provenance()
         inputs=dict(schema_version='r7-research-run-v0.2',namespace=self.namespace,submission_id=submission_id,
@@ -96,7 +101,7 @@ class ResearchService:
                     split_policy=split_policy,split_policy_hash=digest(canonical(split_policy).encode()),
                     cost_policy=selected_cost,cost_policy_hash=digest(canonical(selected_cost).encode()),promotion_policy=None,
                     implementation_hash=provenance['implementation_hash'],provenance=provenance,random_seed=seed,
-                    family_id=family_id,research_policy=selected_research,robustness_policy=selected_robustness,
+                    family_id=family_id,research_policy=selected_research,robustness_policy=selected_robustness,risk_policy=selected_risk,
                     random_algorithm='SHA256_COUNTER_REJECTION_V1' if selected else 'NOT_RUN',
                     information_cutoff=manifest.as_dict()['information_cutoff'])
         run_id='run-'+digest(canonical(inputs).encode())[7:]
@@ -158,7 +163,9 @@ class ResearchService:
             return execute_compatibility(json.loads(parsed.canonical_json),development_dataset,split.training,provenance)
         compatibility=self.orchestrator.execute(run_id,'compatibility',inputs,compatible)
         boundary=ExecutedCompatibilityBoundary(self.journal,run_id,parsed.content_hash)
-        with open_sqlite_platform(self.registry_path,compatibility_boundary=boundary,research_namespace=self.namespace) as e6:
+        product_boundary=ExecutedProductAssessmentBoundary(self.journal,self.ledger,self.namespace)
+        with open_sqlite_platform(self.registry_path,compatibility_boundary=boundary,research_namespace=self.namespace,
+                                 product_assessment_boundary=product_boundary) as e6:
             outcome=e6.intake(json.loads(parsed.canonical_json),source_actor='R7_RESEARCH:'+self.namespace,
                               operation_id='research-intake:'+run_id)
             identity=StrategyIdentity(parsed.strategy_id,parsed.strategy_version)
@@ -219,12 +226,22 @@ class ResearchService:
             else:
                 if not selected: reasons.append('MISSING_PROMOTION_POLICY')
                 reasons.extend(('ROBUSTNESS_NOT_RUN','SEALED_OOS_NOT_RUN'))
+            candidate_gate=dict(status='BLOCKED',reason_codes=['PRODUCT_ASSESSMENT_NOT_COMPLETE'])
+            if robustness is not None:
+                def persist_product(_):
+                    record=e6.record_product_assessment(identity,run_id=run_id,actor='R7_RESEARCH:'+self.namespace)
+                    state=e6.get_strategy(identity).current_lifecycle_state
+                    gate_status='PASS' if record.status=='PASS' and selected_risk is not None else 'FAIL' if record.status=='FAIL' else 'BLOCKED'
+                    gate_reasons=[] if gate_status=='PASS' else ['MISSING_SELECTED_RISK_POLICY'] if record.status=='PASS' else reasons
+                    return dict(status=gate_status,reason_codes=sorted(set(gate_reasons)),assessment_id=record.assessment_id,strategy_lifecycle=state)
+                candidate_gate=self.orchestrator.execute(run_id,'e6_product_assessment',inputs,persist_product)
+                current=e6.get_strategy(identity)
             report=dict(schema_version='r7-research-report-v0.2',run_id=run_id,namespace=self.namespace,status=status,
                         reason_codes=sorted(set(reasons)),compatibility=compatibility,backtest=backtest,
                         backtest_e6_evidence_id=evidence_id,strategy_lifecycle=current.current_lifecycle_state,
                         sealed_oos=sealed_oos,robustness=robustness,product_assessment=product,
                         frozen_finalist=None if frozen is None else frozen.as_dict(),
-                        candidate_gate=dict(status='BLOCKED',reason_codes=['PRODUCT_LIFECYCLE_NOT_YET_QUALIFIED']),
+                        candidate_gate=candidate_gate,
                         provenance=provenance,inputs=inputs,dataset_resolution=dataset_result,
                         split_resolution=split_result,resource_admission=admission)
             report=self.orchestrator.execute(run_id,'diagnostic_report',inputs,lambda _:report)

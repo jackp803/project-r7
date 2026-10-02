@@ -18,16 +18,20 @@ def _canonical(value):
     return json.dumps(value,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False)
 
 
-def _revision():
-    root=Path(__file__).resolve().parent
-    source_root=root.parents[1]
+def _source_revision(source_root):
+    """Commit executable Python and SQL authority resources, excluding mutable data."""
+    source_root=Path(source_root)
     digest=hashlib.sha256()
-    files=list(source_root.rglob('*.py'))
+    files=[path for path in source_root.rglob('*') if path.is_file() and path.suffix in ('.py','.sql')]
     for path in sorted(files,key=lambda path:path.relative_to(source_root).as_posix()):
         relative=path.relative_to(source_root).as_posix()
         raw=path.read_bytes().replace(b'\r\n',b'\n')
         digest.update(relative.encode('ascii')+b'\x00'+raw+b'\x00')
     return 'sha256:'+digest.hexdigest()
+
+
+def _revision():
+    return _source_revision(Path(__file__).resolve().parents[2])
 
 
 @dataclass(frozen=True)

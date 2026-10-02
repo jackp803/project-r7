@@ -24,6 +24,12 @@ class StrategyCompatibilityBoundary(Protocol):
 
 
 class RegistryStore(Protocol):
+    def get_research_namespace(self) -> str | None:
+        ...
+
+    def product_assessment_for_decision(self,decision_id: str):
+        ...
+
     def run_intake_once(self, operation_id: str, payload_hash: str, actor: str,
                         perform: Callable[[], IntakeOutcome]) -> IntakeOutcome:
         """Trusted-process atomic intake; same operation returns the stored receipt."""

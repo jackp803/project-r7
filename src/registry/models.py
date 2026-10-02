@@ -12,6 +12,18 @@ EARLY_LIFECYCLE_TRANSITIONS = frozenset(
         ("BACKTESTING", "CANDIDATE"),
     }
 )
+CANONICAL_LIFECYCLE_STATES = (
+    'DRAFT','BACKTESTING','REJECTED','CANDIDATE','PAPER',
+    'READY_FOR_APPROVAL','APPROVED','LIVE','DEGRADED','RETIRED',
+)
+CANONICAL_LIFECYCLE_TRANSITIONS = EARLY_LIFECYCLE_TRANSITIONS | frozenset({
+    ('DRAFT','RETIRED'),
+    ('CANDIDATE','PAPER'),('CANDIDATE','REJECTED'),('CANDIDATE','RETIRED'),
+    ('PAPER','READY_FOR_APPROVAL'),('PAPER','REJECTED'),('PAPER','RETIRED'),
+    ('READY_FOR_APPROVAL','APPROVED'),('READY_FOR_APPROVAL','REJECTED'),('READY_FOR_APPROVAL','RETIRED'),
+    ('APPROVED','LIVE'),('APPROVED','RETIRED'),
+    ('LIVE','DEGRADED'),('LIVE','RETIRED'),('DEGRADED','LIVE'),('DEGRADED','RETIRED'),
+})
 EVIDENCE_STATUSES = ("PASS", "FAIL", "BLOCKED", "NOT_RUN", "NOT_APPLICABLE")
 VERIFICATION_KINDS = ("LOCAL_EXECUTION", "STATIC_REVIEW", "DECLARATION", "NOT_RUN")
 VALIDATION_DECISIONS = ("PASS", "FAIL", "BLOCKED", "NOT_RUN")
@@ -21,6 +33,9 @@ def is_early_lifecycle_transition_allowed(previous_state: str, new_state: str) -
     """Return whether persistence may represent this bounded early Slice 2 edge."""
 
     return (previous_state, new_state) in EARLY_LIFECYCLE_TRANSITIONS
+
+def is_canonical_lifecycle_transition_allowed(previous_state: str, new_state: str) -> bool:
+    return (previous_state,new_state) in CANONICAL_LIFECYCLE_TRANSITIONS
 
 
 class RegistryError(RuntimeError):

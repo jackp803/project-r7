@@ -59,3 +59,56 @@ Read canonical contracts/SHARED_CONTRACTS_V1.md sections18/21 and v0.2
 ResearchService S07 positive/negative fixture reports still have E6 BACKTESTING;
 do not silently reinterpret their provisional candidate gate as operational
 authorization or transplant1d5b9a0 PASS to later source changes.
+
+Second bounded checkpoint (2026-10-03, still IN_PROGRESS):
+
+- The canonical ten states/nineteen edges and named retirement now use the
+  actual E6 model/service/store. Migration0008 preserves populated0001-0007
+  identities, compatibility, intake, evidence and transition rows. Its tagged
+  runner follows SQLite's generalized rebuild procedure: foreign keys off,
+  BEGIN IMMEDIATE, copy/drop/rename, recreate objects, foreign-key check,
+  migration receipt and commit, then foreign keys on. An injected SQL failure
+  rolls back schema/data/receipt and a subsequent real upgrade succeeds.
+  Primary procedure: https://www.sqlite.org/lang_altertable.html#otheralter.
+- Source commitments now cover Python AND executable SQL resources using LF
+  canonical bytes. A changed authority migration invalidates prior research.
+  Runtime SQLite data is excluded; this is source identity, not a native build.
+- Both service and store reject legacy candidate metadata in FIXTURE and
+  LOCAL_RESEARCH registries. An unclassified v0.2 subject cannot escape these
+  gates. Historical unclassified v0.1 early-slice research tests remain intact;
+  that compatibility does not supply any operational permission.
+- The configured actual application adapter resolves immutable ResearchJournal,
+  finalist and sealed-result lineage by run reference, outside E6 writer locks.
+  E6 persists append-only product evidence and actual canonical sealed backtest
+  and validation records. Request bodies cannot submit product PASS objects.
+- Explicit pre-run local risk selection uses existing E5 RiskPolicy, fixed
+  declared units, namespace and generation. Missing selection remains diagnostic;
+  no fixture policy becomes a real default. The frozen run-input commitment binds
+  risk selection even though E3's financial validation thresholds stay distinct.
+- Actual fixture positive E1/E2/E3/E6 execution enters CANDIDATE with selected
+  risk. Actual adverse OOS enters REJECTED; insufficient final sample remains
+  BACKTESTING and retains the legacy numeric FAIL. All are isolated mechanics,
+  not real forward/provider/capital acceptance. Candidate grants no LIVE right.
+- Wrong version, changed executable source, an unconfigured producer, private
+  writer-capability mismatch and SQL update/delete do not create/overwrite proof.
+
+Observed corrected RED: source/legacy bypass6 tests with4 failure occurrences;
+product binding5 tests with5 failure occurrences. The first bypass harness held
+SQLite open past TemporaryDirectory cleanup; it was fixed before the clean RED.
+The first quantitative fixture changed a threshold that blocked walk-forward
+selection; it was replaced with the existing actual adverse sealed data so the
+RED tests the missing rejection edge, not sample inadequacy. Neither correction
+changes a production threshold or hides unfavorable results.
+
+Final affected checks at this checkpoint: registry32, storage138,
+application74, strategy64, validation43, safety66, all zero failures/errors/skips.
+These are local working-tree checks, not a full exact-clean qualification.
+S08 approval/PAPER/deployment/degrade/resume gates remain to be implemented.
+No native Ubuntu, cloud, real dataset, real forward or provider evidence is added.
+
+Task S08 Ruling: real LOCAL_RESEARCH promotion requires actual clean Git/source
+provenance; dirty-source FIXTURE execution proves isolated mechanics only.
+Task S08 Ruling: a quantitative early robustness failure may reject with its
+actual retained owner assessment; incomplete/missing prerequisites cannot be
+relabelled as financial FAIL. Cost if wrong: unnecessary rejected history,
+never permission for a new exposure.

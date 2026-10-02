@@ -215,12 +215,21 @@ class StrategyPlatformService:
         payload: Mapping[str, Any] | str | bytes | bytearray,
         *,
         source_actor: str,
+        operation_id: str | None = None,
     ) -> IntakeOutcome:
         actor = _nonempty(source_actor, "source_actor")
         raw = _load_payload(payload)
         _scan_secret_keys(raw)
         identity, runtime = _validate_strategy_envelope(raw)
         canonical = _canonical_json(raw)
+        if operation_id is not None:
+            operation = _nonempty(operation_id, "operation_id")
+            if len(operation) > 256:
+                raise IntakeRejected("operation_id exceeds limit")
+            return self._store.run_intake_once(
+                operation, _payload_hash(canonical), actor,
+                lambda: self.intake(raw, source_actor=actor),
+            )
         registered_at = _utc_now()
         proposed = StrategyVersionRecord(
             identity=identity,
@@ -263,6 +272,16 @@ class StrategyPlatformService:
         )
         self._store.save_intake_receipt(receipt)
         return IntakeOutcome(stored, receipt, compatibility)
+
+    def close(self) -> None:
+        """Close owned persistence without exposing an authoritative writer."""
+        self._store.close()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        self.close()
 
     def begin_backtesting(self, identity: StrategyIdentity, *, actor: str) -> StrategyVersionRecord:
         strategy = self._require_strategy(identity)

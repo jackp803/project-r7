@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from typing import Any, Mapping, Protocol, Sequence
+from typing import Any, Callable, Mapping, Protocol, Sequence
 
 from .models import (
     CompatibilityEvidence,
     IntakeReceipt,
+    IntakeOutcome,
     LifecycleTransitionRecord,
     StrategyIdentity,
     StrategyVersionRecord,
@@ -23,6 +24,14 @@ class StrategyCompatibilityBoundary(Protocol):
 
 
 class RegistryStore(Protocol):
+    def run_intake_once(self, operation_id: str, payload_hash: str, actor: str,
+                        perform: Callable[[], IntakeOutcome]) -> IntakeOutcome:
+        """Trusted-process atomic intake; same operation returns the stored receipt."""
+        ...
+
+    def close(self) -> None:
+        ...
+
     def register_strategy(self, record: StrategyVersionRecord) -> tuple[StrategyVersionRecord, bool]:
         """Return (stored_record, created). Conflicting content for the same identity must fail."""
         ...

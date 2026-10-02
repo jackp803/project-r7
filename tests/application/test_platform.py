@@ -10,7 +10,7 @@ def require(test, name):
     try:
         return importlib.import_module(name)
     except ModuleNotFoundError as error:
-        test.fail(f"S01 required portable component missing: {error.name}")
+        test.fail(f"Required application component missing: {error.name}")
 
 
 class ProductPlatformTests(unittest.TestCase):

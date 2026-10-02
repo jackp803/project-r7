@@ -12,6 +12,7 @@ from registry.models import (
     ConcurrencyConflict,
     IdentityConflict,
     IntakeReceipt,
+    IntakeOutcome,
     InvalidTransition,
     LifecycleTransitionRecord,
     StrategyIdentity,
@@ -144,6 +145,51 @@ class _SQLiteRegistryStore:
             )
         self._connection = connection
         self._writer_capability = _writer_capability
+        self._atomic_intake_active = False
+
+    def close(self):
+        self._connection.close()
+
+    def _commit_intake_write(self):
+        if not self._atomic_intake_active:
+            self._connection.commit()
+
+    def run_intake_once(self, operation_id, payload_hash, actor, perform):
+        self._require_writer_capability()
+        if self._connection.in_transaction or self._atomic_intake_active:
+            raise ConcurrencyConflict("Intake transaction already active")
+        self._connection.execute("BEGIN IMMEDIATE")
+        self._atomic_intake_active = True
+        try:
+            operation = self._connection.execute(
+                "SELECT * FROM strategy_intake_operations WHERE operation_id = ?", (operation_id,)
+            ).fetchone()
+            if operation is not None:
+                if operation["payload_hash"] != payload_hash or operation["source_actor"] != actor:
+                    raise IdentityConflict("Intake operation has different immutable content or actor")
+                row = self._connection.execute(
+                    "SELECT * FROM strategy_intake_receipts WHERE intake_id = ?", (operation["intake_id"],)
+                ).fetchone()
+                receipt = IntakeReceipt(row["intake_id"], StrategyIdentity(row["strategy_id"], row["strategy_version"]),
+                                        row["payload_hash"], row["received_at"], row["source_actor"],
+                                        row["result_status"], row["compatibility_id"])
+                compatibility = _compatibility_from_row(self._connection.execute(
+                    "SELECT * FROM compatibility_evidence WHERE compatibility_id = ?", (receipt.compatibility_id,)
+                ).fetchone())
+                result = IntakeOutcome(self.get_strategy(receipt.identity), receipt, compatibility)
+            else:
+                result = perform()
+                self._connection.execute(
+                    "INSERT INTO strategy_intake_operations(operation_id,payload_hash,source_actor,intake_id) VALUES (?,?,?,?)",
+                    (operation_id, payload_hash, actor, result.receipt.intake_id),
+                )
+            self._connection.commit()
+            return result
+        except BaseException:
+            self._connection.rollback()
+            raise
+        finally:
+            self._atomic_intake_active = False
 
     def _require_writer_capability(self) -> None:
         if self._writer_capability is not _WRITER_CAPABILITY:
@@ -189,7 +235,7 @@ class _SQLiteRegistryStore:
                 record.registry_revision,
             ),
         )
-        self._connection.commit()
+        self._commit_intake_write()
         return record, True
 
     def get_strategy(self, identity: StrategyIdentity) -> StrategyVersionRecord | None:
@@ -239,7 +285,7 @@ class _SQLiteRegistryStore:
                 evidence.result_ref,
             ),
         )
-        self._connection.commit()
+        self._commit_intake_write()
 
     def latest_compatibility(self, identity: StrategyIdentity) -> CompatibilityEvidence | None:
         row = self._connection.execute(
@@ -273,7 +319,7 @@ class _SQLiteRegistryStore:
                 receipt.compatibility_id,
             ),
         )
-        self._connection.commit()
+        self._commit_intake_write()
 
     def save_validation_evidence(self, evidence: ValidationEvidenceRecord) -> None:
         self._require_writer_capability()

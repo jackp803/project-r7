@@ -48,6 +48,16 @@ minor is selected as 3.12; current 3.14.3 source results do not certify frozen
 Use canonical packages and preserve every legacy LF/FP test. Keep code/evidence
 revisions separate at each clean qualification.
 
+S02 implementation is now present. Initial intended failures were observed;
+37 application and two new atomic E6 intake tests pass. Existing affected
+registry/strategy/storage suites also passed. New faults include staged partial
+write, readonly snapshot root, durable sync backoff/stall, capacity limits and
+wrong acknowledgment hash. Actual Windows junction escape and two-worker claim
+competition were tested. First commit this checkpoint, then qualify that exact
+clean revision with application/strategy/registry/storage, persist evidence in a
+later commit and advance S03. Do not mark S02 complete from the uncommitted test
+results or treat LOCAL_STAGED as a real cloud acknowledgment.
+
 All v0.2 specifications/authorizations were read. Prior v0.1 provisions are
 consumed only where not superseded; read relevant owner implementations and
 remaining detailed legacy acceptance sections before their owning packages.

@@ -1,0 +1,41 @@
+test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage (test_api_owner_services.APIOwnerServicesTests.test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage) ... FAIL
+test_actual_cancel_retains_queued_inputs_and_never_creates_research_evidence (test_api_owner_services.APIOwnerServicesTests.test_actual_cancel_retains_queued_inputs_and_never_creates_research_evidence) ... FAIL
+test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake (test_api_owner_services.APIOwnerServicesTests.test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake) ... FAIL
+test_changed_sealed_snapshot_cannot_enter_queue (test_api_owner_services.APIOwnerServicesTests.test_changed_sealed_snapshot_cannot_enter_queue) ... FAIL
+
+======================================================================
+FAIL: test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage (test_api_owner_services.APIOwnerServicesTests.test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_owner_services.py", line 28, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.owner_services'),
+AssertionError: unexpectedly None : HTTP must wire the actual local owner services
+
+======================================================================
+FAIL: test_actual_cancel_retains_queued_inputs_and_never_creates_research_evidence (test_api_owner_services.APIOwnerServicesTests.test_actual_cancel_retains_queued_inputs_and_never_creates_research_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_owner_services.py", line 28, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.owner_services'),
+AssertionError: unexpectedly None : HTTP must wire the actual local owner services
+
+======================================================================
+FAIL: test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake (test_api_owner_services.APIOwnerServicesTests.test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_owner_services.py", line 28, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.owner_services'),
+AssertionError: unexpectedly None : HTTP must wire the actual local owner services
+
+======================================================================
+FAIL: test_changed_sealed_snapshot_cannot_enter_queue (test_api_owner_services.APIOwnerServicesTests.test_changed_sealed_snapshot_cannot_enter_queue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_owner_services.py", line 28, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.owner_services'),
+AssertionError: unexpectedly None : HTTP must wire the actual local owner services
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.815s
+
+FAILED (failures=4)

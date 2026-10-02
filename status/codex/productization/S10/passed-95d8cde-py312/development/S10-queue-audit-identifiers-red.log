@@ -1,0 +1,31 @@
+test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths (tests.product.test_research_queue.ResearchQueueTests.test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths) ... FAIL
+
+======================================================================
+FAIL: test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths (tests.product.test_research_queue.ResearchQueueTests.test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 148, in test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths
+    try: ref=self.enqueue('queue:one',actor='local:owner')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 51, in enqueue
+    return self.queue.enqueue(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\research\queue.py", line 95, in enqueue
+    for value in (submission_id, policy_id, command_id, actor): safe_component(value)
+                                                                ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\manifest.py", line 34, in safe_component
+    raise CloudError("BLOCKED", "UNSAFE_PATH_COMPONENT")
+application.cloud.protocol.CloudError: BLOCKED: UNSAFE_PATH_COMPONENT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 149, in test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths
+    except CloudError: self.fail('Valid server actor/command IDs are audit text, not package paths')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Valid server actor/command IDs are audit text, not package paths
+
+----------------------------------------------------------------------
+Ran 1 test in 0.148s
+
+FAILED (failures=1)

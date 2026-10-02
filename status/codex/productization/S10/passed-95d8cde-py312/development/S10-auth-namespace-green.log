@@ -1,0 +1,42 @@
+test_ambiguous_persisted_namespace_is_not_silently_accepted (tests.product.test_local_auth.LocalAuthTests.test_ambiguous_persisted_namespace_is_not_silently_accepted) ... ERROR
+test_clock_regression_fails_closed (tests.product.test_local_auth.LocalAuthTests.test_clock_regression_fails_closed) ... ok
+test_csrf_is_bound_to_session_and_constant_time_verified (tests.product.test_local_auth.LocalAuthTests.test_csrf_is_bound_to_session_and_constant_time_verified) ... ok
+test_expiry_and_revocation_remove_authority_without_deleting_evidence (tests.product.test_local_auth.LocalAuthTests.test_expiry_and_revocation_remove_authority_without_deleting_evidence) ... ok
+test_failed_login_rate_limit_is_durable_and_bounded (tests.product.test_local_auth.LocalAuthTests.test_failed_login_rate_limit_is_durable_and_bounded) ... ok
+test_first_run_owner_cannot_be_overwritten_or_created_twice (tests.product.test_local_auth.LocalAuthTests.test_first_run_owner_cannot_be_overwritten_or_created_twice) ... ok
+test_namespace_binding_cannot_be_reopened_as_real (tests.product.test_local_auth.LocalAuthTests.test_namespace_binding_cannot_be_reopened_as_real) ... ok
+test_password_hashed_and_opaque_token_never_stored_as_plaintext (tests.product.test_local_auth.LocalAuthTests.test_password_hashed_and_opaque_token_never_stored_as_plaintext) ... ok
+test_reauth_issues_actual_e6_capability_and_logout_revokes_it (tests.product.test_local_auth.LocalAuthTests.test_reauth_issues_actual_e6_capability_and_logout_revokes_it) ... ok
+test_reauth_wrong_password_or_stale_revision_does_not_advance_session (tests.product.test_local_auth.LocalAuthTests.test_reauth_wrong_password_or_stale_revision_does_not_advance_session) ... ok
+test_replayed_login_identity_cannot_issue_another_session (tests.product.test_local_auth.LocalAuthTests.test_replayed_login_identity_cannot_issue_another_session) ... ok
+test_unconfigured_store_has_no_default_password_or_authority (tests.product.test_local_auth.LocalAuthTests.test_unconfigured_store_has_no_default_password_or_authority) ... ok
+test_unknown_user_and_wrong_password_have_same_safe_reason (tests.product.test_local_auth.LocalAuthTests.test_unknown_user_and_wrong_password_have_same_safe_reason) ... ok
+
+======================================================================
+ERROR: test_ambiguous_persisted_namespace_is_not_silently_accepted (tests.product.test_local_auth.LocalAuthTests.test_ambiguous_persisted_namespace_is_not_silently_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 633, in _rmtree_unsafe
+    os.unlink(fullname)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: 'C:\\Users\\jackp\\AppData\\Local\\Temp\\tmpfro1ddh8\\auth.sqlite'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: 'C:\\Users\\jackp\\AppData\\Local\\Temp\\tmpfro1ddh8\\auth.sqlite'
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.651s
+
+FAILED (errors=1)

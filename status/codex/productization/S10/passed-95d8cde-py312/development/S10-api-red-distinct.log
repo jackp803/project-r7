@@ -1,0 +1,158 @@
+test_actor_and_executable_evidence_cannot_be_injected (test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected) ... FAIL
+test_errors_never_echo_passwords_paths_or_stack_traces (test_api_authority.APIAuthorityTests.test_errors_never_echo_passwords_paths_or_stack_traces) ... FAIL
+test_every_product_view_requires_actual_session (test_api_authority.APIAuthorityTests.test_every_product_view_requires_actual_session) ... FAIL
+test_expired_session_cannot_read_or_write_and_logout_revokes_cookie (test_api_authority.APIAuthorityTests.test_expired_session_cannot_read_or_write_and_logout_revokes_cookie) ... FAIL
+test_fixture_approval_and_activation_are_denied_even_after_reauthentication (test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication) ... FAIL
+test_health_is_truthful_and_never_infers_flat_or_authorized_live (test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live) ... FAIL
+test_login_sets_opaque_http_only_same_site_cookie_without_password_echo (test_api_authority.APIAuthorityTests.test_login_sets_opaque_http_only_same_site_cookie_without_password_echo) ... FAIL
+test_openapi_has_all_required_routes_and_strict_command_schemas (test_api_authority.APIAuthorityTests.test_openapi_has_all_required_routes_and_strict_command_schemas) ... FAIL
+test_page_bounds_and_unknown_query_fields_are_enforced (test_api_authority.APIAuthorityTests.test_page_bounds_and_unknown_query_fields_are_enforced) ... FAIL
+test_settings_are_actual_durable_cas_commands_with_identical_retry (test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry) ... FAIL
+test_unconfigured_services_report_typed_unavailable_without_fake_queued_jobs (test_api_authority.APIAuthorityTests.test_unconfigured_services_report_typed_unavailable_without_fake_queued_jobs) ... FAIL
+test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules (test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules) ... FAIL
+test_dns_rebinding_and_wrong_origin_cannot_login (test_api_csrf.APICSRFTests.test_dns_rebinding_and_wrong_origin_cannot_login) ... FAIL
+test_duplicate_json_keys_nonfinite_and_oversize_body_are_rejected (test_api_csrf.APICSRFTests.test_duplicate_json_keys_nonfinite_and_oversize_body_are_rejected) ... FAIL
+test_form_and_missing_content_type_cannot_bypass_strict_json (test_api_csrf.APICSRFTests.test_form_and_missing_content_type_cannot_bypass_strict_json) ... FAIL
+test_no_wildcard_cors_and_security_headers_on_authenticated_response (test_api_csrf.APICSRFTests.test_no_wildcard_cors_and_security_headers_on_authenticated_response) ... FAIL
+test_product_write_requires_matching_csrf_even_with_valid_session (test_api_csrf.APICSRFTests.test_product_write_requires_matching_csrf_even_with_valid_session) ... FAIL
+
+======================================================================
+FAIL: test_actor_and_executable_evidence_cannot_be_injected (test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_errors_never_echo_passwords_paths_or_stack_traces (test_api_authority.APIAuthorityTests.test_errors_never_echo_passwords_paths_or_stack_traces)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_every_product_view_requires_actual_session (test_api_authority.APIAuthorityTests.test_every_product_view_requires_actual_session)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_expired_session_cannot_read_or_write_and_logout_revokes_cookie (test_api_authority.APIAuthorityTests.test_expired_session_cannot_read_or_write_and_logout_revokes_cookie)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_fixture_approval_and_activation_are_denied_even_after_reauthentication (test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_health_is_truthful_and_never_infers_flat_or_authorized_live (test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_login_sets_opaque_http_only_same_site_cookie_without_password_echo (test_api_authority.APIAuthorityTests.test_login_sets_opaque_http_only_same_site_cookie_without_password_echo)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_openapi_has_all_required_routes_and_strict_command_schemas (test_api_authority.APIAuthorityTests.test_openapi_has_all_required_routes_and_strict_command_schemas)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_page_bounds_and_unknown_query_fields_are_enforced (test_api_authority.APIAuthorityTests.test_page_bounds_and_unknown_query_fields_are_enforced)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_settings_are_actual_durable_cas_commands_with_identical_retry (test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_unconfigured_services_report_typed_unavailable_without_fake_queued_jobs (test_api_authority.APIAuthorityTests.test_unconfigured_services_report_typed_unavailable_without_fake_queued_jobs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules (test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_dns_rebinding_and_wrong_origin_cannot_login (test_api_csrf.APICSRFTests.test_dns_rebinding_and_wrong_origin_cannot_login)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_duplicate_json_keys_nonfinite_and_oversize_body_are_rejected (test_api_csrf.APICSRFTests.test_duplicate_json_keys_nonfinite_and_oversize_body_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_form_and_missing_content_type_cannot_bypass_strict_json (test_api_csrf.APICSRFTests.test_form_and_missing_content_type_cannot_bypass_strict_json)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_no_wildcard_cors_and_security_headers_on_authenticated_response (test_api_csrf.APICSRFTests.test_no_wildcard_cors_and_security_headers_on_authenticated_response)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+======================================================================
+FAIL: test_product_write_requires_matching_csrf_even_with_valid_session (test_api_csrf.APICSRFTests.test_product_write_requires_matching_csrf_even_with_valid_session)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_authority.py", line 17, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.app'),
+AssertionError: unexpectedly None : Authenticated versioned FastAPI is missing
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.001s
+
+FAILED (failures=17)

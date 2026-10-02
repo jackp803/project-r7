@@ -1,0 +1,32 @@
+test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection (test_api_paper_services.APIPaperServicesTests.test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection) ... FAIL
+test_actual_start_persists_e6_run_once_without_attaching_or_replacing_runtime (test_api_paper_services.APIPaperServicesTests.test_actual_start_persists_e6_run_once_without_attaching_or_replacing_runtime) ... FAIL
+test_wrong_selected_policy_or_stale_revision_cannot_create_runtime_or_paper (test_api_paper_services.APIPaperServicesTests.test_wrong_selected_policy_or_stale_revision_cannot_create_runtime_or_paper) ... FAIL
+
+======================================================================
+FAIL: test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection (test_api_paper_services.APIPaperServicesTests.test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_paper_services.py", line 22, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.paper_ports'),
+AssertionError: unexpectedly None : Actual PAPER HTTP control ports are missing
+
+======================================================================
+FAIL: test_actual_start_persists_e6_run_once_without_attaching_or_replacing_runtime (test_api_paper_services.APIPaperServicesTests.test_actual_start_persists_e6_run_once_without_attaching_or_replacing_runtime)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_paper_services.py", line 22, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.paper_ports'),
+AssertionError: unexpectedly None : Actual PAPER HTTP control ports are missing
+
+======================================================================
+FAIL: test_wrong_selected_policy_or_stale_revision_cannot_create_runtime_or_paper (test_api_paper_services.APIPaperServicesTests.test_wrong_selected_policy_or_stale_revision_cannot_create_runtime_or_paper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_paper_services.py", line 22, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.paper_ports'),
+AssertionError: unexpectedly None : Actual PAPER HTTP control ports are missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

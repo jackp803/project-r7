@@ -1,0 +1,41 @@
+test_pause_request_blocks_entry_before_worker_consumption_without_new_generation (test_paper_control_ipc.PaperControlIPCTests.test_pause_request_blocks_entry_before_worker_consumption_without_new_generation) ... FAIL
+test_pause_request_prevents_pending_entry_fill_while_retaining_original_order_facts (test_paper_control_ipc.PaperControlIPCTests.test_pause_request_prevents_pending_entry_fill_while_retaining_original_order_facts) ... FAIL
+test_pause_revision_cas_and_command_identity_are_atomic_immutable (test_paper_control_ipc.PaperControlIPCTests.test_pause_revision_cas_and_command_identity_are_atomic_immutable) ... FAIL
+test_scheduler_consumes_pause_on_own_generation_and_preserves_verified_protection (test_paper_control_ipc.PaperControlIPCTests.test_scheduler_consumes_pause_on_own_generation_and_preserves_verified_protection) ... FAIL
+
+======================================================================
+FAIL: test_pause_request_blocks_entry_before_worker_consumption_without_new_generation (test_paper_control_ipc.PaperControlIPCTests.test_pause_request_blocks_entry_before_worker_consumption_without_new_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_control_ipc.py", line 11, in setUp
+    self.assertTrue(hasattr(helper.process, 'request_entry_pause'),
+AssertionError: False is not true : Read-only control connection must request pause without stealing runtime generation
+
+======================================================================
+FAIL: test_pause_request_prevents_pending_entry_fill_while_retaining_original_order_facts (test_paper_control_ipc.PaperControlIPCTests.test_pause_request_prevents_pending_entry_fill_while_retaining_original_order_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_control_ipc.py", line 11, in setUp
+    self.assertTrue(hasattr(helper.process, 'request_entry_pause'),
+AssertionError: False is not true : Read-only control connection must request pause without stealing runtime generation
+
+======================================================================
+FAIL: test_pause_revision_cas_and_command_identity_are_atomic_immutable (test_paper_control_ipc.PaperControlIPCTests.test_pause_revision_cas_and_command_identity_are_atomic_immutable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_control_ipc.py", line 11, in setUp
+    self.assertTrue(hasattr(helper.process, 'request_entry_pause'),
+AssertionError: False is not true : Read-only control connection must request pause without stealing runtime generation
+
+======================================================================
+FAIL: test_scheduler_consumes_pause_on_own_generation_and_preserves_verified_protection (test_paper_control_ipc.PaperControlIPCTests.test_scheduler_consumes_pause_on_own_generation_and_preserves_verified_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_control_ipc.py", line 11, in setUp
+    self.assertTrue(hasattr(helper.process, 'request_entry_pause'),
+AssertionError: False is not true : Read-only control connection must request pause without stealing runtime generation
+
+----------------------------------------------------------------------
+Ran 4 tests in 8.632s
+
+FAILED (failures=4)

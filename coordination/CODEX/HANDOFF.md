@@ -8,7 +8,10 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S10, authenticated API/strict commands and actual service wiring. Next: S11.
+Active step: S11, functional Traditional-Chinese Control Center and actual browser acceptance. Next: S12.
+
+S10 exact-clean executable `95d8cde49462422a380961570fb3714261db1552` passed 33 commands, phase1 247, phase2 1256, total 1503. Zero failures/errors/skips; all owned trees reaped. Evidence: status/codex/productization/S10/passed-95d8cde-py312.
+Actual Argon2id local auth/session/CSRF, immutable/recoverable command ledger, asynchronous owner research queue, E6 approval binding, actual PAPER start/pause/metrics and versioned OpenAPI are implemented. Missing global trading/current worker/alerts projections remain explicit until S12/S13. Continue S11 on the same branch, without routine permission or milestone exit; use same-origin built assets, actual APIs, persistent fixture labeling, observed progress and null unavailable metrics. No native Ubuntu/real cloud/provider/forward/capital qualification is implied.
 
 S09 exact-clean executable `08737899f82480e8de2933273eb7a643edb66d74` passed33/33 commands; phase1 247, phase2 1187, total1434. Zero failures/errors/skips; all owned trees reaped. Evidence: status/codex/productization/S09/passed-0873789-py312.
 Actual E2/E5/E4/E6 fill/protection/stop/target/time/emergency/flat mechanics, bounded scheduler, exact accepted-run authority and forward assessment are implemented. Accelerated fixtures report actual elapsed0. Research controlled MemoryError/timeout runs in a separate owned process while actual fixture PAPER management survives and closes. Native package wiring is S13; actual host OOM/native Ubuntu/cloud/data/real-forward/provider commissioning remain NOT_RUN. Automatically implement S10; do not stop at this milestone or repeat routine permissions.
@@ -30,11 +33,7 @@ old policy/source/release/runtime generations, forged principals, revoked or
 expired consent cannot grant new entries. Retirement preserves the actual E6
 historical exposure/protection graph. Read S08/IMPLEMENTATION.md and RESULT.md.
 
-Continue S09 automatically on the same branch/task. Integrate actual E2/E5/E4
-PaperBroker/E6 with separate entry and protective/deadline clocks, durable stable
-operation IDs, restart snapshots and anchored first fill. Wire S08 selected PAPER
-policy/owner evidence into the actual producer; accelerated fixtures cannot
-satisfy real forward elapsed time. Preserve legacy financial/FP/LF semantics,
+Historical S08-to-S09 instructions above have been completed by the subsequent S09/S10 qualifications; resume at the active step at the top. Preserve legacy financial/FP/LF semantics,
 actual partial size, protection/flat truth and separate research process limits.
 Real producer, S10 server authentication, S12 current E7/E5/E4 admission, native
 build/Ubuntu/cloud/real dataset/forward/provider/capital remain distinct gates.

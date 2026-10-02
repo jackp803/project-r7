@@ -1,0 +1,32 @@
+test_actual_e6_approval_actor_is_verified_local_session_identity (test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity) ... FAIL
+test_approval_adapter_also_denies_fixture_financial_authority (test_api_approval_binding.APIApprovalBindingTests.test_approval_adapter_also_denies_fixture_financial_authority) ... FAIL
+test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect (test_api_approval_binding.APIApprovalBindingTests.test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect) ... FAIL
+
+======================================================================
+FAIL: test_actual_e6_approval_actor_is_verified_local_session_identity (test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_approval_binding.py", line 14, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.approval_port'),
+AssertionError: unexpectedly None : Exact-subject authenticated approval adapter is missing
+
+======================================================================
+FAIL: test_approval_adapter_also_denies_fixture_financial_authority (test_api_approval_binding.APIApprovalBindingTests.test_approval_adapter_also_denies_fixture_financial_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_approval_binding.py", line 14, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.approval_port'),
+AssertionError: unexpectedly None : Exact-subject authenticated approval adapter is missing
+
+======================================================================
+FAIL: test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect (test_api_approval_binding.APIApprovalBindingTests.test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_approval_binding.py", line 14, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.approval_port'),
+AssertionError: unexpectedly None : Exact-subject authenticated approval adapter is missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.000s
+
+FAILED (failures=3)

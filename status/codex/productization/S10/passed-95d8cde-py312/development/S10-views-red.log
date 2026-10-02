@@ -1,0 +1,33 @@
+test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs (tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs) ... FAIL
+test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage (tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage) ... FAIL
+test_configured_dataset_page_reads_actual_registered_catalog_without_claiming_decode (tests.product.test_api_owner_services.APIOwnerServicesTests.test_configured_dataset_page_reads_actual_registered_catalog_without_claiming_decode) ... FAIL
+test_unexpected_owner_failure_has_sanitized_correlation_without_exception_text (tests.product.test_api_authority.APIAuthorityTests.test_unexpected_owner_failure_has_sanitized_correlation_without_exception_text) ... ok
+
+======================================================================
+FAIL: test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs (tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_paper_services.py", line 112, in test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs
+    self.assertIsNotNone(body['metrics'],'Completed canonical trades must have actual E3 metrics')
+AssertionError: unexpectedly None : Completed canonical trades must have actual E3 metrics
+
+======================================================================
+FAIL: test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage (tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_owner_services.py", line 100, in test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage
+    self.assertIn('evidence',view,'HTTP needs actual owner metrics/cost/lineage summaries')
+AssertionError: 'evidence' not found in {'run_id': 'job-83c9c55f4f199e4230bb9402c6f141c0919fc26805e8613c3da352f14233efaf', 'submission_id': 'fixture-product', 'policy_id': 'selected-fixture', 'state': 'COMPLETE', 'revision': 2, 'generation': 1, 'owner_run_id': 'run-1605370b2a23324f435d1709f13ef02a392c308af5eac9c06b4401bf25f8f7f0', 'stage': 'diagnostic_report', 'input_hash': 'sha256:83c9c55f4f199e4230bb9402c6f141c0919fc26805e8613c3da352f14233efaf', 'implementation_hash': 'sha256:ca9692701f6995118eb95a15f43971997b77988a11dcd812a2e3515e2a10b66c', 'created_at': '2026-10-03T00:00:00.000000Z', 'observed_at': '2026-10-03T00:00:00.000000Z', 'cancellation_requested': False, 'outcome': {'compatibility_status': 'PASS', 'reason_codes': [], 'run_id': 'run-1605370b2a23324f435d1709f13ef02a392c308af5eac9c06b4401bf25f8f7f0', 'status': 'PASS', 'strategy_lifecycle': 'CANDIDATE'}, 'reason_codes': []} : HTTP needs actual owner metrics/cost/lineage summaries
+
+======================================================================
+FAIL: test_configured_dataset_page_reads_actual_registered_catalog_without_claiming_decode (tests.product.test_api_owner_services.APIOwnerServicesTests.test_configured_dataset_page_reads_actual_registered_catalog_without_claiming_decode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_api_owner_services.py", line 111, in test_configured_dataset_page_reads_actual_registered_catalog_without_claiming_decode
+    self.assertEqual(len(page['items']),1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.578s
+
+FAILED (failures=3)

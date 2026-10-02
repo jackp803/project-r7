@@ -1,0 +1,40 @@
+test_ambiguous_persisted_namespace_is_not_silently_accepted (tests.product.test_local_auth.LocalAuthTests.test_ambiguous_persisted_namespace_is_not_silently_accepted) ... FAIL
+test_ambiguous_persisted_namespace_is_not_silently_accepted (tests.product.test_local_auth.LocalAuthTests.test_ambiguous_persisted_namespace_is_not_silently_accepted) ... ERROR
+
+======================================================================
+ERROR: test_ambiguous_persisted_namespace_is_not_silently_accepted (tests.product.test_local_auth.LocalAuthTests.test_ambiguous_persisted_namespace_is_not_silently_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 633, in _rmtree_unsafe
+    os.unlink(fullname)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: 'C:\\Users\\jackp\\AppData\\Local\\Temp\\tmp0lib91_c\\auth.sqlite'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: 'C:\\Users\\jackp\\AppData\\Local\\Temp\\tmp0lib91_c\\auth.sqlite'
+
+======================================================================
+FAIL: test_ambiguous_persisted_namespace_is_not_silently_accepted (tests.product.test_local_auth.LocalAuthTests.test_ambiguous_persisted_namespace_is_not_silently_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_local_auth.py", line 123, in test_ambiguous_persisted_namespace_is_not_silently_accepted
+    with self.assertRaises(self.error) as error:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AuthenticationError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.149s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,40 @@
+test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception (tests.product.test_research_queue.ResearchQueueTests.test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception) ... FAIL
+
+======================================================================
+FAIL: test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception (tests.product.test_research_queue.ResearchQueueTests.test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\research\queue.py", line 64, in _resolve
+    try: selected = self.resolve_request(submission_id, policy_id)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 138, in unavailable
+    def unavailable(*args): raise RuntimeError('fixture-private-selection-detail')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: fixture-private-selection-detail
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 140, in test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception
+    try: result=self.queue.step(claim.run_id,claim.generation)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\research\queue.py", line 237, in step
+    selected = self._resolve(row['submission_id'], row['policy_id'])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\research\queue.py", line 65, in _resolve
+    except Exception as error: raise ResearchQueueError('RESEARCH_SELECTION_NOT_CONFIGURED') from error
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.queue.ResearchQueueError: RESEARCH_SELECTION_NOT_CONFIGURED
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 141, in test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception
+    except self.error: self.fail('Lost selected inputs must leave a durable BLOCKED job')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lost selected inputs must leave a durable BLOCKED job
+
+----------------------------------------------------------------------
+Ran 1 test in 0.196s
+
+FAILED (failures=1)

@@ -1,0 +1,77 @@
+test_actual_worker_composes_existing_owners_and_retains_candidate_lineage (test_research_queue.ResearchQueueTests.test_actual_worker_composes_existing_owners_and_retains_candidate_lineage) ... FAIL
+test_cancel_queued_job_is_actual_cas_and_retains_immutable_inputs (test_research_queue.ResearchQueueTests.test_cancel_queued_job_is_actual_cas_and_retains_immutable_inputs) ... FAIL
+test_changed_selected_files_block_before_replay_without_replacing_frozen_inputs (test_research_queue.ResearchQueueTests.test_changed_selected_files_block_before_replay_without_replacing_frozen_inputs) ... FAIL
+test_cooperative_cancel_before_robustness_retains_completed_development_evidence (test_research_queue.ResearchQueueTests.test_cooperative_cancel_before_robustness_retains_completed_development_evidence) ... FAIL
+test_enqueue_is_durable_queued_not_inline_replay_or_candidate (test_research_queue.ResearchQueueTests.test_enqueue_is_durable_queued_not_inline_replay_or_candidate) ... FAIL
+test_expired_worker_generation_is_fenced_and_recovery_keeps_same_job (test_research_queue.ResearchQueueTests.test_expired_worker_generation_is_fenced_and_recovery_keeps_same_job) ... FAIL
+test_identical_enqueue_retries_are_one_logical_job_and_changed_identity_conflicts (test_research_queue.ResearchQueueTests.test_identical_enqueue_retries_are_one_logical_job_and_changed_identity_conflicts) ... FAIL
+test_stale_submission_or_unconfigured_policy_cannot_queue (test_research_queue.ResearchQueueTests.test_stale_submission_or_unconfigured_policy_cannot_queue) ... FAIL
+
+======================================================================
+FAIL: test_actual_worker_composes_existing_owners_and_retains_candidate_lineage (test_research_queue.ResearchQueueTests.test_actual_worker_composes_existing_owners_and_retains_candidate_lineage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_cancel_queued_job_is_actual_cas_and_retains_immutable_inputs (test_research_queue.ResearchQueueTests.test_cancel_queued_job_is_actual_cas_and_retains_immutable_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_changed_selected_files_block_before_replay_without_replacing_frozen_inputs (test_research_queue.ResearchQueueTests.test_changed_selected_files_block_before_replay_without_replacing_frozen_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_cooperative_cancel_before_robustness_retains_completed_development_evidence (test_research_queue.ResearchQueueTests.test_cooperative_cancel_before_robustness_retains_completed_development_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_enqueue_is_durable_queued_not_inline_replay_or_candidate (test_research_queue.ResearchQueueTests.test_enqueue_is_durable_queued_not_inline_replay_or_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_expired_worker_generation_is_fenced_and_recovery_keeps_same_job (test_research_queue.ResearchQueueTests.test_expired_worker_generation_is_fenced_and_recovery_keeps_same_job)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_identical_enqueue_retries_are_one_logical_job_and_changed_identity_conflicts (test_research_queue.ResearchQueueTests.test_identical_enqueue_retries_are_one_logical_job_and_changed_identity_conflicts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+======================================================================
+FAIL: test_stale_submission_or_unconfigured_policy_cannot_queue (test_research_queue.ResearchQueueTests.test_stale_submission_or_unconfigured_policy_cannot_queue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_research_queue.py", line 20, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
+AssertionError: unexpectedly None : Durable asynchronous actual-owner research queue is missing
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+FAILED (failures=8)

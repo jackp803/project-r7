@@ -1,0 +1,18 @@
+[project]
+name = "r7-product"
+version = "0.2.0"
+description = "Local R7 research and operations product"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.scripts]
+r7 = "application.cli:main"
+
+[tool.r7.build]
+python_minor = "3.12"
+lock_state = "PENDING_NATIVE_WHEEL_AND_LICENSE_VERIFICATION"
+gpu_required = false
+
+[tool.r7.qualification]
+runner = "tools/run_credential_free_tests.py"
+execution = "local-only"

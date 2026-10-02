@@ -236,6 +236,11 @@ class _SQLiteRegistryStore:
         from registry.operational_authority import HumanApprovalRecord
         return self._owner_from_row(self._connection.execute('SELECT * FROM human_approvals WHERE approval_record_id=?',(approval_id,)).fetchone(),HumanApprovalRecord)
 
+    def human_approval_for_command(self,command_id):
+        from registry.operational_authority import HumanApprovalRecord
+        row=self._connection.execute('SELECT * FROM human_approvals WHERE command_id=?',(command_id,)).fetchone()
+        return self._owner_from_row(row,HumanApprovalRecord)
+
     def latest_human_approval(self,identity):
         from registry.operational_authority import HumanApprovalRecord
         row=self._connection.execute('SELECT * FROM human_approvals WHERE strategy_id=? AND strategy_version=? ORDER BY rowid DESC LIMIT 1',
@@ -428,6 +433,18 @@ class _SQLiteRegistryStore:
             (identity.strategy_id, identity.strategy_version),
         ).fetchone()
         return _strategy_from_row(row) if row is not None else None
+
+    def list_strategies(self, *, limit, offset):
+        rows = self._connection.execute(
+            'SELECT * FROM strategy_versions ORDER BY registered_at,strategy_id,strategy_version LIMIT ? OFFSET ?',
+            (limit, offset),
+        ).fetchall()
+        return tuple(_strategy_from_row(row) for row in rows)
+
+    def lifecycle_counts(self):
+        return dict(self._connection.execute(
+            'SELECT current_lifecycle_state,COUNT(*) FROM strategy_versions GROUP BY current_lifecycle_state'
+        ).fetchall())
 
     def list_versions(self, strategy_id: str) -> Sequence[StrategyVersionRecord]:
         rows = self._connection.execute(

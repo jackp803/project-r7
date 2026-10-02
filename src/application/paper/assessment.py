@@ -17,21 +17,15 @@ class ForwardAssessment:
     def as_dict(self): return json.loads(self.canonical_json)
 
 
-def assess_forward(run, policy):
-    from .service import PaperRuntime
-    if not isinstance(run,PaperRuntime) or not isinstance(policy,PaperPromotionPolicy):
-        raise ValueError('Actual recovered Paper runtime and selected policy required')
-    service=run.service; recovered=service.process.recover(run.run_id)
-    strategy=service.registry.get_strategy(run.engine.identity)
-    if (recovered.binding!=service._binding(strategy) or policy.policy_hash!=service.promotion.policy_hash or
-        recovered.binding['paper_policy_hash']!=policy.policy_hash):
-        raise EvidenceGateError('Exact current run/source/selected PAPER policy required')
-    runtime=recovered.state['runtime']; observed=runtime['forward']; selected=policy.as_dict()
+def published_paper_metrics(canonical_journal,runtime):
+    """Read-only E3 metrics from actual published E5/funding graph, not admission."""
+    from storage.runtime import PaperRuntimeJournal
+    if not isinstance(canonical_journal,PaperRuntimeJournal): raise ValueError('Actual E6 runtime journal required')
     trades=[]; seen=set()
     for trade in runtime['closed_trades']:
         if trade['trade_result_id'] in seen: raise EvidenceGateError('Duplicate canonical forward trade')
         seen.add(trade['trade_result_id'])
-        graph=service.canonical.recover(trade_plan_id=trade['trade_plan_id'])
+        graph=canonical_journal.recover(trade_plan_id=trade['trade_plan_id'])
         if graph.status!='READY' or graph.trade_result is None or graph.trade_result.payload!=trade:
             raise EvidenceGateError('Actual published E5 forward financial graph required')
         funding=next((fact.payload for fact in graph.funding_evidence if fact.canonical_id==trade['funding_evidence_id']),None)
@@ -44,7 +38,20 @@ def assess_forward(run, policy):
         # E5 fill prices already include configured slippage. Metrics receives
         # zero additional deduction, explicitly, to avoid subtracting twice.
         trades.append(dict(trade,slippage_cost='0',funding_cost=funding_cost))
-    metrics=calculate_metrics(trades)
+    return calculate_metrics(trades)
+
+
+def assess_forward(run, policy):
+    from .service import PaperRuntime
+    if not isinstance(run,PaperRuntime) or not isinstance(policy,PaperPromotionPolicy):
+        raise ValueError('Actual recovered Paper runtime and selected policy required')
+    service=run.service; recovered=service.process.recover(run.run_id)
+    strategy=service.registry.get_strategy(run.engine.identity)
+    if (recovered.binding!=service._binding(strategy) or policy.policy_hash!=service.promotion.policy_hash or
+        recovered.binding['paper_policy_hash']!=policy.policy_hash):
+        raise EvidenceGateError('Exact current run/source/selected PAPER policy required')
+    runtime=recovered.state['runtime']; observed=runtime['forward']; selected=policy.as_dict()
+    metrics=published_paper_metrics(service.canonical,runtime)
     fixture=runtime['mode']=='ACCELERATED_FIXTURE'
     elapsed=observed['simulated_elapsed_seconds'] if fixture else observed['real_elapsed_ns']//1_000_000_000
     healthy=observed['simulated_healthy_seconds'] if fixture else observed['real_healthy_ns']//1_000_000_000

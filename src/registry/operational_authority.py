@@ -88,12 +88,13 @@ class HumanAuthenticator:
     parameter. Tickets are opaque, short-lived and issuer-local. S10 supplies
     the actual local session/reauthentication verifier; no verifier is defaulted.
     """
-    def __init__(self,*,namespace: str,verifier: Callable[[object],HumanIdentity | None],reauth_seconds: int,clock: Callable[[],datetime]):
+    def __init__(self,*,namespace: str,verifier: Callable[[object],HumanIdentity | None],reauth_seconds: int,clock: Callable[[],datetime],current_verifier=None):
         if namespace not in ('FIXTURE','LOCAL_RESEARCH') or not callable(verifier) or not callable(clock):
             raise EvidenceGateError('Configured human authentication required')
         if type(reauth_seconds) is not int or not 1<=reauth_seconds<=300:
             raise EvidenceGateError('Bounded explicit reauthentication duration required')
-        self.namespace=namespace; self._verifier=verifier; self._duration=reauth_seconds; self._clock=clock; self._tickets={}
+        if current_verifier is not None and not callable(current_verifier): raise EvidenceGateError('Configured current session verifier required')
+        self.namespace=namespace; self._verifier=verifier; self._current_verifier=current_verifier; self._duration=reauth_seconds; self._clock=clock; self._tickets={}
 
     def authenticate(self,proof):
         identity=self._verifier(proof)
@@ -102,7 +103,7 @@ class HumanAuthenticator:
         text(identity.actor)
         now=self._clock(); utc(stamp(now)); nonce=secrets.token_bytes(32)
         self._tickets={key:value for key,value in self._tickets.items() if value[1]>now}
-        self._tickets[nonce]=(identity,now+timedelta(seconds=self._duration))
+        self._tickets[nonce]=(identity,now+timedelta(seconds=self._duration),proof)
         return _AuthenticatedHuman(self,nonce)
 
     def authorize(self,human):
@@ -110,6 +111,9 @@ class HumanAuthenticator:
             raise EvidenceGateError('Human capability not issued by this authenticated server')
         ticket=self._tickets.get(human._nonce)
         if ticket is None or ticket[1]<=self._clock(): raise EvidenceGateError('Human reauthentication expired/revoked')
+        if self._current_verifier is not None and self._current_verifier(ticket[2])!=ticket[0]:
+            self._tickets.pop(human._nonce,None)
+            raise EvidenceGateError('Current server session expired/revoked')
         return ticket[0].actor
 
     def revoke(self,human):

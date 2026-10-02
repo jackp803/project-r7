@@ -94,6 +94,42 @@ class IntakeLedger:
         if row is None: return None
         return SubmissionRecord(row["submission_id"], row["manifest_hash"], row["state"], row["revision"], row["effect_ref"])
 
+    def accepted_receipt(self,submission_id):
+        """Read the immutable actual E6 intake receipt through its local outbox."""
+        import json
+        safe_component(submission_id)
+        submission=self.get_submission(submission_id)
+        if submission is None or submission.state!='INTAKE_ACCEPTED': return None
+        row=self._connection.execute('SELECT payload,payload_hash FROM app_outbox WHERE operation_id=?',
+            (self.operation_key(submission_id)+'-receipt',)).fetchone()
+        if row is None or byte_hash(row['payload'])!=row['payload_hash']: raise ManifestConflict('Intake receipt integrity failed')
+        payload=json.loads(row['payload'])
+        if payload.get('submission_id')!=submission_id or payload.get('manifest_hash')!=submission.manifest_hash or payload.get('intake_id')!=submission.effect_ref:
+            raise ManifestConflict('Intake receipt identity failed')
+        return payload
+
+    def submission_view(self,submission_id):
+        safe_component(submission_id)
+        row=self.get_submission(submission_id)
+        observation=self._connection.execute('SELECT state,reason,observed_at,manifest_hash FROM app_submission_observations WHERE instance_id=? AND submission_id=? ORDER BY observation_id DESC LIMIT 1',
+            (self.instance_id,submission_id)).fetchone()
+        if row is None and observation is None: return None
+        from dataclasses import asdict
+        value=asdict(row) if row else dict(submission_id=submission_id,manifest_hash=observation['manifest_hash'],state=observation['state'],revision=0,effect_ref=None)
+        value['latest_observation']=None if observation is None else dict(observation)
+        value['receipt']=self.accepted_receipt(submission_id)
+        publication=self._connection.execute('SELECT state,artifact_hash FROM app_outbox WHERE operation_id=?',(self.operation_key(submission_id)+'-receipt',)).fetchone()
+        value['publication']=None if publication is None else dict(publication)
+        return value
+
+    def list_submissions(self,*,limit=50,offset=0):
+        if type(limit) is not int or not 1<=limit<=200 or type(offset) is not int or not 0<=offset<=100000:
+            raise ValueError('Bounded submission page required')
+        rows=self._connection.execute('''SELECT submission_id FROM app_submissions WHERE instance_id=?
+            UNION SELECT submission_id FROM app_submission_observations WHERE instance_id=? ORDER BY submission_id LIMIT ? OFFSET ?''',
+            (self.instance_id,self.instance_id,limit,offset)).fetchall()
+        return tuple(self.submission_view(row[0]) for row in rows)
+
     def claim(self, submission_id, manifest_hash, owner, now):
         safe_component(submission_id)
         safe_component(owner)

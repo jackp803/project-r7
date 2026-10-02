@@ -205,6 +205,7 @@ class ResearchService:
                 def robust_replay(claim):
                     def record_trial(event):
                         self.journal.renew(claim,now_utc(),lease_seconds=300)
+                        if self.orchestrator.checkpoint is not None: self.orchestrator.checkpoint(run_id,'robustness')
                         self.ledger.record_event(family_id,'TRIAL',dict(run_id=run_id,
                             trial_id=run_id+':'+event['stage']+':'+event['variant_hash'],**event))
                     result=evaluate_robustness(json.loads(parsed.canonical_json),development_binding,selected_robustness,

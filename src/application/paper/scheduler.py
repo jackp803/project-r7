@@ -42,6 +42,10 @@ class PaperScheduler:
         deadlines={epoch+timedelta(seconds=slot)}
         deadlines.update(due for due in self._deadlines(now) if due<=now)
         outcomes=[self.runtime.on_deadline(due) for due in sorted(deadlines)]
+        # The durable deny flag already blocks entry/entry fills. Only this
+        # runtime consumes controls; API reads never steal its generation.
+        for command in self.runtime.service.process.pending_entry_pauses(self.runtime.run_id,limit=4):
+            outcomes.append(self.runtime.service.stop_new_entries(self.runtime.run_id,command['command_id']))
         # One bounded acquisition item per tick prevents a fast feed starving
         # protection. Network acquisition is supplied by a separate producer.
         try: event=self._events.get_nowait()

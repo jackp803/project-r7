@@ -3,8 +3,9 @@ from application.research.evidence import now_utc
 
 class ResearchOrchestrator:
     """Resume immutable stages; completed results are never overwritten."""
-    def __init__(self,journal,owner_id): self.journal=journal; self.owner_id=owner_id
+    def __init__(self,journal,owner_id): self.journal=journal; self.owner_id=owner_id; self.checkpoint=None
     def execute(self,run_id,stage,inputs,operation):
+        if self.checkpoint is not None: self.checkpoint(run_id,stage)
         input_hash=digest(canonical(inputs).encode())
         cached=self.journal.result(run_id,stage)
         if cached is not None:
@@ -23,4 +24,5 @@ class ResearchOrchestrator:
             self.journal.finish(claim,{'reason_codes':[reason]},now_utc(),status='FAILED',reason_codes=(reason,))
             raise
         self.journal.finish(claim,result,now_utc())
+        if self.checkpoint is not None: self.checkpoint(run_id,stage)
         return result

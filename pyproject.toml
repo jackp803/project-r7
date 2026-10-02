@@ -3,10 +3,10 @@ name = "r7-product"
 version = "0.2.0"
 description = "Local R7 research and operations product"
 requires-python = ">=3.12,<3.13"
-dependencies = ["pyarrow==25.0.1"]
+dependencies = ["pyarrow==25.0.1", "fastapi==0.142.2", "starlette==1.6.0", "pydantic==2.13.4", "uvicorn==0.52.3", "argon2-cffi==25.1.0"]
 
 [project.optional-dependencies]
-qualification = ["jsonschema==4.26.0"]
+qualification = ["jsonschema==4.26.0", "httpx==0.28.1"]
 
 [project.scripts]
 r7 = "application.cli:main"

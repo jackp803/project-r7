@@ -81,8 +81,8 @@ def _evidence(broker, plan_id):
 
 
 class PaperEngine:
-    def __init__(self, service, identity):
-        self.service=service; self.identity=identity
+    def __init__(self, service, identity, run_id):
+        self.service=service; self.identity=identity; self.run_id=run_id
         self.strategy=parse_strategy_definition(service.registry.get_strategy(identity).definition_json)
         self.config=service.simulation.as_dict(); self.reconciled=False; self.recovery_reason=None
 
@@ -127,6 +127,7 @@ class PaperEngine:
     def _entry_allowed(self, runtime, now):
         if not self.reconciled: return False,'RECONCILIATION_REQUIRED'
         if not runtime['paper_entries_allowed']: return False,'PAPER_ENTRIES_PAUSED'
+        if self.service.process.entry_pause_requested(self.run_id): return False,'PAPER_ENTRIES_PAUSED'
         if not self.service.authorized: return False,'PAPER_WORKFLOW_NOT_AUTHORIZED'
         if self.service.registry.get_strategy(self.identity).current_lifecycle_state!='PAPER':
             return False,'STRATEGY_NOT_IN_PAPER'

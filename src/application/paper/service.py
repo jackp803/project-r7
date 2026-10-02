@@ -42,6 +42,7 @@ class PaperRunRef:
     mode: str
     strategy_id: str
     strategy_version: str
+    registry_revision: int
 
 
 class PaperService:
@@ -93,9 +94,9 @@ class PaperService:
         run_id='paper_'+hashlib.sha256(material.encode()).hexdigest()
         self.process.create_run(run_id,binding,dict(broker=PaperBroker().export_state(),
             runtime=initial_runtime_state(self, strategy)),now=self.clock())
-        self.registry.start_paper(strategy_identity,evidence_ref='paper-start:'+run_id,
+        transition=self.registry.start_paper(strategy_identity,evidence_ref='paper-start:'+run_id,
             actor=self.actor,command_id=command_id,expected_revision=expected_revision)
-        return PaperRunRef(run_id,self.namespace,binding['mode'],strategy_identity.strategy_id,strategy_identity.strategy_version)
+        return PaperRunRef(run_id,self.namespace,binding['mode'],strategy_identity.strategy_id,strategy_identity.strategy_version,transition.registry_revision)
 
     def resolve_owner_evidence(self,kind,reference,identity):
         if kind=='FORWARD_READY' and reference.startswith('paper-forward:'):
@@ -156,7 +157,7 @@ class PaperRuntime:
             raise EvidenceGateError('Prepared run is not the exact accepted E6 PAPER execution')
         generation=service.process.begin_process(run_id,service._instance_id,
             expected_generation=recovered.process_generation,now=service.clock())
-        self.engine=PaperEngine(service,identity)
+        self.engine=PaperEngine(service,identity,run_id)
         self.coordinator=PaperCoordinator(service.process,service.canonical,run_id,generation,
                                           self.engine.produce,clock=service.clock)
         self.coordinator.recover_pending()

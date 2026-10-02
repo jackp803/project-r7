@@ -310,6 +310,62 @@ class PaperProcessJournal:
             self._db.execute('INSERT INTO paper_process_generations VALUES (?,?,?,?)', (run_id, generation, instance_id, at))
         return generation
 
+    def _control_revision(self,run_id):
+        self._run(run_id)
+        checkpoint=self._checkpoint(run_id)
+        pauses=self._db.execute('SELECT COUNT(*) FROM paper_entry_pause_requests WHERE run_id=?',(run_id,)).fetchone()[0]
+        return checkpoint['revision']+pauses
+
+    def control_revision(self,run_id):
+        """Monotonic checkpoint + control-request revision in one read snapshot."""
+        owns_read=not self._db.in_transaction
+        if owns_read: self._db.execute('BEGIN')
+        try: return self._control_revision(run_id)
+        finally:
+            if owns_read: self._db.rollback()
+
+    def request_entry_pause(self,run_id,command_id,*,actor,expected_revision,now):
+        """Deny new entries atomically, retaining the runtime's process generation.
+
+        The owning scheduler later publishes its canonical PAUSE operation. This
+        control request never cancels protection or invents an execution effect.
+        """
+        _text(run_id); _text(command_id); _text(actor); at=_stamp(now)
+        if type(expected_revision) is not int or expected_revision<0: _invalid('Exact control revision required')
+        request=_json(dict(kind='ENTRY_PAUSE',run_id=run_id,command_id=command_id,actor=actor,expected_revision=expected_revision))
+        with self._write():
+            existing=self._db.execute('SELECT * FROM paper_entry_pause_requests WHERE command_id=?',(command_id,)).fetchone()
+            if existing:
+                if existing['request_json']!=request: _conflict('Entry pause command identity changed')
+                _read_json(existing['request_json'],existing['request_hash'])
+                return _read_json(existing['receipt_json'],existing['receipt_hash'])
+            if self._control_revision(run_id)!=expected_revision: _conflict('Stale Paper control revision')
+            checkpoint=self._checkpoint(run_id)
+            if at<checkpoint['recorded_at']: _invalid('Control request clock predates actual checkpoint')
+            if self._db.execute('SELECT COUNT(*) FROM paper_entry_pause_requests').fetchone()[0]>=100000:
+                _invalid('Entry pause audit capacity reached')
+            receipt=dict(command_id=command_id,run_id=run_id,actor=actor,status='PAUSED',expected_revision=expected_revision,
+                resource_revision=expected_revision+1,observed_at=at,reason_codes=['PROTECTION_MANAGEMENT_CONTINUES'])
+            raw=_json(receipt)
+            self._db.execute('INSERT INTO paper_entry_pause_requests VALUES(?,?,?,?,?,?,?)',
+                (command_id,run_id,request,_digest(request),raw,_digest(raw),at))
+            return receipt
+
+    def entry_pause_requested(self,run_id):
+        self._run(run_id)
+        row=self._db.execute('SELECT request_json,request_hash FROM paper_entry_pause_requests WHERE run_id=? LIMIT 1',(run_id,)).fetchone()
+        if row is None: return False
+        _read_json(row['request_json'],row['request_hash'])
+        return True
+
+    def pending_entry_pauses(self,run_id,*,limit=32):
+        self._run(run_id)
+        if type(limit) is not int or not 1<=limit<=32: _invalid('Bounded control batch required')
+        rows=self._db.execute('''SELECT p.* FROM paper_entry_pause_requests p
+            LEFT JOIN paper_process_publications done ON done.run_id=p.run_id AND done.operation_id='pause:'||p.command_id
+            WHERE p.run_id=? AND done.operation_id IS NULL ORDER BY p.requested_at,p.command_id LIMIT ?''',(run_id,limit)).fetchall()
+        return tuple(_read_json(row['request_json'],row['request_hash']) for row in rows)
+
     def recover(self, run_id):
         # One read snapshot prevents mixing a checkpoint and outbox from different
         # commits while another owned connection finishes an operation.

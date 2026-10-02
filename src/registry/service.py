@@ -21,6 +21,34 @@ from .service_base import StrategyPlatformService as _StrategyPlatformServiceBas
 class StrategyPlatformService(_StrategyPlatformServiceBase):
     """Public E6 platform service with fail-closed evidence and lifecycle authority gates."""
 
+    def list_strategies(self,*,limit=50,offset=0):
+        """Bounded current canonical inventory; exposes no persistence writer."""
+        if type(limit) is not int or not 1<=limit<=200 or type(offset) is not int or not 0<=offset<=100000:
+            raise ValueError('Bounded inventory page required')
+        return self._store.list_strategies(limit=limit,offset=offset)
+
+    def lifecycle_counts(self):
+        return self._store.lifecycle_counts()
+
+    @property
+    def research_namespace(self):
+        return self._store.get_research_namespace()
+
+    def human_approval_for_command(self,command_id):
+        """Read retained audit, never renew a permission from its receipt."""
+        from .operational_authority import text
+        from .models import EvidenceGateError
+        from .product_assessment import digest
+        record=self._store.human_approval_for_command(text(command_id))
+        if record is not None and (record.namespace!=self.research_namespace or digest(record.payload_json)!=record.payload_hash or digest(record.envelope_json)!=record.envelope_hash):
+            raise EvidenceGateError('Immutable actual approval integrity required')
+        return record
+
+    def current_deployment_envelope(self,identity,*,envelope_ref,expected_revision):
+        strategy,boundary=self._operational_context(identity,expected_revision,('READY_FOR_APPROVAL',))
+        product=self.candidate_product_assessment(identity)
+        return boundary.envelope(envelope_ref,strategy,product.risk_policy_json)
+
     def accepted_paper_start_evidence(self,identity):
         from .models import EvidenceGateError
         from .product_assessment import digest

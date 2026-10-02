@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://r7.local/contracts/monte_carlo_policy_v0_2.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "r7-monte-carlo-policy-v0.2"
+    },
+    "algorithm": {
+      "enum": [
+        "TRADE_PERMUTATION",
+        "MOVING_BLOCK_BOOTSTRAP"
+      ]
+    },
+    "algorithm_version": {
+      "const": "r7-mc-v1"
+    },
+    "rng_algorithm": {
+      "const": "SHA256_COUNTER_REJECTION_V1"
+    },
+    "resample_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "minimum_samples": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 200000
+    },
+    "minimum_effective_blocks": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 10000
+    },
+    "block_length": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000
+    },
+    "sample_source": {
+      "const": "CLOSED_DEVELOPMENT_TRADE_NET_PNL_USDT"
+    },
+    "initial_equity": {
+      "type": "string",
+      "maxLength": 128,
+      "pattern": "^[+-]?(?:[0-9]+(?:\\.[0-9]*)?|\\.[0-9]+)(?:[eE][+-]?[0-9]+)?$"
+    },
+    "drawdown_unit": {
+      "enum": [
+        "USDT_AMOUNT",
+        "FRACTION_OF_INITIAL_EQUITY"
+      ]
+    },
+    "max_path_observations": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500000
+    },
+    "dependence_model": {
+      "enum": [
+        "ORDER_SENSITIVITY",
+        "OVERLAPPING_FIXED_BLOCKS"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "algorithm",
+    "algorithm_version",
+    "rng_algorithm",
+    "resample_count",
+    "minimum_samples",
+    "minimum_effective_blocks",
+    "block_length",
+    "sample_source",
+    "initial_equity",
+    "drawdown_unit",
+    "max_path_observations",
+    "dependence_model"
+  ],
+  "additionalProperties": false
+}

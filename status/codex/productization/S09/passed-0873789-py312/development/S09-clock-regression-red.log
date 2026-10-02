@@ -1,0 +1,27 @@
+test_backward_wall_clock_denies_observation_without_poisoning_recovery (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_backward_wall_clock_denies_observation_without_poisoning_recovery) ... ERROR
+test_actual_forward_quantitative_failure_cannot_mark_ready (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_forward_quantitative_failure_cannot_mark_ready) ... ok
+
+======================================================================
+ERROR: test_backward_wall_clock_denies_observation_without_poisoning_recovery (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_backward_wall_clock_denies_observation_without_poisoning_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 441, in test_backward_wall_clock_denies_observation_without_poisoning_recovery
+    with self.assertRaises(EvidenceGateError): runtime.on_deadline(self.clock[0])
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 192, in on_deadline
+    return self.coordinator.execute('deadline:'+deadline.isoformat(),dict(kind='DEADLINE',due_at=deadline.isoformat().replace('+00:00','Z')))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 109, in execute
+    operation = self.process.prepare(self.run_id, operation_id, request,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 250, in prepare
+    if at < checkpoint['recorded_at'] or at < run['created_at']: _invalid('Paper operation clock regressed')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 37, in _invalid
+    raise RuntimeValidationError('PAPER_CHECKPOINT_INVALID', message)
+storage.runtime_models.RuntimeValidationError: Paper operation clock regressed
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.836s
+
+FAILED (errors=1)

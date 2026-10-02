@@ -1,0 +1,26 @@
+test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope (tests.product.test_paper_configuration.PaperConfigurationTests.test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope) ... FAIL
+test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected (tests.product.test_paper_configuration.PaperConfigurationTests.test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected) ... ok
+
+======================================================================
+FAIL: test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope (tests.product.test_paper_configuration.PaperConfigurationTests.test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_configuration.py", line 10, in test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope
+    try: selected=parse_simulation_policy(simulation_fixture(),namespace='FIXTURE')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\policy.py", line 25, in parse_simulation_policy
+    raise ValueError('Complete explicit simulation policy required')
+ValueError: Complete explicit simulation policy required
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_configuration.py", line 11, in test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope
+    except ValueError: self.fail('Explicit isolated per-strategy PAPER account profile missing')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Explicit isolated per-strategy PAPER account profile missing
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=1)

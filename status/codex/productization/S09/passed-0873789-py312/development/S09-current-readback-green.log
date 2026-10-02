@@ -1,0 +1,68 @@
+test_actual_broker_readback_advances_observation_without_renewing_first_fill (test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_broker_readback_advances_observation_without_renewing_first_fill) ... ok
+test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry (test_paper_runtime_v02.PaperRuntimeV02Tests.test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry) ... ok
+test_full_entry_ack_fill_verified_protection_target_exit_flat_result (test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result) ... ERROR
+test_retirement_blocks_new_entries_and_preserves_existing_management (test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management) ... ERROR
+test_stale_market_admits_no_order_and_reports_observed_reason (test_paper_runtime_v02.PaperRuntimeV02Tests.test_stale_market_admits_no_order_and_reports_observed_reason) ... ok
+
+======================================================================
+ERROR: test_full_entry_ack_fill_verified_protection_target_exit_flat_result (test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 87, in test_full_entry_ack_fill_verified_protection_target_exit_flat_result
+    closed = runtime.on_market_event(self.event(2, '60020'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 146, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 92, in _finish
+    step = self.producer(operation.base_state, operation.request, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 319, in produce
+    managed=self._manage(runtime,broker,effects,market,now)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 247, in _manage
+    return self._close(runtime,broker,effects,request,action,market,now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 201, in _close
+    closed=build_position_lifecycle_closed_transition(flat,position,trade_result_outcome=result,lifecycle_interpreted_at=now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\position\lifecycle_projection.py", line 637, in build_position_lifecycle_closed_transition
+    raise LifecycleProjectionError(
+position.lifecycle_projection.LifecycleProjectionError: equal broker observation time requires identical E4-owned Position facts
+
+======================================================================
+ERROR: test_retirement_blocks_new_entries_and_preserves_existing_management (test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 133, in test_retirement_blocks_new_entries_and_preserves_existing_management
+    closed = runtime.on_market_event(self.event(2, '60020'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 146, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 92, in _finish
+    step = self.producer(operation.base_state, operation.request, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 319, in produce
+    managed=self._manage(runtime,broker,effects,market,now)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 247, in _manage
+    return self._close(runtime,broker,effects,request,action,market,now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 201, in _close
+    closed=build_position_lifecycle_closed_transition(flat,position,trade_result_outcome=result,lifecycle_interpreted_at=now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\position\lifecycle_projection.py", line 637, in build_position_lifecycle_closed_transition
+    raise LifecycleProjectionError(
+position.lifecycle_projection.LifecycleProjectionError: equal broker observation time requires identical E4-owned Position facts
+
+----------------------------------------------------------------------
+Ran 5 tests in 11.021s
+
+FAILED (errors=2)

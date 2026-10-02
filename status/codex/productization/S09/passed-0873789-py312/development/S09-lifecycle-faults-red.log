@@ -1,0 +1,54 @@
+test_actual_broker_readback_advances_observation_without_renewing_first_fill (test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_broker_readback_advances_observation_without_renewing_first_fill) ... ok
+test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry (test_paper_runtime_v02.PaperRuntimeV02Tests.test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry) ... ok
+test_entry_expiry_cancels_unfilled_order_without_renewing_plan (test_paper_runtime_v02.PaperRuntimeV02Tests.test_entry_expiry_cancels_unfilled_order_without_renewing_plan) ... FAIL
+test_full_entry_ack_fill_verified_protection_target_exit_flat_result (test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result) ... ok
+test_max_hold_deadline_management_does_not_wait_for_new_entry_bar (test_paper_runtime_v02.PaperRuntimeV02Tests.test_max_hold_deadline_management_does_not_wait_for_new_entry_bar) ... ok
+test_partial_fill_cancels_remainder_before_protecting_actual_quantity (test_paper_runtime_v02.PaperRuntimeV02Tests.test_partial_fill_cancels_remainder_before_protecting_actual_quantity) ... ERROR
+test_pause_preserves_open_protection_and_management (test_paper_runtime_v02.PaperRuntimeV02Tests.test_pause_preserves_open_protection_and_management) ... ok
+test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance (test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance) ... ok
+test_retirement_blocks_new_entries_and_preserves_existing_management (test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management) ... ok
+test_stale_market_admits_no_order_and_reports_observed_reason (test_paper_runtime_v02.PaperRuntimeV02Tests.test_stale_market_admits_no_order_and_reports_observed_reason) ... ok
+
+======================================================================
+ERROR: test_partial_fill_cancels_remainder_before_protecting_actual_quantity (test_paper_runtime_v02.PaperRuntimeV02Tests.test_partial_fill_cancels_remainder_before_protecting_actual_quantity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 149, in test_partial_fill_cancels_remainder_before_protecting_actual_quantity
+    self.assertEqual(runtime.on_market_event(self.event(1)).status, 'PROTECTED')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 146, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 92, in _finish
+    step = self.producer(operation.base_state, operation.request, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 322, in produce
+    self._fill_entry(runtime,broker,effects,market,now)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 159, in _fill_entry
+    self._effect(effects,'ORDER_RESULT',encode_fact(broker.cancel_order(request.client_order_id,observed_at=now)))
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\brokers\paper.py", line 659, in cancel_order
+    return self._terminalize_open_order(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\brokers\paper.py", line 628, in _terminalize_open_order
+    raise InvalidOrderTransitionError(
+brokers.paper.InvalidOrderTransitionError: PARTIALLY_FILLED cannot be terminalized by this bounded Paper protection task
+
+======================================================================
+FAIL: test_entry_expiry_cancels_unfilled_order_without_renewing_plan (test_paper_runtime_v02.PaperRuntimeV02Tests.test_entry_expiry_cancels_unfilled_order_without_renewing_plan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 168, in test_entry_expiry_cancels_unfilled_order_without_renewing_plan
+    self.assertEqual(outcome.status, 'EXPIRED')
+AssertionError: 'HOLD' != 'EXPIRED'
+- HOLD
++ EXPIRED
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 22.337s
+
+FAILED (failures=1, errors=1)

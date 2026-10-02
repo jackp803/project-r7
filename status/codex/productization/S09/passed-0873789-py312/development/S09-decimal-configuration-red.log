@@ -1,0 +1,19 @@
+test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope (tests.product.test_paper_configuration.PaperConfigurationTests.test_explicit_isolated_account_profile_is_required_instead_of_hidden_balance_scope) ... ok
+test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected (tests.product.test_paper_configuration.PaperConfigurationTests.test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected) ... 
+  test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected (tests.product.test_paper_configuration.PaperConfigurationTests.test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected) (field='quantity', value='oops') ... ERROR
+
+======================================================================
+ERROR: test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected (tests.product.test_paper_configuration.PaperConfigurationTests.test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected) (field='quantity', value='oops')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_configuration.py", line 24, in test_malformed_financial_values_and_fixture_real_namespace_mix_are_rejected
+    parse_simulation_policy(changed,namespace='FIXTURE')
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\policy.py", line 41, in parse_simulation_policy
+    number = Decimal(value[name])
+             ^^^^^^^^^^^^^^^^^^^^
+decimal.InvalidOperation: [<class 'decimal.ConversionSyntax'>]
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (errors=1)

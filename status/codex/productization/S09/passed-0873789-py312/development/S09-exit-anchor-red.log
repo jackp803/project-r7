@@ -1,0 +1,41 @@
+test_recovered_first_fill_deadline_survives_later_partial_fill_clock (tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_first_fill_deadline_survives_later_partial_fill_clock) ... FAIL
+test_recovered_trailing_extremes_cannot_widen_after_restart (tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_trailing_extremes_cannot_widen_after_restart) ... FAIL
+test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected (tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected) ... FAIL
+
+======================================================================
+FAIL: test_recovered_first_fill_deadline_survives_later_partial_fill_clock (tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_first_fill_deadline_survives_later_partial_fill_clock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_exit_anchor_recovery.py", line 33, in test_recovered_first_fill_deadline_survives_later_partial_fill_clock
+    api = self.api()
+          ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_exit_anchor_recovery.py", line 20, in api
+    self.assertIsNotNone(importlib.util.find_spec('position.exit_state'),
+AssertionError: unexpectedly None : E5 first-fill anchor recovery is not implemented
+
+======================================================================
+FAIL: test_recovered_trailing_extremes_cannot_widen_after_restart (tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_trailing_extremes_cannot_widen_after_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_exit_anchor_recovery.py", line 49, in test_recovered_trailing_extremes_cannot_widen_after_restart
+    api = self.api()
+          ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_exit_anchor_recovery.py", line 20, in api
+    self.assertIsNotNone(importlib.util.find_spec('position.exit_state'),
+AssertionError: unexpectedly None : E5 first-fill anchor recovery is not implemented
+
+======================================================================
+FAIL: test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected (tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_exit_anchor_recovery.py", line 65, in test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected
+    api = self.api()
+          ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_exit_anchor_recovery.py", line 20, in api
+    self.assertIsNotNone(importlib.util.find_spec('position.exit_state'),
+AssertionError: unexpectedly None : E5 first-fill anchor recovery is not implemented
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

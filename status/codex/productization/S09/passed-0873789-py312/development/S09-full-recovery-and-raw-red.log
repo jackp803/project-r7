@@ -1,0 +1,25 @@
+test_full_fill_checkpoint_recovers_publication_without_replaying_fill (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_fill_checkpoint_recovers_publication_without_replaying_fill) ... ok
+test_actual_raw_position_effect_uses_canonical_owner_writer (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_raw_position_effect_uses_canonical_owner_writer) ... ERROR
+
+======================================================================
+ERROR: test_actual_raw_position_effect_uses_canonical_owner_writer (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_raw_position_effect_uses_canonical_owner_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 364, in test_actual_raw_position_effect_uses_canonical_owner_writer
+    observed,clock=lambda:self.clock[0]).execute('raw-readback',dict(kind='ACTUAL_OWNER_OBSERVATION'))
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 101, in _finish
+    operation = self._publish(operation)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 85, in _publish
+    getattr(self.canonical, _WRITERS[effect['kind']])(effect['payload'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperRuntimeJournal' object has no attribute 'persist_raw_position'. Did you mean: 'persist_risk_decision'?
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.719s
+
+FAILED (errors=1)

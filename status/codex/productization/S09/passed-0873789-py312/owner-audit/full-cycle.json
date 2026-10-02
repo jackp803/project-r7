@@ -1,0 +1,1828 @@
+{
+  "binding": {
+    "config_hash": "sha256:2866e2ef9d4e28a843bcd1eb8184a27fb5467dfdca55f8fc09bd736613b333c3",
+    "implementation_hash": "sha256:e59713d39ffa96b0610d192fa470562a2b495664951de6f10b5522b533b88f7b",
+    "mode": "ACCELERATED_FIXTURE",
+    "namespace": "FIXTURE",
+    "paper_policy_hash": "sha256:b1e3e8b7f548ec6a7cc1d048159e6a5f0dd2a043daec1958beb99be4145d6f2b",
+    "risk_policy_hash": "sha256:35c63dff34eef024ce6452f0438be2bdc914015b411d6671fc8fecac47b5cbdc",
+    "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+    "strategy_id": "fixture-v02-trend",
+    "strategy_version": "0.2.0"
+  },
+  "broker": {
+    "payload": {
+      "ambiguous_outcomes": {},
+      "rejected_outcomes": {},
+      "submissions": [
+        {
+          "acknowledgement": {
+            "average_fill_price": null,
+            "broker_order_id": "paper_f31ff8eaf63df07075d5d5a46823cbfe",
+            "client_order_id": "e4_8b286cd07c4189d28a9a0ee1bede5c18",
+            "execution_health_status": "HEALTHY",
+            "filled_quantity": "0",
+            "observed_at": "2026-10-03T00:00:01Z",
+            "order_request_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+            "order_status": "OPEN",
+            "reject_reason": null,
+            "requested_quantity": "0.001",
+            "schema_version": "contracts-v0.1"
+          },
+          "order": {
+            "fills": [],
+            "result": {
+              "average_fill_price": null,
+              "broker_order_id": "paper_f31ff8eaf63df07075d5d5a46823cbfe",
+              "client_order_id": "e4_8b286cd07c4189d28a9a0ee1bede5c18",
+              "execution_health_status": "HEALTHY",
+              "filled_quantity": "0",
+              "observed_at": "2026-10-03T00:00:03Z",
+              "order_request_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+              "order_status": "CANCELED",
+              "reject_reason": null,
+              "requested_quantity": "0.001",
+              "schema_version": "contracts-v0.1"
+            }
+          },
+          "request": {
+            "authorization_type": "POSITION_ACTION",
+            "client_order_id": "e4_8b286cd07c4189d28a9a0ee1bede5c18",
+            "created_at": "2026-10-03T00:00:01Z",
+            "limit_price": null,
+            "order_request_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+            "order_role": "PROTECTION_STOP",
+            "order_type": "STOP_MARKET",
+            "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+            "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+            "quantity": "0.001",
+            "quantity_asset": "BTC",
+            "quantity_profile_version": "base-asset-v0.1",
+            "quantity_unit": "BASE_ASSET",
+            "reduce_only": true,
+            "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+            "schema_version": "contracts-v0.1",
+            "side": "SELL",
+            "stop_price": "59990",
+            "symbol": "BTC_USDT_PERP",
+            "time_in_force": null,
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+          }
+        },
+        {
+          "acknowledgement": {
+            "average_fill_price": null,
+            "broker_order_id": "paper_b3fa0ef06a25a0c34e70f945e228a8f3",
+            "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+            "execution_health_status": "HEALTHY",
+            "filled_quantity": "0",
+            "observed_at": "2026-10-03T00:00:00Z",
+            "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+            "order_status": "OPEN",
+            "reject_reason": null,
+            "requested_quantity": "0.001",
+            "schema_version": "contracts-v0.1"
+          },
+          "order": {
+            "fills": [
+              {
+                "broker_order_id": "paper_b3fa0ef06a25a0c34e70f945e228a8f3",
+                "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+                "fee": "0.00300000",
+                "fee_currency": "USDT",
+                "fill_id": "fill_244b86d517dbebe445bc6c7d41cc0200",
+                "filled_at": "2026-10-03T00:00:01Z",
+                "liquidity_role": "TAKER",
+                "order_role": null,
+                "position_action_id": null,
+                "position_id": null,
+                "price": "60000",
+                "quantity": "0.001",
+                "schema_version": "contracts-v0.1",
+                "side": "BUY",
+                "symbol": "BTC_USDT_PERP",
+                "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+              }
+            ],
+            "result": {
+              "average_fill_price": "60000",
+              "broker_order_id": "paper_b3fa0ef06a25a0c34e70f945e228a8f3",
+              "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+              "execution_health_status": "HEALTHY",
+              "filled_quantity": "0.001",
+              "observed_at": "2026-10-03T00:00:01Z",
+              "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+              "order_status": "FILLED",
+              "reject_reason": null,
+              "requested_quantity": "0.001",
+              "schema_version": "contracts-v0.1"
+            }
+          },
+          "request": {
+            "authorization_type": null,
+            "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+            "created_at": "2026-10-03T00:00:00Z",
+            "limit_price": null,
+            "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+            "order_role": null,
+            "order_type": "MARKET",
+            "position_action_id": null,
+            "position_id": null,
+            "quantity": "0.001",
+            "quantity_asset": "BTC",
+            "quantity_profile_version": "base-asset-v0.1",
+            "quantity_unit": "BASE_ASSET",
+            "reduce_only": null,
+            "risk_decision_id": null,
+            "schema_version": "contracts-v0.1",
+            "side": "BUY",
+            "stop_price": null,
+            "symbol": "BTC_USDT_PERP",
+            "time_in_force": null,
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+          }
+        },
+        {
+          "acknowledgement": {
+            "average_fill_price": null,
+            "broker_order_id": "paper_908d096729dc0d4b0380ba8ed849bd95",
+            "client_order_id": "e4_c9866e06ec1209f023601bea0167fe89",
+            "execution_health_status": "HEALTHY",
+            "filled_quantity": "0",
+            "observed_at": "2026-10-03T00:00:02Z",
+            "order_request_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95",
+            "order_status": "OPEN",
+            "reject_reason": null,
+            "requested_quantity": "0.001",
+            "schema_version": "contracts-v0.1"
+          },
+          "order": {
+            "fills": [
+              {
+                "broker_order_id": "paper_908d096729dc0d4b0380ba8ed849bd95",
+                "client_order_id": "e4_c9866e06ec1209f023601bea0167fe89",
+                "fee": "0.00300100",
+                "fee_currency": "USDT",
+                "fill_id": "fill_420689c44d6da3302139abc04d878496",
+                "filled_at": "2026-10-03T00:00:03Z",
+                "liquidity_role": "TAKER",
+                "order_role": "POSITION_EXIT",
+                "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+                "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+                "price": "60020",
+                "quantity": "0.001",
+                "schema_version": "contracts-v0.1",
+                "side": "SELL",
+                "symbol": "BTC_USDT_PERP",
+                "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+              }
+            ],
+            "result": {
+              "average_fill_price": "60020",
+              "broker_order_id": "paper_908d096729dc0d4b0380ba8ed849bd95",
+              "client_order_id": "e4_c9866e06ec1209f023601bea0167fe89",
+              "execution_health_status": "HEALTHY",
+              "filled_quantity": "0.001",
+              "observed_at": "2026-10-03T00:00:03Z",
+              "order_request_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95",
+              "order_status": "FILLED",
+              "reject_reason": null,
+              "requested_quantity": "0.001",
+              "schema_version": "contracts-v0.1"
+            }
+          },
+          "request": {
+            "authorization_type": "POSITION_ACTION",
+            "client_order_id": "e4_c9866e06ec1209f023601bea0167fe89",
+            "created_at": "2026-10-03T00:00:02Z",
+            "limit_price": null,
+            "order_request_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95",
+            "order_role": "POSITION_EXIT",
+            "order_type": "MARKET",
+            "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+            "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+            "quantity": "0.001",
+            "quantity_asset": "BTC",
+            "quantity_profile_version": "base-asset-v0.1",
+            "quantity_unit": "BASE_ASSET",
+            "reduce_only": true,
+            "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+            "schema_version": "contracts-v0.1",
+            "side": "SELL",
+            "stop_price": null,
+            "symbol": "BTC_USDT_PERP",
+            "time_in_force": null,
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+          }
+        }
+      ]
+    },
+    "payload_hash": "69eaceaf71398fbc9652e412a112c10e02780c135b2aee134e7d274e7fe67c11",
+    "schema_version": "r7-paper-broker-state-v0.2"
+  },
+  "canonical_graph": {
+    "approved_trade_plan": {
+      "canonical_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d",
+      "object_kind": "APPROVED_TRADE_PLAN",
+      "payload_hash": "sha256:62c2dfce2330e6f8bdfa98b97e73446c0d18ed0e7a1feda60b2098195cc93923",
+      "payload_json": "{\"created_at\":\"2026-10-03T00:00:00Z\",\"direction\":\"LONG\",\"entry_instruction\":{\"order_type\":\"MARKET\",\"profile_version\":\"entry-v0.1\"},\"expires_at\":\"2026-10-03T00:00:30Z\",\"intent_id\":\"intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef\",\"leverage\":\"1\",\"margin_mode\":\"ISOLATED\",\"protection_instruction\":{\"max_hold_seconds\":3600,\"stop_level\":\"59990\",\"target_level\":\"60020\"},\"quantity\":\"0.001\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"risk_policy_version\":\"FIXTURE_RISK_V1\",\"schema_version\":\"contracts-v0.1\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"symbol\":\"BTC_USDT_PERP\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+    },
+    "current_lifecycle_execution_binding": {
+      "canonical_id": "posexecbind_acb4cedcd19d83819fe4aae3f6fb13385bff345d8d6031935d90d9ada9bffc04",
+      "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+      "payload_hash": "sha256:31744e32dc5f2376f6e29f8d225c86c323da7383b6e91cd688c262a38ddd0625",
+      "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:03Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:0185ba1e1fb94f57d1d2db8107a7ffb05a8767a550c6c4ebb0cb4e1c930e5648\",\"lifecycle_execution_binding_id\":\"posexecbind_acb4cedcd19d83819fe4aae3f6fb13385bff345d8d6031935d90d9ada9bffc04\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1\",\"lifecycle_revision\":5,\"order_evidence\":[{\"fill_count\":1,\"fill_set_hash\":\"sha256:cda00468d28d4b14d0017615d5aaac11a457df9e9cf6a78c45b088c9769e2e1a\",\"latest_fill_at\":\"2026-10-03T00:00:03Z\",\"latest_order_result_observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_request_payload_hash\":\"sha256:ac9d6d734d62ba47e76279ad13fca5b6807f1f03d6605868b493ca98fba24a88\",\"order_result_observation_count\":2,\"order_result_observation_set_hash\":\"sha256:c44e4ba50db72713b538bc2087f64f1f63017020aa5f6dd7c80cfb49dd09f038\",\"order_role\":\"POSITION_EXIT\"},{\"fill_count\":0,\"fill_set_hash\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"latest_fill_at\":null,\"latest_order_result_observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_request_payload_hash\":\"sha256:cefb4311cc89a1ffa5439c9ca6937435d72fda912020e23c75653785113fffaf\",\"order_result_observation_count\":2,\"order_result_observation_set_hash\":\"sha256:43069c2ae307e84eaa6cabd1846540803b196fb6269b2d86c27d487f02c17fa9\",\"order_role\":\"PROTECTION_STOP\"}],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+    },
+    "current_order_results": [
+      {
+        "canonical_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95@2026-10-03T00:00:03.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:65681c13de4b051b0b24ec35db1839a1d83dbd09fa7613f05f98c77bf5e4f235",
+        "payload_json": "{\"average_fill_price\":\"60020\",\"broker_order_id\":\"paper_908d096729dc0d4b0380ba8ed849bd95\",\"client_order_id\":\"e4_c9866e06ec1209f023601bea0167fe89\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0.001\",\"observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_status\":\"FILLED\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3@2026-10-03T00:00:01.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:f8bdde5641e4259779c93efd71f43b58238032a28ab9b44db5ccde2aab22f7f0",
+        "payload_json": "{\"average_fill_price\":\"60000\",\"broker_order_id\":\"paper_b3fa0ef06a25a0c34e70f945e228a8f3\",\"client_order_id\":\"e4_b700bf9e0941e04ea6e4a533573b4931\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0.001\",\"observed_at\":\"2026-10-03T00:00:01Z\",\"order_request_id\":\"ordreq_b3fa0ef06a25a0c34e70f945e228a8f3\",\"order_status\":\"FILLED\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe@2026-10-03T00:00:03.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:9358ad287b5a88546232059323acba2582ea5649b07b236aae4a1e7a86595fee",
+        "payload_json": "{\"average_fill_price\":null,\"broker_order_id\":\"paper_f31ff8eaf63df07075d5d5a46823cbfe\",\"client_order_id\":\"e4_8b286cd07c4189d28a9a0ee1bede5c18\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0\",\"observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_status\":\"CANCELED\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      }
+    ],
+    "current_position_projection": {
+      "canonical_id": "posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1",
+      "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+      "payload_hash": "sha256:23639662f2b78d8623622e94699c522aee184cc42e868df07e7d7a99f9106d18",
+      "payload_json": "{\"actual_quantity\":\"0.000\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:03Z\",\"lifecycle_event\":\"POSITION_CLOSED\",\"lifecycle_interpreted_at\":\"2026-10-03T00:00:03Z\",\"lifecycle_projection_id\":\"posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1\",\"lifecycle_projection_kind\":\"TRANSITION\",\"lifecycle_revision\":5,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:03Z\",\"lifecycle_state\":\"CLOSED\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":\"posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+    },
+    "fills": [
+      {
+        "canonical_id": "fill_244b86d517dbebe445bc6c7d41cc0200",
+        "object_kind": "FILL",
+        "payload_hash": "sha256:f29dc800f5d54c8d7b04a501d6e2c8db7a4164c489f838d8a2d6e16bd743d589",
+        "payload_json": "{\"broker_order_id\":\"paper_b3fa0ef06a25a0c34e70f945e228a8f3\",\"client_order_id\":\"e4_b700bf9e0941e04ea6e4a533573b4931\",\"fee\":\"0.00300000\",\"fee_currency\":\"USDT\",\"fill_id\":\"fill_244b86d517dbebe445bc6c7d41cc0200\",\"filled_at\":\"2026-10-03T00:00:01Z\",\"liquidity_role\":\"TAKER\",\"order_role\":null,\"position_action_id\":null,\"position_id\":null,\"price\":\"60000\",\"quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\",\"side\":\"BUY\",\"symbol\":\"BTC_USDT_PERP\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      },
+      {
+        "canonical_id": "fill_420689c44d6da3302139abc04d878496",
+        "object_kind": "FILL",
+        "payload_hash": "sha256:47b2d39a04d7bf05108f20420d9c590596b274f5abd6c7346952d9a4c15de933",
+        "payload_json": "{\"broker_order_id\":\"paper_908d096729dc0d4b0380ba8ed849bd95\",\"client_order_id\":\"e4_c9866e06ec1209f023601bea0167fe89\",\"fee\":\"0.00300100\",\"fee_currency\":\"USDT\",\"fill_id\":\"fill_420689c44d6da3302139abc04d878496\",\"filled_at\":\"2026-10-03T00:00:03Z\",\"liquidity_role\":\"TAKER\",\"order_role\":\"POSITION_EXIT\",\"position_action_id\":\"posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"price\":\"60020\",\"quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\",\"side\":\"SELL\",\"symbol\":\"BTC_USDT_PERP\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      }
+    ],
+    "funding_evidence": [
+      {
+        "canonical_id": "fundev_48a21b5d00ea87e9269f53492509721082a781ded987c99b947df2a95981d02d",
+        "object_kind": "FUNDING_ALLOCATION_EVIDENCE",
+        "payload_hash": "sha256:6bf337504fef11a8583b49c5d420088bc3f9bb5d920dd3929b4819a4208ef8a8",
+        "payload_json": "{\"calculated_at\":\"2026-10-03T00:00:03Z\",\"cost_currency\":\"USDT\",\"funding_cost\":\"0\",\"funding_evidence_id\":\"fundev_48a21b5d00ea87e9269f53492509721082a781ded987c99b947df2a95981d02d\",\"funding_evidence_profile_version\":\"funding-allocation-v0.1\",\"interval_end\":\"2026-10-03T00:00:03Z\",\"interval_semantics\":\"START_INCLUSIVE_END_EXCLUSIVE\",\"interval_start\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\",\"source\":\"R7_PAPER_FUNDING_MODEL\",\"source_complete_through\":\"2026-10-03T00:00:03Z\",\"source_kind\":\"PAPER_MODEL\",\"source_material_hash\":\"d4b94d33e082a9c84a4da62173de225342285c1f477386a2dd6b6e76058f15d5\",\"source_record_count\":0,\"source_version\":\"paper-zero-funding-v0.1\",\"status\":\"ZERO_CONFIRMED\",\"symbol\":\"BTC_USDT_PERP\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      }
+    ],
+    "lifecycle_execution_bindings": [
+      {
+        "canonical_id": "posexecbind_6694fa63d1b6d2ee4a2b6723c4e50804767ce8d85bba46457f903de0dbaf0917",
+        "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+        "payload_hash": "sha256:2bef688912036911892206608e8afaa6f7cb9a3bade821b469e342cee12b289e",
+        "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:01Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:29595a64cd89a94a33f019506f6a4b540671a5919981d4bde70877db191499d5\",\"lifecycle_execution_binding_id\":\"posexecbind_6694fa63d1b6d2ee4a2b6723c4e50804767ce8d85bba46457f903de0dbaf0917\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_5885283d5ee5149dcb31c7c33550194e71d161f2f2c8c420cabfea80c18b15e2\",\"lifecycle_revision\":0,\"order_evidence\":[],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "posexecbind_0eadcc9903d5c008efbc9e55c56180854d3b8f59527455e75896aa75830ec5d7",
+        "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+        "payload_hash": "sha256:1c4815dd7f2f48574cb51be71201cccaab910c0f05e0537fc4e4daa259122c9c",
+        "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:01Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:29595a64cd89a94a33f019506f6a4b540671a5919981d4bde70877db191499d5\",\"lifecycle_execution_binding_id\":\"posexecbind_0eadcc9903d5c008efbc9e55c56180854d3b8f59527455e75896aa75830ec5d7\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_8082e62f2e7f75a13ea81a420105cfdefdffa96cd63b56a6e45d44883fc71354\",\"lifecycle_revision\":1,\"order_evidence\":[],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "posexecbind_32a4820206905d4829356649a756b03a36ed8df37ceb8d872ca71179282bce91",
+        "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+        "payload_hash": "sha256:75e43a432f2140b744779d4e0eef7415731fee839db90ed0c50f17da4ee605da",
+        "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:01Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:8ac68f23b1f39efc1edc8906731549c616adc532d608e8c8279de59399278cb2\",\"lifecycle_execution_binding_id\":\"posexecbind_32a4820206905d4829356649a756b03a36ed8df37ceb8d872ca71179282bce91\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_7db8e57e52496e2274cb6b11863f065bc94a7145245a6a4a2ef03dab38a8fefa\",\"lifecycle_revision\":2,\"order_evidence\":[{\"fill_count\":0,\"fill_set_hash\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"latest_fill_at\":null,\"latest_order_result_observed_at\":\"2026-10-03T00:00:01Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_request_payload_hash\":\"sha256:cefb4311cc89a1ffa5439c9ca6937435d72fda912020e23c75653785113fffaf\",\"order_result_observation_count\":1,\"order_result_observation_set_hash\":\"sha256:edfad5264512cc65a5298b9003090e0940cc2a9047ae65ea06f5e0f3c2ef2143\",\"order_role\":\"PROTECTION_STOP\"}],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "posexecbind_d81c629cf57bb204437213e3dd64219966af9ef39f80698172bef42ca2368b1b",
+        "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+        "payload_hash": "sha256:359fca86bcabd21b7b05112f788a9ac129759c3f7d3739ca308dae9f5346e540",
+        "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:02Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:8ac68f23b1f39efc1edc8906731549c616adc532d608e8c8279de59399278cb2\",\"lifecycle_execution_binding_id\":\"posexecbind_d81c629cf57bb204437213e3dd64219966af9ef39f80698172bef42ca2368b1b\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_217a3522cd7fd14ead38bcc134d514a344e99544d318ed7024da67da1ad62e84\",\"lifecycle_revision\":3,\"order_evidence\":[{\"fill_count\":0,\"fill_set_hash\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"latest_fill_at\":null,\"latest_order_result_observed_at\":\"2026-10-03T00:00:01Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_request_payload_hash\":\"sha256:cefb4311cc89a1ffa5439c9ca6937435d72fda912020e23c75653785113fffaf\",\"order_result_observation_count\":1,\"order_result_observation_set_hash\":\"sha256:edfad5264512cc65a5298b9003090e0940cc2a9047ae65ea06f5e0f3c2ef2143\",\"order_role\":\"PROTECTION_STOP\"}],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "posexecbind_53ea8351e9982ce61340fce23ba2770506ca160d9341407af881a005f9475943",
+        "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+        "payload_hash": "sha256:db5ca0d7582b642c43a71c03241c704d188e13528dbc14d2a56cec6afd6936b5",
+        "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:02Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:5639e818bb5b45dcc3d7e532a74f79eadb07e75ffac4d6c7fb226fbf60385a8c\",\"lifecycle_execution_binding_id\":\"posexecbind_53ea8351e9982ce61340fce23ba2770506ca160d9341407af881a005f9475943\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab\",\"lifecycle_revision\":4,\"order_evidence\":[{\"fill_count\":0,\"fill_set_hash\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"latest_fill_at\":null,\"latest_order_result_observed_at\":\"2026-10-03T00:00:02Z\",\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_request_payload_hash\":\"sha256:ac9d6d734d62ba47e76279ad13fca5b6807f1f03d6605868b493ca98fba24a88\",\"order_result_observation_count\":1,\"order_result_observation_set_hash\":\"sha256:86a99ff4febfa241299b35b0725c9b916e10b60530f23cb93dc7ec6c38dfd036\",\"order_role\":\"POSITION_EXIT\"},{\"fill_count\":0,\"fill_set_hash\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"latest_fill_at\":null,\"latest_order_result_observed_at\":\"2026-10-03T00:00:01Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_request_payload_hash\":\"sha256:cefb4311cc89a1ffa5439c9ca6937435d72fda912020e23c75653785113fffaf\",\"order_result_observation_count\":1,\"order_result_observation_set_hash\":\"sha256:edfad5264512cc65a5298b9003090e0940cc2a9047ae65ea06f5e0f3c2ef2143\",\"order_role\":\"PROTECTION_STOP\"}],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "posexecbind_acb4cedcd19d83819fe4aae3f6fb13385bff345d8d6031935d90d9ada9bffc04",
+        "object_kind": "POSITION_LIFECYCLE_EXECUTION_BINDING",
+        "payload_hash": "sha256:31744e32dc5f2376f6e29f8d225c86c323da7383b6e91cd688c262a38ddd0625",
+        "payload_json": "{\"execution_interpreted_at\":\"2026-10-03T00:00:03Z\",\"execution_scope\":\"POSITION_LINKED_REDUCTION_ORDERS_V0_1\",\"execution_snapshot_hash\":\"sha256:0185ba1e1fb94f57d1d2db8107a7ffb05a8767a550c6c4ebb0cb4e1c930e5648\",\"lifecycle_execution_binding_id\":\"posexecbind_acb4cedcd19d83819fe4aae3f6fb13385bff345d8d6031935d90d9ada9bffc04\",\"lifecycle_execution_binding_profile_version\":\"position-lifecycle-execution-binding-v0.1\",\"lifecycle_projection_id\":\"posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1\",\"lifecycle_revision\":5,\"order_evidence\":[{\"fill_count\":1,\"fill_set_hash\":\"sha256:cda00468d28d4b14d0017615d5aaac11a457df9e9cf6a78c45b088c9769e2e1a\",\"latest_fill_at\":\"2026-10-03T00:00:03Z\",\"latest_order_result_observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_request_payload_hash\":\"sha256:ac9d6d734d62ba47e76279ad13fca5b6807f1f03d6605868b493ca98fba24a88\",\"order_result_observation_count\":2,\"order_result_observation_set_hash\":\"sha256:c44e4ba50db72713b538bc2087f64f1f63017020aa5f6dd7c80cfb49dd09f038\",\"order_role\":\"POSITION_EXIT\"},{\"fill_count\":0,\"fill_set_hash\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"latest_fill_at\":null,\"latest_order_result_observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_request_payload_hash\":\"sha256:cefb4311cc89a1ffa5439c9ca6937435d72fda912020e23c75653785113fffaf\",\"order_result_observation_count\":2,\"order_result_observation_set_hash\":\"sha256:43069c2ae307e84eaa6cabd1846540803b196fb6269b2d86c27d487f02c17fa9\",\"order_role\":\"PROTECTION_STOP\"}],\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"schema_version\":\"contracts-v0.1\"}"
+      }
+    ],
+    "lifecycle_history": [
+      {
+        "canonical_id": "posproj_5885283d5ee5149dcb31c7c33550194e71d161f2f2c8c420cabfea80c18b15e2",
+        "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+        "payload_hash": "sha256:60df16fa292f4665d23fc24e95c22a81211adbaf3b0df51bce1cd3d12fb3e45d",
+        "payload_json": "{\"actual_quantity\":\"0.001\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_event\":null,\"lifecycle_interpreted_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_projection_id\":\"posproj_5885283d5ee5149dcb31c7c33550194e71d161f2f2c8c420cabfea80c18b15e2\",\"lifecycle_projection_kind\":\"GENESIS\",\"lifecycle_revision\":0,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_state\":\"PENDING_ENTRY\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":null,\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+      },
+      {
+        "canonical_id": "posproj_8082e62f2e7f75a13ea81a420105cfdefdffa96cd63b56a6e45d44883fc71354",
+        "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+        "payload_hash": "sha256:a46ffa569c3d6abed553d959b5f349d2ae2923b58906173f6485707ca3023e41",
+        "payload_json": "{\"actual_quantity\":\"0.001\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_event\":\"ENTRY_FILL_OBSERVED\",\"lifecycle_interpreted_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_projection_id\":\"posproj_8082e62f2e7f75a13ea81a420105cfdefdffa96cd63b56a6e45d44883fc71354\",\"lifecycle_projection_kind\":\"TRANSITION\",\"lifecycle_revision\":1,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_state\":\"OPEN_UNPROTECTED\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":\"posproj_5885283d5ee5149dcb31c7c33550194e71d161f2f2c8c420cabfea80c18b15e2\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+      },
+      {
+        "canonical_id": "posproj_7db8e57e52496e2274cb6b11863f065bc94a7145245a6a4a2ef03dab38a8fefa",
+        "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+        "payload_hash": "sha256:8650ba4ad66870dfc90edd261f25063a253da63ad28ff13823ecaf65fa0721f2",
+        "payload_json": "{\"actual_quantity\":\"0.001\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_event\":\"PROTECTION_VERIFIED\",\"lifecycle_interpreted_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_projection_id\":\"posproj_7db8e57e52496e2274cb6b11863f065bc94a7145245a6a4a2ef03dab38a8fefa\",\"lifecycle_projection_kind\":\"TRANSITION\",\"lifecycle_revision\":2,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:01Z\",\"lifecycle_state\":\"OPEN_PROTECTED\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":\"posproj_8082e62f2e7f75a13ea81a420105cfdefdffa96cd63b56a6e45d44883fc71354\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+      },
+      {
+        "canonical_id": "posproj_217a3522cd7fd14ead38bcc134d514a344e99544d318ed7024da67da1ad62e84",
+        "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+        "payload_hash": "sha256:78d307d8d457ecc99cc06b102acfbb46649da8f5f21e88df5d6c8b6f29c3ea81",
+        "payload_json": "{\"actual_quantity\":\"0.001\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:02Z\",\"lifecycle_event\":null,\"lifecycle_interpreted_at\":\"2026-10-03T00:00:02Z\",\"lifecycle_projection_id\":\"posproj_217a3522cd7fd14ead38bcc134d514a344e99544d318ed7024da67da1ad62e84\",\"lifecycle_projection_kind\":\"REATTESTATION\",\"lifecycle_revision\":3,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:02Z\",\"lifecycle_state\":\"OPEN_PROTECTED\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":\"posproj_7db8e57e52496e2274cb6b11863f065bc94a7145245a6a4a2ef03dab38a8fefa\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+      },
+      {
+        "canonical_id": "posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab",
+        "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+        "payload_hash": "sha256:86bd89e020d7617dcabac3f60468d4e4261bce6690fe345e1abd3191c9a41a59",
+        "payload_json": "{\"actual_quantity\":\"0.001\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:02Z\",\"lifecycle_event\":\"EXIT_REQUESTED\",\"lifecycle_interpreted_at\":\"2026-10-03T00:00:02Z\",\"lifecycle_projection_id\":\"posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab\",\"lifecycle_projection_kind\":\"TRANSITION\",\"lifecycle_revision\":4,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:02Z\",\"lifecycle_state\":\"EXIT_REQUESTED\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":\"posproj_217a3522cd7fd14ead38bcc134d514a344e99544d318ed7024da67da1ad62e84\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+      },
+      {
+        "canonical_id": "posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1",
+        "object_kind": "POSITION_LIFECYCLE_PROJECTION",
+        "payload_hash": "sha256:23639662f2b78d8623622e94699c522aee184cc42e868df07e7d7a99f9106d18",
+        "payload_json": "{\"actual_quantity\":\"0.000\",\"average_entry_price\":\"60000\",\"broker_state_observed_at\":\"2026-10-03T00:00:03Z\",\"lifecycle_event\":\"POSITION_CLOSED\",\"lifecycle_interpreted_at\":\"2026-10-03T00:00:03Z\",\"lifecycle_projection_id\":\"posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1\",\"lifecycle_projection_kind\":\"TRANSITION\",\"lifecycle_revision\":5,\"lifecycle_source_broker_state_observed_at\":\"2026-10-03T00:00:03Z\",\"lifecycle_state\":\"CLOSED\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_lifecycle_projection_profile_version\":\"position-lifecycle-projection-v0.1\",\"previous_lifecycle_projection_id\":\"posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reconciliation_status\":\"CONSISTENT\",\"schema_version\":\"contracts-v0.1\",\"side\":\"LONG\",\"symbol\":\"BTC_USDT_PERP\"}"
+      }
+    ],
+    "order_requests": [
+      {
+        "canonical_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95",
+        "object_kind": "ORDER_REQUEST",
+        "payload_hash": "sha256:ac9d6d734d62ba47e76279ad13fca5b6807f1f03d6605868b493ca98fba24a88",
+        "payload_json": "{\"authorization_type\":\"POSITION_ACTION\",\"client_order_id\":\"e4_c9866e06ec1209f023601bea0167fe89\",\"created_at\":\"2026-10-03T00:00:02Z\",\"limit_price\":null,\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_role\":\"POSITION_EXIT\",\"order_type\":\"MARKET\",\"position_action_id\":\"posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"quantity\":\"0.001\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reduce_only\":true,\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"schema_version\":\"contracts-v0.1\",\"side\":\"SELL\",\"stop_price\":null,\"symbol\":\"BTC_USDT_PERP\",\"time_in_force\":null,\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      },
+      {
+        "canonical_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+        "object_kind": "ORDER_REQUEST",
+        "payload_hash": "sha256:4fbde13fc46a3ea676c78ed051a83e97a400f9cd4c28f8878d7a1754e26a7de6",
+        "payload_json": "{\"authorization_type\":null,\"client_order_id\":\"e4_b700bf9e0941e04ea6e4a533573b4931\",\"created_at\":\"2026-10-03T00:00:00Z\",\"limit_price\":null,\"order_request_id\":\"ordreq_b3fa0ef06a25a0c34e70f945e228a8f3\",\"order_role\":null,\"order_type\":\"MARKET\",\"position_action_id\":null,\"position_id\":null,\"quantity\":\"0.001\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reduce_only\":null,\"risk_decision_id\":null,\"schema_version\":\"contracts-v0.1\",\"side\":\"BUY\",\"stop_price\":null,\"symbol\":\"BTC_USDT_PERP\",\"time_in_force\":null,\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      },
+      {
+        "canonical_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+        "object_kind": "ORDER_REQUEST",
+        "payload_hash": "sha256:cefb4311cc89a1ffa5439c9ca6937435d72fda912020e23c75653785113fffaf",
+        "payload_json": "{\"authorization_type\":\"POSITION_ACTION\",\"client_order_id\":\"e4_8b286cd07c4189d28a9a0ee1bede5c18\",\"created_at\":\"2026-10-03T00:00:01Z\",\"limit_price\":null,\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_role\":\"PROTECTION_STOP\",\"order_type\":\"STOP_MARKET\",\"position_action_id\":\"posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"quantity\":\"0.001\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reduce_only\":true,\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"schema_version\":\"contracts-v0.1\",\"side\":\"SELL\",\"stop_price\":\"59990\",\"symbol\":\"BTC_USDT_PERP\",\"time_in_force\":null,\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      }
+    ],
+    "order_result_observations": [
+      {
+        "canonical_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95@2026-10-03T00:00:02.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:8b4f91ecf8dc0b1d04bbd9d94db63011a58e150189291bb4d5ef1f5ba83ac90f",
+        "payload_json": "{\"average_fill_price\":null,\"broker_order_id\":\"paper_908d096729dc0d4b0380ba8ed849bd95\",\"client_order_id\":\"e4_c9866e06ec1209f023601bea0167fe89\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0\",\"observed_at\":\"2026-10-03T00:00:02Z\",\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_status\":\"OPEN\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95@2026-10-03T00:00:03.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:65681c13de4b051b0b24ec35db1839a1d83dbd09fa7613f05f98c77bf5e4f235",
+        "payload_json": "{\"average_fill_price\":\"60020\",\"broker_order_id\":\"paper_908d096729dc0d4b0380ba8ed849bd95\",\"client_order_id\":\"e4_c9866e06ec1209f023601bea0167fe89\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0.001\",\"observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_908d096729dc0d4b0380ba8ed849bd95\",\"order_status\":\"FILLED\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3@2026-10-03T00:00:00.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:df36dacff2d3bcf798135f559fbd547852837295db5ca54ff14cd0d74f6b6e95",
+        "payload_json": "{\"average_fill_price\":null,\"broker_order_id\":\"paper_b3fa0ef06a25a0c34e70f945e228a8f3\",\"client_order_id\":\"e4_b700bf9e0941e04ea6e4a533573b4931\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0\",\"observed_at\":\"2026-10-03T00:00:00Z\",\"order_request_id\":\"ordreq_b3fa0ef06a25a0c34e70f945e228a8f3\",\"order_status\":\"OPEN\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3@2026-10-03T00:00:01.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:f8bdde5641e4259779c93efd71f43b58238032a28ab9b44db5ccde2aab22f7f0",
+        "payload_json": "{\"average_fill_price\":\"60000\",\"broker_order_id\":\"paper_b3fa0ef06a25a0c34e70f945e228a8f3\",\"client_order_id\":\"e4_b700bf9e0941e04ea6e4a533573b4931\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0.001\",\"observed_at\":\"2026-10-03T00:00:01Z\",\"order_request_id\":\"ordreq_b3fa0ef06a25a0c34e70f945e228a8f3\",\"order_status\":\"FILLED\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe@2026-10-03T00:00:01.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:77b048edd0fbc1aaf27a48ec95172b302b2c53da3818c60e93a863af5adc224e",
+        "payload_json": "{\"average_fill_price\":null,\"broker_order_id\":\"paper_f31ff8eaf63df07075d5d5a46823cbfe\",\"client_order_id\":\"e4_8b286cd07c4189d28a9a0ee1bede5c18\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0\",\"observed_at\":\"2026-10-03T00:00:01Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_status\":\"OPEN\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      },
+      {
+        "canonical_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe@2026-10-03T00:00:03.000000Z",
+        "object_kind": "ORDER_RESULT_OBSERVATION",
+        "payload_hash": "sha256:9358ad287b5a88546232059323acba2582ea5649b07b236aae4a1e7a86595fee",
+        "payload_json": "{\"average_fill_price\":null,\"broker_order_id\":\"paper_f31ff8eaf63df07075d5d5a46823cbfe\",\"client_order_id\":\"e4_8b286cd07c4189d28a9a0ee1bede5c18\",\"execution_health_status\":\"HEALTHY\",\"filled_quantity\":\"0\",\"observed_at\":\"2026-10-03T00:00:03Z\",\"order_request_id\":\"ordreq_f31ff8eaf63df07075d5d5a46823cbfe\",\"order_status\":\"CANCELED\",\"reject_reason\":null,\"requested_quantity\":\"0.001\",\"schema_version\":\"contracts-v0.1\"}"
+      }
+    ],
+    "position_actions": [
+      {
+        "canonical_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+        "object_kind": "POSITION_ACTION",
+        "payload_hash": "sha256:fbcd2ad70ba93101a6ecc81c9db329a15df3b40c1546b52a68d244266f8c8f22",
+        "payload_json": "{\"action\":\"PROTECT\",\"created_at\":\"2026-10-03T00:00:01Z\",\"expires_at\":\"2026-10-03T00:00:31Z\",\"position_action_id\":\"posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_observed_at\":\"2026-10-03T00:00:01Z\",\"position_reconciliation_status\":\"CONSISTENT\",\"position_side\":\"LONG\",\"protection_instruction\":{\"max_hold_seconds\":3600,\"stop_level\":\"59990\",\"target_level\":\"60020\"},\"protection_profile_version\":\"protection-v0.1\",\"quantity\":\"0.001\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reason_codes\":[],\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"risk_policy_version\":\"FIXTURE_RISK_V1\",\"schema_version\":\"contracts-v0.1\",\"symbol\":\"BTC_USDT_PERP\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      },
+      {
+        "canonical_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+        "object_kind": "POSITION_ACTION",
+        "payload_hash": "sha256:fa76f4eea468e378561cdbcc674e4a170e6147496fbc3e6359d1bd53bd5bbaf0",
+        "payload_json": "{\"action\":\"EXIT\",\"close_order_type\":\"MARKET\",\"close_profile_version\":\"close-v0.1\",\"created_at\":\"2026-10-03T00:00:02Z\",\"expires_at\":\"2026-10-03T00:00:32Z\",\"position_action_id\":\"posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"position_observed_at\":\"2026-10-03T00:00:02Z\",\"position_reconciliation_status\":\"CONSISTENT\",\"position_side\":\"LONG\",\"quantity\":\"0.001\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"reason_codes\":[\"E5_TARGET_REACHED\"],\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"risk_policy_version\":\"FIXTURE_RISK_V1\",\"schema_version\":\"contracts-v0.1\",\"source_lifecycle_state\":\"OPEN_PROTECTED\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"symbol\":\"BTC_USDT_PERP\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\"}"
+      }
+    ],
+    "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+    "raw_position_observations": [],
+    "reason_codes": [],
+    "risk_decision": {
+      "canonical_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+      "object_kind": "RISK_DECISION",
+      "payload_hash": "sha256:68cef9203ad1cb88460d56abefeae88fee516d18eba3889b0496024636491dd5",
+      "payload_json": "{\"account_state_status\":\"KNOWN\",\"approved_leverage\":\"1\",\"approved_margin\":\"60.000\",\"approved_notional\":\"60.000\",\"approved_quantity\":\"0.001\",\"decided_at\":\"2026-10-03T00:00:00Z\",\"decision\":\"APPROVE\",\"estimated_cost\":\"0.006\",\"estimated_max_loss\":\"0.010\",\"intent_id\":\"intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef\",\"margin_mode\":\"ISOLATED\",\"market_health_status\":\"HEALTHY\",\"max_hold_seconds\":3600,\"position_state_status\":\"FLAT\",\"reason_codes\":[],\"required_stop_level\":\"59990\",\"required_target_level\":\"60020\",\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"risk_policy_version\":\"FIXTURE_RISK_V1\",\"schema_version\":\"contracts-v0.1\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\"}"
+    },
+    "status": "READY",
+    "strategy_id": "fixture-v02-trend",
+    "strategy_version": "0.2.0",
+    "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d",
+    "trade_result": {
+      "canonical_id": "traderes_b4c99a9a7734e3e085abed6bd196f8a4725ee6d56f6924000278dcee4b250a46",
+      "object_kind": "TRADE_RESULT",
+      "payload_hash": "sha256:850c072de4abee38252e457637091adffdca3ca45a8f7dcca5921e6c11e411df",
+      "payload_json": "{\"average_entry_price\":\"60000\",\"average_exit_price\":\"60020\",\"closed_at\":\"2026-10-03T00:00:03Z\",\"direction\":\"LONG\",\"entry_fill_ids\":[\"fill_244b86d517dbebe445bc6c7d41cc0200\"],\"entry_order_request_ids\":[\"ordreq_b3fa0ef06a25a0c34e70f945e228a8f3\"],\"entry_quantity\":\"0.001\",\"exit_authority_refs\":[{\"action\":\"EXIT\",\"order_role\":\"POSITION_EXIT\",\"position_action_id\":\"posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\"}],\"exit_fill_ids\":[\"fill_420689c44d6da3302139abc04d878496\"],\"exit_order_request_ids\":[\"ordreq_908d096729dc0d4b0380ba8ed849bd95\"],\"exit_reason_codes\":[\"E5_TARGET_REACHED\"],\"flat_position_observed_at\":\"2026-10-03T00:00:03Z\",\"funding_evidence_id\":\"fundev_48a21b5d00ea87e9269f53492509721082a781ded987c99b947df2a95981d02d\",\"funding_evidence_profile_version\":\"funding-allocation-v0.1\",\"funding_evidence_status\":\"ZERO_CONFIRMED\",\"gross_pnl\":\"0.020\",\"net_pnl\":\"0.01399900\",\"opened_at\":\"2026-10-03T00:00:01Z\",\"pnl_currency\":\"USDT\",\"pnl_profile_version\":\"linear-base-asset-pnl-v0.1\",\"position_id\":\"paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b\",\"quantity_asset\":\"BTC\",\"quantity_profile_version\":\"base-asset-v0.1\",\"quantity_unit\":\"BASE_ASSET\",\"risk_decision_id\":\"risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271\",\"risk_policy_version\":\"FIXTURE_RISK_V1\",\"schema_version\":\"contracts-v0.1\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"symbol\":\"BTC_USDT_PERP\",\"total_fees\":\"0.00600100\",\"trade_plan_id\":\"plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d\",\"trade_result_id\":\"traderes_b4c99a9a7734e3e085abed6bd196f8a4725ee6d56f6924000278dcee4b250a46\",\"trade_result_profile_version\":\"trade-result-v0.1\"}"
+    }
+  },
+  "capital": "NONE",
+  "credentials": "NONE",
+  "executable_revision": "08737899f82480e8de2933273eb7a643edb66d74",
+  "forward": {
+    "account_scope": "ISOLATED_PER_STRATEGY_RUN",
+    "actual_elapsed_seconds": 0,
+    "actual_healthy_seconds": 0,
+    "binding": {
+      "config_hash": "sha256:2866e2ef9d4e28a843bcd1eb8184a27fb5467dfdca55f8fc09bd736613b333c3",
+      "implementation_hash": "sha256:e59713d39ffa96b0610d192fa470562a2b495664951de6f10b5522b533b88f7b",
+      "mode": "ACCELERATED_FIXTURE",
+      "namespace": "FIXTURE",
+      "paper_policy_hash": "sha256:b1e3e8b7f548ec6a7cc1d048159e6a5f0dd2a043daec1958beb99be4145d6f2b",
+      "risk_policy_hash": "sha256:35c63dff34eef024ce6452f0438be2bdc914015b411d6671fc8fecac47b5cbdc",
+      "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "strategy_id": "fixture-v02-trend",
+      "strategy_version": "0.2.0"
+    },
+    "broker_kind": "PAPER_ONLY",
+    "closed_trades": 1,
+    "entries_enabled": false,
+    "execution": "SIMULATED_MECHANICS",
+    "expectancy_usdt_per_trade": "0.01399900",
+    "forward_mode": "ACCELERATED_FIXTURE",
+    "funding_model": "EXPLICIT_REGISTERED_PAPER_ZERO",
+    "losses": 0,
+    "max_consecutive_losses": 0,
+    "max_drawdown_usdt": "0",
+    "max_observed_gap_seconds": 1,
+    "namespace": "FIXTURE",
+    "net_pnl_usdt": "0.01399900",
+    "observed_at": "2026-10-03T00:00:03Z",
+    "paper_policy_ref": "fixture-paper-policy",
+    "policy_hash": "sha256:b1e3e8b7f548ec6a7cc1d048159e6a5f0dd2a043daec1958beb99be4145d6f2b",
+    "profit_factor": null,
+    "reason_codes": [
+      "INSUFFICIENT_OBSERVATION_DURATION",
+      "INSUFFICIENT_CLOSED_TRADES",
+      "INSUFFICIENT_HEALTHY_OBSERVATION"
+    ],
+    "run_id": "paper_2bba025cbd895d271ea2a5cabfebba33fdf793f026ae2384875df09d2dfeb2ff",
+    "run_revision": 4,
+    "schema_version": "r7-paper-forward-assessment-v0.2",
+    "simulated_elapsed_seconds": 3,
+    "simulated_healthy_seconds": 1,
+    "slippage_convention": "IN_FILL_PRICE_NO_ADDITIONAL_DEDUCTION",
+    "started_at": "2026-10-03T00:00:00Z",
+    "status": "BLOCKED"
+  },
+  "implementation_hash": "sha256:e59713d39ffa96b0610d192fa470562a2b495664951de6f10b5522b533b88f7b",
+  "mode": "ACCELERATED_FIXTURE",
+  "namespace": "FIXTURE",
+  "operations": [
+    {
+      "receipt": {
+        "effect_hash": "sha256:13e7e4e6fb693eca7fbf59bb57e6ffaf939eb6bdb050bea1ab25a5032a05ce16",
+        "operation_id": "market_6bd780ed13408dd674581a3c3d1f9387457c5e15ae19588188447b3c547cdc3e",
+        "reason_codes": [],
+        "revision": 1,
+        "run_id": "paper_2bba025cbd895d271ea2a5cabfebba33fdf793f026ae2384875df09d2dfeb2ff",
+        "status": "ACKNOWLEDGED"
+      },
+      "runtime": {
+        "candles": {
+          "1h": [
+            {
+              "close": "59000",
+              "close_time": "2026-10-02T23:00:00.000Z",
+              "high": "59001",
+              "is_closed": true,
+              "low": "58999",
+              "open": "59000",
+              "open_time": "2026-10-02T22:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            },
+            {
+              "close": "60000",
+              "close_time": "2026-10-03T00:00:00.000Z",
+              "high": "60001",
+              "is_closed": true,
+              "low": "59999",
+              "open": "60000",
+              "open_time": "2026-10-02T23:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            }
+          ]
+        },
+        "closed_trades": [],
+        "entry_days": {},
+        "entry_request": {
+          "authorization_type": null,
+          "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+          "created_at": "2026-10-03T00:00:00Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+          "order_role": null,
+          "order_type": "MARKET",
+          "position_action_id": null,
+          "position_id": null,
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": null,
+          "risk_decision_id": null,
+          "schema_version": "contracts-v0.1",
+          "side": "BUY",
+          "stop_price": null,
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_action": null,
+        "exit_anchor": null,
+        "exit_request": null,
+        "exit_source_position": null,
+        "forward": {
+          "clock_status": "CONSISTENT",
+          "last_healthy": true,
+          "last_monotonic_ns": 64401296000000,
+          "max_observed_gap_seconds": 0,
+          "observations": 1,
+          "observed_at": "2026-10-03T00:00:00Z",
+          "process_instance": "paper-process-ff5b903b5f634c179c7d8e3a8a5be38b",
+          "real_elapsed_ns": 0,
+          "real_healthy_ns": 0,
+          "simulated_elapsed_seconds": 0,
+          "simulated_healthy_seconds": 0,
+          "started_at": "2026-10-03T00:00:00Z"
+        },
+        "last_entry_boundary": "2026-10-03T00:00:00Z",
+        "last_intent": {
+          "direction": "LONG",
+          "entry_order_type": "MARKET",
+          "entry_profile_version": "entry-v0.1",
+          "generated_at": "2026-10-03T00:00:00Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "max_hold_seconds": 3600,
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_stop_level": "59990",
+          "strategy_target_level": "60020",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_market": {
+          "freshness_ms": 0,
+          "health_status": "HEALTHY",
+          "last_price": "60000",
+          "observed_at": "2026-10-03T00:00:00.000Z",
+          "received_at": "2026-10-03T00:00:00.000Z",
+          "schema_version": "contracts-v0.1",
+          "source": "EXPLICIT_FIXTURE",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_signal": {
+          "direction": "LONG",
+          "evaluated_at": "2026-10-03T00:00:00Z",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "reason_codes": [
+            "LONG_RULE_MATCHED"
+          ],
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "market_status": "FRESH",
+        "mode": "ACCELERATED_FIXTURE",
+        "paper_entries_allowed": true,
+        "plan": {
+          "created_at": "2026-10-03T00:00:00Z",
+          "direction": "LONG",
+          "entry_instruction": {
+            "order_type": "MARKET",
+            "profile_version": "entry-v0.1"
+          },
+          "expires_at": "2026-10-03T00:00:30Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "leverage": "1",
+          "margin_mode": "ISOLATED",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "position": null,
+        "protection_action": null,
+        "protection_request": null,
+        "risk_decision": {
+          "account_state_status": "KNOWN",
+          "approved_leverage": "1",
+          "approved_margin": "60.000",
+          "approved_notional": "60.000",
+          "approved_quantity": "0.001",
+          "decided_at": "2026-10-03T00:00:00Z",
+          "decision": "APPROVE",
+          "estimated_cost": "0.006",
+          "estimated_max_loss": "0.010",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "margin_mode": "ISOLATED",
+          "market_health_status": "HEALTHY",
+          "max_hold_seconds": 3600,
+          "position_state_status": "FLAT",
+          "reason_codes": [],
+          "required_stop_level": "59990",
+          "required_target_level": "60020",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0"
+        },
+        "schema_version": "r7-paper-runtime-v0.2",
+        "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+        "strategy_exit_request": {
+          "direction": "LONG",
+          "exit_policy": {
+            "max_hold_seconds": 3600,
+            "stop": {
+              "kind": "fixed_distance",
+              "value": "10"
+            },
+            "target": {
+              "kind": "reward_risk",
+              "multiple": "2"
+            },
+            "trailing": null
+          },
+          "exit_request_profile_version": "r7-exit-request-v0.2",
+          "feature_anchors": {},
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "observed_at": "2026-10-03T00:00:00Z",
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "strategy_id": "fixture-v02-trend",
+        "strategy_version": "0.2.0"
+      }
+    },
+    {
+      "receipt": {
+        "effect_hash": "sha256:7daff3f7c122425d8824aee101aaf4cd22736d2cc3587f9bbfb977b287f02b2e",
+        "operation_id": "market_407a1930d0f4be62419b97d5bcc9de5fc94d2fadd33a48fdf7e661cd93a040e7",
+        "reason_codes": [],
+        "revision": 2,
+        "run_id": "paper_2bba025cbd895d271ea2a5cabfebba33fdf793f026ae2384875df09d2dfeb2ff",
+        "status": "PROTECTED"
+      },
+      "runtime": {
+        "candles": {
+          "1h": [
+            {
+              "close": "59000",
+              "close_time": "2026-10-02T23:00:00.000Z",
+              "high": "59001",
+              "is_closed": true,
+              "low": "58999",
+              "open": "59000",
+              "open_time": "2026-10-02T22:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            },
+            {
+              "close": "60000",
+              "close_time": "2026-10-03T00:00:00.000Z",
+              "high": "60001",
+              "is_closed": true,
+              "low": "59999",
+              "open": "60000",
+              "open_time": "2026-10-02T23:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            }
+          ]
+        },
+        "closed_trades": [],
+        "entry_days": {
+          "2026-10-03": 1
+        },
+        "entry_request": {
+          "authorization_type": null,
+          "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+          "created_at": "2026-10-03T00:00:00Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+          "order_role": null,
+          "order_type": "MARKET",
+          "position_action_id": null,
+          "position_id": null,
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": null,
+          "risk_decision_id": null,
+          "schema_version": "contracts-v0.1",
+          "side": "BUY",
+          "stop_price": null,
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_action": null,
+        "exit_anchor": {
+          "payload": {
+            "approved_plan_hash": "sha256:62c2dfce2330e6f8bdfa98b97e73446c0d18ed0e7a1feda60b2098195cc93923",
+            "first_fill_at": "2026-10-03T00:00:01Z",
+            "high_water": "60000",
+            "hold_deadline": "2026-10-03T01:00:01Z",
+            "initial_reference_price": "60000",
+            "initial_stop": "59990",
+            "last_market_at": null,
+            "low_water": "60000",
+            "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+            "proposed_stop": "59990",
+            "request_hash": "sha256:05ebcc0590e72c97e6361b5c7c4829087c31d8f41e14a4fd7e40ffcaf60103bc",
+            "side": "LONG",
+            "target_level": "60020",
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+          },
+          "payload_hash": "sha256:061999c583e284e0698f5851903f07c93c77e998ff491b13125acabe1517b8fa",
+          "schema_version": "r7-exit-anchor-state-v0.2"
+        },
+        "exit_request": null,
+        "exit_source_position": null,
+        "forward": {
+          "clock_status": "CONSISTENT",
+          "last_healthy": true,
+          "last_monotonic_ns": 64401343000000,
+          "max_observed_gap_seconds": 1,
+          "observations": 2,
+          "observed_at": "2026-10-03T00:00:01Z",
+          "process_instance": "paper-process-ff5b903b5f634c179c7d8e3a8a5be38b",
+          "real_elapsed_ns": 0,
+          "real_healthy_ns": 0,
+          "simulated_elapsed_seconds": 1,
+          "simulated_healthy_seconds": 1,
+          "started_at": "2026-10-03T00:00:00Z"
+        },
+        "last_entry_boundary": "2026-10-03T00:00:00Z",
+        "last_intent": {
+          "direction": "LONG",
+          "entry_order_type": "MARKET",
+          "entry_profile_version": "entry-v0.1",
+          "generated_at": "2026-10-03T00:00:00Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "max_hold_seconds": 3600,
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_stop_level": "59990",
+          "strategy_target_level": "60020",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_market": {
+          "freshness_ms": 0,
+          "health_status": "HEALTHY",
+          "last_price": "60000",
+          "observed_at": "2026-10-03T00:00:01.000Z",
+          "received_at": "2026-10-03T00:00:01.000Z",
+          "schema_version": "contracts-v0.1",
+          "source": "EXPLICIT_FIXTURE",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_signal": {
+          "direction": "LONG",
+          "evaluated_at": "2026-10-03T00:00:00Z",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "reason_codes": [
+            "LONG_RULE_MATCHED"
+          ],
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "market_status": "FRESH",
+        "mode": "ACCELERATED_FIXTURE",
+        "paper_entries_allowed": true,
+        "plan": {
+          "created_at": "2026-10-03T00:00:00Z",
+          "direction": "LONG",
+          "entry_instruction": {
+            "order_type": "MARKET",
+            "profile_version": "entry-v0.1"
+          },
+          "expires_at": "2026-10-03T00:00:30Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "leverage": "1",
+          "margin_mode": "ISOLATED",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "position": {
+          "actual_quantity": "0.001",
+          "average_entry_price": "60000",
+          "broker_state_observed_at": "2026-10-03T00:00:01Z",
+          "lifecycle_event": "PROTECTION_VERIFIED",
+          "lifecycle_interpreted_at": "2026-10-03T00:00:01Z",
+          "lifecycle_projection_id": "posproj_7db8e57e52496e2274cb6b11863f065bc94a7145245a6a4a2ef03dab38a8fefa",
+          "lifecycle_projection_kind": "TRANSITION",
+          "lifecycle_revision": 2,
+          "lifecycle_source_broker_state_observed_at": "2026-10-03T00:00:01Z",
+          "lifecycle_state": "OPEN_PROTECTED",
+          "opened_at": "2026-10-03T00:00:01Z",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_lifecycle_projection_profile_version": "position-lifecycle-projection-v0.1",
+          "previous_lifecycle_projection_id": "posproj_8082e62f2e7f75a13ea81a420105cfdefdffa96cd63b56a6e45d44883fc71354",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reconciliation_status": "CONSISTENT",
+          "schema_version": "contracts-v0.1",
+          "side": "LONG",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "protection_action": {
+          "action": "PROTECT",
+          "created_at": "2026-10-03T00:00:01Z",
+          "expires_at": "2026-10-03T00:00:31Z",
+          "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_observed_at": "2026-10-03T00:00:01Z",
+          "position_reconciliation_status": "CONSISTENT",
+          "position_side": "LONG",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "protection_profile_version": "protection-v0.1",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reason_codes": [],
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "protection_request": {
+          "authorization_type": "POSITION_ACTION",
+          "client_order_id": "e4_8b286cd07c4189d28a9a0ee1bede5c18",
+          "created_at": "2026-10-03T00:00:01Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+          "order_role": "PROTECTION_STOP",
+          "order_type": "STOP_MARKET",
+          "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": true,
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "schema_version": "contracts-v0.1",
+          "side": "SELL",
+          "stop_price": "59990",
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "risk_decision": {
+          "account_state_status": "KNOWN",
+          "approved_leverage": "1",
+          "approved_margin": "60.000",
+          "approved_notional": "60.000",
+          "approved_quantity": "0.001",
+          "decided_at": "2026-10-03T00:00:00Z",
+          "decision": "APPROVE",
+          "estimated_cost": "0.006",
+          "estimated_max_loss": "0.010",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "margin_mode": "ISOLATED",
+          "market_health_status": "HEALTHY",
+          "max_hold_seconds": 3600,
+          "position_state_status": "FLAT",
+          "reason_codes": [],
+          "required_stop_level": "59990",
+          "required_target_level": "60020",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0"
+        },
+        "schema_version": "r7-paper-runtime-v0.2",
+        "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+        "strategy_exit_request": {
+          "direction": "LONG",
+          "exit_policy": {
+            "max_hold_seconds": 3600,
+            "stop": {
+              "kind": "fixed_distance",
+              "value": "10"
+            },
+            "target": {
+              "kind": "reward_risk",
+              "multiple": "2"
+            },
+            "trailing": null
+          },
+          "exit_request_profile_version": "r7-exit-request-v0.2",
+          "feature_anchors": {},
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "observed_at": "2026-10-03T00:00:00Z",
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "strategy_id": "fixture-v02-trend",
+        "strategy_version": "0.2.0"
+      }
+    },
+    {
+      "receipt": {
+        "effect_hash": "sha256:2d218edbe66e5a493a21732e5d8bf6e5814335e71a4ee9223515fdcdf1ea1f0b",
+        "operation_id": "market_61e24d27eedb67079017a59e0ac6fba5eb285370012576b13b47aa8c6aa0107e",
+        "reason_codes": [],
+        "revision": 3,
+        "run_id": "paper_2bba025cbd895d271ea2a5cabfebba33fdf793f026ae2384875df09d2dfeb2ff",
+        "status": "EXIT_REQUESTED"
+      },
+      "runtime": {
+        "candles": {
+          "1h": [
+            {
+              "close": "59000",
+              "close_time": "2026-10-02T23:00:00.000Z",
+              "high": "59001",
+              "is_closed": true,
+              "low": "58999",
+              "open": "59000",
+              "open_time": "2026-10-02T22:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            },
+            {
+              "close": "60000",
+              "close_time": "2026-10-03T00:00:00.000Z",
+              "high": "60001",
+              "is_closed": true,
+              "low": "59999",
+              "open": "60000",
+              "open_time": "2026-10-02T23:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            }
+          ]
+        },
+        "closed_trades": [],
+        "entry_days": {
+          "2026-10-03": 1
+        },
+        "entry_request": {
+          "authorization_type": null,
+          "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+          "created_at": "2026-10-03T00:00:00Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+          "order_role": null,
+          "order_type": "MARKET",
+          "position_action_id": null,
+          "position_id": null,
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": null,
+          "risk_decision_id": null,
+          "schema_version": "contracts-v0.1",
+          "side": "BUY",
+          "stop_price": null,
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_action": {
+          "action": "EXIT",
+          "close_order_type": "MARKET",
+          "close_profile_version": "close-v0.1",
+          "created_at": "2026-10-03T00:00:02Z",
+          "expires_at": "2026-10-03T00:00:32Z",
+          "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_observed_at": "2026-10-03T00:00:02Z",
+          "position_reconciliation_status": "CONSISTENT",
+          "position_side": "LONG",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reason_codes": [
+            "E5_TARGET_REACHED"
+          ],
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "source_lifecycle_state": "OPEN_PROTECTED",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_anchor": {
+          "payload": {
+            "approved_plan_hash": "sha256:62c2dfce2330e6f8bdfa98b97e73446c0d18ed0e7a1feda60b2098195cc93923",
+            "first_fill_at": "2026-10-03T00:00:01Z",
+            "high_water": "60000",
+            "hold_deadline": "2026-10-03T01:00:01Z",
+            "initial_reference_price": "60000",
+            "initial_stop": "59990",
+            "last_market_at": null,
+            "low_water": "60000",
+            "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+            "proposed_stop": "59990",
+            "request_hash": "sha256:05ebcc0590e72c97e6361b5c7c4829087c31d8f41e14a4fd7e40ffcaf60103bc",
+            "side": "LONG",
+            "target_level": "60020",
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+          },
+          "payload_hash": "sha256:061999c583e284e0698f5851903f07c93c77e998ff491b13125acabe1517b8fa",
+          "schema_version": "r7-exit-anchor-state-v0.2"
+        },
+        "exit_request": {
+          "authorization_type": "POSITION_ACTION",
+          "client_order_id": "e4_c9866e06ec1209f023601bea0167fe89",
+          "created_at": "2026-10-03T00:00:02Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95",
+          "order_role": "POSITION_EXIT",
+          "order_type": "MARKET",
+          "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": true,
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "schema_version": "contracts-v0.1",
+          "side": "SELL",
+          "stop_price": null,
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_source_position": {
+          "actual_quantity": "0.001",
+          "average_entry_price": "60000",
+          "broker_state_observed_at": "2026-10-03T00:00:02Z",
+          "lifecycle_state": "OPEN_PROTECTED",
+          "opened_at": "2026-10-03T00:00:01Z",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reconciliation_status": "CONSISTENT",
+          "schema_version": "contracts-v0.1",
+          "side": "LONG",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "forward": {
+          "clock_status": "CONSISTENT",
+          "last_healthy": false,
+          "last_monotonic_ns": 64401390000000,
+          "max_observed_gap_seconds": 1,
+          "observations": 3,
+          "observed_at": "2026-10-03T00:00:02Z",
+          "process_instance": "paper-process-ff5b903b5f634c179c7d8e3a8a5be38b",
+          "real_elapsed_ns": 0,
+          "real_healthy_ns": 0,
+          "simulated_elapsed_seconds": 2,
+          "simulated_healthy_seconds": 1,
+          "started_at": "2026-10-03T00:00:00Z"
+        },
+        "last_entry_boundary": "2026-10-03T00:00:00Z",
+        "last_intent": {
+          "direction": "LONG",
+          "entry_order_type": "MARKET",
+          "entry_profile_version": "entry-v0.1",
+          "generated_at": "2026-10-03T00:00:00Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "max_hold_seconds": 3600,
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_stop_level": "59990",
+          "strategy_target_level": "60020",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_market": {
+          "freshness_ms": 0,
+          "health_status": "HEALTHY",
+          "last_price": "60020",
+          "observed_at": "2026-10-03T00:00:02.000Z",
+          "received_at": "2026-10-03T00:00:02.000Z",
+          "schema_version": "contracts-v0.1",
+          "source": "EXPLICIT_FIXTURE",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_signal": {
+          "direction": "LONG",
+          "evaluated_at": "2026-10-03T00:00:00Z",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "reason_codes": [
+            "LONG_RULE_MATCHED"
+          ],
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "market_status": "FRESH",
+        "mode": "ACCELERATED_FIXTURE",
+        "paper_entries_allowed": true,
+        "plan": {
+          "created_at": "2026-10-03T00:00:00Z",
+          "direction": "LONG",
+          "entry_instruction": {
+            "order_type": "MARKET",
+            "profile_version": "entry-v0.1"
+          },
+          "expires_at": "2026-10-03T00:00:30Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "leverage": "1",
+          "margin_mode": "ISOLATED",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "position": {
+          "actual_quantity": "0.001",
+          "average_entry_price": "60000",
+          "broker_state_observed_at": "2026-10-03T00:00:02Z",
+          "lifecycle_event": "EXIT_REQUESTED",
+          "lifecycle_interpreted_at": "2026-10-03T00:00:02Z",
+          "lifecycle_projection_id": "posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab",
+          "lifecycle_projection_kind": "TRANSITION",
+          "lifecycle_revision": 4,
+          "lifecycle_source_broker_state_observed_at": "2026-10-03T00:00:02Z",
+          "lifecycle_state": "EXIT_REQUESTED",
+          "opened_at": "2026-10-03T00:00:01Z",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_lifecycle_projection_profile_version": "position-lifecycle-projection-v0.1",
+          "previous_lifecycle_projection_id": "posproj_217a3522cd7fd14ead38bcc134d514a344e99544d318ed7024da67da1ad62e84",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reconciliation_status": "CONSISTENT",
+          "schema_version": "contracts-v0.1",
+          "side": "LONG",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "protection_action": {
+          "action": "PROTECT",
+          "created_at": "2026-10-03T00:00:01Z",
+          "expires_at": "2026-10-03T00:00:31Z",
+          "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_observed_at": "2026-10-03T00:00:01Z",
+          "position_reconciliation_status": "CONSISTENT",
+          "position_side": "LONG",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "protection_profile_version": "protection-v0.1",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reason_codes": [],
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "protection_request": {
+          "authorization_type": "POSITION_ACTION",
+          "client_order_id": "e4_8b286cd07c4189d28a9a0ee1bede5c18",
+          "created_at": "2026-10-03T00:00:01Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+          "order_role": "PROTECTION_STOP",
+          "order_type": "STOP_MARKET",
+          "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": true,
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "schema_version": "contracts-v0.1",
+          "side": "SELL",
+          "stop_price": "59990",
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "risk_decision": {
+          "account_state_status": "KNOWN",
+          "approved_leverage": "1",
+          "approved_margin": "60.000",
+          "approved_notional": "60.000",
+          "approved_quantity": "0.001",
+          "decided_at": "2026-10-03T00:00:00Z",
+          "decision": "APPROVE",
+          "estimated_cost": "0.006",
+          "estimated_max_loss": "0.010",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "margin_mode": "ISOLATED",
+          "market_health_status": "HEALTHY",
+          "max_hold_seconds": 3600,
+          "position_state_status": "FLAT",
+          "reason_codes": [],
+          "required_stop_level": "59990",
+          "required_target_level": "60020",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0"
+        },
+        "schema_version": "r7-paper-runtime-v0.2",
+        "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+        "strategy_exit_request": {
+          "direction": "LONG",
+          "exit_policy": {
+            "max_hold_seconds": 3600,
+            "stop": {
+              "kind": "fixed_distance",
+              "value": "10"
+            },
+            "target": {
+              "kind": "reward_risk",
+              "multiple": "2"
+            },
+            "trailing": null
+          },
+          "exit_request_profile_version": "r7-exit-request-v0.2",
+          "feature_anchors": {},
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "observed_at": "2026-10-03T00:00:00Z",
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "strategy_id": "fixture-v02-trend",
+        "strategy_version": "0.2.0"
+      }
+    },
+    {
+      "receipt": {
+        "effect_hash": "sha256:d43ce47aeb48e7f7a1ed2dc860dc3f52ecbe24ef13c809a179d69860486d6959",
+        "operation_id": "market_3ca2cc8d9fe91dbbf676e3588352263a5028d589ff4d9f556d9ca5d10c3fddf7",
+        "reason_codes": [],
+        "revision": 4,
+        "run_id": "paper_2bba025cbd895d271ea2a5cabfebba33fdf793f026ae2384875df09d2dfeb2ff",
+        "status": "CLOSED"
+      },
+      "runtime": {
+        "candles": {
+          "1h": [
+            {
+              "close": "59000",
+              "close_time": "2026-10-02T23:00:00.000Z",
+              "high": "59001",
+              "is_closed": true,
+              "low": "58999",
+              "open": "59000",
+              "open_time": "2026-10-02T22:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            },
+            {
+              "close": "60000",
+              "close_time": "2026-10-03T00:00:00.000Z",
+              "high": "60001",
+              "is_closed": true,
+              "low": "59999",
+              "open": "60000",
+              "open_time": "2026-10-02T23:00:00.000Z",
+              "received_at": "2026-10-03T00:00:00.000Z",
+              "schema_version": "contracts-v0.1",
+              "source": "EXPLICIT_FIXTURE",
+              "symbol": "BTC_USDT_PERP",
+              "timeframe": "1h",
+              "volume": "1"
+            }
+          ]
+        },
+        "closed_trades": [
+          {
+            "average_entry_price": "60000",
+            "average_exit_price": "60020",
+            "closed_at": "2026-10-03T00:00:03Z",
+            "direction": "LONG",
+            "entry_fill_ids": [
+              "fill_244b86d517dbebe445bc6c7d41cc0200"
+            ],
+            "entry_order_request_ids": [
+              "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3"
+            ],
+            "entry_quantity": "0.001",
+            "exit_authority_refs": [
+              {
+                "action": "EXIT",
+                "order_role": "POSITION_EXIT",
+                "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+                "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b"
+              }
+            ],
+            "exit_fill_ids": [
+              "fill_420689c44d6da3302139abc04d878496"
+            ],
+            "exit_order_request_ids": [
+              "ordreq_908d096729dc0d4b0380ba8ed849bd95"
+            ],
+            "exit_reason_codes": [
+              "E5_TARGET_REACHED"
+            ],
+            "flat_position_observed_at": "2026-10-03T00:00:03Z",
+            "funding_evidence_id": "fundev_48a21b5d00ea87e9269f53492509721082a781ded987c99b947df2a95981d02d",
+            "funding_evidence_profile_version": "funding-allocation-v0.1",
+            "funding_evidence_status": "ZERO_CONFIRMED",
+            "gross_pnl": "0.020",
+            "net_pnl": "0.01399900",
+            "opened_at": "2026-10-03T00:00:01Z",
+            "pnl_currency": "USDT",
+            "pnl_profile_version": "linear-base-asset-pnl-v0.1",
+            "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+            "quantity_asset": "BTC",
+            "quantity_profile_version": "base-asset-v0.1",
+            "quantity_unit": "BASE_ASSET",
+            "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+            "risk_policy_version": "FIXTURE_RISK_V1",
+            "schema_version": "contracts-v0.1",
+            "strategy_id": "fixture-v02-trend",
+            "strategy_version": "0.2.0",
+            "symbol": "BTC_USDT_PERP",
+            "total_fees": "0.00600100",
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d",
+            "trade_result_id": "traderes_b4c99a9a7734e3e085abed6bd196f8a4725ee6d56f6924000278dcee4b250a46",
+            "trade_result_profile_version": "trade-result-v0.1"
+          }
+        ],
+        "entry_days": {
+          "2026-10-03": 1
+        },
+        "entry_request": {
+          "authorization_type": null,
+          "client_order_id": "e4_b700bf9e0941e04ea6e4a533573b4931",
+          "created_at": "2026-10-03T00:00:00Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_b3fa0ef06a25a0c34e70f945e228a8f3",
+          "order_role": null,
+          "order_type": "MARKET",
+          "position_action_id": null,
+          "position_id": null,
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": null,
+          "risk_decision_id": null,
+          "schema_version": "contracts-v0.1",
+          "side": "BUY",
+          "stop_price": null,
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_action": {
+          "action": "EXIT",
+          "close_order_type": "MARKET",
+          "close_profile_version": "close-v0.1",
+          "created_at": "2026-10-03T00:00:02Z",
+          "expires_at": "2026-10-03T00:00:32Z",
+          "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_observed_at": "2026-10-03T00:00:02Z",
+          "position_reconciliation_status": "CONSISTENT",
+          "position_side": "LONG",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reason_codes": [
+            "E5_TARGET_REACHED"
+          ],
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "source_lifecycle_state": "OPEN_PROTECTED",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_anchor": {
+          "payload": {
+            "approved_plan_hash": "sha256:62c2dfce2330e6f8bdfa98b97e73446c0d18ed0e7a1feda60b2098195cc93923",
+            "first_fill_at": "2026-10-03T00:00:01Z",
+            "high_water": "60000",
+            "hold_deadline": "2026-10-03T01:00:01Z",
+            "initial_reference_price": "60000",
+            "initial_stop": "59990",
+            "last_market_at": null,
+            "low_water": "60000",
+            "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+            "proposed_stop": "59990",
+            "request_hash": "sha256:05ebcc0590e72c97e6361b5c7c4829087c31d8f41e14a4fd7e40ffcaf60103bc",
+            "side": "LONG",
+            "target_level": "60020",
+            "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+          },
+          "payload_hash": "sha256:061999c583e284e0698f5851903f07c93c77e998ff491b13125acabe1517b8fa",
+          "schema_version": "r7-exit-anchor-state-v0.2"
+        },
+        "exit_request": {
+          "authorization_type": "POSITION_ACTION",
+          "client_order_id": "e4_c9866e06ec1209f023601bea0167fe89",
+          "created_at": "2026-10-03T00:00:02Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_908d096729dc0d4b0380ba8ed849bd95",
+          "order_role": "POSITION_EXIT",
+          "order_type": "MARKET",
+          "position_action_id": "posact_8b9e2e0f0e314cfd6565d6e91884d09ca5ef8e6d85056acdc074799354662a07",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": true,
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "schema_version": "contracts-v0.1",
+          "side": "SELL",
+          "stop_price": null,
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "exit_source_position": {
+          "actual_quantity": "0.001",
+          "average_entry_price": "60000",
+          "broker_state_observed_at": "2026-10-03T00:00:02Z",
+          "lifecycle_state": "OPEN_PROTECTED",
+          "opened_at": "2026-10-03T00:00:01Z",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reconciliation_status": "CONSISTENT",
+          "schema_version": "contracts-v0.1",
+          "side": "LONG",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "forward": {
+          "clock_status": "CONSISTENT",
+          "last_healthy": true,
+          "last_monotonic_ns": 64401437000000,
+          "max_observed_gap_seconds": 1,
+          "observations": 4,
+          "observed_at": "2026-10-03T00:00:03Z",
+          "process_instance": "paper-process-ff5b903b5f634c179c7d8e3a8a5be38b",
+          "real_elapsed_ns": 0,
+          "real_healthy_ns": 0,
+          "simulated_elapsed_seconds": 3,
+          "simulated_healthy_seconds": 1,
+          "started_at": "2026-10-03T00:00:00Z"
+        },
+        "last_entry_boundary": "2026-10-03T00:00:00Z",
+        "last_intent": {
+          "direction": "LONG",
+          "entry_order_type": "MARKET",
+          "entry_profile_version": "entry-v0.1",
+          "generated_at": "2026-10-03T00:00:00Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "max_hold_seconds": 3600,
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_stop_level": "59990",
+          "strategy_target_level": "60020",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_market": {
+          "freshness_ms": 0,
+          "health_status": "HEALTHY",
+          "last_price": "60020",
+          "observed_at": "2026-10-03T00:00:03.000Z",
+          "received_at": "2026-10-03T00:00:03.000Z",
+          "schema_version": "contracts-v0.1",
+          "source": "EXPLICIT_FIXTURE",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "last_signal": {
+          "direction": "LONG",
+          "evaluated_at": "2026-10-03T00:00:00Z",
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "reason_codes": [
+            "LONG_RULE_MATCHED"
+          ],
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "signal_id": "sig_b485884a57994e98338c639798041c0c9f24e56e84bbd32308669b8e8a607f08",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "market_status": "FRESH",
+        "mode": "ACCELERATED_FIXTURE",
+        "paper_entries_allowed": true,
+        "plan": {
+          "created_at": "2026-10-03T00:00:00Z",
+          "direction": "LONG",
+          "entry_instruction": {
+            "order_type": "MARKET",
+            "profile_version": "entry-v0.1"
+          },
+          "expires_at": "2026-10-03T00:00:30Z",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "leverage": "1",
+          "margin_mode": "ISOLATED",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "position": {
+          "actual_quantity": "0.000",
+          "average_entry_price": "60000",
+          "broker_state_observed_at": "2026-10-03T00:00:03Z",
+          "lifecycle_event": "POSITION_CLOSED",
+          "lifecycle_interpreted_at": "2026-10-03T00:00:03Z",
+          "lifecycle_projection_id": "posproj_04a4d5d4eff3de232db85930fd1bf13a08dd2e1726308fc66a3e318086534ed1",
+          "lifecycle_projection_kind": "TRANSITION",
+          "lifecycle_revision": 5,
+          "lifecycle_source_broker_state_observed_at": "2026-10-03T00:00:03Z",
+          "lifecycle_state": "CLOSED",
+          "opened_at": "2026-10-03T00:00:01Z",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_lifecycle_projection_profile_version": "position-lifecycle-projection-v0.1",
+          "previous_lifecycle_projection_id": "posproj_1c1e21d5340afeaf9073be83c8aa0aa9f159cd45898194b958e7c95a8ddeacab",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reconciliation_status": "CONSISTENT",
+          "schema_version": "contracts-v0.1",
+          "side": "LONG",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "protection_action": {
+          "action": "PROTECT",
+          "created_at": "2026-10-03T00:00:01Z",
+          "expires_at": "2026-10-03T00:00:31Z",
+          "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "position_observed_at": "2026-10-03T00:00:01Z",
+          "position_reconciliation_status": "CONSISTENT",
+          "position_side": "LONG",
+          "protection_instruction": {
+            "max_hold_seconds": 3600,
+            "stop_level": "59990",
+            "target_level": "60020"
+          },
+          "protection_profile_version": "protection-v0.1",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reason_codes": [],
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "protection_request": {
+          "authorization_type": "POSITION_ACTION",
+          "client_order_id": "e4_8b286cd07c4189d28a9a0ee1bede5c18",
+          "created_at": "2026-10-03T00:00:01Z",
+          "limit_price": null,
+          "order_request_id": "ordreq_f31ff8eaf63df07075d5d5a46823cbfe",
+          "order_role": "PROTECTION_STOP",
+          "order_type": "STOP_MARKET",
+          "position_action_id": "posact_722dae8d4524f7d81ea82bae5a207c9a2f63034bc5664d8463d08755eeceb556",
+          "position_id": "paperpos_225651240bd1f123069f662f4120bfedda8817a6b8fce85d260488bd59131e0b",
+          "quantity": "0.001",
+          "quantity_asset": "BTC",
+          "quantity_profile_version": "base-asset-v0.1",
+          "quantity_unit": "BASE_ASSET",
+          "reduce_only": true,
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "schema_version": "contracts-v0.1",
+          "side": "SELL",
+          "stop_price": "59990",
+          "symbol": "BTC_USDT_PERP",
+          "time_in_force": null,
+          "trade_plan_id": "plan_92ddf794f798dcf5965e5b1e488f5a05a8ddad64bf6b1e495c26ed6877c6da7d"
+        },
+        "risk_decision": {
+          "account_state_status": "KNOWN",
+          "approved_leverage": "1",
+          "approved_margin": "60.000",
+          "approved_notional": "60.000",
+          "approved_quantity": "0.001",
+          "decided_at": "2026-10-03T00:00:00Z",
+          "decision": "APPROVE",
+          "estimated_cost": "0.006",
+          "estimated_max_loss": "0.010",
+          "intent_id": "intent_a92793d61b183ba3230e8fa1e665cfacedb58a15267b62aa0b4879514be2ccef",
+          "margin_mode": "ISOLATED",
+          "market_health_status": "HEALTHY",
+          "max_hold_seconds": 3600,
+          "position_state_status": "FLAT",
+          "reason_codes": [],
+          "required_stop_level": "59990",
+          "required_target_level": "60020",
+          "risk_decision_id": "risk_6be3db54a770657fd58b03bb8965c34240b9557ca6aa8ec0cf6f8a5644fa5271",
+          "risk_policy_version": "FIXTURE_RISK_V1",
+          "schema_version": "contracts-v0.1",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0"
+        },
+        "schema_version": "r7-paper-runtime-v0.2",
+        "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+        "strategy_exit_request": {
+          "direction": "LONG",
+          "exit_policy": {
+            "max_hold_seconds": 3600,
+            "stop": {
+              "kind": "fixed_distance",
+              "value": "10"
+            },
+            "target": {
+              "kind": "reward_risk",
+              "multiple": "2"
+            },
+            "trailing": null
+          },
+          "exit_request_profile_version": "r7-exit-request-v0.2",
+          "feature_anchors": {},
+          "market_boundary_ref": "sha256:e4e741c991ab77344dfda333de597086796d13ed46f73a2d924a49f85ba8bb88",
+          "observed_at": "2026-10-03T00:00:00Z",
+          "reference_price": "60000",
+          "schema_version": "contracts-v0.1",
+          "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+          "strategy_id": "fixture-v02-trend",
+          "strategy_version": "0.2.0",
+          "symbol": "BTC_USDT_PERP"
+        },
+        "strategy_id": "fixture-v02-trend",
+        "strategy_version": "0.2.0"
+      }
+    }
+  ],
+  "provider_requests": 0,
+  "real_forward": "NOT_RUN"
+}

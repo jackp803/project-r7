@@ -1,0 +1,16 @@
+test_authoritative_protection_loss_requests_e5_emergency_exit_and_closes_later (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_authoritative_protection_loss_requests_e5_emergency_exit_and_closes_later) ... ok
+test_stop_trigger_reduces_with_original_verified_protection_order (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_stop_trigger_reduces_with_original_verified_protection_order) ... ERROR
+
+======================================================================
+ERROR: test_stop_trigger_reduces_with_original_verified_protection_order (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_stop_trigger_reduces_with_original_verified_protection_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 251, in test_stop_trigger_reduces_with_original_verified_protection_order
+    self.assertEqual(result['exit_order_role'], 'PROTECTION_STOP')
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'exit_order_role'
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.752s
+
+FAILED (errors=1)

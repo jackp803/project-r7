@@ -1,0 +1,33 @@
+test_immediate_pause_after_ack_defers_distinct_cancellation_observation (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_immediate_pause_after_ack_defers_distinct_cancellation_observation) ... ERROR
+
+======================================================================
+ERROR: test_immediate_pause_after_ack_defers_distinct_cancellation_observation (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_immediate_pause_after_ack_defers_distinct_cancellation_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 463, in test_immediate_pause_after_ack_defers_distinct_cancellation_observation
+    outcome=self.service.stop_new_entries(runtime.run_id,'pause-at-ack')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 132, in stop_new_entries
+    return self.runtime(run_id).coordinator.execute('pause:'+command_id,dict(kind='PAUSE'))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 101, in _finish
+    operation = self._publish(operation)
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 85, in _publish
+    getattr(self.canonical, _WRITERS[effect['kind']])(effect['payload'])
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\storage\runtime.py", line 153, in persist_order_result
+    return self._store.persist_order_result(payload)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\storage\_paper_runtime.py", line 594, in persist_order_result
+    self._raise_conflict(
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\storage\_paper_runtime.py", line 98, in _raise_conflict
+    raise RuntimeConflictError(code, message)
+storage.runtime_models.RuntimeConflictError: same OrderResult observation time has conflicting canonical payload
+
+----------------------------------------------------------------------
+Ran 1 test in 2.389s
+
+FAILED (errors=1)

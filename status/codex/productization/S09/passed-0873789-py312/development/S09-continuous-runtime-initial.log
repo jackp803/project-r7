@@ -1,0 +1,67 @@
+test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry (test_paper_runtime_v02.PaperRuntimeV02Tests.test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry) ... ok
+test_full_entry_ack_fill_verified_protection_target_exit_flat_result (test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result) ... ERROR
+test_retirement_blocks_new_entries_and_preserves_existing_management (test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management) ... ERROR
+test_stale_market_admits_no_order_and_reports_observed_reason (test_paper_runtime_v02.PaperRuntimeV02Tests.test_stale_market_admits_no_order_and_reports_observed_reason) ... ok
+
+======================================================================
+ERROR: test_full_entry_ack_fill_verified_protection_target_exit_flat_result (test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 87, in test_full_entry_ack_fill_verified_protection_target_exit_flat_result
+    closed = runtime.on_market_event(self.event(2, '60020'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 146, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 92, in _finish
+    step = self.producer(operation.base_state, operation.request, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 313, in produce
+    managed=self._manage(runtime,broker,effects,market,now)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 241, in _manage
+    return self._close(runtime,broker,effects,request,action,market,now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 181, in _close
+    flat=broker.observe_position_after_close(request,runtime['exit_source_position'],observed_at=now)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\brokers\paper.py", line 499, in observe_position_after_close
+    raise ReconciliationRequiredError(
+brokers.paper.ReconciliationRequiredError: another same-symbol Fill occurred after the source Position observation
+
+======================================================================
+ERROR: test_retirement_blocks_new_entries_and_preserves_existing_management (test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 120, in test_retirement_blocks_new_entries_and_preserves_existing_management
+    closed = runtime.on_market_event(self.event(2, '60020'))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 146, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 111, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\orchestrator.py", line 92, in _finish
+    step = self.producer(operation.base_state, operation.request, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 313, in produce
+    managed=self._manage(runtime,broker,effects,market,now)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 241, in _manage
+    return self._close(runtime,broker,effects,request,action,market,now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 181, in _close
+    flat=broker.observe_position_after_close(request,runtime['exit_source_position'],observed_at=now)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\brokers\paper.py", line 499, in observe_position_after_close
+    raise ReconciliationRequiredError(
+brokers.paper.ReconciliationRequiredError: another same-symbol Fill occurred after the source Position observation
+
+----------------------------------------------------------------------
+Ran 4 tests in 8.942s
+
+FAILED (errors=2)

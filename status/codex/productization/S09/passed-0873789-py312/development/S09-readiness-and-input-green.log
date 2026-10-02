@@ -1,0 +1,22 @@
+test_unfinalized_event_rejected_without_poisoning_durable_operation_queue (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unfinalized_event_rejected_without_poisoning_durable_operation_queue) ... ok
+test_future_deadline_rejected_without_creating_an_operation (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_future_deadline_rejected_without_creating_an_operation) ... ok
+test_fixture_readiness_requires_actual_bound_forward_assessment (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment) ... ERROR
+test_fast_forward_wall_clock_yields_zero_real_credit_and_unverified_clock (tests.product.test_forward_observation.ForwardObservationTests.test_fast_forward_wall_clock_yields_zero_real_credit_and_unverified_clock) ... ok
+test_fixture_never_counts_matching_clock_intervals_as_actual_forward (tests.product.test_forward_observation.ForwardObservationTests.test_fixture_never_counts_matching_clock_intervals_as_actual_forward) ... ok
+test_matching_actual_monotonic_intervals_count_but_restart_gap_is_not_healthy_credit (tests.product.test_forward_observation.ForwardObservationTests.test_matching_actual_monotonic_intervals_count_but_restart_gap_is_not_healthy_credit) ... ok
+
+======================================================================
+ERROR: test_fixture_readiness_requires_actual_bound_forward_assessment (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 326, in test_fixture_readiness_requires_actual_bound_forward_assessment
+    self.boundary.select_paper_policy('fixture-paper-policy',small)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\registry\operational_authority.py", line 209, in select_paper_policy
+    if old is not None and old.canonical_json!=policy.canonical_json: raise EvidenceGateError('Immutable PAPER policy reference conflict')
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+registry.models.EvidenceGateError: Immutable PAPER policy reference conflict
+
+----------------------------------------------------------------------
+Ran 6 tests in 6.384s
+
+FAILED (errors=1)

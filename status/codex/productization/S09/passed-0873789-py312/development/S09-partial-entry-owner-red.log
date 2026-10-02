@@ -1,0 +1,66 @@
+test_atomic_partial_entry_retains_one_fill_and_terminal_current_result_on_restart (test_paper_entry_remainder.PaperEntryRemainderTests.test_atomic_partial_entry_retains_one_fill_and_terminal_current_result_on_restart) ... FAIL
+test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) ... 
+  test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) (quantity=Decimal('1'), seconds=1) ... FAIL
+  test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) (quantity=Decimal('0'), seconds=1) ... FAIL
+  test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) (quantity=Decimal('0.4'), seconds=0) ... FAIL
+test_legacy_partial_cancel_still_denied_and_compound_model_cannot_rewrite_a_partial (test_paper_entry_remainder.PaperEntryRemainderTests.test_legacy_partial_cancel_still_denied_and_compound_model_cannot_rewrite_a_partial) ... FAIL
+
+======================================================================
+FAIL: test_atomic_partial_entry_retains_one_fill_and_terminal_current_result_on_restart (test_paper_entry_remainder.PaperEntryRemainderTests.test_atomic_partial_entry_retains_one_fill_and_terminal_current_result_on_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 20, in test_atomic_partial_entry_retains_one_fill_and_terminal_current_result_on_restart
+    fill = self.method(broker)(request.client_order_id, quantity=Decimal('.4'),
+           ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 14, in method
+    self.assertTrue(hasattr(broker, 'record_entry_fill_and_cancel_remainder'),
+AssertionError: False is not true : Atomic partial-entry simulation producer is missing
+
+======================================================================
+FAIL: test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) (quantity=Decimal('1'), seconds=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 41, in test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state
+    self.method(broker)(request.client_order_id,quantity=quantity,price=Decimal('100000'),
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 14, in method
+    self.assertTrue(hasattr(broker, 'record_entry_fill_and_cancel_remainder'),
+AssertionError: False is not true : Atomic partial-entry simulation producer is missing
+
+======================================================================
+FAIL: test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) (quantity=Decimal('0'), seconds=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 41, in test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state
+    self.method(broker)(request.client_order_id,quantity=quantity,price=Decimal('100000'),
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 14, in method
+    self.assertTrue(hasattr(broker, 'record_entry_fill_and_cancel_remainder'),
+AssertionError: False is not true : Atomic partial-entry simulation producer is missing
+
+======================================================================
+FAIL: test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state (test_paper_entry_remainder.PaperEntryRemainderTests.test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state) (quantity=Decimal('0.4'), seconds=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 41, in test_invalid_full_zero_or_nonlater_fill_cannot_mutate_owner_state
+    self.method(broker)(request.client_order_id,quantity=quantity,price=Decimal('100000'),
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 14, in method
+    self.assertTrue(hasattr(broker, 'record_entry_fill_and_cancel_remainder'),
+AssertionError: False is not true : Atomic partial-entry simulation producer is missing
+
+======================================================================
+FAIL: test_legacy_partial_cancel_still_denied_and_compound_model_cannot_rewrite_a_partial (test_paper_entry_remainder.PaperEntryRemainderTests.test_legacy_partial_cancel_still_denied_and_compound_model_cannot_rewrite_a_partial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 53, in test_legacy_partial_cancel_still_denied_and_compound_model_cannot_rewrite_a_partial
+    self.method(broker)(request.client_order_id,quantity=Decimal('.4'),price=Decimal('100000'),
+    ^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_entry_remainder.py", line 14, in method
+    self.assertTrue(hasattr(broker, 'record_entry_fill_and_cancel_remainder'),
+AssertionError: False is not true : Atomic partial-entry simulation producer is missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+FAILED (failures=5)

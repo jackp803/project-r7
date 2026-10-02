@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S09",
-  "next_step": "S10",
+  "active_step": "S10",
+  "next_step": "S11",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -38,8 +38,8 @@
     "S06": "PASS",
     "S07": "PASS",
     "S08": "PASS",
-    "S09": "IN_PROGRESS",
-    "S10": "NOT_STARTED",
+    "S09": "PASS",
+    "S10": "IN_PROGRESS",
     "S11": "NOT_STARTED",
     "S12": "NOT_STARTED",
     "S13": "NOT_STARTED",
@@ -292,6 +292,22 @@
       "skipped": 0,
       "evidence_ref": "status/codex/productization/S09/foundation-passed-9fe882e-py312/qualification.json",
       "scope": "Durability foundation regression; continuous S09 runtime/scheduler/forward remain IN_PROGRESS"
+    },
+    {
+      "step": "S09",
+      "phase": "EXACT_CLEAN_CONTINUOUS_PAPER_AND_FULL_REGRESSION",
+      "status": "PASS",
+      "executable_revision": "08737899f82480e8de2933273eb7a643edb66d74",
+      "phase_1": 247,
+      "phase_2": 1187,
+      "total": 1434,
+      "commands": 33,
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S09/passed-0873789-py312/qualification.json",
+      "scope": "Accelerated actual-owner simulation mechanics; actual real forward/native Ubuntu NOT_RUN"
     }
   ],
   "evidence_refs": [
@@ -305,7 +321,8 @@
     "status/codex/productization/S06/passed-d33d891-py312/qualification.json",
     "status/codex/productization/S08/passed-aa0e2e9-py312/qualification.json",
     "status/codex/productization/S08/fixtures-aa0e2e9/lifecycle-mechanics/edge-matrix.json",
-    "status/codex/productization/S09/foundation-passed-9fe882e-py312/qualification.json"
+    "status/codex/productization/S09/foundation-passed-9fe882e-py312/qualification.json",
+    "status/codex/productization/S09/passed-0873789-py312/qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -331,8 +348,12 @@
     "S01 memory enforcement is SOFT_LIMIT_ONLY; Windows Job Objects enforce owned tree cleanup, not a memory hard cap",
     "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories",
     "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN",
-    "S08 typed owner ports qualify isolated canonical mechanics; actual PAPER/auth/admission integrations remain S09/S10/S12 and no legacy E7 role is relabelled LIVE"
+    "S08 typed owner ports qualify isolated canonical mechanics; actual PAPER/auth/admission integrations remain S09/S10/S12 and no legacy E7 role is relabelled LIVE",
+    "S09 exact E6 PAPER_START binds one accepted run; prepared orphans cannot mint another simulated account",
+    "S09 PAPER accounts explicitly isolated per strategy run; no real/shared-account assertion",
+    "S09 protection loss preserves canonical EMERGENCY; unknown observations block, not reset",
+    "S09 accelerated observations grant zero actual forward duration; controlled MemoryError is not host OOM"
   ],
-  "executable_revision": "9fe882e20eed791891cac0d279ea4cb664aba767",
-  "qualified_executable_revision": "9fe882e20eed791891cac0d279ea4cb664aba767"
+  "executable_revision": "08737899f82480e8de2933273eb7a643edb66d74",
+  "qualified_executable_revision": "08737899f82480e8de2933273eb7a643edb66d74"
 }

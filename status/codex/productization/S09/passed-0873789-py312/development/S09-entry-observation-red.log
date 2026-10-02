@@ -1,0 +1,41 @@
+test_later_partial_fill_preserves_first_fill_and_requires_reattestation (tests.position.test_entry_observation.EntryObservationTests.test_later_partial_fill_preserves_first_fill_and_requires_reattestation) ... FAIL
+test_partial_fill_uses_actual_owner_evidence_and_canonical_entry_transition (tests.position.test_entry_observation.EntryObservationTests.test_partial_fill_uses_actual_owner_evidence_and_canonical_entry_transition) ... FAIL
+test_unknown_net_position_future_fill_or_wrong_parent_cannot_invent_exposure (tests.position.test_entry_observation.EntryObservationTests.test_unknown_net_position_future_fill_or_wrong_parent_cannot_invent_exposure) ... FAIL
+
+======================================================================
+FAIL: test_later_partial_fill_preserves_first_fill_and_requires_reattestation (tests.position.test_entry_observation.EntryObservationTests.test_later_partial_fill_preserves_first_fill_and_requires_reattestation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_entry_observation.py", line 44, in test_later_partial_fill_preserves_first_fill_and_requires_reattestation
+    build = self.api()
+            ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_entry_observation.py", line 16, in api
+    self.assertIsNotNone(importlib.util.find_spec('position.entry_observation'),
+AssertionError: unexpectedly None : E5 projection from actual Paper entry observations is missing
+
+======================================================================
+FAIL: test_partial_fill_uses_actual_owner_evidence_and_canonical_entry_transition (tests.position.test_entry_observation.EntryObservationTests.test_partial_fill_uses_actual_owner_evidence_and_canonical_entry_transition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_entry_observation.py", line 30, in test_partial_fill_uses_actual_owner_evidence_and_canonical_entry_transition
+    build = self.api()
+            ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_entry_observation.py", line 16, in api
+    self.assertIsNotNone(importlib.util.find_spec('position.entry_observation'),
+AssertionError: unexpectedly None : E5 projection from actual Paper entry observations is missing
+
+======================================================================
+FAIL: test_unknown_net_position_future_fill_or_wrong_parent_cannot_invent_exposure (tests.position.test_entry_observation.EntryObservationTests.test_unknown_net_position_future_fill_or_wrong_parent_cannot_invent_exposure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_entry_observation.py", line 62, in test_unknown_net_position_future_fill_or_wrong_parent_cannot_invent_exposure
+    build = self.api()
+            ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\position\test_entry_observation.py", line 16, in api
+    self.assertIsNotNone(importlib.util.find_spec('position.entry_observation'),
+AssertionError: unexpectedly None : E5 projection from actual Paper entry observations is missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.015s
+
+FAILED (failures=3)

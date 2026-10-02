@@ -1,0 +1,40 @@
+test_unfinalized_event_rejected_without_poisoning_durable_operation_queue (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unfinalized_event_rejected_without_poisoning_durable_operation_queue) ... FAIL
+test_future_deadline_rejected_without_creating_an_operation (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_future_deadline_rejected_without_creating_an_operation) ... FAIL
+test_fixture_readiness_requires_actual_bound_forward_assessment (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment) ... FAIL
+
+======================================================================
+FAIL: test_unfinalized_event_rejected_without_poisoning_durable_operation_queue (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unfinalized_event_rejected_without_poisoning_durable_operation_queue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 303, in test_unfinalized_event_rejected_without_poisoning_durable_operation_queue
+    self.assertEqual(self.process.recover(runtime.run_id).pending_operations,())
+AssertionError: Tuples differ: ('market_3943fccb2a483bf6d039dc8cdeedb95ab6e7a982daeeb109432ee49725033189',) != ()
+
+First tuple contains 1 additional elements.
+First extra element 0:
+'market_3943fccb2a483bf6d039dc8cdeedb95ab6e7a982daeeb109432ee49725033189'
+
+- ('market_3943fccb2a483bf6d039dc8cdeedb95ab6e7a982daeeb109432ee49725033189',)
++ ()
+
+======================================================================
+FAIL: test_future_deadline_rejected_without_creating_an_operation (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_future_deadline_rejected_without_creating_an_operation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 308, in test_future_deadline_rejected_without_creating_an_operation
+    with self.assertRaises(ValueError): runtime.on_deadline(self.initial_now+timedelta(hours=4))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_fixture_readiness_requires_actual_bound_forward_assessment (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 323, in test_fixture_readiness_requires_actual_bound_forward_assessment
+    self.assertTrue(hasattr(self.service,'mark_ready'),'Actual bound forward readiness service missing')
+AssertionError: False is not true : Actual bound forward readiness service missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 6.362s
+
+FAILED (failures=3)

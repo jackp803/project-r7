@@ -8,10 +8,13 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S09, actual continuous PAPER/scheduler/first-fill durability. Next: S10.
+Active step: S10, authenticated API/strict commands and actual service wiring. Next: S11.
+
+S09 exact-clean executable `08737899f82480e8de2933273eb7a643edb66d74` passed33/33 commands; phase1 247, phase2 1187, total1434. Zero failures/errors/skips; all owned trees reaped. Evidence: status/codex/productization/S09/passed-0873789-py312.
+Actual E2/E5/E4/E6 fill/protection/stop/target/time/emergency/flat mechanics, bounded scheduler, exact accepted-run authority and forward assessment are implemented. Accelerated fixtures report actual elapsed0. Research controlled MemoryError/timeout runs in a separate owned process while actual fixture PAPER management survives and closes. Native package wiring is S13; actual host OOM/native Ubuntu/cloud/data/real-forward/provider commissioning remain NOT_RUN. Automatically implement S10; do not stop at this milestone or repeat routine permissions.
 
 S09 durability foundation executable `9fe882e20eed791891cac0d279ea4cb664aba767` passed32/32 commands, phase1 247, phase2 1150, total1397, zero failures/errors/skips, all trees reaped. Evidence: status/codex/productization/S09/foundation-passed-9fe882e-py312.
-Implemented strict E4 broker recovery, E6 intent/effect/checkpoint/publication/process fencing, E5 first-fill anchors and actual entry projections, and actual-owner canonical publication recovery. S09 remains IN_PROGRESS: next implement PaperService/full fill-protection-exit-flat cycle, independent scheduler, real-forward assessment and process/resource isolation. Do not reimplement this foundation or stop at this checkpoint.
+Implemented strict E4 broker recovery, E6 intent/effect/checkpoint/publication/process fencing, E5 first-fill anchors and actual entry projections, and actual-owner canonical publication recovery. This earlier foundation checkpoint was subsequently extended and qualified by the S09 continuous implementation above; retain it as historical evidence.
 S08 exact-clean executable `aa0e2e9431374a6838359d04ef80bc7df5cb0d38` passed32/32 commands on
 Windows/Python3.12.10: phase1 247, phase2 1120, total1367,
 zero failures/errors/skips and all owned trees reaped. Evidence is under

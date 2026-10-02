@@ -1,0 +1,36 @@
+test_unresolved_entry_submit_blocks_without_retry_or_reset (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unresolved_entry_submit_blocks_without_retry_or_reset) ... FAIL
+test_rejected_initial_protection_enters_emergency_and_management_closes (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_rejected_initial_protection_enters_emergency_and_management_closes) ... ok
+test_missing_initial_protection_remains_reconciliation_required_on_restart (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_missing_initial_protection_remains_reconciliation_required_on_restart) ... ERROR
+
+======================================================================
+ERROR: test_missing_initial_protection_remains_reconciliation_required_on_restart (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_missing_initial_protection_remains_reconciliation_required_on_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 415, in test_missing_initial_protection_remains_reconciliation_required_on_restart
+    resumed=resumed_service.runtime(runtime.run_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 128, in runtime
+    self._runtimes[run_id]=PaperRuntime(self,run_id)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 158, in __init__
+    self.engine.reconcile(service.process.recover(run_id).state,service.canonical)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\engine.py", line 97, in reconcile
+    if recovered.status != 'READY': raise ValueError('Recovered E5/E6 graph needs reconciliation')
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Recovered E5/E6 graph needs reconciliation
+
+======================================================================
+FAIL: test_unresolved_entry_submit_blocks_without_retry_or_reset (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unresolved_entry_submit_blocks_without_retry_or_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 390, in test_unresolved_entry_submit_blocks_without_retry_or_reset
+    self.assertEqual(outcome.status,'BLOCKED')
+AssertionError: 'ACKNOWLEDGED' != 'BLOCKED'
+- ACKNOWLEDGED
++ BLOCKED
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 7.323s
+
+FAILED (failures=1, errors=1)

@@ -1,0 +1,20 @@
+test_scheduler_runs_due_management_without_market_or_entry_candle (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_scheduler_runs_due_management_without_market_or_entry_candle) ... ok
+test_scheduler_bounds_acquisition_queue_and_processes_management_first (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_scheduler_bounds_acquisition_queue_and_processes_management_first) ... ok
+test_accelerated_forward_assessment_never_counts_simulated_time_as_real_elapsed (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_accelerated_forward_assessment_never_counts_simulated_time_as_real_elapsed) ... ERROR
+
+======================================================================
+ERROR: test_accelerated_forward_assessment_never_counts_simulated_time_as_real_elapsed (tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_accelerated_forward_assessment_never_counts_simulated_time_as_real_elapsed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_runtime_v02.py", line 289, in test_accelerated_forward_assessment_never_counts_simulated_time_as_real_elapsed
+    assessment = assess_forward(runtime,self.service.promotion)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\assessment.py", line 38, in assess_forward
+    if trade['funding_status']=='ZERO_CONFIRMED' and funding['funding_status']=='ZERO_CONFIRMED':
+       ~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'funding_status'
+
+----------------------------------------------------------------------
+Ran 3 tests in 6.868s
+
+FAILED (errors=1)

@@ -9,6 +9,9 @@ backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
 Active step: S09, actual continuous PAPER/scheduler/first-fill durability. Next: S10.
+
+S09 durability foundation executable `9fe882e20eed791891cac0d279ea4cb664aba767` passed32/32 commands, phase1 247, phase2 1150, total1397, zero failures/errors/skips, all trees reaped. Evidence: status/codex/productization/S09/foundation-passed-9fe882e-py312.
+Implemented strict E4 broker recovery, E6 intent/effect/checkpoint/publication/process fencing, E5 first-fill anchors and actual entry projections, and actual-owner canonical publication recovery. S09 remains IN_PROGRESS: next implement PaperService/full fill-protection-exit-flat cycle, independent scheduler, real-forward assessment and process/resource isolation. Do not reimplement this foundation or stop at this checkpoint.
 S08 exact-clean executable `aa0e2e9431374a6838359d04ef80bc7df5cb0d38` passed32/32 commands on
 Windows/Python3.12.10: phase1 247, phase2 1120, total1367,
 zero failures/errors/skips and all owned trees reaped. Evidence is under

@@ -1,0 +1,29 @@
+test_crash_between_canonical_objects_recovers_same_actual_owner_effect (tests.application.test_paper_effect_recovery.PaperEffectRecoveryTests.test_crash_between_canonical_objects_recovers_same_actual_owner_effect) ... FAIL
+test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint (tests.application.test_paper_effect_recovery.PaperEffectRecoveryTests.test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint) ... FAIL
+
+======================================================================
+FAIL: test_crash_between_canonical_objects_recovers_same_actual_owner_effect (tests.application.test_paper_effect_recovery.PaperEffectRecoveryTests.test_crash_between_canonical_objects_recovers_same_actual_owner_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_effect_recovery.py", line 73, in test_crash_between_canonical_objects_recovers_same_actual_owner_effect
+    coordinator_type, step_type = self.api()
+                                  ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_effect_recovery.py", line 28, in api
+    self.assertIsNotNone(importlib.util.find_spec('application.paper'), 'Paper orchestration package missing')
+AssertionError: unexpectedly None : Paper orchestration package missing
+
+======================================================================
+FAIL: test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint (tests.application.test_paper_effect_recovery.PaperEffectRecoveryTests.test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_effect_recovery.py", line 103, in test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint
+    coordinator_type, step_type = self.api()
+                                  ^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_effect_recovery.py", line 28, in api
+    self.assertIsNotNone(importlib.util.find_spec('application.paper'), 'Paper orchestration package missing')
+AssertionError: unexpectedly None : Paper orchestration package missing
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (failures=2)

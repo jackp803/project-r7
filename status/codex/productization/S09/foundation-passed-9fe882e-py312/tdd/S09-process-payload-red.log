@@ -1,0 +1,56 @@
+test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) ... 
+  test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='apiKey') ... FAIL
+  test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='passphrase') ... FAIL
+  test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='session_token') ... FAIL
+  test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='nested_credentials') ... FAIL
+test_scalar_operation_request_or_outcome_cannot_poison_recovery (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_scalar_operation_request_or_outcome_cannot_poison_recovery) ... FAIL
+
+======================================================================
+FAIL: test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='apiKey')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 204, in test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox
+    with self.subTest(name=name), self.assertRaises(RuntimeValidationError):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='passphrase')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 204, in test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox
+    with self.subTest(name=name), self.assertRaises(RuntimeValidationError):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='session_token')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 204, in test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox
+    with self.subTest(name=name), self.assertRaises(RuntimeValidationError):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) (name='nested_credentials')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 204, in test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox
+    with self.subTest(name=name), self.assertRaises(RuntimeValidationError):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_scalar_operation_request_or_outcome_cannot_poison_recovery (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_scalar_operation_request_or_outcome_cannot_poison_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 210, in test_scalar_operation_request_or_outcome_cannot_poison_recovery
+    with self.assertRaises(RuntimeValidationError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.511s
+
+FAILED (failures=5)

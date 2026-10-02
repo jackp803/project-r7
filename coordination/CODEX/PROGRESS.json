@@ -276,6 +276,22 @@
       "operational_runtime": "NOT_STARTED",
       "real_forward": "NOT_RUN",
       "evidence_ref": "status/codex/productization/S08/fixtures-aa0e2e9/summary.json"
+    },
+    {
+      "step": "S09",
+      "phase": "EXACT_CLEAN_DURABILITY_FOUNDATION",
+      "status": "PASS",
+      "executable_revision": "9fe882e20eed791891cac0d279ea4cb664aba767",
+      "phase_1": 247,
+      "phase_2": 1150,
+      "total": 1397,
+      "commands": 32,
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S09/foundation-passed-9fe882e-py312/qualification.json",
+      "scope": "Durability foundation regression; continuous S09 runtime/scheduler/forward remain IN_PROGRESS"
     }
   ],
   "evidence_refs": [
@@ -288,7 +304,8 @@
     "status/codex/productization/S05/passed-ef9f055-py312/qualification.json",
     "status/codex/productization/S06/passed-d33d891-py312/qualification.json",
     "status/codex/productization/S08/passed-aa0e2e9-py312/qualification.json",
-    "status/codex/productization/S08/fixtures-aa0e2e9/lifecycle-mechanics/edge-matrix.json"
+    "status/codex/productization/S08/fixtures-aa0e2e9/lifecycle-mechanics/edge-matrix.json",
+    "status/codex/productization/S09/foundation-passed-9fe882e-py312/qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -316,6 +333,6 @@
     "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN",
     "S08 typed owner ports qualify isolated canonical mechanics; actual PAPER/auth/admission integrations remain S09/S10/S12 and no legacy E7 role is relabelled LIVE"
   ],
-  "executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38",
-  "qualified_executable_revision": "aa0e2e9431374a6838359d04ef80bc7df5cb0d38"
+  "executable_revision": "9fe882e20eed791891cac0d279ea4cb664aba767",
+  "qualified_executable_revision": "9fe882e20eed791891cac0d279ea4cb664aba767"
 }

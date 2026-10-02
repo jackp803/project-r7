@@ -1,0 +1,117 @@
+test_corrupt_hash_and_unrecognized_snapshot_fields_fail_closed (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_corrupt_hash_and_unrecognized_snapshot_fields_fail_closed) ... ERROR
+test_future_simulation_controls_survive_without_replaying_orders (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_future_simulation_controls_survive_without_replaying_orders) ... ERROR
+test_pre_restart_retry_permission_requires_new_explicit_reconciliation (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_pre_restart_retry_permission_requires_new_explicit_reconciliation) ... ERROR
+test_rehashed_inconsistent_fill_quantity_lineage_and_duplicate_orders_rejected (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_rehashed_inconsistent_fill_quantity_lineage_and_duplicate_orders_rejected) ... ERROR
+test_restart_retains_ambiguous_ack_separate_from_actual_filled_order (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_restart_retains_ambiguous_ack_separate_from_actual_filled_order) ... ERROR
+test_restart_retains_partial_fill_first_time_and_no_duplicate_submission (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_restart_retains_partial_fill_first_time_and_no_duplicate_submission) ... ERROR
+test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) ... 
+  test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) (status='CANCELED') ... ERROR
+  test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) (status='EXPIRED') ... ERROR
+  test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) (status='REJECTED') ... ERROR
+
+======================================================================
+ERROR: test_corrupt_hash_and_unrecognized_snapshot_fields_fail_closed (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_corrupt_hash_and_unrecognized_snapshot_fields_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 101, in test_corrupt_hash_and_unrecognized_snapshot_fields_fail_closed
+    state = PaperBroker().export_state()
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'export_state'
+
+======================================================================
+ERROR: test_future_simulation_controls_survive_without_replaying_orders (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_future_simulation_controls_survive_without_replaying_orders)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 96, in test_future_simulation_controls_survive_without_replaying_orders
+    restored = _roundtrip(PaperBroker(ambiguous_outcomes={request.client_order_id: False}))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+======================================================================
+ERROR: test_pre_restart_retry_permission_requires_new_explicit_reconciliation (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_pre_restart_retry_permission_requires_new_explicit_reconciliation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 71, in test_pre_restart_retry_permission_requires_new_explicit_reconciliation
+    restored = _roundtrip(broker)
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+======================================================================
+ERROR: test_rehashed_inconsistent_fill_quantity_lineage_and_duplicate_orders_rejected (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_rehashed_inconsistent_fill_quantity_lineage_and_duplicate_orders_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 113, in test_rehashed_inconsistent_fill_quantity_lineage_and_duplicate_orders_rejected
+    original = broker.export_state()
+               ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'export_state'
+
+======================================================================
+ERROR: test_restart_retains_ambiguous_ack_separate_from_actual_filled_order (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_restart_retains_ambiguous_ack_separate_from_actual_filled_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 57, in test_restart_retains_ambiguous_ack_separate_from_actual_filled_order
+    restored = _roundtrip(broker)
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+======================================================================
+ERROR: test_restart_retains_partial_fill_first_time_and_no_duplicate_submission (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_restart_retains_partial_fill_first_time_and_no_duplicate_submission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 36, in test_restart_retains_partial_fill_first_time_and_no_duplicate_submission
+    restored = _roundtrip(broker)
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+======================================================================
+ERROR: test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) (status='CANCELED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 90, in test_terminal_orders_do_not_reopen_on_restart
+    restored = _roundtrip(broker)
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+======================================================================
+ERROR: test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) (status='EXPIRED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 90, in test_terminal_orders_do_not_reopen_on_restart
+    restored = _roundtrip(broker)
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+======================================================================
+ERROR: test_terminal_orders_do_not_reopen_on_restart (tests.brokers.test_paper_checkpoint.PaperCheckpointTests.test_terminal_orders_do_not_reopen_on_restart) (status='REJECTED')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 90, in test_terminal_orders_do_not_reopen_on_restart
+    restored = _roundtrip(broker)
+               ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\brokers\test_paper_checkpoint.py", line 17, in _roundtrip
+    return PaperBroker.from_state(json.loads(json.dumps(broker.export_state())))
+           ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: type object 'PaperBroker' has no attribute 'from_state'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+FAILED (errors=9)

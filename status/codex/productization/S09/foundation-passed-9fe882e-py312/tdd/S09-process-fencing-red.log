@@ -1,0 +1,25 @@
+test_new_effect_waits_for_previous_canonical_publication (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_new_effect_waits_for_previous_canonical_publication) ... FAIL
+test_old_process_cannot_complete_an_effect_after_restart (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_old_process_cannot_complete_an_effect_after_restart) ... FAIL
+
+======================================================================
+FAIL: test_new_effect_waits_for_previous_canonical_publication (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_new_effect_waits_for_previous_canonical_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 147, in test_new_effect_waits_for_previous_canonical_publication
+    with self.assertRaises(RuntimeConflictError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeConflictError not raised
+
+======================================================================
+FAIL: test_old_process_cannot_complete_an_effect_after_restart (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_old_process_cannot_complete_an_effect_after_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 157, in test_old_process_cannot_complete_an_effect_after_restart
+    with self.assertRaises(RuntimeConflictError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeConflictError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.497s
+
+FAILED (failures=2)

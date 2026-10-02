@@ -1,0 +1,89 @@
+test_changed_identity_namespace_and_float_or_secret_fields_rejected (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_changed_identity_namespace_and_float_or_secret_fields_rejected) ... FAIL
+test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication) ... FAIL
+test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely) ... FAIL
+test_identical_completed_retry_returns_original_without_new_checkpoint (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_identical_completed_retry_returns_original_without_new_checkpoint) ... FAIL
+test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary) ... FAIL
+test_publication_requires_exact_effect_and_does_not_change_exposure (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_publication_requires_exact_effect_and_does_not_change_exposure) ... FAIL
+test_runtime_generations_are_durable_and_cannot_rewrite_logical_history (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_runtime_generations_are_durable_and_cannot_rewrite_logical_history) ... FAIL
+
+======================================================================
+FAIL: test_changed_identity_namespace_and_float_or_secret_fields_rejected (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_changed_identity_namespace_and_float_or_secret_fields_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 106, in test_changed_identity_namespace_and_float_or_secret_fields_rejected
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+======================================================================
+FAIL: test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 42, in test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+======================================================================
+FAIL: test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 89, in test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+======================================================================
+FAIL: test_identical_completed_retry_returns_original_without_new_checkpoint (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_identical_completed_retry_returns_original_without_new_checkpoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 75, in test_identical_completed_retry_returns_original_without_new_checkpoint
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+======================================================================
+FAIL: test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 62, in test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+======================================================================
+FAIL: test_publication_requires_exact_effect_and_does_not_change_exposure (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_publication_requires_exact_effect_and_does_not_change_exposure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 117, in test_publication_requires_exact_effect_and_does_not_change_exposure
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+======================================================================
+FAIL: test_runtime_generations_are_durable_and_cannot_rewrite_logical_history (tests.storage.test_paper_process_journal.PaperProcessJournalTests.test_runtime_generations_are_durable_and_cannot_rewrite_logical_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 130, in test_runtime_generations_are_durable_and_cannot_rewrite_logical_history
+    with self.journal() as journal:
+         ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 22, in journal
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_process'),
+AssertionError: unexpectedly None : durable Paper operation/checkpoint owner is not implemented
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.006s
+
+FAILED (failures=7)

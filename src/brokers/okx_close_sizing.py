@@ -502,9 +502,9 @@ def _fp04_status(value: OKXCloseSizingInput) -> tuple[bool, bool]:
     return exact_current, current_owned
 
 
-def _capability_is_proven(value: OKXCloseSizingInput, action_role: str) -> bool:
+def _capability_is_proven(value: OKXCloseSizingInput, action_role: str, capability_profile: str) -> bool:
     capability = value.capability
-    if capability.capability_profile_version != FP02_CAPABILITY_PROFILE_VERSION:
+    if capability.capability_profile_version != capability_profile:
         return False
     if capability.capability_state not in _CAPABILITY_STATES or capability.capability_state != REPO_EVIDENCED:
         return False
@@ -628,6 +628,7 @@ def _build_evidence(
     effective_canonical_close_quantity: Decimal | None,
     checked_metadata: OKXInstrumentMetadata | None,
     supersedes_id: str | None,
+    sizing_profile: str = CLOSE_RESIDUAL_SIZING_PROFILE_VERSION,
 ) -> dict[str, Any]:
     provider = value.provider_exposure
     capability = value.capability
@@ -640,7 +641,7 @@ def _build_evidence(
     metadata = value.instrument_metadata
 
     evidence: dict[str, Any] = {
-        "close_residual_sizing_profile_version": CLOSE_RESIDUAL_SIZING_PROFILE_VERSION,
+        "close_residual_sizing_profile_version": sizing_profile,
         "evaluation_phase": value.evaluation_phase,
         "action_role": action_role,
         "position_action_id": value.action.get("position_action_id"),
@@ -714,7 +715,7 @@ def _build_evidence(
     evidence_id, evidence_hash = _identity(evidence)
     evidence["sizing_evidence_id"] = evidence_id
     evidence["sizing_evidence_hash"] = evidence_hash
-    validate_okx_close_residual_sizing_evidence(evidence)
+    _validate_okx_close_residual_sizing_evidence(evidence, sizing_profile=sizing_profile)
     return evidence
 
 
@@ -726,6 +727,7 @@ def _outcome_without_sizing(
     reasons: list[str],
     checked_metadata: OKXInstrumentMetadata | None = None,
     supersedes_id: str | None = None,
+    sizing_profile: str = CLOSE_RESIDUAL_SIZING_PROFILE_VERSION,
 ) -> dict[str, Any]:
     return _build_evidence(
         value,
@@ -737,6 +739,7 @@ def _outcome_without_sizing(
         effective_canonical_close_quantity=None,
         checked_metadata=checked_metadata,
         supersedes_id=supersedes_id,
+        sizing_profile=sizing_profile,
     )
 
 
@@ -746,6 +749,24 @@ def evaluate_okx_close_residual_sizing(
     supersedes_evidence: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Evaluate FP-05 from supplied facts only; never performs provider I/O or mutation."""
+
+    return _evaluate_okx_close_residual_sizing_profile(
+        value, sizing_profile=CLOSE_RESIDUAL_SIZING_PROFILE_VERSION,
+        capability_profile=FP02_CAPABILITY_PROFILE_VERSION,
+        supersedes_evidence=supersedes_evidence,
+    )
+
+
+def _evaluate_okx_close_residual_sizing_profile(
+    value: OKXCloseSizingInput, *, sizing_profile: str, capability_profile: str,
+    supersedes_evidence: Mapping[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Shared arithmetic; public owner entry points pin their own explicit profiles."""
+    def outcome(value, **facts):
+        return _outcome_without_sizing(value, sizing_profile=sizing_profile, **facts)
+
+    def build(value, **facts):
+        return _build_evidence(value, sizing_profile=sizing_profile, **facts)
 
     if not isinstance(value, OKXCloseSizingInput):
         raise OKXCloseSizingError("INPUT_TYPE_INVALID", "FP-05 requires OKXCloseSizingInput")
@@ -760,7 +781,7 @@ def evaluate_okx_close_residual_sizing(
 
     supersedes_id = None
     if supersedes_evidence is not None:
-        validate_okx_close_residual_sizing_evidence(supersedes_evidence)
+        _validate_okx_close_residual_sizing_evidence(supersedes_evidence, sizing_profile=sizing_profile)
         if (
             supersedes_evidence.get("position_id") != value.current_position.get("position_id")
             or supersedes_evidence.get("action_role") != action_role
@@ -770,7 +791,7 @@ def evaluate_okx_close_residual_sizing(
 
     phase_valid, phase_reason = _validate_phase_authority(value, action_role)
     if not phase_valid:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -780,7 +801,7 @@ def evaluate_okx_close_residual_sizing(
         return _finalize_supersession(candidate, supersedes_evidence)
 
     if value.current_position.get("reconciliation_status") != "CONSISTENT":
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -790,7 +811,7 @@ def evaluate_okx_close_residual_sizing(
         return _finalize_supersession(candidate, supersedes_evidence)
 
     if value.prior_close_outcome_status == PRIOR_OUTCOME_AMBIGUOUS:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -801,7 +822,7 @@ def evaluate_okx_close_residual_sizing(
 
     exact_fp04, current_owned = _fp04_status(value)
     if not exact_fp04:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -810,7 +831,7 @@ def evaluate_okx_close_residual_sizing(
         )
         return _finalize_supersession(candidate, supersedes_evidence)
     if not current_owned:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=REDUCIBLE_EXPOSURE_UNKNOWN,
@@ -821,7 +842,7 @@ def evaluate_okx_close_residual_sizing(
 
     provider = value.provider_exposure
     if provider.provider_position_currentness_status not in _CURRENTNESS or provider.provider_position_currentness_status != CURRENT:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=REDUCIBLE_EXPOSURE_UNKNOWN,
@@ -830,7 +851,7 @@ def evaluate_okx_close_residual_sizing(
         )
         return _finalize_supersession(candidate, supersedes_evidence)
     if provider.provider_reducible_quantity is None:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=REDUCIBLE_EXPOSURE_UNKNOWN,
@@ -842,7 +863,7 @@ def evaluate_okx_close_residual_sizing(
     provider_native_quantity = _decimal(provider.provider_reducible_quantity, "provider_reducible_quantity")
     provider_canonical_quantity = _decimal(provider.normalized_canonical_quantity, "provider_normalized_canonical_quantity")
     if provider_canonical_quantity != current_quantity:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -852,7 +873,7 @@ def evaluate_okx_close_residual_sizing(
         return _finalize_supersession(candidate, supersedes_evidence)
     if current_quantity == 0:
         if provider_native_quantity != 0:
-            candidate = _outcome_without_sizing(
+            candidate = outcome(
                 value,
                 action_role=action_role,
                 state=RECONCILIATION_REQUIRED,
@@ -860,7 +881,7 @@ def evaluate_okx_close_residual_sizing(
                 supersedes_id=supersedes_id,
             )
             return _finalize_supersession(candidate, supersedes_evidence)
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=EXPOSURE_ALREADY_FLAT,
@@ -869,7 +890,7 @@ def evaluate_okx_close_residual_sizing(
         )
         return _finalize_supersession(candidate, supersedes_evidence)
     if provider_native_quantity <= 0:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -878,11 +899,11 @@ def evaluate_okx_close_residual_sizing(
         )
         return _finalize_supersession(candidate, supersedes_evidence)
 
-    if not _capability_is_proven(value, action_role):
+    if not _capability_is_proven(value, action_role, capability_profile):
         reasons = ["OKX_CLOSE_CAPABILITY_UNPROVEN"]
         if value.capability.provider_position_quantity_unit != provider.provider_reducible_quantity_unit:
             reasons.append("OKX_CLOSE_PROVIDER_POSITION_UNIT_UNPROVEN")
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=CLOSE_CAPABILITY_UNPROVEN,
@@ -893,7 +914,7 @@ def evaluate_okx_close_residual_sizing(
 
     metadata_ok, metadata_reason, checked = _metadata_status(value, action_role)
     if not metadata_ok or checked is None:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=METADATA_STALE_OR_UNKNOWN,
@@ -904,7 +925,7 @@ def evaluate_okx_close_residual_sizing(
 
     base_per_contract = checked.ct_val * checked.ct_mult
     if provider_native_quantity * base_per_contract != current_quantity:
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RECONCILIATION_REQUIRED,
@@ -933,7 +954,7 @@ def evaluate_okx_close_residual_sizing(
             reasons.append("OKX_CLOSE_SIZE_ZERO_OR_NEGATIVE")
         if value.evaluation_phase == POST_ACTION_RESIDUAL:
             reasons.append("OKX_CLOSE_NEWER_EVIDENCE_REQUIRED")
-        candidate = _outcome_without_sizing(
+        candidate = outcome(
             value,
             action_role=action_role,
             state=RESIDUAL_NONZERO_UNREPRESENTABLE,
@@ -964,7 +985,7 @@ def evaluate_okx_close_residual_sizing(
         state = PARTIALLY_REDUCIBLE
         reasons = ["OKX_CLOSE_PARTIALLY_REDUCIBLE"]
 
-    candidate = _build_evidence(
+    candidate = build(
         value,
         action_role=action_role,
         sizing_state=state,
@@ -997,9 +1018,13 @@ def _finalize_supersession(
 
 
 def validate_okx_close_residual_sizing_evidence(evidence: Mapping[str, Any]) -> None:
+    _validate_okx_close_residual_sizing_evidence(evidence, sizing_profile=CLOSE_RESIDUAL_SIZING_PROFILE_VERSION)
+
+
+def _validate_okx_close_residual_sizing_evidence(evidence: Mapping[str, Any], *, sizing_profile: str) -> None:
     if not isinstance(evidence, Mapping) or set(evidence) != _EVIDENCE_FIELDS:
         raise OKXCloseSizingError("EVIDENCE_FIELDS_INVALID", "FP-05 evidence fields mismatch")
-    if evidence.get("close_residual_sizing_profile_version") != CLOSE_RESIDUAL_SIZING_PROFILE_VERSION:
+    if evidence.get("close_residual_sizing_profile_version") != sizing_profile:
         raise OKXCloseSizingError("OKX_CLOSE_SIZING_PROFILE_UNSUPPORTED", "FP-05 profile unsupported")
     evidence_id = evidence.get("sizing_evidence_id")
     evidence_hash = evidence.get("sizing_evidence_hash")

@@ -87,3 +87,27 @@ not S12 completion. Continue the provider role/translation/readback/durable effe
 and recovery stages above on the same task/branch after this checkpoint.
 
 Exact-clean foundation qualification PASS: executable `370bdcbfaa9a6301b2f88cba722268f775821d41`, commands33, phase1 247, phase2 1278, total1525; see FOUNDATION_RESULT.md and machine report. S12 remains IN_PROGRESS and continues the remaining stages automatically.
+
+Next checkpoint implements additive pure E4 roles/readback and E6 durable dispatch
+mechanics. The existing market-entry mapper and FP05 arithmetic are shared behind
+pinned legacy wrappers; no v0.1 enum/profile is widened. New actual E5/E4 tests:
+close9, entry/close translation4, initial protection4, strict market/algo readback6.
+Actual FP11 owner fixtures gate empty/multiple/orphan/unknown/stale sets. Exact
+native stop tick/lot representation is required. ACK, partial fill and triggered
+child identity stay distinct; private rejection text is discarded. An observed
+in-place proof mutation defect was fixed with independently stored fingerprints.
+Invalid role/body/naive-clock shapes were observed RED before stable rejection.
+
+E6 dispatch7 tests use actual migrated SQLite files, two concurrent connections,
+committed claim/crash/reopen, historical client-ID reservation across runs,
+namespace binding and old-process fencing. synchronous=FULL is verified. These
+records alone never authorize effects or infer canonical exposure. A recovered
+claim cannot obtain a second POST. Run/source/app current owners must still be
+composed before any fake or real effect; native credentials/network were not used.
+
+Affected development regression: brokers228, storage160, execution127, position168
+PASS. See the explicit profile in
+contracts/OKX_PRODUCT_ACTION_ROLE_PROFILE_V0_2.md. Actual application dispatch/
+canonical publication, spawned stop child-fill binding, full fake-provider E2E,
+readonly projections and approval/control integration remain IN_PROGRESS. This
+checkpoint is not S12 completion and does not start S13 or actual runtime.

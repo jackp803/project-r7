@@ -572,6 +572,14 @@ def materialize_demo_market_order(
     if config.environment != "demo":
         raise OKXDemoConfigurationError("production/live mode is forbidden")
     validate_demo_prerequisites(prerequisites, config=config)
+    return _materialize_market_order(request, sizing, metadata, position_mode=config.expected_position_mode, now=now)
+
+
+def _materialize_market_order(
+    request: OrderRequest, sizing: OKXEntrySizingAudit, metadata: OKXInstrumentMetadata,
+    *, position_mode: str, now: datetime,
+) -> OKXOrderMaterialization:
+    """Pure shared mechanical translation; each public adapter owns its admission."""
     checked_metadata = validate_okx_submit_metadata(metadata, now=now)
 
     if request.schema_version != SCHEMA_VERSION:
@@ -593,7 +601,7 @@ def materialize_demo_market_order(
         raise OKXProtocolError("provider exposure exceeds or invalidates E5-approved BTC bound")
 
     identity = stable_okx_cl_ord_id(request.client_order_id)
-    pos_side = _position_side(request.side, config.expected_position_mode)
+    pos_side = _position_side(request.side, position_mode)
     body = {
         "instId": OKX_INSTRUMENT_ID,
         "tdMode": OKX_TRADE_MODE,

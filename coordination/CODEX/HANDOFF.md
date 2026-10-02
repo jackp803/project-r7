@@ -22,11 +22,16 @@ S01 source implementation now exists: strict non-secret configuration, local
 database/cloud root checks, measured hardware doctor, conservative research
 admission, Windows Job Object / Linux process-group ownership and bounded
 termination, and an inventory-aware local qualification runner. Initial TDD
-failures were observed; all 17 new application tests now pass on Windows with
+failures were observed; all 19 new application tests now pass on Windows with
 zero failure/error/skip. Actual automatic timeout and unrelated-process survival
 are tested. Memory enforcement remains SOFT_LIMIT_ONLY.
 
-Next action: commit this executable checkpoint, qualify the exact clean revision
+The first clean qualification failed in the application suite because job
+accounting zero preceded descendant exit. Remediation now waits on stable
+owned process handles and covers repr-escaped path redaction. Preserve this
+failed evidence; never transplant its earlier passes to the repaired candidate.
+
+Next action: qualify the new exact clean revision
 with the complete legacy focused sequence and all inventory directories, persist
 sanitized evidence in a separate commit, then advance to S02. Product Python
 minor is selected as 3.12; current 3.14.3 source results do not certify frozen

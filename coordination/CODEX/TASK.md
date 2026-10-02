@@ -1,232 +1,245 @@
-# Codex Current Task — R7 Productization
+# Codex Current Task — R7 Master Productization
 
-- task_id: `CODEX-R7-PRODUCTIZATION-P1-20261002`
+- task_id: `CODEX-R7-PRODUCTIZATION-MASTER-20261002`
+- issued_at: `2026-10-02`
 - state: `ACTIVE`
-- program: `R7 Productization V0.1`
-- authority:
-  - `status/PRODUCT_OWNER_CODEX_R7_PRODUCTIZATION_AUTHORIZATION_20261002.md`
-  - `docs/product/R7_AUTONOMOUS_STRATEGY_TO_CAPITAL_V0_1.md`
-  - `agents/README.md`
-  - existing E1-E7 contracts/ADRs
-- base: latest authoritative `main`
-- execution: approved local Windows only; GitHub compute forbidden
+- supersedes: `CODEX-R7-PRODUCTIZATION-P1-20261002`
+- repository: `jackp803/project-r7`
+- execution_model: `CONTINUOUS M1 -> M11`
+- local_execution: `Product-Owner-approved Windows only`
+- GitHub_compute: `FORBIDDEN`
+
+## Authority
+
+Read before implementation:
+
+1. `agents/README.md`
+2. `status/PRODUCT_OWNER_CODEX_R7_MASTER_PRODUCTIZATION_AUTHORIZATION_20261002.md`
+3. `docs/product/R7_AUTONOMOUS_STRATEGY_TO_CAPITAL_V0_1.md`
+4. `docs/product/R7_MASTER_PRODUCT_ARCHITECTURE_V0_1.md`
+5. `docs/product/R7_CODEX_MASTER_EXECUTION_PLAN_V0_1.md`
+6. `docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md`
+7. referenced shared contracts/ADRs/current owner implementations
+
+GitHub `main` at task start is the source of truth.
 
 ## Mission
 
-Implement P1 — Cloud Strategy Intake + application skeleton.
+Complete the entire R7 V0.1 product implementation.
 
-Create the first usable end-to-end product boundary:
-
-```text
-Cloud Drive synced folder
--> Strategy Package discovery
--> manifest/hash validation
--> durable idempotent local claim
--> E6 Strategy intake
--> application run/status record
--> sanitized result/receipt artifact back to Cloud Drive
-```
-
-This task must use the real existing E2/E6 contracts/boundaries where applicable.
-Do not create parallel StrategyDefinition or Registry semantics.
-
-## Required deliverables
-
-### 1. Application package
-
-Add an application layer under a clear top-level package such as:
+The required final product flow is:
 
 ```text
-src/application/
+Chat-authored Strategy Package
+-> Cloud Drive
+-> local R7 intake
+-> Backtest
+-> independent OOS
+-> parameter robustness
+-> walk-forward
+-> Monte Carlo
+-> REJECTED or CANDIDATE
+-> continuous PAPER
+-> READY_FOR_APPROVAL
+-> exact Product Owner approval model
+-> LIVE-capable runtime
+-> execution/protection/reconciliation architecture
+-> performance reporting
+-> Cloud Drive result feedback
+-> usable Control Center
+-> packaged Windows product
 ```
 
-with bounded modules for:
+R7 must not require an embedded LLM or paid LLM API.
 
-- product configuration;
-- CloudArtifactTransport protocol;
-- SyncedFolderCloudTransport;
-- StrategyPackage/manifest envelope validation;
-- local durable intake ledger;
-- StrategyInboxService;
-- ResultPublisher;
-- application-level status/result models.
+## Execution instruction
 
-Exact filenames may differ if the final structure is cleaner, but all listed
-capabilities must exist and remain application-layer code.
+Do not stop after M1.
 
-### 2. Cloud root configuration
+Execute milestones M1 through M11 from:
 
-Support a configurable `R7_CLOUD_ROOT`/equivalent application setting.
+`docs/product/R7_CODEX_MASTER_EXECUTION_PLAN_V0_1.md`
 
-Do NOT hard-code a user path or cloud provider.
+in order.
 
-Required logical folders:
+For each milestone:
+
+1. inspect existing implementation before adding code;
+2. implement the smallest architecture-conformant surface;
+3. add/strengthen tests;
+4. run focused tests locally;
+5. run relevant regressions locally;
+6. fix deterministic defects and rerun until green;
+7. establish an exact committed executable checkpoint;
+8. persist milestone evidence;
+9. if milestone gate PASS, continue automatically to the next milestone.
+
+No PM wake message is required between passing milestones.
+
+## Branch
+
+Create/use:
+
+`codex/r7-productization-master-20261002`
+
+from latest authoritative `main`.
+
+Do not merge `main`.
+
+Do not force push after evidence checkpoints exist.
+
+## Key product architecture
 
 ```text
-inbox/strategies
-datasets
-research/runs
-research/rejected
-candidates
-paper
-live
-reports
-archive
+GitHub       = code/contracts/evidence plane
+Cloud Drive  = strategy/dataset/result artifact plane
+Local R7     = authoritative runtime state and compute
 ```
 
-Creation must be idempotent.
+Required Cloud transport for V0.1:
 
-### 3. Manifest-last submission protocol
+`SyncedFolderCloudTransport`
 
-A completed submission directory contains:
+behind:
+
+`CloudArtifactTransport`
+
+Do not hard-code a Google Drive/OneDrive path.
+
+Local active SQLite must be outside the cloud root.
+
+## Existing domain boundary
+
+Do not replace:
 
 ```text
-strategy.json
-manifest.json
+E1 market truth
+E2 strategy semantics
+E3 backtest/validation
+E4 broker/execution
+E5 risk/position
+E6 persistence/registry
+E7 contracts/integration/release
 ```
 
-`manifest.json` is the final producer marker.
+Application orchestration composes these domains.
 
-Validate:
+## Frontend/product target
 
-- package schema version;
-- non-empty submission/strategy/version identities;
-- exact declared filenames;
-- SHA-256;
-- no path traversal;
-- no absolute paths;
-- no duplicate logical artifacts;
-- no unexpected secret-like fields;
-- immutable package identity.
-
-If manifest is present but a referenced file is temporarily absent or hash
-mismatched, classify `INCOMPLETE_SYNC` and allow a later retry. Do not convert
-cloud-sync incompleteness into strategy REJECTED.
-
-### 4. Durable intake ledger
-
-Use local SQLite, separate from Cloud Drive.
-
-Minimum durable states:
+Implement a usable local Control Center:
 
 ```text
-DISCOVERED
-INCOMPLETE_SYNC
-CLAIMED
-INTAKE_ACCEPTED
-BLOCKED
-PUBLISHED
+Overview
+Research
+Strategies
+Trading
+Health
+Settings
 ```
 
-The same immutable `submission_id + manifest hash` must never execute twice
-after restart.
+Recommended stack is Python/FastAPI backend plus React/TypeScript/Vite frontend,
+served locally.
 
-Same `submission_id` with changed immutable package material is a conflict and
-must fail closed.
+Normal product operation must not require Git, PowerShell, PYTHONPATH or manual
+JSON inspection.
 
-### 5. Real E2/E6 boundary consumption
+## Windows product target
 
-For a complete package:
-
-- parse/validate its actual StrategyDefinition through the accepted E2 boundary;
-- route the exact definition into E6 Strategy Platform intake;
-- preserve the current E6 compatibility/evidence semantics;
-- do NOT fabricate LOCAL_EXECUTION PASS;
-- do NOT promote to BACKTESTING/CANDIDATE in P1.
-
-P1 proves intake, not research qualification.
-
-### 6. Result/receipt publishing
-
-Publish a sanitized immutable receipt under:
+Final normal launch:
 
 ```text
-research/runs/<submission_id>/
+R7.exe
+-> initialize/recover local product
+-> start backend/supervisor
+-> open Control Center
+-> scan Cloud inbox
+-> continue configured RESEARCH/PAPER work
 ```
 
-Minimum fields:
+Research/PAPER operation requires no provider credential.
 
-- receipt schema;
-- submission ID;
-- strategy ID/version/content hash;
-- package manifest hash;
-- intake state;
-- local application/project revision when available;
-- timestamps;
-- deterministic reason codes;
-- no credentials/raw provider material.
+## LIVE implementation boundary
 
-Publishing must be idempotent.
+Complete M9 credential-free LIVE-capable code and fake-provider tests.
 
-### 7. Product service entrypoint
+Do NOT consume real credentials/provider/private/capital authority.
 
-Provide a callable application entrypoint/service that can perform one inbox
-scan deterministically.
+Real activation is a later Product Owner gate and is not required to finish this
+master implementation task.
 
-A continuous watcher/service loop may be added only if it is bounded,
-interruptible and testable. P1 must not introduce trading/PAPER/provider
-runtime.
+## Evidence
 
-### 8. Tests
+Persist per milestone:
 
-Add local deterministic tests for at least:
+```text
+status/codex/productization/M01_COMPLETION_20261002.md
+...
+status/codex/productization/M10_COMPLETION_20261002.md
+```
 
-- valid manifest/package;
-- missing payload -> INCOMPLETE_SYNC;
-- hash mismatch -> INCOMPLETE_SYNC;
-- path traversal rejection;
-- duplicate submission idempotence;
-- same submission ID changed content -> conflict;
-- restart preserves claim/no duplicate execution;
-- unsupported/malformed StrategyDefinition -> BLOCKED;
-- valid package reaches real E6 DRAFT intake without fabricated PASS;
-- receipt publication;
-- receipt contains no secret-like fields;
-- cloud root initialization is idempotent;
-- no GitHub/network/LLM/provider dependency.
+and final:
 
-## Non-goals / forbidden
+`status/codex/R7_PRODUCTIZATION_MASTER_COMPLETION_20261002.md`
 
-P1 must NOT:
+Evidence after a tested executable checkpoint must not rebind that checkpoint.
 
-- add AI/LLM calls;
-- add Google Drive-specific API/auth;
-- add provider credentials;
-- call OKX/private APIs;
-- start PAPER/SHADOW/LIVE;
-- implement CANDIDATE promotion;
-- modify E2 strategy semantics;
-- modify E3 validation semantics;
-- weaken E6 evidence gates;
-- create GitHub Actions/CI.
+## Required final acceptance
 
-## Verification
+Use:
 
-Run focused application tests locally plus all directly affected existing
-strategy/registry/storage tests.
+`docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md`
 
-Then run the complete credential-free project test matrix appropriate to the
-current repository if available within approved local capability.
+as the product Definition of Done.
 
-Persist:
+M11 must exercise at minimum:
 
-- exact executable revision;
-- commands;
-- counts;
-- failures/errors/skips;
-- exact-clean before/after proof;
-- scope diff;
-- security scan for committed secrets;
-- confirmation of zero provider/LLM/GitHub compute.
+- valid strategy -> CANDIDATE;
+- weak strategy -> REJECTED;
+- malformed strategy -> BLOCKED;
+- partial cloud sync -> later exactly-once processing;
+- CANDIDATE -> PAPER -> READY_FOR_APPROVAL;
+- full PAPER entry/protection/exit/flat TradeResult;
+- restart recovery;
+- cloud result publication;
+- Control Center visibility;
+- packaged Windows launch;
+- credential-free LIVE path fail-closed.
 
-## Completion
+## Stop conditions
 
-On PASS:
+Stop only for the exact classes defined by the master execution plan:
 
-1. commit/push implementation on a bounded Codex branch;
-2. create `status/codex/R7_PRODUCTIZATION_P1_COMPLETION_20261002.md`;
-3. include exact implementation revision and local evidence;
-4. stop for PM static review.
+- ARCHITECTURE_REVIEW_REQUIRED
+- LOCAL_CAPABILITY_UNAVAILABLE
+- EXTERNAL_DEPENDENCY_REQUIRED
+- SECURITY_INCIDENT
 
-Do not self-start P2 from this task. P2 will be issued after P1 acceptance so
-the research orchestrator binds to the accepted intake interface.
+Provider/credential/capital absence does NOT block completion of credential-free
+LIVE-capable implementation.
+
+Do not stop for ordinary failing tests or implementation defects; fix them.
+
+## Final return
+
+Return only after M11 or genuine blocker with:
+
+```text
+MASTER_RESULT
+branch
+final branch HEAD
+final qualified executable
+M1-M11 results
+full test totals
+Windows packaging result
+product acceptance result
+known limitations
+real provider requests
+LLM API calls
+credentials
+capital exposure
+GitHub compute
+```
+
+Then stop for PM final review.
+
+Do not activate real money.

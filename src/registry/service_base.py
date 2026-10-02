@@ -362,8 +362,7 @@ class StrategyPlatformService:
             command=command,
             result_ref=result_ref,
         )
-        self._store.save_validation_evidence(record)
-        return record
+        return self._store.save_validation_evidence(record)
 
     def record_validation_decision(
         self,
@@ -420,8 +419,7 @@ class StrategyPlatformService:
             command=command,
             result_ref=result_ref,
         )
-        self._store.save_validation_evidence(record)
-        return record
+        return self._store.save_validation_evidence(record)
 
     def reject_from_backtesting(
         self,

@@ -51,7 +51,8 @@ class RegistryStore(Protocol):
     def save_intake_receipt(self, receipt: IntakeReceipt) -> None:
         ...
 
-    def save_validation_evidence(self, evidence: ValidationEvidenceRecord) -> None:
+    def save_validation_evidence(self, evidence: ValidationEvidenceRecord) -> ValidationEvidenceRecord:
+        """Return the immutable original record for an exact upstream retry."""
         ...
 
     def get_validation_evidence(self, evidence_id: str) -> ValidationEvidenceRecord | None:

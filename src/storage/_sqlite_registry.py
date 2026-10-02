@@ -337,8 +337,27 @@ class _SQLiteRegistryStore:
         )
         self._commit_intake_write()
 
-    def save_validation_evidence(self, evidence: ValidationEvidenceRecord) -> None:
+    def save_validation_evidence(self, evidence: ValidationEvidenceRecord) -> ValidationEvidenceRecord:
         self._require_writer_capability()
+        try:
+            self._connection.execute('BEGIN IMMEDIATE')
+            row=self._connection.execute('SELECT * FROM validation_evidence WHERE evidence_type=? AND upstream_object_id=?',
+                                         (evidence.evidence_type,evidence.upstream_object_id)).fetchone()
+            if row is not None:
+                original=_validation_from_row(row)
+                compared=replace(evidence,evidence_id=original.evidence_id,recorded_at=original.recorded_at)
+                if compared!=original:
+                    raise EvidenceGateError('Immutable upstream evidence content or verification binding changed')
+                self._connection.commit()
+                return original
+            self._insert_validation_evidence(evidence)
+            self._connection.commit()
+            return evidence
+        except BaseException:
+            self._connection.rollback()
+            raise
+
+    def _insert_validation_evidence(self,evidence: ValidationEvidenceRecord) -> None:
         self._connection.execute(
             """
             INSERT INTO validation_evidence (
@@ -370,8 +389,6 @@ class _SQLiteRegistryStore:
                 evidence.result_ref,
             ),
         )
-        self._connection.commit()
-
     def get_validation_evidence(self, evidence_id: str) -> ValidationEvidenceRecord | None:
         row = self._connection.execute(
             "SELECT * FROM validation_evidence WHERE evidence_id = ?",

@@ -111,3 +111,5 @@ contracts/OKX_PRODUCT_ACTION_ROLE_PROFILE_V0_2.md. Actual application dispatch/
 canonical publication, spawned stop child-fill binding, full fake-provider E2E,
 readonly projections and approval/control integration remain IN_PROGRESS. This
 checkpoint is not S12 completion and does not start S13 or actual runtime.
+
+Exact-clean roles checkpoint PASS: executable `ac2bc686b8f230d3592990242247877b7a4a0053`, commands33, phase1 247, phase2 1308, total1555; see ROLES_RESULT.md and machine report. S12 remains IN_PROGRESS and continues automatically.

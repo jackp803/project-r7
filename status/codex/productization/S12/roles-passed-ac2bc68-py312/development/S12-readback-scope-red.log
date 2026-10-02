@@ -1,0 +1,92 @@
+test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback (test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback) ... ok
+test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch (test_okx_production_transport.OKXProductionTransportTests.test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch) ... ok
+test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) ... 
+  test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/account/positions') ... FAIL
+  test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/fills') ... FAIL
+  test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/order') ... FAIL
+  test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/order') ... FAIL
+  test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/order-algo') ... FAIL
+  test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/orders-algo-pending') ... FAIL
+test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) ... FAIL
+test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry (test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry) ... ok
+test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body (test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body) ... ok
+test_timeout_is_ambiguous_sanitized_and_not_retried (test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried) ... ok
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/account/positions')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 103, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductionTransportError not raised
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/fills')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 103, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductionTransportError not raised
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/order')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 103, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductionTransportError not raised
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/order')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 103, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductionTransportError not raised
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/order-algo')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 103, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductionTransportError not raised
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity) (path='/api/v5/trade/orders-algo-pending')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 103, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductionTransportError not raised
+
+======================================================================
+FAIL: test_readback_requires_instrument_scope_and_one_exact_order_identity (test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 107, in test_readback_requires_instrument_scope_and_one_exact_order_identity
+    self.assertEqual([],calls)
+AssertionError: Lists differ: [] != [<test_okx_production_transport.Connection[391 chars]790>]
+
+Second list contains 6 additional elements.
+First extra element 0:
+<test_okx_production_transport.Connection object at 0x0000013ACF369A30>
+
+- []
++ [<test_okx_production_transport.Connection object at 0x0000013ACF369A30>,
++  <test_okx_production_transport.Connection object at 0x0000013ACF368110>,
++  <test_okx_production_transport.Connection object at 0x0000013ACDC7D370>,
++  <test_okx_production_transport.Connection object at 0x0000013ACF3CD730>,
++  <test_okx_production_transport.Connection object at 0x0000013ACF3CD5E0>,
++  <test_okx_production_transport.Connection object at 0x0000013ACF3CD790>]
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.149s
+
+FAILED (failures=7)

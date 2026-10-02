@@ -1,0 +1,23 @@
+test_bounded_permission_cannot_be_reused_for_persistent_role_or_clear_legacy_undefined_mode (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_bounded_permission_cannot_be_reused_for_persistent_role_or_clear_legacy_undefined_mode) ... ok
+test_current_product_facts_are_eligible_but_legacy_profile_cannot_validate_or_accept_them (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_current_product_facts_are_eligible_but_legacy_profile_cannot_validate_or_accept_them) ... ok
+test_missing_reconciliation_external_consumer_or_current_action_allowlist_deny (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_missing_reconciliation_external_consumer_or_current_action_allowlist_deny) ... ok
+test_old_evidence_cannot_refresh_itself_with_new_process_generation_or_mutated_hash (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_old_evidence_cannot_refresh_itself_with_new_process_generation_or_mutated_hash) ... ok
+test_untyped_input_and_missing_native_supervisor_fail_closed (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_untyped_input_and_missing_native_supervisor_fail_closed) ... ERROR
+test_wrong_revision_config_process_prior_boot_stale_heartbeat_or_single_instance_deny (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_wrong_revision_config_process_prior_boot_stale_heartbeat_or_single_instance_deny) ... ok
+
+======================================================================
+ERROR: test_untyped_input_and_missing_native_supervisor_fail_closed (test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_untyped_input_and_missing_native_supervisor_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\integration\test_product_runtime_preflight_v02.py", line 59, in test_untyped_input_and_missing_native_supervisor_fail_closed
+    with self.assertRaises(RuntimePreflightValidationError):api.evaluate_product_runtime_preflight({'runtime_role':'LIVE_RUNTIME'},authority)
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\integration\product_runtime_preflight.py", line 19, in evaluate_product_runtime_preflight
+    if value.runtime_preflight_profile_version!=PRODUCT_RUNTIME_PREFLIGHT_PROFILE_VERSION or value.runtime_role not in _ROLES:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'runtime_preflight_profile_version'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.005s
+
+FAILED (errors=1)

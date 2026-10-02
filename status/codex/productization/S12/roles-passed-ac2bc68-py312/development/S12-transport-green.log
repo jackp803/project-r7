@@ -1,0 +1,46 @@
+test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback (test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback) ... ok
+test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch (test_okx_production_transport.OKXProductionTransportTests.test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch) ... ok
+test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry (test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry) ... ERROR
+test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body (test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body) ... ERROR
+test_timeout_is_ambiguous_sanitized_and_not_retried (test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried) ... ERROR
+
+======================================================================
+ERROR: test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry (test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 62, in test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry
+    request=api.prepare_production_private_request(config,credentials,method='GET',path='/api/v5/account/config',timestamp='2026-10-03T00:00:00.000Z')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\brokers\okx_production_transport.py", line 122, in prepare_production_private_request
+    'OK-ACCESS-TIMESTAMP':timestamp,'OK-ACCESS-SIGN':sign_okx_rest_request(credentials.secret_key,timestamp,method,request_path,body_text)}
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: sign_okx_rest_request() takes 0 positional arguments but 5 were given
+
+======================================================================
+ERROR: test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body (test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 36, in test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body
+    request=api.prepare_production_private_request(config,credentials,method='POST',path='/api/v5/trade/order',
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\brokers\okx_production_transport.py", line 122, in prepare_production_private_request
+    'OK-ACCESS-TIMESTAMP':timestamp,'OK-ACCESS-SIGN':sign_okx_rest_request(credentials.secret_key,timestamp,method,request_path,body_text)}
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: sign_okx_rest_request() takes 0 positional arguments but 5 were given
+
+======================================================================
+ERROR: test_timeout_is_ambiguous_sanitized_and_not_retried (test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_production_transport.py", line 79, in test_timeout_is_ambiguous_sanitized_and_not_retried
+    request=api.prepare_production_private_request(config,credentials,method='GET',path='/api/v5/account/config',timestamp='2026-10-03T00:00:00.000Z')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\brokers\okx_production_transport.py", line 122, in prepare_production_private_request
+    'OK-ACCESS-TIMESTAMP':timestamp,'OK-ACCESS-SIGN':sign_okx_rest_request(credentials.secret_key,timestamp,method,request_path,body_text)}
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: sign_okx_rest_request() takes 0 positional arguments but 5 were given
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.024s
+
+FAILED (errors=3)

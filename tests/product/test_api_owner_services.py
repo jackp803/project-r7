@@ -87,6 +87,26 @@ class APIOwnerServicesTests(APIFixture, unittest.TestCase):
         self.assertEqual(strategies['items'][0]['current_lifecycle_state'], 'DRAFT')
         self.assertEqual(strategies['items'][0]['content_hash'], subject()['content_hash'])
 
+    def test_scan_revision_survives_reload_for_real_optimistic_ui_commands(self):
+        self.assertEqual(self.client.get('/api/v1/overview').json()['data'].get('scan_revision'),0)
+        self.scan()
+        self.assertEqual(self.client.get('/api/v1/overview').json()['data'].get('scan_revision'),1)
+        response=self.post('/api/v1/research/scan',dict(command_id='scan-after-reload',expected_revision=1))
+        self.assertEqual(response.status_code,200,response.text)
+        self.assertEqual(response.json()['resource_revision'],2)
+
+    def test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest(self):
+        self.scan()
+        detail=self.client.get('/api/v1/strategies/'+subject()['strategy_id']+'/'+subject()['strategy_version']).json()['data']['payload']
+        self.assertEqual(detail['evaluation_timeframe'],subject()['rules']['evaluation_timeframe'])
+        self.assertEqual(detail['max_hold_seconds'],subject()['rules']['exit_policy']['max_hold_seconds'])
+        self.assertEqual(detail.get('author_metadata',{}).get('submission_id'),'fixture-product')
+        self.assertEqual(detail['author_metadata']['manifest']['research_hypothesis'],'測試宣告式策略')
+        submission=self.client.get('/api/v1/submissions/fixture-product').json()['data']['payload']
+        self.assertEqual(submission.get('author_manifest',{}).get('research_hypothesis'),'測試宣告式策略')
+        self.assertEqual(submission['author_manifest']['intent_class'],'EVERGREEN_STRATEGY')
+        self.assertEqual(submission['author_manifest']['validity'],{'from':None,'until':None})
+
     def test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage(self):
         response = self.enqueue()
         self.assertEqual(response.json()['status'], 'QUEUED')

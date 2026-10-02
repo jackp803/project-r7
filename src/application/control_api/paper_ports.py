@@ -6,6 +6,8 @@ from application.paper.assessment import published_paper_metrics
 from registry import StrategyIdentity
 from storage.paper_process import PaperProcessJournal
 from storage.runtime import PaperRuntimeJournal
+from registry import StrategyPlatformService
+import json
 
 
 class PaperStartControlPort:
@@ -13,6 +15,14 @@ class PaperStartControlPort:
         if namespace not in ('FIXTURE','LOCAL_RESEARCH') or not callable(service_factory):
             raise ValueError('Explicit owner-composed Paper factory required')
         self.namespace,self.factory=namespace,service_factory
+
+    def policy_views(self):
+        with self.factory() as service:
+            if not isinstance(service,PaperService) or service.namespace!=self.namespace:
+                raise APIError('NOT_CONFIGURED','ACTUAL_PAPER_OWNER_REQUIRED',503)
+            return [dict(policy_id=service.policy_ref,kind='PAPER',status='SELECTED_LOCAL',
+                mode=service.simulation.as_dict()['mode'],workflow_authorized=service.authorized,
+                policy_hash=service.promotion.policy_hash,simulation_policy_hash=service.simulation.policy_hash)]
 
     def start(self,arguments,*,actor,command_id,expected_revision):
         with self.factory() as service:
@@ -32,6 +42,14 @@ class PaperReadControlPort:
         if namespace not in ('FIXTURE','LOCAL_RESEARCH') or not all(callable(value) for value in (process_factory,canonical_factory,clock)):
             raise ValueError('Explicit actual local Paper readers required')
         self.namespace,self.process_factory,self.canonical_factory,self.clock=namespace,process_factory,canonical_factory,clock
+
+    def list(self,registry_factory,*,limit=50,offset=0):
+        with registry_factory() as registry:
+            if not isinstance(registry,StrategyPlatformService) or registry.research_namespace!=self.namespace:
+                raise APIError('NOT_CONFIGURED','ACTUAL_SAME_NAMESPACE_E6_REQUIRED',503)
+            records=registry.list_accepted_paper_starts(limit=limit,offset=offset)
+        return [dict(self.view(json.loads(record.payload_json)['run_id'])['payload'],
+                     accepted_evidence_ref=json.loads(record.payload_json)['evidence_ref']) for record in records]
 
     def _recover(self,process,run_id):
         if not isinstance(process,PaperProcessJournal): raise APIError('NOT_CONFIGURED','ACTUAL_PAPER_JOURNAL_REQUIRED',503)
@@ -68,6 +86,18 @@ class PaperReadControlPort:
             if graph.current_position_projection is None or graph.current_position_projection.payload!=position:
                 canonical_status='RECONCILIATION_REQUIRED'; reasons.append('CANONICAL_PROJECTION_MISMATCH')
         if recovered.pending_operations: reasons.append('PAPER_OPERATION_PUBLICATION_PENDING')
+        submissions=recovered.state['broker']['payload']['submissions']
+        orders=[]
+        for row in sorted(submissions,key=lambda item:(item['request']['created_at'],item['request']['client_order_id']))[-100:]:
+            request,ack,order=row['request'],row['acknowledgement'],row['order']
+            current=None if order is None else order['result']
+            orders.append(dict(client_order_id=request['client_order_id'],role=request['order_role'],side=request['side'],
+                requested_quantity=request['quantity'],original_ack_status=ack['order_status'],original_ack_at=ack['observed_at'],
+                current_status=None if current is None else current['order_status'],
+                current_observed_at=None if current is None else current['observed_at'],
+                actual_filled_quantity=None if current is None else current['filled_quantity'],
+                average_fill_price=None if current is None else current['average_fill_price'],
+                fill_count=None if order is None else len(order['fills']),fills=[] if order is None else order['fills'][-10:]))
         payload=dict(run_id=run_id,namespace=self.namespace,mode=recovered.binding['mode'],binding=recovered.binding,
             checkpoint_revision=recovered.revision,process_generation=recovered.process_generation,
             runtime_status='NOT_STARTED' if recovered.process_generation==0 else 'PROCESS_HEALTH_UNKNOWN',
@@ -76,5 +106,6 @@ class PaperReadControlPort:
             reconciliation=canonical_status,last_signal=runtime['last_signal'],last_intent=runtime['last_intent'],risk_decision=runtime['risk_decision'],
             entry_request=runtime['entry_request'],protection_request=runtime['protection_request'],exit_request=runtime['exit_request'],
             forward_observations=runtime['forward'],closed_trades_count=len(runtime['closed_trades']),metrics=metrics,
+            orders=orders,orders_total=len(submissions),orders_limit=100,fills_limit=10,
             account_scope='ISOLATED_PER_STRATEGY_RUN',cost_convention='SLIPPAGE_IN_FILL_PRICE; NO_ADDITIONAL_SUBTRACTION')
         return dict(status='LAST_KNOWN_OWNER_FACTS',revision=revision,contract='r7-paper-runtime-v0.2',payload=payload,reason_codes=sorted(set(reasons)))

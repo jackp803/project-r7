@@ -77,6 +77,20 @@ class APIPaperServicesTests(unittest.TestCase):
         self.assertIsNone(view.json()['data']['payload']['metrics'])
         self.assertIsNone(view.json()['data']['payload']['position'])
 
+    def test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment(self):
+        empty=self.client.get('/api/v1/paper/runs')
+        self.assertEqual(empty.status_code,200,empty.text)
+        self.assertEqual(empty.json()['data']['items'],[])
+        _,_,run_id=self.api_start()
+        rows=self.client.get('/api/v1/paper/runs').json()['data']['items']
+        self.assertEqual([row['run_id'] for row in rows],[run_id])
+        self.assertEqual(rows[0]['mode'],'ACCELERATED_FIXTURE')
+        self.assertEqual(rows[0]['process_generation'],0)
+        self.assertEqual(self.h.process.recover(run_id).process_generation,0)
+        policies=self.client.get('/api/v1/policies').json()['data']['items']
+        self.assertEqual(policies[0]['policy_id'],'fixture-paper-policy')
+        self.assertEqual(policies[0]['kind'],'PAPER')
+
     def test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection(self):
         _,_,run_id=self.api_start()
         runtime=self.h.service.runtime(run_id)
@@ -94,6 +108,12 @@ class APIPaperServicesTests(unittest.TestCase):
         read=self.client.get('/api/v1/paper/runs/'+run_id).json()
         self.assertEqual(read['metadata']['current_or_last_known'],'LAST_KNOWN_GOOD')
         self.assertEqual(read['metadata']['as_of'],projection['broker_state_observed_at'])
+        orders=read['data']['payload'].get('orders')
+        self.assertIsNotNone(orders,'PAPER UI needs actual ACK and fill facts, not approved request guesses')
+        entry=next(row for row in orders if row['client_order_id']==read['data']['payload']['entry_request']['client_order_id'])
+        self.assertEqual(entry['original_ack_status'],'OPEN')
+        self.assertEqual(entry['current_status'],'FILLED')
+        self.assertEqual(entry['actual_filled_quantity'],'0.001')
 
     def test_wrong_selected_policy_or_stale_revision_cannot_create_runtime_or_paper(self):
         before=self.h.registry.get_strategy(self.h.identity)

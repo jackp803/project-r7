@@ -122,6 +122,21 @@ class IntakeLedger:
         value['publication']=None if publication is None else dict(publication)
         return value
 
+    def find_strategy_submission(self,strategy_id,strategy_version,content_hash):
+        """Read one original author submission for an exact canonical subject."""
+        row=self._connection.execute('''SELECT o.submission_id FROM app_outbox o
+            JOIN app_submissions s ON s.instance_id=o.instance_id AND s.submission_id=o.submission_id
+            WHERE o.instance_id=? AND s.state='INTAKE_ACCEPTED'
+            AND json_extract(CAST(o.payload AS TEXT),'$.strategy_id')=?
+            AND json_extract(CAST(o.payload AS TEXT),'$.strategy_version')=?
+            AND json_extract(CAST(o.payload AS TEXT),'$.strategy_content_hash')=?
+            ORDER BY o.submission_id LIMIT 1''',(self.instance_id,strategy_id,strategy_version,content_hash)).fetchone()
+        if row is None: return None
+        receipt=self.accepted_receipt(row['submission_id'])
+        if receipt is None or (receipt['strategy_id'],receipt['strategy_version'],receipt['strategy_content_hash'])!=(strategy_id,strategy_version,content_hash):
+            raise ManifestConflict('Original author subject integrity failed')
+        return row['submission_id']
+
     def list_submissions(self,*,limit=50,offset=0):
         if type(limit) is not int or not 1<=limit<=200 or type(offset) is not int or not 0<=offset<=100000:
             raise ValueError('Bounded submission page required')

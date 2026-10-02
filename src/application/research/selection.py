@@ -29,7 +29,7 @@ class ResearchRequestResolver:
                 elif key != 'seed': safe_component(selected[key])
             if type(selected['seed']) is not int or not 0 <= selected['seed'] < 2**64: raise ValueError('Explicit bounded seed required')
 
-    def package(self, submission_id):
+    def _accepted_package(self, submission_id):
         safe_component(submission_id)
         with self.intake_factory() as intake:
             submission = intake.get_submission(submission_id)
@@ -44,6 +44,17 @@ class ResearchRequestResolver:
             record = e6.get_strategy(StrategyIdentity(manifest.strategy_id, manifest.strategy_version))
         if record.content_hash != manifest.strategy_content_hash or receipt['strategy_content_hash'] != record.content_hash:
             raise ResearchQueueError('REGISTERED_SUBJECT_IDENTITY_CONFLICT')
+        return submission,verified
+
+    def manifest_view(self,submission_id):
+        # Immutable author context is readable after a code update. This is no
+        # compatibility/admission verdict; executable package() checks currentness.
+        _,verified=self._accepted_package(submission_id)
+        return json.loads(canonical(verified.manifest.raw))
+
+    def package(self,submission_id):
+        submission,verified=self._accepted_package(submission_id)
+        manifest=verified.manifest
         if manifest.schema_version.endswith('v0.2') and manifest.raw['capability_snapshot_hash'] != build_capability_snapshot().snapshot_hash:
             raise ResearchQueueError('CAPABILITY_REQUALIFICATION_REQUIRED')
         return submission, verified

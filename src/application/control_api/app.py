@@ -51,7 +51,7 @@ def create_app(config: ProductConfig, *, auth: LocalAuth, commands: CommandLedge
     @app.exception_handler(CommandError)
     async def invalid_command(request, error):
         category, status = ('INVALID_INPUT', 422) if error.code == 'INVALID_INPUT' else ('UNAVAILABLE', 503) if error.code.endswith('CORRUPT') or error.code.endswith('CAPACITY_REACHED') else ('CONFLICT', 409)
-        return error_response(category, error.code, status)
+        return error_response(category, error.reason, status)
 
     @app.exception_handler(APIError)
     async def owner_error(request, error):
@@ -154,7 +154,7 @@ def create_app(config: ProductConfig, *, auth: LocalAuth, commands: CommandLedge
             return view(request, name, limit=query.limit, offset=query.offset)
         return page
     for path, name in (('submissions', 'submissions'), ('research/runs', 'research_runs'), ('strategies', 'strategies'),
-                       ('datasets', 'datasets'), ('policies', 'policies'), ('alerts', 'alerts')):
+                       ('datasets', 'datasets'), ('policies', 'policies'), ('alerts', 'alerts'), ('paper/runs','paper_runs')):
         app.add_api_route('/api/v1/'+path, page_route(name), methods=['GET'], name=name, response_model=ViewEnvelope[PageView])
 
     @app.get('/api/v1/submissions/{submission_id}', response_model=ViewEnvelope[OwnerObjectView])

@@ -115,6 +115,7 @@ class OverviewView(StrictDTO):
     live_authorized: bool
     queued_jobs: int | None
     running_jobs: int | None
+    scan_revision: Revision | None = None
     lifecycle_counts: dict[str, int] | None
     exposure_quantity: str | None
     realized_pnl_usdt: str | None

@@ -18,8 +18,9 @@ import sqlite3
 
 
 class CommandError(ValueError):
-    def __init__(self, code='CONFLICT'):
+    def __init__(self, code='CONFLICT', *, reason=None):
         self.code = code
+        self.reason = code if reason is None else reason
         super().__init__(code)
 
 
@@ -111,7 +112,7 @@ class CommandLedger:
                 db.execute('UPDATE control_commands SET generation=?,nonce=?,lease_deadline=?,prepared_at=? WHERE command_id=? AND status=\'PREPARED\'',
                            (generation, nonce, deadline, current, command_id))
             else:
-                if expected_revision != actual_revision: raise CommandError()
+                if expected_revision != actual_revision: raise CommandError(reason='RESOURCE_REVISION_CONFLICT')
                 if db.execute("SELECT 1 FROM control_commands WHERE resource=? AND status='PREPARED'", (resource,)).fetchone():
                     raise CommandError('RESOURCE_COMMAND_PENDING')
                 if db.execute('SELECT COUNT(*) FROM control_commands').fetchone()[0] >= 100000:

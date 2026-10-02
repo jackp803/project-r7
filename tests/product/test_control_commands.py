@@ -39,7 +39,8 @@ class ControlCommandTests(unittest.TestCase):
                 self.assertEqual(error.exception.code, 'CONFLICT')
 
     def test_stale_revision_is_rejected_without_reserving_command(self):
-        with self.assertRaises(self.error): self.prepare(actual=5)
+        with self.assertRaises(self.error) as error: self.prepare(actual=5)
+        self.assertEqual(getattr(error.exception,'reason',None),'RESOURCE_REVISION_CONFLICT')
         self.assertIsNotNone(self.prepare())
 
     def test_pending_effect_fences_other_commands_without_holding_sql_transaction(self):

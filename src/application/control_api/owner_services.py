@@ -40,8 +40,9 @@ class OwnerControlServices(LocalControlServices):
     def _strategy(record, *, detail=False):
         value=asdict(record); value.pop('definition_json')
         definition=json.loads(record.definition_json)
-        value.update(evaluation_timeframe=definition.get('evaluation_timeframe'),required_timeframes=definition.get('required_timeframes'),
-            max_hold_seconds=definition.get('exit_policy',{}).get('max_hold_seconds'))
+        rules=definition.get('rules',{})
+        value.update(evaluation_timeframe=rules.get('evaluation_timeframe'),required_timeframes=definition.get('required_timeframes'),
+            max_hold_seconds=rules.get('exit_policy',{}).get('max_hold_seconds'))
         if detail: value['definition']=definition
         return value
 
@@ -50,7 +51,13 @@ class OwnerControlServices(LocalControlServices):
             with self.registry_factory() as e6:
                 if subject is not None:
                     record=e6.get_strategy(StrategyIdentity(*subject))
-                    return self._object(self._strategy(record,detail=True),record.registry_revision,record.strategy_schema_version)
+                    payload=self._strategy(record,detail=True)
+                    if self.resolver is not None and self.intake_factory is not None:
+                        with self.intake_factory() as intake:
+                            submission=intake.find_strategy_submission(record.identity.strategy_id,record.identity.strategy_version,record.content_hash)
+                        if submission is not None:
+                            payload['author_metadata']=dict(submission_id=submission,manifest=self.resolver.manifest_view(submission))
+                    return self._object(payload,record.registry_revision,record.strategy_schema_version)
                 return self._page([self._strategy(row) for row in e6.list_strategies(limit=limit,offset=offset)],limit,offset,
                     total=sum(e6.lifecycle_counts().values()))
         if name=='submissions' and self.intake_factory is not None:
@@ -58,6 +65,8 @@ class OwnerControlServices(LocalControlServices):
                 if subject is not None:
                     value=intake.submission_view(subject)
                     if value is None: raise APIError('UNAVAILABLE','SUBMISSION_NOT_FOUND',404)
+                    if self.resolver is not None and value['receipt'] is not None:
+                        value['author_manifest']=self.resolver.manifest_view(subject)
                     return self._object(value,value['revision'],'r7-intake-receipt-v0.2')
                 return self._page(list(intake.list_submissions(limit=limit,offset=offset)),limit,offset)
         if name=='research_runs' and self.queue is not None:
@@ -68,8 +77,10 @@ class OwnerControlServices(LocalControlServices):
                     return self._object(value,value['revision'],'r7-research-queue-v0.2',status=value['state'],reasons=value['reason_codes'])
                 return self._page(self.queue.list(limit=limit,offset=offset),limit,offset,total=sum(self.queue.counts().values()))
             except ResearchQueueError: raise APIError('UNAVAILABLE','RESEARCH_JOB_NOT_FOUND',404) from None
-        if name=='policies' and self.resolver is not None:
-            rows=self.resolver.policy_views(); return self._page(rows[offset:offset+limit],limit,offset,total=len(rows))
+        if name=='policies' and (self.resolver is not None or self.paper_start is not None):
+            rows=[] if self.resolver is None else [dict(row,kind='RESEARCH') for row in self.resolver.policy_views()]
+            if self.paper_start is not None: rows.extend(self.paper_start.policy_views())
+            return self._page(rows[offset:offset+limit],limit,offset,total=len(rows))
         if name=='datasets' and self.resolver is not None:
             rows=self.resolver.dataset_views()
             if any(row['namespace']!=self.namespace for row in rows): raise APIError('INVALID_INPUT','DATASET_NAMESPACE_CONFLICT',422)
@@ -77,6 +88,8 @@ class OwnerControlServices(LocalControlServices):
         if name=='overview':
             value=super().view(name)
             with self.registry_factory() as e6: value['lifecycle_counts']=e6.lifecycle_counts()
+            if self.inbox_factory is not None:
+                with self._db() as db: value['scan_revision']=db.execute('SELECT revision FROM control_scans WHERE singleton=1').fetchone()[0]
             if self.queue is not None:
                 counts=self.queue.counts(); value.update(queued_jobs=counts.get('QUEUED',0),running_jobs=counts.get('RUNNING',0)+counts.get('CANCEL_REQUESTED',0))
             return value
@@ -87,12 +100,14 @@ class OwnerControlServices(LocalControlServices):
             if self.queue is not None: value['research']='QUEUE_AVAILABLE_WORKER_HEALTH_UNKNOWN'
             return value
         if name=='paper_runs' and self.paper_reader is not None:
+            if subject is None:
+                return self._page(self.paper_reader.list(self.registry_factory,limit=limit,offset=offset),limit,offset)
             return self.paper_reader.view(subject)
         return super().view(name,subject=subject,limit=limit,offset=offset)
 
     def metadata(self,source,*,data=None):
         value=super().metadata(source,data=data)
-        if source=='application:paper_runs' and data is not None:
+        if source=='application:paper_runs' and data is not None and 'payload' in data:
             value['as_of']=data['payload']['broker_observed_at']
             value['freshness']='UNKNOWN'
             value['current_or_last_known']='LAST_KNOWN_GOOD' if value['as_of'] else 'UNAVAILABLE'

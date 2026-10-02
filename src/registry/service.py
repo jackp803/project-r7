@@ -30,6 +30,13 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
     def lifecycle_counts(self):
         return self._store.lifecycle_counts()
 
+    def list_accepted_paper_starts(self,*,limit=50,offset=0):
+        """Canonical accepted starts only; prepared process orphans are excluded."""
+        if type(limit) is not int or not 1<=limit<=200 or type(offset) is not int or not 0<=offset<=100000:
+            raise ValueError('Bounded inventory page required')
+        return tuple(self.accepted_paper_start_evidence(StrategyIdentity(*identity))
+                     for identity in self._store.list_paper_identities(limit=limit,offset=offset))
+
     @property
     def research_namespace(self):
         return self._store.get_research_namespace()

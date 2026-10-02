@@ -441,6 +441,15 @@ class _SQLiteRegistryStore:
         ).fetchall()
         return tuple(_strategy_from_row(row) for row in rows)
 
+    def list_paper_identities(self, *, limit, offset):
+        rows=self._connection.execute(
+            "SELECT DISTINCT s.strategy_id,s.strategy_version,s.registered_at FROM strategy_versions s "
+            "JOIN lifecycle_transitions t ON t.strategy_id=s.strategy_id AND t.strategy_version=s.strategy_version "
+            "WHERE t.new_state='PAPER' ORDER BY s.registered_at,s.strategy_id,s.strategy_version LIMIT ? OFFSET ?",
+            (limit,offset),
+        ).fetchall()
+        return tuple((row[0],row[1]) for row in rows)
+
     def lifecycle_counts(self):
         return dict(self._connection.execute(
             'SELECT current_lifecycle_state,COUNT(*) FROM strategy_versions GROUP BY current_lifecycle_state'

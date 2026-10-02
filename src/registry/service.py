@@ -21,6 +21,18 @@ from .service_base import StrategyPlatformService as _StrategyPlatformServiceBas
 class StrategyPlatformService(_StrategyPlatformServiceBase):
     """Public E6 platform service with fail-closed evidence and lifecycle authority gates."""
 
+    def accepted_paper_start_evidence(self,identity):
+        from .models import EvidenceGateError
+        from .product_assessment import digest
+        strategy=self._require_strategy(identity)
+        record=self._store.accepted_paper_start_evidence(identity)
+        if (record is None or record.kind!='PAPER_START' or record.identity!=identity or
+            record.strategy_content_hash!=strategy.content_hash or
+            record.namespace!=self._store.get_research_namespace() or
+            digest(record.payload_json)!=record.payload_hash or digest(record.release_json)!=record.release_hash):
+            raise EvidenceGateError('Actual immutable accepted E6 PAPER start required')
+        return record
+
     def _operational_context(self,identity,expected_revision,allowed_states):
         from .models import ConcurrencyConflict,EvidenceGateError,InvalidTransition
         from .operational_authority import ProductLifecycleComposition
@@ -176,6 +188,14 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
 
     def product_assessment(self,run_id):
         return self._store.get_product_assessment(run_id)
+
+    def candidate_product_assessment(self,identity):
+        """Immutable qualified product/risk selection for actual local consumers."""
+        from .product_assessment import require_product_record
+        strategy=self._require_strategy(identity)
+        record=self._store.candidate_product_assessment(identity)
+        require_product_record(self._store,strategy,record,status='PASS')
+        return record
 
     def record_product_assessment(self,identity,*,run_id,actor):
         import json

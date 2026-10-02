@@ -18,7 +18,7 @@ _WRITERS = {
     'APPROVED_TRADE_PLAN': 'persist_approved_trade_plan',
     'POSITION_ACTION': 'persist_position_action',
     'ORDER_REQUEST': 'persist_order_request', 'ORDER_RESULT': 'persist_order_result',
-    'FILL': 'persist_fill', 'RAW_POSITION': 'persist_raw_position',
+    'FILL': 'persist_fill', 'RAW_POSITION': 'persist_raw_position_observation',
     'POSITION_PROJECTION': 'persist_position_projection',
     'LIFECYCLE_EXECUTION_BINDING': 'persist_lifecycle_execution_binding',
     'FUNDING_EVIDENCE': 'persist_funding_evidence', 'TRADE_RESULT': 'persist_trade_result',

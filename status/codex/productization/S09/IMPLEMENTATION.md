@@ -43,6 +43,72 @@ new effects. Unpublished canonical effects fence the next logical operation.
 The old secret/provider vocabulary, floats, scalars and inconsistent financial
 graphs are rejected. Both checkpoint and publication retain immutable hashes.
 
+## Continuous implementation and pre-commit regression
+
+Added actual PaperService/PaperEngine, bounded queue/deadline scheduler and
+bound forward assessment. The engine calls the existing E2 as-of runtime, E5
+risk/plan/exit/lifecycle/TradeResult producers, E4 PaperBroker and E6 canonical
+writers. The accepted E6 PAPER_START record must identify this exact run;
+an orphan prepared run cannot attach merely because its strategy is in PAPER.
+Each explicit simulated account is isolated per strategy run; its initial
+balance, quantities, cost model and policy are configured and hash-bound.
+There is no shared-real-account claim or real-provider reference in the engine.
+
+Ruling: genuine synchronous E4 position readbacks may advance the observation
+anchor, while the first Fill and hold anchor never change. ACK and changed
+financial observations cannot share a clock. Exit ACK therefore precedes the
+later Fill/flat/TradeResult observation. Initial tests assumed immediate same-
+tick flatness; they now assert actual EXIT_REQUESTED/nonzero quantity first,
+then actual closure, preserving both E4 and E5 equal-time guards.
+
+Ruling: the selected additive PAPER partial-entry model produces one partial
+Fill and one terminal CANCELED result atomically, with the untouched original
+ACK at its earlier clock. Only a pristine canonical entry is eligible. Legacy
+cancel_order still rejects PARTIALLY_FILLED orders; protection/reduction rules
+are unchanged. Actual filled quantity is protected; no unfilled remainder can
+increase exposure after the stop is sized. Immediate pause disables entries
+first and defers cancellation until a distinct actual observation time.
+
+Verified protection is queried between entry bars. Definitive protection loss
+uses the existing PROTECTION_LOST -> EMERGENCY edge and actual E5 emergency
+close authority. Unresolved protection uses RECONCILIATION_REQUIRED, never a
+fictional protected state. A triggered standing stop closes using that exact
+original protection request/action, not an invented replacement EXIT. Unknown
+entry ACKs never count as successful ACKs and do not cause a blind retry/reset.
+
+Ruling: selected-policy forward evidence comes from E6-published E5 financial
+graphs and persisted observations. Slippage is already in Fill prices and is
+not deducted twice; zero funding requires affirmative registered Paper evidence.
+Accelerated namespace elapsed time is simulated, with actual_elapsed_seconds=0.
+Real elapsed credit requires coherent monotonic intervals within the same
+process instance; restart/sleep gaps are not healthy credit. Insufficient
+observations are BLOCKED; sufficient quantitative losses are FAIL. Only a
+current bound PASS may enter fixture READY mechanics or real-forward gates.
+
+Unfinalized/future/mutated finalized candles are rejected before preparing an
+operation. E6 already enforces backward-clock rejection; the new clock test is
+a characterization of that existing guard, not a new authority rule. Corrected
+the RAW_POSITION dispatch to the actual persist_raw_position_observation API.
+
+Pre-commit affected regression:9/9 commands,826 test occurrences, zero failures,
+errors/skips/expected failures/unexpected successes, all owned trees reaped.
+The product suite executes34 tests. Exact-clean full qualification is still
+pending for this new executable; the prior9fe882e qualification applies only to
+the earlier foundation. Development logs include expected missing-feature
+failures, owner-integration defects, corrected harness assumptions and passing
+characterizations; diagnostic files named green may contain failures and must
+never be represented as PASS merely because of their filenames.
+
+Resource acceptance uses actual separate owned processes: the actual research
+pipeline reaches E3 replay, then a controlled MemoryError or owned-tree timeout
+is injected. The independent actual accelerated PaperService/scheduler retains
+protection, continues heartbeat/deadline management and closes to E6 READY/flat.
+Actual host OOM is NOT_RUN; S01 memory enforcement remains SOFT_LIMIT_ONLY.
+Native product process wiring/package benchmarks remain S13/S15. Actual public
+market transport/forward, native Ubuntu, real cloud/data/provider commissioning
+remain NOT_RUN; an unconfigured transport never gets a synthetic substitute.
+Long-running journal growth/disk benchmarks remain explicit S13/S15 work.
+
 Observed REDs: broker checkpoint7 tests/9 errors (missing owner APIs); process
 journal7 failures; effect/process fencing2 failures; exit-anchor recovery3
 failures; broker validation inside transaction1 failure; entry observation3

@@ -217,6 +217,11 @@ class _SQLiteRegistryStore:
             (identity.strategy_id,identity.strategy_version)).fetchone()
         return None if row is None else self.get_owner_evidence(row['owner_evidence_id'])
 
+    def accepted_paper_start_evidence(self,identity):
+        row=self._connection.execute("SELECT owner_evidence_id FROM lifecycle_transitions WHERE strategy_id=? AND strategy_version=? AND new_state='PAPER' ORDER BY resulting_registry_revision DESC LIMIT 1",
+            (identity.strategy_id,identity.strategy_version)).fetchone()
+        return None if row is None else self.get_owner_evidence(row['owner_evidence_id'])
+
     @staticmethod
     def _owner_from_row(row,record_type):
         if row is None: return None

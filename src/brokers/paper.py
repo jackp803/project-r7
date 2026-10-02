@@ -754,6 +754,37 @@ class PaperBroker(Broker):
         self._store_order_result(order, updated)
         return fill
 
+    def record_entry_fill_and_cancel_remainder(
+        self, client_order_id: str, *, quantity: Decimal, price: Decimal,
+        filled_at: datetime, fee: Decimal | None = None,
+        fee_currency: str | None = None, liquidity_role: str | None = None,
+    ) -> Fill:
+        """Atomic additive PAPER entry model: one fill, unfilled remainder canceled.
+
+        Only a pristine acknowledged canonical entry is eligible. The external
+        owner observation contains one terminal CANCELED result and the actual
+        partial Fill; it never publishes two different results at one clock.
+        The legacy cancel_order/protection and position-reduction rules remain.
+        """
+        require_utc(filled_at, "filled_at")
+        order = self._orders.get(client_order_id)
+        if order is None:
+            raise UnknownOrderError(client_order_id)
+        request = order.request
+        if (request.authorization_type is not None or request.reduce_only or
+            any(getattr(request, field) is not None for field in
+                ("position_id", "position_action_id", "order_role")) or
+            order.result.order_status != OrderStatus.OPEN or order.fills or
+            not isinstance(quantity, Decimal) or not quantity.is_finite() or
+            not Decimal("0") < quantity < request.quantity or
+            filled_at <= order.result.observed_at):
+            raise ValueError("Pristine entry and strictly later partial Fill required")
+        # All fallible fill validation precedes mutation inside the actual owner.
+        fill = self.record_fill(client_order_id, quantity=quantity, price=price,
+            filled_at=filled_at, fee=fee, fee_currency=fee_currency, liquidity_role=liquidity_role)
+        self._store_order_result(order, replace(order.result, order_status=OrderStatus.CANCELED))
+        return fill
+
     def reconcile(
         self,
         request: OrderRequest,

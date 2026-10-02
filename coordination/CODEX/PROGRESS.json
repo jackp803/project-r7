@@ -16,21 +16,137 @@
     "execution_observed": "local Git fetch, worktree creation and verified relocation executed by this session"
   },
   "existing_work_disposition": "No local or remote master implementation branch existed; created isolated branch without altering prior LF/P0 work. Moved all 15 desktop R7 folders inside the user project root and verified 13 worktree revisions/statuses unchanged.",
-  "milestones": {"M1":"IN_PROGRESS","M2":"NOT_STARTED","M3":"NOT_STARTED","M4":"NOT_STARTED","M5":"NOT_STARTED","M6":"NOT_STARTED","M7":"NOT_STARTED","M8":"NOT_STARTED","M9":"NOT_STARTED","M10":"NOT_STARTED","M11":"NOT_STARTED"},
-  "steps": {"S01":"IN_PROGRESS","S02":"NOT_STARTED","S03":"NOT_STARTED","S04":"NOT_STARTED","S05":"NOT_STARTED","S06":"NOT_STARTED","S07":"NOT_STARTED","S08":"NOT_STARTED","S09":"NOT_STARTED","S10":"NOT_STARTED","S11":"NOT_STARTED","S12":"NOT_STARTED","S13":"NOT_STARTED","S14":"NOT_STARTED","S15":"NOT_STARTED","S16":"NOT_STARTED"},
+  "milestones": {
+    "M1": "IN_PROGRESS",
+    "M2": "NOT_STARTED",
+    "M3": "NOT_STARTED",
+    "M4": "NOT_STARTED",
+    "M5": "NOT_STARTED",
+    "M6": "NOT_STARTED",
+    "M7": "NOT_STARTED",
+    "M8": "NOT_STARTED",
+    "M9": "NOT_STARTED",
+    "M10": "NOT_STARTED",
+    "M11": "NOT_STARTED"
+  },
+  "steps": {
+    "S01": "IN_PROGRESS",
+    "S02": "NOT_STARTED",
+    "S03": "NOT_STARTED",
+    "S04": "NOT_STARTED",
+    "S05": "NOT_STARTED",
+    "S06": "NOT_STARTED",
+    "S07": "NOT_STARTED",
+    "S08": "NOT_STARTED",
+    "S09": "NOT_STARTED",
+    "S10": "NOT_STARTED",
+    "S11": "NOT_STARTED",
+    "S12": "NOT_STARTED",
+    "S13": "NOT_STARTED",
+    "S14": "NOT_STARTED",
+    "S15": "NOT_STARTED",
+    "S16": "NOT_STARTED"
+  },
   "platforms": {
-    "windows-11-x86_64": {"status":"IN_PROGRESS","os_version":"10.0.26200","source_python":"3.14.3","node":"24.19.0","npm":"11.17.0","cpu_model":"Intel Core Ultra 7 255HX","logical_cores":20,"measured_memory_kib":32945572},
-    "ubuntu-24.04-x86_64": {"status":"NOT_RUN","reason":"No installed WSL/native Ubuntu environment identified"},
-    "ubuntu-26.04-x86_64": {"status":"NOT_RUN","reason":"No installed WSL/native Ubuntu environment identified"}
+    "windows-11-x86_64": {
+      "status": "IN_PROGRESS",
+      "os_version": "10.0.26200",
+      "source_python": "3.14.3",
+      "node": "24.19.0",
+      "npm": "11.17.0",
+      "cpu_model": "Intel Core Ultra 7 255HX",
+      "logical_cores": 20,
+      "measured_memory_kib": 32945572
+    },
+    "ubuntu-24.04-x86_64": {
+      "status": "NOT_RUN",
+      "reason": "No installed WSL/native Ubuntu environment identified"
+    },
+    "ubuntu-26.04-x86_64": {
+      "status": "NOT_RUN",
+      "reason": "No installed WSL/native Ubuntu environment identified"
+    }
   },
   "tests_executed": [
-    {"step":"S01","phase":"TDD_RED_INITIAL","tests":9,"failures":9,"errors":0,"result":"EXPECTED_FAILURE"},
-    {"step":"S01","phase":"TDD_RED_RUNNER","tests":4,"failures":4,"errors":0,"result":"EXPECTED_FAILURE"},
-    {"step":"S01","phase":"TDD_RED_DIAGNOSTIC_AND_COUNTS","tests":3,"failure_occurrences":7,"errors":0,"result":"EXPECTED_FAILURE"},
-    {"step":"S01","phase":"FOCUSED_GREEN","tests":17,"failures":0,"errors":0,"skips":0,"result":"PASS","python":"3.14.3","platform":"windows-11-x86_64"}
+    {
+      "step": "S01",
+      "phase": "TDD_RED_INITIAL",
+      "tests": 9,
+      "failures": 9,
+      "errors": 0,
+      "result": "EXPECTED_FAILURE"
+    },
+    {
+      "step": "S01",
+      "phase": "TDD_RED_RUNNER",
+      "tests": 4,
+      "failures": 4,
+      "errors": 0,
+      "result": "EXPECTED_FAILURE"
+    },
+    {
+      "step": "S01",
+      "phase": "TDD_RED_DIAGNOSTIC_AND_COUNTS",
+      "tests": 3,
+      "failure_occurrences": 7,
+      "errors": 0,
+      "result": "EXPECTED_FAILURE"
+    },
+    {
+      "step": "S01",
+      "phase": "FOCUSED_GREEN",
+      "tests": 17,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "result": "PASS",
+      "python": "3.14.3",
+      "platform": "windows-11-x86_64"
+    },
+    {
+      "step": "S01",
+      "phase": "EXACT_CLEAN_QUALIFICATION",
+      "revision": "cbae796a86e242f0d591af685efbc5ab33a60926",
+      "result": "FAIL",
+      "commands_executed": 31,
+      "tests_run": 1148,
+      "cause": "Job accounting zero preceded descendant kernel exit; stable handles now awaited"
+    },
+    {
+      "step": "S01",
+      "phase": "REMEDIATION_GREEN",
+      "tests": 19,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "result": "PASS"
+    }
   ],
-  "evidence_refs": [],
-  "external_gaps": ["Required native Ubuntu targets not attached","Real cloud not configured","Real dataset/promotion policies not selected","Actual forward observation not started","Real private provider and capital activation not authorized"],
-  "safety": {"runtime_llm_calls":0,"real_provider_calls":0,"real_credentials":"NONE","capital":"NONE","github_compute":"NOT_USED","main_merge":"NOT_PERFORMED"},
-  "rulings": ["User's project-root instruction governs all future worktree/artifact paths; no R7 folders on desktop root", "Use approved v0.2 design and continuous plan without repeating feature-scope permission", "Missing native Ubuntu evidence does not block independent implementation", "Antigravity trust guard refused before dispatch; do not add trust or select paid fallback", "CPython 3.12 selected product minor; development source tests currently 3.14.3 do not qualify native 3.12 builds", "S01 memory enforcement is SOFT_LIMIT_ONLY; Windows Job Objects enforce owned tree cleanup, not a memory hard cap", "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories"]
+  "evidence_refs": [
+    "status/codex/productization/S01/failed-cbae796/qualification.json"
+  ],
+  "external_gaps": [
+    "Required native Ubuntu targets not attached",
+    "Real cloud not configured",
+    "Real dataset/promotion policies not selected",
+    "Actual forward observation not started",
+    "Real private provider and capital activation not authorized"
+  ],
+  "safety": {
+    "runtime_llm_calls": 0,
+    "real_provider_calls": 0,
+    "real_credentials": "NONE",
+    "capital": "NONE",
+    "github_compute": "NOT_USED",
+    "main_merge": "NOT_PERFORMED"
+  },
+  "rulings": [
+    "User's project-root instruction governs all future worktree/artifact paths; no R7 folders on desktop root",
+    "Use approved v0.2 design and continuous plan without repeating feature-scope permission",
+    "Missing native Ubuntu evidence does not block independent implementation",
+    "Antigravity trust guard refused before dispatch; do not add trust or select paid fallback",
+    "CPython 3.12 selected product minor; development source tests currently 3.14.3 do not qualify native 3.12 builds",
+    "S01 memory enforcement is SOFT_LIMIT_ONLY; Windows Job Objects enforce owned tree cleanup, not a memory hard cap",
+    "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories"
+  ]
 }

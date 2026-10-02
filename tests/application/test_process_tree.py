@@ -10,6 +10,10 @@ from tests.application.test_platform import require
 
 
 class OwnedProcessTreeTests(unittest.TestCase):
+    def test_timeout_then_new_owned_tree_does_not_report_reaped_with_live_descendants(self):
+        self.test_automatic_timeout_reaps_without_caller_cancellation()
+        self.test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process()
+
     def test_automatic_timeout_reaps_without_caller_cancellation(self):
         module = require(self, "application.platform.processes")
         handle = module.spawn_owned([sys.executable, "-c", "import time; time.sleep(120)"],

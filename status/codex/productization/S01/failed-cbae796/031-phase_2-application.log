@@ -1,0 +1,87 @@
+test_chinese_paths_diagnostic_defaults_and_local_database (test_platform.ProductPlatformTests.test_chinese_paths_diagnostic_defaults_and_local_database) ... ok
+test_duplicate_json_keys_and_missing_config_do_not_initialize_data (test_platform.ProductPlatformTests.test_duplicate_json_keys_and_missing_config_do_not_initialize_data) ... ok
+test_hardware_doctor_emits_measured_json_without_initializing_data (test_platform.ProductPlatformTests.test_hardware_doctor_emits_measured_json_without_initializing_data) ... ok
+test_measured_hardware_has_positive_memory_cpu_disk_and_no_gpu_requirement (test_platform.ProductPlatformTests.test_measured_hardware_has_positive_memory_cpu_disk_and_no_gpu_requirement) ... ok
+test_nested_roots_and_external_database_rejected_both_directions (test_platform.ProductPlatformTests.test_nested_roots_and_external_database_rejected_both_directions) ... ok
+test_network_database_volume_is_rejected_before_initialization (test_platform.ProductPlatformTests.test_network_database_volume_is_rejected_before_initialization) ... ok
+test_optional_cloud_is_not_silently_initialized (test_platform.ProductPlatformTests.test_optional_cloud_is_not_silently_initialized) ... ok
+test_rejects_relative_paths_bad_resources_unknown_and_secret_fields (test_platform.ProductPlatformTests.test_rejects_relative_paths_bad_resources_unknown_and_secret_fields) ... ok
+test_resource_pressure_blocks_research_with_measured_boundaries (test_platform.ProductPlatformTests.test_resource_pressure_blocks_research_with_measured_boundaries) ... ok
+test_automatic_timeout_reaps_without_caller_cancellation (test_process_tree.OwnedProcessTreeTests.test_automatic_timeout_reaps_without_caller_cancellation) ... ok
+test_rejects_shell_strings_and_invalid_limits_before_spawning (test_process_tree.OwnedProcessTreeTests.test_rejects_shell_strings_and_invalid_limits_before_spawning) ... ok
+test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process (test_process_tree.OwnedProcessTreeTests.test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process) ... ERROR
+test_inventory_includes_registry_and_new_application_tests (test_qualification_runner.QualificationRunnerTests.test_inventory_includes_registry_and_new_application_tests) ... ok
+test_runner_cannot_overwrite_source_tree_with_evidence (test_qualification_runner.QualificationRunnerTests.test_runner_cannot_overwrite_source_tree_with_evidence) ... ok
+test_runner_fails_on_missing_requested_suite_and_empty_inventory (test_qualification_runner.QualificationRunnerTests.test_runner_fails_on_missing_requested_suite_and_empty_inventory) ... ok
+test_summary_counts_each_failure_class_separately (test_qualification_runner.QualificationRunnerTests.test_summary_counts_each_failure_class_separately) ... ok
+test_summary_requires_nonzero_tests_and_rejects_skips_expected_failures (test_qualification_runner.QualificationRunnerTests.test_summary_requires_nonzero_tests_and_rejects_skips_expected_failures) ... ok
+
+======================================================================
+ERROR: test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process (test_process_tree.OwnedProcessTreeTests.test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_tree.py", line 53, in test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process
+    self.assertTrue(all(not module.process_alive(pid) for pid in pids))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 程序 樹 yd36ak1q'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 930, in onexc
+    _os.unlink(path)
+    ~~~~~~~~~~^^^^^^
+PermissionError: [WinError 5] 存取被拒。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 程序 樹 yd36ak1q'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_tree.py", line 28, in test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process
+    with tempfile.TemporaryDirectory(prefix="R7 程序 樹 ") as temp:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 971, in __exit__
+    self.cleanup()
+    ~~~~~~~~~~~~^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 945, in onexc
+    cls._rmtree(path, ignore_errors=ignore_errors,
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                repeated=(path == name))
+                ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.14-64\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 程序 樹 yd36ak1q'
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.665s
+
+FAILED (errors=1)

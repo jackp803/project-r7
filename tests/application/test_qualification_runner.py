@@ -46,3 +46,11 @@ class QualificationRunnerTests(unittest.TestCase):
         root = Path(__file__).resolve().parents[2]
         with self.assertRaises(module.QualificationError):
             module.validate_output_root(root, root / "src" / "logs")
+
+    def test_traceback_redaction_includes_repr_escaped_windows_paths(self):
+        module = require(self, "application.qualification")
+        root = Path(__file__).resolve().parents[2]
+        text = str(root) + "\n" + repr(str(Path.home() / "private.sqlite3"))
+        redacted = module._sanitize(text, root)
+        self.assertNotIn(str(root), redacted)
+        self.assertNotIn(str(Path.home()).replace("\\", "\\\\"), redacted)

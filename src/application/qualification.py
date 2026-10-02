@@ -135,6 +135,7 @@ def _sanitize(output, root):
     for path, replacement in ((str(Path(root).resolve()), "<SOURCE_ROOT>"),
                               (str(Path.home()), "<USER_HOME>")):
         output = output.replace(path, replacement).replace(path.replace("\\", "/"), replacement)
+        output = output.replace(path.replace("\\", "\\\\"), replacement)
     return output
 
 

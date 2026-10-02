@@ -41,6 +41,7 @@ class _WindowsJob:
             "OpenProcess": ([w.DWORD, w.BOOL, w.DWORD], w.HANDLE),
             "TerminateJobObject": ([w.HANDLE, w.UINT], w.BOOL),
             "CloseHandle": ([w.HANDLE], w.BOOL),
+            "WaitForSingleObject": ([w.HANDLE, w.DWORD], w.DWORD),
         }
         for name, (arguments, result) in declarations.items():
             function = getattr(self.kernel, name)
@@ -96,6 +97,45 @@ class _WindowsJob:
     def terminate(self):
         if not self.kernel.TerminateJobObject(self.handle, 124):
             raise ctypes.WinError(ctypes.get_last_error())
+
+    def terminate_and_wait(self, deadline):
+        """Accounting zero is not sufficient: wait on stable process handles."""
+        from ctypes import wintypes as w
+        count = 64
+        handles = []
+        try:
+            while True:
+                class ProcessIds(ctypes.Structure):
+                    _fields_ = [("assigned", w.DWORD), ("listed", w.DWORD),
+                                ("pids", ctypes.c_size_t * count)]
+                ids = ProcessIds()
+                if self.kernel.QueryInformationJobObject(self.handle, 3, ctypes.byref(ids),
+                                                          ctypes.sizeof(ids), None):
+                    break
+                error = ctypes.get_last_error()
+                if error != 234 or count >= 4096:  # ERROR_MORE_DATA
+                    raise ctypes.WinError(error)
+                count *= 2
+            for pid in list(ids.pids)[:ids.listed]:
+                process = self.kernel.OpenProcess(0x100000, False, pid)  # SYNCHRONIZE
+                if process:
+                    handles.append(process)
+                elif ctypes.get_last_error() != 87:  # Already exited PID is absent.
+                    raise ctypes.WinError(ctypes.get_last_error())
+            self.terminate()
+            for process in handles:
+                remaining_ms = max(0, math.ceil((deadline - time.monotonic()) * 1000))
+                state = self.kernel.WaitForSingleObject(process, min(remaining_ms, 0xFFFFFFFE))
+                if state == 258:
+                    return False
+                if state != 0:
+                    raise ctypes.WinError(ctypes.get_last_error())
+            while self.active_count() and time.monotonic() < deadline:
+                time.sleep(0.01)
+            return self.active_count() == 0
+        finally:
+            for process in handles:
+                self.kernel.CloseHandle(process)
 
     def close(self):
         if self.handle:
@@ -182,10 +222,7 @@ def terminate_owned(handle: OwnedProcess, *, deadline_seconds=5, reason="CANCELL
             handle._timer.cancel()
         deadline = time.monotonic() + deadline_seconds
         if handle._job is not None:
-            handle._job.terminate()
-            while handle._job.active_count() and time.monotonic() < deadline:
-                time.sleep(0.01)
-            tree_reaped = handle._job.active_count() == 0
+            tree_reaped = handle._job.terminate_and_wait(deadline)
         else:
             try:
                 os.killpg(handle.process.pid, signal.SIGKILL)

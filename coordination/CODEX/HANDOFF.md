@@ -8,7 +8,7 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S04, eight Decimal indicator families and incremental parity. Next: S05.
+Active step: S05, as-of bundles, independent clocks and E5 exit requests. Next: S06.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
@@ -88,3 +88,26 @@ incremental updates and prefix-bound snapshot recovery. Use canonical E1 Candle
 and Decimal34; retain legacy indicators.sma. Do not edit the pinned legacy fixture.
 S05 then integrates as-of evaluation and E5 exits; numerical existence alone
 must not authorize a compatibility PASS or provider operation.
+
+S04 exact-clean executable `c3779175ff3701162d9984f69d50c04fac003ddd` passed
+32/32 commands: phase1 247, phase2 993, total1240 occurrences, zero failures/
+errors/skips on Windows26200 / CPython3.12.10. Evidence and32 sanitized logs are
+under status/codex/productization/S04/passed-c377917-py312/. Actual bounded
+streaming EMA/Wilder/MACD and windows implement eight STR-04 profiles,17 outputs;
+26 indicator and49 strategy tests include independently derived numerical
+goldens, every-family flat/gap/warmup, n=1, operators, complete prefix parity,
+snapshot verified-history replay, hostile identity and runtime hash binding.
+Capabilities hash all numerical/v0.2 E2 files with LF canonical source bytes.
+Operational availability remains unqualified pending S05/S06 integration.
+
+Next action: S05 TDD for11:45/12:00 UTC as-of4h on15m, received-at filtering,
+changing future data, UTC gaps/aggregation and tactical request expiry. Integrate
+the existing E2 runtime profile without altering legacy outputs. E5 consumes
+versioned exit proposals through existing risk/PositionAction authority; retain
+FP-03 actionability, actual-fill quantity and first-fill holding clocks. Canonical
+protection-v0.1 supports initial PROTECT, while baseline MODIFY_PROTECTION is
+not provider-executable without a separately accepted executable profile. The
+approved v0.2 additive exit-request scope allows E5 proposals; never claim that
+alone authorizes a provider replacement. Continue independent work around any
+remaining real-provider/authority commissioning gap. E3 version binding adapts
+only after the actual E2 v0.2 evaluation path exists, in S06.

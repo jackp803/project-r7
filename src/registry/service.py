@@ -21,6 +21,159 @@ from .service_base import StrategyPlatformService as _StrategyPlatformServiceBas
 class StrategyPlatformService(_StrategyPlatformServiceBase):
     """Public E6 platform service with fail-closed evidence and lifecycle authority gates."""
 
+    def _operational_context(self,identity,expected_revision,allowed_states):
+        from .models import ConcurrencyConflict,EvidenceGateError,InvalidTransition
+        from .operational_authority import ProductLifecycleComposition
+        strategy=self._require_strategy(identity)
+        if type(expected_revision) is not int or strategy.registry_revision!=expected_revision:
+            raise ConcurrencyConflict('Stale expected registry revision')
+        if strategy.current_lifecycle_state not in allowed_states: raise InvalidTransition('Forbidden named lifecycle operation')
+        boundary=getattr(self._store,'_lifecycle_boundary',None)
+        if not isinstance(boundary,ProductLifecycleComposition) or boundary.namespace!=self._store.get_research_namespace():
+            raise EvidenceGateError('Explicit current lifecycle composition required')
+        boundary.current()
+        return strategy,boundary
+
+    def _command(self,identity,kind,actor,command_id,expected_revision,arguments):
+        from .models import ConcurrencyConflict
+        from .operational_authority import text
+        from .product_assessment import canonical
+        text(command_id); text(actor)
+        if type(expected_revision) is not int or expected_revision<0: raise ConcurrencyConflict('Explicit expected revision required')
+        request=canonical(dict(operation=kind,identity=dict(strategy_id=identity.strategy_id,strategy_version=identity.strategy_version),
+            actor=actor,command_id=command_id,expected_revision=expected_revision,arguments=arguments))
+        return request,self._store.lookup_lifecycle_command(command_id,request)
+
+    def _human_boundary(self,authenticated_human):
+        from .models import EvidenceGateError
+        from .operational_authority import ProductLifecycleComposition
+        boundary=getattr(self._store,'_lifecycle_boundary',None)
+        if not isinstance(boundary,ProductLifecycleComposition) or boundary.namespace!=self._store.get_research_namespace():
+            raise EvidenceGateError('Authenticated lifecycle composition required')
+        return boundary,boundary.authenticator.authorize(authenticated_human)
+
+    def _owner_transition(self,strategy,boundary,*,kind,new_state,actor,command_id,payload_json,release,request_json,deadline=None,approval=None):
+        from datetime import timedelta
+        from .operational_authority import OwnerGateRecord,_OWNER_EVIDENCE_CAPABILITY,stamp,text
+        from .product_assessment import canonical,digest
+        text(actor); text(command_id)
+        now=boundary.clock(); expires=now+timedelta(seconds=300)
+        if deadline is not None: expires=min(expires,deadline)
+        release_json=canonical(release.as_dict())
+        key=canonical([kind,strategy.identity.strategy_id,strategy.identity.strategy_version,command_id,strategy.registry_revision,digest(payload_json),digest(release_json),actor])
+        record=OwnerGateRecord('owner-'+digest(key)[7:],kind,strategy.identity,strategy.content_hash,boundary.namespace,
+            release_json,digest(release_json),actor,command_id,strategy.registry_revision,payload_json,digest(payload_json),stamp(now),stamp(expires))
+        def persist():
+            if approval is not None: self._store._save_owner_record(approval,capability=_OWNER_EVIDENCE_CAPABILITY)
+            stored=self._store._save_owner_record(record,capability=_OWNER_EVIDENCE_CAPABILITY)
+            return self._transition(strategy,new_state,actor=actor,reason_codes=(kind,),primary_evidence_id=None,owner_evidence_id=stored.evidence_id)
+        return self._store.run_lifecycle_once(command_id,request_json,persist)
+
+    def start_paper(self,identity,*,evidence_ref,actor,command_id,expected_revision):
+        request,cached=self._command(identity,'PAPER_START',actor,command_id,expected_revision,dict(evidence_ref=evidence_ref))
+        if cached is not None: return cached
+        strategy,boundary=self._operational_context(identity,expected_revision,('CANDIDATE',))
+        payload,release=boundary.resolve('PAPER_START',evidence_ref,strategy)
+        return self._owner_transition(strategy,boundary,kind='PAPER_START',new_state='PAPER',actor=actor,
+            command_id=command_id,payload_json=payload,release=release,request_json=request)
+
+    def mark_ready_for_approval(self,identity,*,evidence_ref,actor,command_id,expected_revision):
+        request,cached=self._command(identity,'FORWARD_READY',actor,command_id,expected_revision,dict(evidence_ref=evidence_ref))
+        if cached is not None: return cached
+        strategy,boundary=self._operational_context(identity,expected_revision,('PAPER',))
+        payload,release=boundary.resolve('FORWARD_READY',evidence_ref,strategy)
+        return self._owner_transition(strategy,boundary,kind='FORWARD_READY',new_state='READY_FOR_APPROVAL',actor=actor,
+            command_id=command_id,payload_json=payload,release=release,request_json=request)
+
+    def record_approval(self,identity,*,envelope_ref,authenticated_human,decision,reason,command_id,expected_revision):
+        import json
+        from .models import EvidenceGateError
+        from .operational_authority import HumanApprovalRecord,_OWNER_EVIDENCE_CAPABILITY,stamp,text
+        from .product_assessment import canonical,digest
+        boundary,actor=self._human_boundary(authenticated_human)
+        request,cached=self._command(identity,'HUMAN_APPROVAL',actor,command_id,expected_revision,
+            dict(envelope_ref=envelope_ref,decision=decision,reason=reason))
+        if cached is not None: return cached
+        strategy,boundary=self._operational_context(identity,expected_revision,('READY_FOR_APPROVAL',))
+        text(reason); text(command_id)
+        if decision not in ('APPROVE','REJECT'): raise EvidenceGateError('Canonical human decision required')
+        product=self._store.candidate_product_assessment(identity)
+        if product is None: raise EvidenceGateError('Complete candidate evidence required')
+        envelope=boundary.envelope(envelope_ref,strategy,product.risk_policy_json)
+        release=boundary.current(); decided_at=stamp(boundary.clock())
+        approval_id='approval-'+digest(canonical([identity.strategy_id,identity.strategy_version,command_id,expected_revision,digest(envelope),actor,decision,reason]))[7:]
+        payload=canonical(dict(schema_version='contracts-v0.1',approval_record_id=approval_id,approval_type='STRATEGY_DEPLOYMENT',
+            subject_type='StrategyDefinition',subject_id=identity.strategy_id,subject_version=identity.strategy_version,
+            actor=actor,decision=decision,decided_at=decided_at,reason=reason,strategy_content_hash=strategy.content_hash,
+            namespace=boundary.namespace,envelope_hash=digest(envelope),release_hash=digest(canonical(release.as_dict()))))
+        record=HumanApprovalRecord(approval_id,identity,boundary.namespace,actor,command_id,expected_revision,
+            envelope,digest(envelope),payload,digest(payload),decided_at)
+        if decision=='REJECT':
+            def persist_rejection():
+                self._store._save_owner_record(record,capability=_OWNER_EVIDENCE_CAPABILITY)
+                return self._transition(strategy,'REJECTED',actor=actor,reason_codes=('HUMAN_REJECTED',reason),primary_evidence_id=None)
+            return self._store.run_lifecycle_once(command_id,request,persist_rejection)
+        return self._owner_transition(strategy,boundary,kind='APPROVAL',new_state='APPROVED',actor=actor,command_id=command_id,
+            payload_json=canonical(dict(approval_record_id=approval_id,envelope_hash=digest(envelope))),release=release,
+            deadline=boundary.authenticator.deadline(authenticated_human),request_json=request,approval=record)
+
+    def _activate(self,identity,*,evidence_ref,authenticated_human,command_id,expected_revision,resume):
+        import json
+        from .operational_authority import require_current_approval
+        from .product_assessment import canonical
+        boundary,actor=self._human_boundary(authenticated_human)
+        kind='RESUMPTION' if resume else 'ACTIVATION'
+        request,cached=self._command(identity,kind,actor,command_id,expected_revision,dict(evidence_ref=evidence_ref))
+        if cached is not None: return cached
+        strategy,boundary=self._operational_context(identity,expected_revision,('DEGRADED',) if resume else ('APPROVED',))
+        approval=require_current_approval(self._store,strategy,boundary)
+        payload,release=boundary.resolve(kind,evidence_ref,strategy)
+        body=json.loads(payload); body['approval_record_id']=approval.approval_record_id
+        return self._owner_transition(strategy,boundary,kind=kind,new_state='LIVE',actor=actor,command_id=command_id,
+            payload_json=canonical(body),release=release,deadline=boundary.authenticator.deadline(authenticated_human),request_json=request)
+
+    def activate_deployment(self,identity,*,evidence_ref,authenticated_human,command_id,expected_revision):
+        return self._activate(identity,evidence_ref=evidence_ref,authenticated_human=authenticated_human,
+            command_id=command_id,expected_revision=expected_revision,resume=False)
+
+    def resume_authorized(self,identity,*,evidence_ref,authenticated_human,command_id,expected_revision):
+        return self._activate(identity,evidence_ref=evidence_ref,authenticated_human=authenticated_human,
+            command_id=command_id,expected_revision=expected_revision,resume=True)
+
+    def revoke_approval(self,identity,*,authenticated_human,reason,command_id):
+        from .models import EvidenceGateError
+        from .operational_authority import ProductLifecycleComposition,_OWNER_EVIDENCE_CAPABILITY,stamp,text
+        self._require_strategy(identity)
+        boundary=getattr(self._store,'_lifecycle_boundary',None)
+        if not isinstance(boundary,ProductLifecycleComposition): raise EvidenceGateError('Authenticated approval composition required')
+        actor=boundary.authenticator.authorize(authenticated_human); text(reason); text(command_id)
+        approval=self._store.latest_human_approval(identity)
+        if approval is None: raise EvidenceGateError('Existing immutable approval required')
+        return self._store._revoke_approval(approval.approval_record_id,actor=actor,reason=reason,command_id=command_id,
+            recorded_at=stamp(boundary.clock()),capability=_OWNER_EVIDENCE_CAPABILITY)
+
+    def reject(self,identity,*,actor,reason_codes,command_id,expected_revision):
+        return self._fail_closed_operation(identity,actor=actor,reason_codes=reason_codes,command_id=command_id,
+            expected_revision=expected_revision,new_state='REJECTED',allowed_states=('CANDIDATE','PAPER','READY_FOR_APPROVAL'))
+
+    def degrade(self,identity,*,actor,reason_codes,command_id,expected_revision):
+        """Disable new entries; do not cancel protection or erase residual exposure."""
+        return self._fail_closed_operation(identity,actor=actor,reason_codes=reason_codes,command_id=command_id,
+            expected_revision=expected_revision,new_state='DEGRADED',allowed_states=('LIVE',))
+
+    def _fail_closed_operation(self,identity,*,actor,reason_codes,command_id,expected_revision,new_state,allowed_states):
+        from .models import ConcurrencyConflict,EvidenceGateError,InvalidTransition
+        from .operational_authority import text
+        request,cached=self._command(identity,new_state,actor,command_id,expected_revision,dict(reason_codes=reason_codes))
+        if cached is not None: return cached
+        strategy=self._require_strategy(identity); text(actor); text(command_id)
+        if type(expected_revision) is not int or expected_revision!=strategy.registry_revision: raise ConcurrencyConflict('Stale expected registry revision')
+        if strategy.current_lifecycle_state not in allowed_states: raise InvalidTransition('Forbidden fail-closed lifecycle operation')
+        if not isinstance(reason_codes,(tuple,list)) or not reason_codes or any(not isinstance(reason,str) or not reason.strip() for reason in reason_codes):
+            raise EvidenceGateError('Explicit auditable fail-closed reasons required')
+        return self._store.run_lifecycle_once(command_id,request,
+            lambda:self._transition(strategy,new_state,actor=actor,reason_codes=tuple(reason_codes),primary_evidence_id=None))
+
     def product_assessment(self,run_id):
         return self._store.get_product_assessment(run_id)
 

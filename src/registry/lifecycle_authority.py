@@ -169,7 +169,7 @@ def require_rejection_authority(
     primary_evidence_id: str | None,
 ) -> None:
     from .product_assessment import product_managed,require_product_record
-    if product_managed(store,strategy):
+    if product_managed(store,strategy) and strategy.current_lifecycle_state=='BACKTESTING':
         references=[reason.partition(':')[2] for reason in reason_codes if isinstance(reason,str) and reason.startswith('PRODUCT_ASSESSMENT:')]
         if len(references)!=1: raise EvidenceGateError('Quantitative rejection requires exact product assessment reference')
         record=store.product_assessment_by_id(references[0])
@@ -212,6 +212,14 @@ def require_transition_authority(
             primary_evidence_id=transition.primary_evidence_id,
         )
         return
-    raise EvidenceGateError(
-        f"no persistence authority policy exists for lifecycle transition {edge[0]} -> {edge[1]}"
-    )
+    if transition.new_state=='REJECTED' and transition.previous_state in ('CANDIDATE','PAPER','READY_FOR_APPROVAL'):
+        require_rejection_authority(store,strategy,reason_codes=transition.reason_codes,primary_evidence_id=transition.primary_evidence_id)
+        if not isinstance(transition.changed_by,str) or not transition.changed_by.strip(): raise EvidenceGateError('Auditable rejection actor required')
+        return
+    if edge==('LIVE','DEGRADED'):
+        if not transition.reason_codes or not isinstance(transition.changed_by,str) or not transition.changed_by.strip():
+            raise EvidenceGateError('Fail-closed degradation requires actor and reasons')
+        return
+    from .operational_authority import require_owner_transition
+    require_owner_transition(store,strategy,transition)
+    return

@@ -1,3 +1,4 @@
+-- r7-migration-transaction: atomic
 CREATE TABLE product_assessments (
     assessment_id TEXT PRIMARY KEY,
     run_id TEXT NOT NULL UNIQUE,

@@ -144,6 +144,7 @@ class LifecycleTransitionRecord:
     primary_evidence_id: str | None
     expected_registry_revision: int
     resulting_registry_revision: int
+    owner_evidence_id: str | None = None
 
 
 @dataclass(frozen=True)

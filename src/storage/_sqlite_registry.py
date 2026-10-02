@@ -63,14 +63,16 @@ def _apply_migrations(
             continue
         script = migration.read_text(encoding="utf-8")
         rebuilding=script.startswith('-- r7-migration-transaction: foreign-key-rebuild')
-        if rebuilding and connection.in_transaction: raise EvidenceGateError('Schema rebuild requires an idle connection')
+        atomic=rebuilding or script.startswith('-- r7-migration-transaction: atomic')
+        if atomic and connection.in_transaction: raise EvidenceGateError('Atomic schema migration requires an idle connection')
         try:
             if rebuilding:
                 connection.execute('PRAGMA foreign_keys=OFF')
-                connection.executescript('BEGIN IMMEDIATE;\n'+script)
+            if atomic: connection.executescript('BEGIN IMMEDIATE;\n'+script)
+            else: connection.executescript(script)
+            if rebuilding:
                 if connection.execute('PRAGMA foreign_key_check').fetchone() is not None:
                     raise sqlite3.IntegrityError('Registry schema rebuild failed foreign-key verification')
-            else: connection.executescript(script)
             connection.execute("INSERT INTO schema_migrations(migration_name) VALUES (?)",(migration.name,))
             connection.commit()
         except BaseException:
@@ -157,6 +159,7 @@ class _SQLiteRegistryStore:
         self._connection = connection
         self._writer_capability = _writer_capability
         self._atomic_intake_active = False
+        self._atomic_lifecycle_active = False
 
     def close(self):
         self._connection.close()
@@ -203,6 +206,110 @@ class _SQLiteRegistryStore:
             columns=tuple(values)
             self._connection.execute('INSERT INTO product_assessments('+','.join(columns)+') VALUES('+','.join('?' for _ in columns)+')',tuple(values.values()))
             return record
+
+    def candidate_product_assessment(self,identity):
+        row=self._connection.execute("SELECT primary_evidence_id FROM lifecycle_transitions WHERE strategy_id=? AND strategy_version=? AND new_state='CANDIDATE' ORDER BY resulting_registry_revision DESC LIMIT 1",
+            (identity.strategy_id,identity.strategy_version)).fetchone()
+        return None if row is None else self.product_assessment_for_decision(row['primary_evidence_id'])
+
+    def ready_forward_evidence(self,identity):
+        row=self._connection.execute("SELECT owner_evidence_id FROM lifecycle_transitions WHERE strategy_id=? AND strategy_version=? AND new_state='READY_FOR_APPROVAL' ORDER BY resulting_registry_revision DESC LIMIT 1",
+            (identity.strategy_id,identity.strategy_version)).fetchone()
+        return None if row is None else self.get_owner_evidence(row['owner_evidence_id'])
+
+    @staticmethod
+    def _owner_from_row(row,record_type):
+        if row is None: return None
+        values=dict(row); values['identity']=StrategyIdentity(values.pop('strategy_id'),values.pop('strategy_version'))
+        return record_type(**values)
+
+    def get_owner_evidence(self,evidence_id):
+        from registry.operational_authority import OwnerGateRecord
+        return self._owner_from_row(self._connection.execute('SELECT * FROM lifecycle_owner_evidence WHERE evidence_id=?',(evidence_id,)).fetchone(),OwnerGateRecord)
+
+    def get_human_approval(self,approval_id):
+        from registry.operational_authority import HumanApprovalRecord
+        return self._owner_from_row(self._connection.execute('SELECT * FROM human_approvals WHERE approval_record_id=?',(approval_id,)).fetchone(),HumanApprovalRecord)
+
+    def latest_human_approval(self,identity):
+        from registry.operational_authority import HumanApprovalRecord
+        row=self._connection.execute('SELECT * FROM human_approvals WHERE strategy_id=? AND strategy_version=? ORDER BY rowid DESC LIMIT 1',
+            (identity.strategy_id,identity.strategy_version)).fetchone()
+        return self._owner_from_row(row,HumanApprovalRecord)
+
+    def approval_is_revoked(self,approval_id):
+        return self._connection.execute('SELECT 1 FROM approval_revocations WHERE approval_record_id=?',(approval_id,)).fetchone() is not None
+
+    def _save_owner_record(self,record,*,capability):
+        from dataclasses import asdict
+        from registry.operational_authority import _OWNER_EVIDENCE_CAPABILITY,OwnerGateRecord,HumanApprovalRecord
+        self._require_writer_capability()
+        if capability is not _OWNER_EVIDENCE_CAPABILITY or not isinstance(record,(OwnerGateRecord,HumanApprovalRecord)):
+            raise EvidenceGateError('Trusted E6 owner evidence writer required')
+        table='lifecycle_owner_evidence' if isinstance(record,OwnerGateRecord) else 'human_approvals'
+        owns_transaction=not self._atomic_lifecycle_active
+        try:
+            if owns_transaction: self._connection.execute('BEGIN IMMEDIATE')
+            row=self._connection.execute('SELECT * FROM '+table+' WHERE command_id=?',(record.command_id,)).fetchone()
+            if row is not None:
+                existing=self._owner_from_row(row,type(record))
+                if existing!=record: raise EvidenceGateError('Immutable owner command identity conflict')
+                if owns_transaction: self._connection.commit()
+                return existing
+            values=asdict(record); values.pop('identity')
+            values.update(strategy_id=record.identity.strategy_id,strategy_version=record.identity.strategy_version)
+            self._connection.execute('INSERT INTO '+table+'('+','.join(values)+') VALUES('+','.join('?' for _ in values)+')',tuple(values.values()))
+            if owns_transaction: self._connection.commit()
+            return record
+        except BaseException:
+            self._connection.rollback(); raise
+
+    def lookup_lifecycle_command(self,command_id,request_json):
+        from registry.product_assessment import digest
+        row=self._connection.execute('SELECT * FROM lifecycle_command_receipts WHERE command_id=?',(command_id,)).fetchone()
+        if row is None: return None
+        if row['request_json']!=request_json or digest(request_json)!=row['request_hash']:
+            raise EvidenceGateError('Lifecycle command identity conflict')
+        if digest(row['output_json'])!=row['output_hash']: raise EvidenceGateError('Lifecycle receipt commitment mismatch')
+        values=json.loads(row['output_json']); values['identity']=StrategyIdentity(**values['identity'])
+        return StrategyVersionRecord(**values)
+
+    def run_lifecycle_once(self,command_id,request_json,perform):
+        """Short E6 write-only closure; owner production must precede this lock."""
+        from dataclasses import asdict
+        from registry.product_assessment import canonical,digest
+        self._require_writer_capability()
+        if self._connection.in_transaction or self._atomic_lifecycle_active: raise ConcurrencyConflict('Lifecycle transaction already active')
+        self._connection.execute('BEGIN IMMEDIATE'); self._atomic_lifecycle_active=True
+        try:
+            existing=self.lookup_lifecycle_command(command_id,request_json)
+            if existing is not None:
+                self._connection.commit(); return existing
+            result=perform()
+            row=self._connection.execute('SELECT transition_id,changed_at FROM lifecycle_transitions WHERE strategy_id=? AND strategy_version=? AND resulting_registry_revision=?',
+                (result.identity.strategy_id,result.identity.strategy_version,result.registry_revision)).fetchone()
+            if row is None: raise EvidenceGateError('Lifecycle command has no owner transition')
+            raw=canonical(asdict(result))
+            self._connection.execute('INSERT INTO lifecycle_command_receipts VALUES(?,?,?,?,?,?,?)',
+                (command_id,request_json,digest(request_json),raw,digest(raw),row['transition_id'],row['changed_at']))
+            self._connection.commit(); return result
+        except BaseException:
+            self._connection.rollback(); raise
+        finally: self._atomic_lifecycle_active=False
+
+    def _revoke_approval(self,approval_id,*,actor,reason,command_id,recorded_at,capability):
+        from registry.operational_authority import _OWNER_EVIDENCE_CAPABILITY
+        from registry.product_assessment import digest,canonical
+        if capability is not _OWNER_EVIDENCE_CAPABILITY: raise EvidenceGateError('Authenticated revocation writer required')
+        values=('revoke-'+digest(canonical([approval_id,actor,reason,command_id]))[7:],approval_id,actor,reason,command_id,recorded_at)
+        with self._connection:
+            self._connection.execute('BEGIN IMMEDIATE')
+            existing=self._connection.execute('SELECT * FROM approval_revocations WHERE command_id=?',(command_id,)).fetchone()
+            if existing is not None:
+                if tuple(existing)[:-1]!=values[:-1]: raise EvidenceGateError('Revocation command identity conflict')
+                return existing['revocation_id']
+            self._connection.execute('INSERT INTO approval_revocations VALUES(?,?,?,?,?,?)',values)
+        return values[0]
 
     def bind_research_namespace(self,namespace):
         self._require_writer_capability()
@@ -473,7 +580,7 @@ class _SQLiteRegistryStore:
 
         identity = transition.identity
         try:
-            self._connection.execute("BEGIN IMMEDIATE")
+            if not self._atomic_lifecycle_active: self._connection.execute("BEGIN IMMEDIATE")
             row = self._connection.execute(
                 """
                 SELECT * FROM strategy_versions
@@ -500,8 +607,8 @@ class _SQLiteRegistryStore:
                     transition_id, strategy_id, strategy_version,
                     previous_state, new_state, changed_at, changed_by,
                     reason_codes_json, primary_evidence_id,
-                    expected_registry_revision, resulting_registry_revision
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    expected_registry_revision, resulting_registry_revision, owner_evidence_id
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     transition.transition_id,
@@ -515,6 +622,7 @@ class _SQLiteRegistryStore:
                     transition.primary_evidence_id,
                     transition.expected_registry_revision,
                     transition.resulting_registry_revision,
+                    transition.owner_evidence_id,
                 ),
             )
             cursor = self._connection.execute(
@@ -535,7 +643,7 @@ class _SQLiteRegistryStore:
             )
             if cursor.rowcount != 1:
                 raise ConcurrencyConflict("lifecycle projection update lost concurrency race")
-            self._connection.commit()
+            if not self._atomic_lifecycle_active: self._connection.commit()
             return replace(
                 current,
                 current_lifecycle_state=transition.new_state,
@@ -550,8 +658,12 @@ def _open_authorized_store(path: str | Path) -> _SQLiteRegistryStore:
     """Factory-only production composition primitive; never return the raw connection."""
 
     connection = _connect(path)
-    _apply_migrations(connection)
-    return _SQLiteRegistryStore(connection, _writer_capability=_WRITER_CAPABILITY)
+    try:
+        _apply_migrations(connection)
+        return _SQLiteRegistryStore(connection, _writer_capability=_WRITER_CAPABILITY)
+    except BaseException:
+        connection.close()
+        raise
 
 
 def _internal_store_for_tests(connection: sqlite3.Connection) -> _SQLiteRegistryStore:

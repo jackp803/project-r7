@@ -14,6 +14,7 @@ def open_sqlite_platform(
     compatibility_boundary: StrategyCompatibilityBoundary | None = None,
     research_namespace: str | None = None,
     product_assessment_boundary=None,
+    lifecycle_boundary=None,
 ) -> StrategyPlatformService:
     """Return the supported E6 SQLite-backed platform service.
 
@@ -31,6 +32,7 @@ def open_sqlite_platform(
         raise
     service=StrategyPlatformService(store, compatibility_boundary)
     service._product_assessment_boundary=product_assessment_boundary
+    store._lifecycle_boundary=lifecycle_boundary
     return service
 
 

@@ -112,3 +112,79 @@ Task S08 Ruling: a quantitative early robustness failure may reject with its
 actual retained owner assessment; incomplete/missing prerequisites cannot be
 relabelled as financial FAIL. Cost if wrong: unnecessary rejected history,
 never permission for a new exposure.
+
+Third source checkpoint: operational owner boundaries implemented, pending
+the final exact-clean qualification before declaring S08 PASS.
+
+Named start_paper/mark_ready_for_approval/record_approval/activate_deployment/
+degrade/resume_authorized/reject now use the actual E6 service/store. No generic
+public transition API or application lifecycle database is introduced. The
+canonical model has nineteen legal edges; operational tests execute eighteen
+and the actual adverse E3 pipeline covers BACKTESTING -> REJECTED. All eighty-one
+illegal state pairs are rejected in owner persistence.
+
+Lifecycle owner evidence binds exact subject, source/build/config/capability/
+provider/risk/runtime generations, actor, command and expected revision. The
+trusted composition resolves owner references before SQLite writer locks. The
+current release reader is a bounded local snapshot reader. Real admission needs
+a separately configured current E7/E5/E4 verifier; absence is denied. S09 supplies
+actual PAPER/forward producers, S10 the actual local authentication workflow,
+and S12 the production admission integration. Legacy E7 preflight roles are not
+reinterpreted as product LIVE permission. No provider client is created here.
+
+Human capabilities are opaque, issuer-local and short-lived, issued only after
+the configured server verifier returns an authenticated ProductOwner identity.
+Actor/role strings and request dictionaries are rejected as human proof. LIVE
+activation/resumption requires fresh reauthentication and current immutable
+approval/envelope. The strict envelope includes explicit USDT ceilings, selected
+E5 limits, permissions, expiry and exact release/runtime generations. Revocation
+is append-only; old consent cannot clear a changed generation or expired envelope.
+
+PAPER requires a locally selected immutable policy and PAPER_ONLY owner evidence.
+The adapter reuses existing E3 ValidationPolicy amount-valued thresholds, with
+explicit elapsed/sample/health/gap/expectancy/null-handling units. Real readiness
+rejects accelerated/synthetic clocks, insufficient duration/samples, stale or
+unhealthy observations, quantitative failures and impossible financial metrics.
+The currently selected policy is checked again at persistence and approval;
+amending it cannot transplant an old READY assessment into new consent.
+
+FIXTURE owner evidence is explicitly SIMULATED_MECHANICS, with entries_enabled
+false and release_kind FIXTURE in an immutable FIXTURE registry. Its simulated
+READY/APPROVED/LIVE transitions exercise canonical mechanics only. They neither
+start a trading runtime nor supply real forward/provider/build/capital proof.
+Pure guard fixtures use declared clocks without publication or lifecycle writes;
+the real elapsed-time producer remains S09. Selected fixture thresholds remain
+test inputs, not installed defaults.
+
+Observed new REDs: operational boundary3 failures; orphan approval1 failure;
+duplicate completed command1 failure; interrupted product migrations2 failures;
+missing selected PAPER policy/profile2 failures; missing public schemas and stale
+PAPER policy approval2 failures; impossible forward metrics2 failures; migration
+factory connection leak1 failure. Each corresponding focused repair passed.
+Additional already-implemented guard cases are characterization, not prior RED.
+
+Approval, owner evidence, canonical transition/projection and immutable command
+receipt now commit in one BEGIN IMMEDIATE transaction. A crash rolls them all
+back; identical completed commands return the original response without a new
+transition, while changed consent under the same ID conflicts. Owner production
+does not run inside this transaction. Both product migrations use atomic DDL/
+receipt transactions; failed factory migration closes its owned connection.
+
+The historical migration fixture now seeds the accepted eleven-column old
+transition before upgrade and compares every original named column afterward,
+also checking the added owner reference is NULL for old rows. It cannot use a
+new writer against the pre-upgrade schema. No historical data check was removed.
+
+Retirement characterization seeds a same-strategy historical canonical exposure/
+protection graph through the real E6 PaperRuntimeJournal. Every runtime table and
+recovery result remains unchanged after retirement; no assertion of flatness or
+protection cancellation is added. Continuous E5 management after retirement is
+still integrated and tested by the actual scheduler in S09.
+
+Task S08 Ruling: fixture-only canonical operational states qualify isolated state
+mechanics, not real operational mode or native/provider authorization. Cost if
+wrong: a commissioning gate remains blocked; no real mutation is authorized.
+Task S08 Ruling: a completed duplicate command returns its historical immutable
+response even if the current projection later advances. S10 must show command
+receipt versus current observed state distinctly; returning it performs no new
+state change and is not renewed authority.

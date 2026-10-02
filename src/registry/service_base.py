@@ -521,6 +521,7 @@ class StrategyPlatformService:
         actor: str,
         reason_codes: tuple[str, ...],
         primary_evidence_id: str | None,
+        owner_evidence_id: str | None = None,
     ) -> StrategyVersionRecord:
         allowed = CANONICAL_LIFECYCLE_TRANSITIONS
         edge = (strategy.current_lifecycle_state, new_state)
@@ -540,5 +541,6 @@ class StrategyPlatformService:
             primary_evidence_id=primary_evidence_id,
             expected_registry_revision=strategy.registry_revision,
             resulting_registry_revision=strategy.registry_revision + 1,
+            owner_evidence_id=owner_evidence_id,
         )
         return self._store.append_transition(transition)

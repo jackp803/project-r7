@@ -5,6 +5,9 @@ description = "Local R7 research and operations product"
 requires-python = ">=3.12,<3.13"
 dependencies = []
 
+[project.optional-dependencies]
+qualification = ["jsonschema==4.26.0"]
+
 [project.scripts]
 r7 = "application.cli:main"
 

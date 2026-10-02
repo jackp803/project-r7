@@ -133,6 +133,10 @@ def _canonical_json(value: Any) -> str:
 
 def compute_content_hash(definition: Mapping[str, Any]) -> str:
     """Compute immutable strategy content identity excluding content_hash itself."""
+    rules = definition.get("rules")
+    if isinstance(rules, Mapping) and rules.get("dsl_version") == "0.2":
+        from strategy.v02.parser import compute_v02_content_hash
+        return compute_v02_content_hash(definition)
     material = dict(definition)
     material.pop("content_hash", None)
     digest = hashlib.sha256(_canonical_json(material).encode("utf-8")).hexdigest()
@@ -272,17 +276,37 @@ def _load_definition(payload: Union[str, bytes, bytearray, Mapping[str, Any]]) -
     if isinstance(payload, Mapping):
         return dict(payload)
     if isinstance(payload, (bytes, bytearray)):
-        payload = payload.decode("utf-8")
+        if len(payload)>256*1024:
+            raise StrategyValidationError('PAYLOAD_SIZE_LIMIT','StrategyDefinition exceeds bounded size')
+        try:
+            payload = payload.decode("utf-8")
+        except UnicodeError:
+            raise StrategyValidationError('INVALID_JSON','StrategyDefinition must be UTF-8') from None
     if not isinstance(payload, str):
         raise StrategyValidationError(
             "INVALID_STRATEGY_PAYLOAD",
             "StrategyDefinition must be a mapping or JSON object string",
         )
     try:
+        if len(payload.encode('utf-8'))>256*1024:
+            raise StrategyValidationError('PAYLOAD_SIZE_LIMIT','StrategyDefinition exceeds bounded size')
+        depth=0
+        quoted=escaped=False
+        for char in payload:
+            if quoted:
+                if escaped: escaped=False
+                elif char=='\\': escaped=True
+                elif char=='"': quoted=False
+            elif char=='"': quoted=True
+            elif char in '[{':
+                depth+=1
+                if depth>128:
+                    raise StrategyValidationError('INVALID_JSON','JSON nesting exceeds parser limit')
+            elif char in ']}': depth-=1
         decoded = json.loads(payload, object_pairs_hook=_json_object_no_duplicates)
     except StrategyError:
         raise
-    except (json.JSONDecodeError, UnicodeDecodeError) as exc:
+    except (json.JSONDecodeError, UnicodeError, RecursionError) as exc:
         raise StrategyValidationError(
             "INVALID_JSON",
             "StrategyDefinition JSON could not be parsed",
@@ -299,6 +323,12 @@ def parse_strategy_definition(
     payload: Union[str, bytes, bytearray, Mapping[str, Any]]
 ) -> ParsedStrategyDefinition:
     raw = _load_definition(payload)
+    rules = raw.get("rules")
+    if isinstance(rules, Mapping) and rules.get("dsl_version") == "0.2":
+        from strategy.v02.parser import parse_v02
+        return parse_v02(raw)
+    if isinstance(rules, Mapping) and "dsl_version" in rules and rules["dsl_version"] != DSL_VERSION:
+        raise StrategyValidationError("UNSUPPORTED_DSL_VERSION", "Unsupported DSL version")
     keys = set(raw.keys())
     missing = sorted(_REQUIRED_DEFINITION_FIELDS - keys)
     extra = sorted(keys - _REQUIRED_DEFINITION_FIELDS)

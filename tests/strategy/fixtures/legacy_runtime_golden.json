@@ -1,0 +1,328 @@
+{
+  "baseline_revision": "79dd31b8e4ff9bd33df6fc7730371b3adc039543",
+  "definition": {
+    "schema_version": "contracts-v0.1",
+    "strategy_id": "baseline-sma-cross",
+    "strategy_version": "1.0.0",
+    "name": "Baseline SMA Cross",
+    "symbol": "BTC_USDT_PERP",
+    "required_timeframes": [
+      "1h"
+    ],
+    "parameters": {
+      "fast_window": 2,
+      "slow_window": 3
+    },
+    "rules": {
+      "dsl_version": "0.1",
+      "long": {
+        "operator": "GT",
+        "left": {
+          "primitive": "SMA",
+          "field": "close",
+          "window": {
+            "parameter": "fast_window"
+          }
+        },
+        "right": {
+          "primitive": "SMA",
+          "field": "close",
+          "window": {
+            "parameter": "slow_window"
+          }
+        }
+      },
+      "short": {
+        "operator": "LT",
+        "left": {
+          "primitive": "SMA",
+          "field": "close",
+          "window": {
+            "parameter": "fast_window"
+          }
+        },
+        "right": {
+          "primitive": "SMA",
+          "field": "close",
+          "window": {
+            "parameter": "slow_window"
+          }
+        }
+      }
+    },
+    "runtime_compatibility": {
+      "runtime_family": "project-r7-e2-strategy-runtime",
+      "runtime_version": "0.1.0"
+    },
+    "content_hash": "sha256:40c98ca2eb3668a39e32626c5493bc515d0ecaac9da817baacd1b3fcbf736c44",
+    "created_at": "2026-08-20T03:00:00Z"
+  },
+  "cases": [
+    {
+      "case": "long",
+      "candles": [
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T00:00:00Z",
+          "close_time": "2026-08-20T01:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T01:00:00Z",
+          "close_time": "2026-08-20T02:00:00Z",
+          "open": "101",
+          "high": "102",
+          "low": "100",
+          "close": "101",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T02:00:00Z",
+          "close_time": "2026-08-20T03:00:00Z",
+          "open": "102",
+          "high": "103",
+          "low": "101",
+          "close": "102",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T03:00:00Z",
+          "close_time": "2026-08-20T04:00:00Z",
+          "open": "103",
+          "high": "104",
+          "low": "102",
+          "close": "103",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        }
+      ],
+      "boundary": "2026-08-20T04:00:00Z",
+      "signal": {
+        "schema_version": "contracts-v0.1",
+        "signal_id": "sig_d8164d10ded2bfb39fc776b8c4bd4d1ba3009850c7f4f458a8f1532749b2cb5e",
+        "strategy_id": "baseline-sma-cross",
+        "strategy_version": "1.0.0",
+        "strategy_content_hash": "sha256:40c98ca2eb3668a39e32626c5493bc515d0ecaac9da817baacd1b3fcbf736c44",
+        "symbol": "BTC_USDT_PERP",
+        "evaluated_at": "2026-08-20T04:00:00Z",
+        "direction": "LONG",
+        "reason_codes": [
+          "LONG_RULE_MATCHED"
+        ],
+        "market_boundary_ref": "sha256:f1274c8c1b7b4a6436f2af465b89586268b08dd2c22dcff2deb83ad426fb4ba4",
+        "reference_price": "103"
+      }
+    },
+    {
+      "case": "short",
+      "candles": [
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T00:00:00Z",
+          "close_time": "2026-08-20T01:00:00Z",
+          "open": "103",
+          "high": "104",
+          "low": "102",
+          "close": "103",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T01:00:00Z",
+          "close_time": "2026-08-20T02:00:00Z",
+          "open": "102",
+          "high": "103",
+          "low": "101",
+          "close": "102",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T02:00:00Z",
+          "close_time": "2026-08-20T03:00:00Z",
+          "open": "101",
+          "high": "102",
+          "low": "100",
+          "close": "101",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T03:00:00Z",
+          "close_time": "2026-08-20T04:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        }
+      ],
+      "boundary": "2026-08-20T04:00:00Z",
+      "signal": {
+        "schema_version": "contracts-v0.1",
+        "signal_id": "sig_e1318e70e334cfc3f9cfecbbfd2607ea094e32ac1ae8ba233380456a98d29a2d",
+        "strategy_id": "baseline-sma-cross",
+        "strategy_version": "1.0.0",
+        "strategy_content_hash": "sha256:40c98ca2eb3668a39e32626c5493bc515d0ecaac9da817baacd1b3fcbf736c44",
+        "symbol": "BTC_USDT_PERP",
+        "evaluated_at": "2026-08-20T04:00:00Z",
+        "direction": "SHORT",
+        "reason_codes": [
+          "SHORT_RULE_MATCHED"
+        ],
+        "market_boundary_ref": "sha256:fab6e6c26efac477e58ccacb9761eb34c949a588ecbcc8e892507d07478c1da6",
+        "reference_price": "100"
+      }
+    },
+    {
+      "case": "flat",
+      "candles": [
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T00:00:00Z",
+          "close_time": "2026-08-20T01:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T01:00:00Z",
+          "close_time": "2026-08-20T02:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T02:00:00Z",
+          "close_time": "2026-08-20T03:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        },
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T03:00:00Z",
+          "close_time": "2026-08-20T04:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        }
+      ],
+      "boundary": "2026-08-20T04:00:00Z",
+      "signal": {
+        "schema_version": "contracts-v0.1",
+        "signal_id": "sig_7e1d488a778e27bacf7c015d6cd7ff15e5a5a1f549bf58924ad7fc902ca47bb2",
+        "strategy_id": "baseline-sma-cross",
+        "strategy_version": "1.0.0",
+        "strategy_content_hash": "sha256:40c98ca2eb3668a39e32626c5493bc515d0ecaac9da817baacd1b3fcbf736c44",
+        "symbol": "BTC_USDT_PERP",
+        "evaluated_at": "2026-08-20T04:00:00Z",
+        "direction": "NO_TRADE",
+        "reason_codes": [
+          "NO_RULE_MATCHED"
+        ],
+        "market_boundary_ref": "sha256:de8fca5ea3870c4e09f4b0790fe2d155a14f011c7c808f476db9395a918e99f6",
+        "reference_price": "100"
+      }
+    },
+    {
+      "case": "warmup",
+      "candles": [
+        {
+          "schema_version": "contracts-v0.1",
+          "symbol": "BTC_USDT_PERP",
+          "timeframe": "1h",
+          "open_time": "2026-08-20T00:00:00Z",
+          "close_time": "2026-08-20T01:00:00Z",
+          "open": "100",
+          "high": "101",
+          "low": "99",
+          "close": "100",
+          "volume": "100",
+          "is_closed": true,
+          "source": "e1-test-fixture"
+        }
+      ],
+      "boundary": "2026-08-20T01:00:00Z",
+      "signal": {
+        "schema_version": "contracts-v0.1",
+        "signal_id": "sig_3b8b28f99331425db0ccd7cea292ed9798fa061f6394f5b1a95d042a80c8cfcc",
+        "strategy_id": "baseline-sma-cross",
+        "strategy_version": "1.0.0",
+        "strategy_content_hash": "sha256:40c98ca2eb3668a39e32626c5493bc515d0ecaac9da817baacd1b3fcbf736c44",
+        "symbol": "BTC_USDT_PERP",
+        "evaluated_at": "2026-08-20T01:00:00Z",
+        "direction": "NO_TRADE",
+        "reason_codes": [
+          "INSUFFICIENT_HISTORY"
+        ],
+        "market_boundary_ref": "sha256:668faf71dce09a5c99db6271bbdba54d093774f15b33a8f09eb9c4fd98333cc7",
+        "reference_price": "100"
+      }
+    }
+  ]
+}

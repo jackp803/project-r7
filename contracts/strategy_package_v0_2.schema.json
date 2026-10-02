@@ -1,0 +1,280 @@
+{
+  "type": "object",
+  "properties": {
+    "package_schema_version": {
+      "const": "r7-strategy-package-v0.2"
+    },
+    "submission_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "strategy_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "strategy_version": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "requested_dataset_profile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "requested_validation_profile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "requested_robustness_profile": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "strategy_content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "created_at": {
+      "type": "string",
+      "maxLength": 40,
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+    },
+    "created_by": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "research_hypothesis": {
+      "type": "string",
+      "maxLength": 8192
+    },
+    "required_runtime_profile": {
+      "type": "object",
+      "properties": {
+        "runtime_family": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96
+        },
+        "runtime_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 96
+        }
+      },
+      "required": [
+        "runtime_family",
+        "runtime_version"
+      ],
+      "additionalProperties": false
+    },
+    "capability_snapshot_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "payloads": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "role": {
+                "const": "strategy_definition"
+              },
+              "relative_path": {
+                "type": "string",
+                "maxLength": 384,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*){0,7}$"
+              },
+              "media_type": {
+                "const": "application/json"
+              },
+              "byte_length": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 262144
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "role",
+              "relative_path",
+              "media_type",
+              "byte_length",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "role": {
+                "const": "research_notes"
+              },
+              "relative_path": {
+                "type": "string",
+                "maxLength": 384,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*){0,7}$"
+              },
+              "media_type": {
+                "const": "text/markdown"
+              },
+              "byte_length": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65536
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "role",
+              "relative_path",
+              "media_type",
+              "byte_length",
+              "sha256"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "contains": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "const": "strategy_definition"
+          },
+          "relative_path": {
+            "type": "string",
+            "maxLength": 384,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*(?:/[A-Za-z0-9][A-Za-z0-9._-]*){0,7}$"
+          },
+          "media_type": {
+            "const": "application/json"
+          },
+          "byte_length": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 262144
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "required": [
+          "role",
+          "relative_path",
+          "media_type",
+          "byte_length",
+          "sha256"
+        ],
+        "additionalProperties": false
+      },
+      "minContains": 1,
+      "maxContains": 1
+    },
+    "intent_class": {
+      "enum": [
+        "EVERGREEN_STRATEGY",
+        "TACTICAL_STRATEGY"
+      ]
+    },
+    "validity": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "oneOf": [
+            {
+              "type": "string",
+              "maxLength": 40,
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "until": {
+          "oneOf": [
+            {
+              "type": "string",
+              "maxLength": 40,
+              "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "from",
+        "until"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "package_schema_version",
+    "submission_id",
+    "strategy_id",
+    "strategy_version",
+    "requested_dataset_profile",
+    "requested_validation_profile",
+    "requested_robustness_profile",
+    "strategy_content_hash",
+    "created_at",
+    "created_by",
+    "research_hypothesis",
+    "required_runtime_profile",
+    "capability_snapshot_hash",
+    "payloads",
+    "intent_class",
+    "validity"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:r7:strategy-package:0.2",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "intent_class": {
+            "const": "TACTICAL_STRATEGY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "validity": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string",
+                "maxLength": 40,
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+              },
+              "until": {
+                "type": "string",
+                "maxLength": 40,
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$"
+              }
+            },
+            "required": [
+              "from",
+              "until"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "Cloud parser additionally enforces 64KiB, unique keys/roles/case-insensitive paths, reserved Windows names, no secrets, actual byte hashes, finite validity interval and exact capability/runtime binding. No package field confers activation authority."
+}

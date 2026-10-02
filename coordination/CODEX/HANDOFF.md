@@ -8,10 +8,39 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S06, pinned datasets and actual owner research execution. Next: S07.
+Active step: S07, actual robustness, trial ledger and sealed OOS. Next: S08.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
+
+S06 exact-clean executable `d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0`
+passed32 commands on Windows/Python3.12.10: phase1 247, phase2 1050,
+total1297, zero failures/errors/skips.32 log hashes checked before persistence.
+Evidence: status/codex/productization/S06/passed-d33d891-py312/.
+Actual clean fixture owner run: fixture-d33d891/research-report.json plus exact
+Parquet/policy/manifest inputs. E2 compatibility PASS; E6 BACKTESTING;6 actual
+E2 replay invocations,1 closed trade,8 persisted stages. Product diagnostics
+remain BLOCKED (missing selected promotion policy/robustness/sealed OOS).
+Fixture data/policies are explicit and never real commissioning defaults.
+
+Next action S07: finite typed neighborhood/invalid variant preservation,
+purged chronological walk-forward, adverse cost/funding stress, deterministic
+versioned Monte Carlo (permutation drawdown vs dependence-aware block sensitivity),
+append-only trial/Chat/holdout observations, finalist freeze before final OOS,
+and actual combined E3 assessment. Use real E2/E3 replay; no precomputed PASS.
+Adaptive interfaces must receive development-only data, not accessible final
+OOS payloads. E6 product gate reinforcement is S08. Preserve legacy validation
+semantics; insufficient sample is BLOCKED at product layer, not statistical PASS.
+
+S06 residual implementation concerns for later tasks: current source replay
+budget max2000 and O(N^2) nested evaluation need measured optimization/worker
+dispatch in S13/S15. Positive warmup/embargo is the documented conservative
+split profile. Capability implementation flags now come from actual handler
+dispatch; verified-reference/platform/PAPER/provider proof remains conservative
+until exact trusted evidence is materialized. E3 coarse OHLC timestamps are
+explicit estimates, not between-bar runtime timing or provider modification
+authority. S09 must durably anchor first fill and run separate management clocks.
+Native Ubuntu, actual dataset/cloud/forward/provider/capital remain distinct gaps.
 
 S05 exact-clean executable `ef9f055a8d622efd9b1c569d1dd0c9c88e893673`
 passed all32 commands on Windows/Python3.12.10: phase1 247, phase2 1019,

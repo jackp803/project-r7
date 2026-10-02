@@ -1,0 +1,546 @@
+{
+  "backtest": {
+    "average_loss": "0",
+    "average_win": "0.89450004",
+    "backtest_result_id": "backtest_fd15b4c26aedd0ab56ed49be",
+    "breakeven": 0,
+    "cost_model_version": "FIXTURE_COST_V1",
+    "created_at": "2026-10-02T14:50:29.599722Z",
+    "dataset_end": "2026-10-02T08:00:00Z",
+    "dataset_hash": "sha256:705ce0e6937bc3cc6781e7137ac8190c23e4f9cf0d95cbb89f853e7eaebed73d",
+    "dataset_id": "fixture-dataset:development",
+    "dataset_start": "2026-10-02T04:00:00Z",
+    "expectancy": "0.89450004",
+    "gross_pnl": "0.9789",
+    "losses": 0,
+    "max_consecutive_losses": 0,
+    "max_drawdown": "0",
+    "net_pnl": "0.89450004",
+    "profit_factor": null,
+    "replay_engine_version": "e3-replay-v02-v1",
+    "reproducibility": {
+      "cost_assumptions": {
+        "cost_model_version": "FIXTURE_COST_V1",
+        "exit_execution_model": {
+          "profile": "e3-v02-prior-bar-trailing-v1",
+          "protective_event_time": "CANDLE_CLOSE; OHLC event order unknown",
+          "provider_modification_authority": "NOT_ESTABLISHED",
+          "time_exit_price": "NEXT_OBSERVED_OPEN; no fabricated intrabar quote",
+          "trailing": "E5 monotonic proposal applied from next observed bar; research simulation"
+        },
+        "fee": {
+          "entry_liquidity_role": "TAKER",
+          "exit_liquidity_role": "TAKER",
+          "maker_bps": "2",
+          "taker_bps": "4",
+          "version": "FIXTURE_COST_V1"
+        },
+        "fixed_quantity": "1",
+        "funding": {
+          "event_count": 2,
+          "event_window": "OPENED_AT_INCLUSIVE_CLOSED_AT_EXCLUSIVE",
+          "mode": "RECORDED_RATES",
+          "notional_basis": "ENTRY_FILL_PRICE_X_BASE_QUANTITY",
+          "notional_method": "REPLAY_ESTIMATE",
+          "source_hash": "sha256:94212d1ce928348591a52d709568424c07ed246cc666d4cc8e4708cc57d0746a",
+          "version": "r7-recorded-funding-v0.2"
+        },
+        "scoring": {
+          "boundary_overlap": "PURGED",
+          "end": "2026-10-02T08:00:00Z",
+          "entry_end": "2026-10-02T07:00:00Z",
+          "entry_start": "2026-10-02T05:00:00Z",
+          "start": "2026-10-02T04:00:00Z",
+          "time_exit_price": "NEXT_OBSERVED_OPEN; no invented intrabar timestamp",
+          "warmup": "FEATURE_ONLY"
+        },
+        "slippage": {
+          "direction": "ADVERSE",
+          "entry_bps": "1",
+          "exit_bps": "1",
+          "version": "FIXTURE_COST_V1"
+        }
+      },
+      "runtime_invocations": 6,
+      "runtime_provider": "E2"
+    },
+    "runtime_version": "0.2.0",
+    "schema_version": "contracts-v0.1",
+    "strategy_content_hash": "sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91",
+    "strategy_id": "fixture-v02-trend",
+    "strategy_version": "0.2.0",
+    "total_fees": "0.08439996",
+    "total_funding_cost": "0.0000",
+    "total_slippage_cost": "0.0211",
+    "total_trades": 1,
+    "trades": [
+      {
+        "closed_at": "2026-10-02T06:00:00Z",
+        "direction": "LONG",
+        "entry_fill_price": "105.0105",
+        "entry_reference_price": "105",
+        "entry_signal_id": "sig_14216b9cd7b449c5cc1d10d7069986e832442f5fb075763b5a7bba57e84dc4e4",
+        "exit_fill_price": "105.9894",
+        "exit_reason": "MAX_HOLD",
+        "exit_reference_price": "106",
+        "funding_cost": "0.0000",
+        "gross_pnl": "0.9789",
+        "net_pnl": "0.89450004",
+        "opened_at": "2026-10-02T05:00:00Z",
+        "quantity": "1",
+        "slippage_cost": "0.0211",
+        "total_fees": "0.08439996",
+        "trade_id": "replay_trade_29fe7b077a562376a86d0874"
+      }
+    ],
+    "validation_stages": {
+      "monte_carlo": "NOT_RUN",
+      "oos": "NOT_RUN",
+      "parameter_robustness": "NOT_RUN",
+      "regime": "NOT_RUN",
+      "walk_forward": "NOT_RUN"
+    },
+    "win_rate": "1",
+    "wins": 1
+  },
+  "backtest_e6_evidence_id": "evidence-17b11cc8-e3bb-4033-87a3-50db4631aa80",
+  "compatibility": {
+    "capability_snapshot_hash": "sha256:f43b98f1bd23b96e4cf6951e40355e09d689e9047af3c2e367ca14d16727d849",
+    "checked_at": "2026-10-02T14:50:29.328432Z",
+    "command": "E2 StrategyRuntime.evaluate/explicit-v0.2/as-of-training",
+    "dataset_manifest_hash": "sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc",
+    "implementation_hash": "sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0",
+    "provenance": {
+      "architecture": "AMD64",
+      "capital": "NONE",
+      "credentials": "NONE",
+      "executable_revision": "d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0",
+      "execution": "LOCAL",
+      "github_compute": "NOT_USED",
+      "implementation_hash": "sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "provider_requests": 0,
+      "python": "3.12.10",
+      "worktree": "CLEAN"
+    },
+    "reason_codes": [],
+    "signal": {
+      "direction": "LONG",
+      "evaluated_at": "2026-10-02T04:00:00Z",
+      "market_boundary_ref": "sha256:dc1d8c0fc2ab9bffff1af4d50ced2feeb53477478b202d1ae01b678a791e8bf7",
+      "reason_codes": [
+        "LONG_RULE_MATCHED"
+      ],
+      "reference_price": "104",
+      "schema_version": "contracts-v0.1",
+      "signal_id": "sig_0467ec89ec7f36ba578cb09d8c4b709e1a9de629e3a2e4b14d4123789cc36c4e",
+      "strategy_content_hash": "sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91",
+      "strategy_id": "fixture-v02-trend",
+      "strategy_version": "0.2.0",
+      "symbol": "BTC_USDT_PERP"
+    },
+    "status": "PASS",
+    "strategy_content_hash": "sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91",
+    "verification_kind": "LOCAL_EXECUTION"
+  },
+  "dataset_resolution": {
+    "container_hashes": [
+      [
+        "candles.parquet",
+        "sha256:1b8167527e51b79992576fb53091b5d31ff3f1a538b01b96bb06caa97c06753a"
+      ],
+      [
+        "funding.parquet",
+        "sha256:00ffde4f954fca3afd7514df1014184fb9e171e5805b5066ba8d24c04d86a029"
+      ]
+    ],
+    "logical_hash": "sha256:705ce0e6937bc3cc6781e7137ac8190c23e4f9cf0d95cbb89f853e7eaebed73d",
+    "manifest_hash": "sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc",
+    "reason_codes": [],
+    "row_counts": {
+      "1h": 12
+    }
+  },
+  "inputs": {
+    "cost_policy": {
+      "cost_model_version": "FIXTURE_COST_V1",
+      "entry_bps": "1",
+      "exit_bps": "1",
+      "fee_unit": "BPS_OF_NOTIONAL",
+      "fixed_quantity": "1",
+      "generation": 1,
+      "maker_bps": "2",
+      "max_evaluations": 100,
+      "namespace": "FIXTURE",
+      "policy_id": "FIXTURE_COST",
+      "quantity_unit": "BASE",
+      "schema_version": "r7-replay-cost-policy-v0.2",
+      "slippage_unit": "BPS_OF_REFERENCE_PRICE",
+      "taker_bps": "4"
+    },
+    "cost_policy_hash": "sha256:fa6de0c3c92d7173d5b74f9a30c07ac944b2a6ef18cd68c83371acfcd2b783b2",
+    "dataset": {
+      "alignment": "UTC",
+      "availability_model": "recorded_received_at",
+      "candles": [
+        {
+          "byte_hash": "sha256:1b8167527e51b79992576fb53091b5d31ff3f1a538b01b96bb06caa97c06753a",
+          "duplicate_ranges": [],
+          "end": "2026-10-02T12:00:00Z",
+          "finalized_rows": 12,
+          "logical_hash": "sha256:18067fa796eabfad39892c8f50aff77db8444b5e29b926932e2b662d93da2e1d",
+          "missing_ranges": [],
+          "path": "candles.parquet",
+          "rows": 12,
+          "start": "2026-10-02T00:00:00Z",
+          "timeframe": "1h"
+        }
+      ],
+      "created_at": "2026-10-02T12:00:00Z",
+      "dataset_id": "fixture-dataset",
+      "dataset_version": "1",
+      "funding": {
+        "byte_hash": "sha256:00ffde4f954fca3afd7514df1014184fb9e171e5805b5066ba8d24c04d86a029",
+        "end": "2026-10-02T12:00:00Z",
+        "interval_seconds": 28800,
+        "logical_hash": "sha256:94212d1ce928348591a52d709568424c07ed246cc666d4cc8e4708cc57d0746a",
+        "mode": "RECORDED",
+        "notional_basis": "ENTRY_FILL_PRICE_X_BASE_QUANTITY",
+        "path": "funding.parquet",
+        "rate_unit": "FRACTION_PER_EVENT",
+        "rows": 2,
+        "start": "2026-10-02T00:00:00Z"
+      },
+      "information_cutoff": "2026-10-02T12:00:00Z",
+      "namespace": "FIXTURE",
+      "normalization_version": "r7-canonical-e1-v0.2",
+      "schema_version": "r7-dataset-v0.2",
+      "source_instrument": "SYNTHETIC:BTC-USDT",
+      "symbol": "BTC_USDT_PERP",
+      "units": {
+        "instrument_type": "LINEAR_PERPETUAL",
+        "price": "USDT_PER_BASE",
+        "quantity": "BASE",
+        "settlement": "USDT",
+        "volume": "BASE"
+      }
+    },
+    "dataset_hash_verification": "PENDING_AT_FREEZE",
+    "dataset_manifest_hash": "sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc",
+    "implementation_hash": "sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0",
+    "information_cutoff": "2026-10-02T12:00:00Z",
+    "namespace": "FIXTURE",
+    "promotion_policy": null,
+    "random_algorithm": "NOT_RUN",
+    "random_seed": null,
+    "schema_version": "r7-research-run-v0.2",
+    "split_policy": {
+      "development": {
+        "end": "2026-10-02T08:00:00Z",
+        "start": "2026-10-02T04:00:00Z"
+      },
+      "embargo_rationale": "Fixture one hour boundary exclusion",
+      "embargo_seconds": 3600,
+      "generation": 1,
+      "label_horizon_seconds": 3600,
+      "max_holding_seconds": 3600,
+      "namespace": "FIXTURE",
+      "policy_id": "FIXTURE_SPLIT",
+      "schema_version": "r7-split-policy-v0.2",
+      "sealed_oos": {
+        "end": "2026-10-02T12:00:00Z",
+        "start": "2026-10-02T08:00:00Z"
+      },
+      "training": {
+        "end": "2026-10-02T04:00:00Z",
+        "start": "2026-10-02T00:00:00Z"
+      },
+      "warmup_bars": 2
+    },
+    "split_policy_hash": "sha256:e54791c1bd9b72b72dbb930f193f551ff50b9833f63b5c399569707ae0ddd066",
+    "strategy": {
+      "content_hash": "sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91",
+      "created_at": "2026-08-20T03:00:00Z",
+      "name": "Baseline SMA Cross",
+      "parameters": {
+        "fast_window": 2
+      },
+      "required_timeframes": [
+        "1h"
+      ],
+      "rules": {
+        "behavior_profile": "r7-closed-bar-v0.2",
+        "dsl_version": "0.2",
+        "evaluation_timeframe": "1h",
+        "exit_policy": {
+          "max_hold_seconds": 3600,
+          "stop": {
+            "kind": "fixed_distance",
+            "value": "10"
+          },
+          "target": {
+            "kind": "reward_risk",
+            "multiple": "2"
+          },
+          "trailing": null
+        },
+        "features": {
+          "trend": {
+            "kind": "indicator",
+            "name": "EMA",
+            "output": "value",
+            "parameters": {
+              "window": 2
+            },
+            "semantic_version": "r7-ema-v1",
+            "source": {
+              "field": "close",
+              "kind": "field",
+              "timeframe": "1h"
+            }
+          }
+        },
+        "long": {
+          "args": [
+            {
+              "field": "close",
+              "kind": "field",
+              "timeframe": "1h"
+            },
+            {
+              "kind": "feature",
+              "name": "trend"
+            }
+          ],
+          "kind": "operator",
+          "name": "GT"
+        },
+        "short": {
+          "args": [
+            {
+              "field": "close",
+              "kind": "field",
+              "timeframe": "1h"
+            },
+            {
+              "kind": "feature",
+              "name": "trend"
+            }
+          ],
+          "kind": "operator",
+          "name": "LT"
+        }
+      },
+      "runtime_compatibility": {
+        "runtime_family": "project-r7-e2-strategy-runtime",
+        "runtime_version": "0.2.0"
+      },
+      "schema_version": "contracts-v0.1",
+      "strategy_id": "fixture-v02-trend",
+      "strategy_version": "0.2.0",
+      "symbol": "BTC_USDT_PERP"
+    },
+    "submission_id": "qualification-fixture"
+  },
+  "namespace": "FIXTURE",
+  "provenance": {
+    "architecture": "AMD64",
+    "capital": "NONE",
+    "credentials": "NONE",
+    "executable_revision": "d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0",
+    "execution": "LOCAL",
+    "github_compute": "NOT_USED",
+    "implementation_hash": "sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0",
+    "os": "Windows",
+    "os_version": "10.0.26200",
+    "provider_requests": 0,
+    "python": "3.12.10",
+    "worktree": "CLEAN"
+  },
+  "reason_codes": [
+    "MISSING_PROMOTION_POLICY",
+    "ROBUSTNESS_NOT_RUN",
+    "SEALED_OOS_NOT_RUN"
+  ],
+  "resource_admission": {
+    "hardware": {
+      "architecture": "AMD64",
+      "available_memory_bytes": 11059429376,
+      "cpu_model": "Intel(R) Core(TM) Ultra 7 255HX",
+      "disk_free_bytes": 508920283136,
+      "disk_total_bytes": 991139196928,
+      "filesystem": "NTFS",
+      "gpu_status": "NOT_REQUIRED",
+      "logical_cores": 20,
+      "memory_enforcement": "SOFT_LIMIT_ONLY",
+      "os_name": "Windows",
+      "os_version": "10.0.26200",
+      "physical_memory_bytes": 33736265728
+    },
+    "memory_enforcement": "SOFT_LIMIT_ONLY",
+    "memory_soft_budget_bytes": 8589934592
+  },
+  "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+  "schema_version": "r7-research-report-v0.2",
+  "sealed_oos": "NOT_RUN",
+  "split_resolution": {
+    "dataset_manifest_hash": "sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc",
+    "namespace": "FIXTURE",
+    "partitions": {
+      "development": {
+        "end": "2026-10-02T08:00:00Z",
+        "entry_end": "2026-10-02T07:00:00Z",
+        "entry_start": "2026-10-02T05:00:00Z",
+        "name": "development",
+        "sealed": false,
+        "start": "2026-10-02T04:00:00Z",
+        "warmup_start": "2026-10-02T02:00:00Z"
+      },
+      "sealed_oos": {
+        "end": "2026-10-02T12:00:00Z",
+        "entry_end": "2026-10-02T11:00:00Z",
+        "entry_start": "2026-10-02T09:00:00Z",
+        "name": "sealed_oos",
+        "sealed": true,
+        "start": "2026-10-02T08:00:00Z",
+        "warmup_start": "2026-10-02T06:00:00Z"
+      },
+      "training": {
+        "end": "2026-10-02T04:00:00Z",
+        "entry_end": "2026-10-02T03:00:00Z",
+        "entry_start": "2026-10-02T00:00:00Z",
+        "name": "training",
+        "sealed": false,
+        "start": "2026-10-02T00:00:00Z",
+        "warmup_start": "2026-10-02T00:00:00Z"
+      }
+    },
+    "policy_hash": "sha256:e54791c1bd9b72b72dbb930f193f551ff50b9833f63b5c399569707ae0ddd066",
+    "schema_version": "r7-frozen-split-plan-v0.2"
+  },
+  "status": "BLOCKED",
+  "strategy_lifecycle": "BACKTESTING",
+  "attempts": [
+    {
+      "attempt_id": 1,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "resource_admission",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.256515Z",
+      "started_at": "2026-10-02T14:50:29.256515Z",
+      "ended_at": "2026-10-02T14:50:29.258016Z",
+      "status": "COMPLETE",
+      "output_json": "{\"hardware\":{\"architecture\":\"AMD64\",\"available_memory_bytes\":11059429376,\"cpu_model\":\"Intel(R) Core(TM) Ultra 7 255HX\",\"disk_free_bytes\":508920283136,\"disk_total_bytes\":991139196928,\"filesystem\":\"NTFS\",\"gpu_status\":\"NOT_REQUIRED\",\"logical_cores\":20,\"memory_enforcement\":\"SOFT_LIMIT_ONLY\",\"os_name\":\"Windows\",\"os_version\":\"10.0.26200\",\"physical_memory_bytes\":33736265728},\"memory_enforcement\":\"SOFT_LIMIT_ONLY\",\"memory_soft_budget_bytes\":8589934592}",
+      "output_hash": "sha256:b279ea4567b8272fce5089be23fff5e68948d2a18525d15adb231d429ac10d47",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 2,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "dataset_resolution",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.258016Z",
+      "started_at": "2026-10-02T14:50:29.258016Z",
+      "ended_at": "2026-10-02T14:50:29.285760Z",
+      "status": "COMPLETE",
+      "output_json": "{\"container_hashes\":[[\"candles.parquet\",\"sha256:1b8167527e51b79992576fb53091b5d31ff3f1a538b01b96bb06caa97c06753a\"],[\"funding.parquet\",\"sha256:00ffde4f954fca3afd7514df1014184fb9e171e5805b5066ba8d24c04d86a029\"]],\"logical_hash\":\"sha256:705ce0e6937bc3cc6781e7137ac8190c23e4f9cf0d95cbb89f853e7eaebed73d\",\"manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"reason_codes\":[],\"row_counts\":{\"1h\":12}}",
+      "output_hash": "sha256:a1d936aa9e079159f4525c0133f37696e636c4ca76ec761ca2557904e607cbb0",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 3,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "split_resolution",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.286761Z",
+      "started_at": "2026-10-02T14:50:29.286761Z",
+      "ended_at": "2026-10-02T14:50:29.287894Z",
+      "status": "COMPLETE",
+      "output_json": "{\"dataset_manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"namespace\":\"FIXTURE\",\"partitions\":{\"development\":{\"end\":\"2026-10-02T08:00:00Z\",\"entry_end\":\"2026-10-02T07:00:00Z\",\"entry_start\":\"2026-10-02T05:00:00Z\",\"name\":\"development\",\"sealed\":false,\"start\":\"2026-10-02T04:00:00Z\",\"warmup_start\":\"2026-10-02T02:00:00Z\"},\"sealed_oos\":{\"end\":\"2026-10-02T12:00:00Z\",\"entry_end\":\"2026-10-02T11:00:00Z\",\"entry_start\":\"2026-10-02T09:00:00Z\",\"name\":\"sealed_oos\",\"sealed\":true,\"start\":\"2026-10-02T08:00:00Z\",\"warmup_start\":\"2026-10-02T06:00:00Z\"},\"training\":{\"end\":\"2026-10-02T04:00:00Z\",\"entry_end\":\"2026-10-02T03:00:00Z\",\"entry_start\":\"2026-10-02T00:00:00Z\",\"name\":\"training\",\"sealed\":false,\"start\":\"2026-10-02T00:00:00Z\",\"warmup_start\":\"2026-10-02T00:00:00Z\"}},\"policy_hash\":\"sha256:e54791c1bd9b72b72dbb930f193f551ff50b9833f63b5c399569707ae0ddd066\",\"schema_version\":\"r7-frozen-split-plan-v0.2\"}",
+      "output_hash": "sha256:5be2d4b85b72e4bce16d14ea8cfe3e55703050d42b6dffe71ef9a3b9fbe04a23",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 4,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "cost_resolution",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.287894Z",
+      "started_at": "2026-10-02T14:50:29.287894Z",
+      "ended_at": "2026-10-02T14:50:29.288890Z",
+      "status": "COMPLETE",
+      "output_json": "{\"cost_model_version\":\"FIXTURE_COST_V1\",\"entry_bps\":\"1\",\"exit_bps\":\"1\",\"fee_unit\":\"BPS_OF_NOTIONAL\",\"fixed_quantity\":\"1\",\"generation\":1,\"maker_bps\":\"2\",\"max_evaluations\":100,\"namespace\":\"FIXTURE\",\"policy_id\":\"FIXTURE_COST\",\"quantity_unit\":\"BASE\",\"schema_version\":\"r7-replay-cost-policy-v0.2\",\"slippage_unit\":\"BPS_OF_REFERENCE_PRICE\",\"taker_bps\":\"4\"}",
+      "output_hash": "sha256:fa6de0c3c92d7173d5b74f9a30c07ac944b2a6ef18cd68c83371acfcd2b783b2",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 5,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "compatibility",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.288890Z",
+      "started_at": "2026-10-02T14:50:29.288890Z",
+      "ended_at": "2026-10-02T14:50:29.328432Z",
+      "status": "COMPLETE",
+      "output_json": "{\"capability_snapshot_hash\":\"sha256:f43b98f1bd23b96e4cf6951e40355e09d689e9047af3c2e367ca14d16727d849\",\"checked_at\":\"2026-10-02T14:50:29.328432Z\",\"command\":\"E2 StrategyRuntime.evaluate/explicit-v0.2/as-of-training\",\"dataset_manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"implementation_hash\":\"sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0\",\"provenance\":{\"architecture\":\"AMD64\",\"capital\":\"NONE\",\"credentials\":\"NONE\",\"executable_revision\":\"d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0\",\"execution\":\"LOCAL\",\"github_compute\":\"NOT_USED\",\"implementation_hash\":\"sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0\",\"os\":\"Windows\",\"os_version\":\"10.0.26200\",\"provider_requests\":0,\"python\":\"3.12.10\",\"worktree\":\"CLEAN\"},\"reason_codes\":[],\"signal\":{\"direction\":\"LONG\",\"evaluated_at\":\"2026-10-02T04:00:00Z\",\"market_boundary_ref\":\"sha256:dc1d8c0fc2ab9bffff1af4d50ced2feeb53477478b202d1ae01b678a791e8bf7\",\"reason_codes\":[\"LONG_RULE_MATCHED\"],\"reference_price\":\"104\",\"schema_version\":\"contracts-v0.1\",\"signal_id\":\"sig_0467ec89ec7f36ba578cb09d8c4b709e1a9de629e3a2e4b14d4123789cc36c4e\",\"strategy_content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"symbol\":\"BTC_USDT_PERP\"},\"status\":\"PASS\",\"strategy_content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"verification_kind\":\"LOCAL_EXECUTION\"}",
+      "output_hash": "sha256:6d7c18e3091217331f54ffeb228ed19c977b339816840962c83a575b5548d867",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 6,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "development_replay",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.582680Z",
+      "started_at": "2026-10-02T14:50:29.582680Z",
+      "ended_at": "2026-10-02T14:50:29.678781Z",
+      "status": "COMPLETE",
+      "output_json": "{\"average_loss\":\"0\",\"average_win\":\"0.89450004\",\"backtest_result_id\":\"backtest_fd15b4c26aedd0ab56ed49be\",\"breakeven\":0,\"cost_model_version\":\"FIXTURE_COST_V1\",\"created_at\":\"2026-10-02T14:50:29.599722Z\",\"dataset_end\":\"2026-10-02T08:00:00Z\",\"dataset_hash\":\"sha256:705ce0e6937bc3cc6781e7137ac8190c23e4f9cf0d95cbb89f853e7eaebed73d\",\"dataset_id\":\"fixture-dataset:development\",\"dataset_start\":\"2026-10-02T04:00:00Z\",\"expectancy\":\"0.89450004\",\"gross_pnl\":\"0.9789\",\"losses\":0,\"max_consecutive_losses\":0,\"max_drawdown\":\"0\",\"net_pnl\":\"0.89450004\",\"profit_factor\":null,\"replay_engine_version\":\"e3-replay-v02-v1\",\"reproducibility\":{\"cost_assumptions\":{\"cost_model_version\":\"FIXTURE_COST_V1\",\"exit_execution_model\":{\"profile\":\"e3-v02-prior-bar-trailing-v1\",\"protective_event_time\":\"CANDLE_CLOSE; OHLC event order unknown\",\"provider_modification_authority\":\"NOT_ESTABLISHED\",\"time_exit_price\":\"NEXT_OBSERVED_OPEN; no fabricated intrabar quote\",\"trailing\":\"E5 monotonic proposal applied from next observed bar; research simulation\"},\"fee\":{\"entry_liquidity_role\":\"TAKER\",\"exit_liquidity_role\":\"TAKER\",\"maker_bps\":\"2\",\"taker_bps\":\"4\",\"version\":\"FIXTURE_COST_V1\"},\"fixed_quantity\":\"1\",\"funding\":{\"event_count\":2,\"event_window\":\"OPENED_AT_INCLUSIVE_CLOSED_AT_EXCLUSIVE\",\"mode\":\"RECORDED_RATES\",\"notional_basis\":\"ENTRY_FILL_PRICE_X_BASE_QUANTITY\",\"notional_method\":\"REPLAY_ESTIMATE\",\"source_hash\":\"sha256:94212d1ce928348591a52d709568424c07ed246cc666d4cc8e4708cc57d0746a\",\"version\":\"r7-recorded-funding-v0.2\"},\"scoring\":{\"boundary_overlap\":\"PURGED\",\"end\":\"2026-10-02T08:00:00Z\",\"entry_end\":\"2026-10-02T07:00:00Z\",\"entry_start\":\"2026-10-02T05:00:00Z\",\"start\":\"2026-10-02T04:00:00Z\",\"time_exit_price\":\"NEXT_OBSERVED_OPEN; no invented intrabar timestamp\",\"warmup\":\"FEATURE_ONLY\"},\"slippage\":{\"direction\":\"ADVERSE\",\"entry_bps\":\"1\",\"exit_bps\":\"1\",\"version\":\"FIXTURE_COST_V1\"}},\"runtime_invocations\":6,\"runtime_provider\":\"E2\"},\"runtime_version\":\"0.2.0\",\"schema_version\":\"contracts-v0.1\",\"strategy_content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"total_fees\":\"0.08439996\",\"total_funding_cost\":\"0.0000\",\"total_slippage_cost\":\"0.0211\",\"total_trades\":1,\"trades\":[{\"closed_at\":\"2026-10-02T06:00:00Z\",\"direction\":\"LONG\",\"entry_fill_price\":\"105.0105\",\"entry_reference_price\":\"105\",\"entry_signal_id\":\"sig_14216b9cd7b449c5cc1d10d7069986e832442f5fb075763b5a7bba57e84dc4e4\",\"exit_fill_price\":\"105.9894\",\"exit_reason\":\"MAX_HOLD\",\"exit_reference_price\":\"106\",\"funding_cost\":\"0.0000\",\"gross_pnl\":\"0.9789\",\"net_pnl\":\"0.89450004\",\"opened_at\":\"2026-10-02T05:00:00Z\",\"quantity\":\"1\",\"slippage_cost\":\"0.0211\",\"total_fees\":\"0.08439996\",\"trade_id\":\"replay_trade_29fe7b077a562376a86d0874\"}],\"validation_stages\":{\"monte_carlo\":\"NOT_RUN\",\"oos\":\"NOT_RUN\",\"parameter_robustness\":\"NOT_RUN\",\"regime\":\"NOT_RUN\",\"walk_forward\":\"NOT_RUN\"},\"win_rate\":\"1\",\"wins\":1}",
+      "output_hash": "sha256:a0df2018424cfcde98eea5850f7783e3a25adabf04717005216b4f67ff85afac",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 7,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "e6_backtest_persistence",
+      "input_hash": "sha256:0df36e0fdccdaaa9d6a26619d80b4ee1342ffaa736fc7ca7af751aea4de944d9",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.684650Z",
+      "started_at": "2026-10-02T14:50:29.684650Z",
+      "ended_at": "2026-10-02T14:50:29.695154Z",
+      "status": "COMPLETE",
+      "output_json": "{\"evidence_id\":\"evidence-17b11cc8-e3bb-4033-87a3-50db4631aa80\"}",
+      "output_hash": "sha256:146c6820ba1b14433315e685069762d65f44bc4477406a057912aa080b51fdc8",
+      "reason_codes_json": "[]"
+    },
+    {
+      "attempt_id": 8,
+      "run_id": "run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "stage": "diagnostic_report",
+      "input_hash": "sha256:15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0",
+      "owner_id": "qualification-fixture",
+      "lease_generation": 1,
+      "lease_deadline": "2026-10-02T14:55:29.695154Z",
+      "started_at": "2026-10-02T14:50:29.695154Z",
+      "ended_at": "2026-10-02T14:50:29.695154Z",
+      "status": "COMPLETE",
+      "output_json": "{\"backtest\":{\"average_loss\":\"0\",\"average_win\":\"0.89450004\",\"backtest_result_id\":\"backtest_fd15b4c26aedd0ab56ed49be\",\"breakeven\":0,\"cost_model_version\":\"FIXTURE_COST_V1\",\"created_at\":\"2026-10-02T14:50:29.599722Z\",\"dataset_end\":\"2026-10-02T08:00:00Z\",\"dataset_hash\":\"sha256:705ce0e6937bc3cc6781e7137ac8190c23e4f9cf0d95cbb89f853e7eaebed73d\",\"dataset_id\":\"fixture-dataset:development\",\"dataset_start\":\"2026-10-02T04:00:00Z\",\"expectancy\":\"0.89450004\",\"gross_pnl\":\"0.9789\",\"losses\":0,\"max_consecutive_losses\":0,\"max_drawdown\":\"0\",\"net_pnl\":\"0.89450004\",\"profit_factor\":null,\"replay_engine_version\":\"e3-replay-v02-v1\",\"reproducibility\":{\"cost_assumptions\":{\"cost_model_version\":\"FIXTURE_COST_V1\",\"exit_execution_model\":{\"profile\":\"e3-v02-prior-bar-trailing-v1\",\"protective_event_time\":\"CANDLE_CLOSE; OHLC event order unknown\",\"provider_modification_authority\":\"NOT_ESTABLISHED\",\"time_exit_price\":\"NEXT_OBSERVED_OPEN; no fabricated intrabar quote\",\"trailing\":\"E5 monotonic proposal applied from next observed bar; research simulation\"},\"fee\":{\"entry_liquidity_role\":\"TAKER\",\"exit_liquidity_role\":\"TAKER\",\"maker_bps\":\"2\",\"taker_bps\":\"4\",\"version\":\"FIXTURE_COST_V1\"},\"fixed_quantity\":\"1\",\"funding\":{\"event_count\":2,\"event_window\":\"OPENED_AT_INCLUSIVE_CLOSED_AT_EXCLUSIVE\",\"mode\":\"RECORDED_RATES\",\"notional_basis\":\"ENTRY_FILL_PRICE_X_BASE_QUANTITY\",\"notional_method\":\"REPLAY_ESTIMATE\",\"source_hash\":\"sha256:94212d1ce928348591a52d709568424c07ed246cc666d4cc8e4708cc57d0746a\",\"version\":\"r7-recorded-funding-v0.2\"},\"scoring\":{\"boundary_overlap\":\"PURGED\",\"end\":\"2026-10-02T08:00:00Z\",\"entry_end\":\"2026-10-02T07:00:00Z\",\"entry_start\":\"2026-10-02T05:00:00Z\",\"start\":\"2026-10-02T04:00:00Z\",\"time_exit_price\":\"NEXT_OBSERVED_OPEN; no invented intrabar timestamp\",\"warmup\":\"FEATURE_ONLY\"},\"slippage\":{\"direction\":\"ADVERSE\",\"entry_bps\":\"1\",\"exit_bps\":\"1\",\"version\":\"FIXTURE_COST_V1\"}},\"runtime_invocations\":6,\"runtime_provider\":\"E2\"},\"runtime_version\":\"0.2.0\",\"schema_version\":\"contracts-v0.1\",\"strategy_content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"total_fees\":\"0.08439996\",\"total_funding_cost\":\"0.0000\",\"total_slippage_cost\":\"0.0211\",\"total_trades\":1,\"trades\":[{\"closed_at\":\"2026-10-02T06:00:00Z\",\"direction\":\"LONG\",\"entry_fill_price\":\"105.0105\",\"entry_reference_price\":\"105\",\"entry_signal_id\":\"sig_14216b9cd7b449c5cc1d10d7069986e832442f5fb075763b5a7bba57e84dc4e4\",\"exit_fill_price\":\"105.9894\",\"exit_reason\":\"MAX_HOLD\",\"exit_reference_price\":\"106\",\"funding_cost\":\"0.0000\",\"gross_pnl\":\"0.9789\",\"net_pnl\":\"0.89450004\",\"opened_at\":\"2026-10-02T05:00:00Z\",\"quantity\":\"1\",\"slippage_cost\":\"0.0211\",\"total_fees\":\"0.08439996\",\"trade_id\":\"replay_trade_29fe7b077a562376a86d0874\"}],\"validation_stages\":{\"monte_carlo\":\"NOT_RUN\",\"oos\":\"NOT_RUN\",\"parameter_robustness\":\"NOT_RUN\",\"regime\":\"NOT_RUN\",\"walk_forward\":\"NOT_RUN\"},\"win_rate\":\"1\",\"wins\":1},\"backtest_e6_evidence_id\":\"evidence-17b11cc8-e3bb-4033-87a3-50db4631aa80\",\"compatibility\":{\"capability_snapshot_hash\":\"sha256:f43b98f1bd23b96e4cf6951e40355e09d689e9047af3c2e367ca14d16727d849\",\"checked_at\":\"2026-10-02T14:50:29.328432Z\",\"command\":\"E2 StrategyRuntime.evaluate/explicit-v0.2/as-of-training\",\"dataset_manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"implementation_hash\":\"sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0\",\"provenance\":{\"architecture\":\"AMD64\",\"capital\":\"NONE\",\"credentials\":\"NONE\",\"executable_revision\":\"d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0\",\"execution\":\"LOCAL\",\"github_compute\":\"NOT_USED\",\"implementation_hash\":\"sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0\",\"os\":\"Windows\",\"os_version\":\"10.0.26200\",\"provider_requests\":0,\"python\":\"3.12.10\",\"worktree\":\"CLEAN\"},\"reason_codes\":[],\"signal\":{\"direction\":\"LONG\",\"evaluated_at\":\"2026-10-02T04:00:00Z\",\"market_boundary_ref\":\"sha256:dc1d8c0fc2ab9bffff1af4d50ced2feeb53477478b202d1ae01b678a791e8bf7\",\"reason_codes\":[\"LONG_RULE_MATCHED\"],\"reference_price\":\"104\",\"schema_version\":\"contracts-v0.1\",\"signal_id\":\"sig_0467ec89ec7f36ba578cb09d8c4b709e1a9de629e3a2e4b14d4123789cc36c4e\",\"strategy_content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"symbol\":\"BTC_USDT_PERP\"},\"status\":\"PASS\",\"strategy_content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"verification_kind\":\"LOCAL_EXECUTION\"},\"dataset_resolution\":{\"container_hashes\":[[\"candles.parquet\",\"sha256:1b8167527e51b79992576fb53091b5d31ff3f1a538b01b96bb06caa97c06753a\"],[\"funding.parquet\",\"sha256:00ffde4f954fca3afd7514df1014184fb9e171e5805b5066ba8d24c04d86a029\"]],\"logical_hash\":\"sha256:705ce0e6937bc3cc6781e7137ac8190c23e4f9cf0d95cbb89f853e7eaebed73d\",\"manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"reason_codes\":[],\"row_counts\":{\"1h\":12}},\"inputs\":{\"cost_policy\":{\"cost_model_version\":\"FIXTURE_COST_V1\",\"entry_bps\":\"1\",\"exit_bps\":\"1\",\"fee_unit\":\"BPS_OF_NOTIONAL\",\"fixed_quantity\":\"1\",\"generation\":1,\"maker_bps\":\"2\",\"max_evaluations\":100,\"namespace\":\"FIXTURE\",\"policy_id\":\"FIXTURE_COST\",\"quantity_unit\":\"BASE\",\"schema_version\":\"r7-replay-cost-policy-v0.2\",\"slippage_unit\":\"BPS_OF_REFERENCE_PRICE\",\"taker_bps\":\"4\"},\"cost_policy_hash\":\"sha256:fa6de0c3c92d7173d5b74f9a30c07ac944b2a6ef18cd68c83371acfcd2b783b2\",\"dataset\":{\"alignment\":\"UTC\",\"availability_model\":\"recorded_received_at\",\"candles\":[{\"byte_hash\":\"sha256:1b8167527e51b79992576fb53091b5d31ff3f1a538b01b96bb06caa97c06753a\",\"duplicate_ranges\":[],\"end\":\"2026-10-02T12:00:00Z\",\"finalized_rows\":12,\"logical_hash\":\"sha256:18067fa796eabfad39892c8f50aff77db8444b5e29b926932e2b662d93da2e1d\",\"missing_ranges\":[],\"path\":\"candles.parquet\",\"rows\":12,\"start\":\"2026-10-02T00:00:00Z\",\"timeframe\":\"1h\"}],\"created_at\":\"2026-10-02T12:00:00Z\",\"dataset_id\":\"fixture-dataset\",\"dataset_version\":\"1\",\"funding\":{\"byte_hash\":\"sha256:00ffde4f954fca3afd7514df1014184fb9e171e5805b5066ba8d24c04d86a029\",\"end\":\"2026-10-02T12:00:00Z\",\"interval_seconds\":28800,\"logical_hash\":\"sha256:94212d1ce928348591a52d709568424c07ed246cc666d4cc8e4708cc57d0746a\",\"mode\":\"RECORDED\",\"notional_basis\":\"ENTRY_FILL_PRICE_X_BASE_QUANTITY\",\"path\":\"funding.parquet\",\"rate_unit\":\"FRACTION_PER_EVENT\",\"rows\":2,\"start\":\"2026-10-02T00:00:00Z\"},\"information_cutoff\":\"2026-10-02T12:00:00Z\",\"namespace\":\"FIXTURE\",\"normalization_version\":\"r7-canonical-e1-v0.2\",\"schema_version\":\"r7-dataset-v0.2\",\"source_instrument\":\"SYNTHETIC:BTC-USDT\",\"symbol\":\"BTC_USDT_PERP\",\"units\":{\"instrument_type\":\"LINEAR_PERPETUAL\",\"price\":\"USDT_PER_BASE\",\"quantity\":\"BASE\",\"settlement\":\"USDT\",\"volume\":\"BASE\"}},\"dataset_hash_verification\":\"PENDING_AT_FREEZE\",\"dataset_manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"implementation_hash\":\"sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0\",\"information_cutoff\":\"2026-10-02T12:00:00Z\",\"namespace\":\"FIXTURE\",\"promotion_policy\":null,\"random_algorithm\":\"NOT_RUN\",\"random_seed\":null,\"schema_version\":\"r7-research-run-v0.2\",\"split_policy\":{\"development\":{\"end\":\"2026-10-02T08:00:00Z\",\"start\":\"2026-10-02T04:00:00Z\"},\"embargo_rationale\":\"Fixture one hour boundary exclusion\",\"embargo_seconds\":3600,\"generation\":1,\"label_horizon_seconds\":3600,\"max_holding_seconds\":3600,\"namespace\":\"FIXTURE\",\"policy_id\":\"FIXTURE_SPLIT\",\"schema_version\":\"r7-split-policy-v0.2\",\"sealed_oos\":{\"end\":\"2026-10-02T12:00:00Z\",\"start\":\"2026-10-02T08:00:00Z\"},\"training\":{\"end\":\"2026-10-02T04:00:00Z\",\"start\":\"2026-10-02T00:00:00Z\"},\"warmup_bars\":2},\"split_policy_hash\":\"sha256:e54791c1bd9b72b72dbb930f193f551ff50b9833f63b5c399569707ae0ddd066\",\"strategy\":{\"content_hash\":\"sha256:64a7d5dea45baa41109b6a5544991670934a06bb53ebabe967f2043837193e91\",\"created_at\":\"2026-08-20T03:00:00Z\",\"name\":\"Baseline SMA Cross\",\"parameters\":{\"fast_window\":2},\"required_timeframes\":[\"1h\"],\"rules\":{\"behavior_profile\":\"r7-closed-bar-v0.2\",\"dsl_version\":\"0.2\",\"evaluation_timeframe\":\"1h\",\"exit_policy\":{\"max_hold_seconds\":3600,\"stop\":{\"kind\":\"fixed_distance\",\"value\":\"10\"},\"target\":{\"kind\":\"reward_risk\",\"multiple\":\"2\"},\"trailing\":null},\"features\":{\"trend\":{\"kind\":\"indicator\",\"name\":\"EMA\",\"output\":\"value\",\"parameters\":{\"window\":2},\"semantic_version\":\"r7-ema-v1\",\"source\":{\"field\":\"close\",\"kind\":\"field\",\"timeframe\":\"1h\"}}},\"long\":{\"args\":[{\"field\":\"close\",\"kind\":\"field\",\"timeframe\":\"1h\"},{\"kind\":\"feature\",\"name\":\"trend\"}],\"kind\":\"operator\",\"name\":\"GT\"},\"short\":{\"args\":[{\"field\":\"close\",\"kind\":\"field\",\"timeframe\":\"1h\"},{\"kind\":\"feature\",\"name\":\"trend\"}],\"kind\":\"operator\",\"name\":\"LT\"}},\"runtime_compatibility\":{\"runtime_family\":\"project-r7-e2-strategy-runtime\",\"runtime_version\":\"0.2.0\"},\"schema_version\":\"contracts-v0.1\",\"strategy_id\":\"fixture-v02-trend\",\"strategy_version\":\"0.2.0\",\"symbol\":\"BTC_USDT_PERP\"},\"submission_id\":\"qualification-fixture\"},\"namespace\":\"FIXTURE\",\"provenance\":{\"architecture\":\"AMD64\",\"capital\":\"NONE\",\"credentials\":\"NONE\",\"executable_revision\":\"d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0\",\"execution\":\"LOCAL\",\"github_compute\":\"NOT_USED\",\"implementation_hash\":\"sha256:2c5062491b31a7cce02512bd740910f994cf80fb7fac06f3ad3994edd9e2f4e0\",\"os\":\"Windows\",\"os_version\":\"10.0.26200\",\"provider_requests\":0,\"python\":\"3.12.10\",\"worktree\":\"CLEAN\"},\"reason_codes\":[\"MISSING_PROMOTION_POLICY\",\"ROBUSTNESS_NOT_RUN\",\"SEALED_OOS_NOT_RUN\"],\"resource_admission\":{\"hardware\":{\"architecture\":\"AMD64\",\"available_memory_bytes\":11059429376,\"cpu_model\":\"Intel(R) Core(TM) Ultra 7 255HX\",\"disk_free_bytes\":508920283136,\"disk_total_bytes\":991139196928,\"filesystem\":\"NTFS\",\"gpu_status\":\"NOT_REQUIRED\",\"logical_cores\":20,\"memory_enforcement\":\"SOFT_LIMIT_ONLY\",\"os_name\":\"Windows\",\"os_version\":\"10.0.26200\",\"physical_memory_bytes\":33736265728},\"memory_enforcement\":\"SOFT_LIMIT_ONLY\",\"memory_soft_budget_bytes\":8589934592},\"run_id\":\"run-15ff4aab22890f6ca66ab265fe999eda7c225d8870b3c536da0dfddc371807c0\",\"schema_version\":\"r7-research-report-v0.2\",\"sealed_oos\":\"NOT_RUN\",\"split_resolution\":{\"dataset_manifest_hash\":\"sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc\",\"namespace\":\"FIXTURE\",\"partitions\":{\"development\":{\"end\":\"2026-10-02T08:00:00Z\",\"entry_end\":\"2026-10-02T07:00:00Z\",\"entry_start\":\"2026-10-02T05:00:00Z\",\"name\":\"development\",\"sealed\":false,\"start\":\"2026-10-02T04:00:00Z\",\"warmup_start\":\"2026-10-02T02:00:00Z\"},\"sealed_oos\":{\"end\":\"2026-10-02T12:00:00Z\",\"entry_end\":\"2026-10-02T11:00:00Z\",\"entry_start\":\"2026-10-02T09:00:00Z\",\"name\":\"sealed_oos\",\"sealed\":true,\"start\":\"2026-10-02T08:00:00Z\",\"warmup_start\":\"2026-10-02T06:00:00Z\"},\"training\":{\"end\":\"2026-10-02T04:00:00Z\",\"entry_end\":\"2026-10-02T03:00:00Z\",\"entry_start\":\"2026-10-02T00:00:00Z\",\"name\":\"training\",\"sealed\":false,\"start\":\"2026-10-02T00:00:00Z\",\"warmup_start\":\"2026-10-02T00:00:00Z\"}},\"policy_hash\":\"sha256:e54791c1bd9b72b72dbb930f193f551ff50b9833f63b5c399569707ae0ddd066\",\"schema_version\":\"r7-frozen-split-plan-v0.2\"},\"status\":\"BLOCKED\",\"strategy_lifecycle\":\"BACKTESTING\"}",
+      "output_hash": "sha256:5ab37f2ab3a48725c283d63646b8aa44d9fec334d2498e485e73d9faf2ef0146",
+      "reason_codes_json": "[]"
+    }
+  ]
+}

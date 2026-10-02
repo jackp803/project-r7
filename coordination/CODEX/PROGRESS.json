@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S06",
-  "next_step": "S07",
+  "active_step": "S07",
+  "next_step": "S08",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -35,8 +35,8 @@
     "S03": "PASS",
     "S04": "PASS",
     "S05": "PASS",
-    "S06": "IN_PROGRESS",
-    "S07": "NOT_STARTED",
+    "S06": "PASS",
+    "S07": "IN_PROGRESS",
     "S08": "NOT_STARTED",
     "S09": "NOT_STARTED",
     "S10": "NOT_STARTED",
@@ -202,6 +202,18 @@
       "failures": 0,
       "errors": 0,
       "skips": 0
+    },
+    {
+      "step": "S06",
+      "phase": "EXACT_CLEAN_QUALIFICATION",
+      "revision": "d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0",
+      "python": "3.12.10",
+      "result": "PASS",
+      "commands": 32,
+      "tests_run": 1297,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
     }
   ],
   "evidence_refs": [
@@ -211,7 +223,8 @@
     "status/codex/productization/S02/passed-79dd31b-py312/qualification.json",
     "status/codex/productization/S03/passed-5af4f73-py312/qualification.json",
     "status/codex/productization/S04/passed-c377917-py312/qualification.json",
-    "status/codex/productization/S05/passed-ef9f055-py312/qualification.json"
+    "status/codex/productization/S05/passed-ef9f055-py312/qualification.json",
+    "status/codex/productization/S06/passed-d33d891-py312/qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -238,5 +251,5 @@
     "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories",
     "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN"
   ],
-  "executable_revision": "ef9f055a8d622efd9b1c569d1dd0c9c88e893673"
+  "executable_revision": "d33d89159ce41bd9d2a283ac63ce08c7d85ae3e0"
 }

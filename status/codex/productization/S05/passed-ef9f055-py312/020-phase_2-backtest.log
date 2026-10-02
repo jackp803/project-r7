@@ -1,0 +1,26 @@
+test_fee_model_supports_entry_exit_roles (test_costs.CostModelTests.test_fee_model_supports_entry_exit_roles) ... ok
+test_fixed_funding_counts_only_events_while_position_is_open (test_costs.CostModelTests.test_fixed_funding_counts_only_events_while_position_is_open) ... ok
+test_slippage_is_adverse_for_buy_and_sell (test_costs.CostModelTests.test_slippage_is_adverse_for_buy_and_sell) ... ok
+test_empty_metrics_are_defined_without_fake_profit_factor (test_metrics.MetricsTests.test_empty_metrics_are_defined_without_fake_profit_factor) ... ok
+test_known_trade_sequence_metrics (test_metrics.MetricsTests.test_known_trade_sequence_metrics) ... ok
+test_profit_factor_field_is_null_when_losing_pnl_is_zero_with_a_winner (test_metrics.MetricsTests.test_profit_factor_field_is_null_when_losing_pnl_is_zero_with_a_winner) ... ok
+test_current_e2_schema_failure_is_not_coerced_by_e3_adapter (test_real_e2_research_skeleton.RealE2ResearchSkeletonTests.test_current_e2_schema_failure_is_not_coerced_by_e3_adapter) ... ok
+test_e1_e2_e3_replay_is_deterministic_and_e6_contract_compatible (test_real_e2_research_skeleton.RealE2ResearchSkeletonTests.test_e1_e2_e3_replay_is_deterministic_and_e6_contract_compatible) ... ok
+test_e3_binding_invokes_actual_current_main_e2_runtime (test_real_e2_research_skeleton.RealE2ResearchSkeletonTests.test_e3_binding_invokes_actual_current_main_e2_runtime) ... ok
+test_future_e1_candles_cannot_change_earlier_e2_boundary (test_real_e2_research_skeleton.RealE2ResearchSkeletonTests.test_future_e1_candles_cannot_change_earlier_e2_boundary) ... ok
+test_supported_e1_public_candle_surface_is_consumed_directly (test_real_e2_research_skeleton.RealE2ResearchSkeletonTests.test_supported_e1_public_candle_surface_is_consumed_directly) ... ok
+test_dataset_descriptor_must_match_consumed_boundaries (test_replay.ReplayTests.test_dataset_descriptor_must_match_consumed_boundaries) ... ok
+test_fee_slippage_and_funding_are_reflected_in_net_result (test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result) ... ok
+test_incompatible_candle_schema_is_rejected_before_runtime (test_replay.ReplayTests.test_incompatible_candle_schema_is_rejected_before_runtime) ... ok
+test_incompatible_signal_schema_is_runtime_contract_error (test_replay.ReplayTests.test_incompatible_signal_schema_is_runtime_contract_error) ... ok
+test_incompatible_strategy_schema_is_rejected_before_runtime (test_replay.ReplayTests.test_incompatible_strategy_schema_is_rejected_before_runtime) ... ok
+test_last_bar_signal_does_not_enter_without_a_future_fill_bar (test_replay.ReplayTests.test_last_bar_signal_does_not_enter_without_a_future_fill_bar) ... ok
+test_replay_calls_runtime_with_closed_prefix_and_uses_next_open_fills (test_replay.ReplayTests.test_replay_calls_runtime_with_closed_prefix_and_uses_next_open_fills) ... ok
+test_same_candle_stop_target_ambiguity_resolves_to_stop (test_replay.ReplayTests.test_same_candle_stop_target_ambiguity_resolves_to_stop) ... ok
+test_signal_evaluated_at_must_equal_replay_boundary (test_replay.ReplayTests.test_signal_evaluated_at_must_equal_replay_boundary) ... ok
+test_unclosed_candle_is_rejected_before_runtime_evaluation (test_replay.ReplayTests.test_unclosed_candle_is_rejected_before_runtime_evaluation) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.008s
+
+OK

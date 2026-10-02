@@ -8,10 +8,25 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S05, as-of bundles, independent clocks and E5 exit requests. Next: S06.
+Active step: S06, pinned datasets and actual owner research execution. Next: S07.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
+
+S05 exact-clean executable `ef9f055a8d622efd9b1c569d1dd0c9c88e893673`
+passed all32 commands on Windows/Python3.12.10: phase1 247, phase2 1019,
+total1266, zero failures/errors/skips. Every report/log hash was checked.
+Evidence: status/codex/productization/S05/passed-ef9f055-py312/.
+Latest fetched main remains9fd277798b1c51d1bc79b29a61bec81b552efeb1.
+Next implement S06 mandatory Parquet/logical and byte hashes, funding/cost
+units, immutable split policies, actual E2/E3/E6 compatibility execution and
+durable research attempts. Replace conservative stale capability placeholders
+with actual handler inventory and verified references; operational approval
+remains separate. Never perform long compatibility replay inside the E6
+intake transaction. Do not evaluate sealed final OOS during adaptive work.
+S09 still owns durable first-fill anchoring. E5 trailing proposals are explicitly
+NON_EXECUTABLE_PROFILE under existing protection authority; do not invent E4
+replacement authority. Native Ubuntu/build evidence remains NOT_RUN.
 
 Actual local environment: Windows 11 x86-64 build 26200, Python 3.14.3 source
 interpreter, Node 24.19.0. Current hardware has 20 logical cores and approximately

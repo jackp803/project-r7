@@ -6,6 +6,33 @@ from tests.strategy.v02_fixtures import definition_v02
 
 
 class CapabilityTests(unittest.TestCase):
+    def test_checkout_line_endings_do_not_create_different_implementation_identity(self):
+        api=self.api()
+        from pathlib import Path
+        from unittest.mock import patch
+        initial=api.build_capability_snapshot().snapshot_hash
+        actual_read=Path.read_bytes
+        def crlf_read(path):
+            return actual_read(path).replace(b'\r\n',b'\n').replace(b'\n',b'\r\n')
+        with patch.object(Path,'read_bytes',crlf_read):
+            changed=api.build_capability_snapshot().snapshot_hash
+        self.assertEqual(initial,changed)
+
+    def test_numerical_implementation_change_invalidates_exact_capability_identity(self):
+        api=self.api()
+        from pathlib import Path
+        from unittest.mock import patch
+        target=Path(api.__file__).resolve().parents[2]/'indicators/v02/bands.py'
+        self.assertTrue(target.is_file())
+        initial=api.build_capability_snapshot().snapshot_hash
+        actual_read=Path.read_bytes
+        def changed_read(path):
+            raw=actual_read(path)
+            return raw+b'\n# numerical implementation changed\n' if path.resolve()==target.resolve() else raw
+        with patch.object(Path,'read_bytes',changed_read):
+            changed=api.build_capability_snapshot().snapshot_hash
+        self.assertNotEqual(initial,changed)
+
     def api(self):
         self.assertIsNotNone(importlib.util.find_spec('strategy.v02.capabilities'),
                              'Executable capability registry is missing')

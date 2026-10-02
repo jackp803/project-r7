@@ -20,9 +20,13 @@ def _canonical(value):
 
 def _revision():
     root=Path(__file__).resolve().parent
+    source_root=root.parents[1]
     digest=hashlib.sha256()
-    for relative in ('../runtime.py','models.py','ast.py','parser.py','capabilities.py','../../indicators/v02/common.py'):
-        digest.update(relative.encode('ascii')+b'\x00'+(root/relative).read_bytes()+b'\x00')
+    files=[root.parent/'runtime.py',*root.glob('*.py'),*(source_root/'indicators/v02').glob('*.py')]
+    for path in sorted(files,key=lambda path:path.relative_to(source_root).as_posix()):
+        relative=path.relative_to(source_root).as_posix()
+        raw=path.read_bytes().replace(b'\r\n',b'\n')
+        digest.update(relative.encode('ascii')+b'\x00'+raw+b'\x00')
     return 'sha256:'+digest.hexdigest()
 
 

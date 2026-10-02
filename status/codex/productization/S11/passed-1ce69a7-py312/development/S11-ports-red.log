@@ -1,0 +1,57 @@
+test_local_login_shell_and_self_assets_are_public_but_api_stays_authenticated (tests.product.test_control_assets.ControlAssetTests.test_local_login_shell_and_self_assets_are_public_but_api_stays_authenticated) ... FAIL
+test_static_traversal_cannot_read_auth_or_other_project_files (tests.product.test_control_assets.ControlAssetTests.test_static_traversal_cannot_read_auth_or_other_project_files) ... FAIL
+test_ui_mount_does_not_drift_openapi_or_accept_missing_asset_root (tests.product.test_control_assets.ControlAssetTests.test_ui_mount_does_not_drift_openapi_or_accept_missing_asset_root) ... FAIL
+test_scan_revision_survives_reload_for_real_optimistic_ui_commands (tests.product.test_api_owner_services.APIOwnerServicesTests.test_scan_revision_survives_reload_for_real_optimistic_ui_commands) ... FAIL
+test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment (tests.product.test_api_paper_services.APIPaperServicesTests.test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment) ... FAIL
+
+======================================================================
+FAIL: test_local_login_shell_and_self_assets_are_public_but_api_stays_authenticated (tests.product.test_control_assets.ControlAssetTests.test_local_login_shell_and_self_assets_are_public_but_api_stays_authenticated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_control_assets.py", line 18, in test_local_login_shell_and_self_assets_are_public_but_api_stays_authenticated
+    self.mount()
+  File "<SOURCE_ROOT>\tests\product\test_control_assets.py", line 10, in mount
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.assets'),'Local production UI serving is missing')
+AssertionError: unexpectedly None : Local production UI serving is missing
+
+======================================================================
+FAIL: test_static_traversal_cannot_read_auth_or_other_project_files (tests.product.test_control_assets.ControlAssetTests.test_static_traversal_cannot_read_auth_or_other_project_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_control_assets.py", line 28, in test_static_traversal_cannot_read_auth_or_other_project_files
+    self.mount()
+  File "<SOURCE_ROOT>\tests\product\test_control_assets.py", line 10, in mount
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.assets'),'Local production UI serving is missing')
+AssertionError: unexpectedly None : Local production UI serving is missing
+
+======================================================================
+FAIL: test_ui_mount_does_not_drift_openapi_or_accept_missing_asset_root (tests.product.test_control_assets.ControlAssetTests.test_ui_mount_does_not_drift_openapi_or_accept_missing_asset_root)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_control_assets.py", line 37, in test_ui_mount_does_not_drift_openapi_or_accept_missing_asset_root
+    before=self.app.openapi(); self.mount()
+                               ^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_control_assets.py", line 10, in mount
+    self.assertIsNotNone(importlib.util.find_spec('application.control_api.assets'),'Local production UI serving is missing')
+AssertionError: unexpectedly None : Local production UI serving is missing
+
+======================================================================
+FAIL: test_scan_revision_survives_reload_for_real_optimistic_ui_commands (tests.product.test_api_owner_services.APIOwnerServicesTests.test_scan_revision_survives_reload_for_real_optimistic_ui_commands)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_owner_services.py", line 91, in test_scan_revision_survives_reload_for_real_optimistic_ui_commands
+    self.assertEqual(self.client.get('/api/v1/overview').json()['data'].get('scan_revision'),0)
+AssertionError: None != 0
+
+======================================================================
+FAIL: test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment (tests.product.test_api_paper_services.APIPaperServicesTests.test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_paper_services.py", line 82, in test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment
+    self.assertEqual(empty.status_code,200,empty.text)
+AssertionError: 405 != 200 : {"detail":"Method Not Allowed"}
+
+----------------------------------------------------------------------
+Ran 5 tests in 4.037s
+
+FAILED (failures=5)

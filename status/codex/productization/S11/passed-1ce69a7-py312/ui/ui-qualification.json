@@ -1,0 +1,182 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "source_before": {
+    "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-02T20:11:17.600406Z",
+  "launcher_hash": "sha256:1e56e2e6ef31d8fa475e932a658d26bbc284cf0ddd52eed1b985b3b05d5d3eed",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-02T20:11:18.037826Z",
+      "finished_at_utc": "2026-10-02T20:11:20.116668Z",
+      "duration_seconds": 2.0780000000086147,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "passed": true,
+      "source_after": {
+        "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-02T20:11:20.246146Z",
+      "finished_at_utc": "2026-10-02T20:11:22.070880Z",
+      "duration_seconds": 1.812999999994645,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:873991fd387af4a9bf460b9492470f93b7e902f42635cb60d5f85c8019435a1c",
+      "log_sha256": "sha256:873991fd387af4a9bf460b9492470f93b7e902f42635cb60d5f85c8019435a1c",
+      "passed": true,
+      "source_after": {
+        "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-02T20:11:22.196254Z",
+      "finished_at_utc": "2026-10-02T20:11:23.783951Z",
+      "duration_seconds": 1.5929999999934807,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-02T20:11:23.913883Z",
+      "finished_at_utc": "2026-10-02T20:11:25.433908Z",
+      "duration_seconds": 1.5320000000065193,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:6c9bb1050ca92ec703d35f666422105ddf06b547f32d84bfd930d5f4edf584f3",
+      "log_sha256": "sha256:c085fac393c7189c2bf348aea1762d36cce0fd0d702498a0d9ccd1a22a2fd9f4",
+      "passed": true,
+      "source_after": {
+        "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 10
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-02T20:11:25.568868Z",
+      "finished_at_utc": "2026-10-02T20:11:26.212860Z",
+      "duration_seconds": 0.6399999999994179,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:823b8a826fc739070f7f590b089f29aa4d1d25735ee9acd680a002b01eab93d3",
+      "log_sha256": "sha256:823b8a826fc739070f7f590b089f29aa4d1d25735ee9acd680a002b01eab93d3",
+      "passed": true,
+      "source_after": {
+        "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "test:browser"
+      ],
+      "started_at_utc": "2026-10-02T20:11:26.337950Z",
+      "finished_at_utc": "2026-10-02T20:11:49.488642Z",
+      "duration_seconds": 23.156000000002678,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "06-test-browser.log",
+      "original_log_sha256": "sha256:944127d16a9b8ed5ca5a4a9fd5a049785420af45cdd3011108ae8e53d446baec",
+      "log_sha256": "sha256:944127d16a9b8ed5ca5a4a9fd5a049785420af45cdd3011108ae8e53d446baec",
+      "passed": true,
+      "source_after": {
+        "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 8,
+      "browser_stats": {
+        "startTime": "2026-10-02T20:11:27.140Z",
+        "duration": 22310.222999999998,
+        "expected": 8,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "passed": true,
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "semantics": "Browser uses actual isolated auth/E6/intake/research/PAPER owners; no real cloud/forward/provider/native-service acceptance is implied",
+  "browser_version": "154.0.4258.48",
+  "source_after": {
+    "revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-02T20:11:49.633725Z",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:2c8a54391367a28d6bee2441a7c3ec5a235bbf3a2ffd8488f84907ac0ae64220",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "assets/index-DkHX2grs.js": "sha256:4c0579835fdb2480b1bff7b104dc06609ead08c3dbd5db9a93f01771b3855408",
+    "index.html": "sha256:26c8286ae99971e06cbe14590fd680f92d6311ca3d4ddade2d67153cbf81e16d"
+  },
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:75ee2766f994a43c4351b9eb98ba15a03227bb53e6f79aca28b81b9872b4c73e",
+    "contracts/control_api_v0_2.openapi.json": "sha256:d45792291ddb7f83b47fcfce923f85c733aa368bf687ca439f9c546d902e5fbe"
+  }
+}

@@ -1,0 +1,131 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test
+
+
+Running 7 tests using 1 worker
+
+
+(node:2592) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/7] qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels
+[2/7] qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+  1) qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByLabel('研究政策', { exact: true })
+
+
+      32 |   await expect(page.getByText('fixture-product',{exact:true}).first()).toBeVisible();
+      33 |   await page.getByLabel('提交 ID',{exact:true}).fill('fixture-product');
+    > 34 |   await page.getByLabel('研究政策',{exact:true}).selectOption('selected-fixture');
+         |                                              ^
+      35 |   await page.getByRole('button',{name:'排入研究',exact:true}).click();
+      36 |   await expect(page.getByText('QUEUED',{exact:true}).first()).toBeVisible();
+      37 |   await page.getByRole('button',{name:'停止研究',exact:true}).first().click();
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:34:46
+
+    Error Context: ..\..\..\artifacts\S11-browser\results\control-center-actual-inbo-a539e-nd-cooperative-cancellation\error-context.md
+
+
+
+(node:41432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[3/7] qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+  2) qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByLabel('PAPER 政策', { exact: true })
+
+
+      44 |   await login(page,'paper'); await page.getByRole('link',{name:'策略',exact:true}).click();
+      45 |   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
+    > 46 |   await page.getByLabel('PAPER 政策',{exact:true}).selectOption('fixture-paper-policy');
+         |                                                  ^
+      47 |   await page.getByRole('button',{name:'開始 PAPER',exact:true}).click();
+      48 |   await page.getByRole('link',{name:'交易',exact:true}).click();
+      49 |   await expect(page.getByText('ACCELERATED_FIXTURE',{exact:true}).first()).toBeVisible();
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:46:50
+
+    Error Context: ..\..\..\artifacts\S11-browser\results\control-center-actual-cand-4b635-nd-show-unavailable-metrics\error-context.md
+
+
+
+(node:29384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[4/7] qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state
+[5/7] qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable
+  3) qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('alert')
+    Expected substring: "RESOURCE_REVISION_CONFLICT"
+    Received string:    "操作尚未完成請展開來源證據，依此原因修正設定或等待核對。 CONFLICT關聯 ID：d2cfbc0d0cd7920aa7231b2cb7b4700f"
+    Timeout: 4000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('alert') with timeout 4000ms
+      - waiting for getByRole('alert')
+        11 × locator resolved to <div role="alert" class="notice error">…</div>
+           - unexpected value "操作尚未完成請展開來源證據，依此原因修正設定或等待核對。 CONFLICT關聯 ID：d2cfbc0d0cd7920aa7231b2cb7b4700f"
+
+
+      78 |   await page.getByLabel('掃描間隔（秒）',{exact:true}).fill('46');
+      79 |   await page.getByRole('button',{name:'儲存顯示設定',exact:true}).focus(); await page.keyboard.press('Enter');
+    > 80 |   await expect(page.getByRole('alert')).toContainText('RESOURCE_REVISION_CONFLICT');
+         |                                         ^
+      81 |   await page.getByRole('button',{name:'重新整理',exact:true}).click();
+      82 |   await expect(page.getByLabel('掃描間隔（秒）',{exact:true})).toHaveValue('45');
+      83 | });
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:80:41
+
+    Error Context: ..\..\..\artifacts\S11-browser\results\control-center-stale-setti-524af-eyboard-form-remains-usable\error-context.md
+
+
+
+(node:42852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[6/7] qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth
+[7/7] qa\control-center.spec.ts:101:1 › revoked server session returns to login without inferring runtime shutdown
+  4) qa\control-center.spec.ts:101:1 › revoked server session returns to login without inferring runtime shutdown 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: '登入', exact: true })
+    Expected: visible
+    Timeout: 4000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: '登入', exact: true }) with timeout 4000ms
+      - waiting for getByRole('button', { name: '登入', exact: true })
+
+
+      106 |     data:{command_id:'browser-other-session-logout',expected_revision:session.revision}});
+      107 |   expect(logout.status()).toBe(200); await page.getByRole('button',{name:'重新整理',exact:true}).click();
+    > 108 |   await expect(page.getByRole('button',{name:'登入',exact:true})).toBeVisible();
+          |                                                                 ^
+      109 | });
+      110 |
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:108:65
+
+    Error Context: ..\..\..\artifacts\S11-browser\results\control-center-revoked-ser-11c3d--inferring-runtime-shutdown\error-context.md
+
+
+  4 failed
+    qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation 
+    qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics 
+    qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable 
+    qa\control-center.spec.ts:101:1 › revoked server session returns to login without inferring runtime shutdown 
+  3 passed (1.3m)

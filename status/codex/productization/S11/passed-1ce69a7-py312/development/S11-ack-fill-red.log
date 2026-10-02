@@ -1,0 +1,14 @@
+test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection (tests.product.test_api_paper_services.APIPaperServicesTests.test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection) ... FAIL
+
+======================================================================
+FAIL: test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection (tests.product.test_api_paper_services.APIPaperServicesTests.test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_paper_services.py", line 112, in test_actual_pause_api_denies_entries_and_retains_worker_generation_and_protection
+    self.assertIsNotNone(orders,'PAPER UI needs actual ACK and fill facts, not approved request guesses')
+AssertionError: unexpectedly None : PAPER UI needs actual ACK and fill facts, not approved request guesses
+
+----------------------------------------------------------------------
+Ran 1 test in 2.946s
+
+FAILED (failures=1)

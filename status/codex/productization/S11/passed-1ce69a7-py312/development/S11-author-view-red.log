@@ -1,0 +1,14 @@
+test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest (tests.product.test_api_owner_services.APIOwnerServicesTests.test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest) ... FAIL
+
+======================================================================
+FAIL: test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest (tests.product.test_api_owner_services.APIOwnerServicesTests.test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_owner_services.py", line 101, in test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest
+    self.assertEqual(detail['evaluation_timeframe'],subject()['rules']['evaluation_timeframe'])
+AssertionError: None != '1h'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.903s
+
+FAILED (failures=1)

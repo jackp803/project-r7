@@ -1,0 +1,31 @@
+
+> r7-control-center@0.2.0 test
+> vitest run
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+ ❯ src/api.test.ts (4 tests | 1 failed) 20ms
+   ❯ same-origin authenticated command transport (4)
+     × reports a revoked server session separately from a wrong reauthentication password 2ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/api.test.ts > same-origin authenticated command transport > reports a revoked server session separately from a wrong reauthentication password
+AssertionError: expected "vi.fn()" to be called 1 times, but got 0 times
+ ❯ src/api.test.ts:31:109
+     29|     vi.stubGlobal('fetch',vi.fn(async()=>new Response(JSON.stringify({…
+     30|     const client=new ControlAPI(()=> 'fixture-csrf',invalidated);
+     31|     await expect(client.read('/api/v1/settings')).rejects.toBeInstance…
+       |                                                                                                             ^
+     32|     await expect(client.command('/api/v1/auth/reauthenticate',{passwor…
+     33|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 9 passed (10)
+   Start at  03:56:24
+   Duration  287ms (transform 37%, tests 37%, import 19%, worker 7%)
+

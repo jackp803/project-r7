@@ -1,0 +1,19 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test
+
+
+Running 7 tests using 1 worker
+
+
+(node:44448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/7] qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels
+[2/7] qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+[3/7] qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+[4/7] qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state
+[5/7] qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable
+[6/7] qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth
+[7/7] qa\control-center.spec.ts:101:1 › revoked server session returns to login without inferring runtime shutdown
+  7 passed (18.4s)

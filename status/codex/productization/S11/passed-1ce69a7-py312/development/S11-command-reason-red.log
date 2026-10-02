@@ -1,0 +1,14 @@
+test_stale_revision_is_rejected_without_reserving_command (tests.product.test_control_commands.ControlCommandTests.test_stale_revision_is_rejected_without_reserving_command) ... FAIL
+
+======================================================================
+FAIL: test_stale_revision_is_rejected_without_reserving_command (tests.product.test_control_commands.ControlCommandTests.test_stale_revision_is_rejected_without_reserving_command)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_control_commands.py", line 43, in test_stale_revision_is_rejected_without_reserving_command
+    self.assertEqual(getattr(error.exception,'reason',None),'RESOURCE_REVISION_CONFLICT')
+AssertionError: None != 'RESOURCE_REVISION_CONFLICT'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.143s
+
+FAILED (failures=1)

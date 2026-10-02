@@ -1,0 +1,421 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "<SOURCE_ROOT>\\ui\\node_modules\\@playwright\\test\\cli.js",
+      "test"
+    ],
+    "configFile": "<SOURCE_ROOT>\\ui\\playwright.config.ts",
+    "rootDir": "<SOURCE_ROOT>/ui/qa",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "<USER_HOME>/Desktop/交易機器人主體/workspaces/artifacts/S11-browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "<SOURCE_ROOT>/ui/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "control-center.spec.ts",
+      "file": "control-center.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 25026,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 59,
+                        "line": 20
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: '研究', exact: true })\u001b[22m\n\n\n  18 |   await expect(page.getByTestId('realized-pnl')).toContainText('未提供');\n  19 |   for(const screen of ['研究','策略','交易','健康','設定']){\n> 20 |     await page.getByRole('link',{name:screen,exact:true}).click();\n     |                                                           ^\n  21 |     await expect(page.getByRole('heading',{name:screen,exact:true})).toBeVisible();\n  22 |     await expect(page.getByTestId('fixture-banner')).toBeVisible();\n  23 |   }\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:20:59"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-02T19:51:04.830Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results\\control-center-empty-views-ccdd0-d-persistent-fixture-labels\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-8174b35599d7443840e9",
+          "file": "control-center.spec.ts",
+          "line": 13,
+          "column": 1
+        },
+        {
+          "title": "actual inbox scan, asynchronous enqueue and cooperative cancellation",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 25028,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 85,
+                        "line": 30
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: '研究', exact: true })\u001b[22m\n\n\n  28 |\n  29 | test('actual inbox scan, asynchronous enqueue and cooperative cancellation',async({page})=>{\n> 30 |   await login(page,'research'); await page.getByRole('link',{name:'研究',exact:true}).click();\n     |                                                                                     ^\n  31 |   await page.getByRole('button',{name:'掃描收件匣',exact:true}).click();\n  32 |   await expect(page.getByText('fixture-product',{exact:true}).first()).toBeVisible();\n  33 |   await page.getByLabel('提交 ID',{exact:true}).fill('fixture-product');\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:30:85"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-02T19:51:30.527Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results\\control-center-actual-inbo-a539e-nd-cooperative-cancellation\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-f056bb123a0610f8d888",
+          "file": "control-center.spec.ts",
+          "line": 29,
+          "column": 1
+        },
+        {
+          "title": "actual candidate PAPER start and pause retain run identity and show unavailable metrics",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 25028,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 82,
+                        "line": 44
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: '策略', exact: true })\u001b[22m\n\n\n  42 |\n  43 | test('actual candidate PAPER start and pause retain run identity and show unavailable metrics',async({page})=>{\n> 44 |   await login(page,'paper'); await page.getByRole('link',{name:'策略',exact:true}).click();\n     |                                                                                  ^\n  45 |   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();\n  46 |   await page.getByLabel('PAPER 政策',{exact:true}).selectOption('fixture-paper-policy');\n  47 |   await page.getByRole('button',{name:'開始 PAPER',exact:true}).click();\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:44:82"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-02T19:51:56.205Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results\\control-center-actual-cand-4b635-nd-show-unavailable-metrics\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-fff586cfa2568b8e65e1",
+          "file": "control-center.spec.ts",
+          "line": 43,
+          "column": 1
+        },
+        {
+          "title": "protected owner facts distinguish ACK/fill, remaining exposure and as-of state",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 25025,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 86,
+                        "line": 59
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: '交易', exact: true })\u001b[22m\n\n\n  57 |\n  58 | test('protected owner facts distinguish ACK/fill, remaining exposure and as-of state',async({page})=>{\n> 59 |   await login(page,'protected'); await page.getByRole('link',{name:'交易',exact:true}).click();\n     |                                                                                      ^\n  60 |   await page.getByRole('button',{name:'查看 PAPER',exact:true}).first().click();\n  61 |   await expect(page.getByTestId('paper-position')).toContainText('0.001');\n  62 |   await expect(page.getByText('OPEN_PROTECTED',{exact:true}).first()).toBeVisible();\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:59:86"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-02T19:52:22.011Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results\\control-center-protected-o-d4d72-ng-exposure-and-as-of-state\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-8cd64d6bf4937ec085a2",
+          "file": "control-center.spec.ts",
+          "line": 58,
+          "column": 1
+        },
+        {
+          "title": "stale settings show real backend conflict and keyboard form remains usable",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 25030,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 82,
+                        "line": 72
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: '設定', exact: true })\u001b[22m\n\n\n  70 |\n  71 | test('stale settings show real backend conflict and keyboard form remains usable',async({page})=>{\n> 72 |   await login(page,'empty'); await page.getByRole('link',{name:'設定',exact:true}).click();\n     |                                                                                  ^\n  73 |   const csrf=await page.evaluate(()=>document.cookie.split('; ').find(s=>s.startsWith('r7_csrf='))?.slice(8));\n  74 |   const settings=(await (await page.request.get(origins.empty+'/api/v1/settings')).json()).data;\n  75 |   const changed=await page.request.put(origins.empty+'/api/v1/settings/non-secret',{\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:72:82"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-02T19:52:47.739Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results\\control-center-stale-setti-524af-eyboard-form-remains-usable\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-c292c0bbba6efde40498",
+          "file": "control-center.spec.ts",
+          "line": 71,
+          "column": 1
+        },
+        {
+          "title": "financial controls stay visibly denied by actual fixture backend even after reauth",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "timedOut",
+                  "duration": 25024,
+                  "error": {
+                    "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m",
+                    "stack": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                  },
+                  "errors": [
+                    {
+                      "message": "\u001b[31mTest timeout of 25000ms exceeded.\u001b[39m"
+                    },
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 86,
+                        "line": 86
+                      },
+                      "message": "Error: locator.click: Test timeout of 25000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('link', { name: '策略', exact: true })\u001b[22m\n\n\n  84 |\n  85 | test('financial controls stay visibly denied by actual fixture backend even after reauth',async({page})=>{\n> 86 |   await login(page,'protected'); await page.getByRole('link',{name:'策略',exact:true}).click();\n     |                                                                                      ^\n  87 |   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();\n  88 |   await expect(page.getByRole('button',{name:'確認財務核准',exact:true})).toBeDisabled();\n  89 |   await expect(page.getByText('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN',{exact:true}).first()).toBeVisible();\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:86:86"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-02T19:53:13.426Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\workspaces\\artifacts\\S11-browser\\results\\control-center-financial-c-d44ba-e-backend-even-after-reauth\\error-context.md"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-755357a087186811a249",
+          "file": "control-center.spec.ts",
+          "line": 85,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-02T19:50:52.979Z",
+    "duration": 166982.142,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 6,
+    "flaky": 0
+  }
+}

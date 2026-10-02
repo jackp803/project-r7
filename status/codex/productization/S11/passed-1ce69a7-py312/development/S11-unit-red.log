@@ -1,0 +1,62 @@
+
+> r7-control-center@0.2.0 test
+> vitest run
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+ ❯ src/model.test.ts (0 test)
+ ❯ src/api.test.ts (0 test)
+ ❯ qa/control-center.spec.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  qa/control-center.spec.ts [ qa/control-center.spec.ts ]
+Error: Playwright Test did not expect test() to be called here.
+Most common reasons include:
+- You are calling test() in a configuration file.
+- You are calling test() in a file that is imported by the configuration file.
+- You have two different versions of @playwright/test. This usually happens
+  when one of the dependencies in your package.json depends on @playwright/test.
+- You are calling test() from an async test.describe() block. Only sync ones are supported.
+ ❯ _TestTypeImpl._currentSuite node_modules/playwright/lib/common/index.js:2224:13
+ ❯ _TestTypeImpl._createTest node_modules/playwright/lib/common/index.js:2238:24
+ ❯ node_modules/playwright/lib/common/index.js:1154:12
+ ❯ qa/control-center.spec.ts:13:1
+     11| }
+     12|
+     13| test('empty views use actual nulls, Traditional Chinese and persistent…
+       | ^
+     14|   const remote:string[]=[];
+     15|   page.on('request',request=>{if(!request.url().startsWith(origins.emp…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/api.test.ts [ src/api.test.ts ]
+Error: Cannot find module './api' imported from <SOURCE_ROOT>/ui/src/api.test.ts
+ ❯ src/api.test.ts:2:1
+      1| import {afterEach,describe,expect,it,vi} from 'vitest';
+      2| import {ControlAPI,ControlError} from './api';
+       | ^
+      3|
+      4| afterEach(()=>vi.unstubAllGlobals());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/model.test.ts [ src/model.test.ts ]
+Error: Cannot find module './model' imported from <SOURCE_ROOT>/ui/src/model.test.ts
+ ❯ src/model.test.ts:2:1
+      1| import {describe,expect,it} from 'vitest';
+      2| import {metric,utcDisplay,progressLabel,temporalFacts,revision,approva…
+       | ^
+      3|
+      4| describe('truthful display and command prerequisites',()=>{
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  no tests
+   Start at  03:40:05
+   Duration  696ms (worker 99%, environment 1%)
+

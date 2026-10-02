@@ -1,0 +1,40 @@
+
+> r7-control-center@0.2.0 test
+> vitest run
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+ ❯ src/api.test.ts (0 test)
+ ❯ src/model.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/api.test.ts [ src/api.test.ts ]
+Error: Cannot find module './api' imported from <SOURCE_ROOT>/ui/src/api.test.ts
+ ❯ src/api.test.ts:2:1
+      1| import {afterEach,describe,expect,it,vi} from 'vitest';
+      2| import {ControlAPI,ControlError} from './api';
+       | ^
+      3|
+      4| afterEach(()=>vi.unstubAllGlobals());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/model.test.ts [ src/model.test.ts ]
+Error: Cannot find module './model' imported from <SOURCE_ROOT>/ui/src/model.test.ts
+ ❯ src/model.test.ts:2:1
+      1| import {describe,expect,it} from 'vitest';
+      2| import {metric,utcDisplay,progressLabel,temporalFacts,revision,approva…
+       | ^
+      3|
+      4| describe('truthful display and command prerequisites',()=>{
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  no tests
+   Start at  03:40:40
+   Duration  225ms (worker 96%, environment 4%)
+

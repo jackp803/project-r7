@@ -1,0 +1,170 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test
+
+
+Running 6 tests using 1 worker
+
+
+
+(node:43820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/6] qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels
+  1) qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: '研究', exact: true })
+
+
+      18 |   await expect(page.getByTestId('realized-pnl')).toContainText('未提供');
+      19 |   for(const screen of ['研究','策略','交易','健康','設定']){
+    > 20 |     await page.getByRole('link',{name:screen,exact:true}).click();
+         |                                                           ^
+      21 |     await expect(page.getByRole('heading',{name:screen,exact:true})).toBeVisible();
+      22 |     await expect(page.getByTestId('fixture-banner')).toBeVisible();
+      23 |   }
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:20:59
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-empty-views-ccdd0-d-persistent-fixture-labels\error-context.md
+
+
+
+(node:40004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[2/6] qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+  2) qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: '研究', exact: true })
+
+
+      28 |
+      29 | test('actual inbox scan, asynchronous enqueue and cooperative cancellation',async({page})=>{
+    > 30 |   await login(page,'research'); await page.getByRole('link',{name:'研究',exact:true}).click();
+         |                                                                                     ^
+      31 |   await page.getByRole('button',{name:'掃描收件匣',exact:true}).click();
+      32 |   await expect(page.getByText('fixture-product',{exact:true}).first()).toBeVisible();
+      33 |   await page.getByLabel('提交 ID',{exact:true}).fill('fixture-product');
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:30:85
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-actual-inbo-a539e-nd-cooperative-cancellation\error-context.md
+
+
+
+(node:4992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[3/6] qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+  3) qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: '策略', exact: true })
+
+
+      42 |
+      43 | test('actual candidate PAPER start and pause retain run identity and show unavailable metrics',async({page})=>{
+    > 44 |   await login(page,'paper'); await page.getByRole('link',{name:'策略',exact:true}).click();
+         |                                                                                  ^
+      45 |   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
+      46 |   await page.getByLabel('PAPER 政策',{exact:true}).selectOption('fixture-paper-policy');
+      47 |   await page.getByRole('button',{name:'開始 PAPER',exact:true}).click();
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:44:82
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-actual-cand-4b635-nd-show-unavailable-metrics\error-context.md
+
+
+
+(node:44444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[4/6] qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state
+  4) qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: '交易', exact: true })
+
+
+      57 |
+      58 | test('protected owner facts distinguish ACK/fill, remaining exposure and as-of state',async({page})=>{
+    > 59 |   await login(page,'protected'); await page.getByRole('link',{name:'交易',exact:true}).click();
+         |                                                                                      ^
+      60 |   await page.getByRole('button',{name:'查看 PAPER',exact:true}).first().click();
+      61 |   await expect(page.getByTestId('paper-position')).toContainText('0.001');
+      62 |   await expect(page.getByText('OPEN_PROTECTED',{exact:true}).first()).toBeVisible();
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:59:86
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-protected-o-d4d72-ng-exposure-and-as-of-state\error-context.md
+
+
+
+(node:36536) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[5/6] qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable
+  5) qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: '設定', exact: true })
+
+
+      70 |
+      71 | test('stale settings show real backend conflict and keyboard form remains usable',async({page})=>{
+    > 72 |   await login(page,'empty'); await page.getByRole('link',{name:'設定',exact:true}).click();
+         |                                                                                  ^
+      73 |   const csrf=await page.evaluate(()=>document.cookie.split('; ').find(s=>s.startsWith('r7_csrf='))?.slice(8));
+      74 |   const settings=(await (await page.request.get(origins.empty+'/api/v1/settings')).json()).data;
+      75 |   const changed=await page.request.put(origins.empty+'/api/v1/settings/non-secret',{
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:72:82
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-stale-setti-524af-eyboard-form-remains-usable\error-context.md
+
+
+
+(node:42608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[6/6] qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth
+  6) qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth 
+
+    Test timeout of 25000ms exceeded.
+
+    Error: locator.click: Test timeout of 25000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: '策略', exact: true })
+
+
+      84 |
+      85 | test('financial controls stay visibly denied by actual fixture backend even after reauth',async({page})=>{
+    > 86 |   await login(page,'protected'); await page.getByRole('link',{name:'策略',exact:true}).click();
+         |                                                                                      ^
+      87 |   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
+      88 |   await expect(page.getByRole('button',{name:'確認財務核准',exact:true})).toBeDisabled();
+      89 |   await expect(page.getByText('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN',{exact:true}).first()).toBeVisible();
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:86:86
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-financial-c-d44ba-e-backend-even-after-reauth\error-context.md
+
+
+  6 failed
+    qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels 
+    qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation 
+    qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics 
+    qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state 
+    qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable 
+    qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth 

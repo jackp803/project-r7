@@ -1,0 +1,176 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test --timeout=6000
+
+
+Running 6 tests using 1 worker
+
+
+
+(node:17012) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/6] qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels
+  1) qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels 
+
+    Test timeout of 6000ms exceeded.
+
+    Error: locator.fill: Test timeout of 6000ms exceeded.
+    Call log:
+      - waiting for getByLabel('帳號', { exact: true })
+
+
+       5 | async function login(page:Page,profile:keyof typeof origins){
+       6 |   await page.goto(origins[profile]);
+    >  7 |   await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+         |                                            ^
+       8 |   await page.getByLabel('密碼',{exact:true}).fill(password);
+       9 |   await page.getByRole('button',{name:'登入',exact:true}).click();
+      10 |   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+        at login (<SOURCE_ROOT>\ui\qa\control-center.spec.ts:7:44)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:16:3
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-empty-views-ccdd0-d-persistent-fixture-labels\error-context.md
+
+
+(node:40736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[2/6] qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+  2) qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation 
+
+    Test timeout of 6000ms exceeded.
+
+    Error: locator.fill: Test timeout of 6000ms exceeded.
+    Call log:
+      - waiting for getByLabel('帳號', { exact: true })
+
+
+       5 | async function login(page:Page,profile:keyof typeof origins){
+       6 |   await page.goto(origins[profile]);
+    >  7 |   await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+         |                                            ^
+       8 |   await page.getByLabel('密碼',{exact:true}).fill(password);
+       9 |   await page.getByRole('button',{name:'登入',exact:true}).click();
+      10 |   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+        at login (<SOURCE_ROOT>\ui\qa\control-center.spec.ts:7:44)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:30:3
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-actual-inbo-a539e-nd-cooperative-cancellation\error-context.md
+
+
+
+(node:40840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[3/6] qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+  3) qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics 
+
+    Test timeout of 6000ms exceeded.
+
+    Error: locator.fill: Test timeout of 6000ms exceeded.
+    Call log:
+      - waiting for getByLabel('帳號', { exact: true })
+
+
+       5 | async function login(page:Page,profile:keyof typeof origins){
+       6 |   await page.goto(origins[profile]);
+    >  7 |   await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+         |                                            ^
+       8 |   await page.getByLabel('密碼',{exact:true}).fill(password);
+       9 |   await page.getByRole('button',{name:'登入',exact:true}).click();
+      10 |   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+        at login (<SOURCE_ROOT>\ui\qa\control-center.spec.ts:7:44)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:44:3
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-actual-cand-4b635-nd-show-unavailable-metrics\error-context.md
+
+
+(node:39252) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[4/6] qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state
+  4) qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state 
+
+    Test timeout of 6000ms exceeded.
+
+    Error: locator.fill: Test timeout of 6000ms exceeded.
+    Call log:
+      - waiting for getByLabel('帳號', { exact: true })
+
+
+       5 | async function login(page:Page,profile:keyof typeof origins){
+       6 |   await page.goto(origins[profile]);
+    >  7 |   await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+         |                                            ^
+       8 |   await page.getByLabel('密碼',{exact:true}).fill(password);
+       9 |   await page.getByRole('button',{name:'登入',exact:true}).click();
+      10 |   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+        at login (<SOURCE_ROOT>\ui\qa\control-center.spec.ts:7:44)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:59:3
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-protected-o-d4d72-ng-exposure-and-as-of-state\error-context.md
+
+
+
+(node:26316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[5/6] qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable
+  5) qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable 
+
+    Test timeout of 6000ms exceeded.
+
+    Error: locator.fill: Test timeout of 6000ms exceeded.
+    Call log:
+      - waiting for getByLabel('帳號', { exact: true })
+
+
+       5 | async function login(page:Page,profile:keyof typeof origins){
+       6 |   await page.goto(origins[profile]);
+    >  7 |   await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+         |                                            ^
+       8 |   await page.getByLabel('密碼',{exact:true}).fill(password);
+       9 |   await page.getByRole('button',{name:'登入',exact:true}).click();
+      10 |   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+        at login (<SOURCE_ROOT>\ui\qa\control-center.spec.ts:7:44)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:72:3
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-stale-setti-524af-eyboard-form-remains-usable\error-context.md
+
+
+
+(node:48096) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[6/6] qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth
+  6) qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth 
+
+    Test timeout of 6000ms exceeded.
+
+    Error: locator.fill: Test timeout of 6000ms exceeded.
+    Call log:
+      - waiting for getByLabel('帳號', { exact: true })
+
+
+       5 | async function login(page:Page,profile:keyof typeof origins){
+       6 |   await page.goto(origins[profile]);
+    >  7 |   await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+         |                                            ^
+       8 |   await page.getByLabel('密碼',{exact:true}).fill(password);
+       9 |   await page.getByRole('button',{name:'登入',exact:true}).click();
+      10 |   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+        at login (<SOURCE_ROOT>\ui\qa\control-center.spec.ts:7:44)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:86:3
+
+    Error Context: ..\..\artifacts\S11-browser\results\control-center-financial-c-d44ba-e-backend-even-after-reauth\error-context.md
+
+
+  6 failed
+    qa\control-center.spec.ts:13:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels 
+    qa\control-center.spec.ts:29:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation 
+    qa\control-center.spec.ts:43:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics 
+    qa\control-center.spec.ts:58:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state 
+    qa\control-center.spec.ts:71:1 › stale settings show real backend conflict and keyboard form remains usable 
+    qa\control-center.spec.ts:85:1 › financial controls stay visibly denied by actual fixture backend even after reauth 

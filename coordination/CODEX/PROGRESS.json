@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S11",
-  "next_step": "S12",
+  "active_step": "S12",
+  "next_step": "S13",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -25,7 +25,7 @@
     "M6": "IN_PROGRESS",
     "M7": "IN_PROGRESS",
     "M8": "NOT_STARTED",
-    "M9": "NOT_STARTED",
+    "M9": "IN_PROGRESS",
     "M10": "NOT_STARTED",
     "M11": "NOT_STARTED"
   },
@@ -40,8 +40,8 @@
     "S08": "PASS",
     "S09": "PASS",
     "S10": "PASS",
-    "S11": "IN_PROGRESS",
-    "S12": "NOT_STARTED",
+    "S11": "PASS",
+    "S12": "IN_PROGRESS",
     "S13": "NOT_STARTED",
     "S14": "NOT_STARTED",
     "S15": "NOT_STARTED",
@@ -324,6 +324,25 @@
       "skipped": 0,
       "evidence_ref": "status/codex/productization/S10/passed-95d8cde-py312/qualification.json",
       "scope": "Actual local authentication/owner services and full regressions; real operational commissioning/native Ubuntu NOT_RUN"
+    },
+    {
+      "step": "S11",
+      "phase": "EXACT_CLEAN_CONTROL_CENTER_AND_FULL_REGRESSION",
+      "status": "PASS",
+      "executable_revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+      "phase_1": 247,
+      "phase_2": 1262,
+      "total": 1509,
+      "commands": 33,
+      "ui_unit": 10,
+      "browser": 8,
+      "ui_commands": 6,
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10/Node24/nativeEdge",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S11/passed-1ce69a7-py312/qualification.json",
+      "scope": "Actual isolated local services, pinned UI build and browser; native product/provider/cloud/real forward commissioning NOT_RUN"
     }
   ],
   "evidence_refs": [
@@ -339,7 +358,9 @@
     "status/codex/productization/S08/fixtures-aa0e2e9/lifecycle-mechanics/edge-matrix.json",
     "status/codex/productization/S09/foundation-passed-9fe882e-py312/qualification.json",
     "status/codex/productization/S09/passed-0873789-py312/qualification.json",
-    "status/codex/productization/S10/passed-95d8cde-py312/qualification.json"
+    "status/codex/productization/S10/passed-95d8cde-py312/qualification.json",
+    "status/codex/productization/S11/passed-1ce69a7-py312/qualification.json",
+    "status/codex/productization/S11/passed-1ce69a7-py312/ui/ui-qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -372,8 +393,11 @@
     "S09 accelerated observations grant zero actual forward duration; controlled MemoryError is not host OOM",
     "S10 uncertain owner outcomes remain PREPARED; retry the same ID for reconciliation",
     "S10 first-run enrollment is trusted local CLI only; fixture HTTP cannot grant financial authority",
-    "S10 pause denies new entry admission and retains existing management; in-flight effects still require reconciliation"
+    "S10 pause denies new entry admission and retains existing management; in-flight effects still require reconciliation",
+    "S11 author hypotheses retain verified immutable submission identity",
+    "S11 PAPER pause preserves protected exposure; ACK/fill/current process facts remain distinct",
+    "S11 eight browser cases use actual local owners; fixture elapsed time and native Ubuntu are not qualified"
   ],
-  "executable_revision": "95d8cde49462422a380961570fb3714261db1552",
-  "qualified_executable_revision": "95d8cde49462422a380961570fb3714261db1552"
+  "executable_revision": "1ce69a7060fc47c39d16d8db6acb0781066046db",
+  "qualified_executable_revision": "1ce69a7060fc47c39d16d8db6acb0781066046db"
 }

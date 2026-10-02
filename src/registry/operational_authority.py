@@ -165,6 +165,23 @@ class HumanApprovalRecord:
     recorded_at: str
 
 
+@dataclass(frozen=True)
+class CurrentRuntimePermission:
+    """Readonly exact owner interpretation; never a transport/process capability."""
+    identity: StrategyIdentity
+    strategy_content_hash: str
+    registry_revision: int
+    permission: str
+    namespace: str
+    release: ReleaseBinding
+    approval_record_id: str
+    approval_envelope_hash: str
+    activation_evidence_id: str
+    activation_payload_hash: str
+    observed_at: str
+    execution: str
+
+
 class ProductLifecycleComposition:
     """Configured owner evidence resolvers; all request-facing methods take refs.
 

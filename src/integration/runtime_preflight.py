@@ -396,6 +396,19 @@ def evaluate_runtime_preflight(
     value: RuntimePreflightInput,
     authority: RuntimePreflightAuthority,
 ) -> dict[str, Any]:
+    return _evaluate_runtime_preflight_profile(value, authority,
+        profile_version=RUNTIME_PREFLIGHT_PROFILE_VERSION, runtime_roles=RUNTIME_ROLES,
+        authorization_classes=ROLE_AUTHORIZATION_CLASS,
+        reconciliation_roles=RECONCILIATION_REQUIRED_ROLES,
+        external_roles=EXTERNAL_CONSUMER_ALWAYS_REQUIRED_ROLES)
+
+
+def _evaluate_runtime_preflight_profile(
+    value: RuntimePreflightInput,
+    authority: RuntimePreflightAuthority,
+    *, profile_version, runtime_roles, authorization_classes,
+    reconciliation_roles, external_roles, product_live=False,
+) -> dict[str, Any]:
     """Purely interpret supplied sanitized FP-16 evidence and current authority facts.
 
     The function performs no I/O and grants no provider, order, process-launch,
@@ -415,9 +428,9 @@ def evaluate_runtime_preflight(
     evaluated_at = _utc(payload["evaluated_at"])
     process_started_at = _utc(payload["process_started_at"])
 
-    if payload["schema_version"] != SCHEMA_VERSION or payload["runtime_preflight_profile_version"] != RUNTIME_PREFLIGHT_PROFILE_VERSION:
+    if payload["schema_version"] != SCHEMA_VERSION or payload["runtime_preflight_profile_version"] != profile_version:
         reasons.add("PREFLIGHT_EVIDENCE_IDENTITY_INVALID")
-    if role not in RUNTIME_ROLES or launch_intent not in LAUNCH_INTENTS:
+    if role not in runtime_roles or launch_intent not in LAUNCH_INTENTS:
         reasons.add("PREFLIGHT_ROLE_AUTHORITY_EXCEEDED")
     if evaluated_at is None or process_started_at is None or (
         evaluated_at is not None and process_started_at is not None and process_started_at > evaluated_at
@@ -460,6 +473,8 @@ def evaluate_runtime_preflight(
         reasons.add("PREFLIGHT_OPERATIONAL_MODE_MISMATCH")
     if role == "BOUNDED_LIVE_FIRE_RUNTIME":
         reasons.add("PREFLIGHT_ROLE_MODE_POLICY_UNDEFINED")
+    if product_live and payload["requested_operational_mode"] != "LIVE":
+        reasons.add("PREFLIGHT_OPERATIONAL_MODE_MISMATCH")
 
     config_authority = _authority_mapping(authority.runtime_config_authority)
     if (
@@ -511,6 +526,8 @@ def evaluate_runtime_preflight(
             reasons.add("PREFLIGHT_EVIDENCE_TIME_INVALID")
 
     supervisor = _exact_mapping(payload["supervisor_evidence"], _SUPERVISOR_FIELDS)
+    if product_live and (supervisor is None or supervisor.get("supervisor_present") is not True):
+        reasons.add("PREFLIGHT_SUPERVISOR_GENERATION_UNRECOGNIZED")
     supervisor_present = bool(supervisor and supervisor.get("supervisor_present") is True)
     supervisor_authority = _authority_mapping(authority.supervisor_authority)
     if supervisor is None:
@@ -572,7 +589,7 @@ def evaluate_runtime_preflight(
         reconciliation_observed = _utc(reconciliation.get("reconciliation_observed_at"))
         if evaluated_at is None or reconciliation_observed is None or reconciliation_observed > evaluated_at:
             reasons.add("PREFLIGHT_EVIDENCE_TIME_INVALID")
-    if role in RECONCILIATION_REQUIRED_ROLES:
+    if role in reconciliation_roles:
         reconciliation_authority = _authority_mapping(authority.reconciliation_authority)
         if (
             reconciliation is None
@@ -619,7 +636,7 @@ def evaluate_runtime_preflight(
 
     external_participation_authority_supplied = authority.external_consumer_authority is not None
     external_required = (
-        role in EXTERNAL_CONSUMER_ALWAYS_REQUIRED_ROLES
+        role in external_roles
         or supervisor_present
         or external_participation_authority_supplied
     )
@@ -663,7 +680,7 @@ def evaluate_runtime_preflight(
             reasons.add("PREFLIGHT_RUNTIME_AUTHORITY_CONSUMED")
         elif status not in AUTHORIZATION_STATUSES or status != "VALID":
             reasons.add("PREFLIGHT_RUNTIME_AUTHORITY_UNKNOWN")
-        expected_class = ROLE_AUTHORIZATION_CLASS.get(role)
+        expected_class = authorization_classes.get(role)
         capability_hash = capability.get("capability_snapshot_hash") if capability is not None else None
         if (
             expected_class is None
@@ -688,11 +705,16 @@ def evaluate_runtime_preflight(
     evidence["preflight_status"] = status
     evidence["reason_codes"] = reason_codes
     evidence["runtime_preflight_id"] = stable_runtime_preflight_id(evidence)
-    validate_runtime_preflight_evidence(evidence)
+    _validate_runtime_preflight_profile(evidence, profile_version=profile_version, runtime_roles=runtime_roles)
     return evidence
 
 
 def validate_runtime_preflight_evidence(evidence: Mapping[str, Any]) -> None:
+    return _validate_runtime_preflight_profile(evidence,
+        profile_version=RUNTIME_PREFLIGHT_PROFILE_VERSION, runtime_roles=RUNTIME_ROLES)
+
+
+def _validate_runtime_preflight_profile(evidence: Mapping[str, Any], *, profile_version, runtime_roles) -> None:
     if not isinstance(evidence, Mapping) or set(evidence) != _TOP_LEVEL_FIELDS:
         raise RuntimePreflightValidationError(
             "PREFLIGHT_EVIDENCE_IDENTITY_INVALID",
@@ -700,7 +722,7 @@ def validate_runtime_preflight_evidence(evidence: Mapping[str, Any]) -> None:
         )
     if evidence.get("schema_version") != SCHEMA_VERSION or evidence.get(
         "runtime_preflight_profile_version"
-    ) != RUNTIME_PREFLIGHT_PROFILE_VERSION:
+    ) != profile_version:
         raise RuntimePreflightValidationError(
             "PREFLIGHT_EVIDENCE_IDENTITY_INVALID",
             "unsupported runtime-preflight schema/profile",
@@ -716,7 +738,7 @@ def validate_runtime_preflight_evidence(evidence: Mapping[str, Any]) -> None:
             "PREFLIGHT_EVIDENCE_IDENTITY_INVALID",
             "runtime_preflight_id does not match the immutable payload",
         )
-    if evidence.get("runtime_role") not in RUNTIME_ROLES or evidence.get("launch_intent") not in LAUNCH_INTENTS:
+    if evidence.get("runtime_role") not in runtime_roles or evidence.get("launch_intent") not in LAUNCH_INTENTS:
         raise RuntimePreflightValidationError(
             "PREFLIGHT_EVIDENCE_IDENTITY_INVALID",
             "runtime role or launch intent is outside the accepted profile",

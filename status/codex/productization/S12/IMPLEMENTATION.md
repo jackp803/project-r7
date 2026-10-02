@@ -64,3 +64,24 @@ No real credentials are read, no real provider transport is composed/executed,
 no real runtime/cloud/forward/capital is commissioned. Fake HTTP tests prove
 request/translation/recovery mechanics only. Actual provider capability and
 persistent LIVE authorization remain separate owner acceptance/commissioning.
+
+Foundation implemented and development-verified: bounded production request/HTTPS
+and trusted secure-reader interface6 tests; pinned additive E7 profile6 tests;
+actual E6 accepted-activation/current-consent/read-snapshot port and transient
+E6/E7 admission4 tests. Legacy runtime29, all brokers205, integration90 and
+registry44 tests PASS. Missing-module/typed-input/readback-scope/process-permit
+failures were observed before their fixes. Imported legacy fixture classes were
+kept module-qualified to avoid duplicate discovery. The original29 legacy
+preflight tests still execute separately; bounded mode remains undefined.
+
+The current-permission read uses one short readonly SQLite snapshot and closes it
+before any effect. NEW_EXPOSURE checks current exact consent; MANAGE_EXISTING
+retains original accepted activation/approval after expiry/revocation, never
+renewing entry permission. Issuer-local one-second permits recheck actual owners
+and bind subject, execution purpose and process identity/generation. Fixture
+permits cannot authorize production. HTTPS tests use fake connections and secrets.
+Native secure-vault composition and actual supervisor acceptance remain S13.
+
+This is a stable S12 foundation checkpoint pending full exact-clean qualification,
+not S12 completion. Continue the provider role/translation/readback/durable effect
+and recovery stages above on the same task/branch after this checkpoint.

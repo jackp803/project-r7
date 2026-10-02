@@ -56,6 +56,40 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
         product=self.candidate_product_assessment(identity)
         return boundary.envelope(envelope_ref,strategy,product.risk_policy_json)
 
+    def current_runtime_permission(self,identity,*,expected_revision,permission):
+        """Read current consent separately from retained protective management.
+
+        Accepted activation is historical provenance, not permission renewal.
+        New exposure revalidates current consent. Existing management retains
+        its original exact envelope/activation even after consent expiry or
+        revocation, and still needs current process/E4/E5 gates at the effect.
+        """
+        import json
+        from .models import EvidenceGateError
+        from .operational_authority import CurrentRuntimePermission,require_current_approval,stamp
+        from .product_assessment import digest,canonical
+        if permission not in ('NEW_EXPOSURE','MANAGE_EXISTING'):raise EvidenceGateError('Explicit runtime permission required')
+        states=('LIVE',) if permission=='NEW_EXPOSURE' else ('LIVE','DEGRADED','RETIRED')
+        with self._store._current_runtime_snapshot():
+            strategy,boundary=self._operational_context(identity,expected_revision,states)
+            release=boundary.current();activation=self._store.accepted_activation_evidence(identity)
+            if (activation is None or activation.kind not in ('ACTIVATION','RESUMPTION') or activation.identity!=identity or
+                activation.strategy_content_hash!=strategy.content_hash or activation.namespace!=boundary.namespace or
+                activation.release_json!=canonical(release.as_dict()) or digest(activation.release_json)!=activation.release_hash or
+                digest(activation.payload_json)!=activation.payload_hash):raise EvidenceGateError('Exact accepted activation/release required')
+            body=json.loads(activation.payload_json);approval_id=body.get('approval_record_id')
+            approval=require_current_approval(self._store,strategy,boundary) if permission=='NEW_EXPOSURE' else self._store.get_human_approval(approval_id)
+            if (approval is None or approval.approval_record_id!=approval_id or approval.identity!=identity or approval.namespace!=boundary.namespace or
+                digest(approval.payload_json)!=approval.payload_hash or digest(approval.envelope_json)!=approval.envelope_hash):raise EvidenceGateError('Exact activation consent lineage required')
+            consent=json.loads(approval.payload_json);envelope=json.loads(approval.envelope_json)
+            if (consent.get('decision')!='APPROVE' or consent.get('actor')!=approval.actor or
+                (envelope.get('strategy_id'),envelope.get('strategy_version'),envelope.get('strategy_content_hash'))!=(identity.strategy_id,identity.strategy_version,strategy.content_hash) or
+                envelope.get('release')!=release.as_dict() or permission not in envelope.get('permissions',[])):
+                raise EvidenceGateError('Exact original deployment permission required')
+            return CurrentRuntimePermission(identity,strategy.content_hash,strategy.registry_revision,permission,boundary.namespace,release,
+                approval.approval_record_id,approval.envelope_hash,activation.evidence_id,activation.payload_hash,stamp(boundary.clock()),
+                'SIMULATED_MECHANICS' if boundary.namespace=='FIXTURE' else 'ACTUAL_OWNER')
+
     def accepted_paper_start_evidence(self,identity):
         from .models import EvidenceGateError
         from .product_assessment import digest

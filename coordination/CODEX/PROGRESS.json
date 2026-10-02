@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S02",
-  "next_step": "S03",
+  "active_step": "S03",
+  "next_step": "S04",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -18,7 +18,7 @@
   "existing_work_disposition": "No local or remote master implementation branch existed; created isolated branch without altering prior LF/P0 work. Moved all 15 desktop R7 folders inside the user project root and verified 13 worktree revisions/statuses unchanged.",
   "milestones": {
     "M1": "IN_PROGRESS",
-    "M2": "NOT_STARTED",
+    "M2": "IN_PROGRESS",
     "M3": "NOT_STARTED",
     "M4": "NOT_STARTED",
     "M5": "NOT_STARTED",
@@ -31,8 +31,8 @@
   },
   "steps": {
     "S01": "PASS",
-    "S02": "IN_PROGRESS",
-    "S03": "NOT_STARTED",
+    "S02": "PASS",
+    "S03": "IN_PROGRESS",
     "S04": "NOT_STARTED",
     "S05": "NOT_STARTED",
     "S06": "NOT_STARTED",
@@ -51,12 +51,14 @@
     "windows-11-x86_64": {
       "status": "IN_PROGRESS",
       "os_version": "10.0.26200",
-      "source_python": "3.14.3",
+      "source_python": "3.12.10",
       "node": "24.19.0",
       "npm": "11.17.0",
       "cpu_model": "Intel Core Ultra 7 255HX",
       "logical_cores": 20,
-      "measured_memory_kib": 32945572
+      "measured_memory_kib": 32945572,
+      "additional_source_python": "3.14.3",
+      "native_package_status": "NOT_RUN"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -140,11 +142,37 @@
       "failure": 0,
       "error": 0,
       "skip": 0
+    },
+    {
+      "step": "S02",
+      "phase": "EXACT_CLEAN_QUALIFICATION",
+      "revision": "79dd31b8e4ff9bd33df6fc7730371b3adc039543",
+      "python": "3.14.3",
+      "result": "PASS",
+      "commands": 4,
+      "tests_run": 215,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "step": "S02",
+      "phase": "EXACT_CLEAN_QUALIFICATION",
+      "revision": "79dd31b8e4ff9bd33df6fc7730371b3adc039543",
+      "python": "3.12.10",
+      "result": "PASS",
+      "commands": 32,
+      "tests_run": 1189,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
     }
   ],
   "evidence_refs": [
     "status/codex/productization/S01/failed-cbae796/qualification.json",
-    "status/codex/productization/S01/passed-3d395f4/qualification.json"
+    "status/codex/productization/S01/passed-3d395f4/qualification.json",
+    "status/codex/productization/S02/passed-79dd31b-py314/qualification.json",
+    "status/codex/productization/S02/passed-79dd31b-py312/qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -168,7 +196,8 @@
     "Antigravity trust guard refused before dispatch; do not add trust or select paid fallback",
     "CPython 3.12 selected product minor; development source tests currently 3.14.3 do not qualify native 3.12 builds",
     "S01 memory enforcement is SOFT_LIMIT_ONLY; Windows Job Objects enforce owned tree cleanup, not a memory hard cap",
-    "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories"
+    "Legacy P0 phase ordering retained; current inventory additionally includes registry/application directories",
+    "Existing local py launcher exposes CPython 3.12.10; full qualification on the selected minor now passed, while native package qualification remains NOT_RUN"
   ],
-  "executable_revision": "3d395f48c268e4e6893f632de96cf6e9ea41116b"
+  "executable_revision": "79dd31b8e4ff9bd33df6fc7730371b3adc039543"
 }

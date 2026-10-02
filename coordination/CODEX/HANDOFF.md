@@ -8,7 +8,7 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S02, verified cloud snapshots, transactional intake and outbox. Next: S03.
+Active step: S03, explicit DSL profile routing and bounded capability grammar. Next: S04.
 Read PROGRESS.json and the v0.2 execution plan before resuming. Preserve the
 same branch/task and continue S01-S16 / M1-M11 automatically. Do not treat this
 startup checkpoint as milestone completion.
@@ -48,15 +48,22 @@ minor is selected as 3.12; current 3.14.3 source results do not certify frozen
 Use canonical packages and preserve every legacy LF/FP test. Keep code/evidence
 revisions separate at each clean qualification.
 
-S02 implementation is now present. Initial intended failures were observed;
-37 application and two new atomic E6 intake tests pass. Existing affected
-registry/strategy/storage suites also passed. New faults include staged partial
+S02 exact-clean executable is `79dd31b8e4ff9bd33df6fc7730371b3adc039543`.
+CPython 3.12.10 full qualification passed 32 commands / 1,189 occurrences;
+additional 3.14.3 affected qualification passed 4 suites / 215 tests. Both have
+zero failures/errors/skips and evidence under status/codex/productization/S02/.
+The existing py launcher has both interpreters; use py -3.12 for source work
+from here. Native packaging and Ubuntu target evidence remain NOT_RUN.
+New faults include staged partial
 write, readonly snapshot root, durable sync backoff/stall, capacity limits and
 wrong acknowledgment hash. Actual Windows junction escape and two-worker claim
-competition were tested. First commit this checkpoint, then qualify that exact
-clean revision with application/strategy/registry/storage, persist evidence in a
-later commit and advance S03. Do not mark S02 complete from the uncommitted test
-results or treat LOCAL_STAGED as a real cloud acknowledgment.
+competition were tested. Source foundations S01/S02 passed on the available
+target; M1 startup/native packaging obligations still remain. Next action: S03
+TDD with legacy signal goldens, v0.2 unknown fields/versions/references/cycles,
+units, depth/node/window/timeframe limits and canonical import identity. Keep
+legacy RUNTIME_VERSION=0.1.0 and route new 0.2.0 explicitly. Capability grammar
+recognition cannot be advertised as a verified indicator implementation until
+S04/S05 executable evidence exists. Never treat LOCAL_STAGED as real cloud ack.
 
 All v0.2 specifications/authorizations were read. Prior v0.1 provisions are
 consumed only where not superseded; read relevant owner implementations and

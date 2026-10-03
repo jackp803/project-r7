@@ -96,6 +96,32 @@ class PageQuery(StrictDTO):
     offset: Annotated[int, Field(ge=0, le=100000)] = 0
 
 
+class ApprovalPreviewQuery(StrictDTO):
+    model_config = ConfigDict(extra='forbid', strict=False)
+    envelope_ref: Identifier
+    expected_revision: Revision
+
+
+class ApprovalPreviewView(StrictDTO):
+    strategy_id: Identifier
+    strategy_version: Identifier
+    strategy_content_hash: Hash
+    registry_revision: Revision
+    namespace: Literal['FIXTURE','LOCAL_RESEARCH']
+    envelope_ref: Identifier
+    envelope_hash: Hash
+    envelope: dict[str, JsonValue]
+    release: dict[str, JsonValue]
+    risk_policy: dict[str, JsonValue]
+    risk_policy_hash: Hash
+    product_assessment: dict[str, JsonValue]
+    product_assessment_hash: Hash
+    evidence_ref: str
+    observed_at: str
+    financial_confirmation_available: bool
+    reason_codes: list[str]
+
+
 class ViewMetadata(StrictDTO):
     source: str
     observed_at: str

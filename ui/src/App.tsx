@@ -1,4 +1,4 @@
-import {useEffect,useState,type FormEvent,type ReactNode} from 'react';
+import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
 import {api,commandId,ControlError,type Envelope,type Schema} from './api';
 import {approvalBlock,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
 
@@ -103,29 +103,58 @@ function Research(props:Common){
   </>;
 }
 
+function FinancialApproval({record,props}:{record:Row;props:Common}){
+  const [reference,setReference]=useState('');const [preview,setPreview]=useState<Envelope<Schema['ApprovalPreviewView']>|null>(null);
+  const [error,setError]=useState<ControlError|null>(null);const [loading,setLoading]=useState(false);
+  const [password,setPassword]=useState('');const [reauth,setReauth]=useState<Session|null>(null);const [confirmed,setConfirmed]=useState(false);
+  const requestVersion=useRef(0);useEffect(()=>()=>{requestVersion.current++;},[]);
+  const identity=object(record.identity);
+  const block=preview&&preview.data.envelope_ref!==reference?'APPROVAL_PREVIEW_SUBJECT_CHANGED':approvalBlock(props.session.namespace,record,preview?.data);
+  const reauthenticated=()=>!!reauth?.reauthenticated_until&&Date.parse(reauth.reauthenticated_until)>Date.now();
+  const load=async(event:FormEvent)=>{event.preventDefault();const version=++requestVersion.current;setLoading(true);setError(null);setPreview(null);setConfirmed(false);try{
+    const query=new URLSearchParams({envelope_ref:reference,expected_revision:String(revision(record.registry_revision))});
+    const value=await api.view<Schema['ApprovalPreviewView']>('/api/v1/strategies/'+[text(identity.strategy_id),text(identity.strategy_version)].map(encodeURIComponent).join('/')+'/approval-preview?'+query);
+    if(version===requestVersion.current)setPreview(value);
+  }catch(cause){if(version===requestVersion.current)setError(cause instanceof ControlError?cause:new ControlError(0,['CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE']));}
+    finally{if(version===requestVersion.current)setLoading(false);}};
+  const authenticate=async(event:FormEvent)=>{event.preventDefault();const supplied=password;setPassword('');setReauth(null);setConfirmed(false);setError(null);try{
+    const current=await api.read<Session>('/api/v1/auth/session');
+    setReauth(await api.command<Session>('/api/v1/auth/reauthenticate',{password:supplied,command_id:commandId(),expected_revision:revision(current.revision)}));
+  }catch(cause){setError(cause instanceof ControlError?cause:new ControlError(0,['REAUTHENTICATION_REQUIRED']));}};
+  const approve=async()=>{
+    if(block||!preview||!confirmed)return;
+    if(!reauthenticated()){setConfirmed(false);setReauth(null);setError(new ControlError(401,['REAUTHENTICATION_REQUIRED']));return;}
+    const exact=preview.data;setConfirmed(false);
+    await props.run('/api/v1/approvals',{command_id:commandId(),expected_revision:exact.registry_revision,
+      strategy_id:exact.strategy_id,strategy_version:exact.strategy_version,envelope_ref:exact.envelope_ref,
+      expected_strategy_hash:exact.strategy_content_hash,expected_envelope_hash:exact.envelope_hash,
+      decision:'APPROVE',reason_code:'USER_CONFIRMED'} satisfies Schema['ApprovalDTO']);
+  };
+  return <div className="financial"><h3>確切版本的財務核准</h3><p>核准只適用於顯示的策略與提案。核准後仍需另外驗證部署；停止新進場會保留既有部位與保護管理。</p>
+    <form onSubmit={event=>void load(event)}><label>本機提案參照<input value={reference} required maxLength={96} pattern="[A-Za-z0-9][A-Za-z0-9_.:-]*" onChange={event=>{requestVersion.current++;setReference(event.target.value);setPreview(null);setConfirmed(false);setLoading(false);}}/></label><button disabled={loading||props.busy||!reference} type="submit">讀取核准提案</button></form>
+    {preview?<><dl><dt>提案雜湊</dt><dd><code>{preview.data.envelope_hash}</code></dd><dt>執行版本</dt><dd><code>{text(preview.data.release.executable_revision)}</code></dd><dt>建置雜湊</dt><dd><code>{text(preview.data.release.build_hash)}</code></dd><dt>設定雜湊／代次</dt><dd><code>{text(preview.data.release.config_hash)}</code> / {text(preview.data.release.config_generation)}</dd><dt>風險政策雜湊</dt><dd><code>{preview.data.risk_policy_hash}</code></dd><dt>提案資金上限（USDT）</dt><dd>{text(preview.data.envelope.capital_ceiling_usdt)}</dd><dt>每筆風險上限（USDT）</dt><dd>{text(preview.data.envelope.risk_per_trade_usdt)}</dd><dt>單日／累積虧損上限（USDT）</dt><dd>{text(preview.data.envelope.daily_loss_limit_usdt)} / {text(preview.data.envelope.aggregate_loss_limit_usdt)}</dd><dt>帳戶／提供者參照</dt><dd>{text(preview.data.release.account_ref)} / {text(preview.data.release.provider_ref)}</dd><dt>到期（UTC 原文）</dt><dd>{text(preview.data.envelope.expires_at)}</dd></dl>
+      <JsonDetail value={preview.data.product_assessment} title="實際樣本、密封 OOS 與不確定性證據參照"/><JsonDetail value={{envelope:preview.data.envelope,release:preview.data.release,risk_policy:preview.data.risk_policy,evidence_ref:preview.data.evidence_ref}} title="完整核准對象"/><Reasons codes={preview.data.reason_codes}/></>:<p>提案資金／風險額度：未提供；不得推定預設資金或槓桿。</p>}
+    <form onSubmit={event=>void authenticate(event)}><label>重新驗證密碼<input type="password" autoComplete="current-password" value={password} maxLength={256} required onChange={event=>setPassword(event.target.value)}/></label><button type="submit" disabled={props.busy}>重新驗證身分</button></form>
+    {reauth&&<p role="status">重新驗證有效至 {utcDisplay(reauth.reauthenticated_until,props.zone)}；伺服器仍會重新驗證目前提案。</p>}
+    <label className="check"><input type="checkbox" checked={confirmed} disabled={!!block||!reauthenticated()||props.busy} onChange={event=>setConfirmed(event.target.checked)}/>我確認策略雜湊、資金與風險提案，以及剩餘曝險後果。</label>
+    <button disabled={!!block||!confirmed||!reauthenticated()||props.busy} onClick={()=>void approve()}>確認財務核准</button>{block&&<Reasons codes={[block]}/>} {error&&<ErrorNotice error={error}/>}</div>;
+}
+
 function Strategies(props:Common){
   const [offset,setOffset]=useState(0); const [subject,setSubject]=useState<[string,string]|null>(null);const [policy,setPolicy]=useState('');
-  const [password,setPassword]=useState('');const [reauthError,setReauthError]=useState<ControlError|null>(null);const [reauthResult,setReauthResult]=useState<Session|null>(null);
   const list=useView<Schema['PageView']>(`/api/v1/strategies?limit=50&offset=${offset}`,props.refresh);
   const detail=useView<Schema['OwnerObjectView']>('/api/v1/strategies/'+(subject?subject.map(encodeURIComponent).join('/'):'unselected'),props.refresh,false,!!subject);
   const policies=useView<Schema['PageView']>('/api/v1/policies',props.refresh);
   const allowed=rows(policies.value?.data.items).filter(row=>row.kind==='PAPER');
-  const reauth=async(event:FormEvent)=>{event.preventDefault();const supplied=password;setPassword('');setReauthError(null);try{
-    const session=await api.read<Session>('/api/v1/auth/session');
-    setReauthResult(await api.command<Session>('/api/v1/auth/reauthenticate',{password:supplied,command_id:commandId(),expected_revision:revision(session.revision)} satisfies Schema['ReauthenticationDTO']));
-  }catch(error){setReauthError(error instanceof ControlError?error:new ControlError(0,['AUTHORIZATION_REQUIRED']));}};
   return <><Panel title="不可變策略與 lineage"><p>每個版本保留內容雜湊與驗證歷史；未測試策略不建立收益排名。</p><Frame view={list} zone={props.zone}>{page=><><Reasons codes={page.reason_codes}/>{page.items.length===0?<p>尚無資料</p>:<div className="table-wrap"><table><thead><tr><th>策略／版本</th><th>週期</th><th>生命週期</th><th>內容雜湊</th><th>查看</th></tr></thead><tbody>{rows(page.items).map(row=>{const identity=object(row.identity);return <tr key={text(identity.strategy_id)+text(identity.strategy_version)}><td>{text(identity.strategy_id)}<small className="block">{text(identity.strategy_version)}</small></td><td>{text(row.evaluation_timeframe)}</td><td><Badge value={row.current_lifecycle_state}/></td><td className="hash"><code>{text(row.content_hash)}</code></td><td><button onClick={()=>{setSubject([text(identity.strategy_id),text(identity.strategy_version)]);setPolicy('');}}>查看策略</button></td></tr>;})}</tbody></table></div>}<PageButtons page={page} offset={offset} setOffset={setOffset}/></>}</Frame></Panel>
-    {subject&&<Frame view={detail} zone={props.zone}>{value=>{const record=object(value.payload);const identity=object(record.identity);const block=approvalBlock(props.session.namespace,record);
+    {subject&&<Frame view={detail} zone={props.zone}>{value=>{const record=object(value.payload);const identity=object(record.identity);
       return <Panel title={'策略 '+text(identity.strategy_id)+' / '+text(identity.strategy_version)}><Badge value={record.current_lifecycle_state}/><dl><dt>不可變內容雜湊</dt><dd><code>{text(record.content_hash)}</code></dd><dt>登錄版本</dt><dd>{text(value.revision)}</dd><dt>作者提交來源</dt><dd>{text(object(record.author_metadata).submission_id)}</dd><dt>作者假說</dt><dd>{text(object(object(record.author_metadata).manifest).research_hypothesis)}</dd></dl>
         <Temporal value={{...record,submission_validity:object(object(record.author_metadata).manifest).validity}}/><JsonDetail value={record.definition} title="宣告、所需能力與出場規則原文"/><JsonDetail value={record} title="實際登錄與研究 lineage"/>
         <h3>PAPER 授權工作流程</h3><p>只接受目前候選與本機選定的模擬政策。受理不代表 runtime 已啟動，不能累積虛構的 real-forward 時間。</p>
         <form onSubmit={event=>{event.preventDefault();void props.run('/api/v1/paper/runs',{command_id:commandId(),expected_revision:revision(value.revision),strategy_id:text(identity.strategy_id),strategy_version:text(identity.strategy_version),policy_id:policy} satisfies Schema['PaperStartDTO']);}}>
           <label>PAPER 政策<select aria-label="PAPER 政策" value={policy} required onChange={e=>setPolicy(e.target.value)}><option value="">請選擇已設定政策</option>{allowed.map(row=><option value={text(row.policy_id)} key={text(row.policy_id)}>{text(row.policy_id)} · {text(row.mode)}</option>)}</select></label>
           <button type="submit" disabled={props.busy||record.current_lifecycle_state!=='CANDIDATE'||!allowed.some(row=>row.policy_id===policy&&row.workflow_authorized===true)}>開始 PAPER</button></form>
-        <div className="financial"><h3>確切版本的財務核准</h3><p>核准對象為上列策略版本與雜湊。來源、設定、風險政策、樣本與提案額度都必須由實際擁有者提供並重新驗證。</p><dl><dt>提案資金／風險額度</dt><dd>未提供；不得推定預設資金或槓桿</dd><dt>目前阻擋原因</dt><dd><code>{block}</code></dd></dl>
-          <form onSubmit={event=>void reauth(event)}><label>重新驗證密碼<input type="password" autoComplete="current-password" value={password} maxLength={256} required onChange={e=>setPassword(e.target.value)}/></label><button type="submit">重新驗證身分</button></form>
-          {reauthError&&<ErrorNotice error={reauthError}/>} {reauthResult&&<p role="status">重新驗證有效至 {utcDisplay(reauthResult.reauthenticated_until,props.zone)}；此紀錄不授權目前的財務提案。</p>}
-          <label className="check"><input type="checkbox" disabled/>我確認策略雜湊、資金與風險提案，以及剩餘曝險後果。</label><button disabled>確認財務核准</button><Reasons codes={[block]}/></div>
+        <FinancialApproval key={text(identity.strategy_id)+':'+text(identity.strategy_version)+':'+text(record.content_hash)+':'+text(value.revision)} record={record} props={props}/>
       </Panel>;}}</Frame>}</>;
 }
 

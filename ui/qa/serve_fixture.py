@@ -19,13 +19,16 @@ import unittest
 import uvicorn
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal'],required=True)
+    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval'],required=True)
     parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
     scratch=ROOT.parent.parent/'artifacts/S11-browser'/args.profile; scratch.mkdir(parents=True,exist_ok=True)
     tempfile.tempdir=str(scratch)
     if args.profile=='empty':
         class Empty(APIFixture,unittest.TestCase): pass
         fixture=Empty(); fixture.setUp(); owners=None
+    elif args.profile=='approval':
+        from tests.product.test_api_approval_preview import APIApprovalPreviewTests
+        fixture=APIApprovalPreviewTests(methodName='runTest');fixture.setUp();owners=fixture.app.state.owners
     elif args.profile in ('research','temporal'):
         fixture=APIOwnerServicesTests(); fixture.setUp(); owners=fixture.owners
         if args.profile=='temporal':

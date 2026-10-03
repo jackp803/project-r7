@@ -56,6 +56,18 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
         product=self.candidate_product_assessment(identity)
         return boundary.envelope(envelope_ref,strategy,product.risk_policy_json)
 
+    def deployment_approval_preview(self,identity,*,envelope_ref,expected_revision):
+        """Exact readonly proposal data; this snapshot never grants authority."""
+        from .operational_authority import DeploymentApprovalPreview,stamp
+        from .product_assessment import digest
+        with self._store._current_runtime_snapshot():
+            strategy,boundary=self._operational_context(identity,expected_revision,('READY_FOR_APPROVAL',))
+            product=self.candidate_product_assessment(identity)
+            envelope=boundary.envelope(envelope_ref,strategy,product.risk_policy_json)
+            return DeploymentApprovalPreview(identity,boundary.namespace,strategy.content_hash,strategy.registry_revision,
+                envelope_ref,envelope,digest(envelope),product.risk_policy_json,product.risk_policy_hash,
+                product.payload_json,product.payload_hash,product.result_ref,stamp(boundary.clock()))
+
     def current_runtime_permission(self,identity,*,expected_revision,permission):
         """Read current consent separately from retained protective management.
 

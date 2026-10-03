@@ -153,3 +153,22 @@ and verify before S13. Native secure-vault/supervisor/provider commissioning and
 real forward observation remain NOT_RUN. No checkpoint is a milestone exit.
 
 Exact-clean application checkpoint PASS: executable `7b6901deef48a9cfc43991c281336b4e60c982d9`, commands33, phase1 247, phase2 1341, total1588; see APPLICATION_RESULT.md and machine report. S12 remains IN_PROGRESS and continues automatically.
+
+The next control integration adds an authenticated strict-query approval preview
+from a short actual E6 read snapshot. It includes the original registered
+envelope/release, selected risk policy and sealed product evidence; no caller
+PASS, credentials or provider request enters the view. Wrong/stale subject,
+unregistered envelope and release drift return typed denials. Preview remains
+data, never consent. FIXTURE financial writes remain denied after preview/reauth.
+
+The Control Center now reads that exact proposal, displays source/build/config/
+risk/capital identities, resets confirmation on subject/revision/reference changes
+and uses reauthentication plus explicit confirmation before submitting original
+hashes/CAS. Server validation remains independent. OpenAPI/client regenerated
+locally. Development: API23, approval-owner7, UI unit11 and actual native Edge9
+browser cases PASS; owned browser tree reaped and screenshot visually inspected.
+One post-run diagnostic print hit cp950 after browser success; the original JSON
+confirms9 expected/0 unexpected/0 skipped/0 flaky. This is development evidence,
+not full exact-clean qualification of the new source. Accepted qualification
+remains7b6901d. Continue deployment stop-new-entry/command recovery and runtime
+projection/orchestration on the same branch; S12 stays IN_PROGRESS.

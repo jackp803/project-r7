@@ -79,6 +79,134 @@
         "title": "ApprovalDTO",
         "type": "object"
       },
+      "ApprovalPreviewView": {
+        "additionalProperties": false,
+        "properties": {
+          "envelope": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Envelope",
+            "type": "object"
+          },
+          "envelope_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Envelope Hash",
+            "type": "string"
+          },
+          "envelope_ref": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Envelope Ref",
+            "type": "string"
+          },
+          "evidence_ref": {
+            "title": "Evidence Ref",
+            "type": "string"
+          },
+          "financial_confirmation_available": {
+            "title": "Financial Confirmation Available",
+            "type": "boolean"
+          },
+          "namespace": {
+            "enum": [
+              "FIXTURE",
+              "LOCAL_RESEARCH"
+            ],
+            "title": "Namespace",
+            "type": "string"
+          },
+          "observed_at": {
+            "title": "Observed At",
+            "type": "string"
+          },
+          "product_assessment": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Product Assessment",
+            "type": "object"
+          },
+          "product_assessment_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Product Assessment Hash",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "registry_revision": {
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Registry Revision",
+            "type": "integer"
+          },
+          "release": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Release",
+            "type": "object"
+          },
+          "risk_policy": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JsonValue"
+            },
+            "title": "Risk Policy",
+            "type": "object"
+          },
+          "risk_policy_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Risk Policy Hash",
+            "type": "string"
+          },
+          "strategy_content_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Strategy Content Hash",
+            "type": "string"
+          },
+          "strategy_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Strategy Id",
+            "type": "string"
+          },
+          "strategy_version": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Strategy Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "strategy_id",
+          "strategy_version",
+          "strategy_content_hash",
+          "registry_revision",
+          "namespace",
+          "envelope_ref",
+          "envelope_hash",
+          "envelope",
+          "release",
+          "risk_policy",
+          "risk_policy_hash",
+          "product_assessment",
+          "product_assessment_hash",
+          "evidence_ref",
+          "observed_at",
+          "financial_confirmation_available",
+          "reason_codes"
+        ],
+        "title": "ApprovalPreviewView",
+        "type": "object"
+      },
       "AuthStatusView": {
         "additionalProperties": false,
         "properties": {
@@ -1165,6 +1293,23 @@
           "reason_codes"
         ],
         "title": "TradingView",
+        "type": "object"
+      },
+      "ViewEnvelope_ApprovalPreviewView_": {
+        "additionalProperties": false,
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/ApprovalPreviewView"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/ViewMetadata"
+          }
+        },
+        "required": [
+          "metadata",
+          "data"
+        ],
+        "title": "ViewEnvelope[ApprovalPreviewView]",
         "type": "object"
       },
       "ViewEnvelope_CapabilitiesView_": {
@@ -5207,6 +5352,172 @@
           }
         ],
         "summary": "Strategy"
+      }
+    },
+    "/api/v1/strategies/{strategy_id}/{strategy_version}/approval-preview": {
+      "get": {
+        "operationId": "approval_preview_api_v1_strategies__strategy_id___strategy_version__approval_preview_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "strategy_id",
+            "required": true,
+            "schema": {
+              "title": "Strategy Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "strategy_version",
+            "required": true,
+            "schema": {
+              "title": "Strategy Version",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "envelope_ref",
+            "required": true,
+            "schema": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "title": "Envelope Ref",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "expected_revision",
+            "required": true,
+            "schema": {
+              "maximum": 9007199254740991,
+              "minimum": 0,
+              "title": "Expected Revision",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ViewEnvelope_ApprovalPreviewView_"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Internal Server Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "security": [
+          {
+            "r7_session": []
+          }
+        ],
+        "summary": "Approval Preview"
       }
     },
     "/api/v1/submissions": {

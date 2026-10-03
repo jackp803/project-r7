@@ -10,7 +10,7 @@ from application.config import ProductConfig
 from application.control_api.auth import LocalAuth, AuthenticationError
 from application.control_api.commands import CommandLedger, CommandError, CommandClaim
 from application.control_api.dto import (
-    ApprovalDTO, CapabilitiesView, CommandDTO, CommandReceipt, DeploymentActivateDTO, DeploymentPauseDTO,
+    ApprovalDTO, ApprovalPreviewQuery, ApprovalPreviewView, CapabilitiesView, CommandDTO, CommandReceipt, DeploymentActivateDTO, DeploymentPauseDTO,
     ErrorResponse, HealthView, LoginDTO, OverviewView, OwnerObjectView, PageQuery, PageView,
     PaperStartDTO, ReauthenticationDTO, ResearchEnqueueDTO, SettingsDTO, SettingsView, TradingView, ViewEnvelope,
     AuthStatusView, LoginView, SessionView, LogoutView,
@@ -166,6 +166,10 @@ def create_app(config: ProductConfig, *, auth: LocalAuth, commands: CommandLedge
     @app.get('/api/v1/strategies/{strategy_id}/{strategy_version}', response_model=ViewEnvelope[OwnerObjectView])
     async def strategy(request: Request, strategy_id: str, strategy_version: str):
         return view(request, 'strategies', subject=(strategy_id, strategy_version))
+
+    @app.get('/api/v1/strategies/{strategy_id}/{strategy_version}/approval-preview',response_model=ViewEnvelope[ApprovalPreviewView])
+    async def approval_preview(request: Request,strategy_id: str,strategy_version: str,query: Annotated[ApprovalPreviewQuery,Query()]):
+        return view(request,'approval_preview',subject=(strategy_id,strategy_version,query.envelope_ref,query.expected_revision))
 
     @app.get('/api/v1/paper/runs/{run_id}', response_model=ViewEnvelope[OwnerObjectView])
     async def paper_run(request: Request, run_id: str): return view(request, 'paper_runs', subject=run_id)

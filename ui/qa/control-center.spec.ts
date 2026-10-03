@@ -1,7 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 
-const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770'};
+const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771'};
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
   await page.goto(origins[profile]);
@@ -102,6 +102,26 @@ test('financial controls stay visibly denied by actual fixture backend even afte
     strategy_id:'fixture-subject',strategy_version:'1',envelope_ref:'uncommissioned',decision:'APPROVE',reason_code:'USER_CONFIRMED',
     expected_strategy_hash:'sha256:'+'a'.repeat(64),expected_envelope_hash:'sha256:'+'b'.repeat(64)}});
   expect(denied.status()).toBe(403); expect((await denied.json()).error.reason_codes).toContain('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN');
+});
+
+test('registered financial proposal shows actual source and limits and never grants fixture consent',async({page})=>{
+  await login(page,'approval');await page.getByRole('link',{name:'策略',exact:true}).click();
+  await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
+  await page.getByLabel('本機提案參照',{exact:true}).fill('fixture-envelope');
+  await page.getByRole('button',{name:'讀取核准提案',exact:true}).click();
+  await expect(page.getByText('提案資金上限（USDT）',{exact:true})).toBeVisible();
+  const financial=page.locator('.financial');
+  await expect(financial.getByText('100',{exact:true})).toBeVisible();
+  await expect(financial.getByText('帳戶／提供者參照',{exact:true})).toBeVisible();
+  await expect(financial.getByText('fixture-account / fixture-paper',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'確認財務核准',exact:true})).toBeDisabled();
+  await expect(financial.getByRole('checkbox')).toBeDisabled();
+  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/approval-preview.png'),fullPage:true});
+  await page.getByLabel('本機提案參照',{exact:true}).fill('unregistered');
+  await expect(page.getByText('提案資金上限（USDT）',{exact:true})).toHaveCount(0);
+  await page.getByRole('button',{name:'讀取核准提案',exact:true}).click();
+  await expect(page.getByRole('alert')).toContainText('CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE');
+  await expect(page.getByRole('button',{name:'確認財務核准',exact:true})).toBeDisabled();
 });
 
 test('revoked server session returns to login without inferring runtime shutdown',async({page})=>{

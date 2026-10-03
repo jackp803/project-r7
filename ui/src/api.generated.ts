@@ -444,6 +444,23 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/strategies/{strategy_id}/{strategy_version}/approval-preview": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Approval Preview */
+        get: operations["approval_preview_api_v1_strategies__strategy_id___strategy_version__approval_preview_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/submissions": {
         parameters: {
             query?: never;
@@ -521,6 +538,54 @@ export interface components {
              * @enum {string}
              */
             reason_code: "USER_CONFIRMED" | "USER_REJECTED";
+            /** Strategy Id */
+            strategy_id: string;
+            /** Strategy Version */
+            strategy_version: string;
+        };
+        /** ApprovalPreviewView */
+        ApprovalPreviewView: {
+            /** Envelope */
+            envelope: {
+                [key: string]: components["schemas"]["JsonValue"];
+            };
+            /** Envelope Hash */
+            envelope_hash: string;
+            /** Envelope Ref */
+            envelope_ref: string;
+            /** Evidence Ref */
+            evidence_ref: string;
+            /** Financial Confirmation Available */
+            financial_confirmation_available: boolean;
+            /**
+             * Namespace
+             * @enum {string}
+             */
+            namespace: "FIXTURE" | "LOCAL_RESEARCH";
+            /** Observed At */
+            observed_at: string;
+            /** Product Assessment */
+            product_assessment: {
+                [key: string]: components["schemas"]["JsonValue"];
+            };
+            /** Product Assessment Hash */
+            product_assessment_hash: string;
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Registry Revision */
+            registry_revision: number;
+            /** Release */
+            release: {
+                [key: string]: components["schemas"]["JsonValue"];
+            };
+            /** Risk Policy */
+            risk_policy: {
+                [key: string]: components["schemas"]["JsonValue"];
+            };
+            /** Risk Policy Hash */
+            risk_policy_hash: string;
+            /** Strategy Content Hash */
+            strategy_content_hash: string;
             /** Strategy Id */
             strategy_id: string;
             /** Strategy Version */
@@ -861,6 +926,11 @@ export interface components {
             status: string;
             /** Unrealized Pnl Usdt */
             unrealized_pnl_usdt: string | null;
+        };
+        /** ViewEnvelope[ApprovalPreviewView] */
+        ViewEnvelope_ApprovalPreviewView_: {
+            data: components["schemas"]["ApprovalPreviewView"];
+            metadata: components["schemas"]["ViewMetadata"];
         };
         /** ViewEnvelope[CapabilitiesView] */
         ViewEnvelope_CapabilitiesView_: {
@@ -4010,6 +4080,122 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ViewEnvelope_OwnerObjectView_"];
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Conflict */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Request Entity Too Large */
+            413: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unsupported Media Type */
+            415: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Unprocessable Entity */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Too Many Requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+            /** @description Service Unavailable */
+            503: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponse"];
+                };
+            };
+        };
+    };
+    approval_preview_api_v1_strategies__strategy_id___strategy_version__approval_preview_get: {
+        parameters: {
+            query: {
+                envelope_ref: string;
+                expected_revision: number;
+            };
+            header?: never;
+            path: {
+                strategy_id: string;
+                strategy_version: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ViewEnvelope_ApprovalPreviewView_"];
                 };
             };
             /** @description Bad Request */

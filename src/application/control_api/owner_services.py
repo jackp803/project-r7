@@ -47,6 +47,9 @@ class OwnerControlServices(LocalControlServices):
         return value
 
     def view(self,name,*,subject=None,limit=50,offset=0):
+        if name=='approval_preview' and self.approval is not None:
+            identity=StrategyIdentity(*subject[:2])
+            return self.approval.preview(identity,envelope_ref=subject[2],expected_revision=subject[3])
         if name=='strategies':
             with self.registry_factory() as e6:
                 if subject is not None:
@@ -107,6 +110,8 @@ class OwnerControlServices(LocalControlServices):
 
     def metadata(self,source,*,data=None):
         value=super().metadata(source,data=data)
+        if source=='application:approval_preview' and data is not None:
+            value['as_of']=data['observed_at']
         if source=='application:paper_runs' and data is not None and 'payload' in data:
             value['as_of']=data['payload']['broker_observed_at']
             value['freshness']='UNKNOWN'

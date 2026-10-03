@@ -77,6 +77,23 @@ class CurrentRuntimeAuthority:
 
 
 @dataclass(frozen=True)
+class DeploymentApprovalPreview:
+    identity: StrategyIdentity
+    namespace: str
+    strategy_content_hash: str
+    registry_revision: int
+    envelope_ref: str
+    envelope_json: str
+    envelope_hash: str
+    risk_policy_json: str
+    risk_policy_hash: str
+    product_assessment_json: str
+    product_assessment_hash: str
+    evidence_ref: str
+    observed_at: str
+
+
+@dataclass(frozen=True)
 class HumanIdentity:
     actor: str
     roles: tuple[str,...]

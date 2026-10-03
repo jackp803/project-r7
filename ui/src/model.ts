@@ -20,8 +20,20 @@ export function temporalFacts(value:Row){
     maxHold:hold===undefined||hold===null?'未提供':text(hold)+' 秒',
     validity:validity.until===undefined?'未提供；不可從評估週期推定':validity.until===null?'EVERGREEN；沒有宣告到期':text(validity.from)+' → '+text(validity.until)};
 }
-export function approvalBlock(namespace:string,_subject:Row):string{
-  return namespace==='FIXTURE'?'FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN':'FINANCIAL_ENVELOPE_NOT_COMMISSIONED';
+export function approvalBlock(namespace:string,subject:Row,preview?:Row):string|null{
+  if(namespace==='FIXTURE')return 'FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN';
+  if(namespace!=='LOCAL_RESEARCH'||!preview)return 'FINANCIAL_ENVELOPE_NOT_COMMISSIONED';
+  const identity=object(subject.identity);const envelope=object(preview.envelope);const release=object(preview.release);
+  if(preview.namespace!==namespace||preview.strategy_id!==identity.strategy_id||preview.strategy_version!==identity.strategy_version||
+    preview.strategy_content_hash!==subject.content_hash||preview.registry_revision!==subject.registry_revision||subject.current_lifecycle_state!=='READY_FOR_APPROVAL')return 'APPROVAL_PREVIEW_SUBJECT_CHANGED';
+  const hash=(value:unknown)=>typeof value==='string'&&/^sha256:[0-9a-f]{64}$/.test(value);
+  if(preview.financial_confirmation_available!==true||!hash(preview.envelope_hash)||!hash(preview.risk_policy_hash)||
+    typeof preview.envelope_ref!=='string'||!preview.envelope_ref||
+    !['implementation_hash','build_hash','config_hash','risk_policy_hash'].every(key=>hash(release[key]))||
+    typeof release.executable_revision!=='string'||!/^[0-9a-f]{40}$/.test(release.executable_revision)||release.risk_policy_hash!==preview.risk_policy_hash||
+    envelope.strategy_id!==preview.strategy_id||envelope.strategy_version!==preview.strategy_version||envelope.strategy_content_hash!==preview.strategy_content_hash||envelope.namespace!==namespace||
+    typeof envelope.capital_ceiling_usdt!=='string'||typeof envelope.risk_per_trade_usdt!=='string')return 'CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE';
+  return null;
 }
 export const reasons:Record<string,string>={
   AUTHORIZATION_REQUIRED:'登入已失效或身分驗證未通過。請重新登入；既有 runtime 仍由本機服務管理。',
@@ -31,6 +43,10 @@ export const reasons:Record<string,string>={
   OPERATIONAL_OWNERS_NOT_CONFIGURED:'執行服務尚未設定，不能推定沒有部位或已允許交易。',
   FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN:'測試命名空間不能核准財務操作。',
   FINANCIAL_ENVELOPE_NOT_COMMISSIONED:'尚未提供受本機核准的資金與風險提案。',
+  APPROVAL_PREVIEW_SUBJECT_CHANGED:'策略或提案版本已變更。請重新讀取提案並確認。',
+  CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE:'目前提案無法由伺服器完整驗證，不能送出核准。',
+  PREVIEW_IS_NOT_APPROVAL:'這是提案預覽；需要重新驗證身分、明確確認並由伺服器受理。',
+  REAUTHENTICATION_REQUIRED:'財務操作需要目前有效的重新驗證。',
   RESPONSE_UNKNOWN:'未收到可確認的回應。原命令可能已執行；請用相同命令重試核對。',
   COMMAND_IN_PROGRESS:'原命令仍在執行或等待租期到期。請稍後使用相同命令核對。',
   PAPER_RUNTIME_ATTACHMENT_REQUIRED:'PAPER 已受理，獨立 runtime 尚待接管；目前不代表已在運作。',

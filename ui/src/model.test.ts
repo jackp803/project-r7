@@ -29,4 +29,18 @@ describe('truthful display and command prerequisites',()=>{
     expect(approvalBlock('FIXTURE',{current_lifecycle_state:'READY_FOR_APPROVAL'})).toBe('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN');
     expect(approvalBlock('LOCAL_RESEARCH',{current_lifecycle_state:'READY_FOR_APPROVAL'})).toBe('FINANCIAL_ENVELOPE_NOT_COMMISSIONED');
   });
+  it('confirmation uses an exact server preview and a changed strategy or revision invalidates it',()=>{
+    const hash='sha256:'+'a'.repeat(64);
+    const subject={identity:{strategy_id:'one',strategy_version:'1'},content_hash:hash,registry_revision:5,current_lifecycle_state:'READY_FOR_APPROVAL'};
+    const preview={namespace:'LOCAL_RESEARCH',strategy_id:'one',strategy_version:'1',strategy_content_hash:hash,registry_revision:5,
+      envelope_ref:'selected',envelope_hash:hash,risk_policy_hash:hash,financial_confirmation_available:true,
+      release:{implementation_hash:hash,build_hash:hash,config_hash:hash,risk_policy_hash:hash,executable_revision:'a'.repeat(40)},
+      envelope:{strategy_id:'one',strategy_version:'1',strategy_content_hash:hash,namespace:'LOCAL_RESEARCH',capital_ceiling_usdt:'100',risk_per_trade_usdt:'1'}};
+    expect(approvalBlock('LOCAL_RESEARCH',subject,preview)).toBeNull();
+    expect(approvalBlock('FIXTURE',subject,preview)).toBe('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN');
+    expect(approvalBlock('LOCAL_RESEARCH',{...subject,registry_revision:6},preview)).toBe('APPROVAL_PREVIEW_SUBJECT_CHANGED');
+    expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,strategy_version:'2'})).toBe('APPROVAL_PREVIEW_SUBJECT_CHANGED');
+    expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,financial_confirmation_available:false})).toBe('CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE');
+    expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,release:{}})).toBe('CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE');
+  });
 });

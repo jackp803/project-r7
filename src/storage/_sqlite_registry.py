@@ -297,6 +297,20 @@ class _SQLiteRegistryStore:
         values=json.loads(row['output_json']); values['identity']=StrategyIdentity(**values['identity'])
         return StrategyVersionRecord(**values)
 
+    def lifecycle_command_audit(self,command_id):
+        from registry.operational_authority import LifecycleCommandAudit
+        from registry.product_assessment import canonical,digest
+        row=self._connection.execute('SELECT * FROM lifecycle_command_receipts WHERE command_id=?',(command_id,)).fetchone()
+        if row is None:return None
+        try:
+            for prefix in ('request','output'):
+                raw=row[prefix+'_json']
+                if canonical(json.loads(raw))!=raw or digest(raw)!=row[prefix+'_hash']:
+                    raise ValueError()
+        except (ValueError,TypeError):
+            raise EvidenceGateError('Exact lifecycle command audit integrity required') from None
+        return LifecycleCommandAudit(**dict(row))
+
     def run_lifecycle_once(self,command_id,request_json,perform):
         """Short E6 write-only closure; owner production must precede this lock."""
         from dataclasses import asdict

@@ -76,12 +76,18 @@ class RuntimeAdmission:
             owner=decision.owner_permission,process_binding=decision.process_binding,expires=now+timedelta(seconds=1))
         return _RuntimePermit(self,nonce)
 
-    def require(self,permit,*,identity,permission,execution):
+    def require_fresh(self,permit,*,identity,permission,execution):
+        """Issuer-local lifetime check only; never a substitute for owner gates."""
         if type(permit) is not _RuntimePermit or permit._issuer is not self:raise RuntimeAdmissionError('CURRENT_ISSUER_RUNTIME_PERMIT_REQUIRED')
         saved=self._permits.get(permit._nonce)
         if saved is None or saved['expires']<=self.clock() or (saved['identity'],saved['permission'],saved['execution'])!=(identity,permission,execution):
             raise RuntimeAdmissionError('CURRENT_EXACT_RUNTIME_PERMIT_REQUIRED')
+
+    def require(self,permit,*,identity,permission,execution):
+        self.require_fresh(permit,identity=identity,permission=permission,execution=execution)
+        saved=self._permits[permit._nonce]
         current=self.evaluate(identity,expected_revision=saved['revision'],permission=permission,execution=execution)
+        self.require_fresh(permit,identity=identity,permission=permission,execution=execution)
         if not current.allowed:raise RuntimeAdmissionError(*current.reason_codes)
         if current.process_binding!=saved['process_binding']:raise RuntimeAdmissionError('RUNTIME_PERMIT_PROCESS_CHANGED')
         # Current observation timestamps may advance; authority identities may not.
@@ -96,6 +102,7 @@ class RuntimeAdmission:
             if not isinstance(e6, StrategyPlatformService) or e6.research_namespace != self.namespace:
                 raise RuntimeAdmissionError('ACTUAL_SAME_NAMESPACE_E6_REQUIRED')
             result = e6.current_runtime_authority(identity, expected_revision=owner.registry_revision, permission=permission)
+        self.require_fresh(permit,identity=identity,permission=permission,execution=execution)
         fields = ('identity','strategy_content_hash','registry_revision','permission','namespace','release',
                   'approval_record_id','approval_envelope_hash','activation_evidence_id','activation_payload_hash','execution')
         if any(getattr(owner, field) != getattr(result.permission, field) for field in fields):

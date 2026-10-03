@@ -9,7 +9,7 @@ from unittest.mock import patch
 import tests.product.test_live_admission_v02 as admission_fixtures
 import tests.brokers.test_okx_demo_adapter as metadata_fixtures
 import tests.risk.test_approved_plan_consumer_v02 as risk_fixtures
-from application.trading.admission import RuntimeAdmission
+from application.trading.admission import RuntimeAdmission, RuntimeAdmissionError
 from brokers.okx_demo import OKXAccountConfigSnapshot, OKXPrerequisiteSnapshot
 from brokers.okx_product_capability import OKXProductCapabilityOwner
 from brokers.okx_product import OKXProductTranslator
@@ -252,6 +252,18 @@ class TradingDispatchV02Tests(unittest.TestCase):
             service.execute(self.prepared, expected_revision=self.fixture.revision)
         self.assertEqual([], provider.calls)
         self.assertEqual('DISPATCHING', self.dispatch.operation('fixture-run', self.prepared.canonical_request.order_request_id).status)
+
+    def test_permit_expiring_inside_final_provider_guard_cannot_reach_post(self):
+        service,provider=self.service([self.ack()]);original=self.dispatch.claimed_entries_for_account
+        reads=[]
+        def slow_last_read(*args,**kwargs):
+            result=original(*args,**kwargs);reads.append(True)
+            if len(reads)==3:self.fixture.clock[0]+=timedelta(seconds=2)
+            return result
+        with patch.object(self.dispatch,'claimed_entries_for_account',side_effect=slow_last_read),self.assertRaises(RuntimeAdmissionError):
+            service.execute(self.prepared,expected_revision=self.fixture.revision)
+        self.assertEqual([],provider.calls)
+        self.assertEqual('DISPATCHING',self.dispatch.operation('fixture-run',self.prepared.canonical_request.order_request_id).status)
 
     def test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch(self):
         changed = dict(self.plan, quantity='0.002')

@@ -60,6 +60,8 @@ class OwnerControlServices(LocalControlServices):
                             submission=intake.find_strategy_submission(record.identity.strategy_id,record.identity.strategy_version,record.content_hash)
                         if submission is not None:
                             payload['author_metadata']=dict(submission_id=submission,manifest=self.resolver.manifest_view(submission))
+                    if self.deployment is not None:
+                        payload['deployment']=self.deployment.strategy_subject(record.identity)
                     return self._object(payload,record.registry_revision,record.strategy_schema_version)
                 return self._page([self._strategy(row) for row in e6.list_strategies(limit=limit,offset=offset)],limit,offset,
                     total=sum(e6.lifecycle_counts().values()))

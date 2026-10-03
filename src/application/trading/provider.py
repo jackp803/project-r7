@@ -15,7 +15,14 @@ class ProductProviderError(ValueError):
 def _guard(value, execution):
     if type(value) is not _TradingEffectGuard or value.execution != execution:
         raise RuntimeAdmissionError('ACTUAL_PROVIDER_EFFECT_GUARD_REQUIRED')
-    return value.require()
+    try:
+        return value.require()
+    except RuntimeAdmissionError:
+        raise
+    except ValueError:
+        # Mechanical/current canonical gate errors happen before any effect;
+        # provider ambiguity parsing must never absorb this denial.
+        raise RuntimeAdmissionError('CURRENT_PROVIDER_EFFECT_GATE_DENIED') from None
 
 
 class FakeProductProvider:

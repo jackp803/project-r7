@@ -1,7 +1,7 @@
 import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 
-const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771'};
+const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772'};
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
   await page.goto(origins[profile]);
@@ -122,6 +122,19 @@ test('registered financial proposal shows actual source and limits and never gra
   await page.getByRole('button',{name:'讀取核准提案',exact:true}).click();
   await expect(page.getByRole('alert')).toContainText('CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE');
   await expect(page.getByRole('button',{name:'確認財務核准',exact:true})).toBeDisabled();
+});
+
+test('stop new entries uses actual E6 pause while fixture activation remains unavailable',async({page})=>{
+  await login(page,'deployment');await page.getByRole('link',{name:'策略',exact:true}).click();
+  await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
+  const stop=page.getByRole('button',{name:'停止部署新進場',exact:true});await expect(stop).toBeEnabled();
+  await stop.click();
+  await expect(page.getByText('NEW_ENTRIES_DISABLED_MANAGEMENT_RETAINED',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('DEGRADED',{exact:true}).first()).toBeVisible();
+  await expect(stop).toBeDisabled();
+  await expect(page.getByRole('button',{name:'確認啟用部署',exact:true})).toBeDisabled();
+  await expect(page.getByText('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN',{exact:true}).first()).toBeVisible();
+  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/deployment-pause.png'),fullPage:true});
 });
 
 test('revoked server session returns to login without inferring runtime shutdown',async({page})=>{

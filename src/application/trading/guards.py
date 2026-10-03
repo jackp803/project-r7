@@ -67,4 +67,11 @@ class _TradingEffectGuard:
                                                                for item in recovered.current_order_results))
                     if not rejected and not closed:
                         raise RuntimeAdmissionError('PRIOR_ACCOUNT_ENTRY_RECONCILIATION_REQUIRED')
+        # Lifetime may expire while owners/SQLite are read. Use the effect clock
+        # after all work, rather than the timestamp captured at guard entry.
+        service.dispatch.require_process(service.lease, now=service.clock())
+        if self.preparation is not None:
+            service.translator.require(self.preparation, now=service.clock())
+        service.admission.require_fresh(self.permit, identity=service.identity,
+                                        permission=self.purpose, execution=self.execution)
         return current.permission

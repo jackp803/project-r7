@@ -1,5 +1,5 @@
 import {describe,expect,it} from 'vitest';
-import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock} from './model';
+import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment} from './model';
 
 describe('truthful display and command prerequisites',()=>{
   it('keeps unavailable distinct from an actual zero and does no floating financial math',()=>{
@@ -42,5 +42,20 @@ describe('truthful display and command prerequisites',()=>{
     expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,strategy_version:'2'})).toBe('APPROVAL_PREVIEW_SUBJECT_CHANGED');
     expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,financial_confirmation_available:false})).toBe('CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE');
     expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,release:{}})).toBe('CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE');
+    expect(approvalBlock('LOCAL_RESEARCH',{...subject,content_hash:undefined},{...preview,strategy_content_hash:undefined,
+      envelope:{...preview.envelope,strategy_content_hash:undefined}})).toBe('APPROVAL_PREVIEW_SUBJECT_CHANGED');
+  });
+  it('deployment pause is separate from financial activation and exact current subject is required',()=>{
+    const hash='sha256:'+'a'.repeat(64);const subject={identity:{strategy_id:'one',strategy_version:'1'},content_hash:hash,registry_revision:6,current_lifecycle_state:'LIVE'};
+    const deployment={deployment_id:'deployment-'+'a'.repeat(64),strategy_id:'one',strategy_version:'1',strategy_content_hash:hash,
+      registry_revision:6,lifecycle_state:'LIVE',namespace:'FIXTURE',financial_confirmation_available:false};
+    expect(canPauseDeployment('FIXTURE',subject,deployment)).toBe(true);
+    expect(deploymentActivationBlock('FIXTURE',subject,deployment)).toBe('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN');
+    expect(canPauseDeployment('FIXTURE',{...subject,registry_revision:7},deployment)).toBe(false);
+    expect(canPauseDeployment('FIXTURE',{...subject,current_lifecycle_state:'DEGRADED'},deployment)).toBe(false);
+    expect(canPauseDeployment('FIXTURE',{...subject,content_hash:undefined},{...deployment,strategy_content_hash:undefined})).toBe(false);
+    const approved={...subject,current_lifecycle_state:'APPROVED'};
+    expect(deploymentActivationBlock('LOCAL_RESEARCH',approved,{...deployment,namespace:'LOCAL_RESEARCH',lifecycle_state:'APPROVED',financial_confirmation_available:true})).toBeNull();
+    expect(deploymentActivationBlock('LOCAL_RESEARCH',approved,{...deployment,namespace:'LOCAL_RESEARCH',lifecycle_state:'APPROVED',financial_confirmation_available:true,registry_revision:5})).toBe('EXACT_DEPLOYMENT_SUBJECT_REQUIRED');
   });
 });

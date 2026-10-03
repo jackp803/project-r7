@@ -94,6 +94,32 @@ class DeploymentApprovalPreview:
 
 
 @dataclass(frozen=True)
+class DeploymentControlSubject:
+    deployment_id: str
+    identity: StrategyIdentity
+    namespace: str
+    strategy_content_hash: str
+    registry_revision: int
+    lifecycle_state: str
+    approval_record_id: str
+    envelope_json: str
+    envelope_hash: str
+    activation_evidence_id: str | None
+    observed_at: str
+
+
+@dataclass(frozen=True)
+class LifecycleCommandAudit:
+    command_id: str
+    request_json: str
+    request_hash: str
+    output_json: str
+    output_hash: str
+    transition_id: str
+    recorded_at: str
+
+
+@dataclass(frozen=True)
 class HumanIdentity:
     actor: str
     roles: tuple[str,...]

@@ -88,6 +88,11 @@ class TradingService:
             status='ACK_REJECTED' if result.order_status.value == 'REJECTED' else 'ACK_PENDING' if result.order_status.value == 'PENDING' else 'RECONCILIATION_REQUIRED'
             native=result.broker_order_id
             reason='PROVIDER_'+status
+        except RuntimeAdmissionError:
+            # A final provider guard denial precedes credential/HTTP effects.
+            # Retain the committed claim for reconciliation; do not disguise
+            # an authority failure as a provider acknowledgement.
+            raise
         except (ProductProviderError, ValueError):
             status='RECONCILIATION_REQUIRED'; native=None; reason='PROVIDER_OUTCOME_AMBIGUOUS'
         return self._observe(operation_id, status, native, reason, effects)

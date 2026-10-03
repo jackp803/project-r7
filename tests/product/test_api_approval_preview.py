@@ -83,5 +83,22 @@ class APIApprovalPreviewTests(api_fixtures.APIFixture, unittest.TestCase):
         self.assertEqual(403,response.status_code)
         with self.factory() as e6:self.assertEqual(self.before,e6.get_strategy(self.identity))
 
+    def test_rejected_financial_history_stays_readable_without_a_deployment(self):
+        from application.control_api.deployment_port import DeploymentControlPort
+        self.login()
+        self.post('/api/v1/auth/reauthenticate',dict(command_id='reauth-reject',expected_revision=1,password=self.password))
+        issuer=self.app.state.authenticator
+        human=issuer.authenticate(self.auth.current_reauthentication(self.client.cookies.get('r7_session')))
+        with self.port.factory(issuer) as e6:
+            rejected=e6.record_approval(self.identity,envelope_ref='fixture-envelope',authenticated_human=human,decision='REJECT',
+                reason='SIMULATED_REJECTION_MECHANICS',command_id='fixture-rejected-consent',expected_revision=self.before.registry_revision)
+            self.assertIsNone(e6.deployment_control_subject(self.identity))
+        deployment=DeploymentControlPort(namespace='FIXTURE',registry_factory=self.port.factory)
+        deployment.install_authenticator(issuer);self.app.state.owners.deployment=deployment
+        view=self.client.get(f'/api/v1/strategies/{self.identity.strategy_id}/{self.identity.strategy_version}')
+        self.assertEqual(200,view.status_code,view.text)
+        self.assertEqual(rejected.registry_revision,view.json()['data']['revision'])
+        self.assertIsNone(view.json()['data']['payload']['deployment'])
+
 
 if __name__=='__main__':unittest.main()

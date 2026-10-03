@@ -102,5 +102,17 @@ class LiveAdmissionV02Tests(unittest.TestCase):
         self.release[0]=replace(self.release[0],config_generation=2)
         with self.assertRaises(EvidenceGateError):self.permission()
 
+    def test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned(self):
+        from unittest.mock import patch
+        api=self.api()
+        admission=api.RuntimeAdmission(namespace='FIXTURE',registry_factory=self.factory,current_preflight=self.preflight,
+            clock=lambda:self.clock[0],maximum_observation_age_seconds=5)
+        permit=admission.issue(self.identity,expected_revision=self.revision,permission='NEW_EXPOSURE',execution='FAKE_PROVIDER_VERIFICATION')
+        original=admission.evaluate
+        def slow(*args,**kwargs):
+            result=original(*args,**kwargs);self.clock[0]+=timedelta(seconds=2);return result
+        with patch.object(admission,'evaluate',side_effect=slow),self.assertRaises(api.RuntimeAdmissionError):
+            admission.require(permit,identity=self.identity,permission='NEW_EXPOSURE',execution='FAKE_PROVIDER_VERIFICATION')
+
 
 if __name__=='__main__':unittest.main()

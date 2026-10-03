@@ -24,9 +24,11 @@ export function approvalBlock(namespace:string,subject:Row,preview?:Row):string|
   if(namespace==='FIXTURE')return 'FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN';
   if(namespace!=='LOCAL_RESEARCH'||!preview)return 'FINANCIAL_ENVELOPE_NOT_COMMISSIONED';
   const identity=object(subject.identity);const envelope=object(preview.envelope);const release=object(preview.release);
-  if(preview.namespace!==namespace||preview.strategy_id!==identity.strategy_id||preview.strategy_version!==identity.strategy_version||
-    preview.strategy_content_hash!==subject.content_hash||preview.registry_revision!==subject.registry_revision||subject.current_lifecycle_state!=='READY_FOR_APPROVAL')return 'APPROVAL_PREVIEW_SUBJECT_CHANGED';
   const hash=(value:unknown)=>typeof value==='string'&&/^sha256:[0-9a-f]{64}$/.test(value);
+  if(!hash(subject.content_hash)||!Number.isSafeInteger(subject.registry_revision)||Number(subject.registry_revision)<0||
+    typeof identity.strategy_id!=='string'||!identity.strategy_id||typeof identity.strategy_version!=='string'||!identity.strategy_version||
+    preview.namespace!==namespace||preview.strategy_id!==identity.strategy_id||preview.strategy_version!==identity.strategy_version||
+    preview.strategy_content_hash!==subject.content_hash||preview.registry_revision!==subject.registry_revision||subject.current_lifecycle_state!=='READY_FOR_APPROVAL')return 'APPROVAL_PREVIEW_SUBJECT_CHANGED';
   if(preview.financial_confirmation_available!==true||!hash(preview.envelope_hash)||!hash(preview.risk_policy_hash)||
     typeof preview.envelope_ref!=='string'||!preview.envelope_ref||
     !['implementation_hash','build_hash','config_hash','risk_policy_hash'].every(key=>hash(release[key]))||
@@ -34,6 +36,23 @@ export function approvalBlock(namespace:string,subject:Row,preview?:Row):string|
     envelope.strategy_id!==preview.strategy_id||envelope.strategy_version!==preview.strategy_version||envelope.strategy_content_hash!==preview.strategy_content_hash||envelope.namespace!==namespace||
     typeof envelope.capital_ceiling_usdt!=='string'||typeof envelope.risk_per_trade_usdt!=='string')return 'CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE';
   return null;
+}
+function exactDeployment(namespace:string,subject:Row,deployment:Row):boolean{
+  const identity=object(subject.identity);
+  return ['FIXTURE','LOCAL_RESEARCH'].includes(namespace)&&deployment.namespace===namespace&&
+    /^sha256:[0-9a-f]{64}$/.test(String(subject.content_hash))&&Number.isSafeInteger(subject.registry_revision)&&Number(subject.registry_revision)>=0&&
+    typeof identity.strategy_id==='string'&&!!identity.strategy_id&&typeof identity.strategy_version==='string'&&!!identity.strategy_version&&
+    /^deployment-[0-9a-f]{64}$/.test(String(deployment.deployment_id))&&deployment.strategy_id===identity.strategy_id&&
+    deployment.strategy_version===identity.strategy_version&&deployment.strategy_content_hash===subject.content_hash&&
+    deployment.registry_revision===subject.registry_revision&&deployment.lifecycle_state===subject.current_lifecycle_state;
+}
+export function canPauseDeployment(namespace:string,subject:Row,deployment:Row):boolean{
+  return exactDeployment(namespace,subject,deployment)&&deployment.lifecycle_state==='LIVE';
+}
+export function deploymentActivationBlock(namespace:string,subject:Row,deployment:Row):string|null{
+  if(namespace==='FIXTURE')return 'FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN';
+  if(!exactDeployment(namespace,subject,deployment)||!['APPROVED','DEGRADED'].includes(String(deployment.lifecycle_state)))return 'EXACT_DEPLOYMENT_SUBJECT_REQUIRED';
+  return deployment.financial_confirmation_available===true?null:'CURRENT_DEPLOYMENT_AUTHORITY_REQUIRED';
 }
 export const reasons:Record<string,string>={
   AUTHORIZATION_REQUIRED:'登入已失效或身分驗證未通過。請重新登入；既有 runtime 仍由本機服務管理。',
@@ -47,6 +66,10 @@ export const reasons:Record<string,string>={
   CURRENT_APPROVAL_PROPOSAL_UNAVAILABLE:'目前提案無法由伺服器完整驗證，不能送出核准。',
   PREVIEW_IS_NOT_APPROVAL:'這是提案預覽；需要重新驗證身分、明確確認並由伺服器受理。',
   REAUTHENTICATION_REQUIRED:'財務操作需要目前有效的重新驗證。',
+  EXACT_DEPLOYMENT_SUBJECT_REQUIRED:'部署對象或版本不一致。請重新整理目前部署資料。',
+  NEW_ENTRIES_DISABLED_MANAGEMENT_RETAINED:'已停止新進場；既有部位與保護管理保留。',
+  CURRENT_DEPLOYMENT_AUTHORITY_REQUIRED:'目前部署的必要權限與條件尚未完整驗證。',
+  DEPLOYMENT_OWNER_COMMAND_CONFLICT:'目前部署版本或原命令不一致。請核對目前資料。',
   RESPONSE_UNKNOWN:'未收到可確認的回應。原命令可能已執行；請用相同命令重試核對。',
   COMMAND_IN_PROGRESS:'原命令仍在執行或等待租期到期。請稍後使用相同命令核對。',
   PAPER_RUNTIME_ATTACHMENT_REQUIRED:'PAPER 已受理，獨立 runtime 尚待接管；目前不代表已在運作。',

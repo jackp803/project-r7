@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
 import {api,commandId,ControlError,type Envelope,type Schema} from './api';
-import {approvalBlock,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
+import {approvalBlock,canPauseDeployment,deploymentActivationBlock,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
 
 type Zone='UTC'|'Asia/Taipei';
 type Session=Schema['SessionView'];
@@ -140,6 +140,37 @@ function FinancialApproval({record,props}:{record:Row;props:Common}){
     <button disabled={!!block||!confirmed||!reauthenticated()||props.busy} onClick={()=>void approve()}>確認財務核准</button>{block&&<Reasons codes={[block]}/>} {error&&<ErrorNotice error={error}/>}</div>;
 }
 
+function DeploymentControls({record,props}:{record:Row;props:Common}){
+  const deployment=object(record.deployment);const envelope=object(deployment.envelope);
+  const [evidenceRef,setEvidenceRef]=useState('');const [password,setPassword]=useState('');
+  const [reauth,setReauth]=useState<Session|null>(null);const [confirmed,setConfirmed]=useState(false);const [error,setError]=useState<ControlError|null>(null);
+  const block=deploymentActivationBlock(props.session.namespace,record,deployment);
+  const reauthenticated=()=>!!reauth?.reauthenticated_until&&Date.parse(reauth.reauthenticated_until)>Date.now();
+  const authenticate=async(event:FormEvent)=>{event.preventDefault();const supplied=password;setPassword('');setReauth(null);setConfirmed(false);setError(null);try{
+    const current=await api.read<Session>('/api/v1/auth/session');
+    setReauth(await api.command<Session>('/api/v1/auth/reauthenticate',{password:supplied,command_id:commandId(),expected_revision:revision(current.revision)}));
+  }catch(cause){setError(cause instanceof ControlError?cause:new ControlError(0,['REAUTHENTICATION_REQUIRED']));}};
+  const activate=async()=>{
+    if(block||!confirmed||!evidenceRef)return;
+    if(!reauthenticated()){setConfirmed(false);setError(new ControlError(401,['REAUTHENTICATION_REQUIRED']));return;}
+    setConfirmed(false);
+    await props.run('/api/v1/deployments/'+encodeURIComponent(text(deployment.deployment_id))+'/activate',{
+      command_id:commandId(),expected_revision:revision(deployment.registry_revision),strategy_id:text(deployment.strategy_id),
+      strategy_version:text(deployment.strategy_version),evidence_ref:evidenceRef} satisfies Schema['DeploymentActivateDTO']);
+  };
+  const pause=()=>{if(canPauseDeployment(props.session.namespace,record,deployment))void props.run('/api/v1/deployments/'+encodeURIComponent(text(deployment.deployment_id))+'/pause',{
+    command_id:commandId(),expected_revision:revision(deployment.registry_revision),strategy_id:text(deployment.strategy_id),strategy_version:text(deployment.strategy_version)} satisfies Schema['DeploymentPauseDTO']);};
+  return <div className="financial"><h3>原核准部署與新進場控制</h3><dl><dt>部署 ID</dt><dd><code>{text(deployment.deployment_id)}</code></dd><dt>目前登錄狀態</dt><dd>{text(deployment.lifecycle_state)}</dd><dt>原核准提案雜湊</dt><dd><code>{text(deployment.envelope_hash)}</code></dd><dt>資金／每筆風險上限（USDT）</dt><dd>{text(envelope.capital_ceiling_usdt)} / {text(envelope.risk_per_trade_usdt)}</dd></dl>
+    <p>登錄狀態不代表程序正在運作。停止新進場不會取消保護、平倉或終止服務；剩餘曝險仍須由執行服務查回。</p>
+    <button disabled={props.busy||!canPauseDeployment(props.session.namespace,record,deployment)} onClick={pause}>停止部署新進場</button>
+    <JsonDetail value={deployment} title="原核准、版本與部署來源"/>
+    {['APPROVED','DEGRADED'].includes(String(deployment.lifecycle_state))&&<><label>本機啟用證據參照<input value={evidenceRef} maxLength={96} pattern="[A-Za-z0-9][A-Za-z0-9_.:-]*" onChange={event=>{setEvidenceRef(event.target.value);setConfirmed(false);}}/></label>
+      <form onSubmit={event=>void authenticate(event)}><label>重新驗證部署密碼<input type="password" autoComplete="current-password" value={password} required maxLength={256} onChange={event=>setPassword(event.target.value)}/></label><button type="submit" disabled={props.busy}>重新驗證部署身分</button></form>
+      <label className="check"><input type="checkbox" checked={confirmed} disabled={!!block||!reauthenticated()||!evidenceRef||props.busy} onChange={event=>setConfirmed(event.target.checked)}/>我確認目前版本與原核准額度，並要求伺服器重新驗證啟用條件。</label>
+      <button disabled={!!block||!confirmed||!reauthenticated()||!evidenceRef||props.busy} onClick={()=>void activate()}>確認啟用部署</button>{block&&<Reasons codes={[block]}/>}</>}
+    {error&&<ErrorNotice error={error}/>}</div>;
+}
+
 function Strategies(props:Common){
   const [offset,setOffset]=useState(0); const [subject,setSubject]=useState<[string,string]|null>(null);const [policy,setPolicy]=useState('');
   const list=useView<Schema['PageView']>(`/api/v1/strategies?limit=50&offset=${offset}`,props.refresh);
@@ -154,7 +185,7 @@ function Strategies(props:Common){
         <form onSubmit={event=>{event.preventDefault();void props.run('/api/v1/paper/runs',{command_id:commandId(),expected_revision:revision(value.revision),strategy_id:text(identity.strategy_id),strategy_version:text(identity.strategy_version),policy_id:policy} satisfies Schema['PaperStartDTO']);}}>
           <label>PAPER 政策<select aria-label="PAPER 政策" value={policy} required onChange={e=>setPolicy(e.target.value)}><option value="">請選擇已設定政策</option>{allowed.map(row=><option value={text(row.policy_id)} key={text(row.policy_id)}>{text(row.policy_id)} · {text(row.mode)}</option>)}</select></label>
           <button type="submit" disabled={props.busy||record.current_lifecycle_state!=='CANDIDATE'||!allowed.some(row=>row.policy_id===policy&&row.workflow_authorized===true)}>開始 PAPER</button></form>
-        <FinancialApproval key={text(identity.strategy_id)+':'+text(identity.strategy_version)+':'+text(record.content_hash)+':'+text(value.revision)} record={record} props={props}/>
+        {record.deployment?<DeploymentControls key={text(object(record.deployment).deployment_id)+':'+text(value.revision)} record={record} props={props}/>:<FinancialApproval key={text(identity.strategy_id)+':'+text(identity.strategy_version)+':'+text(record.content_hash)+':'+text(value.revision)} record={record} props={props}/>}
       </Panel>;}}</Frame>}</>;
 }
 

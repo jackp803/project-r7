@@ -68,6 +68,49 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
                 envelope_ref,envelope,digest(envelope),product.risk_policy_json,product.risk_policy_hash,
                 product.payload_json,product.payload_hash,product.result_ref,stamp(boundary.clock()))
 
+    def lifecycle_command_audit(self,command_id):
+        """Retained command data; replay still passes the original owning method."""
+        from .operational_authority import text
+        return self._store.lifecycle_command_audit(text(command_id))
+
+    def deployment_control_subject(self,identity):
+        """Original deployment lineage, readable after expiry/revocation for pause.
+
+        This does not validate or renew NEW_EXPOSURE/activation permission.
+        """
+        import json
+        from .operational_authority import DeploymentControlSubject,ProductLifecycleComposition,stamp
+        from .models import EvidenceGateError
+        from .product_assessment import canonical,digest
+        with self._store._current_runtime_snapshot():
+            strategy=self._require_strategy(identity)
+            boundary=getattr(self._store,'_lifecycle_boundary',None)
+            if not isinstance(boundary,ProductLifecycleComposition) or boundary.namespace!=self.research_namespace:
+                raise EvidenceGateError('Actual deployment owner composition required')
+            approval=self._store.latest_human_approval(identity)
+            if approval is None:return None
+            if (approval.identity!=identity or approval.namespace!=boundary.namespace or
+                digest(approval.payload_json)!=approval.payload_hash or digest(approval.envelope_json)!=approval.envelope_hash):
+                raise EvidenceGateError('Exact original deployment approval required')
+            consent=json.loads(approval.payload_json);envelope=json.loads(approval.envelope_json)
+            if (consent.get('actor')!=approval.actor or
+                (consent.get('subject_id'),consent.get('subject_version'),consent.get('strategy_content_hash'))!=
+                    (identity.strategy_id,identity.strategy_version,strategy.content_hash) or
+                (envelope.get('strategy_id'),envelope.get('strategy_version'),envelope.get('strategy_content_hash'),envelope.get('namespace'))!=
+                    (identity.strategy_id,identity.strategy_version,strategy.content_hash,boundary.namespace)):
+                raise EvidenceGateError('Exact deployment subject lineage required')
+            activation=self._store.accepted_activation_evidence(identity)
+            if consent.get('decision')=='REJECT' and activation is None:return None
+            if consent.get('decision')!='APPROVE':raise EvidenceGateError('Accepted deployment approval required')
+            if activation is not None and (activation.identity!=identity or activation.namespace!=boundary.namespace or
+                activation.strategy_content_hash!=strategy.content_hash or digest(activation.payload_json)!=activation.payload_hash or
+                digest(activation.release_json)!=activation.release_hash or json.loads(activation.payload_json).get('approval_record_id')!=approval.approval_record_id):
+                raise EvidenceGateError('Exact retained deployment activation required')
+            deployment_id='deployment-'+digest(canonical([identity.strategy_id,identity.strategy_version,approval.approval_record_id,approval.envelope_hash]))[7:]
+            return DeploymentControlSubject(deployment_id,identity,boundary.namespace,strategy.content_hash,strategy.registry_revision,
+                strategy.current_lifecycle_state,approval.approval_record_id,approval.envelope_json,approval.envelope_hash,
+                None if activation is None else activation.evidence_id,stamp(boundary.clock()))
+
     def current_runtime_permission(self,identity,*,expected_revision,permission):
         """Read current consent separately from retained protective management.
 
@@ -240,6 +283,23 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
     def resume_authorized(self,identity,*,evidence_ref,authenticated_human,command_id,expected_revision):
         return self._activate(identity,evidence_ref=evidence_ref,authenticated_human=authenticated_human,
             command_id=command_id,expected_revision=expected_revision,resume=True)
+
+    def activate_selected_deployment(self,identity,*,evidence_ref,authenticated_human,command_id,expected_revision):
+        """Choose the original ACTIVATE/RESUME owner operation on receipt recovery."""
+        import json
+        from .models import EvidenceGateError
+        self._human_boundary(authenticated_human)
+        audit=self.lifecycle_command_audit(command_id)
+        if audit is None:
+            resume=self._require_strategy(identity).current_lifecycle_state=='DEGRADED'
+        else:
+            kind=json.loads(audit.request_json).get('operation')
+            if kind not in ('ACTIVATION','RESUMPTION'):raise EvidenceGateError('Original deployment activation operation required')
+            resume=kind=='RESUMPTION'
+        # Original method verifies actor, identity, command, expected revision,
+        # evidence, current reauth and all authority; audit cannot authorize.
+        return self._activate(identity,evidence_ref=evidence_ref,authenticated_human=authenticated_human,
+            command_id=command_id,expected_revision=expected_revision,resume=resume)
 
     def revoke_approval(self,identity,*,authenticated_human,reason,command_id):
         from .models import EvidenceGateError

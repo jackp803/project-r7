@@ -172,3 +172,31 @@ confirms9 expected/0 unexpected/0 skipped/0 flaky. This is development evidence,
 not full exact-clean qualification of the new source. Accepted qualification
 remains7b6901d. Continue deployment stop-new-entry/command recovery and runtime
 projection/orchestration on the same branch; S12 stays IN_PROGRESS.
+
+Deployment control now names the original E6 consent/envelope via a stable
+derived deployment ID, exposes actual readonly lineage in strategy detail and
+delegates pause/activation to existing named owners. No second lifecycle store
+or JSON approval flag is added. Pause retains original management; immutable E6
+command audits recover lost receipts and original ACTIVATE/RESUME kind without
+a second transition. Rejected consent remains readable without a deployment.
+Actual fixture HTTP pause, lost-receipt recovery, wrong identity/financial denial
+and actual owning resume/retry tests passed. Preview/approval/deployment12
+focused tests passed; UI12 unit tests and native Edge10 browser cases passed
+with owned trees reaped. Both new screenshots were visually inspected.
+
+SELF_REVIEW additionally reproduced two expiry defects: admission could expire
+during its owning read, and the final provider guard could expire during account
+inventory validation. Lifetime is now checked after reads and at the final
+effect boundary using the current clock. Mechanical gate errors are normalized
+as admission denials before HTTP, so provider ambiguity parsing cannot swallow
+them. The committed claim remains readback-only. Observed RED2; actual admission
+expiry plus all dispatch13 tests PASS. Two incomplete-subject UI assertions were
+observed RED and now fail closed; all UI12 pass. An intermediate development run
+was invalidated by editing source during its fixture read; final checks froze
+source, and no qualification inherits that run's results.
+
+See contracts/PRODUCT_DEPLOYMENT_CONTROL_PROFILE_V0_2.md. Establish the next
+exact-clean control/UI checkpoint now, then continue actual continuous E2/E5/
+provider observation, residual/exit/newer-flat settlement and trading/protection/
+alert projections. S12 is IN_PROGRESS; native commissioning stays S13 and real
+authority/provider/cloud/forward remain NOT_RUN. No milestone exit is requested.

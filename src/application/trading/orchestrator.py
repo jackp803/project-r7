@@ -24,11 +24,16 @@ class TradingCoordinator:
         for _ in range(100):
             self.dispatch.require_process(self.lease, now=self.clock())
             batches=self.dispatch.pending_publications(self.run_id)
-            if not batches: return
+            positions=self.dispatch.pending_position_publications(self.run_id)
+            if not batches and not positions: return
             for batch in batches:
                 self.dispatch.require_process(self.lease, now=self.clock())
                 self.canonical.publish_canonical_effects(batch.effects)
                 self.dispatch.mark_publication(batch, lease=self.lease, now=self.clock())
+            for batch in positions:
+                self.dispatch.require_process(self.lease, now=self.clock())
+                self.canonical.publish_canonical_effects(batch.effects)
+                self.dispatch.mark_position_publication(batch, lease=self.lease, now=self.clock())
         raise ProductDispatchError('TRADING_CANONICAL_PUBLICATION_BACKLOG')
 
     def observe(self, operation_id, observation, effects):

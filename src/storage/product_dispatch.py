@@ -379,6 +379,26 @@ class ProductDispatchJournal:
         self._run(lease.run_id)
         self._require_lease(lease.run_id, lease, _stamp(now))
 
+    def observe_position(self, run_id, operation_id, observation, effects, *, lease, now):
+        from storage.product_position import observe_position
+        return observe_position(self, run_id, operation_id, observation, effects, lease=lease, now=now)
+
+    def position_publication(self, run_id, operation_id, received_at):
+        from storage.product_position import position_publication
+        return position_publication(self, run_id, operation_id, received_at)
+
+    def latest_position_publication(self, run_id, operation_id):
+        from storage.product_position import latest_position_publication
+        return latest_position_publication(self, run_id, operation_id)
+
+    def pending_position_publications(self, run_id):
+        from storage.product_position import pending_position_publications
+        return pending_position_publications(self, run_id)
+
+    def mark_position_publication(self, batch, *, lease, now):
+        from storage.product_position import mark_position_publication
+        return mark_position_publication(self, batch, lease=lease, now=now)
+
     def claimed_entries_for_account(self, run_id):
         """Bounded durable ambiguity inventory across this exact provider/account."""
         run = self._run(run_id)
@@ -394,6 +414,24 @@ class ProductDispatchJournal:
         for row in rows:
             value = _read(row['request_json'], row['request_hash'])
             if value['role'] == 'ENTRY': operations.append(self.operation(row['run_id'], row['operation_id']))
+        return tuple(operations)
+
+    def claimed_initial_protections_for_position(self, run_id, position_id):
+        """Initial-only stops: prior unknown binding also blocks the account."""
+        run=self._run(run_id);_text(position_id)
+        try:
+            rows=self._db.execute('SELECT i.run_id,i.operation_id,i.request_json,i.request_hash FROM product_dispatch_intents i '
+                "JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? "
+                "AND json_extract(i.request_json,'$.role')='PROTECTION_STOP' AND "
+                "(json_extract(i.request_json,'$.canonical_request.position_id')=? OR json_extract(i.request_json,'$.canonical_request.position_id') IS NULL) "
+                'ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 1001',(run['provider_ref'],run['account_ref'],position_id)).fetchall()
+        except sqlite3.Error:
+            raise ProductDispatchError('DISPATCH_PROTECTION_INVENTORY_UNAVAILABLE') from None
+        if len(rows)>1000:raise ProductDispatchError('DISPATCH_PROTECTION_INVENTORY_LIMIT')
+        operations=[]
+        for row in rows:
+            _read(row['request_json'],row['request_hash'])
+            operations.append(self.operation(row['run_id'],row['operation_id']))
         return tuple(operations)
 
     def recover(self, run_id):

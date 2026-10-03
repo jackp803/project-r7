@@ -67,6 +67,13 @@ class _TradingEffectGuard:
                                                                for item in recovered.current_order_results))
                     if not rejected and not closed:
                         raise RuntimeAdmissionError('PRIOR_ACCOUNT_ENTRY_RECONCILIATION_REQUIRED')
+            elif prepared.role == 'PROTECTION_STOP':
+                for operation in service.dispatch.claimed_initial_protections_for_position(service.run_id, prepared.canonical_request.position_id):
+                    if (operation.run_id,operation.operation_id)!=(service.run_id,prepared.canonical_request.order_request_id):
+                        # This profile supports one initial stop, with no blind
+                        # replacement/second submit. An empty pending snapshot
+                        # cannot erase a committed ambiguous historical claim.
+                        raise RuntimeAdmissionError('PRIOR_ACCOUNT_PROTECTION_RECONCILIATION_REQUIRED')
         # Lifetime may expire while owners/SQLite are read. Use the effect clock
         # after all work, rather than the timestamp captured at guard entry.
         service.dispatch.require_process(service.lease, now=service.clock())

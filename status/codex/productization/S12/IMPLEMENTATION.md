@@ -202,3 +202,35 @@ alert projections. S12 is IN_PROGRESS; native commissioning stays S13 and real
 authority/provider/cloud/forward remain NOT_RUN. No milestone exit is requested.
 
 Exact-clean control checkpoint PASS: executable `93914218528d706f28fb7db7e53b8db171ed0ca1`, commands33, phase1 247, phase2 1352, total1599; UI6 commands/unit12/browser10. See CONTROL_RESULT.md and machine reports. S12 remains IN_PROGRESS and continues automatically.
+
+Native position composition now reads through actual E6/E7 admission and current
+E4 mechanical proofs, preserves original native update/request/receive clocks,
+and consumes actual entry fills through the existing E5 product observation
+builder. Pure parsing5 passed after observed missing-feature RED. Exact native
+position queries are bounded to the instrument plus one optional original ID;
+empty/error responses never prove flat. Issued read fingerprints/process/provider
+binding reject copied, modified, stale or old-process observations.
+
+Migration0015 atomically retains sanitized adapter audit and actual E5 raw/
+projection/FP12 effects on the existing E6 dispatch connection. Partial publication
+and current-process restart replay exact facts with no additional HTTP. Explicit
+E5 position-instance mapping supplies both lineage arguments to E6 recovery;
+plan-only recovery intentionally remains unresolved without a linking action.
+Native identity drift was observed RED and now blocks replacement of the old
+instance. A valid older FP12 marked solely E5_EXECUTION_REINTERPRETATION_REQUIRED
+is refreshed through the owning E5 builder using complete actual execution facts
+and a new native read; missing/invalid/conflicting bindings remain blocked.
+
+SELF_REVIEW reproduced a prior historical unbound protective claim failing to
+block a second initial stop. Actual E6 claimed protection inventory now fences
+new initial-stop requests for the same account/position, including unknown
+historical instance bindings. No pending emptiness can clear that ambiguity;
+original requests only reconcile, and no replacement/cancellation authority is
+added. Observed RED: one admission missing denial and one required reinterpretation
+failure. Final affected composition41 tests PASS. See
+contracts/PRODUCT_POSITION_OBSERVATION_PROFILE_V0_2.md. Full qualification of this
+new source is pending; accepted executable remains9391421 until that run passes.
+
+Continue continuous E2/E5/provider orchestration, native protection observations,
+residual/exit/newer-flat/funding settlement and runtime/control projections.
+S12 remains IN_PROGRESS; no native commissioning or real activation is implied.

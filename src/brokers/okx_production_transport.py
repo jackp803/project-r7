@@ -57,7 +57,7 @@ class LocalSecureCredentialProvider:
 
 
 _GET_QUERIES={
-    '/api/v5/account/config':set(),'/api/v5/account/positions':{'instId'},
+    '/api/v5/account/config':set(),'/api/v5/account/positions':{'instId','posId'},
     '/api/v5/trade/order':{'instId','clOrdId','ordId'},
     '/api/v5/trade/orders-pending':{'instId','instType','after','before','limit'},
     '/api/v5/trade/fills':{'instId','instType','after','before','limit'},

@@ -39,6 +39,13 @@ class ProductEntryProjectionOutcome:
     projections: tuple
 
 
+def product_entry_position_id(trade_plan_id):
+    """Stable v0.2 instance lineage; data only, never financial authority."""
+    if not isinstance(trade_plan_id,str) or not 0<len(trade_plan_id)<=256 or trade_plan_id!=trade_plan_id.strip():
+        raise ValueError('Bounded original trade plan identity required')
+    return 'r7pos_'+hashlib.sha256(trade_plan_id.encode('utf-8')).hexdigest()
+
+
 def build_product_entry_projection(plan, request, result, fills, position_snapshot, *,
                                    observed_at: datetime, previous_projection=None):
     """Additive bounded E4 request observation; never authorizes an entry effect."""
@@ -90,7 +97,7 @@ def _build_entry_projection(plan, request, result, fills, position_snapshot, *,
         or result.observed_at > observed_at or result.average_fill_price is None
         or not result.average_fill_price.is_finite() or result.average_fill_price != average):
         raise ValueError('Actual entry fills/order/net position cannot be reconciled')
-    position_id = ('r7pos_' if bounded_actual_quantity else 'paperpos_') + hashlib.sha256(request.trade_plan_id.encode('utf-8')).hexdigest()
+    position_id = product_entry_position_id(request.trade_plan_id) if bounded_actual_quantity else 'paperpos_' + hashlib.sha256(request.trade_plan_id.encode('utf-8')).hexdigest()
     source = dict(schema_version='contracts-v0.1', position_id=position_id, symbol=request.symbol,
         side=plan['direction'], actual_quantity=format(quantity, 'f'),
         average_entry_price=format(result.average_fill_price, 'f'),

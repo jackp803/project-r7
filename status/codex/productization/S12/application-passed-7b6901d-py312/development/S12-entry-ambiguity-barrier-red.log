@@ -1,0 +1,15 @@
+test_an_unresolved_entry_claim_blocks_another_plan_despite_a_new_empty_prerequisite_snapshot (tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_an_unresolved_entry_claim_blocks_another_plan_despite_a_new_empty_prerequisite_snapshot) ... FAIL
+
+======================================================================
+FAIL: test_an_unresolved_entry_claim_blocks_another_plan_despite_a_new_empty_prerequisite_snapshot (tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_an_unresolved_entry_claim_blocks_another_plan_despite_a_new_empty_prerequisite_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 190, in test_an_unresolved_entry_claim_blocks_another_plan_despite_a_new_empty_prerequisite_snapshot
+    with self.assertRaises(ValueError): service.execute(newer,expected_revision=self.fixture.revision)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 5.676s
+
+FAILED (failures=1)

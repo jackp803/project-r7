@@ -1,0 +1,59 @@
+test_binding_drift_and_namespace_mix_cannot_reopen_a_run (test_product_dispatch_v02.ProductDispatchV02Tests.test_binding_drift_and_namespace_mix_cannot_reopen_a_run) ... ERROR
+test_changed_request_historical_client_reuse_and_secret_payload_fail_closed (test_product_dispatch_v02.ProductDispatchV02Tests.test_changed_request_historical_client_reuse_and_secret_payload_fail_closed) ... ERROR
+test_dispatch_claim_survives_crash_and_never_grants_a_second_post (test_product_dispatch_v02.ProductDispatchV02Tests.test_dispatch_claim_survives_crash_and_never_grants_a_second_post) ... ERROR
+test_new_process_fences_old_writer_and_copied_receipts_are_data_only (test_product_dispatch_v02.ProductDispatchV02Tests.test_new_process_fences_old_writer_and_copied_receipts_are_data_only) ... ERROR
+test_observation_is_immutable_and_ack_or_ambiguity_is_not_terminal_truth (test_product_dispatch_v02.ProductDispatchV02Tests.test_observation_is_immutable_and_ack_or_ambiguity_is_not_terminal_truth) ... ERROR
+test_two_actual_connections_can_claim_a_dispatch_only_once (test_product_dispatch_v02.ProductDispatchV02Tests.test_two_actual_connections_can_claim_a_dispatch_only_once) ... ERROR
+
+======================================================================
+ERROR: test_binding_drift_and_namespace_mix_cannot_reopen_a_run (test_product_dispatch_v02.ProductDispatchV02Tests.test_binding_drift_and_namespace_mix_cannot_reopen_a_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 15, in setUp
+    from storage.product_dispatch import open_product_dispatch_journal
+ModuleNotFoundError: No module named 'storage.product_dispatch'
+
+======================================================================
+ERROR: test_changed_request_historical_client_reuse_and_secret_payload_fail_closed (test_product_dispatch_v02.ProductDispatchV02Tests.test_changed_request_historical_client_reuse_and_secret_payload_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 15, in setUp
+    from storage.product_dispatch import open_product_dispatch_journal
+ModuleNotFoundError: No module named 'storage.product_dispatch'
+
+======================================================================
+ERROR: test_dispatch_claim_survives_crash_and_never_grants_a_second_post (test_product_dispatch_v02.ProductDispatchV02Tests.test_dispatch_claim_survives_crash_and_never_grants_a_second_post)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 15, in setUp
+    from storage.product_dispatch import open_product_dispatch_journal
+ModuleNotFoundError: No module named 'storage.product_dispatch'
+
+======================================================================
+ERROR: test_new_process_fences_old_writer_and_copied_receipts_are_data_only (test_product_dispatch_v02.ProductDispatchV02Tests.test_new_process_fences_old_writer_and_copied_receipts_are_data_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 15, in setUp
+    from storage.product_dispatch import open_product_dispatch_journal
+ModuleNotFoundError: No module named 'storage.product_dispatch'
+
+======================================================================
+ERROR: test_observation_is_immutable_and_ack_or_ambiguity_is_not_terminal_truth (test_product_dispatch_v02.ProductDispatchV02Tests.test_observation_is_immutable_and_ack_or_ambiguity_is_not_terminal_truth)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 15, in setUp
+    from storage.product_dispatch import open_product_dispatch_journal
+ModuleNotFoundError: No module named 'storage.product_dispatch'
+
+======================================================================
+ERROR: test_two_actual_connections_can_claim_a_dispatch_only_once (test_product_dispatch_v02.ProductDispatchV02Tests.test_two_actual_connections_can_claim_a_dispatch_only_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 15, in setUp
+    from storage.product_dispatch import open_product_dispatch_journal
+ModuleNotFoundError: No module named 'storage.product_dispatch'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.007s
+
+FAILED (errors=6)

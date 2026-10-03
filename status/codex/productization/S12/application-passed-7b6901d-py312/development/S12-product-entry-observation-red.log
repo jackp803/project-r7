@@ -1,0 +1,74 @@
+test_bounded_product_profile_observes_actual_fill_without_changing_original_approval (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_bounded_product_profile_observes_actual_fill_without_changing_original_approval) ... ERROR
+test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) ... 
+  test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'quantity': Decimal('0.011')}) ... ERROR
+  test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'trade_plan_id': 'other'}) ... ERROR
+  test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'reduce_only': True}) ... ERROR
+  test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'position_action_id': 'other'}) ... ERROR
+  test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'client_order_id': 'other'}) ... ERROR
+test_original_strict_paper_profile_still_rejects_a_quantized_request (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_original_strict_paper_profile_still_rejects_a_quantized_request) ... ok
+
+======================================================================
+ERROR: test_bounded_product_profile_observes_actual_fill_without_changing_original_approval (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_bounded_product_profile_observes_actual_fill_without_changing_original_approval)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 36, in test_bounded_product_profile_observes_actual_fill_without_changing_original_approval
+    outcome=self.produce()
+            ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 27, in produce
+    from position.entry_observation import build_product_entry_projection
+ImportError: cannot import name 'build_product_entry_projection' from 'position.entry_observation' (<SOURCE_ROOT>\src\position\entry_observation.py)
+
+======================================================================
+ERROR: test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'quantity': Decimal('0.011')})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 49, in test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed
+    self.produce(replace(self.prepared.canonical_request,**changes))
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 27, in produce
+    from position.entry_observation import build_product_entry_projection
+ImportError: cannot import name 'build_product_entry_projection' from 'position.entry_observation' (<SOURCE_ROOT>\src\position\entry_observation.py)
+
+======================================================================
+ERROR: test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'trade_plan_id': 'other'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 49, in test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed
+    self.produce(replace(self.prepared.canonical_request,**changes))
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 27, in produce
+    from position.entry_observation import build_product_entry_projection
+ImportError: cannot import name 'build_product_entry_projection' from 'position.entry_observation' (<SOURCE_ROOT>\src\position\entry_observation.py)
+
+======================================================================
+ERROR: test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'reduce_only': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 49, in test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed
+    self.produce(replace(self.prepared.canonical_request,**changes))
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 27, in produce
+    from position.entry_observation import build_product_entry_projection
+ImportError: cannot import name 'build_product_entry_projection' from 'position.entry_observation' (<SOURCE_ROOT>\src\position\entry_observation.py)
+
+======================================================================
+ERROR: test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'position_action_id': 'other'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 49, in test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed
+    self.produce(replace(self.prepared.canonical_request,**changes))
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 27, in produce
+    from position.entry_observation import build_product_entry_projection
+ImportError: cannot import name 'build_product_entry_projection' from 'position.entry_observation' (<SOURCE_ROOT>\src\position\entry_observation.py)
+
+======================================================================
+ERROR: test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed (test_product_entry_observation_v02.ProductEntryObservationV02Tests.test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed) (changes={'client_order_id': 'other'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 49, in test_enlarged_quantity_or_other_changed_authority_fields_are_not_observed
+    self.produce(replace(self.prepared.canonical_request,**changes))
+  File "<SOURCE_ROOT>\tests\position\test_product_entry_observation_v02.py", line 27, in produce
+    from position.entry_observation import build_product_entry_projection
+ImportError: cannot import name 'build_product_entry_projection' from 'position.entry_observation' (<SOURCE_ROOT>\src\position\entry_observation.py)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.020s
+
+FAILED (errors=6)

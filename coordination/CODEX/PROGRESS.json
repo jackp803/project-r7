@@ -375,6 +375,22 @@
       "skipped": 0,
       "evidence_ref": "status/codex/productization/S12/roles-passed-ac2bc68-py312/qualification.json",
       "scope": "S12 pure E4 versioned role/translation/readback and E6 durable claim checkpoint only; actual application effects/publication, spawned child fills and fake-provider E2E still IN_PROGRESS; native/provider/cloud/real forward commissioning NOT_RUN"
+    },
+    {
+      "step": "S12",
+      "phase": "EXACT_CLEAN_APPLICATION_REGRESSION",
+      "status": "PASS",
+      "executable_revision": "7b6901deef48a9cfc43991c281336b4e60c982d9",
+      "phase_1": 247,
+      "phase_2": 1341,
+      "total": 1588,
+      "commands": 33,
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S12/application-passed-7b6901d-py312/qualification.json",
+      "scope": "S12 application checkpoint: actual E6/E7/E5/E4 fenced dispatch, scripted provider readback and canonical recovery/publication; continuous orchestration, settlement/projections/control integration remain IN_PROGRESS; real vault/provider/native/cloud/forward commissioning NOT_RUN"
     }
   ],
   "evidence_refs": [
@@ -394,7 +410,8 @@
     "status/codex/productization/S11/passed-1ce69a7-py312/qualification.json",
     "status/codex/productization/S11/passed-1ce69a7-py312/ui/ui-qualification.json",
     "status/codex/productization/S12/foundation-passed-370bdcb-py312/qualification.json",
-    "status/codex/productization/S12/roles-passed-ac2bc68-py312/qualification.json"
+    "status/codex/productization/S12/roles-passed-ac2bc68-py312/qualification.json",
+    "status/codex/productization/S12/application-passed-7b6901d-py312/qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -432,8 +449,9 @@
     "S11 PAPER pause preserves protected exposure; ACK/fill/current process facts remain distinct",
     "S11 eight browser cases use actual local owners; fixture elapsed time and native Ubuntu are not qualified",
     "S12 foundation full regression qualified; role translation, durable dispatch/readback/recovery and control integration remain IN_PROGRESS",
-    "S12 role mechanics/durable claim checkpoint qualified; actual application current-owner effects/publication, stop child fills and control integration remain IN_PROGRESS"
+    "S12 role mechanics/durable claim checkpoint qualified; actual application current-owner effects/publication, stop child fills and control integration remain IN_PROGRESS",
+    "S12 current-owner application dispatch/canonical publication checkpoint qualified; continuous orchestration, settlement/projections and control integration remain IN_PROGRESS"
   ],
-  "executable_revision": "ac2bc686b8f230d3592990242247877b7a4a0053",
-  "qualified_executable_revision": "ac2bc686b8f230d3592990242247877b7a4a0053"
+  "executable_revision": "7b6901deef48a9cfc43991c281336b4e60c982d9",
+  "qualified_executable_revision": "7b6901deef48a9cfc43991c281336b4e60c982d9"
 }

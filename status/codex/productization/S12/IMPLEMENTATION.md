@@ -151,3 +151,5 @@ residual/exit/newer-flat settlement, protection/alert projections, exact financi
 preview and approval/deployment Control Center integration remain to implement
 and verify before S13. Native secure-vault/supervisor/provider commissioning and
 real forward observation remain NOT_RUN. No checkpoint is a milestone exit.
+
+Exact-clean application checkpoint PASS: executable `7b6901deef48a9cfc43991c281336b4e60c982d9`, commands33, phase1 247, phase2 1341, total1588; see APPLICATION_RESULT.md and machine report. S12 remains IN_PROGRESS and continues automatically.

@@ -1,0 +1,41 @@
+test_actual_e5_genesis_binding_and_action_are_required_for_existing_position_read (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_actual_e5_genesis_binding_and_action_are_required_for_existing_position_read) ... ok
+test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot) ... ok
+test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot) ... ok
+test_raw_malformed_json_is_rejected_by_the_supported_port (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_malformed_json_is_rejected_by_the_supported_port) ... ERROR
+test_wrong_subject_missing_plan_or_missing_position_action_is_rejected (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_wrong_subject_missing_plan_or_missing_position_action_is_rejected) ... ok
+
+======================================================================
+ERROR: test_raw_malformed_json_is_rejected_by_the_supported_port (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_malformed_json_is_rejected_by_the_supported_port)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 97, in test_raw_malformed_json_is_rejected_by_the_supported_port
+    self.read()
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 27, in read
+    return self.journal.current_execution_subject(self.identity, self.plan['trade_plan_id'], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\runtime.py", line 106, in current_execution_subject
+    return current_execution_subject(self, identity, trade_plan_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\current_execution.py", line 51, in current_execution_subject
+    risk = _checked(journal, 'RISK_DECISION', material['risk_decision_id'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\current_execution.py", line 27, in _checked
+    payload = journal._store._row_payload(row)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_paper_runtime.py", line 117, in _row_payload
+    value = json.loads(row["payload_json"])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 2 (char 1)
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.253s
+
+FAILED (errors=1)

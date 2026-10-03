@@ -1,0 +1,173 @@
+test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent) ... ERROR
+test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) ... 
+  test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='risk_decision_id') ... ERROR
+  test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='intent_id') ... ERROR
+  test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='strategy_version') ... ERROR
+  test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='quantity') ... ERROR
+  test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='leverage') ... ERROR
+  test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='margin_mode') ... ERROR
+test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) ... ERROR
+test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) ... 
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='decision') ... ERROR
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='market_health_status') ... ERROR
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='reason_codes') ... ERROR
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='approved_notional') ... ERROR
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='approved_margin') ... ERROR
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='approved_leverage') ... ERROR
+  test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='max_hold_seconds') ... ERROR
+
+======================================================================
+ERROR: test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 38, in test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent
+    self.consume()
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='risk_decision_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 44, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    self.consume(plan=dict(self.plan, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='intent_id')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 44, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    self.consume(plan=dict(self.plan, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='strategy_version')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 44, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    self.consume(plan=dict(self.plan, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='quantity')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 44, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    self.consume(plan=dict(self.plan, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='leverage')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 44, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    self.consume(plan=dict(self.plan, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) (field='margin_mode')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 44, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    self.consume(plan=dict(self.plan, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_other_risk_lineage_or_enlarged_bounds_are_rejected (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 47, in test_other_risk_lineage_or_enlarged_bounds_are_rejected
+    with self.assertRaises(ValueError): self.consume(plan=plan)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='decision')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='market_health_status')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='reason_codes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='approved_notional')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='approved_margin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='approved_leverage')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+======================================================================
+ERROR: test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) (field='max_hold_seconds')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 54, in test_unsafe_approval_or_current_policy_caps_cannot_be_consumed
+    self.consume(risk=dict(self.risk, **{field: value}))
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 32, in consume
+    from risk.engine import require_approved_trade_plan_binding
+ImportError: cannot import name 'require_approved_trade_plan_binding' from 'risk.engine' (<SOURCE_ROOT>\src\risk\engine.py)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+FAILED (errors=15)

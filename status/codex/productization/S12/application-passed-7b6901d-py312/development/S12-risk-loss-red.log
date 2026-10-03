@@ -1,0 +1,49 @@
+test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_actual_e5_approval_and_plan_are_consumed_without_rebuilding_intent) ... ok
+test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) ... 
+  test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value='NaN') ... FAIL
+  test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value='Infinity') ... FAIL
+  test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value='-0.01') ... FAIL
+  test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value=True) ... FAIL
+test_other_risk_lineage_or_enlarged_bounds_are_rejected (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_other_risk_lineage_or_enlarged_bounds_are_rejected) ... ok
+test_unsafe_approval_or_current_policy_caps_cannot_be_consumed (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_unsafe_approval_or_current_policy_caps_cannot_be_consumed) ... ok
+
+======================================================================
+FAIL: test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value='NaN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 59, in test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison
+    with self.assertRaises(ValueError) as rejected:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value='Infinity')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 59, in test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison
+    with self.assertRaises(ValueError) as rejected:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value='-0.01')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 59, in test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison
+    with self.assertRaises(ValueError) as rejected:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison (tests.risk.test_approved_plan_consumer_v02.ApprovedPlanConsumerV02Tests.test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison) (value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\risk\test_approved_plan_consumer_v02.py", line 59, in test_loss_estimate_must_be_finite_and_nonnegative_before_financial_comparison
+    with self.assertRaises(ValueError) as rejected:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+FAILED (failures=4)

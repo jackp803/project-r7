@@ -114,6 +114,21 @@ class ProductDispatchV02Tests(unittest.TestCase):
         with self.assertRaises(ValueError):
             journal.ensure_run('real-run', real, now=self.now)
 
+    def test_account_ambiguity_inventory_includes_other_runs_but_not_unclaimed_or_other_accounts(self):
+        journal, lease = self.initialized()
+        journal.prepare('run', 'unclaimed', self.request('unclaimed'), lease=lease, now=self.now)
+        journal.ensure_run('same-account-run', self.owner, now=self.now)
+        other_lease = journal.begin_process('same-account-run', 'pid:2', expected_generation=0, now=self.now)
+        journal.prepare('same-account-run', 'claimed', self.request('sameaccount'), lease=other_lease, now=self.now)
+        journal.claim_dispatch('same-account-run', 'claimed', lease=other_lease, now=self.now)
+        other_owner = replace(self.owner, release=replace(self.owner.release, account_ref='another-account'))
+        journal.ensure_run('another-account-run', other_owner, now=self.now)
+        another_lease = journal.begin_process('another-account-run', 'pid:3', expected_generation=0, now=self.now)
+        journal.prepare('another-account-run', 'another-claimed', self.request('anotheraccount'), lease=another_lease, now=self.now)
+        journal.claim_dispatch('another-account-run', 'another-claimed', lease=another_lease, now=self.now)
+        self.assertEqual([('same-account-run', 'claimed')],
+            [(item.run_id, item.operation_id) for item in journal.claimed_entries_for_account('run')])
+
     def test_malformed_body_roles_and_credential_headers_never_reach_claim(self):
         journal, lease = self.initialized()
         for request in (dict(self.request(), body=[]), dict(self.request(), body=None),

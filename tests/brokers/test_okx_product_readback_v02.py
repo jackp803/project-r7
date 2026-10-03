@@ -30,6 +30,9 @@ class OKXProductReadbackV02Tests(unittest.TestCase):
         response['data'][0].update(sCode='51000', sMsg='private fake credential account payload')
         result = parse_product_ack(response, self.prepared, observed_at=self.now)
         self.assertEqual('PROVIDER_ORDER_REJECTED', result.reject_reason)
+        response['data'][0]['ordId'] = 'private fake credential account payload'
+        result = parse_product_ack(response, self.prepared, observed_at=self.now)
+        self.assertIsNone(result.broker_order_id)
 
     def test_current_order_fields_and_partial_fill_are_strictly_bound(self):
         from brokers.okx_product_readback import parse_product_order
@@ -97,6 +100,54 @@ class OKXProductReadbackV02Tests(unittest.TestCase):
                         {'state': 'effective', 'ordIdList': ['1', '2']}, {'actualSz': '13'}):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 parse_product_algo(self.algo(prepared, **changes), prepared, expected_provider_id='2345')
+
+    def child(self, prepared, now, **changes):
+        body = dict(prepared.materialization.body)
+        body = {key: body[key] for key in ('instId', 'tdMode', 'posSide', 'side', 'sz', 'reduceOnly')}
+        body.update(instType='SWAP', ordType='market', clOrdId='CHILD123', ordId='3456',
+                    state='partially_filled', accFillSz='4', avgPx='60000')
+        body.update(changes)
+        fill = dict(instId='BTC-USDT-SWAP', clOrdId='CHILD123', ordId='3456', tradeId='1',
+                    side=body['side'], posSide='net', fillSz='4', fillPx='60000',
+                    fillTime=str(int(now.timestamp() * 1000)), fee='-0.12', feeCcy='USDT')
+        return dict(code='0', data=[body]), dict(code='0', data=[fill])
+
+    def test_stop_child_has_native_child_identity_and_parent_canonical_action_lineage(self):
+        from brokers.okx_product_readback import parse_product_stop_child
+        prepared, now = self.stop()
+        order, fills = self.child(prepared, now)
+        outcome = parse_product_stop_child(
+            self.algo(prepared, state='effective', ordIdList=['3456'], ordId='3456', actualSz='4'),
+            order, fills, prepared, observed_at=now, expected_provider_id='2345')
+        self.assertEqual('2345', outcome.parent_result.broker_order_id)
+        self.assertEqual(OrderStatus.PARTIALLY_FILLED, outcome.parent_result.order_status)
+        self.assertEqual('3456', outcome.child_result.broker_order_id)
+        self.assertEqual('3456', outcome.fills[0].broker_order_id)
+        self.assertEqual(prepared.canonical_request.client_order_id, outcome.fills[0].client_order_id)
+        for field in ('position_action_id', 'position_id', 'order_role'):
+            self.assertEqual(getattr(prepared.canonical_request, field), getattr(outcome.fills[0], field))
+        expected_quantity = prepared.materialization.effective_canonical_quantity / prepared.materialization.provider_contract_quantity * 4
+        self.assertEqual(expected_quantity, outcome.parent_result.filled_quantity)
+
+    def test_stop_child_requires_complete_consistent_exact_child_and_fill_truth(self):
+        from brokers.okx_product_readback import parse_product_stop_child
+        prepared, now = self.stop()
+        algo = self.algo(prepared, state='effective', ordIdList=['3456'], ordId='3456', actualSz='4')
+        order, fills = self.child(prepared, now)
+        for changes in ({'ordId': '999'}, {'reduceOnly': False}, {'side': 'buy'},
+                        {'tdMode': 'cross'}, {'sz': '13'}, {'clOrdId': 'private payload'},
+                        {'accFillSz': '5'}, {'avgPx': '60001'}):
+            changed, _ = self.child(prepared, now, **changes)
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                parse_product_stop_child(algo, changed, fills, prepared, observed_at=now, expected_provider_id='2345')
+        for rows in ([], fills['data'] * 2, [dict(fills['data'][0], ordId='999')],
+                     [dict(fills['data'][0], clOrdId='OTHER')]):
+            with self.subTest(rows=rows), self.assertRaises(ValueError):
+                parse_product_stop_child(algo, order, dict(code='0', data=rows), prepared,
+                                         observed_at=now, expected_provider_id='2345')
+        with self.assertRaises(ValueError):
+            parse_product_stop_child(self.algo(prepared), order, fills, prepared,
+                                     observed_at=now, expected_provider_id='2345')
 
 
 if __name__ == '__main__':

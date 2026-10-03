@@ -12,17 +12,8 @@ from typing import Callable
 from storage.paper_process import PaperProcessJournal
 from storage.runtime import PaperRuntimeJournal
 from storage.runtime_models import RuntimeValidationError
+from storage.canonical_publication import CANONICAL_WRITERS as _WRITERS
 
-_WRITERS = {
-    'RISK_DECISION': 'persist_risk_decision',
-    'APPROVED_TRADE_PLAN': 'persist_approved_trade_plan',
-    'POSITION_ACTION': 'persist_position_action',
-    'ORDER_REQUEST': 'persist_order_request', 'ORDER_RESULT': 'persist_order_result',
-    'FILL': 'persist_fill', 'RAW_POSITION': 'persist_raw_position_observation',
-    'POSITION_PROJECTION': 'persist_position_projection',
-    'LIFECYCLE_EXECUTION_BINDING': 'persist_lifecycle_execution_binding',
-    'FUNDING_EVIDENCE': 'persist_funding_evidence', 'TRADE_RESULT': 'persist_trade_result',
-}
 _STATUSES = {'ACKNOWLEDGED', 'BLOCKED', 'NO_SIGNAL', 'FILLED', 'PROTECTED',
              'EXIT_REQUESTED', 'CLOSED', 'HOLD', 'PAUSED', 'RECOVERED', 'EXPIRED'}
 
@@ -81,8 +72,7 @@ class PaperCoordinator:
         # Revalidate trusted retained output before dispatch. No function names or
         # filesystem paths from an untrusted request can choose an E6 writer.
         PaperStep(operation.state, outcome['effects'], outcome['status'], tuple(outcome['reason_codes']))
-        for effect in outcome['effects']:
-            getattr(self.canonical, _WRITERS[effect['kind']])(effect['payload'])
+        self.canonical.publish_canonical_effects(outcome['effects'])
         self.process.mark_published(self.run_id, operation.operation_id, operation.effect_hash, now=self.clock())
         return self.process.operation(self.run_id, operation.operation_id)
 

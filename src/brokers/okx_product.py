@@ -33,6 +33,9 @@ class ProductOrderPreparation:
     authority_hash: str
     prepared_at: datetime
     expires_at: datetime
+    source_plan_hash: str | None = None
+    source_action_hash: str | None = None
+    source_position_hash: str | None = None
 
 
 class OKXProductTranslator:
@@ -42,15 +45,24 @@ class OKXProductTranslator:
         self.capabilities = capabilities
         self._issued = {}
 
-    def _register(self, role, request, materialization, metadata, proof, authority, *, now, expiry, path='/api/v5/trade/order'):
+    def _register(self, role, request, materialization, metadata, proof, authority, *, now, expiry, path='/api/v5/trade/order', entry_prerequisites=None):
+        # The canonical E4 request records the actual bounded exposure sent.
+        # E5's approved plan/action and the original upper bound stay immutable.
+        request = replace(request, quantity=materialization.effective_canonical_quantity)
         materialization = replace(materialization, body=MappingProxyType(dict(materialization.body)))
+        source = authority.get('input')
+        plan = authority.get('plan') if source is None else source.parent_plan
+        action = authority.get('action') if source is None else source.action
+        position = authority.get('position') if source is None else source.current_position
         prepared = ProductOrderPreparation(role, path, request, materialization,
             metadata, proof, CAPABILITY_PROFILE, canonical_okx_close_sizing_hash(authority), now,
-            min(now + timedelta(seconds=1), expiry))
+            min(now + timedelta(seconds=1), expiry), canonical_okx_close_sizing_hash(plan),
+            None if action is None else canonical_okx_close_sizing_hash(action),
+            None if position is None else canonical_okx_close_sizing_hash(position))
         self._issued = {key: record for key, record in self._issued.items() if record[0].expires_at > now}
         if len(self._issued) >= 1024:
             raise OKXProductError('PRODUCT_PREPARATION_ISSUANCE_LIMIT')
-        self._issued[id(prepared)] = (prepared, canonical_okx_close_sizing_hash(prepared))
+        self._issued[id(prepared)] = (prepared, canonical_okx_close_sizing_hash(prepared), entry_prerequisites)
         return prepared
 
     def require(self, prepared, *, now):
@@ -61,10 +73,13 @@ class OKXProductTranslator:
             not prepared.prepared_at <= now < prepared.expires_at):
             raise OKXProductError('CURRENT_OWNER_ISSUED_PREPARATION_REQUIRED')
         self.capabilities.require(prepared.mechanical_proof, prepared.metadata, role=prepared.role, now=now)
+        if record[2] is not None:
+            self.capabilities.require_entry_prerequisites(*record[2], now=now)
         return prepared
 
-    def prepare_entry(self, *, plan, metadata, prerequisites, proof, now):
+    def prepare_entry(self, *, plan, metadata, prerequisites, proof, now, prerequisites_proof=None):
         self.capabilities.require(proof, metadata, role='ENTRY', now=now)
+        self.capabilities.require_entry_prerequisites(prerequisites, prerequisites_proof, now=now)
         if (not isinstance(prerequisites, OKXPrerequisiteSnapshot) or
             canonical_okx_close_sizing_hash(prerequisites.account) != proof.account_hash or
             prerequisites.pending_orders or any(position.provider_contract_quantity != 0 or
@@ -75,8 +90,9 @@ class OKXProductTranslator:
         sizing = size_okx_market_entry(request, metadata, now=now)
         materialization = _materialize_market_order(request, sizing, metadata, position_mode='net_mode', now=now)
         return self._register('ENTRY', request, materialization, metadata, proof,
-                              dict(plan=plan, prerequisites=prerequisites), now=now,
-                              expiry=datetime.fromisoformat(plan['expires_at'].replace('Z', '+00:00')))
+                              dict(plan=plan, prerequisites=prerequisites, prerequisites_proof=prerequisites_proof), now=now,
+                              expiry=min(datetime.fromisoformat(plan['expires_at'].replace('Z', '+00:00')), prerequisites_proof.expires_at),
+                              entry_prerequisites=(prerequisites, prerequisites_proof))
 
     def prepare_close(self, value, metadata_binding, proof, *, now):
         evidence = self.capabilities.evaluate_close(value, metadata_binding, proof, now=now)

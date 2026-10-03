@@ -113,3 +113,41 @@ readonly projections and approval/control integration remain IN_PROGRESS. This
 checkpoint is not S12 completion and does not start S13 or actual runtime.
 
 Exact-clean roles checkpoint PASS: executable `ac2bc686b8f230d3592990242247877b7a4a0053`, commands33, phase1 247, phase2 1308, total1555; see ROLES_RESULT.md and machine report. S12 remains IN_PROGRESS and continues automatically.
+
+Application checkpoint now composes actual current E6/E7 permission, current
+canonical E5 subject and selected-policy bounds, issuer-bound E4 preparation,
+durable single dispatch claim, separated scripted/production effect drivers and
+canonical publication/replay. A current issuer-bound flat/pending-order snapshot
+is required for entry. Ambiguous prior entry claims on the exact provider/account
+across runs block new entry; only proven rejection or canonical settled closure
+can clear them. The bounded 1000-entry historical inventory remains a listed
+persistent-runtime capacity gap; it fails closed rather than dropping history.
+
+Durable readback context cannot mint a submit permit after restart. ACK publishes
+zero fills; exact order/fill readback preserves partial quantity. Triggered stops
+bind the one actual child order/fills to the original canonical parent/action;
+neither ACK, algo actualSz nor a partial child implies flatness. Publication
+outbox and receipt survive separate E6 writer failures and replay without another
+provider request. All development integration uses the actual E6/E7/E5/E4 owners
+and SQLite with a pure scripted provider; real vault reads and sockets are zero.
+
+Observed deterministic defects were minimally fixed: canonical request quantity
+now records actual E4 quantization while the original E5 plan remains an upper
+bound; an additive product entry-observation profile consumes that quantity;
+rejected private native-ID text is discarded; malformed canonical JSON produces
+a stable denial; canonical authorization_type is retained as domain data, never
+as credentials. The approved-plan consumer verifies original lineage/limits/TTL
+and finite nonnegative loss before financial comparison. v0.1/PAPER entry
+quantity/prefix and other LF/FP profiles remain pinned.
+
+Development checks: application dispatch11, selected-risk/account inventory12,
+current canonical subject5, publication4, stop readback8 and affected broad
+suites passed. These are development results pending this checkpoint's complete
+exact-clean qualification; no previous executable's PASS is inherited.
+SELF_REVIEW found no remaining blocker to qualifying this bounded checkpoint.
+
+S12 remains IN_PROGRESS. Continuous E2/E5/provider observation orchestration,
+residual/exit/newer-flat settlement, protection/alert projections, exact financial
+preview and approval/deployment Control Center integration remain to implement
+and verify before S13. Native secure-vault/supervisor/provider commissioning and
+real forward observation remain NOT_RUN. No checkpoint is a milestone exit.

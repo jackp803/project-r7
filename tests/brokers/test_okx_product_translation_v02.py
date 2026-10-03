@@ -2,12 +2,17 @@ import unittest
 from dataclasses import replace
 from datetime import timedelta
 from decimal import Decimal
+from tempfile import TemporaryDirectory
+from pathlib import Path
 
 import tests.brokers.test_okx_demo_adapter as entry_fixtures
 import tests.execution.test_gateway as gateway_fixtures
 import tests.brokers.test_okx_product_close_v02 as close_fixtures
+import tests.storage.test_paper_runtime_durability as storage_fixtures
 from brokers.okx_demo import OKXAccountConfigSnapshot, OKXPrerequisiteSnapshot
 from brokers.okx_product_capability import OKXProductCapabilityOwner
+from brokers.paper_state import encode_fact
+from storage.runtime import open_paper_runtime_journal
 
 
 class OKXProductTranslationV02Tests(unittest.TestCase):
@@ -23,8 +28,9 @@ class OKXProductTranslationV02Tests(unittest.TestCase):
     def entry(self, **changes):
         proof = self.capabilities.issue('ENTRY', self.account, self.metadata,
                                         observed_at=self.now, now=self.now)
+        prerequisites_proof = self.capabilities.observe_entry_prerequisites(self.prerequisites, observed_at=self.now, now=self.now)
         arguments = dict(plan=gateway_fixtures._approved_plan(self.now), metadata=self.metadata,
-                         prerequisites=self.prerequisites, proof=proof, now=self.now)
+                         prerequisites=self.prerequisites, prerequisites_proof=prerequisites_proof, proof=proof, now=self.now)
         arguments.update(changes)
         return self.translator.prepare_entry(**arguments)
 
@@ -37,6 +43,21 @@ class OKXProductTranslationV02Tests(unittest.TestCase):
         self.assertNotIn('reduceOnly', prepared.materialization.body)
         self.assertEqual(Decimal('0.010'), prepared.materialization.effective_canonical_quantity)
         self.assertIs(self.translator.require(prepared, now=self.now), prepared)
+
+    def test_entry_requires_current_issuer_bound_position_and_pending_order_observations(self):
+        proof = self.capabilities.issue('ENTRY', self.account, self.metadata, observed_at=self.now, now=self.now)
+        arguments = dict(plan=gateway_fixtures._approved_plan(self.now), metadata=self.metadata,
+                         prerequisites=self.prerequisites, proof=proof, now=self.now)
+        with self.assertRaises(ValueError): self.translator.prepare_entry(**arguments)
+        issue=getattr(self.capabilities,'observe_entry_prerequisites',None)
+        self.assertTrue(callable(issue),'Missing E4 current prerequisite observation binding')
+        old=issue(self.prerequisites,observed_at=self.now-timedelta(seconds=4),now=self.now)
+        with self.assertRaises(ValueError):
+            self.translator.prepare_entry(**dict(arguments,prerequisites_proof=old,now=self.now+timedelta(seconds=2)))
+        current=issue(self.prerequisites,observed_at=self.now,now=self.now)
+        for copied in (replace(current),dict(status='PASS'),True):
+            with self.subTest(copied=copied),self.assertRaises(ValueError):
+                self.translator.prepare_entry(**dict(arguments,prerequisites_proof=copied))
 
     def test_existing_exposure_pending_orders_and_non_e5_plan_block_entry(self):
         for prerequisite in (
@@ -82,6 +103,41 @@ class OKXProductTranslationV02Tests(unittest.TestCase):
             self.assertEqual(Decimal('0.0010'), prepared.materialization.effective_canonical_quantity)
             self.assertEqual('sell', prepared.materialization.body['side'])
             self.translator.require(prepared, now=value.evaluated_at)
+
+    def publish_canonical_ack(self, prepared, plan, action=None):
+        from brokers.okx_product_readback import parse_product_ack
+        risk = storage_fixtures.risk_decision()
+        risk.update(risk_decision_id=plan['risk_decision_id'], intent_id=plan['intent_id'],
+                    strategy_id=plan['strategy_id'], strategy_version=plan['strategy_version'],
+                    risk_policy_version=plan['risk_policy_version'], approved_quantity=plan['quantity'])
+        response = dict(code='0', data=[dict(clOrdId=prepared.materialization.provider_cl_ord_id, ordId='1234', sCode='0')])
+        result = parse_product_ack(response, prepared, observed_at=prepared.prepared_at)
+        with TemporaryDirectory() as root, open_paper_runtime_journal(Path(root) / 'canonical.sqlite') as journal:
+            journal.persist_risk_decision(risk)
+            journal.persist_approved_trade_plan(plan)
+            if action is not None:
+                journal.persist_position_action(action)
+            journal.persist_order_request(encode_fact(prepared.canonical_request))
+            stored = journal.persist_order_result(encode_fact(result))
+            self.assertEqual(prepared.materialization.effective_canonical_quantity, Decimal(stored.payload['requested_quantity']))
+
+    def test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6(self):
+        plan = gateway_fixtures._approved_plan(self.now)
+        plan['quantity'] = '0.0105'
+        prepared = self.entry(plan=plan)
+        self.publish_canonical_ack(prepared, plan)
+        self.assertEqual(Decimal('0.010'), prepared.canonical_request.quantity)
+        self.assertEqual(Decimal('0.0105'), prepared.materialization.canonical_approved_quantity)
+        self.assertEqual('0.0105', plan['quantity'])
+        fixture = close_fixtures.OKXProductCloseV02Tests(methodName='runTest')
+        fixture.setUp()
+        from brokers.okx_product import OKXProductTranslator
+        translator = OKXProductTranslator(fixture.owner)
+        value, proof = fixture.prepared(fixture.fixture.sizing_input(applicability=fixture.fixture.applicability(close_max='10')))
+        prepared = translator.prepare_close(value, fixture.binding_fixture.binding(value), proof, now=value.evaluated_at)
+        self.publish_canonical_ack(prepared, value.parent_plan, value.action)
+        self.assertEqual(Decimal('0.0010'), prepared.canonical_request.quantity)
+        self.assertEqual(Decimal('0.0012'), prepared.materialization.canonical_approved_quantity)
 
 
 if __name__ == '__main__':

@@ -454,6 +454,69 @@ def evaluate_trade_intent(
     return result
 
 
+def _require_safe_approve(risk_decision: Mapping[str, Any], policy: RiskPolicy) -> Decimal:
+    if risk_decision.get('decision') != 'APPROVE':
+        raise RiskInputError('RISK_NOT_APPROVED', 'ApprovedTradePlan requires APPROVE RiskDecision')
+    if risk_decision.get('risk_policy_version') != policy.version:
+        raise RiskInputError('POLICY_VERSION_MISMATCH', 'RiskDecision policy does not match plan policy')
+    if risk_decision.get('schema_version') != SUPPORTED_SHARED_SCHEMA_VERSION:
+        raise RiskInputError('UNSUPPORTED_SCHEMA_VERSION', 'RiskDecision schema is unsupported')
+    for field, safe in (('market_health_status', _MARKET_SAFE_STATUSES),
+                        ('account_state_status', _ACCOUNT_SAFE_STATUSES),
+                        ('position_state_status', _POSITION_SAFE_STATUSES)):
+        if _normalized_status(risk_decision.get(field)) not in safe:
+            raise RiskInputError('APPROVAL_STATE_NOT_SAFE', 'RiskDecision state is not safe')
+    if risk_decision.get('reason_codes') not in ([], ()):
+        raise RiskInputError('RISK_DECISION_INCONSISTENT', 'APPROVE cannot contain rejection reasons')
+    required = ('approved_quantity', 'approved_leverage', 'margin_mode', 'required_stop_level', 'max_hold_seconds')
+    missing = [field for field in required if field not in risk_decision]
+    if missing:
+        raise RiskInputError('APPROVAL_BOUNDS_INCOMPLETE', f'missing approved bounds: {missing}')
+    quantity = _decimal(risk_decision['approved_quantity'], 'approved_quantity')
+    if quantity <= 0:
+        raise RiskInputError('INVALID_APPROVED_QUANTITY', 'approved_quantity must be positive')
+    return quantity
+
+
+def require_approved_trade_plan_binding(risk_decision: Mapping[str, Any], plan: Mapping[str, Any], policy: RiskPolicy) -> None:
+    """Consume exact original E5 bounds under the selected policy, without a new intent.
+
+    This does not renew expiry or produce current execution permission. Entry
+    expiry and current position actions remain their existing E4/E5 consumers.
+    """
+    try:
+        approved = _require_safe_approve(risk_decision, policy)
+        same = ('risk_decision_id', 'intent_id', 'strategy_id', 'strategy_version', 'risk_policy_version')
+        if any(plan[field] != risk_decision[field] for field in same) or plan['schema_version'] != SUPPORTED_SHARED_SCHEMA_VERSION:
+            raise ValueError()
+        protection = plan['protection_instruction']
+        if (_decimal(plan['quantity'], 'quantity') != approved or
+            _decimal(plan['leverage'], 'leverage') != _decimal(risk_decision['approved_leverage'], 'approved_leverage') or
+            plan['margin_mode'] != risk_decision['margin_mode'] or plan['margin_mode'] != policy.margin_mode or
+            protection['stop_level'] != risk_decision['required_stop_level'] or
+            protection['max_hold_seconds'] != risk_decision['max_hold_seconds'] or
+            protection.get('target_level') != risk_decision.get('required_target_level')):
+            raise ValueError()
+        for field, maximum in (('approved_notional', policy.max_notional), ('approved_margin', policy.max_margin),
+                               ('approved_leverage', policy.max_leverage), ('estimated_cost', policy.max_estimated_cost)):
+            amount = _decimal(risk_decision[field], field)
+            if amount < 0 or amount > maximum:
+                raise ValueError()
+        if _decimal(risk_decision['estimated_max_loss'], 'estimated_max_loss') < 0:
+            raise ValueError()
+        hold = risk_decision['max_hold_seconds']
+        if type(hold) is not int or not 0 < hold <= policy.max_hold_seconds:
+            raise ValueError()
+        created, expires = _utc(plan['created_at']), _utc(plan['expires_at'])
+        if expires != created + timedelta(seconds=policy.plan_ttl_seconds) or _utc(risk_decision['decided_at']) > created:
+            raise ValueError()
+        material = {field: plan[field] for field in ('risk_decision_id', 'intent_id', 'created_at', 'expires_at')}
+        if plan['trade_plan_id'] != _stable_id('plan_', material):
+            raise ValueError()
+    except (KeyError, TypeError, ValueError):
+        raise RiskInputError('EXACT_APPROVED_PLAN_BINDING_REQUIRED', 'Exact original E5 decision/plan/policy bounds required') from None
+
+
 def build_approved_trade_plan(
     intent: Mapping[str, Any],
     risk_decision: Mapping[str, Any],
@@ -468,24 +531,11 @@ def build_approved_trade_plan(
     base-asset-v0.1; provider conversion/quantization is downstream E4 scope.
     """
 
-    if risk_decision.get("decision") != "APPROVE":
-        raise RiskInputError("RISK_NOT_APPROVED", "ApprovedTradePlan requires APPROVE RiskDecision")
-    if risk_decision.get("risk_policy_version") != policy.version:
-        raise RiskInputError("POLICY_VERSION_MISMATCH", "RiskDecision policy does not match plan policy")
+    approved_quantity = _require_safe_approve(risk_decision, policy)
     if risk_decision.get("intent_id") != intent.get("intent_id"):
         raise RiskInputError("INTENT_ID_MISMATCH", "RiskDecision does not belong to TradeIntent")
     if intent.get("schema_version") != SUPPORTED_SHARED_SCHEMA_VERSION:
         raise RiskInputError("UNSUPPORTED_SCHEMA_VERSION", "TradeIntent schema is unsupported")
-    if risk_decision.get("schema_version") != SUPPORTED_SHARED_SCHEMA_VERSION:
-        raise RiskInputError("UNSUPPORTED_SCHEMA_VERSION", "RiskDecision schema is unsupported")
-    if _normalized_status(risk_decision.get("market_health_status")) not in _MARKET_SAFE_STATUSES:
-        raise RiskInputError("APPROVAL_STATE_NOT_SAFE", "RiskDecision market state is not safe")
-    if _normalized_status(risk_decision.get("account_state_status")) not in _ACCOUNT_SAFE_STATUSES:
-        raise RiskInputError("APPROVAL_STATE_NOT_SAFE", "RiskDecision account state is not safe")
-    if _normalized_status(risk_decision.get("position_state_status")) not in _POSITION_SAFE_STATUSES:
-        raise RiskInputError("APPROVAL_STATE_NOT_SAFE", "RiskDecision position state is not safe")
-    if risk_decision.get("reason_codes") not in ([], ()):
-        raise RiskInputError("RISK_DECISION_INCONSISTENT", "APPROVE RiskDecision cannot contain rejection reasons")
     if created_at.tzinfo is None or created_at.utcoffset() != timezone.utc.utcoffset(created_at):
         raise ValueError("created_at must be timezone-aware UTC")
 
@@ -495,21 +545,6 @@ def build_approved_trade_plan(
             "EXECUTABLE_PROFILE_NOT_ELIGIBLE",
             f"TradeIntent executable profile is not eligible: {sorted(set(profile_reasons))}",
         )
-
-    required = (
-        "approved_quantity",
-        "approved_leverage",
-        "margin_mode",
-        "required_stop_level",
-        "max_hold_seconds",
-    )
-    missing = [field for field in required if field not in risk_decision]
-    if missing:
-        raise RiskInputError("APPROVAL_BOUNDS_INCOMPLETE", f"missing approved bounds: {missing}")
-
-    approved_quantity = _decimal(risk_decision["approved_quantity"], "approved_quantity")
-    if approved_quantity <= 0:
-        raise RiskInputError("INVALID_APPROVED_QUANTITY", "approved_quantity must be positive")
 
     quantity_asset = _QUANTITY_ASSET_BY_SYMBOL[intent["symbol"]]
 

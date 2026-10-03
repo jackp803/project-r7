@@ -8,7 +8,8 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 import re
 
-from brokers.okx_demo import OKXAccountConfigSnapshot
+from brokers.okx_demo import OKXAccountConfigSnapshot, OKXPrerequisiteSnapshot, OKXPositionFact
+from decimal import Decimal
 from brokers.okx_sizing import validate_okx_submit_metadata, OKXMetadataValidationError, OKXUnsupportedConversionError
 from brokers.okx_close_sizing import (
     OKXCloseRoleCapabilityEvidence, OKXCloseSizingError,
@@ -46,9 +47,20 @@ class _ProductMechanicalProof:
     generation: int
 
 
+@dataclass(frozen=True)
+class _ProductEntryPrerequisiteProof:
+    profile: str
+    snapshot_hash: str
+    account_hash: str
+    generation: int
+    observed_at: datetime
+    expires_at: datetime
+
+
 class OKXProductCapabilityOwner:
     def __init__(self):
         self._issued = {}
+        self._entry_issued = {}
         self._account_hash = None
         self._metadata_hash = None
         self._generation = 0
@@ -70,6 +82,7 @@ class OKXProductCapabilityOwner:
         account_hash, metadata_hash = canonical_okx_close_sizing_hash(account), canonical_okx_close_sizing_hash(metadata)
         if (account_hash, metadata_hash) != (self._account_hash, self._metadata_hash):
             self._issued.clear()
+            self._entry_issued.clear()
             self._generation += 1
             self._account_hash, self._metadata_hash = account_hash, metadata_hash
         self._issued = {key: record for key, record in self._issued.items() if record[0].expires_at >= now}
@@ -78,6 +91,36 @@ class OKXProductCapabilityOwner:
         proof = _ProductMechanicalProof(CAPABILITY_PROFILE, role, account_hash, metadata_hash,
                                         observed_at, observed_at + timedelta(seconds=30), self._generation)
         self._issued[id(proof)] = (proof, canonical_okx_close_sizing_hash(proof))
+        return proof
+
+    def observe_entry_prerequisites(self, prerequisites, *, observed_at, now):
+        now, observed_at = _time(now), _time(observed_at)
+        if (type(prerequisites) is not OKXPrerequisiteSnapshot or type(prerequisites.positions) is not tuple or
+            type(prerequisites.pending_orders) is not tuple or prerequisites.pending_orders or len(prerequisites.positions) > 1000 or
+            canonical_okx_close_sizing_hash(prerequisites.account) != self._account_hash or
+            any(type(position) is not OKXPositionFact or position.instrument_id != 'BTC-USDT-SWAP' or
+                position.margin_mode != 'isolated' or position.position_side != 'net' or
+                not isinstance(position.provider_contract_quantity, Decimal) or not position.provider_contract_quantity.is_finite() or
+                position.provider_contract_quantity != 0 for position in prerequisites.positions) or
+            not observed_at <= now < observed_at + timedelta(seconds=5)):
+            raise OKXProductCapabilityError('CURRENT_CONVERGED_ENTRY_PREREQUISITES_REQUIRED')
+        self._entry_issued = {key: value for key, value in self._entry_issued.items() if value[0].expires_at > now}
+        if len(self._entry_issued) >= 1024:
+            raise OKXProductCapabilityError('PRODUCT_ENTRY_OBSERVATION_LIMIT')
+        proof = _ProductEntryPrerequisiteProof('okx-product-entry-prerequisites-v0.2',
+            canonical_okx_close_sizing_hash(prerequisites), self._account_hash, self._generation,
+            observed_at, observed_at + timedelta(seconds=5))
+        self._entry_issued[id(proof)] = (proof, canonical_okx_close_sizing_hash(proof))
+        return proof
+
+    def require_entry_prerequisites(self, prerequisites, proof, *, now):
+        now = _time(now)
+        record = self._entry_issued.get(id(proof))
+        if (type(proof) is not _ProductEntryPrerequisiteProof or record is None or record[0] is not proof or
+            record[1] != canonical_okx_close_sizing_hash(proof) or proof.generation != self._generation or
+            proof.account_hash != self._account_hash or not proof.observed_at <= now < proof.expires_at or
+            proof.snapshot_hash != canonical_okx_close_sizing_hash(prerequisites)):
+            raise OKXProductCapabilityError('CURRENT_OWNER_ENTRY_PREREQUISITES_PROOF_REQUIRED')
         return proof
 
     def require(self, proof, metadata, *, role, now):

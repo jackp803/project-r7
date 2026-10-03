@@ -10,7 +10,7 @@ import re
 from brokers.okx_demo import parse_place_order_ack, parse_order_lookup_response, parse_fills_response
 from brokers.okx_product import ProductOrderPreparation, OKXProductError
 from brokers.okx_product_capability import CAPABILITY_PROFILE
-from execution.models import require_utc
+from execution.models import require_utc, OrderResult, Fill
 
 
 def _fail():
@@ -74,6 +74,8 @@ def parse_product_ack(response, prepared, *, observed_at):
         native_id = row.get(identity)
         if response['code'] == '0' and row.get('sCode') == '0':
             _id(native_id)
+        elif not isinstance(native_id, str) or not re.fullmatch('[0-9]{1,64}', native_id):
+            native_id = None
         normalized['data'] = [dict(clOrdId=row.get(key), ordId=native_id, sCode=row.get('sCode'), sMsg='PROVIDER_ORDER_REJECTED')]
     result = parse_place_order_ack(normalized, materialization, observed_at=observed_at)
     if result.reject_reason:
@@ -134,7 +136,12 @@ def parse_product_fills(response, prepared, *, expected_provider_id):
         if not isinstance(row.get('feeCcy'), str) or not re.fullmatch('[A-Z0-9_]{1,32}', row['feeCcy']):
             _fail()
         selected.append(row)
-    return parse_fills_response(dict(code=response['code'], data=selected), materialization)
+    fills = parse_fills_response(dict(code=response['code'], data=selected), materialization)
+    request = prepared.canonical_request
+    if request.order_role != 'ENTRY':
+        fills = tuple(replace(fill, position_action_id=request.position_action_id,
+                              position_id=request.position_id, order_role=request.order_role) for fill in fills)
+    return fills
 
 
 @dataclass(frozen=True)
@@ -143,6 +150,53 @@ class ProductAlgoObservation:
     provider_algo_id: str | None
     child_order_ids: tuple[str, ...]
     reason_code: str
+
+
+@dataclass(frozen=True)
+class ProductStopChildReadback:
+    profile: str
+    algo: ProductAlgoObservation
+    child_result: OrderResult
+    parent_result: OrderResult
+    fills: tuple[Fill, ...]
+
+
+def parse_product_stop_child(algo_response, order_response, fills_response, prepared, *, observed_at, expected_provider_id):
+    """Interpret an exact spawned market child; these facts grant no effect.
+
+    Canonical result retains the parent algo identity; fills retain their actual
+    child broker identity and original internal action/position lineage. Native
+    actualSz and triggered states cannot substitute for complete fill truth.
+    """
+    require_utc(observed_at, 'observed_at')
+    algo = parse_product_algo(algo_response, prepared, expected_provider_id=expected_provider_id)
+    if algo.status != 'TRIGGERED_REQUIRES_CHILD_ORDER' or len(algo.child_order_ids) != 1:
+        _fail()
+    rows = _rows(order_response)
+    if order_response['code'] != '0' or len(rows) != 1 or not isinstance(rows[0], dict):
+        _fail()
+    native_client = rows[0].get('clOrdId')
+    if not isinstance(native_client, str) or not re.fullmatch('[A-Za-z0-9]{0,32}', native_client):
+        _fail()
+    original = prepared.materialization
+    body = {key: original.body[key] for key in ('instId', 'tdMode', 'posSide', 'side', 'sz', 'reduceOnly')}
+    body.update(ordType='market', clOrdId=native_client)
+    child_materialization = replace(original, provider_cl_ord_id=native_client, body=body)
+    # Pure readback context only. It is not registered with an issuer and cannot
+    # pass OKXProductTranslator.require or authorize a new request.
+    child_context = replace(prepared, role='POSITION_EXIT', materialization=child_materialization)
+    lookup = parse_product_order(order_response, child_context, observed_at=observed_at,
+                                 expected_provider_id=algo.child_order_ids[0])
+    if lookup.lookup_status != 'FOUND_CONSISTENT' or lookup.result is None:
+        _fail()
+    fills = parse_product_fills(fills_response, child_context, expected_provider_id=algo.child_order_ids[0])
+    quantity = sum((fill.quantity for fill in fills), Decimal('0'))
+    if quantity != lookup.result.filled_quantity or any(fill.filled_at > observed_at for fill in fills):
+        _fail()
+    if quantity and sum((fill.quantity * fill.price for fill in fills), Decimal('0')) / quantity != lookup.result.average_fill_price:
+        _fail()
+    return ProductStopChildReadback('okx-product-stop-child-readback-v0.2', algo, lookup.result,
+                                   replace(lookup.result, broker_order_id=algo.provider_algo_id), fills)
 
 
 def parse_product_algo(response, prepared, *, expected_provider_id=None):

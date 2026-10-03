@@ -3,7 +3,7 @@
 No signal, acknowledgement or requested quantity is treated as an actual fill.
 The existing lifecycle builders/state machine remain the transition authority.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 from decimal import Decimal
 import hashlib
@@ -29,11 +29,35 @@ class EntryProjectionOutcome:
 
 def build_entry_projection(plan, request, result, fills, position_snapshot, *,
                            observed_at: datetime, previous_projection=None):
+    return _build_entry_projection(plan, request, result, fills, position_snapshot,
+        observed_at=observed_at, previous_projection=previous_projection, bounded_actual_quantity=False)
+
+
+@dataclass(frozen=True)
+class ProductEntryProjectionOutcome:
+    profile: str
+    projections: tuple
+
+
+def build_product_entry_projection(plan, request, result, fills, position_snapshot, *,
+                                   observed_at: datetime, previous_projection=None):
+    """Additive bounded E4 request observation; never authorizes an entry effect."""
+    outcome = _build_entry_projection(plan, request, result, fills, position_snapshot,
+        observed_at=observed_at, previous_projection=previous_projection, bounded_actual_quantity=True)
+    return ProductEntryProjectionOutcome('product-entry-observation-v0.2', outcome.projections)
+
+
+def _build_entry_projection(plan, request, result, fills, position_snapshot, *,
+                            observed_at, previous_projection, bounded_actual_quantity):
     require_utc(observed_at, 'entry observation')
     if (not isinstance(request, OrderRequest) or not isinstance(result, OrderResult)
         or not isinstance(position_snapshot, PositionExposureSnapshot)):
         raise ValueError('Actual canonical E4 entry/order/position observations required')
     expected = ExecutionGateway().prepare_entry_order(plan, now=request.created_at)
+    if bounded_actual_quantity:
+        if not isinstance(request.quantity, Decimal) or not request.quantity.is_finite() or not 0 < request.quantity <= expected.quantity:
+            raise ValueError('Actual bounded canonical E4 request quantity required')
+        expected = replace(expected, quantity=request.quantity)
     if (expected.safety_fingerprint() != request.safety_fingerprint()
         or expected.order_request_id != request.order_request_id
         or result.client_order_id != request.client_order_id
@@ -66,7 +90,7 @@ def build_entry_projection(plan, request, result, fills, position_snapshot, *,
         or result.observed_at > observed_at or result.average_fill_price is None
         or not result.average_fill_price.is_finite() or result.average_fill_price != average):
         raise ValueError('Actual entry fills/order/net position cannot be reconciled')
-    position_id = 'paperpos_' + hashlib.sha256(request.trade_plan_id.encode('utf-8')).hexdigest()
+    position_id = ('r7pos_' if bounded_actual_quantity else 'paperpos_') + hashlib.sha256(request.trade_plan_id.encode('utf-8')).hexdigest()
     source = dict(schema_version='contracts-v0.1', position_id=position_id, symbol=request.symbol,
         side=plan['direction'], actual_quantity=format(quantity, 'f'),
         average_entry_price=format(result.average_fill_price, 'f'),

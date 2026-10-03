@@ -89,3 +89,19 @@ class RuntimeAdmission:
         fields=('identity','strategy_content_hash','registry_revision','permission','namespace','release','approval_record_id','approval_envelope_hash','activation_evidence_id','activation_payload_hash','execution')
         if any(getattr(before,name)!=getattr(after,name) for name in fields):raise RuntimeAdmissionError('RUNTIME_OWNER_PERMISSION_CHANGED')
         return current.owner_permission
+
+    def current_authority(self,permit,*,identity,permission,execution):
+        owner = self.require(permit, identity=identity, permission=permission, execution=execution)
+        with self.factory() as e6:
+            if not isinstance(e6, StrategyPlatformService) or e6.research_namespace != self.namespace:
+                raise RuntimeAdmissionError('ACTUAL_SAME_NAMESPACE_E6_REQUIRED')
+            result = e6.current_runtime_authority(identity, expected_revision=owner.registry_revision, permission=permission)
+        fields = ('identity','strategy_content_hash','registry_revision','permission','namespace','release',
+                  'approval_record_id','approval_envelope_hash','activation_evidence_id','activation_payload_hash','execution')
+        if any(getattr(owner, field) != getattr(result.permission, field) for field in fields):
+            raise RuntimeAdmissionError('RUNTIME_OWNER_PERMISSION_CHANGED')
+        return result
+
+    def process_binding(self,permit,*,identity,permission,execution):
+        self.require(permit, identity=identity, permission=permission, execution=execution)
+        return self._permits[permit._nonce]['process_binding']

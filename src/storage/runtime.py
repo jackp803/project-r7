@@ -101,6 +101,19 @@ class PaperRuntimeJournal:
         self._check_payload_policy(payload)
         return self._store.persist_immutable("RISK_DECISION", payload)
 
+    def current_execution_subject(self, identity, trade_plan_id, *, position_id=None, position_action_id=None):
+        from .current_execution import current_execution_subject
+        return current_execution_subject(self, identity, trade_plan_id,
+                                         position_id=position_id, position_action_id=position_action_id)
+
+    def require_current_execution_subject(self, snapshot):
+        from .current_execution import require_current_execution_subject
+        return require_current_execution_subject(self, snapshot)
+
+    def publish_canonical_effects(self, effects):
+        from .canonical_publication import publish_canonical_effects
+        return publish_canonical_effects(self, effects)
+
     def persist_approved_trade_plan(self, payload: Mapping[str, Any]) -> StoredCanonicalObject:
         self._check_payload_policy(payload)
         return self._store.persist_immutable("APPROVED_TRADE_PLAN", payload)

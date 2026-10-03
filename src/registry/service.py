@@ -64,9 +64,13 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
         its original exact envelope/activation even after consent expiry or
         revocation, and still needs current process/E4/E5 gates at the effect.
         """
+        return self.current_runtime_authority(identity, expected_revision=expected_revision, permission=permission).permission
+
+    def current_runtime_authority(self,identity,*,expected_revision,permission):
+        """One closed read snapshot of current permission and its exact E5 inputs."""
         import json
         from .models import EvidenceGateError
-        from .operational_authority import CurrentRuntimePermission,require_current_approval,stamp
+        from .operational_authority import CurrentRuntimePermission,CurrentRuntimeAuthority,require_current_approval,stamp
         from .product_assessment import digest,canonical
         if permission not in ('NEW_EXPOSURE','MANAGE_EXISTING'):raise EvidenceGateError('Explicit runtime permission required')
         states=('LIVE',) if permission=='NEW_EXPOSURE' else ('LIVE','DEGRADED','RETIRED')
@@ -86,9 +90,13 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
                 (envelope.get('strategy_id'),envelope.get('strategy_version'),envelope.get('strategy_content_hash'))!=(identity.strategy_id,identity.strategy_version,strategy.content_hash) or
                 envelope.get('release')!=release.as_dict() or permission not in envelope.get('permissions',[])):
                 raise EvidenceGateError('Exact original deployment permission required')
-            return CurrentRuntimePermission(identity,strategy.content_hash,strategy.registry_revision,permission,boundary.namespace,release,
+            selected = self.candidate_product_assessment(identity)
+            if selected.risk_policy_json is None or digest(selected.risk_policy_json) != release.risk_policy_hash:
+                raise EvidenceGateError('Exact current selected E5 policy required')
+            result = CurrentRuntimePermission(identity,strategy.content_hash,strategy.registry_revision,permission,boundary.namespace,release,
                 approval.approval_record_id,approval.envelope_hash,activation.evidence_id,activation.payload_hash,stamp(boundary.clock()),
                 'SIMULATED_MECHANICS' if boundary.namespace=='FIXTURE' else 'ACTUAL_OWNER')
+            return CurrentRuntimeAuthority(result, selected.risk_policy_json, approval.envelope_json)
 
     def accepted_paper_start_evidence(self,identity):
         from .models import EvidenceGateError

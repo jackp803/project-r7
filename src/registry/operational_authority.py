@@ -70,6 +70,13 @@ class ReleaseBinding:
 
 
 @dataclass(frozen=True)
+class CurrentRuntimeAuthority:
+    permission: object
+    risk_policy_json: str
+    envelope_json: str
+
+
+@dataclass(frozen=True)
 class HumanIdentity:
     actor: str
     roles: tuple[str,...]

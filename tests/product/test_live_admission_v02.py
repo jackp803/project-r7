@@ -52,6 +52,22 @@ class LiveAdmissionV02Tests(unittest.TestCase):
         from registry import ConcurrencyConflict
         with self.assertRaises(ConcurrencyConflict):self.permission(revision=self.revision-1)
 
+    def test_exact_current_authority_snapshot_contains_original_envelope_and_selected_e5_policy(self):
+        from registry.product_assessment import digest
+        method = getattr(self.e6, 'current_runtime_authority', None)
+        self.assertTrue(callable(method), 'Missing current envelope/policy owner read port')
+        current = method(self.identity, expected_revision=self.revision, permission='NEW_EXPOSURE')
+        self.assertEqual(self.permission(), current.permission)
+        self.assertEqual(current.permission.approval_envelope_hash, digest(current.envelope_json))
+        self.assertEqual(current.permission.release.risk_policy_hash, digest(current.risk_policy_json))
+        self.assertEqual(self.envelope, json.loads(current.envelope_json))
+        self.e6.revoke_approval(self.identity, authenticated_human=self.auth.authenticate('FIXTURE_AUTH_PROOF'),
+                               reason='fixture', command_id='authority-revoke')
+        with self.assertRaises(EvidenceGateError):
+            method(self.identity, expected_revision=self.revision, permission='NEW_EXPOSURE')
+        retained = method(self.identity, expected_revision=self.revision, permission='MANAGE_EXISTING')
+        self.assertEqual(current.envelope_json, retained.envelope_json)
+
     def test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority(self):
         self.permission()
         human=self.auth.authenticate('FIXTURE_AUTH_PROOF')

@@ -5,7 +5,7 @@ claim, approval hash, generation or observation cannot grant another POST.
 Canonical domain publication remains with the existing E6 runtime journal.
 """
 from contextlib import contextmanager
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, fields
 from datetime import datetime, timezone
 import json, re, sqlite3
 
@@ -13,6 +13,11 @@ from registry.operational_authority import CurrentRuntimePermission
 from registry.product_assessment import canonical, digest
 from storage._sqlite_registry import _connect, _apply_migrations
 from brokers.okx_production_transport import _body
+from execution.models import OrderRequest, OrderResult, Fill
+from brokers.paper_state import decode_fact
+from brokers.okx_product_state import restore_product_readback
+from storage._runtime_validation import canonical_payload, immutable_object_metadata, validate_order_result
+from storage.runtime import _reject_provider_native_fields
 
 
 class ProductDispatchError(ValueError):
@@ -42,7 +47,8 @@ def _json(value):
         if isinstance(node, dict):
             for key, child in node.items():
                 _text(key)
-                if any(part in key.casefold() for part in ('authorization', 'cookie', 'password', 'credential', 'secret', 'passphrase', 'api_key', 'token', 'private_key', 'raw_payload')):
+                canonical_authorization = key == 'authorization_type' and child in (None, 'POSITION_ACTION', 'APPROVED_TRADE_PLAN')
+                if not canonical_authorization and any(part in key.casefold() for part in ('authorization', 'cookie', 'password', 'credential', 'secret', 'passphrase', 'api_key', 'token', 'private_key', 'raw_payload')):
                     raise ProductDispatchError('DISPATCH_PRIVATE_PAYLOAD_FORBIDDEN')
                 stack.append((child, depth + 1))
         elif isinstance(node, list):
@@ -98,6 +104,47 @@ class ProductDispatchRecovery:
     ambiguous_operations: tuple[str, ...]
     prepared_operations: tuple[str, ...]
     process_generation: int
+
+
+@dataclass(frozen=True)
+class ProductPublicationBatch:
+    run_id: str
+    operation_id: str
+    observed_at: str
+    effects_json: str
+    effects_hash: str
+
+    @property
+    def effects(self):
+        return _read(self.effects_json, self.effects_hash)
+
+
+def _effects(value):
+    if not isinstance(value, list) or len(value) > 5000:
+        raise ProductDispatchError('DISPATCH_CANONICAL_EFFECTS_REQUIRED')
+    for effect in value:
+        if (not isinstance(effect, dict) or set(effect) != {'kind', 'payload'} or
+            not isinstance(effect['kind'], str) or effect['kind'] not in ('ORDER_REQUEST', 'ORDER_RESULT', 'FILL') or
+            not isinstance(effect['payload'], dict)):
+            raise ProductDispatchError('DISPATCH_CANONICAL_EFFECTS_REQUIRED')
+        kind, payload = effect['kind'], effect['payload']
+        cls = {'ORDER_REQUEST': OrderRequest, 'ORDER_RESULT': OrderResult, 'FILL': Fill}[kind]
+        if set(payload) != {field.name for field in fields(cls)}:
+            raise ProductDispatchError('DISPATCH_EXACT_CANONICAL_SHAPE_REQUIRED')
+        _reject_provider_native_fields(payload)
+        canonical_payload(payload)
+        decode_fact(cls, payload)
+        if kind == 'ORDER_RESULT':
+            validate_order_result(payload)
+            reason = payload['reject_reason']
+            if reason is not None and (not isinstance(reason, str) or not re.fullmatch('[A-Z0-9_]{1,128}', reason)):
+                raise ProductDispatchError('DISPATCH_SANITIZED_REASON_REQUIRED')
+        else:
+            immutable_object_metadata(kind, payload)
+        native = payload.get('broker_order_id')
+        if native is not None and (not isinstance(native, str) or not re.fullmatch('[0-9]{1,64}', native)):
+            raise ProductDispatchError('DISPATCH_SANITIZED_NATIVE_ID_REQUIRED')
+    return _json(value)
 
 
 class ProductDispatchJournal:
@@ -191,9 +238,14 @@ class ProductDispatchJournal:
     def prepare(self, run_id, operation_id, request, *, lease, now):
         at = _stamp(now); _text(operation_id)
         required = {'role', 'path', 'native_client_id', 'body', 'canonical_request_hash', 'authority_hash'}
-        if (not isinstance(request, dict) or set(request) != required or not isinstance(request['body'], dict) or
+        durable = required | {'preparation_profile', 'canonical_request', 'normalization'}
+        if (not isinstance(request, dict) or set(request) not in (required, durable) or not isinstance(request['body'], dict) or
             not isinstance(request['role'], str) or request['role'] not in {'ENTRY', 'PROTECTION_STOP', 'POSITION_EXIT', 'EMERGENCY_EXIT'}):
             raise ProductDispatchError('DISPATCH_EXACT_INTENT_REQUIRED')
+        if set(request) == durable:
+            restored = restore_product_readback(request)
+            if operation_id != restored.canonical_request.order_request_id:
+                raise ProductDispatchError('DISPATCH_CANONICAL_OPERATION_ID_REQUIRED')
         path = '/api/v5/trade/order-algo' if request['role'] == 'PROTECTION_STOP' else '/api/v5/trade/order'
         body_id = 'algoClOrdId' if request['role'] == 'PROTECTION_STOP' else 'clOrdId'
         if request['path'] != path or request['body'].get(body_id) != request['native_client_id']:
@@ -246,25 +298,103 @@ class ProductDispatchJournal:
             self._db.execute('INSERT INTO product_dispatch_claims VALUES(?,?,?,?)', (run_id, operation_id, lease.generation, at))
         return True
 
-    def observe(self, run_id, operation_id, observation, *, lease, now):
+    def observe(self, run_id, operation_id, observation, *, lease, now, canonical_effects=None):
         at = _stamp(now)
-        if (not isinstance(observation, dict) or set(observation) != {'status', 'provider_id', 'reason_code'} or
+        effects_raw = _effects([] if canonical_effects is None else canonical_effects)
+        standard = {'status', 'provider_id', 'reason_code'}
+        if (not isinstance(observation, dict) or set(observation) not in (standard, standard | {'child_order_ids'}) or
             not isinstance(observation['status'], str) or observation['status'] not in {'ACK_PENDING', 'ACK_REJECTED', 'RECONCILIATION_REQUIRED', 'ORDER_OBSERVED', 'ALGO_OBSERVED'} or
             (observation['provider_id'] is not None and (not isinstance(observation['provider_id'], str) or not re.fullmatch('[0-9]{1,64}', observation['provider_id']))) or
             not isinstance(observation['reason_code'], str) or not re.fullmatch('[A-Z0-9_]{1,128}', observation['reason_code'])):
             raise ProductDispatchError('DISPATCH_SANITIZED_OBSERVATION_REQUIRED')
+        children = observation.get('child_order_ids', [])
+        if (not isinstance(children, list) or len(children) > 1 or
+            any(not isinstance(child, str) or not re.fullmatch('[0-9]{1,64}', child) for child in children) or
+            ('child_order_ids' in observation and (len(children) != 1 or observation['status'] != 'ALGO_OBSERVED'))):
+            raise ProductDispatchError('DISPATCH_EXACT_NATIVE_CHILD_REQUIRED')
         raw = _json(observation)
         with self._write():
             self._run(run_id); self._require_lease(run_id, lease, at)
             claim = self._db.execute('SELECT * FROM product_dispatch_claims WHERE run_id=? AND operation_id=?', (run_id, operation_id)).fetchone()
             if claim is None or at < claim['dispatched_at']:
                 raise ProductDispatchError('DISPATCH_OBSERVATION_WITHOUT_PRIOR_CLAIM')
+            operation = self.operation(run_id, operation_id)
+            if 'preparation_profile' in operation.request:
+                prepared = restore_product_readback(operation.request)
+                request = operation.request['canonical_request']
+                if children and prepared.role != 'PROTECTION_STOP':
+                    raise ProductDispatchError('DISPATCH_EXACT_NATIVE_CHILD_REQUIRED')
+                for effect in json.loads(effects_raw):
+                    payload = effect['payload']; kind = effect['kind']
+                    if kind == 'ORDER_REQUEST':
+                        valid = payload == request
+                    elif kind == 'ORDER_RESULT':
+                        valid = (all(payload[key] == request[key] for key in ('order_request_id','client_order_id')) and
+                                 payload['requested_quantity'] == request['quantity'] and payload['broker_order_id'] == observation['provider_id'])
+                    else:
+                        valid = (all(payload[key] == request[key] for key in ('client_order_id','trade_plan_id','symbol','side','position_action_id','position_id','order_role')) and
+                                 payload['broker_order_id'] in (children or [observation['provider_id']]))
+                    if not valid:
+                        raise ProductDispatchError('DISPATCH_EXACT_CANONICAL_EFFECT_BINDING_REQUIRED')
             existing = self._db.execute('SELECT * FROM product_dispatch_observations WHERE run_id=? AND operation_id=? AND observed_at=?', (run_id, operation_id, at)).fetchone()
             if existing is not None:
                 if existing['observation_json'] != raw or existing['observation_hash'] != digest(raw):
                     raise ProductDispatchError('DISPATCH_EQUAL_TIME_OBSERVATION_CONFLICT')
+                outbox = self._db.execute('SELECT * FROM product_dispatch_outbox WHERE run_id=? AND operation_id=? AND observed_at=?', (run_id, operation_id, at)).fetchone()
+                if (outbox is None and effects_raw != '[]') or (outbox is not None and _read(outbox['effects_json'], outbox['effects_hash']) != json.loads(effects_raw)):
+                    raise ProductDispatchError('DISPATCH_EQUAL_TIME_EFFECT_CONFLICT')
             else:
                 self._db.execute('INSERT INTO product_dispatch_observations VALUES(?,?,?,?,?,?)', (run_id, operation_id, at, raw, digest(raw), lease.generation))
+                if effects_raw != '[]':
+                    self._db.execute('INSERT INTO product_dispatch_outbox VALUES(?,?,?,?,?)', (run_id, operation_id, at, effects_raw, digest(effects_raw)))
+
+    def pending_publications(self, run_id):
+        self._run(run_id)
+        rows = self._db.execute('SELECT o.* FROM product_dispatch_outbox o LEFT JOIN product_dispatch_publications p USING(run_id,operation_id,observed_at) '
+                               'WHERE o.run_id=? AND p.operation_id IS NULL ORDER BY o.observed_at,o.operation_id LIMIT 1000', (run_id,)).fetchall()
+        batches = []
+        for row in rows:
+            value = _read(row['effects_json'], row['effects_hash'])
+            _effects(value)
+            batches.append(ProductPublicationBatch(run_id, row['operation_id'], row['observed_at'], row['effects_json'], row['effects_hash']))
+        return tuple(batches)
+
+    def mark_publication(self, batch, *, lease, now):
+        if type(batch) is not ProductPublicationBatch:
+            raise ProductDispatchError('DISPATCH_EXACT_PUBLICATION_REQUIRED')
+        at = _stamp(now)
+        with self._write():
+            self._run(batch.run_id); self._require_lease(batch.run_id, lease, at)
+            row = self._db.execute('SELECT * FROM product_dispatch_outbox WHERE run_id=? AND operation_id=? AND observed_at=?',
+                                   (batch.run_id, batch.operation_id, batch.observed_at)).fetchone()
+            if row is None or at < row['observed_at'] or (row['effects_json'], row['effects_hash']) != (batch.effects_json, batch.effects_hash):
+                raise ProductDispatchError('DISPATCH_EXACT_PUBLICATION_REQUIRED')
+            _effects(_read(row['effects_json'], row['effects_hash']))
+            self._db.execute('INSERT OR IGNORE INTO product_dispatch_publications VALUES(?,?,?,?,?,?)',
+                             (batch.run_id, batch.operation_id, batch.observed_at, batch.effects_hash, lease.generation, at))
+
+    def require_process(self, lease, *, now):
+        if type(lease) is not ProductProcessLease:
+            raise ProductDispatchError('DISPATCH_CURRENT_PROCESS_GENERATION_REQUIRED')
+        self._run(lease.run_id)
+        self._require_lease(lease.run_id, lease, _stamp(now))
+
+    def claimed_entries_for_account(self, run_id):
+        """Bounded durable ambiguity inventory across this exact provider/account."""
+        run = self._run(run_id)
+        try:
+            rows = self._db.execute('SELECT i.run_id,i.operation_id,i.request_json,i.request_hash FROM product_dispatch_intents i '
+                "JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? AND json_extract(i.request_json,'$.role')='ENTRY' "
+                'ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 1001', (run['provider_ref'], run['account_ref'])).fetchall()
+        except sqlite3.Error:
+            raise ProductDispatchError('DISPATCH_ACCOUNT_RECONCILIATION_INVENTORY_UNAVAILABLE') from None
+        if len(rows) > 1000:
+            raise ProductDispatchError('DISPATCH_ACCOUNT_RECONCILIATION_INVENTORY_LIMIT')
+        operations = []
+        for row in rows:
+            value = _read(row['request_json'], row['request_hash'])
+            if value['role'] == 'ENTRY': operations.append(self.operation(row['run_id'], row['operation_id']))
+        return tuple(operations)
 
     def recover(self, run_id):
         self._run(run_id)

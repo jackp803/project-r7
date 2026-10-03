@@ -1,0 +1,17 @@
+test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak) ... ok
+test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http) ... ok
+test_new_native_position_identity_cannot_reattest_the_original_e5_instance (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_new_native_position_identity_cannot_reattest_the_original_e5_instance) ... FAIL
+
+======================================================================
+FAIL: test_new_native_position_identity_cannot_reattest_the_original_e5_instance (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_new_native_position_identity_cannot_reattest_the_original_e5_instance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 109, in test_new_native_position_identity_cannot_reattest_the_original_e5_instance
+    with self.assertRaises(ValueError):self.project(service,current,metadata,proof)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 24.491s
+
+FAILED (failures=1)

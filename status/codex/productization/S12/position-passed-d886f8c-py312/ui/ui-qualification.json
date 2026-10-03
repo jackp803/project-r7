@@ -1,0 +1,182 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "source_before": {
+    "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-03T03:22:18.512395Z",
+  "launcher_hash": "sha256:681b17cfa62457112bd17f47c08dc7a993f0337d79485460d0139419d9b3480f",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-03T03:22:18.999513Z",
+      "finished_at_utc": "2026-10-03T03:22:21.249539Z",
+      "duration_seconds": 2.25,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "passed": true,
+      "source_after": {
+        "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-03T03:22:21.383397Z",
+      "finished_at_utc": "2026-10-03T03:22:23.567918Z",
+      "duration_seconds": 2.172000000005937,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:aaa09ae89e1ca01695f79d4f7ce57d8ab3ef19415fe15ac870bd24e27cc9e57f",
+      "log_sha256": "sha256:aaa09ae89e1ca01695f79d4f7ce57d8ab3ef19415fe15ac870bd24e27cc9e57f",
+      "passed": true,
+      "source_after": {
+        "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-03T03:22:23.693388Z",
+      "finished_at_utc": "2026-10-03T03:22:25.329570Z",
+      "duration_seconds": 1.639999999999418,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-03T03:22:25.459903Z",
+      "finished_at_utc": "2026-10-03T03:22:27.106217Z",
+      "duration_seconds": 1.639999999999418,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:8f828ea6eb77382c97018652b5d5f9b5611715ef7c94326ebdaa4a66ea0db4c0",
+      "log_sha256": "sha256:d7796fbc220bdaff8cde41b9f8d7f240a4fed1b6e9dd76e15429b666228ca6a4",
+      "passed": true,
+      "source_after": {
+        "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 12
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-03T03:22:27.237448Z",
+      "finished_at_utc": "2026-10-03T03:22:27.870909Z",
+      "duration_seconds": 0.6410000000032596,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:93bae4784020a8a1e413a0d2b4753eb371d7926545554bd739116f0b8c59e30b",
+      "log_sha256": "sha256:93bae4784020a8a1e413a0d2b4753eb371d7926545554bd739116f0b8c59e30b",
+      "passed": true,
+      "source_after": {
+        "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "test:browser"
+      ],
+      "started_at_utc": "2026-10-03T03:22:28.003679Z",
+      "finished_at_utc": "2026-10-03T03:23:04.716618Z",
+      "duration_seconds": 36.71899999999732,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "06-test-browser.log",
+      "original_log_sha256": "sha256:d82b246ddbf74b74a28504313c02bad9c11117c6de981569ee60b19877cacf38",
+      "log_sha256": "sha256:d82b246ddbf74b74a28504313c02bad9c11117c6de981569ee60b19877cacf38",
+      "passed": true,
+      "source_after": {
+        "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 10,
+      "browser_stats": {
+        "startTime": "2026-10-03T03:22:28.740Z",
+        "duration": 35932.153000000006,
+        "expected": 10,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "passed": true,
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "semantics": "S12 Control Center uses actual isolated auth/E6/intake/research/PAPER/deployment owners and synthetic approval views/pause; fixture financial writes remain denied. No real cloud/forward/provider/native-service acceptance is implied",
+  "browser_version": "154.0.4258.48",
+  "source_after": {
+    "revision": "d886f8c7ea265931d3f82af4995eee5cfee1a197",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-03T03:23:04.896260Z",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:4ff508f43977c34e7cfc7f01de83e6ca8900cfcb96de127fe73f66b78e3b15e3",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "assets/index-DAV_jYfK.js": "sha256:02ba1773793d72e21e1027b407ef3021c4d4cba9713140f1062f2f3fff50682d",
+    "index.html": "sha256:1b220fb9ebd070d728ed218956d7e67aba5a91d0cd4867b746529022d836b954"
+  },
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:7e289277ab270807b2b013d02917311c76d835177f32bb4b84bbff4fbf9f8d45",
+    "contracts/control_api_v0_2.openapi.json": "sha256:7a3f9fad80e8d8191bdfa43779bf4e91fe461b0ca6ab3401c9bc4a5f16f36cb9"
+  }
+}

@@ -1,0 +1,9 @@
+# S12 native position checkpoint qualification
+
+Executable `d886f8c7ea265931d3f82af4995eee5cfee1a197`; exact CLEAN before/after. Windows11 x86-64 / Python3.12.10. 33 commands, phase1 247, phase2 1366, total 1613. UI6 commands, unit12/browser10, Edge154.0.4258.48, Nodev24.19.0/npm11.17.0. Zero failures/errors/skips/flaky; all owned trees reaped.
+
+S12 native position checkpoint: actual admitted E4 reads, original clocks/identity, actual E5 projection/FP12 reinterpretation, durable E6 position outbox/restart and initial-stop ambiguity fence. Continuous orchestration, protection observations, residual/exit/newer-flat/funding settlement and runtime/control projections remain IN_PROGRESS; real vault/provider/native/cloud/forward commissioning NOT_RUN
+
+Actual E6/E7 admission and issuer E4 mechanical/read proofs govern native position GETs. Original native update and actual request/receive clocks remain distinct. Empty responses do not prove flatness. Actual E5 entry projections and complete FP12 reinterpretation are atomically retained in the existing E6 position outbox; current-process restart replays exact canonical facts without HTTP. Native identity drift, copied/mutated/stale observations and historical initial-stop ambiguity fail closed. Existing authenticated control/browser fixtures remain synthetic financial mechanics only.
+
+S12 remains IN_PROGRESS: continuous E2/E5/provider orchestration, residual/exit/newer-flat settlement and runtime/protection/alert projections remain. The historical1000-entry inventory is an explicit fail-closed capacity gap. SELF_REVIEW; whole-branch independent review is S16. No native Ubuntu/secure vault/supervisor/provider/cloud/real forward commissioning is implied. Real provider calls0, real credentialsNONE, capitalNONE, runtime LLM0, GitHub computeNOT_USED; main not merged.

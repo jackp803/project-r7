@@ -1,0 +1,27 @@
+test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak) ... FAIL
+test_copied_mutated_stale_or_old_generation_position_cannot_create_projection (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_copied_mutated_stale_or_old_generation_position_cannot_create_projection) ... ok
+test_empty_position_response_and_stale_owner_version_are_denied_without_projection (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_empty_position_response_and_stale_owner_version_are_denied_without_projection) ... ok
+test_native_price_disagreement_with_complete_entry_facts_fails_closed (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_native_price_disagreement_with_complete_entry_facts_fails_closed) ... ok
+test_native_quantity_disagreement_with_complete_entry_facts_fails_closed (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_native_quantity_disagreement_with_complete_entry_facts_fails_closed) ... ok
+test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http) ... FAIL
+
+======================================================================
+FAIL: test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 50, in test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak
+    self.assertTrue(recovered.restart_authoritative,recovered.reason_codes)
+AssertionError: False is not true : ('POSITION_LINEAGE_UNRESOLVED',)
+
+======================================================================
+FAIL: test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 92, in test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http
+    self.assertTrue(recovered.restart_authoritative,recovered.reason_codes)
+AssertionError: False is not true : ('POSITION_LINEAGE_UNRESOLVED',)
+
+----------------------------------------------------------------------
+Ran 6 tests in 38.820s
+
+FAILED (failures=2)

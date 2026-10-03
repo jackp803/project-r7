@@ -1,0 +1,67 @@
+test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak) ... ERROR
+test_copied_mutated_stale_or_old_generation_position_cannot_create_projection (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_copied_mutated_stale_or_old_generation_position_cannot_create_projection) ... ERROR
+test_empty_position_response_and_stale_owner_version_are_denied_without_projection (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_empty_position_response_and_stale_owner_version_are_denied_without_projection) ... ERROR
+test_native_quantity_or_price_disagreement_with_complete_entry_facts_fails_closed (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_native_quantity_or_price_disagreement_with_complete_entry_facts_fails_closed) ... ERROR
+test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http) ... ERROR
+
+======================================================================
+ERROR: test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 47, in test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak
+    service,provider,metadata,proof,value=self.entered()
+                                          ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 39, in entered
+    value=service.read_position(metadata=metadata,proof=proof,expected_revision=self.fixture.revision)
+          ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_position'
+
+======================================================================
+ERROR: test_copied_mutated_stale_or_old_generation_position_cannot_create_projection (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_copied_mutated_stale_or_old_generation_position_cannot_create_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 63, in test_copied_mutated_stale_or_old_generation_position_cannot_create_projection
+    service,provider,metadata,proof,value=self.entered()
+                                          ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 39, in entered
+    value=service.read_position(metadata=metadata,proof=proof,expected_revision=self.fixture.revision)
+          ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_position'
+
+======================================================================
+ERROR: test_empty_position_response_and_stale_owner_version_are_denied_without_projection (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_empty_position_response_and_stale_owner_version_are_denied_without_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 97, in test_empty_position_response_and_stale_owner_version_are_denied_without_projection
+    service.read_position(metadata=metadata,proof=proof,expected_revision=self.fixture.revision+1)
+    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_position'
+
+======================================================================
+ERROR: test_native_quantity_or_price_disagreement_with_complete_entry_facts_fails_closed (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_native_quantity_or_price_disagreement_with_complete_entry_facts_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 72, in test_native_quantity_or_price_disagreement_with_complete_entry_facts_fails_closed
+    service,provider,metadata,proof,value=self.entered(**changes)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 39, in entered
+    value=service.read_position(metadata=metadata,proof=proof,expected_revision=self.fixture.revision)
+          ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_position'
+
+======================================================================
+ERROR: test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 80, in test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http
+    service,provider,metadata,proof,value=self.entered()
+                                          ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 39, in entered
+    value=service.read_position(metadata=metadata,proof=proof,expected_revision=self.fixture.revision)
+          ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_position'
+
+----------------------------------------------------------------------
+Ran 5 tests in 25.610s
+
+FAILED (errors=5)

@@ -1,0 +1,32 @@
+test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation) ... ERROR
+test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post) ... FAIL
+
+======================================================================
+ERROR: test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 123, in test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation
+    self.project(service,value,metadata,proof)
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 46, in project
+    return service.project_entry_position(self.helper.prepared.canonical_request.order_request_id,value,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 68, in project_entry_position
+    return project_entry_position(self, operation_id, observation, metadata=metadata, proof=proof,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\position_observation.py", line 82, in project_entry_position
+    raise RuntimeAdmissionError('NATIVE_POSITION_CANONICAL_RECONCILIATION_REQUIRED')
+application.trading.admission.RuntimeAdmissionError: NATIVE_POSITION_CANONICAL_RECONCILIATION_REQUIRED
+
+======================================================================
+FAIL: test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 149, in test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post
+    with self.assertRaises(RuntimeAdmissionError):service.execute(stop,expected_revision=self.fixture.revision)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeAdmissionError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 14.891s
+
+FAILED (failures=1, errors=1)

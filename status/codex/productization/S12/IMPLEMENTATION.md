@@ -234,3 +234,5 @@ new source is pending; accepted executable remains9391421 until that run passes.
 Continue continuous E2/E5/provider orchestration, native protection observations,
 residual/exit/newer-flat/funding settlement and runtime/control projections.
 S12 remains IN_PROGRESS; no native commissioning or real activation is implied.
+
+Exact-clean native position checkpoint PASS: executable `d886f8c7ea265931d3f82af4995eee5cfee1a197`, commands33, phase1 247, phase2 1366, total1613; UI6 commands/unit12/browser10. See POSITION_RESULT.md and machine reports. S12 remains IN_PROGRESS and continues automatically.

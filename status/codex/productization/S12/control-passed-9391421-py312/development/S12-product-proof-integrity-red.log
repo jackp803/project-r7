@@ -1,0 +1,23 @@
+test_ambiguous_and_external_truth_never_return_a_request_size (test_okx_product_close_v02.OKXProductCloseV02Tests.test_ambiguous_and_external_truth_never_return_a_request_size) ... ok
+test_both_close_roles_use_shared_math_and_distinct_profile (test_okx_product_close_v02.OKXProductCloseV02Tests.test_both_close_roles_use_shared_math_and_distinct_profile) ... ok
+test_caller_assertion_cross_owner_or_mutated_capability_is_rejected (test_okx_product_close_v02.OKXProductCloseV02Tests.test_caller_assertion_cross_owner_or_mutated_capability_is_rejected) ... ok
+test_in_place_mutation_and_new_account_observation_invalidate_original_proof (test_okx_product_close_v02.OKXProductCloseV02Tests.test_in_place_mutation_and_new_account_observation_invalidate_original_proof) ... FAIL
+test_mechanical_proof_does_not_bypass_five_second_submit_freshness (test_okx_product_close_v02.OKXProductCloseV02Tests.test_mechanical_proof_does_not_bypass_five_second_submit_freshness) ... ok
+test_metadata_binding_and_stale_proof_do_not_refresh_authority (test_okx_product_close_v02.OKXProductCloseV02Tests.test_metadata_binding_and_stale_proof_do_not_refresh_authority) ... ok
+test_partial_cap_and_dust_keep_existing_fail_closed_semantics (test_okx_product_close_v02.OKXProductCloseV02Tests.test_partial_cap_and_dust_keep_existing_fail_closed_semantics) ... ok
+test_timestamp_only_supersession_does_not_renew_evidence (test_okx_product_close_v02.OKXProductCloseV02Tests.test_timestamp_only_supersession_does_not_renew_evidence) ... ok
+test_unsupported_account_mode_or_role_cannot_be_proven (test_okx_product_close_v02.OKXProductCloseV02Tests.test_unsupported_account_mode_or_role_cannot_be_proven) ... ok
+
+======================================================================
+FAIL: test_in_place_mutation_and_new_account_observation_invalidate_original_proof (test_okx_product_close_v02.OKXProductCloseV02Tests.test_in_place_mutation_and_new_account_observation_invalidate_original_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_close_v02.py", line 119, in test_in_place_mutation_and_new_account_observation_invalidate_original_proof
+    with self.assertRaises(OKXProductCapabilityError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OKXProductCapabilityError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.015s
+
+FAILED (failures=1)

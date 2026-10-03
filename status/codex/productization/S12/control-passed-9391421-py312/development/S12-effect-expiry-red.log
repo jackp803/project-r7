@@ -1,0 +1,25 @@
+test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned (tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned) ... FAIL
+test_permit_expiring_inside_final_provider_guard_cannot_reach_post (tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_permit_expiring_inside_final_provider_guard_cannot_reach_post) ... FAIL
+
+======================================================================
+FAIL: test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned (tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 114, in test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned
+    with patch.object(admission,'evaluate',side_effect=slow),self.assertRaises(api.RuntimeAdmissionError):
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeAdmissionError not raised
+
+======================================================================
+FAIL: test_permit_expiring_inside_final_provider_guard_cannot_reach_post (tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_permit_expiring_inside_final_provider_guard_cannot_reach_post)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 263, in test_permit_expiring_inside_final_provider_guard_cannot_reach_post
+    with patch.object(self.dispatch,'claimed_entries_for_account',side_effect=slow_last_read),self.assertRaises(ValueError):
+                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 6.986s
+
+FAILED (failures=2)

@@ -1,0 +1,72 @@
+test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) ... 
+  test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) (effects=[{'kind': '__dict__', 'payload': {}}]) ... ERROR
+  test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) (effects=[{'kind': 'ORDER_RESULT', 'payload': {'schema_version': 'contracts-v0.1', 'order_request_id': 'ordreq_43ebcdc75db5edf903430cce5986ad91', 'client_order_id': 'e4_d094bd0ebeb8e610291c045344b165c9', 'broker_order_id': '1234', 'order_status': 'PENDING', 'observed_at': '2026-08-21T07:30:00Z', 'execution_health_status': 'HEALTHY', 'requested_quantity': '0.010', 'filled_quantity': '0', 'average_fill_price': None, 'reject_reason': None, 'secret': 'private'}}]) ... ERROR
+  test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) (effects=[{'kind': 'ORDER_RESULT', 'payload': {'schema_version': 'contracts-v0.1', 'order_request_id': 'ordreq_43ebcdc75db5edf903430cce5986ad91', 'client_order_id': 'e4_d094bd0ebeb8e610291c045344b165c9', 'broker_order_id': '1234', 'order_status': 'PENDING', 'observed_at': '2026-08-21T07:30:00Z', 'execution_health_status': 'HEALTHY', 'requested_quantity': '0.010', 'filled_quantity': '0', 'average_fill_price': None, 'reject_reason': 'private message'}}]) ... ERROR
+test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) ... ERROR
+test_observation_and_exact_pending_canonical_bundle_survive_reopen (test_product_publication_v02.ProductPublicationV02Tests.test_observation_and_exact_pending_canonical_bundle_survive_reopen) ... ERROR
+test_partial_canonical_publication_can_replay_exact_facts_without_new_effect (test_product_publication_v02.ProductPublicationV02Tests.test_partial_canonical_publication_can_replay_exact_facts_without_new_effect) ... ERROR
+
+======================================================================
+ERROR: test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) (effects=[{'kind': '__dict__', 'payload': {}}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 78, in test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected
+    self.observe(canonical_effects=effects)
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 37, in observe
+    self.journal.observe('run', 'op', self.ack, **arguments)
+TypeError: ProductDispatchJournal.observe() got an unexpected keyword argument 'canonical_effects'
+
+======================================================================
+ERROR: test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) (effects=[{'kind': 'ORDER_RESULT', 'payload': {'schema_version': 'contracts-v0.1', 'order_request_id': 'ordreq_43ebcdc75db5edf903430cce5986ad91', 'client_order_id': 'e4_d094bd0ebeb8e610291c045344b165c9', 'broker_order_id': '1234', 'order_status': 'PENDING', 'observed_at': '2026-08-21T07:30:00Z', 'execution_health_status': 'HEALTHY', 'requested_quantity': '0.010', 'filled_quantity': '0', 'average_fill_price': None, 'reject_reason': None, 'secret': 'private'}}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 78, in test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected
+    self.observe(canonical_effects=effects)
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 37, in observe
+    self.journal.observe('run', 'op', self.ack, **arguments)
+TypeError: ProductDispatchJournal.observe() got an unexpected keyword argument 'canonical_effects'
+
+======================================================================
+ERROR: test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected) (effects=[{'kind': 'ORDER_RESULT', 'payload': {'schema_version': 'contracts-v0.1', 'order_request_id': 'ordreq_43ebcdc75db5edf903430cce5986ad91', 'client_order_id': 'e4_d094bd0ebeb8e610291c045344b165c9', 'broker_order_id': '1234', 'order_status': 'PENDING', 'observed_at': '2026-08-21T07:30:00Z', 'execution_health_status': 'HEALTHY', 'requested_quantity': '0.010', 'filled_quantity': '0', 'average_fill_price': None, 'reject_reason': 'private message'}}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 78, in test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected
+    self.observe(canonical_effects=effects)
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 37, in observe
+    self.journal.observe('run', 'op', self.ack, **arguments)
+TypeError: ProductDispatchJournal.observe() got an unexpected keyword argument 'canonical_effects'
+
+======================================================================
+ERROR: test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected (test_product_publication_v02.ProductPublicationV02Tests.test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 80, in test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected
+    self.observe()
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 37, in observe
+    self.journal.observe('run', 'op', self.ack, **arguments)
+TypeError: ProductDispatchJournal.observe() got an unexpected keyword argument 'canonical_effects'
+
+======================================================================
+ERROR: test_observation_and_exact_pending_canonical_bundle_survive_reopen (test_product_publication_v02.ProductPublicationV02Tests.test_observation_and_exact_pending_canonical_bundle_survive_reopen)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 40, in test_observation_and_exact_pending_canonical_bundle_survive_reopen
+    self.observe()
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 37, in observe
+    self.journal.observe('run', 'op', self.ack, **arguments)
+TypeError: ProductDispatchJournal.observe() got an unexpected keyword argument 'canonical_effects'
+
+======================================================================
+ERROR: test_partial_canonical_publication_can_replay_exact_facts_without_new_effect (test_product_publication_v02.ProductPublicationV02Tests.test_partial_canonical_publication_can_replay_exact_facts_without_new_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 54, in test_partial_canonical_publication_can_replay_exact_facts_without_new_effect
+    self.observe()
+  File "<SOURCE_ROOT>\tests\storage\test_product_publication_v02.py", line 37, in observe
+    self.journal.observe('run', 'op', self.ack, **arguments)
+TypeError: ProductDispatchJournal.observe() got an unexpected keyword argument 'canonical_effects'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.790s
+
+FAILED (errors=6)

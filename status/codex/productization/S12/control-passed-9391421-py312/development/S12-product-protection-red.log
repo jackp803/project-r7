@@ -1,0 +1,96 @@
+test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping) ... ERROR
+test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) ... 
+  test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'kind': 'multiple'}) ... ERROR
+  test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'kind': 'intended-plus-external'}) ... ERROR
+  test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'kind': 'unknown'}) ... ERROR
+  test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'currentness': 'STALE'}) ... ERROR
+  test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'coverage': 'INCOMPLETE'}) ... ERROR
+  test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'coverage': 'UNKNOWN'}) ... ERROR
+test_trigger_price_or_quantity_is_not_silently_rounded (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_trigger_price_or_quantity_is_not_silently_rounded) ... ERROR
+test_wrong_action_lineage_or_newer_position_cannot_reuse_proof (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_wrong_action_lineage_or_newer_position_cannot_reuse_proof) ... ERROR
+
+======================================================================
+ERROR: test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 57, in test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping
+    prepared = self.translator.prepare_protection(**context)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'kind': 'multiple'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 75, in test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel
+    self.translator.prepare_protection(**self.context(**options))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'kind': 'intended-plus-external'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 75, in test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel
+    self.translator.prepare_protection(**self.context(**options))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'kind': 'unknown'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 75, in test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel
+    self.translator.prepare_protection(**self.context(**options))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'currentness': 'STALE'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 75, in test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel
+    self.translator.prepare_protection(**self.context(**options))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'coverage': 'INCOMPLETE'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 75, in test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel
+    self.translator.prepare_protection(**self.context(**options))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel) (options={'coverage': 'UNKNOWN'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 75, in test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel
+    self.translator.prepare_protection(**self.context(**options))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_trigger_price_or_quantity_is_not_silently_rounded (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_trigger_price_or_quantity_is_not_silently_rounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 89, in test_trigger_price_or_quantity_is_not_silently_rounded
+    self.translator.prepare_protection(**self.context(stop='59400.05'))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+======================================================================
+ERROR: test_wrong_action_lineage_or_newer_position_cannot_reuse_proof (test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_wrong_action_lineage_or_newer_position_cannot_reuse_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_protection_v02.py", line 81, in test_wrong_action_lineage_or_newer_position_cannot_reuse_proof
+    self.translator.prepare_protection(**context)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'OKXProductTranslator' object has no attribute 'prepare_protection'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.007s
+
+FAILED (errors=9)

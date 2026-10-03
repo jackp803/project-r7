@@ -1,0 +1,185 @@
+test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack (test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack) ... FAIL
+test_current_consent_is_rechecked_after_durable_claim_before_provider_effect (test_trading_dispatch_v02.TradingDispatchV02Tests.test_current_consent_is_rechecked_after_durable_claim_before_provider_effect) ... FAIL
+test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty (test_trading_dispatch_v02.TradingDispatchV02Tests.test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty) ... FAIL
+test_partial_order_and_complete_fills_are_published_without_flat_inference (test_trading_dispatch_v02.TradingDispatchV02Tests.test_partial_order_and_complete_fills_are_published_without_flat_inference) ... FAIL
+test_publication_failure_replays_retained_facts_without_post_or_get (test_trading_dispatch_v02.TradingDispatchV02Tests.test_publication_failure_replays_retained_facts_without_post_or_get) ... FAIL
+test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch (test_trading_dispatch_v02.TradingDispatchV02Tests.test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch) ... FAIL
+
+======================================================================
+FAIL: test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack (test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 43, in api
+    try: return importlib.import_module('application.trading.service')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading.service'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 65, in test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack
+    service, provider = self.service([self.ack()])
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 47, in service
+    api = self.api()
+          ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 44, in api
+    except ModuleNotFoundError: self.fail('Missing actual trading effect composition')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual trading effect composition
+
+======================================================================
+FAIL: test_current_consent_is_rechecked_after_durable_claim_before_provider_effect (test_trading_dispatch_v02.TradingDispatchV02Tests.test_current_consent_is_rechecked_after_durable_claim_before_provider_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 43, in api
+    try: return importlib.import_module('application.trading.service')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading.service'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 100, in test_current_consent_is_rechecked_after_durable_claim_before_provider_effect
+    service, provider = self.service([self.ack()])
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 47, in service
+    api = self.api()
+          ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 44, in api
+    except ModuleNotFoundError: self.fail('Missing actual trading effect composition')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual trading effect composition
+
+======================================================================
+FAIL: test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty (test_trading_dispatch_v02.TradingDispatchV02Tests.test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 43, in api
+    try: return importlib.import_module('application.trading.service')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading.service'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 78, in test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty
+    service, provider = self.service(['LOST_ACK'])
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 47, in service
+    api = self.api()
+          ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 44, in api
+    except ModuleNotFoundError: self.fail('Missing actual trading effect composition')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual trading effect composition
+
+======================================================================
+FAIL: test_partial_order_and_complete_fills_are_published_without_flat_inference (test_trading_dispatch_v02.TradingDispatchV02Tests.test_partial_order_and_complete_fills_are_published_without_flat_inference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 43, in api
+    try: return importlib.import_module('application.trading.service')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading.service'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 131, in test_partial_order_and_complete_fills_are_published_without_flat_inference
+    service, provider = self.service([self.ack(), self.order(state='partially_filled', accFillSz='0.4', avgPx='60000'),
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 47, in service
+    api = self.api()
+          ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 44, in api
+    except ModuleNotFoundError: self.fail('Missing actual trading effect composition')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual trading effect composition
+
+======================================================================
+FAIL: test_publication_failure_replays_retained_facts_without_post_or_get (test_trading_dispatch_v02.TradingDispatchV02Tests.test_publication_failure_replays_retained_facts_without_post_or_get)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 43, in api
+    try: return importlib.import_module('application.trading.service')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading.service'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 121, in test_publication_failure_replays_retained_facts_without_post_or_get
+    service, provider = self.service([self.ack()])
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 47, in service
+    api = self.api()
+          ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 44, in api
+    except ModuleNotFoundError: self.fail('Missing actual trading effect composition')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual trading effect composition
+
+======================================================================
+FAIL: test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch (test_trading_dispatch_v02.TradingDispatchV02Tests.test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 43, in api
+    def api(self):
+                   
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading.service'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 115, in test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch
+    prepared = self.entry(changed)
+                        ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 47, in service
+    def service(self, script):
+              ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 44, in api
+    try: return importlib.import_module('application.trading.service')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual trading effect composition
+
+----------------------------------------------------------------------
+Ran 6 tests in 916.260s
+
+FAILED (failures=6)

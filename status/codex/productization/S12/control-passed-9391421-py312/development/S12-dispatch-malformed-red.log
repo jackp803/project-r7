@@ -1,0 +1,48 @@
+test_binding_drift_and_namespace_mix_cannot_reopen_a_run (test_product_dispatch_v02.ProductDispatchV02Tests.test_binding_drift_and_namespace_mix_cannot_reopen_a_run) ... ok
+test_changed_request_historical_client_reuse_and_secret_payload_fail_closed (test_product_dispatch_v02.ProductDispatchV02Tests.test_changed_request_historical_client_reuse_and_secret_payload_fail_closed) ... ok
+test_dispatch_claim_survives_crash_and_never_grants_a_second_post (test_product_dispatch_v02.ProductDispatchV02Tests.test_dispatch_claim_survives_crash_and_never_grants_a_second_post) ... ok
+test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) ... 
+  test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) (request={'role': 'ENTRY', 'path': '/api/v5/trade/order', 'native_client_id': 'r7abc', 'body': [], 'canonical_request_hash': 'sha256:2222222222222222222222222222222222222222222222222222222222222222', 'authority_hash': 'sha256:3333333333333333333333333333333333333333333333333333333333333333'}) ... ERROR
+  test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) (request={'role': 'ENTRY', 'path': '/api/v5/trade/order', 'native_client_id': 'r7abc', 'body': None, 'canonical_request_hash': 'sha256:2222222222222222222222222222222222222222222222222222222222222222', 'authority_hash': 'sha256:3333333333333333333333333333333333333333333333333333333333333333'}) ... ERROR
+  test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) (request={'role': [], 'path': '/api/v5/trade/order', 'native_client_id': 'r7abc', 'body': {'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'buy', 'ordType': 'market', 'sz': '10', 'clOrdId': 'r7abc'}, 'canonical_request_hash': 'sha256:2222222222222222222222222222222222222222222222222222222222222222', 'authority_hash': 'sha256:3333333333333333333333333333333333333333333333333333333333333333'}) ... ERROR
+test_new_process_fences_old_writer_and_copied_receipts_are_data_only (test_product_dispatch_v02.ProductDispatchV02Tests.test_new_process_fences_old_writer_and_copied_receipts_are_data_only) ... ok
+test_observation_is_immutable_and_ack_or_ambiguity_is_not_terminal_truth (test_product_dispatch_v02.ProductDispatchV02Tests.test_observation_is_immutable_and_ack_or_ambiguity_is_not_terminal_truth) ... ok
+test_two_actual_connections_can_claim_a_dispatch_only_once (test_product_dispatch_v02.ProductDispatchV02Tests.test_two_actual_connections_can_claim_a_dispatch_only_once) ... ok
+
+======================================================================
+ERROR: test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) (request={'role': 'ENTRY', 'path': '/api/v5/trade/order', 'native_client_id': 'r7abc', 'body': [], 'canonical_request_hash': 'sha256:2222222222222222222222222222222222222222222222222222222222222222', 'authority_hash': 'sha256:3333333333333333333333333333333333333333333333333333333333333333'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 122, in test_malformed_body_roles_and_credential_headers_never_reach_claim
+    journal.prepare('run', 'operation', request, lease=lease, now=self.now)
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 199, in prepare
+    if request['path'] != path or request['body'].get(body_id) != request['native_client_id']:
+                                  ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'get'
+
+======================================================================
+ERROR: test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) (request={'role': 'ENTRY', 'path': '/api/v5/trade/order', 'native_client_id': 'r7abc', 'body': None, 'canonical_request_hash': 'sha256:2222222222222222222222222222222222222222222222222222222222222222', 'authority_hash': 'sha256:3333333333333333333333333333333333333333333333333333333333333333'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 122, in test_malformed_body_roles_and_credential_headers_never_reach_claim
+    journal.prepare('run', 'operation', request, lease=lease, now=self.now)
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 199, in prepare
+    if request['path'] != path or request['body'].get(body_id) != request['native_client_id']:
+                                  ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'get'
+
+======================================================================
+ERROR: test_malformed_body_roles_and_credential_headers_never_reach_claim (test_product_dispatch_v02.ProductDispatchV02Tests.test_malformed_body_roles_and_credential_headers_never_reach_claim) (request={'role': [], 'path': '/api/v5/trade/order', 'native_client_id': 'r7abc', 'body': {'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'buy', 'ordType': 'market', 'sz': '10', 'clOrdId': 'r7abc'}, 'canonical_request_hash': 'sha256:2222222222222222222222222222222222222222222222222222222222222222', 'authority_hash': 'sha256:3333333333333333333333333333333333333333333333333333333333333333'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 122, in test_malformed_body_roles_and_credential_headers_never_reach_claim
+    journal.prepare('run', 'operation', request, lease=lease, now=self.now)
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 195, in prepare
+    if not isinstance(request, dict) or set(request) != required or request['role'] not in {'ENTRY', 'PROTECTION_STOP', 'POSITION_EXIT', 'EMERGENCY_EXIT'}:
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.797s
+
+FAILED (errors=3)

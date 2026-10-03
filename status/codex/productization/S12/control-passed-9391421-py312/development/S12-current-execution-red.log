@@ -1,0 +1,67 @@
+test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot) ... ERROR
+test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot) ... ERROR
+test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot) ... ERROR
+test_wrong_subject_missing_plan_or_missing_position_action_is_rejected (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_wrong_subject_missing_plan_or_missing_position_action_is_rejected) ... ERROR
+
+======================================================================
+ERROR: test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 27, in test_exact_durable_plan_and_risk_are_read_in_one_closed_snapshot
+    result = self.read()
+             ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 24, in read
+    return self.journal.current_execution_subject(self.identity, self.plan['trade_plan_id'], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperRuntimeJournal' object has no attribute 'current_execution_subject'
+
+======================================================================
+ERROR: test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 55, in test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot
+    self.read()
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 24, in read
+    return self.journal.current_execution_subject(self.identity, self.plan['trade_plan_id'], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperRuntimeJournal' object has no attribute 'current_execution_subject'
+
+======================================================================
+ERROR: test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_raw_database_hash_corruption_is_not_a_valid_risk_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 633, in _rmtree_unsafe
+    os.unlink(fullname)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\tmp9h2qcwvw\\canonical.sqlite'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\tmp9h2qcwvw\\canonical.sqlite'
+
+======================================================================
+ERROR: test_wrong_subject_missing_plan_or_missing_position_action_is_rejected (test_current_execution_subject_v02.CurrentExecutionSubjectV02Tests.test_wrong_subject_missing_plan_or_missing_position_action_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 47, in test_wrong_subject_missing_plan_or_missing_position_action_is_rejected
+    call()
+  File "<SOURCE_ROOT>\tests\storage\test_current_execution_subject_v02.py", line 42, in <lambda>
+    lambda: self.journal.current_execution_subject(StrategyIdentity('other', '1.0.0'), self.plan['trade_plan_id']),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperRuntimeJournal' object has no attribute 'current_execution_subject'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.775s
+
+FAILED (errors=4)

@@ -1,0 +1,84 @@
+test_actual_registered_subject_limits_and_evidence_are_readonly_and_fixture_never_financial (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_actual_registered_subject_limits_and_evidence_are_readonly_and_fixture_never_financial) ... FAIL
+test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) ... 
+  test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'status': 'PASS'}) ... FAIL
+  test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'actor': 'ProductOwner'}) ... FAIL
+  test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'expected_revision': -1}) ... FAIL
+  test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'expected_revision': 'true'}) ... FAIL
+  test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'envelope_ref': '../../outside'}) ... FAIL
+test_reading_or_reauthenticating_preview_never_allows_fixture_approval (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_reading_or_reauthenticating_preview_never_allows_fixture_approval) ... FAIL
+test_stale_subject_or_wrong_envelope_or_release_drift_produces_typed_denial (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_stale_subject_or_wrong_envelope_or_release_drift_produces_typed_denial) ... FAIL
+
+======================================================================
+FAIL: test_actual_registered_subject_limits_and_evidence_are_readonly_and_fixture_never_financial (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_actual_registered_subject_limits_and_evidence_are_readonly_and_fixture_never_financial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 43, in test_actual_registered_subject_limits_and_evidence_are_readonly_and_fixture_never_financial
+    self.assertEqual(401,self.preview().status_code)
+AssertionError: 401 != 404
+
+======================================================================
+FAIL: test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'status': 'PASS'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 74, in test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds
+    with self.subTest(values=values):self.assertEqual(422,self.preview(**values).status_code)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 422 != 404
+
+======================================================================
+FAIL: test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'actor': 'ProductOwner'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 74, in test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds
+    with self.subTest(values=values):self.assertEqual(422,self.preview(**values).status_code)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 422 != 404
+
+======================================================================
+FAIL: test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'expected_revision': -1})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 74, in test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds
+    with self.subTest(values=values):self.assertEqual(422,self.preview(**values).status_code)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 422 != 404
+
+======================================================================
+FAIL: test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'expected_revision': 'true'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 74, in test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds
+    with self.subTest(values=values):self.assertEqual(422,self.preview(**values).status_code)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 422 != 404
+
+======================================================================
+FAIL: test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds) (values={'envelope_ref': '../../outside'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 74, in test_query_rejects_untrusted_payload_unknown_keys_and_bad_bounds
+    with self.subTest(values=values):self.assertEqual(422,self.preview(**values).status_code)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 422 != 404
+
+======================================================================
+FAIL: test_reading_or_reauthenticating_preview_never_allows_fixture_approval (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_reading_or_reauthenticating_preview_never_allows_fixture_approval)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 77, in test_reading_or_reauthenticating_preview_never_allows_fixture_approval
+    self.login();self.assertEqual(200,self.preview().status_code)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 200 != 404
+
+======================================================================
+FAIL: test_stale_subject_or_wrong_envelope_or_release_drift_produces_typed_denial (tests.product.test_api_approval_preview.APIApprovalPreviewTests.test_stale_subject_or_wrong_envelope_or_release_drift_produces_typed_denial)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_approval_preview.py", line 62, in test_stale_subject_or_wrong_envelope_or_release_drift_produces_typed_denial
+    self.assertEqual(409,self.preview(expected_revision=self.before.registry_revision-1).status_code)
+AssertionError: 409 != 404
+
+----------------------------------------------------------------------
+Ran 4 tests in 9.942s
+
+FAILED (failures=8)

@@ -391,6 +391,37 @@
       "skipped": 0,
       "evidence_ref": "status/codex/productization/S12/application-passed-7b6901d-py312/qualification.json",
       "scope": "S12 application checkpoint: actual E6/E7/E5/E4 fenced dispatch, scripted provider readback and canonical recovery/publication; continuous orchestration, settlement/projections/control integration remain IN_PROGRESS; real vault/provider/native/cloud/forward commissioning NOT_RUN"
+    },
+    {
+      "step": "S12",
+      "phase": "EXACT_CLEAN_CONTROL_REGRESSION",
+      "status": "PASS",
+      "executable_revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+      "phase_1": 247,
+      "phase_2": 1352,
+      "total": 1599,
+      "commands": 33,
+      "platform": "Windows11-x86_64-10.0.26200/CPython3.12.10",
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S12/control-passed-9391421-py312/qualification.json",
+      "scope": "S12 control checkpoint: exact E6 financial proposal views, authenticated stop-new-entry/replay and current E6/E7/E5/E4 dispatch expiry fences; continuous orchestration, residual/newer-flat settlement and trading/protection projections remain IN_PROGRESS; real vault/provider/native/cloud/forward commissioning NOT_RUN"
+    },
+    {
+      "step": "S12",
+      "phase": "EXACT_CLEAN_CONTROL_UI",
+      "status": "PASS",
+      "executable_revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+      "commands": 6,
+      "unit_tests": 12,
+      "browser_tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "evidence_ref": "status/codex/productization/S12/control-passed-9391421-py312/ui/ui-qualification.json",
+      "scope": "S12 Control Center uses actual isolated auth/E6/intake/research/PAPER/deployment owners and synthetic approval views/pause; fixture financial writes remain denied. No real cloud/forward/provider/native-service acceptance is implied"
     }
   ],
   "evidence_refs": [
@@ -411,7 +442,9 @@
     "status/codex/productization/S11/passed-1ce69a7-py312/ui/ui-qualification.json",
     "status/codex/productization/S12/foundation-passed-370bdcb-py312/qualification.json",
     "status/codex/productization/S12/roles-passed-ac2bc68-py312/qualification.json",
-    "status/codex/productization/S12/application-passed-7b6901d-py312/qualification.json"
+    "status/codex/productization/S12/application-passed-7b6901d-py312/qualification.json",
+    "status/codex/productization/S12/control-passed-9391421-py312/qualification.json",
+    "status/codex/productization/S12/control-passed-9391421-py312/ui/ui-qualification.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -450,8 +483,9 @@
     "S11 eight browser cases use actual local owners; fixture elapsed time and native Ubuntu are not qualified",
     "S12 foundation full regression qualified; role translation, durable dispatch/readback/recovery and control integration remain IN_PROGRESS",
     "S12 role mechanics/durable claim checkpoint qualified; actual application current-owner effects/publication, stop child fills and control integration remain IN_PROGRESS",
-    "S12 current-owner application dispatch/canonical publication checkpoint qualified; continuous orchestration, settlement/projections and control integration remain IN_PROGRESS"
+    "S12 current-owner application dispatch/canonical publication checkpoint qualified; continuous orchestration, settlement/projections and control integration remain IN_PROGRESS",
+    "S12 actual E6 approval/deployment control and final effect expiry checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
-  "executable_revision": "7b6901deef48a9cfc43991c281336b4e60c982d9",
-  "qualified_executable_revision": "7b6901deef48a9cfc43991c281336b4e60c982d9"
+  "executable_revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+  "qualified_executable_revision": "93914218528d706f28fb7db7e53b8db171ed0ca1"
 }

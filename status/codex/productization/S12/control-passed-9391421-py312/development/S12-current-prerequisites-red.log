@@ -1,0 +1,20 @@
+test_close_uses_current_e5_authority_and_shared_v02_cap_without_enlargement (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_close_uses_current_e5_authority_and_shared_v02_cap_without_enlargement) ... ok
+test_copy_mutation_expiry_and_cross_translator_cannot_reuse_preparation (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_copy_mutation_expiry_and_cross_translator_cannot_reuse_preparation) ... ok
+test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6 (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6) ... ok
+test_entry_requires_current_issuer_bound_position_and_pending_order_observations (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_requires_current_issuer_bound_position_and_pending_order_observations) ... FAIL
+test_entry_uses_actual_e5_gateway_and_existing_contract_sizing (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_uses_actual_e5_gateway_and_existing_contract_sizing) ... ok
+test_existing_exposure_pending_orders_and_non_e5_plan_block_entry (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_existing_exposure_pending_orders_and_non_e5_plan_block_entry) ... ok
+
+======================================================================
+FAIL: test_entry_requires_current_issuer_bound_position_and_pending_order_observations (test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_requires_current_issuer_bound_position_and_pending_order_observations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_translation_v02.py", line 50, in test_entry_requires_current_issuer_bound_position_and_pending_order_observations
+    with self.assertRaises(ValueError): self.translator.prepare_entry(**arguments)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.526s
+
+FAILED (failures=1)

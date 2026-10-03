@@ -1,0 +1,55 @@
+
+> r7-control-center@0.2.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+··········xx
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > confirmation uses an exact server preview and a changed strategy or revision invalidates it
+AssertionError: expected null to be 'APPROVAL_PREVIEW_SUBJECT_CHANGED' // Object.is equality
+
+- Expected:
+"APPROVAL_PREVIEW_SUBJECT_CHANGED"
+
++ Received:
+null
+
+ ❯ src/model.test.ts:46:73
+     44|     expect(approvalBlock('LOCAL_RESEARCH',subject,{...preview,release:…
+     45|     expect(approvalBlock('LOCAL_RESEARCH',{...subject,content_hash:und…
+     46|       envelope:{...preview.envelope,strategy_content_hash:undefined}})…
+       |                                                                         ^
+     47|   });
+     48|   it('deployment pause is separate from financial activation and exact…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > deployment pause is separate from financial activation and exact current subject is required
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ src/model.test.ts:56:127
+     54|     expect(canPauseDeployment('FIXTURE',{...subject,registry_revision:…
+     55|     expect(canPauseDeployment('FIXTURE',{...subject,current_lifecycle_…
+     56|     expect(canPauseDeployment('FIXTURE',{...subject,content_hash:undef…
+       |                                                                                                                               ^
+     57|     const approved={...subject,current_lifecycle_state:'APPROVED'};
+     58|     expect(deploymentActivationBlock('LOCAL_RESEARCH',approved,{...dep…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 10 passed (12)
+   Start at  10:55:37
+   Duration  276ms (tests 38%, transform 37%, import 18%, worker 6%)
+

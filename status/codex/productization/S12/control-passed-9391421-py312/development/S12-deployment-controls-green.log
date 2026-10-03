@@ -1,0 +1,24 @@
+test_actual_owner_resume_retry_uses_original_operation_after_lifecycle_advances (tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_actual_owner_resume_retry_uses_original_operation_after_lifecycle_advances) ... ok
+test_authenticated_pause_disables_new_exposure_and_retains_original_management (tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_authenticated_pause_disables_new_exposure_and_retains_original_management) ... ok
+test_lost_api_receipt_reconciles_owner_pause_without_another_transition (tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_lost_api_receipt_reconciles_owner_pause_without_another_transition) ... ERROR
+test_wrong_deployment_identity_cannot_pause_and_fixture_activation_stays_denied (tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_wrong_deployment_identity_cannot_pause_and_fixture_activation_stays_denied) ... ok
+
+======================================================================
+ERROR: test_lost_api_receipt_reconciles_owner_pause_without_another_transition (tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_lost_api_receipt_reconciles_owner_pause_without_another_transition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_deployment_controls.py", line 21, in setUp
+    e6.record_approval(h.identity,envelope_ref='fixture-envelope',authenticated_human=self.human,decision='APPROVE',
+  File "<SOURCE_ROOT>\src\registry\service.py", line 239, in record_approval
+    strategy,boundary=self._operational_context(identity,expected_revision,('READY_FOR_APPROVAL',))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\registry\service.py", line 176, in _operational_context
+    boundary.current()
+  File "<SOURCE_ROOT>\src\registry\operational_authority.py", line 258, in current
+    raise EvidenceGateError('Current exact release source/namespace mismatch')
+registry.models.EvidenceGateError: Current exact release source/namespace mismatch
+
+----------------------------------------------------------------------
+Ran 4 tests in 12.756s
+
+FAILED (errors=1)

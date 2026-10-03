@@ -10,6 +10,9 @@ also stay under that project folder, never the desktop root.
 
 Active step: S12, production provider/admission implementation with fake transport verification. Next: S13.
 
+
+S12 control checkpoint executable `93914218528d706f28fb7db7e53b8db171ed0ca1` passed 33 exact-clean commands: phase1 247, phase2 1352, total 1599; zero failures/errors/skips and all owned trees reaped. Exact-clean UI6 commands, unit12/browser10 with zero failures/skips/flaky. Evidence: status/codex/productization/S12/control-passed-9391421-py312. Original E6 financial preview/deployment pause/receipt recovery and final effect expiry are qualified. S12 remains IN_PROGRESS; continue continuous orchestration, residual/exit/newer-flat settlement and runtime projections. No milestone exit or real activation.
+
 S12 application checkpoint executable `7b6901deef48a9cfc43991c281336b4e60c982d9` passed 33 exact-clean commands: phase1 247, phase2 1341, total 1588; zero failures/errors/skips and all owned trees reaped. Evidence: status/codex/productization/S12/application-passed-7b6901d-py312. S12 remains IN_PROGRESS; current-owner fenced dispatch, canonical replay, actual quantity observation and stop child readback are qualified. Continue continuous orchestration, residual/exit/newer-flat settlement, projections and control integration. No milestone exit or real activation.
 
 S12 roles checkpoint executable `ac2bc686b8f230d3592990242247877b7a4a0053` passed 33 exact-clean commands: phase1 247, phase2 1308, total 1555; zero failures/errors/skips and all owned trees reaped. Evidence: status/codex/productization/S12/roles-passed-ac2bc68-py312. S12 remains IN_PROGRESS; continue actual current E6/E7 application dispatch and canonical publication, size normalization, stop child-fill binding, fake-provider E2E and control integration. No milestone exit or real activation.

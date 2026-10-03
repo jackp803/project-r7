@@ -1,0 +1,182 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "source_before": {
+    "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-03T02:56:55.500341Z",
+  "launcher_hash": "sha256:c56a88ab129fe1c5c69b4445625db61d2a021628d77b3b74b5b41c62c8eceb98",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-03T02:56:56.176583Z",
+      "finished_at_utc": "2026-10-03T02:57:04.794892Z",
+      "duration_seconds": 8.625,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:a81b9d917f684715bed40894c6d48ad16fe3f68e5b0715dfbc95a67e0571e3b9",
+      "log_sha256": "sha256:a81b9d917f684715bed40894c6d48ad16fe3f68e5b0715dfbc95a67e0571e3b9",
+      "passed": true,
+      "source_after": {
+        "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-03T02:57:04.926560Z",
+      "finished_at_utc": "2026-10-03T02:57:07.217789Z",
+      "duration_seconds": 2.297000000005937,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:aaa09ae89e1ca01695f79d4f7ce57d8ab3ef19415fe15ac870bd24e27cc9e57f",
+      "log_sha256": "sha256:aaa09ae89e1ca01695f79d4f7ce57d8ab3ef19415fe15ac870bd24e27cc9e57f",
+      "passed": true,
+      "source_after": {
+        "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-03T02:57:07.354193Z",
+      "finished_at_utc": "2026-10-03T02:57:09.069744Z",
+      "duration_seconds": 1.7189999999973224,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-03T02:57:09.203699Z",
+      "finished_at_utc": "2026-10-03T02:57:10.794830Z",
+      "duration_seconds": 1.5939999999973224,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:07cbc3c3bf898c5066f55d775cd3616e5b91e00d8774df588c74b7ec5a998bd0",
+      "log_sha256": "sha256:fc31a94c3b6e656d6e34372e50c90d21ca31a1893fda7046053eb148969bc790",
+      "passed": true,
+      "source_after": {
+        "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 12
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-03T02:57:10.928101Z",
+      "finished_at_utc": "2026-10-03T02:57:11.560866Z",
+      "duration_seconds": 0.6410000000032596,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:3e6cbacc9a8c52788ff20dfe7c25fc6a1428217b5ffbb91195b6f8103882b82c",
+      "log_sha256": "sha256:3e6cbacc9a8c52788ff20dfe7c25fc6a1428217b5ffbb91195b6f8103882b82c",
+      "passed": true,
+      "source_after": {
+        "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "test:browser"
+      ],
+      "started_at_utc": "2026-10-03T02:57:11.688057Z",
+      "finished_at_utc": "2026-10-03T02:57:47.061376Z",
+      "duration_seconds": 35.375,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "06-test-browser.log",
+      "original_log_sha256": "sha256:70c79ac269d6967ce9b61ec6413861fd457d445fd7c09cbfe3f3e4dc07399604",
+      "log_sha256": "sha256:70c79ac269d6967ce9b61ec6413861fd457d445fd7c09cbfe3f3e4dc07399604",
+      "passed": true,
+      "source_after": {
+        "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 10,
+      "browser_stats": {
+        "startTime": "2026-10-03T02:57:12.468Z",
+        "duration": 34554.140999999996,
+        "expected": 10,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "passed": true,
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "semantics": "S12 Control Center uses actual isolated auth/E6/intake/research/PAPER/deployment owners and synthetic approval views/pause; fixture financial writes remain denied. No real cloud/forward/provider/native-service acceptance is implied",
+  "browser_version": "154.0.4258.48",
+  "source_after": {
+    "revision": "93914218528d706f28fb7db7e53b8db171ed0ca1",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-03T02:57:47.228180Z",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:4ff508f43977c34e7cfc7f01de83e6ca8900cfcb96de127fe73f66b78e3b15e3",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "assets/index-DAV_jYfK.js": "sha256:02ba1773793d72e21e1027b407ef3021c4d4cba9713140f1062f2f3fff50682d",
+    "index.html": "sha256:1b220fb9ebd070d728ed218956d7e67aba5a91d0cd4867b746529022d836b954"
+  },
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:7e289277ab270807b2b013d02917311c76d835177f32bb4b84bbff4fbf9f8d45",
+    "contracts/control_api_v0_2.openapi.json": "sha256:7a3f9fad80e8d8191bdfa43779bf4e91fe461b0ca6ab3401c9bc4a5f16f36cb9"
+  }
+}

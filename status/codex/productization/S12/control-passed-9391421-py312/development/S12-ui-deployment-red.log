@@ -1,0 +1,29 @@
+
+> r7-control-center@0.2.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+···········x
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > deployment pause is separate from financial activation and exact current subject is required
+TypeError: canPauseDeployment is not a function
+ ❯ src/model.test.ts:50:12
+     48|     const deployment={deployment_id:'deployment-'+'a'.repeat(64),strat…
+     49|       registry_revision:6,lifecycle_state:'LIVE',namespace:'FIXTURE',f…
+     50|     expect(canPauseDeployment('FIXTURE',subject,deployment)).toBe(true…
+       |            ^
+     51|     expect(deploymentActivationBlock('FIXTURE',subject,deployment)).to…
+     52|     expect(canPauseDeployment('FIXTURE',{...subject,registry_revision:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 11 passed (12)
+   Start at  10:43:31
+   Duration  276ms (transform 38%, tests 36%, import 19%, worker 6%)
+

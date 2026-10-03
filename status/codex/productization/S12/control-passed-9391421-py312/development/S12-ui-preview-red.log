@@ -1,0 +1,36 @@
+
+> r7-control-center@0.2.0 test
+> vitest run --reporter=dot
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+··········x
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > confirmation uses an exact server preview and a changed strategy or revision invalidates it
+AssertionError: expected 'FINANCIAL_ENVELOPE_NOT_COMMISSIONED' to be null
+
+- Expected:
+null
+
++ Received:
+"FINANCIAL_ENVELOPE_NOT_COMMISSIONED"
+
+ ❯ src/model.test.ts:39:61
+     37|       release:{implementation_hash:hash,build_hash:hash,config_hash:ha…
+     38|       envelope:{strategy_id:'one',strategy_version:'1',strategy_conten…
+     39|     expect(approvalBlock('LOCAL_RESEARCH',subject,preview)).toBeNull();
+       |                                                             ^
+     40|     expect(approvalBlock('FIXTURE',subject,preview)).toBe('FIXTURE_FIN…
+     41|     expect(approvalBlock('LOCAL_RESEARCH',{...subject,registry_revisio…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 10 passed (11)
+   Start at  10:30:54
+   Duration  541ms (transform 33%, tests 32%, import 18%, worker 16%)
+

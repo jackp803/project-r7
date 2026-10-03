@@ -1,0 +1,90 @@
+test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp (test_live_admission_v02.LiveAdmissionV02Tests.test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp) ... FAIL
+test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners (test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners) ... FAIL
+test_public_permission_reads_actual_accepted_activation_and_exact_subject_without_minting_real_authority (test_live_admission_v02.LiveAdmissionV02Tests.test_public_permission_reads_actual_accepted_activation_and_exact_subject_without_minting_real_authority) ... FAIL
+test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority (test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority) ... FAIL
+
+======================================================================
+FAIL: test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp (test_live_admission_v02.LiveAdmissionV02Tests.test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 25, in api
+    try:return importlib.import_module('application.trading.admission')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1310, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 77, in test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp
+    api=self.api();admission=api.RuntimeAdmission(namespace='FIXTURE',registry_factory=self.factory,current_preflight=self.preflight,clock=lambda:self.clock[0],maximum_observation_age_seconds=5)
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 26, in api
+    except ModuleNotFoundError:self.fail('Missing actual E6/E7 application admission composition')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual E6/E7 application admission composition
+
+======================================================================
+FAIL: test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners (test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 25, in api
+    try:return importlib.import_module('application.trading.admission')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1310, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.trading'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 66, in test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners
+    api=self.api();admission=api.RuntimeAdmission(namespace='FIXTURE',registry_factory=self.factory,current_preflight=self.preflight,clock=lambda:self.clock[0],maximum_observation_age_seconds=5)
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 26, in api
+    except ModuleNotFoundError:self.fail('Missing actual E6/E7 application admission composition')
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Missing actual E6/E7 application admission composition
+
+======================================================================
+FAIL: test_public_permission_reads_actual_accepted_activation_and_exact_subject_without_minting_real_authority (test_live_admission_v02.LiveAdmissionV02Tests.test_public_permission_reads_actual_accepted_activation_and_exact_subject_without_minting_real_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 48, in test_public_permission_reads_actual_accepted_activation_and_exact_subject_without_minting_real_authority
+    proof=self.permission();self.assertEqual(self.identity,proof.identity);self.assertEqual(self.release[0],proof.release)
+          ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 29, in permission
+    self.assertTrue(callable(method),'Missing actual E6 current runtime permission read port')
+AssertionError: False is not true : Missing actual E6 current runtime permission read port
+
+======================================================================
+FAIL: test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority (test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 56, in test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority
+    self.permission()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 29, in permission
+    self.assertTrue(callable(method),'Missing actual E6 current runtime permission read port')
+AssertionError: False is not true : Missing actual E6 current runtime permission read port
+
+----------------------------------------------------------------------
+Ran 4 tests in 9.410s
+
+FAILED (failures=4)

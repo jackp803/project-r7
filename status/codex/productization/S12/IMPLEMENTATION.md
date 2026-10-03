@@ -200,3 +200,5 @@ exact-clean control/UI checkpoint now, then continue actual continuous E2/E5/
 provider observation, residual/exit/newer-flat settlement and trading/protection/
 alert projections. S12 is IN_PROGRESS; native commissioning stays S13 and real
 authority/provider/cloud/forward remain NOT_RUN. No milestone exit is requested.
+
+Exact-clean control checkpoint PASS: executable `93914218528d706f28fb7db7e53b8db171ed0ca1`, commands33, phase1 247, phase2 1352, total1599; UI6 commands/unit12/browser10. See CONTROL_RESULT.md and machine reports. S12 remains IN_PROGRESS and continues automatically.

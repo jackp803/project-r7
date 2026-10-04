@@ -76,3 +76,14 @@ not loosened. A real ASGI regression first failed on the missing shared native
 denial table, then verifies exact400/403/401 Host/Origin/anonymous boundaries.
 The harness now also retains actual HTTP status/hash assertions and failed server
 command/reaping records. Native acceptance and full qualification remain pending.
+
+Candidate a9bcf37b3d29490b19b99d5616812e28474c69b3 subsequently passed actual
+native first-run smoke:5 scenarios/6 commands, empty PATH/PYTHONPATH unset,
+actual16 E6 migrations, control restart and tampered migration denial; all owned
+trees reaped. Its native build had1034 files. Inspection then found the package
+license inventory omitted CPython's license, although Python libraries and JavaScript
+runtime dependency licenses were retained. Before broader package acceptance the
+selected interpreter license must be copied and hashed; the smoke now requires
+matching dependency/interpreter license versions and actual sealed file hashes.
+This regression first failed on the missing retention helper. A fresh build and
+qualification are required; this earlier smoke is scoped historical evidence only.

@@ -78,6 +78,19 @@ def _stage_resources(stage):
                                   for relative in sorted(sql_directories)]]
 
 
+def _retain_interpreter_license(licenses):
+    candidates = [Path(sys.base_prefix) / 'LICENSE.txt', Path(sys.base_prefix) / 'LICENSE']
+    if platform.system() == 'Linux':
+        candidates += [Path('/usr/share/doc/python3.12/copyright'), Path('/usr/share/doc/libpython3.12-stdlib/copyright')]
+    selected = next((path for path in candidates if path.is_file()), None)
+    if selected is None: raise ValueError('Selected interpreter license material required')
+    destination = Path(licenses) / 'CPython-LICENSE.txt'
+    shutil.copyfile(selected, destination)
+    if destination.stat().st_size == 0: raise ValueError('Interpreter license must not be empty')
+    return dict(package='CPython', version=platform.python_version(), retained_file='licenses/CPython-LICENSE.txt',
+                sha256=hashlib.sha256(destination.read_bytes()).hexdigest())
+
+
 def build(output, revision):
     source = _source(revision)
     target = _target()
@@ -121,7 +134,7 @@ def build(output, revision):
     shutil.copyfile(lock, package / 'requirements-build-py312.lock')
     licenses = package / 'licenses'
     licenses.mkdir()
-    license_inventory = []
+    license_inventory = [_retain_interpreter_license(licenses)]
     for dependency in dependencies:
         for index, (relative, path) in enumerate(dependency['licenses']):
             destination = licenses / (dependency['name'] + '-' + str(index) + '-' + path.name)

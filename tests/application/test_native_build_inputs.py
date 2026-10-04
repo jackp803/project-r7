@@ -73,3 +73,15 @@ class NativeBuildInputTests(unittest.TestCase):
         self.assertEqual(len(resources), 2)
         argv = [argument for origin, destination in resources for argument in ('--add-data', str(origin) + ':' + destination)]
         self.assertLess(len(subprocess.list2cmdline(argv)), 4096)
+
+    def test_native_package_retains_selected_interpreter_license_material(self):
+        interpreter = Path(self.temp.name) / 'interpreter'
+        interpreter.mkdir()
+        material = b'SYNTHETIC_INTERPRETER_LICENSE_FIXTURE\n'
+        (interpreter / 'LICENSE.txt').write_bytes(material)
+        licenses = Path(self.temp.name) / 'licenses'
+        licenses.mkdir()
+        with patch.object(sys, 'base_prefix', str(interpreter)):
+            retained = self.builder._retain_interpreter_license(licenses)
+        self.assertEqual(retained['package'], 'CPython')
+        self.assertEqual((licenses / 'CPython-LICENSE.txt').read_bytes(), material)

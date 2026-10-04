@@ -26,6 +26,16 @@ def verify(package, output):
         raise ValueError('Fresh absolute smoke root outside native installation required')
     identity = verify_distribution(package)
     manifest = json.loads((package / 'distribution.json').read_bytes())
+    licenses = json.loads((package / 'licenses' / 'inventory.json').read_bytes())
+    licensed = {value['package']: value['version'] for value in licenses}
+    required = {value['name']: value['version'] for value in manifest['dependencies']}
+    required['CPython'] = manifest['python']
+    if any(licensed.get(name) != version for name, version in required.items()):
+        raise ValueError('Exact native dependency/interpreter license inventory required')
+    for value in licenses:
+        relative = value['retained_file']
+        if manifest['files'].get(relative) != 'sha256:' + value['sha256']:
+            raise ValueError('Retained native license hash must match actual sealed file')
     executable = package / manifest['entrypoint']
     output.mkdir(parents=True, mode=0o700)
     cwd = output / '空白 中文 工作目錄'
@@ -41,6 +51,7 @@ def verify(package, output):
         commands=commands, scenarios=scenarios, http_assertions=[], product_path='EMPTY', pythonpath='UNSET', node='UNAVAILABLE_ON_PATH',
         actual_provider_requests=0, credentials='NONE', capital='NONE', runtime='NOT_STARTED',
         paper='NOT_STARTED', github_compute='NOT_USED', ubuntu='NOT_RUN')
+    report['licensed_packages'] = licensed
 
     def persist():
         (output / 'native-smoke.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')

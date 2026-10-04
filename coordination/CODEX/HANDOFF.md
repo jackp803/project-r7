@@ -8,7 +8,10 @@ evidence were preserved and relocated under the user's project folder; worktree
 backlinks, revisions and working contents were verified. New work/artifacts must
 also stay under that project folder, never the desktop root.
 
-Active step: S12, production provider/admission implementation with fake transport verification. Next: S13.
+Active step: S13 native first-run/build foundation and remaining S12 production composition. S12 and S13 remain IN_PROGRESS; no milestone exit.
+
+S13 CLI/source foundation:23 focused tests,98 application tests and64 strategy tests PASS; full qualification/native package acceptance pending. Read S13/NATIVE_FOUNDATION_IMPLEMENTATION.md. Build only from an exact clean candidate using the isolated CPython3.12 native build environment. Normal product startup uses no Python/Node/PYTHONPATH and never starts trading. Continue native package defects, isolated workers/supervisor, service/SSH and consistent backup recovery. Accepted executable remains965bfb7bf8eca83831325a3ebce562764599dc1d until new exact qualification. Ubuntu/cloud/real forward/provider/capital commissioning remains NOT_RUN.
+
 
 
 S12 historical claim inventory checkpoint executable `965bfb7bf8eca83831325a3ebce562764599dc1d` passed 33 exact-clean commands: phase1 247, phase2 1395, total 1642; zero failures/errors/skips and all owned trees reaped. Exact-clean UI6 commands, unit12/browser10 with zero failures/skips/flaky. Evidence: status/codex/productization/S12/claim-passed-965bfb7-py312. Complete bounded historical claim scans, actual protection ownership interpretation and final E6 outbox generation fences are qualified. S12 remains IN_PROGRESS; continue continuous orchestration, residual/exit/newer-flat settlement and runtime projections. No milestone exit or real activation.

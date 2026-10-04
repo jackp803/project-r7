@@ -5,6 +5,7 @@ from pathlib import Path
 import platform
 import sqlite3
 import subprocess
+import sys
 
 from application.datasets.catalog import canonical,digest,hash_value,text
 from application.platform.resources import require_local_database_volume
@@ -19,6 +20,12 @@ def stamp(value):
     return value.isoformat(timespec='microseconds').replace('+00:00','Z')
 
 def capture_provenance():
+    if getattr(sys, 'frozen', False):
+        from application.platform.distribution import verify_distribution
+        identity=verify_distribution(Path(sys.executable).resolve().parent)
+        return dict(identity, os=platform.system(), os_version=platform.version(), architecture=platform.machine(),
+                    python=platform.python_version(), execution='LOCAL', provider_requests=0, credentials='NONE',
+                    capital='NONE', github_compute='NOT_USED')
     root=Path(__file__).resolve().parents[3]
     def git(*args):
         try:

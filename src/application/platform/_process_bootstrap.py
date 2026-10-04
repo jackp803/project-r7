@@ -4,11 +4,11 @@ import subprocess
 import sys
 
 
-def main():
+def main(argv=None):
     if sys.stdin.readline() != "GO\n":
         return 125
     try:
-        child = subprocess.Popen(sys.argv[1:], shell=False, stdin=subprocess.DEVNULL)
+        child = subprocess.Popen(sys.argv[1:] if argv is None else argv, shell=False, stdin=subprocess.DEVNULL)
         return child.wait()
     except (OSError, ValueError):
         return 126

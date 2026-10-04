@@ -8,6 +8,7 @@ from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
+import sys
 
 from indicators.v02.common import ARITHMETIC_PROFILE
 from strategy.runtime import RUNTIME_FAMILY, StrategyValidationError
@@ -23,6 +24,7 @@ def _source_revision(source_root):
     source_root=Path(source_root)
     digest=hashlib.sha256()
     files=[path for path in source_root.rglob('*') if path.is_file() and path.suffix in ('.py','.sql')]
+    if not files: raise ValueError('Executable source and SQL resource inventory required')
     for path in sorted(files,key=lambda path:path.relative_to(source_root).as_posix()):
         relative=path.relative_to(source_root).as_posix()
         raw=path.read_bytes().replace(b'\r\n',b'\n')
@@ -31,6 +33,8 @@ def _source_revision(source_root):
 
 
 def _revision():
+    if getattr(sys, 'frozen', False):
+        return _source_revision(Path(sys._MEIPASS)/'source')
     return _source_revision(Path(__file__).resolve().parents[2])
 
 

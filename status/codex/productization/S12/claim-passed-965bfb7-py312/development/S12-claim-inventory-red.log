@@ -1,0 +1,57 @@
+test_account_entry_and_stop_history_after_1000_is_retained (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_account_entry_and_stop_history_after_1000_is_retained) ... ERROR
+test_corrupt_request_in_last_page_is_not_dropped (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_corrupt_request_in_last_page_is_not_dropped) ... ERROR
+test_new_claim_during_scan_cannot_be_silently_omitted (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_new_claim_during_scan_cannot_be_silently_omitted) ... ERROR
+test_same_connection_observation_drift_during_scan_is_rejected (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_same_connection_observation_drift_during_scan_is_rejected) ... ERROR
+test_stream_keeps_ties_across_runs_and_exact_account_scope (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_stream_keeps_ties_across_runs_and_exact_account_scope) ... ERROR
+
+======================================================================
+ERROR: test_account_entry_and_stop_history_after_1000_is_retained (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_account_entry_and_stop_history_after_1000_is_retained)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_claim_inventory_v02.py", line 44, in test_account_entry_and_stop_history_after_1000_is_retained
+    entries=self.journal.claimed_entries_for_account('run')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 412, in claimed_entries_for_account
+    raise ProductDispatchError('DISPATCH_ACCOUNT_RECONCILIATION_INVENTORY_LIMIT')
+storage.product_dispatch.ProductDispatchError: DISPATCH_ACCOUNT_RECONCILIATION_INVENTORY_LIMIT
+
+======================================================================
+ERROR: test_corrupt_request_in_last_page_is_not_dropped (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_corrupt_request_in_last_page_is_not_dropped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_claim_inventory_v02.py", line 83, in test_corrupt_request_in_last_page_is_not_dropped
+    list(self.journal.iter_claimed_entries_for_account('run'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProductDispatchJournal' object has no attribute 'iter_claimed_entries_for_account'. Did you mean: 'claimed_entries_for_account'?
+
+======================================================================
+ERROR: test_new_claim_during_scan_cannot_be_silently_omitted (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_new_claim_during_scan_cannot_be_silently_omitted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_claim_inventory_v02.py", line 66, in test_new_claim_during_scan_cannot_be_silently_omitted
+    stream=self.journal.iter_claimed_entries_for_account('run');next(stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProductDispatchJournal' object has no attribute 'iter_claimed_entries_for_account'. Did you mean: 'claimed_entries_for_account'?
+
+======================================================================
+ERROR: test_same_connection_observation_drift_during_scan_is_rejected (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_same_connection_observation_drift_during_scan_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_claim_inventory_v02.py", line 74, in test_same_connection_observation_drift_during_scan_is_rejected
+    stream=self.journal.iter_claimed_entries_for_account('run');next(stream)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProductDispatchJournal' object has no attribute 'iter_claimed_entries_for_account'. Did you mean: 'claimed_entries_for_account'?
+
+======================================================================
+ERROR: test_stream_keeps_ties_across_runs_and_exact_account_scope (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_stream_keeps_ties_across_runs_and_exact_account_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_claim_inventory_v02.py", line 60, in test_stream_keeps_ties_across_runs_and_exact_account_scope
+    rows=list(self.journal.iter_claimed_entries_for_account('run'))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProductDispatchJournal' object has no attribute 'iter_claimed_entries_for_account'. Did you mean: 'claimed_entries_for_account'?
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.360s
+
+FAILED (errors=5)

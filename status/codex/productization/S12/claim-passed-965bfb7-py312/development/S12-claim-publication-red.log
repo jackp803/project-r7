@@ -1,0 +1,15 @@
+test_claim_append_after_owner_interpretation_invalidates_protection_publication (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_claim_append_after_owner_interpretation_invalidates_protection_publication) ... FAIL
+
+======================================================================
+FAIL: test_claim_append_after_owner_interpretation_invalidates_protection_publication (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_claim_append_after_owner_interpretation_invalidates_protection_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 183, in test_claim_append_after_owner_interpretation_invalidates_protection_publication
+    with self.assertRaisesRegex(ValueError,'DISPATCH_CLAIM_INVENTORY_CHANGED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 26.676s
+
+FAILED (failures=1)

@@ -1,0 +1,16 @@
+test_initial_stop_scan_still_requires_exact_nonempty_position_identity (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_initial_stop_scan_still_requires_exact_nonempty_position_identity) ... 
+  test_initial_stop_scan_still_requires_exact_nonempty_position_identity (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_initial_stop_scan_still_requires_exact_nonempty_position_identity) (value=None) ... FAIL
+
+======================================================================
+FAIL: test_initial_stop_scan_still_requires_exact_nonempty_position_identity (tests.storage.test_product_claim_inventory_v02.ProductClaimInventoryV02Tests.test_initial_stop_scan_still_requires_exact_nonempty_position_identity) (value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_claim_inventory_v02.py", line 86, in test_initial_stop_scan_still_requires_exact_nonempty_position_identity
+    with self.subTest(value=value),self.assertRaisesRegex(ProductDispatchError,'DISPATCH_BOUNDED_IDENTITY_REQUIRED'):
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProductDispatchError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.254s
+
+FAILED (failures=1)

@@ -1,0 +1,15 @@
+test_provider_changed_during_owner_validation_cannot_receive_current_scan (tests.product.test_trading_inventory_v02.TradingInventoryV02Tests.test_provider_changed_during_owner_validation_cannot_receive_current_scan) ... FAIL
+
+======================================================================
+FAIL: test_provider_changed_during_owner_validation_cannot_receive_current_scan (tests.product.test_trading_inventory_v02.TradingInventoryV02Tests.test_provider_changed_during_owner_validation_cannot_receive_current_scan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_inventory_v02.py", line 94, in test_provider_changed_during_owner_validation_cannot_receive_current_scan
+    with patch.object(service,'_guard',side_effect=changing),self.assertRaises(ValueError):
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 19.326s
+
+FAILED (failures=1)

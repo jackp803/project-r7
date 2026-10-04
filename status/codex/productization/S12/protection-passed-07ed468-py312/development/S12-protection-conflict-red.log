@@ -1,0 +1,49 @@
+test_exact_active_query_with_missing_current_inventory_cannot_promote_protection (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_active_query_with_missing_current_inventory_cannot_promote_protection) ... FAIL
+test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider) ... FAIL
+test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty (tests.brokers.test_okx_product_inventory_v02.ProductInventoryV02Tests.test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty) ... 
+  test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty (tests.brokers.test_okx_product_inventory_v02.ProductInventoryV02Tests.test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty) (row={'algoId': '200', 'algoClOrdId': [], 'instType': 'SWAP', 'instId': 'BTC-USDT-SWAP', 'ordType': 'conditional', 'state': 'live', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'sz': '4', 'reduceOnly': 'true', 'slTriggerPx': '59400', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'actualSz': '0', 'ordIdList': [], 'cTime': '1790985540000', 'uTime': '1790985599000'}) ... FAIL
+  test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty (tests.brokers.test_okx_product_inventory_v02.ProductInventoryV02Tests.test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty) (row={'algoId': '200', 'algoClOrdId': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'instType': 'SWAP', 'instId': 'BTC-USDT-SWAP', 'ordType': 'conditional', 'state': 'live', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'sz': '4', 'reduceOnly': 'true', 'slTriggerPx': '59400', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'actualSz': '0', 'ordIdList': [], 'cTime': '1790985540000', 'uTime': '1790985599000'}) ... FAIL
+
+======================================================================
+FAIL: test_exact_active_query_with_missing_current_inventory_cannot_promote_protection (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_active_query_with_missing_current_inventory_cannot_promote_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 145, in test_exact_active_query_with_missing_current_inventory_cannot_promote_protection
+    self.assertEqual('OPEN_UNPROTECTED',recovered.current_position_projection.payload['lifecycle_state'])
+AssertionError: 'OPEN_UNPROTECTED' != 'OPEN_PROTECTED'
+- OPEN_UNPROTECTED
+?      --
++ OPEN_PROTECTED
+
+
+======================================================================
+FAIL: test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider (tests.product.test_trading_position_v02.TradingPositionV02Tests.test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 171, in test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider
+    with patch.object(service,'_read',side_effect=changed),self.assertRaises(ValueError):
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty (tests.brokers.test_okx_product_inventory_v02.ProductInventoryV02Tests.test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty) (row={'algoId': '200', 'algoClOrdId': [], 'instType': 'SWAP', 'instId': 'BTC-USDT-SWAP', 'ordType': 'conditional', 'state': 'live', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'sz': '4', 'reduceOnly': 'true', 'slTriggerPx': '59400', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'actualSz': '0', 'ordIdList': [], 'cTime': '1790985540000', 'uTime': '1790985599000'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_inventory_v02.py", line 47, in test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty
+    with self.subTest(row=row),self.assertRaises(ValueError):self.page([row])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty (tests.brokers.test_okx_product_inventory_v02.ProductInventoryV02Tests.test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty) (row={'algoId': '200', 'algoClOrdId': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx', 'instType': 'SWAP', 'instId': 'BTC-USDT-SWAP', 'ordType': 'conditional', 'state': 'live', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'sz': '4', 'reduceOnly': 'true', 'slTriggerPx': '59400', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'actualSz': '0', 'ordIdList': [], 'cTime': '1790985540000', 'uTime': '1790985599000'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_product_inventory_v02.py", line 47, in test_errors_wrong_scope_duplicate_forward_or_invalid_clocks_never_mean_empty
+    with self.subTest(row=row),self.assertRaises(ValueError):self.page([row])
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 30.082s
+
+FAILED (failures=4)

@@ -1,0 +1,17 @@
+test_other_local_historical_claim_is_unknown_and_cannot_be_labeled_untracked_external (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_other_local_historical_claim_is_unknown_and_cannot_be_labeled_untracked_external) ... FAIL
+
+======================================================================
+FAIL: test_other_local_historical_claim_is_unknown_and_cannot_be_labeled_untracked_external (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_other_local_historical_claim_is_unknown_and_cannot_be_labeled_untracked_external)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 136, in test_other_local_historical_claim_is_unknown_and_cannot_be_labeled_untracked_external
+    self.assertEqual('UNKNOWN',other['ownership_classification'])
+AssertionError: 'UNKNOWN' != 'EXTERNAL_UNTRACKED'
+- UNKNOWN
++ EXTERNAL_UNTRACKED
+
+
+----------------------------------------------------------------------
+Ran 1 test in 25.781s
+
+FAILED (failures=1)

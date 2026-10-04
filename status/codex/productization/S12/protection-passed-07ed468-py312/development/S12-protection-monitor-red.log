@@ -1,0 +1,70 @@
+test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection) ... ERROR
+test_crash_after_projection_replays_original_binding_without_provider_io (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_crash_after_projection_replays_original_binding_without_provider_io) ... ERROR
+test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup) ... ERROR
+test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed) ... ERROR
+test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12 (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12) ... ERROR
+
+======================================================================
+ERROR: test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 69, in test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection
+    context=self.context(readback=False);self.monitor(context)
+                                         ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'project_protection'
+
+======================================================================
+ERROR: test_crash_after_projection_replays_original_binding_without_provider_io (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_crash_after_projection_replays_original_binding_without_provider_io)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 84, in test_crash_after_projection_replays_original_binding_without_provider_io
+    with self.assertRaises(OSError):self.monitor(context)
+                                    ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'project_protection'
+
+======================================================================
+ERROR: test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 59, in test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup
+    context=self.context(extra=True);self.monitor(context)
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'project_protection'
+
+======================================================================
+ERROR: test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 74, in test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed
+    context=self.context(active=False);self.monitor(context)
+                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'project_protection'
+
+======================================================================
+ERROR: test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12 (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 44, in test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12
+    context=self.context();outcome=self.monitor(context)
+                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'project_protection'
+
+----------------------------------------------------------------------
+Ran 5 tests in 121.582s
+
+FAILED (errors=5)

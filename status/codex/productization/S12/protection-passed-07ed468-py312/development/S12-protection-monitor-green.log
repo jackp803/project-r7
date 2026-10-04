@@ -1,0 +1,127 @@
+test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection) ... ERROR
+test_crash_after_projection_replays_original_binding_without_provider_io (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_crash_after_projection_replays_original_binding_without_provider_io) ... ERROR
+test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup) ... ERROR
+test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_canceled_stop_and_current_empty_scan_projects_e5_emergency_not_closed) ... ok
+test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12 (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12) ... ERROR
+test_provider_changed_during_owner_validation_cannot_receive_current_scan (tests.product.test_trading_inventory_v02.TradingInventoryV02Tests.test_provider_changed_during_owner_validation_cannot_receive_current_scan) ... ok
+
+======================================================================
+ERROR: test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 69, in test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection
+    context=self.context(readback=False);self.monitor(context)
+                                         ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 81, in project_protection
+    return project_protection(self,operation_id,position_observation,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 154, in project_protection
+    evidence,registry,dependencies=_registry(service,prepared,operation,candidate,binding,inventory,decision,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 74, in _registry
+    material=dict(original_request_hash=canonical_evidence_hash(request),source_position_hash=canonical_evidence_hash(position),
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 464, in canonical_evidence_hash
+    return "sha256:" + hashlib.sha256(canonical_evidence_json(value).encode("utf-8")).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 460, in canonical_evidence_json
+    return json.dumps(_canonicalize(value), sort_keys=True, separators=(",", ":"), allow_nan=False)
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 453, in _canonicalize
+    raise ExternalCloseEvidenceError(
+execution.external_close_evidence.ExternalCloseEvidenceError: unsupported canonical value type: OrderRequest
+
+======================================================================
+ERROR: test_crash_after_projection_replays_original_binding_without_provider_io (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_crash_after_projection_replays_original_binding_without_provider_io)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 84, in test_crash_after_projection_replays_original_binding_without_provider_io
+    with self.assertRaises(OSError):self.monitor(context)
+                                    ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 81, in project_protection
+    return project_protection(self,operation_id,position_observation,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 154, in project_protection
+    evidence,registry,dependencies=_registry(service,prepared,operation,candidate,binding,inventory,decision,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 63, in _registry
+    evidence_hash=canonical_evidence_hash(request),evidence_generation_id=generation,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 464, in canonical_evidence_hash
+    return "sha256:" + hashlib.sha256(canonical_evidence_json(value).encode("utf-8")).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 460, in canonical_evidence_json
+    return json.dumps(_canonicalize(value), sort_keys=True, separators=(",", ":"), allow_nan=False)
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 453, in _canonicalize
+    raise ExternalCloseEvidenceError(
+execution.external_close_evidence.ExternalCloseEvidenceError: unsupported canonical value type: OrderRequest
+
+======================================================================
+ERROR: test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 59, in test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup
+    context=self.context(extra=True);self.monitor(context)
+                                     ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 81, in project_protection
+    return project_protection(self,operation_id,position_observation,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 154, in project_protection
+    evidence,registry,dependencies=_registry(service,prepared,operation,candidate,binding,inventory,decision,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 63, in _registry
+    evidence_hash=canonical_evidence_hash(request),evidence_generation_id=generation,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 464, in canonical_evidence_hash
+    return "sha256:" + hashlib.sha256(canonical_evidence_json(value).encode("utf-8")).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 460, in canonical_evidence_json
+    return json.dumps(_canonicalize(value), sort_keys=True, separators=(",", ":"), allow_nan=False)
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 453, in _canonicalize
+    raise ExternalCloseEvidenceError(
+execution.external_close_evidence.ExternalCloseEvidenceError: unsupported canonical value type: OrderRequest
+
+======================================================================
+ERROR: test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12 (tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 44, in test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12
+    context=self.context();outcome=self.monitor(context)
+                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py", line 40, in monitor
+    return service.project_protection(stop.canonical_request.order_request_id,position,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 81, in project_protection
+    return project_protection(self,operation_id,position_observation,inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 154, in project_protection
+    evidence,registry,dependencies=_registry(service,prepared,operation,candidate,binding,inventory,decision,
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\protection_monitor.py", line 63, in _registry
+    evidence_hash=canonical_evidence_hash(request),evidence_generation_id=generation,
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 464, in canonical_evidence_hash
+    return "sha256:" + hashlib.sha256(canonical_evidence_json(value).encode("utf-8")).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 460, in canonical_evidence_json
+    return json.dumps(_canonicalize(value), sort_keys=True, separators=(",", ":"), allow_nan=False)
+                      ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\external_close_evidence.py", line 453, in _canonicalize
+    raise ExternalCloseEvidenceError(
+execution.external_close_evidence.ExternalCloseEvidenceError: unsupported canonical value type: OrderRequest
+
+----------------------------------------------------------------------
+Ran 6 tests in 147.075s
+
+FAILED (errors=4)

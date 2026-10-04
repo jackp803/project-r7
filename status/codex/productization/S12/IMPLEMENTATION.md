@@ -236,3 +236,5 @@ residual/exit/newer-flat/funding settlement and runtime/control projections.
 S12 remains IN_PROGRESS; no native commissioning or real activation is implied.
 
 Exact-clean native position checkpoint PASS: executable `d886f8c7ea265931d3f82af4995eee5cfee1a197`, commands33, phase1 247, phase2 1366, total1613; UI6 commands/unit12/browser10. See POSITION_RESULT.md and machine reports. S12 remains IN_PROGRESS and continues automatically.
+
+Exact-clean native protection checkpoint PASS: executable `07ed46858abdf7328e36d5402f789a334a4b0668`, commands33, phase1 247, phase2 1386, total1633; UI6 commands/unit12/browser10. See PROTECTION_RESULT.md and machine reports. S12 remains IN_PROGRESS and continues automatically.

@@ -54,8 +54,9 @@ readback remains ownership UNKNOWN. A verified account-wide E6 claim inventory
 is compared before labeling another object EXTERNAL_UNTRACKED. Other locally
 claimed identities and blank/unresolvable client identities remain UNKNOWN;
 this original-position profile cannot adopt another deployment's object.
-The existing 1,000 historical-claim capacity bound fails closed and remains an
-explicit outstanding capacity/indexing obligation, not permission to drop rows.
+The additive `PRODUCT_CLAIM_INVENTORY_PROFILE_V0_2.md` replaces the historical
+1000-claim cutoff with complete indexed keyset scans and a final atomic E6
+generation fence. It never drops unresolved history or infers settlement.
 
 FP-04 ownership evidence is produced from these actual observed facts and
 immutable E6 claim/canonical lineage, then passed through the real FP-11

@@ -147,5 +147,59 @@ class TradingProtectionMonitorV02Tests(unittest.TestCase):
         self.assertIsNone(recovered.trade_result)
         self.assertEqual(1,len([item for item in context[1].calls if item['method']=='POST']))
 
+    def test_local_stop_after_1000_claims_remains_unknown_without_cleanup(self):
+        from tests.storage.test_product_claim_inventory_v02 import seed_claim_history
+        from brokers.okx_product_state import durable_product_intent
+        context=self.context(extra=True);service,provider,stop,*_=context
+        current=service.admission.evaluate(self.fixture.identity,expected_revision=self.fixture.revision,
+            permission='MANAGE_EXISTING',execution=service.execution)
+        seed_claim_history(service.dispatch,current.owner_permission,service.lease,self.fixture.clock[0],
+            count=1001,role='PROTECTION_STOP',prefix='oldstop')
+        original=durable_product_intent(stop)
+        legacy={key:original[key] for key in ('role','path','native_client_id','body','canonical_request_hash','authority_hash')}
+        legacy['native_client_id']='EXTERNALSTOP';legacy['body']=dict(legacy['body'],algoClOrdId='EXTERNALSTOP')
+        service.dispatch.prepare('fixture-run','zz-last-local-stop',legacy,lease=service.lease,now=self.fixture.clock[0])
+        service.dispatch.claim_dispatch('fixture-run','zz-last-local-stop',lease=service.lease,now=self.fixture.clock[0])
+        self.monitor(context)
+        batch=service.dispatch.latest_position_publication('fixture-run',stop.canonical_request.order_request_id)
+        other=next(item for item in json.loads(batch.observation_json)['fp04_evidence'] if item['provider_object_ref']=='OKX:algo:2344')
+        self.assertEqual('UNKNOWN',other['ownership_classification'])
+        self.assertEqual('RECONCILIATION_REQUIRED',self.helper.recover().current_position_projection.payload['lifecycle_state'])
+        self.assertEqual(1,len([item for item in provider.calls if item['method']=='POST']))
+
+    def test_claim_append_after_owner_interpretation_invalidates_protection_publication(self):
+        from tests.storage.test_product_claim_inventory_v02 import seed_claim_history
+        from application.trading import protection_monitor
+        context=self.context();service,provider,stop,*_=context
+        current=service.admission.evaluate(self.fixture.identity,expected_revision=self.fixture.revision,
+            permission='MANAGE_EXISTING',execution=service.execution)
+        original=protection_monitor.interpret_protection_registry_evidence
+        def append_claim(*args,**kwargs):
+            result=original(*args,**kwargs)
+            seed_claim_history(service.dispatch,current.owner_permission,service.lease,self.fixture.clock[0],
+                count=1,role='PROTECTION_STOP',prefix='late')
+            return result
+        with patch.object(protection_monitor,'interpret_protection_registry_evidence',side_effect=append_claim):
+            with self.assertRaisesRegex(ValueError,'DISPATCH_CLAIM_INVENTORY_CHANGED'):
+                self.monitor(context)
+        self.assertEqual('OPEN_UNPROTECTED',self.helper.recover().current_position_projection.payload['lifecycle_state'])
+        self.assertIsNone(service.dispatch.latest_position_publication('fixture-run',stop.canonical_request.order_request_id))
+
+    def test_claim_append_at_outbox_boundary_is_rejected_in_actual_writer_transaction(self):
+        from tests.storage.test_product_claim_inventory_v02 import seed_claim_history
+        context=self.context();service,provider,stop,*_=context
+        current=service.admission.evaluate(self.fixture.identity,expected_revision=self.fixture.revision,
+            permission='MANAGE_EXISTING',execution=service.execution)
+        original=service.dispatch.observe_position
+        def append_claim(*args,**kwargs):
+            seed_claim_history(service.dispatch,current.owner_permission,service.lease,self.fixture.clock[0],
+                count=1,role='PROTECTION_STOP',prefix='boundary')
+            return original(*args,**kwargs)
+        with patch.object(service.dispatch,'observe_position',side_effect=append_claim):
+            with self.assertRaisesRegex(ValueError,'DISPATCH_CLAIM_INVENTORY_CHANGED'):
+                self.monitor(context)
+        self.assertEqual('OPEN_UNPROTECTED',self.helper.recover().current_position_projection.payload['lifecycle_state'])
+        self.assertIsNone(service.dispatch.latest_position_publication('fixture-run',stop.canonical_request.order_request_id))
+
 
 if __name__=='__main__':unittest.main()

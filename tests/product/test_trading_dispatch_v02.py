@@ -254,14 +254,15 @@ class TradingDispatchV02Tests(unittest.TestCase):
         self.assertEqual('DISPATCHING', self.dispatch.operation('fixture-run', self.prepared.canonical_request.order_request_id).status)
 
     def test_permit_expiring_inside_final_provider_guard_cannot_reach_post(self):
-        service,provider=self.service([self.ack()]);original=self.dispatch.claimed_entries_for_account
+        service,provider=self.service([self.ack()]);original=self.dispatch.iter_claimed_entries_for_account
         reads=[]
         def slow_last_read(*args,**kwargs):
             result=original(*args,**kwargs);reads.append(True)
+            yield from result
             if len(reads)==3:self.fixture.clock[0]+=timedelta(seconds=2)
-            return result
-        with patch.object(self.dispatch,'claimed_entries_for_account',side_effect=slow_last_read),self.assertRaises(RuntimeAdmissionError):
+        with patch.object(self.dispatch,'iter_claimed_entries_for_account',side_effect=slow_last_read),self.assertRaises(RuntimeAdmissionError):
             service.execute(self.prepared,expected_revision=self.fixture.revision)
+        self.assertEqual(3,len(reads))
         self.assertEqual([],provider.calls)
         self.assertEqual('DISPATCHING',self.dispatch.operation('fixture-run',self.prepared.canonical_request.order_request_id).status)
 

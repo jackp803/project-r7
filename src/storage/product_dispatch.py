@@ -379,9 +379,10 @@ class ProductDispatchJournal:
         self._run(lease.run_id)
         self._require_lease(lease.run_id, lease, _stamp(now))
 
-    def observe_position(self, run_id, operation_id, observation, effects, *, lease, now):
+    def observe_position(self, run_id, operation_id, observation, effects, *, lease, now, claim_inventory_generation=None):
         from storage.product_position import observe_position
-        return observe_position(self, run_id, operation_id, observation, effects, lease=lease, now=now)
+        return observe_position(self, run_id, operation_id, observation, effects, lease=lease, now=now,
+                                claim_inventory_generation=claim_inventory_generation)
 
     def position_publication(self, run_id, operation_id, received_at):
         from storage.product_position import position_publication
@@ -399,57 +400,73 @@ class ProductDispatchJournal:
         from storage.product_position import mark_position_publication
         return mark_position_publication(self, batch, lease=lease, now=now)
 
-    def claimed_entries_for_account(self, run_id):
-        """Bounded durable ambiguity inventory across this exact provider/account."""
-        run = self._run(run_id)
+    def claim_inventory_generation(self):
+        """Local read fence, not financial authority or a transferable proof."""
+        try:return self._db.execute('PRAGMA data_version').fetchone()[0],self._db.total_changes
+        except sqlite3.Error:raise ProductDispatchError('DISPATCH_CLAIM_INVENTORY_UNAVAILABLE') from None
+
+    def require_claim_inventory_generation(self, original):
+        if (type(original) is not tuple or len(original)!=2 or any(type(item) is not int for item in original) or
+            original!=self.claim_inventory_generation()):
+            raise ProductDispatchError('DISPATCH_CLAIM_INVENTORY_CHANGED')
+
+    def _iter_claim_inventory(self, run_id, role, position_id=None):
+        """Keyset pages, with no transaction held across caller/owner work.
+
+        A concurrent append or observation makes the entire scan unusable. Both
+        other connections and this connection are fenced; callers may not use a
+        partial scan as absence/ownership/settlement evidence.
+        """
+        run=self._run(run_id)
+        scope=(run['provider_ref'],run['account_ref'],role)
+        if position_id is not None:_text(position_id)
         try:
-            rows = self._db.execute('SELECT i.run_id,i.operation_id,i.request_json,i.request_hash FROM product_dispatch_intents i '
-                "JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? AND json_extract(i.request_json,'$.role')='ENTRY' "
-                'ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 1001', (run['provider_ref'], run['account_ref'])).fetchall()
+            original=self.claim_inventory_generation();cursor=None
+            while True:
+                self.require_claim_inventory_generation(original)
+                where='';arguments=scope
+                if position_id is not None:
+                    where+=" AND (json_extract(i.request_json,'$.canonical_request.position_id')=? OR json_extract(i.request_json,'$.canonical_request.position_id') IS NULL)"
+                    arguments+=(position_id,)
+                if cursor is not None:
+                    where+=' AND (i.prepared_at,i.run_id,i.operation_id)>(?,?,?)';arguments+=cursor
+                rows=self._db.execute('SELECT i.run_id,i.operation_id,i.prepared_at,i.request_json,i.request_hash FROM product_dispatch_intents i '
+                    'JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? '
+                    "AND json_extract(i.request_json,'$.role')=?"+where+
+                    ' ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 100',arguments).fetchall()
+                self.require_claim_inventory_generation(original)
+                if not rows:return
+                for row in rows:
+                    self.require_claim_inventory_generation(original)
+                    _read(row['request_json'],row['request_hash'])
+                    operation=self.operation(row['run_id'],row['operation_id'])
+                    if operation is None or operation.recovery_disposition!='READBACK_REQUIRED':
+                        raise ProductDispatchError('DISPATCH_CLAIM_INVENTORY_CHANGED')
+                    self.require_claim_inventory_generation(original)
+                    yield operation
+                cursor=tuple(rows[-1][key] for key in ('prepared_at','run_id','operation_id'))
         except sqlite3.Error:
-            raise ProductDispatchError('DISPATCH_ACCOUNT_RECONCILIATION_INVENTORY_UNAVAILABLE') from None
-        if len(rows) > 1000:
-            raise ProductDispatchError('DISPATCH_ACCOUNT_RECONCILIATION_INVENTORY_LIMIT')
-        operations = []
-        for row in rows:
-            value = _read(row['request_json'], row['request_hash'])
-            if value['role'] == 'ENTRY': operations.append(self.operation(row['run_id'], row['operation_id']))
-        return tuple(operations)
+            raise ProductDispatchError('DISPATCH_CLAIM_INVENTORY_UNAVAILABLE') from None
+
+    def iter_claimed_entries_for_account(self, run_id):
+        return self._iter_claim_inventory(run_id,'ENTRY')
+
+    def claimed_entries_for_account(self, run_id):
+        """Compatibility materialization; effect guards use the bounded stream."""
+        return tuple(self.iter_claimed_entries_for_account(run_id))
+
+    def iter_claimed_initial_protections_for_position(self, run_id, position_id):
+        _text(position_id)
+        return self._iter_claim_inventory(run_id,'PROTECTION_STOP',position_id)
 
     def claimed_initial_protections_for_position(self, run_id, position_id):
-        """Initial-only stops: prior unknown binding also blocks the account."""
-        run=self._run(run_id);_text(position_id)
-        try:
-            rows=self._db.execute('SELECT i.run_id,i.operation_id,i.request_json,i.request_hash FROM product_dispatch_intents i '
-                "JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? "
-                "AND json_extract(i.request_json,'$.role')='PROTECTION_STOP' AND "
-                "(json_extract(i.request_json,'$.canonical_request.position_id')=? OR json_extract(i.request_json,'$.canonical_request.position_id') IS NULL) "
-                'ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 1001',(run['provider_ref'],run['account_ref'],position_id)).fetchall()
-        except sqlite3.Error:
-            raise ProductDispatchError('DISPATCH_PROTECTION_INVENTORY_UNAVAILABLE') from None
-        if len(rows)>1000:raise ProductDispatchError('DISPATCH_PROTECTION_INVENTORY_LIMIT')
-        operations=[]
-        for row in rows:
-            _read(row['request_json'],row['request_hash'])
-            operations.append(self.operation(row['run_id'],row['operation_id']))
-        return tuple(operations)
+        return tuple(self.iter_claimed_initial_protections_for_position(run_id,position_id))
+
+    def iter_claimed_protections_for_account(self, run_id):
+        return self._iter_claim_inventory(run_id,'PROTECTION_STOP')
 
     def claimed_protections_for_account(self, run_id):
-        """Exact account-wide immutable claim inventory, never adoption authority."""
-        run=self._run(run_id)
-        try:
-            rows=self._db.execute('SELECT i.run_id,i.operation_id,i.request_json,i.request_hash FROM product_dispatch_intents i '
-                "JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? "
-                "AND json_extract(i.request_json,'$.role')='PROTECTION_STOP' "
-                'ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 1001',(run['provider_ref'],run['account_ref'])).fetchall()
-        except sqlite3.Error:
-            raise ProductDispatchError('DISPATCH_ACCOUNT_PROTECTION_INVENTORY_UNAVAILABLE') from None
-        if len(rows)>1000:raise ProductDispatchError('DISPATCH_ACCOUNT_PROTECTION_INVENTORY_LIMIT')
-        operations=[]
-        for row in rows:
-            _read(row['request_json'],row['request_hash'])
-            operations.append(self.operation(row['run_id'],row['operation_id']))
-        return tuple(operations)
+        return tuple(self.iter_claimed_protections_for_account(run_id))
 
     def recover(self, run_id):
         self._run(run_id)

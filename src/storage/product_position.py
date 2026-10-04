@@ -140,12 +140,16 @@ def latest_position_publication(journal,run_id,operation_id):
     return None if row is None else _batch(row)
 
 
-def observe_position(journal,run_id,operation_id,observation,effects,*,lease,now):
+def observe_position(journal,run_id,operation_id,observation,effects,*,lease,now,claim_inventory_generation=None):
     Error,encode,_,stamp=_ports()
     if type(observation) not in (ProductPositionObservation,ProductProtectionObservation):raise Error('POSITION_ACTUAL_NATIVE_READBACK_REQUIRED')
     at=stamp(now);observed=stamp(observation.received_at)
     material=observation_material(observation);raw=encode(material)
     with journal._write():
+        if type(observation) is ProductProtectionObservation:
+            # BEGIN IMMEDIATE prevents another claim append between this final
+            # fence and the immutable protection outbox commit.
+            journal.require_claim_inventory_generation(claim_inventory_generation)
         journal._run(run_id);journal._require_lease(run_id,lease,at)
         operation=journal.operation(run_id,operation_id)
         if operation is None or operation.recovery_disposition!='READBACK_REQUIRED':raise Error('POSITION_PRIOR_DISPATCH_CLAIM_REQUIRED')

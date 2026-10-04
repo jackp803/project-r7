@@ -5,7 +5,7 @@ copy of an inventory never grants protection, adoption, cleanup or another POST.
 """
 from datetime import timedelta
 from decimal import Decimal
-import json
+import hashlib,json
 
 from application.trading.admission import RuntimeAdmissionError
 from application.trading.position_observation import require_position_read
@@ -44,11 +44,20 @@ def _registry(service,prepared,operation,position,binding,inventory,decision,res
     observation=None if operation.observation_json is None else json.loads(operation.observation_json)
     native=None if observation is None else observation['provider_id']
     request=prepared.canonical_request
-    claims=service.dispatch.claimed_protections_for_account(service.run_id)
-    claimed_clients={item.request['native_client_id'] for item in claims}
-    claimed_provider_ids={json.loads(item.observation_json)['provider_id'] for item in claims if item.observation_json is not None}
-    claim_hash=canonical_evidence_hash([dict(run_id=item.run_id,operation_id=item.operation_id,request=item.request,
-        observation=None if item.observation_json is None else json.loads(item.observation_json)) for item in claims])
+    claim_generation=service.dispatch.claim_inventory_generation()
+    # Retain only intersections with the bounded current native inventory. The
+    # complete historical scan still contributes to the deterministic audit.
+    current_clients={item.row.get('algoClOrdId') for item in inventory.objects}
+    current_provider_ids={item.provider_algo_id for item in inventory.objects}
+    claimed_clients=set();claimed_provider_ids=set();hasher=hashlib.sha256();claim_count=0
+    for item in service.dispatch.iter_claimed_protections_for_account(service.run_id):
+        request_material=item.request
+        prior=None if item.observation_json is None else json.loads(item.observation_json)
+        if request_material['native_client_id'] in current_clients:claimed_clients.add(request_material['native_client_id'])
+        if prior is not None and prior['provider_id'] in current_provider_ids:claimed_provider_ids.add(prior['provider_id'])
+        material=canonical(dict(run_id=item.run_id,operation_id=item.operation_id,request=request_material,observation=prior)).encode('utf-8')
+        hasher.update(len(material).to_bytes(8,'big'));hasher.update(material);claim_count+=1
+    claim_hash=canonical_evidence_hash(dict(profile='product-account-claim-stream-v0.2',count=claim_count,ordered_material_sha256=hasher.hexdigest()))
     claim_observed_at=service.clock()
     dependencies=[];entries=[]
     for item in inventory.objects:
@@ -109,7 +118,9 @@ def _registry(service,prepared,operation,position,binding,inventory,decision,res
     authority=CurrentProtectionRegistryAuthority(position_ref,evidence['position_hash'],position,position,binding,provider_ref,
         instrument,generation,evidence['provider_observed_at'],evidence['provider_received_at'],
         evidence['observed_active_protection_set_hash'],**runtimes)
-    return evidence,interpret_protection_registry_evidence(evidence,authority),[item.evidence for item in dependencies]
+    interpreted=interpret_protection_registry_evidence(evidence,authority)
+    service.dispatch.require_claim_inventory_generation(claim_generation)
+    return evidence,interpreted,[item.evidence for item in dependencies],claim_generation
 
 
 def project_protection(service,operation_id,position_read,inventory,*,metadata,proof,expected_revision):
@@ -158,13 +169,13 @@ def project_protection(service,operation_id,position_read,inventory,*,metadata,p
     decision=service.admission.evaluate(service.identity,expected_revision=expected_revision,
         permission='MANAGE_EXISTING',execution=service.execution)
     if not decision.allowed:raise RuntimeAdmissionError(*decision.reason_codes)
-    evidence,registry,dependencies=_registry(service,prepared,operation,candidate,binding,inventory,decision,
+    evidence,registry,dependencies,claim_generation=_registry(service,prepared,operation,candidate,binding,inventory,decision,
         () if not queried else (current,))
     if interpreted.protection_verified and not registry.healthy_protection and candidate is not previous:
         # A rejected candidate never became canonical protection. Reinterpret
         # FP11 against the actual original lifecycle/binding; a missing set
         # cannot fall back to the discarded PROTECTION_VERIFIED event.
-        evidence,registry,dependencies=_registry(service,prepared,operation,previous,
+        evidence,registry,dependencies,claim_generation=_registry(service,prepared,operation,previous,
             subject.current_lifecycle_execution_binding.payload,inventory,decision,() if not queried else (current,))
     if interpreted.protection_verified:
         event=interpreted.event if registry.healthy_protection else registry.event
@@ -186,6 +197,7 @@ def project_protection(service,operation_id,position_read,inventory,*,metadata,p
     require_position_read(service,position_read,metadata=metadata,proof=proof,expected_revision=expected_revision)
     service.require_algo_inventory(inventory,metadata=metadata,proof=proof,expected_revision=expected_revision)
     service.canonical.require_current_execution_subject(subject)
-    service.dispatch.observe_position(service.run_id,operation_id,observation,effects,lease=service.lease,now=service.clock())
+    service.dispatch.observe_position(service.run_id,operation_id,observation,effects,lease=service.lease,now=service.clock(),
+                                     claim_inventory_generation=claim_generation)
     service.recover_publications()
     return TradingOutcome(operation_id,'PROTECTION_PROJECTED',reason)

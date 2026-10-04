@@ -92,9 +92,11 @@ account blocks new entry even if another snapshot reports empty prerequisites.
 Only explicit durable zero-fill rejection or exact E6-authoritative CLOSED truth
 with settled TradeResult and terminal orders can clear that historical barrier;
 fresh current E4 prerequisites and financial admission still remain necessary.
-The first profile bounds account entry history verification at1,000 claims and
-fails closed beyond that; archival/settlement indexing is an explicit persistent-
-runtime capacity gap, not a reason to drop history or infer absence.
+Historical account claims use the additive
+`PRODUCT_CLAIM_INVENTORY_PROFILE_V0_2.md` keyset stream. The former1000-claim
+cutoff is removed without dropping any unresolved history or inferring absence.
+Actual issuer freshness still bounds effects; long-history production capacity
+must be measured separately.
 
 The application dispatch/normalization/publication checkpoint is not S12
 completion. Actual continuous orchestration/projections, full residual/exit and

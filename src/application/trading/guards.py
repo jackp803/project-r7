@@ -52,7 +52,7 @@ class _TradingEffectGuard:
                 Decimal(risk['estimated_max_loss']) > Decimal(envelope['risk_per_trade_usdt'])):
                 raise RuntimeAdmissionError('CURRENT_DEPLOYMENT_FINANCIAL_BOUNDS_REQUIRED')
             if prepared.role == 'ENTRY':
-                for operation in service.dispatch.claimed_entries_for_account(service.run_id):
+                for operation in service.dispatch.iter_claimed_entries_for_account(service.run_id):
                     if (operation.run_id, operation.operation_id) == (service.run_id, prepared.canonical_request.order_request_id): continue
                     previous = restore_product_readback(operation.request)
                     recovered = service.canonical.recover(trade_plan_id=previous.canonical_request.trade_plan_id)
@@ -68,7 +68,7 @@ class _TradingEffectGuard:
                     if not rejected and not closed:
                         raise RuntimeAdmissionError('PRIOR_ACCOUNT_ENTRY_RECONCILIATION_REQUIRED')
             elif prepared.role == 'PROTECTION_STOP':
-                for operation in service.dispatch.claimed_initial_protections_for_position(service.run_id, prepared.canonical_request.position_id):
+                for operation in service.dispatch.iter_claimed_initial_protections_for_position(service.run_id, prepared.canonical_request.position_id):
                     if (operation.run_id,operation.operation_id)!=(service.run_id,prepared.canonical_request.order_request_id):
                         # This profile supports one initial stop, with no blind
                         # replacement/second submit. An empty pending snapshot

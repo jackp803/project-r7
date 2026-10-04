@@ -31,7 +31,22 @@ def main(argv=None):
     server = commands.add_parser('serve', help='Start authenticated loopback Control Center')
     server.add_argument('--config', type=Path, required=True)
     server.add_argument('--desktop', action='store_true')
+    worker = commands.add_parser('research-worker', help='Supervise one resource-admitted research child at a time')
+    worker.add_argument('--config', type=Path, required=True)
+    worker.add_argument('--once', action='store_true')
+    job = commands.add_parser('_research-job', help=argparse.SUPPRESS)
+    job.add_argument('--config', type=Path, required=True)
+    job.add_argument('--run-id', required=True)
+    job.add_argument('--generation', type=int, required=True)
     args = parser.parse_args(argv)
+    if args.command == 'research-worker':
+        from application.research.worker import research_worker
+        return research_worker(args.config, once=args.once)
+    if args.command == '_research-job':
+        from application.research.worker import run_research_job
+        result = run_research_job(args.config, args.run_id, args.generation)
+        print(json.dumps(result))
+        return 0 if result['status'] in ('COMPLETE', 'BLOCKED', 'CANCELED') else 2
     if args.command == 'init-profile':
         from application.entrypoints import initialize_profile
         result = initialize_profile(args.config, args.data_root,
@@ -72,6 +87,9 @@ def run():
             from application.platform.distribution import verify_distribution
             verify_distribution(Path(sys.executable).resolve().parent)
         return main()
+    except KeyboardInterrupt:
+        print('R7: stopped', file=sys.stderr)
+        return 130
     except Exception:
         print('R7: local configuration or startup validation failed', file=sys.stderr)
         return 2

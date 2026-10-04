@@ -256,3 +256,33 @@ class ResearchQueue:
             reason = getattr(error, 'code', type(error).__name__)
             if not isinstance(reason, str) or not re.fullmatch('[A-Za-z_]{1,64}', reason): reason = 'RESEARCH_OWNER_FAILED'
             return self._finish(run_id, lease_generation, 'FAILED', reason_codes=(reason,))
+
+    def finish_terminated_worker(self, claim, owned):
+        """Observed owned process death may fail its exact job, never another lease.
+
+        The expired lease is not renewed. Existing sealed observations/owner
+        results remain intact. Only the app dispatch ledger receives disposition.
+        """
+        from application.platform.processes import OwnedProcess
+        if not isinstance(claim, ResearchJobClaim) or not isinstance(owned, OwnedProcess):
+            raise ResearchQueueError('ACTUAL_OWNED_RESEARCH_PROCESS_REQUIRED')
+        report = owned.termination_report
+        if report is None or not report.reaped or owned.process.poll() is None:
+            raise ResearchQueueError('OWNED_RESEARCH_PROCESS_NOT_REAPED')
+        with self._db() as db:
+            now = stamp(self.clock()); db.execute('BEGIN IMMEDIATE')
+            row = db.execute('SELECT * FROM research_queue_jobs WHERE run_id=?', (claim.run_id,)).fetchone()
+            if row is None or row['owner_id'] != self.owner_id or row['generation'] != claim.generation:
+                raise ResearchQueueError('RESEARCH_WORKER_FENCED')
+            if row['state'] in ('COMPLETE', 'BLOCKED', 'FAILED', 'CANCELED'):
+                return self.get(claim.run_id)
+            if row['state'] not in ('RUNNING', 'CANCEL_REQUESTED'):
+                raise ResearchQueueError('RESEARCH_WORKER_FENCED')
+            if now < row['updated_at']: raise ResearchQueueError('QUEUE_CLOCK_REGRESSION')
+            canceled = bool(row['cancel_requested'])
+            reason = 'RESEARCH_CANCELED' if canceled else 'OWNED_WORKER_TIMEOUT' if report.reason == 'TIMEOUT' else 'OWNED_WORKER_EXITED_WITHOUT_RESULT'
+            state = 'CANCELED' if canceled else 'FAILED'
+            db.execute('UPDATE research_queue_jobs SET state=?,revision=revision+1,updated_at=?,reason_codes_json=? WHERE run_id=?',
+                (state, now, canonical([reason]), claim.run_id))
+            self._event(db, db.execute('SELECT * FROM research_queue_jobs WHERE run_id=?', (claim.run_id,)).fetchone(), now)
+        return self.get(claim.run_id)

@@ -86,23 +86,18 @@ def create_local_app(config, *, asset_root=None):
     from application.control_api.assets import mount_control_center, validate_control_center_assets
     from application.control_api.auth import LocalAuth
     from application.control_api.commands import CommandLedger
-    from application.control_api.owner_services import OwnerControlServices
-    from storage import open_sqlite_platform
+    from application.local_owners import LocalOwners
 
     _outside_installation(config.local_data_root)
     root = validate_control_center_assets(default_asset_root() if asset_root is None else asset_root)
-    config.local_data_root.mkdir(parents=True, exist_ok=True, mode=0o700)
-    config.database_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-    def registry_factory():
-        return open_sqlite_platform(config.database_path, research_namespace=NAMESPACE)
-    with registry_factory() as e6:
-        e6.lifecycle_counts()
     clock = lambda: datetime.now(timezone.utc)
+    composition = LocalOwners(config, namespace=NAMESPACE, clock=clock)
     auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=NAMESPACE, clock=clock)
     commands = CommandLedger(config.local_data_root / 'control-commands.sqlite', namespace=NAMESPACE, clock=clock)
-    owners = OwnerControlServices(config, namespace=NAMESPACE, clock=clock, registry_factory=registry_factory)
+    owners = composition.control_services()
     app = create_app(config, auth=auth, commands=commands, services=owners)
     app.state.local_auth = auth
+    app.state.local_owners = composition
     mount_control_center(app, root)
     return app
 

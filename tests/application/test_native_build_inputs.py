@@ -55,3 +55,21 @@ class NativeBuildInputTests(unittest.TestCase):
         with patch.object(sys, 'version_info', (3, 14, 3)), self.assertRaises(ValueError):
             self.builder.build(output, self.revision)
         self.assertFalse(output.exists())
+
+    def test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data(self):
+        migration = self.root / 'src' / 'storage' / 'migrations' / '0001.sql'
+        migration.parent.mkdir(parents=True)
+        migration.write_bytes(b'SELECT 1;\n')
+        (self.root / 'src' / 'synthetic.env').write_bytes(b'SYNTHETIC_FORBIDDEN_PAYLOAD')
+        cache = self.root / 'src' / '__pycache__'
+        cache.mkdir()
+        (cache / 'fixture.pyc').write_bytes(b'SYNTHETIC_CACHE')
+        stage = Path(self.temp.name) / 'staged'
+        resources = self.builder._stage_resources(stage)
+        source = stage / 'source'
+        copied = {path.relative_to(source).as_posix() for path in source.rglob('*') if path.is_file()}
+        self.assertEqual(copied, {'fixture.py', 'storage/migrations/0001.sql'})
+        self.assertEqual((source / 'storage/migrations/0001.sql').read_bytes(), migration.read_bytes())
+        self.assertEqual(len(resources), 2)
+        argv = [argument for origin, destination in resources for argument in ('--add-data', str(origin) + ':' + destination)]
+        self.assertLess(len(subprocess.list2cmdline(argv)), 4096)

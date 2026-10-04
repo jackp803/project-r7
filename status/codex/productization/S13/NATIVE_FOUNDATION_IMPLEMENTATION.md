@@ -57,3 +57,12 @@ isolated research-worker/runtime orchestration, systemd/SSH setup and consistent
 backup/restore generation handling remain S13 work. SELF_REVIEW; whole-branch
 independent review remains S16. Real provider requests0, credentialsNONE,
 capitalNONE, runtime LLM0, GitHub computeNOT_USED; main has not been merged.
+
+The first actual native build candidate da55207298973b6670d388fc66e462a8915d5799
+failed before PyInstaller process launch with actual Windows error206: per-file
+absolute resource arguments exceeded the Windows command-line limit. Failed
+build directories/logs were preserved. Resource staging now copies only .py/.sql
+into fresh source/runtime-resource trees and passes directory arguments; it never
+copies environment/data/cache payloads. The resource-staging regression first
+failed with the missing helper before the fix. A repaired exact-clean candidate
+and fresh native build are required; no earlier PASS is transferred.

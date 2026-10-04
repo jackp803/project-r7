@@ -57,6 +57,27 @@ def _dependencies(lock):
     return values
 
 
+def _stage_resources(stage):
+    """Whitelist resources once; per-file absolute argv exceeds Windows limits."""
+    stage = Path(stage)
+    source = stage / 'source'
+    source.mkdir(parents=True)
+    sql_directories = set()
+    for path in sorted((ROOT / 'src').rglob('*')):
+        if not path.is_file() or path.suffix not in ('.py', '.sql'): continue
+        relative = path.relative_to(ROOT / 'src')
+        destination = source / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(path, destination)
+        if path.suffix == '.sql':
+            resource = stage / 'runtime-resources' / relative
+            resource.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(path, resource)
+            sql_directories.add(relative.parent)
+    return [(source, 'source'), *[(stage / 'runtime-resources' / relative, relative.as_posix())
+                                  for relative in sorted(sql_directories)]]
+
+
 def build(output, revision):
     source = _source(revision)
     target = _target()
@@ -76,19 +97,19 @@ def build(output, revision):
         '--name', name, '--distpath', str(output / 'dist'), '--workpath', str(output / 'work'),
         '--specpath', str(output / 'spec'), '--paths', str(ROOT / 'src'),
         '--add-data', str(ui) + ':ui', '--collect-submodules', 'uvicorn', '--hidden-import', 'pyarrow.parquet']
+    for origin, destination in _stage_resources(output / 'resources'):
+        argv += ['--add-data', str(origin) + ':' + destination]
     # All canonical modules include trusted late-import owner composition paths.
-    # Raw source is additionally retained for the existing Python/SQL commitment.
     for path in sorted((ROOT / 'src').rglob('*')):
         if not path.is_file() or path.suffix not in ('.py', '.sql'): continue
         relative = path.relative_to(ROOT / 'src')
-        argv += ['--add-data', str(path) + ':' + (Path('source') / relative.parent).as_posix()]
         if path.suffix == '.py':
             module = '.'.join(relative.with_suffix('').parts)
             if module.endswith('.__init__'): module = module[:-9]
             argv += ['--hidden-import', module]
-        else:
-            argv += ['--add-data', str(path) + ':' + relative.parent.as_posix()]
     argv.append(str(ROOT / 'packaging' / 'entrypoint.py'))
+    if target == 'windows' and len(subprocess.list2cmdline(argv)) >= 32767:
+        raise ValueError('Native build command exceeds Windows process limit')
     log = output / 'pyinstaller.log'
     with log.open('wb') as stream:
         owned = spawn_owned(argv, cwd=ROOT, limits=ResourceLimits(900), stdout=stream, stderr=subprocess.STDOUT)

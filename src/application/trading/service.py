@@ -37,7 +37,7 @@ class TradingService:
             raise RuntimeAdmissionError('FIXTURE_PRODUCTION_COMPOSITION_FORBIDDEN')
         self.admission=admission; self.translator=translator; self.dispatch=dispatch; self.canonical=canonical
         self.provider=provider; self.identity=identity; self.run_id=run_id; self.clock=clock; self.lease=None
-        self._position_reads={}
+        self._position_reads={};self._algo_inventories={}
         self.execution='FAKE_PROVIDER_VERIFICATION' if type(provider) is FakeProductProvider else 'PRODUCTION'
 
     def bind_process(self, *, expected_revision, expected_generation):
@@ -63,10 +63,23 @@ class TradingService:
         return read_position(self, metadata=metadata, proof=proof, expected_revision=expected_revision,
                              expected_provider_position_id=expected_provider_position_id)
 
+    def read_algo_inventory(self, *, metadata, proof, expected_revision):
+        from application.trading.algo_inventory import read_algo_inventory
+        return read_algo_inventory(self,metadata=metadata,proof=proof,expected_revision=expected_revision)
+
+    def require_algo_inventory(self, observation, *, metadata, proof, expected_revision):
+        from application.trading.algo_inventory import require_algo_inventory
+        return require_algo_inventory(self,observation,metadata=metadata,proof=proof,expected_revision=expected_revision)
+
     def project_entry_position(self, operation_id, observation, *, metadata, proof, expected_revision):
         from application.trading.position_observation import project_entry_position
         return project_entry_position(self, operation_id, observation, metadata=metadata, proof=proof,
                                       expected_revision=expected_revision)
+
+    def project_protection(self, operation_id, position_observation, inventory, *, metadata, proof, expected_revision):
+        from application.trading.protection_monitor import project_protection
+        return project_protection(self,operation_id,position_observation,inventory,
+                                  metadata=metadata,proof=proof,expected_revision=expected_revision)
 
     def _coordinator(self):
         return TradingCoordinator(self.dispatch, self.canonical, self.run_id, self.lease, clock=self.clock)

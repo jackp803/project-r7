@@ -80,7 +80,8 @@ def _query(path,query):
     if path=='/api/v5/trade/order-algo' and len(set(query)&{'algoClOrdId','algoId'})!=1:raise OKXProductionTransportError('PROVIDER_EXACT_ORDER_IDENTITY_REQUIRED')
     for key,value in query.items():
         if not isinstance(value,str) or len(value)>64:raise OKXProductionTransportError('PROVIDER_QUERY_OUTSIDE_PROFILE')
-        valid={'instId':value=='BTC-USDT-SWAP','instType':value=='SWAP','ordType':value=='conditional',
+        from brokers.okx_product_inventory import ALGO_TYPES
+        valid={'instId':value=='BTC-USDT-SWAP','instType':value=='SWAP','ordType':value in ALGO_TYPES,
                'limit':value.isascii() and value.isdecimal() and 1<=int(value)<=100}
         if key in valid:
             if not valid[key]:raise OKXProductionTransportError('PROVIDER_QUERY_OUTSIDE_PROFILE')

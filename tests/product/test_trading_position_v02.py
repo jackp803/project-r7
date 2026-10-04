@@ -161,5 +161,16 @@ class TradingPositionV02Tests(unittest.TestCase):
         self.assertEqual(['GET'],[item['method'] for item in provider.calls])
         self.assertIsNone(self.canonical.recover(trade_plan_id=self.helper.plan['trade_plan_id']).current_position_projection)
 
+    def test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider(self):
+        service,provider=self.helper.service([self.response()]);metadata,proof=self.current_metadata()
+        original=service._read
+        def changed(*args,**kwargs):
+            value=original(*args,**kwargs)
+            service.provider=self.helper.api().FakeProductProvider([])
+            return value
+        with patch.object(service,'_read',side_effect=changed),self.assertRaises(ValueError):
+            service.read_position(metadata=metadata,proof=proof,expected_revision=self.fixture.revision)
+        self.assertEqual(['GET'],[item['method'] for item in provider.calls])
+
 
 if __name__=='__main__':unittest.main()

@@ -21,7 +21,7 @@ from brokers.okx_production_transport import _query
 
 
 def read_position(service,*,metadata,proof,expected_revision,expected_provider_position_id=None):
-    now=service.clock()
+    now=service.clock();lease=service.lease;provider=service.provider
     service.translator.capabilities.require(proof,metadata,role='READ_ONLY_RECONCILIATION',now=now)
     if type(service.provider) is ProductionProductProvider and proof.account_hash!=service.provider.account_hash:
         raise RuntimeAdmissionError('EXACT_NATIVE_POSITION_ACCOUNT_REQUIRED')
@@ -34,10 +34,12 @@ def read_position(service,*,metadata,proof,expected_revision,expected_provider_p
         expected_provider_position_id=expected_provider_position_id)
     service.translator.capabilities.require(proof,metadata,role='READ_ONLY_RECONCILIATION',now=service.clock())
     service._guard(expected_revision,'MANAGE_EXISTING')
+    if service.lease!=lease or service.provider is not provider:
+        raise RuntimeAdmissionError('ORIGINAL_NATIVE_POSITION_READ_ISSUER_REQUIRED')
     service._position_reads={key:record for key,record in service._position_reads.items()
         if record[0].received_at+timedelta(seconds=5)>service.clock()}
     if len(service._position_reads)>=1024:raise RuntimeAdmissionError('NATIVE_POSITION_READ_ISSUANCE_LIMIT')
-    service._position_reads[id(value)]=(value,canonical_okx_close_sizing_hash(value),service.lease,service.provider)
+    service._position_reads[id(value)]=(value,canonical_okx_close_sizing_hash(value),lease,provider)
     return value
 
 
@@ -49,6 +51,10 @@ def require_position_read(service,value,*,metadata,proof,expected_revision):
         raise RuntimeAdmissionError('CURRENT_ISSUER_NATIVE_POSITION_READ_REQUIRED')
     service.translator.capabilities.require(proof,metadata,role='READ_ONLY_RECONCILIATION',now=now)
     service._guard(expected_revision,'MANAGE_EXISTING')
+    if (record[2]!=service.lease or record[3] is not service.provider or
+        record[1]!=canonical_okx_close_sizing_hash(value) or
+        not value.received_at<=service.clock()<value.received_at+timedelta(seconds=5)):
+        raise RuntimeAdmissionError('CURRENT_ISSUER_NATIVE_POSITION_READ_REQUIRED')
     return value
 
 

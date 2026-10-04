@@ -434,6 +434,23 @@ class ProductDispatchJournal:
             operations.append(self.operation(row['run_id'],row['operation_id']))
         return tuple(operations)
 
+    def claimed_protections_for_account(self, run_id):
+        """Exact account-wide immutable claim inventory, never adoption authority."""
+        run=self._run(run_id)
+        try:
+            rows=self._db.execute('SELECT i.run_id,i.operation_id,i.request_json,i.request_hash FROM product_dispatch_intents i '
+                "JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.provider_ref=? AND i.account_ref=? "
+                "AND json_extract(i.request_json,'$.role')='PROTECTION_STOP' "
+                'ORDER BY i.prepared_at,i.run_id,i.operation_id LIMIT 1001',(run['provider_ref'],run['account_ref'])).fetchall()
+        except sqlite3.Error:
+            raise ProductDispatchError('DISPATCH_ACCOUNT_PROTECTION_INVENTORY_UNAVAILABLE') from None
+        if len(rows)>1000:raise ProductDispatchError('DISPATCH_ACCOUNT_PROTECTION_INVENTORY_LIMIT')
+        operations=[]
+        for row in rows:
+            _read(row['request_json'],row['request_hash'])
+            operations.append(self.operation(row['run_id'],row['operation_id']))
+        return tuple(operations)
+
     def recover(self, run_id):
         self._run(run_id)
         operations = [self.operation(run_id, row[0]) for row in self._db.execute('SELECT operation_id FROM product_dispatch_intents WHERE run_id=? ORDER BY prepared_at,operation_id', (run_id,))]

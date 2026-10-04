@@ -87,3 +87,13 @@ selected interpreter license must be copied and hashed; the smoke now requires
 matching dependency/interpreter license versions and actual sealed file hashes.
 This regression first failed on the missing retention helper. A fresh build and
 qualification are required; this earlier smoke is scoped historical evidence only.
+
+Candidate1f322735a49fb76e7ea0b2408b2f045c13684f61 has1035 actual native files,
+including the selected CPython license. Its fresh native5-scenario/6-command smoke
+passed with exact dependency/interpreter versions and sealed license hashes;
+all owned command trees were reaped. See NATIVE_FIRST_RUN_RESULT.md and
+native-first-run-1f32273/. This is scoped first-run/control evidence, not full
+S13/native acceptance. Full exact-clean qualification remains pending; accepted
+complete executable remains965bfb7. Continue S13 supervision/recovery and remaining
+S12 composition before final product acceptance. Native per-command UTC timing
+was not recorded in this initial harness and remains a required S15 addition.

@@ -1,0 +1,15 @@
+test_native_expected_denials_match_actual_local_security_adapter (tests.application.test_native_http_contract.NativeHTTPContractTests.test_native_expected_denials_match_actual_local_security_adapter) ... ERROR
+
+======================================================================
+ERROR: test_native_expected_denials_match_actual_local_security_adapter (tests.application.test_native_http_contract.NativeHTTPContractTests.test_native_expected_denials_match_actual_local_security_adapter)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_http_contract.py", line 25, in test_native_expected_denials_match_actual_local_security_adapter
+    self.assertEqual(host.status_code, verify_native_product.DENIAL_STATUSES['HOST'])
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.verify_native_product' has no attribute 'DENIAL_STATUSES'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.917s
+
+FAILED (errors=1)

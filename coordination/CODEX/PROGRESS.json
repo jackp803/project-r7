@@ -58,7 +58,14 @@
       "logical_cores": 20,
       "measured_memory_kib": 32945572,
       "additional_source_python": "3.14.3",
-      "native_package_status": "NOT_RUN"
+      "native_package_status": "IN_PROGRESS",
+      "native_first_run_status": "PASS",
+      "native_first_run_revision": "1f322735a49fb76e7ea0b2408b2f045c13684f61",
+      "native_first_run_scenarios": 5,
+      "native_first_run_commands": 6,
+      "native_first_run_build_hash": "sha256:d22a09722f239eaabc4b77c74ba55df7abcf5c60ad83b9817bb2a46b103e3fff",
+      "native_archive_sha256": "a48e7ecd27f2bb5392ff6769cfbe47fa5b8234c0aad16514898b9f41ae868422",
+      "native_full_product_acceptance": "NOT_RUN"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -515,6 +522,19 @@
       "flaky": 0,
       "evidence_ref": "status/codex/productization/S12/claim-passed-965bfb7-py312/ui/ui-qualification.json",
       "scope": "S12 Control Center uses actual isolated auth/E6/intake/research/PAPER/deployment owners and synthetic approval views/pause; fixture financial writes remain denied. No real cloud/forward/provider/native-service acceptance is implied"
+    },
+    {
+      "step": "S13",
+      "phase": "NATIVE_FIRST_RUN_ONLY",
+      "revision": "1f322735a49fb76e7ea0b2408b2f045c13684f61",
+      "result": "PASS",
+      "commands": 6,
+      "scenarios": 5,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "build_hash": "sha256:d22a09722f239eaabc4b77c74ba55df7abcf5c60ad83b9817bb2a46b103e3fff",
+      "full_qualification": "NOT_RUN_FOR_THIS_CANDIDATE"
     }
   ],
   "evidence_refs": [
@@ -543,7 +563,8 @@
     "status/codex/productization/S12/protection-passed-07ed468-py312/qualification.json",
     "status/codex/productization/S12/protection-passed-07ed468-py312/ui/ui-qualification.json",
     "status/codex/productization/S12/claim-passed-965bfb7-py312/qualification.json",
-    "status/codex/productization/S12/claim-passed-965bfb7-py312/ui/ui-qualification.json"
+    "status/codex/productization/S12/claim-passed-965bfb7-py312/ui/ui-qualification.json",
+    "status/codex/productization/S13/native-first-run-1f32273/native-smoke.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",

@@ -10,6 +10,9 @@ also stay under that project folder, never the desktop root.
 
 Active step: S13 native first-run/build foundation and remaining S12 production composition. S12 and S13 remain IN_PROGRESS; no milestone exit.
 
+Native first-run candidate `1f322735a49fb76e7ea0b2408b2f045c13684f61` has actual local Windows build1035 files, CPython/exact dependencies license inventory, and5 native scenarios/6 owned commands PASS with empty product PATH/PYTHONPATH unset. Native build hash `sha256:d22a09722f239eaabc4b77c74ba55df7abcf5c60ad83b9817bb2a46b103e3fff`. Evidence: status/codex/productization/S13/native-first-run-1f32273. This is scoped native first-run/control evidence; full qualification for this source/native product remains NOT_RUN. The last complete qualified executable remains965bfb7. Continue actual research/runtime process supervision, services/SSH and backup/restore; then full native/product qualification. No checkpoint stop.
+
+
 S13 CLI/source foundation:23 focused tests,98 application tests and64 strategy tests PASS; full qualification/native package acceptance pending. Read S13/NATIVE_FOUNDATION_IMPLEMENTATION.md. Build only from an exact clean candidate using the isolated CPython3.12 native build environment. Normal product startup uses no Python/Node/PYTHONPATH and never starts trading. Continue native package defects, isolated workers/supervisor, service/SSH and consistent backup recovery. Accepted executable remains965bfb7bf8eca83831325a3ebce562764599dc1d until new exact qualification. Ubuntu/cloud/real forward/provider/capital commissioning remains NOT_RUN.
 
 

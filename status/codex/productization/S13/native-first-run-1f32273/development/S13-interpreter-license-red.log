@@ -1,0 +1,15 @@
+test_native_package_retains_selected_interpreter_license_material (tests.application.test_native_build_inputs.NativeBuildInputTests.test_native_package_retains_selected_interpreter_license_material) ... ERROR
+
+======================================================================
+ERROR: test_native_package_retains_selected_interpreter_license_material (tests.application.test_native_build_inputs.NativeBuildInputTests.test_native_package_retains_selected_interpreter_license_material)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_build_inputs.py", line 85, in test_native_package_retains_selected_interpreter_license_material
+    retained = self.builder._retain_interpreter_license(licenses)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.build_product' has no attribute '_retain_interpreter_license'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.206s
+
+FAILED (errors=1)

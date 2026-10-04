@@ -66,3 +66,13 @@ into fresh source/runtime-resource trees and passes directory arguments; it neve
 copies environment/data/cache payloads. The resource-staging regression first
 failed with the missing helper before the fix. A repaired exact-clean candidate
 and fresh native build are required; no earlier PASS is transferred.
+
+Repaired candidate423f30a36bd9405a4f74772aa88fa1dc1979079e built natively on
+Windows11/Python3.12.10 with1034 retained files. Its first native smoke verified
+empty-PATH hardware diagnostics and Chinese profile creation/preservation, then
+failed on a harness assertion that incorrectly expected403 for rejected Host.
+The actual existing security contract returns400/HOST_NOT_ALLOWED; the API was
+not loosened. A real ASGI regression first failed on the missing shared native
+denial table, then verifies exact400/403/401 Host/Origin/anonymous boundaries.
+The harness now also retains actual HTTP status/hash assertions and failed server
+command/reaping records. Native acceptance and full qualification remain pending.

@@ -17,6 +17,8 @@ sys.path.insert(0, str(ROOT / 'src'))
 from application.platform.distribution import verify_distribution
 from application.platform.processes import ResourceLimits, spawn_owned, terminate_owned
 
+DENIAL_STATUSES = {'HOST': 400, 'ORIGIN': 403, 'ANONYMOUS': 401}
+
 
 def verify(package, output):
     package, output = Path(package).resolve(), Path(output)
@@ -36,7 +38,7 @@ def verify(package, output):
         port = probe.getsockname()[1]
     commands, scenarios = [], []
     report = dict(profile='r7-native-first-run-smoke-v0.2', identity=identity, passed=False,
-        commands=commands, scenarios=scenarios, product_path='EMPTY', pythonpath='UNSET', node='UNAVAILABLE_ON_PATH',
+        commands=commands, scenarios=scenarios, http_assertions=[], product_path='EMPTY', pythonpath='UNSET', node='UNAVAILABLE_ON_PATH',
         actual_provider_requests=0, credentials='NONE', capital='NONE', runtime='NOT_STARTED',
         paper='NOT_STARTED', github_compute='NOT_USED', ubuntu='NOT_RUN')
 
@@ -62,6 +64,8 @@ def verify(package, output):
         try:
             with urlopen(request, timeout=3) as response: code, raw = response.status, response.read(1024 * 1024)
         except HTTPError as error: code, raw = error.code, error.read(1024 * 1024)
+        report['http_assertions'].append(dict(path=path, actual_status=code, expected_status=expected,
+            passed=code == expected, response_sha256=hashlib.sha256(raw).hexdigest()))
         if code != expected: raise ValueError('Native loopback HTTP assertion failed')
         return raw
 
@@ -70,6 +74,7 @@ def verify(package, output):
         with log.open('wb') as stream:
             owned = spawn_owned([str(executable), 'serve', '--config', str(config)], cwd=cwd,
                 limits=ResourceLimits(90), stdout=stream, stderr=subprocess.STDOUT, env=env)
+            succeeded = False
             try:
                 deadline = time.monotonic() + 35
                 while True:
@@ -84,16 +89,18 @@ def verify(package, output):
                     raise ValueError('Native first-run authentication state mismatch')
                 shell = get('/').decode('utf-8')
                 if 'id="root"' not in shell: raise ValueError('Actual built native Control Center missing')
-                get('/api/v1/health', expected=401)
-                get('/api/v1/auth/status', headers={'Host': 'external.invalid'}, expected=403)
-                get('/api/v1/auth/status', headers={'Origin': 'http://external.invalid'}, expected=403)
+                get('/api/v1/health', expected=DENIAL_STATUSES['ANONYMOUS'])
+                get('/api/v1/auth/status', headers={'Host': 'external.invalid'}, expected=DENIAL_STATUSES['HOST'])
+                get('/api/v1/auth/status', headers={'Origin': 'http://external.invalid'}, expected=DENIAL_STATUSES['ORIGIN'])
+                succeeded = True
             finally:
                 termination = terminate_owned(owned, deadline_seconds=5)
+                stream.flush()
+                commands.append(dict(name=label, tree_reaped=termination.reaped, log=log.name,
+                    log_sha256=hashlib.sha256(log.read_bytes()).hexdigest(), passed=succeeded and termination.reaped,
+                    assertions=['NATIVE_BUILT_UI', 'UNENROLLED_LOCAL_AUTH', 'ANONYMOUS_API_DENIED', 'FOREIGN_HOST_DENIED', 'FOREIGN_ORIGIN_DENIED']))
+                persist()
         if not termination.reaped: raise ValueError('Native control process tree not reaped')
-        commands.append(dict(name=label, tree_reaped=True, log=log.name,
-            log_sha256=hashlib.sha256(log.read_bytes()).hexdigest(), passed=True,
-            assertions=['NATIVE_BUILT_UI', 'UNENROLLED_LOCAL_AUTH', 'ANONYMOUS_API_DENIED', 'FOREIGN_HOST_DENIED', 'FOREIGN_ORIGIN_DENIED']))
-        persist()
 
     try:
         doctor = json.loads(command('01-doctor', ['doctor', '--hardware', '--data-root', str(output), '--json']))

@@ -22,6 +22,14 @@ from application.platform.processes import ResourceLimits, spawn_owned, terminat
 DENIAL_STATUSES = {'HOST': 400, 'ORIGIN': 403, 'ANONYMOUS': 401}
 
 
+def changed_scan_profile(path):
+    from application.config import load_config
+    selected = load_config(path)
+    changed = json.loads(Path(path).read_bytes())
+    changed['scan_interval'] = selected.scan_interval + 1
+    return changed
+
+
 def verify(package, output):
     package, output = Path(package).resolve(), Path(output)
     if not output.is_absolute() or output.exists() or output.resolve().is_relative_to(package):
@@ -134,8 +142,7 @@ def verify(package, output):
                 get('/api/v1/auth/status', headers={'Host': 'external.invalid'}, expected=DENIAL_STATUSES['HOST'])
                 get('/api/v1/auth/status', headers={'Origin': 'http://external.invalid'}, expected=DENIAL_STATUSES['ORIGIN'])
                 if change_config:
-                    changed = json.loads(config.read_bytes())
-                    changed['scan_interval'] += 1
+                    changed = changed_scan_profile(config)
                     config.write_text(json.dumps(changed, ensure_ascii=False), encoding='utf-8')
                     if owned.wait(timeout=8) != 2: raise ValueError('Native config drift did not inhibit control')
                     with closing(sqlite3.connect((data / 'process-supervision.sqlite').as_uri() + '?mode=ro', uri=True)) as db:

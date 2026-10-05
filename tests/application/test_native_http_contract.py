@@ -1,14 +1,30 @@
 """Native smoke denial assertions must match the actual existing API contract."""
 from pathlib import Path
+import json
 from tempfile import TemporaryDirectory
 import unittest
 
-from application.config import ProductConfig
-from application.entrypoints import create_local_app
+from application.config import ProductConfig, load_config
+from application.entrypoints import create_local_app, initialize_profile
 from tools import verify_native_product
 
 
 class NativeHTTPContractTests(unittest.TestCase):
+    def test_native_config_fault_uses_validated_defaults_from_actual_first_run_profile(self):
+        with TemporaryDirectory(prefix='R7 原生 設定 預設 ') as temporary:
+            root = Path(temporary)
+            path = root / 'profile.json'
+            initialize_profile(path, root / 'data', instance_id='native-config-fault-fixture')
+            original = path.read_bytes()
+            previous = load_config(path)
+            changed = verify_native_product.changed_scan_profile(path)
+            self.assertEqual(path.read_bytes(), original)
+            path.write_text(json.dumps(changed), encoding='utf-8')
+            current = load_config(path)
+            self.assertEqual(current.scan_interval, previous.scan_interval + 1)
+            self.assertEqual(current.product_instance_id, previous.product_instance_id)
+            self.assertEqual(current.control_api_host, '127.0.0.1')
+
     def test_native_expected_denials_match_actual_local_security_adapter(self):
         from fastapi.testclient import TestClient
         with TemporaryDirectory(prefix='R7 原生 HTTP 契約 ') as temporary:

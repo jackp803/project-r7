@@ -4,12 +4,37 @@ Only configured local owner journals enter here. Request bodies provide run IDs,
 never a result payload or a PASS status. Resolution happens outside E6 locks.
 """
 from dataclasses import dataclass
+import re
+import sys
 
 from registry import EvidenceGateError
 from registry.product_assessment import canonical,digest
 from strategy.v02.capabilities import _revision
 from application.research.evidence import ResearchJournal
 from application.research.holdout import ResearchTrialLedger,FrozenFinalist
+
+
+def require_promotable_provenance(provenance):
+    if not isinstance(provenance, dict) or provenance.get('execution') != 'LOCAL':
+        raise EvidenceGateError('Actual local executable provenance required')
+    revision = provenance.get('executable_revision')
+    if not isinstance(revision, str) or not re.fullmatch('[0-9a-f]{40}', revision):
+        raise EvidenceGateError('Exact executable revision required')
+    if not getattr(sys, 'frozen', False):
+        if provenance.get('worktree') != 'CLEAN':
+            raise EvidenceGateError('Source research promotion requires exact clean source')
+        return
+    # Actual frozen consumer re-verifies its current complete code/resource
+    # inventory. Stored/caller strings cannot substitute for this producer.
+    from application.research.evidence import capture_provenance
+    try:
+        current = capture_provenance()
+    except Exception:
+        raise EvidenceGateError('Current native research inventory not verified') from None
+    if (provenance != current or current.get('worktree') != 'UNAVAILABLE'
+            or current.get('financial_authority') != 'NONE'
+            or current.get('distribution_profile') != 'r7-native-distribution-v0.2'):
+        raise EvidenceGateError('Exact current native research provenance required')
 
 
 @dataclass(frozen=True)
@@ -33,8 +58,8 @@ class ExecutedProductAssessmentBoundary:
         provenance=inputs['provenance']
         if provenance['implementation_hash']!=inputs['implementation_hash'] or provenance['execution']!='LOCAL':
             raise EvidenceGateError('Actual local executable provenance required')
-        if self._namespace=='LOCAL_RESEARCH' and (provenance['worktree']!='CLEAN' or provenance['executable_revision'] is None):
-            raise EvidenceGateError('Real research promotion requires exact clean source')
+        if self._namespace=='LOCAL_RESEARCH':
+            require_promotable_provenance(provenance)
         robustness,robust_hash=self._ledger._robustness(run_id)
         if robustness['strategy_content_hash']!=inputs['strategy']['content_hash'] or robustness['namespace']!=self._namespace:
             raise EvidenceGateError('Robustness subject mismatch')

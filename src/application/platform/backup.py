@@ -124,7 +124,7 @@ def create_database_backup(config, destination, *, config_path=None, timeout_sec
         path = _destination(config, destination)
         _profile_current(config, config_path)
         with ExitStack() as stack:
-            for role in ('control', 'research', 'runtime'):
+            for role in ('control', 'research', 'runtime', 'cloud'):
                 stack.enter_context(ProcessScopeLock(role + ':' + config.product_instance_id,
                                                      lock_root=operational_lock_root(config)))
             present = _present(inventory)

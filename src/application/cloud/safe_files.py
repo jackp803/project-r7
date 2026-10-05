@@ -103,7 +103,7 @@ def read_bounded(root: Path, relative: str, limit: int) -> bytes:
     return _windows_read(path, limit) if os.name == "nt" else _posix_read(path, limit)
 
 
-def _windows_stage(root, relative, raw, fault_hook):
+def _windows_stage(root, relative, raw, fault_hook, *, replace=False):
     from ctypes import wintypes as w
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
     class Information(ctypes.Structure):
@@ -163,7 +163,7 @@ def _windows_stage(root, relative, raw, fault_hook):
             raise CloudError("UNAVAILABLE","PUBLICATION_STAGE_FLUSH_FAILED")
         kernel.CloseHandle(file_handle)
         file_handle=None
-        if not kernel.MoveFileExW(str(stage),str(target),0x8):  # WRITE_THROUGH, no replacement.
+        if not kernel.MoveFileExW(str(stage),str(target),0x8 | (1 if replace else 0)):
             error=ctypes.get_last_error()
             if error in {80,183}:
                 if read_bounded(root,relative,256*1024) != raw:
@@ -175,7 +175,7 @@ def _windows_stage(root, relative, raw, fault_hook):
         for handle in reversed(handles): kernel.CloseHandle(handle)
 
 
-def _posix_stage(root,relative,raw,fault_hook):
+def _posix_stage(root,relative,raw,fault_hook,*,replace=False):
     descriptors=[]
     file_descriptor=None
     target=root/relative
@@ -203,6 +203,10 @@ def _posix_stage(root,relative,raw,fault_hook):
         os.fsync(file_descriptor)
         os.close(file_descriptor)
         file_descriptor=None
+        if replace:
+            os.rename(stage,target.name,src_dir_fd=descriptor,dst_dir_fd=descriptor)
+            os.fsync(descriptor)
+            return
         try:
             os.link(stage,target.name,src_dir_fd=descriptor,dst_dir_fd=descriptor,follow_symlinks=False)
             os.fsync(descriptor)
@@ -235,3 +239,38 @@ def write_immutable(root: Path, relative: str, raw: bytes, *, fault_hook=None):
         raise
     except OSError:
         raise CloudError("UNAVAILABLE","PUBLICATION_WRITE_FAILED") from None
+
+
+def stage_author_input(root: Path, relative: str, raw: bytes):
+    """Atomic copy-only bridge handoff; consumer snapshots remain immutable.
+
+    Only unaccepted author inbox bytes may evolve. Dataset revision artifacts
+    are immutable. Ancestors are pinned and links/reparse points rejected by
+    the same native writer used for result publication.
+    """
+    from application.cloud.manifest import safe_relative
+    safe_relative(relative)
+    root = Path(root).absolute()
+    mutable = relative.startswith('inbox/strategies/')
+    if not mutable and not relative.startswith('datasets/'):
+        raise CloudError('BLOCKED', 'AUTHOR_INPUT_NAMESPACE_REQUIRED')
+    if not isinstance(raw, bytes) or len(raw) > 64*1024*1024:
+        raise CloudError('BLOCKED', 'AUTHOR_INPUT_SIZE_LIMIT')
+    read = _windows_read if os.name == 'nt' else _posix_read
+    try:
+        existing = read(root/relative, 64*1024*1024)
+    except CloudError as error:
+        if error.code != 'INCOMPLETE_SYNC':
+            raise
+    else:
+        if existing == raw:
+            return
+        if not mutable:
+            raise CloudError('CONFLICT', 'IMMUTABLE_DATASET_ARTIFACT_CHANGED')
+    try:
+        writer = _windows_stage if os.name == 'nt' else _posix_stage
+        writer(root, relative, raw, None, replace=mutable)
+    except CloudError:
+        raise
+    except OSError:
+        raise CloudError('UNAVAILABLE', 'AUTHOR_INPUT_STAGE_FAILED') from None

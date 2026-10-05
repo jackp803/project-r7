@@ -13,7 +13,7 @@ Linux 使用相同參數的 `r7`。目前 Ubuntu 原生實測仍為 NOT_RUN。`e
 
 清單涵蓋 canonical、intake、queue、research、control command、local auth 及 process supervision 資料庫。不存在的附屬資料庫會記錄在 manifest，canonical 不存在則失敗。其他檔案、dataset、snapshots、policy、owner selection、vault 與雲端設定不在此資料庫快照中；此功能不是完整資料根目錄的備份。
 
-服務範圍鎖會拒絕與同一 instance 的控制／研究／保留 runtime 範圍並行。每個現有資料庫另外持有 `BEGIN IMMEDIATE` 寫入保留，取得全部保留後，以獨立唯讀連線呼叫 SQLite 備份 API。其間保留的 source transaction 關閉時回滾，不修改 canonical schema、資料列、授權或 owner evidence。這保留可恢復的 durable outbox 中間狀態，不宣稱跨資料庫分散式交易。SQLite 備份 API 的行為依據 [Python 3.12 文件](https://docs.python.org/3.12/library/sqlite3.html#sqlite3.Connection.backup)。
+服務範圍鎖會拒絕與同一 instance 的控制／研究／保留 runtime／cloud publication 範圍並行。每個現有資料庫另外持有 `BEGIN IMMEDIATE` 寫入保留，取得全部保留後，以獨立唯讀連線呼叫 SQLite 備份 API。其間保留的 source transaction 關閉時回滾，不修改 canonical schema、資料列、授權或 owner evidence。這保留可恢復的 durable outbox 中間狀態，不宣稱跨資料庫分散式交易。SQLite 備份 API 的行為依據 [Python 3.12 文件](https://docs.python.org/3.12/library/sqlite3.html#sqlite3.Connection.backup)。
 
 不複製執行中的 DB/WAL/SHM 檔案。目的資料庫單獨封存為 DELETE journal mode，關閉後再做結構與內容雜湊，manifest 最後才寫入。驗證器只對封存目的檔使用 SQLite immutable 唯讀模式，避免 WAL header 造成副檔寫入；活躍來源不使用 immutable。已存在目的資料夾、links/reparse、hard-link 資料庫、重複路徑、雲端或原資料根重疊路徑都拒絕。
 

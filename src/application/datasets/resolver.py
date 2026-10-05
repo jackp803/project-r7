@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime,timedelta,timezone
 from decimal import Decimal,localcontext
+from pathlib import Path
 from types import MappingProxyType
 
 from application.datasets.catalog import DatasetCatalog,DatasetError,canonical,digest,fail,read_local,utc,z,text
@@ -112,12 +113,17 @@ class DatasetResolver:
         return self._resolve(relative,through=through)
     def _resolve(self,relative,*,through=None):
         manifest=self.catalog.load(relative); spec=manifest.as_dict(); selected={}; hashes=[]; logical=[]
+        # Container paths are relative to their immutable dataset manifest,
+        # allowing multiple cloud dataset revisions inside one local catalog.
+        # Catalog.load already validates the manifest locator; read_local pins
+        # every actual ancestor and refuses links/reparse points.
+        payload_root=self.catalog.root/Path(relative).parent
         cutoff=utc(spec['information_cutoff'])
         for container in spec['candles']:
             end=utc(container['end']) if through is None else through
             if end>utc(container['end']) or end<=utc(container['start']) or not is_timeframe_aligned(end,container['timeframe']): fail('INVALID_DEVELOPMENT_CUTOFF')
             rows=[]; materials=[]
-            for record in _parquet_rows(self.catalog.root,container,candle_schema(),through=through,clock='close_time'):
+            for record in _parquet_rows(payload_root,container,candle_schema(),through=through,clock='close_time'):
                 try:
                     for key in ('schema_version','symbol','timeframe','source'): text(record[key])
                     if record['source_record_id'] is not None: text(record['source_record_id'])
@@ -151,7 +157,7 @@ class DatasetResolver:
             events=[]; material=[]; start,end=utc(funding['start']),utc(funding['end']); expected=start
             if through is not None: end=min(end,through)
             if start>min(rows[0].open_time for rows in selected.values()) or end<max(rows[-1].close_time for rows in selected.values()): fail('MISSING_FUNDING_COVERAGE')
-            for item in _parquet_rows(self.catalog.root,funding,schema,through=through,clock='event_at',inclusive=False):
+            for item in _parquet_rows(payload_root,funding,schema,through=through,clock='event_at',inclusive=False):
                 text(item['source'])
                 try: rate=finite_decimal(item['rate'])
                 except ValueError: fail('INVALID_FUNDING_RATE')

@@ -52,10 +52,13 @@ class ResearchJournal:
         path=Path(path).absolute(); require_local_database_volume(path)
         path.parent.mkdir(parents=True,exist_ok=True,mode=0o700)
         self._db=sqlite3.connect(path,timeout=5); self._db.row_factory=sqlite3.Row
+        self._db.execute('PRAGMA foreign_keys=ON')
         self._db.execute('PRAGMA busy_timeout=5000'); self._db.execute('PRAGMA journal_mode=WAL')
         self._db.execute('PRAGMA synchronous=FULL')
         migration=Path(__file__).resolve().parents[1]/'migrations/0002_research_attempts.sql'
         self._db.executescript(migration.read_text(encoding='utf-8'))
+        feedback_migration=migration.parent/'0007_research_feedback_outbox.sql'
+        self._db.executescript(feedback_migration.read_text(encoding='utf-8'))
     def register_run(self,run_id,inputs,now):
         text(run_id); raw=canonical(inputs); h=digest(raw.encode())
         if len(raw.encode())>1024*1024: raise ValueError('Research input size limit')
@@ -110,6 +113,65 @@ class ResearchJournal:
         return [dict(row) for row in rows]
     def runs(self):
         return [dict(row) for row in self._db.execute('SELECT run_id,input_hash,created_at FROM research_runs ORDER BY created_at,run_id').fetchall()]
+    def enqueue_feedback(self,feedback,now):
+        from application.cloud.feedback import feedback_bundle
+        from application.cloud.manifest import byte_hash,canonical_bytes
+        bundle=feedback_bundle(feedback)
+        run_id=feedback['run_id'];row=self._db.execute('SELECT * FROM research_runs WHERE run_id=?',(run_id,)).fetchone()
+        if row is None or digest(row['input_json'].encode())!=row['input_hash']:
+            raise ResearchEvidenceConflict('Actual feedback run required')
+        inputs=json.loads(row['input_json']);strategy=inputs['strategy']
+        if (feedback['namespace']!=inputs['namespace'] or feedback['strategy']!={
+                **{key:strategy[key] for key in ('strategy_id','strategy_version','content_hash')},**strategy['runtime_compatibility']}
+                or feedback['dataset']['manifest_hash']!=inputs['dataset_manifest_hash']
+                or feedback['split']['policy_hash']!=inputs['split_policy_hash']):
+            raise ResearchEvidenceConflict('Actual feedback subject required')
+        raw=canonical_bytes(feedback);h=byte_hash(raw)
+        payloads=canonical({name:value.decode('utf-8') for name,value in bundle.payloads.items()})
+        artifact=byte_hash(canonical_bytes({name:byte_hash(value) for name,value in bundle.payloads.items()}))
+        operation='r7-feedback-'+h[7:]
+        if len(raw)>256*1024 or len(payloads.encode())>1024*1024:
+            raise ResearchEvidenceConflict('Bounded feedback publication required')
+        with self._db:
+            self._db.execute('BEGIN IMMEDIATE')
+            existing=self._db.execute('SELECT * FROM research_feedback_publications WHERE operation_id=?',(operation,)).fetchone()
+            if existing is not None:
+                if existing['feedback_hash']!=h or existing['payloads_json']!=payloads or existing['artifact_hash']!=artifact:
+                    raise ResearchEvidenceConflict('Immutable feedback publication changed')
+                return operation
+            count,size=self._db.execute("SELECT count(*),coalesce(sum(length(CAST(payloads_json AS BLOB))),0) FROM research_feedback_publications WHERE state!='CLOUD_ACKNOWLEDGED'").fetchone()
+            if count>=1000 or size+len(payloads.encode())>16*1024*1024:
+                raise ResearchEvidenceConflict('Feedback outbox capacity reached')
+            # The public stage-result bytes/reference and outbox state become
+            # durable together in this owning research-store transaction.
+            self._db.execute('INSERT INTO research_feedback_publications VALUES(?,?,?,?,?,?,?,?,?,?)',
+                (operation,run_id,raw.decode('utf-8'),h,bundle.logical_path,payloads,artifact,'PENDING',0,stamp(now)))
+        return operation
+    def pending_feedback_publications(self,limit):
+        from application.cloud.feedback import validate_feedback_publication
+        from application.cloud.manifest import byte_hash,canonical_bytes
+        from application.cloud.protocol import ArtifactBundle
+        if type(limit) is not int or not 1<=limit<=100:raise ValueError('Bounded feedback batch required')
+        result=[]
+        for row in self._db.execute("SELECT * FROM research_feedback_publications WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') ORDER BY operation_id LIMIT ?",(limit,)).fetchall():
+            if byte_hash(row['feedback_json'].encode('utf-8'))!=row['feedback_hash']:
+                raise ResearchEvidenceConflict('Feedback output hash mismatch')
+            payloads={name:value.encode('utf-8') for name,value in json.loads(row['payloads_json']).items()}
+            validate_feedback_publication(row['logical_path'],payloads)
+            if payloads['feedback.json']!=row['feedback_json'].encode('utf-8') or byte_hash(canonical_bytes({name:byte_hash(raw) for name,raw in payloads.items()}))!=row['artifact_hash']:
+                raise ResearchEvidenceConflict('Feedback bundle hash mismatch')
+            result.append((row['operation_id'],ArtifactBundle(row['logical_path'],payloads),row['artifact_hash']))
+        return tuple(result)
+    def record_feedback_publication(self,operation_id,status,*,artifact_hash=None):
+        if status not in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED','UNAVAILABLE','CONFLICT'):raise ValueError('Exact publication status required')
+        with self._db:
+            row=self._db.execute('SELECT artifact_hash,state FROM research_feedback_publications WHERE operation_id=?',(operation_id,)).fetchone()
+            if row is None or status in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED') and row['artifact_hash']!=artifact_hash:
+                raise ResearchEvidenceConflict('Feedback acknowledgment identity mismatch')
+            if row['state']=='CLOUD_ACKNOWLEDGED':
+                if status!='CLOUD_ACKNOWLEDGED':raise ResearchEvidenceConflict('Acknowledged feedback cannot regress')
+                return
+            self._db.execute('UPDATE research_feedback_publications SET state=?,attempts=attempts+1 WHERE operation_id=?',(status,operation_id))
     def close(self): self._db.close()
     def __enter__(self): return self
     def __exit__(self,*_): self.close()

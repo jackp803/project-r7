@@ -1,0 +1,70 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "executable",
+    "executable_sha256",
+    "rclone_config_ref",
+    "remote_alias",
+    "drive_root_folder_id",
+    "root_id",
+    "private_work_root",
+    "timeout_seconds",
+    "max_listing_bytes",
+    "max_transfer_bytes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "r7-rclone-bridge-config-v0.2"
+    },
+    "executable": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "executable_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "rclone_config_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "remote_alias": {
+      "type": "string",
+      "pattern": "^[A-Za-z][A-Za-z0-9_-]{0,63}$"
+    },
+    "drive_root_folder_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{9,127}$"
+    },
+    "root_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"
+    },
+    "private_work_root": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "timeout_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300
+    },
+    "max_listing_bytes": {
+      "type": "integer",
+      "minimum": 4096,
+      "maximum": 8388608
+    },
+    "max_transfer_bytes": {
+      "type": "integer",
+      "minimum": 4096,
+      "maximum": 17179869184
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:r7:rclone_bridge_profile_v0_2"
+}

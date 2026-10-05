@@ -67,7 +67,7 @@ class DatabaseBackupTests(unittest.TestCase):
 
     def test_active_native_owner_excludes_backup_before_destination_creation(self):
         module = self.module()
-        for role in ('control', 'research', 'runtime'):
+        for role in ('control', 'research', 'runtime', 'cloud'):
             with self.subTest(role=role), ProcessScopeLock(role + ':' + self.config.product_instance_id,
                                                          lock_root=operational_lock_root(self.config)):
                 with self.assertRaises(module.BackupError):

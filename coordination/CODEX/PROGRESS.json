@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S13",
-  "next_step": "S13 full user-data restore generation/fencing and service/SSH; S12 continuous runtime; S14-S16 remain; Ubuntu NOT_RUN",
+  "active_step": "S14",
+  "next_step": "S14 exact-clean source/native copy bridge and feedback qualification; then pending S13 restore/services/SSH, S12 continuous runtime and S15-S16. Ubuntu/real cloud/forward/provider NOT_RUN.",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -43,7 +43,7 @@
     "S11": "PASS",
     "S12": "IN_PROGRESS",
     "S13": "IN_PROGRESS",
-    "S14": "NOT_STARTED",
+    "S14": "IN_PROGRESS",
     "S15": "NOT_STARTED",
     "S16": "NOT_STARTED"
   },
@@ -639,6 +639,17 @@
       "existing_smoke_ref": "status/codex/productization/S13/backup-passed-7f50cbf-py312/native/native-smoke.json",
       "selected_research_ref": "status/codex/productization/S13/backup-passed-7f50cbf-py312/selected-research/native-selected-research.json",
       "scope": "Five actual native private database snapshot scenarios/seven commands, eight prior smoke scenarios/nine commands, one fresh synthetic selected research scenario/one command. No restore/runtime/installed-services/SSH/host-fault/Ubuntu commissioning qualification."
+    },
+    {
+      "step": "S14",
+      "phase": "DEVELOPMENT_FINAL_FOCUSED",
+      "status": "PASS",
+      "tests": 36,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_ref": "PROJECT_LOCAL/artifacts/S14-final-focused-GREEN.log",
+      "scope": "Offline author/E2/E6 roundtrips; actual owner feedback, holdout observations and durable publication; local fake Drive and owned local process faults. Exact-clean/native qualification pending."
     }
   ],
   "evidence_refs": [

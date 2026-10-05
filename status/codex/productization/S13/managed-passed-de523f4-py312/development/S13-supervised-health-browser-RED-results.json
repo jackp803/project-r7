@@ -1,0 +1,151 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "<SOURCE_ROOT>\\ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "health distinguishes"
+    ],
+    "configFile": "<SOURCE_ROOT>\\ui\\playwright.config.ts",
+    "rootDir": "<SOURCE_ROOT>/ui/qa",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "<USER_HOME>/Desktop/交易機器人主體/artifacts/S11-browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "<SOURCE_ROOT>/ui/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S11-browser\\results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "control-center.spec.ts",
+      "file": "control-center.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "health distinguishes actual supervised control from an available queue without a worker",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4569,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('最近收到程序心跳', { exact: true })\nExpected: visible\nTimeout: 4000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('最近收到程序心跳', { exact: true }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByText('最近收到程序心跳', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('最近收到程序心跳', { exact: true })\nExpected: visible\nTimeout: 4000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('最近收到程序心跳', { exact: true }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByText('最近收到程序心跳', { exact: true })\u001b[22m\n\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:54:57",
+                    "location": {
+                      "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                      "column": 57,
+                      "line": 54
+                    },
+                    "snippet": "  52 | test('health distinguishes actual supervised control from an available queue without a worker',async({page})=>{\n  53 |   await login(page,'research');await page.getByRole('link',{name:'健康',exact:true}).click();\n> 54 |   await expect(page.getByText('最近收到程序心跳',{exact:true})).toBeVisible();\n     |                                                         ^\n  55 |   await expect(page.getByText('工作佇列可用；工作者尚未啟動',{exact:true})).toBeVisible();\n  56 |   const response=await page.request.get(origins.research+'/api/v1/health');\n  57 |   expect(response.status()).toBe(200);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 57,
+                        "line": 54
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('最近收到程序心跳', { exact: true })\nExpected: visible\nTimeout: 4000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('最近收到程序心跳', { exact: true }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByText('最近收到程序心跳', { exact: true })\u001b[22m\n\n\n  52 | test('health distinguishes actual supervised control from an available queue without a worker',async({page})=>{\n  53 |   await login(page,'research');await page.getByRole('link',{name:'健康',exact:true}).click();\n> 54 |   await expect(page.getByText('最近收到程序心跳',{exact:true})).toBeVisible();\n     |                                                         ^\n  55 |   await expect(page.getByText('工作佇列可用；工作者尚未啟動',{exact:true})).toBeVisible();\n  56 |   const response=await page.request.get(origins.research+'/api/v1/health');\n  57 |   expect(response.status()).toBe(200);\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:54:57"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:32:55.677Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S11-browser\\results\\control-center-health-dist-047ee-able-queue-without-a-worker\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                    "column": 57,
+                    "line": 54
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-35333895baa820ef2a9d",
+          "file": "control-center.spec.ts",
+          "line": 52,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T02:32:33.041Z",
+    "duration": 29522.404,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

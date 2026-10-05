@@ -1,0 +1,25 @@
+test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child) ... ERROR
+test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim) ... ERROR
+
+======================================================================
+ERROR: test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 143, in test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child
+    result=self.worker().worker_once(self.config_path,namespace='FIXTURE',job_argv_factory=self.child,stop=stop,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: worker_once() got an unexpected keyword argument 'stop'
+
+======================================================================
+ERROR: test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 168, in test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim
+    result=self.worker().worker_once(self.config_path,namespace='FIXTURE',job_argv_factory=sleeping,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: worker_once() got an unexpected keyword argument 'stop'
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.229s
+
+FAILED (errors=2)

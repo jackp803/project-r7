@@ -1,0 +1,40 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test --grep empty views
+
+
+Running 1 test using 1 worker
+
+
+
+(node:27332) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/1] qa\control-center.spec.ts:14:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels
+  1) qa\control-center.spec.ts:14:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('控制服務', { exact: true })
+    Expected: visible
+    Timeout: 4000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('控制服務', { exact: true }) with timeout 4000ms
+      - waiting for getByText('控制服務', { exact: true })
+
+
+      27 |   }
+      28 |   await page.getByRole('link',{name:'健康',exact:true}).click();
+    > 29 |   await expect(page.getByText('控制服務',{exact:true})).toBeVisible();
+         |                                                     ^
+      30 |   await expect(page.getByText('控制介面可連線',{exact:true})).toBeVisible();
+      31 |   await expect(page.getByText('尚未設定',{exact:true}).first()).toBeVisible();
+      32 |   await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/health.png'),fullPage:true});
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:29:53
+
+    Error Context: ..\..\..\artifacts\S11-browser\results\control-center-empty-views-ccdd0-d-persistent-fixture-labels\error-context.md
+
+
+  1 failed
+    qa\control-center.spec.ts:14:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels 

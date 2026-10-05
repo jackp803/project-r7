@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S13",
-  "next_step": "S13 Windows supervisor/research checkpoint qualified; continue service/SSH/backup/recovery/runtime composition and S12/S14-S16; native Ubuntu remains NOT_RUN",
+  "next_step": "S13 consistent backup/restore generation and service/SSH deployment; continue remaining S12 runtime/S14-S16; native Ubuntu remains NOT_RUN",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -566,6 +566,49 @@
       "evidence_ref": "status/codex/productization/S13/supervision-passed-cf6bd8d-py312/native/native-smoke.json",
       "selected_research_ref": "status/codex/productization/S13/supervision-passed-cf6bd8d-py312/selected-native-research/native-selected-research.json",
       "scope": "Actual frozen control/supervision and synthetic owned E2/E3/E5/E6 research only; no systemd/SSH/backup/runtime/real cloud/forward/provider/Ubuntu qualification"
+    },
+    {
+      "step": "S13",
+      "phase": "EXACT_CLEAN_MANAGED_STOP_SOURCE",
+      "status": "PASS",
+      "executable_revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+      "phase_1": 247,
+      "phase_2": 1464,
+      "total": 1711,
+      "commands": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S13/managed-passed-de523f4-py312/source/qualification.json"
+    },
+    {
+      "step": "S13",
+      "phase": "EXACT_CLEAN_MANAGED_HEALTH_UI",
+      "status": "PASS",
+      "executable_revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+      "commands": 6,
+      "unit_tests": 15,
+      "browser_tests": 11,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "evidence_ref": "status/codex/productization/S13/managed-passed-de523f4-py312/ui/ui-qualification.json"
+    },
+    {
+      "step": "S13",
+      "phase": "NATIVE_WINDOWS_MANAGED_STOP_CODE_AND_SYNTHETIC_RESEARCH_ONLY",
+      "status": "PASS",
+      "executable_revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+      "build_hash": "sha256:30f1dbd66d5ba96c0a746df27b7999ce6477c678fab087da4655266c356323d1",
+      "scenarios": 9,
+      "commands": 10,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_ref": "status/codex/productization/S13/managed-passed-de523f4-py312/native/native-smoke.json",
+      "selected_research_ref": "status/codex/productization/S13/managed-passed-de523f4-py312/selected-research/native-selected-research.json",
+      "scope": "Fresh native Windows control/worker/start/restart/config drift/tamper and synthetic research only; no external console signal/systemd/SSH/backup/runtime/real cloud/forward/Ubuntu qualification"
     }
   ],
   "evidence_refs": [
@@ -598,7 +641,11 @@
     "status/codex/productization/S13/native-first-run-1f32273/native-smoke.json",
     "status/codex/productization/S13/supervision-passed-cf6bd8d-py312/source/qualification.json",
     "status/codex/productization/S13/supervision-passed-cf6bd8d-py312/native/native-smoke.json",
-    "status/codex/productization/S13/supervision-passed-cf6bd8d-py312/selected-native-research/native-selected-research.json"
+    "status/codex/productization/S13/supervision-passed-cf6bd8d-py312/selected-native-research/native-selected-research.json",
+    "status/codex/productization/S13/managed-passed-de523f4-py312/source/qualification.json",
+    "status/codex/productization/S13/managed-passed-de523f4-py312/ui/ui-qualification.json",
+    "status/codex/productization/S13/managed-passed-de523f4-py312/native/native-smoke.json",
+    "status/codex/productization/S13/managed-passed-de523f4-py312/selected-research/native-selected-research.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -643,6 +690,6 @@
     "S12 native bounded algo inventory/actual FP04-FP11-E5 protection interpretation/E6 replay checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS",
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
-  "executable_revision": "cf6bd8d7d13cfee5131eae0ff92dbde1d44462da",
-  "qualified_executable_revision": "cf6bd8d7d13cfee5131eae0ff92dbde1d44462da"
+  "executable_revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+  "qualified_executable_revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5"
 }

@@ -1,0 +1,151 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "<SOURCE_ROOT>\\ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "empty views"
+    ],
+    "configFile": "<SOURCE_ROOT>\\ui\\playwright.config.ts",
+    "rootDir": "<SOURCE_ROOT>/ui/qa",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "<USER_HOME>/Desktop/交易機器人主體/artifacts/S11-browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "<SOURCE_ROOT>/ui/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S11-browser\\results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "control-center.spec.ts",
+      "file": "control-center.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4880,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('控制服務', { exact: true })\nExpected: visible\nTimeout: 4000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('控制服務', { exact: true }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByText('控制服務', { exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('控制服務', { exact: true })\nExpected: visible\nTimeout: 4000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('控制服務', { exact: true }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByText('控制服務', { exact: true })\u001b[22m\n\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:29:53",
+                    "location": {
+                      "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                      "column": 53,
+                      "line": 29
+                    },
+                    "snippet": "  27 |   }\n  28 |   await page.getByRole('link',{name:'健康',exact:true}).click();\n> 29 |   await expect(page.getByText('控制服務',{exact:true})).toBeVisible();\n     |                                                     ^\n  30 |   await expect(page.getByText('控制介面可連線',{exact:true})).toBeVisible();\n  31 |   await expect(page.getByText('尚未設定',{exact:true}).first()).toBeVisible();\n  32 |   await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/health.png'),fullPage:true});"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 53,
+                        "line": 29
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('控制服務', { exact: true })\nExpected: visible\nTimeout: 4000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('控制服務', { exact: true }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByText('控制服務', { exact: true })\u001b[22m\n\n\n  27 |   }\n  28 |   await page.getByRole('link',{name:'健康',exact:true}).click();\n> 29 |   await expect(page.getByText('控制服務',{exact:true})).toBeVisible();\n     |                                                     ^\n  30 |   await expect(page.getByText('控制介面可連線',{exact:true})).toBeVisible();\n  31 |   await expect(page.getByText('尚未設定',{exact:true}).first()).toBeVisible();\n  32 |   await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/health.png'),fullPage:true});\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:29:53"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-05T02:30:00.959Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S11-browser\\results\\control-center-empty-views-ccdd0-d-persistent-fixture-labels\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                    "column": 53,
+                    "line": 29
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-8174b35599d7443840e9",
+          "file": "control-center.spec.ts",
+          "line": 14,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-05T02:29:38.350Z",
+    "duration": 29619.268,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

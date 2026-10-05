@@ -1,0 +1,182 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "source_before": {
+    "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-05T02:40:41.467768Z",
+  "launcher_hash": "sha256:4f38568245d07d3719b720735524e19cf32e6490b55d23a0bbbc623beba6bf6c",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-05T02:40:42.061547Z",
+      "finished_at_utc": "2026-10-05T02:40:51.285956Z",
+      "duration_seconds": 9.219000000040978,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:7325a2c291a11225f0ee4f07078dc00a2b521f34dbeb77d52de986577a2c474f",
+      "log_sha256": "sha256:7325a2c291a11225f0ee4f07078dc00a2b521f34dbeb77d52de986577a2c474f",
+      "passed": true,
+      "source_after": {
+        "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-05T02:40:51.471829Z",
+      "finished_at_utc": "2026-10-05T02:40:54.617237Z",
+      "duration_seconds": 3.14000000001397,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:aaa09ae89e1ca01695f79d4f7ce57d8ab3ef19415fe15ac870bd24e27cc9e57f",
+      "log_sha256": "sha256:aaa09ae89e1ca01695f79d4f7ce57d8ab3ef19415fe15ac870bd24e27cc9e57f",
+      "passed": true,
+      "source_after": {
+        "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-05T02:40:54.779722Z",
+      "finished_at_utc": "2026-10-05T02:40:56.823522Z",
+      "duration_seconds": 2.0469999999622814,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-05T02:40:57.003964Z",
+      "finished_at_utc": "2026-10-05T02:40:58.972421Z",
+      "duration_seconds": 1.9689999999827705,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:20a724216ab5c017949fb2d980f0f68aa1fe454fe8ec19e2a081567431e0aaef",
+      "log_sha256": "sha256:989a59ea34fe2f2484acf213a0910e09678bf161dbb6fb37f48b31bffed104c3",
+      "passed": true,
+      "source_after": {
+        "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 15
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-05T02:40:59.134283Z",
+      "finished_at_utc": "2026-10-05T02:40:59.978741Z",
+      "duration_seconds": 0.8429999999934807,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:eb463bd3eaac9305956973df11ecd1845353ee72e21bc6a332bba64692150daf",
+      "log_sha256": "sha256:eb463bd3eaac9305956973df11ecd1845353ee72e21bc6a332bba64692150daf",
+      "passed": true,
+      "source_after": {
+        "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "test:browser"
+      ],
+      "started_at_utc": "2026-10-05T02:41:00.155731Z",
+      "finished_at_utc": "2026-10-05T02:41:41.374134Z",
+      "duration_seconds": 41.21899999998277,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "06-test-browser.log",
+      "original_log_sha256": "sha256:4999f39dcc3ee19e7f62fed1413aae1475234f7ad0e472a3989e2ddc57d696d2",
+      "log_sha256": "sha256:4999f39dcc3ee19e7f62fed1413aae1475234f7ad0e472a3989e2ddc57d696d2",
+      "passed": true,
+      "source_after": {
+        "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 11,
+      "browser_stats": {
+        "startTime": "2026-10-05T02:41:01.208Z",
+        "duration": 40124.388,
+        "expected": 11,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    }
+  ],
+  "passed": true,
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "semantics": "S13 Control Center labels observed control heartbeat, an available queue without a worker, stopped/failed/unknown and unconfigured services in Traditional Chinese. Actual supervised source browser fixture uses an explicitly synthetic clock and no financial authority. Existing actual isolated auth/E6/intake/research/PAPER/deployment cases remain covered; real cloud/forward/provider/native-service acceptance is not implied",
+  "browser_version": "154.0.4258.53",
+  "source_after": {
+    "revision": "de523f46a8ff196d90d1d13cfc55d76d5bd6cdd5",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-05T02:41:41.561529Z",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:62cd40fe735a2b4ca63b298e642d1b1ad2982f5414d8896b1951ebf1f9478978",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "assets/index-BpwBLsES.js": "sha256:292f56d46ff978d837b70d9b46e41e63a95bbd2e65c937b5704af33d8f205012",
+    "index.html": "sha256:417869d53df872f418c93f98e723b96aae9a174f0cc5de7df6f418d2172b1304"
+  },
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:7e289277ab270807b2b013d02917311c76d835177f32bb4b84bbff4fbf9f8d45",
+    "contracts/control_api_v0_2.openapi.json": "sha256:7a3f9fad80e8d8191bdfa43779bf4e91fe461b0ca6ab3401c9bc4a5f16f36cb9"
+  }
+}

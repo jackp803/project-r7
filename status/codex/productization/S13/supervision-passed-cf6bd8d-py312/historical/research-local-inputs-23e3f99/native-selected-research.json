@@ -1,0 +1,167 @@
+{
+  "profile": "r7-native-selected-synthetic-research-probe-v0.2",
+  "identity": {
+    "executable_revision": "23e3f999a02d66e4941f7bc40040c08b01975a50",
+    "implementation_hash": "sha256:1c4477baa2b3ef2df8525abd36cfa711c59c881f9e568bf14ce531ad82972435",
+    "build_hash": "sha256:9dac79f26fb7db2661f701e108c6297718afd5bbbcde732c4c2f081a532c4b9d",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": false,
+  "fixture": "SYNTHETIC_DATA_AND_LOCAL_FOLDER_ONLY",
+  "namespace": "LOCAL_RESEARCH",
+  "cloud": "LOCAL_FOLDER_SIMULATION",
+  "actual_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "trading_runtime": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "started_at_utc": "2026-10-05T01:10:32.057072Z",
+  "config_hash": "sha256:ff2c894a1e88624ff16b3fa91cbde577da102dd7541d53480e71d79a149fad5b",
+  "config_file_sha256": "sha256:d166c5e33fe3f716ea11153683ffd576c7ef0cfa0a0fe7cdbf92831ef01db0de",
+  "run_id": "job-286e9c99e07db3deef36f519e29d44348fb0bd63f26ad2b3e2ae66066052db1a",
+  "finished_at_utc": "2026-10-05T01:10:42.442687Z",
+  "exit_code": 2,
+  "tree_reaped": true,
+  "log_sha256": "sha256:138e7a9ee000408110df0e7e130445d79b28007a193b39a1388e54cb7a69a3cb",
+  "worker_result": {
+    "status": "JOB_TERMINATED",
+    "run_id": "job-286e9c99e07db3deef36f519e29d44348fb0bd63f26ad2b3e2ae66066052db1a",
+    "generation": 1,
+    "job_state": "FAILED",
+    "parent_pid": 47948,
+    "child_pid": 50248,
+    "exit_code": 2,
+    "tree_reaped": true,
+    "memory_enforcement": "SOFT_LIMIT_ONLY",
+    "log_ref": "worker-logs/job-286e9c99e07db3deef36f519e29d44348fb0bd63f26ad2b3e2ae66066052db1a-1.log",
+    "reason_codes": [
+      "EvidenceGateError"
+    ]
+  },
+  "actual_job": {
+    "run_id": "job-286e9c99e07db3deef36f519e29d44348fb0bd63f26ad2b3e2ae66066052db1a",
+    "submission_id": "native-owner-fixture",
+    "policy_id": "selected-fixture",
+    "state": "FAILED",
+    "revision": 2,
+    "generation": 1,
+    "owner_run_id": "run-f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+    "stage": "e6_product_assessment",
+    "input_hash": "sha256:286e9c99e07db3deef36f519e29d44348fb0bd63f26ad2b3e2ae66066052db1a",
+    "implementation_hash": "sha256:1c4477baa2b3ef2df8525abd36cfa711c59c881f9e568bf14ce531ad82972435",
+    "created_at": "2026-10-05T01:10:32.040924Z",
+    "observed_at": "2026-10-05T01:10:42.105864Z",
+    "cancellation_requested": false,
+    "outcome": null,
+    "reason_codes": [
+      "EvidenceGateError"
+    ]
+  },
+  "actual_evidence": {
+    "status": "REPORT_NOT_READY",
+    "attempts": [
+      {
+        "stage": "resource_admission",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:36.881312Z",
+        "ended_at": "2026-10-05T01:10:36.885056Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:a804a7090a86a65813f295105759a6c7244a6dbeb205f2aaec43260111ed1ae9"
+      },
+      {
+        "stage": "split_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:36.894330Z",
+        "ended_at": "2026-10-05T01:10:36.894851Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:da9117e4980bfa87a1a6a0ac952a464898ad479aa6d2711ad20413d97437e8aa"
+      },
+      {
+        "stage": "dataset_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:36.905390Z",
+        "ended_at": "2026-10-05T01:10:36.976946Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:e4cf0f2580c1d17af05e5b2bb6305bd38883e40f90169eefabcd6cbeb521c04b"
+      },
+      {
+        "stage": "cost_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:36.997537Z",
+        "ended_at": "2026-10-05T01:10:36.998194Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:8954f4461128e553cc8c4301bc07193b984a05da045d031d5461df7d6b31fc37"
+      },
+      {
+        "stage": "policy_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:37.006588Z",
+        "ended_at": "2026-10-05T01:10:37.006588Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:5e57d4b451bf37086c76a7f21e356f0f5e126668dba144de8a69863d84778d67"
+      },
+      {
+        "stage": "compatibility",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:37.014857Z",
+        "ended_at": "2026-10-05T01:10:37.085591Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:90cce7ae08b2ca0ee24c907640b961e872bb2efde0f3d55c91b55213b322d8f8"
+      },
+      {
+        "stage": "development_replay",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:37.143864Z",
+        "ended_at": "2026-10-05T01:10:37.900474Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:adb52b3e236db1ec61a6cadcabbb7a9445229761c4cbed178c9e8e41226e949c"
+      },
+      {
+        "stage": "e6_backtest_persistence",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:37.921565Z",
+        "ended_at": "2026-10-05T01:10:37.925598Z",
+        "input_hash": "sha256:d53065f874ad361e477d55016bfbd5d29469e5212a44ffbbe7863ee987568a69",
+        "output_hash": "sha256:45d77c421eecca85102e6af3a7e6f43e91e3b0554a01d83586e954ce2ae9d3dc"
+      },
+      {
+        "stage": "robustness",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:37.935523Z",
+        "ended_at": "2026-10-05T01:10:38.989720Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:849af76e821c894f5c1bd66937c0b40ed204d9889b6dd4a56389c9d9830e6fad"
+      },
+      {
+        "stage": "finalist_freeze",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:39.003545Z",
+        "ended_at": "2026-10-05T01:10:39.777988Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:1c00ebb804418b4cefed0a1188763141cb08fd1d6d72fc51d998862992378ea3"
+      },
+      {
+        "stage": "sealed_oos",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T01:10:40.544633Z",
+        "ended_at": "2026-10-05T01:10:42.050287Z",
+        "input_hash": "sha256:a8a2e0a7e29ed299031a2677d3353e9a06f0d5343a5dd8593020334851441e16",
+        "output_hash": "sha256:87cb981a465f9b4dba2a1010bfc9fbd777b8ca2ce22da1dea74d4c0a4580aba7"
+      },
+      {
+        "stage": "e6_product_assessment",
+        "status": "FAILED",
+        "started_at": "2026-10-05T01:10:42.063745Z",
+        "ended_at": "2026-10-05T01:10:42.099550Z",
+        "input_hash": "sha256:f64b87a73032383b17dabba3af026bb7f845d1e28229aa59751b430edccdc816",
+        "output_hash": "sha256:977109afb38c71842f9c06ff167810d3bec40bf418afd767d7947ab5203107b7"
+      }
+    ]
+  }
+}

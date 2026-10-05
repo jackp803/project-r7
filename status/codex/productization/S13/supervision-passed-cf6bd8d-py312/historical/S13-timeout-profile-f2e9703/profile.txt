@@ -1,0 +1,55 @@
+Mon Oct  5 09:54:12 2026    <USER_HOME>\Desktop\交易機器人主體\artifacts\S13-timeout-profile-f2e9703\profile.bin
+
+         152977924 function calls (145517954 primitive calls) in 83.993 seconds
+
+   Ordered by: cumulative time
+   List reduced from 4059 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   1369/1    0.066    0.000   84.031   84.031 {built-in method builtins.exec}
+        1    0.000    0.000   84.031   84.031 <frozen runpy>:201(run_module)
+        1    0.000    0.000   84.019   84.019 <frozen runpy>:65(_run_code)
+        1    0.000    0.000   84.019   84.019 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\__main__.py:1(<module>)
+        1    0.000    0.000   84.019   84.019 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\main.py:67(__init__)
+        1    0.000    0.000   83.208   83.208 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\main.py:255(runTests)
+        1    0.000    0.000   83.208   83.208 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\runner.py:224(run)
+      2/1    0.000    0.000   83.208   83.208 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\suite.py:83(__call__)
+      2/1    0.000    0.000   83.208   83.208 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\suite.py:102(run)
+        1    0.000    0.000   83.208   83.208 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\case.py:689(__call__)
+        1    0.000    0.000   83.208   83.208 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\case.py:599(run)
+      862    0.051    0.000   77.021    0.089 <SOURCE_ROOT>\src\strategy\v02\capabilities.py:35(_revision)
+      862    1.281    0.001   76.725    0.089 <SOURCE_ROOT>\src\strategy\v02\capabilities.py:22(_source_revision)
+        1    0.000    0.000   76.353   76.353 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\case.py:588(_callTestMethod)
+        1    0.000    0.000   76.353   76.353 <SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py:150(test_local_stop_after_1000_claims_remains_unknown_without_cleanup)
+      271    0.016    0.000   73.125    0.270 <SOURCE_ROOT>\src\registry\service.py:124(current_runtime_authority)
+        1    0.000    0.000   69.951   69.951 <SOURCE_ROOT>\tests\product\test_trading_protection_monitor_v02.py:17(context)
+       73    0.001    0.000   59.958    0.821 <SOURCE_ROOT>\src\application\trading\guards.py:25(require)
+      198    0.004    0.000   54.485    0.275 <SOURCE_ROOT>\src\application\trading\admission.py:45(evaluate)
+      198    0.002    0.000   53.649    0.271 <SOURCE_ROOT>\src\registry\service.py:114(current_runtime_permission)
+       49    0.001    0.000   53.398    1.090 <SOURCE_ROOT>\src\application\trading\service.py:52(_guard)
+      568    0.006    0.000   50.340    0.089 <SOURCE_ROOT>\src\registry\operational_authority.py:254(current)
+        1    0.000    0.000   49.358   49.358 <SOURCE_ROOT>\src\application\trading\service.py:66(read_algo_inventory)
+        1    0.000    0.000   49.358   49.358 <SOURCE_ROOT>\src\application\trading\algo_inventory.py:23(read_algo_inventory)
+      146    0.002    0.000   40.145    0.275 <SOURCE_ROOT>\src\application\trading\admission.py:86(require)
+       73    0.002    0.000   39.650    0.543 <SOURCE_ROOT>\src\application\trading\admission.py:99(current_authority)
+   358592    2.026    0.000   39.051    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:663(relative_to)
+       20    0.000    0.000   37.473    1.874 <SOURCE_ROOT>\src\application\trading\service.py:155(_read)
+      279    0.003    0.000   24.627    0.088 <SOURCE_ROOT>\src\registry\product_assessment.py:45(require_product_record)
+      275    0.003    0.000   24.008    0.087 <SOURCE_ROOT>\src\registry\service.py:168(_operational_context)
+      271    0.003    0.000   23.944    0.088 <SOURCE_ROOT>\src\registry\service.py:341(candidate_product_assessment)
+     3304    0.065    0.000   22.452    0.007 {built-in method builtins.sorted}
+   179296    0.173    0.000   22.289    0.000 <SOURCE_ROOT>\src\strategy\v02\capabilities.py:28(<lambda>)
+       20    0.000    0.000   21.430    1.071 <SOURCE_ROOT>\src\application\trading\algo_inventory.py:16(_current)
+  4123808    1.360    0.000   20.991    0.000 <frozen _collections_abc>:1022(__iter__)
+       73    0.000    0.000   20.182    0.276 <SOURCE_ROOT>\src\application\trading\admission.py:112(process_binding)
+  3766088    3.076    0.000   19.638    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:277(__getitem__)
+       22    0.000    0.000   18.033    0.820 <SOURCE_ROOT>\src\application\trading\provider.py:37(request)
+       22    0.000    0.000   18.032    0.820 <SOURCE_ROOT>\src\application\trading\provider.py:15(_guard)
+   358592    0.547    0.000   15.499    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:690(is_relative_to)
+   179300    0.269    0.000   14.835    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:1015(read_bytes)
+  4959673    3.028    0.000   13.785    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:380(with_segments)
+       49    0.001    0.000   13.511    0.276 <SOURCE_ROOT>\src\application\trading\admission.py:69(issue)
+  3407502    1.860    0.000   12.900    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:420(_from_parsed_parts)
+  1913435    1.014    0.000    9.838    0.000 <USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py:551(drive)
+
+

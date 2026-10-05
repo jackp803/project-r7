@@ -1,7 +1,25 @@
 import {describe,expect,it} from 'vitest';
-import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment} from './model';
+import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment,healthStatus} from './model';
 
 describe('truthful display and command prerequisites',()=>{
+  it('distinguishes an available queue from an actually observed worker heartbeat in Chinese',()=>{
+    expect(healthStatus('PROCESS_RECENT_HEARTBEAT')).toBe('最近收到程序心跳');
+    expect(healthStatus('QUEUE_AVAILABLE_WORKER_NOT_STARTED')).toBe('工作佇列可用；工作者尚未啟動');
+    expect(healthStatus('QUEUE_AVAILABLE_WORKER_RECENT_HEARTBEAT')).toBe('工作佇列可用；工作者最近收到程序心跳');
+  });
+  it('keeps process failures, stopped processes and unavailable services distinct',()=>{
+    expect(healthStatus('PROCESS_STALE_HEARTBEAT')).toBe('心跳逾時；需檢查程序');
+    expect(healthStatus('PROCESS_PROCESS_NOT_RUNNING')).toBe('程序已不在執行');
+    expect(healthStatus('PROCESS_CONFIG_CHANGED')).toBe('設定已變更；程序受阻');
+    expect(healthStatus('PROCESS_STOPPED')).toBe('已停止');
+    expect(healthStatus('NOT_CONFIGURED')).toBe('尚未設定');
+    expect(healthStatus('NOT_CONNECTED')).toBe('尚未連線');
+  });
+  it('does not turn unknown health codes or missing observations into a healthy status',()=>{
+    expect(healthStatus('FUTURE_CODE')).toBe('未知狀態（FUTURE_CODE）');
+    for(const code of ['constructor','__proto__','toString'])expect(healthStatus(code)).toBe(`未知狀態（${code}）`);
+    expect(healthStatus(null)).toBe('未提供');
+  });
   it('keeps unavailable distinct from an actual zero and does no floating financial math',()=>{
     expect(metric(null)).toBe('未提供'); expect(metric('0')).toBe('0'); expect(metric('0.0000000000000000001')).toBe('0.0000000000000000001');
   });

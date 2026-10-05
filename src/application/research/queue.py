@@ -257,13 +257,14 @@ class ResearchQueue:
             if not isinstance(reason, str) or not re.fullmatch('[A-Za-z_]{1,64}', reason): reason = 'RESEARCH_OWNER_FAILED'
             return self._finish(run_id, lease_generation, 'FAILED', reason_codes=(reason,))
 
-    def finish_terminated_worker(self, claim, owned):
+    def finish_terminated_worker(self, claim, owned, *, stop_requested=False):
         """Observed owned process death may fail its exact job, never another lease.
 
         The expired lease is not renewed. Existing sealed observations/owner
         results remain intact. Only the app dispatch ledger receives disposition.
         """
         from application.platform.processes import OwnedProcess
+        if type(stop_requested) is not bool:raise ResearchQueueError('ACTUAL_MANAGED_STOP_OBSERVATION_REQUIRED')
         if not isinstance(claim, ResearchJobClaim) or not isinstance(owned, OwnedProcess):
             raise ResearchQueueError('ACTUAL_OWNED_RESEARCH_PROCESS_REQUIRED')
         report = owned.termination_report
@@ -280,7 +281,8 @@ class ResearchQueue:
                 raise ResearchQueueError('RESEARCH_WORKER_FENCED')
             if now < row['updated_at']: raise ResearchQueueError('QUEUE_CLOCK_REGRESSION')
             canceled = bool(row['cancel_requested'])
-            reason = 'RESEARCH_CANCELED' if canceled else 'OWNED_WORKER_TIMEOUT' if report.reason == 'TIMEOUT' else 'OWNED_WORKER_EXITED_WITHOUT_RESULT'
+            reason = ('RESEARCH_CANCELED' if canceled else 'OWNED_WORKER_TIMEOUT' if report.reason == 'TIMEOUT'
+                      else 'OWNED_WORKER_STOPPED' if stop_requested else 'OWNED_WORKER_EXITED_WITHOUT_RESULT')
             state = 'CANCELED' if canceled else 'FAILED'
             db.execute('UPDATE research_queue_jobs SET state=?,revision=revision+1,updated_at=?,reason_codes_json=? WHERE run_id=?',
                 (state, now, canonical([reason]), claim.run_id))

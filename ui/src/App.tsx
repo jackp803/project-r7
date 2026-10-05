@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
 import {api,commandId,ControlError,type Envelope,type Schema} from './api';
-import {approvalBlock,canPauseDeployment,deploymentActivationBlock,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
+import {approvalBlock,canPauseDeployment,deploymentActivationBlock,healthStatus,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
 
 type Zone='UTC'|'Asia/Taipei';
 type Session=Schema['SessionView'];
@@ -212,7 +212,8 @@ function Trading(props:Common){
 function Health(props:Common){
   const view=useView<Schema['HealthView']>('/api/v1/health',props.refresh);const alerts=useView<Schema['PageView']>('/api/v1/alerts',props.refresh);
   const capabilities=useView<Schema['CapabilitiesView']>('/api/v1/capabilities',props.refresh);
-  return <><Panel title="個別元件與依賴"><p>HTTP 在線、單元測試通過或缺少 GPU 都不能決定是否可以交易。未觀察的程序健康保持未知。</p><Frame view={view} zone={props.zone}>{data=><><div className="health-grid">{(['control','research','runtime','storage','cloud','market','provider'] as const).map(name=><Fact key={name} label={name} value={data[name]}/>)}</div><dl><dt>提供者請求</dt><dd>{data.provider_requests}</dd><dt>Runtime LLM 呼叫</dt><dd>{data.runtime_llm_calls}</dd><dt>LIVE 核准</dt><dd>{text(data.live_authorized)}</dd><dt>GPU</dt><dd>非必要；不以缺少 GPU 判定失敗</dd></dl><Reasons codes={data.reason_codes}/></>}</Frame></Panel>
+  const components=[['control','控制服務'],['research','研究工作者'],['runtime','交易程序'],['storage','本機儲存'],['cloud','雲端連線'],['market','市場資料'],['provider','交易提供者']] as const;
+  return <><Panel title="個別元件與依賴"><p>HTTP 在線、單元測試通過或缺少 GPU 都不能決定是否可以交易。未觀察的程序健康保持未知。</p><Frame view={view} zone={props.zone}>{data=><><div className="health-grid">{components.map(([name,label])=><Fact key={name} label={label} value={healthStatus(data[name])}/>)}</div><dl><dt>提供者請求</dt><dd>{data.provider_requests}</dd><dt>Runtime LLM 呼叫</dt><dd>{data.runtime_llm_calls}</dd><dt>LIVE 核准</dt><dd>{text(data.live_authorized)}</dd><dt>GPU</dt><dd>非必要；不以缺少 GPU 判定失敗</dd></dl><Reasons codes={data.reason_codes}/></>}</Frame></Panel>
     <Panel title="告警"><Frame view={alerts} zone={props.zone}>{page=><><Reasons codes={page.reason_codes}/>{page.items.length?<JsonDetail value={page.items} title="實際告警原文"/>:<p>尚無資料</p>}</>}</Frame></Panel>
     <Panel title="能力與缺口"><Frame view={capabilities} zone={props.zone}>{value=><><p>快照 <code>{value.snapshot_hash}</code></p><p>IMPLEMENTED、reference 驗證、PAPER 與 provider 可用性是不同證據；不互相替代。</p><div className="table-wrap"><table><thead><tr><th>能力</th><th>版本</th><th>已實作</th><th>Reference</th><th>PAPER</th><th>Provider</th></tr></thead><tbody>{rows(value.snapshot.capabilities).map(row=><tr key={text(row.capability_id)}><td>{text(row.capability_id)}</td><td>{text(row.semantic_version)}</td><td>{text(row.IMPLEMENTED)}</td><td>{text(row.VERIFIED_REFERENCE)}</td><td>{text(row.PAPER_AVAILABLE)}</td><td>{text(row.LIVE_PROVIDER_AVAILABLE)}</td></tr>)}</tbody></table></div><JsonDetail value={value.snapshot} title="確切能力、時間框架、warmup 與驗證來源"/></>}</Frame></Panel></>;
 }

@@ -7,6 +7,7 @@ import subprocess
 import sys
 from tempfile import TemporaryDirectory
 import time
+import threading
 import unittest
 from urllib.error import URLError
 from urllib.request import urlopen
@@ -78,3 +79,27 @@ class ControlProcessSupervisionTests(unittest.TestCase):
         self.assertEqual(first.wait(timeout=5), 2)
         self.assertTrue(first.termination_report.reaped)
         self.assertEqual(process_health(self.config, 'control')['status'], 'CONFIG_CHANGED')
+
+    def test_managed_control_stop_closes_actual_loopback_server_and_records_clean_stop(self):
+        from application.entrypoints import serve
+        from application.platform.shutdown import ManagedStop
+        stop=ManagedStop();observations=[]
+        url='http://127.0.0.1:'+str(self.config.control_api_port)+'/api/v1/auth/status'
+        def request_after_actual_readiness():
+            deadline=time.monotonic()+6
+            while not stop.requested and time.monotonic()<deadline:
+                try:
+                    with urlopen(url,timeout=0.3) as response:
+                        observations.append(json.loads(response.read()))
+                    break
+                except (URLError,OSError):time.sleep(0.02)
+            stop.request()
+        requester=threading.Thread(target=request_after_actual_readiness,daemon=True);requester.start()
+        try:self.assertEqual(serve(self.config,config_path=self.profile,stop=stop),0)
+        finally:
+            stop.request();requester.join(7)
+        self.assertFalse(requester.is_alive())
+        self.assertTrue(observations,'An actual same-origin HTTP server must have become ready')
+        self.assertFalse(observations[0]['configured'])
+        self.assertEqual(process_health(self.config,'control')['status'],'STOPPED')
+        with self.assertRaises((URLError,OSError)):urlopen(url,timeout=0.3)

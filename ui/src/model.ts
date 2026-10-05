@@ -3,6 +3,21 @@ export const object=(value:unknown):Row=>value!==null&&typeof value==='object'&&
 export const rows=(value:unknown):Row[]=>Array.isArray(value)?value.map(object):[];
 export const text=(value:unknown):string=>typeof value==='string'?value:typeof value==='number'?String(value):value===true?'是':value===false?'否':'未提供';
 export const metric=(value:unknown):string=>value===null||value===undefined?'未提供':text(value);
+const healthCodes:Record<string,string>={
+  ONLINE:'控制介面可連線',NOT_CONFIGURED:'尚未設定',NOT_CONNECTED:'尚未連線',
+  NOT_STARTED:'尚未啟動',RECENT_HEARTBEAT:'最近收到程序心跳',STOPPED:'已停止',FAILED:'程序失敗；需檢查',
+  STALE_HEARTBEAT:'心跳逾時；需檢查程序',PROCESS_NOT_RUNNING:'程序已不在執行',
+  CONFIG_CHANGED:'設定已變更；程序受阻',CLOCK_REGRESSION:'時鐘倒退；程序受阻',
+  SUPERVISION_STORAGE_FAILURE:'無法確認程序監督資料',SUPERVISION_STOP_NOT_CONFIRMED:'尚未確認程序已停止',
+  CONTROL_STORE_AVAILABLE:'控制資料庫可讀取',E6_AND_CONTROL_STORES_AVAILABLE:'策略與控制資料庫可讀取',
+};
+export function healthStatus(value:unknown):string{
+  if(typeof value!=='string'||!value)return '未提供';
+  const display=(code:string)=>(Object.hasOwn(healthCodes,code)?healthCodes[code]:undefined)??`未知狀態（${code}）`;
+  if(value.startsWith('QUEUE_AVAILABLE_WORKER_'))return '工作佇列可用；工作者'+display(value.slice('QUEUE_AVAILABLE_WORKER_'.length));
+  if(value.startsWith('PROCESS_'))return display(value.slice('PROCESS_'.length));
+  return display(value);
+}
 export function revision(value:unknown):number{
   if(typeof value!=='number'||!Number.isSafeInteger(value)||value<0)throw new Error('RESOURCE_REVISION_UNAVAILABLE'); return value;
 }

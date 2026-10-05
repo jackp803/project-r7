@@ -1,5 +1,6 @@
 """Explicit local browser fixture server; no remote provider or real authority."""
 import argparse
+from contextlib import nullcontext
 from dataclasses import replace
 from datetime import timedelta
 import sys
@@ -14,6 +15,7 @@ from tests.product.test_api_authority import APIFixture
 from tests.product.test_api_owner_services import APIOwnerServicesTests
 from tests.product.test_api_paper_services import APIPaperServicesTests
 from application.control_api.owner_services import OwnerControlServices
+from application.platform.supervision import ProcessSupervisor
 from storage.platform import open_sqlite_platform
 import unittest
 import uvicorn
@@ -65,7 +67,11 @@ def main():
     commands=CommandLedger(config.local_data_root/'browser-commands.sqlite',namespace='FIXTURE',clock=fixture.auth.clock)
     app=create_app(config,auth=fixture.auth,commands=commands,services=owners)
     if (ROOT/'ui/dist/index.html').exists(): mount_control_center(app,ROOT/'ui/dist')
-    try: uvicorn.run(app,host='127.0.0.1',port=args.port,proxy_headers=False,access_log=False,log_level='warning')
+    # Actual process/PID/heartbeat observations with the explicitly synthetic
+    # fixture clock; this does not qualify real-time forward observation.
+    supervised=ProcessSupervisor(config,'control',clock=owners.clock) if args.profile=='research' else nullcontext()
+    try:
+        with supervised:uvicorn.run(app,host='127.0.0.1',port=args.port,proxy_headers=False,access_log=False,log_level='warning')
     finally: fixture.doCleanups()
 
 if __name__=='__main__': main()

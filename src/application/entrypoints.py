@@ -102,12 +102,15 @@ def create_local_app(config, *, asset_root=None):
     return app
 
 
-def serve(config, *, desktop=False, config_path=None):
+def serve(config, *, desktop=False, config_path=None,stop=None):
     import uvicorn
     import webbrowser
     import threading
     from application.platform.supervision import ProcessSupervisor, SupervisionError
-    with ProcessSupervisor(config, 'control', config_path=config_path) as supervisor:
+    from application.platform.shutdown import ManagedStop
+    stop=ManagedStop() if stop is None else stop
+    if not isinstance(stop,ManagedStop):raise ValueError('Actual managed stop scope required')
+    with stop, ProcessSupervisor(config, 'control', config_path=config_path) as supervisor:
         app = create_local_app(config)
         app.state.process_supervisor = supervisor
         server = uvicorn.Server(uvicorn.Config(app, host=config.control_api_host, port=config.control_api_port,
@@ -120,6 +123,9 @@ def serve(config, *, desktop=False, config_path=None):
                     supervisor.require_current()
                 except SupervisionError:
                     server.should_exit = True
+                    return
+                if stop.requested:
+                    server.should_exit=True
                     return
                 if desktop and server.started and not opened:
                     opened = True

@@ -25,6 +25,11 @@ test('empty views use actual nulls, Traditional Chinese and persistent fixture l
     await expect(page.getByRole('heading',{name:screen,exact:true})).toBeVisible();
     await expect(page.getByTestId('fixture-banner')).toBeVisible();
   }
+  await page.getByRole('link',{name:'健康',exact:true}).click();
+  await expect(page.getByText('控制服務',{exact:true})).toBeVisible();
+  await expect(page.getByText('控制介面可連線',{exact:true})).toBeVisible();
+  await expect(page.getByText('尚未設定',{exact:true}).first()).toBeVisible();
+  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/health.png'),fullPage:true});
   await page.getByRole('link',{name:'研究',exact:true}).click();
   await expect(page.getByText('尚無資料',{exact:true}).first()).toBeVisible();
   expect(remote).toEqual([]);
@@ -42,6 +47,19 @@ test('actual inbox scan, asynchronous enqueue and cooperative cancellation',asyn
   await expect(page.getByText('CANCELED',{exact:true}).first()).toBeVisible();
   const jobs=await page.request.get(origins.research+'/api/v1/research/runs');
   expect((await jobs.json()).data.items[0].state).toBe('CANCELED');
+});
+
+test('health distinguishes actual supervised control from an available queue without a worker',async({page})=>{
+  await login(page,'research');await page.getByRole('link',{name:'健康',exact:true}).click();
+  await expect(page.getByText('最近收到程序心跳',{exact:true})).toBeVisible();
+  await expect(page.getByText('工作佇列可用；工作者尚未啟動',{exact:true})).toBeVisible();
+  const response=await page.request.get(origins.research+'/api/v1/health');
+  expect(response.status()).toBe(200);
+  const actual=(await response.json()).data;
+  expect(actual.control).toBe('PROCESS_RECENT_HEARTBEAT');
+  expect(actual.research).toBe('QUEUE_AVAILABLE_WORKER_NOT_STARTED');
+  expect(actual.live_authorized).toBe(false);
+  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/supervised-health.png'),fullPage:true});
 });
 
 test('actual candidate PAPER start and pause retain run identity and show unavailable metrics',async({page})=>{

@@ -136,3 +136,43 @@ class NativeResearchWorkerTests(unittest.TestCase):
         self.assertTrue(ready.exists(), 'An actual owned child must have started')
         self.assertFalse(process_alive(int(ready.read_text())))
         self.assertEqual(owners.queue.get(queued['run_id'])['state'], 'FAILED')
+
+    def test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child(self):
+        from application.platform.shutdown import ManagedStop
+        owners,queued=self.enqueue();stop=ManagedStop();stop.request()
+        result=self.worker().worker_once(self.config_path,namespace='FIXTURE',job_argv_factory=self.child,stop=stop,
+            hardware_probe=lambda root:self.fail('Stopped worker must not admit work'))
+        self.assertEqual(result['status'],'STOPPED')
+        self.assertEqual(owners.queue.get(queued['run_id'])['state'],'QUEUED')
+
+    def test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim(self):
+        from application.platform.shutdown import ManagedStop
+        from application.platform.supervision import process_health
+        owners,queued=self.enqueue();stop=ManagedStop()
+        target=self.fixture.root/'stop-tree.py'
+        target.write_text("import subprocess,sys,time,os,json\nfrom pathlib import Path\n"
+            "depth=int(sys.argv[1]);root=Path(sys.argv[2])\n"
+            "(root/f'stop-pid-{depth}.json').write_text(json.dumps({'pid':os.getpid()}))\n"
+            "if depth:subprocess.Popen([sys.executable,__file__,str(depth-1),str(root)])\n"
+            "time.sleep(120)\n",encoding='utf-8')
+        ready=[self.fixture.root/('stop-pid-'+str(depth)+'.json') for depth in (0,1)]
+        def after_descendants_ready():
+            deadline=time.monotonic()+8
+            while not all(path.exists() for path in ready) and time.monotonic()<deadline:time.sleep(0.02)
+            stop.request()
+        stopper=threading.Thread(target=after_descendants_ready,daemon=True)
+        def sleeping(config_path,run_id,generation):
+            stopper.start()
+            return [sys.executable,str(target),'1',str(self.fixture.root)]
+        try:
+            result=self.worker().worker_once(self.config_path,namespace='FIXTURE',job_argv_factory=sleeping,
+                job_timeout_seconds=12,stop=stop)
+        finally:
+            if stopper.ident is not None:stopper.join(9)
+        self.assertTrue(all(path.exists() for path in ready),'Actual descendant tree must have started')
+        self.assertTrue(all(not process_alive(json.loads(path.read_bytes())['pid']) for path in ready))
+        self.assertTrue(result['tree_reaped']);self.assertEqual(result['status'],'JOB_STOPPED')
+        job=owners.queue.get(queued['run_id'])
+        self.assertEqual(job['state'],'FAILED');self.assertEqual(job['reason_codes'],['OWNED_WORKER_STOPPED'])
+        self.assertIsNone(owners.queue.claim_next(),'Restart must not replay a disposed or sealed owner job')
+        self.assertEqual(process_health(self.fixture.config,'research')['status'],'STOPPED')

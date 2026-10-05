@@ -1,0 +1,74 @@
+test_deadline_terminates_real_child_and_grandchild_without_killing_parent (test_cloud_command_runner.CloudCommandRunnerTests.test_deadline_terminates_real_child_and_grandchild_without_killing_parent) ... FAIL
+test_invalid_budgets_fail_before_starting_any_child (test_cloud_command_runner.CloudCommandRunnerTests.test_invalid_budgets_fail_before_starting_any_child) ... FAIL
+test_nonzero_child_stderr_is_discarded_and_never_returned_as_remote_output (test_cloud_command_runner.CloudCommandRunnerTests.test_nonzero_child_stderr_is_discarded_and_never_returned_as_remote_output) ... FAIL
+test_oversize_stdout_has_no_partial_success_and_tree_is_reaped (test_cloud_command_runner.CloudCommandRunnerTests.test_oversize_stdout_has_no_partial_success_and_tree_is_reaped) ... FAIL
+test_real_child_returns_exact_bounded_bytes_and_is_reaped (test_cloud_command_runner.CloudCommandRunnerTests.test_real_child_returns_exact_bounded_bytes_and_is_reaped) ... FAIL
+
+======================================================================
+FAIL: test_deadline_terminates_real_child_and_grandchild_without_killing_parent (test_cloud_command_runner.CloudCommandRunnerTests.test_deadline_terminates_real_child_and_grandchild_without_killing_parent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 55, in test_deadline_terminates_real_child_and_grandchild_without_killing_parent
+    result=self.module().run_bounded([sys.executable,'-c',code,str(pids)],private_root=self.root,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 20, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.command_runner'),
+AssertionError: unexpectedly None : The bounded cloud process runner is not implemented
+
+======================================================================
+FAIL: test_invalid_budgets_fail_before_starting_any_child (test_cloud_command_runner.CloudCommandRunnerTests.test_invalid_budgets_fail_before_starting_any_child)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 66, in test_invalid_budgets_fail_before_starting_any_child
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 20, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.command_runner'),
+AssertionError: unexpectedly None : The bounded cloud process runner is not implemented
+
+======================================================================
+FAIL: test_nonzero_child_stderr_is_discarded_and_never_returned_as_remote_output (test_cloud_command_runner.CloudCommandRunnerTests.test_nonzero_child_stderr_is_discarded_and_never_returned_as_remote_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 37, in test_nonzero_child_stderr_is_discarded_and_never_returned_as_remote_output
+    result=self.run_child("import sys;sys.stderr.write('synthetic-private-stderr');sys.exit(7)")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 25, in run_child
+    return self.module().run_bounded([sys.executable,'-c',code],private_root=self.root,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 20, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.command_runner'),
+AssertionError: unexpectedly None : The bounded cloud process runner is not implemented
+
+======================================================================
+FAIL: test_oversize_stdout_has_no_partial_success_and_tree_is_reaped (test_cloud_command_runner.CloudCommandRunnerTests.test_oversize_stdout_has_no_partial_success_and_tree_is_reaped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 46, in test_oversize_stdout_has_no_partial_success_and_tree_is_reaped
+    result=self.run_child("import sys;sys.stdout.buffer.write(b'x'*(8*1024*1024));sys.stdout.flush()",limit=1024)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 25, in run_child
+    return self.module().run_bounded([sys.executable,'-c',code],private_root=self.root,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 20, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.command_runner'),
+AssertionError: unexpectedly None : The bounded cloud process runner is not implemented
+
+======================================================================
+FAIL: test_real_child_returns_exact_bounded_bytes_and_is_reaped (test_cloud_command_runner.CloudCommandRunnerTests.test_real_child_returns_exact_bounded_bytes_and_is_reaped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 29, in test_real_child_returns_exact_bounded_bytes_and_is_reaped
+    result=self.run_child("import sys;sys.stdout.buffer.write(b'{\"scope\":\"fixture\"}')")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 25, in run_child
+    return self.module().run_bounded([sys.executable,'-c',code],private_root=self.root,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 20, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.command_runner'),
+AssertionError: unexpectedly None : The bounded cloud process runner is not implemented
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.005s
+
+FAILED (failures=5)

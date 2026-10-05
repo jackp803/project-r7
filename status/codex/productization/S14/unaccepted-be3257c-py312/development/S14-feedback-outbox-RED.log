@@ -1,0 +1,14 @@
+test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation (tests.application.test_cloud_bridge.CloudBridgeTests.test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation) ... ERROR
+
+======================================================================
+ERROR: test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation (tests.application.test_cloud_bridge.CloudBridgeTests.test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 319, in test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation
+    from application.cloud.feedback import build_research_feedback,queue_feedback,flush_feedback
+ImportError: cannot import name 'queue_feedback' from 'application.cloud.feedback' (<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cloud\feedback.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 0.092s
+
+FAILED (errors=1)

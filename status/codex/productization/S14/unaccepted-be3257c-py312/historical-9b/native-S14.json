@@ -1,0 +1,295 @@
+{
+  "profile": "r7-native-S14-offline-copy-feedback-v0.2",
+  "identity": {
+    "executable_revision": "9b7798157f0ba4675f5f973a6b4ca622200695a5",
+    "implementation_hash": "sha256:cc2d9a67c2fe1891e857be2abeb50dc64840bc1d6d7057ac56de258ba104bc25",
+    "build_hash": "sha256:ab9e9abeb63583111747cb1235c68c62e27741e9cf4abfd7fb6590060fd1ff74",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "capabilities",
+      "started_at_utc": "2026-10-05T06:01:47.609589Z",
+      "finished_at_utc": "2026-10-05T06:01:48.871243Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-capabilities.log",
+      "log_sha256": "sha256:b0bd093624915d198f544f196c82b3098ed995f923c7761b145d6bfcccb52fad",
+      "passed": true,
+      "result": {
+        "status": "CAPABILITIES_EXPORTED",
+        "snapshot_hash": "sha256:bf129c708ba4344a06e1e0798886e7b4de879ac0c9b4c385e260c52f8f3f0f20",
+        "execution_evidence": "NOT_RUN"
+      }
+    },
+    {
+      "name": "author-legacy",
+      "started_at_utc": "2026-10-05T06:01:48.873295Z",
+      "finished_at_utc": "2026-10-05T06:01:50.119099Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-author-legacy.log",
+      "log_sha256": "sha256:bc81c4954a416c7e6aaa88ff8d5e4e6c8f20172215edb2ef14988d406743122a",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "legacy",
+        "manifest_hash": "sha256:bf84f22d7e2f1f75dd74b5ecddc4b9f7ee4697ebb185995d36458b489d75e8f6",
+        "strategy_content_hash": "sha256:21caaaae6a46e41229dd398489de4aa3dc8fde4c63798306a59a88b76b5264bb",
+        "payload_hashes": {
+          "strategy.json": "sha256:b9d5eb6d27e3a8430602d2014bff1ae8eaf8e989b8a2d4f00219603f823a99ff"
+        },
+        "capability_snapshot_hash": "sha256:bf129c708ba4344a06e1e0798886e7b4de879ac0c9b4c385e260c52f8f3f0f20",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "author-four-hour",
+      "started_at_utc": "2026-10-05T06:01:50.124193Z",
+      "finished_at_utc": "2026-10-05T06:01:51.377310Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-author-four-hour.log",
+      "log_sha256": "sha256:83bd57c9a5fdfd2673ed9a8077155c83aafd4ab5b56acae38aa08aae93ab3738",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "four-hour",
+        "manifest_hash": "sha256:0a5cae98181673cd93bbf1b8193941d04bb67069124a092d10f08cf958270b19",
+        "strategy_content_hash": "sha256:b128232b00fb520131cb1cccce462b6dde669373e033323534fe4e6ba0831246",
+        "payload_hashes": {
+          "strategy.json": "sha256:135ac1b5348cb48070e455cb13d705e2875922535f07f5daaf46c74483198791"
+        },
+        "capability_snapshot_hash": "sha256:bf129c708ba4344a06e1e0798886e7b4de879ac0c9b4c385e260c52f8f3f0f20",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "author-multitimeframe",
+      "started_at_utc": "2026-10-05T06:01:51.379650Z",
+      "finished_at_utc": "2026-10-05T06:01:52.643962Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-author-multitimeframe.log",
+      "log_sha256": "sha256:34326ad8b092f7699991a2f19484a62c6ff26056127a120ddeaea1f56f4db5b6",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "multitimeframe",
+        "manifest_hash": "sha256:4c9d45b7721590537daa7a92138b298de184e2e2e88b2d8680bed7e2eccfa8cb",
+        "strategy_content_hash": "sha256:621cf6c5f4ce0aac7e31e5031a38b2cb4a68b72ae6805c31908fec099d25847f",
+        "payload_hashes": {
+          "strategy.json": "sha256:84a02f5554ca6f67a7ba0013ee6f260e8a8e3ee72945f44c054c04b6099149a2"
+        },
+        "capability_snapshot_hash": "sha256:bf129c708ba4344a06e1e0798886e7b4de879ac0c9b4c385e260c52f8f3f0f20",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "author-tactical",
+      "started_at_utc": "2026-10-05T06:01:52.645956Z",
+      "finished_at_utc": "2026-10-05T06:01:53.858366Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-author-tactical.log",
+      "log_sha256": "sha256:dec96df179fc9b493020d899ab4f6eb1b589609a9096ad4bc778dac82b2eecbb",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "tactical",
+        "manifest_hash": "sha256:25e864ab14a9afe9b8f7050fd8da42fa02558011c471598ae82f2298486a5c7e",
+        "strategy_content_hash": "sha256:9438d0f5acf84ac44d512f9d620f322b77b7e8b811c5332b846c056b1e9d0b49",
+        "payload_hashes": {
+          "strategy.json": "sha256:cb9452038108daef05ff5e4cc9b842f97afc7acf787a35ec34703bb04a6d8554"
+        },
+        "capability_snapshot_hash": "sha256:bf129c708ba4344a06e1e0798886e7b4de879ac0c9b4c385e260c52f8f3f0f20",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "pull",
+      "started_at_utc": "2026-10-05T06:01:53.875411Z",
+      "finished_at_utc": "2026-10-05T06:02:12.507149Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "06-pull.log",
+      "log_sha256": "sha256:0eb498683fb6392cc31fa28c51a09d28b413d429f832381d0301ee3dc124e536",
+      "passed": true,
+      "result": {
+        "status": "LOCAL_STAGED",
+        "files_staged": 11,
+        "bytes_staged": 19024,
+        "transport_kind": "COPY_BRIDGE",
+        "root_id": "fixture-cloud-root"
+      }
+    },
+    {
+      "name": "import-dataset",
+      "started_at_utc": "2026-10-05T06:02:12.510292Z",
+      "finished_at_utc": "2026-10-05T06:02:13.729795Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "07-import-dataset.log",
+      "log_sha256": "sha256:f813bdfe9c3be051f6fbf1b652271f32f3505bc669ec26529bbbb3e9537825d9",
+      "passed": true,
+      "result": {
+        "status": "LOCAL_DATASET_STAGED",
+        "dataset_id": "fixture-dataset",
+        "dataset_version": "1",
+        "manifest_hash": "sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc",
+        "files_staged": 3,
+        "logical_verification": "NOT_RUN",
+        "namespace": "FIXTURE",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "queue-feedback",
+      "started_at_utc": "2026-10-05T06:02:13.741589Z",
+      "finished_at_utc": "2026-10-05T06:02:14.983829Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "08-queue-feedback.log",
+      "log_sha256": "sha256:c00a4e7e04057966337e8245bfca8a73811f7d58ac21f9790d8c236c8b712604",
+      "passed": true,
+      "result": {
+        "status": "FEEDBACK_QUEUED",
+        "operation_id": "r7-feedback-0b50a6811cb89dedbacff224ff7dc6a07e140511a19fe8934015a5c56d746c64",
+        "cloud": "NOT_CONTACTED"
+      }
+    },
+    {
+      "name": "publish",
+      "started_at_utc": "2026-10-05T06:02:14.987930Z",
+      "finished_at_utc": "2026-10-05T06:02:44.125796Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "09-publish.log",
+      "log_sha256": "sha256:35bdc291b047a560a0623fba95b172b186e4292238fce8414811436790b2c60f",
+      "passed": true,
+      "result": {
+        "status": "COMPLETE",
+        "attempted": 2,
+        "local_staged": 0,
+        "cloud_acknowledged": 2,
+        "unavailable": 0,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "publish-idempotent",
+      "started_at_utc": "2026-10-05T06:02:44.130115Z",
+      "finished_at_utc": "2026-10-05T06:02:45.379156Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "10-publish-idempotent.log",
+      "log_sha256": "sha256:933f55c7843d4566984f2acd51e6ac4239c624b2ee176f83c5709633c78a7224",
+      "passed": true,
+      "result": {
+        "status": "COMPLETE",
+        "attempted": 0,
+        "local_staged": 0,
+        "cloud_acknowledged": 0,
+        "unavailable": 0,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "root-loss",
+      "started_at_utc": "2026-10-05T06:02:45.379156Z",
+      "finished_at_utc": "2026-10-05T06:02:48.977096Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "11-root-loss.log",
+      "log_sha256": "sha256:bba155db19786ca2c40a9bba9505e2e39a856b0b1fbaed26a53b22be7527e4da",
+      "passed": true,
+      "result": {
+        "status": "CLOUD_NOT_CONNECTED",
+        "reason": "BRIDGE_REMOTE_ROOT_UNAVAILABLE"
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "actual-native-current-capability-availability-without-platform-authority",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-legacy",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-four-hour",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-multitimeframe",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-tactical",
+      "passed": true
+    },
+    {
+      "name": "actual-native-owned-copy-download-and-author-staging",
+      "passed": true
+    },
+    {
+      "name": "actual-native-private-dataset-seal-without-oos-decoding-or-namespace-relabel",
+      "passed": true
+    },
+    {
+      "name": "actual-native-owner-feedback-with-default-opt-out-and-chat-holdout-observation",
+      "passed": true
+    },
+    {
+      "name": "actual-native-receipt-and-feedback-remote-byte-ack-through-local-compiled-fake",
+      "passed": true
+    },
+    {
+      "name": "actual-native-durable-ack-does-not-republish-completed-outboxes",
+      "passed": true
+    },
+    {
+      "name": "actual-native-root-loss-denied-without-empty-root-initialization",
+      "passed": true
+    }
+  ],
+  "transport": "OFFLINE_TRANSPORT_SIMULATION",
+  "real_rclone": "NOT_RUN",
+  "real_cloud": "NOT_RUN",
+  "ubuntu": "NOT_RUN",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "trading_runtime": "NOT_STARTED",
+  "shadow": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "live": "NOT_STARTED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "node": "UNAVAILABLE_ON_PATH",
+  "fake_transport_sha256": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+  "fake_transport_source_sha256": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+  "scenario_count": 11,
+  "command_count": 11
+}

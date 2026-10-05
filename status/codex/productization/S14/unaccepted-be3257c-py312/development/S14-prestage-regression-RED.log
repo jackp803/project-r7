@@ -1,0 +1,61 @@
+test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) ... 
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=0) ... FAIL
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=1) ... FAIL
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=2) ... FAIL
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=3) ... FAIL
+test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write (tests.application.test_cloud_bridge.CloudBridgeTests.test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write) ... 
+  test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write (tests.application.test_cloud_bridge.CloudBridgeTests.test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write) (index=0) ... FAIL
+  test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write (tests.application.test_cloud_bridge.CloudBridgeTests.test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write) (index=1) ... FAIL
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 379, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    self.assertFalse((self.stage/path).exists(),'Rejected bytes must never enter a possibly synchronized folder')
+AssertionError: True is not false : Rejected bytes must never enter a possibly synchronized folder
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 379, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    self.assertFalse((self.stage/path).exists(),'Rejected bytes must never enter a possibly synchronized folder')
+AssertionError: True is not false : Rejected bytes must never enter a possibly synchronized folder
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 379, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    self.assertFalse((self.stage/path).exists(),'Rejected bytes must never enter a possibly synchronized folder')
+AssertionError: True is not false : Rejected bytes must never enter a possibly synchronized folder
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 379, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    self.assertFalse((self.stage/path).exists(),'Rejected bytes must never enter a possibly synchronized folder')
+AssertionError: True is not false : Rejected bytes must never enter a possibly synchronized folder
+
+======================================================================
+FAIL: test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write (tests.application.test_cloud_bridge.CloudBridgeTests.test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write) (index=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 393, in test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write
+    self.assertFalse((self.stage/path).exists())
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write (tests.application.test_cloud_bridge.CloudBridgeTests.test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write) (index=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 393, in test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write
+    self.assertFalse((self.stage/path).exists())
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.172s
+
+FAILED (failures=6)

@@ -1,0 +1,76 @@
+test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback (test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback) ... ok
+test_bridge_transport_never_acknowledges_an_outage_and_retries_same_bundle (test_cloud_bridge.CloudBridgeTests.test_bridge_transport_never_acknowledges_an_outage_and_retries_same_bundle) ... FAIL
+test_changing_remote_download_never_mutates_stage (test_cloud_bridge.CloudBridgeTests.test_changing_remote_download_never_mutates_stage) ... ok
+test_cli_pull_emits_only_sanitized_status_with_exact_fixed_argv (test_cloud_bridge.CloudBridgeTests.test_cli_pull_emits_only_sanitized_status_with_exact_fixed_argv) ... usage: r7 [-h]
+          {doctor,init-profile,enroll-owner,serve,research-worker,backup-databases,verify-database-backup,_research-job}
+          ...
+r7: error: argument command: invalid choice: 'cloud-pull' (choose from doctor, init-profile, enroll-owner, serve, research-worker, backup-databases, verify-database-backup, _research-job)
+ERROR
+test_configuration_reference_is_metadata_only_and_package_flags_are_rejected (test_cloud_bridge.CloudBridgeTests.test_configuration_reference_is_metadata_only_and_package_flags_are_rejected) ... ok
+test_different_existing_remote_bytes_are_preserved_as_conflict (test_cloud_bridge.CloudBridgeTests.test_different_existing_remote_bytes_are_preserved_as_conflict) ... ok
+test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written (test_cloud_bridge.CloudBridgeTests.test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written) ... ok
+test_marker_loss_never_initializes_a_replacement_stage_root_or_remote (test_cloud_bridge.CloudBridgeTests.test_marker_loss_never_initializes_a_replacement_stage_root_or_remote) ... ok
+test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve (test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve) ... ok
+test_pull_actual_parquet_bytes_preserves_dataset_revision_identity (test_cloud_bridge.CloudBridgeTests.test_pull_actual_parquet_bytes_preserves_dataset_revision_identity) ... ok
+test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) ... ok
+test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results (test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results) ... ok
+test_pull_transfer_budget_rejects_batch_before_download_or_stage (test_cloud_bridge.CloudBridgeTests.test_pull_transfer_budget_rejects_batch_before_download_or_stage) ... ok
+test_remote_outage_and_wrong_readback_never_acknowledge_local_stage (test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage) ... ok
+test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes (test_cloud_bridge.CloudBridgeTests.test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes) ... ok
+
+======================================================================
+ERROR: test_cli_pull_emits_only_sanitized_status_with_exact_fixed_argv (test_cloud_bridge.CloudBridgeTests.test_cli_pull_emits_only_sanitized_status_with_exact_fixed_argv)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'cloud-pull' (choose from doctor, init-profile, enroll-owner, serve, research-worker, backup-databases, verify-database-backup, _research-job)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 259, in test_cli_pull_emits_only_sanitized_status_with_exact_fixed_argv
+    code=main(['cloud-pull','--config',str(product),'--bridge-profile',str(self.settings)])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 47, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+FAIL: test_bridge_transport_never_acknowledges_an_outage_and_retries_same_bundle (test_cloud_bridge.CloudBridgeTests.test_bridge_transport_never_acknowledges_an_outage_and_retries_same_bundle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 238, in test_bridge_transport_never_acknowledges_an_outage_and_retries_same_bundle
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.bridge_transport'))
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.522s
+
+FAILED (failures=1, errors=1)

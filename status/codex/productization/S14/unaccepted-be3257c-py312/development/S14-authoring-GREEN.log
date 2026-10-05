@@ -1,0 +1,16 @@
+test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6 (test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6) ... ERROR
+test_missing_capability_secret_notes_and_existing_output_are_refused_without_overwrite (test_authoring_roundtrip.AuthoringRoundtripTests.test_missing_capability_secret_notes_and_existing_output_are_refused_without_overwrite) ... ok
+
+======================================================================
+ERROR: test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6 (test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_authoring_roundtrip.py", line 54, in test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6
+    self.assertEqual(e6.get_strategy(verified.strategy.strategy_id,strategy_version=verified.strategy.strategy_version).current_lifecycle_state,'DRAFT')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: StrategyPlatformService.get_strategy() got an unexpected keyword argument 'strategy_version'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.749s
+
+FAILED (errors=1)

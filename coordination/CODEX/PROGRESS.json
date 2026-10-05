@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S14",
-  "next_step": "S14 exact-clean source/native copy bridge and feedback qualification; then pending S13 restore/services/SSH, S12 continuous runtime and S15-S16. Ubuntu/real cloud/forward/provider NOT_RUN.",
+  "active_step": "S13",
+  "next_step": "Fix reproduced fixture setup cleanup; integrate private fresh-generation restore and full user-data backup,service/SSH; repeat exact-clean qualification with instantaneous admission diagnostics. S14 forward feedback/S12/S15-S16 remain.",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -650,6 +650,70 @@
       "skips": 0,
       "evidence_ref": "PROJECT_LOCAL/artifacts/S14-final-focused-GREEN.log",
       "scope": "Offline author/E2/E6 roundtrips; actual owner feedback, holdout observations and durable publication; local fake Drive and owned local process faults. Exact-clean/native qualification pending."
+    },
+    {
+      "step": "S14",
+      "phase": "SOURCE_AND_NATIVE_UNACCEPTED_CANDIDATES",
+      "status": "FAIL",
+      "candidate_executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227",
+      "result": "NOT_ACCEPTED",
+      "source_attempts": [
+        {
+          "tests_run": 1719,
+          "commands": 32,
+          "product_tests": 162,
+          "product_errors": 5,
+          "product_failures": 0,
+          "registry": "NOT_RUN_AFTER_FAIL_FAST",
+          "acceptance": "NOT_ACCEPTED"
+        },
+        {
+          "tests_run": 1719,
+          "commands": 32,
+          "product_tests": 162,
+          "product_errors": 1,
+          "product_failures": 0,
+          "registry": "NOT_RUN_AFTER_FAIL_FAST",
+          "acceptance": "NOT_ACCEPTED"
+        }
+      ],
+      "current_scoped_native": {
+        "scenarios": 21,
+        "commands": 22,
+        "result": "PASS",
+        "scope": "OFFLINE_TRANSPORT_SIMULATION_ONLY"
+      },
+      "generated_feedback_viewports": 2,
+      "full_source": "FAIL",
+      "memory_samples": 480,
+      "minimum_sample": {
+        "observed_at_utc": "2026-10-05T06:52:13.569077Z",
+        "physical_memory_bytes": 33736265728,
+        "available_memory_bytes": 5333139456,
+        "existing_admission_minimum_bytes": 5060439859
+      },
+      "samples_below_admission_minimum": 0,
+      "immediate_error": "RESEARCH_MEMORY_PRESSURE",
+      "underlying_transient_cause": "UNPROVEN;2-second external samples do not resolve instantaneous admission values",
+      "threshold_changes": "NONE",
+      "historical_candidate": {
+        "revision": "9b7798157f0ba4675f5f973a6b4ca622200695a5",
+        "source_tests": 1762,
+        "scoped_native_scenarios": 20,
+        "scoped_native_commands": 21,
+        "result": "NOT_ACCEPTED",
+        "reason": "Privacy-before-stage RED"
+      },
+      "accepted_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+      "provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED",
+      "real_cloud": "NOT_RUN",
+      "ubuntu24": "NOT_RUN",
+      "ubuntu26": "NOT_RUN",
+      "review": "SELF_REVIEW;S16_PENDING",
+      "evidence_ref": "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json"
     }
   ],
   "evidence_refs": [
@@ -691,7 +755,8 @@
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/snapshot-native/native-database-backup.json",
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/native/native-smoke.json",
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/selected-research/native-selected-research.json",
-    "status/codex/productization/S13/backup-passed-7f50cbf-py312/unchanged-ui.json"
+    "status/codex/productization/S13/backup-passed-7f50cbf-py312/unchanged-ui.json",
+    "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -737,5 +802,6 @@
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a"
+  "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+  "candidate_executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227"
 }

@@ -1,0 +1,92 @@
+test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback (test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback) ... FAIL
+test_configuration_reference_is_metadata_only_and_package_flags_are_rejected (test_cloud_bridge.CloudBridgeTests.test_configuration_reference_is_metadata_only_and_package_flags_are_rejected) ... FAIL
+test_different_existing_remote_bytes_are_preserved_as_conflict (test_cloud_bridge.CloudBridgeTests.test_different_existing_remote_bytes_are_preserved_as_conflict) ... FAIL
+test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written (test_cloud_bridge.CloudBridgeTests.test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written) ... FAIL
+test_marker_loss_never_initializes_a_replacement_stage_root_or_remote (test_cloud_bridge.CloudBridgeTests.test_marker_loss_never_initializes_a_replacement_stage_root_or_remote) ... FAIL
+test_remote_outage_and_wrong_readback_never_acknowledge_local_stage (test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage) ... FAIL
+
+======================================================================
+FAIL: test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback (test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 104, in test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback
+    bundle,local=self.staged_bundle();bridge=self.bridge()
+                                             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 82, in bridge
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 77, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.rclone_bridge'),
+AssertionError: unexpectedly None : The explicitly scoped copy bridge is not implemented
+
+======================================================================
+FAIL: test_configuration_reference_is_metadata_only_and_package_flags_are_rejected (test_cloud_bridge.CloudBridgeTests.test_configuration_reference_is_metadata_only_and_package_flags_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 93, in test_configuration_reference_is_metadata_only_and_package_flags_are_rejected
+    module=self.module();original=Path.read_bytes
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 77, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.rclone_bridge'),
+AssertionError: unexpectedly None : The explicitly scoped copy bridge is not implemented
+
+======================================================================
+FAIL: test_different_existing_remote_bytes_are_preserved_as_conflict (test_cloud_bridge.CloudBridgeTests.test_different_existing_remote_bytes_are_preserved_as_conflict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 130, in test_different_existing_remote_bytes_are_preserved_as_conflict
+    bundle,_=self.staged_bundle();bridge=self.bridge()
+                                         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 82, in bridge
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 77, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.rclone_bridge'),
+AssertionError: unexpectedly None : The explicitly scoped copy bridge is not implemented
+
+======================================================================
+FAIL: test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written (test_cloud_bridge.CloudBridgeTests.test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 116, in test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written
+    bundle,_=self.staged_bundle();bridge=self.bridge()
+                                         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 82, in bridge
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 77, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.rclone_bridge'),
+AssertionError: unexpectedly None : The explicitly scoped copy bridge is not implemented
+
+======================================================================
+FAIL: test_marker_loss_never_initializes_a_replacement_stage_root_or_remote (test_cloud_bridge.CloudBridgeTests.test_marker_loss_never_initializes_a_replacement_stage_root_or_remote)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 138, in test_marker_loss_never_initializes_a_replacement_stage_root_or_remote
+    bundle,_=self.staged_bundle();bridge=self.bridge()
+                                         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 82, in bridge
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 77, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.rclone_bridge'),
+AssertionError: unexpectedly None : The explicitly scoped copy bridge is not implemented
+
+======================================================================
+FAIL: test_remote_outage_and_wrong_readback_never_acknowledge_local_stage (test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 123, in test_remote_outage_and_wrong_readback_never_acknowledge_local_stage
+    bundle,local=self.staged_bundle();bridge=self.bridge();self.fake.outage=True
+                                             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 82, in bridge
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 77, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.rclone_bridge'),
+AssertionError: unexpectedly None : The explicitly scoped copy bridge is not implemented
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.121s
+
+FAILED (failures=6)

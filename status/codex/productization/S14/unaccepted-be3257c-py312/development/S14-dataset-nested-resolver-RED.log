@@ -1,0 +1,40 @@
+test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest (tests.application.test_cloud_bridge.CloudBridgeTests.test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest) ... ERROR
+
+======================================================================
+ERROR: test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest (tests.application.test_cloud_bridge.CloudBridgeTests.test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\datasets\catalog.py", line 41, in read_local
+    return (_windows_read if os.name=='nt' else _posix_read)(path,limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cloud\safe_files.py", line 38, in _windows_read
+    raise CloudError("INCOMPLETE_SYNC", "ARTIFACT_MISSING")
+application.cloud.protocol.CloudError: INCOMPLETE_SYNC: ARTIFACT_MISSING
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 358, in test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest
+    actual=DatasetResolver(DatasetCatalog(self.data)).resolve('datasets/fixture-dataset/1/dataset.json')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\datasets\resolver.py", line 109, in resolve
+    return self._resolve(relative)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\datasets\resolver.py", line 120, in _resolve
+    for record in _parquet_rows(self.catalog.root,container,candle_schema(),through=through,clock='close_time'):
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\datasets\resolver.py", line 25, in _parquet_rows
+    raw=read_local(root,container['path'],64*1024*1024)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: ARTIFACT_MISSING
+
+----------------------------------------------------------------------
+Ran 1 test in 0.345s
+
+FAILED (errors=1)

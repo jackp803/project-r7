@@ -1,0 +1,73 @@
+test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback (test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback) ... ok
+test_configuration_reference_is_metadata_only_and_package_flags_are_rejected (test_cloud_bridge.CloudBridgeTests.test_configuration_reference_is_metadata_only_and_package_flags_are_rejected) ... ok
+test_different_existing_remote_bytes_are_preserved_as_conflict (test_cloud_bridge.CloudBridgeTests.test_different_existing_remote_bytes_are_preserved_as_conflict) ... ok
+test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written (test_cloud_bridge.CloudBridgeTests.test_duplicate_remote_names_conflict_before_any_runtime_payload_is_written) ... ok
+test_marker_loss_never_initializes_a_replacement_stage_root_or_remote (test_cloud_bridge.CloudBridgeTests.test_marker_loss_never_initializes_a_replacement_stage_root_or_remote) ... ok
+test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve (test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve) ... ERROR
+test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) ... 
+  test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) (path='inbox/strategies') ... ERROR
+  test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) (path='../outside') ... ERROR
+  test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) (path='inbox/strategies/submission-1/evil.py') ... ERROR
+test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results (test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results) ... ERROR
+test_pull_transfer_budget_rejects_batch_before_download_or_stage (test_cloud_bridge.CloudBridgeTests.test_pull_transfer_budget_rejects_batch_before_download_or_stage) ... ERROR
+test_remote_outage_and_wrong_readback_never_acknowledge_local_stage (test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage) ... ok
+test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes (test_cloud_bridge.CloudBridgeTests.test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes) ... ok
+
+======================================================================
+ERROR: test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve (test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 179, in test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve
+    bridge=self.bridge();self.assertEqual(bridge.pull_once()['files_staged'],1)
+                                          ^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'pull_once'
+
+======================================================================
+ERROR: test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) (path='inbox/strategies')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 201, in test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation
+    with self.assertRaises(CloudError):bridge.pull_once()
+                                       ^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'pull_once'
+
+======================================================================
+ERROR: test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) (path='../outside')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 201, in test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation
+    with self.assertRaises(CloudError):bridge.pull_once()
+                                       ^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'pull_once'
+
+======================================================================
+ERROR: test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation (test_cloud_bridge.CloudBridgeTests.test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation) (path='inbox/strategies/submission-1/evil.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 201, in test_pull_duplicate_directory_or_malicious_path_fails_before_stage_mutation
+    with self.assertRaises(CloudError):bridge.pull_once()
+                                       ^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'pull_once'
+
+======================================================================
+ERROR: test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results (test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 164, in test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results
+    result=self.bridge().pull_once()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'pull_once'
+
+======================================================================
+ERROR: test_pull_transfer_budget_rejects_batch_before_download_or_stage (test_cloud_bridge.CloudBridgeTests.test_pull_transfer_budget_rejects_batch_before_download_or_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 207, in test_pull_transfer_budget_rejects_batch_before_download_or_stage
+    with self.assertRaises(CloudError):self.bridge().pull_once()
+                                       ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'pull_once'
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.742s
+
+FAILED (errors=6)

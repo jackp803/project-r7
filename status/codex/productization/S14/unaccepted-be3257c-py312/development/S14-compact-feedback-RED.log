@@ -1,0 +1,14 @@
+test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run (tests.application.test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run) ... FAIL
+
+======================================================================
+FAIL: test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run (tests.application.test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_feedback_redaction.py", line 54, in test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run
+    self.assertEqual(len(summary.rows),7,'A compact stage table precedes the full JSON detail')
+AssertionError: 0 != 7 : A compact stage table precedes the full JSON detail
+
+----------------------------------------------------------------------
+Ran 1 test in 0.739s
+
+FAILED (failures=1)

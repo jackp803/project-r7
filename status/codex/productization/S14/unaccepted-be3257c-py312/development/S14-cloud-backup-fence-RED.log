@@ -1,0 +1,16 @@
+test_active_native_owner_excludes_backup_before_destination_creation (tests.application.test_database_backup.DatabaseBackupTests.test_active_native_owner_excludes_backup_before_destination_creation) ... 
+  test_active_native_owner_excludes_backup_before_destination_creation (tests.application.test_database_backup.DatabaseBackupTests.test_active_native_owner_excludes_backup_before_destination_creation) (role='cloud') ... FAIL
+
+======================================================================
+FAIL: test_active_native_owner_excludes_backup_before_destination_creation (tests.application.test_database_backup.DatabaseBackupTests.test_active_native_owner_excludes_backup_before_destination_creation) (role='cloud')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_database_backup.py", line 73, in test_active_native_owner_excludes_backup_before_destination_creation
+    with self.assertRaises(module.BackupError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: BackupError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.327s
+
+FAILED (failures=1)

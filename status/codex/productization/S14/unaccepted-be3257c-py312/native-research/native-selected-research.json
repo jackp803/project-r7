@@ -1,0 +1,561 @@
+{
+  "profile": "r7-native-selected-synthetic-research-probe-v0.2",
+  "identity": {
+    "executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227",
+    "implementation_hash": "sha256:aae7d3dd5eed156dc5339e03ef1f164c45120892ee9b27207fbd6d72dcd6b8a7",
+    "build_hash": "sha256:fa43dd0c909d5cf971a35d21caeb035ea2cd24678f2fbc1b4033dbc14c7444ea",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "fixture": "SYNTHETIC_DATA_AND_LOCAL_FOLDER_ONLY",
+  "namespace": "LOCAL_RESEARCH",
+  "cloud": "LOCAL_FOLDER_SIMULATION",
+  "actual_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "trading_runtime": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "started_at_utc": "2026-10-05T06:23:33.245054Z",
+  "config_hash": "sha256:72d2868f7d539d92ab695273508e2dae036baf7b7617e233f5ba19242dcdcd0f",
+  "config_file_sha256": "sha256:a79b9c7fb3ddc91272a2aceecd628850eee2ba02d3f0459b60d204bcddf78823",
+  "run_id": "job-2b4ce65269ff5c6e2bbc8fecb1a7d12d452636f4506247b0d5630c8850a0d7c7",
+  "finished_at_utc": "2026-10-05T06:23:45.464091Z",
+  "exit_code": 0,
+  "tree_reaped": true,
+  "log_sha256": "sha256:3508533d3947fd339b6ef29cddda35c37bf37eb2ad374a5b691feaed794cba62",
+  "worker_result": {
+    "status": "JOB_FINISHED",
+    "run_id": "job-2b4ce65269ff5c6e2bbc8fecb1a7d12d452636f4506247b0d5630c8850a0d7c7",
+    "generation": 1,
+    "job_state": "COMPLETE",
+    "parent_pid": 29776,
+    "child_pid": 40788,
+    "exit_code": 0,
+    "tree_reaped": true,
+    "memory_enforcement": "SOFT_LIMIT_ONLY",
+    "log_ref": "worker-logs/job-2b4ce65269ff5c6e2bbc8fecb1a7d12d452636f4506247b0d5630c8850a0d7c7-1.log",
+    "reason_codes": []
+  },
+  "actual_job": {
+    "run_id": "job-2b4ce65269ff5c6e2bbc8fecb1a7d12d452636f4506247b0d5630c8850a0d7c7",
+    "submission_id": "native-owner-fixture",
+    "policy_id": "selected-fixture",
+    "state": "COMPLETE",
+    "revision": 2,
+    "generation": 1,
+    "owner_run_id": "run-1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+    "stage": "diagnostic_report",
+    "input_hash": "sha256:2b4ce65269ff5c6e2bbc8fecb1a7d12d452636f4506247b0d5630c8850a0d7c7",
+    "implementation_hash": "sha256:aae7d3dd5eed156dc5339e03ef1f164c45120892ee9b27207fbd6d72dcd6b8a7",
+    "created_at": "2026-10-05T06:23:33.240038Z",
+    "observed_at": "2026-10-05T06:23:45.110412Z",
+    "cancellation_requested": false,
+    "outcome": {
+      "compatibility_status": "PASS",
+      "reason_codes": [],
+      "run_id": "run-1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+      "status": "PASS",
+      "strategy_lifecycle": "CANDIDATE"
+    },
+    "reason_codes": []
+  },
+  "actual_evidence": {
+    "status": "PASS",
+    "reason_codes": [],
+    "provenance": {
+      "architecture": "AMD64",
+      "build_hash": "sha256:fa43dd0c909d5cf971a35d21caeb035ea2cd24678f2fbc1b4033dbc14c7444ea",
+      "capital": "NONE",
+      "credentials": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2",
+      "executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227",
+      "execution": "LOCAL",
+      "financial_authority": "NONE",
+      "github_compute": "NOT_USED",
+      "implementation_hash": "sha256:aae7d3dd5eed156dc5339e03ef1f164c45120892ee9b27207fbd6d72dcd6b8a7",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "provider_requests": 0,
+      "python": "3.12.10",
+      "worktree": "UNAVAILABLE"
+    },
+    "compatibility": {
+      "status": "PASS",
+      "reason_codes": []
+    },
+    "backtest": {
+      "total_trades": 7,
+      "wins": 7,
+      "losses": 0,
+      "breakeven": 0,
+      "win_rate": "1",
+      "average_win": "0.87650004",
+      "average_loss": "0",
+      "gross_pnl": "6.8271",
+      "net_pnl": "6.13550028",
+      "total_fees": "0.69159972",
+      "total_slippage_cost": "0.1729",
+      "total_funding_cost": "0.0000",
+      "profit_factor": null,
+      "expectancy": "0.87650004",
+      "max_drawdown": "0",
+      "max_consecutive_losses": 0
+    },
+    "backtest_e6_evidence_id": "evidence-1f910316-9f50-4b1f-b742-9948d257b876",
+    "split_resolution": {
+      "dataset_manifest_hash": "sha256:68889db7e22e8f2bc222d6147a059a7310fea4c518aa4bd5b1814edbd4d22a7f",
+      "namespace": "LOCAL_RESEARCH",
+      "partitions": {
+        "development": {
+          "end": "2026-10-03T08:00:00Z",
+          "entry_end": "2026-10-03T07:00:00Z",
+          "entry_start": "2026-10-02T17:00:00Z",
+          "name": "development",
+          "sealed": false,
+          "start": "2026-10-02T16:00:00Z",
+          "warmup_start": "2026-10-02T14:00:00Z"
+        },
+        "sealed_oos": {
+          "end": "2026-10-04T00:00:00Z",
+          "entry_end": "2026-10-03T23:00:00Z",
+          "entry_start": "2026-10-03T09:00:00Z",
+          "name": "sealed_oos",
+          "sealed": true,
+          "start": "2026-10-03T08:00:00Z",
+          "warmup_start": "2026-10-03T06:00:00Z"
+        },
+        "training": {
+          "end": "2026-10-02T16:00:00Z",
+          "entry_end": "2026-10-02T15:00:00Z",
+          "entry_start": "2026-10-02T00:00:00Z",
+          "name": "training",
+          "sealed": false,
+          "start": "2026-10-02T00:00:00Z",
+          "warmup_start": "2026-10-02T00:00:00Z"
+        }
+      },
+      "policy_hash": "sha256:c7ba56671b9cd9c4e6235aa2a6a1bafa605b74ebf9fd3375dbeead4e2553bfa1",
+      "schema_version": "r7-frozen-split-plan-v0.2"
+    },
+    "dataset_resolution": {
+      "container_hashes": [
+        [
+          "candles.parquet",
+          "sha256:f9b0970c1a386e44091277c23bd99a3254602dfe08501f9514180653d969558f"
+        ],
+        [
+          "funding.parquet",
+          "sha256:262c807d8f0e194d1fec32e6d1df51f6ca6a951f45f507c5fe37ebbb7aa63817"
+        ]
+      ],
+      "logical_hash": "sha256:4224d34e0732884c4d79433a5cd40a6c7cf6b6bb48ff4690d19647489391109c",
+      "manifest_hash": "sha256:68889db7e22e8f2bc222d6147a059a7310fea4c518aa4bd5b1814edbd4d22a7f",
+      "reason_codes": [],
+      "row_counts": {
+        "1h": 32
+      },
+      "verification_scope": "DEVELOPMENT_VERIFIED_SEALED_LOGICAL_PENDING"
+    },
+    "candidate_gate": {
+      "assessment_id": "product-436f893672737cf3a5f012f7697dd93667201b460a0644a3565953439354c545",
+      "reason_codes": [],
+      "status": "PASS",
+      "strategy_lifecycle": "CANDIDATE"
+    },
+    "sealed_oos": "PASS",
+    "frozen_finalist": {
+      "dataset_manifest_hash": "sha256:68889db7e22e8f2bc222d6147a059a7310fea4c518aa4bd5b1814edbd4d22a7f",
+      "family_id": "fixture-family",
+      "finalist_id": "finalist-49691b5627f0c3b688b455ad782ae0d48cf7e519619106c0e006ff81a073d4db",
+      "frozen_at": "2026-10-05T06:23:41.689645Z",
+      "namespace": "LOCAL_RESEARCH",
+      "policies": {
+        "cost": {
+          "cost_model_version": "FIXTURE_COST_V1",
+          "entry_bps": "1",
+          "exit_bps": "1",
+          "fee_unit": "BPS_OF_NOTIONAL",
+          "fixed_quantity": "1",
+          "generation": 1,
+          "maker_bps": "2",
+          "max_evaluations": 100,
+          "namespace": "LOCAL_RESEARCH",
+          "policy_id": "FIXTURE_COST",
+          "quantity_unit": "BASE",
+          "schema_version": "r7-replay-cost-policy-v0.2",
+          "slippage_unit": "BPS_OF_REFERENCE_PRICE",
+          "taker_bps": "4"
+        },
+        "research": {
+          "cost_policy_hash": "sha256:8954f4461128e553cc8c4301bc07193b984a05da045d031d5461df7d6b31fc37",
+          "drawdown_limit": "100",
+          "drawdown_unit": "USDT_AMOUNT",
+          "generation": 1,
+          "initial_equity_usdt": "1000",
+          "max_consecutive_losses": 10,
+          "min_expectancy_usdt_per_trade": "0",
+          "min_net_pnl_usdt": "0",
+          "min_profit_factor": "0",
+          "minimum_closed_trades": {
+            "development": 5,
+            "sealed_oos": 5,
+            "walk_forward": 1
+          },
+          "namespace": "LOCAL_RESEARCH",
+          "policy_id": "FIXTURE_RESEARCH",
+          "profit_factor_null_handling": "ALLOW_NO_LOSSES",
+          "schema_version": "r7-research-policy-v0.2",
+          "split_policy_hash": "sha256:c7ba56671b9cd9c4e6235aa2a6a1bafa605b74ebf9fd3375dbeead4e2553bfa1",
+          "validation_policy_version": "FIXTURE_VALIDATION_V1"
+        },
+        "robustness": {
+          "algorithm_version": "r7-robustness-v1",
+          "cost_policy_hash": "sha256:8954f4461128e553cc8c4301bc07193b984a05da045d031d5461df7d6b31fc37",
+          "generation": 1,
+          "max_monte_carlo_drawdown_q95": "100",
+          "maximum_evaluations": 2000,
+          "maximum_replays": 40,
+          "maximum_trials": 4,
+          "minimum_block_expectancy_q05_usdt_per_trade": "0",
+          "minimum_neighborhood_pass_fraction": "0.5",
+          "minimum_stress_net_pnl_usdt": "0",
+          "minimum_walk_forward_pass_fraction": "1",
+          "monte_carlo": [
+            {
+              "algorithm": "TRADE_PERMUTATION",
+              "algorithm_version": "r7-mc-v1",
+              "block_length": 2,
+              "dependence_model": "ORDER_SENSITIVITY",
+              "drawdown_unit": "USDT_AMOUNT",
+              "initial_equity": "1000",
+              "max_path_observations": 10000,
+              "minimum_effective_blocks": 2,
+              "minimum_samples": 5,
+              "resample_count": 20,
+              "rng_algorithm": "SHA256_COUNTER_REJECTION_V1",
+              "sample_source": "CLOSED_DEVELOPMENT_TRADE_NET_PNL_USDT",
+              "schema_version": "r7-monte-carlo-policy-v0.2"
+            },
+            {
+              "algorithm": "MOVING_BLOCK_BOOTSTRAP",
+              "algorithm_version": "r7-mc-v1",
+              "block_length": 2,
+              "dependence_model": "OVERLAPPING_FIXED_BLOCKS",
+              "drawdown_unit": "USDT_AMOUNT",
+              "initial_equity": "1000",
+              "max_path_observations": 10000,
+              "minimum_effective_blocks": 2,
+              "minimum_samples": 5,
+              "resample_count": 20,
+              "rng_algorithm": "SHA256_COUNTER_REJECTION_V1",
+              "sample_source": "CLOSED_DEVELOPMENT_TRADE_NET_PNL_USDT",
+              "schema_version": "r7-monte-carlo-policy-v0.2"
+            }
+          ],
+          "namespace": "LOCAL_RESEARCH",
+          "neighborhood": [
+            {
+              "maximum": 3,
+              "minimum": 0,
+              "parameter": "fast_window",
+              "type": "INTEGER",
+              "values": [
+                1,
+                2,
+                3,
+                0
+              ]
+            }
+          ],
+          "policy_id": "FIXTURE_ROBUSTNESS",
+          "schema_version": "r7-robustness-policy-v0.2",
+          "selection_procedure": "TRAIN_NET_PNL_THEN_VARIANT_HASH_V1",
+          "split_policy_hash": "sha256:c7ba56671b9cd9c4e6235aa2a6a1bafa605b74ebf9fd3375dbeead4e2553bfa1",
+          "stress_scenarios": [
+            {
+              "entry_slippage_add_bps": "10",
+              "exit_slippage_add_bps": "10",
+              "fee_add_bps": "10",
+              "funding_adverse_multiplier": "2",
+              "name": "EXPLICIT_ADVERSE_10BPS"
+            }
+          ],
+          "walk_forward_windows": [
+            {
+              "evaluation": {
+                "end": "2026-10-02T12:00:00Z",
+                "start": "2026-10-02T08:00:00Z"
+              },
+              "training": {
+                "end": "2026-10-02T08:00:00Z",
+                "start": "2026-10-02T00:00:00Z"
+              }
+            },
+            {
+              "evaluation": {
+                "end": "2026-10-02T16:00:00Z",
+                "start": "2026-10-02T12:00:00Z"
+              },
+              "training": {
+                "end": "2026-10-02T12:00:00Z",
+                "start": "2026-10-02T04:00:00Z"
+              }
+            }
+          ]
+        },
+        "split": {
+          "development": {
+            "end": "2026-10-03T08:00:00Z",
+            "start": "2026-10-02T16:00:00Z"
+          },
+          "embargo_rationale": "Fixture one hour boundary exclusion",
+          "embargo_seconds": 3600,
+          "generation": 1,
+          "label_horizon_seconds": 3600,
+          "max_holding_seconds": 3600,
+          "namespace": "LOCAL_RESEARCH",
+          "policy_id": "FIXTURE_SPLIT",
+          "schema_version": "r7-split-policy-v0.2",
+          "sealed_oos": {
+            "end": "2026-10-04T00:00:00Z",
+            "start": "2026-10-03T08:00:00Z"
+          },
+          "training": {
+            "end": "2026-10-02T16:00:00Z",
+            "start": "2026-10-02T00:00:00Z"
+          },
+          "warmup_bars": 2
+        }
+      },
+      "policy_hashes": {
+        "cost": "sha256:8954f4461128e553cc8c4301bc07193b984a05da045d031d5461df7d6b31fc37",
+        "research": "sha256:05164b6e8c2cc8142c13c6cc38fd9326388097b59dcf96b1adf0c63eaf02464e",
+        "robustness": "sha256:e660c70cd598a273d6614936404990f45c7ae49ef12eeafa4c5f6e3dacf4704a",
+        "split": "sha256:c7ba56671b9cd9c4e6235aa2a6a1bafa605b74ebf9fd3375dbeead4e2553bfa1"
+      },
+      "provenance": {
+        "architecture": "AMD64",
+        "build_hash": "sha256:fa43dd0c909d5cf971a35d21caeb035ea2cd24678f2fbc1b4033dbc14c7444ea",
+        "capital": "NONE",
+        "credentials": "NONE",
+        "distribution_profile": "r7-native-distribution-v0.2",
+        "executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227",
+        "execution": "LOCAL",
+        "financial_authority": "NONE",
+        "github_compute": "NOT_USED",
+        "implementation_hash": "sha256:aae7d3dd5eed156dc5339e03ef1f164c45120892ee9b27207fbd6d72dcd6b8a7",
+        "os": "Windows",
+        "os_version": "10.0.26200",
+        "provider_requests": 0,
+        "python": "3.12.10",
+        "worktree": "UNAVAILABLE"
+      },
+      "random_seed": 42,
+      "robustness_hash": "sha256:849af76e821c894f5c1bd66937c0b40ed204d9889b6dd4a56389c9d9830e6fad",
+      "run_id": "run-1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+      "run_input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+      "schema_version": "r7-frozen-finalist-v0.2",
+      "split_policy_hash": "sha256:c7ba56671b9cd9c4e6235aa2a6a1bafa605b74ebf9fd3375dbeead4e2553bfa1",
+      "strategy": {
+        "content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+        "created_at": "2026-08-20T03:00:00Z",
+        "name": "Baseline SMA Cross",
+        "parameters": {
+          "fast_window": 2
+        },
+        "required_timeframes": [
+          "1h"
+        ],
+        "rules": {
+          "behavior_profile": "r7-closed-bar-v0.2",
+          "dsl_version": "0.2",
+          "evaluation_timeframe": "1h",
+          "exit_policy": {
+            "max_hold_seconds": 3600,
+            "stop": {
+              "kind": "fixed_distance",
+              "value": "10"
+            },
+            "target": {
+              "kind": "reward_risk",
+              "multiple": "2"
+            },
+            "trailing": null
+          },
+          "features": {
+            "trend": {
+              "kind": "indicator",
+              "name": "EMA",
+              "output": "value",
+              "parameters": {
+                "window": {
+                  "kind": "parameter",
+                  "name": "fast_window"
+                }
+              },
+              "semantic_version": "r7-ema-v1",
+              "source": {
+                "field": "close",
+                "kind": "field",
+                "timeframe": "1h"
+              }
+            }
+          },
+          "long": {
+            "args": [
+              {
+                "field": "close",
+                "kind": "field",
+                "timeframe": "1h"
+              },
+              {
+                "kind": "feature",
+                "name": "trend"
+              }
+            ],
+            "kind": "operator",
+            "name": "GT"
+          },
+          "short": {
+            "args": [
+              {
+                "field": "close",
+                "kind": "field",
+                "timeframe": "1h"
+              },
+              {
+                "kind": "feature",
+                "name": "trend"
+              }
+            ],
+            "kind": "operator",
+            "name": "LT"
+          }
+        },
+        "runtime_compatibility": {
+          "runtime_family": "project-r7-e2-strategy-runtime",
+          "runtime_version": "0.2.0"
+        },
+        "schema_version": "contracts-v0.1",
+        "strategy_id": "fixture-v02-trend",
+        "strategy_version": "0.2.0",
+        "symbol": "BTC_USDT_PERP"
+      },
+      "strategy_content_hash": "sha256:c334bfd6b182d9caf949a22cc5ee2958737aee41ffd29e59319339c7a37a5a1b",
+      "symbol": "BTC_USDT_PERP"
+    },
+    "owner_report_ref": "research:run-1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2/diagnostic_report",
+    "attempts": [
+      {
+        "stage": "resource_admission",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.551206Z",
+        "ended_at": "2026-10-05T06:23:38.552713Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:1e3b619660665c0617a997a77371727bc223cd32e351f4d1433feeda0c9e0343"
+      },
+      {
+        "stage": "split_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.563807Z",
+        "ended_at": "2026-10-05T06:23:38.563807Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:da9117e4980bfa87a1a6a0ac952a464898ad479aa6d2711ad20413d97437e8aa"
+      },
+      {
+        "stage": "dataset_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.576342Z",
+        "ended_at": "2026-10-05T06:23:38.645604Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:e4cf0f2580c1d17af05e5b2bb6305bd38883e40f90169eefabcd6cbeb521c04b"
+      },
+      {
+        "stage": "cost_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.655510Z",
+        "ended_at": "2026-10-05T06:23:38.655510Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:8954f4461128e553cc8c4301bc07193b984a05da045d031d5461df7d6b31fc37"
+      },
+      {
+        "stage": "policy_resolution",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.667983Z",
+        "ended_at": "2026-10-05T06:23:38.667983Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:5e57d4b451bf37086c76a7f21e356f0f5e126668dba144de8a69863d84778d67"
+      },
+      {
+        "stage": "compatibility",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.680487Z",
+        "ended_at": "2026-10-05T06:23:38.726226Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:66ed580a2a13f4a05d8a92e3765bb07884a8589b678760ce41b0f9019f065271"
+      },
+      {
+        "stage": "development_replay",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:38.767947Z",
+        "ended_at": "2026-10-05T06:23:39.601225Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:792c6745df619fe284c195def35a3a78cb19ab5d6b21ffe9ea5d10c2df669440"
+      },
+      {
+        "stage": "e6_backtest_persistence",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:39.614493Z",
+        "ended_at": "2026-10-05T06:23:39.619224Z",
+        "input_hash": "sha256:26edefdf27e388b30b9731aefee56aad32f0730546804969187e0591ad795cd3",
+        "output_hash": "sha256:4d0697f5ee9ab31f7fcf4ccf5dd55ae0fa616d2a4ab3769f0973e3e88614e878"
+      },
+      {
+        "stage": "robustness",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:39.631579Z",
+        "ended_at": "2026-10-05T06:23:40.872143Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:849af76e821c894f5c1bd66937c0b40ed204d9889b6dd4a56389c9d9830e6fad"
+      },
+      {
+        "stage": "finalist_freeze",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:40.884631Z",
+        "ended_at": "2026-10-05T06:23:41.692650Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:c8066d642facce54d43446306bf5a3c1bf5f2f52b9dc95e4f9b37001c88a6be6"
+      },
+      {
+        "stage": "sealed_oos",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:42.470651Z",
+        "ended_at": "2026-10-05T06:23:44.158229Z",
+        "input_hash": "sha256:d11eca0f87ac6bd963ef52a7c72ee2f6bee83edb0274bd1a7bb9e12e1be80c12",
+        "output_hash": "sha256:74dc6a869ac2ede762519c8d8bae283b9a1657ff5597a7d08f4661fd2c605638"
+      },
+      {
+        "stage": "e6_product_assessment",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:44.170488Z",
+        "ended_at": "2026-10-05T06:23:45.084695Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:e1c27bd6108a6286d7f1fe35f59f309e01037697596223ad4ec7d808704f4a82"
+      },
+      {
+        "stage": "diagnostic_report",
+        "status": "COMPLETE",
+        "started_at": "2026-10-05T06:23:45.097289Z",
+        "ended_at": "2026-10-05T06:23:45.097289Z",
+        "input_hash": "sha256:1387724e511a1a27f4acc792ab5810f6c1b7a12e0ec39d3ce8561b6c96eb1ac2",
+        "output_hash": "sha256:20d49b55c41bb1f71911e3415be8f3f2497cea6c5ec38c7c5dd75726f3b2c400"
+      }
+    ]
+  }
+}

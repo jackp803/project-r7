@@ -1,0 +1,41 @@
+test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings (test_feedback_redaction.FeedbackTests.test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings) ... FAIL
+test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run (test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run) ... FAIL
+test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected (test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected) ... FAIL
+
+======================================================================
+FAIL: test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings (test_feedback_redaction.FeedbackTests.test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_feedback_redaction.py", line 45, in test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_feedback_redaction.py", line 17, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.feedback'))
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run (test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_feedback_redaction.py", line 28, in test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_feedback_redaction.py", line 17, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.feedback'))
+AssertionError: unexpectedly None
+
+======================================================================
+FAIL: test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected (test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_feedback_redaction.py", line 67, in test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_feedback_redaction.py", line 17, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.cloud.feedback'))
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

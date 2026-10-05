@@ -1,0 +1,15 @@
+test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest (tests.application.test_cloud_bridge.CloudBridgeTests.test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest) ... ERROR
+
+======================================================================
+ERROR: test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest (tests.application.test_cloud_bridge.CloudBridgeTests.test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 352, in test_cloud_dataset_import_seals_private_bytes_without_decoding_oos_and_real_e1_resolves_nested_manifest
+    result=bridge.import_dataset('fixture-dataset','1')
+           ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'import_dataset'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.320s
+
+FAILED (errors=1)

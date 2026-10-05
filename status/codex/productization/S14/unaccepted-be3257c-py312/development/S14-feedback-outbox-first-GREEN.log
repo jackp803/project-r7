@@ -1,0 +1,20 @@
+test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation (tests.application.test_cloud_bridge.CloudBridgeTests.test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation) ... ERROR
+
+======================================================================
+ERROR: test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation (tests.application.test_cloud_bridge.CloudBridgeTests.test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 329, in test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation
+    operation=queue_feedback(service,run.run_id)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cloud\feedback.py", line 181, in queue_feedback
+    return service.journal.enqueue_feedback(feedback,now_utc())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\research\evidence.py", line 147, in enqueue_feedback
+    self._db.execute('INSERT INTO research_feedback_publications VALUES(?,?,?,?,?,?,?,?,?,?,?)',
+sqlite3.OperationalError: table research_feedback_publications has 10 columns but 11 values were supplied
+
+----------------------------------------------------------------------
+Ran 1 test in 0.774s
+
+FAILED (errors=1)

@@ -1,0 +1,66 @@
+test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) ... 
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=0) ... FAIL
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=1) ... FAIL
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=2) ... FAIL
+  test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=3) ... FAIL
+test_private_snapshot_disk_failure_becomes_sanitized_operational_unavailable (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_snapshot_disk_failure_becomes_sanitized_operational_unavailable) ... ERROR
+
+======================================================================
+ERROR: test_private_snapshot_disk_failure_becomes_sanitized_operational_unavailable (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_snapshot_disk_failure_becomes_sanitized_operational_unavailable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 380, in test_private_snapshot_disk_failure_becomes_sanitized_operational_unavailable
+    with self.assertRaises(CloudError) as caught:bridge.push_bundle(bundle.logical_path)
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cloud\rclone_bridge.py", line 377, in push_bundle
+    create_private_directory(snapshot)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+PermissionError: SYNTHETIC_LOCAL_PRIVATE_PATH
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 373, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,{'summary.json':canonical_bytes(value)}),'operation-'+str(index))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloudError not raised
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 373, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,{'summary.json':canonical_bytes(value)}),'operation-'+str(index))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloudError not raised
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 373, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,{'summary.json':canonical_bytes(value)}),'operation-'+str(index))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloudError not raised
+
+======================================================================
+FAIL: test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote (tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote) (index=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 373, in test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote
+    with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,{'summary.json':canonical_bytes(value)}),'operation-'+str(index))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloudError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.522s
+
+FAILED (failures=4, errors=1)

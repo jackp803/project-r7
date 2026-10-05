@@ -1,0 +1,14 @@
+test_overflow_reports_actual_observed_capture_size_instead_of_a_false_hard_cap (test_cloud_command_runner.CloudCommandRunnerTests.test_overflow_reports_actual_observed_capture_size_instead_of_a_false_hard_cap) ... FAIL
+
+======================================================================
+FAIL: test_overflow_reports_actual_observed_capture_size_instead_of_a_false_hard_cap (test_cloud_command_runner.CloudCommandRunnerTests.test_overflow_reports_actual_observed_capture_size_instead_of_a_false_hard_cap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_command_runner.py", line 77, in test_overflow_reports_actual_observed_capture_size_instead_of_a_false_hard_cap
+    self.assertEqual(result.captured_bytes,2048)
+AssertionError: 1024 != 2048
+
+----------------------------------------------------------------------
+Ran 1 test in 0.217s
+
+FAILED (failures=1)

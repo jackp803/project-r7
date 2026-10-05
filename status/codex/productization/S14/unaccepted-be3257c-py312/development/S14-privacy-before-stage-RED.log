@@ -1,0 +1,14 @@
+test_private_fields_rejected_before_any_possible_synchronized_stage_write (__main__.PrivacyBeforeStage.test_private_fields_rejected_before_any_possible_synchronized_stage_write) ... FAIL
+
+======================================================================
+FAIL: test_private_fields_rejected_before_any_possible_synchronized_stage_write (__main__.PrivacyBeforeStage.test_private_fields_rejected_before_any_possible_synchronized_stage_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\artifacts\s14_stage_privacy_red.py", line 15, in test_private_fields_rejected_before_any_possible_synchronized_stage_write
+    self.assertFalse((self.stage/path).exists(),'Rejected private bytes must never enter a possibly synchronized stage')
+AssertionError: True is not false : Rejected private bytes must never enter a possibly synchronized stage
+
+----------------------------------------------------------------------
+Ran 1 test in 0.064s
+
+FAILED (failures=1)

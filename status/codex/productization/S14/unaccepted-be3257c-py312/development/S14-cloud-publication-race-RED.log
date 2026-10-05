@@ -1,0 +1,14 @@
+test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes (test_cloud_bridge.CloudBridgeTests.test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes) ... FAIL
+
+======================================================================
+FAIL: test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes (test_cloud_bridge.CloudBridgeTests.test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_bridge.py", line 158, in test_result_changed_after_validation_cannot_upload_unvalidated_private_bytes
+    self.assertEqual(target.read_bytes(),original,'Only the previously validated snapshot may reach the remote')
+AssertionError: b'{"provider_account_id":"synthetic-private-value"}' != b'{"revision":1,"status":"INTAKE_ACCEPTED","strategy_id":"example"}' : Only the previously validated snapshot may reach the remote
+
+----------------------------------------------------------------------
+Ran 1 test in 0.058s
+
+FAILED (failures=1)

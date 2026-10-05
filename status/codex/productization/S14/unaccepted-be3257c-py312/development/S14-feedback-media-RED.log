@@ -1,0 +1,20 @@
+test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload (tests.application.test_cloud_bridge.CloudBridgeTests.test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload) ... ERROR
+
+======================================================================
+ERROR: test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload (tests.application.test_cloud_bridge.CloudBridgeTests.test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_cloud_bridge.py", line 310, in test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload
+    bridge=self.bridge();receipt=RcloneCloudTransport(bridge).publish(bundle,'feedback-operation-1')
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cloud\bridge_transport.py", line 23, in publish
+    remote = self.bridge.push_bundle(bundle.logical_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\src\application\cloud\rclone_bridge.py", line 289, in push_bundle
+    raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_MEDIA_NOT_IMPLEMENTED')
+application.cloud.protocol.CloudError: BLOCKED: BRIDGE_PUBLICATION_MEDIA_NOT_IMPLEMENTED
+
+----------------------------------------------------------------------
+Ran 1 test in 0.840s
+
+FAILED (errors=1)

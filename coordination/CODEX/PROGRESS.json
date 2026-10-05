@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S13",
-  "next_step": "Qualify the new exact-clean S13 private recovery/admission diagnostics/fixture cleanup candidate including retained S14 fixes with full source, Windows native and refreshed UI. Continue Linux services/SSH, S12 composition, S14 forward feedback and S15-S16; accepted executable remains 7f50cbf4fdb339ac50ea98f0880de05e8546fb8a until full qualification.",
+  "next_step": "Add long-path stage/read/author regressions; minimally fix explicit Win32 extended paths preserving pinned ancestor/reparse/copy-only behavior; establish new exact-clean candidate and repeat full/native/browser checks. Continue remaining master work.",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -714,6 +714,87 @@
       "ubuntu26": "NOT_RUN",
       "review": "SELF_REVIEW;S16_PENDING",
       "evidence_ref": "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json"
+    },
+    {
+      "step": "S13",
+      "phase": "EXACT_CLEAN_PRIVATE_RECOVERY_NATIVE_BRIDGE_FAILED",
+      "status": "FAIL",
+      "evidence_ref": "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json",
+      "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+      "result": "FAIL",
+      "acceptance": "NOT_ACCEPTED",
+      "reason": "MANDATORY_RETAINED_NATIVE_OFFLINE_BRIDGE_PUBLICATION_FAILURE",
+      "full_source": {
+        "result": "PASS",
+        "tests": 1786,
+        "commands": 33,
+        "phase_1": 247,
+        "phase_2": 1539,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "result": "PASS",
+        "commands": 6,
+        "unit_tests": 15,
+        "browser_tests": 11,
+        "screenshots": 6
+      },
+      "native_smoke": {
+        "result": "PASS",
+        "scenarios": 8,
+        "commands": 9
+      },
+      "selected_native_research": {
+        "result": "PASS",
+        "scenarios": 1,
+        "commands": 1
+      },
+      "native_private_recovery": {
+        "result": "PASS",
+        "scenarios": 12,
+        "commands": 15
+      },
+      "native_offline_cloud": {
+        "result": "FAIL",
+        "scenarios_passed_before_failure": 8,
+        "commands_completed": 9,
+        "failed_command": "publish",
+        "attempted": 2,
+        "cloud_acknowledged": 1,
+        "unavailable": 1,
+        "real_cloud": "NOT_RUN"
+      },
+      "diagnostic": {
+        "scope": "SOURCE_OWNER_WITH_CONTROLLED_LOCAL_FAKE_ONLY",
+        "prestage_validation": "PASS",
+        "failure": "PUBLICATION_STAGE_WRITE_FAILED",
+        "formal_receipt_path_characters": 228,
+        "temporary_path_characters": 261,
+        "win32_last_error_after_cleanup": 3,
+        "underlying_error": "Win32 temporary path exceeds legacy MAX_PATH; add actual regression before minimal correction"
+      },
+      "identity": {
+        "executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+        "implementation_hash": "sha256:63df87f4d7cf9f5561937c3616a87f1fb92b3a8d47abdba0ef2af4f147610a15",
+        "build_hash": "sha256:5554ad76b8a8bcab7b33f71082cc62306768ff09287f9767147d9acc7de23529",
+        "worktree": "UNAVAILABLE",
+        "financial_authority": "NONE",
+        "distribution_profile": "r7-native-distribution-v0.2"
+      },
+      "archive_sha256": "560c71e956b29d93c4dfbf858af7ef8aa63d53f24242a58ff57d1909dacc3ad1",
+      "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+      "provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED",
+      "real_cloud": "NOT_RUN",
+      "ubuntu24": "NOT_RUN",
+      "ubuntu26": "NOT_RUN",
+      "real_forward_paper": "NOT_RUN",
+      "live": "NOT_AUTHORIZED",
+      "next": "Add long-path stage/read/author regressions; minimally fix explicit Win32 extended paths preserving pinned ancestor/reparse/copy-only behavior; establish new exact-clean candidate and repeat full/native/browser checks. Continue remaining master work."
     }
   ],
   "evidence_refs": [
@@ -756,7 +837,8 @@
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/native/native-smoke.json",
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/selected-research/native-selected-research.json",
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/unchanged-ui.json",
-    "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json"
+    "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json",
+    "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -803,18 +885,11 @@
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
   "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "candidate_executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227",
+  "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
   "pending_recovery_checkpoint": {
-    "state": "IMPLEMENTED_FOCUSED_VERIFIED_EXACT_CLEAN_PENDING",
-    "scope": "S13 full private product-data backup/fresh restoration, leases/sessions/app attempts/E6 process generations, persistent startup fence, exact admission observations and failed fixture cleanup; retains unaccepted S14 fixes",
-    "accepted_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-    "development_application_tests": 217,
-    "development_ui_unit_tests": 15,
-    "development_independent_review": "No remaining Critical/Important findings after reproduced regression repairs; source/test inspection only",
-    "ubuntu_wheel_preparation": "24 public wheels, hashes/tags/version/dependency closure checked; native Ubuntu24/26 execution NOT_RUN",
-    "production_runtime_fence_integration": "PENDING_S12",
-    "full_source": "NOT_RUN_NEW_CANDIDATE",
-    "native": "NOT_RUN_NEW_CANDIDATE",
-    "browser": "NOT_RUN_NEW_CANDIDATE"
+    "status": "FAIL",
+    "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+    "acceptance": "NOT_ACCEPTED",
+    "evidence_ref": "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json"
   }
 }

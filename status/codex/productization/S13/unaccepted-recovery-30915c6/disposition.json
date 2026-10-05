@@ -1,0 +1,77 @@
+{
+  "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+  "result": "FAIL",
+  "acceptance": "NOT_ACCEPTED",
+  "reason": "MANDATORY_RETAINED_NATIVE_OFFLINE_BRIDGE_PUBLICATION_FAILURE",
+  "full_source": {
+    "result": "PASS",
+    "tests": 1786,
+    "commands": 33,
+    "phase_1": 247,
+    "phase_2": 1539,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "result": "PASS",
+    "commands": 6,
+    "unit_tests": 15,
+    "browser_tests": 11,
+    "screenshots": 6
+  },
+  "native_smoke": {
+    "result": "PASS",
+    "scenarios": 8,
+    "commands": 9
+  },
+  "selected_native_research": {
+    "result": "PASS",
+    "scenarios": 1,
+    "commands": 1
+  },
+  "native_private_recovery": {
+    "result": "PASS",
+    "scenarios": 12,
+    "commands": 15
+  },
+  "native_offline_cloud": {
+    "result": "FAIL",
+    "scenarios_passed_before_failure": 8,
+    "commands_completed": 9,
+    "failed_command": "publish",
+    "attempted": 2,
+    "cloud_acknowledged": 1,
+    "unavailable": 1,
+    "real_cloud": "NOT_RUN"
+  },
+  "diagnostic": {
+    "scope": "SOURCE_OWNER_WITH_CONTROLLED_LOCAL_FAKE_ONLY",
+    "prestage_validation": "PASS",
+    "failure": "PUBLICATION_STAGE_WRITE_FAILED",
+    "formal_receipt_path_characters": 228,
+    "temporary_path_characters": 261,
+    "win32_last_error_after_cleanup": 3,
+    "underlying_error": "Win32 temporary path exceeds legacy MAX_PATH; add actual regression before minimal correction"
+  },
+  "identity": {
+    "executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+    "implementation_hash": "sha256:63df87f4d7cf9f5561937c3616a87f1fb92b3a8d47abdba0ef2af4f147610a15",
+    "build_hash": "sha256:5554ad76b8a8bcab7b33f71082cc62306768ff09287f9767147d9acc7de23529",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "archive_sha256": "560c71e956b29d93c4dfbf858af7ef8aa63d53f24242a58ff57d1909dacc3ad1",
+  "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "real_cloud": "NOT_RUN",
+  "ubuntu24": "NOT_RUN",
+  "ubuntu26": "NOT_RUN",
+  "real_forward_paper": "NOT_RUN",
+  "live": "NOT_AUTHORIZED",
+  "next": "Add long-path stage/read/author regressions; minimally fix explicit Win32 extended paths preserving pinned ancestor/reparse/copy-only behavior; establish new exact-clean candidate and repeat full/native/browser checks. Continue remaining master work."
+}

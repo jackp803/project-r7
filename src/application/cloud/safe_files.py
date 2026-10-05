@@ -9,6 +9,23 @@ import uuid
 from application.cloud.protocol import CloudError
 
 
+def _windows_native_path(path):
+    """Use explicit absolute Unicode paths for final and private staging names.
+
+    A final name can fit MAX_PATH while its random sibling does not. Extended
+    paths preserve opened-ancestor/reparse checks without machine-wide opt-in.
+    """
+    path=Path(path)
+    if not path.is_absolute() or '..' in path.parts:
+        raise CloudError('BLOCKED','ABSOLUTE_NATIVE_ARTIFACT_PATH_REQUIRED')
+    value=str(path)
+    if value.startswith('\\\\?\\'):
+        return value
+    if value.startswith('\\\\'):
+        return '\\\\?\\UNC\\'+value[2:]
+    return '\\\\?\\'+value
+
+
 def _windows_read(path: Path, limit):
     from ctypes import wintypes as w
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
@@ -30,7 +47,7 @@ def _windows_read(path: Path, limit):
             directory = index < len(parts) - 1
             # No write/delete sharing while ancestors are pinned. OPEN_REPARSE_POINT
             # returns the link itself, never its target; reject its actual attributes.
-            handle = kernel.CreateFileW(str(current), 0x80 if directory else 0x80000000,
+            handle = kernel.CreateFileW(_windows_native_path(current), 0x80 if directory else 0x80000000,
                                         1, None, 3, 0x200000 | (0x2000000 if directory else 0), None)
             if handle == ctypes.c_void_p(-1).value:
                 error = ctypes.get_last_error()
@@ -129,13 +146,13 @@ def _windows_stage(root, relative, raw, fault_hook, *, replace=False):
     try:
         for part in target.parent.parts[1:]:
             current /= part
-            handle = kernel.CreateFileW(str(current),0x80,1,None,3,0x200000|0x2000000,None)
+            handle = kernel.CreateFileW(_windows_native_path(current),0x80,1,None,3,0x200000|0x2000000,None)
             if handle == ctypes.c_void_p(-1).value:
                 if ctypes.get_last_error() not in {2,3} or current == root or not current.is_relative_to(root):
                     raise CloudError("UNAVAILABLE","PUBLICATION_PARENT_UNAVAILABLE")
-                if not kernel.CreateDirectoryW(str(current),None) and ctypes.get_last_error() != 183:
+                if not kernel.CreateDirectoryW(_windows_native_path(current),None) and ctypes.get_last_error() != 183:
                     raise CloudError("UNAVAILABLE","PUBLICATION_PARENT_WRITE_FAILED")
-                handle = kernel.CreateFileW(str(current),0x80,1,None,3,0x200000|0x2000000,None)
+                handle = kernel.CreateFileW(_windows_native_path(current),0x80,1,None,3,0x200000|0x2000000,None)
                 if handle == ctypes.c_void_p(-1).value:
                     raise CloudError("UNAVAILABLE","PUBLICATION_PARENT_UNAVAILABLE")
             handles.append(handle)
@@ -145,7 +162,7 @@ def _windows_stage(root, relative, raw, fault_hook, *, replace=False):
             if info.attributes & 0x400:
                 raise CloudError("BLOCKED","PUBLICATION_REPARSE_FORBIDDEN")
         stage = target.parent / (".r7-stage-" + uuid.uuid4().hex + ".tmp")
-        file_handle=kernel.CreateFileW(str(stage),0x40000000,0,None,1,0x200000,None)  # CREATE_NEW
+        file_handle=kernel.CreateFileW(_windows_native_path(stage),0x40000000,0,None,1,0x200000,None)  # CREATE_NEW
         if file_handle == ctypes.c_void_p(-1).value:
             file_handle=None
             raise CloudError("UNAVAILABLE","PUBLICATION_STAGE_WRITE_FAILED")
@@ -163,7 +180,7 @@ def _windows_stage(root, relative, raw, fault_hook, *, replace=False):
             raise CloudError("UNAVAILABLE","PUBLICATION_STAGE_FLUSH_FAILED")
         kernel.CloseHandle(file_handle)
         file_handle=None
-        if not kernel.MoveFileExW(str(stage),str(target),0x8 | (1 if replace else 0)):
+        if not kernel.MoveFileExW(_windows_native_path(stage),_windows_native_path(target),0x8 | (1 if replace else 0)):
             error=ctypes.get_last_error()
             if error in {80,183}:
                 if read_bounded(root,relative,256*1024) != raw:

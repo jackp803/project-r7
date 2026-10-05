@@ -5,10 +5,10 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S13",
-  "next_step": "Freeze the staged minimal explicit Win32 extended-path correction and refreshed authoring capability identities. Repeat exact-clean native bridge/recovery, full source and browser qualification; then continue remaining S13 service/SSH, S12 runtime, S14 forward feedback and S15-S16 work. Accepted executable remains7f50cbf4 until all required checks pass.",
+  "next_step": "Implement bounded native install/service configuration and SSH health tooling; continue S12 actual continuous runtime/restoration authority integration, S14 forward feedback and S15-S16. Ubuntu/real cloud/real forward/provider commissioning remain NOT_RUN; no full-product PASS.",
   "long_path_remediation": {
-    "status": "IN_PROGRESS",
-    "source_checkpoint": "TO_BE_CAPTURED_AFTER_COMMIT",
+    "status": "PASS",
+    "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
     "fail_first_tests": 3,
     "fail_first_errors": 3,
     "focused_tests_passed": 3,
@@ -16,8 +16,10 @@
     "authoring_tests_passed": 3,
     "source_owner_retry": "CLOUD_ACKNOWLEDGED_THROUGH_CONTROLLED_LOCAL_FAKE_ONLY;NOT_NATIVE_QUALIFICATION",
     "independent_review": "NO_CONCRETE_CRITICAL_OR_IMPORTANT;READ_ONLY",
-    "full_source": "NOT_RUN_NEW_CANDIDATE",
-    "native": "NOT_RUN_NEW_CANDIDATE"
+    "full_source": "PASS",
+    "native": "SCOPED_WINDOWS_PASS",
+    "browser": "SERIAL_SAME11CASES_PASS",
+    "evidence_ref": "status/codex/productization/S13/recovery-86643c4-py312/disposition.json"
   },
   "state": "IN_PROGRESS",
   "actual_session": {
@@ -71,14 +73,15 @@
       "logical_cores": 20,
       "measured_memory_kib": 32945572,
       "additional_source_python": "3.14.3",
-      "native_package_status": "IN_PROGRESS",
+      "native_package_status": "PASS",
       "native_first_run_status": "PASS",
-      "native_first_run_revision": "1f322735a49fb76e7ea0b2408b2f045c13684f61",
-      "native_first_run_scenarios": 5,
-      "native_first_run_commands": 6,
-      "native_first_run_build_hash": "sha256:d22a09722f239eaabc4b77c74ba55df7abcf5c60ad83b9817bb2a46b103e3fff",
-      "native_archive_sha256": "a48e7ecd27f2bb5392ff6769cfbe47fa5b8234c0aad16514898b9f41ae868422",
-      "native_full_product_acceptance": "NOT_RUN"
+      "native_first_run_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+      "native_first_run_scenarios": 8,
+      "native_first_run_commands": 9,
+      "native_first_run_build_hash": "sha256:8e8a05bd2ec810f9eac1b099c2c98720ec0b28e0f1a89e447374cc4a819d6591",
+      "native_archive_sha256": "03703a2d981ab7ebc5bcc47e084c124358504fb6e9e1aedaa781f2cd3ec59a80",
+      "native_full_product_acceptance": "NOT_RUN",
+      "native_package_scope": "PRIVATE_RECOVERY_AND_RETAINED_OFFLINE_BRIDGE"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -808,6 +811,90 @@
       "real_forward_paper": "NOT_RUN",
       "live": "NOT_AUTHORIZED",
       "next": "Add long-path stage/read/author regressions; minimally fix explicit Win32 extended paths preserving pinned ancestor/reparse/copy-only behavior; establish new exact-clean candidate and repeat full/native/browser checks. Continue remaining master work."
+    },
+    {
+      "step": "S13",
+      "phase": "EXACT_CLEAN_COMPLETE_PRIVATE_RECOVERY_QUALIFICATION",
+      "status": "PASS",
+      "evidence_ref": "status/codex/productization/S13/recovery-86643c4-py312/disposition.json",
+      "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+      "spec_baseline": "r7-product-v0.2",
+      "qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+      "previous_qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+      "result": "PASS",
+      "scope": "SCOPED_PRIVATE_RECOVERY_AND_RETAINED_OFFLINE_BRIDGE",
+      "full_source": {
+        "result": "PASS",
+        "commands": 33,
+        "tests": 1789,
+        "phase_1": 247,
+        "phase_2": 1542,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "result": "PASS",
+        "frontend_commands": 5,
+        "fixture_commands": 7,
+        "unit_tests": 15,
+        "browser_tests": 11,
+        "screenshots": 6,
+        "browser_version": "154.0.4258.53",
+        "mode": "ACTUAL_EDGE_SERIAL_ISOLATED_SYNTHETIC_FIXTURES",
+        "initial_seven_fixture_attempt": "NOT_RUN_MEMORY_PRESSURE;RETAINED_SEPARATELY",
+        "assertions": "SAME11UNCHANGED_CASES",
+        "resource_admission": "UNCHANGED",
+        "orchestration": "ONE_ACTUAL_SOURCE_FIXTURE_AT_A_TIME",
+        "restored_native_http": "COVERED_SEPARATELY;NO_NEW_RESTORED_BROWSER_CASE"
+      },
+      "native": {
+        "result": "PASS",
+        "scope": "SCOPED_WINDOWS_NATIVE_ONLY",
+        "scenarios": 33,
+        "commands": 37,
+        "smoke": 8,
+        "selected_research": 1,
+        "offline_cloud": 12,
+        "private_recovery": 12,
+        "identity": {
+          "executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+          "implementation_hash": "sha256:3eaaf732eeece876338c6422c6261b99e27b5063dbb743b3a3e12e9339345965",
+          "build_hash": "sha256:8e8a05bd2ec810f9eac1b099c2c98720ec0b28e0f1a89e447374cc4a819d6591",
+          "worktree": "UNAVAILABLE",
+          "financial_authority": "NONE",
+          "distribution_profile": "r7-native-distribution-v0.2"
+        },
+        "archive_sha256": "03703a2d981ab7ebc5bcc47e084c124358504fb6e9e1aedaa781f2cd3ec59a80",
+        "archive_files": 1054,
+        "product_path": "EMPTY",
+        "pythonpath": "UNSET",
+        "ubuntu": "NOT_RUN"
+      },
+      "memory": {
+        "actual_samples": 527,
+        "physical_memory_bytes": 33736265728,
+        "minimum_available_bytes": 5301850112,
+        "below_existing_admission_threshold_samples": 0,
+        "threshold_changes": "NONE",
+        "previous_failure_instantaneous_cause": "UNPROVEN"
+      },
+      "independent_review": "BOUNDED_SOURCE_AND_HARNESS_REVIEW;NO_REMAINING_CRITICAL_OR_IMPORTANT;NOT_WHOLE_BRANCH",
+      "private_artifacts": "DATABASES/BACKUPS/AUTH/SESSION/RAW_CAPTURE/PRIVATE_CONFIG/NATIVE_ARCHIVE_REMAIN_LOCAL",
+      "real_provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED",
+      "real_cloud": "NOT_RUN",
+      "real_forward_paper": "NOT_RUN",
+      "live": "NOT_AUTHORIZED",
+      "pending": [
+        "S13 native Ubuntu packages/service/install/reboot/SSH qualification",
+        "S12 continuous runtime composition and restoration release/preflight integration",
+        "S14 forward/performance feedback",
+        "S15 capacity/whole-product mapping",
+        "S16 whole-branch review"
+      ]
     }
   ],
   "evidence_refs": [
@@ -851,7 +938,8 @@
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/selected-research/native-selected-research.json",
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/unchanged-ui.json",
     "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json",
-    "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json"
+    "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json",
+    "status/codex/productization/S13/recovery-86643c4-py312/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -897,12 +985,24 @@
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+  "qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+  "candidate_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
   "pending_recovery_checkpoint": {
-    "status": "FAIL",
-    "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
-    "acceptance": "NOT_ACCEPTED",
-    "evidence_ref": "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json"
+    "status": "PASS",
+    "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
+    "qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+    "evidence_ref": "status/codex/productization/S13/recovery-86643c4-py312/disposition.json",
+    "source_tests": 1789,
+    "native_scoped_scenarios": 33,
+    "native_commands": 37,
+    "ui_unit_tests": 15,
+    "browser_tests": 11,
+    "remaining": [
+      "S13 native Ubuntu packages/service/install/reboot/SSH qualification",
+      "S12 continuous runtime composition and restoration release/preflight integration",
+      "S14 forward/performance feedback",
+      "S15 capacity/whole-product mapping",
+      "S16 whole-branch review"
+    ]
   }
 }

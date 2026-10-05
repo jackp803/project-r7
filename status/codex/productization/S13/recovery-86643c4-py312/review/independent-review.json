@@ -1,0 +1,40 @@
+{
+  "schema_version": "r7-bounded-independent-review-record-v0.2",
+  "reviewer": "/root/qualification_review",
+  "review_type": "INDEPENDENT_READ_ONLY_SOURCE_AND_ASSERTION_INSPECTION",
+  "candidate_executable_revision": "30915c6ebc599ad6562a748d754bdf515fa67ba0",
+  "source_review": {
+    "critical_findings": 0,
+    "initial_important_findings": 3,
+    "remaining_important_findings": 0,
+    "resolved": [
+      "Restoration consumes the bounded validated manifest snapshot and checks destination containment",
+      "An in-progress indicator is durable before copying and partial generations refuse owner startup",
+      "Owning financial generation updates and final integrity verification respect the monotonic deadline"
+    ],
+    "additional_coverage_reviewed": [
+      "Strict restoration health DTO and authenticated copied-session refusal",
+      "Complete restored product supports a later fresh backup and restoration"
+    ]
+  },
+  "native_harness_review": {
+    "file": "artifacts/s13_native_recovery_probe.py",
+    "critical_findings": 0,
+    "initial_important_findings": 1,
+    "remaining_important_findings": 0,
+    "resolved": "Explicit empty ProxyHandler prevents inherited proxy routing; NoRedirect refuses every redirected request before it can replay synthetic authentication material",
+    "local_regression": {
+      "file": "artifacts/s13_native_harness_loopback_regression.py",
+      "tests_run": 2,
+      "result": "PASS",
+      "network_requests": 0,
+      "log": "artifacts/S13-native-harness-loopback-GREEN-corrected.log"
+    }
+  },
+  "limitations": [
+    "Reviewer did not execute tests or the product",
+    "Reviewer did not inspect credentials, environment proxy settings or raw private fixture artifacts",
+    "The review does not certify full/native/platform qualification",
+    "S12 continuous runtime, services, Ubuntu, real cloud/forward/provider and whole-branch review remain separate"
+  ]
+}

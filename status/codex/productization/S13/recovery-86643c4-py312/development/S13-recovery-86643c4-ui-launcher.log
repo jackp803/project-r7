@@ -1,0 +1,13 @@
+1/6 ['ci', '--ignore-scripts', '--no-fund']: PASS
+2/6 ['run', 'types:check']: PASS
+3/6 ['run', 'typecheck']: PASS
+4/6 ['test']: PASS
+5/6 ['run', 'build']: PASS
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\��������H�D��\artifacts\s13_recovery_ui_qualify.py", line 51, in <module>
+    for name in ['overview.png','protected-paper.png','approval-preview.png','deployment-pause.png','health.png','supervised-health.png']:shutil.copyfile(source/name,output/name)
+                                                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 260, in copyfile
+    with open(src, 'rb') as fsrc:
+         ^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\Desktop\\��������H�D��\\artifacts\\r7-productization-S13-recovery-ui-qualified-86643c4-safe-logs\\browser\\overview.png'

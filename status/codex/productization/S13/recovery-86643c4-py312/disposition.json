@@ -1,0 +1,81 @@
+{
+  "schema_version": "r7-scoped-recovery-qualification-v0.2",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "spec_baseline": "r7-product-v0.2",
+  "qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+  "previous_qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+  "result": "PASS",
+  "scope": "SCOPED_PRIVATE_RECOVERY_AND_RETAINED_OFFLINE_BRIDGE",
+  "full_source": {
+    "result": "PASS",
+    "commands": 33,
+    "tests": 1789,
+    "phase_1": 247,
+    "phase_2": 1542,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "result": "PASS",
+    "frontend_commands": 5,
+    "fixture_commands": 7,
+    "unit_tests": 15,
+    "browser_tests": 11,
+    "screenshots": 6,
+    "browser_version": "154.0.4258.53",
+    "mode": "ACTUAL_EDGE_SERIAL_ISOLATED_SYNTHETIC_FIXTURES",
+    "initial_seven_fixture_attempt": "NOT_RUN_MEMORY_PRESSURE;RETAINED_SEPARATELY",
+    "assertions": "SAME11UNCHANGED_CASES",
+    "resource_admission": "UNCHANGED",
+    "orchestration": "ONE_ACTUAL_SOURCE_FIXTURE_AT_A_TIME",
+    "restored_native_http": "COVERED_SEPARATELY;NO_NEW_RESTORED_BROWSER_CASE"
+  },
+  "native": {
+    "result": "PASS",
+    "scope": "SCOPED_WINDOWS_NATIVE_ONLY",
+    "scenarios": 33,
+    "commands": 37,
+    "smoke": 8,
+    "selected_research": 1,
+    "offline_cloud": 12,
+    "private_recovery": 12,
+    "identity": {
+      "executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+      "implementation_hash": "sha256:3eaaf732eeece876338c6422c6261b99e27b5063dbb743b3a3e12e9339345965",
+      "build_hash": "sha256:8e8a05bd2ec810f9eac1b099c2c98720ec0b28e0f1a89e447374cc4a819d6591",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "archive_sha256": "03703a2d981ab7ebc5bcc47e084c124358504fb6e9e1aedaa781f2cd3ec59a80",
+    "archive_files": 1054,
+    "product_path": "EMPTY",
+    "pythonpath": "UNSET",
+    "ubuntu": "NOT_RUN"
+  },
+  "memory": {
+    "actual_samples": 527,
+    "physical_memory_bytes": 33736265728,
+    "minimum_available_bytes": 5301850112,
+    "below_existing_admission_threshold_samples": 0,
+    "threshold_changes": "NONE",
+    "previous_failure_instantaneous_cause": "UNPROVEN"
+  },
+  "independent_review": "BOUNDED_SOURCE_AND_HARNESS_REVIEW;NO_REMAINING_CRITICAL_OR_IMPORTANT;NOT_WHOLE_BRANCH",
+  "private_artifacts": "DATABASES/BACKUPS/AUTH/SESSION/RAW_CAPTURE/PRIVATE_CONFIG/NATIVE_ARCHIVE_REMAIN_LOCAL",
+  "real_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "real_cloud": "NOT_RUN",
+  "real_forward_paper": "NOT_RUN",
+  "live": "NOT_AUTHORIZED",
+  "pending": [
+    "S13 native Ubuntu packages/service/install/reboot/SSH qualification",
+    "S12 continuous runtime composition and restoration release/preflight integration",
+    "S14 forward/performance feedback",
+    "S15 capacity/whole-product mapping",
+    "S16 whole-branch review"
+  ]
+}

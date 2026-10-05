@@ -1,0 +1,40 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test
+
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<SOURCE_ROOT>\ui\qa\serve_fixture.py", line 79, in <module>
+
+[WebServer]     if __name__=='__main__': main()
+[WebServer]                              ^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\ui\qa\serve_fixture.py", line 56, in main
+[WebServer]     fixture=APIPaperServicesTests(); fixture.setUp()
+[WebServer]                                      ^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\tests\product\test_api_paper_services.py", line 27, in setUp
+[WebServer]     self.h = fixtures.PaperRuntimeV02Tests(); self.h.setUp(); self.addCleanup(self.h.doCleanups)
+[WebServer]                                               ^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\tests\product\test_paper_runtime_v02.py", line 41, in setUp
+[WebServer]     api, research, run_id, identity, boundary, auth, clock, release, envelope = helper.fixture(self.root)
+[WebServer]                                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+[WebServer]     return self._complete_fixture(root,research)
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+[WebServer]     result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+[WebServer]     return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+[WebServer]     admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+[WebServer]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+[WebServer]     try: result=operation(claim)
+[WebServer]                 ^^^^^^^^^^^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+[WebServer]     if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+[WebServer]                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer] application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4615544832,"disk_free_bytes":490099224576,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+Error: Process from config.webServer was not able to start. Exit code: 1
+

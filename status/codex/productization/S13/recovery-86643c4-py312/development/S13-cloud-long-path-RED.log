@@ -1,0 +1,47 @@
+test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path (test_cloud_long_paths.CloudLongPathTests.test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path) ... ERROR
+test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file (test_cloud_long_paths.CloudLongPathTests.test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file) ... ERROR
+test_opened_byte_reader_handles_actual_extended_length_parent_components (test_cloud_long_paths.CloudLongPathTests.test_opened_byte_reader_handles_actual_extended_length_parent_components) ... ERROR
+
+======================================================================
+ERROR: test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path (test_cloud_long_paths.CloudLongPathTests.test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_long_paths.py", line 54, in test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path
+    stage_author_input(self.cloud,relative,b'{"synthetic":"FIRST"}')
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 272, in stage_author_input
+    writer(root, relative, raw, None, replace=mutable)
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 151, in _windows_stage
+    raise CloudError("UNAVAILABLE","PUBLICATION_STAGE_WRITE_FAILED")
+application.cloud.protocol.CloudError: UNAVAILABLE: PUBLICATION_STAGE_WRITE_FAILED
+
+======================================================================
+ERROR: test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file (test_cloud_long_paths.CloudLongPathTests.test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_long_paths.py", line 37, in test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file
+    write_immutable(self.cloud,relative,raw)
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 236, in write_immutable
+    if os.name == "nt": _windows_stage(root,relative,raw,fault_hook)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 151, in _windows_stage
+    raise CloudError("UNAVAILABLE","PUBLICATION_STAGE_WRITE_FAILED")
+application.cloud.protocol.CloudError: UNAVAILABLE: PUBLICATION_STAGE_WRITE_FAILED
+
+======================================================================
+ERROR: test_opened_byte_reader_handles_actual_extended_length_parent_components (test_cloud_long_paths.CloudLongPathTests.test_opened_byte_reader_handles_actual_extended_length_parent_components)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_long_paths.py", line 50, in test_opened_byte_reader_handles_actual_extended_length_parent_components
+    self.assertEqual(read_bounded(self.cloud,relative,1024),b'{"synthetic":"OPENED_BYTES"}')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 103, in read_bounded
+    return _windows_read(path, limit) if os.name == "nt" else _posix_read(path, limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 38, in _windows_read
+    raise CloudError("INCOMPLETE_SYNC", "ARTIFACT_MISSING")
+application.cloud.protocol.CloudError: INCOMPLETE_SYNC: ARTIFACT_MISSING
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.031s
+
+FAILED (errors=3)

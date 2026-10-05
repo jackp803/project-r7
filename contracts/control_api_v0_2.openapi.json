@@ -535,6 +535,16 @@
             "title": "Research",
             "type": "string"
           },
+          "restoration": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RestorationView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "runtime": {
             "title": "Runtime",
             "type": "string"
@@ -1023,6 +1033,130 @@
           "policy_id"
         ],
         "title": "ResearchEnqueueDTO",
+        "type": "object"
+      },
+      "RestorationView": {
+        "additionalProperties": false,
+        "properties": {
+          "cloud": {
+            "anyOf": [
+              {
+                "const": "DISCONNECTED",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cloud"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "reauthorization": {
+            "anyOf": [
+              {
+                "const": "REQUIRED",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reauthorization"
+          },
+          "reconciliation": {
+            "anyOf": [
+              {
+                "const": "REQUIRED",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reconciliation"
+          },
+          "restore_generation_id": {
+            "anyOf": [
+              {
+                "maxLength": 96,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Restore Generation Id"
+          },
+          "runtime_new_exposure": {
+            "anyOf": [
+              {
+                "const": "INHIBITED",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runtime New Exposure"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "enum": [
+                  "DATABASES_ONLY",
+                  "PRODUCT_DATA"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Scope"
+          },
+          "status": {
+            "enum": [
+              "NOT_RESTORED",
+              "RESTORED_INHIBITED",
+              "INVALID_RESTORE_GENERATION"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "user_data_restore": {
+            "anyOf": [
+              {
+                "enum": [
+                  "PENDING",
+                  "COMPLETE_SUPPORTED_LOCAL_PROFILE"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Data Restore"
+          }
+        },
+        "required": [
+          "status",
+          "financial_authority"
+        ],
+        "title": "RestorationView",
         "type": "object"
       },
       "SessionView": {

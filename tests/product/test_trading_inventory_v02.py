@@ -10,8 +10,9 @@ import tests.brokers.test_okx_product_inventory_v02 as rows
 
 class TradingInventoryV02Tests(unittest.TestCase):
     def setUp(self):
-        self.helper=fixtures.TradingPositionV02Tests(methodName='runTest');self.helper.setUp()
+        self.helper=fixtures.TradingPositionV02Tests(methodName='runTest')
         self.addCleanup(self.helper.doCleanups)
+        self.helper.setUp()
         self.fixture=self.helper.fixture
         self.rows=rows.ProductInventoryV02Tests(methodName='runTest');self.rows.setUp()
         self.rows.now=self.fixture.clock[0]

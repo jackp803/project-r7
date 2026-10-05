@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S13",
-  "next_step": "Fix reproduced fixture setup cleanup; integrate private fresh-generation restore and full user-data backup,service/SSH; repeat exact-clean qualification with instantaneous admission diagnostics. S14 forward feedback/S12/S15-S16 remain.",
+  "next_step": "Qualify the new exact-clean S13 private recovery/admission diagnostics/fixture cleanup candidate including retained S14 fixes with full source, Windows native and refreshed UI. Continue Linux services/SSH, S12 composition, S14 forward feedback and S15-S16; accepted executable remains 7f50cbf4fdb339ac50ea98f0880de05e8546fb8a until full qualification.",
   "state": "IN_PROGRESS",
   "actual_session": {
     "kind": "existing authenticated local Codex desktop interactive session",
@@ -803,5 +803,18 @@
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
   "qualified_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "candidate_executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227"
+  "candidate_executable_revision": "be3257c20989f170631b749441b5ddaed1e2b227",
+  "pending_recovery_checkpoint": {
+    "state": "IMPLEMENTED_FOCUSED_VERIFIED_EXACT_CLEAN_PENDING",
+    "scope": "S13 full private product-data backup/fresh restoration, leases/sessions/app attempts/E6 process generations, persistent startup fence, exact admission observations and failed fixture cleanup; retains unaccepted S14 fixes",
+    "accepted_executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
+    "development_application_tests": 217,
+    "development_ui_unit_tests": 15,
+    "development_independent_review": "No remaining Critical/Important findings after reproduced regression repairs; source/test inspection only",
+    "ubuntu_wheel_preparation": "24 public wheels, hashes/tags/version/dependency closure checked; native Ubuntu24/26 execution NOT_RUN",
+    "production_runtime_fence_integration": "PENDING_S12",
+    "full_source": "NOT_RUN_NEW_CANDIDATE",
+    "native": "NOT_RUN_NEW_CANDIDATE",
+    "browser": "NOT_RUN_NEW_CANDIDATE"
+  }
 }

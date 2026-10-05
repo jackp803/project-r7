@@ -704,6 +704,7 @@ export interface components {
             reason_codes: string[];
             /** Research */
             research: string;
+            restoration?: components["schemas"]["RestorationView"] | null;
             /** Runtime */
             runtime: string;
             /** Runtime Llm Calls */
@@ -841,6 +842,35 @@ export interface components {
             policy_id: string;
             /** Submission Id */
             submission_id: string;
+        };
+        /** RestorationView */
+        RestorationView: {
+            /** Cloud */
+            cloud?: "DISCONNECTED" | null;
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes?: string[];
+            /** Reauthorization */
+            reauthorization?: "REQUIRED" | null;
+            /** Reconciliation */
+            reconciliation?: "REQUIRED" | null;
+            /** Restore Generation Id */
+            restore_generation_id?: string | null;
+            /** Runtime New Exposure */
+            runtime_new_exposure?: "INHIBITED" | null;
+            /** Scope */
+            scope?: ("DATABASES_ONLY" | "PRODUCT_DATA") | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "NOT_RESTORED" | "RESTORED_INHIBITED" | "INVALID_RESTORE_GENERATION";
+            /** User Data Restore */
+            user_data_restore?: ("PENDING" | "COMPLETE_SUPPORTED_LOCAL_PROFILE") | null;
         };
         /** SessionView */
         SessionView: {

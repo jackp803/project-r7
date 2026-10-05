@@ -13,8 +13,8 @@ from position.entry_observation import product_entry_position_id
 
 class TradingPositionV02Tests(unittest.TestCase):
     def setUp(self):
-        self.helper=fixtures.TradingDispatchV02Tests(methodName='runTest');self.helper.setUp()
-        self.addCleanup(self.helper.doCleanups);self.fixture=self.helper.fixture
+        self.helper=fixtures.TradingDispatchV02Tests(methodName='runTest')
+        self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
         self.canonical=self.helper.canonical;self.dispatch=self.helper.dispatch
 
     def response(self,**changes):

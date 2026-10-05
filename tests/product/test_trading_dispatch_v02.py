@@ -20,8 +20,8 @@ from storage.runtime import open_paper_runtime_journal
 class TradingDispatchV02Tests(unittest.TestCase):
     def setUp(self):
         self.fixture = admission_fixtures.LiveAdmissionV02Tests(methodName='runTest')
-        self.fixture.setUp()
         self.addCleanup(self.fixture.doCleanups)
+        self.fixture.setUp()
         self.admission = RuntimeAdmission(namespace='FIXTURE', registry_factory=self.fixture.factory,
             current_preflight=self.fixture.preflight, clock=lambda: self.fixture.clock[0], maximum_observation_age_seconds=5)
         self.dispatch = open_product_dispatch_journal(self.fixture.root / 'dispatch.sqlite')

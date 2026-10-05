@@ -2,6 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 
 const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772'};
+const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser');
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
   await page.goto(origins[profile]);
@@ -17,7 +18,7 @@ test('empty views use actual nulls, Traditional Chinese and persistent fixture l
   await login(page,'empty');
   await expect(page.getByTestId('fixture-banner')).toContainText('FIXTURE');
   await expect(page.getByTestId('realized-pnl')).toContainText('未提供');
-  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/overview.png'),fullPage:true});
+  await page.screenshot({path:path.join(artifacts,'overview.png'),fullPage:true});
   await page.setViewportSize({width:1024,height:768});
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
   for(const screen of ['研究','策略','交易','健康','設定']){
@@ -29,7 +30,7 @@ test('empty views use actual nulls, Traditional Chinese and persistent fixture l
   await expect(page.getByText('控制服務',{exact:true})).toBeVisible();
   await expect(page.getByText('控制介面可連線',{exact:true})).toBeVisible();
   await expect(page.getByText('尚未設定',{exact:true}).first()).toBeVisible();
-  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/health.png'),fullPage:true});
+  await page.screenshot({path:path.join(artifacts,'health.png'),fullPage:true});
   await page.getByRole('link',{name:'研究',exact:true}).click();
   await expect(page.getByText('尚無資料',{exact:true}).first()).toBeVisible();
   expect(remote).toEqual([]);
@@ -59,7 +60,7 @@ test('health distinguishes actual supervised control from an available queue wit
   expect(actual.control).toBe('PROCESS_RECENT_HEARTBEAT');
   expect(actual.research).toBe('QUEUE_AVAILABLE_WORKER_NOT_STARTED');
   expect(actual.live_authorized).toBe(false);
-  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/supervised-health.png'),fullPage:true});
+  await page.screenshot({path:path.join(artifacts,'supervised-health.png'),fullPage:true});
 });
 
 test('actual candidate PAPER start and pause retain run identity and show unavailable metrics',async({page})=>{
@@ -89,7 +90,7 @@ test('protected owner facts distinguish ACK/fill, remaining exposure and as-of s
   const runs=(await (await page.request.get(origins.protected+'/api/v1/paper/runs')).json()).data.items;
   expect(runs[0].position.actual_quantity).toBe('0.001'); expect(runs[0].process_generation).toBe(1);
   await page.getByRole('heading',{name:'交易',exact:true}).scrollIntoViewIfNeeded();
-  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/protected-paper.png'),fullPage:true});
+  await page.screenshot({path:path.join(artifacts,'protected-paper.png'),fullPage:true});
 });
 
 test('stale settings show real backend conflict and keyboard form remains usable',async({page})=>{
@@ -134,7 +135,7 @@ test('registered financial proposal shows actual source and limits and never gra
   await expect(financial.getByText('fixture-account / fixture-paper',{exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:'確認財務核准',exact:true})).toBeDisabled();
   await expect(financial.getByRole('checkbox')).toBeDisabled();
-  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/approval-preview.png'),fullPage:true});
+  await page.screenshot({path:path.join(artifacts,'approval-preview.png'),fullPage:true});
   await page.getByLabel('本機提案參照',{exact:true}).fill('unregistered');
   await expect(page.getByText('提案資金上限（USDT）',{exact:true})).toHaveCount(0);
   await page.getByRole('button',{name:'讀取核准提案',exact:true}).click();
@@ -152,7 +153,7 @@ test('stop new entries uses actual E6 pause while fixture activation remains una
   await expect(stop).toBeDisabled();
   await expect(page.getByRole('button',{name:'確認啟用部署',exact:true})).toBeDisabled();
   await expect(page.getByText('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN',{exact:true}).first()).toBeVisible();
-  await page.screenshot({path:path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser/deployment-pause.png'),fullPage:true});
+  await page.screenshot({path:path.join(artifacts,'deployment-pause.png'),fullPage:true});
 });
 
 test('revoked server session returns to login without inferring runtime shutdown',async({page})=>{

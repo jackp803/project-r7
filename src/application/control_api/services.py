@@ -18,6 +18,8 @@ class LocalControlServices:
     also the usable uncommissioned first-run state of the native product.
     """
     def __init__(self, config, *, namespace, clock):
+        from application.platform.restoration import require_valid_restoration
+        require_valid_restoration(config)
         self.config, self.namespace, self.clock = config, namespace, clock
         self.path = config.local_data_root / 'control-settings.sqlite'
         self.path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -56,9 +58,13 @@ class LocalControlServices:
     def view(self, name, *, subject=None, limit=50, offset=0):
         if name == 'settings': return self.settings()
         if name == 'capabilities': return dict(snapshot_hash=self.capabilities.snapshot_hash, snapshot=self.capabilities.as_dict())
-        if name == 'health': return dict(control='ONLINE', research='NOT_CONFIGURED', runtime='NOT_CONFIGURED', storage='CONTROL_STORE_AVAILABLE',
-            cloud='NOT_CONNECTED', market='NOT_CONNECTED', provider='NOT_CONFIGURED', live_authorized=False, provider_requests=0,
-            runtime_llm_calls=0, reason_codes=['OPERATIONAL_OWNERS_NOT_CONFIGURED'])
+        if name == 'health':
+            from application.platform.restoration import restoration_status
+            restoration = restoration_status(self.config)
+            return dict(control='ONLINE', research='NOT_CONFIGURED', runtime='NOT_CONFIGURED', storage='CONTROL_STORE_AVAILABLE',
+                cloud='NOT_CONNECTED', market='NOT_CONNECTED', provider='NOT_CONFIGURED', live_authorized=False, provider_requests=0,
+                runtime_llm_calls=0, restoration=restoration,
+                reason_codes=['OPERATIONAL_OWNERS_NOT_CONFIGURED', *restoration.get('reason_codes',[])])
         if name == 'overview': return dict(mode='RESEARCH', live_authorized=False, queued_jobs=None, running_jobs=None, lifecycle_counts=None,
             exposure_quantity=None, realized_pnl_usdt=None, unrealized_pnl_usdt=None, runtime_status='NOT_CONFIGURED',
             cloud_status='NOT_CONNECTED', reason_codes=['OPERATIONAL_OWNERS_NOT_CONFIGURED'])

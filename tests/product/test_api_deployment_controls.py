@@ -12,8 +12,9 @@ import tests.product.test_api_approval_preview as fixtures
 
 class APIDeploymentControlTests(unittest.TestCase):
     def setUp(self):
-        self.fixture=fixtures.APIApprovalPreviewTests(methodName='runTest');self.fixture.setUp()
+        self.fixture=fixtures.APIApprovalPreviewTests(methodName='runTest')
         self.addCleanup(self.fixture.doCleanups)
+        self.fixture.setUp()
         h=self.fixture;h.login()
         h.post('/api/v1/auth/reauthenticate',dict(command_id='reauth',expected_revision=1,password=h.password))
         self.human=h.app.state.authenticator.authenticate(h.auth.current_reauthentication(h.client.cookies.get('r7_session')))

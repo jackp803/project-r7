@@ -4,6 +4,7 @@ from contextlib import nullcontext
 from dataclasses import replace
 from datetime import timedelta
 import sys
+import os
 import tempfile
 from pathlib import Path
 
@@ -23,7 +24,8 @@ import uvicorn
 def main():
     parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment'],required=True)
     parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
-    scratch=ROOT.parent.parent/'artifacts/S11-browser'/args.profile; scratch.mkdir(parents=True,exist_ok=True)
+    scratch=Path(os.environ['R7_BROWSER_ARTIFACT_ROOT'])/args.profile if 'R7_BROWSER_ARTIFACT_ROOT' in os.environ else ROOT.parent.parent/'artifacts/S11-browser'/args.profile
+    scratch.mkdir(parents=True,exist_ok=True)
     tempfile.tempdir=str(scratch)
     if args.profile=='empty':
         class Empty(APIFixture,unittest.TestCase): pass

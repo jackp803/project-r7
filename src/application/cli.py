@@ -70,6 +70,19 @@ def main(argv=None):
         backup = commands.add_parser(name, help=description)
         backup.add_argument('--config', type=Path, required=True)
         backup.add_argument('--destination', type=Path, required=True)
+    restore = commands.add_parser('restore-databases', help='Stage verified database copies into a new private inhibited generation')
+    restore.add_argument('--config', type=Path, required=True)
+    restore.add_argument('--backup', type=Path, required=True)
+    restore.add_argument('--destination', type=Path, required=True)
+    for name, description in (
+        ('backup-product-data', 'Create a private complete supported local product-data bundle'),
+        ('verify-product-backup', 'Verify a private product-data bundle without restoration'),
+        ('restore-product-data', 'Stage product data into a fresh inhibited local generation')):
+        product = commands.add_parser(name, help=description)
+        product.add_argument('--config', type=Path, required=True)
+        product.add_argument('--destination', type=Path, required=True)
+        if name == 'restore-product-data':
+            product.add_argument('--backup', type=Path, required=True)
     job = commands.add_parser('_research-job', help=argparse.SUPPRESS)
     job.add_argument('--config', type=Path, required=True)
     job.add_argument('--run-id', required=True)
@@ -154,6 +167,24 @@ def main(argv=None):
             result, code = dict(status=error.code, reason=error.reason), 2
         print(json.dumps(result))
         return code
+    if args.command in ('backup-product-data','verify-product-backup','restore-product-data'):
+        from application.config import load_config
+        from application.platform.product_backup import create_product_backup,verify_product_backup,restore_product_backup
+        config=load_config(args.config)
+        if args.command=='restore-product-data':
+            result=restore_product_backup(config,args.backup,args.destination,config_path=args.config)
+        elif args.command=='backup-product-data':
+            result=create_product_backup(config,args.destination,config_path=args.config)
+        else:
+            result=verify_product_backup(config,args.destination)
+        print(json.dumps(result))
+        return 0
+    if args.command == 'restore-databases':
+        from application.config import load_config
+        from application.platform.database_restore import restore_database_backup
+        result=restore_database_backup(load_config(args.config),args.backup,args.destination,config_path=args.config)
+        print(json.dumps(result))
+        return 0
     if args.command in ('backup-databases', 'verify-database-backup'):
         from application.config import load_config
         from application.platform.backup import create_database_backup, verify_database_backup

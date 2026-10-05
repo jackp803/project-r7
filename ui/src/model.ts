@@ -75,6 +75,8 @@ export const reasons:Record<string,string>={
   OWNER_COMMAND_CONFLICT:'目前擁有者的版本或命令狀態衝突。請查看最新證據。',
   NOT_CONFIGURED:'尚未完成本機設定。',OWNER_NOT_CONFIGURED:'這個服務尚未設定；沒有排入工作。',
   OPERATIONAL_OWNERS_NOT_CONFIGURED:'執行服務尚未設定，不能推定沒有部位或已允許交易。',
+  RESTORE_RECONCILIATION_AND_REAUTHORIZATION_REQUIRED:'這是還原後的資料。需重新登入、核對既有部位與保護，並重新授權；重啟服務不會允許新進場。',
+  RESTORE_GENERATION_INVALID:'還原尚未完成或設定已變更。請由本機維護流程核對完整世代，不能啟動交易。',
   FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN:'測試命名空間不能核准財務操作。',
   FINANCIAL_ENVELOPE_NOT_COMMISSIONED:'尚未提供受本機核准的資金與風險提案。',
   APPROVAL_PREVIEW_SUBJECT_CHANGED:'策略或提案版本已變更。請重新讀取提案並確認。',

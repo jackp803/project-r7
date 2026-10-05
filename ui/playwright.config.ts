@@ -1,7 +1,7 @@
 import { defineConfig } from '@playwright/test';
 import path from 'node:path';
 
-const artifacts=path.resolve(import.meta.dirname,'../../../artifacts/S11-browser');
+const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../artifacts/S11-browser');
 export default defineConfig({
   testDir: './qa', testMatch: '*.spec.ts', fullyParallel: false, workers: 1,
   timeout: 25_000, expect: {timeout: 4_000}, retries: 0,

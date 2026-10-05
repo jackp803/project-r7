@@ -10,8 +10,8 @@ import tests.product.test_trading_inventory_v02 as inventory_fixtures
 
 class TradingProtectionMonitorV02Tests(unittest.TestCase):
     def setUp(self):
-        self.helper=position_fixtures.TradingPositionV02Tests(methodName='runTest');self.helper.setUp()
-        self.addCleanup(self.helper.doCleanups);self.fixture=self.helper.fixture
+        self.helper=position_fixtures.TradingPositionV02Tests(methodName='runTest')
+        self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
         self.inventory=inventory_fixtures.TradingInventoryV02Tests(methodName='runTest')
 
     def context(self,*,active=True,extra=False,readback=True,inventory_empty=False):

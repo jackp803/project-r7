@@ -21,7 +21,11 @@ class ResearchOrchestrator:
             reason=getattr(error,'code',type(error).__name__)
             import re
             if not isinstance(reason,str) or not re.fullmatch('[A-Za-z_]{1,64}',reason): reason=type(error).__name__
-            self.journal.finish(claim,{'reason_codes':[reason]},now_utc(),status='FAILED',reason_codes=(reason,))
+            output={'reason_codes':[reason]}
+            from application.research.service import ResearchResourceError
+            if type(error) is ResearchResourceError:
+                output['resource_observation']=dict(error.resource_observation)
+            self.journal.finish(claim,output,now_utc(),status='FAILED',reason_codes=(reason,))
             raise
         self.journal.finish(claim,result,now_utc())
         if self.checkpoint is not None: self.checkpoint(run_id,stage)

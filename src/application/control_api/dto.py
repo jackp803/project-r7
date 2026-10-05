@@ -151,6 +151,19 @@ class OverviewView(StrictDTO):
     reason_codes: list[str]
 
 
+class RestorationView(StrictDTO):
+    status: Literal['NOT_RESTORED','RESTORED_INHIBITED','INVALID_RESTORE_GENERATION']
+    financial_authority: Literal['NONE']
+    restore_generation_id: Identifier | None = None
+    scope: Literal['DATABASES_ONLY','PRODUCT_DATA'] | None = None
+    user_data_restore: Literal['PENDING','COMPLETE_SUPPORTED_LOCAL_PROFILE'] | None = None
+    reconciliation: Literal['REQUIRED'] | None = None
+    reauthorization: Literal['REQUIRED'] | None = None
+    runtime_new_exposure: Literal['INHIBITED'] | None = None
+    cloud: Literal['DISCONNECTED'] | None = None
+    reason_codes: list[str] = Field(default_factory=list)
+
+
 class HealthView(StrictDTO):
     control: str
     research: str
@@ -162,6 +175,7 @@ class HealthView(StrictDTO):
     live_authorized: bool
     provider_requests: int
     runtime_llm_calls: int
+    restoration: RestorationView | None = None
     reason_codes: list[str]
 
 

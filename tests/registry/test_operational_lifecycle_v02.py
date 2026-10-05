@@ -26,6 +26,14 @@ class OperationalLifecycleTests(unittest.TestCase):
         api=self.api(); selected(root); (Path(root)/'risk.json').write_bytes(encoded(risk_fixture()))
         research=ResearchService(local_root=root,database_path=Path(root)/'research.sqlite',
             registry_path=Path(root)/'research-registry.sqlite',namespace='FIXTURE',owner_id='fixture')
+        try:
+            return self._complete_fixture(root,research)
+        except BaseException:
+            research.close()
+            raise
+
+    def _complete_fixture(self,root,research):
+        api=self.api()
         result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
             cost_policy_ref='cost.json',research_policy_ref='research.json',robustness_policy_ref='robustness.json',
             family_id='fixture-family',seed=42,risk_policy_ref='risk.json')

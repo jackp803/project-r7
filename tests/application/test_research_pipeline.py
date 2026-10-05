@@ -76,9 +76,16 @@ class ResearchPipelineTests(unittest.TestCase):
             with self.service(api,root) as service,patch.object(api,'inspect_hardware',return_value=low):
                 with self.assertRaises(api.ResearchError) as caught: self.execute(service)
                 self.assertEqual('RESEARCH_MEMORY_PRESSURE',caught.exception.code)
+                measurement=getattr(caught.exception,'resource_observation',None)
+                self.assertIsNotNone(measurement,'Preserve actual admission-time measurements without changing the gate')
+                self.assertEqual(measurement['available_memory_bytes'],1024)
+                self.assertEqual(measurement['physical_memory_bytes'],low.physical_memory_bytes)
+                self.assertEqual(measurement['minimum_available_memory_bytes'],max(2*1024**3,low.physical_memory_bytes*15//100))
+                self.assertNotIn(str(root),str(caught.exception))
                 attempts=service.journal.attempts(service.journal.runs()[0]['run_id'])
                 self.assertEqual('resource_admission',attempts[-1]['stage'])
                 self.assertEqual('FAILED',attempts[-1]['status'])
+                self.assertEqual(json.loads(attempts[-1]['output_json'])['resource_observation'],dict(measurement))
 
     def test_invalid_split_and_exhausted_budget_preserve_failed_attempts(self):
         api=self.api()

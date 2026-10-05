@@ -7,6 +7,7 @@ from dataclasses import dataclass,asdict,replace
 import json
 from pathlib import Path
 from decimal import localcontext
+from types import MappingProxyType
 
 from application.datasets.catalog import DatasetCatalog,canonical,decode,digest,exact,fail,positive_int,read_local,text
 from application.datasets.resolver import DatasetResolver
@@ -15,7 +16,7 @@ from application.research.compatibility import ExecutedCompatibilityBoundary,exe
 from application.research.evidence import ResearchJournal,capture_provenance,now_utc
 from application.research.orchestrator import ResearchOrchestrator
 from application.research.holdout import ResearchTrialLedger,SealedOOSBinding,evaluate_sealed_oos
-from application.platform.resources import inspect_hardware,ResourcePolicy
+from application.platform.resources import inspect_hardware,ResourcePolicy,HardwareReport
 from backtest.costs import FeeModel,SlippageModel
 from backtest.e2_runtime import project_e2_runtime_binding
 from backtest.replay import DatasetDescriptor,HistoricalReplayEngine,ReplayConfig
@@ -31,6 +32,21 @@ from application.research.product_assessment import ExecutedProductAssessmentBou
 
 class ResearchError(ValueError):
     def __init__(self,code): self.code=code; super().__init__(code)
+
+class ResearchResourceError(ResearchError):
+    """Actual admission-time numeric diagnostics, without paths or private data."""
+    def __init__(self,code,hardware,policy):
+        if (code not in ('RESEARCH_MEMORY_PRESSURE','RESEARCH_DISK_PRESSURE') or
+                type(hardware) is not HardwareReport or type(policy) is not ResourcePolicy):
+            raise ResearchError('INVALID_RESOURCE_OBSERVATION')
+        values=dict(physical_memory_bytes=hardware.physical_memory_bytes,available_memory_bytes=hardware.available_memory_bytes,
+            minimum_available_memory_bytes=max(2*1024**3,policy.physical_memory_bytes*15//100),
+            disk_free_bytes=hardware.disk_free_bytes,disk_total_bytes=hardware.disk_total_bytes,
+            minimum_disk_free_bytes=max(2*1024**3,hardware.disk_total_bytes*5//100))
+        if any(type(value) is not int or value<0 for value in values.values()):raise ResearchError('INVALID_RESOURCE_OBSERVATION')
+        super().__init__(code)
+        self.resource_observation=MappingProxyType(values)
+        self.args=(code+' '+json.dumps(values,sort_keys=True,separators=(',',':')),)
 
 @dataclass(frozen=True)
 class ResearchOutcome:
@@ -119,7 +135,7 @@ class ResearchService:
             policy=ResourcePolicy.conservative(hardware.physical_memory_bytes)
             decision=policy.admission(available_memory_bytes=hardware.available_memory_bytes,
                                      disk_free_bytes=hardware.disk_free_bytes,disk_total_bytes=hardware.disk_total_bytes)
-            if not decision.allowed: raise ResearchError(decision.reason_codes[0])
+            if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
             return dict(hardware=hardware.to_dict(),memory_enforcement=policy.memory_enforcement,
                         memory_soft_budget_bytes=policy.memory_soft_budget_bytes)
         admission_stage=('resource_admission' if self.journal.result(run_id,'resource_admission') is None else

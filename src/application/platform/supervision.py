@@ -112,6 +112,8 @@ class ProcessSupervisor:
             raise SupervisionError('CONFIG_CHANGED')
 
     def __enter__(self):
+        from application.platform.restoration import require_valid_restoration
+        require_valid_restoration(self.config)
         self.scope.__enter__()
         try:
             self._check_profile()

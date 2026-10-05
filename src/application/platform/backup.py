@@ -33,13 +33,15 @@ ROW_KEYS = {'logical_name', 'relative_path', 'artifact', 'sha256', 'bytes', 'sch
 CONSISTENCY = 'SUPERVISED_OWNERS_STOPPED_AND_DATABASE_WRITERS_FENCED'
 
 
-def _inventory(config):
+def _inventory(config, *, include_settings=False):
     if not isinstance(config, ProductConfig):
         raise BackupError('VALIDATED_LOCAL_PROFILE_REQUIRED')
     paths = {'canonical': config.database_path}
     paths.update({name: config.local_data_root / filename for name, filename in (
         ('intake', 'intake.sqlite'), ('queue', 'queue.sqlite'), ('research', 'research.sqlite'),
         ('control', 'control-commands.sqlite'), ('auth', 'local-auth.sqlite'), ('supervision', 'process-supervision.sqlite'))})
+    if include_settings:
+        paths['settings'] = config.local_data_root / 'control-settings.sqlite'
     if (len(set(paths.values())) != len(paths)
             or any(not path.is_absolute() or not path.is_relative_to(config.local_data_root) or path == config.local_data_root for path in paths.values())):
         raise BackupError('DISTINCT_LOCAL_DATABASE_INVENTORY_REQUIRED')
@@ -115,6 +117,43 @@ def _present(inventory):
     return result
 
 
+def _capture_database_bundle(config, path, inventory, end, stack, *, config_path=None):
+    """Caller holds all owner scopes; writer fences survive until stack exit."""
+    present = _present(inventory)
+    for name in sorted(present):
+        _deadline(end)
+        db = stack.enter_context(closing(_connect(inventory[name], 'rw', end)))
+        db.execute('BEGIN IMMEDIATE')
+        _database_facts(db)
+    if _present(inventory) != present:
+        raise BackupError('BACKUP_DATABASE_INVENTORY_CHANGED')
+    create_private_directory(path)
+    rows = []
+    for name in sorted(present):
+        _deadline(end)
+        target = path / (name + '.sqlite')
+        write_private_new(target, b'')
+        with closing(_connect(inventory[name], 'ro', end)) as source, closing(sqlite3.connect(target)) as copied:
+            copied.execute('PRAGMA journal_mode=DELETE')
+            copied.execute('PRAGMA synchronous=FULL')
+            source.backup(copied, pages=128, progress=lambda *_: _deadline(end), sleep=0.05)
+            copied.execute('PRAGMA journal_mode=DELETE')
+            facts = _database_facts(copied)
+        require_private(target)
+        rows.append(dict(logical_name=name, relative_path=inventory[name].relative_to(config.local_data_root).as_posix(),
+                         artifact=target.name, **_hash_file(target, end), **facts))
+    _profile_current(config, config_path)
+    if _present(inventory) != present:
+        raise BackupError('BACKUP_DATABASE_INVENTORY_CHANGED')
+    manifest = dict(schema_version=SCHEMA, backup_id=str(uuid.uuid4()), created_at=stamp(datetime.now(timezone.utc)),
+        product_instance_id=config.product_instance_id, config_hash=config_hash(config), data_class='PRIVATE_LOCAL',
+        cloud_publication='FORBIDDEN', consistency=CONSISTENCY, source_provenance=capture_provenance(),
+        databases=rows, absent_databases=sorted(set(inventory) - present))
+    _deadline(end)
+    write_private_new(path / 'manifest.json', (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
+    return manifest
+
+
 def create_database_backup(config, destination, *, config_path=None, timeout_seconds=30):
     if type(timeout_seconds) is not int or not 5 <= timeout_seconds <= 300:
         raise BackupError('BOUNDED_DATABASE_BACKUP_DEADLINE_REQUIRED')
@@ -127,40 +166,7 @@ def create_database_backup(config, destination, *, config_path=None, timeout_sec
             for role in ('control', 'research', 'runtime', 'cloud'):
                 stack.enter_context(ProcessScopeLock(role + ':' + config.product_instance_id,
                                                      lock_root=operational_lock_root(config)))
-            present = _present(inventory)
-            for name in sorted(present):
-                _deadline(end)
-                db = stack.enter_context(closing(_connect(inventory[name], 'rw', end)))
-                db.execute('BEGIN IMMEDIATE')  # Rolled back on close, no source writes.
-                _database_facts(db)
-            if _present(inventory) != present:
-                raise BackupError('BACKUP_DATABASE_INVENTORY_CHANGED')
-            create_private_directory(path)
-            rows = []
-            for name in sorted(present):
-                _deadline(end)
-                target = path / (name + '.sqlite')
-                write_private_new(target, b'')
-                with closing(_connect(inventory[name], 'ro', end)) as source, closing(sqlite3.connect(target)) as copied:
-                    copied.execute('PRAGMA journal_mode=DELETE')
-                    copied.execute('PRAGMA synchronous=FULL')
-                    source.backup(copied, pages=128, progress=lambda *_: _deadline(end), sleep=0.05)
-                    # A WAL source retains its header mode; normalize only the
-                    # stopped destination so the sealed artifact has no sidecars.
-                    copied.execute('PRAGMA journal_mode=DELETE')
-                    facts = _database_facts(copied)
-                require_private(target)
-                rows.append(dict(logical_name=name, relative_path=inventory[name].relative_to(config.local_data_root).as_posix(),
-                                 artifact=target.name, **_hash_file(target, end), **facts))
-            _profile_current(config, config_path)
-            if _present(inventory) != present:
-                raise BackupError('BACKUP_DATABASE_INVENTORY_CHANGED')
-            manifest = dict(schema_version=SCHEMA, backup_id=str(uuid.uuid4()), created_at=stamp(datetime.now(timezone.utc)),
-                product_instance_id=config.product_instance_id, config_hash=config_hash(config), data_class='PRIVATE_LOCAL',
-                cloud_publication='FORBIDDEN', consistency=CONSISTENCY, source_provenance=capture_provenance(),
-                databases=rows, absent_databases=sorted(set(inventory) - present))
-            _deadline(end)
-            write_private_new(path / 'manifest.json', (json.dumps(manifest, ensure_ascii=False, indent=2) + '\n').encode('utf-8'))
+            _capture_database_bundle(config, path, inventory, end, stack, config_path=config_path)
         return verify_database_backup(config, path)
     except BackupError:
         raise
@@ -177,10 +183,17 @@ def _unique_pairs(pairs):
     return result
 
 
-def verify_database_backup(config, destination):
-    end = time.monotonic() + 30
+def verify_database_backup(config, destination, *, timeout_seconds=30, _include_settings=False):
+    return _verify_database_backup_snapshot(config,destination,timeout_seconds=timeout_seconds,
+        _include_settings=_include_settings)[0]
+
+
+def _verify_database_backup_snapshot(config, destination, *, timeout_seconds=30, _include_settings=False):
+    if type(timeout_seconds) is not int or not 1<=timeout_seconds<=300:
+        raise BackupError('BOUNDED_DATABASE_VERIFICATION_DEADLINE_REQUIRED')
+    end = time.monotonic() + timeout_seconds
     try:
-        inventory = _inventory(config)
+        inventory = _inventory(config, include_settings=_include_settings)
         path = _destination(config, destination)
         require_private(path, directory=True)
         manifest_path = path / 'manifest.json'
@@ -233,9 +246,13 @@ def verify_database_backup(config, destination):
             raise BackupError('BACKUP_MANIFEST_INVENTORY_INVALID')
         if {item.name for item in path.iterdir()} != {'manifest.json', *(name + '.sqlite' for name in found)}:
             raise BackupError('BACKUP_UNEXPECTED_ARTIFACT')
-        return dict(status='DATABASE_BACKUP_VERIFIED', schema_version=SCHEMA, backup_id=manifest['backup_id'],
+        with manifest_path.open('rb') as stream:
+            if stream.read(65537)!=raw:
+                raise BackupError('BACKUP_MANIFEST_CHANGED_DURING_INSPECTION')
+        summary=dict(status='DATABASE_BACKUP_VERIFIED', schema_version=SCHEMA, backup_id=manifest['backup_id'],
                     database_count=len(rows), data_class='PRIVATE_LOCAL', cloud_publication='FORBIDDEN',
                     financial_authority='NONE', restore='NOT_PERFORMED')
+        return summary,manifest,raw
     except BackupError:
         raise
     except Exception:

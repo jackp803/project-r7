@@ -23,6 +23,8 @@ class LocalOwners:
             raise ValueError('Trusted same-namespace local composition required')
         if not config.database_path.is_relative_to(config.local_data_root) or config.database_path == config.local_data_root:
             raise ValueError('Canonical store inside configured local root required')
+        from application.platform.restoration import require_valid_restoration
+        restoration = require_valid_restoration(config)
         self.config, self.namespace = config, namespace
         self.clock = clock if clock is not None else lambda: datetime.now(timezone.utc)
         if not callable(self.clock): raise ValueError('Actual UTC clock required')
@@ -39,7 +41,9 @@ class LocalOwners:
         cloud_id = selected['cloud_root_id']
         if cloud_id is not None:
             safe_component(cloud_id)
-            if config.cloud_root is None: raise ValueError('Explicit cloud staging root required')
+            if restoration['status']=='RESTORED_INHIBITED':
+                cloud_id = None  # Preserve selected bytes; restored owners stay disconnected.
+            elif config.cloud_root is None: raise ValueError('Explicit cloud staging root required')
         # Validate all policy selections before initializing any canonical database.
         self.registry_factory = lambda: open_sqlite_platform(config.database_path, research_namespace=namespace)
         self.intake_factory = lambda: IntakeLedger(config.local_data_root / 'intake.sqlite', instance_id=config.product_instance_id)

@@ -1,0 +1,45 @@
+test_actual_control_restart_increments_generation_and_second_process_is_denied (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_actual_control_restart_increments_generation_and_second_process_is_denied) ... FAIL
+test_changed_actual_profile_stops_control_process_and_leaves_explicit_failure (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_changed_actual_profile_stops_control_process_and_leaves_explicit_failure) ... ERROR
+test_config_change_terminates_actual_owned_job_and_preserves_failed_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_config_change_terminates_actual_owned_job_and_preserves_failed_claim) ... FAIL
+
+======================================================================
+ERROR: test_changed_actual_profile_stops_control_process_and_leaves_explicit_failure (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_changed_actual_profile_stops_control_process_and_leaves_explicit_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_control_process_supervision.py", line 77, in test_changed_actual_profile_stops_control_process_and_leaves_explicit_failure
+    self.assertEqual(first.wait(timeout=5), 2)
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\processes.py", line 165, in wait
+    code = self.process.wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\subprocess.py", line 1264, in wait
+    return self._wait(timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\subprocess.py", line 1593, in _wait
+    raise TimeoutExpired(self.args, timeout)
+subprocess.TimeoutExpired: Command '['<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe', '<SOURCE_ROOT>\\src\\application\\platform\\_process_bootstrap.py', '<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe', '-m', 'application', 'serve', '--config', '<USER_HOME>\\AppData\\Local\\Temp\\R7 控制 程序 ssjoaw31\\profile.json']' timed out after 5 seconds
+
+======================================================================
+FAIL: test_actual_control_restart_increments_generation_and_second_process_is_denied (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_actual_control_restart_increments_generation_and_second_process_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_control_process_supervision.py", line 61, in test_actual_control_restart_increments_generation_and_second_process_is_denied
+    self.assertEqual(previous['status'], 'RECENT_HEARTBEAT')
+AssertionError: 'NOT_STARTED' != 'RECENT_HEARTBEAT'
+- NOT_STARTED
++ RECENT_HEARTBEAT
+
+
+======================================================================
+FAIL: test_config_change_terminates_actual_owned_job_and_preserves_failed_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_config_change_terminates_actual_owned_job_and_preserves_failed_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 131, in test_config_change_terminates_actual_owned_job_and_preserves_failed_claim
+    with self.assertRaises(SupervisionError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SupervisionError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 15.720s
+
+FAILED (failures=2, errors=1)

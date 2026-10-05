@@ -1,0 +1,26 @@
+test_linked_root_is_refused_before_reading_manifest_or_source (tests.application.test_native_distribution.NativeDistributionTests.test_linked_root_is_refused_before_reading_manifest_or_source) ... FAIL
+
+======================================================================
+FAIL: test_linked_root_is_refused_before_reading_manifest_or_source (tests.application.test_native_distribution.NativeDistributionTests.test_linked_root_is_refused_before_reading_manifest_or_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 111, in test_linked_root_is_refused_before_reading_manifest_or_source
+    with self.assertRaises(ValueError): self.distribution().verify_distribution(alias)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\distribution.py", line 143, in verify_distribution
+    with path.open('rb') as stream: raw = stream.read(1024 * 1024 + 1)
+         ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Linked manifest must not be read
+
+----------------------------------------------------------------------
+Ran 1 test in 0.115s
+
+FAILED (failures=1)

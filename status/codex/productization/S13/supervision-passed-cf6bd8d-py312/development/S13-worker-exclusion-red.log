@@ -1,0 +1,20 @@
+test_second_worker_is_denied_before_hardware_or_queue_mutation (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_second_worker_is_denied_before_hardware_or_queue_mutation) ... FAIL
+
+======================================================================
+FAIL: test_second_worker_is_denied_before_hardware_or_queue_mutation (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_second_worker_is_denied_before_hardware_or_queue_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 108, in test_second_worker_is_denied_before_hardware_or_queue_mutation
+    self.worker().worker_once(self.config_path, namespace='FIXTURE', job_argv_factory=self.child,
+  File "<SOURCE_ROOT>\src\application\research\worker.py", line 34, in worker_once
+    hardware = hardware_probe(config.local_data_root)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 109, in <lambda>
+    hardware_probe=lambda root: self.fail('Contender must not probe or initialize owners'))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Contender must not probe or initialize owners
+
+----------------------------------------------------------------------
+Ran 1 test in 2.692s
+
+FAILED (failures=1)

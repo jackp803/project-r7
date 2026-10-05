@@ -1,0 +1,156 @@
+test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped (tests.application.test_process_supervision.ProcessSupervisionTests.test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped) ... ERROR
+test_config_change_inhibits_the_existing_generation_without_renewing_it (tests.application.test_process_supervision.ProcessSupervisionTests.test_config_change_inhibits_the_existing_generation_without_renewing_it) ... ERROR
+test_heartbeat_thread_advances_while_owner_work_is_blocked (tests.application.test_process_supervision.ProcessSupervisionTests.test_heartbeat_thread_advances_while_owner_work_is_blocked) ... ERROR
+test_profile_different_from_loaded_config_is_refused_before_start (tests.application.test_process_supervision.ProcessSupervisionTests.test_profile_different_from_loaded_config_is_refused_before_start) ... ERROR
+test_restart_has_a_new_actual_process_generation_and_never_financial_permission (tests.application.test_process_supervision.ProcessSupervisionTests.test_restart_has_a_new_actual_process_generation_and_never_financial_permission) ... ERROR
+test_second_supervisor_is_denied_before_it_creates_a_database (tests.application.test_process_supervision.ProcessSupervisionTests.test_second_supervisor_is_denied_before_it_creates_a_database) ... ERROR
+test_stale_and_future_heartbeat_are_explicitly_inhibited (tests.application.test_process_supervision.ProcessSupervisionTests.test_stale_and_future_heartbeat_are_explicitly_inhibited) ... ERROR
+
+======================================================================
+ERROR: test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped (tests.application.test_process_supervision.ProcessSupervisionTests.test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 83, in test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped
+    with self.session() as session:
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 34, in session
+    return self.module().ProcessSupervisor(self.config, 'research', config_path=self.profile,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+======================================================================
+ERROR: test_config_change_inhibits_the_existing_generation_without_renewing_it (tests.application.test_process_supervision.ProcessSupervisionTests.test_config_change_inhibits_the_existing_generation_without_renewing_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 59, in test_config_change_inhibits_the_existing_generation_without_renewing_it
+    with self.session() as session:
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 34, in session
+    return self.module().ProcessSupervisor(self.config, 'research', config_path=self.profile,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+======================================================================
+ERROR: test_heartbeat_thread_advances_while_owner_work_is_blocked (tests.application.test_process_supervision.ProcessSupervisionTests.test_heartbeat_thread_advances_while_owner_work_is_blocked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 50, in test_heartbeat_thread_advances_while_owner_work_is_blocked
+    with self.session() as session:
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 34, in session
+    return self.module().ProcessSupervisor(self.config, 'research', config_path=self.profile,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+======================================================================
+ERROR: test_profile_different_from_loaded_config_is_refused_before_start (tests.application.test_process_supervision.ProcessSupervisionTests.test_profile_different_from_loaded_config_is_refused_before_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 92, in test_profile_different_from_loaded_config_is_refused_before_start
+    with self.assertRaises(self.module().SupervisionError):
+                           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+======================================================================
+ERROR: test_restart_has_a_new_actual_process_generation_and_never_financial_permission (tests.application.test_process_supervision.ProcessSupervisionTests.test_restart_has_a_new_actual_process_generation_and_never_financial_permission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 38, in test_restart_has_a_new_actual_process_generation_and_never_financial_permission
+    with self.session() as first:
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 34, in session
+    return self.module().ProcessSupervisor(self.config, 'research', config_path=self.profile,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+======================================================================
+ERROR: test_second_supervisor_is_denied_before_it_creates_a_database (tests.application.test_process_supervision.ProcessSupervisionTests.test_second_supervisor_is_denied_before_it_creates_a_database)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 73, in test_second_supervisor_is_denied_before_it_creates_a_database
+    with self.session(): pass
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 34, in session
+    return self.module().ProcessSupervisor(self.config, 'research', config_path=self.profile,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+======================================================================
+ERROR: test_stale_and_future_heartbeat_are_explicitly_inhibited (tests.application.test_process_supervision.ProcessSupervisionTests.test_stale_and_future_heartbeat_are_explicitly_inhibited)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 78, in test_stale_and_future_heartbeat_are_explicitly_inhibited
+    with self.session(clock=lambda: observed) as session:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 34, in session
+    return self.module().ProcessSupervisor(self.config, 'research', config_path=self.profile,
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 31, in module
+    return importlib.import_module('application.platform.supervision')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.supervision'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.012s
+
+FAILED (errors=7)

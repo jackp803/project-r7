@@ -1,0 +1,448 @@
+test_actual_e6_migrations_and_authenticated_api_are_composed (tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_existing_profile_is_preserved_including_identical_retry (tests.application.test_native_entrypoints.NativeEntrypointTests.test_existing_profile_is_preserved_including_identical_retry) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority (tests.application.test_native_entrypoints.NativeEntrypointTests.test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker (tests.application.test_native_entrypoints.NativeEntrypointTests.test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: '_owned-process-bootstrap' (choose from doctor)
+ERROR
+test_mismatched_password_confirmation_creates_no_auth_store (tests.application.test_native_entrypoints.NativeEntrypointTests.test_mismatched_password_confirmation_creates_no_auth_store) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_missing_built_ui_fails_before_creating_any_profile_database (tests.application.test_native_entrypoints.NativeEntrypointTests.test_missing_built_ui_fails_before_creating_any_profile_database) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password (tests.application.test_native_entrypoints.NativeEntrypointTests.test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_redirected_enrollment_is_refused_without_reading_or_creating_auth (tests.application.test_native_entrypoints.NativeEntrypointTests.test_redirected_enrollment_is_refused_without_reading_or_creating_auth) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_relative_root_and_installed_binary_directory_are_rejected (tests.application.test_native_entrypoints.NativeEntrypointTests.test_relative_root_and_installed_binary_directory_are_rejected) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: 'init-profile' (choose from doctor)
+ERROR
+test_source_cli_cannot_borrow_private_frozen_bootstrap_mode (tests.application.test_native_entrypoints.NativeEntrypointTests.test_source_cli_cannot_borrow_private_frozen_bootstrap_mode) ... usage: r7 [-h] {doctor} ...
+r7: error: argument command: invalid choice: '_owned-process-bootstrap' (choose from doctor)
+ok
+
+======================================================================
+ERROR: test_actual_e6_migrations_and_authenticated_api_are_composed (tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 67, in test_actual_e6_migrations_and_authenticated_api_are_composed
+    self.initialize()
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_existing_profile_is_preserved_including_identical_retry (tests.application.test_native_entrypoints.NativeEntrypointTests.test_existing_profile_is_preserved_including_identical_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 51, in test_existing_profile_is_preserved_including_identical_retry
+    self.initialize()
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority (tests.application.test_native_entrypoints.NativeEntrypointTests.test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 39, in test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority
+    result, output = self.initialize()
+                     ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker (tests.application.test_native_entrypoints.NativeEntrypointTests.test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2188, in _parse_known_args
+    stop_index = consume_positionals(start_index)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: '_owned-process-bootstrap' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 128, in test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker
+    self.assertEqual(cli.main(['_owned-process-bootstrap', 'child.exe', 'bounded-argument']), 17)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_mismatched_password_confirmation_creates_no_auth_store (tests.application.test_native_entrypoints.NativeEntrypointTests.test_mismatched_password_confirmation_creates_no_auth_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 118, in test_mismatched_password_confirmation_creates_no_auth_store
+    self.initialize()
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_missing_built_ui_fails_before_creating_any_profile_database (tests.application.test_native_entrypoints.NativeEntrypointTests.test_missing_built_ui_fails_before_creating_any_profile_database)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 92, in test_missing_built_ui_fails_before_creating_any_profile_database
+    self.initialize()
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password (tests.application.test_native_entrypoints.NativeEntrypointTests.test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 98, in test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password
+    self.initialize()
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_redirected_enrollment_is_refused_without_reading_or_creating_auth (tests.application.test_native_entrypoints.NativeEntrypointTests.test_redirected_enrollment_is_refused_without_reading_or_creating_auth)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 110, in test_redirected_enrollment_is_refused_without_reading_or_creating_auth
+    self.initialize()
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_relative_root_and_installed_binary_directory_are_rejected (tests.application.test_native_entrypoints.NativeEntrypointTests.test_relative_root_and_installed_binary_directory_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'init-profile' (choose from doctor)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 59, in test_relative_root_and_installed_binary_directory_are_rejected
+    self.initialize(data_root='relative-data')
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 32, in initialize
+    result = cli.main(argv)
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 17, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.035s
+
+FAILED (errors=9)

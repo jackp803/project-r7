@@ -1,0 +1,49 @@
+test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped (tests.application.test_process_supervision.ProcessSupervisionTests.test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped) ... ERROR
+test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped (tests.application.test_process_supervision.ProcessSupervisionTests.test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped) ... ERROR
+test_config_change_inhibits_the_existing_generation_without_renewing_it (tests.application.test_process_supervision.ProcessSupervisionTests.test_config_change_inhibits_the_existing_generation_without_renewing_it) ... ok
+test_heartbeat_thread_advances_while_owner_work_is_blocked (tests.application.test_process_supervision.ProcessSupervisionTests.test_heartbeat_thread_advances_while_owner_work_is_blocked) ... ok
+test_profile_different_from_loaded_config_is_refused_before_start (tests.application.test_process_supervision.ProcessSupervisionTests.test_profile_different_from_loaded_config_is_refused_before_start) ... ok
+test_restart_has_a_new_actual_process_generation_and_never_financial_permission (tests.application.test_process_supervision.ProcessSupervisionTests.test_restart_has_a_new_actual_process_generation_and_never_financial_permission) ... ok
+test_second_supervisor_is_denied_before_it_creates_a_database (tests.application.test_process_supervision.ProcessSupervisionTests.test_second_supervisor_is_denied_before_it_creates_a_database) ... ok
+test_stale_and_future_heartbeat_are_explicitly_inhibited (tests.application.test_process_supervision.ProcessSupervisionTests.test_stale_and_future_heartbeat_are_explicitly_inhibited) ... ok
+
+======================================================================
+ERROR: test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped (tests.application.test_process_supervision.ProcessSupervisionTests.test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_process_supervision.py", line 83, in test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped
+    with self.session() as session:
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 205, in __exit__
+    if exception_type is None: raise SupervisionError(self.failure_code) from None
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.supervision.SupervisionError: SUPERVISION_STOP_NOT_CONFIRMED
+
+======================================================================
+ERROR: test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped (tests.application.test_process_supervision.ProcessSupervisionTests.test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 633, in _rmtree_unsafe
+    os.unlink(fullname)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 監督 世代 v4zv1r2n\\資料\\process-supervision.sqlite'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 監督 世代 v4zv1r2n\\資料\\process-supervision.sqlite'
+
+----------------------------------------------------------------------
+Ran 7 tests in 1.102s
+
+FAILED (errors=2)

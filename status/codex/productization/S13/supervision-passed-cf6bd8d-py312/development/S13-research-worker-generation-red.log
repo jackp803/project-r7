@@ -1,0 +1,15 @@
+test_terminated_old_generation_cannot_overwrite_a_successor_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_terminated_old_generation_cannot_overwrite_a_successor_claim) ... ERROR
+
+======================================================================
+ERROR: test_terminated_old_generation_cannot_overwrite_a_successor_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_terminated_old_generation_cannot_overwrite_a_successor_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 89, in test_terminated_old_generation_cannot_overwrite_a_successor_claim
+    owners.queue.finish_terminated_worker(previous, owned)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ResearchQueue' object has no attribute 'finish_terminated_worker'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.751s
+
+FAILED (errors=1)

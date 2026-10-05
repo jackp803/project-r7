@@ -1,0 +1,17 @@
+test_actual_control_restart_increments_generation_and_second_process_is_denied (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_actual_control_restart_increments_generation_and_second_process_is_denied) ... FAIL
+
+======================================================================
+FAIL: test_actual_control_restart_increments_generation_and_second_process_is_denied (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_actual_control_restart_increments_generation_and_second_process_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_control_process_supervision.py", line 66, in test_actual_control_restart_increments_generation_and_second_process_is_denied
+    self.assertEqual(process_health(self.config, 'control')['status'], 'PROCESS_NOT_RUNNING')
+AssertionError: 'RECENT_HEARTBEAT' != 'PROCESS_NOT_RUNNING'
+- RECENT_HEARTBEAT
++ PROCESS_NOT_RUNNING
+
+
+----------------------------------------------------------------------
+Ran 1 test in 1.817s
+
+FAILED (failures=1)

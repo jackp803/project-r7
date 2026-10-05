@@ -1,0 +1,41 @@
+test_actual_e6_migrations_and_authenticated_api_are_composed (tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed) ... ERROR
+test_existing_profile_is_preserved_including_identical_retry (tests.application.test_native_entrypoints.NativeEntrypointTests.test_existing_profile_is_preserved_including_identical_retry) ... ok
+test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority (tests.application.test_native_entrypoints.NativeEntrypointTests.test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority) ... ok
+test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker (tests.application.test_native_entrypoints.NativeEntrypointTests.test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker) ... ok
+test_mismatched_password_confirmation_creates_no_auth_store (tests.application.test_native_entrypoints.NativeEntrypointTests.test_mismatched_password_confirmation_creates_no_auth_store) ... ok
+test_missing_built_ui_fails_before_creating_any_profile_database (tests.application.test_native_entrypoints.NativeEntrypointTests.test_missing_built_ui_fails_before_creating_any_profile_database) ... ok
+test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password (tests.application.test_native_entrypoints.NativeEntrypointTests.test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password) ... ok
+test_redirected_enrollment_is_refused_without_reading_or_creating_auth (tests.application.test_native_entrypoints.NativeEntrypointTests.test_redirected_enrollment_is_refused_without_reading_or_creating_auth) ... ok
+test_relative_root_and_installed_binary_directory_are_rejected (tests.application.test_native_entrypoints.NativeEntrypointTests.test_relative_root_and_installed_binary_directory_are_rejected) ... ok
+test_source_cli_cannot_borrow_private_frozen_bootstrap_mode (tests.application.test_native_entrypoints.NativeEntrypointTests.test_source_cli_cannot_borrow_private_frozen_bootstrap_mode) ... usage: r7 [-h] {doctor,init-profile,enroll-owner,serve} ...
+r7: error: argument command: invalid choice: '_owned-process-bootstrap' (choose from doctor, init-profile, enroll-owner, serve)
+ok
+
+======================================================================
+ERROR: test_actual_e6_migrations_and_authenticated_api_are_composed (tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_entrypoints.py", line 68, in test_actual_e6_migrations_and_authenticated_api_are_composed
+    app = self.entrypoints().create_local_app(load_config(self.config), asset_root=self.assets)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\entrypoints.py", line 96, in create_local_app
+    with registry_factory() as e6:
+         ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\entrypoints.py", line 95, in registry_factory
+    return open_sqlite_platform(config.database_path, research_namespace=NAMESPACE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 27, in open_sqlite_platform
+    store = _open_authorized_store(path)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 718, in _open_authorized_store
+    connection = _connect(path)
+                 ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 38, in _connect
+    connection = sqlite3.connect(str(path))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.571s
+
+FAILED (errors=1)

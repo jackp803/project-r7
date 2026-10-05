@@ -1,0 +1,80 @@
+test_actual_sealed_frozen_identity_is_accepted_without_relabelling_git_clean (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_actual_sealed_frozen_identity_is_accepted_without_relabelling_git_clean) ... ERROR
+test_current_native_tamper_or_recorded_build_drift_is_rejected (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_current_native_tamper_or_recorded_build_drift_is_rejected) ... ERROR
+test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) ... 
+  test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) (status='DIRTY', revision='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') ... ERROR
+  test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) (status='UNAVAILABLE', revision='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa') ... ERROR
+  test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) (status='CLEAN', revision=None) ... ERROR
+test_source_process_cannot_promote_caller_native_identity_strings (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_source_process_cannot_promote_caller_native_identity_strings) ... ERROR
+
+======================================================================
+ERROR: test_actual_sealed_frozen_identity_is_accepted_without_relabelling_git_clean (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_actual_sealed_frozen_identity_is_accepted_without_relabelling_git_clean)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 31, in test_actual_sealed_frozen_identity_is_accepted_without_relabelling_git_clean
+    self.require(provenance)
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 20, in require
+    module.require_promotable_provenance(provenance)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.research.product_assessment' has no attribute 'require_promotable_provenance'
+
+======================================================================
+ERROR: test_current_native_tamper_or_recorded_build_drift_is_rejected (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_current_native_tamper_or_recorded_build_drift_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 45, in test_current_native_tamper_or_recorded_build_drift_is_rejected
+    with self.assertRaises(EvidenceGateError): self.require(changed)
+                                               ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 20, in require
+    module.require_promotable_provenance(provenance)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.research.product_assessment' has no attribute 'require_promotable_provenance'
+
+======================================================================
+ERROR: test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) (status='DIRTY', revision='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 53, in test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied
+    self.require(provenance)
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 20, in require
+    module.require_promotable_provenance(provenance)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.research.product_assessment' has no attribute 'require_promotable_provenance'
+
+======================================================================
+ERROR: test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) (status='UNAVAILABLE', revision='aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 53, in test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied
+    self.require(provenance)
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 20, in require
+    module.require_promotable_provenance(provenance)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.research.product_assessment' has no attribute 'require_promotable_provenance'
+
+======================================================================
+ERROR: test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied) (status='CLEAN', revision=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 53, in test_dirty_missing_revision_and_unavailable_source_provenance_stay_denied
+    self.require(provenance)
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 20, in require
+    module.require_promotable_provenance(provenance)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.research.product_assessment' has no attribute 'require_promotable_provenance'
+
+======================================================================
+ERROR: test_source_process_cannot_promote_caller_native_identity_strings (tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_source_process_cannot_promote_caller_native_identity_strings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 38, in test_source_process_cannot_promote_caller_native_identity_strings
+    with self.assertRaises(EvidenceGateError): self.require(provenance)
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_assessment_provenance.py", line 20, in require
+    module.require_promotable_provenance(provenance)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.research.product_assessment' has no attribute 'require_promotable_provenance'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.176s
+
+FAILED (errors=6)

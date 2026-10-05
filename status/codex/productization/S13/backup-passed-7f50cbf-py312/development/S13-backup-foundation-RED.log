@@ -1,0 +1,130 @@
+test_active_native_owner_excludes_backup_before_destination_creation (test_database_backup.DatabaseBackupTests.test_active_native_owner_excludes_backup_before_destination_creation) ... FAIL
+test_changed_backup_bytes_are_rejected_by_read_only_verification (test_database_backup.DatabaseBackupTests.test_changed_backup_bytes_are_rejected_by_read_only_verification) ... FAIL
+test_cloud_or_source_destination_cannot_receive_private_database_backup (test_database_backup.DatabaseBackupTests.test_cloud_or_source_destination_cannot_receive_private_database_backup) ... FAIL
+test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal (test_database_backup.DatabaseBackupTests.test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal) ... FAIL
+test_corrupt_database_cannot_publish_ready_manifest_or_modify_source (test_database_backup.DatabaseBackupTests.test_corrupt_database_cannot_publish_ready_manifest_or_modify_source) ... FAIL
+test_existing_destination_is_preserved_and_not_merged (test_database_backup.DatabaseBackupTests.test_existing_destination_is_preserved_and_not_merged) ... FAIL
+test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking (test_database_backup.DatabaseBackupTests.test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking) ... FAIL
+test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected (test_database_backup.DatabaseBackupTests.test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected) ... FAIL
+test_missing_canonical_store_cannot_be_certified_as_an_empty_backup (test_database_backup.DatabaseBackupTests.test_missing_canonical_store_cannot_be_certified_as_an_empty_backup) ... FAIL
+test_snapshot_root_has_real_owner_private_filesystem_permissions (test_database_backup.DatabaseBackupTests.test_snapshot_root_has_real_owner_private_filesystem_permissions) ... FAIL
+
+======================================================================
+FAIL: test_active_native_owner_excludes_backup_before_destination_creation (test_database_backup.DatabaseBackupTests.test_active_native_owner_excludes_backup_before_destination_creation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 64, in test_active_native_owner_excludes_backup_before_destination_creation
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_changed_backup_bytes_are_rejected_by_read_only_verification (test_database_backup.DatabaseBackupTests.test_changed_backup_bytes_are_rejected_by_read_only_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 110, in test_changed_backup_bytes_are_rejected_by_read_only_verification
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_cloud_or_source_destination_cannot_receive_private_database_backup (test_database_backup.DatabaseBackupTests.test_cloud_or_source_destination_cannot_receive_private_database_backup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 104, in test_cloud_or_source_destination_cannot_receive_private_database_backup
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal (test_database_backup.DatabaseBackupTests.test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 47, in test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal
+    result = self.backup()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 39, in backup
+    return self.module().create_database_backup(self.config, self.destination, timeout_seconds=5)
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_corrupt_database_cannot_publish_ready_manifest_or_modify_source (test_database_backup.DatabaseBackupTests.test_corrupt_database_cannot_publish_ready_manifest_or_modify_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 85, in test_corrupt_database_cannot_publish_ready_manifest_or_modify_source
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_existing_destination_is_preserved_and_not_merged (test_database_backup.DatabaseBackupTests.test_existing_destination_is_preserved_and_not_merged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 94, in test_existing_destination_is_preserved_and_not_merged
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking (test_database_backup.DatabaseBackupTests.test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 73, in test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected (test_database_backup.DatabaseBackupTests.test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 122, in test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_missing_canonical_store_cannot_be_certified_as_an_empty_backup (test_database_backup.DatabaseBackupTests.test_missing_canonical_store_cannot_be_certified_as_an_empty_backup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 137, in test_missing_canonical_store_cannot_be_certified_as_an_empty_backup
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+======================================================================
+FAIL: test_snapshot_root_has_real_owner_private_filesystem_permissions (test_database_backup.DatabaseBackupTests.test_snapshot_root_has_real_owner_private_filesystem_permissions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 145, in test_snapshot_root_has_real_owner_private_filesystem_permissions
+    self.backup()
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 39, in backup
+    return self.module().create_database_backup(self.config, self.destination, timeout_seconds=5)
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 34, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.backup'),
+AssertionError: unexpectedly None : The delegated local database snapshot feature is not implemented
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.100s
+
+FAILED (failures=10)

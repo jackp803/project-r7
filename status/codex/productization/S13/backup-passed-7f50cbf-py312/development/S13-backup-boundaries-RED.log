@@ -1,0 +1,64 @@
+test_active_native_owner_excludes_backup_before_destination_creation (test_database_backup.DatabaseBackupTests.test_active_native_owner_excludes_backup_before_destination_creation) ... ok
+test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows (test_database_backup.DatabaseBackupTests.test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows) ... usage: r7 [-h]
+          {doctor,init-profile,enroll-owner,serve,research-worker,_research-job}
+          ...
+r7: error: argument command: invalid choice: 'backup-databases' (choose from doctor, init-profile, enroll-owner, serve, research-worker, _research-job)
+
+  test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows (test_database_backup.DatabaseBackupTests.test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows) (command='backup-databases') ... FAIL
+usage: r7 [-h]
+          {doctor,init-profile,enroll-owner,serve,research-worker,_research-job}
+          ...
+r7: error: argument command: invalid choice: 'verify-database-backup' (choose from doctor, init-profile, enroll-owner, serve, research-worker, _research-job)
+  test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows (test_database_backup.DatabaseBackupTests.test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows) (command='verify-database-backup') ... FAIL
+test_backup_artifact_with_an_external_hard_link_is_not_certified_private (test_database_backup.DatabaseBackupTests.test_backup_artifact_with_an_external_hard_link_is_not_certified_private) ... FAIL
+test_changed_backup_bytes_are_rejected_by_read_only_verification (test_database_backup.DatabaseBackupTests.test_changed_backup_bytes_are_rejected_by_read_only_verification) ... ok
+test_cloud_or_source_destination_cannot_receive_private_database_backup (test_database_backup.DatabaseBackupTests.test_cloud_or_source_destination_cannot_receive_private_database_backup) ... ok
+test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal (test_database_backup.DatabaseBackupTests.test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal) ... ok
+test_corrupt_database_cannot_publish_ready_manifest_or_modify_source (test_database_backup.DatabaseBackupTests.test_corrupt_database_cannot_publish_ready_manifest_or_modify_source) ... ok
+test_existing_destination_is_preserved_and_not_merged (test_database_backup.DatabaseBackupTests.test_existing_destination_is_preserved_and_not_merged) ... ok
+test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking (test_database_backup.DatabaseBackupTests.test_external_uncommitted_sqlite_writer_blocks_without_hanging_or_leaking) ... ok
+test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected (test_database_backup.DatabaseBackupTests.test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected) ... ok
+test_missing_canonical_store_cannot_be_certified_as_an_empty_backup (test_database_backup.DatabaseBackupTests.test_missing_canonical_store_cannot_be_certified_as_an_empty_backup) ... ok
+test_read_only_verification_of_a_sealed_wal_header_never_creates_sidecars (test_database_backup.DatabaseBackupTests.test_read_only_verification_of_a_sealed_wal_header_never_creates_sidecars) ... ERROR
+test_snapshot_root_has_real_owner_private_filesystem_permissions (test_database_backup.DatabaseBackupTests.test_snapshot_root_has_real_owner_private_filesystem_permissions) ... ok
+
+======================================================================
+ERROR: test_read_only_verification_of_a_sealed_wal_header_never_creates_sidecars (test_database_backup.DatabaseBackupTests.test_read_only_verification_of_a_sealed_wal_header_never_creates_sidecars)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 198, in test_read_only_verification_of_a_sealed_wal_header_never_creates_sidecars
+    self.assertEqual(module.verify_database_backup(self.config, self.destination)['financial_authority'], 'NONE')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\backup.py", line 228, in verify_database_backup
+    raise BackupError('BACKUP_UNEXPECTED_ARTIFACT')
+application.platform.backup.BackupError: BACKUP_UNEXPECTED_ARTIFACT
+
+======================================================================
+FAIL: test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows (test_database_backup.DatabaseBackupTests.test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows) (command='backup-databases')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 221, in test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows
+    self.assertEqual(result, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows (test_database_backup.DatabaseBackupTests.test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows) (command='verify-database-backup')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 221, in test_actual_local_cli_creates_and_verifies_private_backup_without_printing_rows
+    self.assertEqual(result, 0)
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_backup_artifact_with_an_external_hard_link_is_not_certified_private (test_database_backup.DatabaseBackupTests.test_backup_artifact_with_an_external_hard_link_is_not_certified_private)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 205, in test_backup_artifact_with_an_external_hard_link_is_not_certified_private
+    with self.assertRaises(module.BackupError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: BackupError not raised
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.332s
+
+FAILED (failures=3, errors=1)

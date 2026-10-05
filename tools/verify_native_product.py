@@ -1,5 +1,7 @@
 """Local native first-run smoke with no Python/Node/PYTHONPATH in product environment."""
 import argparse
+from contextlib import closing
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -52,17 +54,30 @@ def verify(package, output):
         actual_provider_requests=0, credentials='NONE', capital='NONE', runtime='NOT_STARTED',
         paper='NOT_STARTED', github_compute='NOT_USED', ubuntu='NOT_RUN')
     report['licensed_packages'] = licensed
+    report['control_generations'] = []
+
+    def stamp():
+        return datetime.now(timezone.utc).isoformat(timespec='microseconds').replace('+00:00', 'Z')
+
+    def config_identity():
+        from application.config import load_config
+        from application.platform.supervision import config_hash
+        if not config.exists(): return dict(config_file_sha256=None, config_hash=None)
+        return dict(config_file_sha256='sha256:' + hashlib.sha256(config.read_bytes()).hexdigest(),
+                    config_hash=config_hash(load_config(config)))
 
     def persist():
         (output / 'native-smoke.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8', newline='\n')
 
     def command(label, arguments, expected=0):
         log = output / (label + '.log')
+        started, selected_config = stamp(), config_identity()
         with log.open('wb') as stream:
             owned = spawn_owned([str(executable), *arguments], cwd=cwd, limits=ResourceLimits(45),
                                 stdout=stream, stderr=subprocess.STDOUT, env=env)
             code = owned.wait()
         record = dict(name=label, exit_code=code, expected_exit_code=expected,
+            started_at_utc=started, finished_at_utc=stamp(), configuration_at_start=selected_config,
             tree_reaped=owned.termination_report.reaped, log=log.name,
             log_sha256=hashlib.sha256(log.read_bytes()).hexdigest(), passed=code == expected and owned.termination_report.reaped)
         commands.append(record)
@@ -80,8 +95,9 @@ def verify(package, output):
         if code != expected: raise ValueError('Native loopback HTTP assertion failed')
         return raw
 
-    def server(label):
+    def server(label, *, contender=False, change_config=False):
         log = output / (label + '.log')
+        started, selected_config = stamp(), config_identity()
         with log.open('wb') as stream:
             owned = spawn_owned([str(executable), 'serve', '--config', str(config)], cwd=cwd,
                 limits=ResourceLimits(90), stdout=stream, stderr=subprocess.STDOUT, env=env)
@@ -98,16 +114,40 @@ def verify(package, output):
                         time.sleep(0.1)
                 if status != dict(configured=False, namespace='LOCAL_RESEARCH', enrollment='LOCAL_CLI_ONLY'):
                     raise ValueError('Native first-run authentication state mismatch')
+                with closing(sqlite3.connect((data / 'process-supervision.sqlite').as_uri() + '?mode=ro', uri=True)) as db:
+                    row = db.execute("SELECT identity_json,state FROM process_sessions WHERE role='control'").fetchone()
+                generation = json.loads(row[0])
+                if (row[1] != 'RUNNING' or generation['build_hash'] != identity['build_hash']
+                        or generation['config_hash'] != selected_config['config_hash']
+                        or generation['financial_authority'] != 'NONE'):
+                    raise ValueError('Native supervised generation/config/build mismatch')
+                previous = report['control_generations']
+                if previous and (generation['generation'] <= previous[-1]['generation']
+                                 or generation['process_generation_id'] == previous[-1]['process_generation_id']):
+                    raise ValueError('Native restart retained old process generation')
+                previous.append(generation)
+                if contender:
+                    command(label + '-second-process-denied', ['serve', '--config', str(config)], expected=2)
                 shell = get('/').decode('utf-8')
                 if 'id="root"' not in shell: raise ValueError('Actual built native Control Center missing')
                 get('/api/v1/health', expected=DENIAL_STATUSES['ANONYMOUS'])
                 get('/api/v1/auth/status', headers={'Host': 'external.invalid'}, expected=DENIAL_STATUSES['HOST'])
                 get('/api/v1/auth/status', headers={'Origin': 'http://external.invalid'}, expected=DENIAL_STATUSES['ORIGIN'])
+                if change_config:
+                    changed = json.loads(config.read_bytes())
+                    changed['scan_interval'] += 1
+                    config.write_text(json.dumps(changed, ensure_ascii=False), encoding='utf-8')
+                    if owned.wait(timeout=8) != 2: raise ValueError('Native config drift did not inhibit control')
+                    with closing(sqlite3.connect((data / 'process-supervision.sqlite').as_uri() + '?mode=ro', uri=True)) as db:
+                        if db.execute("SELECT state FROM process_sessions WHERE role='control'").fetchone()[0] != 'CONFIG_CHANGED':
+                            raise ValueError('Native config drift state not persisted')
                 succeeded = True
             finally:
                 termination = terminate_owned(owned, deadline_seconds=5)
                 stream.flush()
                 commands.append(dict(name=label, tree_reaped=termination.reaped, log=log.name,
+                    started_at_utc=started, finished_at_utc=stamp(), configuration_at_start=selected_config,
+                    exit_code=owned.process.returncode, termination_reason=termination.reason,
                     log_sha256=hashlib.sha256(log.read_bytes()).hexdigest(), passed=succeeded and termination.reaped,
                     assertions=['NATIVE_BUILT_UI', 'UNENROLLED_LOCAL_AUTH', 'ANONYMOUS_API_DENIED', 'FOREIGN_HOST_DENIED', 'FOREIGN_ORIGIN_DENIED']))
                 persist()
@@ -127,19 +167,27 @@ def verify(package, output):
         command('03-preserve-profile', ['init-profile', '--config', str(config), '--data-root', str(data)], expected=2)
         if config.read_bytes() != original: raise ValueError('Native existing profile was modified')
         scenarios.append(dict(name='CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION', result='PASS'))
-        server('04-first-control-start')
-        with sqlite3.connect(data / 'canonical.sqlite3') as db:
+        server('04-first-control-start', contender=True)
+        scenarios.append(dict(name='SECOND_NATIVE_CONTROL_PROCESS_DENIED', result='PASS'))
+        with closing(sqlite3.connect(data / 'canonical.sqlite3')) as db:
             actual = {row[0] for row in db.execute('SELECT migration_name FROM schema_migrations')}
         expected = {Path(name).name for name in manifest['files'] if name.startswith('_internal/storage/migrations/') and name.endswith('.sql')}
         if actual != expected or not actual: raise ValueError('Actual native canonical migrations incomplete')
         scenarios.append(dict(name='ACTUAL_NATIVE_E6_MIGRATIONS', result='PASS', migrations=len(actual)))
         server('05-control-restart')
         scenarios.append(dict(name='CONTROL_RESTART_AUTH_AND_LOOPBACK_DENIAL', result='PASS'))
+        server('06-control-config-change', change_config=True)
+        config.write_bytes(original)
+        scenarios.append(dict(name='NATIVE_CONFIG_DRIFT_STOPS_CONTROL', result='PASS'))
+        worker = json.loads(command('07-unconfigured-research-worker', ['research-worker', '--config', str(config), '--once']))
+        if worker['status'] != 'NOT_CONFIGURED' or worker['run_id'] is not None:
+            raise ValueError('Native unselected worker invented research work')
+        scenarios.append(dict(name='NATIVE_UNSELECTED_WORKER_TRUTHFUL', result='PASS'))
         migration = package / sorted(name for name in manifest['files'] if name.startswith('_internal/storage/migrations/') and name.endswith('.sql'))[0]
         original_migration = migration.read_bytes()
         try:
             migration.write_bytes(original_migration + b'\n-- SYNTHETIC_NATIVE_TAMPER_FIXTURE\n')
-            command('06-tampered-resource-denied', ['doctor', '--hardware', '--data-root', str(output), '--json'], expected=2)
+            command('08-tampered-resource-denied', ['doctor', '--hardware', '--data-root', str(output), '--json'], expected=2)
         finally:
             migration.write_bytes(original_migration)
         if verify_distribution(package) != identity: raise ValueError('Native package restoration identity mismatch')

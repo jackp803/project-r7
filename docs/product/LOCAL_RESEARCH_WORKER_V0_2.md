@@ -56,8 +56,9 @@ Worker logs stay in the configured local data root and are not cloud feedback.
 The private _research-job command is the trusted local worker bootstrap, not an
 HTTP control or trading capability. Public startup always uses LOCAL_RESEARCH.
 PAPER, runtime, provider credentials and capital remain separate unconfigured
-owners. Process exclusivity, supervisor heartbeat/service restart and backup
-generation recovery are remaining S13 work; this document does not claim them.
+owners. Actual source process exclusivity and heartbeat/generation supervision
+are described in LOCAL_PROCESS_SUPERVISION_V0_2.md. Native worker verification,
+service restart and backup generation recovery remain S13 work.
 
 Platform reference: [Microsoft CreateProcessW](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessw)
 documents inherited below-normal priority. Actual native worker/Linux qualification

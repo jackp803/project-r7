@@ -4,10 +4,13 @@ import importlib
 import json
 from pathlib import Path
 import sys
+import threading
+import time
 import unittest
 
 from application.platform.resources import inspect_hardware
-from application.platform.processes import ResourceLimits, spawn_owned
+from application.platform.processes import ResourceLimits, spawn_owned, process_alive
+from application.platform.scope_lock import ProcessScopeLock, ScopeBusy
 from application.research.queue import ResearchQueueError
 from tests.application import test_local_owner_composition as fixture
 
@@ -98,3 +101,38 @@ class NativeResearchWorkerTests(unittest.TestCase):
         result = self.worker().worker_once(self.config_path, namespace='FIXTURE', job_argv_factory=empty_child)
         self.assertEqual(owners.queue.get(queued['run_id'])['state'], 'FAILED')
         self.assertEqual(result['status'], 'JOB_TERMINATED')
+
+    def test_second_worker_is_denied_before_hardware_or_queue_mutation(self):
+        owners, queued = self.enqueue()
+        with ProcessScopeLock('research:' + self.fixture.config.product_instance_id,
+                              lock_root=self.fixture.root / 'locks'):
+            with self.assertRaises(ScopeBusy):
+                self.worker().worker_once(self.config_path, namespace='FIXTURE', job_argv_factory=self.child,
+                    hardware_probe=lambda root: self.fail('Contender must not probe or initialize owners'))
+        self.assertEqual(owners.queue.get(queued['run_id'])['state'], 'QUEUED')
+
+    def test_config_change_terminates_actual_owned_job_and_preserves_failed_claim(self):
+        owners, queued = self.enqueue()
+        ready = self.fixture.root / 'actual-child.json'
+        def change_after_actual_child_start():
+            deadline = time.monotonic() + 5
+            while not ready.exists() and time.monotonic() < deadline: time.sleep(0.02)
+            if ready.exists():
+                settings = json.loads(self.config_path.read_bytes())
+                settings['scan_interval'] += 1
+                self.config_path.write_text(json.dumps(settings, ensure_ascii=False), encoding='utf-8')
+        changer = threading.Thread(target=change_after_actual_child_start, daemon=True)
+        def sleeping(config_path, run_id, generation):
+            changer.start()
+            code = 'import os,time;from pathlib import Path;Path(' + repr(str(ready)) + ').write_text(str(os.getpid()));time.sleep(120)'
+            return [sys.executable, '-c', code]
+        from application.platform.supervision import SupervisionError
+        try:
+            with self.assertRaises(SupervisionError):
+                self.worker().worker_once(self.config_path, namespace='FIXTURE', job_argv_factory=sleeping,
+                                          job_timeout_seconds=7)
+        finally:
+            changer.join(6)
+        self.assertTrue(ready.exists(), 'An actual owned child must have started')
+        self.assertFalse(process_alive(int(ready.read_text())))
+        self.assertEqual(owners.queue.get(queued['run_id'])['state'], 'FAILED')

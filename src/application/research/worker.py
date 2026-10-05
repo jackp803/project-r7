@@ -10,6 +10,7 @@ from application.config import load_config
 from application.local_owners import LocalOwners
 from application.platform.processes import ResourceLimits, spawn_owned, terminate_owned
 from application.platform.resources import ResourcePolicy, inspect_hardware
+from application.platform.supervision import ProcessSupervisor
 
 
 def _job_argv(config_path, run_id, generation):
@@ -31,6 +32,13 @@ def worker_once(config_path, *, namespace='LOCAL_RESEARCH', job_argv_factory=Non
     limits = ResourceLimits(job_timeout_seconds)
     config_path = Path(config_path).absolute()
     config = load_config(config_path)
+    with ProcessSupervisor(config, 'research', config_path=config_path) as supervisor:
+        return _worker_once(config_path, config, namespace=namespace, job_argv_factory=job_argv_factory,
+                            hardware_probe=hardware_probe, limits=limits, supervisor=supervisor)
+
+
+def _worker_once(config_path, config, *, namespace, job_argv_factory, hardware_probe, limits, supervisor):
+    supervisor.require_current()
     hardware = hardware_probe(config.local_data_root)
     policy = ResourcePolicy.conservative(hardware.physical_memory_bytes)
     admission = policy.admission(available_memory_bytes=hardware.available_memory_bytes,
@@ -50,7 +58,13 @@ def worker_once(config_path, *, namespace='LOCAL_RESEARCH', job_argv_factory=Non
     with log.open('xb') as stream:
         owned = spawn_owned(argv, cwd=Path.cwd(), limits=limits, stdout=stream, stderr=subprocess.STDOUT)
         try:
-            code = owned.wait()
+            while True:
+                supervisor.require_current()
+                try:
+                    code = owned.wait(timeout=0.2)
+                    break
+                except subprocess.TimeoutExpired:
+                    pass
         finally:
             terminate_owned(owned, deadline_seconds=5)
             result = owners.queue.finish_terminated_worker(claim, owned)
@@ -61,8 +75,12 @@ def worker_once(config_path, *, namespace='LOCAL_RESEARCH', job_argv_factory=Non
 
 
 def research_worker(config_path, *, once=False):
-    while True:
-        result = worker_once(config_path)
-        print(json.dumps(result), flush=True)
-        if once: return 0 if result['status'] != 'JOB_TERMINATED' else 2
-        time.sleep(5)
+    config_path = Path(config_path).absolute()
+    config = load_config(config_path)
+    with ProcessSupervisor(config, 'research', config_path=config_path) as supervisor:
+        while True:
+            result = _worker_once(config_path, config, namespace='LOCAL_RESEARCH', job_argv_factory=None,
+                                  hardware_probe=inspect_hardware, limits=ResourceLimits(900), supervisor=supervisor)
+            print(json.dumps(result), flush=True)
+            if once: return 0 if result['status'] != 'JOB_TERMINATED' else 2
+            time.sleep(5)

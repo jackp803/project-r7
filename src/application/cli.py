@@ -58,7 +58,7 @@ def main(argv=None):
         from application.entrypoints import enroll_owner, serve
         config = load_config(args.config)
         if args.command == 'serve':
-            return serve(config, desktop=args.desktop)
+            return serve(config, desktop=args.desktop, config_path=args.config)
         print(json.dumps(enroll_owner(config, args.username), ensure_ascii=False))
         return 0
     hardware = inspect_hardware(args.data_root)

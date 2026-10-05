@@ -102,12 +102,36 @@ def create_local_app(config, *, asset_root=None):
     return app
 
 
-def serve(config, *, desktop=False):
+def serve(config, *, desktop=False, config_path=None):
     import uvicorn
     import webbrowser
-    app = create_local_app(config)
-    if desktop:
-        webbrowser.open(f'http://{config.control_api_host}:{config.control_api_port}/')
-    uvicorn.run(app, host=config.control_api_host, port=config.control_api_port,
-                log_level='warning', access_log=False, workers=1)
+    import threading
+    from application.platform.supervision import ProcessSupervisor, SupervisionError
+    with ProcessSupervisor(config, 'control', config_path=config_path) as supervisor:
+        app = create_local_app(config)
+        app.state.process_supervisor = supervisor
+        server = uvicorn.Server(uvicorn.Config(app, host=config.control_api_host, port=config.control_api_port,
+                                               log_level='warning', access_log=False, workers=1))
+        finished = threading.Event()
+        def watch():
+            opened = False
+            while not finished.wait(0.2):
+                try:
+                    supervisor.require_current()
+                except SupervisionError:
+                    server.should_exit = True
+                    return
+                if desktop and server.started and not opened:
+                    opened = True
+                    host = config.control_api_host
+                    webbrowser.open(f'http://{"[" + host + "]" if ":" in host else host}:{config.control_api_port}/')
+        watcher = threading.Thread(target=watch, name='r7-control-supervision', daemon=True)
+        watcher.start()
+        try:
+            server.run()
+        finally:
+            finished.set()
+            watcher.join(3)
+            if watcher.is_alive(): raise SupervisionError('CONTROL_STOP_NOT_CONFIRMED')
+        supervisor.require_current()
     return 0

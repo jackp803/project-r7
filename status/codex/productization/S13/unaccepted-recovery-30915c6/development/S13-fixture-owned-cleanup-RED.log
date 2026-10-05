@@ -1,0 +1,15 @@
+test_failure_before_fixture_return_closes_both_actual_research_databases (__main__.FixtureCleanup.test_failure_before_fixture_return_closes_both_actual_research_databases) ... FAIL
+
+======================================================================
+FAIL: test_failure_before_fixture_return_closes_both_actual_research_databases (__main__.FixtureCleanup.test_failure_before_fixture_return_closes_both_actual_research_databases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_fixture_cleanup_red.py", line 24, in test_failure_before_fixture_return_closes_both_actual_research_databases
+    with self.assertRaises(sqlite3.ProgrammingError):db.execute('SELECT 1')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProgrammingError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.333s
+
+FAILED (failures=1)

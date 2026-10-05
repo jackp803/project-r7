@@ -1,0 +1,15 @@
+test_running_research_attempt_is_fenced_without_changing_completed_evidence (tests.application.test_database_restore.DatabaseRestoreTests.test_running_research_attempt_is_fenced_without_changing_completed_evidence) ... ERROR
+
+======================================================================
+ERROR: test_running_research_attempt_is_fenced_without_changing_completed_evidence (tests.application.test_database_restore.DatabaseRestoreTests.test_running_research_attempt_is_fenced_without_changing_completed_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 183, in test_running_research_attempt_is_fenced_without_changing_completed_evidence
+    self.assertEqual(attempts[1]['reason_codes'],['RESTORED_RECONCILIATION_REQUIRED'])
+                     ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+KeyError: 'reason_codes'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.502s
+
+FAILED (errors=1)

@@ -1,0 +1,89 @@
+test_actual_cli_returns_only_sanitized_backup_and_restore_facts (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_cli_returns_only_sanitized_backup_and_restore_facts) ... FAIL
+test_actual_selected_data_snapshots_and_settings_survive_fresh_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_selected_data_snapshots_and_settings_survive_fresh_restore) ... FAIL
+test_external_hard_links_are_refused_and_originals_remain_intact (tests.application.test_product_data_backup.ProductDataBackupTests.test_external_hard_links_are_refused_and_originals_remain_intact) ... FAIL
+test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation (tests.application.test_product_data_backup.ProductDataBackupTests.test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation) ... FAIL
+test_source_change_during_copy_cannot_publish_complete_manifest (tests.application.test_product_data_backup.ProductDataBackupTests.test_source_change_during_copy_cannot_publish_complete_manifest) ... FAIL
+test_transient_captures_are_excluded_without_opening_their_bytes (tests.application.test_product_data_backup.ProductDataBackupTests.test_transient_captures_are_excluded_without_opening_their_bytes) ... FAIL
+test_unknown_durable_files_do_not_silently_receive_complete_coverage (tests.application.test_product_data_backup.ProductDataBackupTests.test_unknown_durable_files_do_not_silently_receive_complete_coverage) ... FAIL
+
+======================================================================
+FAIL: test_actual_cli_returns_only_sanitized_backup_and_restore_facts (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_cli_returns_only_sanitized_backup_and_restore_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 124, in test_actual_cli_returns_only_sanitized_backup_and_restore_facts
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+======================================================================
+FAIL: test_actual_selected_data_snapshots_and_settings_survive_fresh_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_selected_data_snapshots_and_settings_survive_fresh_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 33, in test_actual_selected_data_snapshots_and_settings_survive_fresh_restore
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+======================================================================
+FAIL: test_external_hard_links_are_refused_and_originals_remain_intact (tests.application.test_product_data_backup.ProductDataBackupTests.test_external_hard_links_are_refused_and_originals_remain_intact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 101, in test_external_hard_links_are_refused_and_originals_remain_intact
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+======================================================================
+FAIL: test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation (tests.application.test_product_data_backup.ProductDataBackupTests.test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 85, in test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+======================================================================
+FAIL: test_source_change_during_copy_cannot_publish_complete_manifest (tests.application.test_product_data_backup.ProductDataBackupTests.test_source_change_during_copy_cannot_publish_complete_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 111, in test_source_change_during_copy_cannot_publish_complete_manifest
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+======================================================================
+FAIL: test_transient_captures_are_excluded_without_opening_their_bytes (tests.application.test_product_data_backup.ProductDataBackupTests.test_transient_captures_are_excluded_without_opening_their_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 76, in test_transient_captures_are_excluded_without_opening_their_bytes
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+======================================================================
+FAIL: test_unknown_durable_files_do_not_silently_receive_complete_coverage (tests.application.test_product_data_backup.ProductDataBackupTests.test_unknown_durable_files_do_not_silently_receive_complete_coverage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 65, in test_unknown_durable_files_do_not_silently_receive_complete_coverage
+    module = self.module()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 28, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.product_backup'),
+AssertionError: unexpectedly None : Complete selected datasets, snapshots and settings recovery is missing
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.197s
+
+FAILED (failures=7)

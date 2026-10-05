@@ -1,0 +1,15 @@
+test_managed_control_stop_closes_actual_loopback_server_and_records_clean_stop (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_managed_control_stop_closes_actual_loopback_server_and_records_clean_stop) ... ERROR
+
+======================================================================
+ERROR: test_managed_control_stop_closes_actual_loopback_server_and_records_clean_stop (tests.application.test_control_process_supervision.ControlProcessSupervisionTests.test_managed_control_stop_closes_actual_loopback_server_and_records_clean_stop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_control_process_supervision.py", line 98, in test_managed_control_stop_closes_actual_loopback_server_and_records_clean_stop
+    try:self.assertEqual(serve(self.config,config_path=self.profile,stop=stop),0)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: serve() got an unexpected keyword argument 'stop'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.339s
+
+FAILED (errors=1)

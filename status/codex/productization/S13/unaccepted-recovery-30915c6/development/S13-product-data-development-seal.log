@@ -1,0 +1,24 @@
+test_actual_cli_returns_only_sanitized_backup_and_restore_facts (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_cli_returns_only_sanitized_backup_and_restore_facts) ... ok
+test_actual_selected_data_snapshots_and_settings_survive_fresh_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_selected_data_snapshots_and_settings_survive_fresh_restore) ... ERROR
+test_external_hard_links_are_refused_and_originals_remain_intact (tests.application.test_product_data_backup.ProductDataBackupTests.test_external_hard_links_are_refused_and_originals_remain_intact) ... ok
+test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation (tests.application.test_product_data_backup.ProductDataBackupTests.test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation) ... ok
+test_source_change_during_copy_cannot_publish_complete_manifest (tests.application.test_product_data_backup.ProductDataBackupTests.test_source_change_during_copy_cannot_publish_complete_manifest) ... ok
+test_transient_captures_are_excluded_without_opening_their_bytes (tests.application.test_product_data_backup.ProductDataBackupTests.test_transient_captures_are_excluded_without_opening_their_bytes) ... ok
+test_unknown_durable_files_do_not_silently_receive_complete_coverage (tests.application.test_product_data_backup.ProductDataBackupTests.test_unknown_durable_files_do_not_silently_receive_complete_coverage) ... ok
+
+======================================================================
+ERROR: test_actual_selected_data_snapshots_and_settings_survive_fresh_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_selected_data_snapshots_and_settings_survive_fresh_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 54, in test_actual_selected_data_snapshots_and_settings_survive_fresh_restore
+    owners = LocalOwners(restored, namespace='FIXTURE', clock=self.fixture.clock)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 42, in __init__
+    if config.cloud_root is None: raise ValueError('Explicit cloud staging root required')
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Explicit cloud staging root required
+
+----------------------------------------------------------------------
+Ran 7 tests in 10.695s
+
+FAILED (errors=1)

@@ -1,0 +1,40 @@
+
+> r7-control-center@0.2.0 test:browser
+> playwright test --grep health distinguishes
+
+
+Running 1 test using 1 worker
+
+
+
+(node:48704) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/1] qa\control-center.spec.ts:52:1 › health distinguishes actual supervised control from an available queue without a worker
+  1) qa\control-center.spec.ts:52:1 › health distinguishes actual supervised control from an available queue without a worker 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('最近收到程序心跳', { exact: true })
+    Expected: visible
+    Timeout: 4000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('最近收到程序心跳', { exact: true }) with timeout 4000ms
+      - waiting for getByText('最近收到程序心跳', { exact: true })
+
+
+      52 | test('health distinguishes actual supervised control from an available queue without a worker',async({page})=>{
+      53 |   await login(page,'research');await page.getByRole('link',{name:'健康',exact:true}).click();
+    > 54 |   await expect(page.getByText('最近收到程序心跳',{exact:true})).toBeVisible();
+         |                                                         ^
+      55 |   await expect(page.getByText('工作佇列可用；工作者尚未啟動',{exact:true})).toBeVisible();
+      56 |   const response=await page.request.get(origins.research+'/api/v1/health');
+      57 |   expect(response.status()).toBe(200);
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:54:57
+
+    Error Context: ..\..\..\artifacts\S11-browser\results\control-center-health-dist-047ee-able-queue-without-a-worker\error-context.md
+
+
+  1 failed
+    qa\control-center.spec.ts:52:1 › health distinguishes actual supervised control from an available queue without a worker 

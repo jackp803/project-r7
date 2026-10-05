@@ -1,0 +1,15 @@
+test_backup_changed_during_schema_inspection_cannot_receive_verified_result (test_database_backup.DatabaseBackupTests.test_backup_changed_during_schema_inspection_cannot_receive_verified_result) ... FAIL
+
+======================================================================
+FAIL: test_backup_changed_during_schema_inspection_cannot_receive_verified_result (test_database_backup.DatabaseBackupTests.test_backup_changed_during_schema_inspection_cannot_receive_verified_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 254, in test_backup_changed_during_schema_inspection_cannot_receive_verified_result
+    with self.assertRaises(module.BackupError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: BackupError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.341s
+
+FAILED (failures=1)

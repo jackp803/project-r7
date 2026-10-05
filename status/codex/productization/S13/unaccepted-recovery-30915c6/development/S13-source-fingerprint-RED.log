@@ -1,0 +1,21 @@
+test_source_inventory_ignores_unreadable_non_executable_file_metadata (tests.strategy.test_v02_capabilities.CapabilityTests.test_source_inventory_ignores_unreadable_non_executable_file_metadata) ... FAIL
+test_source_inventory_reads_fresh_exact_sorted_python_sql_contents (tests.strategy.test_v02_capabilities.CapabilityTests.test_source_inventory_reads_fresh_exact_sorted_python_sql_contents) ... ok
+
+======================================================================
+FAIL: test_source_inventory_ignores_unreadable_non_executable_file_metadata (tests.strategy.test_v02_capabilities.CapabilityTests.test_source_inventory_ignores_unreadable_non_executable_file_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\strategy\test_v02_capabilities.py", line 24, in test_source_inventory_ignores_unreadable_non_executable_file_metadata
+    self.assertEqual(before,self.api()._source_revision(root))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\v02\capabilities.py", line 26, in _source_revision
+    files=[path for path in source_root.rglob('*') if path.is_file() and path.suffix in ('.py','.sql')]
+                                                      ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\strategy\test_v02_capabilities.py", line 21, in executable_metadata_only
+    raise AssertionError('Non-executable metadata entered authority fingerprint')
+AssertionError: Non-executable metadata entered authority fingerprint
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.062s
+
+FAILED (failures=1)

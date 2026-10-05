@@ -1,0 +1,24 @@
+test_manifest_changed_after_verification_never_writes_outside_generation (tests.application.test_database_restore.DatabaseRestoreTests.test_manifest_changed_after_verification_never_writes_outside_generation) ... FAIL
+test_interrupted_private_generation_has_no_ready_marker_and_preserves_original (tests.application.test_database_restore.DatabaseRestoreTests.test_interrupted_private_generation_has_no_ready_marker_and_preserves_original) ... FAIL
+
+======================================================================
+FAIL: test_manifest_changed_after_verification_never_writes_outside_generation (tests.application.test_database_restore.DatabaseRestoreTests.test_manifest_changed_after_verification_never_writes_outside_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 51, in test_manifest_changed_after_verification_never_writes_outside_generation
+    self.assertFalse((self.root/'escaped.sqlite').exists())
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_interrupted_private_generation_has_no_ready_marker_and_preserves_original (tests.application.test_database_restore.DatabaseRestoreTests.test_interrupted_private_generation_has_no_ready_marker_and_preserves_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 147, in test_interrupted_private_generation_has_no_ready_marker_and_preserves_original
+    with self.assertRaises(ValueError):LocalOwners(supplied,namespace='FIXTURE')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.963s
+
+FAILED (failures=2)

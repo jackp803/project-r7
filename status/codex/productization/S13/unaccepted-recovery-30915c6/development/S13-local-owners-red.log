@@ -1,0 +1,145 @@
+test_absent_local_selection_leaves_research_cloud_and_runtime_unconfigured (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_absent_local_selection_leaves_research_cloud_and_runtime_unconfigured) ... ERROR
+test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) ... 
+  test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) (payload={'schema_version': 'unsupported', 'cloud_root_id': None, 'research_policies': {}}) ... ERROR
+  test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) (payload={'schema_version': 'r7-owner-selections-v0.2', 'cloud_root_id': None, 'research_policies': {}, 'executable': 'forbidden'}) ... ERROR
+  test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) (payload={'schema_version': 'r7-owner-selections-v0.2', 'cloud_root_id': None, 'research_policies': {'x': {'dataset_ref': '../escape'}}}) ... ERROR
+test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) ... ERROR
+test_policy_drift_blocks_queued_work_instead_of_reinterpreting_selection (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_policy_drift_blocks_queued_work_instead_of_reinterpreting_selection) ... ERROR
+test_selected_scan_enqueue_and_actual_owner_execution_preserve_canonical_flow (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_selected_scan_enqueue_and_actual_owner_execution_preserve_canonical_flow) ... ERROR
+
+======================================================================
+ERROR: test_absent_local_selection_leaves_research_cloud_and_runtime_unconfigured (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_absent_local_selection_leaves_research_cloud_and_runtime_unconfigured)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 50, in test_absent_local_selection_leaves_research_cloud_and_runtime_unconfigured
+    owners = self.compose()
+             ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+======================================================================
+ERROR: test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) (payload={'schema_version': 'unsupported', 'cloud_root_id': None, 'research_policies': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 68, in test_hostile_selections_fail_before_initializing_canonical_database
+    with self.subTest(payload=payload), self.assertRaises(ValueError): self.compose()
+                                                                       ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+======================================================================
+ERROR: test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) (payload={'schema_version': 'r7-owner-selections-v0.2', 'cloud_root_id': None, 'research_policies': {}, 'executable': 'forbidden'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 68, in test_hostile_selections_fail_before_initializing_canonical_database
+    with self.subTest(payload=payload), self.assertRaises(ValueError): self.compose()
+                                                                       ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+======================================================================
+ERROR: test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database) (payload={'schema_version': 'r7-owner-selections-v0.2', 'cloud_root_id': None, 'research_policies': {'x': {'dataset_ref': '../escape'}}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 68, in test_hostile_selections_fail_before_initializing_canonical_database
+    with self.subTest(payload=payload), self.assertRaises(ValueError): self.compose()
+                                                                       ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+======================================================================
+ERROR: test_hostile_selections_fail_before_initializing_canonical_database (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_hostile_selections_fail_before_initializing_canonical_database)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 71, in test_hostile_selections_fail_before_initializing_canonical_database
+    with self.assertRaises(ValueError): self.compose()
+                                        ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+======================================================================
+ERROR: test_policy_drift_blocks_queued_work_instead_of_reinterpreting_selection (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_policy_drift_blocks_queued_work_instead_of_reinterpreting_selection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 93, in test_policy_drift_blocks_queued_work_instead_of_reinterpreting_selection
+    owners = self.configured()
+             ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 47, in configured
+    return self.compose()
+           ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+======================================================================
+ERROR: test_selected_scan_enqueue_and_actual_owner_execution_preserve_canonical_flow (tests.application.test_local_owner_composition.LocalOwnerCompositionTests.test_selected_scan_enqueue_and_actual_owner_execution_preserve_canonical_flow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 75, in test_selected_scan_enqueue_and_actual_owner_execution_preserve_canonical_flow
+    owners = self.configured()
+             ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 47, in configured
+    return self.compose()
+           ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 30, in compose
+    module = importlib.import_module('application.local_owners')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.local_owners'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.925s
+
+FAILED (errors=7)

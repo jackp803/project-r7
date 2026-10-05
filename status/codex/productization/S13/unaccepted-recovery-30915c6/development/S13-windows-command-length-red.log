@@ -1,0 +1,15 @@
+test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data (tests.application.test_native_build_inputs.NativeBuildInputTests.test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data) ... ERROR
+
+======================================================================
+ERROR: test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data (tests.application.test_native_build_inputs.NativeBuildInputTests.test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_build_inputs.py", line 68, in test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data
+    resources = self.builder._stage_resources(stage)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.build_product' has no attribute '_stage_resources'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.215s
+
+FAILED (errors=1)

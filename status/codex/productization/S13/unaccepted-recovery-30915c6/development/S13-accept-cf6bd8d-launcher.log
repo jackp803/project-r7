@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_supervision_accept.py", line 49, in <module>
+    for file in sorted((selected/'合成 本機 資料/worker-logs').glob('*.log')):retain(file,'selected-native-research/worker-logs/'+file.name)
+                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_supervision_accept.py", line 38, in retain
+    path=target/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(stored)
+                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1036, in write_bytes
+    with self.open(mode='wb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<SOURCE_ROOT>\\status\\codex\\productization\\S13\\supervision-passed-cf6bd8d-py312\\selected-native-research\\worker-logs\\job-47f01d3b6219d6e94b0bd633f21a9336e69e585268f70ab87d7d33812eb75a09-1.log'

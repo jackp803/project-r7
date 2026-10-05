@@ -1,0 +1,25 @@
+test_trusted_owner_enrollment_cannot_create_an_unfenced_auth_store_during_backup (test_database_backup.DatabaseBackupTests.test_trusted_owner_enrollment_cannot_create_an_unfenced_auth_store_during_backup) ... FAIL
+
+======================================================================
+FAIL: test_trusted_owner_enrollment_cannot_create_an_unfenced_auth_store_during_backup (test_database_backup.DatabaseBackupTests.test_trusted_owner_enrollment_cannot_create_an_unfenced_auth_store_during_backup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_backup.py", line 239, in test_trusted_owner_enrollment_cannot_create_an_unfenced_auth_store_during_backup
+    enroll_owner(self.config, 'fixture-owner')
+  File "<SOURCE_ROOT>\src\application\entrypoints.py", line 67, in enroll_owner
+    password = getpass.getpass('本機密碼（至少 12 字元）: ')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: A busy profile must not request a password
+
+----------------------------------------------------------------------
+Ran 1 test in 0.064s
+
+FAILED (failures=1)

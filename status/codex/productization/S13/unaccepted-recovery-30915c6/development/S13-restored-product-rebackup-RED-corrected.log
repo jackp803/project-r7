@@ -1,0 +1,28 @@
+test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile (tests.application.test_product_data_backup.ProductDataBackupTests.test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile) ... FAIL
+
+======================================================================
+FAIL: test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile (tests.application.test_product_data_backup.ProductDataBackupTests.test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 146, in test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile
+    try:result=module.create_product_backup(selected,second_backup)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 251, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 208, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 147, in test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile
+    except module.ProductBackupError:self.fail('A complete inhibited restored product profile must support later private backups')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: A complete inhibited restored product profile must support later private backups
+
+----------------------------------------------------------------------
+Ran 1 test in 2.306s
+
+FAILED (failures=1)

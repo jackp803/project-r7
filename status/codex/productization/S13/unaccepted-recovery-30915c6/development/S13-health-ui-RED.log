@@ -1,0 +1,70 @@
+
+> r7-control-center@0.2.0 test
+> vitest run --reporter=verbose
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+ ✓ src/api.test.ts > same-origin authenticated command transport > binds CSRF and retains the exact caller command for retries without accepting an actor 15ms
+ ✓ src/api.test.ts > same-origin authenticated command transport > preserves sanitized conflict reasons and does not echo an arbitrary error body 2ms
+ ✓ src/api.test.ts > same-origin authenticated command transport > cannot send a product command to a remote URL or without a CSRF proof 0ms
+ ✓ src/api.test.ts > same-origin authenticated command transport > reports a revoked server session separately from a wrong reauthentication password 1ms
+ × src/model.test.ts > truthful display and command prerequisites > distinguishes an available queue from an actually observed worker heartbeat in Chinese 3ms
+   → healthStatus is not a function
+ × src/model.test.ts > truthful display and command prerequisites > keeps process failures, stopped processes and unavailable services distinct 0ms
+   → healthStatus is not a function
+ × src/model.test.ts > truthful display and command prerequisites > does not turn unknown health codes or missing observations into a healthy status 0ms
+   → healthStatus is not a function
+ ✓ src/model.test.ts > truthful display and command prerequisites > keeps unavailable distinct from an actual zero and does no floating financial math 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > changes only explicit timezone display, not the source UTC identity 11ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > never invents progress for a stage without measured total 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > separates four-hour evaluation, absolute entry validity and holding duration 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > rejects unknown/unsafe revisions before sending a command 1ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > fixture approval is denied independently of a displayed canonical state 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > confirmation uses an exact server preview and a changed strategy or revision invalidates it 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > deployment pause is separate from financial activation and exact current subject is required 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > distinguishes an available queue from an actually observed worker heartbeat in Chinese
+TypeError: healthStatus is not a function
+ ❯ src/model.test.ts:6:12
+      4| describe('truthful display and command prerequisites',()=>{
+      5|   it('distinguishes an available queue from an actually observed worke…
+      6|     expect(healthStatus('PROCESS_RECENT_HEARTBEAT')).toBe('最近收到程序心跳');
+       |            ^
+      7|     expect(healthStatus('QUEUE_AVAILABLE_WORKER_NOT_STARTED')).toBe('工…
+      8|     expect(healthStatus('QUEUE_AVAILABLE_WORKER_RECENT_HEARTBEAT')).to…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > keeps process failures, stopped processes and unavailable services distinct
+TypeError: healthStatus is not a function
+ ❯ src/model.test.ts:11:12
+      9|   });
+     10|   it('keeps process failures, stopped processes and unavailable servic…
+     11|     expect(healthStatus('PROCESS_STALE_HEARTBEAT')).toBe('心跳逾時；需檢查程序');
+       |            ^
+     12|     expect(healthStatus('PROCESS_PROCESS_NOT_RUNNING')).toBe('程序已不在執行'…
+     13|     expect(healthStatus('PROCESS_CONFIG_CHANGED')).toBe('設定已變更；程序受阻');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > does not turn unknown health codes or missing observations into a healthy status
+TypeError: healthStatus is not a function
+ ❯ src/model.test.ts:19:12
+     17|   });
+     18|   it('does not turn unknown health codes or missing observations into …
+     19|     expect(healthStatus('FUTURE_CODE')).toBe('未知狀態（FUTURE_CODE）');
+       |            ^
+     20|     expect(healthStatus(null)).toBe('未提供');
+     21|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  3 failed | 12 passed (15)
+   Start at  10:28:47
+   Duration  582ms (transform 29%, tests 28%, worker 22%, import 20%)
+

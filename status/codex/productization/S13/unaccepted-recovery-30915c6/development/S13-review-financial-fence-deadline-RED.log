@@ -1,0 +1,18 @@
+test_deadline_expiry_during_actual_financial_fencing_stops_further_generations (tests.application.test_database_restore.DatabaseRestoreTests.test_deadline_expiry_during_actual_financial_fencing_stops_further_generations) ... ERROR
+
+======================================================================
+ERROR: test_deadline_expiry_during_actual_financial_fencing_stops_further_generations (tests.application.test_database_restore.DatabaseRestoreTests.test_deadline_expiry_during_actual_financial_fencing_stops_further_generations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 217, in test_deadline_expiry_during_actual_financial_fencing_stops_further_generations
+    journal.ensure_run(run,fixture.permission(),now=now)
+                           ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 29, in permission
+    self.now.isoformat().replace('+00:00', 'Z'), 'SIMULATED_MECHANICS')
+    ^^^^^^^^
+AttributeError: 'ProductDispatchV02Tests' object has no attribute 'now'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.385s
+
+FAILED (errors=1)

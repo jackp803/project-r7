@@ -1,0 +1,14 @@
+test_actual_signal_cannot_deadlock_when_interrupted_manual_wait_holds_its_lock (tests.application.test_managed_stop.ManagedStopTests.test_actual_signal_cannot_deadlock_when_interrupted_manual_wait_holds_its_lock) ... FAIL
+
+======================================================================
+FAIL: test_actual_signal_cannot_deadlock_when_interrupted_manual_wait_holds_its_lock (tests.application.test_managed_stop.ManagedStopTests.test_actual_signal_cannot_deadlock_when_interrupted_manual_wait_holds_its_lock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 71, in test_actual_signal_cannot_deadlock_when_interrupted_manual_wait_holds_its_lock
+    self.assertEqual(owned.wait(timeout=3),0,'Signal must not acquire the interrupted wait lock')
+AssertionError: 124 != 0 : Signal must not acquire the interrupted wait lock
+
+----------------------------------------------------------------------
+Ran 1 test in 2.020s
+
+FAILED (failures=1)

@@ -1,0 +1,51 @@
+
+> r7-control-center@0.2.0 test
+> vitest run --reporter=verbose
+
+
+ RUN  v5.0.3 <SOURCE_ROOT>/ui
+
+ ✓ src/api.test.ts > same-origin authenticated command transport > binds CSRF and retains the exact caller command for retries without accepting an actor 15ms
+ ✓ src/api.test.ts > same-origin authenticated command transport > preserves sanitized conflict reasons and does not echo an arbitrary error body 2ms
+ ✓ src/api.test.ts > same-origin authenticated command transport > cannot send a product command to a remote URL or without a CSRF proof 1ms
+ ✓ src/api.test.ts > same-origin authenticated command transport > reports a revoked server session separately from a wrong reauthentication password 1ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > distinguishes an available queue from an actually observed worker heartbeat in Chinese 1ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > keeps process failures, stopped processes and unavailable services distinct 0ms
+ × src/model.test.ts > truthful display and command prerequisites > does not turn unknown health codes or missing observations into a healthy status 3ms
+   → expected [Function Object] to be '未知狀態（constructor）' // Object.is equality
+ ✓ src/model.test.ts > truthful display and command prerequisites > keeps unavailable distinct from an actual zero and does no floating financial math 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > changes only explicit timezone display, not the source UTC identity 11ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > never invents progress for a stage without measured total 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > separates four-hour evaluation, absolute entry validity and holding duration 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > rejects unknown/unsafe revisions before sending a command 1ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > fixture approval is denied independently of a displayed canonical state 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > confirmation uses an exact server preview and a changed strategy or revision invalidates it 0ms
+ ✓ src/model.test.ts > truthful display and command prerequisites > deployment pause is separate from financial activation and exact current subject is required 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > does not turn unknown health codes or missing observations into a healthy status
+AssertionError: expected [Function Object] to be '未知狀態（constructor）' // Object.is equality
+
+- Expected:
+"未知狀態（constructor）"
+
++ Received:
+[Function Object]
+
+ ❯ src/model.test.ts:20:89
+     18|   it('does not turn unknown health codes or missing observations into …
+     19|     expect(healthStatus('FUTURE_CODE')).toBe('未知狀態（FUTURE_CODE）');
+     20|     for(const code of ['constructor','__proto__','toString'])expect(he…
+       |                                                                                         ^
+     21|     expect(healthStatus(null)).toBe('未提供');
+     22|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 14 passed (15)
+   Start at  10:35:29
+   Duration  304ms (tests 38%, transform 36%, import 20%, worker 6%)
+

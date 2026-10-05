@@ -1,0 +1,17 @@
+test_running_research_attempt_is_fenced_without_changing_completed_evidence (tests.application.test_database_restore.DatabaseRestoreTests.test_running_research_attempt_is_fenced_without_changing_completed_evidence) ... FAIL
+
+======================================================================
+FAIL: test_running_research_attempt_is_fenced_without_changing_completed_evidence (tests.application.test_database_restore.DatabaseRestoreTests.test_running_research_attempt_is_fenced_without_changing_completed_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 182, in test_running_research_attempt_is_fenced_without_changing_completed_evidence
+    self.assertEqual(attempts[1]['status'],'FAILED')
+AssertionError: 'RUNNING' != 'FAILED'
+- RUNNING
++ FAILED
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.384s
+
+FAILED (failures=1)

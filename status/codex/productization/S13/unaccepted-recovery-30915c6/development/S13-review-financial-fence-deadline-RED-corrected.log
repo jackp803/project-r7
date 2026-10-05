@@ -1,0 +1,21 @@
+test_deadline_expiry_during_actual_financial_fencing_stops_further_generations (tests.application.test_database_restore.DatabaseRestoreTests.test_deadline_expiry_during_actual_financial_fencing_stops_further_generations) ... FAIL
+
+======================================================================
+FAIL: test_deadline_expiry_during_actual_financial_fencing_stops_further_generations (tests.application.test_database_restore.DatabaseRestoreTests.test_deadline_expiry_during_actual_financial_fencing_stops_further_generations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 228, in test_deadline_expiry_during_actual_financial_fencing_stops_further_generations
+    self.assertEqual(advanced,['a-run'])
+AssertionError: Lists differ: ['a-run', 'b-run'] != ['a-run']
+
+First list contains 1 additional elements.
+First extra element 1:
+'b-run'
+
+- ['a-run', 'b-run']
++ ['a-run']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.613s
+
+FAILED (failures=1)

@@ -1,0 +1,53 @@
+test_active_owner_and_foreign_target_or_changed_backup_are_denied (__main__.DatabaseRestoreTests.test_active_owner_and_foreign_target_or_changed_backup_are_denied) ... FAIL
+test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration (__main__.DatabaseRestoreTests.test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration) ... FAIL
+test_source_backup_and_cloud_targets_are_never_overwritten (__main__.DatabaseRestoreTests.test_source_backup_and_cloud_targets_are_never_overwritten) ... FAIL
+test_stale_intake_claim_and_auth_session_cannot_survive_restore (__main__.DatabaseRestoreTests.test_stale_intake_claim_and_auth_session_cannot_survive_restore) ... FAIL
+
+======================================================================
+FAIL: test_active_owner_and_foreign_target_or_changed_backup_are_denied (__main__.DatabaseRestoreTests.test_active_owner_and_foreign_target_or_changed_backup_are_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 57, in test_active_owner_and_foreign_target_or_changed_backup_are_denied
+    self.backup_now();module=self.module()
+                             ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 26, in module
+    self.assertTrue(artifact.is_file(),'Missing delegated fresh-generation database restoration')
+AssertionError: False is not true : Missing delegated fresh-generation database restoration
+
+======================================================================
+FAIL: test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration (__main__.DatabaseRestoreTests.test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 31, in test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration
+    self.backup_now();before=(self.config.database_path).read_bytes();module=self.module()
+                                                                             ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 26, in module
+    self.assertTrue(artifact.is_file(),'Missing delegated fresh-generation database restoration')
+AssertionError: False is not true : Missing delegated fresh-generation database restoration
+
+======================================================================
+FAIL: test_source_backup_and_cloud_targets_are_never_overwritten (__main__.DatabaseRestoreTests.test_source_backup_and_cloud_targets_are_never_overwritten)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 70, in test_source_backup_and_cloud_targets_are_never_overwritten
+    self.backup_now();module=self.module()
+                             ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 26, in module
+    self.assertTrue(artifact.is_file(),'Missing delegated fresh-generation database restoration')
+AssertionError: False is not true : Missing delegated fresh-generation database restoration
+
+======================================================================
+FAIL: test_stale_intake_claim_and_auth_session_cannot_survive_restore (__main__.DatabaseRestoreTests.test_stale_intake_claim_and_auth_session_cannot_survive_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 50, in test_stale_intake_claim_and_auth_session_cannot_survive_restore
+    self.backup_now();module=self.module();module.restore_database_backup(self.config,self.backup,self.target)
+                             ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_database_restore_tests.py", line 26, in module
+    self.assertTrue(artifact.is_file(),'Missing delegated fresh-generation database restoration')
+AssertionError: False is not true : Missing delegated fresh-generation database restoration
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.884s
+
+FAILED (failures=4)

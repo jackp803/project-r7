@@ -1,0 +1,14 @@
+test_memory_pressure_prevents_parquet_decode_and_is_recorded (tests.application.test_research_pipeline.ResearchPipelineTests.test_memory_pressure_prevents_parquet_decode_and_is_recorded) ... FAIL
+
+======================================================================
+FAIL: test_memory_pressure_prevents_parquet_decode_and_is_recorded (tests.application.test_research_pipeline.ResearchPipelineTests.test_memory_pressure_prevents_parquet_decode_and_is_recorded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_pipeline.py", line 80, in test_memory_pressure_prevents_parquet_decode_and_is_recorded
+    self.assertIsNotNone(measurement,'Preserve actual admission-time measurements without changing the gate')
+AssertionError: unexpectedly None : Preserve actual admission-time measurements without changing the gate
+
+----------------------------------------------------------------------
+Ran 1 test in 0.385s
+
+FAILED (failures=1)

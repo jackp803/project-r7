@@ -1,0 +1,81 @@
+test_actual_term_and_interrupt_request_stop_without_async_exception_and_restore_handlers (tests.application.test_managed_stop.ManagedStopTests.test_actual_term_and_interrupt_request_stop_without_async_exception_and_restore_handlers) ... ERROR
+test_idle_wait_wakes_on_explicit_stop_request (tests.application.test_managed_stop.ManagedStopTests.test_idle_wait_wakes_on_explicit_stop_request) ... ERROR
+test_nested_scope_restores_the_original_handlers_without_stopping_outer_scope (tests.application.test_managed_stop.ManagedStopTests.test_nested_scope_restores_the_original_handlers_without_stopping_outer_scope) ... ERROR
+test_signal_ownership_requires_main_thread_and_leaves_handlers_untouched (tests.application.test_managed_stop.ManagedStopTests.test_signal_ownership_requires_main_thread_and_leaves_handlers_untouched) ... ERROR
+
+======================================================================
+ERROR: test_actual_term_and_interrupt_request_stop_without_async_exception_and_restore_handlers (tests.application.test_managed_stop.ManagedStopTests.test_actual_term_and_interrupt_request_stop_without_async_exception_and_restore_handlers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 14, in test_actual_term_and_interrupt_request_stop_without_async_exception_and_restore_handlers
+    with self.api().ManagedStop() as stop:
+         ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 10, in api
+    return importlib.import_module('application.platform.shutdown')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.shutdown'
+
+======================================================================
+ERROR: test_idle_wait_wakes_on_explicit_stop_request (tests.application.test_managed_stop.ManagedStopTests.test_idle_wait_wakes_on_explicit_stop_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 25, in test_idle_wait_wakes_on_explicit_stop_request
+    with self.api().ManagedStop() as stop:
+         ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 10, in api
+    return importlib.import_module('application.platform.shutdown')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.shutdown'
+
+======================================================================
+ERROR: test_nested_scope_restores_the_original_handlers_without_stopping_outer_scope (tests.application.test_managed_stop.ManagedStopTests.test_nested_scope_restores_the_original_handlers_without_stopping_outer_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 36, in test_nested_scope_restores_the_original_handlers_without_stopping_outer_scope
+    with self.api().ManagedStop() as outer:
+         ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 10, in api
+    return importlib.import_module('application.platform.shutdown')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.shutdown'
+
+======================================================================
+ERROR: test_signal_ownership_requires_main_thread_and_leaves_handlers_untouched (tests.application.test_managed_stop.ManagedStopTests.test_signal_ownership_requires_main_thread_and_leaves_handlers_untouched)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 49, in test_signal_ownership_requires_main_thread_and_leaves_handlers_untouched
+    api=self.api();before=signal.getsignal(signal.SIGTERM);errors=[]
+        ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_managed_stop.py", line 10, in api
+    return importlib.import_module('application.platform.shutdown')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.shutdown'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+FAILED (errors=4)

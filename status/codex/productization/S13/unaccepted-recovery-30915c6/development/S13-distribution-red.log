@@ -1,0 +1,132 @@
+test_binary_sql_missing_and_unexpected_file_changes_are_rejected (tests.application.test_native_distribution.NativeDistributionTests.test_binary_sql_missing_and_unexpected_file_changes_are_rejected) ... ERROR
+test_code_and_sql_inventory_must_not_be_empty (tests.application.test_native_distribution.NativeDistributionTests.test_code_and_sql_inventory_must_not_be_empty) ... FAIL
+test_frozen_provenance_does_not_borrow_git_from_the_calling_directory (tests.application.test_native_distribution.NativeDistributionTests.test_frozen_provenance_does_not_borrow_git_from_the_calling_directory) ... ERROR
+test_frozen_source_hash_uses_complete_bundled_resources (tests.application.test_native_distribution.NativeDistributionTests.test_frozen_source_hash_uses_complete_bundled_resources) ... FAIL
+test_manifest_escape_duplicate_keys_and_wrong_platform_are_rejected (tests.application.test_native_distribution.NativeDistributionTests.test_manifest_escape_duplicate_keys_and_wrong_platform_are_rejected) ... ERROR
+test_resealing_an_existing_distribution_is_refused (tests.application.test_native_distribution.NativeDistributionTests.test_resealing_an_existing_distribution_is_refused) ... ERROR
+test_sealed_inventory_binds_binary_source_resources_and_exact_dependencies (tests.application.test_native_distribution.NativeDistributionTests.test_sealed_inventory_binds_binary_source_resources_and_exact_dependencies) ... ERROR
+
+======================================================================
+ERROR: test_binary_sql_missing_and_unexpected_file_changes_are_rejected (tests.application.test_native_distribution.NativeDistributionTests.test_binary_sql_missing_and_unexpected_file_changes_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 53, in test_binary_sql_missing_and_unexpected_file_changes_are_rejected
+    self.seal()
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 29, in seal
+    return self.distribution().seal_distribution(self.root, source_revision='a' * 40,
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 26, in distribution
+    return importlib.import_module('application.platform.distribution')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.distribution'
+
+======================================================================
+ERROR: test_frozen_provenance_does_not_borrow_git_from_the_calling_directory (tests.application.test_native_distribution.NativeDistributionTests.test_frozen_provenance_does_not_borrow_git_from_the_calling_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 82, in test_frozen_provenance_does_not_borrow_git_from_the_calling_directory
+    self.seal()
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 29, in seal
+    return self.distribution().seal_distribution(self.root, source_revision='a' * 40,
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 26, in distribution
+    return importlib.import_module('application.platform.distribution')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.distribution'
+
+======================================================================
+ERROR: test_manifest_escape_duplicate_keys_and_wrong_platform_are_rejected (tests.application.test_native_distribution.NativeDistributionTests.test_manifest_escape_duplicate_keys_and_wrong_platform_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 67, in test_manifest_escape_duplicate_keys_and_wrong_platform_are_rejected
+    self.seal()
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 29, in seal
+    return self.distribution().seal_distribution(self.root, source_revision='a' * 40,
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 26, in distribution
+    return importlib.import_module('application.platform.distribution')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.distribution'
+
+======================================================================
+ERROR: test_resealing_an_existing_distribution_is_refused (tests.application.test_native_distribution.NativeDistributionTests.test_resealing_an_existing_distribution_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 94, in test_resealing_an_existing_distribution_is_refused
+    self.seal()
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 29, in seal
+    return self.distribution().seal_distribution(self.root, source_revision='a' * 40,
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 26, in distribution
+    return importlib.import_module('application.platform.distribution')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.distribution'
+
+======================================================================
+ERROR: test_sealed_inventory_binds_binary_source_resources_and_exact_dependencies (tests.application.test_native_distribution.NativeDistributionTests.test_sealed_inventory_binds_binary_source_resources_and_exact_dependencies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 44, in test_sealed_inventory_binds_binary_source_resources_and_exact_dependencies
+    self.seal()
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 29, in seal
+    return self.distribution().seal_distribution(self.root, source_revision='a' * 40,
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 26, in distribution
+    return importlib.import_module('application.platform.distribution')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.distribution'
+
+======================================================================
+FAIL: test_code_and_sql_inventory_must_not_be_empty (tests.application.test_native_distribution.NativeDistributionTests.test_code_and_sql_inventory_must_not_be_empty)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 33, in test_code_and_sql_inventory_must_not_be_empty
+    with TemporaryDirectory() as empty, self.assertRaises(ValueError):
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_frozen_source_hash_uses_complete_bundled_resources (tests.application.test_native_distribution.NativeDistributionTests.test_frozen_source_hash_uses_complete_bundled_resources)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_distribution.py", line 38, in test_frozen_source_hash_uses_complete_bundled_resources
+    self.assertEqual(_revision(), _source_revision(self.source))
+AssertionError: 'sha256:33d128ee0d3532083f46673d3ba2eff0b71699566621dd79ccecdb17d53f90fd' != 'sha256:660592c613625742cf162f2ce73d9b6f977454946cfbbf894fec8cf9d3065b64'
+- sha256:33d128ee0d3532083f46673d3ba2eff0b71699566621dd79ccecdb17d53f90fd
++ sha256:660592c613625742cf162f2ce73d9b6f977454946cfbbf894fec8cf9d3065b64
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.068s
+
+FAILED (failures=2, errors=5)

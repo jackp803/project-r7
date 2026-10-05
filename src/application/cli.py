@@ -34,11 +34,25 @@ def main(argv=None):
     worker = commands.add_parser('research-worker', help='Supervise one resource-admitted research child at a time')
     worker.add_argument('--config', type=Path, required=True)
     worker.add_argument('--once', action='store_true')
+    for name, description in (
+        ('backup-databases', 'Create a private local SQLite snapshot after native owners stop'),
+        ('verify-database-backup', 'Verify private snapshot bytes and schemas without restoration')):
+        backup = commands.add_parser(name, help=description)
+        backup.add_argument('--config', type=Path, required=True)
+        backup.add_argument('--destination', type=Path, required=True)
     job = commands.add_parser('_research-job', help=argparse.SUPPRESS)
     job.add_argument('--config', type=Path, required=True)
     job.add_argument('--run-id', required=True)
     job.add_argument('--generation', type=int, required=True)
     args = parser.parse_args(argv)
+    if args.command in ('backup-databases', 'verify-database-backup'):
+        from application.config import load_config
+        from application.platform.backup import create_database_backup, verify_database_backup
+        config = load_config(args.config)
+        result = (create_database_backup(config, args.destination, config_path=args.config)
+                  if args.command == 'backup-databases' else verify_database_backup(config, args.destination))
+        print(json.dumps(result))
+        return 0
     if args.command == 'research-worker':
         from application.research.worker import research_worker
         return research_worker(args.config, once=args.once)

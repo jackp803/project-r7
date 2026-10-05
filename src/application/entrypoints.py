@@ -64,13 +64,17 @@ def enroll_owner(config, username):
     if sys.stdin is None or not sys.stdin.isatty():
         raise ValueError('Owner enrollment requires a local interactive terminal')
     _outside_installation(config.local_data_root)
-    password = getpass.getpass('本機密碼（至少 12 字元）: ')
-    confirmation = getpass.getpass('再次輸入本機密碼: ')
-    if password != confirmation:
-        raise ValueError('Password confirmation does not match')
-    from application.control_api.auth import LocalAuth
-    auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=NAMESPACE)
-    auth.create_owner(username, password)
+    from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
+    # Enrollment is an actual native database writer. Acquire before prompting
+    # so stopped-owner backup cannot miss a newly created authentication store.
+    with ProcessScopeLock('control:' + config.product_instance_id, lock_root=operational_lock_root(config)):
+        password = getpass.getpass('本機密碼（至少 12 字元）: ')
+        confirmation = getpass.getpass('再次輸入本機密碼: ')
+        if password != confirmation:
+            raise ValueError('Password confirmation does not match')
+        from application.control_api.auth import LocalAuth
+        auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=NAMESPACE)
+        auth.create_owner(username, password)
     return dict(status='OWNER_CONFIGURED', namespace=NAMESPACE)
 
 

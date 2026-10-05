@@ -7,6 +7,7 @@ PAPER and provider authority remain separately qualified evidence.
 from dataclasses import dataclass
 import hashlib
 import json
+import os
 from pathlib import Path
 import sys
 
@@ -23,10 +24,18 @@ def _source_revision(source_root):
     """Commit executable Python and SQL authority resources, excluding mutable data."""
     source_root=Path(source_root)
     digest=hashlib.sha256()
-    files=[path for path in source_root.rglob('*') if path.is_file() and path.suffix in ('.py','.sql')]
+    # Compute root-relative names once per directory. Always read fresh bytes;
+    # no stat/content cache may hide a changed financial owner or SQL resource.
+    files=[]
+    for directory,_,names in os.walk(source_root,followlinks=False):
+        prefix=os.path.relpath(directory,source_root).replace(os.sep,'/')
+        prefix='' if prefix=='.' else prefix+'/'
+        for name in names:
+            if not name.endswith(('.py','.sql')):continue
+            path=Path(directory)/name
+            if path.is_file():files.append((prefix+name,path))
     if not files: raise ValueError('Executable source and SQL resource inventory required')
-    for path in sorted(files,key=lambda path:path.relative_to(source_root).as_posix()):
-        relative=path.relative_to(source_root).as_posix()
+    for relative,path in sorted(files):
         raw=path.read_bytes().replace(b'\r\n',b'\n')
         digest.update(relative.encode('ascii')+b'\x00'+raw+b'\x00')
     return 'sha256:'+digest.hexdigest()

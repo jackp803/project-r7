@@ -6,6 +6,46 @@ from tests.strategy.v02_fixtures import definition_v02
 
 
 class CapabilityTests(unittest.TestCase):
+    def test_source_inventory_ignores_unreadable_non_executable_file_metadata(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from unittest.mock import patch
+        with TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            (root/'owner.py').write_bytes(b'authority = 1\n')
+            (root/'cache.pyc').write_bytes(b'mutable cache')
+            before=self.api()._source_revision(root)
+            actual_is_file=Path.is_file
+            def executable_metadata_only(path):
+                if path.suffix not in ('.py','.sql'):
+                    raise AssertionError('Non-executable metadata entered authority fingerprint')
+                return actual_is_file(path)
+            with patch.object(Path,'is_file',executable_metadata_only):
+                self.assertEqual(before,self.api()._source_revision(root))
+
+    def test_source_inventory_reads_fresh_exact_sorted_python_sql_contents(self):
+        import hashlib
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        api=self.api()
+        with TemporaryDirectory() as temporary:
+            root=Path(temporary);(root/'nested').mkdir()
+            (root/'z.sql').write_bytes(b'SELECT 1;\r\n')
+            (root/'nested'/'a.py').write_bytes(b'authority = 1\r\n')
+            (root/'README.md').write_bytes(b'not executable')
+            def expected(rows):
+                material=b''.join(name.encode('ascii')+b'\x00'+raw+b'\x00' for name,raw in sorted(rows))
+                return 'sha256:'+hashlib.sha256(material).hexdigest()
+            initial=expected([('z.sql',b'SELECT 1;\n'),('nested/a.py',b'authority = 1\n')])
+            self.assertEqual(initial,api._source_revision(root))
+            (root/'nested'/'a.py').write_bytes(b'authority = 2\n')
+            changed=expected([('z.sql',b'SELECT 1;\n'),('nested/a.py',b'authority = 2\n')])
+            self.assertEqual(changed,api._source_revision(root));self.assertNotEqual(initial,changed)
+            (root/'new.py').write_bytes(b'new owner\n')
+            self.assertEqual(expected([('z.sql',b'SELECT 1;\n'),('nested/a.py',b'authority = 2\n'),('new.py',b'new owner\n')]),api._source_revision(root))
+            (root/'nested'/'a.py').unlink()
+            self.assertEqual(expected([('z.sql',b'SELECT 1;\n'),('new.py',b'new owner\n')]),api._source_revision(root))
+
     def test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding(self):
         api=self.api()
         from pathlib import Path

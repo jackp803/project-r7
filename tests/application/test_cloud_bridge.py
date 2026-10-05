@@ -317,6 +317,7 @@ class CloudBridgeTests(unittest.TestCase):
         unsafe=ArtifactBundle('reports/feedback/example/1/unsafe',{'feedback.json':bundle.payloads['feedback.json'],
             'report.html':b'<script src="https://invalid.example/secret.js"></script>'})
         with self.assertRaises(CloudError):RcloneCloudTransport(bridge).publish(unsafe,'feedback-operation-2')
+        self.assertFalse((self.stage/unsafe.logical_path).exists())
         self.assertFalse((self.remote/unsafe.logical_path).exists())
 
     def test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation(self):
@@ -375,6 +376,21 @@ class CloudBridgeTests(unittest.TestCase):
             with self.subTest(index=index):
                 path='reports/redaction/fixture/'+str(index)
                 with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,{'summary.json':canonical_bytes(value)}),'operation-'+str(index))
+                self.assertFalse((self.stage/path).exists(),'Rejected bytes must never enter a possibly synchronized folder')
+                self.assertFalse((self.remote/path).exists())
+
+    def test_publication_budget_and_invalid_payload_are_rejected_before_any_stage_write(self):
+        from application.cloud.bridge_transport import RcloneCloudTransport
+        self.payload['max_transfer_bytes']=4096;self.write_settings()
+        transport=RcloneCloudTransport(self.bridge())
+        for index,payloads in enumerate(({'summary.json':canonical_bytes({'note':'x'*4096})},
+            {'summary.json':canonical_bytes({'status':'safe'}),'unimplemented.html':b'<p>unsupported</p>'},
+            {'summary.json':canonical_bytes({'status':'safe'}),'SUMMARY.json':b'{}'},
+            {'summary.json':canonical_bytes({'status':'safe'}),'manifest.json':b'{}'})):
+            with self.subTest(index=index):
+                path='reports/prestage/fixture/'+str(index)
+                with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,payloads),'prestage-'+str(index))
+                self.assertFalse((self.stage/path).exists())
                 self.assertFalse((self.remote/path).exists())
 
     def test_private_snapshot_disk_failure_becomes_sanitized_operational_unavailable(self):

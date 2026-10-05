@@ -39,6 +39,23 @@ class FeedbackTests(unittest.TestCase):
                 self.assertEqual(feedback['paper']['status'],'NOT_RUN');self.assertIsNone(feedback['paper']['observation_seconds'])
                 self.assertEqual(feedback['live']['status'],'NOT_RUN');self.assertIsNone(feedback['live']['performance'])
                 self.assertNotIn('net_pnl',raw);self.assertNotIn(str(root),raw)
+                from html.parser import HTMLParser
+                class Summary(HTMLParser):
+                    def __init__(self):super().__init__();self.rows=[];self.cells=None;self.cell=None
+                    def handle_starttag(self,tag,attrs):
+                        if tag=='tr':self.cells=[]
+                        if tag in ('td','th'):self.cell=[]
+                    def handle_data(self,data):
+                        if self.cell is not None:self.cell.append(data)
+                    def handle_endtag(self,tag):
+                        if tag in ('td','th') and self.cell is not None:self.cells.append(''.join(self.cell));self.cell=None
+                        if tag=='tr':self.rows.append(self.cells);self.cells=None
+                summary=Summary();summary.feed(module.render_feedback(feedback).decode())
+                self.assertEqual(len(summary.rows),7,'A compact stage table precedes the full JSON detail')
+                self.assertEqual(summary.rows[-2],['PAPER','NOT_RUN','—','—'])
+                self.assertEqual(summary.rows[-1],['LIVE','NOT_RUN','—','—'])
+                self.assertEqual(summary.rows[2][1],feedback['development']['status'])
+                self.assertEqual(summary.rows[2][2],str(feedback['development']['sample_count']))
                 self.assertEqual(service.ledger.holdout_observations(),[])
                 from jsonschema import Draft202012Validator,ValidationError
                 schema=json.loads((Path(__file__).resolve().parents[2]/'contracts/chat_feedback_v0_2.schema.json').read_bytes())

@@ -146,6 +146,49 @@ class RcloneBridge:
         self.stage = SyncedFolderCloudTransport(profile.product_config.cloud_root, expected_root_id=profile.root_id)
         self.deadline = None
 
+    def validate_publication(self, logical_path, payloads, manifest_bytes):
+        """Validate the same immutable bytes before staging and before upload.
+
+        The configured stage may have its own synchronization client. Rejected
+        content must never reach that folder, even if our copy bridge is offline.
+        """
+        safe_relative(logical_path)
+        if not logical_path.startswith(RESULT_PREFIXES):
+            raise CloudError('BLOCKED', 'BRIDGE_AUTHOR_NAMESPACE_READ_ONLY')
+        if not payloads or len(payloads) > 32:
+            raise CloudError('BLOCKED', 'BRIDGE_RESULT_MANIFEST_INVALID')
+        folded = set()
+        for relative, raw in payloads.items():
+            safe_relative(relative)
+            if relative.casefold() in folded or relative.casefold() == 'manifest.json':
+                raise CloudError('BLOCKED', 'BRIDGE_RESULT_PATH_COLLISION')
+            folded.add(relative.casefold())
+            if not isinstance(raw, bytes) or len(raw) > 256*1024:
+                raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_PAYLOAD_LIMIT')
+            if logical_path.startswith('reports/feedback/'):
+                continue
+            if not relative.endswith('.json'):
+                raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_MEDIA_NOT_IMPLEMENTED')
+            stack = [load_json(raw, 256*1024)]
+            while stack:
+                value = stack.pop()
+                if isinstance(value, dict):
+                    if any(_private_key(key) for key in value):
+                        raise CloudError('BLOCKED', 'BRIDGE_PRIVATE_PROVIDER_FIELD_FORBIDDEN')
+                    stack.extend(value.values())
+                elif isinstance(value, list):
+                    stack.extend(value)
+                elif isinstance(value, str) and _private_text(value):
+                    raise CloudError('BLOCKED', 'BRIDGE_PRIVATE_CONTENT_FORBIDDEN')
+        if logical_path.startswith('reports/feedback/'):
+            from application.cloud.feedback import FeedbackError, validate_feedback_publication
+            try:
+                validate_feedback_publication(logical_path, payloads)
+            except (FeedbackError, ValueError, TypeError):
+                raise CloudError('BLOCKED', 'BRIDGE_FEEDBACK_BUNDLE_INVALID') from None
+        if sum(map(len, payloads.values())) + manifest_bytes > self.profile.max_transfer_bytes:
+            raise CloudError('BLOCKED', 'BRIDGE_TRANSFER_BUDGET')
+
     def _start(self):
         self.deadline = time.monotonic() + self.profile.timeout_seconds
         self.stage._check_root()
@@ -371,34 +414,10 @@ class RcloneBridge:
             raw = read_bounded(root, logical_path + '/' + relative, 256*1024)
             if byte_hash(raw) != expected:
                 raise CloudError('CONFLICT', 'BRIDGE_LOCAL_RESULT_HASH_MISMATCH')
-            if logical_path.startswith('reports/feedback/'):
-                payloads[relative] = raw
-                continue
-            if not relative.endswith('.json'):
-                raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_MEDIA_NOT_IMPLEMENTED')
-            value = load_json(raw, 256*1024)
-            stack = [value]
-            while stack:
-                value = stack.pop()
-                if isinstance(value, dict):
-                    if any(_private_key(key) for key in value):
-                        raise CloudError('BLOCKED', 'BRIDGE_PRIVATE_PROVIDER_FIELD_FORBIDDEN')
-                    stack.extend(value.values())
-                elif isinstance(value, list):
-                    stack.extend(value)
-                elif isinstance(value, str) and _private_text(value):
-                    raise CloudError('BLOCKED', 'BRIDGE_PRIVATE_CONTENT_FORBIDDEN')
             payloads[relative] = raw
-        if logical_path.startswith('reports/feedback/'):
-            from application.cloud.feedback import FeedbackError, validate_feedback_publication
-            try:
-                validate_feedback_publication(logical_path, payloads)
-            except (FeedbackError, ValueError, TypeError):
-                raise CloudError('BLOCKED', 'BRIDGE_FEEDBACK_BUNDLE_INVALID') from None
         if byte_hash(canonical_bytes(manifest['payload_hashes'])) != manifest['artifact_hash']:
             raise CloudError('CONFLICT', 'BRIDGE_RESULT_IDENTITY_MISMATCH')
-        if sum(map(len, payloads.values())) + len(raw_manifest) > self.profile.max_transfer_bytes:
-            raise CloudError('BLOCKED', 'BRIDGE_TRANSFER_BUDGET')
+        self.validate_publication(logical_path, payloads, len(raw_manifest))
         # Upload the exact validated bytes from a fresh owner-private generation.
         # The synchronized producer files can change while a tool is running.
         snapshot = self.profile.private_work_root / ('publication-' + uuid.uuid4().hex)

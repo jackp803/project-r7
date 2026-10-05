@@ -155,10 +155,20 @@ def build_research_feedback(service,run_id,*,performance_opt_in=False):
 def render_feedback(value):
     validate_feedback(value)
     body=html.escape(json.dumps(value,ensure_ascii=False,sort_keys=True,indent=2))
+    rows=[]
+    for stage,label in (('training','訓練'),('development','開發驗證'),('robustness','穩健性'),('sealed_oos','封存 OOS'),('paper','PAPER'),('live','LIVE')):
+        actual=value[stage]
+        cells=(label,actual['status'],actual.get('sample_count'),actual.get('trial_count'))
+        rows.append('<tr>'+''.join('<td>'+html.escape('—' if item is None else str(item))+'</td>' for item in cells)+'</tr>')
+    strategy=value['strategy']
+    subject=html.escape(strategy['strategy_id']+' / '+strategy['strategy_version'])
+    policy='績效未公開（預設）' if value['performance_policy']=='OPT_OUT' else '已由本機使用者選擇公開績效'
     return ('<!doctype html><html lang="zh-Hant"><meta charset="utf-8">'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'">'
-            '<title>R7 研究回饋</title><style>body{font-family:system-ui;max-width:80rem;margin:2rem auto;padding:1rem}pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>'
-            '<h1>R7 研究回饋</h1><p>歷史研究不代表未來績效；未執行階段保留 NOT_RUN。</p><pre>'+body+'</pre></html>').encode('utf-8')
+            '<title>R7 研究回饋</title><style>body{font-family:system-ui;max-width:80rem;margin:2rem auto;padding:1rem}pre{white-space:pre-wrap;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:.6rem;border-bottom:1px solid #ccc}summary{cursor:pointer;margin-top:1rem}</style>'
+            '<h1>R7 研究回饋</h1><p>'+subject+'</p><p>歷史研究不代表未來績效；未執行階段保留 NOT_RUN。</p><p>'+policy+'</p>'
+            '<table><caption>各階段實際結果；— 表示尚無資料</caption><thead><tr><th>階段</th><th>狀態</th><th>已平倉交易數</th><th>嘗試次數</th></tr></thead><tbody>'
+            +''.join(rows)+'</tbody></table><details><summary>完整可核對資料</summary><pre>'+body+'</pre></details></html>').encode('utf-8')
 
 
 def feedback_bundle(value):

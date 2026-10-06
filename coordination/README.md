@@ -111,3 +111,28 @@ After this protocol is on `main`, the Product Owner normally only needs to send 
 For E7, replace `E6` with `E7`, etc.
 
 The PM can then reconstruct project state directly from GitHub without requiring the Product Owner to copy the full agent response between chats.
+
+## Optional Local Chat Dispatch Extension
+
+`tools/chat-dispatcher/` can automate only the wake-up step above from the Product Owner's Windows machine.
+
+```text
+GitHub TASK change
+    ↓
+local dispatcher
+    ↓
+registered agent ChatGPT conversation
+    ↓
+agent reads TASK.md itself
+```
+
+When the agent later writes a terminal `STATUS.md`, the same local dispatcher can wake the PM conversation for review.
+
+This extension does **not** change authority or verification semantics:
+
+- GitHub TASK/STATUS and repository evidence remain authoritative;
+- a dispatched ChatGPT message is not completion evidence;
+- the dispatcher does not perform project tests/backtests;
+- it does not create or use GitHub Actions/CI/hosted runners/GitHub-triggered project compute;
+- executable verification remains local-only and governed by the TASK and project policy;
+- the dispatcher is portable and may monitor other projects through its local `config.json` without changing this R7 protocol.

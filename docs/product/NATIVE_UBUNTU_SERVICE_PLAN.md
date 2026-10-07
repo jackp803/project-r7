@@ -1,12 +1,14 @@
 # Native Ubuntu control and research service increment
 
-This implementation exports guarded control/research units. It does not install
-or start systemd services. S13 remains in progress: native Ubuntu installation,
+This implementation exports guarded control/research units. Bounded operator
+installation/removal is described in [NATIVE_UBUNTU_SERVICE_ADMIN.md](NATIVE_UBUNTU_SERVICE_ADMIN.md).
+Default administration is dry-run; explicit apply never starts or enables
+systemd services. S13 remains in progress: native Ubuntu installation,
 uninstallation, kernel enforcement, restart/reboot and SSH commissioning require
 actual target evidence. SSH command planning and public loopback health tooling
 are documented in [SSH_CONTROL_ACCESS.md](SSH_CONTROL_ACCESS.md); they do not
-establish a connection or certify an actual tunnel. Installation/uninstallation
-remain separate implementation work. Continuous trading runtime
+establish a connection or certify an actual tunnel. Actual installation/uninstallation
+acceptance requires each native target. Continuous trading runtime
 composition is still an explicit S12 dependency; no inert runtime unit is emitted.
 
 `r7 plan-services` requires a native Ubuntu 24.04/26.04 x86-64 executable, exact

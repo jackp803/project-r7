@@ -47,7 +47,9 @@ def main(argv=None):
     worker.add_argument('--config', type=Path, required=True)
     worker.add_argument('--once', action='store_true')
     for name, description in (('plan-services','Export an exact native Ubuntu control/research plan without installation'),
-                              ('guarded-service','Start an exact native Ubuntu control/research subject under its dedicated account')):
+                              ('guarded-service','Start an exact native Ubuntu control/research subject under its dedicated account'),
+                              ('install-services','Preview or explicitly apply bounded native Ubuntu service files'),
+                              ('uninstall-services','Preview or explicitly remove verified owned native Ubuntu service files')):
         service = commands.add_parser(name, help=description)
         service.add_argument('--config', type=Path, required=True)
         service.add_argument('--expected-revision', required=True)
@@ -57,8 +59,11 @@ def main(argv=None):
         service.add_argument('--service-user', required=True)
         if name == 'plan-services':
             service.add_argument('--output', type=Path, required=True)
-        else:
+        elif name == 'guarded-service':
             service.add_argument('--role', choices=('control','research'), required=True)
+        else:
+            service.add_argument('--apply',action='store_true')
+            service.add_argument('--operation-hash')
     author = commands.add_parser('author-package', help='Create actual offline JSON files through E2')
     author.add_argument('--definition', type=Path, required=True)
     author.add_argument('--destination', type=Path, required=True)
@@ -123,6 +128,14 @@ def main(argv=None):
         result=probe_loopback_auth_status(args.port,expected_namespace=args.expected_namespace,deadline_seconds=args.deadline_seconds)
         print(json.dumps(result))
         return 0 if result['status']=='PUBLIC_AUTH_STATUS_AVAILABLE' else 2
+    if args.command in ('install-services','uninstall-services'):
+        from application.platform.service_admin import manage_services
+        result=manage_services(args.config,action='install' if args.command=='install-services' else 'uninstall',
+            apply=args.apply,operation_hash=args.operation_hash,expected_revision=args.expected_revision,
+            expected_build_hash=args.expected_build_hash,expected_config_hash=args.expected_config_hash,
+            service_user=args.service_user,expected_memory_bytes=args.expected_memory_bytes)
+        print(json.dumps(result,ensure_ascii=False))
+        return 0 if result['status'] in ('DRY_RUN','ALREADY_INSTALLED','FILES_INSTALLED','FILES_REMOVED') else 2
     if args.command in ('plan-services','guarded-service'):
         from application.platform.service_guard import export_service_plan, run_guarded_service
         expected=dict(expected_revision=args.expected_revision,expected_build_hash=args.expected_build_hash,

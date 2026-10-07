@@ -19,4 +19,12 @@ Select actual owner-compatible datasets and local research policies before start
 
 For maintenance, stop all owner processes and use `backup-product-data`, `verify-product-backup`, then `restore-product-data` into a fresh private generation. The original profile/data remain preserved. Restore requires a new login, reconciliation and explicit fresh authorization; a process restart cannot resume exposure. Database-only recovery is explicitly incomplete for datasets/policies/snapshots.
 
-Service installation, sandbox/boot/reboot and SSH-tunnel qualification are pending delivery work. No system service, firewall rule, OS, Python package or provider connection is installed automatically by this guide. Keep native acceptance and deployment-machine commissioning separate from code preparation.
+Native sandbox/boot/reboot and actual SSH-tunnel qualification remain NOT_RUN. Keep native acceptance and deployment-machine commissioning separate from code preparation.
+
+# 服務檔案管理
+
+套件另提供 `install-service.sh` 與 `uninstall-service.sh`。從套件的絕對路徑
+呼叫；預設只預覽，明確套用需要完整操作雜湊。它們不會啟用、啟動或停止服務。
+先建立並檢查 root:root／0700 的 `/var/lib/r7-service-admin` 收據目錄。
+詳見套件內 `NATIVE_UBUNTU_SERVICE_ADMIN.md` 的前置條件、完整對象
+參數、維護流程與部分失敗處置。原生 Ubuntu／systemd／重開機驗收仍為 NOT_RUN。

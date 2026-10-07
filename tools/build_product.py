@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import importlib.metadata as metadata
 import json
+import os
 from pathlib import Path
 import platform
 import re
@@ -91,6 +92,23 @@ def _retain_interpreter_license(licenses):
                 sha256=hashlib.sha256(destination.read_bytes()).hexdigest())
 
 
+def _retain_service_assets(package,target):
+    if target != 'linux':return
+    from application.platform.supervision import _local_path
+    package=Path(package);_local_path(package)
+    files={name:ROOT/'packaging/linux'/name for name in ('install-service.sh','uninstall-service.sh')}
+    for name in ('NATIVE_UBUNTU_SERVICE_ADMIN.md','NATIVE_UBUNTU_SERVICE_PLAN.md','SSH_CONTROL_ACCESS.md'):
+        files[name]=ROOT/'docs/product'/name
+    for name,source in files.items():
+        destination=package/name;mode=0o755 if name.endswith('.sh') else 0o644
+        flags=os.O_WRONLY|os.O_CREAT|os.O_EXCL|getattr(os,'O_NOFOLLOW',0)
+        # Exclusive creation rejects dangling links before any target is written.
+        with os.fdopen(os.open(destination,flags,mode),'wb') as stream:
+            if os.name=='posix':os.fchmod(stream.fileno(),mode)
+            with source.open('rb') as incoming:shutil.copyfileobj(incoming,stream)
+            stream.flush();os.fsync(stream.fileno())
+
+
 def build(output, revision):
     source = _source(revision)
     target = _target()
@@ -132,6 +150,7 @@ def build(output, revision):
     package = output / 'dist' / name
     shutil.copyfile(ROOT / 'packaging' / target / 'FIRST_RUN.md', package / 'FIRST_RUN.md')
     shutil.copyfile(lock, package / 'requirements-build-py312.lock')
+    _retain_service_assets(package,target)
     licenses = package / 'licenses'
     licenses.mkdir()
     license_inventory = [_retain_interpreter_license(licenses)]

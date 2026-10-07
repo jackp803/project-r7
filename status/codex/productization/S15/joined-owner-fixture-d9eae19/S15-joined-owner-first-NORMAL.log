@@ -1,0 +1,33 @@
+test_joined_changed_sealed_input_denies_queue_and_research_evidence (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_changed_sealed_input_denies_queue_and_research_evidence) ... FAIL
+test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack) ... FAIL
+test_joined_genuine_oos_loss_rejects_without_paper_run (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_genuine_oos_loss_rejects_without_paper_run) ... FAIL
+
+======================================================================
+FAIL: test_joined_changed_sealed_input_denies_queue_and_research_evidence (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_changed_sealed_input_denies_queue_and_research_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 196, in test_joined_changed_sealed_input_denies_queue_and_research_evidence
+    self.assertEqual(e6.list_accepted_paper_starts(limit=50,offset=0),[])
+AssertionError: () != []
+
+======================================================================
+FAIL: test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 129, in test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack
+    started=h.post('/api/v1/paper/runs',body);self.assertEqual(started.status_code,200,started.text)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 != 200 : {"error":{"category":"INTERNAL_ERROR","reason_codes":["CONTROL_OPERATION_FAILED"],"correlation_id":"929d84774c63ca9bc5e6712106e90eb6"}}
+
+======================================================================
+FAIL: test_joined_genuine_oos_loss_rejects_without_paper_run (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_genuine_oos_loss_rejects_without_paper_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 183, in test_joined_genuine_oos_loss_rejects_without_paper_run
+    self.assertEqual(e6.list_accepted_paper_starts(limit=50,offset=0),[])
+AssertionError: () != []
+
+----------------------------------------------------------------------
+Ran 3 tests in 6.674s
+
+FAILED (failures=3)

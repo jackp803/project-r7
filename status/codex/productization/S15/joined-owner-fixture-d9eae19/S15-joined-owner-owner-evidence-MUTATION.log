@@ -1,0 +1,16 @@
+test_joined_changed_sealed_input_denies_queue_and_research_evidence (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_changed_sealed_input_denies_queue_and_research_evidence) ... ok
+test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack) ... FAIL
+test_joined_genuine_oos_loss_rejects_without_paper_run (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_genuine_oos_loss_rejects_without_paper_run) ... ok
+
+======================================================================
+FAIL: test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 167, in test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack
+    self.assertEqual(outbox.flush(self.transport,limit=10).unavailable,1,'JOINED_CLOUD_OUTAGE_MUST_REMAIN_UNACKNOWLEDGED')
+AssertionError: 0 != 1 : JOINED_CLOUD_OUTAGE_MUST_REMAIN_UNACKNOWLEDGED
+
+----------------------------------------------------------------------
+Ran 3 tests in 7.273s
+
+FAILED (failures=1)

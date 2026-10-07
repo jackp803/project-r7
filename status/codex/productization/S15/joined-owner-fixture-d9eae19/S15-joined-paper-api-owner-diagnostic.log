@@ -1,0 +1,38 @@
+test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack) ... Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\diagnose_s15_joined_paper_api.py", line 14, in expose
+    try:return original(self,*args,**kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\control_api\owner_services.py", line 160, in execute
+    return self.paper_start.start(arguments,actor=actor,command_id=command_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\control_api\paper_ports.py", line 32, in start
+    result=service.start(identity,arguments['policy_id'],expected_revision,command_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 81, in start
+    strategy=self.registry.get_strategy(strategy_identity)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\registry\service_base.py", line 288, in get_strategy
+    return self._require_strategy(identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\registry\service_base.py", line 511, in _require_strategy
+    strategy = self._store.get_strategy(identity)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 458, in get_strategy
+    row = self._connection.execute(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.ProgrammingError: SQLite objects created in a thread can only be used in that same thread. The object was created in thread id 70196 and this is thread id 68516.
+FAIL
+
+======================================================================
+FAIL: test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 129, in test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack
+    started=h.post('/api/v1/paper/runs',body);self.assertEqual(started.status_code,200,started.text)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 != 200 : {"error":{"category":"INTERNAL_ERROR","reason_codes":["CONTROL_OPERATION_FAILED"],"correlation_id":"dfb2523f0811357e46fa6a97fd0d414a"}}
+
+----------------------------------------------------------------------
+Ran 1 test in 2.964s
+
+FAILED (failures=1)

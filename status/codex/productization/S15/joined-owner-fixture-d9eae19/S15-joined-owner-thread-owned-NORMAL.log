@@ -1,0 +1,17 @@
+test_joined_changed_sealed_input_denies_queue_and_research_evidence (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_changed_sealed_input_denies_queue_and_research_evidence) ... ok
+test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack) ... FAIL
+test_joined_genuine_oos_loss_rejects_without_paper_run (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_genuine_oos_loss_rejects_without_paper_run) ... ok
+
+======================================================================
+FAIL: test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 148, in test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack
+    self.assertEqual(exit_result.status,'EXIT_REQUESTED');self.assertIn('E5_TARGET_REACHED',exit_result.reason_codes)
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'E5_TARGET_REACHED' not found in ()
+
+----------------------------------------------------------------------
+Ran 3 tests in 7.999s
+
+FAILED (failures=1)

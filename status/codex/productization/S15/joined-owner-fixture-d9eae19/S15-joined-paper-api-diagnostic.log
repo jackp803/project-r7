@@ -1,0 +1,15 @@
+test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack) ... FAIL
+
+======================================================================
+FAIL: test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack (s15_joined_owner_acceptance_cases.JoinedOwnerAcceptanceTests.test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_joined_owner_acceptance_cases.py", line 129, in test_joined_cloud_intake_research_paper_ready_api_and_exact_feedback_ack
+    started=h.post('/api/v1/paper/runs',body);self.assertEqual(started.status_code,200,started.text)
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 500 != 200 : {"error":{"category":"INTERNAL_ERROR","reason_codes":["CONTROL_OPERATION_FAILED"],"correlation_id":"d1ffddb81265b3fabc5c42317333d784"}}
+
+----------------------------------------------------------------------
+Ran 1 test in 2.825s
+
+FAILED (failures=1)

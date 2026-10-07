@@ -1,0 +1,37 @@
+test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection) ... ERROR
+
+======================================================================
+ERROR: test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 329, in test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection
+    self.event_tick(original, run_id, 0, bars=True); self.event_tick(original, run_id, 1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 31, in event_tick
+    return worker.tick()[run_id][-1]
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 174, in tick
+    self._tick_run(run_id, outcomes)
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 159, in _tick_run
+    outcomes[run_id] = self._schedulers[run_id].tick()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\scheduler.py", line 54, in tick
+    outcomes.append(self.runtime.on_market_event(event))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 227, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\orchestrator.py", line 99, in execute
+    operation = self.process.prepare(self.run_id, operation_id, request,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 250, in prepare
+    if at < checkpoint['recorded_at'] or at < run['created_at']: _invalid('Paper operation clock regressed')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 37, in _invalid
+    raise RuntimeValidationError('PAPER_CHECKPOINT_INVALID', message)
+storage.runtime_models.RuntimeValidationError: Paper operation clock regressed
+
+----------------------------------------------------------------------
+Ran 1 test in 4.304s
+
+FAILED (errors=1)

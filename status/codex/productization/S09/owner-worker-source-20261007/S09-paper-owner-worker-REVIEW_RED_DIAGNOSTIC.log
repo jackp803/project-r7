@@ -1,0 +1,26 @@
+test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page) ... FAIL
+test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts) ... FAIL
+
+======================================================================
+FAIL: test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 221, in test_capacity_failure_stays_visible_through_following_discovery_page
+    second = self.f.second_candidate(); second_run = self.f.start('second-start', second)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\paper_owner_fixtures.py", line 90, in second_candidate
+    raise AssertionError('Actual second fixture candidate did not qualify: '+repr(result))
+AssertionError: Actual second fixture candidate did not qualify: ResearchOutcome(run_id='run-a6c7f11251fb4da5a458b6ba36259bc2d492880c426727f0d2ee1f5a6fa368f9', status='BLOCKED', reason_codes=('HOLDOUT_ALREADY_OBSERVED',), compatibility_status='PASS', strategy_lifecycle='BACKTESTING')
+
+======================================================================
+FAIL: test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 256, in test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts
+    self.assertTrue(any('PAPER_ENTRIES_PAUSED' in item.reason_codes for item in outcomes))
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 2 tests in 6.315s
+
+FAILED (failures=2)

@@ -1,0 +1,33 @@
+test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed) ... FAIL
+test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page) ... FAIL
+
+======================================================================
+FAIL: test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 215, in test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed
+    self.assertEqual(worker.snapshot()['active_runs'], (second_run,))
+AssertionError: Tuples differ: ('paper_4de18629af213b37101790af1955ba3513df87f9cff3cde07f222d7a3f75385c',) != ('paper_e31ff8b0fb45ffc4277f369d86388bca4e85a588256c370ce0eb0442f463a414',)
+
+First differing element 0:
+'paper_4de18629af213b37101790af1955ba3513df87f9cff3cde07f222d7a3f75385c'
+'paper_e31ff8b0fb45ffc4277f369d86388bca4e85a588256c370ce0eb0442f463a414'
+
+- ('paper_4de18629af213b37101790af1955ba3513df87f9cff3cde07f222d7a3f75385c',)
++ ('paper_e31ff8b0fb45ffc4277f369d86388bca4e85a588256c370ce0eb0442f463a414',)
+
+======================================================================
+FAIL: test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 232, in test_capacity_failure_stays_visible_through_following_discovery_page
+    self.assertEqual(worker.snapshot()['status'], 'DEGRADED')
+AssertionError: 'RUNNING' != 'DEGRADED'
+- RUNNING
++ DEGRADED
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 9.114s
+
+FAILED (failures=2)

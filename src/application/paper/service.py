@@ -45,6 +45,10 @@ class PaperRunRef:
     registry_revision: int
 
 
+class PaperMarketEventError(ValueError):
+    """Recognized acquisition validation failure, before an owner operation."""
+
+
 class PaperService:
     def __init__(self, *, registry, process_journal, canonical_journal, namespace,
                  simulation_policy, risk_policy, promotion_policy, paper_policy_ref,
@@ -129,6 +133,41 @@ class PaperService:
             self._runtimes[run_id]=PaperRuntime(self,run_id)
         return self._runtimes[run_id]
 
+    def is_quiescent(self,run_id):
+        """Actual terminal/paused flat truth, never inferred from lifecycle alone."""
+        from registry import StrategyIdentity
+        recovered=self.process.recover(run_id)
+        identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
+        strategy=self.registry.get_strategy(identity)
+        if recovered.binding!=self._binding(strategy):
+            raise EvidenceGateError('Exact Paper binding required before releasing management')
+        runtime=recovered.state['runtime']
+        if (strategy.current_lifecycle_state=='PAPER' and runtime['paper_entries_allowed']
+                and not self.process.entry_pause_requested(run_id)):
+            return False
+        if recovered.pending_operations: return False
+        position=runtime['position']
+        if position is not None:
+            if position['lifecycle_state']!='CLOSED': return False
+            graph=self.canonical.recover(position_id=position['position_id'])
+            if (graph.status!='READY' or graph.current_position_projection is None
+                    or graph.current_position_projection.payload!=position or graph.trade_result is None
+                    or graph.trade_result.payload not in runtime['closed_trades']):
+                return False
+        broker=PaperBroker.from_state(recovered.state['broker'])
+        if broker.query_position('BTC_USDT_PERP').net_quantity!=0: return False
+        for row in recovered.state['broker']['payload']['submissions']:
+            result=broker.query_order(row['request']['client_order_id'])
+            if result is None or result.order_status.value not in ('FILLED','CANCELED','EXPIRED','REJECTED'):
+                return False
+        return True
+
+    def release_quiescent_runtime(self,run_id):
+        """Drop only the local cache; accepted evidence and journals are retained."""
+        if not self.is_quiescent(run_id):
+            raise EvidenceGateError('Actual quiescent Paper truth required')
+        self._runtimes.pop(run_id,None)
+
     def stop_new_entries(self,run_id,command_id):
         return self.runtime(run_id).coordinator.execute('pause:'+command_id,dict(kind='PAUSE'))
 
@@ -171,14 +210,14 @@ class PaperRuntime:
         for row in event.candles:
             if (row.symbol!=self.engine.strategy.symbol or row.timeframe not in self.engine.strategy.required_timeframes or
                 not row.is_closed or row.close_time>now or row.received_at is None or row.received_at>now):
-                raise ValueError('Finalized available E1 candle for the exact strategy required')
+                raise PaperMarketEventError('Finalized available E1 candle for the exact strategy required')
             existing=next((item for item in cached.get(row.timeframe,[]) if item['open_time']==row.to_interchange_dict()['open_time']),None)
             if existing is not None and existing!=row.to_interchange_dict():
-                raise ValueError('Changed finalized candle identity')
+                raise PaperMarketEventError('Changed finalized candle identity')
             frame=cached.setdefault(row.timeframe,[])
             if existing is None:
                 if frame and row.open_time<datetime.fromisoformat(frame[-1]['open_time'].replace('Z','+00:00')):
-                    raise ValueError('Out-of-order finalized candle')
+                    raise PaperMarketEventError('Out-of-order finalized candle')
                 frame.append(row.to_interchange_dict())
         material=dict(kind='MARKET',snapshot=event.snapshot.to_interchange_dict(),
             candles=[row.to_interchange_dict() for row in event.candles],source_kind=event.source_kind)

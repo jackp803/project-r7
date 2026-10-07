@@ -1,0 +1,21 @@
+test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline) ... ERROR
+
+======================================================================
+ERROR: test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 271, in test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline
+    invalid = PaperMarketEvent(valid.snapshot, (replace(valid.candles[0], timeframe='4h'),), 'FIXTURE')
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\dataclasses.py", line 1588, in replace
+    return obj.__class__(**changes)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 17, in __init__
+  File "<SOURCE_ROOT>\src\market_data\candle.py", line 78, in __post_init__
+    raise MalformedCandleError(
+market_data.errors.MalformedCandleError: 4h Candle duration must be 4:00:00; got 1:00:00
+
+----------------------------------------------------------------------
+Ran 1 test in 4.234s
+
+FAILED (errors=1)

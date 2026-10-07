@@ -1,0 +1,22 @@
+test_prior_policy_binding_failure_is_visible_without_stopping_other_run_deadlines (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_prior_policy_binding_failure_is_visible_without_stopping_other_run_deadlines) ... ERROR
+
+======================================================================
+ERROR: test_prior_policy_binding_failure_is_visible_without_stopping_other_run_deadlines (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_prior_policy_binding_failure_is_visible_without_stopping_other_run_deadlines)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 324, in test_prior_policy_binding_failure_is_visible_without_stopping_other_run_deadlines
+    worker.tick()
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 179, in tick
+    for run_id in self._discover():
+                  ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 116, in _discover
+    if self.service.is_quiescent(run_id):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 143, in is_quiescent
+    raise EvidenceGateError('Exact Paper binding required before releasing management')
+registry.models.EvidenceGateError: Exact Paper binding required before releasing management
+
+----------------------------------------------------------------------
+Ran 1 test in 4.239s
+
+FAILED (errors=1)

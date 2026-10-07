@@ -1,0 +1,30 @@
+test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts) ... ERROR
+test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result) ... ok
+test_api_pause_preserves_existing_protection_and_owner_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_api_pause_preserves_existing_protection_and_owner_generation) ... ok
+test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page) ... ok
+test_configuration_drift_is_denied_before_new_order_or_owner_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_configuration_drift_is_denied_before_new_order_or_owner_generation) ... ok
+test_discovers_actual_api_prepared_start_after_empty_owner_without_stealing_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_discovers_actual_api_prepared_start_after_empty_owner_without_stealing_generation) ... ok
+test_duplicate_owner_is_denied_before_factory_or_per_run_generation_changes (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_duplicate_owner_is_denied_before_factory_or_per_run_generation_changes) ... ok
+test_factory_connections_are_opened_on_owner_thread_and_producer_only_queues (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_factory_connections_are_opened_on_owner_thread_and_producer_only_queues) ... ok
+test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline) ... ok
+test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle) ... ok
+test_restart_recovers_same_protected_position_and_fences_old_owner (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_restart_recovers_same_protected_position_and_fences_old_owner) ... ok
+test_run_obeys_cooperative_stop_and_does_not_clear_position_or_pending_queue (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_run_obeys_cooperative_stop_and_does_not_clear_position_or_pending_queue) ... ok
+test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed) ... ok
+test_wrong_namespace_closes_factory_and_scope_without_attachment (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_wrong_namespace_closes_factory_and_scope_without_attachment) ... ok
+
+======================================================================
+ERROR: test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 254, in test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts
+    self.assertTrue(worker.submit_event(run_id, self.f.event(0, bars=True)))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 97, in submit_event
+    raise PaperWorkerError('PAPER_RUN_NOT_ATTACHED')
+application.paper.worker.PaperWorkerError: PAPER_RUN_NOT_ATTACHED
+
+----------------------------------------------------------------------
+Ran 14 tests in 45.457s
+
+FAILED (errors=1)

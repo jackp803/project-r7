@@ -1,0 +1,75 @@
+test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed) ... FAIL
+test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page) ... FAIL
+test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts) ... ERROR
+
+======================================================================
+ERROR: test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 255, in test_actual_private_restore_stays_inhibited_without_new_orders_across_worker_restarts
+    outcomes = worker.tick()[run_id]
+               ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 146, in tick
+    self._tick_run(run_id, outcomes)
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 135, in _tick_run
+    outcomes[run_id] = self._schedulers[run_id].tick()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\scheduler.py", line 53, in tick
+    outcomes.append(self.runtime.on_market_event(event))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 188, in on_market_event
+    return self.coordinator.execute(operation_id,material)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\orchestrator.py", line 101, in execute
+    return self._finish(operation)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\orchestrator.py", line 82, in _finish
+    step = self.producer(operation.base_state, operation.request, now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\engine.py", line 383, in produce
+    elif kind=='MARKET': status,reasons=self._evaluate(runtime,broker,effects,market,now)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\engine.py", line 313, in _evaluate
+    bundle=build_asof_bundle(rows,boundary,now)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 42, in build_asof_bundle
+    return AsOfBundle(candles_by_timeframe,boundary,information_cutoff,availability_model)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 7, in __init__
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 29, in __post_init__
+    selected,boundary,cutoff=_select_candles(self.candles_by_timeframe,self.boundary,self.information_cutoff,self.availability_model)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 67, in _select_candles
+    if not aligned(row.open_time,timeframe) or not aligned(row.close_time,timeframe): fail('MISALIGNED_CANDLE')
+                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 14, in fail
+    def fail(code): raise MarketBoundaryError(code,code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+strategy.runtime.MarketBoundaryError: MISALIGNED_CANDLE
+
+======================================================================
+FAIL: test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 213, in test_terminal_flat_history_does_not_use_capacity_but_retired_exposure_stays_managed
+    second = self.f.second_candidate(); second_run = self.f.start('second-start', second)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\paper_owner_fixtures.py", line 90, in second_candidate
+    raise AssertionError('Actual second fixture candidate did not qualify')
+AssertionError: Actual second fixture candidate did not qualify
+
+======================================================================
+FAIL: test_capacity_failure_stays_visible_through_following_discovery_page (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_capacity_failure_stays_visible_through_following_discovery_page)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 221, in test_capacity_failure_stays_visible_through_following_discovery_page
+    second = self.f.second_candidate(); second_run = self.f.start('second-start', second)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\paper_owner_fixtures.py", line 90, in second_candidate
+    raise AssertionError('Actual second fixture candidate did not qualify')
+AssertionError: Actual second fixture candidate did not qualify
+
+----------------------------------------------------------------------
+Ran 3 tests in 10.523s
+
+FAILED (failures=2, errors=1)

@@ -1,0 +1,35 @@
+test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection) ... ERROR
+
+======================================================================
+ERROR: test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 342, in test_concurrent_actual_api_pause_during_restore_does_not_stop_other_protection
+    worker.tick()
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 184, in tick
+    self._tick_run(run_id, outcomes)
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 154, in _tick_run
+    self.service.process.request_entry_pause(run_id,
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 340, in race
+    return request(run_id, command_id, **arguments)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 342, in request_entry_pause
+    if self._control_revision(run_id)!=expected_revision: _conflict('Stale Paper control revision')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 41, in _conflict
+    raise RuntimeConflictError('PAPER_OPERATION_CONFLICT', message)
+storage.runtime_models.RuntimeConflictError: Stale Paper control revision
+
+----------------------------------------------------------------------
+Ran 1 test in 5.126s
+
+FAILED (errors=1)

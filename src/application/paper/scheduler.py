@@ -50,8 +50,10 @@ class PaperScheduler:
         # protection. Network acquisition is supplied by a separate producer.
         try: event=self._events.get_nowait()
         except Empty: return tuple(outcomes)
-        outcomes.append(self.runtime.on_market_event(event))
-        self._events.task_done()
+        try:
+            outcomes.append(self.runtime.on_market_event(event))
+        finally:
+            self._events.task_done()
         return tuple(outcomes)
 
     def next_wait_seconds(self):

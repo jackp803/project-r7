@@ -1,0 +1,24 @@
+test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline) ... ERROR
+
+======================================================================
+ERROR: test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 274, in test_invalid_first_run_market_event_is_quarantined_while_second_run_keeps_protection_deadline
+    worker.tick()
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 146, in tick
+    self._tick_run(run_id, outcomes)
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 135, in _tick_run
+    outcomes[run_id] = self._schedulers[run_id].tick()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\scheduler.py", line 53, in tick
+    outcomes.append(self.runtime.on_market_event(event))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 174, in on_market_event
+    raise ValueError('Finalized available E1 candle for the exact strategy required')
+ValueError: Finalized available E1 candle for the exact strategy required
+
+----------------------------------------------------------------------
+Ran 1 test in 4.280s
+
+FAILED (errors=1)

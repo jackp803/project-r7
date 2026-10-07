@@ -1,0 +1,61 @@
+test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result) ... FAIL
+test_api_pause_preserves_existing_protection_and_owner_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_api_pause_preserves_existing_protection_and_owner_generation) ... ERROR
+test_configuration_drift_is_denied_before_new_order_or_owner_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_configuration_drift_is_denied_before_new_order_or_owner_generation) ... ok
+test_discovers_actual_api_prepared_start_after_empty_owner_without_stealing_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_discovers_actual_api_prepared_start_after_empty_owner_without_stealing_generation) ... ok
+test_duplicate_owner_is_denied_before_factory_or_per_run_generation_changes (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_duplicate_owner_is_denied_before_factory_or_per_run_generation_changes) ... ok
+test_factory_connections_are_opened_on_owner_thread_and_producer_only_queues (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_factory_connections_are_opened_on_owner_thread_and_producer_only_queues) ... ok
+test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle) ... FAIL
+test_restart_recovers_same_protected_position_and_fences_old_owner (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_restart_recovers_same_protected_position_and_fences_old_owner) ... FAIL
+test_run_obeys_cooperative_stop_and_does_not_clear_position_or_pending_queue (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_run_obeys_cooperative_stop_and_does_not_clear_position_or_pending_queue) ... ok
+test_wrong_namespace_closes_factory_and_scope_without_attachment (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_wrong_namespace_closes_factory_and_scope_without_attachment) ... ok
+
+======================================================================
+ERROR: test_api_pause_preserves_existing_protection_and_owner_generation (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_api_pause_preserves_existing_protection_and_owner_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 110, in test_api_pause_preserves_existing_protection_and_owner_generation
+    self.f.reader.pause(run_id, 'api-pause', 'fixture-owner', 0)
+  File "<SOURCE_ROOT>\src\application\control_api\paper_ports.py", line 68, in pause
+    return process.request_entry_pause(run_id,command_id,actor=actor,expected_revision=expected_revision,now=self.clock())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 342, in request_entry_pause
+    if self._control_revision(run_id)!=expected_revision: _conflict('Stale Paper control revision')
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 41, in _conflict
+    raise RuntimeConflictError('PAPER_OPERATION_CONFLICT', message)
+storage.runtime_models.RuntimeConflictError: Stale Paper control revision
+
+======================================================================
+FAIL: test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 60, in test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result
+    self.assertEqual(self.event_tick(worker, run_id, 3, '60020').status, 'CLOSED')
+AssertionError: 'HOLD' != 'CLOSED'
+- HOLD
++ CLOSED
+
+
+======================================================================
+FAIL: test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 131, in test_queue_full_cannot_starve_max_hold_deadline_without_entry_candle
+    self.assertEqual(len(state['closed_trades']), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_restart_recovers_same_protected_position_and_fences_old_owner (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_restart_recovers_same_protected_position_and_fences_old_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 102, in test_restart_recovers_same_protected_position_and_fences_old_owner
+    self.assertEqual(self.event_tick(second, run_id, 3, '60020').status, 'CLOSED')
+AssertionError: 'HOLD' != 'CLOSED'
+- HOLD
++ CLOSED
+
+
+----------------------------------------------------------------------
+Ran 10 tests in 27.543s
+
+FAILED (failures=3, errors=1)

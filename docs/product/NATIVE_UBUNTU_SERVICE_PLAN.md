@@ -3,7 +3,10 @@
 This implementation exports guarded control/research units. It does not install
 or start systemd services. S13 remains in progress: native Ubuntu installation,
 uninstallation, kernel enforcement, restart/reboot and SSH commissioning require
-separate implementation and actual target evidence. Continuous trading runtime
+actual target evidence. SSH command planning and public loopback health tooling
+are documented in [SSH_CONTROL_ACCESS.md](SSH_CONTROL_ACCESS.md); they do not
+establish a connection or certify an actual tunnel. Installation/uninstallation
+remain separate implementation work. Continuous trading runtime
 composition is still an explicit S12 dependency; no inert runtime unit is emitted.
 
 `r7 plan-services` requires a native Ubuntu 24.04/26.04 x86-64 executable, exact

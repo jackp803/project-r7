@@ -14,12 +14,24 @@ def main(argv=None):
     if getattr(sys, 'frozen', False) and argv and argv[0] == '_owned-process-bootstrap':
         from application.platform._process_bootstrap import main as bootstrap
         return bootstrap(argv[1:])
+    if argv and argv[0] == '_auth-status-probe':
+        from application.platform._loopback_probe import main as auth_status_probe
+        return auth_status_probe(argv[1:])
     parser = argparse.ArgumentParser(prog="r7")
     commands = parser.add_subparsers(dest="command", required=True)
     doctor = commands.add_parser("doctor", help="Local hardware diagnostics")
     doctor.add_argument("--hardware", action="store_true", required=True)
     doctor.add_argument("--data-root", type=Path, required=True)
     doctor.add_argument("--json", action="store_true")
+    tunnel=commands.add_parser('plan-ssh-tunnel',help='Display an operator SSH loopback-forward command without connecting')
+    tunnel.add_argument('--host',required=True)
+    tunnel.add_argument('--username',required=True)
+    tunnel.add_argument('--port',type=int,default=8765)
+    tunnel.add_argument('--ssh-port',type=int,default=22)
+    access=commands.add_parser('probe-control-access',help='Check public loopback control status without credentials')
+    access.add_argument('--port',type=int,required=True)
+    access.add_argument('--expected-namespace',choices=('LOCAL_RESEARCH','FIXTURE'),default='LOCAL_RESEARCH')
+    access.add_argument('--deadline-seconds',type=int,default=4)
     profile = commands.add_parser('init-profile', help='Create explicit non-trading local settings')
     profile.add_argument('--config', type=Path, required=True)
     profile.add_argument('--data-root', type=Path, required=True)
@@ -102,6 +114,15 @@ def main(argv=None):
     job.add_argument('--generation', type=int, required=True)
     job.add_argument('--expected-config-hash')
     args = parser.parse_args(argv)
+    if args.command=='plan-ssh-tunnel':
+        from application.platform.ssh_access import plan_ssh_tunnel
+        print(json.dumps(plan_ssh_tunnel(args.host,args.username,api_port=args.port,ssh_port=args.ssh_port)))
+        return 0
+    if args.command=='probe-control-access':
+        from application.platform.ssh_access import probe_loopback_auth_status
+        result=probe_loopback_auth_status(args.port,expected_namespace=args.expected_namespace,deadline_seconds=args.deadline_seconds)
+        print(json.dumps(result))
+        return 0 if result['status']=='PUBLIC_AUTH_STATUS_AVAILABLE' else 2
     if args.command in ('plan-services','guarded-service'):
         from application.platform.service_guard import export_service_plan, run_guarded_service
         expected=dict(expected_revision=args.expected_revision,expected_build_hash=args.expected_build_hash,

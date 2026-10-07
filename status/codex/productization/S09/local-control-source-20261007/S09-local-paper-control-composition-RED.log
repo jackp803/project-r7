@@ -1,0 +1,59 @@
+test_actual_accepted_ack_fill_and_read_inventory_never_attach_a_generation (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_actual_accepted_ack_fill_and_read_inventory_never_attach_a_generation) ... FAIL
+test_immutable_fixture_store_cannot_be_reopened_as_normal_namespace (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_immutable_fixture_store_cannot_be_reopened_as_normal_namespace) ... ERROR
+test_normal_composed_pause_preserves_protection_and_owner_continues_actual_exit (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_normal_composed_pause_preserves_protection_and_owner_continues_actual_exit) ... FAIL
+test_unselected_normal_owners_expose_empty_actual_paper_inventory_without_start_authority (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_unselected_normal_owners_expose_empty_actual_paper_inventory_without_start_authority) ... FAIL
+
+======================================================================
+ERROR: test_immutable_fixture_store_cannot_be_reopened_as_normal_namespace (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_immutable_fixture_store_cannot_be_reopened_as_normal_namespace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_paper_control_composition.py", line 91, in test_immutable_fixture_store_cannot_be_reopened_as_normal_namespace
+    LocalOwners(self.f.config,namespace='LOCAL_RESEARCH',clock=lambda:self.f.h.clock[0])
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 55, in __init__
+    with self.registry_factory() as e6: e6.lifecycle_counts()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 48, in <lambda>
+    self.registry_factory = lambda: open_sqlite_platform(config.database_path, research_namespace=namespace)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 29, in open_sqlite_platform
+    if research_namespace is not None: store.bind_research_namespace(research_namespace)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 367, in bind_research_namespace
+    elif row['namespace']!=namespace: raise EvidenceGateError('Fixture and real research registry namespaces cannot mix')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+registry.models.EvidenceGateError: Fixture and real research registry namespaces cannot mix
+
+======================================================================
+FAIL: test_actual_accepted_ack_fill_and_read_inventory_never_attach_a_generation (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_actual_accepted_ack_fill_and_read_inventory_never_attach_a_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_paper_control_composition.py", line 42, in test_actual_accepted_ack_fill_and_read_inventory_never_attach_a_generation
+    services=self.fixture_services();run_id=self.f.start()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_paper_control_composition.py", line 19, in fixture_services
+    self.assertIsInstance(services.paper_reader,PaperReadControlPort)
+AssertionError: None is not an instance of <class 'application.control_api.paper_ports.PaperReadControlPort'>
+
+======================================================================
+FAIL: test_normal_composed_pause_preserves_protection_and_owner_continues_actual_exit (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_normal_composed_pause_preserves_protection_and_owner_continues_actual_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_paper_control_composition.py", line 65, in test_normal_composed_pause_preserves_protection_and_owner_continues_actual_exit
+    services=self.fixture_services();run_id=self.f.start()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_paper_control_composition.py", line 19, in fixture_services
+    self.assertIsInstance(services.paper_reader,PaperReadControlPort)
+AssertionError: None is not an instance of <class 'application.control_api.paper_ports.PaperReadControlPort'>
+
+======================================================================
+FAIL: test_unselected_normal_owners_expose_empty_actual_paper_inventory_without_start_authority (tests.application.test_local_paper_control_composition.LocalPaperControlCompositionTests.test_unselected_normal_owners_expose_empty_actual_paper_inventory_without_start_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_local_paper_control_composition.py", line 32, in test_unselected_normal_owners_expose_empty_actual_paper_inventory_without_start_authority
+    self.assertIsInstance(services.paper_reader,PaperReadControlPort)
+AssertionError: None is not an instance of <class 'application.control_api.paper_ports.PaperReadControlPort'>
+
+----------------------------------------------------------------------
+Ran 4 tests in 7.538s
+
+FAILED (failures=3, errors=1)

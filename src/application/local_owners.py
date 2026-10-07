@@ -7,6 +7,7 @@ from application.cloud.manifest import safe_component
 from application.cloud.synced_folder import SyncedFolderCloudTransport
 from application.config import ProductConfig
 from application.control_api.owner_services import OwnerControlServices
+from application.control_api.paper_ports import PaperReadControlPort
 from application.datasets.catalog import decode, read_local
 from application.intake.ledger import IntakeLedger
 from application.intake.service import StrategyInboxService
@@ -14,6 +15,8 @@ from application.research.queue import ResearchQueue
 from application.research.selection import ResearchRequestResolver
 from application.research.service import ResearchService
 from storage import open_sqlite_platform
+from storage.paper_process import open_paper_process_journal
+from storage.runtime import open_paper_runtime_journal
 from strategy.v02.capabilities import build_capability_snapshot
 
 
@@ -72,6 +75,10 @@ class LocalOwners:
             self.inbox_factory = inbox
 
     def control_services(self):
+        reader = PaperReadControlPort(namespace=self.namespace, clock=self.clock,
+            process_factory=lambda: open_paper_process_journal(self.config.database_path),
+            canonical_factory=lambda: open_paper_runtime_journal(self.config.database_path))
         return OwnerControlServices(self.config, namespace=self.namespace, clock=self.clock,
             registry_factory=self.registry_factory, intake_factory=self.intake_factory,
-            inbox_factory=self.inbox_factory, research_queue=self.queue, research_resolver=self.resolver)
+            inbox_factory=self.inbox_factory, research_queue=self.queue, research_resolver=self.resolver,
+            paper_reader=reader)

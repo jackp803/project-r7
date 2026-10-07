@@ -1,0 +1,62 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "spec_baseline": "r7-product-v0.2",
+  "implementation_hash": "sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734",
+  "commands": [
+    {
+      "stage": "RED",
+      "tests": 4,
+      "failures": 3,
+      "errors": 1,
+      "skipped": 0,
+      "exit_code": 1,
+      "raw_sha256": "sha256:b2c7a50912bd17c81e3a3d8808b13dbe0b59b5ffc7cc61a65d05b70db19f02d5",
+      "retained_sha256": "sha256:4b8f0ecbe73875b8f1e7ebf368cf81e3f4a42c31a7dd614df50d3f068f78d2a9",
+      "scope": "DIRTY_PRE_CANDIDATE;NO_EXACT_CLEAN_OR_NATIVE_QUALIFICATION_CREDIT"
+    },
+    {
+      "stage": "INITIAL",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "raw_sha256": "sha256:cfb6358ee65c3d03f6c8c49d06f3d311ba103deab828b65b8f3318dd03ef6d61",
+      "retained_sha256": "sha256:79cc42553217aef40764be19b2ef6cf939f398b592f0fad8069a5e956e321f70",
+      "scope": "DIRTY_PRE_CANDIDATE;NO_EXACT_CLEAN_OR_NATIVE_QUALIFICATION_CREDIT"
+    },
+    {
+      "stage": "REGRESSION",
+      "tests": 34,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "raw_sha256": "sha256:71f44222c00837c35f99ea01e632fef9776273b2a8c09f187c90ccab1fe34b1e",
+      "retained_sha256": "sha256:08c3d2bb0c2fc3aaf3da21623fdce37686a62f207fe73038fd316f8e256d5034",
+      "scope": "DIRTY_PRE_CANDIDATE;NO_EXACT_CLEAN_OR_NATIVE_QUALIFICATION_CREDIT"
+    }
+  ],
+  "new_cases": 4,
+  "affected_regression": 34,
+  "independent_review": {
+    "critical": 0,
+    "important": 0,
+    "reviewer": "/root/qualification_review",
+    "reviewer_execution": "NONE",
+    "reviewed_raw_sha256": {
+      "src/application/local_owners.py": "sha256:c29062d852e270145eaf32b4e6b6a030e8cd3ef076d7b53d08463ea1f481195c",
+      "tests/application/test_local_paper_control_composition.py": "sha256:d48654d2c33f48882df05aa9b67700e01120b59f499429ccb91a2f352f5a63a0"
+    },
+    "scope": "TWO_BOUNDED_SOURCE_TEST_FILES"
+  },
+  "exact_clean_qualification": "PENDING",
+  "native_read_pause_composition": "NOT_RUN",
+  "ordinary_native_paper": "NOT_RUN",
+  "production_qualification_profile": "PROPOSED_NOT_ACTIVE",
+  "real_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "limitations": "Read/pause composition only. No start factory, release issuance, worker launch or financial permission. Initial RED includes3 intended missing-reader failures plus1 test exception mismatch corrected to actual EvidenceGateError. Regression34 execution instances include the4 new cases. Independent review is source-only and executed no tests."
+}

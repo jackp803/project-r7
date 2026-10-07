@@ -1,0 +1,356 @@
+{
+  "identity": {
+    "executable_revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "implementation_hash": "sha256:9d26a9802884f8d176cac8358361ad334e461a8a0d2a72b4ce2642f0c2148dc6",
+    "build_hash": "sha256:98b1acb2a617005093df326935830a3c6eaa9095c0462bc39e642f794b6b7ae6",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "plan-hostname",
+      "started_at_utc": "2026-10-07T01:55:56.161880Z",
+      "finished_at_utc": "2026-10-07T01:55:57.179267Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "plan-hostname.log",
+      "log_sha256": "sha256:0073917ab41378fb17c843524c42d24434378f055526f4be2e1595207e7d8ef8",
+      "result": {
+        "schema_version": "r7-ssh-tunnel-plan-v0.2",
+        "status": "PLANNED_ONLY",
+        "argv": [
+          "ssh",
+          "-N",
+          "-T",
+          "-a",
+          "-F",
+          "none",
+          "-o",
+          "ExitOnForwardFailure=yes",
+          "-o",
+          "GatewayPorts=no",
+          "-o",
+          "StrictHostKeyChecking=yes",
+          "-p",
+          "22",
+          "-l",
+          "operator",
+          "-L",
+          "127.0.0.1:52543:127.0.0.1:52543",
+          "r7.example.test"
+        ],
+        "browser_url": "http://127.0.0.1:52543/",
+        "ssh_connection": "NOT_STARTED",
+        "credentials": "NOT_READ",
+        "tunnel_commissioning": "NOT_RUN",
+        "host_origin_boundary": "SAME_LOCAL_AND_REMOTE_API_PORT_REQUIRED",
+        "financial_authority": "NONE",
+        "plan_hash": "sha256:5d139ac519cf4eb9a806ee2417de8ff80a179c470083d3f10e051014e316cc48"
+      }
+    },
+    {
+      "name": "plan-ipv6",
+      "started_at_utc": "2026-10-07T01:55:57.266282Z",
+      "finished_at_utc": "2026-10-07T01:55:58.285166Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "plan-ipv6.log",
+      "log_sha256": "sha256:594927b9d0cc6a20f6e13b357b2ea6e58317e76df97acd36676e48a05f6f38b1",
+      "result": {
+        "schema_version": "r7-ssh-tunnel-plan-v0.2",
+        "status": "PLANNED_ONLY",
+        "argv": [
+          "ssh",
+          "-N",
+          "-T",
+          "-a",
+          "-F",
+          "none",
+          "-o",
+          "ExitOnForwardFailure=yes",
+          "-o",
+          "GatewayPorts=no",
+          "-o",
+          "StrictHostKeyChecking=yes",
+          "-p",
+          "22",
+          "-l",
+          "operator",
+          "-L",
+          "127.0.0.1:52543:127.0.0.1:52543",
+          "2001:db8::7"
+        ],
+        "browser_url": "http://127.0.0.1:52543/",
+        "ssh_connection": "NOT_STARTED",
+        "credentials": "NOT_READ",
+        "tunnel_commissioning": "NOT_RUN",
+        "host_origin_boundary": "SAME_LOCAL_AND_REMOTE_API_PORT_REQUIRED",
+        "financial_authority": "NONE",
+        "plan_hash": "sha256:a5390cfe9cba382c7b67843477cbcb68cb10ad5c38a8ca680d514d76ed2c80d4"
+      }
+    },
+    {
+      "name": "invalid-host",
+      "started_at_utc": "2026-10-07T01:55:58.365676Z",
+      "finished_at_utc": "2026-10-07T01:55:59.318264Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "invalid-host.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "invalid-root",
+      "started_at_utc": "2026-10-07T01:55:59.392859Z",
+      "finished_at_utc": "2026-10-07T01:56:00.341148Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "invalid-root.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "init-profile",
+      "started_at_utc": "2026-10-07T01:56:00.414734Z",
+      "finished_at_utc": "2026-10-07T01:56:01.379662Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "init-profile.log",
+      "log_sha256": "sha256:d48452b9d3323fee2822164204a70bc7aef4078b96c156ef0e97009ec5e3ec92",
+      "result": {
+        "status": "PROFILE_CREATED",
+        "namespace": "LOCAL_RESEARCH",
+        "diagnostic_only": true,
+        "paper_runtime_enabled": false,
+        "cloud": "NOT_CONNECTED",
+        "runtime": "NOT_STARTED"
+      }
+    },
+    {
+      "name": "unavailable-before-start",
+      "started_at_utc": "2026-10-07T01:56:01.468107Z",
+      "finished_at_utc": "2026-10-07T01:56:06.239631Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "unavailable-before-start.log",
+      "log_sha256": "sha256:e114f88ff52b72225d158739d8f81446ddbcabf6f2094b60dc55283676401355",
+      "result": {
+        "tree_reaped": true,
+        "child_exit_code": 2,
+        "ssh_connection": "NOT_STARTED",
+        "tunnel_provenance": "UNVERIFIED_LOCAL_ENDPOINT_ONLY",
+        "credentials": "NONE",
+        "financial_authority": "NONE",
+        "actual_provider_requests": 0,
+        "status": "UNAVAILABLE",
+        "reason_code": "PUBLIC_STATUS_UNAVAILABLE"
+      }
+    },
+    {
+      "name": "public-probe",
+      "started_at_utc": "2026-10-07T01:56:09.689609Z",
+      "finished_at_utc": "2026-10-07T01:56:12.421038Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "public-probe.log",
+      "log_sha256": "sha256:4b6efc5d188e107f878674ad2e90e843be577656950ba32f6bf54bf8e4690d9b",
+      "result": {
+        "tree_reaped": true,
+        "child_exit_code": 0,
+        "ssh_connection": "NOT_STARTED",
+        "tunnel_provenance": "UNVERIFIED_LOCAL_ENDPOINT_ONLY",
+        "credentials": "NONE",
+        "financial_authority": "NONE",
+        "actual_provider_requests": 0,
+        "status": "PUBLIC_AUTH_STATUS_AVAILABLE",
+        "public_auth_status": {
+          "configured": false,
+          "namespace": "LOCAL_RESEARCH",
+          "enrollment": "LOCAL_CLI_ONLY"
+        }
+      }
+    },
+    {
+      "name": "wrong-namespace",
+      "started_at_utc": "2026-10-07T01:56:12.511395Z",
+      "finished_at_utc": "2026-10-07T01:56:15.230082Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "wrong-namespace.log",
+      "log_sha256": "sha256:0bfaf599816731d4a197bb89d4cf6b89ecf0236175bd9b8990cb8329143bf8b7",
+      "result": {
+        "tree_reaped": true,
+        "child_exit_code": 2,
+        "ssh_connection": "NOT_STARTED",
+        "tunnel_provenance": "UNVERIFIED_LOCAL_ENDPOINT_ONLY",
+        "credentials": "NONE",
+        "financial_authority": "NONE",
+        "actual_provider_requests": 0,
+        "status": "UNAVAILABLE",
+        "reason_code": "PUBLIC_STATUS_INVALID"
+      }
+    },
+    {
+      "name": "proxy-ignored",
+      "started_at_utc": "2026-10-07T01:56:15.324227Z",
+      "finished_at_utc": "2026-10-07T01:56:18.093317Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "proxy-ignored.log",
+      "log_sha256": "sha256:4b6efc5d188e107f878674ad2e90e843be577656950ba32f6bf54bf8e4690d9b",
+      "result": {
+        "tree_reaped": true,
+        "child_exit_code": 0,
+        "ssh_connection": "NOT_STARTED",
+        "tunnel_provenance": "UNVERIFIED_LOCAL_ENDPOINT_ONLY",
+        "credentials": "NONE",
+        "financial_authority": "NONE",
+        "actual_provider_requests": 0,
+        "status": "PUBLIC_AUTH_STATUS_AVAILABLE",
+        "public_auth_status": {
+          "configured": false,
+          "namespace": "LOCAL_RESEARCH",
+          "enrollment": "LOCAL_CLI_ONLY"
+        }
+      }
+    },
+    {
+      "name": "control-owner",
+      "started_at_utc": "2026-10-07T01:56:06.244144Z",
+      "finished_at_utc": "2026-10-07T01:56:18.113575Z",
+      "tree_reaped": true,
+      "exit_code": 124,
+      "termination_reason": "CANCELLED",
+      "passed": true,
+      "log": "control-owner.log",
+      "log_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "NATIVE_LITERAL_LOOPBACK_SSH_PLAN_WITHOUT_CONNECTION",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_CANONICAL_IPV6_DESTINATION_PLAN",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_INVALID_HOST_DENIED",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_INVALID_ROOT_DENIED",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_PUBLIC_PROFILE_HAS_NO_TRADING_OR_AUTH_ENROLLMENT",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_MISSING_PUBLIC_ENDPOINT_DENIED_AND_CHILD_REAPED",
+      "result": "PASS"
+    },
+    {
+      "name": "ACTUAL_NATIVE_PARENT_AND_FROZEN_CHILD_READ_ACTUAL_PUBLIC_ENDPOINT",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_PUBLIC_NAMESPACE_MISMATCH_DENIED",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_PUBLIC_PROBE_IGNORES_ENVIRONMENT_PROXY",
+      "result": "PASS"
+    },
+    {
+      "name": "ACTUAL_NATIVE_CONTROL_OWNER_TREE_REAPED_WITHOUT_SSH_CONNECTION",
+      "result": "PASS"
+    }
+  ],
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "actual_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "ssh_connection": "NOT_STARTED",
+  "real_tunnel": "NOT_RUN",
+  "ubuntu": "NOT_RUN",
+  "runtime": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "financial_authority": "NONE",
+  "scope": "ACTUAL_WINDOWS_NATIVE_PUBLIC_LOOPBACK_STATUS_AND_SSH_ARGV_ONLY",
+  "command_count": 10,
+  "scenario_count": 10,
+  "control_generation_before": {
+    "architecture": "AMD64",
+    "build_hash": "sha256:98b1acb2a617005093df326935830a3c6eaa9095c0462bc39e642f794b6b7ae6",
+    "capital": "NONE",
+    "config_hash": "sha256:94e567f63e6a1ed74542a93679b4a521d921c1da2c79b905910aa182724ede07",
+    "credentials": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2",
+    "executable_revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "execution": "LOCAL",
+    "financial_authority": "NONE",
+    "generation": 1,
+    "github_compute": "NOT_USED",
+    "implementation_hash": "sha256:9d26a9802884f8d176cac8358361ad334e461a8a0d2a72b4ce2642f0c2148dc6",
+    "os": "Windows",
+    "os_version": "10.0.26200",
+    "pid": 14104,
+    "process_generation_id": "2139461a-0975-4d11-9790-d872a2e0302a",
+    "product_instance_id": "native-public-access-fixture",
+    "provider_requests": 0,
+    "python": "3.12.10",
+    "restart_admission": "RECONCILIATION_REQUIRED",
+    "role": "control",
+    "schema_version": "r7-process-generation-v0.2",
+    "started_at": "2026-10-07T01:56:07.789343Z",
+    "worktree": "UNAVAILABLE"
+  },
+  "control_generation_after": {
+    "architecture": "AMD64",
+    "build_hash": "sha256:98b1acb2a617005093df326935830a3c6eaa9095c0462bc39e642f794b6b7ae6",
+    "capital": "NONE",
+    "config_hash": "sha256:94e567f63e6a1ed74542a93679b4a521d921c1da2c79b905910aa182724ede07",
+    "credentials": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2",
+    "executable_revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "execution": "LOCAL",
+    "financial_authority": "NONE",
+    "generation": 1,
+    "github_compute": "NOT_USED",
+    "implementation_hash": "sha256:9d26a9802884f8d176cac8358361ad334e461a8a0d2a72b4ce2642f0c2148dc6",
+    "os": "Windows",
+    "os_version": "10.0.26200",
+    "pid": 14104,
+    "process_generation_id": "2139461a-0975-4d11-9790-d872a2e0302a",
+    "product_instance_id": "native-public-access-fixture",
+    "provider_requests": 0,
+    "python": "3.12.10",
+    "restart_admission": "RECONCILIATION_REQUIRED",
+    "role": "control",
+    "schema_version": "r7-process-generation-v0.2",
+    "started_at": "2026-10-07T01:56:07.789343Z",
+    "worktree": "UNAVAILABLE"
+  }
+}

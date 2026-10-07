@@ -1,0 +1,28 @@
+{
+  "reviewed_at_utc": "2026-10-07T01:19:07.810196Z",
+  "reviewer": "/root/qualification_review",
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_SOURCE_ASSERTION_REVIEW",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "important_findings_resolved": [
+    "shared writable scope/provisioning root",
+    "Unicode pinned config reader",
+    "research child config binding",
+    "private root owner rwx",
+    "creation-only tmpfiles scope inode facts"
+  ],
+  "reviewed_source_hashes": {
+    "src/application/platform/service_plan.py": "sha256:f2efdf5e7fb65bf2e700a42178cce1805a5bcfe3eb1a74b4cb507d5b7dfc3b68",
+    "src/application/platform/service_guard.py": "sha256:df967a6c171d47372bf0f39859604efe954f2d2d200f46c505834e4db031f6ab",
+    "src/application/control_api/assets.py": "sha256:49f50e2e33315b7d39be80765e8b70474341924568eae8619d56db45cb865c1f",
+    "src/application/research/worker.py": "sha256:0415523e77efcc814e174ccbda2442827ed7ef33cd3921d750bfbf38e28f74c8",
+    "tests/application/test_service_plan.py": "sha256:ee2bec5792e25bba8cf7a014c93bedcd17372f850f0540547519812a0276630b",
+    "tests/application/test_control_asset_links.py": "sha256:89644c2a3f66b09cf4268eae2bb4fd22b682d7a5441f6b15a68fd083bf9c7afa"
+  },
+  "actual_test_execution": "SEPARATE_LOCAL_CODEX_RUNS",
+  "reviewer_execution": "NONE",
+  "ubuntu": "NOT_RUN",
+  "systemd": "NOT_RUN",
+  "whole_branch": "NOT_REVIEWED",
+  "withdrawn_candidate": "5f42a84e8e3b246bc569d093b8a8b1b4e4c8ac90_NOT_ACCEPTED"
+}

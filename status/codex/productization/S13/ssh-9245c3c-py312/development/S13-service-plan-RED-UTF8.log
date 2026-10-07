@@ -1,0 +1,789 @@
+test_absent_cloud_has_no_invented_writable_staging_root (test_service_plan.ServicePlanTests.test_absent_cloud_has_no_invented_writable_staging_root) ... ERROR
+test_actual_existing_cli_roles_are_bound_to_exact_build_and_configuration (test_service_plan.ServicePlanTests.test_actual_existing_cli_roles_are_bound_to_exact_build_and_configuration) ... ERROR
+test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) ... 
+  test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'executable_revision': 'main'}) ... ERROR
+  test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'build_hash': 'caller-pass'}) ... ERROR
+  test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'config_hash': 'sha256:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'}) ... ERROR
+  test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'physical_memory_bytes': True}) ... ERROR
+  test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'physical_memory_bytes': 0}) ... ERROR
+  test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'physical_memory_bytes': 1073741824}) ... ERROR
+test_config_and_binary_are_read_only_with_only_explicit_writable_roots (test_service_plan.ServicePlanTests.test_config_and_binary_are_read_only_with_only_explicit_writable_roots) ... ERROR
+test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) ... 
+  test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'data_root': '/opt/R7 中文/releases/v0.2/data'}) ... ERROR
+  test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'binary_root': '/var/lib'}) ... ERROR
+  test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'cloud_root': '/var/lib/r7-data'}) ... ERROR
+  test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'cloud_root': '/var/lib/r7-data/staging'}) ... ERROR
+  test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'config_path': '/var/lib/r7-data/product.json'}) ... ERROR
+  test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'config_path': '/opt/R7 中文/releases/v0.2/product.json'}) ... ERROR
+test_literal_percent_dollar_quotes_and_chinese_paths_cannot_expand_directives (test_service_plan.ServicePlanTests.test_literal_percent_dollar_quotes_and_chinese_paths_cannot_expand_directives) ... ERROR
+test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) ... 
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='relative') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/../etc/r7') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='//host/share') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/r7/') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/r7\nUser=root') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/r7\\windows') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/home/r7/release') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/root/release') ... ERROR
+  test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/run/user/1000/r7') ... ERROR
+test_plan_identity_changes_with_config_build_and_root_without_financial_claim (test_service_plan.ServicePlanTests.test_plan_identity_changes_with_config_build_and_root_without_financial_claim) ... ERROR
+test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) ... 
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='root') ... ERROR
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='nobody') ... ERROR
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7\nUser=root') ... ERROR
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7 worker') ... ERROR
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7-worker;evil') ... ERROR
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='-r7') ... ERROR
+  test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') ... ERROR
+test_research_uses_measured_budget_one_cpu_and_owned_group_shutdown (test_service_plan.ServicePlanTests.test_research_uses_measured_budget_one_cpu_and_owned_group_shutdown) ... ERROR
+test_two_existing_roles_are_isolated_and_missing_runtime_is_explicit (test_service_plan.ServicePlanTests.test_two_existing_roles_are_isolated_and_missing_runtime_is_explicit) ... ERROR
+test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) ... 
+  test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('runtime',)) ... ERROR
+  test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('control', 'runtime')) ... ERROR
+  test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('control', 'control')) ... ERROR
+  test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=()) ... ERROR
+  test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('cloud',)) ... ERROR
+
+======================================================================
+ERROR: test_absent_cloud_has_no_invented_writable_staging_root (test_service_plan.ServicePlanTests.test_absent_cloud_has_no_invented_writable_staging_root)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 59, in test_absent_cloud_has_no_invented_writable_staging_root
+    plan=self.module().render_service_plan(self.settings(cloud_root=None))
+         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_actual_existing_cli_roles_are_bound_to_exact_build_and_configuration (test_service_plan.ServicePlanTests.test_actual_existing_cli_roles_are_bound_to_exact_build_and_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 27, in test_actual_existing_cli_roles_are_bound_to_exact_build_and_configuration
+    plan=self.module().render_service_plan(self.settings())
+         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'executable_revision': 'main'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 96, in test_bad_commitments_and_unmeasured_memory_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'build_hash': 'caller-pass'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 96, in test_bad_commitments_and_unmeasured_memory_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'config_hash': 'sha256:zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 96, in test_bad_commitments_and_unmeasured_memory_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'physical_memory_bytes': True})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 96, in test_bad_commitments_and_unmeasured_memory_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'physical_memory_bytes': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 96, in test_bad_commitments_and_unmeasured_memory_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_bad_commitments_and_unmeasured_memory_are_denied (test_service_plan.ServicePlanTests.test_bad_commitments_and_unmeasured_memory_are_denied) (changes={'physical_memory_bytes': 1073741824})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 96, in test_bad_commitments_and_unmeasured_memory_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_config_and_binary_are_read_only_with_only_explicit_writable_roots (test_service_plan.ServicePlanTests.test_config_and_binary_are_read_only_with_only_explicit_writable_roots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 50, in test_config_and_binary_are_read_only_with_only_explicit_writable_roots
+    plan=self.module().render_service_plan(self.settings())
+         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'data_root': '/opt/R7 中文/releases/v0.2/data'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 80, in test_equal_nested_or_parent_roots_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'binary_root': '/var/lib'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 80, in test_equal_nested_or_parent_roots_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'cloud_root': '/var/lib/r7-data'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 80, in test_equal_nested_or_parent_roots_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'cloud_root': '/var/lib/r7-data/staging'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 80, in test_equal_nested_or_parent_roots_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'config_path': '/var/lib/r7-data/product.json'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 80, in test_equal_nested_or_parent_roots_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_equal_nested_or_parent_roots_are_denied (test_service_plan.ServicePlanTests.test_equal_nested_or_parent_roots_are_denied) (changes={'config_path': '/opt/R7 中文/releases/v0.2/product.json'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 80, in test_equal_nested_or_parent_roots_are_denied
+    self.module().render_service_plan(self.settings(**changes))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_literal_percent_dollar_quotes_and_chinese_paths_cannot_expand_directives (test_service_plan.ServicePlanTests.test_literal_percent_dollar_quotes_and_chinese_paths_cannot_expand_directives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 65, in test_literal_percent_dollar_quotes_and_chinese_paths_cannot_expand_directives
+    plan=self.module().render_service_plan(self.settings(binary_root=value))
+         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='relative')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/../etc/r7')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='//host/share')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/r7/')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/r7\nUser=root')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/opt/r7\\windows')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/home/r7/release')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/root/release')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied (test_service_plan.ServicePlanTests.test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied) (value='/run/user/1000/r7')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 73, in test_noncanonical_paths_directive_injection_and_hidden_home_roots_are_denied
+    self.module().render_service_plan(self.settings(binary_root=value))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_plan_identity_changes_with_config_build_and_root_without_financial_claim (test_service_plan.ServicePlanTests.test_plan_identity_changes_with_config_build_and_root_without_financial_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 99, in test_plan_identity_changes_with_config_build_and_root_without_financial_claim
+    render=self.module().render_service_plan
+           ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='root')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='nobody')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7\nUser=root')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7 worker')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7-worker;evil')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='-r7')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_privileged_or_injected_identity_is_denied (test_service_plan.ServicePlanTests.test_privileged_or_injected_identity_is_denied) (user='r7xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 90, in test_privileged_or_injected_identity_is_denied
+    self.module().render_service_plan(self.settings(service_user=user))
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_research_uses_measured_budget_one_cpu_and_owned_group_shutdown (test_service_plan.ServicePlanTests.test_research_uses_measured_budget_one_cpu_and_owned_group_shutdown)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 37, in test_research_uses_measured_budget_one_cpu_and_owned_group_shutdown
+    plan=self.module().render_service_plan(self.settings())
+         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_two_existing_roles_are_isolated_and_missing_runtime_is_explicit (test_service_plan.ServicePlanTests.test_two_existing_roles_are_isolated_and_missing_runtime_is_explicit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 19, in test_two_existing_roles_are_isolated_and_missing_runtime_is_explicit
+    plan=self.module().render_service_plan(self.settings())
+         ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('runtime',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 85, in test_unknown_and_unsupported_runtime_roles_are_denied
+    self.module().render_service_plan(self.settings(),roles=roles)
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('control', 'runtime'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 85, in test_unknown_and_unsupported_runtime_roles_are_denied
+    self.module().render_service_plan(self.settings(),roles=roles)
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('control', 'control'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 85, in test_unknown_and_unsupported_runtime_roles_are_denied
+    self.module().render_service_plan(self.settings(),roles=roles)
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=())
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 85, in test_unknown_and_unsupported_runtime_roles_are_denied
+    self.module().render_service_plan(self.settings(),roles=roles)
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+======================================================================
+ERROR: test_unknown_and_unsupported_runtime_roles_are_denied (test_service_plan.ServicePlanTests.test_unknown_and_unsupported_runtime_roles_are_denied) (roles=('cloud',))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 85, in test_unknown_and_unsupported_runtime_roles_are_denied
+    self.module().render_service_plan(self.settings(),roles=roles)
+    ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_service_plan.py", line 8, in module
+    return importlib.import_module('application.platform.service_plan')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.service_plan'
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.014s
+
+FAILED (errors=41)

@@ -1,0 +1,523 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "qualification_mode": "SERIAL_FIXTURE_BROWSER_QUALIFICATION",
+  "source_before": {
+    "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-07T02:15:39.565193Z",
+  "launcher_hash": "sha256:8bf7fb13e6d497ef655067a95d1e727707bca6502d415c169efc8ed7ede14530",
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "passed": true,
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_version": "154.0.4258.53",
+  "commands": [
+    {
+      "profile": "empty",
+      "expected_cases": [
+        "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+        "stale settings show real backend conflict and keyboard form remains usable",
+        "revoked server session returns to login without inferring runtime shutdown"
+      ],
+      "started_at_utc": "2026-10-07T02:15:39.634210Z",
+      "config_sha256": "sha256:e28de556cdbe9932694d281369bc82b16abe59a7ac67645da8a3a66fe58f38dc",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "empty.config.mjs",
+        "--grep",
+        "(?:empty\\ views\\ use\\ actual\\ nulls,\\ Traditional\\ Chinese\\ and\\ persistent\\ fixture\\ labels|stale\\ settings\\ show\\ real\\ backend\\ conflict\\ and\\ keyboard\\ form\\ remains\\ usable|revoked\\ server\\ session\\ returns\\ to\\ login\\ without\\ inferring\\ runtime\\ shutdown)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:4dabb0b786f6f8d43c63a010575c8685844040c5006031e129584bab8e53e305",
+      "log": "empty.log",
+      "log_sha256": "sha256:4dabb0b786f6f8d43c63a010575c8685844040c5006031e129584bab8e53e305",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:15:40.301Z",
+        "duration": 5228.009,
+        "expected": 3,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+        "stale settings show real backend conflict and keyboard form remains usable",
+        "revoked server session returns to login without inferring runtime shutdown"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:e3350d25a4fbf02b0d3853d81a79f75aa6ec2267818a254dfee5fc139b85a9b9",
+      "finished_at_utc": "2026-10-07T02:15:45.579383Z",
+      "duration_seconds": 5.936999999976251,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    },
+    {
+      "profile": "research",
+      "expected_cases": [
+        "actual inbox scan, asynchronous enqueue and cooperative cancellation",
+        "health distinguishes actual supervised control from an available queue without a worker"
+      ],
+      "started_at_utc": "2026-10-07T02:15:45.727972Z",
+      "config_sha256": "sha256:26ad5e8984bb4f0ad92532f5a9e75062a9809d3baae37f2e9bac61edc190160e",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "research.config.mjs",
+        "--grep",
+        "(?:actual\\ inbox\\ scan,\\ asynchronous\\ enqueue\\ and\\ cooperative\\ cancellation|health\\ distinguishes\\ actual\\ supervised\\ control\\ from\\ an\\ available\\ queue\\ without\\ a\\ worker)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:34daff347b4ff70551591fa63975739d87704298d7e85daf152fead4480996f3",
+      "log": "research.log",
+      "log_sha256": "sha256:34daff347b4ff70551591fa63975739d87704298d7e85daf152fead4480996f3",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:15:46.132Z",
+        "duration": 4780.869,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "actual inbox scan, asynchronous enqueue and cooperative cancellation",
+        "health distinguishes actual supervised control from an available queue without a worker"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:c941eb51c568bb3c0b065847c2908b07a951c8af928aef1788fa2ebaa1dcd3da",
+      "finished_at_utc": "2026-10-07T02:15:50.954530Z",
+      "duration_seconds": 5.2189999999827705,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    },
+    {
+      "profile": "paper",
+      "expected_cases": [
+        "actual candidate PAPER start and pause retain run identity and show unavailable metrics"
+      ],
+      "started_at_utc": "2026-10-07T02:15:51.114387Z",
+      "config_sha256": "sha256:3e4886a99ee2b0e08e97e9b44e5d71562f304801a1b9b33b49b35b07d82934ec",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "paper.config.mjs",
+        "--grep",
+        "(?:actual\\ candidate\\ PAPER\\ start\\ and\\ pause\\ retain\\ run\\ identity\\ and\\ show\\ unavailable\\ metrics)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:807be8a673a66a10336168df9d4cff9b791cada6aefe75b02f3e819c30428b11",
+      "log": "paper.log",
+      "log_sha256": "sha256:807be8a673a66a10336168df9d4cff9b791cada6aefe75b02f3e819c30428b11",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:15:51.539Z",
+        "duration": 6637.015,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "actual candidate PAPER start and pause retain run identity and show unavailable metrics"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:42708ac85f8d161669d9f386b60d6da856a1e1843706f8752d6e6a0bc07e60d3",
+      "finished_at_utc": "2026-10-07T02:15:58.221186Z",
+      "duration_seconds": 7.10999999998603,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    },
+    {
+      "profile": "protected",
+      "expected_cases": [
+        "protected owner facts distinguish ACK/fill, remaining exposure and as-of state",
+        "financial controls stay visibly denied by actual fixture backend even after reauth"
+      ],
+      "started_at_utc": "2026-10-07T02:15:58.369244Z",
+      "config_sha256": "sha256:ecaa442106a50cc2f974f58179c92c9335fc5572171905085c6705038ce9fbc8",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "protected.config.mjs",
+        "--grep",
+        "(?:protected\\ owner\\ facts\\ distinguish\\ ACK/fill,\\ remaining\\ exposure\\ and\\ as\\-of\\ state|financial\\ controls\\ stay\\ visibly\\ denied\\ by\\ actual\\ fixture\\ backend\\ even\\ after\\ reauth)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:d54805c98bc32c7988e014fd72051e0e131073295d2748399a120b41339ae28c",
+      "log": "protected.log",
+      "log_sha256": "sha256:d54805c98bc32c7988e014fd72051e0e131073295d2748399a120b41339ae28c",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:15:58.777Z",
+        "duration": 6407.054999999999,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "protected owner facts distinguish ACK/fill, remaining exposure and as-of state",
+        "financial controls stay visibly denied by actual fixture backend even after reauth"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:e5facccebe74f411f055c1ba4107820a47472c064c68cf2156001e10760273c7",
+      "finished_at_utc": "2026-10-07T02:16:05.226393Z",
+      "duration_seconds": 6.8439999999827705,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    },
+    {
+      "profile": "temporal",
+      "expected_cases": [
+        "actual four-hour declaration, tactical validity, holding clock and author context remain separate"
+      ],
+      "started_at_utc": "2026-10-07T02:16:05.388503Z",
+      "config_sha256": "sha256:fcd0f366f01cb28cc9764cb26f0de5406804d466dd8c99d476f249bd1e4c10e6",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "temporal.config.mjs",
+        "--grep",
+        "(?:actual\\ four\\-hour\\ declaration,\\ tactical\\ validity,\\ holding\\ clock\\ and\\ author\\ context\\ remain\\ separate)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:cffb1aed9f29c5b51fa94af1021a2cad5bab5afcf82a1c7fcf137efea16053d4",
+      "log": "temporal.log",
+      "log_sha256": "sha256:cffb1aed9f29c5b51fa94af1021a2cad5bab5afcf82a1c7fcf137efea16053d4",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:16:05.826Z",
+        "duration": 4097.255,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "actual four-hour declaration, tactical validity, holding clock and author context remain separate"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:94ad7395d597f58757afb6257cf87bc1c6fd79c1f1f729fb5aeae657d711eda8",
+      "finished_at_utc": "2026-10-07T02:16:09.966218Z",
+      "duration_seconds": 4.577999999979511,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    },
+    {
+      "profile": "approval",
+      "expected_cases": [
+        "registered financial proposal shows actual source and limits and never grants fixture consent"
+      ],
+      "started_at_utc": "2026-10-07T02:16:10.110051Z",
+      "config_sha256": "sha256:79c5af486ef259db63ff3507a17461f1028a4709cbcb0abf3c46d6eb45626d8f",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "approval.config.mjs",
+        "--grep",
+        "(?:registered\\ financial\\ proposal\\ shows\\ actual\\ source\\ and\\ limits\\ and\\ never\\ grants\\ fixture\\ consent)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:ddebe71ff0353629f93b68fa2d449b83295c1676dc36e804236cc856d4f887fe",
+      "log": "approval.log",
+      "log_sha256": "sha256:ddebe71ff0353629f93b68fa2d449b83295c1676dc36e804236cc856d4f887fe",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:16:10.537Z",
+        "duration": 6057.879,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "registered financial proposal shows actual source and limits and never grants fixture consent"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:403930585332aac37bcd0128f60fdccb95828d73ad0d8367b0e961ceafd473bf",
+      "finished_at_utc": "2026-10-07T02:16:16.639509Z",
+      "duration_seconds": 6.532000000006519,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    },
+    {
+      "profile": "deployment",
+      "expected_cases": [
+        "stop new entries uses actual E6 pause while fixture activation remains unavailable"
+      ],
+      "started_at_utc": "2026-10-07T02:16:16.787912Z",
+      "config_sha256": "sha256:bda7d05bfabfd8a36957e57b00ce60467a621087e3c832f6d61febb777743a6a",
+      "command": [
+        "node",
+        "<repo>/ui/node_modules/@playwright/test/cli.js",
+        "test",
+        "--config",
+        "deployment.config.mjs",
+        "--grep",
+        "(?:stop\\ new\\ entries\\ uses\\ actual\\ E6\\ pause\\ while\\ fixture\\ activation\\ remains\\ unavailable)$"
+      ],
+      "passed": true,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "original_log_sha256": "sha256:cbb7d82b3edad2d83ed7a4b466a0af3605addde84756d655c010a797c9426342",
+      "log": "deployment.log",
+      "log_sha256": "sha256:cbb7d82b3edad2d83ed7a4b466a0af3605addde84756d655c010a797c9426342",
+      "browser_stats": {
+        "startTime": "2026-10-07T02:16:17.202Z",
+        "duration": 6827.103999999999,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "observed_cases": [
+        "stop new entries uses actual E6 pause while fixture activation remains unavailable"
+      ],
+      "errors_count": 0,
+      "browser_results_sha256": "sha256:d95aa36e4803f4f731b1d4f14518492843da65ed6b9fecf68d3b4adecae38346",
+      "finished_at_utc": "2026-10-07T02:16:24.079140Z",
+      "duration_seconds": 7.296999999962281,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "build_inventory_after": "MATCH"
+    }
+  ],
+  "frontend_commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-07T01:50:23.807995Z",
+      "finished_at_utc": "2026-10-07T01:50:26.149251Z",
+      "duration_seconds": 2.344000000040978,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-07T01:50:26.296233Z",
+      "finished_at_utc": "2026-10-07T01:50:29.703558Z",
+      "duration_seconds": 3.405999999959022,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:ea9420b7e41b8101211a1af1d82d4531e8483c33a70dc7af7eec17fc47c05f5a",
+      "log_sha256": "sha256:ea9420b7e41b8101211a1af1d82d4531e8483c33a70dc7af7eec17fc47c05f5a",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-07T01:50:29.860768Z",
+      "finished_at_utc": "2026-10-07T01:50:31.718137Z",
+      "duration_seconds": 1.8599999999860302,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-07T01:50:31.868832Z",
+      "finished_at_utc": "2026-10-07T01:50:33.641161Z",
+      "duration_seconds": 1.7660000000032596,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:4ecc7eb7dab43e55a20110f3ffa0c30b2bcbb3e1a36d84428b33d09fb7e0cc94",
+      "log_sha256": "sha256:1dcf012e51a20053b8bef7d324d06b41c14b669992ec20c173821f3b80ea0f30",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 15
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-07T01:50:33.809280Z",
+      "finished_at_utc": "2026-10-07T01:50:34.484787Z",
+      "duration_seconds": 0.6720000000204891,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:4a87130a64cbca85f4ef67582c5671237e0ffd33638eae76c310156edf4dcb3c",
+      "log_sha256": "sha256:4a87130a64cbca85f4ef67582c5671237e0ffd33638eae76c310156edf4dcb3c",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    }
+  ],
+  "initial_attempt": {
+    "report_sha256": "sha256:c7f33d4ef0a94ba17dea9471cc5c29f131f6af8a9260115b74ad2eea72006bb7",
+    "status": "NOT_RUN_PENDING_SERIAL_BROWSER",
+    "browser_cases_executed": 0,
+    "qualification_scope": "FRONTEND_ONLY"
+  },
+  "expected_cases": [
+    "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+    "actual inbox scan, asynchronous enqueue and cooperative cancellation",
+    "health distinguishes actual supervised control from an available queue without a worker",
+    "actual candidate PAPER start and pause retain run identity and show unavailable metrics",
+    "protected owner facts distinguish ACK/fill, remaining exposure and as-of state",
+    "stale settings show real backend conflict and keyboard form remains usable",
+    "financial controls stay visibly denied by actual fixture backend even after reauth",
+    "registered financial proposal shows actual source and limits and never grants fixture consent",
+    "stop new entries uses actual E6 pause while fixture activation remains unavailable",
+    "revoked server session returns to login without inferring runtime shutdown",
+    "actual four-hour declaration, tactical validity, holding clock and author context remain separate"
+  ],
+  "original_spec_sha256": "sha256:a09943c9ea7b6c741e256c88b2ae50008fd2391b170c493487dda69b54837e73",
+  "original_config_sha256": "sha256:f7d14aaef90285ebe3276cdf44437d80cc8829d271c18969dcab368880f8567a",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:4a7f51cdfb5855879d5928cd2974d0f44c0cc613f3edfe1de7ff029863417d03",
+    "assets/index-9eMSzMnz.js": "sha256:238a38a07d857b988c54a6c6d753c95a34cedc3fecad28a1772b86ae9703e323",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "index.html": "sha256:14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+  },
+  "build_hash_capture": "SERIAL_BROWSER_START;COMPLETE_INVENTORY_RECHECKED_BEFORE_AND_AFTER_EVERY_FIXTURE",
+  "native_build_identity": {
+    "executable_revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "implementation_hash": "sha256:9d26a9802884f8d176cac8358361ad334e461a8a0d2a72b4ce2642f0c2148dc6",
+    "build_hash": "sha256:98b1acb2a617005093df326935830a3c6eaa9095c0462bc39e642f794b6b7ae6",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "native_browser_assets": "EXACT_INVENTORY_MATCH",
+  "unchanged_assertions": true,
+  "workers": 1,
+  "retries": 0,
+  "resource_admission": "UNCHANGED_PRODUCT_GATES;ONE_FIXTURE_PROCESS_AT_A_TIME",
+  "semantics": "All unchanged browser assertions run against actual source owners on isolated synthetic profiles. Serial fixture orchestration proves the same browser cases, not seven simultaneous fixture startups, a real trading runtime, external cloud or Linux commissioning.",
+  "browser_cases_observed": [
+    "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+    "stale settings show real backend conflict and keyboard form remains usable",
+    "revoked server session returns to login without inferring runtime shutdown",
+    "actual inbox scan, asynchronous enqueue and cooperative cancellation",
+    "health distinguishes actual supervised control from an available queue without a worker",
+    "actual candidate PAPER start and pause retain run identity and show unavailable metrics",
+    "protected owner facts distinguish ACK/fill, remaining exposure and as-of state",
+    "financial controls stay visibly denied by actual fixture backend even after reauth",
+    "actual four-hour declaration, tactical validity, holding clock and author context remain separate",
+    "registered financial proposal shows actual source and limits and never grants fixture consent",
+    "stop new entries uses actual E6 pause while fixture activation remains unavailable"
+  ],
+  "missing_screenshots": [],
+  "screenshot_hashes": {
+    "overview.png": "sha256:1e67e05b0d735d63535988456c83a25b761a00ef3d2bdb4d0381ba8545221926",
+    "health.png": "sha256:1dd78c8700080192ea88c3b4ed448970079e4a93cea387759e205dee3ecda04c",
+    "supervised-health.png": "sha256:756204dead6109bcab6b5df8a580d33980cec516294af8bc1e719559f3624e13",
+    "protected-paper.png": "sha256:81c436a26a3b69b208f81b5d35ef558fe2b187ab1849f824145dd3ef990791cd",
+    "approval-preview.png": "sha256:a3d22db5134495cdd10697a8f240673ae33b736cfe8df7f4d17089cd913fc6bd",
+    "deployment-pause.png": "sha256:7e1ee0894ce78bd9c9a45b0adfcf94f3b135474c065881187048812051ef7c1c"
+  },
+  "source_after": {
+    "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-07T02:16:24.282309Z",
+  "tests_passed": 11,
+  "failures": 0,
+  "skipped": 0,
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:e10c65cb31f06085d05610b38b9b26008f7438d66905999cd9283cdca9f37b4a",
+    "contracts/control_api_v0_2.openapi.json": "sha256:df26438c78f14c76258bad7d9107a65719447d0b78e0ba03d7eb5178764c3eae"
+  }
+}

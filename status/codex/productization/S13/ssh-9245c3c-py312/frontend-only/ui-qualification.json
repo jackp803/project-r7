@@ -1,0 +1,153 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "source_before": {
+    "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-07T01:50:23.225081Z",
+  "launcher_hash": "sha256:93e7f47e5307197ec889a84d607c436b72b44f83fd158d49f9457da05599bacb",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-07T01:50:23.807995Z",
+      "finished_at_utc": "2026-10-07T01:50:26.149251Z",
+      "duration_seconds": 2.344000000040978,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "log_sha256": "sha256:2d599baf6fde9b7b2b48b91752c010bdd98adb2feb319ad894e03af52ec660e8",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-07T01:50:26.296233Z",
+      "finished_at_utc": "2026-10-07T01:50:29.703558Z",
+      "duration_seconds": 3.405999999959022,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:ea9420b7e41b8101211a1af1d82d4531e8483c33a70dc7af7eec17fc47c05f5a",
+      "log_sha256": "sha256:ea9420b7e41b8101211a1af1d82d4531e8483c33a70dc7af7eec17fc47c05f5a",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-07T01:50:29.860768Z",
+      "finished_at_utc": "2026-10-07T01:50:31.718137Z",
+      "duration_seconds": 1.8599999999860302,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-07T01:50:31.868832Z",
+      "finished_at_utc": "2026-10-07T01:50:33.641161Z",
+      "duration_seconds": 1.7660000000032596,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:4ecc7eb7dab43e55a20110f3ffa0c30b2bcbb3e1a36d84428b33d09fb7e0cc94",
+      "log_sha256": "sha256:1dcf012e51a20053b8bef7d324d06b41c14b669992ec20c173821f3b80ea0f30",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 15
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-07T01:50:33.809280Z",
+      "finished_at_utc": "2026-10-07T01:50:34.484787Z",
+      "duration_seconds": 0.6720000000204891,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:4a87130a64cbca85f4ef67582c5671237e0ffd33638eae76c310156edf4dcb3c",
+      "log_sha256": "sha256:4a87130a64cbca85f4ef67582c5671237e0ffd33638eae76c310156edf4dcb3c",
+      "passed": true,
+      "source_after": {
+        "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+        "worktree": "CLEAN"
+      }
+    }
+  ],
+  "passed": true,
+  "qualification_scope": "FRONTEND_ONLY",
+  "browser_status": "NOT_RUN_PENDING_SERIAL_BROWSER",
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "semantics": "S13 guarded service and UI link increment; frontend-only qualification preserves strict restoration health DTO and Traditional-Chinese reconciliation/reauthorization reasons; preserves observed control heartbeat, an available queue without a worker, stopped/failed/unknown and unconfigured services in Traditional Chinese. Actual supervised source browser fixture uses an explicitly synthetic clock and no financial authority. Existing actual isolated auth/E6/intake/research/PAPER/deployment cases remain covered; real cloud/forward/provider/native-service acceptance is not implied",
+  "browser_version": "154.0.4258.53",
+  "source_after": {
+    "revision": "9245c3c9cd6aa369f04ed6d7aa909225dbc15cd7",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-07T01:50:34.633402Z",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:4a7f51cdfb5855879d5928cd2974d0f44c0cc613f3edfe1de7ff029863417d03",
+    "assets/index-9eMSzMnz.js": "sha256:238a38a07d857b988c54a6c6d753c95a34cedc3fecad28a1772b86ae9703e323",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "index.html": "sha256:14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+  },
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:e10c65cb31f06085d05610b38b9b26008f7438d66905999cd9283cdca9f37b4a",
+    "contracts/control_api_v0_2.openapi.json": "sha256:df26438c78f14c76258bad7d9107a65719447d0b78e0ba03d7eb5178764c3eae"
+  }
+}

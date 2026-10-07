@@ -1,0 +1,199 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.EXE",
+      "<SOURCE_ROOT>\\ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-productization-S13-recovery-ui-serial-9245c3c\\empty.config.mjs",
+      "--grep",
+      "(?:empty\\ views\\ use\\ actual\\ nulls,\\ Traditional\\ Chinese\\ and\\ persistent\\ fixture\\ labels|stale\\ settings\\ show\\ real\\ backend\\ conflict\\ and\\ keyboard\\ form\\ remains\\ usable|revoked\\ server\\ session\\ returns\\ to\\ login\\ without\\ inferring\\ runtime\\ shutdown)$"
+    ],
+    "configFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-productization-S13-recovery-ui-serial-9245c3c\\empty.config.mjs",
+    "rootDir": "<SOURCE_ROOT>/ui/qa",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "<USER_HOME>/Desktop/交易機器人主體/artifacts/r7-productization-S13-recovery-ui-serial-9245c3c/empty/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "<SOURCE_ROOT>/ui/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-productization-S13-recovery-ui-serial-9245c3c\\empty\\results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "py -3.12 qa/serve_fixture.py --profile empty --port 8766",
+      "cwd": "<SOURCE_ROOT>\\ui",
+      "url": "http://127.0.0.1:8766/api/v1/auth/status",
+      "reuseExistingServer": false,
+      "timeout": 90000,
+      "stdout": "ignore",
+      "stderr": "pipe"
+    }
+  },
+  "suites": [
+    {
+      "title": "control-center.spec.ts",
+      "file": "control-center.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "empty views use actual nulls, Traditional Chinese and persistent fixture labels",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1212,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T02:15:42.558Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-8174b35599d7443840e9",
+          "file": "control-center.spec.ts",
+          "line": 15,
+          "column": 1
+        },
+        {
+          "title": "stale settings show real backend conflict and keyboard form remains usable",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 524,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T02:15:44.057Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-c292c0bbba6efde40498",
+          "file": "control-center.spec.ts",
+          "line": 96,
+          "column": 1
+        },
+        {
+          "title": "revoked server session returns to login without inferring runtime shutdown",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 411,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-07T02:15:44.587Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-f62c8d8540debca2a5f4",
+          "file": "control-center.spec.ts",
+          "line": 159,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-07T02:15:40.301Z",
+    "duration": 5228.009,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

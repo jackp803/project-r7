@@ -1,0 +1,135 @@
+test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal) ... ERROR
+test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result) ... ERROR
+test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management) ... ERROR
+test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate) ... ERROR
+test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry) ... ERROR
+
+======================================================================
+ERROR: test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 40, in test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal
+    h=self.h;run=self.start(end=1)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 24, in start
+    h=self.h;h.service=self.service(start,end);h.boundary._resolve=h.service.resolve_owner_evidence
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 18, in service
+    return h.service_type(registry=h.registry,process_journal=h.process,canonical_journal=h.canonical,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 66, in __init__
+    self.validity_json=bind_submission_validity(submission_validity, clock())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\policy.py", line 59, in bind_submission_validity
+    assess_submission_validity(value, now)
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 90, in assess_submission_validity
+    lower=_parse_utc(interval['from'],'valid_from') if interval['from'] is not None else None
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\runtime.py", line 167, in _parse_utc
+    raise StrategyValidationError(
+strategy.runtime.StrategyValidationError: valid_from must be RFC 3339 UTC ending in Z
+
+======================================================================
+ERROR: test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 52, in test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result
+    h=self.h;run=self.start()
+                 ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 24, in start
+    h=self.h;h.service=self.service(start,end);h.boundary._resolve=h.service.resolve_owner_evidence
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 18, in service
+    return h.service_type(registry=h.registry,process_journal=h.process,canonical_journal=h.canonical,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 66, in __init__
+    self.validity_json=bind_submission_validity(submission_validity, clock())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\policy.py", line 59, in bind_submission_validity
+    assess_submission_validity(value, now)
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 90, in assess_submission_validity
+    lower=_parse_utc(interval['from'],'valid_from') if interval['from'] is not None else None
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\runtime.py", line 167, in _parse_utc
+    raise StrategyValidationError(
+strategy.runtime.StrategyValidationError: valid_from must be RFC 3339 UTC ending in Z
+
+======================================================================
+ERROR: test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 69, in test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management
+    h=self.h;run=self.start()
+                 ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 24, in start
+    h=self.h;h.service=self.service(start,end);h.boundary._resolve=h.service.resolve_owner_evidence
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 18, in service
+    return h.service_type(registry=h.registry,process_journal=h.process,canonical_journal=h.canonical,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 66, in __init__
+    self.validity_json=bind_submission_validity(submission_validity, clock())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\policy.py", line 59, in bind_submission_validity
+    assess_submission_validity(value, now)
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 90, in assess_submission_validity
+    lower=_parse_utc(interval['from'],'valid_from') if interval['from'] is not None else None
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\runtime.py", line 167, in _parse_utc
+    raise StrategyValidationError(
+strategy.runtime.StrategyValidationError: valid_from must be RFC 3339 UTC ending in Z
+
+======================================================================
+ERROR: test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 32, in test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate
+    h=self.h;run=self.start()
+                 ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 24, in start
+    h=self.h;h.service=self.service(start,end);h.boundary._resolve=h.service.resolve_owner_evidence
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 18, in service
+    return h.service_type(registry=h.registry,process_journal=h.process,canonical_journal=h.canonical,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 66, in __init__
+    self.validity_json=bind_submission_validity(submission_validity, clock())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\policy.py", line 59, in bind_submission_validity
+    assess_submission_validity(value, now)
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 90, in assess_submission_validity
+    lower=_parse_utc(interval['from'],'valid_from') if interval['from'] is not None else None
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\runtime.py", line 167, in _parse_utc
+    raise StrategyValidationError(
+strategy.runtime.StrategyValidationError: valid_from must be RFC 3339 UTC ending in Z
+
+======================================================================
+ERROR: test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 81, in test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry
+    h=self.h;run=self.start(start=1,end=3)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 24, in start
+    h=self.h;h.service=self.service(start,end);h.boundary._resolve=h.service.resolve_owner_evidence
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 18, in service
+    return h.service_type(registry=h.registry,process_journal=h.process,canonical_journal=h.canonical,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\service.py", line 66, in __init__
+    self.validity_json=bind_submission_validity(submission_validity, clock())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\policy.py", line 59, in bind_submission_validity
+    assess_submission_validity(value, now)
+  File "<SOURCE_ROOT>\src\strategy\v02\temporal.py", line 90, in assess_submission_validity
+    lower=_parse_utc(interval['from'],'valid_from') if interval['from'] is not None else None
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\runtime.py", line 167, in _parse_utc
+    raise StrategyValidationError(
+strategy.runtime.StrategyValidationError: valid_from must be RFC 3339 UTC ending in Z
+
+----------------------------------------------------------------------
+Ran 5 tests in 10.645s
+
+FAILED (errors=5)

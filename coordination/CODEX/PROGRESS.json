@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S15",
-  "next_step": "Continue actual tactical-owner/whole-product acceptance, remaining38 source-support rows and150 inherited applicability decisions; continue authorized issuer/store/adapter plumbing. Production qualification issuance awaits PM/E6 profile acceptance; native Ubuntu and real commissioning remain NOT_RUN.",
+  "next_step": "Continue remaining20 API/UI/platform/operations/E2E support selections and150 inherited applicability decisions;actual whole-flow/capacity and authorized issuer/store/adapter work. API3 draft21cases pending independent review. Production qualification issuance awaitsPM/E6 accepted profile;Ubuntu/real commissioning remainNOT_RUN.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -1490,7 +1490,9 @@
     "status/codex/productization/S15/execution-index-e293a94/disposition.json",
     "status/codex/productization/S14/cli-publisher-fec8af0-py312/disposition.json",
     "status/codex/productization/S15/execution-index-fec8af0/disposition.json",
-    "status/codex/productization/S15/scoped-source-support-fec8af0/disposition.json"
+    "status/codex/productization/S15/scoped-source-support-fec8af0/disposition.json",
+    "status/codex/productization/S15/owner-temporal-support-fec8af0/disposition.json",
+    "status/codex/productization/S15/owner-temporal-support-fec8af0/S15-tactical-owner-target-reason-NORMAL.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -1914,22 +1916,63 @@
   },
   "acceptance_scoped_source_support_checkpoint": {
     "candidate_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
-    "status": "28_REVIEWED_PARTIAL_SUPPORT_ROWS;NOT_COMPLETE_REQUIREMENT_RESULTS",
-    "selected_support_rows": 28,
-    "unselected_support_rows": 38,
-    "distinct_supporting_executed_cases": 111,
+    "status": "46_REVIEWED_PARTIAL_SUPPORT_ROWS;NOT_COMPLETE_REQUIREMENT_RESULTS",
+    "selected_support_rows": 46,
+    "unselected_support_rows": 20,
+    "distinct_supporting_executed_cases": 203,
     "complete_requirement_results_pending": 66,
     "legacy_applicability_or_mapping_pending": 150,
     "requirement_pass_claims": 0,
-    "independently_reviewed_test_source_files": 20,
+    "independently_reviewed_test_source_files": 37,
     "current_retention_guard_tests": 7,
     "remaining_review_critical": 0,
     "remaining_review_important": 0,
     "source_qualification_tests": 1953,
     "source_qualification_commands": 33,
-    "retained_files": 46,
-    "evidence_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/disposition.json",
-    "manifest_ref": "status/codex/productization/S15/scoped-source-support-artifact-hashes-fec8af0.json",
-    "limitations": "Source-only bounded selections;21-field acceptance,normal native PAPER,whole-flow,capacity,mandatory Ubuntu andS16 remain pending"
+    "additional_retained_files": 45,
+    "evidence_ref": "status/codex/productization/S15/owner-temporal-support-fec8af0/disposition.json",
+    "manifest_ref": "status/codex/productization/S15/owner-temporal-support-artifact-hashes-fec8af0.json",
+    "limitations": "Partial source support;21-field acceptance,normal native PAPER,whole-flow,capacity,mandatory Ubuntu andS16 remain pending"
+  },
+  "acceptance_scoped_source_support_history": [
+    {
+      "candidate_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+      "status": "28_REVIEWED_PARTIAL_SUPPORT_ROWS;NOT_COMPLETE_REQUIREMENT_RESULTS",
+      "selected_support_rows": 28,
+      "unselected_support_rows": 38,
+      "distinct_supporting_executed_cases": 111,
+      "complete_requirement_results_pending": 66,
+      "legacy_applicability_or_mapping_pending": 150,
+      "requirement_pass_claims": 0,
+      "independently_reviewed_test_source_files": 20,
+      "current_retention_guard_tests": 7,
+      "remaining_review_critical": 0,
+      "remaining_review_important": 0,
+      "source_qualification_tests": 1953,
+      "source_qualification_commands": 33,
+      "retained_files": 46,
+      "evidence_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/disposition.json",
+      "manifest_ref": "status/codex/productization/S15/scoped-source-support-artifact-hashes-fec8af0.json",
+      "limitations": "Source-only bounded selections;21-field acceptance,normal native PAPER,whole-flow,capacity,mandatory Ubuntu andS16 remain pending"
+    }
+  ],
+  "acceptance_tactical_owner_checkpoint": {
+    "status": "5_SCOPED_ACTUAL_SOURCE_ACCELERATED_FIXTURE_CASES_PASS",
+    "execution_revision": "ad4565b8d7ec420540d45d02dfad81573eb08370",
+    "qualified_executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+    "compatibility": "status/coordination-only Git differences;full implementation hash and223 harness/test inputs unchanged",
+    "tests_run": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "temporal_mutation_tests": 5,
+    "temporal_mutation_failures": 3,
+    "temporal_mutation_errors": 0,
+    "tree_reaped": true,
+    "independent_review": "0C_0I_0M;READ_ONLY;NO_REVIEWER_EXECUTION",
+    "fixture_origin": "SOURCE_CREATED_ACTUAL_E2_E3_E5_E6_ACCELERATED_FIXTURE;NOT_NATIVE_RUNTIME_COMPOSITION",
+    "original_1953_case_index_addition": 0,
+    "evidence_ref": "status/codex/productization/S15/owner-temporal-support-fec8af0/S15-tactical-owner-target-reason-NORMAL.json",
+    "limitations": "Five new scoped fixtures separate from1953 index;no full requirement/native/real-forward/financial acceptance"
   }
 }

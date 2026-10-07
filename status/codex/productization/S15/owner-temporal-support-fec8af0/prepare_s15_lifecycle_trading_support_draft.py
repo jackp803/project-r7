@@ -1,0 +1,126 @@
+"""Twelve manually curated partial source mappings; no acceptance issuance."""
+from pathlib import Path
+import json
+base=Path(__file__).resolve().parent;rows=[]
+def select(source,*methods):return [[source,method] for method in methods]
+def add(identifier,behavior,selectors,remaining):rows.append(dict(id=identifier,supported_behavior=behavior,selectors=selectors,remaining=remaining))
+life='tests/registry/test_product_lifecycle_v02.py';oper='tests/registry/test_operational_lifecycle_v02.py'
+assessment='tests/application/test_product_assessment_binding.py';paper='tests/product/test_paper_runtime_v02.py'
+dispatch='tests/product/test_trading_dispatch_v02.py';admission='tests/product/test_live_admission_v02.py'
+preflight='tests/integration/test_product_runtime_preflight_v02.py';transport='tests/brokers/test_okx_production_transport.py'
+translation='tests/brokers/test_okx_product_translation_v02.py';protection='tests/brokers/test_okx_product_protection_v02.py'
+close='tests/brokers/test_okx_product_close_v02.py'
+add('LIFE-01','Canonical model has exactly19 edges/10 states. Actual FIXTURE owner storage exercises18 named legal transitions and all illegal pairs; actual quantitative rejection exercises the remaining BACKTESTING-to-REJECTED edge. Direct CANDIDATE bypass and v0.2 escape through legacy registry are rejected.',
+    select(life,'test_full_canonical_model_has_exact_nineteen_edges_and_ten_states',
+      'test_direct_store_candidate_bypass_requires_product_owner_evidence',
+      'test_v02_subject_cannot_escape_product_gates_in_unclassified_legacy_registry')+
+    select(oper,'test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage')+
+    select(assessment,'test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting'),
+    ['FIXTURE mechanics only; simulated APPROVED/LIVE lifecycle labels are not real deployment or financial authority.'])
+add('LIFE-02','Actual source research pipeline enters CANDIDATE with the selected E5 risk-policy binding and retains it after reopening E6. Diagnostic PASS without selected risk remains BACKTESTING; quantitative FAIL is REJECTED and insufficient sample is BLOCKED. Legacy PASS metadata and caller-written product records cannot mint CANDIDATE.',
+    select(assessment,'test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy',
+      'test_missing_risk_preserves_diagnostic_pass_without_candidate_authority',
+      'test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting',
+      'test_e6_product_record_requires_configured_actual_producer_not_caller_pass')+
+    select(life,'test_product_namespace_cannot_promote_using_legacy_pass_metadata'),
+    ['Full robustness/holdout support is separately mapped in RES rows; these selected gate tests are not a complete21-field whole-product acceptance result.'])
+add('LIFE-03','Actual E6 FIXTURE approval rejects forged human/caller records, stale registry revision and wrong envelope subject. Approved records resist SQL UPDATE/DELETE, and revocation blocks activation. Injected transaction failure leaves no orphan approval; identical completed command returns original receipt. Expired human cannot approve; changed release generations cannot activate.',
+    select(oper,'test_forged_stale_wrong_subject_and_revoked_approval_fail_closed',
+      'test_approval_transition_and_command_receipt_are_atomic_and_retryable',
+      'test_identical_completed_approval_command_returns_original_receipt',
+      'test_expired_human_and_changed_release_generation_cannot_approve_or_activate')+
+    select(admission,'test_exact_current_authority_snapshot_contains_original_envelope_and_selected_e5_policy'),
+    ['Authenticated human and runtime preflight inputs are explicitly FIXTURE/synthetic, not accepted real production approval. Production qualification issuer/profile and current native runtime-role evidence remain pending.'])
+add('LIFE-04','Persisted historical owner graph is byte-row preserved through retirement. Actual accelerated Paper pause retains open protection and completes management; retirement stays RETIRED during managed closure. Restart preserves first-fill and balance with reconciliation. E6 reopened DEGRADED state cannot resume LIVE through direct-store skip or forged human.',
+    select(oper,'test_retirement_preserves_existing_owner_exposure_and_protection_graph',
+      'test_direct_store_operational_skip_and_restart_cannot_resume_live')+
+    select(paper,'test_pause_preserves_open_protection_and_management',
+      'test_retirement_blocks_new_entries_and_preserves_existing_management',
+      'test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance'),
+    ['Historical graph preservation test starts no broker/risk runtime; separate Paper cases execute actual accelerated owner composition. Ordinary native continuous runtime is NOT_RUN.'])
+add('PAPER-01','Actual source-created E2/E3/E5/PaperBroker/E6 composition traverses ACK with no position, verified fill/protection, profitable EXIT_REQUESTED-to-CLOSED closure at fixture target price and canonical TradeResult/READY recovery. Broker readback keeps first-fill anchor; stop-trigger exit retains original protection identity. Owner-bound FIXTURE forward assessment can move lifecycle to READY_FOR_APPROVAL under the explicit short fixture policy.',
+    select(paper,'test_full_entry_ack_fill_verified_protection_target_exit_flat_result',
+      'test_actual_broker_readback_advances_observation_without_renewing_first_fill',
+      'test_stop_trigger_reduces_with_original_verified_protection_order',
+      'test_fixture_readiness_requires_actual_bound_forward_assessment'),
+    ['Source-created accelerated FIXTURE, not normal native runtime composition or accepted real-time forward qualification. Production PAPER release issuer/adapter remains pending.'])
+add('PAPER-02','Duplicate finalized boundary is idempotent. Partial entry cancels remainder before protecting actual quantity; stale market submits nothing. Actual cancelled protection triggers E5 emergency management; rejected initial stop closes through emergency, unknown stop retains reconciliation on restart. Entry ambiguity does not resubmit/reset. Restart and interrupted fill publication preserve facts without replaying fill.',
+    select(paper,'test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry',
+      'test_partial_fill_cancels_remainder_before_protecting_actual_quantity',
+      'test_stale_market_admits_no_order_and_reports_observed_reason',
+      'test_authoritative_protection_loss_requests_e5_emergency_exit_and_closes_later',
+      'test_rejected_initial_protection_enters_emergency_and_management_closes',
+      'test_missing_initial_protection_remains_reconciliation_required_on_restart',
+      'test_unresolved_entry_submit_blocks_without_retry_or_reset',
+      'test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance',
+      'test_full_fill_checkpoint_recovers_publication_without_replaying_fill'),
+    ['Isolated source accelerated mechanics; native persistent-worker fault composition is not asserted.'])
+add('PAPER-03','Accelerated3601 simulated seconds produce actual_elapsed_seconds0 and cannot satisfy real forward duration. Changed selected promotion generation cannot reuse old run evidence. Actual loss fixture fails MIN_NET_PNL_NOT_MET and cannot mark READY, while explicitly short FIXTURE policy permits the bound positive fixture transition.',
+    select(paper,'test_accelerated_forward_assessment_never_counts_simulated_time_as_real_elapsed',
+      'test_forward_policy_change_cannot_reuse_previous_run_as_promotion_evidence',
+      'test_actual_forward_quantitative_failure_cannot_mark_ready',
+      'test_fixture_readiness_requires_actual_bound_forward_assessment')+
+    select(oper,'test_changed_paper_policy_cannot_transplant_old_ready_evidence_into_approval'),
+    ['No real time/sample observation qualification or production READY/approval is claimed.'])
+add('PAPER-04','Separate actual owned source Paper process continues protected heartbeat while a controlled MemoryError research child and a timed-out research child are reaped. Subsequent explicit fixture close reaches canonical READY/CLOSED with one TradeResult and net quantity zero.',
+    select('tests/product/test_research_isolation.py','test_memory_failure_and_owned_timeout_preserve_separate_actual_paper_management'),
+    ['Controlled MemoryError injection, not actual host OOM or24GB capacity proof. Windows Python-owned process mechanics only; native Windows/Ubuntu resource-stress runtime composition remains pending.'])
+add('TRADE-01','Production transport implementation is exercised through controlled fake connections: canonical signed body without demo header/secret repr, path/domain/method allowlist, scoped readback identity, bounded sanitized response rejection and ambiguous timeout without retry. Actual E5 gateway mapping supplies entry/close quantities; native conditional-last stop mapping and partial-position triggered-child lineage are verified with fake provider facts.',
+    select(transport,'test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body',
+      'test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch',
+      'test_readback_requires_instrument_scope_and_one_exact_order_identity',
+      'test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry',
+      'test_timeout_is_ambiguous_sanitized_and_not_retried')+
+    select(translation,'test_entry_uses_actual_e5_gateway_and_existing_contract_sizing',
+      'test_close_uses_current_e5_authority_and_shared_v02_cap_without_enlargement',
+      'test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6')+
+    select(protection,'test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping')+
+    select(dispatch,'test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage'),
+    ['All credentials/connections/provider responses are public synthetic fixture inputs; real provider requests0. Partial source adapter evidence, not real deployment or complete production/native qualification.'])
+add('TRADE-02','FIXTURE cannot compose real provider driver and its constructor reads no vault. Fixture permission denies production and opaque verification permit rechecks owners. Validated string credential handle returns typed OKXCredentials and missing secrets are rejected. Actual durable claim precedes one fake POST, and current consent/permit are rechecked before effect; same plan ID with changed E5 payload cannot dispatch.',
+    select(dispatch,'test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault',
+      'test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack',
+      'test_current_consent_is_rechecked_after_durable_claim_before_provider_effect',
+      'test_permit_expiring_inside_final_provider_guard_cannot_reach_post',
+      'test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch')+
+    select(admission,'test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners',
+      'test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority')+
+    select(transport,'test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback')+
+    select(translation,'test_existing_exposure_pending_orders_and_non_e5_plan_block_entry'),
+    ['No actual credential access, cloud approval enrollment, provider effect or financial authority. Runtime preflight facts in owner fixture are synthetic; real current native authority remains pending.'])
+add('TRADE-03','Fake-provider ACK stays pending with no invented fill. Lost ACK restart only reads back; unresolved claim blocks another plan, and duplicate execution cannot issue another POST. Partial position determines stop size/native child lineage; partial filled order does not infer canonical flat. Orphan/multiple/unknown protection blocks initial protection preparation; close dust/residual/ambiguous/external truth supplies no unauthorized size. Retained publication facts recover without new HTTP.',
+    select(dispatch,'test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack',
+      'test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty',
+      'test_an_unresolved_entry_claim_blocks_another_plan_despite_a_new_empty_prerequisite_snapshot',
+      'test_duplicate_execute_reconciles_same_committed_claim_without_another_post',
+      'test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage',
+      'test_partial_order_and_complete_fills_are_published_without_flat_inference',
+      'test_publication_failure_replays_retained_facts_without_post_or_get')+
+    select(protection,'test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel')+
+    select(close,'test_partial_cap_and_dust_keep_existing_fail_closed_semantics',
+      'test_ambiguous_and_external_truth_never_return_a_request_size'),
+    ['This selected subset is not the full LF/FP named scenario matrix or full fake-provider end-to-end acceptance. Existing1953-case regression remains separately indexed; comprehensive LF/FP applicability mapping is pending.'])
+add('TRADE-04','Synthetic current-runtime preflight denies wrong revision/config/process/prior boot/stale heartbeat/single-instance conflict and old-evidence refresh. E6 fixture admission rejects changed release/process generations. Separately, existing E5 context derivation enforces kill switch, and E5 risk evaluation rejects configured drawdown lock including a new intent identity.',
+    select(preflight,'test_wrong_revision_config_process_prior_boot_stale_heartbeat_or_single_instance_deny',
+      'test_old_evidence_cannot_refresh_itself_with_new_process_generation_or_mutated_hash')+
+    select(admission,'test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp')+
+    select('tests/risk/test_gate_c_context_derivation.py','test_kill_switch_and_existing_policy_counters_remain_e5_authority')+
+    select('tests/risk/test_risk_engine.py','test_gate_b_drawdown_lock_uses_configured_policy_threshold',
+      'test_gate_b_new_intent_identity_does_not_bypass_active_limit_locks'),
+    ['These are separate source preflight/owner/E5 tests, not joined native kill-switch/loss-lock product acceptance. Consecutive-loss threshold is not specifically asserted by this selection; whole-product linkage remains pending.'])
+ids=[f'{group}-{n:02d}' for group in ('LIFE','PAPER','TRADE') for n in range(1,5)]
+assert [row['id'] for row in rows]==ids
+policy=dict(document_kind='MANUALLY_CURATED_SCOPED_SOURCE_SUPPORT_DRAFT;NOT_REQUIREMENT_ACCEPTANCE',
+    candidate_revision='fec8af0f70d787deea720b1e7f952c4fca9487b5',scope='LIFE_PAPER_TRADE01-04;WINDOWS_SOURCE_SUPPORT_ONLY',requirements=rows,
+    common_limits=['Original1953-case exact-clean source qualification only; no new per-result21-field acceptance execution.',
+      'Rows may reuse cases; selected distinct cases are deduplicated and may overlap prior selections.',
+      'Real runtime/preflight/human authority, normal native PAPER, Ubuntu/whole-product and real commissioning remain unqualified; requirementPASS0.'])
+target=base/'S15-lifecycle-trading-support-selection-fec8af0.json';assert not target.exists()
+target.write_text(json.dumps(policy,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+source=(base/'build_s15_strategy_support_draft.py').read_text(encoding='utf-8')
+source=source.replace('S15-strategy-support-selection','S15-lifecycle-trading-support-selection').replace('S15-strategy-support-draft','S15-lifecycle-trading-support-draft')
+source=source.replace("[f'STR-{number:02d}' for number in range(1,9)]",repr(ids))
+source=source.replace('selected_requirement_drafts=8','selected_requirement_drafts=12').replace('unselected_v02_requirements=58','unselected_v02_requirements=54')
+builder=base/'build_s15_lifecycle_trading_support_draft.py';assert not builder.exists()
+builder.write_text(source,encoding='utf-8',newline='\n')
+print('Prepared twelve LIFE/PAPER/TRADE source support rows; requirementPASS0.')

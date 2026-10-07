@@ -1,0 +1,46 @@
+test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal) ... FAIL
+test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expired_tactical_preserves_open_protection_and_e5_target_exit_flat_result) ... ok
+test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expired_tactical_restart_preserves_binding_first_fill_balance_and_management) ... ok
+test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate) ... FAIL
+test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry) ... FAIL
+
+======================================================================
+FAIL: test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 44, in test_ack_is_cancelled_at_tactical_expiry_without_fill_or_plan_renewal
+    self.assertEqual('BLOCKED',result.status);self.assertIn('SUBMISSION_EXPIRED',result.reason_codes)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BLOCKED' != 'PROTECTED'
+- BLOCKED
++ PROTECTED
+
+
+======================================================================
+FAIL: test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 34, in test_expiry_boundary_denies_entry_after_actual_research_candidate_and_paper_gate
+    self.assertEqual('BLOCKED',result.status);self.assertIn('SUBMISSION_EXPIRED',result.reason_codes)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BLOCKED' != 'ACKNOWLEDGED'
+- BLOCKED
++ ACKNOWLEDGED
+
+
+======================================================================
+FAIL: test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry (s15_tactical_owner_acceptance_cases.TacticalOwnerAcceptanceTests.test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_tactical_owner_acceptance_cases.py", line 85, in test_original_not_yet_valid_interval_can_enter_only_when_valid_then_manage_after_expiry
+    self.assertEqual('BLOCKED',result.status);self.assertIn('SUBMISSION_NOT_YET_VALID',result.reason_codes)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BLOCKED' != 'ACKNOWLEDGED'
+- BLOCKED
++ ACKNOWLEDGED
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 13.152s
+
+FAILED (failures=3)

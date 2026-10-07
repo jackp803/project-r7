@@ -181,9 +181,10 @@ class RcloneBridge:
                 elif isinstance(value, str) and _private_text(value):
                     raise CloudError('BLOCKED', 'BRIDGE_PRIVATE_CONTENT_FORBIDDEN')
         if logical_path.startswith('reports/feedback/'):
-            from application.cloud.feedback import FeedbackError, validate_feedback_publication
+            from application.cloud.feedback import FeedbackError
+            from application.cloud.public_feedback import validate_public_feedback_publication
             try:
-                validate_feedback_publication(logical_path, payloads)
+                validate_public_feedback_publication(logical_path, payloads)
             except (FeedbackError, ValueError, TypeError):
                 raise CloudError('BLOCKED', 'BRIDGE_FEEDBACK_BUNDLE_INVALID') from None
         if sum(map(len, payloads.values())) + manifest_bytes > self.profile.max_transfer_bytes:

@@ -1,0 +1,510 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "namespace",
+    "strategy",
+    "source",
+    "binding",
+    "producer",
+    "created_at",
+    "observation",
+    "assessment",
+    "performance_policy",
+    "performance",
+    "cost_conventions",
+    "live",
+    "broker_kind",
+    "financial_authority",
+    "artifact_links",
+    "uncertainty"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "r7-paper-feedback-v0.2"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$"
+    },
+    "namespace": {
+      "enum": [
+        "FIXTURE",
+        "LOCAL_RESEARCH"
+      ]
+    },
+    "strategy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy_id",
+        "strategy_version",
+        "content_hash"
+      ],
+      "properties": {
+        "strategy_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$"
+        },
+        "strategy_version": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]{0,127}$"
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "executable_revision",
+        "implementation_hash",
+        "execution",
+        "worktree"
+      ],
+      "properties": {
+        "executable_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "implementation_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "execution": {
+          "const": "LOCAL"
+        },
+        "worktree": {
+          "enum": [
+            "CLEAN",
+            "DIRTY",
+            "UNAVAILABLE"
+          ]
+        }
+      }
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "config_hash",
+        "risk_policy_hash",
+        "paper_policy_hash"
+      ],
+      "properties": {
+        "config_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "risk_policy_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "paper_policy_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "process_generation",
+        "process_instance_hash"
+      ],
+      "properties": {
+        "process_generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2147483647
+        },
+        "process_instance_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "maxLength": 40,
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "observation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "execution",
+        "started_at",
+        "observed_at",
+        "actual_elapsed_seconds",
+        "actual_healthy_seconds",
+        "simulated_elapsed_seconds",
+        "simulated_healthy_seconds",
+        "max_observed_gap_seconds",
+        "closed_trades"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "ACCELERATED_FIXTURE",
+            "REAL_TIME"
+          ]
+        },
+        "execution": {
+          "enum": [
+            "SIMULATED_MECHANICS",
+            "ACTUAL_OWNER"
+          ]
+        },
+        "started_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 40,
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 40,
+              "format": "date-time",
+              "pattern": "Z$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actual_elapsed_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "actual_healthy_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "simulated_elapsed_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "simulated_healthy_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "max_observed_gap_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "closed_trades": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason_codes",
+        "run_revision",
+        "assessment_hash"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "BLOCKED"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "maxItems": 128,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]{0,127}$"
+          }
+        },
+        "run_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "assessment_hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "performance_policy": {
+      "enum": [
+        "OPT_OUT",
+        "OPT_IN"
+      ]
+    },
+    "performance": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "net_pnl_usdt",
+            "expectancy_usdt_per_trade",
+            "max_drawdown_usdt",
+            "profit_factor"
+          ],
+          "properties": {
+            "net_pnl_usdt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 128,
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[Ee][+-]?[0-9]+)?$"
+            },
+            "expectancy_usdt_per_trade": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 128,
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[Ee][+-]?[0-9]+)?$"
+            },
+            "max_drawdown_usdt": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 128,
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[Ee][+-]?[0-9]+)?$"
+            },
+            "profit_factor": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "maxLength": 128,
+              "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[Ee][+-]?[0-9]+)?$"
+            }
+          }
+        }
+      ]
+    },
+    "cost_conventions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slippage",
+        "funding_model",
+        "account_scope"
+      ],
+      "properties": {
+        "slippage": {
+          "const": "IN_FILL_PRICE_NO_ADDITIONAL_DEDUCTION"
+        },
+        "funding_model": {
+          "const": "EXPLICIT_REGISTERED_PAPER_ZERO"
+        },
+        "account_scope": {
+          "const": "ISOLATED_PER_STRATEGY_RUN"
+        }
+      }
+    },
+    "live": {
+      "const": {
+        "status": "NOT_RUN",
+        "performance": null
+      }
+    },
+    "broker_kind": {
+      "const": "PAPER_ONLY"
+    },
+    "financial_authority": {
+      "const": "NONE"
+    },
+    "artifact_links": {
+      "const": []
+    },
+    "uncertainty": {
+      "const": [
+        "PAPER uses an isolated simulated account and does not establish LIVE performance or financial authority.",
+        "Accelerated fixture duration is not actual forward observation.",
+        "Closed-trade counts are not independent observations."
+      ]
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://project-r7.local/contracts/paper_feedback_v0_2.schema.json",
+  "title": "R7 owner-derived PAPER feedback v0.2",
+  "$comment": "Structural public projection only. Current owner, generation, exact financial graph and comparative time/healthy-duration checks require the runtime validator; schema validation never supplies authority.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "namespace": {
+            "const": "FIXTURE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "mode": {
+                "const": "ACCELERATED_FIXTURE"
+              },
+              "execution": {
+                "const": "SIMULATED_MECHANICS"
+              },
+              "actual_elapsed_seconds": {
+                "const": 0
+              },
+              "actual_healthy_seconds": {
+                "const": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "namespace": {
+            "const": "LOCAL_RESEARCH"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "mode": {
+                "const": "REAL_TIME"
+              },
+              "execution": {
+                "const": "ACTUAL_OWNER"
+              },
+              "simulated_elapsed_seconds": {
+                "const": 0
+              },
+              "simulated_healthy_seconds": {
+                "const": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "performance_policy": {
+            "const": "OPT_OUT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "performance": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "closed_trades": {
+                "const": 0
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "performance": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "started_at": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "observation": {
+            "properties": {
+              "observed_at": {
+                "type": "null"
+              },
+              "actual_elapsed_seconds": {
+                "const": 0
+              },
+              "actual_healthy_seconds": {
+                "const": 0
+              },
+              "simulated_elapsed_seconds": {
+                "const": 0
+              },
+              "simulated_healthy_seconds": {
+                "const": 0
+              },
+              "max_observed_gap_seconds": {
+                "const": 0
+              },
+              "closed_trades": {
+                "const": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

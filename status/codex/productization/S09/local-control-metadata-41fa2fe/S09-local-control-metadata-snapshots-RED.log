@@ -1,0 +1,142 @@
+test_empty_manifest_is_rejected_before_progress_update (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_empty_manifest_is_rejected_before_progress_update) ... ERROR
+test_metadata_uses_the_verified_build_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_build_bytes) ... ERROR
+test_metadata_uses_the_verified_disposition_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_disposition_bytes) ... ERROR
+
+======================================================================
+ERROR: test_empty_manifest_is_rejected_before_progress_update (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_empty_manifest_is_rejected_before_progress_update)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 41, in read_local
+    return (_windows_read if os.name=='nt' else _posix_read)(path,limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 55, in _windows_read
+    raise CloudError("INCOMPLETE_SYNC", "ARTIFACT_MISSING")
+application.cloud.protocol.CloudError: INCOMPLETE_SYNC: ARTIFACT_MISSING
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 46, in test_empty_manifest_is_rejected_before_progress_update
+    self.run_recorder(empty=True)
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 29, in run_recorder
+    recorder.main()
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\record_s09_local_control_qualified_checkpoint.py", line 20, in main
+    facts=json.loads(read(REF+'/disposition.json'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 14, in read
+    raw=original(name);reads[name]=reads.get(name,0)+1
+        ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\record_s09_local_control_qualified_checkpoint.py", line 14, in read
+    def read(name):return read_local(REPO,name,64*1024**2)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: ARTIFACT_MISSING
+
+======================================================================
+ERROR: test_metadata_uses_the_verified_build_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_build_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 41, in read_local
+    return (_windows_read if os.name=='nt' else _posix_read)(path,limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 55, in _windows_read
+    raise CloudError("INCOMPLETE_SYNC", "ARTIFACT_MISSING")
+application.cloud.protocol.CloudError: INCOMPLETE_SYNC: ARTIFACT_MISSING
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 40, in test_metadata_uses_the_verified_build_bytes
+    saved,reads=self.run_recorder(mutation=name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 29, in run_recorder
+    recorder.main()
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\record_s09_local_control_qualified_checkpoint.py", line 18, in main
+    manifest=json.loads(read(MANIFEST))
+                        ^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 14, in read
+    raw=original(name);reads[name]=reads.get(name,0)+1
+        ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\record_s09_local_control_qualified_checkpoint.py", line 14, in read
+    def read(name):return read_local(REPO,name,64*1024**2)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: ARTIFACT_MISSING
+
+======================================================================
+ERROR: test_metadata_uses_the_verified_disposition_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_disposition_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 41, in read_local
+    return (_windows_read if os.name=='nt' else _posix_read)(path,limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 55, in _windows_read
+    raise CloudError("INCOMPLETE_SYNC", "ARTIFACT_MISSING")
+application.cloud.protocol.CloudError: INCOMPLETE_SYNC: ARTIFACT_MISSING
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 34, in test_metadata_uses_the_verified_disposition_bytes
+    saved,reads=self.run_recorder(mutation=name)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 29, in run_recorder
+    recorder.main()
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\record_s09_local_control_qualified_checkpoint.py", line 18, in main
+    manifest=json.loads(read(MANIFEST))
+                        ^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 14, in read
+    raw=original(name);reads[name]=reads.get(name,0)+1
+        ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\record_s09_local_control_qualified_checkpoint.py", line 14, in read
+    def read(name):return read_local(REPO,name,64*1024**2)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: ARTIFACT_MISSING
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.032s
+
+FAILED (errors=3)

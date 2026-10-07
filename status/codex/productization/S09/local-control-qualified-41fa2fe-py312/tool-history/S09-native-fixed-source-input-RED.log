@@ -1,0 +1,68 @@
+test_exact_bound_native_helper_is_readable (test_s09_native_fixed_source_input.FixedSourceInputTests.test_exact_bound_native_helper_is_readable) ... 
+  test_exact_bound_native_helper_is_readable (test_s09_native_fixed_source_input.FixedSourceInputTests.test_exact_bound_native_helper_is_readable) (module='s09_local_paper_control_native_regression') ... ERROR
+  test_exact_bound_native_helper_is_readable (test_s09_native_fixed_source_input.FixedSourceInputTests.test_exact_bound_native_helper_is_readable) (module='s09_local_paper_control_native_http') ... ERROR
+test_ordinary_public_input_remains_cloud_grammar_checked (test_s09_native_fixed_source_input.FixedSourceInputTests.test_ordinary_public_input_remains_cloud_grammar_checked) ... ok
+test_unbound_private_name_never_reaches_kernel_reader (test_s09_native_fixed_source_input.FixedSourceInputTests.test_unbound_private_name_never_reaches_kernel_reader) ... ok
+
+======================================================================
+ERROR: test_exact_bound_native_helper_is_readable (test_s09_native_fixed_source_input.FixedSourceInputTests.test_exact_bound_native_helper_is_readable) (module='s09_local_paper_control_native_regression')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 39, in read_local
+    safe_relative(relative)
+  File "<SOURCE_ROOT>\src\application\cloud\manifest.py", line 48, in safe_relative
+    safe_component(part)
+  File "<SOURCE_ROOT>\src\application\cloud\manifest.py", line 34, in safe_component
+    raise CloudError("BLOCKED", "UNSAFE_PATH_COMPONENT")
+application.cloud.protocol.CloudError: BLOCKED: UNSAFE_PATH_COMPONENT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_fixed_source_input.py", line 18, in test_exact_bound_native_helper_is_readable
+    raw=self.reader(module)(path, 1024**2)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_fixed_source_input.py", line 12, in <lambda>
+    lambda path, limit: module.read_local(path.parent, path.name, limit))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: UNSAFE_PATH_COMPONENT
+
+======================================================================
+ERROR: test_exact_bound_native_helper_is_readable (test_s09_native_fixed_source_input.FixedSourceInputTests.test_exact_bound_native_helper_is_readable) (module='s09_local_paper_control_native_http')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 39, in read_local
+    safe_relative(relative)
+  File "<SOURCE_ROOT>\src\application\cloud\manifest.py", line 48, in safe_relative
+    safe_component(part)
+  File "<SOURCE_ROOT>\src\application\cloud\manifest.py", line 34, in safe_component
+    raise CloudError("BLOCKED", "UNSAFE_PATH_COMPONENT")
+application.cloud.protocol.CloudError: BLOCKED: UNSAFE_PATH_COMPONENT
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_fixed_source_input.py", line 18, in test_exact_bound_native_helper_is_readable
+    raw=self.reader(module)(path, 1024**2)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_fixed_source_input.py", line 12, in <lambda>
+    lambda path, limit: module.read_local(path.parent, path.name, limit))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: UNSAFE_PATH_COMPONENT
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+FAILED (errors=2)

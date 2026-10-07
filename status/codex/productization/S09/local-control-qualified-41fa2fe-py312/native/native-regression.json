@@ -1,0 +1,94 @@
+{
+  "passed": true,
+  "executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+  "source_qualification": "PASS",
+  "input_hashes_before": {
+    "artifacts/r7-productization-S09-owner-worker-qualified-41fa2fe/qualification.json": "sha256:da9683e4a64a6491d59fc4dc2044bdc7eae8d3a4298572b0ef0e3c7145d46f9e",
+    "artifacts/r7-productization-S09-owner-worker-qualified-41fa2fe/qualification-context.json": "sha256:2dfa1ab1476956d3106144db33bc9dbfb8bc17c8934093ed4be0949961a409d4",
+    "artifacts/s09_local_paper_control_native_regression.py": "sha256:ae79794233ae72bc288c9a7afefd81a4dc1199e1450783b68fe7fcdbe5ae1a2f",
+    "artifacts/s09_owner_worker_native_regression.py": "sha256:20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "artifacts/s09_local_paper_control_native_http.py": "sha256:4cf8ae8a9837a6280a6c6a07640d65a5ad3c7449516dd0d545c810540f9ec718",
+    "artifacts/s13_native_access_integrity.py": "sha256:0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "workspaces/project-r7-productization-master-20261002/src/application/platform/_loopback_probe.py": "sha256:294eaceb4ce4e9801b37aa409b723de1ab3c1e8bc9d06525b77ae5319d4fdb1e",
+    "workspaces/project-r7-productization-master-20261002/tools/build_product.py": "sha256:0799de4846931437bc67d917c202153bb8f41b92724c193c64656a7f8356af19",
+    "workspaces/project-r7-productization-master-20261002/tools/verify_native_product.py": "sha256:97faccf936ceb7557a3f7eecb4da05efefffb6ac445819b905e1fe687b1cf514",
+    "artifacts/s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+    "artifacts/S14LocalFakeRclone.cs": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "artifacts/s09_owner_worker_source_qualify.py": "sha256:77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679"
+  },
+  "commands": [
+    {
+      "label": "build",
+      "started_at_utc": "2026-10-07T15:42:42.480644Z",
+      "finished_at_utc": "2026-10-07T15:43:10.588990Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-local-control-41fa2fe-native-build.log",
+      "log_sha256": "sha256:dab7f3715f1add0c860555bf7292a816f1fbaf2dd8c21fdb8266fbacdf92152c",
+      "passed": true
+    },
+    {
+      "label": "smoke",
+      "started_at_utc": "2026-10-07T15:43:12.655453Z",
+      "finished_at_utc": "2026-10-07T15:43:30.416396Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-local-control-41fa2fe-native-smoke.log",
+      "log_sha256": "sha256:838e54f5fb7df2a89f80351fc449245929b0e14a19db63f0260a9b65c97f1411",
+      "passed": true
+    },
+    {
+      "label": "historical-paper",
+      "started_at_utc": "2026-10-07T15:43:31.841418Z",
+      "finished_at_utc": "2026-10-07T15:43:53.506904Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-local-control-41fa2fe-native-historical-paper.log",
+      "log_sha256": "sha256:d71596eec3f4040ac5e57acf41534dc17b10caf24008e447a3d3676771bf7a00",
+      "passed": true
+    },
+    {
+      "label": "paper-reader",
+      "started_at_utc": "2026-10-07T15:43:54.943433Z",
+      "finished_at_utc": "2026-10-07T15:44:01.927146Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-local-control-41fa2fe-native-paper-reader.log",
+      "log_sha256": "sha256:7fcc86155f04ad05025163bb82a8d0192ddbf9ad1b31fb4e82c4831195430f39",
+      "passed": true
+    }
+  ],
+  "native_worker_invoked": false,
+  "ordinary_native_paper": "NOT_RUN",
+  "production_profile": "PROPOSED_NOT_ACTIVE",
+  "scope": "SOURCE_COMPONENT_AND_SCOPED_NATIVE_FIRST_RUN_HISTORICAL_PUBLICATION_AUTHENTICATED_EMPTY_READ_AND_START_DENIAL",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "ubuntu": "NOT_RUN",
+  "native_build_identity": {
+    "executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+    "implementation_hash": "sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734",
+    "build_hash": "sha256:1a667707fc837d0a0652ce9ad49878097da900c88a690e95074c59683b331928",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "input_hashes_after": {
+    "artifacts/s09_local_paper_control_native_regression.py": "sha256:ae79794233ae72bc288c9a7afefd81a4dc1199e1450783b68fe7fcdbe5ae1a2f",
+    "artifacts/s09_owner_worker_native_regression.py": "sha256:20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "artifacts/s09_local_paper_control_native_http.py": "sha256:4cf8ae8a9837a6280a6c6a07640d65a5ad3c7449516dd0d545c810540f9ec718",
+    "artifacts/s13_native_access_integrity.py": "sha256:0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "workspaces/project-r7-productization-master-20261002/src/application/platform/_loopback_probe.py": "sha256:294eaceb4ce4e9801b37aa409b723de1ab3c1e8bc9d06525b77ae5319d4fdb1e",
+    "workspaces/project-r7-productization-master-20261002/tools/build_product.py": "sha256:0799de4846931437bc67d917c202153bb8f41b92724c193c64656a7f8356af19",
+    "workspaces/project-r7-productization-master-20261002/tools/verify_native_product.py": "sha256:97faccf936ceb7557a3f7eecb4da05efefffb6ac445819b905e1fe687b1cf514",
+    "artifacts/s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+    "artifacts/S14LocalFakeRclone.cs": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "artifacts/r7-productization-S09-owner-worker-qualified-41fa2fe/qualification.json": "sha256:da9683e4a64a6491d59fc4dc2044bdc7eae8d3a4298572b0ef0e3c7145d46f9e",
+    "artifacts/r7-productization-S09-owner-worker-qualified-41fa2fe/qualification-context.json": "sha256:2dfa1ab1476956d3106144db33bc9dbfb8bc17c8934093ed4be0949961a409d4",
+    "artifacts/s09_owner_worker_source_qualify.py": "sha256:77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679"
+  }
+}

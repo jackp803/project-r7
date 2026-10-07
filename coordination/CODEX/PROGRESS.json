@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S09/S13",
-  "next_step": "Qualify the new exact-clean normal PAPER read/pause composition candidate; then continue actual native owner composition/probes and authorized qualification issuer/store/adapter work. Production profile PROPOSED_NOT_ACTIVE; full master and mandatory Ubuntu evidence remain open.",
+  "active_step": "S09/S12/S13",
+  "next_step": "Implement bounded internal qualification receipt issuer/store/adapter with isolated fixtures and actual native PAPER owner composition/probes. Production release profile remains PROPOSED_NOT_ACTIVE pending PM/E6 acceptance. Full master/S15/S16 and mandatory Ubuntu evidence remain open.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -75,13 +75,13 @@
       "additional_source_python": "3.14.3",
       "native_package_status": "PASS",
       "native_first_run_status": "PASS",
-      "native_first_run_revision": "9bf85349a81486297dbfb3e452f84f67421230d5",
+      "native_first_run_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
       "native_first_run_scenarios": 8,
       "native_first_run_commands": 9,
-      "native_first_run_build_hash": "sha256:6b25a5ed84df8b8203322ef03d58d5efb22cc77615d215e89beaddc7fe9a3d66",
-      "native_archive_sha256": "fdded7573c605e7f4a342b9eb9958869d0ac064fbd8ef1c27d5b3e585c533683",
+      "native_first_run_build_hash": "sha256:1a667707fc837d0a0652ce9ad49878097da900c88a690e95074c59683b331928",
+      "native_archive_sha256": "ac470b606c2265108405ad605074aec844bcde819fb7a280de0f6d07768a9292",
       "native_full_product_acceptance": "NOT_RUN",
-      "native_package_scope": "SCOPED_BUILD_8_FIRST_RUN_3_HISTORICAL_PUBLICATION;PAPER_WORKER_NOT_INVOKED;BROWSER_NOT_RUN"
+      "native_package_scope": "SCOPED_BUILD_8_FIRST_RUN_3_HISTORICAL_PUBLICATION_2_AUTHENTICATED_PAPER_READ_START_DENIAL;WORKER_NOT_INVOKED;BROWSER_NOT_RUN"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -1478,6 +1478,60 @@
       "step": "S09/S13",
       "phase": "EXACT_CLEAN_PAPER_OWNER_COMPONENT_AND_SCOPED_NATIVE_REGRESSION",
       "qualification_scope_status": "EXACT_CLEAN_SOURCE_PASS;SCOPED_NATIVE_BUILD_SMOKE_HISTORICAL_PUBLICATION_PASS"
+    },
+    {
+      "status": "PASS",
+      "qualified_executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+      "implementation_hash": "sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734",
+      "source_tests": 1974,
+      "source_commands": 33,
+      "phase_1": 247,
+      "phase_2": 1727,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "native_build": {
+        "executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+        "implementation_hash": "sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734",
+        "build_hash": "sha256:1a667707fc837d0a0652ce9ad49878097da900c88a690e95074c59683b331928",
+        "worktree": "UNAVAILABLE",
+        "financial_authority": "NONE",
+        "distribution_profile": "r7-native-distribution-v0.2"
+      },
+      "native_scoped_scenarios": 13,
+      "native_scoped_commands": 13,
+      "native_paper_inventory_and_start_denial_scenarios": 2,
+      "native_auth_origin": "NEW_SOURCE_CREATED_SYNTHETIC_FIXTURE;NOT_NATIVE_CLI_ENROLLMENT",
+      "ordinary_native_paper": "NOT_RUN",
+      "native_worker_invoked": false,
+      "browser": "NOT_RUN_FOR_THIS_CANDIDATE",
+      "production_qualification_profile": "PROPOSED_NOT_ACTIVE",
+      "memory": {
+        "samples": 440,
+        "minimum_available_bytes": 7878946816,
+        "below_unchanged_admission_threshold": 0,
+        "scope": "ACTUAL_HOST_SAMPLES_ONLY;NO_24GB_TARGET_CLAIM"
+      },
+      "external_fixed_input_regressions": 3,
+      "external_retention_scope_regressions": 2,
+      "evidence_ref": "status/codex/productization/S09/local-control-qualified-41fa2fe-py312/disposition.json",
+      "manifest_ref": "status/codex/productization/S09/local-control-qualified-artifact-hashes-41fa2fe.json",
+      "retained_files": 74,
+      "independent_review": "BOUNDED_SOURCE_AND_EXTERNAL_TOOLING;0_CRITICAL_0_IMPORTANT;REVIEWER_EXECUTION_NONE;NO_WHOLE_PRODUCT_REVIEW",
+      "step": "S09/S13",
+      "phase": "EXACT_CLEAN_LOCAL_PAPER_READ_CONTROL_AND_SCOPED_NATIVE_REGRESSION",
+      "qualification_scope_status": "EXACT_CLEAN_SOURCE_PASS;SCOPED_NATIVE_READ_START_DENIAL_AND_REGRESSION_PASS"
+    },
+    {
+      "step": "S09/S13",
+      "phase": "EXTERNAL_METADATA_SNAPSHOT_TOOL",
+      "status": "PASS",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S09/local-control-metadata-41fa2fe/disposition.json",
+      "scope": "SEPARATE_FROM_SOURCE1974;NO_PRODUCT_ACCEPTANCE"
     }
   ],
   "evidence_refs": [
@@ -1536,7 +1590,9 @@
     "status/codex/productization/S15/owner-temporal-support-fec8af0/S15-tactical-owner-target-reason-NORMAL.json",
     "status/codex/productization/S15/api-platform-support-fec8af0/disposition.json",
     "status/codex/productization/S15/joined-owner-fixture-d9eae19/disposition.json",
-    "status/codex/productization/S09/owner-worker-qualified-9bf8534-py312/disposition.json"
+    "status/codex/productization/S09/owner-worker-qualified-9bf8534-py312/disposition.json",
+    "status/codex/productization/S09/local-control-qualified-41fa2fe-py312/disposition.json",
+    "status/codex/productization/S09/local-control-metadata-41fa2fe/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -1582,8 +1638,8 @@
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "qualified_executable_revision": "9bf85349a81486297dbfb3e452f84f67421230d5",
-  "candidate_executable_revision": "9bf85349a81486297dbfb3e452f84f67421230d5",
+  "qualified_executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+  "candidate_executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
   "pending_recovery_checkpoint": {
     "status": "PASS",
     "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
@@ -2106,16 +2162,47 @@
     "independent_review": "BOUNDED_SOURCE_LAUNCHER_WRAPPER_RETENTION;0_CRITICAL_0_IMPORTANT;REVIEWER_EXECUTION_NONE;NO_WHOLE_PRODUCT_REVIEW"
   },
   "paper_read_control_composition": {
-    "status": "SOURCE_4_NEW_34_REGRESSION_PASS;EXACT_CLEAN_PENDING",
+    "status": "EXACT_CLEAN_SOURCE_PASS;SCOPED_NATIVE_READ_START_DENIAL_AND_REGRESSION_PASS",
     "implementation_hash": "sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734",
     "new_cases": 4,
     "regression_cases": 34,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "evidence_ref": "status/codex/productization/S09/local-control-source-20261007/source-checkpoint.json",
-    "manifest_ref": "status/codex/productization/S09/local-control-source-artifact-hashes-20261007.json",
+    "evidence_ref": "status/codex/productization/S09/local-control-qualified-41fa2fe-py312/disposition.json",
+    "manifest_ref": "status/codex/productization/S09/local-control-qualified-artifact-hashes-41fa2fe.json",
     "ordinary_native_paper": "NOT_RUN",
-    "independent_review": "0_CRITICAL_0_IMPORTANT;TWO_FILES;REVIEWER_EXECUTION_NONE"
+    "independent_review": "BOUNDED_SOURCE_AND_EXTERNAL_TOOLING;0_CRITICAL_0_IMPORTANT;REVIEWER_EXECUTION_NONE;NO_WHOLE_PRODUCT_REVIEW",
+    "qualified_executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+    "source_tests": 1974,
+    "source_commands": 33,
+    "phase_1": 247,
+    "phase_2": 1727,
+    "native_build": {
+      "executable_revision": "41fa2fe0d74435fed5831ed728af8b87c28883f0",
+      "implementation_hash": "sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734",
+      "build_hash": "sha256:1a667707fc837d0a0652ce9ad49878097da900c88a690e95074c59683b331928",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "native_scoped_scenarios": 13,
+    "native_scoped_commands": 13,
+    "native_paper_inventory_and_start_denial_scenarios": 2,
+    "native_auth_origin": "NEW_SOURCE_CREATED_SYNTHETIC_FIXTURE;NOT_NATIVE_CLI_ENROLLMENT",
+    "native_worker_invoked": false,
+    "browser": "NOT_RUN_FOR_THIS_CANDIDATE",
+    "production_qualification_profile": "PROPOSED_NOT_ACTIVE",
+    "memory": {
+      "samples": 440,
+      "minimum_available_bytes": 7878946816,
+      "below_unchanged_admission_threshold": 0,
+      "scope": "ACTUAL_HOST_SAMPLES_ONLY;NO_24GB_TARGET_CLAIM"
+    },
+    "external_fixed_input_regressions": 3,
+    "external_retention_scope_regressions": 2,
+    "retained_files": 74,
+    "external_metadata_snapshot_regressions": 3,
+    "metadata_guard_evidence_ref": "status/codex/productization/S09/local-control-metadata-41fa2fe/disposition.json"
   }
 }

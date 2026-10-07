@@ -1,0 +1,43 @@
+{
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "scope": "BOUNDED_CURRENT_SOURCE_AND_EXTERNAL_TOOLING;NO_WHOLE_PRODUCT_OR_VISUAL_REVIEW",
+  "reviewed_external_raw_sha256": {
+    "s09_local_paper_control_native_regression.py": "ae79794233ae72bc288c9a7afefd81a4dc1199e1450783b68fe7fcdbe5ae1a2f",
+    "s09_local_paper_control_native_http.py": "4cf8ae8a9837a6280a6c6a07640d65a5ad3c7449516dd0d545c810540f9ec718",
+    "test_s09_native_fixed_source_input.py": "00bc34ca0a8b0524aa913d03eefef1af5e51debaf485e02569860f3172e4beef",
+    "s09_owner_worker_native_regression.py": "20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "s09_owner_worker_source_qualify.py": "77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679",
+    "s13_native_access_integrity.py": "0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "retain_s09_local_control_qualification.py": "6f6a291da88b6dadbcbeb3ea9e2183223697ef94abd8ea41cfe330f127e1582b",
+    "test_s09_local_control_retention_scope.py": "a7715efc2c619e66ae1229da2a098cb155e4379f6a5283c07091c1e8827e40a1"
+  },
+  "current_review": [
+    "s09_local_paper_control_native_regression.py",
+    "s09_local_paper_control_native_http.py",
+    "test_s09_native_fixed_source_input.py",
+    "s13_native_access_integrity.py",
+    "retain_s09_local_control_qualification.py",
+    "test_s09_local_control_retention_scope.py"
+  ],
+  "unchanged_accepted_prior_helper_reviews": [
+    "s09_owner_worker_native_regression.py",
+    "s09_owner_worker_source_qualify.py"
+  ],
+  "source_review_ref": "status/codex/productization/S09/local-control-source-20261007/source-review.json",
+  "source_scope": "TWO_FILES;READ_PAUSE_COMPOSITION;NO_NATIVE_RUNTIME_START_AUTHORITY",
+  "initial_tool_review_important": 2,
+  "repairs": [
+    "NO_REDIRECT",
+    "EXACT_OWNED_GENERATION_BEFORE_AFTER_AUTHENTICATED_HTTP",
+    "FIXED_TRACKED_NATIVE_HELPER_PROTECTED_READ"
+  ],
+  "actual_source_execution_instances": 1974,
+  "external_fixed_input_tests": 3,
+  "external_retention_scope_tests": 2,
+  "ordinary_native_paper": "NOT_RUN",
+  "native_worker_invoked": false,
+  "production_profile": "PROPOSED_NOT_ACTIVE"
+}

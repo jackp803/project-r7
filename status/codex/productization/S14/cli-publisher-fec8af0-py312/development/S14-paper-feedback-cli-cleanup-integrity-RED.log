@@ -1,0 +1,41 @@
+test_failed_reaped_child_refuses_outer_success_and_retains_original_failure (__main__.BoundInstallerExitTests.test_failed_reaped_child_refuses_outer_success_and_retains_original_failure) ... ok
+test_integrity_runner_also_refuses_zero_child_exit_with_unreaped_tree (__main__.BoundInstallerExitTests.test_integrity_runner_also_refuses_zero_child_exit_with_unreaped_tree) ... ok
+test_successful_reaped_child_preserves_zero_wrapper_exit (__main__.BoundInstallerExitTests.test_successful_reaped_child_preserves_zero_wrapper_exit) ... ok
+test_zero_child_exit_with_unreaped_tree_refuses_outer_success (__main__.BoundInstallerExitTests.test_zero_child_exit_with_unreaped_tree_refuses_outer_success) ... ok
+test_cleanup_failure_preserves_earlier_native_exception_and_failed_receipt (__main__.NativeHistoricalBindingTests.test_cleanup_failure_preserves_earlier_native_exception_and_failed_receipt) ... ERROR
+test_failed_actual_fixture_cleanup_refuses_retained_pass_and_successful_exit (__main__.NativeHistoricalBindingTests.test_failed_actual_fixture_cleanup_refuses_retained_pass_and_successful_exit) ... FAIL
+test_native_paper_script_and_compiled_fake_source_are_in_bound_pipeline (__main__.NativeHistoricalBindingTests.test_native_paper_script_and_compiled_fake_source_are_in_bound_pipeline) ... ok
+test_successful_actual_fixture_cleanup_preserves_retained_pass (__main__.NativeHistoricalBindingTests.test_successful_actual_fixture_cleanup_preserves_retained_pass) ... ERROR
+test_actual_pipeline_hash_guard_refuses_external_ssh_helper_replacement (__main__.PipelineDependencyBindingTests.test_actual_pipeline_hash_guard_refuses_external_ssh_helper_replacement) ... ok
+test_all_executed_external_python_imports_are_in_the_bound_inventory (__main__.PipelineDependencyBindingTests.test_all_executed_external_python_imports_are_in_the_bound_inventory) ... ok
+
+======================================================================
+ERROR: test_cleanup_failure_preserves_earlier_native_exception_and_failed_receipt (__main__.NativeHistoricalBindingTests.test_cleanup_failure_preserves_earlier_native_exception_and_failed_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_qualification_integrity.py", line 62, in test_cleanup_failure_preserves_earlier_native_exception_and_failed_receipt
+    self.assertFalse(report['passed']);self.assertFalse(report['fixture_cleanup_complete']);self.assertEqual(observed,[report])
+                                                        ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'fixture_cleanup_complete'
+
+======================================================================
+ERROR: test_successful_actual_fixture_cleanup_preserves_retained_pass (__main__.NativeHistoricalBindingTests.test_successful_actual_fixture_cleanup_preserves_retained_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_qualification_integrity.py", line 57, in test_successful_actual_fixture_cleanup_preserves_retained_pass
+    self.assertIsNone(error);self.assertTrue(report['passed']);self.assertTrue(report['fixture_cleanup_complete'])
+                                                                               ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'fixture_cleanup_complete'
+
+======================================================================
+FAIL: test_failed_actual_fixture_cleanup_refuses_retained_pass_and_successful_exit (__main__.NativeHistoricalBindingTests.test_failed_actual_fixture_cleanup_refuses_retained_pass_and_successful_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_qualification_integrity.py", line 52, in test_failed_actual_fixture_cleanup_refuses_retained_pass_and_successful_exit
+    self.assertIsInstance(error,RuntimeError)
+AssertionError: None is not an instance of <class 'RuntimeError'>
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.046s
+
+FAILED (failures=1, errors=2)

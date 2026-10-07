@@ -1,0 +1,69 @@
+test_changed_native_stdout_is_refused_before_parsing_an_uncommitted_result (__main__.NativeHistoricalEvidenceTests.test_changed_native_stdout_is_refused_before_parsing_an_uncommitted_result) ... ok
+test_changed_or_omitted_consumed_fixture_input_is_refused (__main__.NativeHistoricalEvidenceTests.test_changed_or_omitted_consumed_fixture_input_is_refused) ... ok
+test_exact_owned_historical_subject_with_complete_fixture_cleanup_is_bound (__main__.NativeHistoricalEvidenceTests.test_exact_owned_historical_subject_with_complete_fixture_cleanup_is_bound) ... ok
+test_missing_extra_or_relabelled_scenario_is_not_complete_coverage (__main__.NativeHistoricalEvidenceTests.test_missing_extra_or_relabelled_scenario_is_not_complete_coverage) ... ok
+test_retained_pass_cannot_override_failed_cleanup_or_normal_runtime_claim (__main__.NativeHistoricalEvidenceTests.test_retained_pass_cannot_override_failed_cleanup_or_normal_runtime_claim) ... ok
+test_unreaped_command_or_borrowed_zero_exit_cannot_establish_native_pass (__main__.NativeHistoricalEvidenceTests.test_unreaped_command_or_borrowed_zero_exit_cannot_establish_native_pass) ... ok
+test_actual_browser_decision_cannot_parse_temporary_uncommitted_pass_json (__main__.ProtectedPrimarySnapshotTests.test_actual_browser_decision_cannot_parse_temporary_uncommitted_pass_json) ... FAIL
+test_actual_retention_checks_protected_reader_before_link_guarded_content (__main__.ProtectedPrimarySnapshotTests.test_actual_retention_checks_protected_reader_before_link_guarded_content) ... FAIL
+test_actual_retention_denies_oversized_supplement_before_unbounded_read (__main__.ProtectedPrimarySnapshotTests.test_actual_retention_denies_oversized_supplement_before_unbounded_read) ... FAIL
+test_actual_source_decision_cannot_parse_temporary_uncommitted_pass_bytes (__main__.ProtectedPrimarySnapshotTests.test_actual_source_decision_cannot_parse_temporary_uncommitted_pass_bytes) ... ERROR
+
+======================================================================
+ERROR: test_actual_source_decision_cannot_parse_temporary_uncommitted_pass_bytes (__main__.ProtectedPrimarySnapshotTests.test_actual_source_decision_cannot_parse_temporary_uncommitted_pass_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_native_evidence.py", line 88, in test_actual_source_decision_cannot_parse_temporary_uncommitted_pass_bytes
+    self.primary_loop(lambda text:"full['commands']" in text,dict(source=self.folder,full=dict(commands=[row]),revision='a'*40))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_native_evidence.py", line 80, in primary_loop
+    exec(compile(ast.Module(body=[loop],type_ignores=[]),str(core.__file__),'exec'),namespace)
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s14_feedback_cli_acceptance_core.py", line 155, in <module>
+    if c['tests_passed']!=c['tests_run'] or c['source_after']!=dict(revision=revision,worktree='CLEAN'):
+       ~^^^^^^^^^^^^^^^^
+KeyError: 'tests_passed'
+
+======================================================================
+FAIL: test_actual_browser_decision_cannot_parse_temporary_uncommitted_pass_json (__main__.ProtectedPrimarySnapshotTests.test_actual_browser_decision_cannot_parse_temporary_uncommitted_pass_json)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_native_evidence.py", line 100, in test_actual_browser_decision_cannot_parse_temporary_uncommitted_pass_json
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_actual_retention_checks_protected_reader_before_link_guarded_content (__main__.ProtectedPrimarySnapshotTests.test_actual_retention_checks_protected_reader_before_link_guarded_content)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_native_evidence.py", line 126, in test_actual_retention_checks_protected_reader_before_link_guarded_content
+    unbounded.assert_not_called()
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 910, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'read_bytes' to not have been called. Called 1 times.
+Calls: [call()].
+
+======================================================================
+FAIL: test_actual_retention_denies_oversized_supplement_before_unbounded_read (__main__.ProtectedPrimarySnapshotTests.test_actual_retention_denies_oversized_supplement_before_unbounded_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_native_evidence.py", line 113, in test_actual_retention_denies_oversized_supplement_before_unbounded_read
+    with self.assertRaises(ValueError):self.retain(path)
+                                       ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_cli_native_evidence.py", line 109, in retain
+    namespace['retain'](path,path.name);return namespace['index']
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<actual-retain>", line 114, in retain
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Unbounded read forbidden
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.108s
+
+FAILED (failures=3, errors=1)

@@ -1,0 +1,34 @@
+{
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_RETENTION_AND_PRIMARY_PROOF_REVIEW",
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "reviewed_files": {
+    "s14_feedback_cli_accept.py": "sha256:6ae0d111e419e6fec2d5d4b4c30a6bfbdac36843af41f074e9391e9923a743ef",
+    "s14_feedback_cli_acceptance_core.py": "sha256:a3bd7e32bb805cebfdb5a26994cd712bc47b1bb995dae0c51dd7a09522a9c7b0",
+    "s14_feedback_cli_native_evidence.py": "sha256:3943b9ded2ffa9f81993395dddb48e5f6e3e04fc53e5a719d23e6db42c4dbc92",
+    "test_s14_feedback_cli_native_evidence.py": "sha256:9eb61a30c73ca692b9c90efe90f46fc0df8b8eda43db22ad1ca2974230bc995a",
+    "run_s14_feedback_cli_retention_integrity.py": "sha256:c811cdbe694f7e5a91ec5753734303dd3945d7a725ffe5cc745177e1f0b98379"
+  },
+  "recorded_at_utc": "2026-10-07T06:56:28.372234+00:00",
+  "primary_regression": {
+    "report": "S14-paper-feedback-cli-protected-snapshot-reviewed-GREEN.json",
+    "report_sha256": "sha256:a1e79d89e435d9c1cea1eed3ea373678845be28e3e4e016b3c16443c3658c4f9",
+    "log": "S14-paper-feedback-cli-protected-snapshot-reviewed-GREEN.log",
+    "log_sha256": "sha256:88e507a1710f3ceda3bc85f01676e9525074400aac8f386df3e28ed5158a4b0d",
+    "tests": 11
+  },
+  "resolved_findings": [
+    "Primary parsing now hashes and parses one protected byte snapshot",
+    "Retention uses protected bounded reading before hashing or sanitizing",
+    "Imported SSH/installer outcome checks are supplemented with protected snapshots"
+  ],
+  "definitive_red": {
+    "report": "S14-paper-feedback-cli-protected-snapshot-four-defects-RED.json",
+    "tests": 10,
+    "failures": 4,
+    "errors": 0
+  },
+  "limits": "BOUNDED_TOOLING_ONLY;NO_REVIEWER_EXECUTION;NO_QUALIFICATION_OR_WHOLE_PRODUCT_ACCEPTANCE"
+}

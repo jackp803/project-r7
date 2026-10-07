@@ -1,0 +1,78 @@
+test_cli_absent_canonical_store_does_not_create_or_open_paper_database (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_absent_canonical_store_does_not_create_or_open_paper_database) ... ok
+test_cli_cloud_scope_denial_precedes_any_canonical_paper_writer (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_cloud_scope_denial_precedes_any_canonical_paper_writer) ... ok
+test_cli_conflict_preserves_remote_bytes_and_durable_conflict (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_conflict_preserves_remote_bytes_and_durable_conflict) ... ok
+test_cli_disappearing_existing_store_cannot_be_recreated_as_empty_success (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_disappearing_existing_store_cannot_be_recreated_as_empty_success) ... FAIL
+test_cli_exhausted_budget_does_not_open_paper_journal (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_exhausted_budget_does_not_open_paper_journal) ... ok
+test_cli_outage_is_incomplete_then_same_historical_operation_retries (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_outage_is_incomplete_then_same_historical_operation_retries) ... ok
+test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials) ... ok
+test_cli_three_outboxes_share_one_total_budget_and_preserve_priority (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_three_outboxes_share_one_total_budget_and_preserve_priority) ... ok
+test_existing_open_preserves_sqlite_owner_semantics_and_escaped_unicode_path (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_open_preserves_sqlite_owner_semantics_and_escaped_unicode_path) ... ERROR
+test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) ... 
+  test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value=0) ... ERROR
+  test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value=1) ... ERROR
+  test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value='yes') ... ERROR
+  test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value=None) ... ERROR
+test_missing_existing_open_never_initializes_canonical_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_missing_existing_open_never_initializes_canonical_store) ... ERROR
+
+======================================================================
+ERROR: test_existing_open_preserves_sqlite_owner_semantics_and_escaped_unicode_path (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_open_preserves_sqlite_owner_semantics_and_escaped_unicode_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_paper_process_existing.py", line 18, in test_existing_open_preserves_sqlite_owner_semantics_and_escaped_unicode_path
+    with open_paper_process_journal(self.path, require_existing=True) as existing:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: open_paper_process_journal() got an unexpected keyword argument 'require_existing'
+
+======================================================================
+ERROR: test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_paper_process_existing.py", line 36, in test_existing_requirement_rejects_non_boolean_without_creating_store
+    open_paper_process_journal(self.path, require_existing=value)
+TypeError: open_paper_process_journal() got an unexpected keyword argument 'require_existing'
+
+======================================================================
+ERROR: test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_paper_process_existing.py", line 36, in test_existing_requirement_rejects_non_boolean_without_creating_store
+    open_paper_process_journal(self.path, require_existing=value)
+TypeError: open_paper_process_journal() got an unexpected keyword argument 'require_existing'
+
+======================================================================
+ERROR: test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value='yes')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_paper_process_existing.py", line 36, in test_existing_requirement_rejects_non_boolean_without_creating_store
+    open_paper_process_journal(self.path, require_existing=value)
+TypeError: open_paper_process_journal() got an unexpected keyword argument 'require_existing'
+
+======================================================================
+ERROR: test_existing_requirement_rejects_non_boolean_without_creating_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_existing_requirement_rejects_non_boolean_without_creating_store) (value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_paper_process_existing.py", line 36, in test_existing_requirement_rejects_non_boolean_without_creating_store
+    open_paper_process_journal(self.path, require_existing=value)
+TypeError: open_paper_process_journal() got an unexpected keyword argument 'require_existing'
+
+======================================================================
+ERROR: test_missing_existing_open_never_initializes_canonical_store (tests.storage.test_paper_process_existing.PaperProcessExistingTests.test_missing_existing_open_never_initializes_canonical_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_paper_process_existing.py", line 30, in test_missing_existing_open_never_initializes_canonical_store
+    open_paper_process_journal(self.path, require_existing=True)
+TypeError: open_paper_process_journal() got an unexpected keyword argument 'require_existing'
+
+======================================================================
+FAIL: test_cli_disappearing_existing_store_cannot_be_recreated_as_empty_success (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_disappearing_existing_store_cannot_be_recreated_as_empty_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_paper_feedback_cli.py", line 158, in test_cli_disappearing_existing_store_cannot_be_recreated_as_empty_success
+    with self.assertRaises(sqlite3.OperationalError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: OperationalError not raised
+
+----------------------------------------------------------------------
+Ran 11 tests in 17.695s
+
+FAILED (failures=1, errors=6)

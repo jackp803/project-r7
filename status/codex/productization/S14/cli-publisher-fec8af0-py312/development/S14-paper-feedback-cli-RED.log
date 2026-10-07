@@ -1,0 +1,76 @@
+test_cli_absent_canonical_store_does_not_create_or_open_paper_database (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_absent_canonical_store_does_not_create_or_open_paper_database) ... ok
+test_cli_cloud_scope_denial_precedes_any_canonical_paper_writer (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_cloud_scope_denial_precedes_any_canonical_paper_writer) ... ok
+test_cli_conflict_preserves_remote_bytes_and_durable_conflict (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_conflict_preserves_remote_bytes_and_durable_conflict) ... FAIL
+test_cli_exhausted_budget_does_not_open_paper_journal (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_exhausted_budget_does_not_open_paper_journal) ... ok
+test_cli_outage_is_incomplete_then_same_historical_operation_retries (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_outage_is_incomplete_then_same_historical_operation_retries) ... FAIL
+test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials) ... FAIL
+test_cli_three_outboxes_share_one_total_budget_and_preserve_priority (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_three_outboxes_share_one_total_budget_and_preserve_priority) ... FAIL
+
+======================================================================
+FAIL: test_cli_conflict_preserves_remote_bytes_and_durable_conflict (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_conflict_preserves_remote_bytes_and_durable_conflict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_paper_feedback_cli.py", line 111, in test_cli_conflict_preserves_remote_bytes_and_durable_conflict
+    self.assertEqual((code, result['conflicts']), (2, 1))
+AssertionError: Tuples differ: (0, 0) != (2, 1)
+
+First differing element 0:
+0
+2
+
+- (0, 0)
++ (2, 1)
+
+======================================================================
+FAIL: test_cli_outage_is_incomplete_then_same_historical_operation_retries (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_outage_is_incomplete_then_same_historical_operation_retries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_paper_feedback_cli.py", line 95, in test_cli_outage_is_incomplete_then_same_historical_operation_retries
+    self.assertEqual((code, result['status'], result['unavailable']), (2, 'INCOMPLETE', 1))
+AssertionError: Tuples differ: (0, 'COMPLETE', 0) != (2, 'INCOMPLETE', 1)
+
+First differing element 0:
+0
+2
+
+- (0, 'COMPLETE', 0)
+?  ^              ^
+
++ (2, 'INCOMPLETE', 1)
+?  ^   ++           ^
+
+
+======================================================================
+FAIL: test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_paper_feedback_cli.py", line 80, in test_cli_publishes_configured_historical_owner_without_attaching_runtime_or_reading_credentials
+    self.assertEqual((result['attempted'], result['cloud_acknowledged']), (1, 1))
+AssertionError: Tuples differ: (0, 0) != (1, 1)
+
+First differing element 0:
+0
+1
+
+- (0, 0)
++ (1, 1)
+
+======================================================================
+FAIL: test_cli_three_outboxes_share_one_total_budget_and_preserve_priority (tests.product.test_paper_feedback_cli.PaperFeedbackCliTests.test_cli_three_outboxes_share_one_total_budget_and_preserve_priority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_paper_feedback_cli.py", line 131, in test_cli_three_outboxes_share_one_total_budget_and_preserve_priority
+    self.assertEqual((result['attempted'], result['cloud_acknowledged']), (expected, expected))
+AssertionError: Tuples differ: (0, 0) != (1, 1)
+
+First differing element 0:
+0
+1
+
+- (0, 0)
++ (1, 1)
+
+----------------------------------------------------------------------
+Ran 7 tests in 17.531s
+
+FAILED (failures=4)

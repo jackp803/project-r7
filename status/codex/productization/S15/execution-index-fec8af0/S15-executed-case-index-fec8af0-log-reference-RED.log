@@ -1,0 +1,41 @@
+test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read) ... 
+  test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read) (reference='../../PRIVATE_SENTINEL') ... FAIL
+test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read) ... FAIL
+test_actual_builder_rejects_escaping_source_ref_before_any_dereference (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_builder_rejects_escaping_source_ref_before_any_dereference) ... ok
+test_actual_utc_window_keeps_the_recorded_full_scope (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_utc_window_keeps_the_recorded_full_scope) ... ok
+test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once) ... ok
+test_canonical_e2e_suite_is_a_valid_bound_execution_log (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_canonical_e2e_suite_is_a_valid_bound_execution_log) ... ok
+test_correct_file_hash_does_not_authorize_a_forged_source_position (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_correct_file_hash_does_not_authorize_a_forged_source_position) ... ok
+test_empty_partial_or_duplicate_static_inventory_is_rejected (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_empty_partial_or_duplicate_static_inventory_is_rejected) ... ok
+test_missing_case_completion_cannot_borrow_a_successful_summary (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_missing_case_completion_cannot_borrow_a_successful_summary) ... ok
+test_null_malformed_non_utc_and_reversed_windows_are_rejected (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_null_malformed_non_utc_and_reversed_windows_are_rejected) ... ok
+test_repeated_named_case_is_preserved_as_two_execution_instances (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_repeated_named_case_is_preserved_as_two_execution_instances) ... ok
+test_replaced_log_bytes_cannot_supply_named_execution (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_replaced_log_bytes_cannot_supply_named_execution) ... ok
+test_summary_count_cannot_substitute_for_missing_named_cases (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_summary_count_cannot_substitute_for_missing_named_cases) ... ok
+test_unreaped_tree_or_count_type_cannot_supply_case_evidence (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_unreaped_tree_or_count_type_cannot_supply_case_evidence) ... ok
+test_wrong_case_method_and_failed_process_are_rejected (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_wrong_case_method_and_failed_process_are_rejected) ... ok
+
+======================================================================
+FAIL: test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read) (reference='../../PRIVATE_SENTINEL')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index_fec8af0.py", line 119, in test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read
+    with self.subTest(reference=reference),self.assertRaises(ValueError):
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read (test_s15_execution_index_fec8af0.ExecutedCaseIndexTests.test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index_fec8af0.py", line 122, in test_actual_builder_rejects_escaping_log_ref_before_any_prebinding_read
+    forbidden_bind.assert_not_called()
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 910, in assert_not_called
+    raise AssertionError(msg)
+AssertionError: Expected 'mock' to not have been called. Called 1 times.
+Calls: [call(WindowsPath('<USER_HOME>/Desktop/交易機器人主體/artifacts/../../PRIVATE_SENTINEL'), 'sha256:0000000000000000000000000000000000000000000000000000000000000000')].
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.108s
+
+FAILED (failures=2)

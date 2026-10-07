@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S12",
-  "next_step": "Run exact-clean qualification for the historical PAPER CLI composition with original full source limits and a new Windows native build. Preserve initial failures and the existing-only race repair; then retain/push sanitized evidence and continue normal runtime/qualification plumbing and S15 acceptance mapping.",
+  "active_step": "S15",
+  "next_step": "Continue semantic acceptance mapping, qualification issuer/store/adapter plumbing and authorized normal composition. Production profile issuance remains dependent on PM/E6 acceptance; native Ubuntu and real commissioning remain NOT_RUN.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -75,13 +75,13 @@
       "additional_source_python": "3.14.3",
       "native_package_status": "PASS",
       "native_first_run_status": "PASS",
-      "native_first_run_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "native_first_run_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
       "native_first_run_scenarios": 8,
       "native_first_run_commands": 9,
-      "native_first_run_build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
-      "native_archive_sha256": "bb868e9fba8efa19c206835aa4898b5507b4610888348c2a416caa2f5b56db9e",
+      "native_first_run_build_hash": "sha256:ec51058b56fb415aaf2a225938fed730669103e35ccbc4f11739a3dbf796c426",
+      "native_archive_sha256": "93ff1808ed2832ef15bcc30f17a79827aff841756c7e9a9ef5a2bf5998c86299",
       "native_full_product_acceptance": "NOT_RUN",
-      "native_package_scope": "SCOPED_UNCHANGED_NATIVE_CONTROL_RESEARCH_MIGRATION_REGRESSION_PASS;RUNTIME_CLOUD_NATIVE_WORKERS_PENDING"
+      "native_package_scope": "SCOPED_NATIVE_CONTROL_RESEARCH_CLOUD_RECOVERY_AND_HISTORICAL_PAPER_PUBLICATION_PASS;NORMAL_RUNTIME_PENDING"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -1353,6 +1353,90 @@
         "S15 whole product acceptance and S16 pending",
         "Native Ubuntu and real cloud/data/forward/provider commissioning NOT_RUN"
       ]
+    },
+    {
+      "step": "S14",
+      "phase": "EXACT_CLEAN_HISTORICAL_PAPER_CLI_COMPOSITION_AND_NATIVE_BROWSER_REGRESSION",
+      "status": "PASS",
+      "evidence_ref": "status/codex/productization/S14/cli-publisher-fec8af0-py312/disposition.json",
+      "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+      "spec_baseline": "r7-product-v0.2",
+      "revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+      "worktree": "CLEAN",
+      "state": "SCOPED_HISTORICAL_PAPER_PUBLICATION_CLI_PASS;MASTER_IN_PROGRESS",
+      "source": {
+        "passed": true,
+        "tests": 1953,
+        "commands": 33,
+        "phase": {
+          "phase_1": 247,
+          "phase_2": 1706
+        }
+      },
+      "native_build": {
+        "executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+        "implementation_hash": "sha256:ba01027908e0e8ddf694eb8619d28b5d7a1bd9f94de0df804dc1471afe189576",
+        "build_hash": "sha256:ec51058b56fb415aaf2a225938fed730669103e35ccbc4f11739a3dbf796c426",
+        "worktree": "UNAVAILABLE",
+        "financial_authority": "NONE",
+        "distribution_profile": "r7-native-distribution-v0.2"
+      },
+      "windows_native": {
+        "scenarios": 54,
+        "commands": 57,
+        "status": "SCOPED_NATIVE_CONTROL_RESEARCH_CLOUD_RECOVERY_AND_HISTORICAL_PAPER_PUBLICATION_PASS;NORMAL_RUNTIME_PENDING"
+      },
+      "native_historical_paper": {
+        "scenarios": 3,
+        "commands": 2,
+        "fixture_origin": "SOURCE_CREATED_ACTUAL_E2_E5_E6_ACCELERATED_FIXTURE;NOT_NATIVE_RUNTIME_COMPOSITION",
+        "fixture_cleanup_complete": true
+      },
+      "frontend": {
+        "tests": 15,
+        "commands": 5
+      },
+      "browser": {
+        "cases": 11,
+        "commands": 7
+      },
+      "memory": {
+        "samples": 535,
+        "minimum_available_bytes": 7782191104,
+        "below_unchanged_admission_threshold": 0
+      },
+      "normal_continuous_runtime": "NOT_RUN",
+      "production_qualification_profile": "PROPOSED_NOT_ACTIVE",
+      "independent_source_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "independent_harness_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "independent_retention_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "real_cloud": "NOT_RUN",
+      "real_forward": "NOT_RUN",
+      "provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED",
+      "ubuntu24": "NOT_RUN",
+      "ubuntu26": "NOT_RUN",
+      "private_artifact_commitments": {
+        "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+        "artifacts/r7-native-windows-S14-feedback-cli-fec8af0/r7-product-0.2.0-windows-fec8af0.zip": "sha256:93ff1808ed2832ef15bcc30f17a79827aff841756c7e9a9ef5a2bf5998c86299"
+      },
+      "accepted_prior_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "limitations": [
+        "Native historical publication consumes source-created accelerated history, not normal native PAPER composition",
+        "Production qualified-release issuance,normal runtime and restoration integration pending",
+        "S15 whole-product/capacity,S16,native Ubuntu and real cloud/data/forward/provider commissioning pending"
+      ]
     }
   ],
   "evidence_refs": [
@@ -1403,7 +1487,9 @@
     "status/codex/productization/S13/installer-fa3b786-py312/disposition.json",
     "status/codex/productization/S14/paper-feedback-82a6b9e-py312/disposition.json",
     "status/codex/productization/S12/supervisor-e293a94-py312/disposition.json",
-    "status/codex/productization/S15/execution-index-e293a94/disposition.json"
+    "status/codex/productization/S15/execution-index-e293a94/disposition.json",
+    "status/codex/productization/S14/cli-publisher-fec8af0-py312/disposition.json",
+    "status/codex/productization/S15/execution-index-fec8af0/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -1449,8 +1535,8 @@
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "qualified_executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
-  "candidate_executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+  "qualified_executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+  "candidate_executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
   "pending_recovery_checkpoint": {
     "status": "PASS",
     "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
@@ -1740,21 +1826,21 @@
   },
   "acceptance_execution_index_checkpoint": {
     "status": "IN_PROGRESS",
-    "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
-    "execution_instances": 1942,
-    "distinct_reported_test_ids": 1695,
+    "executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+    "execution_instances": 1953,
+    "distinct_reported_test_ids": 1706,
     "unresolved_static_definitions": 0,
     "requirement_pass_claims": 0,
     "requirements_unmapped": 66,
     "legacy_applicability_or_mapping_pending": 150,
-    "focused_harness_tests": 13,
-    "retained_files": 32,
-    "evidence_ref": "status/codex/productization/S15/execution-index-e293a94/disposition.json",
-    "manifest_ref": "status/codex/productization/S15/execution-index-artifact-hashes-e293a94.json",
+    "focused_harness_tests": 14,
+    "retained_files": 23,
+    "evidence_ref": "status/codex/productization/S15/execution-index-fec8af0/disposition.json",
+    "manifest_ref": "status/codex/productization/S15/execution-index-artifact-hashes-fec8af0.json",
     "independent_review": "BOUNDED_READ_ONLY;0_CRITICAL_0_IMPORTANT;NO_REVIEWER_EXECUTION"
   },
   "historical_paper_cli_source_checkpoint": {
-    "status": "SOURCE_FOCUSED_PASS;EXACT_CLEAN_QUALIFICATION_PENDING",
+    "status": "SOURCE_AND_EXACT_CLEAN_SCOPED_QUALIFICATION_PASS",
     "implementation_hash": "sha256:ba01027908e0e8ddf694eb8619d28b5d7a1bd9f94de0df804dc1471afe189576",
     "focused_tests": 11,
     "affected_tests": 90,
@@ -1780,7 +1866,49 @@
       "error_occurrences": 6
     },
     "normal_runtime": "NOT_RUN",
-    "native_historical_publication": "NOT_RUN_PENDING_NEW_BUILD",
-    "real_cloud": "NOT_RUN"
+    "native_historical_publication": "PASS;SOURCE_CREATED_ACCELERATED_HISTORY;NORMAL_NATIVE_RUNTIME_NOT_RUN",
+    "real_cloud": "NOT_RUN",
+    "qualified_executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5"
+  },
+  "historical_paper_cli_qualified_checkpoint": {
+    "status": "SCOPED_HISTORICAL_PUBLICATION_PASS;MASTER_IN_PROGRESS",
+    "qualified_executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+    "evidence_ref": "status/codex/productization/S14/cli-publisher-fec8af0-py312/disposition.json",
+    "manifest_ref": "status/codex/productization/S14/cli-publisher-artifact-hashes-fec8af0.json",
+    "retained_files": 230,
+    "source_tests": 1953,
+    "phase_1": 247,
+    "phase_2": 1706,
+    "source_commands": 33,
+    "native_scoped_scenarios": 54,
+    "native_commands": 57,
+    "native_historical_paper_scenarios": 3,
+    "native_historical_paper_commands": 2,
+    "frontend_tests": 15,
+    "frontend_commands": 5,
+    "browser_cases": 11,
+    "browser_commands": 7,
+    "screenshots": 6,
+    "screenshot_review": "CODEX_SELF_REVIEW_OF_ALL6_FRESH_IMAGES;NO_VISIBLE_DEFECT",
+    "fresh_source_focused_tests": 11,
+    "fresh_source_affected_tests": 90,
+    "qualification_guard_tests": 10,
+    "retention_guard_tests": 11,
+    "independent_reviews": "BOUNDED_READ_ONLY_SOURCE_HARNESS_RETENTION;0_CRITICAL_0_IMPORTANT;NO_REVIEWER_EXECUTION",
+    "native_build": {
+      "executable_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+      "implementation_hash": "sha256:ba01027908e0e8ddf694eb8619d28b5d7a1bd9f94de0df804dc1471afe189576",
+      "build_hash": "sha256:ec51058b56fb415aaf2a225938fed730669103e35ccbc4f11739a3dbf796c426",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "normal_continuous_runtime": "NOT_RUN",
+    "production_qualification_profile": "PROPOSED_NOT_ACTIVE",
+    "remaining": [
+      "Native historical publication consumes source-created accelerated history, not normal native PAPER composition",
+      "Production qualified-release issuance,normal runtime and restoration integration pending",
+      "S15 whole-product/capacity,S16,native Ubuntu and real cloud/data/forward/provider commissioning pending"
+    ]
   }
 }

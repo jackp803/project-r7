@@ -1,0 +1,33 @@
+{
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_PREEXECUTION_QUALIFICATION_HARNESS_REVIEW",
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "reviewed_files": {
+    "s14_feedback_cli_candidate_pipeline.py": "sha256:0e59e29da6f7d15c46228215276ebd6a06dffb499306930474a86bfef94ec06a",
+    "s14_feedback_cli_ui_frontend.py": "sha256:d6e646aaafc0c7e957160eb7222c1e6b2d73259a3bb6c379afed9b3425ba6ad0",
+    "s14_feedback_cli_bound_installer.py": "sha256:939c22f97b93ff7272f1ffb5b8aa7fcd48f2c507c6865f2a1eec08d2bd66274d",
+    "s14_feedback_cli_source_qualify.py": "sha256:a9d16492d1056c2b4b49131487f25d350e0cfd412e067f539afb29a58d25132d",
+    "s14_feedback_cli_serial_browser_qualify.py": "sha256:729f6f5cb91107e9057ad4a05b5f6e458d811db6d8f0c24cdcc97fa171defa32",
+    "s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "test_s14_feedback_cli_qualification_integrity.py": "sha256:379ca59311cd3aa7d00ec05e2708f6784049a680679b6c3ad73e5dd80515de7a",
+    "run_s14_feedback_cli_qualification_integrity.py": "sha256:2910faa36cd8a87238974ceeae9fd3ddfb1446b2d45d10c31862561fa783a55f",
+    "prepare_s14_feedback_cli_qualification.py": "sha256:07b98611dd7a161a5ac89058fdacdd9e0b4c67a328fafec8df57833cc09d84f8",
+    "prepare_s14_feedback_cli_integrity.py": "sha256:ff2350b62ac9671d47f75f66f71bd925a480f246454103275faaef4c934ae24d"
+  },
+  "resolved_important": [
+    "Native fixture cleanup must succeed before retaining PASS or exiting successfully"
+  ],
+  "primary_regression": {
+    "report": "S14-paper-feedback-cli-cleanup-integrity-GREEN.json",
+    "report_sha256": "sha256:bc7fe66fb81f9c14a71706b24fb3329d23ed958d5d63c9e0f40d8c3baf26bf2c",
+    "log": "S14-paper-feedback-cli-cleanup-integrity-GREEN.log",
+    "log_sha256": "sha256:b998817bc91cbadb5dbdba30aeff16bdd6b8ad646fc4e30ab38a8aa7e03cdf6d",
+    "tests": 10
+  },
+  "limits": [
+    "Read-only bounded review; reviewer did not execute tests",
+    "No native runtime composition, whole-product or external commissioning acceptance"
+  ]
+}

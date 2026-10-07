@@ -20,12 +20,13 @@ class ScopeBusy(RuntimeError):
 
 _guard = threading.Lock()
 _held = set()
+POSIX_SCOPE_ROOT = '/run/r7/scopes'
 
 
 def operational_lock_root(config):
     # Ubuntu service installation provisions this shared, protected directory
     # for the one dedicated R7 user. Never fall back to a per-profile lock root.
-    return config.local_data_root / 'process-scopes' if os.name == 'nt' else Path('/run/r7/scopes')
+    return config.local_data_root / 'process-scopes' if os.name == 'nt' else Path(POSIX_SCOPE_ROOT)
 
 
 class ProcessScopeLock:

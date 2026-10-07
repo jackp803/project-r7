@@ -9,17 +9,23 @@ from application.config import load_config
 from application.local_owners import LocalOwners
 from application.platform.processes import ResourceLimits, spawn_owned, terminate_owned
 from application.platform.resources import ResourcePolicy, inspect_hardware
-from application.platform.supervision import ProcessSupervisor
+from application.platform.supervision import ProcessSupervisor, config_hash
 from application.platform.shutdown import ManagedStop
 
 
-def _job_argv(config_path, run_id, generation):
+def _job_argv(config_path, run_id, generation, *, expected_config_hash=None):
     prefix = [sys.executable] if getattr(sys, 'frozen', False) else [sys.executable, '-m', 'application']
-    return [*prefix, '_research-job', '--config', str(config_path), '--run-id', run_id, '--generation', str(generation)]
+    argv = [*prefix, '_research-job', '--config', str(config_path), '--run-id', run_id, '--generation', str(generation)]
+    if expected_config_hash is not None:
+        argv += ['--expected-config-hash', expected_config_hash]
+    return argv
 
 
-def run_research_job(config_path, run_id, generation):
-    owners = LocalOwners(load_config(config_path))
+def run_research_job(config_path, run_id, generation, *, expected_config_hash=None):
+    config = load_config(config_path)
+    if expected_config_hash is not None and config_hash(config) != expected_config_hash:
+        raise ValueError('Research child configuration changed before owner composition')
+    owners = LocalOwners(config)
     if owners.queue is None: raise ValueError('Research selections are not configured')
     result = owners.queue.step(run_id, generation)
     return dict(status=result['state'], run_id=run_id, generation=generation)
@@ -56,7 +62,8 @@ def _worker_once(config_path, config, *, namespace, job_argv_factory, hardware_p
     if stop.requested:return dict(status='STOPPED',run_id=None,reason_codes=['SERVICE_STOP_REQUESTED'])
     claim = owners.queue.claim_next()
     if claim is None: return dict(status='IDLE', run_id=None, reason_codes=[])
-    argv = (job_argv_factory or _job_argv)(config_path, claim.run_id, claim.generation)
+    argv = (job_argv_factory(config_path, claim.run_id, claim.generation) if job_argv_factory is not None
+            else _job_argv(config_path, claim.run_id, claim.generation, expected_config_hash=config_hash(config)))
     log_dir = config.local_data_root / 'worker-logs'
     log_dir.mkdir(parents=True, exist_ok=True, mode=0o700)
     log = log_dir / (claim.run_id + '-' + str(claim.generation) + '.log')
@@ -84,9 +91,11 @@ def _worker_once(config_path, config, *, namespace, job_argv_factory, hardware_p
         log_ref='worker-logs/' + log.name, reason_codes=result['reason_codes'])
 
 
-def research_worker(config_path, *, once=False):
+def research_worker(config_path, *, once=False, expected_config_hash=None):
     config_path = Path(config_path).absolute()
     config = load_config(config_path)
+    if expected_config_hash is not None and config_hash(config) != expected_config_hash:
+        raise ValueError('Research service configuration changed before supervision')
     with ManagedStop() as stop, ProcessSupervisor(config, 'research', config_path=config_path) as supervisor:
         while not stop.requested:
             result = _worker_once(config_path, config, namespace='LOCAL_RESEARCH', job_argv_factory=None,

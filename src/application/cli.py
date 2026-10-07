@@ -34,6 +34,19 @@ def main(argv=None):
     worker = commands.add_parser('research-worker', help='Supervise one resource-admitted research child at a time')
     worker.add_argument('--config', type=Path, required=True)
     worker.add_argument('--once', action='store_true')
+    for name, description in (('plan-services','Export an exact native Ubuntu control/research plan without installation'),
+                              ('guarded-service','Start an exact native Ubuntu control/research subject under its dedicated account')):
+        service = commands.add_parser(name, help=description)
+        service.add_argument('--config', type=Path, required=True)
+        service.add_argument('--expected-revision', required=True)
+        service.add_argument('--expected-build-hash', required=True)
+        service.add_argument('--expected-config-hash', required=True)
+        service.add_argument('--expected-memory-bytes', type=int, required=True)
+        service.add_argument('--service-user', required=True)
+        if name == 'plan-services':
+            service.add_argument('--output', type=Path, required=True)
+        else:
+            service.add_argument('--role', choices=('control','research'), required=True)
     author = commands.add_parser('author-package', help='Create actual offline JSON files through E2')
     author.add_argument('--definition', type=Path, required=True)
     author.add_argument('--destination', type=Path, required=True)
@@ -87,7 +100,16 @@ def main(argv=None):
     job.add_argument('--config', type=Path, required=True)
     job.add_argument('--run-id', required=True)
     job.add_argument('--generation', type=int, required=True)
+    job.add_argument('--expected-config-hash')
     args = parser.parse_args(argv)
+    if args.command in ('plan-services','guarded-service'):
+        from application.platform.service_guard import export_service_plan, run_guarded_service
+        expected=dict(expected_revision=args.expected_revision,expected_build_hash=args.expected_build_hash,
+            expected_config_hash=args.expected_config_hash,service_user=args.service_user,expected_memory_bytes=args.expected_memory_bytes)
+        if args.command == 'guarded-service':
+            return run_guarded_service(args.config,role=args.role,**expected)
+        print(json.dumps(export_service_plan(args.config,args.output,**expected)))
+        return 0
     if args.command == 'author-package':
         from application.cloud.authoring import emit_package
         from application.cloud.safe_files import read_bounded
@@ -198,7 +220,7 @@ def main(argv=None):
         return research_worker(args.config, once=args.once)
     if args.command == '_research-job':
         from application.research.worker import run_research_job
-        result = run_research_job(args.config, args.run_id, args.generation)
+        result = run_research_job(args.config, args.run_id, args.generation, expected_config_hash=args.expected_config_hash)
         print(json.dumps(result))
         return 0 if result['status'] in ('COMPLETE', 'BLOCKED', 'CANCELED') else 2
     if args.command == 'init-profile':

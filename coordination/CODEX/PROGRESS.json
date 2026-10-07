@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S13",
-  "next_step": "Implement bounded native install/service configuration and SSH health tooling; continue S12 actual continuous runtime/restoration authority integration, S14 forward feedback and S15-S16. Ubuntu/real cloud/real forward/provider commissioning remain NOT_RUN; no full-product PASS.",
+  "next_step": "Freeze and qualify S13 guarded control/research service plan and asset-link increment; implement remaining native service install/uninstall/SSH, S12 continuous runtime/restoration, S14 forward feedback and S15-S16. Ubuntu/cloud/real forward/provider commissioning NOT_RUN.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -1004,5 +1004,20 @@
       "S15 capacity/whole-product mapping",
       "S16 whole-branch review"
     ]
+  },
+  "service_increment": {
+    "status": "DEVELOPMENT_PASS_QUALIFICATION_PENDING",
+    "service_tests_passed": 35,
+    "asset_link_tests_passed": 3,
+    "existing_entrypoint_tests": 10,
+    "existing_process_tests": 17,
+    "existing_worker_tests": 11,
+    "existing_asset_tests": 3,
+    "independent_review": "NO_REMAINING_CRITICAL_OR_IMPORTANT;BOUNDED_READ_ONLY",
+    "linux_permission_facts": "CONTROLLED_UNIT_MOCKS_ONLY",
+    "systemd_installation": "NOT_IMPLEMENTED",
+    "ubuntu_native": "NOT_RUN",
+    "runtime": "CONTINUOUS_COMPOSITION_NOT_DELIVERED",
+    "source_doc": "docs/product/NATIVE_UBUNTU_SERVICE_PLAN.md"
   }
 }

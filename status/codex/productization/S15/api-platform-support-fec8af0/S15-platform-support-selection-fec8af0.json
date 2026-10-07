@@ -1,0 +1,236 @@
+{
+  "document_kind": "MANUALLY_CURATED_SCOPED_SOURCE_SUPPORT_DRAFT;NOT_REQUIREMENT_ACCEPTANCE",
+  "candidate_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+  "scope": "PLAT01-08;WINDOWS_SOURCE_SUPPORT_ONLY",
+  "requirements": [
+    {
+      "id": "PLAT-01",
+      "supported_behavior": "Source CLI first profile is diagnostic/loopback with no trading authority or initial database. Existing profile bytes survive identical retry; actual source entrypoint composes E6 migrations and authenticated ASGI using explicitly local synthetic enrollment.",
+      "selectors": [
+        [
+          "tests/application/test_native_entrypoints.py",
+          "test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority"
+        ],
+        [
+          "tests/application/test_native_entrypoints.py",
+          "test_existing_profile_is_preserved_including_identical_retry"
+        ],
+        [
+          "tests/application/test_native_entrypoints.py",
+          "test_actual_e6_migrations_and_authenticated_api_are_composed"
+        ]
+      ],
+      "remaining": [
+        "These execute Python source, not end-user native startup/no-Python/no-Node acceptance. Separately retained Windows54scenarios57commands native evidence is not transferred to Ubuntu24.04/26.04; both Ubuntu targets NOT_RUN."
+      ]
+    },
+    {
+      "id": "PLAT-02",
+      "supported_behavior": "Actual source config and CLI fixture use Chinese/spaced UTF8 paths, preserve existing selected profile bytes and reject nested/external database roots. Explicit local data versus optional cloud roots are retained.",
+      "selectors": [
+        [
+          "tests/application/test_platform.py",
+          "test_chinese_paths_diagnostic_defaults_and_local_database"
+        ],
+        [
+          "tests/application/test_platform.py",
+          "test_nested_roots_and_external_database_rejected_both_directions"
+        ],
+        [
+          "tests/application/test_native_entrypoints.py",
+          "test_existing_profile_is_preserved_including_identical_retry"
+        ]
+      ],
+      "remaining": [
+        "Selected assertions do not establish case-sensitive-import or UTC golden parity. Native per-platform Chinese/UTF8/import/time acceptance remains separate; Ubuntu NOT_RUN."
+      ]
+    },
+    {
+      "id": "PLAT-03",
+      "supported_behavior": "Actual owned source process tree explicit termination reaps parent/child/grandchild while an unrelated process survives. Separately, automatic timeout reaps the owned child without caller cancellation; shell strings/invalid limits are rejected before spawn.",
+      "selectors": [
+        [
+          "tests/application/test_process_tree.py",
+          "test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process"
+        ],
+        [
+          "tests/application/test_process_tree.py",
+          "test_automatic_timeout_reaps_without_caller_cancellation"
+        ],
+        [
+          "tests/application/test_process_tree.py",
+          "test_rejects_shell_strings_and_invalid_limits_before_spawning"
+        ]
+      ],
+      "remaining": [
+        "Named tree test invokes explicit termination; separate timeout test covers one owned child. Windows source execution only, not native Ubuntu descendant cleanup acceptance."
+      ]
+    },
+    {
+      "id": "PLAT-04",
+      "supported_behavior": "Source hardware doctor reports positive measured memory and GPU NOT_REQUIRED; separate hardware inspection asserts positive memory/CPU/disk. Conservative24GiB policy-input assertions enforce an8GiB research soft budget/one worker and deny supplied low-memory/low-disk facts.",
+      "selectors": [
+        [
+          "tests/application/test_platform.py",
+          "test_hardware_doctor_emits_measured_json_without_initializing_data"
+        ],
+        [
+          "tests/application/test_platform.py",
+          "test_measured_hardware_has_positive_memory_cpu_disk_and_no_gpu_requirement"
+        ],
+        [
+          "tests/application/test_platform.py",
+          "test_resource_pressure_blocks_research_with_measured_boundaries"
+        ]
+      ],
+      "remaining": [
+        "Actual inspected Windows hardware has33736265728bytes RAM/20logical cores, not asserted24GB capacity. Policy-input threshold test is not actual memory/CPU workload benchmark. Original535 qualification memory samples remain separate; native capacity benchmark pending."
+      ]
+    },
+    {
+      "id": "PLAT-05",
+      "supported_behavior": "Portable source service rendering separates existing control/research roles, explicitly reports missing continuous runtime, applies fixed24GiB-input research budget/one-CPU quota/owned-group shutdown and backoff directives, and restricts writable roots/user privilege. Separately, Windows source supervisor restart advances actual process generation, config drift inhibits it and clock regression cannot auto-resume.",
+      "selectors": [
+        [
+          "tests/application/test_service_plan.py",
+          "test_two_existing_roles_are_isolated_and_missing_runtime_is_explicit"
+        ],
+        [
+          "tests/application/test_service_plan.py",
+          "test_research_uses_measured_budget_one_cpu_and_owned_group_shutdown"
+        ],
+        [
+          "tests/application/test_service_plan.py",
+          "test_config_and_binary_are_read_only_with_only_explicit_writable_roots"
+        ],
+        [
+          "tests/application/test_service_plan.py",
+          "test_privileged_or_injected_identity_is_denied"
+        ],
+        [
+          "tests/application/test_process_supervision.py",
+          "test_restart_has_a_new_actual_process_generation_and_never_financial_permission"
+        ],
+        [
+          "tests/application/test_process_supervision.py",
+          "test_config_change_inhibits_the_existing_generation_without_renewing_it"
+        ],
+        [
+          "tests/application/test_process_supervision.py",
+          "test_actual_clock_regression_stops_heartbeat_and_cannot_resume_automatically"
+        ]
+      ],
+      "remaining": [
+        "Unit text is RENDERED_ONLY and supervisor tests run Windows/Python; Ubuntu systemd install/start/restart/stop/generation execution NOT_RUN. No ordinary native continuous PAPER runtime is delivered by these selected assertions."
+      ]
+    },
+    {
+      "id": "PLAT-06",
+      "supported_behavior": "Actual local fake bridge marker loss fails CLOUD_NOT_CONNECTED without creating a replacement remote marker/receipt root. Local intake missing root marker and optional cloud config do not initialize replacement staging/data.",
+      "selectors": [
+        [
+          "tests/application/test_cloud_bridge.py",
+          "test_marker_loss_never_initializes_a_replacement_stage_root_or_remote"
+        ],
+        [
+          "tests/application/test_cloud_intake.py",
+          "test_missing_root_marker_does_not_initialize_replacement_cloud"
+        ],
+        [
+          "tests/application/test_platform.py",
+          "test_optional_cloud_is_not_silently_initialized"
+        ]
+      ],
+      "remaining": [
+        "Local Windows fake/filesystem faults, not real cloud/mount commissioning or Ubuntu native mount-loss acceptance."
+      ]
+    },
+    {
+      "id": "PLAT-07",
+      "supported_behavior": "Actual SQLite committed WAL/intake snapshots are verified without copying WAL/SHM. Source restore creates disjoint private inhibited configuration, fences stale intake/auth claims, advances E6 dispatch/Paper process generations while retaining uncertainty/state, and preserves selected datasets/snapshots/settings bytes through full product restore.",
+      "selectors": [
+        [
+          "tests/application/test_database_backup.py",
+          "test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal"
+        ],
+        [
+          "tests/application/test_database_restore.py",
+          "test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration"
+        ],
+        [
+          "tests/application/test_database_restore.py",
+          "test_stale_intake_claim_and_auth_session_cannot_survive_restore"
+        ],
+        [
+          "tests/application/test_database_restore.py",
+          "test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects"
+        ],
+        [
+          "tests/application/test_product_data_backup.py",
+          "test_actual_selected_data_snapshots_and_settings_survive_fresh_restore"
+        ]
+      ],
+      "remaining": [
+        "Synthetic owner stores only; restoration inhibition/reconciliation/reauthorization remain REQUIRED. Separately retained native Windows restore evidence does not qualify Ubuntu or grant restored runtime/financial authority."
+      ]
+    },
+    {
+      "id": "PLAT-08",
+      "supported_behavior": "Source build tests require exact clean full revision and preserve foreign output, whitelist code/SQL while excluding synthetic env/cache, and retain interpreter license material. Synthetic native inventory binds source/binary/resources/dependencies; tampering or manifest escape is rejected. Linux wrapper/guide bytes are retained exactly and changed wrapper invalidates provenance. Controlled removal protocol preserves unverified replacement leaves.",
+      "selectors": [
+        [
+          "tests/application/test_native_build_inputs.py",
+          "test_exact_source_requires_clean_full_revision"
+        ],
+        [
+          "tests/application/test_native_build_inputs.py",
+          "test_existing_foreign_output_is_preserved"
+        ],
+        [
+          "tests/application/test_native_build_inputs.py",
+          "test_staged_resource_whitelist_bounds_windows_command_without_copying_other_data"
+        ],
+        [
+          "tests/application/test_native_build_inputs.py",
+          "test_native_package_retains_selected_interpreter_license_material"
+        ],
+        [
+          "tests/application/test_native_distribution.py",
+          "test_sealed_inventory_binds_binary_source_resources_and_exact_dependencies"
+        ],
+        [
+          "tests/application/test_native_distribution.py",
+          "test_binary_sql_missing_and_unexpected_file_changes_are_rejected"
+        ],
+        [
+          "tests/application/test_native_distribution.py",
+          "test_manifest_escape_duplicate_keys_and_wrong_platform_are_rejected"
+        ],
+        [
+          "tests/application/test_service_admin_packaging.py",
+          "test_linux_package_retains_exact_wrappers_and_complete_operator_guide"
+        ],
+        [
+          "tests/application/test_service_admin_packaging.py",
+          "test_changed_retained_wrapper_invalidates_actual_distribution_provenance"
+        ],
+        [
+          "tests/application/test_service_admin_removal.py",
+          "test_leaf_replacement_between_snapshot_and_transfer_is_restored_and_never_deleted"
+        ],
+        [
+          "tests/application/test_service_admin_removal.py",
+          "test_replacement_is_preserved_in_quarantine_when_public_name_is_reoccupied"
+        ]
+      ],
+      "remaining": [
+        "Inventory uses synthetic binary bytes and removal uses controlled in-memory leaf interleavings; no native Linux filesystem/upgrade/uninstall execution claim. Full platform dependency/license/checksum/upgrade/uninstall acceptance remains separate; Ubuntu NOT_RUN."
+      ]
+    }
+  ],
+  "common_limits": [
+    "Original1953-case exact-clean source qualification only; no new per-result21-field platform acceptance execution.",
+    "Source/synthetic inventory/rendered Linux text cannot qualify native package/runtime/Ubuntu.",
+    "All platform requirements remainNOT_RUN here; actual native Windows evidence is separately retained; requirementPASS0."
+  ]
+}

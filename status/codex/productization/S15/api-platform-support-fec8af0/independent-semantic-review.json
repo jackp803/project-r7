@@ -1,0 +1,43 @@
+{
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_API_PLATFORM_SUPPORT_REVIEW",
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "remaining_minor": 0,
+  "reviewed_original_artifacts": {
+    "artifacts/S15-api-support-selection-fec8af0.json": "sha256:4e03936d662456f1e3fc2cadec6318e8f71fad1f5c20855acf574baaf5552c29",
+    "artifacts/build_s15_api_support_draft.py": "sha256:d5178a17be420e867466e8942a397d760fc219eabfa30165adce698c6350a2ff",
+    "artifacts/S15-api-support-draft-fec8af0.json": "sha256:a0ad9d81905a34757a8e2a8f99a1878c2bddd79622a880d43dbdd940453b1f2b",
+    "artifacts/S15-platform-support-selection-fec8af0.json": "sha256:6f5763f0de3d792b81703c54e8004deb8c0c6a53fb5e3970773c4b340f1ba9c7",
+    "artifacts/build_s15_platform_support_draft.py": "sha256:1f3d04ec9f69a8c3aedf93980fbc923e84e6957088b395a29f43e6f43373f491",
+    "artifacts/S15-platform-support-draft-fec8af0.json": "sha256:aa83062404834343d281f4a9dfc0ca240f7d0cdf8715100adebe4450d35227b5"
+  },
+  "reviewed_test_sources": {
+    "tests/product/test_api_authority.py": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+    "tests/product/test_control_commands.py": "sha256:c10ec6e0eea09e32e250845613cc2a0a3ee187b8d05c9e76c19851618aa4edfb",
+    "tests/product/test_api_csrf.py": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+    "tests/product/test_api_approval_binding.py": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+    "tests/application/test_ssh_access.py": "sha256:eb1bb0a416bf17847148272dc1a8d7ef20b6c925d61f30ce5e98b162a83ab91d",
+    "tests/application/test_platform.py": "sha256:9c48fd70e9d6ac1ab66ab2a1bc195f1dca81f565031277c4f2fbd3e5adbc9c64",
+    "tests/application/test_native_entrypoints.py": "sha256:e1431ed6c314697becffd1abd4ab8917bdb686296503c173cb14f77cf0fd3083",
+    "tests/application/test_process_tree.py": "sha256:bf654d6d3ab995aac08492a70ca2704f770bfd4b51bee1f921cbbedeb86a89a9",
+    "tests/application/test_service_plan.py": "sha256:ee2bec5792e25bba8cf7a014c93bedcd17372f850f0540547519812a0276630b",
+    "tests/application/test_process_supervision.py": "sha256:b48547e2bdec8e22a05df92619d3bd286bb3ebcf4bf6cf5d93501704b156f366",
+    "tests/application/test_cloud_bridge.py": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+    "tests/application/test_cloud_intake.py": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+    "tests/application/test_database_backup.py": "sha256:24ccf253ba50e8a81a58a10d59706f403488125113cd43a725f54ed5a4d9ff78",
+    "tests/application/test_database_restore.py": "sha256:52b469c6a8d4fb53eaf3d9ca8c6ca9f3aadde7b26214905ff338b9356f8c572d",
+    "tests/application/test_product_data_backup.py": "sha256:3ae88729ae9079b50580acd6731c21a9b83c82ec7a9f34da19dc8e03e6285230",
+    "tests/application/test_native_build_inputs.py": "sha256:da41fcb27255ecd68ad6bb00efee680d6dc43858c8a8e58c15bac152ce608646",
+    "tests/application/test_native_distribution.py": "sha256:b7e3a99001a49c98c9bd6c42d4d2fe755ed289750bf5089cbe04db893a1f65ca",
+    "tests/application/test_service_admin_packaging.py": "sha256:8fd1a43610da8ccdfc6eec776935492b05ffb448c1eb21d5b0b3b99817c6f868",
+    "tests/application/test_service_admin_removal.py": "sha256:fa32d5babfd0d03b97c93552e7321080ddcc198c6806335097037ab3fbca4a1a"
+  },
+  "resolved_minor": [
+    "Narrowed nested/external path rejection to selected assertions",
+    "Separated hardware doctor JSON from unasserted initialization invariant",
+    "Labeled fixed24GiB renderer policy input"
+  ],
+  "limits": "NO_REVIEWER_EXECUTION;NO_NATIVE_REQUIREMENT_OR_MASTER_ACCEPTANCE"
+}

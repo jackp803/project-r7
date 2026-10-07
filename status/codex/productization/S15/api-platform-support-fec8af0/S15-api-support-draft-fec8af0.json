@@ -1,0 +1,750 @@
+{
+  "document_kind": "SCOPED_SOURCE_SUPPORT_MAPPING_DRAFT;NOT_ACCEPTANCE_RESULT",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "candidate_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+  "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
+  "implementation_hash": "sha256:ba01027908e0e8ddf694eb8619d28b5d7a1bd9f94de0df804dc1471afe189576",
+  "selection_input_hashes": {
+    "artifacts/S15-api-support-selection-fec8af0.json": "sha256:4e03936d662456f1e3fc2cadec6318e8f71fad1f5c20855acf574baaf5552c29",
+    "workspaces/project-r7-productization-master-20261002/status/codex/productization/S15/execution-index-fec8af0/retention-index.json": "sha256:b6bdb46f4e20f7b76b69d55dd34be0a3807ce75533a08894b4228444c85fc5b4",
+    "artifacts/S15-executed-case-index-fec8af0.json": "sha256:3ce754311d3210ac5827500999543d87c56d2f5bb4e7eb1ac67e4a9aa0c72209",
+    "workspaces/project-r7-productization-master-20261002/docs/product/v0_2/07_ACCEPTANCE_MATRIX.json": "sha256:a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+  },
+  "selected_test_source_hashes": {
+    "tests/product/test_api_authority.py": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+    "tests/product/test_control_commands.py": "sha256:c10ec6e0eea09e32e250845613cc2a0a3ee187b8d05c9e76c19851618aa4edfb",
+    "tests/product/test_api_csrf.py": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+    "tests/product/test_api_approval_binding.py": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+    "tests/application/test_ssh_access.py": "sha256:eb1bb0a416bf17847148272dc1a8d7ef20b6c925d61f30ce5e98b162a83ab91d",
+    "tests/application/test_platform.py": "sha256:9c48fd70e9d6ac1ab66ab2a1bc195f1dca81f565031277c4f2fbd3e5adbc9c64"
+  },
+  "source_qualification_tests": 1953,
+  "source_qualification_commands": 33,
+  "selected_requirement_drafts": 3,
+  "unselected_v02_requirements": 63,
+  "selected_distinct_execution_instances": 21,
+  "requirement_pass_claims": 0,
+  "legacy_applicability_or_mapping_pending": 150,
+  "requirements": [
+    {
+      "requirement": {
+        "id": "API-01",
+        "owner_step": "S10",
+        "requirement": "API commands are typed/idempotent/revision checked and cannot submit arbitrary PASS/SQL/code",
+        "test_group": "api_authority",
+        "evidence": "api_security_execution"
+      },
+      "mapping_status": "DRAFT_SCOPED_SOURCE_SUPPORT;INDEPENDENT_SEMANTIC_REVIEW_PENDING",
+      "requirement_status": "NOT_RUN",
+      "requirement_pass_claim": false,
+      "supported_behavior": "Actual ASGI FIXTURE API rejects actor/PASS injection, bounded-page SQL/unknown query input, and unknown command fields in strict committed OpenAPI schemas. Durable settings use CAS and identical retry; changed request conflicts. Separate actual command ledger retains completed receipts across revision changes, rejects changed actor/subject/revision, fences pending effects and recovers expired claims without accepting old completion.",
+      "supporting_executed_cases": [
+        {
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+          "execution_instance_id": "032:0009:test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_authority.py",
+          "line": 103,
+          "source_sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_page_bounds_and_unknown_query_fields_are_enforced",
+          "execution_instance_id": "032:0018:test_api_authority.APIAuthorityTests.test_page_bounds_and_unknown_query_fields_are_enforced",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_authority.py",
+          "line": 146,
+          "source_sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_openapi_has_all_required_routes_and_strict_command_schemas",
+          "execution_instance_id": "032:0017:test_api_authority.APIAuthorityTests.test_openapi_has_all_required_routes_and_strict_command_schemas",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_authority.py",
+          "line": 160,
+          "source_sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry",
+          "execution_instance_id": "032:0019:test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_authority.py",
+          "line": 81,
+          "source_sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_control_commands.ControlCommandTests.test_completed_retry_returns_identical_historical_receipt_after_revision_changes",
+          "execution_instance_id": "032:0050:test_control_commands.ControlCommandTests.test_completed_retry_returns_identical_historical_receipt_after_revision_changes",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_control_commands.py",
+          "line": 24,
+          "source_sha256": "sha256:c10ec6e0eea09e32e250845613cc2a0a3ee187b8d05c9e76c19851618aa4edfb",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_control_commands.ControlCommandTests.test_changed_request_actor_subject_or_expected_revision_conflicts_under_same_id",
+          "execution_instance_id": "032:0049:test_control_commands.ControlCommandTests.test_changed_request_actor_subject_or_expected_revision_conflicts_under_same_id",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_control_commands.py",
+          "line": 32,
+          "source_sha256": "sha256:c10ec6e0eea09e32e250845613cc2a0a3ee187b8d05c9e76c19851618aa4edfb",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_control_commands.ControlCommandTests.test_pending_effect_fences_other_commands_without_holding_sql_transaction",
+          "execution_instance_id": "032:0054:test_control_commands.ControlCommandTests.test_pending_effect_fences_other_commands_without_holding_sql_transaction",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_control_commands.py",
+          "line": 46,
+          "source_sha256": "sha256:c10ec6e0eea09e32e250845613cc2a0a3ee187b8d05c9e76c19851618aa4edfb",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_control_commands.ControlCommandTests.test_expired_crash_claim_reuses_same_owner_command_and_fences_old_completion",
+          "execution_instance_id": "032:0051:test_control_commands.ControlCommandTests.test_expired_crash_claim_reuses_same_owner_command_and_fences_old_completion",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_control_commands.py",
+          "line": 54,
+          "source_sha256": "sha256:c10ec6e0eea09e32e250845613cc2a0a3ee187b8d05c9e76c19851618aa4edfb",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        }
+      ],
+      "remaining": [
+        "Source ASGI/SQLite mechanics, not ordinary native worker API or full command surface/whole-product acceptance."
+      ]
+    },
+    {
+      "requirement": {
+        "id": "API-02",
+        "owner_step": "S10",
+        "requirement": "Loopback default, Host/Origin/CSRF/session protection and authenticated approval actor",
+        "test_group": "api_csrf",
+        "evidence": "api_security_execution"
+      },
+      "mapping_status": "DRAFT_SCOPED_SOURCE_SUPPORT;INDEPENDENT_SEMANTIC_REVIEW_PENDING",
+      "requirement_status": "NOT_RUN",
+      "requirement_pass_claim": false,
+      "supported_behavior": "Actual ASGI FIXTURE rejects DNS rebinding/wrong or missing Origin, cross-site reads/forwarded Host bypass, missing or wrong CSRF, invalid content types and duplicate/nonfinite/oversized JSON. Authenticated responses have no wildcard CORS and required security headers. Login returns opaque HttpOnly/SameSite cookie without password/token echo; logout/expiry denies subsequent session reads. Separate actual E6 FIXTURE approval stores the verified local session actor; logout revokes its capability before approval effect.",
+      "supporting_executed_cases": [
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_dns_rebinding_and_wrong_origin_cannot_login",
+          "execution_instance_id": "032:0023:test_api_csrf.APICSRFTests.test_dns_rebinding_and_wrong_origin_cannot_login",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 6,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules",
+          "execution_instance_id": "032:0022:test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 13,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_product_write_requires_matching_csrf_even_with_valid_session",
+          "execution_instance_id": "032:0027:test_api_csrf.APICSRFTests.test_product_write_requires_matching_csrf_even_with_valid_session",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 20,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_form_and_missing_content_type_cannot_bypass_strict_json",
+          "execution_instance_id": "032:0025:test_api_csrf.APICSRFTests.test_form_and_missing_content_type_cannot_bypass_strict_json",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 29,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_duplicate_json_keys_nonfinite_and_oversize_body_are_rejected",
+          "execution_instance_id": "032:0024:test_api_csrf.APICSRFTests.test_duplicate_json_keys_nonfinite_and_oversize_body_are_rejected",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 36,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_no_wildcard_cors_and_security_headers_on_authenticated_response",
+          "execution_instance_id": "032:0026:test_api_csrf.APICSRFTests.test_no_wildcard_cors_and_security_headers_on_authenticated_response",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 44,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_login_sets_opaque_http_only_same_site_cookie_without_password_echo",
+          "execution_instance_id": "032:0015:test_api_authority.APIAuthorityTests.test_login_sets_opaque_http_only_same_site_cookie_without_password_echo",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_authority.py",
+          "line": 53,
+          "source_sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_expired_session_cannot_read_or_write_and_logout_revokes_cookie",
+          "execution_instance_id": "032:0012:test_api_authority.APIAuthorityTests.test_expired_session_cannot_read_or_write_and_logout_revokes_cookie",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_authority.py",
+          "line": 137,
+          "source_sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+          "execution_instance_id": "032:0001:test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_approval_binding.py",
+          "line": 30,
+          "source_sha256": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        },
+        {
+          "test_id": "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect",
+          "execution_instance_id": "032:0003:test_api_approval_binding.APIApprovalBindingTests.test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_approval_binding.py",
+          "line": 41,
+          "source_sha256": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        }
+      ],
+      "remaining": [
+        "Public fixture passwords/session/human identity only. E6 FIXTURE mechanics and stored APPROVED label confer no real financial authority; production/native and whole-product acceptance remain pending."
+      ]
+    },
+    {
+      "requirement": {
+        "id": "API-03",
+        "owner_step": "S13",
+        "requirement": "SSH-tunneled remote view supported; direct LAN controls blocked without TLS/auth configuration",
+        "test_group": "remote_access",
+        "evidence": "local_network_security_execution"
+      },
+      "mapping_status": "DRAFT_SCOPED_SOURCE_SUPPORT;INDEPENDENT_SEMANTIC_REVIEW_PENDING",
+      "requirement_status": "NOT_RUN",
+      "requirement_pass_claim": false,
+      "supported_behavior": "SSH planner emits exact loopback-only forwarding argv without remote command or connection and binds destination/port deterministically. Product config rejects0.0.0.0 host; actual ASGI rejects forwarded hostile Host and cross-site read. These are local source planner/config/security assertions.",
+      "supporting_executed_cases": [
+        {
+          "test_id": "tests.application.test_ssh_access.SSHAccessTests.test_exact_loopback_forward_has_no_remote_command_or_connection",
+          "execution_instance_id": "031:0323:test_ssh_access.SSHAccessTests.test_exact_loopback_forward_has_no_remote_command_or_connection",
+          "actual_outcome": "PASS",
+          "source": "tests/application/test_ssh_access.py",
+          "line": 30,
+          "source_sha256": "sha256:eb1bb0a416bf17847148272dc1a8d7ef20b6c925d61f30ce5e98b162a83ab91d",
+          "command_index": 31,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/application",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 106.17199999996228,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "log_sha256": "sha256:966f9dd195ed2bbfea82ed8efbc59a18beabbe28d25165ad16c3d0c2a9a4407f"
+        },
+        {
+          "test_id": "tests.application.test_ssh_access.SSHAccessTests.test_deterministic_plan_binds_destination_and_exact_port",
+          "execution_instance_id": "031:0321:test_ssh_access.SSHAccessTests.test_deterministic_plan_binds_destination_and_exact_port",
+          "actual_outcome": "PASS",
+          "source": "tests/application/test_ssh_access.py",
+          "line": 41,
+          "source_sha256": "sha256:eb1bb0a416bf17847148272dc1a8d7ef20b6c925d61f30ce5e98b162a83ab91d",
+          "command_index": 31,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/application",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 106.17199999996228,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "log_sha256": "sha256:966f9dd195ed2bbfea82ed8efbc59a18beabbe28d25165ad16c3d0c2a9a4407f"
+        },
+        {
+          "test_id": "tests.application.test_platform.ProductPlatformTests.test_rejects_relative_paths_bad_resources_unknown_and_secret_fields",
+          "execution_instance_id": "031:0165:test_platform.ProductPlatformTests.test_rejects_relative_paths_bad_resources_unknown_and_secret_fields",
+          "actual_outcome": "PASS",
+          "source": "tests/application/test_platform.py",
+          "line": 55,
+          "source_sha256": "sha256:9c48fd70e9d6ac1ab66ab2a1bc195f1dca81f565031277c4f2fbd3e5adbc9c64",
+          "command_index": 31,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/application",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 106.17199999996228,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "log_sha256": "sha256:966f9dd195ed2bbfea82ed8efbc59a18beabbe28d25165ad16c3d0c2a9a4407f"
+        },
+        {
+          "test_id": "tests.product.test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules",
+          "execution_instance_id": "032:0022:test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules",
+          "actual_outcome": "PASS",
+          "source": "tests/product/test_api_csrf.py",
+          "line": 13,
+          "source_sha256": "sha256:4f192e3a4c4b74c8cb65303d9c446500b23257a64f41f4ba57c4f66cce16c455",
+          "command_index": 32,
+          "command": [
+            "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "tests/product",
+            "-p",
+            "test_*.py",
+            "-v"
+          ],
+          "command_basis": "SEALED_EXECUTED_RUNNER_POLICY;NOT_RAW_ARGV_TRACE",
+          "duration_basis": "COMPLETE_COMMAND_ONLY;NO_PER_CASE_DURATION",
+          "command_duration_seconds": 816.6879999999655,
+          "execution_window": {
+            "scope": "FULL_SOURCE_QUALIFICATION_WINDOW;NO_PER_TEST_TIMESTAMP_CLAIM",
+            "started_at_utc": "2026-10-07T06:39:20.597189Z",
+            "finished_at_utc": "2026-10-07T06:57:15.166130Z"
+          },
+          "log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "log_sha256": "sha256:4ccb5892c512703b33b61bd9a9c13ea9f8cce5ef39c6d79fa23431b5a82f167c"
+        }
+      ],
+      "remaining": [
+        "No real SSH connection or remote view was started. Native controlled loopback probes remain separate evidence; real SSH/network commissioning and Ubuntu tests NOT_RUN."
+      ]
+    }
+  ],
+  "common_limits": [
+    "Original1953-case exact-clean source qualification only; no new per-result21-field acceptance execution.",
+    "Repeated source references deduplicated; no new real session enrollment, credentials or external connection.",
+    "Normal native/runtime/Ubuntu/whole-product requirement acceptance remains pending; requirementPASS0."
+  ],
+  "created_at_utc": "2026-10-07T08:27:08.940207+00:00"
+}

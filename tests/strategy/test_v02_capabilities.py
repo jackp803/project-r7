@@ -46,6 +46,43 @@ class CapabilityTests(unittest.TestCase):
             (root/'nested'/'a.py').unlink()
             self.assertEqual(expected([('z.sql',b'SELECT 1;\n'),('new.py',b'new owner\n')]),api._source_revision(root))
 
+    def test_same_size_same_mtime_owner_and_sql_replacement_cannot_reuse_identity(self):
+        import os
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        api=self.api()
+        with TemporaryDirectory() as temporary:
+            root=Path(temporary)
+            owner=root/'owner.py';sql=root/'authority.sql'
+            owner.write_bytes(b'owner = 1\n');sql.write_bytes(b'SELECT 1;\n')
+            original=api._source_revision(root)
+            for path,replacement in ((owner,b'owner = 2\n'),(sql,b'SELECT 2;\n')):
+                metadata=path.stat()
+                path.write_bytes(replacement)
+                os.utime(path,ns=(metadata.st_atime_ns,metadata.st_mtime_ns))
+                changed=api._source_revision(root)
+                self.assertNotEqual(original,changed)
+                original=changed
+            owner.rename(root/'renamed.py')
+            self.assertNotEqual(original,api._source_revision(root))
+
+    def test_unreadable_owner_directory_cannot_issue_partial_source_identity(self):
+        import os
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+        from unittest.mock import patch
+        with TemporaryDirectory() as temporary:
+            root=Path(temporary);(root/'owned').mkdir()
+            (root/'visible.py').write_bytes(b'visible = 1\n')
+            (root/'owned'/'authority.sql').write_bytes(b'SELECT 1;\n')
+            scan=os.scandir
+            def deny_owned_directory(path):
+                if Path(path)==root/'owned':
+                    raise PermissionError('controlled unreadable executable directory')
+                return scan(path)
+            with patch('os.scandir',side_effect=deny_owned_directory),self.assertRaises(PermissionError):
+                self.api()._source_revision(root)
+
     def test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding(self):
         api=self.api()
         from pathlib import Path

@@ -24,16 +24,19 @@ def _source_revision(source_root):
     """Commit executable Python and SQL authority resources, excluding mutable data."""
     source_root=Path(source_root)
     digest=hashlib.sha256()
-    # Compute root-relative names once per directory. Always read fresh bytes;
-    # no stat/content cache may hide a changed financial owner or SQL resource.
-    files=[]
-    for directory,_,names in os.walk(source_root,followlinks=False):
-        prefix=os.path.relpath(directory,source_root).replace(os.sep,'/')
-        prefix='' if prefix=='.' else prefix+'/'
-        for name in names:
-            if not name.endswith(('.py','.sql')):continue
-            path=Path(directory)/name
-            if path.is_file():files.append((prefix+name,path))
+    # Retain each fresh directory entry so its metadata is not queried again
+    # through Path.is_file. Always read fresh bytes; there is no cross-call
+    # inventory, stat or content cache. An unreadable directory fails closed
+    # instead of silently producing a partial executable-source commitment.
+    files=[];pending=[(os.fspath(source_root),'')]
+    while pending:
+        directory,prefix=pending.pop()
+        with os.scandir(directory) as entries:
+            for entry in entries:
+                if entry.is_dir(follow_symlinks=False):
+                    pending.append((entry.path,prefix+entry.name+'/'))
+                elif entry.name.endswith(('.py','.sql')) and entry.is_file():
+                    files.append((prefix+entry.name,Path(entry.path)))
     if not files: raise ValueError('Executable source and SQL resource inventory required')
     for relative,path in sorted(files):
         raw=path.read_bytes().replace(b'\r\n',b'\n')

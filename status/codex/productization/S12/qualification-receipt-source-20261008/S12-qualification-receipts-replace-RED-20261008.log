@@ -1,0 +1,25 @@
+test_sql_replace_cannot_change_existing_execution (tests.storage.test_qualification_receipts.QualificationReceiptTests.test_sql_replace_cannot_change_existing_execution) ... FAIL
+test_sql_replace_cannot_reuse_existing_receipt_identity (tests.storage.test_qualification_receipts.QualificationReceiptTests.test_sql_replace_cannot_reuse_existing_receipt_identity) ... FAIL
+
+======================================================================
+FAIL: test_sql_replace_cannot_change_existing_execution (tests.storage.test_qualification_receipts.QualificationReceiptTests.test_sql_replace_cannot_change_existing_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_qualification_receipts.py", line 142, in test_sql_replace_cannot_change_existing_execution
+    with self.assertRaises(sqlite3.IntegrityError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+======================================================================
+FAIL: test_sql_replace_cannot_reuse_existing_receipt_identity (tests.storage.test_qualification_receipts.QualificationReceiptTests.test_sql_replace_cannot_reuse_existing_receipt_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_qualification_receipts.py", line 152, in test_sql_replace_cannot_reuse_existing_receipt_identity
+    with self.assertRaises(sqlite3.IntegrityError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.660s
+
+FAILED (failures=2)

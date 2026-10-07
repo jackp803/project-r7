@@ -1,0 +1,32 @@
+test_hostile_ambient_package_path_is_replaced_for_child_and_descendant (__main__.BoundRegressionTests.test_hostile_ambient_package_path_is_replaced_for_child_and_descendant) ... FAIL
+test_other_executed_test_and_helper_mutations_change_commitment (__main__.BoundRegressionTests.test_other_executed_test_and_helper_mutations_change_commitment) ... FAIL
+
+======================================================================
+FAIL: test_hostile_ambient_package_path_is_replaced_for_child_and_descendant (__main__.BoundRegressionTests.test_hostile_ambient_package_path_is_replaced_for_child_and_descendant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_qualification_regression_binding.py", line 36, in test_hostile_ambient_package_path_is_replaced_for_child_and_descendant
+    self.assertEqual(actual,[expected,expected])
+AssertionError: Lists differ: ['C:\[28 chars]人主體\\artifacts\\r7-s12-package-guard-pb6fk0_3\[120 chars].py'] != ['C:\[28 chars]人主體\\workspaces\\project-r7-productization-mas[156 chars].py']
+
+First differing element 0:
+'C:\\[27 chars]人主體\\artifacts\\r7-s12-package-guard-pb6fk0_3\[17 chars]_.py'
+'C:\\[27 chars]人主體\\workspaces\\project-r7-productization-mas[35 chars]_.py'
+
+- ['<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-package-guard-pb6fk0_3\\storage\\__init__.py',
+-  '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-package-guard-pb6fk0_3\\storage\\__init__.py']
++ ['<SOURCE_ROOT>\\src\\storage\\__init__.py',
++  '<SOURCE_ROOT>\\src\\storage\\__init__.py']
+
+======================================================================
+FAIL: test_other_executed_test_and_helper_mutations_change_commitment (__main__.BoundRegressionTests.test_other_executed_test_and_helper_mutations_change_commitment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_qualification_regression_binding.py", line 20, in test_other_executed_test_and_helper_mutations_change_commitment
+    self.assertNotEqual(original,driver.capture_inputs(repo,helper,launcher),'An executed owner test changed without changing the commitment')
+AssertionError: {'<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\repo\\src\\storage\\qualification.py': 'sha256:5bd17a4a66c4126008a147278511f1fb55774b443fa32bf571a0ffd5a8efc073', '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\repo\\src\\storage\\migrations\\0018_product_qualification_receipts.sql': 'sha256:5bd17a4a66c4126008a147278511f1fb55774b443fa32bf571a0ffd5a8efc073', '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\repo\\tests\\storage\\test_qualification_receipts.py': 'sha256:5bd17a4a66c4126008a147278511f1fb55774b443fa32bf571a0ffd5a8efc073', '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\launcher.py': 'sha256:e2c4bdaabbd58b1c4cd0b204eb8b0204b4a3cf7b5507cb2fb0a449cfbf8ab9f6'} == {'<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\repo\\src\\storage\\qualification.py': 'sha256:5bd17a4a66c4126008a147278511f1fb55774b443fa32bf571a0ffd5a8efc073', '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\repo\\src\\storage\\migrations\\0018_product_qualification_receipts.sql': 'sha256:5bd17a4a66c4126008a147278511f1fb55774b443fa32bf571a0ffd5a8efc073', '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\repo\\tests\\storage\\test_qualification_receipts.py': 'sha256:5bd17a4a66c4126008a147278511f1fb55774b443fa32bf571a0ffd5a8efc073', '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\r7-s12-input-guard-k_ds8moo\\launcher.py': 'sha256:e2c4bdaabbd58b1c4cd0b204eb8b0204b4a3cf7b5507cb2fb0a449cfbf8ab9f6'} : An executed owner test changed without changing the commitment
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.307s
+
+FAILED (failures=2)

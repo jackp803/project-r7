@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S09/S12/S13",
-  "next_step": "Implement bounded internal qualification receipt issuer/store/adapter with isolated fixtures and actual native PAPER owner composition/probes. Production release profile remains PROPOSED_NOT_ACTIVE pending PM/E6 acceptance. Full master/S15/S16 and mandatory Ubuntu evidence remain open.",
+  "active_step": "S12/S09/S13",
+  "next_step": "Qualify the exact-clean qualification receipt storage candidate; then continue bounded owning fixed-check producer/current-release adapter and native PAPER fixture composition. Production profile PROPOSED_NOT_ACTIVE pending PM/E6 mapping acceptance; Ubuntu/full master/S15/S16 remain open.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -2204,5 +2204,23 @@
     "retained_files": 74,
     "external_metadata_snapshot_regressions": 3,
     "metadata_guard_evidence_ref": "status/codex/productization/S09/local-control-metadata-41fa2fe/disposition.json"
+  },
+  "qualification_receipt_storage": {
+    "status": "SOURCE_STORAGE_COMPONENT_PASS;EXACT_CLEAN_QUALIFICATION_PENDING",
+    "implementation_hash": "sha256:40dc63ef0e8add2276206052c8ca5acbe9cf79f0640b69d82379935d0621f7b5",
+    "new_cases": 17,
+    "regression_cases": 286,
+    "storage": 196,
+    "owner_backup": 90,
+    "external_binding_guard_tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "independent_review": "0_CRITICAL_0_IMPORTANT;BOUNDED_SOURCE_AND_EXTERNAL_CAPTURE;REVIEWER_EXECUTION_NONE",
+    "evidence_ref": "status/codex/productization/S12/qualification-receipt-source-20261008/source-checkpoint.json",
+    "manifest_ref": "status/codex/productization/S12/qualification-receipt-source-artifact-hashes-20261008.json",
+    "production_profile": "PROPOSED_NOT_ACTIVE",
+    "owning_producer": "NOT_IMPLEMENTED",
+    "ordinary_native_paper": "NOT_RUN"
   }
 }

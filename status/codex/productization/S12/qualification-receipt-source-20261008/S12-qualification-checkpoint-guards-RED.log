@@ -1,0 +1,37 @@
+test_corrupted_published_snapshot_leaves_both_metadata_files_unchanged (__main__.CheckpointGuards.test_corrupted_published_snapshot_leaves_both_metadata_files_unchanged) ... FAIL
+test_duplicate_storage_rows_cannot_claim_owner_backup_pass (__main__.CheckpointGuards.test_duplicate_storage_rows_cannot_claim_owner_backup_pass) ... FAIL
+test_omitted_retainer_review_is_rejected_before_publication (__main__.CheckpointGuards.test_omitted_retainer_review_is_rejected_before_publication) ... FAIL
+
+======================================================================
+FAIL: test_corrupted_published_snapshot_leaves_both_metadata_files_unchanged (__main__.CheckpointGuards.test_corrupted_published_snapshot_leaves_both_metadata_files_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_qualification_checkpoint_guards.py", line 56, in test_corrupted_published_snapshot_leaves_both_metadata_files_unchanged
+    for n,raw in old.items():self.assertEqual((f[4]/n).read_bytes(),raw,'Metadata changed before retained snapshots were verified')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b'{\n[309 chars]": "S12/S09/S13",\n  "next_step": "Qualify the[101826 chars]n}\n' != b'{\n[309 chars]": "S09/S12/S13",\n  "next_step": "Implement b[100921 chars]n}\n' : Metadata changed before retained snapshots were verified
+
+======================================================================
+FAIL: test_duplicate_storage_rows_cannot_claim_owner_backup_pass (__main__.CheckpointGuards.test_duplicate_storage_rows_cannot_claim_owner_backup_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_qualification_checkpoint_guards.py", line 47, in test_duplicate_storage_rows_cannot_claim_owner_backup_pass
+    with self.assertRaises(AssertionError):self.invoke(f)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_omitted_retainer_review_is_rejected_before_publication (__main__.CheckpointGuards.test_omitted_retainer_review_is_rejected_before_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_qualification_checkpoint_guards.py", line 41, in test_omitted_retainer_review_is_rejected_before_publication
+    with self.assertRaises(AssertionError):self.invoke(f)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.041s
+
+FAILED (failures=3)
+{"retained_files": 25, "focused": 17, "affected": 286, "qualification": "PENDING", "implementation_hash": "sha256:40dc63ef0e8add2276206052c8ca5acbe9cf79f0640b69d82379935d0621f7b5"}
+{"retained_files": 25, "focused": 17, "affected": 286, "qualification": "PENDING", "implementation_hash": "sha256:40dc63ef0e8add2276206052c8ca5acbe9cf79f0640b69d82379935d0621f7b5"}

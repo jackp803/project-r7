@@ -1,0 +1,90 @@
+{
+  "passed": true,
+  "input_hashes_before": {
+    "workspaces/project-r7-productization-master-20261002/src/storage/qualification.py": "sha256:5a5784b35476662b00cf4dd1d98e8944516a9c1e0e85ac6eb8876c33c7d823a4",
+    "workspaces/project-r7-productization-master-20261002/src/storage/migrations/0018_product_qualification_receipts.sql": "sha256:cfc1774e2b389fc26d969754de79619b355aa9f536fd36af1dd1212cbd332468",
+    "workspaces/project-r7-productization-master-20261002/tests/storage/test_qualification_receipts.py": "sha256:b2f272bd86317e1f4224ef925132c4529cfd0f7321e61afdf6e9189a37efe119",
+    "artifacts/s12_qualification_receipt_source_regression.py": "sha256:7fc88ac8dd4724e2ec4b6f784fd1c3596c4d2bdf794e11d3dcaf58a26f3a0b63"
+  },
+  "implementation_hash": "sha256:8971b99ae20e040c64b35695ab9b529d4b87a503030ac2673c34ef3a9490bcd4",
+  "source_before": {
+    "revision": "fb3c1c67abf60d7fc46d39e589b1538f45f13967",
+    "worktree": "DIRTY"
+  },
+  "commands": [
+    {
+      "label": "storage-all",
+      "started_at_utc": "2026-10-07T16:15:08.799351Z",
+      "finished_at_utc": "2026-10-07T16:16:00.096973Z",
+      "argv": [
+        "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests/storage",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "returncode": 0,
+      "tests_run": 194,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-qualification-receipts-storage-all-20261008.log",
+      "log_sha256": "sha256:95a5e9bea039a0a662e318c27bd3c964b34d397ec8683d4cb96d0422480b10b5"
+    },
+    {
+      "label": "owner-backup",
+      "started_at_utc": "2026-10-07T16:16:00.203783Z",
+      "finished_at_utc": "2026-10-07T16:17:59.042354Z",
+      "argv": [
+        "<USER_HOME>\\AppData\\Local\\Python\\pythoncore-3.12-64\\python.exe",
+        "-m",
+        "unittest",
+        "-v",
+        "tests.application.test_local_paper_control_composition",
+        "tests.application.test_local_owner_composition",
+        "tests.product.test_paper_control_ipc",
+        "tests.product.test_api_owner_services",
+        "tests.application.test_native_entrypoints",
+        "tests.application.test_native_http_contract",
+        "tests.application.test_control_process_supervision",
+        "tests.application.test_paper_owner_worker",
+        "tests.application.test_paper_effect_recovery",
+        "tests.application.test_database_backup",
+        "tests.application.test_database_restore",
+        "tests.application.test_product_data_backup"
+      ],
+      "returncode": 0,
+      "tests_run": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-qualification-receipts-owner-backup-20261008.log",
+      "log_sha256": "sha256:0e012e2748d3b78ae41896a331648d11afd5a2f4bff1d5f83dc13119e1c7aae5"
+    }
+  ],
+  "scope": "STORAGE_ONLY_SOURCE_REGRESSIONS;NO_NATIVE_PRODUCT_QUALIFICATION_OR_PRODUCER_ISSUANCE",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "ordinary_native_paper": "NOT_RUN",
+  "production_profile": "PROPOSED_NOT_ACTIVE",
+  "input_hashes_after": {
+    "workspaces/project-r7-productization-master-20261002/src/storage/qualification.py": "sha256:5a5784b35476662b00cf4dd1d98e8944516a9c1e0e85ac6eb8876c33c7d823a4",
+    "workspaces/project-r7-productization-master-20261002/src/storage/migrations/0018_product_qualification_receipts.sql": "sha256:cfc1774e2b389fc26d969754de79619b355aa9f536fd36af1dd1212cbd332468",
+    "workspaces/project-r7-productization-master-20261002/tests/storage/test_qualification_receipts.py": "sha256:b2f272bd86317e1f4224ef925132c4529cfd0f7321e61afdf6e9189a37efe119",
+    "artifacts/s12_qualification_receipt_source_regression.py": "sha256:7fc88ac8dd4724e2ec4b6f784fd1c3596c4d2bdf794e11d3dcaf58a26f3a0b63"
+  },
+  "source_after": {
+    "revision": "fb3c1c67abf60d7fc46d39e589b1538f45f13967",
+    "worktree": "DIRTY"
+  }
+}

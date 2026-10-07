@@ -1,0 +1,89 @@
+{
+  "schema_version": "r7-scoped-service-qualification-v0.2",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "spec_baseline": "r7-product-v0.2",
+  "qualified_executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+  "previous_qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+  "result": "PASS",
+  "scope": "GUARDED_SERVICE_SOURCE_AND_SCOPED_WINDOWS_RECOVERY;UBUNTU_SERVICE_NOT_RUN",
+  "full_source": {
+    "result": "PASS",
+    "commands": 33,
+    "tests": 1828,
+    "phase_1": 247,
+    "phase_2": 1581,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "result": "PASS",
+    "frontend_commands": 5,
+    "fixture_commands": 7,
+    "unit_tests": 15,
+    "browser_tests": 11,
+    "screenshots": 6,
+    "browser_version": "154.0.4258.53",
+    "mode": "ACTUAL_EDGE_SERIAL_ISOLATED_SYNTHETIC_FIXTURES",
+    "initial_frontend_scope": "FRONTEND_ONLY;BROWSER_PENDING_UNTIL_SERIAL_RUN",
+    "assertions": "SAME11UNCHANGED_CASES",
+    "resource_admission": "UNCHANGED",
+    "orchestration": "ONE_ACTUAL_SOURCE_FIXTURE_AT_A_TIME",
+    "restored_native_http": "COVERED_SEPARATELY;NO_NEW_RESTORED_BROWSER_CASE"
+  },
+  "native": {
+    "result": "PASS",
+    "scope": "SCOPED_WINDOWS_NATIVE_ONLY",
+    "scenarios": 36,
+    "commands": 40,
+    "windows_service_platform_denial": 3,
+    "smoke": 8,
+    "selected_research": 1,
+    "offline_cloud": 12,
+    "private_recovery": 12,
+    "identity": {
+      "executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+      "implementation_hash": "sha256:cd1a7ca995a97fa2e43d10b702c829a17c925358d69591b64237f01091e8b752",
+      "build_hash": "sha256:d41ee3393901edb0596cbc398bd3cc0da3d595bbc6ebb91c33fb383c7e142516",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "archive_sha256": "ee3cc3132e8ec1985161378af6758fb4af6b9aaf0f9dfe96fb5c5c8cd1169e72",
+    "archive_files": 1056,
+    "product_path": "EMPTY",
+    "pythonpath": "UNSET",
+    "ubuntu": "NOT_RUN"
+  },
+  "memory": {
+    "actual_samples": 501,
+    "physical_memory_bytes": 33736265728,
+    "minimum_available_bytes": 5691588608,
+    "below_existing_admission_threshold_samples": 0,
+    "threshold_changes": "NONE",
+    "previous_failure_instantaneous_cause": "UNPROVEN"
+  },
+  "independent_review": "BOUNDED_SOURCE_AND_HARNESS_REVIEW;NO_REMAINING_CRITICAL_OR_IMPORTANT;NOT_WHOLE_BRANCH",
+  "private_artifacts": "DATABASES/BACKUPS/AUTH/SESSION/RAW_CAPTURE/PRIVATE_CONFIG/NATIVE_ARCHIVE_REMAIN_LOCAL",
+  "real_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "real_cloud": "NOT_RUN",
+  "real_forward_paper": "NOT_RUN",
+  "live": "NOT_AUTHORIZED",
+  "evidence_integrity": {
+    "source_commands": 33,
+    "native_scenarios": 36,
+    "native_commands": 40,
+    "required_artifacts": "EXISTENCE_AND_RECORDED_HASH_VERIFIED",
+    "browser_binding": "ACTUAL_SPEC_CONFIG_LAUNCHER_NATIVE_ASSETS_RESULTS_AND_SCREENSHOTS"
+  },
+  "pending": [
+    "S13 native service install/uninstall/SSH code and actual Ubuntu package/systemd/reboot qualification",
+    "S12 continuous runtime composition and restoration release/preflight integration",
+    "S14 forward/performance feedback",
+    "S15 capacity/whole-product mapping",
+    "S16 whole-branch review"
+  ]
+}

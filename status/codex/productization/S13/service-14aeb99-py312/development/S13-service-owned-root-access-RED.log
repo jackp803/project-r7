@@ -1,0 +1,42 @@
+test_nontraversable_config_parent_is_refused_before_a_plan_claim (test_service_permissions.ServicePermissionTests.test_nontraversable_config_parent_is_refused_before_a_plan_claim) ... ok
+test_nontraversable_private_data_parent_is_refused (test_service_permissions.ServicePermissionTests.test_nontraversable_private_data_parent_is_refused) ... ok
+test_private_data_is_owned_by_exact_user_and_group (test_service_permissions.ServicePermissionTests.test_private_data_is_owned_by_exact_user_and_group) ... ok
+test_protected_group_readable_config_has_actual_service_access (test_service_permissions.ServicePermissionTests.test_protected_group_readable_config_has_actual_service_access) ... ok
+test_root_only_config_is_refused_even_if_installer_can_read_it (test_service_permissions.ServicePermissionTests.test_root_only_config_is_refused_even_if_installer_can_read_it) ... ok
+test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) ... 
+  test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) (mode=320) ... FAIL
+  test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) (mode=256) ... FAIL
+  test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) (mode=384) ... FAIL
+test_wrong_group_world_readable_or_writable_config_is_refused (test_service_permissions.ServicePermissionTests.test_wrong_group_world_readable_or_writable_config_is_refused) ... ok
+
+======================================================================
+FAIL: test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) (mode=320)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_permissions.py", line 45, in test_service_owned_roots_without_owner_write_or_traversal_are_refused
+    with self.subTest(mode=mode),patch.object(service_guard,'_local_path'),self.assertRaises(ValueError):
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) (mode=256)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_permissions.py", line 45, in test_service_owned_roots_without_owner_write_or_traversal_are_refused
+    with self.subTest(mode=mode),patch.object(service_guard,'_local_path'),self.assertRaises(ValueError):
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_service_owned_roots_without_owner_write_or_traversal_are_refused (test_service_permissions.ServicePermissionTests.test_service_owned_roots_without_owner_write_or_traversal_are_refused) (mode=384)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_permissions.py", line 45, in test_service_owned_roots_without_owner_write_or_traversal_are_refused
+    with self.subTest(mode=mode),patch.object(service_guard,'_local_path'),self.assertRaises(ValueError):
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.005s
+
+FAILED (failures=3)

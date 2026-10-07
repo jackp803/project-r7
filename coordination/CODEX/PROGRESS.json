@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S13",
-  "next_step": "Freeze and qualify S13 guarded control/research service plan and asset-link increment; implement remaining native service install/uninstall/SSH, S12 continuous runtime/restoration, S14 forward feedback and S15-S16. Ubuntu/cloud/real forward/provider commissioning NOT_RUN.",
+  "next_step": "Implement bounded native install/service configuration and SSH health tooling; continue S12 actual continuous runtime/restoration authority integration, S14 forward feedback and S15-S16. Ubuntu/real cloud/real forward/provider commissioning remain NOT_RUN; no full-product PASS.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -75,13 +75,13 @@
       "additional_source_python": "3.14.3",
       "native_package_status": "PASS",
       "native_first_run_status": "PASS",
-      "native_first_run_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+      "native_first_run_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
       "native_first_run_scenarios": 8,
       "native_first_run_commands": 9,
-      "native_first_run_build_hash": "sha256:8e8a05bd2ec810f9eac1b099c2c98720ec0b28e0f1a89e447374cc4a819d6591",
-      "native_archive_sha256": "03703a2d981ab7ebc5bcc47e084c124358504fb6e9e1aedaa781f2cd3ec59a80",
+      "native_first_run_build_hash": "sha256:d41ee3393901edb0596cbc398bd3cc0da3d595bbc6ebb91c33fb383c7e142516",
+      "native_archive_sha256": "ee3cc3132e8ec1985161378af6758fb4af6b9aaf0f9dfe96fb5c5c8cd1169e72",
       "native_full_product_acceptance": "NOT_RUN",
-      "native_package_scope": "PRIVATE_RECOVERY_AND_RETAINED_OFFLINE_BRIDGE"
+      "native_package_scope": "SERVICE_PLATFORM_DENIAL_AND_RETAINED_PRIVATE_RECOVERY_OFFLINE_BRIDGE"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -895,6 +895,98 @@
         "S15 capacity/whole-product mapping",
         "S16 whole-branch review"
       ]
+    },
+    {
+      "step": "S13",
+      "phase": "EXACT_CLEAN_SERVICE_SUBJECT_AND_WINDOWS_RECOVERY_QUALIFICATION",
+      "status": "PASS",
+      "evidence_ref": "status/codex/productization/S13/service-14aeb99-py312/disposition.json",
+      "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+      "spec_baseline": "r7-product-v0.2",
+      "qualified_executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+      "previous_qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+      "result": "PASS",
+      "scope": "GUARDED_SERVICE_SOURCE_AND_SCOPED_WINDOWS_RECOVERY;UBUNTU_SERVICE_NOT_RUN",
+      "full_source": {
+        "result": "PASS",
+        "commands": 33,
+        "tests": 1828,
+        "phase_1": 247,
+        "phase_2": 1581,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      "browser": {
+        "result": "PASS",
+        "frontend_commands": 5,
+        "fixture_commands": 7,
+        "unit_tests": 15,
+        "browser_tests": 11,
+        "screenshots": 6,
+        "browser_version": "154.0.4258.53",
+        "mode": "ACTUAL_EDGE_SERIAL_ISOLATED_SYNTHETIC_FIXTURES",
+        "initial_frontend_scope": "FRONTEND_ONLY;BROWSER_PENDING_UNTIL_SERIAL_RUN",
+        "assertions": "SAME11UNCHANGED_CASES",
+        "resource_admission": "UNCHANGED",
+        "orchestration": "ONE_ACTUAL_SOURCE_FIXTURE_AT_A_TIME",
+        "restored_native_http": "COVERED_SEPARATELY;NO_NEW_RESTORED_BROWSER_CASE"
+      },
+      "native": {
+        "result": "PASS",
+        "scope": "SCOPED_WINDOWS_NATIVE_ONLY",
+        "scenarios": 36,
+        "commands": 40,
+        "windows_service_platform_denial": 3,
+        "smoke": 8,
+        "selected_research": 1,
+        "offline_cloud": 12,
+        "private_recovery": 12,
+        "identity": {
+          "executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+          "implementation_hash": "sha256:cd1a7ca995a97fa2e43d10b702c829a17c925358d69591b64237f01091e8b752",
+          "build_hash": "sha256:d41ee3393901edb0596cbc398bd3cc0da3d595bbc6ebb91c33fb383c7e142516",
+          "worktree": "UNAVAILABLE",
+          "financial_authority": "NONE",
+          "distribution_profile": "r7-native-distribution-v0.2"
+        },
+        "archive_sha256": "ee3cc3132e8ec1985161378af6758fb4af6b9aaf0f9dfe96fb5c5c8cd1169e72",
+        "archive_files": 1056,
+        "product_path": "EMPTY",
+        "pythonpath": "UNSET",
+        "ubuntu": "NOT_RUN"
+      },
+      "memory": {
+        "actual_samples": 501,
+        "physical_memory_bytes": 33736265728,
+        "minimum_available_bytes": 5691588608,
+        "below_existing_admission_threshold_samples": 0,
+        "threshold_changes": "NONE",
+        "previous_failure_instantaneous_cause": "UNPROVEN"
+      },
+      "independent_review": "BOUNDED_SOURCE_AND_HARNESS_REVIEW;NO_REMAINING_CRITICAL_OR_IMPORTANT;NOT_WHOLE_BRANCH",
+      "private_artifacts": "DATABASES/BACKUPS/AUTH/SESSION/RAW_CAPTURE/PRIVATE_CONFIG/NATIVE_ARCHIVE_REMAIN_LOCAL",
+      "real_provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED",
+      "real_cloud": "NOT_RUN",
+      "real_forward_paper": "NOT_RUN",
+      "live": "NOT_AUTHORIZED",
+      "evidence_integrity": {
+        "source_commands": 33,
+        "native_scenarios": 36,
+        "native_commands": 40,
+        "required_artifacts": "EXISTENCE_AND_RECORDED_HASH_VERIFIED",
+        "browser_binding": "ACTUAL_SPEC_CONFIG_LAUNCHER_NATIVE_ASSETS_RESULTS_AND_SCREENSHOTS"
+      },
+      "pending": [
+        "S13 native service install/uninstall/SSH code and actual Ubuntu package/systemd/reboot qualification",
+        "S12 continuous runtime composition and restoration release/preflight integration",
+        "S14 forward/performance feedback",
+        "S15 capacity/whole-product mapping",
+        "S16 whole-branch review"
+      ]
     }
   ],
   "evidence_refs": [
@@ -939,7 +1031,8 @@
     "status/codex/productization/S13/backup-passed-7f50cbf-py312/unchanged-ui.json",
     "status/codex/productization/S14/unaccepted-be3257c-py312/disposition.json",
     "status/codex/productization/S13/unaccepted-recovery-30915c6/disposition.json",
-    "status/codex/productization/S13/recovery-86643c4-py312/disposition.json"
+    "status/codex/productization/S13/recovery-86643c4-py312/disposition.json",
+    "status/codex/productization/S13/service-14aeb99-py312/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -985,8 +1078,8 @@
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "qualified_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
-  "candidate_executable_revision": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+  "qualified_executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+  "candidate_executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
   "pending_recovery_checkpoint": {
     "status": "PASS",
     "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
@@ -1006,7 +1099,7 @@
     ]
   },
   "service_increment": {
-    "status": "REMEDIATED_QUALIFICATION_PENDING",
+    "status": "SCOPED_WINDOWS_AND_SOURCE_PASS;UBUNTU_SERVICE_NOT_RUN",
     "service_tests_passed": 36,
     "asset_link_tests_passed": 3,
     "existing_entrypoint_tests": 10,
@@ -1022,6 +1115,29 @@
     "withdrawn_candidate": "5f42a84e8e3b246bc569d093b8a8b1b4e4c8ac90",
     "withdrawn_evidence": "status/codex/productization/S13/withdrawn-service-5f42a84/disposition.json",
     "creation_only_scope_regression": "RED14_TESTS_1_FAILURE;GREEN36_SERVICE_TESTS",
-    "boot_scope_enforcement": "NATIVE_UBUNTU_NOT_RUN"
+    "boot_scope_enforcement": "NATIVE_UBUNTU_NOT_RUN",
+    "source_checkpoint": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+    "full_source": "PASS",
+    "native": "SCOPED_WINDOWS_PASS",
+    "browser": "SERIAL_SAME11CASES_PASS",
+    "evidence_ref": "status/codex/productization/S13/service-14aeb99-py312/disposition.json"
+  },
+  "service_qualified_checkpoint": {
+    "status": "PASS",
+    "scope": "SERVICE_SOURCE_AND_WINDOWS_RECOVERY_ONLY;UBUNTU_NOT_RUN",
+    "qualified_executable_revision": "14aeb991aef9d92705cdf0a1151a2df2893e02bb",
+    "evidence_ref": "status/codex/productization/S13/service-14aeb99-py312/disposition.json",
+    "source_tests": 1828,
+    "native_scoped_scenarios": 36,
+    "native_commands": 40,
+    "ui_unit_tests": 15,
+    "browser_tests": 11,
+    "remaining": [
+      "S13 native service install/uninstall/SSH code and actual Ubuntu package/systemd/reboot qualification",
+      "S12 continuous runtime composition and restoration release/preflight integration",
+      "S14 forward/performance feedback",
+      "S15 capacity/whole-product mapping",
+      "S16 whole-branch review"
+    ]
   }
 }

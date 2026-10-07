@@ -1,0 +1,38 @@
+test_nontraversable_config_parent_is_refused_before_a_plan_claim (test_service_permissions.ServicePermissionTests.test_nontraversable_config_parent_is_refused_before_a_plan_claim) ... FAIL
+test_nontraversable_private_data_parent_is_refused (test_service_permissions.ServicePermissionTests.test_nontraversable_private_data_parent_is_refused) ... FAIL
+test_private_data_is_owned_by_exact_user_and_group (test_service_permissions.ServicePermissionTests.test_private_data_is_owned_by_exact_user_and_group) ... ok
+test_protected_group_readable_config_has_actual_service_access (test_service_permissions.ServicePermissionTests.test_protected_group_readable_config_has_actual_service_access) ... ok
+test_root_only_config_is_refused_even_if_installer_can_read_it (test_service_permissions.ServicePermissionTests.test_root_only_config_is_refused_even_if_installer_can_read_it) ... FAIL
+test_wrong_group_world_readable_or_writable_config_is_refused (test_service_permissions.ServicePermissionTests.test_wrong_group_world_readable_or_writable_config_is_refused) ... ok
+
+======================================================================
+FAIL: test_nontraversable_config_parent_is_refused_before_a_plan_claim (test_service_permissions.ServicePermissionTests.test_nontraversable_config_parent_is_refused_before_a_plan_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_permissions.py", line 28, in test_nontraversable_config_parent_is_refused_before_a_plan_claim
+    with patch.object(service_guard,'_local_path'),self.assertRaises(ValueError):
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_nontraversable_private_data_parent_is_refused (test_service_permissions.ServicePermissionTests.test_nontraversable_private_data_parent_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_permissions.py", line 40, in test_nontraversable_private_data_parent_is_refused
+    with patch.object(service_guard,'_local_path'),self.assertRaises(ValueError):
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_root_only_config_is_refused_even_if_installer_can_read_it (test_service_permissions.ServicePermissionTests.test_root_only_config_is_refused_even_if_installer_can_read_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_permissions.py", line 25, in test_root_only_config_is_refused_even_if_installer_can_read_it
+    with patch.object(service_guard,'_local_path'),self.assertRaises(ValueError):
+                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.005s
+
+FAILED (failures=3)

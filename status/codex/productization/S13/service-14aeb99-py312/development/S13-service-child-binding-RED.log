@@ -1,0 +1,47 @@
+test_actual_native_child_argv_carries_expected_configuration_commitment (test_service_research_binding.ServiceResearchBindingTests.test_actual_native_child_argv_carries_expected_configuration_commitment) ... ERROR
+test_changed_child_configuration_is_refused_before_any_local_owner (test_service_research_binding.ServiceResearchBindingTests.test_changed_child_configuration_is_refused_before_any_local_owner) ... ERROR
+test_internal_cli_preserves_child_commitment_at_actual_worker_boundary (test_service_research_binding.ServiceResearchBindingTests.test_internal_cli_preserves_child_commitment_at_actual_worker_boundary) ... usage: r7 [-h]
+          {doctor,init-profile,enroll-owner,serve,research-worker,plan-services,guarded-service,author-package,export-capabilities,queue-research-feedback,cloud-pull,cloud-import-dataset,cloud-publish-outbox,backup-databases,verify-database-backup,restore-databases,backup-product-data,verify-product-backup,restore-product-data,_research-job}
+          ...
+r7: error: unrecognized arguments: --expected-config-hash sha256:4630d50eb949f60da7d912cfc65be03fcfd2801da1f5155c1f2f83350333de0e
+ERROR
+
+======================================================================
+ERROR: test_actual_native_child_argv_carries_expected_configuration_commitment (test_service_research_binding.ServiceResearchBindingTests.test_actual_native_child_argv_carries_expected_configuration_commitment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_research_binding.py", line 17, in test_actual_native_child_argv_carries_expected_configuration_commitment
+    argv=worker._job_argv(self.path,'job-1',1,expected_config_hash=self.digest)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _job_argv() got an unexpected keyword argument 'expected_config_hash'
+
+======================================================================
+ERROR: test_changed_child_configuration_is_refused_before_any_local_owner (test_service_research_binding.ServiceResearchBindingTests.test_changed_child_configuration_is_refused_before_any_local_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_research_binding.py", line 21, in test_changed_child_configuration_is_refused_before_any_local_owner
+    worker.run_research_job(self.path,'job-1',1,expected_config_hash='sha256:'+'f'*64)
+TypeError: run_research_job() got an unexpected keyword argument 'expected_config_hash'
+
+======================================================================
+ERROR: test_internal_cli_preserves_child_commitment_at_actual_worker_boundary (test_service_research_binding.ServiceResearchBindingTests.test_internal_cli_preserves_child_commitment_at_actual_worker_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_research_binding.py", line 26, in test_internal_cli_preserves_child_commitment_at_actual_worker_boundary
+    self.assertEqual(cli.main(['_research-job','--config',str(self.path),'--run-id','job-1','--generation','1',
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 103, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1908, in parse_args
+    self.error(msg)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.014s
+
+FAILED (errors=3)

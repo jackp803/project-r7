@@ -1,0 +1,26 @@
+test_actual_build_root_link_denied_before_any_public_mount (test_control_asset_links.ControlAssetLinkTests.test_actual_build_root_link_denied_before_any_public_mount) ... FAIL
+test_actual_nested_asset_directory_link_denied (test_control_asset_links.ControlAssetLinkTests.test_actual_nested_asset_directory_link_denied) ... FAIL
+test_regular_build_root_and_assets_are_accepted (test_control_asset_links.ControlAssetLinkTests.test_regular_build_root_and_assets_are_accepted) ... ok
+
+======================================================================
+FAIL: test_actual_build_root_link_denied_before_any_public_mount (test_control_asset_links.ControlAssetLinkTests.test_actual_build_root_link_denied_before_any_public_mount)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_control_asset_links.py", line 30, in test_actual_build_root_link_denied_before_any_public_mount
+    with self.assertRaises(ValueError):validate_control_center_assets(alias)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_actual_nested_asset_directory_link_denied (test_control_asset_links.ControlAssetLinkTests.test_actual_nested_asset_directory_link_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_control_asset_links.py", line 35, in test_actual_nested_asset_directory_link_denied
+    with self.assertRaises(ValueError):validate_control_center_assets(self.assets)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.063s
+
+FAILED (failures=2)

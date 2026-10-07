@@ -29,6 +29,96 @@ class SupervisionError(RuntimeError):
     pass
 
 
+PROCESS_ROLES = ('control', 'research', 'runtime', 'cloud')
+_SUPERVISION_COLUMNS = {
+    'process_generation_counters': ('role', 'generation'),
+    'process_sessions': ('role', 'generation', 'process_generation_id', 'product_instance_id',
+        'pid', 'config_hash', 'identity_json', 'started_at', 'heartbeat_at', 'heartbeat_sequence', 'state'),
+    'process_session_history': ('role', 'generation', 'process_generation_id', 'identity_json',
+        'started_at', 'ended_at', 'state'),
+}
+_SCHEMA_RECEIPT_SQL = ('CREATE TABLE IF NOT EXISTS process_supervision_schema '
+    '(migration TEXT PRIMARY KEY, sha256 TEXT NOT NULL)')
+
+
+def _execute_owned_migration(db, script):
+    # executescript commits any pending transaction; execute complete owned SQL
+    # statements separately so every rebuild and receipt share this transaction.
+    statement = ''
+    for line in script.splitlines(keepends=True):
+        statement += line
+        if sqlite3.complete_statement(statement):
+            db.execute(statement)
+            statement = ''
+    if statement.strip():
+        raise SupervisionError('SUPERVISION_MIGRATION_INCOMPLETE')
+
+
+def _require_supervision_columns(db):
+    for table, expected in _SUPERVISION_COLUMNS.items():
+        actual = tuple(row[1] for row in db.execute('PRAGMA table_info(' + table + ')'))
+        if actual != expected:
+            raise SupervisionError('SUPERVISION_SCHEMA_UNRECOGNIZED')
+
+
+def _table_schema(db, table):
+    # Include automatic indexes (sql=NULL), CHECK/PK/UNIQUE/FK declarations,
+    # and auxiliary objects. Column names alone cannot prove a known layout.
+    return tuple(tuple(value.replace('\r\n', '\n') if isinstance(value, str) else value for value in row)
+        for row in db.execute('SELECT type,name,tbl_name,sql FROM sqlite_master WHERE tbl_name=? ORDER BY type,name', (table,)))
+
+
+def _recognized_supervision_schemas(legacy, additive):
+    with _ClosingConnection(sqlite3.connect(':memory:')) as model:
+        _execute_owned_migration(model, legacy)
+        model.execute(_SCHEMA_RECEIPT_SQL)
+        names = (*_SUPERVISION_COLUMNS, 'process_supervision_schema')
+        original = {name: _table_schema(model, name) for name in names}
+        _execute_owned_migration(model, additive)
+        migrated = {name: _table_schema(model, name) for name in names}
+    return original, migrated
+
+
+def _require_supervision_schema(db, expected):
+    _require_supervision_columns(db)
+    if any(_table_schema(db, name) != signature for name, signature in expected.items()):
+        raise SupervisionError('SUPERVISION_SCHEMA_UNRECOGNIZED')
+
+
+def _apply_supervision_schema(db):
+    if db.in_transaction:
+        raise SupervisionError('SUPERVISION_MIGRATION_NESTED_TRANSACTION')
+    root = Path(__file__).parents[1] / 'migrations'
+    legacy = (root / '0006_process_supervision.sql').read_text(encoding='utf-8')
+    additive = (root / '0008_runtime_process_supervision.sql').read_text(encoding='utf-8')
+    # UTF-8/LF semantics keep the owned migration commitment stable across the
+    # accepted Windows/Ubuntu distributions and private backup restoration.
+    commitment = 'sha256:' + hashlib.sha256(additive.replace('\r\n', '\n').encode('utf-8')).hexdigest()
+    original, migrated = _recognized_supervision_schemas(legacy, additive)
+    db.execute('BEGIN IMMEDIATE')
+    try:
+        _execute_owned_migration(db, legacy)
+        db.execute(_SCHEMA_RECEIPT_SQL)
+        if _table_schema(db, 'process_supervision_schema') != original['process_supervision_schema']:
+            raise SupervisionError('SUPERVISION_SCHEMA_UNRECOGNIZED')
+        receipt = db.execute('SELECT sha256 FROM process_supervision_schema WHERE migration=?',
+            ('0008_runtime_process_supervision',)).fetchone()
+        if receipt is None:
+            _require_supervision_schema(db, original)
+            _execute_owned_migration(db, additive)
+            _require_supervision_schema(db, migrated)
+            db.execute('INSERT INTO process_supervision_schema VALUES(?,?)',
+                ('0008_runtime_process_supervision', commitment))
+        elif receipt[0] != commitment:
+            raise SupervisionError('SUPERVISION_MIGRATION_COMMITMENT_CHANGED')
+        else:
+            _require_supervision_schema(db, migrated)
+        db.commit()
+    except BaseException:
+        db.rollback()
+        raise
+
+
 def config_hash(config):
     if not isinstance(config, ProductConfig):
         raise ValueError('Validated product configuration required')
@@ -60,7 +150,7 @@ def _db(path, *, writable=False):
 
 
 def process_health(config, role, *, now=None, max_age_seconds=15):
-    if role not in ('control', 'research') or type(max_age_seconds) is not int or not 1 <= max_age_seconds <= 60:
+    if role not in PROCESS_ROLES or type(max_age_seconds) is not int or not 1 <= max_age_seconds <= 60:
         raise ValueError('Bounded process health policy required')
     current = datetime.now(timezone.utc) if now is None else now
     stamp(current)
@@ -90,7 +180,7 @@ def process_health(config, role, *, now=None, max_age_seconds=15):
 class ProcessSupervisor:
     def __init__(self, config, role, *, config_path=None, heartbeat_interval=1,
                  clock=lambda: datetime.now(timezone.utc)):
-        if role not in ('control', 'research') or not isinstance(config, ProductConfig) or not callable(clock):
+        if role not in PROCESS_ROLES or not isinstance(config, ProductConfig) or not callable(clock):
             raise ValueError('Actual configured local owner required')
         if (isinstance(heartbeat_interval, bool) or not isinstance(heartbeat_interval, (int, float))
                 or not math.isfinite(heartbeat_interval) or not 0.02 <= heartbeat_interval <= 5):
@@ -124,7 +214,7 @@ class ProcessSupervisor:
             token = str(uuid.uuid4())
             with _db(self.path, writable=True) as db:
                 db.execute('PRAGMA journal_mode=WAL')
-                db.executescript((Path(__file__).parents[1] / 'migrations/0006_process_supervision.sql').read_text(encoding='utf-8'))
+                _apply_supervision_schema(db)
                 db.execute('BEGIN IMMEDIATE')
                 row = db.execute('SELECT generation FROM process_generation_counters WHERE role=?', (self.role,)).fetchone()
                 generation = 1 if row is None else row['generation'] + 1

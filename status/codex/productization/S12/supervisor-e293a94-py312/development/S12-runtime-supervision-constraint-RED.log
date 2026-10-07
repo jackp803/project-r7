@@ -1,0 +1,41 @@
+test_changed_migration_digest_receipt_is_fail_closed (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_changed_migration_digest_receipt_is_fail_closed) ... ok
+test_cloud_configuration_drift_inhibits_without_renewing_owner (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_cloud_configuration_drift_inhibits_without_renewing_owner) ... ok
+test_duplicate_runtime_owner_is_denied_without_replacing_generation (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_duplicate_runtime_owner_is_denied_without_replacing_generation) ... ok
+test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied) ... ok
+test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent) ... ok
+test_matching_receipt_does_not_accept_changed_same_column_target_constraints (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_matching_receipt_does_not_accept_changed_same_column_target_constraints) ... FAIL
+test_migration_rejects_nested_transaction_without_rolling_back_caller (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_migration_rejects_nested_transaction_without_rolling_back_caller) ... ok
+test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt) ... ok
+test_new_database_keeps_role_generation_and_state_constraints (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_new_database_keeps_role_generation_and_state_constraints) ... ok
+test_new_roles_read_only_health_does_not_create_database (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_new_roles_read_only_health_does_not_create_database) ... ok
+test_owned_migration_digest_is_stable_across_lf_and_crlf_packaging (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_owned_migration_digest_is_stable_across_lf_and_crlf_packaging) ... ok
+test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission) ... ok
+test_runtime_heartbeat_advances_while_other_owner_is_present (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_runtime_heartbeat_advances_while_other_owner_is_present) ... ok
+test_stolen_runtime_generation_is_fenced_without_stopping_cloud (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_stolen_runtime_generation_is_fenced_without_stopping_cloud) ... ok
+test_unknown_existing_column_is_rejected_without_discarding_data (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_existing_column_is_rejected_without_discarding_data) ... ok
+test_unknown_owned_index_or_trigger_is_rejected_and_preserved (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_owned_index_or_trigger_is_rejected_and_preserved) ... ok
+test_unknown_role_is_denied_without_creating_database (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_role_is_denied_without_creating_database) ... ok
+test_unknown_unnamed_unique_constraint_is_rejected_without_discarding_it (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_unnamed_unique_constraint_is_rejected_without_discarding_it) ... FAIL
+
+======================================================================
+FAIL: test_matching_receipt_does_not_accept_changed_same_column_target_constraints (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_matching_receipt_does_not_accept_changed_same_column_target_constraints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 223, in test_matching_receipt_does_not_accept_changed_same_column_target_constraints
+    with self.assertRaises(self.module.SupervisionError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SupervisionError not raised
+
+======================================================================
+FAIL: test_unknown_unnamed_unique_constraint_is_rejected_without_discarding_it (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_unnamed_unique_constraint_is_rejected_without_discarding_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 209, in test_unknown_unnamed_unique_constraint_is_rejected_without_discarding_it
+    with self.assertRaises(self.module.SupervisionError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SupervisionError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 2.169s
+
+FAILED (failures=2)

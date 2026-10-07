@@ -1,0 +1,168 @@
+test_changed_migration_digest_receipt_is_fail_closed (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_changed_migration_digest_receipt_is_fail_closed) ... ERROR
+test_cloud_configuration_drift_inhibits_without_renewing_owner (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_cloud_configuration_drift_inhibits_without_renewing_owner) ... ERROR
+test_duplicate_runtime_owner_is_denied_without_replacing_generation (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_duplicate_runtime_owner_is_denied_without_replacing_generation) ... ERROR
+test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied) ... ERROR
+test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent) ... ERROR
+test_migration_rejects_nested_transaction_without_rolling_back_caller (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_migration_rejects_nested_transaction_without_rolling_back_caller) ... ERROR
+test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt) ... ERROR
+test_new_database_keeps_role_generation_and_state_constraints (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_new_database_keeps_role_generation_and_state_constraints) ... ERROR
+test_new_roles_read_only_health_does_not_create_database (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_new_roles_read_only_health_does_not_create_database) ... ERROR
+test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission) ... ERROR
+test_runtime_heartbeat_advances_while_other_owner_is_present (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_runtime_heartbeat_advances_while_other_owner_is_present) ... ERROR
+test_stolen_runtime_generation_is_fenced_without_stopping_cloud (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_stolen_runtime_generation_is_fenced_without_stopping_cloud) ... ERROR
+test_unknown_existing_column_is_rejected_without_discarding_data (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_existing_column_is_rejected_without_discarding_data) ... ERROR
+test_unknown_role_is_denied_without_creating_database (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_role_is_denied_without_creating_database) ... ok
+
+======================================================================
+ERROR: test_changed_migration_digest_receipt_is_fail_closed (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_changed_migration_digest_receipt_is_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 166, in test_changed_migration_digest_receipt_is_fail_closed
+    self.module._apply_supervision_schema(db)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform.supervision' has no attribute '_apply_supervision_schema'
+
+======================================================================
+ERROR: test_cloud_configuration_drift_inhibits_without_renewing_owner (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_cloud_configuration_drift_inhibits_without_renewing_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 74, in test_cloud_configuration_drift_inhibits_without_renewing_owner
+    with self.session('cloud') as cloud:
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 34, in session
+    return self.module.ProcessSupervisor(self.config, role, config_path=self.profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 94, in __init__
+    raise ValueError('Actual configured local owner required')
+ValueError: Actual configured local owner required
+
+======================================================================
+ERROR: test_duplicate_runtime_owner_is_denied_without_replacing_generation (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_duplicate_runtime_owner_is_denied_without_replacing_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 60, in test_duplicate_runtime_owner_is_denied_without_replacing_generation
+    with self.session('runtime') as first:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 34, in session
+    return self.module.ProcessSupervisor(self.config, role, config_path=self.profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 94, in __init__
+    raise ValueError('Actual configured local owner required')
+ValueError: Actual configured local owner required
+
+======================================================================
+ERROR: test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 211, in test_existing_control_owner_keeps_token_and_heartbeat_when_runtime_schema_is_applied
+    with self.session('runtime') as runtime:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 34, in session
+    return self.module.ProcessSupervisor(self.config, role, config_path=self.profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 94, in __init__
+    raise ValueError('Actual configured local owner required')
+ValueError: Actual configured local owner required
+
+======================================================================
+ERROR: test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 134, in test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent
+    self.module._apply_supervision_schema(db)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform.supervision' has no attribute '_apply_supervision_schema'
+
+======================================================================
+ERROR: test_migration_rejects_nested_transaction_without_rolling_back_caller (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_migration_rejects_nested_transaction_without_rolling_back_caller)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 187, in test_migration_rejects_nested_transaction_without_rolling_back_caller
+    self.module._apply_supervision_schema(db)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform.supervision' has no attribute '_apply_supervision_schema'
+
+======================================================================
+ERROR: test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 156, in test_migration_rollback_keeps_legacy_schema_rows_and_no_partial_receipt
+    self.module._apply_supervision_schema(db)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform.supervision' has no attribute '_apply_supervision_schema'
+
+======================================================================
+ERROR: test_new_database_keeps_role_generation_and_state_constraints (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_new_database_keeps_role_generation_and_state_constraints)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 195, in test_new_database_keeps_role_generation_and_state_constraints
+    self.module._apply_supervision_schema(db)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform.supervision' has no attribute '_apply_supervision_schema'
+
+======================================================================
+ERROR: test_new_roles_read_only_health_does_not_create_database (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_new_roles_read_only_health_does_not_create_database)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 98, in test_new_roles_read_only_health_does_not_create_database
+    self.assertEqual(self.module.process_health(self.config, role),
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 64, in process_health
+    raise ValueError('Bounded process health policy required')
+ValueError: Bounded process health policy required
+
+======================================================================
+ERROR: test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 46, in test_runtime_and_cloud_are_independent_actual_owner_generations_without_permission
+    with self.session('runtime') as runtime, self.session('cloud') as cloud:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 34, in session
+    return self.module.ProcessSupervisor(self.config, role, config_path=self.profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 94, in __init__
+    raise ValueError('Actual configured local owner required')
+ValueError: Actual configured local owner required
+
+======================================================================
+ERROR: test_runtime_heartbeat_advances_while_other_owner_is_present (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_runtime_heartbeat_advances_while_other_owner_is_present)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 69, in test_runtime_heartbeat_advances_while_other_owner_is_present
+    with self.session('runtime') as runtime, self.session('research') as research:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 34, in session
+    return self.module.ProcessSupervisor(self.config, role, config_path=self.profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 94, in __init__
+    raise ValueError('Actual configured local owner required')
+ValueError: Actual configured local owner required
+
+======================================================================
+ERROR: test_stolen_runtime_generation_is_fenced_without_stopping_cloud (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_stolen_runtime_generation_is_fenced_without_stopping_cloud)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 88, in test_stolen_runtime_generation_is_fenced_without_stopping_cloud
+    with self.session('cloud') as cloud:
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 34, in session
+    return self.module.ProcessSupervisor(self.config, role, config_path=self.profile,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\supervision.py", line 94, in __init__
+    raise ValueError('Actual configured local owner required')
+ValueError: Actual configured local owner required
+
+======================================================================
+ERROR: test_unknown_existing_column_is_rejected_without_discarding_data (test_runtime_process_supervision.RuntimeProcessSupervisionTests.test_unknown_existing_column_is_rejected_without_discarding_data)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S12-runtime-supervision-development\test_runtime_process_supervision.py", line 180, in test_unknown_existing_column_is_rejected_without_discarding_data
+    self.module._apply_supervision_schema(db)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform.supervision' has no attribute '_apply_supervision_schema'
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.361s
+
+FAILED (errors=13)

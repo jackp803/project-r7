@@ -1,0 +1,435 @@
+{
+  "profile": "r7-native-first-run-smoke-v0.2",
+  "identity": {
+    "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+    "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+    "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "01-doctor",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "started_at_utc": "2026-10-07T05:37:22.688072Z",
+      "finished_at_utc": "2026-10-07T05:37:23.699950Z",
+      "configuration_at_start": {
+        "config_file_sha256": null,
+        "config_hash": null
+      },
+      "tree_reaped": true,
+      "log": "01-doctor.log",
+      "log_sha256": "583bcd81a0d8ed40985a1a8d6b912739c8532cfa0983134e5a9718533ab0db15",
+      "passed": true
+    },
+    {
+      "name": "02-init-profile",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "started_at_utc": "2026-10-07T05:37:23.705951Z",
+      "finished_at_utc": "2026-10-07T05:37:24.696828Z",
+      "configuration_at_start": {
+        "config_file_sha256": null,
+        "config_hash": null
+      },
+      "tree_reaped": true,
+      "log": "02-init-profile.log",
+      "log_sha256": "ec4242cd2956552d280b9a59fbc4286b60e012f526b9b5c159aff19dc1fcfb2a",
+      "passed": true
+    },
+    {
+      "name": "03-preserve-profile",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "started_at_utc": "2026-10-07T05:37:24.698828Z",
+      "finished_at_utc": "2026-10-07T05:37:25.678977Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "tree_reaped": true,
+      "log": "03-preserve-profile.log",
+      "log_sha256": "f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true
+    },
+    {
+      "name": "04-first-control-start-second-process-denied",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "started_at_utc": "2026-10-07T05:37:28.867388Z",
+      "finished_at_utc": "2026-10-07T05:37:29.946430Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "tree_reaped": true,
+      "log": "04-first-control-start-second-process-denied.log",
+      "log_sha256": "f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true
+    },
+    {
+      "name": "04-first-control-start",
+      "tree_reaped": true,
+      "log": "04-first-control-start.log",
+      "started_at_utc": "2026-10-07T05:37:25.680976Z",
+      "finished_at_utc": "2026-10-07T05:37:30.020803Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "exit_code": 124,
+      "termination_reason": "CANCELLED",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true,
+      "assertions": [
+        "NATIVE_BUILT_UI",
+        "UNENROLLED_LOCAL_AUTH",
+        "ANONYMOUS_API_DENIED",
+        "FOREIGN_HOST_DENIED",
+        "FOREIGN_ORIGIN_DENIED"
+      ]
+    },
+    {
+      "name": "05-control-restart",
+      "tree_reaped": true,
+      "log": "05-control-restart.log",
+      "started_at_utc": "2026-10-07T05:37:30.023729Z",
+      "finished_at_utc": "2026-10-07T05:37:32.757767Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "exit_code": 124,
+      "termination_reason": "CANCELLED",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "passed": true,
+      "assertions": [
+        "NATIVE_BUILT_UI",
+        "UNENROLLED_LOCAL_AUTH",
+        "ANONYMOUS_API_DENIED",
+        "FOREIGN_HOST_DENIED",
+        "FOREIGN_ORIGIN_DENIED"
+      ]
+    },
+    {
+      "name": "06-control-config-change",
+      "tree_reaped": true,
+      "log": "06-control-config-change.log",
+      "started_at_utc": "2026-10-07T05:37:32.757767Z",
+      "finished_at_utc": "2026-10-07T05:37:36.552135Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "exit_code": 2,
+      "termination_reason": "COMPLETED",
+      "log_sha256": "f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true,
+      "assertions": [
+        "NATIVE_BUILT_UI",
+        "UNENROLLED_LOCAL_AUTH",
+        "ANONYMOUS_API_DENIED",
+        "FOREIGN_HOST_DENIED",
+        "FOREIGN_ORIGIN_DENIED"
+      ]
+    },
+    {
+      "name": "07-unconfigured-research-worker",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "started_at_utc": "2026-10-07T05:37:36.553495Z",
+      "finished_at_utc": "2026-10-07T05:37:38.603394Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "tree_reaped": true,
+      "log": "07-unconfigured-research-worker.log",
+      "log_sha256": "49aaa5bdf4d4d107848b44894111a3c034b36ae9cf81c751ed485de2d3861100",
+      "passed": true
+    },
+    {
+      "name": "08-tampered-resource-denied",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "started_at_utc": "2026-10-07T05:37:38.608749Z",
+      "finished_at_utc": "2026-10-07T05:37:39.591627Z",
+      "configuration_at_start": {
+        "config_file_sha256": "sha256:24106d6fced84b0f0b76907006da41deecf2d4df15cc30d5ce4894c7e3ed411f",
+        "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda"
+      },
+      "tree_reaped": true,
+      "log": "08-tampered-resource-denied.log",
+      "log_sha256": "f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "NATIVE_HARDWARE_WITH_EMPTY_PATH",
+      "result": "PASS"
+    },
+    {
+      "name": "CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION",
+      "result": "PASS"
+    },
+    {
+      "name": "SECOND_NATIVE_CONTROL_PROCESS_DENIED",
+      "result": "PASS"
+    },
+    {
+      "name": "ACTUAL_NATIVE_E6_MIGRATIONS",
+      "result": "PASS",
+      "migrations": 17
+    },
+    {
+      "name": "CONTROL_RESTART_AUTH_AND_LOOPBACK_DENIAL",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_CONFIG_DRIFT_STOPS_CONTROL",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_UNSELECTED_WORKER_TRUTHFUL",
+      "result": "PASS"
+    },
+    {
+      "name": "TAMPERED_MIGRATION_DENIED_BEFORE_START",
+      "result": "PASS"
+    }
+  ],
+  "http_assertions": [
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_sha256": "a831f9a668fc1a411c0635e04f6389e86544e5f869a50d088300576068b7a260"
+    },
+    {
+      "path": "/",
+      "actual_status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_sha256": "14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+    },
+    {
+      "path": "/api/v1/health",
+      "actual_status": 401,
+      "expected_status": 401,
+      "passed": true,
+      "response_sha256": "02522a1567cc24f445d0a8e61e1c8acc1fa8b64eada33ee8737898531f1c4f00"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_sha256": "6b121a08bf5e30c5328a43b08e53dab6be4058d74468f7c1ab10d950ba7cae68"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 403,
+      "expected_status": 403,
+      "passed": true,
+      "response_sha256": "8a947909142558e8eae57522dce6475459eff5739c3be874a4fd3a19b891994a"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_sha256": "a831f9a668fc1a411c0635e04f6389e86544e5f869a50d088300576068b7a260"
+    },
+    {
+      "path": "/",
+      "actual_status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_sha256": "14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+    },
+    {
+      "path": "/api/v1/health",
+      "actual_status": 401,
+      "expected_status": 401,
+      "passed": true,
+      "response_sha256": "1624cd29e2d8b90214b4ce789a0db675666c66c7ca32e04cb3bb806382aa3f19"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_sha256": "073fb24fd1c1e7eea5cc44605c87314b6281e166906a86e204ffdd40c913dc9f"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 403,
+      "expected_status": 403,
+      "passed": true,
+      "response_sha256": "9cda0c83b65835abb0b865a1bbbd9080becd9eda8109b65a2d5272654ddc4a11"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_sha256": "a831f9a668fc1a411c0635e04f6389e86544e5f869a50d088300576068b7a260"
+    },
+    {
+      "path": "/",
+      "actual_status": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_sha256": "14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+    },
+    {
+      "path": "/api/v1/health",
+      "actual_status": 401,
+      "expected_status": 401,
+      "passed": true,
+      "response_sha256": "5ecdb075ab717351a5449200e117f74019ee210d740a0387dc9965f31d8e9c21"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_sha256": "94db3e680b41da116399a7630e20604c4a6a19fc699a8ae349771b80a8f4eb0a"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "actual_status": 403,
+      "expected_status": 403,
+      "passed": true,
+      "response_sha256": "8863bef92c6a54abab2b8f99f0d654b4aa763878280876995b32ee21cf85594d"
+    }
+  ],
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "node": "UNAVAILABLE_ON_PATH",
+  "actual_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "runtime": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "ubuntu": "NOT_RUN",
+  "licensed_packages": {
+    "CPython": "3.12.10",
+    "altgraph": "0.17.5",
+    "annotated-doc": "0.0.5",
+    "annotated-types": "0.8.0",
+    "anyio": "4.15.1",
+    "argon2-cffi": "25.1.0",
+    "argon2-cffi-bindings": "26.1.0",
+    "cffi": "2.1.1",
+    "click": "8.5.0",
+    "fastapi": "0.142.2",
+    "h11": "0.16.0",
+    "idna": "3.20",
+    "opentelemetry-api": "1.45.0",
+    "packaging": "26.3",
+    "pefile": "2024.8.26",
+    "pyarrow": "25.0.1",
+    "pycparser": "3.0",
+    "pydantic": "2.13.4",
+    "pydantic_core": "2.46.4",
+    "pyinstaller": "6.22.3",
+    "pyinstaller-hooks-contrib": "2026.8",
+    "pywin32-ctypes": "0.2.3",
+    "setuptools": "84.0.0",
+    "starlette": "1.6.0",
+    "typing-inspection": "0.4.4",
+    "typing_extensions": "4.16.0",
+    "uvicorn": "0.52.3",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "scheduler": "0.28.0"
+  },
+  "control_generations": [
+    {
+      "architecture": "AMD64",
+      "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+      "capital": "NONE",
+      "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda",
+      "credentials": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2",
+      "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "execution": "LOCAL",
+      "financial_authority": "NONE",
+      "generation": 1,
+      "github_compute": "NOT_USED",
+      "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "pid": 12000,
+      "process_generation_id": "27aec890-4f49-4409-824f-9d8ecc41f48c",
+      "product_instance_id": "native-smoke-fixture",
+      "provider_requests": 0,
+      "python": "3.12.10",
+      "restart_admission": "RECONCILIATION_REQUIRED",
+      "role": "control",
+      "schema_version": "r7-process-generation-v0.2",
+      "started_at": "2026-10-07T05:37:27.441377Z",
+      "worktree": "UNAVAILABLE"
+    },
+    {
+      "architecture": "AMD64",
+      "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+      "capital": "NONE",
+      "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda",
+      "credentials": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2",
+      "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "execution": "LOCAL",
+      "financial_authority": "NONE",
+      "generation": 2,
+      "github_compute": "NOT_USED",
+      "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "pid": 58024,
+      "process_generation_id": "5bb8d7a2-ef45-4ebb-bbb6-24472e37b75b",
+      "product_instance_id": "native-smoke-fixture",
+      "provider_requests": 0,
+      "python": "3.12.10",
+      "restart_admission": "RECONCILIATION_REQUIRED",
+      "role": "control",
+      "schema_version": "r7-process-generation-v0.2",
+      "started_at": "2026-10-07T05:37:31.666733Z",
+      "worktree": "UNAVAILABLE"
+    },
+    {
+      "architecture": "AMD64",
+      "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+      "capital": "NONE",
+      "config_hash": "sha256:e08ce955ca820b34340631608656478d8e2ac5c7e21ab827435fe957bb31fcda",
+      "credentials": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2",
+      "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "execution": "LOCAL",
+      "financial_authority": "NONE",
+      "generation": 3,
+      "github_compute": "NOT_USED",
+      "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "pid": 28080,
+      "process_generation_id": "572826fd-eed5-40a5-9aeb-dd5c9795d440",
+      "product_instance_id": "native-smoke-fixture",
+      "provider_requests": 0,
+      "python": "3.12.10",
+      "restart_admission": "RECONCILIATION_REQUIRED",
+      "role": "control",
+      "schema_version": "r7-process-generation-v0.2",
+      "started_at": "2026-10-07T05:37:34.488914Z",
+      "worktree": "UNAVAILABLE"
+    }
+  ],
+  "scenario_count": 8
+}

@@ -1,0 +1,49 @@
+test_actual_utc_window_keeps_the_recorded_full_scope (test_s15_execution_index.ExecutedCaseIndexTests.test_actual_utc_window_keeps_the_recorded_full_scope) ... ERROR
+test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once (test_s15_execution_index.ExecutedCaseIndexTests.test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once) ... ok
+test_canonical_e2e_suite_is_a_valid_bound_execution_log (test_s15_execution_index.ExecutedCaseIndexTests.test_canonical_e2e_suite_is_a_valid_bound_execution_log) ... ok
+test_correct_file_hash_does_not_authorize_a_forged_source_position (test_s15_execution_index.ExecutedCaseIndexTests.test_correct_file_hash_does_not_authorize_a_forged_source_position) ... ERROR
+test_empty_partial_or_duplicate_static_inventory_is_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_empty_partial_or_duplicate_static_inventory_is_rejected) ... ERROR
+test_missing_case_completion_cannot_borrow_a_successful_summary (test_s15_execution_index.ExecutedCaseIndexTests.test_missing_case_completion_cannot_borrow_a_successful_summary) ... ok
+test_null_malformed_non_utc_and_reversed_windows_are_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_null_malformed_non_utc_and_reversed_windows_are_rejected) ... ERROR
+test_repeated_named_case_is_preserved_as_two_execution_instances (test_s15_execution_index.ExecutedCaseIndexTests.test_repeated_named_case_is_preserved_as_two_execution_instances) ... ok
+test_replaced_log_bytes_cannot_supply_named_execution (test_s15_execution_index.ExecutedCaseIndexTests.test_replaced_log_bytes_cannot_supply_named_execution) ... ok
+test_summary_count_cannot_substitute_for_missing_named_cases (test_s15_execution_index.ExecutedCaseIndexTests.test_summary_count_cannot_substitute_for_missing_named_cases) ... ok
+test_unreaped_tree_or_count_type_cannot_supply_case_evidence (test_s15_execution_index.ExecutedCaseIndexTests.test_unreaped_tree_or_count_type_cannot_supply_case_evidence) ... ok
+test_wrong_case_method_and_failed_process_are_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_wrong_case_method_and_failed_process_are_rejected) ... ok
+
+======================================================================
+ERROR: test_actual_utc_window_keeps_the_recorded_full_scope (test_s15_execution_index.ExecutedCaseIndexTests.test_actual_utc_window_keeps_the_recorded_full_scope)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 100, in test_actual_utc_window_keeps_the_recorded_full_scope
+    from s15_execution_index import validate_execution_window
+ImportError: cannot import name 'validate_execution_window' from 's15_execution_index' (<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_execution_index.py). Did you mean: 'validate_execution_row'?
+
+======================================================================
+ERROR: test_correct_file_hash_does_not_authorize_a_forged_source_position (test_s15_execution_index.ExecutedCaseIndexTests.test_correct_file_hash_does_not_authorize_a_forged_source_position)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 82, in test_correct_file_hash_does_not_authorize_a_forged_source_position
+    from s15_execution_index import validate_static_inventory
+ImportError: cannot import name 'validate_static_inventory' from 's15_execution_index' (<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_execution_index.py)
+
+======================================================================
+ERROR: test_empty_partial_or_duplicate_static_inventory_is_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_empty_partial_or_duplicate_static_inventory_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 71, in test_empty_partial_or_duplicate_static_inventory_is_rejected
+    from s15_execution_index import validate_static_inventory
+ImportError: cannot import name 'validate_static_inventory' from 's15_execution_index' (<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_execution_index.py)
+
+======================================================================
+ERROR: test_null_malformed_non_utc_and_reversed_windows_are_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_null_malformed_non_utc_and_reversed_windows_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 92, in test_null_malformed_non_utc_and_reversed_windows_are_rejected
+    from s15_execution_index import validate_execution_window
+ImportError: cannot import name 'validate_execution_window' from 's15_execution_index' (<USER_HOME>\Desktop\交易機器人主體\artifacts\s15_execution_index.py). Did you mean: 'validate_execution_row'?
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.102s
+
+FAILED (errors=4)

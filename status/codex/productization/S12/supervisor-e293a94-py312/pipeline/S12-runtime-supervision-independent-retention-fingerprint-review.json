@@ -1,0 +1,28 @@
+{
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_RETENTION_AND_PRIMARY_PROOF_REVIEW",
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "reviewed_files": {
+    "s12_runtime_supervision_acceptance_core.py": "sha256:afe3b08bc95328a72b88323948a62ce0e70b86497889c60d82f8286e6babed31",
+    "prepare_s12_runtime_supervision_acceptance.py": "sha256:43d3410303410b2a6f8eb5ea8622b9b0fb6cdc52aea486c64570c3c999592fc2",
+    "s12_runtime_supervision_accept.py": "sha256:425578a2ce262fbde94ca6f9d7e194a6a5a49bf38d6fdf29c4f95b420e44279e",
+    "s12_runtime_supervision_review_integrity.py": "sha256:54f4f4cfecc0c3377215d3b6effbf0955c4b2ceedf42a911772e364c9f1c3904",
+    "test_s12_runtime_supervision_review_integrity.py": "sha256:4e527c882f31219eaf56ed67e095d411b88b5c24c65a91097b9e8f55a0e1c85d",
+    "run_s12_runtime_supervision_review_integrity.py": "sha256:3a9a82b0f11cc65aeb5738faca8ffdc0c6e71101bd6463136cbf894a98e2c558",
+    "amend_s12_fingerprint_acceptance.py": "sha256:1e5ec01a593a3666308b6ba57defb34c4bf64e0f638a5cad631a985456518937"
+  },
+  "primary_regression": {
+    "report": "S12-runtime-supervision-retention-fingerprint-GREEN.json",
+    "report_sha256": "sha256:a2e71fbab06841570ed27306f2b41c9592a32a03dcf61b20331e6516856afc08",
+    "log": "S12-runtime-supervision-retention-fingerprint-GREEN.log",
+    "log_sha256": "sha256:ee6c05f30fb2bed1f67adbb6ccef2b722826a405c43a144b11e3e6182e6db307",
+    "tests": 8
+  },
+  "scope": "Exact7-file amended retention review; failed prior history excluded from current PASS; new source identity source9/primary21/1/2 and integrated52 bound",
+  "limits": [
+    "Not whole-branch review or qualification completion",
+    "Reviewer did not execute collector/generator or inspect private bytes"
+  ]
+}

@@ -1,0 +1,74 @@
+test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once (test_s15_execution_index.ExecutedCaseIndexTests.test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once) ... ERROR
+test_missing_case_completion_cannot_borrow_a_successful_summary (test_s15_execution_index.ExecutedCaseIndexTests.test_missing_case_completion_cannot_borrow_a_successful_summary) ... ERROR
+test_repeated_named_case_is_preserved_as_two_execution_instances (test_s15_execution_index.ExecutedCaseIndexTests.test_repeated_named_case_is_preserved_as_two_execution_instances) ... ERROR
+test_summary_count_cannot_substitute_for_missing_named_cases (test_s15_execution_index.ExecutedCaseIndexTests.test_summary_count_cannot_substitute_for_missing_named_cases) ... ERROR
+test_unreaped_tree_or_count_type_cannot_supply_case_evidence (test_s15_execution_index.ExecutedCaseIndexTests.test_unreaped_tree_or_count_type_cannot_supply_case_evidence) ... ERROR
+test_wrong_case_method_and_failed_process_are_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_wrong_case_method_and_failed_process_are_rejected) ... ERROR
+
+======================================================================
+ERROR: test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once (test_s15_execution_index.ExecutedCaseIndexTests.test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 10, in test_actual_verbose_test_with_interleaved_cli_diagnostic_is_counted_once
+    cases=self.parse(text)
+          ^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 5, in parse
+    from s15_execution_index import parse_command_cases
+ModuleNotFoundError: No module named 's15_execution_index'
+
+======================================================================
+ERROR: test_missing_case_completion_cannot_borrow_a_successful_summary (test_s15_execution_index.ExecutedCaseIndexTests.test_missing_case_completion_cannot_borrow_a_successful_summary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 15, in test_missing_case_completion_cannot_borrow_a_successful_summary
+    with self.assertRaises(ValueError):self.parse(text)
+                                       ^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 5, in parse
+    from s15_execution_index import parse_command_cases
+ModuleNotFoundError: No module named 's15_execution_index'
+
+======================================================================
+ERROR: test_repeated_named_case_is_preserved_as_two_execution_instances (test_s15_execution_index.ExecutedCaseIndexTests.test_repeated_named_case_is_preserved_as_two_execution_instances)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 26, in test_repeated_named_case_is_preserved_as_two_execution_instances
+    cases=self.parse(line+line+'Ran 2 tests in 0.1s\n\nOK\n',count=2)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 5, in parse
+    from s15_execution_index import parse_command_cases
+ModuleNotFoundError: No module named 's15_execution_index'
+
+======================================================================
+ERROR: test_summary_count_cannot_substitute_for_missing_named_cases (test_s15_execution_index.ExecutedCaseIndexTests.test_summary_count_cannot_substitute_for_missing_named_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 18, in test_summary_count_cannot_substitute_for_missing_named_cases
+    with self.assertRaises(ValueError):self.parse('Ran 1 test in 0.1s\n\nOK\n')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 5, in parse
+    from s15_execution_index import parse_command_cases
+ModuleNotFoundError: No module named 's15_execution_index'
+
+======================================================================
+ERROR: test_unreaped_tree_or_count_type_cannot_supply_case_evidence (test_s15_execution_index.ExecutedCaseIndexTests.test_unreaped_tree_or_count_type_cannot_supply_case_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 31, in test_unreaped_tree_or_count_type_cannot_supply_case_evidence
+    from s15_execution_index import validate_execution_row
+ModuleNotFoundError: No module named 's15_execution_index'
+
+======================================================================
+ERROR: test_wrong_case_method_and_failed_process_are_rejected (test_s15_execution_index.ExecutedCaseIndexTests.test_wrong_case_method_and_failed_process_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 21, in test_wrong_case_method_and_failed_process_are_rejected
+    with self.assertRaises(ValueError):self.parse('test_wrong (test_api.OwnerTests.test_denial) ... ok\nRan 1 test in 0.1s\nOK\n')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_execution_index.py", line 5, in parse
+    from s15_execution_index import parse_command_cases
+ModuleNotFoundError: No module named 's15_execution_index'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.004s
+
+FAILED (errors=6)

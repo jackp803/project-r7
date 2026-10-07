@@ -1,0 +1,28 @@
+{
+  "reviewer": "/root/qualification_review",
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_SUPERVISOR_MIGRATION_AND_HARNESS_REVIEW",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "reviewer_execution": "NONE",
+  "reviewed_files": {
+    "development/platform/supervision.py": "sha256:ab9edc20fc7307e11b7ded01573a83da153947c24924b688955255dff7a137ac",
+    "development/migrations/0008_runtime_process_supervision.sql": "sha256:377a455959843dc8add08927d01c8537ac77708611aec582b4b6d0b8dc1a41c2",
+    "development/test_runtime_process_supervision.py": "sha256:215d0b2df36374f733dad5c4e1807ec1c0763c18c4d2ac5f8bfdff97238df7a7",
+    "run_s12_runtime_supervision_development.py": "sha256:b2d71a5e245c50ebae34c742ac26a2d702385eb897608daa4bf2a865dd6cbb04",
+    "s12_runtime_supervision_harness_integrity.py": "sha256:8e99793100c0b5b14ad112040020589fc31adb1e9d681c62194da8e2fc203116",
+    "test_s12_runtime_supervision_harness_integrity.py": "sha256:6ad816a72b36b7814578644d1d38efceea9c1c3d0740fbfc49a08ba2092c0b86",
+    "S12-runtime-supervision-increment-plan.md": "sha256:000128e42f017615df53ee66de87b4b1632cf054d5bf3d3a09bca874e10b6796",
+    "S12-qualified-paper-release-profile-proposal.md": "sha256:5af8ff6bc569140e047277f9f43eb2b17b18900d36a5e7f9892ca5f9b18b56e3",
+    "src/application/migrations/0006_process_supervision.sql": "sha256:5c0dcbda40205770e9f110125058cde44590567779eebabf881fdd3eb42beb8e"
+  },
+  "resolved_important": [
+    "Reject unknown unnamed UNIQUE constraints and altered receipt-backed shapes using exact owned SQLite schemas including automatic indexes",
+    "Bind the exact development and harness inventory before/after execution and deny PASS on changed input/source or unreaped trees"
+  ],
+  "actual_tests": "SEPARATE_CODEX_LOCAL_RUNS:18_SUPERVISOR_MIGRATION+34_EXISTING_REGRESSION+4_HARNESS",
+  "subprocess_scope": "PREINTEGRATION_CHILDREN_USE_COMMITTED_SOURCE;INTEGRATED_CHILD_VERIFICATION_PENDING",
+  "profile_proposal_review": "0_CRITICAL_OR_IMPORTANT_WORDING_FINDINGS;PROPOSED_NOT_ACTIVE",
+  "native": "NOT_RUN_FOR_NEW_ROLES",
+  "ubuntu": "NOT_RUN",
+  "whole_branch": "NOT_REVIEWED"
+}

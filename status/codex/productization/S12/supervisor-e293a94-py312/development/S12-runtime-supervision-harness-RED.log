@@ -1,0 +1,93 @@
+test_added_or_removed_executable_inventory_is_denied (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_added_or_removed_executable_inventory_is_denied) ... ERROR
+test_replaced_consumed_source_is_denied (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_replaced_consumed_source_is_denied) ... ERROR
+test_replaced_execution_wrapper_is_denied (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_replaced_execution_wrapper_is_denied) ... ERROR
+test_unchanged_nonempty_actual_file_inventory_is_accepted (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_unchanged_nonempty_actual_file_inventory_is_accepted) ... ERROR
+
+======================================================================
+ERROR: test_added_or_removed_executable_inventory_is_denied (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_added_or_removed_executable_inventory_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 38, in test_added_or_removed_executable_inventory_is_denied
+    before = self.capture()
+             ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 22, in capture
+    return self.module().capture_inputs(self.development, (self.wrapper,))
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 19, in module
+    return importlib.import_module('s12_runtime_supervision_harness_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 's12_runtime_supervision_harness_integrity'
+
+======================================================================
+ERROR: test_replaced_consumed_source_is_denied (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_replaced_consumed_source_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 32, in test_replaced_consumed_source_is_denied
+    before = self.capture()
+             ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 22, in capture
+    return self.module().capture_inputs(self.development, (self.wrapper,))
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 19, in module
+    return importlib.import_module('s12_runtime_supervision_harness_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 's12_runtime_supervision_harness_integrity'
+
+======================================================================
+ERROR: test_replaced_execution_wrapper_is_denied (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_replaced_execution_wrapper_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 49, in test_replaced_execution_wrapper_is_denied
+    before = self.capture()
+             ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 22, in capture
+    return self.module().capture_inputs(self.development, (self.wrapper,))
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 19, in module
+    return importlib.import_module('s12_runtime_supervision_harness_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 's12_runtime_supervision_harness_integrity'
+
+======================================================================
+ERROR: test_unchanged_nonempty_actual_file_inventory_is_accepted (test_s12_runtime_supervision_harness_integrity.RuntimeSupervisionHarnessIntegrityTests.test_unchanged_nonempty_actual_file_inventory_is_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 25, in test_unchanged_nonempty_actual_file_inventory_is_accepted
+    before = self.capture()
+             ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 22, in capture
+    return self.module().capture_inputs(self.development, (self.wrapper,))
+           ^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_supervision_harness_integrity.py", line 19, in module
+    return importlib.import_module('s12_runtime_supervision_harness_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 's12_runtime_supervision_harness_integrity'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.011s
+
+FAILED (errors=4)

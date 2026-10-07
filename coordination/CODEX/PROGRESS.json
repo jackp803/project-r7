@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12",
-  "next_step": "Qualify the exact-clean fresh-source traversal remediation with the original900-second suite limit and a new native build; preserve failed4ea qualification and all proof repairs. Continue normal runtime/cloud/issuer/store plumbing and S15 named requirement mapping. Production qualification profile remains PROPOSED_NOT_ACTIVE; native Ubuntu and real commissioning NOT_RUN.",
+  "next_step": "Continue authorized normal runtime/cloud composition, qualification issuer/store/adapter plumbing and S15 semantic requirement mapping. Production qualified-release issuance still awaits PM/E6 acceptance of the proposed profile. Native Ubuntu and real commissioning remain NOT_RUN.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -59,7 +59,7 @@
     "S12": "IN_PROGRESS",
     "S13": "IN_PROGRESS",
     "S14": "IN_PROGRESS",
-    "S15": "NOT_STARTED",
+    "S15": "IN_PROGRESS",
     "S16": "NOT_STARTED"
   },
   "platforms": {
@@ -75,13 +75,13 @@
       "additional_source_python": "3.14.3",
       "native_package_status": "PASS",
       "native_first_run_status": "PASS",
-      "native_first_run_revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+      "native_first_run_revision": "e293a947f886d9814c89983fd9e03151c1695788",
       "native_first_run_scenarios": 8,
       "native_first_run_commands": 9,
-      "native_first_run_build_hash": "sha256:dbb2ac045bb8a57ce0c6be988b0b287239bf95f47821e6b981082b71b9b4d7ec",
-      "native_archive_sha256": "2b543cabfb5eb9c8badd57ef55eda67fdb37eedc714caf042c13bb939cc031a9",
+      "native_first_run_build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+      "native_archive_sha256": "bb868e9fba8efa19c206835aa4898b5507b4610888348c2a416caa2f5b56db9e",
       "native_full_product_acceptance": "NOT_RUN",
-      "native_package_scope": "SCOPED_UNCHANGED_SERVICE_INSTALLER_DENIAL_SSH_PUBLIC_ACCESS_SMOKE_RESEARCH_CLOUD_RECOVERY;PAPER_FEEDBACK_WORKER_PENDING"
+      "native_package_scope": "SCOPED_UNCHANGED_NATIVE_CONTROL_RESEARCH_MIGRATION_REGRESSION_PASS;RUNTIME_CLOUD_NATIVE_WORKERS_PENDING"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -1269,6 +1269,90 @@
         "S15 whole product acceptance and S16 pending",
         "Native Ubuntu and real cloud/data/forward/provider commissioning NOT_RUN"
       ]
+    },
+    {
+      "step": "S12",
+      "phase": "EXACT_CLEAN_RUNTIME_CLOUD_SUPERVISION_FRESH_SOURCE_IDENTITY_AND_UNCHANGED_NATIVE_REGRESSION",
+      "status": "PASS",
+      "evidence_ref": "status/codex/productization/S12/supervisor-e293a94-py312/disposition.json",
+      "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+      "spec_baseline": "r7-product-v0.2",
+      "revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "worktree": "CLEAN",
+      "state": "SCOPED_S12_RUNTIME_CLOUD_SUPERVISOR_AND_REGRESSION_PASS;MASTER_IN_PROGRESS",
+      "source": {
+        "passed": true,
+        "tests": 1942,
+        "commands": 33,
+        "phase": {
+          "phase_1": 247,
+          "phase_2": 1695
+        }
+      },
+      "native_build": {
+        "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+        "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+        "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+        "worktree": "UNAVAILABLE",
+        "financial_authority": "NONE",
+        "distribution_profile": "r7-native-distribution-v0.2"
+      },
+      "windows_native": {
+        "scenarios": 51,
+        "commands": 55,
+        "status": "SCOPED_UNCHANGED_NATIVE_CONTROL_RESEARCH_MIGRATION_REGRESSION_PASS;RUNTIME_CLOUD_NATIVE_WORKERS_PENDING"
+      },
+      "frontend": {
+        "tests": 15,
+        "commands": 5
+      },
+      "browser": {
+        "cases": 11,
+        "commands": 7
+      },
+      "memory": {
+        "samples": 521,
+        "minimum_available_bytes": 7006457856,
+        "below_unchanged_admission_threshold": 0
+      },
+      "normal_runtime_cloud_native_workers": "NOT_RUN;SOURCE_ROLE_OWNERS_ONLY;NORMAL_S12_COMPOSITION_PENDING",
+      "production_qualification_profile": "PROPOSED_NOT_ACTIVE;ISSUANCE_AND_DEPENDENT_ADMISSION_PENDING_PM_E6",
+      "independent_retention_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "independent_fingerprint_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "prior_candidate_4ea0f61": "FAIL;PRODUCT_900_SECOND_TIMEOUT;1701_COMPLETED_SOURCE_TESTS;BROWSER_NOT_RUN",
+      "historical_proof_sidecars": "HISTORY_ONLY;PASS_USES_FRESH_REVIEWED_BOUND_PROOFS",
+      "real_cloud": "NOT_RUN",
+      "real_forward": "NOT_RUN",
+      "provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED",
+      "ubuntu24": "NOT_RUN",
+      "ubuntu26": "NOT_RUN",
+      "independent_source_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "independent_harness_review": {
+        "critical": 0,
+        "important": 0
+      },
+      "private_artifact_commitments": {
+        "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+        "artifacts/r7-native-windows-S12-runtime-supervision-e293a94/r7-product-0.2.0-windows-e293a94.zip": "sha256:bb868e9fba8efa19c206835aa4898b5507b4610888348c2a416caa2f5b56db9e"
+      },
+      "accepted_prior_revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+      "limitations": [
+        "S12 normal runtime/worker and restoration authority integration pending",
+        "S15 whole product acceptance and S16 pending",
+        "Native Ubuntu and real cloud/data/forward/provider commissioning NOT_RUN"
+      ]
     }
   ],
   "evidence_refs": [
@@ -1317,7 +1401,9 @@
     "status/codex/productization/S13/service-14aeb99-py312/disposition.json",
     "status/codex/productization/S13/ssh-9245c3c-py312/disposition.json",
     "status/codex/productization/S13/installer-fa3b786-py312/disposition.json",
-    "status/codex/productization/S14/paper-feedback-82a6b9e-py312/disposition.json"
+    "status/codex/productization/S14/paper-feedback-82a6b9e-py312/disposition.json",
+    "status/codex/productization/S12/supervisor-e293a94-py312/disposition.json",
+    "status/codex/productization/S15/execution-index-e293a94/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -1363,8 +1449,8 @@
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
   "executable_revision": "7f50cbf4fdb339ac50ea98f0880de05e8546fb8a",
-  "qualified_executable_revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
-  "candidate_executable_revision": null,
+  "qualified_executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+  "candidate_executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
   "pending_recovery_checkpoint": {
     "status": "PASS",
     "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
@@ -1613,5 +1699,58 @@
     "credentials": "NONE",
     "capital": "NONE",
     "github_compute": "NOT_USED"
+  },
+  "runtime_cloud_supervision_qualified_checkpoint": {
+    "status": "SCOPED_PASS;MASTER_IN_PROGRESS",
+    "qualified_executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+    "evidence_ref": "status/codex/productization/S12/supervisor-e293a94-py312/disposition.json",
+    "manifest_ref": "status/codex/productization/S12/supervisor-artifact-hashes-e293a94.json",
+    "retained_files": 318,
+    "source_tests": 1942,
+    "phase_1": 247,
+    "phase_2": 1695,
+    "source_commands": 33,
+    "fresh_source_identity_tests": 21,
+    "fresh_affected_integrated_tests": 52,
+    "native_scoped_scenarios": 51,
+    "native_commands": 55,
+    "frontend_tests": 15,
+    "frontend_commands": 5,
+    "browser_cases": 11,
+    "browser_commands": 7,
+    "screenshots": 6,
+    "screenshot_review": "CODEX_SELF_REVIEW_OF_ALL6_FRESH_IMAGES;NO_VISIBLE_DEFECT",
+    "source_harness_retention_reviews": "INDEPENDENT_BOUNDED_READ_ONLY;0_REMAINING_CRITICAL_OR_IMPORTANT;NOT_WHOLE_BRANCH",
+    "native_build": {
+      "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+      "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+      "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "normal_runtime_cloud_native_workers": "NOT_RUN;SOURCE_ROLE_OWNERS_ONLY;NORMAL_S12_COMPOSITION_PENDING",
+    "prior_failed_candidate": "FAIL;PRODUCT_900_SECOND_TIMEOUT;1701_COMPLETED_SOURCE_TESTS;BROWSER_NOT_RUN",
+    "production_qualification_profile": "PROPOSED_NOT_ACTIVE;ISSUANCE_AND_DEPENDENT_ADMISSION_PENDING_PM_E6",
+    "remaining": [
+      "S12 normal runtime/worker and restoration authority integration pending",
+      "S15 whole product acceptance and S16 pending",
+      "Native Ubuntu and real cloud/data/forward/provider commissioning NOT_RUN"
+    ]
+  },
+  "acceptance_execution_index_checkpoint": {
+    "status": "IN_PROGRESS",
+    "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+    "execution_instances": 1942,
+    "distinct_reported_test_ids": 1695,
+    "unresolved_static_definitions": 0,
+    "requirement_pass_claims": 0,
+    "requirements_unmapped": 66,
+    "legacy_applicability_or_mapping_pending": 150,
+    "focused_harness_tests": 13,
+    "retained_files": 32,
+    "evidence_ref": "status/codex/productization/S15/execution-index-e293a94/disposition.json",
+    "manifest_ref": "status/codex/productization/S15/execution-index-artifact-hashes-e293a94.json",
+    "independent_review": "BOUNDED_READ_ONLY;0_CRITICAL_0_IMPORTANT;NO_REVIEWER_EXECUTION"
   }
 }

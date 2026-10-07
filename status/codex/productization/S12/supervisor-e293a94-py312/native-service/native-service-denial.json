@@ -1,0 +1,71 @@
+{
+  "identity": {
+    "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+    "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+    "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "control",
+      "started_at_utc": "2026-10-07T05:36:32.269209Z",
+      "finished_at_utc": "2026-10-07T05:36:33.457498Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "control.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "research",
+      "started_at_utc": "2026-10-07T05:36:33.464498Z",
+      "finished_at_utc": "2026-10-07T05:36:34.473038Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "research.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "export",
+      "started_at_utc": "2026-10-07T05:36:34.474038Z",
+      "finished_at_utc": "2026-10-07T05:36:35.473368Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "export.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "unsupported-Windows-control-denied",
+      "passed": true
+    },
+    {
+      "name": "unsupported-Windows-research-denied",
+      "passed": true
+    },
+    {
+      "name": "unsupported-Windows-export-denied",
+      "passed": true
+    }
+  ],
+  "scope": "Actual Windows native platform denial only; Ubuntu service startup NOT_RUN",
+  "native_ubuntu": "NOT_RUN",
+  "systemd": "NOT_RUN",
+  "credentials": "NONE",
+  "capital": "NONE",
+  "actual_provider_requests": 0,
+  "runtime": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "node": "UNAVAILABLE_ON_PATH"
+}

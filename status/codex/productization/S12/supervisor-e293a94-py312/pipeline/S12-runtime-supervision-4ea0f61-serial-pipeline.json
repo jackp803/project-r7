@@ -1,0 +1,142 @@
+{
+  "revision": "4ea0f61c62984eaca1cbfae8b745cffb9cdec901",
+  "worktree": "CLEAN",
+  "commands": [
+    {
+      "label": "frontend",
+      "started_at_utc": "2026-10-07T05:01:09.657132Z",
+      "finished_at_utc": "2026-10-07T05:01:26.971925Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-frontend-pipeline.log",
+      "log_sha256": "sha256:d088e1d662abfdf3e8f885020b9cc533af653ac3dec07db2a1656a4434d6a12a"
+    },
+    {
+      "label": "native-build",
+      "started_at_utc": "2026-10-07T05:01:27.117105Z",
+      "finished_at_utc": "2026-10-07T05:02:07.109459Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-build-pipeline.log",
+      "log_sha256": "sha256:89b6b0999343a5896b3a2b1dce4eac0abdab9130992464d83880814c91e44fb0"
+    },
+    {
+      "label": "native-service-denial",
+      "started_at_utc": "2026-10-07T05:02:09.647820Z",
+      "finished_at_utc": "2026-10-07T05:02:14.221638Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-service-denial-pipeline.log",
+      "log_sha256": "sha256:3eec9be6324d42ad773d34d0c013b29e27e1385374a1784f4bf254e92eb5ab80"
+    },
+    {
+      "label": "native-installer-denial",
+      "started_at_utc": "2026-10-07T05:02:16.029826Z",
+      "finished_at_utc": "2026-10-07T05:02:33.526393Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-installer-denial-pipeline.log",
+      "log_sha256": "sha256:b1c95da5e181d95c3a837b01b04513e2725984388b2256107771b77a2407ce77"
+    },
+    {
+      "label": "native-ssh-access",
+      "started_at_utc": "2026-10-07T05:02:35.325674Z",
+      "finished_at_utc": "2026-10-07T05:03:00.778173Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-ssh-access-pipeline.log",
+      "log_sha256": "sha256:396a96926c57a88e2610ea30fe88a3c3cb2b898425dc6e5a5de4042ce8e18f34"
+    },
+    {
+      "label": "native-smoke",
+      "started_at_utc": "2026-10-07T05:03:02.255782Z",
+      "finished_at_utc": "2026-10-07T05:03:19.723916Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-smoke-pipeline.log",
+      "log_sha256": "sha256:6da6bb468bebd837562b44d75ce6207e53022eb0504a807b0d8a98b0b49b288f"
+    },
+    {
+      "label": "native-research",
+      "started_at_utc": "2026-10-07T05:03:21.130636Z",
+      "finished_at_utc": "2026-10-07T05:03:33.478392Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-research-pipeline.log",
+      "log_sha256": "sha256:89402c6dad20bce80b10037f62fabaaafd048927905513b64ba8c7dcb2f8156d"
+    },
+    {
+      "label": "native-cloud",
+      "started_at_utc": "2026-10-07T05:03:35.067530Z",
+      "finished_at_utc": "2026-10-07T05:04:28.171259Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-cloud-pipeline.log",
+      "log_sha256": "sha256:c6f91e80340ad5000556c55ee5443876fbf73d05538b4170d9dcd05c14e15ed1"
+    },
+    {
+      "label": "native-restore",
+      "started_at_utc": "2026-10-07T05:04:29.780138Z",
+      "finished_at_utc": "2026-10-07T05:04:59.236953Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "S12-runtime-supervision-4ea0f61-native-restore-pipeline.log",
+      "log_sha256": "sha256:11e0611d7d7f5fb3aa9a14806d023ca2ca32d701a6c370f499329aedace2bde1"
+    },
+    {
+      "label": "full-source",
+      "started_at_utc": "2026-10-07T05:05:00.752154Z",
+      "finished_at_utc": "2026-10-07T05:23:39.472823Z",
+      "exit_code": 1,
+      "tree_reaped": true,
+      "passed": false,
+      "log": "S12-runtime-supervision-4ea0f61-full-source-pipeline.log",
+      "log_sha256": "sha256:e07d488973e993d50ec564a9acc785d3f2cf81ed9c45f8856c191a33d66bdb71"
+    }
+  ],
+  "passed": false,
+  "harness_binding": "BEFORE_AND_AFTER_EVERY_STAGE",
+  "harness_hashes": {
+    "s12_runtime_supervision_candidate_pipeline.py": "sha256:2d519be7b0ea3b7ebe50f6b31d3f42dc766132f5383047f99e8b32b2aeac78c8",
+    "s12_runtime_supervision_ui_frontend.py": "sha256:9ced0fba9210adb8b5a32eca0fe4eeeaf807e84712865b18de2358ca5de51120",
+    "s12_runtime_supervision_bound_installer.py": "sha256:d5a8b888779c513ca8066e169bbb08028aa3538fd25a6032ad0dbcccfe9931bb",
+    "s12_runtime_supervision_source_qualify.py": "sha256:5cf7d295abbfb3ca6c09c6cae9ba67c30776eb0b5f4d45b13389d2ef983d8133",
+    "s12_runtime_supervision_serial_browser_qualify.py": "sha256:0eb8aaf2aa76a2fcc06f23bab9cbde9acc52b8d828d88a718d71b1b2fd9b4ead",
+    "s13_native_service_denial.py": "sha256:2b11cc0a24b1e10f55eba44203b5547b38ae2206f0f4efbab0f553587516524a",
+    "s13_native_installer_denial_v2.py": "sha256:b8970b333a448c0f638451fe6a239b459eeee3ddc99eef7fe9b332b11709a27a",
+    "s13_installer_package_binding.py": "sha256:bb8311a754bc2a1f4e00d07c813ee1ed42073875b851e5faced5001630fea5e5",
+    "s13_native_ssh_probe.py": "sha256:47d158c1ca002b599671b17d61f1057b88493820afb7cb36f7356ae9ed542130",
+    "s13_native_access_integrity.py": "sha256:0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "s13_native_research_probe.py": "sha256:9720363d13204bd47a7cf3f06eefec9474232e1935c60182c3016fda20a5e901",
+    "s14_native_probe.py": "sha256:19011927e12ae8845934395a21877ad72e2a2ec822463e75aab3b63967011e85",
+    "s13_native_recovery_probe.py": "sha256:8cec9d2447b3f1a7e90e16460b8da215a126db043248c12bfbca98a405557709",
+    "S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15"
+  },
+  "qualification_scope": "S12_RUNTIME_CLOUD_SUPERVISION_WITH_UNCHANGED_WINDOWS_NATIVE_AND_BROWSER_REGRESSION",
+  "real_provider_requests": 0,
+  "real_cloud": "NOT_RUN",
+  "real_forward": "NOT_RUN",
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "ubuntu24": "NOT_RUN",
+  "ubuntu26": "NOT_RUN",
+  "normal_continuous_runtime_composition": "PENDING_S12",
+  "native_build_identity": {
+    "executable_revision": "4ea0f61c62984eaca1cbfae8b745cffb9cdec901",
+    "implementation_hash": "sha256:4ef58d5cfc40430203d4416879ff66920fd1fa7fa0b6b1addd98c780ebae4c7b",
+    "build_hash": "sha256:56105b71274a36359e21cfd381d112754da21bc6be9a18d03919eaecf1816ac6",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  }
+}

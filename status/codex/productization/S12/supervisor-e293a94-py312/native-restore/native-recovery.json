@@ -1,0 +1,314 @@
+{
+  "schema_version": "r7-native-private-recovery-acceptance-v0.2",
+  "identity": {
+    "executable_revision": "e293a947f886d9814c89983fd9e03151c1695788",
+    "implementation_hash": "sha256:4a55f12f3b2c66b18088ed982c438b63e9bbb7abe71bfe069db786e2740eee11",
+    "build_hash": "sha256:fed6e11aa79e241f3c3fbbc8fd8ee06e6e756fd4a6ab9adf5c30f38e96410407",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "started_at_utc": "2026-10-07T05:38:57.322789Z",
+  "passed": true,
+  "commands": [
+    {
+      "name": "01-backup-product-data",
+      "started_at_utc": "2026-10-07T05:38:58.232292Z",
+      "finished_at_utc": "2026-10-07T05:39:01.113265Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-backup-product-data.log",
+      "raw_log_sha256": "sha256:08b7e3492f851eda992faf77d96b50b36b2a6b8d65aea74bf8e5661b98f52953",
+      "log_sha256": "sha256:08b7e3492f851eda992faf77d96b50b36b2a6b8d65aea74bf8e5661b98f52953",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "02-verify-product-backup",
+      "started_at_utc": "2026-10-07T05:39:01.115265Z",
+      "finished_at_utc": "2026-10-07T05:39:02.266056Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-verify-product-backup.log",
+      "raw_log_sha256": "sha256:08b7e3492f851eda992faf77d96b50b36b2a6b8d65aea74bf8e5661b98f52953",
+      "log_sha256": "sha256:08b7e3492f851eda992faf77d96b50b36b2a6b8d65aea74bf8e5661b98f52953",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "03-restore-product-data",
+      "started_at_utc": "2026-10-07T05:39:02.268056Z",
+      "finished_at_utc": "2026-10-07T05:39:04.429742Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-restore-product-data.log",
+      "raw_log_sha256": "sha256:a960edec8014662033950582810996c04a6d9854dbc58eb3a8ed8eaeb70fe688",
+      "log_sha256": "sha256:a960edec8014662033950582810996c04a6d9854dbc58eb3a8ed8eaeb70fe688",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "04-existing-generation-denied",
+      "started_at_utc": "2026-10-07T05:39:04.733244Z",
+      "finished_at_utc": "2026-10-07T05:39:05.737724Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "04-existing-generation-denied.log",
+      "raw_log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "04a-backup-databases",
+      "started_at_utc": "2026-10-07T05:39:05.738723Z",
+      "finished_at_utc": "2026-10-07T05:39:07.568343Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "04a-backup-databases.log",
+      "raw_log_sha256": "sha256:64ed7bebb45c936d7f3c9f90790d90e67fc3ce6989a84d77418bd2aec064bd3e",
+      "log_sha256": "sha256:64ed7bebb45c936d7f3c9f90790d90e67fc3ce6989a84d77418bd2aec064bd3e",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "04b-verify-databases",
+      "started_at_utc": "2026-10-07T05:39:07.570343Z",
+      "finished_at_utc": "2026-10-07T05:39:08.613566Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "04b-verify-databases.log",
+      "raw_log_sha256": "sha256:64ed7bebb45c936d7f3c9f90790d90e67fc3ce6989a84d77418bd2aec064bd3e",
+      "log_sha256": "sha256:64ed7bebb45c936d7f3c9f90790d90e67fc3ce6989a84d77418bd2aec064bd3e",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "04c-restore-databases",
+      "started_at_utc": "2026-10-07T05:39:08.614566Z",
+      "finished_at_utc": "2026-10-07T05:39:11.230221Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "04c-restore-databases.log",
+      "raw_log_sha256": "sha256:668aa9b4288ca5e1a51af1889a3bde27e41789c17b5f8ff85660ca1bf90b1b47",
+      "log_sha256": "sha256:668aa9b4288ca5e1a51af1889a3bde27e41789c17b5f8ff85660ca1bf90b1b47",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "05-active-owner-denied",
+      "started_at_utc": "2026-10-07T05:39:11.232731Z",
+      "finished_at_utc": "2026-10-07T05:39:12.267656Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "05-active-owner-denied.log",
+      "raw_log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "06-control-restart-1",
+      "started_at_utc": "2026-10-07T05:39:12.270117Z",
+      "finished_at_utc": "2026-10-07T05:39:15.034606Z",
+      "passed": true,
+      "tree_reaped": true,
+      "log": "06-control-restart-1.log",
+      "log_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "06-control-restart-2",
+      "started_at_utc": "2026-10-07T05:39:15.034606Z",
+      "finished_at_utc": "2026-10-07T05:39:17.838129Z",
+      "passed": true,
+      "tree_reaped": true,
+      "log": "06-control-restart-2.log",
+      "log_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "07-backup-restored-product",
+      "started_at_utc": "2026-10-07T05:39:17.838753Z",
+      "finished_at_utc": "2026-10-07T05:39:20.561533Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "07-backup-restored-product.log",
+      "raw_log_sha256": "sha256:d576841841f76f409d456b1ba6d6740b1118e2af475bf823cd6169844bf4cccb",
+      "log_sha256": "sha256:d576841841f76f409d456b1ba6d6740b1118e2af475bf823cd6169844bf4cccb",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "08-restore-second-product",
+      "started_at_utc": "2026-10-07T05:39:20.564678Z",
+      "finished_at_utc": "2026-10-07T05:39:22.716062Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "08-restore-second-product.log",
+      "raw_log_sha256": "sha256:1514140f5224963ad7d91c6333d6582f9f8e067c593a78a88c38581e8bfcd66f",
+      "log_sha256": "sha256:1514140f5224963ad7d91c6333d6582f9f8e067c593a78a88c38581e8bfcd66f",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "09-missing-ready-marker-denied",
+      "started_at_utc": "2026-10-07T05:39:22.720062Z",
+      "finished_at_utc": "2026-10-07T05:39:23.802132Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "09-missing-ready-marker-denied.log",
+      "raw_log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "10-tampered-bundle-denied",
+      "started_at_utc": "2026-10-07T05:39:23.805133Z",
+      "finished_at_utc": "2026-10-07T05:39:24.871850Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "10-tampered-bundle-denied.log",
+      "raw_log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    },
+    {
+      "name": "11-tampered-restore-denied",
+      "started_at_utc": "2026-10-07T05:39:24.872849Z",
+      "finished_at_utc": "2026-10-07T05:39:25.904370Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "11-tampered-restore-denied.log",
+      "raw_log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "log_sha256": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "passed": true,
+      "private_paths_in_cli_stdout": false
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "NATIVE_COMPLETE_EIGHT_STORE_AND_SELECTED_FILE_BACKUP",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_PRIVATE_BUNDLE_VERIFICATION",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_FRESH_INHIBITED_RESTORE_PRIVATE_ACL_AND_BYTE_PRESERVATION",
+      "result": "PASS"
+    },
+    {
+      "name": "RESTORED_SELECTED_SNAPSHOT_SETTINGS_AND_APPLICATION_LEASE_FENCES",
+      "result": "PASS"
+    },
+    {
+      "name": "E6_UNCERTAINTY_AND_PAPER_STATE_PRESERVED_WITH_NEW_PROCESS_GENERATIONS",
+      "result": "PASS"
+    },
+    {
+      "name": "EXISTING_RESTORATION_GENERATION_PRESERVED",
+      "result": "PASS"
+    },
+    {
+      "name": "LEGACY_SEVEN_STORE_NATIVE_RECOVERY_REMAINS_EXPLICITLY_INCOMPLETE",
+      "result": "PASS"
+    },
+    {
+      "name": "ACTIVE_RUNTIME_OWNER_BLOCKS_RESTORATION",
+      "result": "PASS"
+    },
+    {
+      "name": "TWO_ACTUAL_NATIVE_CONTROL_RESTARTS_REJECT_COPIED_SESSION_AND_RETAIN_FENCE",
+      "result": "PASS"
+    },
+    {
+      "name": "NATIVE_COMPLETE_RESTORED_PRODUCT_SUPPORTS_LATER_FRESH_BACKUP_AND_RESTORE",
+      "result": "PASS"
+    },
+    {
+      "name": "PARTIAL_RESTORATION_CANNOT_START_NATIVE_CONTROL",
+      "result": "PASS"
+    },
+    {
+      "name": "SAME_SIZE_BUNDLE_TAMPER_FAILS_BEFORE_RESTORATION_CREATION",
+      "result": "PASS"
+    }
+  ],
+  "http_assertions": [
+    {
+      "path": "/api/v1/auth/status",
+      "status": 200,
+      "response_sha256": "sha256:1506704432f25e00e1528391046887def85968c54f7cd83ca47e4835c24e8d7c"
+    },
+    {
+      "path": "/api/v1/health",
+      "status": 401,
+      "response_sha256": "sha256:b8206aad6afff55366dd3ad14fd82bef70a3c9c271a4860acef853395bdbda08"
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200,
+      "response_sha256": "sha256:73918c984cc04d0c52b779a928a4a637761fdb692995dee8576ea80737aa51c9"
+    },
+    {
+      "path": "/api/v1/health",
+      "status": 200,
+      "response_sha256": "sha256:c0d69c440ccc926ef423a6138f974c93e854ed390f6483b9233fd02390301a7c"
+    },
+    {
+      "path": "/api/v1/auth/status",
+      "status": 200,
+      "response_sha256": "sha256:1506704432f25e00e1528391046887def85968c54f7cd83ca47e4835c24e8d7c"
+    },
+    {
+      "path": "/api/v1/health",
+      "status": 401,
+      "response_sha256": "sha256:7255586b2d4141b18b54e31b018a8fd747c48112c303b2024c5be5c728724698"
+    },
+    {
+      "path": "/api/v1/auth/login",
+      "status": 200,
+      "response_sha256": "sha256:155fca14e8667d5cafa6f6a934b7bc730c9382a18597df4114c3c34e4b910a4b"
+    },
+    {
+      "path": "/api/v1/health",
+      "status": 200,
+      "response_sha256": "sha256:660ad2fb03df6e94dc5e51c7da089a38f2ed33eebb762c4bb047eb61d1307d9b"
+    }
+  ],
+  "fixture": "SYNTHETIC_DATA_LOCAL_FOLDER_AND_E6_JOURNALS_ONLY",
+  "real_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "trading_runtime": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "limitations": [
+    "No OS service/reboot qualification",
+    "No restoration release/reconciliation authorization",
+    "No real cloud/Ubuntu/forward/provider acceptance"
+  ],
+  "source_config_hash": "sha256:c9e14456dbe660eef4f8845669d4cbf7afee8adfe42ef51e95bff6e6f6b00058",
+  "restored_config_hash": "sha256:054eb012ec53d2d7887c307fb596819ca2785d832043e6f380dba45233caf404",
+  "finished_at_utc": "2026-10-07T05:39:25.906978Z",
+  "scenario_count": 12,
+  "command_count": 15
+}

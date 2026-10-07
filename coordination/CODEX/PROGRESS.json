@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S15",
-  "next_step": "Continue semantic acceptance mapping, qualification issuer/store/adapter plumbing and authorized normal composition. Production profile issuance remains dependent on PM/E6 acceptance; native Ubuntu and real commissioning remain NOT_RUN.",
+  "next_step": "Continue actual tactical-owner/whole-product acceptance, remaining38 source-support rows and150 inherited applicability decisions; continue authorized issuer/store/adapter plumbing. Production qualification issuance awaits PM/E6 profile acceptance; native Ubuntu and real commissioning remain NOT_RUN.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -1489,7 +1489,8 @@
     "status/codex/productization/S12/supervisor-e293a94-py312/disposition.json",
     "status/codex/productization/S15/execution-index-e293a94/disposition.json",
     "status/codex/productization/S14/cli-publisher-fec8af0-py312/disposition.json",
-    "status/codex/productization/S15/execution-index-fec8af0/disposition.json"
+    "status/codex/productization/S15/execution-index-fec8af0/disposition.json",
+    "status/codex/productization/S15/scoped-source-support-fec8af0/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -1910,5 +1911,25 @@
       "Production qualified-release issuance,normal runtime and restoration integration pending",
       "S15 whole-product/capacity,S16,native Ubuntu and real cloud/data/forward/provider commissioning pending"
     ]
+  },
+  "acceptance_scoped_source_support_checkpoint": {
+    "candidate_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+    "status": "28_REVIEWED_PARTIAL_SUPPORT_ROWS;NOT_COMPLETE_REQUIREMENT_RESULTS",
+    "selected_support_rows": 28,
+    "unselected_support_rows": 38,
+    "distinct_supporting_executed_cases": 111,
+    "complete_requirement_results_pending": 66,
+    "legacy_applicability_or_mapping_pending": 150,
+    "requirement_pass_claims": 0,
+    "independently_reviewed_test_source_files": 20,
+    "current_retention_guard_tests": 7,
+    "remaining_review_critical": 0,
+    "remaining_review_important": 0,
+    "source_qualification_tests": 1953,
+    "source_qualification_commands": 33,
+    "retained_files": 46,
+    "evidence_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/disposition.json",
+    "manifest_ref": "status/codex/productization/S15/scoped-source-support-artifact-hashes-fec8af0.json",
+    "limitations": "Source-only bounded selections;21-field acceptance,normal native PAPER,whole-flow,capacity,mandatory Ubuntu andS16 remain pending"
   }
 }

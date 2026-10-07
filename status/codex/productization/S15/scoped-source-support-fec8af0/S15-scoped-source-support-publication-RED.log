@@ -1,0 +1,73 @@
+test_actual_call_refuses_missing_original_input_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_missing_original_input_before_manifest) ... ERROR
+test_actual_call_refuses_retained_path_escape_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_retained_path_escape_before_manifest) ... ERROR
+test_actual_call_refuses_tampered_retained_bytes_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_tampered_retained_bytes_before_manifest) ... ERROR
+test_actual_publication_call_writes_complete_repository_relative_hashes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_publication_call_writes_complete_repository_relative_hashes) ... FAIL
+
+======================================================================
+ERROR: test_actual_call_refuses_missing_original_input_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_missing_original_input_before_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 39, in test_actual_call_refuses_missing_original_input_before_manifest
+    with self.assertRaises(ValueError):self.invoke(repo,target,manifest,rows,required)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 17, in invoke
+    return eval(compile(ast.Expression(calls[0]),str(base/'retain_s15_scoped_support_fec8af0.py'),'eval'),namespace)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s15_scoped_support_fec8af0.py", line 139, in <module>
+    publish_retention_manifest(target,repo,manifest_path)
+TypeError: publish_retention_manifest() missing 1 required positional argument: 'required'
+
+======================================================================
+ERROR: test_actual_call_refuses_retained_path_escape_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_retained_path_escape_before_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 44, in test_actual_call_refuses_retained_path_escape_before_manifest
+    with self.assertRaises(ValueError):self.invoke(repo,target,manifest,rows,required)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 17, in invoke
+    return eval(compile(ast.Expression(calls[0]),str(base/'retain_s15_scoped_support_fec8af0.py'),'eval'),namespace)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s15_scoped_support_fec8af0.py", line 139, in <module>
+    publish_retention_manifest(target,repo,manifest_path)
+TypeError: publish_retention_manifest() missing 1 required positional argument: 'required'
+
+======================================================================
+ERROR: test_actual_call_refuses_tampered_retained_bytes_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_tampered_retained_bytes_before_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 33, in test_actual_call_refuses_tampered_retained_bytes_before_manifest
+    with self.assertRaises(ValueError):self.invoke(repo,target,manifest,rows,required)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 17, in invoke
+    return eval(compile(ast.Expression(calls[0]),str(base/'retain_s15_scoped_support_fec8af0.py'),'eval'),namespace)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s15_scoped_support_fec8af0.py", line 139, in <module>
+    publish_retention_manifest(target,repo,manifest_path)
+TypeError: publish_retention_manifest() missing 1 required positional argument: 'required'
+
+======================================================================
+FAIL: test_actual_publication_call_writes_complete_repository_relative_hashes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_publication_call_writes_complete_repository_relative_hashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 27, in test_actual_publication_call_writes_complete_repository_relative_hashes
+    try:self.invoke(repo,target,manifest,rows,required)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 17, in invoke
+    return eval(compile(ast.Expression(calls[0]),str(base/'retain_s15_scoped_support_fec8af0.py'),'eval'),namespace)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s15_scoped_support_fec8af0.py", line 139, in <module>
+    publish_retention_manifest(target,repo,manifest_path)
+TypeError: publish_retention_manifest() missing 1 required positional argument: 'required'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 28, in test_actual_publication_call_writes_complete_repository_relative_hashes
+    except TypeError as exc:self.fail('Actual retainer call does not match real publication API: '+str(exc))
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Actual retainer call does not match real publication API: publish_retention_manifest() missing 1 required positional argument: 'required'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.019s
+
+FAILED (failures=1, errors=3)

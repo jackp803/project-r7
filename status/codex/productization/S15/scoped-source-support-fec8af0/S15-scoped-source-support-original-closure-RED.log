@@ -1,0 +1,59 @@
+test_actual_call_refuses_missing_original_input_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_missing_original_input_before_manifest) ... ok
+test_actual_call_refuses_retained_path_escape_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_retained_path_escape_before_manifest) ... ok
+test_actual_call_refuses_tampered_retained_bytes_before_manifest (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_call_refuses_tampered_retained_bytes_before_manifest) ... ok
+test_actual_publication_call_writes_complete_repository_relative_hashes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_actual_publication_call_writes_complete_repository_relative_hashes) ... ok
+test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) ... 
+  test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='artifacts/S15-executed-case-index-fec8af0.json') ... FAIL
+  test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='workspaces/project-r7-productization-master-20261002/status/codex/productization/S15/execution-index-fec8af0/retention-index.json') ... FAIL
+  test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='workspaces/project-r7-productization-master-20261002/status/codex/productization/S15/execution-index-artifact-hashes-fec8af0.json') ... FAIL
+  test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='workspaces/project-r7-productization-master-20261002/docs/product/v0_2/07_ACCEPTANCE_MATRIX.json') ... FAIL
+test_replacement_external_validator_cannot_execute_before_the_byte_gate (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_replacement_external_validator_cannot_execute_before_the_byte_gate) ... FAIL
+
+======================================================================
+FAIL: test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='artifacts/S15-executed-case-index-fec8af0.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 69, in test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes
+    with self.assertRaises(ValueError):eval(compile(ast.Expression(expressions[0]),'<actual original input read>','eval'),namespace)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='workspaces/project-r7-productization-master-20261002/status/codex/productization/S15/execution-index-fec8af0/retention-index.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 69, in test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes
+    with self.assertRaises(ValueError):eval(compile(ast.Expression(expressions[0]),'<actual original input read>','eval'),namespace)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='workspaces/project-r7-productization-master-20261002/status/codex/productization/S15/execution-index-artifact-hashes-fec8af0.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 69, in test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes
+    with self.assertRaises(ValueError):eval(compile(ast.Expression(expressions[0]),'<actual original input read>','eval'),namespace)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes) (reference='workspaces/project-r7-productization-master-20261002/docs/product/v0_2/07_ACCEPTANCE_MATRIX.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 69, in test_original_inputs_require_the_captured_reviewed_commitments_before_accepting_bytes
+    with self.assertRaises(ValueError):eval(compile(ast.Expression(expressions[0]),'<actual original input read>','eval'),namespace)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_replacement_external_validator_cannot_execute_before_the_byte_gate (test_s15_scoped_support_retention.ScopedRetentionPublicationTests.test_replacement_external_validator_cannot_execute_before_the_byte_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s15_scoped_support_retention.py", line 80, in test_replacement_external_validator_cannot_execute_before_the_byte_gate
+    self.fail('Current retainer imports external decision helpers without a protected fixed-byte execution gate')
+AssertionError: Current retainer imports external decision helpers without a protected fixed-byte execution gate
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.051s
+
+FAILED (failures=5)

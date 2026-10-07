@@ -1,0 +1,112 @@
+{
+  "document_kind": "MANUALLY_CURATED_SCOPED_SOURCE_SUPPORT_DRAFT;NOT_REQUIREMENT_ACCEPTANCE",
+  "candidate_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+  "scope": "STR-01_THROUGH_STR-08;WINDOWS_CREDENTIAL_FREE_SOURCE_CASES_ONLY",
+  "requirements": [
+    {
+      "id": "STR-01",
+      "supported_behavior": "The legacy runtime parses the retained pre-v0.2 definition and matches each stored canonical signal golden; DSL/runtime profile routing remains additive.",
+      "selectors": [
+        ["tests/strategy/test_legacy_compatibility.py", "test_preserved_actual_signal_goldens_from_pre_v02_executable"],
+        ["tests/strategy/test_v02_parser.py", "test_v02_routes_to_distinct_profile_without_changing_legacy_export"]
+      ],
+      "remaining": ["This is a finite retained legacy golden regression, not an exhaustive proof for every legacy strategy.", "Cross-platform golden execution remains pending under STR-14."]
+    },
+    {
+      "id": "STR-02",
+      "supported_behavior": "The actual parser rejects oversized/deep input, unsupported/mixed profiles, unknown/code fields and operators, cycles/references, invalid units, duplicate keys, floats and declared AST/window/feature budget violations.",
+      "selectors": [
+        ["tests/strategy/test_v02_parser.py", "test_oversized_or_deep_json_is_structured_before_parsing"],
+        ["tests/strategy/test_v02_parser.py", "test_unknown_version_and_mixed_runtime_profile_are_rejected"],
+        ["tests/strategy/test_v02_parser.py", "test_unknown_keys_operator_arity_and_indicator_version"],
+        ["tests/strategy/test_v02_parser.py", "test_cycle_and_unknown_feature_reference"],
+        ["tests/strategy/test_v02_parser.py", "test_price_and_volume_units_cannot_be_compared_or_added"],
+        ["tests/strategy/test_v02_parser.py", "test_window_lag_and_feature_count_security_limits"],
+        ["tests/strategy/test_v02_parser.py", "test_ast_depth_is_bounded_before_recursive_evaluation"],
+        ["tests/strategy/test_v02_parser.py", "test_duplicate_json_key_is_rejected_and_float_is_not_financial_input"]
+      ],
+      "remaining": ["Selected source cases establish the enumerated grammar boundaries; full-product admission and native targets require their own evidence."]
+    },
+    {
+      "id": "STR-03",
+      "supported_behavior": "SMA signed mean and complete-window readiness, EMA mean seed/alpha, flat and insufficient inputs, and actual batch/incremental parity and restart replay are asserted.",
+      "selectors": [
+        ["tests/indicators/test_v02_golden.py", "test_sma_exact_signed_mean_and_no_partial_window"],
+        ["tests/indicators/test_v02_golden.py", "test_ema_seeds_mean_then_uses_declared_alpha"],
+        ["tests/indicators/test_v02_golden.py", "test_all_families_flat_gap_and_insufficient_prefix"],
+        ["tests/indicators/test_v02_incremental.py", "test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs"],
+        ["tests/indicators/test_v02_incremental.py", "test_restart_snapshot_replay_binds_prefix_parameters_and_arithmetic"]
+      ],
+      "remaining": ["Cross-platform canonical signal parity remains pending; selected numerical vectors are finite."]
+    },
+    {
+      "id": "STR-04",
+      "supported_behavior": "RSI Wilder seed/update and flat/rising/falling limits, ATR first/true ranges and Wilder update, explicit warmup, all-family flat inputs and incremental parity are asserted.",
+      "selectors": [
+        ["tests/indicators/test_v02_golden.py", "test_rsi_wilder_seed_update_and_flat_extremes"],
+        ["tests/indicators/test_v02_golden.py", "test_atr_first_range_gap_true_range_seed_and_wilder"],
+        ["tests/indicators/test_v02_golden.py", "test_all_families_flat_gap_and_insufficient_prefix"],
+        ["tests/indicators/test_v02_golden.py", "test_ambient_decimal_context_does_not_change_numeric_facts"],
+        ["tests/indicators/test_v02_incremental.py", "test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs"]
+      ],
+      "remaining": ["These source vectors do not establish native Ubuntu or cross-platform parity."]
+    },
+    {
+      "id": "STR-05",
+      "supported_behavior": "ADX directional outputs and delayed ADX readiness are tested at n=2, including ties/zero true range, flat inputs, explicit n=1 behavior and batch/incremental parity.",
+      "selectors": [
+        ["tests/indicators/test_v02_golden.py", "test_adx_independent_di_and_adx_readiness"],
+        ["tests/indicators/test_v02_golden.py", "test_adx_directional_ties_and_zero_tr_have_no_fabricated_strength"],
+        ["tests/indicators/test_v02_golden.py", "test_all_families_flat_gap_and_insufficient_prefix"],
+        ["tests/indicators/test_v02_golden.py", "test_window_one_is_explicit_for_each_family"],
+        ["tests/indicators/test_v02_incremental.py", "test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs"]
+      ],
+      "remaining": ["The 2n readiness assertion is illustrated at n=2 and n=1, not a separately measured vector for every supported window."]
+    },
+    {
+      "id": "STR-06",
+      "supported_behavior": "MACD line/signal/histogram readiness, Bollinger population variance and signed bands, Donchian default decision-bar exclusion and explicit lag-zero alternative, flat inputs and incremental parity are asserted.",
+      "selectors": [
+        ["tests/indicators/test_v02_golden.py", "test_macd_line_signal_histogram_have_independent_warmup"],
+        ["tests/indicators/test_v02_golden.py", "test_bollinger_population_variance_signed_bands"],
+        ["tests/indicators/test_v02_golden.py", "test_donchian_default_lag_excludes_decision_bar"],
+        ["tests/indicators/test_v02_golden.py", "test_all_families_flat_gap_and_insufficient_prefix"],
+        ["tests/indicators/test_v02_incremental.py", "test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs"]
+      ],
+      "remaining": ["Native targets and cross-platform signal parity remain separately required."]
+    },
+    {
+      "id": "STR-07",
+      "supported_behavior": "Enumerated arithmetic/comparison/Boolean/cross/lag/rolling operators produce expected Decimal or Boolean values; previous-pair equality, missing values, division-by-zero, arity, input types and arithmetic context are checked.",
+      "selectors": [
+        ["tests/strategy/test_v02_operators.py", "test_arithmetic_and_comparisons_have_decimal_results"],
+        ["tests/strategy/test_v02_operators.py", "test_boolean_missing_required_operand_is_not_short_circuited_to_false"],
+        ["tests/strategy/test_v02_operators.py", "test_division_by_zero_is_invalid_observation"],
+        ["tests/strategy/test_v02_operators.py", "test_cross_requires_immediately_previous_valid_pair_with_equality_allowed"],
+        ["tests/strategy/test_v02_operators.py", "test_explicit_lag_and_rolling_exclude_current_when_requested"],
+        ["tests/strategy/test_v02_operators.py", "test_operator_context_input_bounds_and_arity"]
+      ],
+      "remaining": ["Coverage describes the explicitly asserted operators; parser, full-product paths and native execution remain separate evidence."]
+    },
+    {
+      "id": "STR-08",
+      "supported_behavior": "Actual E2 4h evaluation and 4h/15m as-of selection use finalized received bars; 11:45 excludes the unfinished 12:00 bar, 12:00 requires receipt, later bars/receipts cannot change earlier signals, and aggregation requires every finalized constituent.",
+      "selectors": [
+        ["tests/strategy/test_v02_multitimeframe.py", "test_direct_bundle_cannot_bypass_finality_availability_or_immutability"],
+        ["tests/strategy/test_v02_multitimeframe.py", "test_real_v02_nested_indicator_warmup_conflict_and_bad_data"],
+        ["tests/strategy/test_v02_multitimeframe.py", "test_1145_uses_0400_0800_bar_not_unfinished_0800_1200"],
+        ["tests/strategy/test_v02_multitimeframe.py", "test_1200_requires_finality_and_actual_receipt"],
+        ["tests/strategy/test_v02_multitimeframe.py", "test_all_future_bars_and_receipts_cannot_change_earlier_signal_or_boundary_hash"],
+        ["tests/strategy/test_v02_multitimeframe.py", "test_aggregation_requires_every_finalized_constituent"]
+      ],
+      "remaining": ["Synthetic recorded-receipt and historical fixtures do not establish real feed availability, live operation or Ubuntu parity."]
+    }
+  ],
+  "common_limits": [
+    "All selections are supporting source cases executed in the exact-clean Windows Python qualification, not independently executed per-requirement acceptance runs.",
+    "A case reused by multiple requirements remains one execution instance; repeated requirement references do not increase executed-test counts.",
+    "The qualification window has no per-test timestamps; no per-requirement product configuration identity is claimed.",
+    "Requirement PASS claims remain zero; other 58 v0.2 requirements and all150 inherited applicability/mapping decisions remain pending.",
+    "Normal native continuous runtime, mandatory native Ubuntu targets, capacity benchmark, whole-product flow and separate real commissioning remain pending."
+  ]
+}

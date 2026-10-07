@@ -1,0 +1,36 @@
+{
+  "reviewed_at_utc": "2026-10-07T02:27:09.850479Z",
+  "reviewer": "/root/qualification_review",
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_INSTALLER_CORE_CLI_PACKAGE_AND_LINK_REMEDIATION_REVIEW",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "reviewed_source_hashes": {
+    "src/application/platform/service_admin.py": "sha256:8ab55dffc7de0c46ad565f81f11cc9a15d0201e27f1ae3b1f7c3054c98510eb3",
+    "src/application/platform/service_admin_files.py": "sha256:83a9aedee0ac5d7e9e1e51c581146a1bce8e3895d34f2d8b9e7ff03be6188143",
+    "src/application/platform/service_admin_removal.py": "sha256:53d0414c8992e18f713df5c6e10723b6505e007956c63d8f20e11fa9971294f9",
+    "src/application/cli.py": "sha256:39cf8a0de1439cf1488ad2d810dd848db16e374b20e4d4fcc3cdb3cf02f0d440",
+    "tools/build_product.py": "sha256:0799de4846931437bc67d917c202153bb8f41b92724c193c64656a7f8356af19",
+    "packaging/linux/install-service.sh": "sha256:e908eb33ef6f50f47e6e9d9c0107e09589b1f1500ec75d05ff23f6b42ff7f5c2",
+    "packaging/linux/uninstall-service.sh": "sha256:b9ff5885a59378f7847f7a5f7773a5e677e0b1c7502b9e43447aa99cf8aea629",
+    "packaging/linux/FIRST_RUN.md": "sha256:a89c339122ea0ce426587386bca3685a738f0a4588cc50f70770dd79fdfeeeed",
+    "docs/product/NATIVE_UBUNTU_SERVICE_ADMIN.md": "sha256:d9f2392f89cffa15472624141c5d6ee2cc20ba625ee3c501007cd5ad2b251119",
+    "docs/product/NATIVE_UBUNTU_SERVICE_PLAN.md": "sha256:ea3087b4a61facbaea66e36109b33deb3fe5fd845a62a883ff432d603bfe922c",
+    "tests/application/test_service_admin.py": "sha256:192c62775ca75563e50fe1d60fa0d2f953df9ccf810b3bf73966c46814e63244",
+    "tests/application/test_service_admin_backend.py": "sha256:34babb5fbaad820d6c2fa21d3fd79b0b37446c84b0e48e638a37d8aae7642016",
+    "tests/application/test_service_admin_removal.py": "sha256:fa32d5babfd0d03b97c93552e7321080ddcc198c6806335097037ab3fbca4a1a",
+    "tests/application/test_service_admin_cli.py": "sha256:a57f90826ec8842c0016dabc7012780f9ade7b688a3f7bfe60c160e81b188e81",
+    "tests/application/test_service_admin_packaging.py": "sha256:8fd1a43610da8ccdfc6eec776935492b05ffb448c1eb21d5b0b3b99817c6f868"
+  },
+  "resolved_important_findings": [
+    "explicit missing receipt-parent prerequisite",
+    "transferred leaf verification/no-replace preservation protocol",
+    "exclusive package-asset leaf creation rejects dangling entries before write"
+  ],
+  "reviewer_execution": "NONE",
+  "actual_tests": "SEPARATE_CODEX_LOCAL_RUNS:40_SOURCE_TESTS_PLUS4_WINDOWS_GIT_SH_FAKE_EXECUTABLE_COMMANDS",
+  "windows_file_symlink": "NOT_RUN;ACTUAL_WINERROR1314;CONTROLLED_DIRECTORY_ENTRY_SEAM_TESTED",
+  "native_ubuntu": "NOT_RUN",
+  "actual_systemctl": "NOT_RUN",
+  "actual_root_administration": "NOT_RUN",
+  "whole_branch": "NOT_REVIEWED"
+}

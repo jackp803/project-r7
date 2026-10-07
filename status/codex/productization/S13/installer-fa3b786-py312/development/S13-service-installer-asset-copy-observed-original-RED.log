@@ -1,0 +1,15 @@
+test_existing_dangling_asset_link_is_refused_without_creating_external_target (controlled_asset_regression.ServiceAdminPackagingTests.test_existing_dangling_asset_link_is_refused_without_creating_external_target) ... FAIL
+
+======================================================================
+FAIL: test_existing_dangling_asset_link_is_refused_without_creating_external_target (controlled_asset_regression.ServiceAdminPackagingTests.test_existing_dangling_asset_link_is_refused_without_creating_external_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_admin_packaging.py", line 45, in test_existing_dangling_asset_link_is_refused_without_creating_external_target
+    self.assertFalse(outside.exists());self.assertEqual(len(attempts),1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

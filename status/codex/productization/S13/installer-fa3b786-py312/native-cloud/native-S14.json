@@ -1,0 +1,318 @@
+{
+  "profile": "r7-native-S14-offline-copy-feedback-v0.2",
+  "identity": {
+    "executable_revision": "fa3b786169144d298de640edb605db3c6d3cea99",
+    "implementation_hash": "sha256:c880065021e27d24e465dcd4beb491e8d0324e6fa5fd4afc24d5275e37dbccc8",
+    "build_hash": "sha256:71cf9822f212cdb1bc00c41aa994fce85ea2ede9d802d57fd05b180e1ee3f603",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "capabilities",
+      "started_at_utc": "2026-10-07T02:29:35.261952Z",
+      "finished_at_utc": "2026-10-07T02:29:36.388488Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-capabilities.log",
+      "log_sha256": "sha256:2e619e0f6b9d9f70ee1d131ef7a4c23bb6712944182d52a954b50c58efcb09ce",
+      "passed": true,
+      "result": {
+        "status": "CAPABILITIES_EXPORTED",
+        "snapshot_hash": "sha256:f624c02ccf83338497ce14d15f19a5e83a8ae36bfc6d1ec5e41985ded7729e76",
+        "execution_evidence": "NOT_RUN"
+      }
+    },
+    {
+      "name": "author-legacy",
+      "started_at_utc": "2026-10-07T02:29:36.389494Z",
+      "finished_at_utc": "2026-10-07T02:29:37.441062Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-author-legacy.log",
+      "log_sha256": "sha256:e0fc566232b181db5c6997829b217b3984aceb08ef951004987c2e6a63b7a18e",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "legacy",
+        "manifest_hash": "sha256:3decfeebc3661ef8a10b2b8e5ffa2197834dbea3255726b3d13503b3908e9448",
+        "strategy_content_hash": "sha256:21caaaae6a46e41229dd398489de4aa3dc8fde4c63798306a59a88b76b5264bb",
+        "payload_hashes": {
+          "strategy.json": "sha256:b9d5eb6d27e3a8430602d2014bff1ae8eaf8e989b8a2d4f00219603f823a99ff"
+        },
+        "capability_snapshot_hash": "sha256:f624c02ccf83338497ce14d15f19a5e83a8ae36bfc6d1ec5e41985ded7729e76",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "author-four-hour",
+      "started_at_utc": "2026-10-07T02:29:37.443584Z",
+      "finished_at_utc": "2026-10-07T02:29:38.511691Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-author-four-hour.log",
+      "log_sha256": "sha256:a3c36667377a7f69de05019813aa87fb4ce40f0044f049aacdcd0a58083c2073",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "four-hour",
+        "manifest_hash": "sha256:af20719fbb4f5ce20753e268a504023bb305f9723fc8a6d31b2f3da8d3aac8f9",
+        "strategy_content_hash": "sha256:b128232b00fb520131cb1cccce462b6dde669373e033323534fe4e6ba0831246",
+        "payload_hashes": {
+          "strategy.json": "sha256:135ac1b5348cb48070e455cb13d705e2875922535f07f5daaf46c74483198791"
+        },
+        "capability_snapshot_hash": "sha256:f624c02ccf83338497ce14d15f19a5e83a8ae36bfc6d1ec5e41985ded7729e76",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "author-multitimeframe",
+      "started_at_utc": "2026-10-07T02:29:38.512691Z",
+      "finished_at_utc": "2026-10-07T02:29:39.644309Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-author-multitimeframe.log",
+      "log_sha256": "sha256:eecb87387d6d744b0def8695173bd60e86331e01f1df2f5653df1c04a3639fc8",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "multitimeframe",
+        "manifest_hash": "sha256:ebf62e161510c7f74c3af2d22dbd458513c0915a4e2738f783c712e91ccbfd47",
+        "strategy_content_hash": "sha256:621cf6c5f4ce0aac7e31e5031a38b2cb4a68b72ae6805c31908fec099d25847f",
+        "payload_hashes": {
+          "strategy.json": "sha256:84a02f5554ca6f67a7ba0013ee6f260e8a8e3ee72945f44c054c04b6099149a2"
+        },
+        "capability_snapshot_hash": "sha256:f624c02ccf83338497ce14d15f19a5e83a8ae36bfc6d1ec5e41985ded7729e76",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "author-tactical",
+      "started_at_utc": "2026-10-07T02:29:39.645310Z",
+      "finished_at_utc": "2026-10-07T02:29:40.856195Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-author-tactical.log",
+      "log_sha256": "sha256:d076288fb014333733f9ce25acdfc6b76107022b40e4291cc654ff8b4bc8add7",
+      "passed": true,
+      "result": {
+        "status": "AUTHORING_PACKAGE_CREATED",
+        "submission_id": "tactical",
+        "manifest_hash": "sha256:ec289ccb8193da3f8af8320415a580f82bbee0180d030610d1bf026c8c85dce6",
+        "strategy_content_hash": "sha256:9438d0f5acf84ac44d512f9d620f322b77b7e8b811c5332b846c056b1e9d0b49",
+        "payload_hashes": {
+          "strategy.json": "sha256:cb9452038108daef05ff5e4cc9b842f97afc7acf787a35ec34703bb04a6d8554"
+        },
+        "capability_snapshot_hash": "sha256:f624c02ccf83338497ce14d15f19a5e83a8ae36bfc6d1ec5e41985ded7729e76",
+        "execution_evidence": "NOT_RUN",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "pull",
+      "started_at_utc": "2026-10-07T02:29:40.866711Z",
+      "finished_at_utc": "2026-10-07T02:29:57.020892Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "06-pull.log",
+      "log_sha256": "sha256:0eb498683fb6392cc31fa28c51a09d28b413d429f832381d0301ee3dc124e536",
+      "passed": true,
+      "result": {
+        "status": "LOCAL_STAGED",
+        "files_staged": 11,
+        "bytes_staged": 19024,
+        "transport_kind": "COPY_BRIDGE",
+        "root_id": "fixture-cloud-root"
+      }
+    },
+    {
+      "name": "import-dataset",
+      "started_at_utc": "2026-10-07T02:29:57.023899Z",
+      "finished_at_utc": "2026-10-07T02:29:58.079928Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "07-import-dataset.log",
+      "log_sha256": "sha256:f813bdfe9c3be051f6fbf1b652271f32f3505bc669ec26529bbbb3e9537825d9",
+      "passed": true,
+      "result": {
+        "status": "LOCAL_DATASET_STAGED",
+        "dataset_id": "fixture-dataset",
+        "dataset_version": "1",
+        "manifest_hash": "sha256:8fce00c7cb86fc925820406bd1f140090a0242f4427c88b0729a26d964d028bc",
+        "files_staged": 3,
+        "logical_verification": "NOT_RUN",
+        "namespace": "FIXTURE",
+        "financial_authority": "NONE"
+      }
+    },
+    {
+      "name": "queue-feedback",
+      "started_at_utc": "2026-10-07T02:29:58.085438Z",
+      "finished_at_utc": "2026-10-07T02:29:59.171124Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "08-queue-feedback.log",
+      "log_sha256": "sha256:a04e4368194f014c17b1487e689f0face8beb24b3ca36f32aa0b6930346f0272",
+      "passed": true,
+      "result": {
+        "status": "FEEDBACK_QUEUED",
+        "operation_id": "r7-feedback-9580b6e60b3c57053ba0b2fc2f03bfda7b30d670f3851f130d0809790a661582",
+        "cloud": "NOT_CONTACTED"
+      }
+    },
+    {
+      "name": "publish",
+      "started_at_utc": "2026-10-07T02:29:59.174707Z",
+      "finished_at_utc": "2026-10-07T02:30:23.358700Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "09-publish.log",
+      "log_sha256": "sha256:35bdc291b047a560a0623fba95b172b186e4292238fce8414811436790b2c60f",
+      "passed": true,
+      "result": {
+        "status": "COMPLETE",
+        "attempted": 2,
+        "local_staged": 0,
+        "cloud_acknowledged": 2,
+        "unavailable": 0,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "publish-idempotent",
+      "started_at_utc": "2026-10-07T02:30:23.361213Z",
+      "finished_at_utc": "2026-10-07T02:30:24.496345Z",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log": "10-publish-idempotent.log",
+      "log_sha256": "sha256:933f55c7843d4566984f2acd51e6ac4239c624b2ee176f83c5709633c78a7224",
+      "passed": true,
+      "result": {
+        "status": "COMPLETE",
+        "attempted": 0,
+        "local_staged": 0,
+        "cloud_acknowledged": 0,
+        "unavailable": 0,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "private-prestage-denied",
+      "started_at_utc": "2026-10-07T02:30:24.507345Z",
+      "finished_at_utc": "2026-10-07T02:30:25.646205Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "11-private-prestage-denied.log",
+      "log_sha256": "sha256:e0a16b17855b6885c28ec66908f20546179b599e6d524a4e2dc006edd965c542",
+      "passed": true,
+      "result": {
+        "status": "INCOMPLETE",
+        "attempted": 1,
+        "local_staged": 0,
+        "cloud_acknowledged": 0,
+        "unavailable": 1,
+        "conflicts": 0
+      }
+    },
+    {
+      "name": "root-loss",
+      "started_at_utc": "2026-10-07T02:30:25.649204Z",
+      "finished_at_utc": "2026-10-07T02:30:28.746458Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log": "12-root-loss.log",
+      "log_sha256": "sha256:bba155db19786ca2c40a9bba9505e2e39a856b0b1fbaed26a53b22be7527e4da",
+      "passed": true,
+      "result": {
+        "status": "CLOUD_NOT_CONNECTED",
+        "reason": "BRIDGE_REMOTE_ROOT_UNAVAILABLE"
+      }
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "actual-native-current-capability-availability-without-platform-authority",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-legacy",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-four-hour",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-multitimeframe",
+      "passed": true
+    },
+    {
+      "name": "actual-native-authoring-tactical",
+      "passed": true
+    },
+    {
+      "name": "actual-native-owned-copy-download-and-author-staging",
+      "passed": true
+    },
+    {
+      "name": "actual-native-private-dataset-seal-without-oos-decoding-or-namespace-relabel",
+      "passed": true
+    },
+    {
+      "name": "actual-native-owner-feedback-with-default-opt-out-and-chat-holdout-observation",
+      "passed": true
+    },
+    {
+      "name": "actual-native-receipt-and-feedback-remote-byte-ack-through-local-compiled-fake",
+      "passed": true
+    },
+    {
+      "name": "actual-native-durable-ack-does-not-republish-completed-outboxes",
+      "passed": true
+    },
+    {
+      "name": "actual-native-private-outbox-rejected-before-any-synchronized-stage-write-and-not-acknowledged",
+      "passed": true
+    },
+    {
+      "name": "actual-native-root-loss-denied-without-empty-root-initialization",
+      "passed": true
+    }
+  ],
+  "transport": "OFFLINE_TRANSPORT_SIMULATION",
+  "real_rclone": "NOT_RUN",
+  "real_cloud": "NOT_RUN",
+  "ubuntu": "NOT_RUN",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "trading_runtime": "NOT_STARTED",
+  "shadow": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "live": "NOT_STARTED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "node": "UNAVAILABLE_ON_PATH",
+  "fake_transport_sha256": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+  "fake_transport_source_sha256": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+  "scenario_count": 12,
+  "command_count": 12
+}

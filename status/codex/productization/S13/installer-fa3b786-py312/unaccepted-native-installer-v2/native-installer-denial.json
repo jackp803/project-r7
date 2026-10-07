@@ -1,0 +1,102 @@
+{
+  "identity": {
+    "executable_revision": "fa3b786169144d298de640edb605db3c6d3cea99",
+    "implementation_hash": "sha256:c880065021e27d24e465dcd4beb491e8d0324e6fa5fd4afc24d5275e37dbccc8",
+    "build_hash": "sha256:71cf9822f212cdb1bc00c41aa994fce85ea2ede9d802d57fd05b180e1ee3f603",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "install-dry",
+      "started_at_utc": "2026-10-07T02:31:25.693134Z",
+      "finished_at_utc": "2026-10-07T02:31:27.697414Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "install-dry.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "uninstall-dry",
+      "started_at_utc": "2026-10-07T02:31:28.610364Z",
+      "finished_at_utc": "2026-10-07T02:31:30.661806Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "uninstall-dry.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "install-apply",
+      "started_at_utc": "2026-10-07T02:31:31.579296Z",
+      "finished_at_utc": "2026-10-07T02:31:33.506824Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "install-apply.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "uninstall-apply",
+      "started_at_utc": "2026-10-07T02:31:34.318331Z",
+      "finished_at_utc": "2026-10-07T02:31:36.255543Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "uninstall-apply.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    },
+    {
+      "name": "invalid-commitment",
+      "started_at_utc": "2026-10-07T02:31:37.128345Z",
+      "finished_at_utc": "2026-10-07T02:31:39.169869Z",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "invalid-commitment.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "unsupported-Windows-install-dry-denied",
+      "passed": true
+    },
+    {
+      "name": "unsupported-Windows-uninstall-dry-denied",
+      "passed": true
+    },
+    {
+      "name": "unsupported-Windows-install-apply-denied",
+      "passed": true
+    },
+    {
+      "name": "unsupported-Windows-uninstall-apply-denied",
+      "passed": true
+    },
+    {
+      "name": "unsupported-Windows-invalid-commitment-denied",
+      "passed": true
+    }
+  ],
+  "scope": "Actual Windows frozen installer platform/commitment denial only; actual Ubuntu root/files/systemd NOT_RUN",
+  "native_ubuntu": "NOT_RUN",
+  "systemd": "NOT_RUN",
+  "credentials": "NONE",
+  "capital": "NONE",
+  "actual_provider_requests": 0,
+  "runtime": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "node": "UNAVAILABLE_ON_PATH",
+  "package_identity_checks": "BEFORE_AND_AFTER_EACH_COMMAND_AND_AT_COMPLETION"
+}

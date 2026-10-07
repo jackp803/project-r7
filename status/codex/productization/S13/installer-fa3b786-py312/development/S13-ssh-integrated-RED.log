@@ -1,0 +1,154 @@
+test_ssh_access (unittest.loader._FailedTest.test_ssh_access) ... ERROR
+test_frozen_probe_helper_still_verifies_distribution_at_executable_boundary (test_ssh_access_cli.SSHAccessCLITests.test_frozen_probe_helper_still_verifies_distribution_at_executable_boundary) ... ERROR
+test_native_parent_invokes_same_executable_and_actual_helper_command (test_ssh_access_cli.SSHAccessCLITests.test_native_parent_invokes_same_executable_and_actual_helper_command) ... ERROR
+test_owned_probe_helper_cli_is_bound_to_actual_helper (test_ssh_access_cli.SSHAccessCLITests.test_owned_probe_helper_cli_is_bound_to_actual_helper) ... ERROR
+test_plan_cli_generates_literal_argv_without_starting_connection (test_ssh_access_cli.SSHAccessCLITests.test_plan_cli_generates_literal_argv_without_starting_connection) ... usage: r7 [-h]
+          {doctor,init-profile,enroll-owner,serve,research-worker,plan-services,guarded-service,author-package,export-capabilities,queue-research-feedback,cloud-pull,cloud-import-dataset,cloud-publish-outbox,backup-databases,verify-database-backup,restore-databases,backup-product-data,verify-product-backup,restore-product-data,_research-job}
+          ...
+r7: error: argument command: invalid choice: 'plan-ssh-tunnel' (choose from doctor, init-profile, enroll-owner, serve, research-worker, plan-services, guarded-service, author-package, export-capabilities, queue-research-feedback, cloud-pull, cloud-import-dataset, cloud-publish-outbox, backup-databases, verify-database-backup, restore-databases, backup-product-data, verify-product-backup, restore-product-data, _research-job)
+ERROR
+test_probe_cli_passes_explicit_namespace_and_bounded_deadline (test_ssh_access_cli.SSHAccessCLITests.test_probe_cli_passes_explicit_namespace_and_bounded_deadline) ... ERROR
+test_probe_unavailable_is_an_explicit_nonzero_result (test_ssh_access_cli.SSHAccessCLITests.test_probe_unavailable_is_an_explicit_nonzero_result) ... ERROR
+test_unknown_namespace_and_absent_operator_host_are_denied_before_execution (test_ssh_access_cli.SSHAccessCLITests.test_unknown_namespace_and_absent_operator_host_are_denied_before_execution) ... ok
+
+======================================================================
+ERROR: test_ssh_access (unittest.loader._FailedTest.test_ssh_access)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ssh_access
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access.py", line 7, in <module>
+    from application.platform.ssh_access import plan_ssh_tunnel,probe_loopback_auth_status
+ModuleNotFoundError: No module named 'application.platform.ssh_access'
+
+
+======================================================================
+ERROR: test_frozen_probe_helper_still_verifies_distribution_at_executable_boundary (test_ssh_access_cli.SSHAccessCLITests.test_frozen_probe_helper_still_verifies_distribution_at_executable_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 44, in test_frozen_probe_helper_still_verifies_distribution_at_executable_boundary
+    patch('application.platform._loopback_probe.main',return_value=0) as helper:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1451, in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pkgutil.py", line 528, in resolve_name
+    result = getattr(result, p)
+             ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform' has no attribute '_loopback_probe'
+
+======================================================================
+ERROR: test_native_parent_invokes_same_executable_and_actual_helper_command (test_ssh_access_cli.SSHAccessCLITests.test_native_parent_invokes_same_executable_and_actual_helper_command)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 56, in test_native_parent_invokes_same_executable_and_actual_helper_command
+    module=importlib.import_module('application.platform.ssh_access')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.ssh_access'
+
+======================================================================
+ERROR: test_owned_probe_helper_cli_is_bound_to_actual_helper (test_ssh_access_cli.SSHAccessCLITests.test_owned_probe_helper_cli_is_bound_to_actual_helper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 36, in test_owned_probe_helper_cli_is_bound_to_actual_helper
+    with patch('application.platform._loopback_probe.main',return_value=2) as helper:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1451, in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pkgutil.py", line 528, in resolve_name
+    result = getattr(result, p)
+             ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform' has no attribute '_loopback_probe'
+
+======================================================================
+ERROR: test_plan_cli_generates_literal_argv_without_starting_connection (test_ssh_access_cli.SSHAccessCLITests.test_plan_cli_generates_literal_argv_without_starting_connection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'plan-ssh-tunnel' (choose from doctor, init-profile, enroll-owner, serve, research-worker, plan-services, guarded-service, author-package, export-capabilities, queue-research-feedback, cloud-pull, cloud-import-dataset, cloud-publish-outbox, backup-databases, verify-database-backup, restore-databases, backup-product-data, verify-product-backup, restore-product-data, _research-job)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 15, in test_plan_cli_generates_literal_argv_without_starting_connection
+    code,result=self.output(['plan-ssh-tunnel','--host','r7.example.test','--username','operator','--port','8765','--ssh-port','2222'])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 10, in output
+    code=cli.main(argv)
+         ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 104, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_probe_cli_passes_explicit_namespace_and_bounded_deadline (test_ssh_access_cli.SSHAccessCLITests.test_probe_cli_passes_explicit_namespace_and_bounded_deadline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 24, in test_probe_cli_passes_explicit_namespace_and_bounded_deadline
+    with patch('application.platform.ssh_access.probe_loopback_auth_status',return_value=result) as probe:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1451, in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pkgutil.py", line 528, in resolve_name
+    result = getattr(result, p)
+             ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform' has no attribute 'ssh_access'
+
+======================================================================
+ERROR: test_probe_unavailable_is_an_explicit_nonzero_result (test_ssh_access_cli.SSHAccessCLITests.test_probe_unavailable_is_an_explicit_nonzero_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ssh_access_cli.py", line 31, in test_probe_unavailable_is_an_explicit_nonzero_result
+    with patch('application.platform.ssh_access.probe_loopback_auth_status',return_value=result):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1451, in __enter__
+    self.target = self.getter()
+                  ^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pkgutil.py", line 528, in resolve_name
+    result = getattr(result, p)
+             ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'application.platform' has no attribute 'ssh_access'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.038s
+
+FAILED (errors=7)

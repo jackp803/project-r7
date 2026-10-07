@@ -1,0 +1,282 @@
+test_actual_before_and_after_execution_commitments_are_complete (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_before_and_after_execution_commitments_are_complete) ... ERROR
+test_actual_five_native_denials_match_all_observed_command_logs (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_five_native_denials_match_all_observed_command_logs) ... ERROR
+test_actual_report_loaders_keep_one_path_argument (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_report_loaders_keep_one_path_argument) ... ok
+test_actual_retention_reuses_identical_original_and_refuses_changed_repeat (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_retention_reuses_identical_original_and_refuses_changed_repeat) ... ok
+test_bound_report_records_the_exact_parsed_bytes (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_bound_report_records_the_exact_parsed_bytes) ... ERROR
+test_changed_execution_harness_is_rejected (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_changed_execution_harness_is_rejected) ... ERROR
+test_collector_publish_precedes_all_acceptance_checkpoint_writes (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_collector_publish_precedes_all_acceptance_checkpoint_writes) ... ok
+test_command_inventory_cannot_omit_a_required_dry_run (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_command_inventory_cannot_omit_a_required_dry_run) ... ERROR
+test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused) ... ERROR
+test_missing_log_is_never_accepted (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_missing_log_is_never_accepted) ... ERROR
+test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass) ... ERROR
+test_parsed_report_and_commitment_share_one_read_and_refuse_replacement (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_parsed_report_and_commitment_share_one_read_and_refuse_replacement) ... ERROR
+test_retention_refuses_duplicate_originals_before_copy_and_index (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_retention_refuses_duplicate_originals_before_copy_and_index) ... ok
+test_same_length_changed_log_is_never_accepted (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_same_length_changed_log_is_never_accepted) ... ERROR
+test_self_reported_identity_cannot_replace_current_subject (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_self_reported_identity_cannot_replace_current_subject) ... ERROR
+test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash) ... ERROR
+
+======================================================================
+ERROR: test_actual_before_and_after_execution_commitments_are_complete (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_before_and_after_execution_commitments_are_complete)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 50, in test_actual_before_and_after_execution_commitments_are_complete
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_actual_five_native_denials_match_all_observed_command_logs (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_five_native_denials_match_all_observed_command_logs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 15, in test_actual_five_native_denials_match_all_observed_command_logs
+    def test_actual_five_native_denials_match_all_observed_command_logs(self):self.assertEqual(len(self.validate()),5)
+                                                                                                   ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_bound_report_records_the_exact_parsed_bytes (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_bound_report_records_the_exact_parsed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 62, in test_bound_report_records_the_exact_parsed_bytes
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_changed_execution_harness_is_rejected (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_changed_execution_harness_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 56, in test_changed_execution_harness_is_rejected
+    module=importlib.import_module('s13_installer_acceptance_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_command_inventory_cannot_omit_a_required_dry_run (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_command_inventory_cannot_omit_a_required_dry_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 27, in test_command_inventory_cannot_omit_a_required_dry_run
+    with self.assertRaises(ValueError):self.validate()
+                                       ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 46, in test_empty_or_incomplete_execution_harness_map_is_refused
+    module=importlib.import_module('s13_installer_acceptance_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_missing_log_is_never_accepted (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_missing_log_is_never_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 18, in test_missing_log_is_never_accepted
+    with self.assertRaises(ValueError):self.validate()
+                                       ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 34, in test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass
+    with self.assertRaises(ValueError):self.validate()
+                                       ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_parsed_report_and_commitment_share_one_read_and_refuse_replacement (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_parsed_report_and_commitment_share_one_read_and_refuse_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 68, in test_parsed_report_and_commitment_share_one_read_and_refuse_replacement
+    module=importlib.import_module('s13_installer_acceptance_integrity')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_same_length_changed_log_is_never_accepted (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_same_length_changed_log_is_never_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 21, in test_same_length_changed_log_is_never_accepted
+    with self.assertRaises(ValueError):self.validate()
+                                       ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_self_reported_identity_cannot_replace_current_subject (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_self_reported_identity_cannot_replace_current_subject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 24, in test_self_reported_identity_cannot_replace_current_subject
+    with self.assertRaises(ValueError):self.validate()
+                                       ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+======================================================================
+ERROR: test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 31, in test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash
+    with self.assertRaises(ValueError):self.validate()
+                                       ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 13, in validate
+    module=importlib.import_module('s13_installer_acceptance_integrity');verified={}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 999, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity.py", line 5, in <module>
+    from application.datasets.catalog import read_local
+ModuleNotFoundError: No module named 'application'
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.134s
+
+FAILED (errors=12)

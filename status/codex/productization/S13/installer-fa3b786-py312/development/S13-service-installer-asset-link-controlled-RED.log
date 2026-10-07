@@ -1,0 +1,18 @@
+test_changed_retained_wrapper_invalidates_actual_distribution_provenance (test_service_admin_packaging.ServiceAdminPackagingTests.test_changed_retained_wrapper_invalidates_actual_distribution_provenance) ... ok
+test_existing_dangling_asset_link_is_refused_without_creating_external_target (test_service_admin_packaging.ServiceAdminPackagingTests.test_existing_dangling_asset_link_is_refused_without_creating_external_target) ... ERROR
+test_linux_package_retains_exact_wrappers_and_complete_operator_guide (test_service_admin_packaging.ServiceAdminPackagingTests.test_linux_package_retains_exact_wrappers_and_complete_operator_guide) ... ok
+test_windows_does_not_emit_ubuntu_administration_scripts (test_service_admin_packaging.ServiceAdminPackagingTests.test_windows_does_not_emit_ubuntu_administration_scripts) ... ok
+
+======================================================================
+ERROR: test_existing_dangling_asset_link_is_refused_without_creating_external_target (test_service_admin_packaging.ServiceAdminPackagingTests.test_existing_dangling_asset_link_is_refused_without_creating_external_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_service_admin_packaging.py", line 43, in test_existing_dangling_asset_link_is_refused_without_creating_external_target
+    with patch.object(self.builder.os,'open',side_effect=exclusive),patch.object(self.builder.shutil,'copyfile',side_effect=following), \
+                      ^^^^^^^^^^^^^^^
+AttributeError: module 'tools.build_product' has no attribute 'os'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.176s
+
+FAILED (errors=1)

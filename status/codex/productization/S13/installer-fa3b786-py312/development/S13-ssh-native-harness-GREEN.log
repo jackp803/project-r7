@@ -1,0 +1,31 @@
+test_actual_exited_owner_with_matching_controlled_endpoint_is_denied (s13_native_access_integrity_tests.NativeAccessHarnessTests.test_actual_exited_owner_with_matching_controlled_endpoint_is_denied) ... FAIL
+test_guarded_readiness_denies_redirect_without_contacting_controlled_destination (s13_native_access_integrity_tests.NativeAccessHarnessTests.test_guarded_readiness_denies_redirect_without_contacting_controlled_destination) ... ok
+test_original_readiness_opener_follows_actual_controlled_redirect (s13_native_access_integrity_tests.NativeAccessHarnessTests.test_original_readiness_opener_follows_actual_controlled_redirect) ... ok
+test_original_success_and_cleanup_can_accept_actual_exited_port_collision (s13_native_access_integrity_tests.NativeAccessHarnessTests.test_original_success_and_cleanup_can_accept_actual_exited_port_collision) ... FAIL
+
+======================================================================
+FAIL: test_actual_exited_owner_with_matching_controlled_endpoint_is_denied (s13_native_access_integrity_tests.NativeAccessHarnessTests.test_actual_exited_owner_with_matching_controlled_endpoint_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_native_access_integrity_tests.py", line 67, in test_actual_exited_owner_with_matching_controlled_endpoint_is_denied
+    owner,config=self.collision(port)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_native_access_integrity_tests.py", line 33, in collision
+    self.assertEqual(owner.wait(timeout=15),2)
+AssertionError: 3 != 2
+
+======================================================================
+FAIL: test_original_success_and_cleanup_can_accept_actual_exited_port_collision (s13_native_access_integrity_tests.NativeAccessHarnessTests.test_original_success_and_cleanup_can_accept_actual_exited_port_collision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_native_access_integrity_tests.py", line 55, in test_original_success_and_cleanup_can_accept_actual_exited_port_collision
+    owner,config=self.collision(port)
+                 ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_native_access_integrity_tests.py", line 33, in collision
+    self.assertEqual(owner.wait(timeout=15),2)
+AssertionError: 3 != 2
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.244s
+
+FAILED (failures=2)

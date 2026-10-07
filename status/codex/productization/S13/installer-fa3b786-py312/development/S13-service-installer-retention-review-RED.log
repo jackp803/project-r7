@@ -1,0 +1,55 @@
+test_actual_five_native_denials_match_all_observed_command_logs (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_five_native_denials_match_all_observed_command_logs) ... ok
+test_actual_report_loaders_keep_one_path_argument (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_actual_report_loaders_keep_one_path_argument) ... ok
+test_collector_publish_precedes_all_acceptance_checkpoint_writes (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_collector_publish_precedes_all_acceptance_checkpoint_writes) ... ok
+test_command_inventory_cannot_omit_a_required_dry_run (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_command_inventory_cannot_omit_a_required_dry_run) ... ok
+test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused) ... 
+  test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused) (keys=[]) ... ERROR
+  test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused) (keys=['s13_native_installer_denial_v2.py']) ... ERROR
+test_missing_log_is_never_accepted (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_missing_log_is_never_accepted) ... ok
+test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_native_windows_denial_cannot_be_promoted_to_ubuntu_pass) ... ok
+test_parsed_report_and_commitment_share_one_read_and_refuse_replacement (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_parsed_report_and_commitment_share_one_read_and_refuse_replacement) ... ERROR
+test_retention_refuses_duplicate_originals_before_copy_and_index (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_retention_refuses_duplicate_originals_before_copy_and_index) ... ERROR
+test_same_length_changed_log_is_never_accepted (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_same_length_changed_log_is_never_accepted) ... ok
+test_self_reported_identity_cannot_replace_current_subject (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_self_reported_identity_cannot_replace_current_subject) ... ok
+test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_success_stdout_cannot_be_accepted_as_platform_denial_even_with_new_hash) ... ok
+
+======================================================================
+ERROR: test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused) (keys=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 48, in test_empty_or_incomplete_execution_harness_map_is_refused
+    with self.subTest(keys=list(mapping)),self.assertRaises(ValueError):module.validate_harness_commitments(base,mapping,{},base.parent)
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 's13_installer_acceptance_integrity' has no attribute 'validate_harness_commitments'
+
+======================================================================
+ERROR: test_empty_or_incomplete_execution_harness_map_is_refused (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_empty_or_incomplete_execution_harness_map_is_refused) (keys=['s13_native_installer_denial_v2.py'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 48, in test_empty_or_incomplete_execution_harness_map_is_refused
+    with self.subTest(keys=list(mapping)),self.assertRaises(ValueError):module.validate_harness_commitments(base,mapping,{},base.parent)
+                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 's13_installer_acceptance_integrity' has no attribute 'validate_harness_commitments'
+
+======================================================================
+ERROR: test_parsed_report_and_commitment_share_one_read_and_refuse_replacement (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_parsed_report_and_commitment_share_one_read_and_refuse_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 52, in test_parsed_report_and_commitment_share_one_read_and_refuse_replacement
+    real_reader=module.read_local
+                ^^^^^^^^^^^^^^^^^
+AttributeError: module 's13_installer_acceptance_integrity' has no attribute 'read_local'
+
+======================================================================
+ERROR: test_retention_refuses_duplicate_originals_before_copy_and_index (s13_installer_acceptance_integrity_tests.InstallerAcceptanceIntegrityTests.test_retention_refuses_duplicate_originals_before_copy_and_index)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s13_installer_acceptance_integrity_tests.py", line 63, in test_retention_refuses_duplicate_originals_before_copy_and_index
+    guard=next(n for n in ast.walk(retain) if isinstance(n,ast.If) and 'retained_originals' in ast.unparse(n.test))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+StopIteration
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.124s
+
+FAILED (errors=4)

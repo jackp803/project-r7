@@ -1,0 +1,30 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json
+base=Path(__file__).resolve().parent
+reviewed={
+ 's13_installer_acceptance_integrity.py':'faa397ce3cd747f7e8e98e9e43183a68313874dbc6dc6ceea94afa54e76093c0',
+ 's13_installer_accept.py':'b91a210147f19ac9432890a57b189113c2640a403087669b4f531a25d7d7b7bb',
+ 's13_installer_acceptance_integrity_tests.py':'5ab036b35cbcaa99101cb27aa7e6204a8f0c58832a9ed1895d0d2cbd04b59d4d',
+ 'run_s13_installer_integrity_tests.py':'d8ed263df9c5aa3f50ef0026513d4b11aac008b1019961bbd6cf9b529dedc1d4',
+ 'prepare_s13_bound_installer_denial_v3.py':'4dd15b12c1bb0b97a8b8b260d6b0fd591bbf16db557e14c89b5b1d90331c0791',
+ 's13_run_bound_installer_denial_v3.py':'cd7a4c099a84a869ec6bfa9264c0380ce539e656120bcee98167791f5ed86d66',
+ 's13_native_installer_denial_v2.py':'b8970b333a448c0f638451fe6a239b459eeee3ddc99eef7fe9b332b11709a27a',
+ 's13_installer_package_binding.py':'bb8311a754bc2a1f4e00d07c813ee1ed42073875b851e5faced5001630fea5e5',
+ 'prepare_s13_installer_accept.py':'ef9e8a426d0ecc4647ef0987edce047e3a96b006e8066428695ea26c9d4bd39a'}
+for name,expected in reviewed.items():
+    if hashlib.sha256((base/name).read_bytes()).hexdigest()!=expected:raise ValueError('Independently reviewed harness changed')
+data=dict(reviewed_at_utc=datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),reviewer='/root/qualification_review',
+    kind='INDEPENDENT_BOUNDED_READ_ONLY_INSTALLER_EXECUTION_BINDING_AND_EVIDENCE_RETENTION_REVIEW',
+    remaining_critical=0,remaining_important=0,
+    resolved_important_findings=['deduplicate original references before retention writes and indexing',
+        'exact three execution harness commitments captured before execution and unchanged afterward',
+        'same safely read bytes supply validated JSON and retained artifact commitment'],
+    harness_hashes={name:'sha256:'+value for name,value in reviewed.items()},
+    reviewer_execution='NONE',actual_tests='SEPARATE_CODEX_LOCAL_RUNS:16_RETENTION_GUARD_TESTS_AND5_V3_WINDOWS_NATIVE_DENIALS',
+    historical_attempts='V1_AND_POSTEXECUTION_HASH_V2_RETAINED_AND_EXCLUDED_FROM_ACCEPTANCE_COUNTS',
+    native_ubuntu='NOT_RUN',actual_systemctl='NOT_RUN',actual_root_administration='NOT_RUN',real_ssh='NOT_RUN',
+    whole_branch='NOT_REVIEWED',real_provider_requests=0,credentials='NONE',capital='NONE',github_compute='NOT_USED')
+target=base/'S13-service-installer-independent-harness-review.json';assert not target.exists()
+target.write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8',newline='\n')
+print('Recorded exact nine independently reviewed installer harness commitments')

@@ -1,0 +1,30 @@
+{
+  "reviewed_at_utc": "2026-10-07T01:45:26.122726Z",
+  "reviewer": "/root/qualification_review",
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_LAUNCHER_AND_ACCEPTANCE_INTEGRITY_REVIEW",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "resolved_important_findings": [
+    "required log/image/result bytes verified",
+    "authoritative browser/native subject and case sequence",
+    "native/source counters reconciled to actual command/scenario inventories",
+    "required references cannot vanish silently during retention",
+    "complete manifest published and read back before accepted checkpoint updates"
+  ],
+  "harness_hashes": {
+    "s13_service_ui_frontend.py": "sha256:93e7f47e5307197ec889a84d607c436b72b44f83fd158d49f9457da05599bacb",
+    "s13_service_candidate_pipeline.py": "sha256:d648aad39b1080fae47ce0fc98186b87c991b32f5ee04cab04d2c781792fd931",
+    "s13_native_service_denial.py": "sha256:2b11cc0a24b1e10f55eba44203b5547b38ae2206f0f4efbab0f553587516524a",
+    "s13_service_serial_browser_qualify_v2.py": "sha256:8bf7fb13e6d497ef655067a95d1e727707bca6502d415c169efc8ed7ede14530",
+    "s13_service_accept_v2.py": "sha256:c080248d9f8fb13ef4d3c0e1155e12c8ce6acaf0f6463519850a21b5c863ebe0",
+    "s13_acceptance_integrity.py": "sha256:2e32d45841659fa5552aa1691ff6a6f35cc954e7fefe03d725d4d3cab1801fc9",
+    "s13_acceptance_integrity_tests.py": "sha256:a06c5b66c30099755d86071d7efbd8f1186362c248dfc26c8fafa5739fab37e1"
+  },
+  "actual_development_tests": 19,
+  "actual_test_execution": "SEPARATE_CODEX_LOCAL_RUNS;NOT_REVIEWER_EXECUTION",
+  "browser": "UNCHANGED11_ASSERTIONS;EXACT_NATIVE_COMPLETE_ASSET_INVENTORY;SANITIZED_RESULT_JSON_HASH",
+  "reviewer_execution": "NONE",
+  "native_ubuntu": "NOT_RUN",
+  "systemd": "NOT_RUN",
+  "whole_branch": "NOT_REVIEWED"
+}

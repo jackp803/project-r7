@@ -1,0 +1,27 @@
+{
+  "reviewed_at_utc": "2026-10-07T02:06:07.780726Z",
+  "reviewer": "/root/qualification_review",
+  "kind": "INDEPENDENT_BOUNDED_READ_ONLY_SSH_NATIVE_HARNESS_AND_ACCEPTANCE_GUARD_REVIEW",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "resolved_important_findings": [
+    "readiness redirects denied",
+    "owned native control generation and actual Job Object membership before/after probes",
+    "single-argument report loader preserved by narrow template change"
+  ],
+  "harness_hashes": {
+    "s13_ssh_candidate_pipeline.py": "sha256:b0c8345ef9b42a627f35e3d43f131aef6ed8f954c3ff0b0a5933f67d27dd83d9",
+    "s13_ssh_qualify.py": "sha256:69bd48fa1d92b2c8eab16c52ed6830913146824e170d46e999e14d9c78c2c3f8",
+    "s13_native_ssh_probe.py": "sha256:47d158c1ca002b599671b17d61f1057b88493820afb7cb36f7356ae9ed542130",
+    "s13_native_access_integrity.py": "sha256:0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "s13_native_access_integrity_tests.py": "sha256:d932bf7605fe2581db18613dd060f6c4bde75cfc2bfae9be17839264030098bf",
+    "s13_ssh_acceptance_integrity.py": "sha256:7815518569e26362cb0551b64696f401f6a4caeef21f4d79bf6cd73f4d523bfc",
+    "s13_ssh_acceptance_integrity_tests.py": "sha256:32d59ce222c52d5daa78a4c593ceb01133aad07692d431e47f6ad8bb3115bdd5",
+    "s13_ssh_accept.py": "sha256:529e7d070128bfaa1d58ad5f5ecc095650536ed717e5ae01032576e2323aabff"
+  },
+  "reviewer_execution": "NONE",
+  "actual_tests": "SEPARATE_CODEX_LOCAL_RUNS:4_HARNESS_AND9_SSH_RETENTION_GUARD",
+  "real_ssh": "NOT_RUN",
+  "native_ubuntu": "NOT_RUN",
+  "whole_branch": "NOT_REVIEWED"
+}

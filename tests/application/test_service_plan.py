@@ -110,7 +110,13 @@ class ServicePlanTests(unittest.TestCase):
             self.assertIn('"/run/r7/scopes"',writable)
             self.assertNotIn('RuntimeDirectory=',unit)
             self.assertNotIn('ExecStopPost=',unit)
-        self.assertEqual(plan['scope_lock_provisioning']['rule'],'d /run/r7/scopes 0700 r7-worker r7-worker -')
+        self.assertEqual(plan['scope_lock_provisioning']['rule'],'d /run/r7/scopes :0700 :r7-worker :r7-worker -')
         self.assertEqual(plan['scope_lock_provisioning']['existing_owner_mismatch'],'REFUSE_BEFORE_INSTALLATION')
+
+    def test_boot_provisioning_never_repairs_an_existing_scope_inode(self):
+        plan=self.module().render_service_plan(self.settings())
+        rule=plan['scope_lock_provisioning']['rule'].split()
+        self.assertEqual(rule,['d','/run/r7/scopes',':0700',':r7-worker',':r7-worker','-'])
+        self.assertEqual(plan['scope_lock_provisioning'].get('existing_inode'),'PRESERVE_MODE_USER_GROUP;GUARDED_STARTUP_REJECTS_MISMATCH')
 
 if __name__=='__main__':unittest.main()

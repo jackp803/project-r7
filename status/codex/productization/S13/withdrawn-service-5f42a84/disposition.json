@@ -1,0 +1,47 @@
+{
+  "schema_version": "r7-withdrawn-service-candidate-v0.2",
+  "candidate": "5f42a84e8e3b246bc569d093b8a8b1b4e4c8ac90",
+  "result": "WITHDRAWN_NOT_ACCEPTED",
+  "recorded_at_utc": "2026-10-07T01:18:20.178374Z",
+  "cause": "Independent Important renderer finding: plain tmpfiles mode/user/group can normalize existing scope inode before startup guard rejects mismatch",
+  "disposition": "Pipeline interrupted by Codex after native scopes completed, before complete full-source/browser qualification; retain all observed outcomes",
+  "source": {
+    "result": "INCOMPLETE_INTERRUPTED_NOT_ACCEPTED",
+    "completed_commands": 25,
+    "completed_tests": 1015,
+    "completed_failures": 0,
+    "completed_errors": 0,
+    "completed_skips": 0,
+    "unfinished_command": "NOT_COUNTED;RAW_CAPTURE_REMAINS_LOCAL",
+    "final_owned_reaping": "NOT_RECORDED_FOR_INTERRUPTED_COMMAND;NO_FALSE_PASS"
+  },
+  "frontend": "5_COMMANDS_PASS_ONLY;BROWSER_NOT_RUN",
+  "native": [
+    {
+      "name": "smoke",
+      "passed": true
+    },
+    {
+      "name": "research",
+      "passed": true
+    },
+    {
+      "name": "cloud",
+      "passed": true
+    },
+    {
+      "name": "restore",
+      "passed": true
+    }
+  ],
+  "windows_native_denial": "3_SCENARIOS_PASS",
+  "accepted_executable_unchanged": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
+  "ubuntu": "NOT_RUN",
+  "systemd": "NOT_RUN",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "private_artifacts": "PROFILES/DATABASES/RAW_CAPTURES/NATIVE_ARCHIVES_REMAIN_LOCAL",
+  "next": "Creation-only tmpfiles regression and minimal fix; new exact-clean candidate"
+}

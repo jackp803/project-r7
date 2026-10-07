@@ -1006,8 +1006,8 @@
     ]
   },
   "service_increment": {
-    "status": "DEVELOPMENT_PASS_QUALIFICATION_PENDING",
-    "service_tests_passed": 35,
+    "status": "REMEDIATED_QUALIFICATION_PENDING",
+    "service_tests_passed": 36,
     "asset_link_tests_passed": 3,
     "existing_entrypoint_tests": 10,
     "existing_process_tests": 17,
@@ -1018,6 +1018,10 @@
     "systemd_installation": "NOT_IMPLEMENTED",
     "ubuntu_native": "NOT_RUN",
     "runtime": "CONTINUOUS_COMPOSITION_NOT_DELIVERED",
-    "source_doc": "docs/product/NATIVE_UBUNTU_SERVICE_PLAN.md"
+    "source_doc": "docs/product/NATIVE_UBUNTU_SERVICE_PLAN.md",
+    "withdrawn_candidate": "5f42a84e8e3b246bc569d093b8a8b1b4e4c8ac90",
+    "withdrawn_evidence": "status/codex/productization/S13/withdrawn-service-5f42a84/disposition.json",
+    "creation_only_scope_regression": "RED14_TESTS_1_FAILURE;GREEN36_SERVICE_TESTS",
+    "boot_scope_enforcement": "NATIVE_UBUNTU_NOT_RUN"
   }
 }

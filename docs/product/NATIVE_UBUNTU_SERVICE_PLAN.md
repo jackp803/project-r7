@@ -30,7 +30,9 @@ bytes only; it does not prove that a Linux kernel enforces those settings.
 
 The shared host lock root is `/run/r7/scopes`, also used by actual POSIX process
 scope locks. It must already exist with the dedicated owner, group and mode 0700.
-The export includes `r7-scopes.conf` for explicit operator provisioning. Refuse an
+The export includes `r7-scopes.conf` for explicit operator provisioning. Its
+creation-only mode/user/group fields preserve existing inode facts; startup must
+reject mismatches instead of boot-time normalization masking them. Refuse an
 existing owner mismatch before installation. Service shutdown never deletes lock
 files or inodes. Do not replace the root with per-profile locks or use automatic
 RuntimeDirectory cleanup/chown to bypass this boundary.
@@ -43,7 +45,7 @@ The adjacent Windows asset fix rejects UI roots, ancestors and descendants that
 are symlinks or reparse points. Actual root/nested junction regressions preserve
 their target bytes. It closes a build-root escape before mounting static files.
 
-Development verification: 35 service tests and 3 asset-link tests pass, with
+Development verification: 36 service tests and 3 asset-link tests pass, with
 fail-first evidence for ordinary defects. Existing native entrypoints (10),
 process supervision/locks (17), research worker (11) and product assets (3) pass.
 Independent read-only source/assertion review has no remaining Critical/Important
@@ -52,3 +54,7 @@ controlled mocks; these are not Ubuntu or systemd acceptance.
 
 A new exact-clean source/native/browser qualification is required before this
 increment can replace the previously accepted Windows recovery executable.
+
+Creation-only tmpfiles syntax was checked against the
+[upstream systemd v255 manual](https://raw.githubusercontent.com/systemd/systemd/v255/man/tmpfiles.d.xml).
+This source check does not substitute for installed-version native acceptance.

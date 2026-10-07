@@ -118,8 +118,9 @@ def render_service_plan(settings, *, roles=('control', 'research')):
         units[f'r7-{role}.service'] = '\n'.join(rows)
     result = dict(schema_version='r7-service-plan-v0.2', status='RENDERED_ONLY',
         settings=asdict(settings), units=units, writable_roots=writable, mutations=[],
-        scope_lock_provisioning=dict(rule=f'd {POSIX_SCOPE_ROOT} 0700 {settings.service_user} {settings.service_user} -',
+        scope_lock_provisioning=dict(rule=f'd {POSIX_SCOPE_ROOT} :0700 :{settings.service_user} :{settings.service_user} -',
             existing_owner_mismatch='REFUSE_BEFORE_INSTALLATION',on_service_stop='PRESERVE_LOCK_FILES_AND_INODES',
+            existing_inode='PRESERVE_MODE_USER_GROUP;GUARDED_STARTUP_REJECTS_MISMATCH',
             provisioning='EXPLICIT_OPERATOR_INSTALLATION_REQUIRED',installed='NOT_RUN'),
         financial_authority='NONE', runtime='NOT_DELIVERED_CONTINUOUS_COMPOSITION_REQUIRED',
         native_service_acceptance='NOT_RUN', linux_kernel_enforcement='NOT_RUN',

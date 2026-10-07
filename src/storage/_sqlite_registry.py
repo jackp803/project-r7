@@ -34,8 +34,11 @@ class _WriterCapability:
 _WRITER_CAPABILITY = _WriterCapability()
 
 
-def _connect(path: str | Path) -> sqlite3.Connection:
-    connection = sqlite3.connect(str(path))
+def _connect(path: str | Path, *, require_existing: bool = False) -> sqlite3.Connection:
+    if type(require_existing) is not bool:
+        raise ValueError('Explicit existing-store policy required')
+    target = Path(path).absolute().as_uri() + '?mode=rw' if require_existing else str(path)
+    connection = sqlite3.connect(target, uri=require_existing)
     connection.row_factory = sqlite3.Row
     connection.execute("PRAGMA foreign_keys = ON")
     return connection

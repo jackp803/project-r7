@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12",
-  "next_step": "Continue authorized normal runtime/cloud composition, qualification issuer/store/adapter plumbing and S15 semantic requirement mapping. Production qualified-release issuance still awaits PM/E6 acceptance of the proposed profile. Native Ubuntu and real commissioning remain NOT_RUN.",
+  "next_step": "Run exact-clean qualification for the historical PAPER CLI composition with original full source limits and a new Windows native build. Preserve initial failures and the existing-only race repair; then retain/push sanitized evidence and continue normal runtime/qualification plumbing and S15 acceptance mapping.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -1752,5 +1752,35 @@
     "evidence_ref": "status/codex/productization/S15/execution-index-e293a94/disposition.json",
     "manifest_ref": "status/codex/productization/S15/execution-index-artifact-hashes-e293a94.json",
     "independent_review": "BOUNDED_READ_ONLY;0_CRITICAL_0_IMPORTANT;NO_REVIEWER_EXECUTION"
+  },
+  "historical_paper_cli_source_checkpoint": {
+    "status": "SOURCE_FOCUSED_PASS;EXACT_CLEAN_QUALIFICATION_PENDING",
+    "implementation_hash": "sha256:ba01027908e0e8ddf694eb8619d28b5d7a1bd9f94de0df804dc1471afe189576",
+    "focused_tests": 11,
+    "affected_tests": 90,
+    "proofs": {
+      "S14-paper-feedback-cli-existing-race-GREEN": {
+        "tests": 11,
+        "log_sha256": "sha256:ff9b71a6e3087cffd85a7df9b5949caaea2af077493a5e8d17f37584ca6042d5"
+      },
+      "S14-paper-feedback-cli-existing-race-affected-GREEN": {
+        "tests": 90,
+        "log_sha256": "sha256:27182e5f0124d58d562481013a6f1c83707efea2ae3ab828ba89342a0449f111"
+      }
+    },
+    "independent_review": "BOUNDED_READ_ONLY;8_FILES;0_CRITICAL_0_IMPORTANT",
+    "initial_red": {
+      "tests": 7,
+      "failures": 4,
+      "errors": 0
+    },
+    "existing_store_red": {
+      "tests": 11,
+      "failures": 1,
+      "error_occurrences": 6
+    },
+    "normal_runtime": "NOT_RUN",
+    "native_historical_publication": "NOT_RUN_PENDING_NEW_BUILD",
+    "real_cloud": "NOT_RUN"
   }
 }

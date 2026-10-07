@@ -201,7 +201,7 @@ def main(argv=None):
                 if not 1 <= args.limit <= 100:
                     raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_BATCH_LIMIT')
                 from application.cloud.bridge_transport import RcloneCloudTransport
-                from application.cloud.publisher import Publisher
+                from application.cloud.publisher import Publisher, PublishSummary
                 from application.intake.ledger import IntakeLedger
                 # A stopped-owner snapshot must also fence this local DB writer.
                 with ProcessScopeLock('cloud:' + config.product_instance_id, lock_root=operational_lock_root(config)):
@@ -215,8 +215,18 @@ def main(argv=None):
                             remaining=args.limit-summary.attempted
                             if remaining:
                                 second=flush_feedback(journal,RcloneCloudTransport(bridge),limit=remaining)
-                                from application.cloud.publisher import PublishSummary
                                 summary=PublishSummary(**{name:value+getattr(second,name) for name,value in asdict(summary).items()})
+                    remaining=args.limit-summary.attempted
+                    if remaining and config.database_path.is_file():
+                        from application.platform.supervision import _local_path
+                        from storage.paper_feedback import PaperFeedbackOutbox
+                        from storage.paper_process import open_paper_process_journal
+                        # Historical publication never attaches a runtime or
+                        # renews its generation; use the existing E6 store.
+                        _local_path(config.database_path)
+                        with open_paper_process_journal(config.database_path,require_existing=True) as journal:
+                            third=PaperFeedbackOutbox(journal).flush(RcloneCloudTransport(bridge),limit=remaining)
+                            summary=PublishSummary(**{name:value+getattr(third,name) for name,value in asdict(summary).items()})
                 result = dict(status='COMPLETE' if not summary.unavailable and not summary.conflicts else 'INCOMPLETE', **asdict(summary))
                 code = 0 if result['status'] == 'COMPLETE' else 2
         except CloudError as error:

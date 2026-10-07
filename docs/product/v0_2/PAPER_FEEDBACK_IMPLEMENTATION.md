@@ -57,6 +57,19 @@ They do not prove real cloud delivery.
 
 ## Integration boundary
 
+`cloud-publish-outbox` publishes existing historical PAPER reports after intake
+receipts and research feedback. All three share one total requested batch limit
+and the existing cloud host scope, including protection from stopped-owner
+backup races. The PAPER journal opens only when the configured canonical E6
+database already exists and a positive batch budget remains. SQLite opens in
+existing-only `mode=rw`, so a database disappearing after the presence check
+cannot be recreated as an empty success. Default owner initialization retains
+its existing creating behavior. This publication path introduces no
+additional database and never attaches a runtime, renews a process generation,
+computes a report or changes a checkpoint. `COMPLETE` describes that bounded
+batch; it does not assert that every queue is empty. Controlled local fake
+transport verification remains distinct from real cloud delivery.
+
 The ordinary continuous runtime/worker composition remains S12 work. That owner
 must enqueue from an already attached runtime and schedule bounded independent
 publication; API reads must not attach a runtime merely to produce a report.

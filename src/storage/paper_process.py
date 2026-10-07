@@ -388,10 +388,10 @@ class PaperProcessJournal:
         return result
 
 
-def open_paper_process_journal(path: str | Path) -> PaperProcessJournal:
+def open_paper_process_journal(path: str | Path, *, require_existing: bool = False) -> PaperProcessJournal:
     from application.platform.resources import require_local_database_volume
     require_local_database_volume(Path(path))
-    connection = _connect(path)
+    connection = _connect(path, require_existing=require_existing)
     try:
         _apply_migrations(connection)
         connection.execute('PRAGMA journal_mode=WAL')

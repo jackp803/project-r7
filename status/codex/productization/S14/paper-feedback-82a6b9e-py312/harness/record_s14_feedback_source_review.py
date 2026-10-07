@@ -1,0 +1,25 @@
+"""Retain the actual independent review's exact commitments; refuse mismatch."""
+from pathlib import Path
+import hashlib,json
+base=Path(__file__).resolve().parent;repo=base.parent/'workspaces/project-r7-productization-master-20261002'
+expected={
+ 'src/application/cloud/paper_feedback.py':'26b22c4bab4f21e61f0e1ab0c8104c89fc08f9baeca822891dec63668fbafd61',
+ 'src/application/cloud/public_feedback.py':'55ea41b3d0d9577ca90749ac8f34044bc6cc1e9a6dd2d2922f1caee014876ae1',
+ 'src/storage/paper_feedback.py':'647528d16eaefac2725e73ce9e82f52416cfa54e0ae41338b5b344845a4cc626',
+ 'src/storage/migrations/0017_paper_feedback_outbox.sql':'c19637eed34e996ce70c2fbc0fd69a094748cc56f690eb0200cb34957dd24c93',
+ 'contracts/paper_feedback_v0_2.schema.json':'c7197b84cd9116c2abfb32c3c80b1d80b0ad9c102e5b6ef7bca7fab39925b914',
+ 'src/application/cloud/rclone_bridge.py':'7bba1250779afb01ba650aec045b5a89195a782aaf4091464be4f5b66d548ffa',
+ 'tests/product/test_paper_feedback_bridge.py':'757d2b92f07fd43096821f1641c2153bd967557417aba84f7dfc8ac9454617f7',
+ 'tests/product/test_paper_feedback_outbox.py':'d9f8e92ccbe3f8587ec13b2629220e41e21a151db433d4f45e6c7b62ac374fcf',
+ 'tests/product/test_paper_feedback_projection.py':'b94d5c2e474fe5ab9bc9ee062674084dcd369d7973ab951ed34189099f67ad12',
+ 'tests/product/test_paper_feedback_schema.py':'7593b75011f665c3c3a1ddc619b622efa83affc80a7ca99c6200051b75143ce7',
+ 'tests/product/test_public_feedback_dispatch.py':'4a3cb0a3b8b9e777a0884311eda4ccafad4cfdb1e792815c6845dba494dfa6ac',
+ 'docs/product/v0_2/PAPER_FEEDBACK_IMPLEMENTATION.md':'18211c8c5ba69c2beaa692aaa1ded96eae49d9a3a185db9e587c79708761ef9a',
+}
+for name,digest in expected.items():assert hashlib.sha256((repo/name).read_bytes()).hexdigest()==digest,name
+report=dict(task_id='CODEX-R7-PRODUCTIZATION-MASTER-20261002',reviewer='qualification_review',kind='INDEPENDENT_READ_ONLY_SOURCE_REVIEW',
+ critical=0,important=0,execution='NONE',reviewed_files={name:'sha256:'+digest for name,digest in expected.items()},
+ resolved_finding='Original producer generation was not committed; report now commits generation and instance hash, with historical E6 lineage regressions.',
+ limitations=['S12 normal runtime composition pending','Native release qualification separate','Real cloud, real forward, provider verification and Ubuntu NOT_RUN'])
+path=base/'S14-paper-feedback-independent-source-review.json';assert not path.exists()
+path.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8',newline='\n');print('Verified and retained12 independent source commitments')

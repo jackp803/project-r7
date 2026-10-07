@@ -1,0 +1,37 @@
+test_actual_owner_empty_and_closed_opt_out_opt_in_reports_match_versioned_schema (test_paper_feedback_schema.PaperFeedbackSchemaTests.test_actual_owner_empty_and_closed_opt_out_opt_in_reports_match_versioned_schema) ... ERROR
+test_schema_refuses_private_fields_real_time_forgery_and_opt_out_performance (test_paper_feedback_schema.PaperFeedbackSchemaTests.test_schema_refuses_private_fields_real_time_forgery_and_opt_out_performance) ... ERROR
+
+======================================================================
+ERROR: test_actual_owner_empty_and_closed_opt_out_opt_in_reports_match_versioned_schema (test_paper_feedback_schema.PaperFeedbackSchemaTests.test_actual_owner_empty_and_closed_opt_out_opt_in_reports_match_versioned_schema)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_schema.py", line 10, in setUp
+    self.schema=json.loads(path.read_bytes());Draft202012Validator.check_schema(self.schema)
+                           ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S14-paper-feedback-development\\contracts\\paper_feedback_v0_2.schema.json'
+
+======================================================================
+ERROR: test_schema_refuses_private_fields_real_time_forgery_and_opt_out_performance (test_paper_feedback_schema.PaperFeedbackSchemaTests.test_schema_refuses_private_fields_real_time_forgery_and_opt_out_performance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_schema.py", line 10, in setUp
+    self.schema=json.loads(path.read_bytes());Draft202012Validator.check_schema(self.schema)
+                           ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S14-paper-feedback-development\\contracts\\paper_feedback_v0_2.schema.json'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+FAILED (errors=2)

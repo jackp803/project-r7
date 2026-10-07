@@ -1,0 +1,41 @@
+test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only) ... ERROR
+test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content) ... ERROR
+test_private_or_changed_paper_media_is_refused_before_any_stage_write (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_private_or_changed_paper_media_is_refused_before_any_stage_write) ... FAIL
+
+======================================================================
+ERROR: test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_bridge.py", line 18, in test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only
+    result=self.outbox.flush(self.bridge,limit=10)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\storage\paper_feedback.py", line 118, in flush
+    receipt=transport.publish(bundle,operation)
+            ^^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'publish'
+
+======================================================================
+ERROR: test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_bridge.py", line 25, in test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content
+    self.assertEqual(self.outbox.flush(self.bridge,limit=10).unavailable,1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\storage\paper_feedback.py", line 118, in flush
+    receipt=transport.publish(bundle,operation)
+            ^^^^^^^^^^^^^^^^^
+AttributeError: 'RcloneBridge' object has no attribute 'publish'
+
+======================================================================
+FAIL: test_private_or_changed_paper_media_is_refused_before_any_stage_write (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_private_or_changed_paper_media_is_refused_before_any_stage_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_bridge.py", line 35, in test_private_or_changed_paper_media_is_refused_before_any_stage_write
+    with self.assertRaises(CloudError):self.bridge.stage.publish(ArtifactBundle(bundle.logical_path,payloads),operation)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloudError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 8.438s
+
+FAILED (failures=1, errors=2)

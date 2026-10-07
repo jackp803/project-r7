@@ -1,0 +1,41 @@
+test_actual_consistent_sqlite_backup_preserves_report_and_outbox_lineage (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_actual_consistent_sqlite_backup_preserves_report_and_outbox_lineage) ... ok
+test_bounded_pending_capacity_preserves_canonical_runtime_and_prior_publication (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_bounded_pending_capacity_preserves_canonical_runtime_and_prior_publication) ... ok
+test_changing_runtime_object_generation_cannot_relabel_precomputed_report (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_changing_runtime_object_generation_cannot_relabel_precomputed_report) ... FAIL
+test_checkpoint_change_after_computation_rolls_back_all_outbox_writes (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_checkpoint_change_after_computation_rolls_back_all_outbox_writes) ... ok
+test_crash_after_upload_before_ack_retries_same_immutable_operation (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_crash_after_upload_before_ack_retries_same_immutable_operation) ... ok
+test_current_owner_report_and_outbox_reference_are_durable_and_idempotent (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_current_owner_report_and_outbox_reference_are_durable_and_idempotent) ... ok
+test_invalid_batch_limits_and_replaced_journal_are_rejected (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_invalid_batch_limits_and_replaced_journal_are_rejected) ... ok
+test_local_stage_is_not_remote_acknowledgement_and_wrong_hash_is_not_accepted (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_local_stage_is_not_remote_acknowledgement_and_wrong_hash_is_not_accepted) ... ok
+test_network_ack_failure_retains_one_item_and_later_ack_does_not_republish (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_network_ack_failure_retains_one_item_and_later_ack_does_not_republish) ... ok
+test_network_call_cannot_run_inside_an_existing_sqlite_transaction (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_network_call_cannot_run_inside_an_existing_sqlite_transaction) ... FAIL
+test_replacement_process_cannot_commit_a_computed_old_owner_report (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_replacement_process_cannot_commit_a_computed_old_owner_report) ... ok
+test_tampered_stored_report_is_rejected_before_any_transport_call (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_tampered_stored_report_is_rejected_before_any_transport_call) ... ok
+
+======================================================================
+FAIL: test_changing_runtime_object_generation_cannot_relabel_precomputed_report (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_changing_runtime_object_generation_cannot_relabel_precomputed_report)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_outbox.py", line 44, in test_changing_runtime_object_generation_cannot_relabel_precomputed_report
+    with self.assertRaises(ValueError):self.queue(fault_hook=fault)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_network_call_cannot_run_inside_an_existing_sqlite_transaction (test_paper_feedback_outbox.PaperFeedbackOutboxTests.test_network_call_cannot_run_inside_an_existing_sqlite_transaction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_outbox.py", line 51, in test_network_call_cannot_run_inside_an_existing_sqlite_transaction
+    with self.assertRaises(ValueError):self.outbox.flush(Forbidden(),limit=1)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\storage\paper_feedback.py", line 111, in flush
+    receipt=transport.publish(bundle,operation)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_outbox.py", line 49, in publish
+    def publish(self,*args):raise AssertionError('Network call ran inside writer transaction')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Network call ran inside writer transaction
+
+----------------------------------------------------------------------
+Ran 12 tests in 40.540s
+
+FAILED (failures=2)

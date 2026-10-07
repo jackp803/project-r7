@@ -1,0 +1,16 @@
+test_failed_reaped_child_refuses_outer_success_and_retains_original_failure (__main__.BoundInstallerExitTests.test_failed_reaped_child_refuses_outer_success_and_retains_original_failure) ... ok
+test_successful_reaped_child_preserves_zero_wrapper_exit (__main__.BoundInstallerExitTests.test_successful_reaped_child_preserves_zero_wrapper_exit) ... ok
+test_zero_child_exit_with_unreaped_tree_refuses_outer_success (__main__.BoundInstallerExitTests.test_zero_child_exit_with_unreaped_tree_refuses_outer_success) ... FAIL
+
+======================================================================
+FAIL: test_zero_child_exit_with_unreaped_tree_refuses_outer_success (__main__.BoundInstallerExitTests.test_zero_child_exit_with_unreaped_tree_refuses_outer_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s14_feedback_harness_integrity.py", line 18, in test_zero_child_exit_with_unreaped_tree_refuses_outer_success
+    self.assertNotEqual(code,0)
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+FAILED (failures=1)

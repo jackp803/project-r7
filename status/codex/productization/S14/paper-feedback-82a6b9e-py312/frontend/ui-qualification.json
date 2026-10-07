@@ -1,0 +1,153 @@
+{
+  "schema_version": "r7-local-ui-qualification-v0.2",
+  "source_before": {
+    "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+    "worktree": "CLEAN"
+  },
+  "started_at_utc": "2026-10-07T03:26:22.500838Z",
+  "launcher_hash": "sha256:b88b5e8b06b74e9cfc719b8a46f28d2da45bf3fd4cd6cc75d1177e1a161d682d",
+  "commands": [
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "ci",
+        "--ignore-scripts",
+        "--no-fund"
+      ],
+      "started_at_utc": "2026-10-07T03:26:23.364125Z",
+      "finished_at_utc": "2026-10-07T03:26:29.166000Z",
+      "duration_seconds": 5.813000000023749,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-ci.log",
+      "original_log_sha256": "sha256:1266e9aa5f7422afb24f84a26f8f2b93257ac99c7c7e3e6f05acea95e2474e50",
+      "log_sha256": "sha256:1266e9aa5f7422afb24f84a26f8f2b93257ac99c7c7e3e6f05acea95e2474e50",
+      "passed": true,
+      "source_after": {
+        "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "types:check"
+      ],
+      "started_at_utc": "2026-10-07T03:26:29.404368Z",
+      "finished_at_utc": "2026-10-07T03:26:32.568621Z",
+      "duration_seconds": 3.155999999959022,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-types-check.log",
+      "original_log_sha256": "sha256:ea9420b7e41b8101211a1af1d82d4531e8483c33a70dc7af7eec17fc47c05f5a",
+      "log_sha256": "sha256:ea9420b7e41b8101211a1af1d82d4531e8483c33a70dc7af7eec17fc47c05f5a",
+      "passed": true,
+      "source_after": {
+        "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "typecheck"
+      ],
+      "started_at_utc": "2026-10-07T03:26:32.718116Z",
+      "finished_at_utc": "2026-10-07T03:26:34.403357Z",
+      "duration_seconds": 1.687000000034459,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "03-typecheck.log",
+      "original_log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "log_sha256": "sha256:0793dcf53a6b80d9d31eb69b70666c6568d9f351098efa0f30723e4ae9f9e7ed",
+      "passed": true,
+      "source_after": {
+        "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+        "worktree": "CLEAN"
+      }
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "test"
+      ],
+      "started_at_utc": "2026-10-07T03:26:34.549441Z",
+      "finished_at_utc": "2026-10-07T03:26:36.424426Z",
+      "duration_seconds": 1.875,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "04-test.log",
+      "original_log_sha256": "sha256:4c49abce12d53b5568febcbbf2ae8e687103c4b9cf7687d65df1ad6905cd35d5",
+      "log_sha256": "sha256:03ca3c2caa390d16477031d5529d8418e041e60dfd09800bb6a19ad82b1a3ec7",
+      "passed": true,
+      "source_after": {
+        "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+        "worktree": "CLEAN"
+      },
+      "tests_passed": 15
+    },
+    {
+      "command": [
+        "npm",
+        "--prefix",
+        "ui",
+        "run",
+        "build"
+      ],
+      "started_at_utc": "2026-10-07T03:26:36.584402Z",
+      "finished_at_utc": "2026-10-07T03:26:37.316598Z",
+      "duration_seconds": 0.7339999999967404,
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "05-build.log",
+      "original_log_sha256": "sha256:afe5502e14a9b464d9b6327d8fcfa3cd46b84e1845382c559eaab0bab491ba2a",
+      "log_sha256": "sha256:afe5502e14a9b464d9b6327d8fcfa3cd46b84e1845382c559eaab0bab491ba2a",
+      "passed": true,
+      "source_after": {
+        "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+        "worktree": "CLEAN"
+      }
+    }
+  ],
+  "passed": true,
+  "qualification_scope": "FRONTEND_ONLY",
+  "browser_status": "NOT_RUN_PENDING_SERIAL_BROWSER",
+  "execution": "LOCAL",
+  "github_compute": "NOT_USED",
+  "real_provider_calls": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "node": "v24.19.0",
+  "npm": "11.17.0",
+  "browser_channel": "msedge",
+  "browser_mode": "HEADLESS_ISOLATED_FIXTURE",
+  "platform": "Windows11-x86_64/10.0.26200",
+  "semantics": "S14 PAPER feedback increment; unchanged frontend-only qualification preserves strict restoration health DTO and Traditional-Chinese reconciliation/reauthorization reasons; preserves observed control heartbeat, an available queue without a worker, stopped/failed/unknown and unconfigured services in Traditional Chinese. Actual supervised source browser fixture uses an explicitly synthetic clock and no financial authority. Existing actual isolated auth/E6/intake/research/PAPER/deployment cases remain covered; real cloud/forward/provider/native-service acceptance is not implied",
+  "browser_version": "154.0.4258.53",
+  "source_after": {
+    "revision": "82a6b9ec636236a25c830acad1c915499c5c6229",
+    "worktree": "CLEAN"
+  },
+  "finished_at_utc": "2026-10-07T03:26:37.468945Z",
+  "build_hashes": {
+    ".vite/manifest.json": "sha256:4a7f51cdfb5855879d5928cd2974d0f44c0cc613f3edfe1de7ff029863417d03",
+    "assets/index-9eMSzMnz.js": "sha256:238a38a07d857b988c54a6c6d753c95a34cedc3fecad28a1772b86ae9703e323",
+    "assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+    "index.html": "sha256:14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+  },
+  "input_hashes": {
+    "ui/package-lock.json": "sha256:12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+    "ui/src/api.generated.ts": "sha256:e10c65cb31f06085d05610b38b9b26008f7438d66905999cd9283cdca9f37b4a",
+    "contracts/control_api_v0_2.openapi.json": "sha256:df26438c78f14c76258bad7d9107a65719447d0b78e0ba03d7eb5178764c3eae"
+  }
+}

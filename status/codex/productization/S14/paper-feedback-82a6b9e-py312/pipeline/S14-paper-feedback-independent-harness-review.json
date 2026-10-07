@@ -1,0 +1,36 @@
+{
+  "reviewer": "qualification_review",
+  "review_kind": "INDEPENDENT_READ_ONLY_SOURCE_REVIEW",
+  "critical": 0,
+  "important": 0,
+  "execution": "NONE",
+  "reviewed_files": {
+    "s14_feedback_candidate_pipeline.py": "sha256:dc8b8affacfecf9ddbb0d24aab32a74095ccd94197b6ad2e16bd34c9a815c498",
+    "s14_feedback_bound_installer.py": "sha256:29537cfc12b75dec90964fc27c811b96997dd62c767e18030d97eb25d279475d",
+    "s14_feedback_source_qualify.py": "sha256:90f816fa1a9a783f3bb82dd523bb2dc13f260d9eb01498e29d0354e42be225dc",
+    "s14_feedback_ui_frontend.py": "sha256:b88b5e8b06b74e9cfc719b8a46f28d2da45bf3fd4cd6cc75d1177e1a161d682d",
+    "s14_feedback_serial_browser_qualify.py": "sha256:816112fd91f235acf5fad653e379f3bf88f589be55a2300bf788bb290d9ca084",
+    "test_s14_feedback_harness_integrity.py": "sha256:703bc459024e5ffd306104c03d304f206e809e4beec173bed3fafc38d4cf4b7d",
+    "run_s14_feedback_harness_integrity.py": "sha256:2930c66d2ca0d1bcc0bce3f9c03e5fe13bb32ef78ef439b8a0518f781010dcfa"
+  },
+  "regression": {
+    "tests_run": 6,
+    "failures": 0,
+    "errors": 0,
+    "passed": true,
+    "tree_reaped": true,
+    "scope": "QUALIFICATION_EXIT_AND_DEPENDENCY_HASH_GUARD_FRAGMENTS;CONTROLLED_CLEANUP_AND_REPLACEMENT;NO_PRODUCT_EXECUTION",
+    "log_sha256": "sha256:c0c58b52e836dfb6706185e8ab3abb4307cfa189fa2ee69345984bf0322b2fcc",
+    "wrapper_sha256": "sha256:29537cfc12b75dec90964fc27c811b96997dd62c767e18030d97eb25d279475d"
+  },
+  "resolved_findings": [
+    "Bound installer failure cleanup propagates nonzero exit",
+    "All14 external pipeline dependencies including SSH helper are bound",
+    "Integrity runner failure cleanup propagates nonzero exit"
+  ],
+  "preexecution_generator_syntax": "REPAIRED_BEFORE_ANY_QUALIFICATION_STAGE;BROKEN_DRAFT_RETAINED",
+  "native_execution": "NOT_RUN_YET",
+  "cloud": "NOT_RUN",
+  "forward": "NOT_RUN",
+  "ubuntu": "NOT_RUN"
+}

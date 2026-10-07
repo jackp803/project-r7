@@ -1,0 +1,25 @@
+test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only) ... FAIL
+test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content) ... FAIL
+test_private_or_changed_paper_media_is_refused_before_any_stage_write (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_private_or_changed_paper_media_is_refused_before_any_stage_write) ... ok
+
+======================================================================
+FAIL: test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_bridge.py", line 20, in test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only
+    self.assertEqual(result.cloud_acknowledged,1);self.assertEqual(result.local_staged,0)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content (test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_bridge.py", line 29, in test_offline_copy_failure_preserves_unacknowledged_outbox_then_retries_same_content
+    self.assertEqual(self.outbox.flush(self.transport,limit=10).cloud_acknowledged,1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 3 tests in 8.587s
+
+FAILED (failures=2)

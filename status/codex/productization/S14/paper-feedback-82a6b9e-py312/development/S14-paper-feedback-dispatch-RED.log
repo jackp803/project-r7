@@ -1,0 +1,53 @@
+test_actual_owner_paper_bundle_uses_its_strict_schema (test_public_feedback_dispatch.PublicFeedbackDispatchTests.test_actual_owner_paper_bundle_uses_its_strict_schema) ... ERROR
+test_changed_media_private_fields_and_unknown_schema_never_reach_public_staging (test_public_feedback_dispatch.PublicFeedbackDispatchTests.test_changed_media_private_fields_and_unknown_schema_never_reach_public_staging) ... ERROR
+test_legacy_strategy_named_paper_remains_valid_research_feedback (test_public_feedback_dispatch.PublicFeedbackDispatchTests.test_legacy_strategy_named_paper_remains_valid_research_feedback) ... ERROR
+
+======================================================================
+ERROR: test_actual_owner_paper_bundle_uses_its_strict_schema (test_public_feedback_dispatch.PublicFeedbackDispatchTests.test_actual_owner_paper_bundle_uses_its_strict_schema)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_public_feedback_dispatch.py", line 6, in setUp
+    def setUp(self):self.module=importlib.import_module('application.cloud.public_feedback')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.cloud.public_feedback'
+
+======================================================================
+ERROR: test_changed_media_private_fields_and_unknown_schema_never_reach_public_staging (test_public_feedback_dispatch.PublicFeedbackDispatchTests.test_changed_media_private_fields_and_unknown_schema_never_reach_public_staging)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_public_feedback_dispatch.py", line 6, in setUp
+    def setUp(self):self.module=importlib.import_module('application.cloud.public_feedback')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.cloud.public_feedback'
+
+======================================================================
+ERROR: test_legacy_strategy_named_paper_remains_valid_research_feedback (test_public_feedback_dispatch.PublicFeedbackDispatchTests.test_legacy_strategy_named_paper_remains_valid_research_feedback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_public_feedback_dispatch.py", line 6, in setUp
+    def setUp(self):self.module=importlib.import_module('application.cloud.public_feedback')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.cloud.public_feedback'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.004s
+
+FAILED (errors=3)

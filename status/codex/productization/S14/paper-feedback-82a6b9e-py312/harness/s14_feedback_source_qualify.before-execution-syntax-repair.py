@@ -1,0 +1,32 @@
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,re,sys,threading
+project=Path(__file__).resolve().parent.parent
+repo=project/'workspaces/project-r7-productization-master-20261002'
+sys.path.insert(0,str(repo/'src'))
+from application.qualification import run_qualification
+revision=sys.argv[1];assert re.fullmatch('[0-9a-f]{40}',revision)
+suffix=sys.argv[2] if len(sys.argv)>2 else ''
+assert suffix in ('','-retry-1')
+output=project/f'artifacts/r7-productization-S14-feedback-qualified-{revision[:7]}{suffix}'
+configuration=dict(suites=['all'],include_focused=True,require_clean=True,timeout_seconds=900,expected_revision=revision)
+stamp=lambda:datetime.now(timezone.utc).isoformat().replace('+00:00','Z')
+started=stamp()
+from application.platform.resources import _memory
+measurements=[];stop=threading.Event()
+def monitor():
+    while not stop.is_set():
+        total,available=_memory()
+        measurements.append(dict(observed_at_utc=stamp(),physical_memory_bytes=total,available_memory_bytes=available,
+                                 existing_admission_minimum_bytes=max(2*1024**3,total*15//100)))
+        stop.wait(2)
+thread=threading.Thread(target=monitor,daemon=True);thread.start()
+try:report=run_qualification(repo,output,**configuration)
+finally:
+    stop.set();thread.join(5)
+    if output.exists():
+        (output/'hardware-observations.json').write_text(json.dumps(dict(scope='S14 actual current-owner PAPER feedback projection, original producer/checkpoint lineage, opt-in privacy, canonical monetary graph, bounded durable publication outbox and exact pre-staging schema/render validation; retained complete LF/FP/source regression. Controlled local fixtures only. Native/browser acceptance separate; S12 normal runtime integration, real cloud/forward/provider and Ubuntu NOT_RUN.')
+
+(output/'qualification-context.json').write_text(json.dumps(context,indent=2)+'\n',encoding='utf-8',newline='\n')
+print(json.dumps(dict(passed=report['passed'],tests_run=report['tests_run'],commands=len(report['commands']))))
+raise SystemExit(0 if report['passed'] else 1)

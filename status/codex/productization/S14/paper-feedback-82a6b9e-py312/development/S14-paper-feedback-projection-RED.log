@@ -1,0 +1,19 @@
+test_paper_feedback_projection (unittest.loader._FailedTest.test_paper_feedback_projection) ... ERROR
+
+======================================================================
+ERROR: test_paper_feedback_projection (unittest.loader._FailedTest.test_paper_feedback_projection)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_paper_feedback_projection
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\S14-paper-feedback-development\test_paper_feedback_projection.py", line 3, in <module>
+    from tests.product.test_paper_runtime_v02 import PaperRuntimeV02Tests
+ModuleNotFoundError: No module named 'tests'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

@@ -1,0 +1,58 @@
+test_context_cannot_select_untracked_private_source_before_rejection (test_s09_qualification_retention_scope.RetentionScopeTests.test_context_cannot_select_untracked_private_source_before_rejection) ... ERROR
+test_native_report_cannot_add_private_input_before_rejection (test_s09_qualification_retention_scope.RetentionScopeTests.test_native_report_cannot_add_private_input_before_rejection) ... ERROR
+
+======================================================================
+ERROR: test_context_cannot_select_untracked_private_source_before_rejection (test_s09_qualification_retention_scope.RetentionScopeTests.test_context_cannot_select_untracked_private_source_before_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_qualification_retention_scope.py", line 29, in test_context_cannot_select_untracked_private_source_before_rejection
+    with self.assertRaises((AssertionError,ValueError)):retain.collect()
+                                                        ^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s09_owner_worker_qualification.py", line 68, in collect
+    raw=(_windows_read if os.name=='nt' else _posix_read)(path,64*1024**2)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_qualification_retention_scope.py", line 26, in protected
+    if path==retain.REPO/'.env':raise ForbiddenPrivateRead('Mocked private source would be read')
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test_s09_qualification_retention_scope.ForbiddenPrivateRead: Mocked private source would be read
+
+======================================================================
+ERROR: test_native_report_cannot_add_private_input_before_rejection (test_s09_qualification_retention_scope.RetentionScopeTests.test_native_report_cannot_add_private_input_before_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_qualification_retention_scope.py", line 44, in test_native_report_cannot_add_private_input_before_rejection
+    with self.assertRaises((AssertionError,ValueError)):retain.collect()
+                                                        ^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s09_owner_worker_qualification.py", line 84, in collect
+    assert sha(capture(PROJECT/name))==expected
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\retain_s09_owner_worker_qualification.py", line 38, in capture
+    if path not in snapshots:snapshots[path]=read_local(path.parent,path.name,limit)
+                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_qualification_retention_scope.py", line 40, in read
+    if path==retain.PROJECT/sentinel:raise ForbiddenPrivateRead('Mocked private native input would be read')
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+test_s09_qualification_retention_scope.ForbiddenPrivateRead: Mocked private native input would be read
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.580s
+
+FAILED (errors=2)

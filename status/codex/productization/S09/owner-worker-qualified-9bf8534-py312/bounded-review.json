@@ -1,0 +1,31 @@
+{
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "reviewed_external_raw_sha256": {
+    "s09_owner_worker_native_regression.py": "20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "test_s09_native_wrapper_guards.py": "b908e5b4f971581f8e591007e5c70525f4cac85f9a6c04381e2ff5fdbb977416",
+    "s09_owner_worker_source_qualify.py": "77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679"
+  },
+  "scope": "BOUNDED_SOURCE_LAUNCHER_NATIVE_WRAPPER_RETENTION_METADATA_PRIMARY_REPORTS;NO_WHOLE_PRODUCT_VISUAL_OR_COMMISSIONING_REVIEW",
+  "reviewed_retention_and_primary_raw_sha256": {
+    "retain_s09_owner_worker_qualification.py": "sha256:edae487dd83a7514d4ef1c89ec5a592c557411a30602ec737f15cb46a5c6bcb0",
+    "test_s09_qualification_retention_scope.py": "sha256:451129e43eb70f504f08012c225b39c5011f8b5832c7132094887dd75f13f66d",
+    "record_s09_owner_worker_qualified_checkpoint.py": "sha256:c4ea12999ba38f0e010ff46f742443abce4d3485157d346e1897585b4bd05a07",
+    "r7-productization-S09-owner-worker-qualified-9bf8534/qualification.json": "sha256:9182c8ac59db4b2cf54b2ba828c71a64736c2071d7fde6e13567cabbacaf3e86",
+    "r7-productization-S09-owner-worker-qualified-9bf8534/qualification-context.json": "sha256:85166f426b269a7166b296b8a01800fa4e7aa20a8c9299cda0bccbae2a81e65a",
+    "S09-owner-worker-9bf8534-native-regression.json": "sha256:663c6ecb98270c3171b1ef352644231c89c2e480fc00b86a17a986c8cd099b52",
+    "r7-native-windows-S09-owner-worker-9bf8534/build-result.json": "sha256:852c608621ba315c88f202d8eef2ecdd603b09d079a3eb4d26f4c1060f578d79",
+    "r7-native-S09-owner-worker-smoke-9bf8534/native-smoke.json": "sha256:28282a08c1e1bcf7cd5e507ccf48779385bae13b44b049d2772f6a386df3edc5",
+    "r7-native-S09-owner-worker-historical-9bf8534/native-paper-feedback.json": "sha256:bc9a92f442bd9e0def322f99e487dfc1c8a3636485c506a0e65ff00912ffcecd"
+  },
+  "retention_critical": 0,
+  "retention_important": 0,
+  "retention_reviewer_execution": "NONE",
+  "resolved_findings": [
+    "Exact tracked whitelist and fixed native inputs validated before referenced reads",
+    "Qualification/context commitments bound before source traversal",
+    "Metadata recorder duplicate status fixed"
+  ]
+}

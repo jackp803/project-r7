@@ -1,0 +1,41 @@
+test_existing_proof_is_preserved_and_exclusive_creation_denied (__main__.NativeWrapperGuardTests.test_existing_proof_is_preserved_and_exclusive_creation_denied) ... FAIL
+test_linked_proof_path_is_rejected_before_any_write (__main__.NativeWrapperGuardTests.test_linked_proof_path_is_rejected_before_any_write) ... FAIL
+test_unlinked_proof_updates_same_inode_with_exact_bytes (__main__.NativeWrapperGuardTests.test_unlinked_proof_updates_same_inode_with_exact_bytes) ... FAIL
+test_validation_and_hashes_use_same_captured_report_bytes (__main__.NativeWrapperGuardTests.test_validation_and_hashes_use_same_captured_report_bytes) ... FAIL
+
+======================================================================
+FAIL: test_existing_proof_is_preserved_and_exclusive_creation_denied (__main__.NativeWrapperGuardTests.test_existing_proof_is_preserved_and_exclusive_creation_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_wrapper_guards.py", line 39, in test_existing_proof_is_preserved_and_exclusive_creation_denied
+    self.assertTrue(hasattr(wrapper,'OwnedProof'),'Exclusive owned proof descriptor required')
+AssertionError: False is not true : Exclusive owned proof descriptor required
+
+======================================================================
+FAIL: test_linked_proof_path_is_rejected_before_any_write (__main__.NativeWrapperGuardTests.test_linked_proof_path_is_rejected_before_any_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_wrapper_guards.py", line 56, in test_linked_proof_path_is_rejected_before_any_write
+    self.assertTrue(hasattr(wrapper,'OwnedProof'),'Exclusive owned proof descriptor required')
+AssertionError: False is not true : Exclusive owned proof descriptor required
+
+======================================================================
+FAIL: test_unlinked_proof_updates_same_inode_with_exact_bytes (__main__.NativeWrapperGuardTests.test_unlinked_proof_updates_same_inode_with_exact_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_wrapper_guards.py", line 46, in test_unlinked_proof_updates_same_inode_with_exact_bytes
+    self.assertTrue(hasattr(wrapper,'OwnedProof'),'Exclusive owned proof descriptor required')
+AssertionError: False is not true : Exclusive owned proof descriptor required
+
+======================================================================
+FAIL: test_validation_and_hashes_use_same_captured_report_bytes (__main__.NativeWrapperGuardTests.test_validation_and_hashes_use_same_captured_report_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_wrapper_guards.py", line 24, in test_validation_and_hashes_use_same_captured_report_bytes
+    self.assertTrue(hasattr(wrapper,'capture_qualification'),'Same-snapshot qualification capture required')
+AssertionError: False is not true : Same-snapshot qualification capture required
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.003s
+
+FAILED (failures=4)

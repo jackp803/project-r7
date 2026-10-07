@@ -1,0 +1,78 @@
+{
+  "executable_revision": "9bf85349a81486297dbfb3e452f84f67421230d5",
+  "source_qualification": "PASS",
+  "input_hashes_before": {
+    "artifacts/r7-productization-S09-owner-worker-qualified-9bf8534/qualification.json": "sha256:9182c8ac59db4b2cf54b2ba828c71a64736c2071d7fde6e13567cabbacaf3e86",
+    "artifacts/r7-productization-S09-owner-worker-qualified-9bf8534/qualification-context.json": "sha256:85166f426b269a7166b296b8a01800fa4e7aa20a8c9299cda0bccbae2a81e65a",
+    "artifacts/s09_owner_worker_native_regression.py": "sha256:20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "workspaces/project-r7-productization-master-20261002/tools/build_product.py": "sha256:0799de4846931437bc67d917c202153bb8f41b92724c193c64656a7f8356af19",
+    "workspaces/project-r7-productization-master-20261002/tools/verify_native_product.py": "sha256:97faccf936ceb7557a3f7eecb4da05efefffb6ac445819b905e1fe687b1cf514",
+    "artifacts/s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+    "artifacts/S14LocalFakeRclone.cs": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "artifacts/s09_owner_worker_source_qualify.py": "sha256:77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679",
+    "artifacts/test_s09_native_wrapper_guards.py": "sha256:b908e5b4f971581f8e591007e5c70525f4cac85f9a6c04381e2ff5fdbb977416"
+  },
+  "commands": [
+    {
+      "label": "build",
+      "started_at_utc": "2026-10-07T14:22:25.351598Z",
+      "finished_at_utc": "2026-10-07T14:23:03.911350Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-owner-worker-9bf8534-native-build.log",
+      "log_sha256": "sha256:5fa840bd47bb0f775f2600fa9b68f5ca8dccb21c1a3894b3f8c41988266629e2",
+      "passed": true
+    },
+    {
+      "label": "smoke",
+      "started_at_utc": "2026-10-07T14:23:06.015053Z",
+      "finished_at_utc": "2026-10-07T14:23:23.920911Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-owner-worker-9bf8534-native-smoke.log",
+      "log_sha256": "sha256:873e0ca135fefcdf84c96861f1f69e6dc960fde65642bc1f4ac47cfbf30545ff",
+      "passed": true
+    },
+    {
+      "label": "historical-paper",
+      "started_at_utc": "2026-10-07T14:23:25.375947Z",
+      "finished_at_utc": "2026-10-07T14:23:47.021963Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "S09-owner-worker-9bf8534-native-historical-paper.log",
+      "log_sha256": "sha256:d71596eec3f4040ac5e57acf41534dc17b10caf24008e447a3d3676771bf7a00",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "scope": "CHANGED_SOURCE_BUILD_SMOKE_AND_HISTORICAL_PAPER_PUBLICATION_ONLY",
+  "native_worker_invoked": false,
+  "ordinary_native_paper": "NOT_RUN",
+  "production_qualified_release_profile": "PROPOSED_NOT_ACTIVE",
+  "real_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "ubuntu": "NOT_RUN",
+  "native_build_identity": {
+    "executable_revision": "9bf85349a81486297dbfb3e452f84f67421230d5",
+    "implementation_hash": "sha256:aa33557e229aff67ff542dc5a593759136920e8e62dcc1681d3c900ea60d883b",
+    "build_hash": "sha256:6b25a5ed84df8b8203322ef03d58d5efb22cc77615d215e89beaddc7fe9a3d66",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "input_hashes_after": {
+    "artifacts/s09_owner_worker_native_regression.py": "sha256:20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "workspaces/project-r7-productization-master-20261002/tools/build_product.py": "sha256:0799de4846931437bc67d917c202153bb8f41b92724c193c64656a7f8356af19",
+    "workspaces/project-r7-productization-master-20261002/tools/verify_native_product.py": "sha256:97faccf936ceb7557a3f7eecb4da05efefffb6ac445819b905e1fe687b1cf514",
+    "artifacts/s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+    "artifacts/S14LocalFakeRclone.cs": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "artifacts/r7-productization-S09-owner-worker-qualified-9bf8534/qualification.json": "sha256:9182c8ac59db4b2cf54b2ba828c71a64736c2071d7fde6e13567cabbacaf3e86",
+    "artifacts/r7-productization-S09-owner-worker-qualified-9bf8534/qualification-context.json": "sha256:85166f426b269a7166b296b8a01800fa4e7aa20a8c9299cda0bccbae2a81e65a",
+    "artifacts/s09_owner_worker_source_qualify.py": "sha256:77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679",
+    "artifacts/test_s09_native_wrapper_guards.py": "sha256:b908e5b4f971581f8e591007e5c70525f4cac85f9a6c04381e2ff5fdbb977416"
+  }
+}

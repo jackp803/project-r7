@@ -1,0 +1,36 @@
+test_existing_proof_is_preserved_and_exclusive_creation_denied (__main__.NativeWrapperGuardTests.test_existing_proof_is_preserved_and_exclusive_creation_denied) ... ok
+test_linked_proof_path_is_rejected_before_any_write (__main__.NativeWrapperGuardTests.test_linked_proof_path_is_rejected_before_any_write) ... ok
+test_unlinked_proof_updates_same_inode_with_exact_bytes (__main__.NativeWrapperGuardTests.test_unlinked_proof_updates_same_inode_with_exact_bytes) ... ERROR
+test_validation_and_hashes_use_same_captured_report_bytes (__main__.NativeWrapperGuardTests.test_validation_and_hashes_use_same_captured_report_bytes) ... ok
+
+======================================================================
+ERROR: test_unlinked_proof_updates_same_inode_with_exact_bytes (__main__.NativeWrapperGuardTests.test_unlinked_proof_updates_same_inode_with_exact_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 41, in read_local
+    return (_windows_read if os.name=='nt' else _posix_read)(path,limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 56, in _windows_read
+    raise CloudError("BLOCKED", "ARTIFACT_READ_DENIED")
+application.cloud.protocol.CloudError: BLOCKED: ARTIFACT_READ_DENIED
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_native_wrapper_guards.py", line 50, in test_unlinked_proof_updates_same_inode_with_exact_bytes
+    owner.persist(dict(passed=False,commands=[]))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s09_owner_worker_native_regression.py", line 47, in persist
+    if read_local(self.path.parent,self.path.name,8*1024**2)!=raw:
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 42, in read_local
+    except CloudError as error: fail(error.reason)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 16, in fail
+    def fail(code): raise DatasetError(code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+application.datasets.catalog.DatasetError: ARTIFACT_READ_DENIED
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.043s
+
+FAILED (errors=1)

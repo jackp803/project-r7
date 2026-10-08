@@ -1,0 +1,53 @@
+test_previous_thread_requirements_are_restored_on_exception (__main__.AwakeRequestTests.test_previous_thread_requirements_are_restored_on_exception) ... FAIL
+test_release_failure_cannot_claim_restoration (__main__.AwakeRequestTests.test_release_failure_cannot_claim_restoration) ... FAIL
+test_request_failure_denies_execution (__main__.AwakeRequestTests.test_request_failure_denies_execution) ... FAIL
+test_request_is_released_after_success (__main__.AwakeRequestTests.test_request_is_released_after_success) ... FAIL
+
+======================================================================
+FAIL: test_previous_thread_requirements_are_restored_on_exception (__main__.AwakeRequestTests.test_previous_thread_requirements_are_restored_on_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 17, in test_previous_thread_requirements_are_restored_on_exception
+    with self.guard()(set_state=api):raise ValueError('fixture failure')
+         ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 6, in guard
+    self.assertIsNotNone(importlib.util.find_spec('local_windows_qualification_awake'),'Scoped Windows awake guard is absent')
+AssertionError: unexpectedly None : Scoped Windows awake guard is absent
+
+======================================================================
+FAIL: test_release_failure_cannot_claim_restoration (__main__.AwakeRequestTests.test_release_failure_cannot_claim_restoration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 29, in test_release_failure_cannot_claim_restoration
+    with self.guard()(set_state=api) as evidence:pass
+         ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 6, in guard
+    self.assertIsNotNone(importlib.util.find_spec('local_windows_qualification_awake'),'Scoped Windows awake guard is absent')
+AssertionError: unexpectedly None : Scoped Windows awake guard is absent
+
+======================================================================
+FAIL: test_request_failure_denies_execution (__main__.AwakeRequestTests.test_request_failure_denies_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 23, in test_request_failure_denies_execution
+    with self.guard()(set_state=api):self.fail('Unheld request allowed operation')
+         ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 6, in guard
+    self.assertIsNotNone(importlib.util.find_spec('local_windows_qualification_awake'),'Scoped Windows awake guard is absent')
+AssertionError: unexpectedly None : Scoped Windows awake guard is absent
+
+======================================================================
+FAIL: test_request_is_released_after_success (__main__.AwakeRequestTests.test_request_is_released_after_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 11, in test_request_is_released_after_success
+    with self.guard()(set_state=api) as evidence:self.assertEqual(calls,[0x80000001])
+         ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_local_windows_qualification_awake.py", line 6, in guard
+    self.assertIsNotNone(importlib.util.find_spec('local_windows_qualification_awake'),'Scoped Windows awake guard is absent')
+AssertionError: unexpectedly None : Scoped Windows awake guard is absent
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+FAILED (failures=4)

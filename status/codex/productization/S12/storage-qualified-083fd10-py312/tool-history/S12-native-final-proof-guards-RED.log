@@ -1,0 +1,35 @@
+test_final_changed_package_identity_is_rechecked_before_pass (__main__.FinalNativeProofGuards.test_final_changed_package_identity_is_rechecked_before_pass) ... FAIL
+test_final_dirty_revision_is_rechecked_before_pass (__main__.FinalNativeProofGuards.test_final_dirty_revision_is_rechecked_before_pass) ... FAIL
+test_helper_change_cannot_be_published_as_pass (__main__.FinalNativeProofGuards.test_helper_change_cannot_be_published_as_pass) ... FAIL
+
+======================================================================
+FAIL: test_final_changed_package_identity_is_rechecked_before_pass (__main__.FinalNativeProofGuards.test_final_changed_package_identity_is_rechecked_before_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_native_final_proof_guards.py", line 25, in test_final_changed_package_identity_is_rechecked_before_pass
+    with self.assertRaises(AssertionError):driver.finalize_pass(value,lambda:{'helper':'fixture'},driver.BASE,{'build':'fixture'},'a'*40)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_final_dirty_revision_is_rechecked_before_pass (__main__.FinalNativeProofGuards.test_final_dirty_revision_is_rechecked_before_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_native_final_proof_guards.py", line 20, in test_final_dirty_revision_is_rechecked_before_pass
+    with self.assertRaises(QualificationError):driver.finalize_pass(value,lambda:{'helper':'fixture'},driver.BASE,{'build':'fixture'},'a'*40)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: QualificationError not raised
+
+======================================================================
+FAIL: test_helper_change_cannot_be_published_as_pass (__main__.FinalNativeProofGuards.test_helper_change_cannot_be_published_as_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_native_final_proof_guards.py", line 15, in test_helper_change_cannot_be_published_as_pass
+    with self.assertRaises(AssertionError):driver.finalize_pass(value,hashes,Path(tmp),{'build':'fixture'},'a'*40)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.014s
+
+FAILED (failures=3)

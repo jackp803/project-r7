@@ -1,0 +1,27 @@
+test_actual_current_native_subject_is_accepted_without_creating_fixture (__main__.NativeReaderSubjectTests.test_actual_current_native_subject_is_accepted_without_creating_fixture) ... FAIL
+test_other_output_cannot_create_an_unbound_native_reader_fixture (__main__.NativeReaderSubjectTests.test_other_output_cannot_create_an_unbound_native_reader_fixture) ... ok
+test_other_revision_cannot_admit_the_actual_current_native_build (__main__.NativeReaderSubjectTests.test_other_revision_cannot_admit_the_actual_current_native_build) ... ok
+
+======================================================================
+FAIL: test_actual_current_native_subject_is_accepted_without_creating_fixture (__main__.NativeReaderSubjectTests.test_actual_current_native_subject_is_accepted_without_creating_fixture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_native_reader_subject.py", line 13, in test_actual_current_native_subject_is_accepted_without_creating_fixture
+    try:identity,before=driver._require_subject(PACKAGE,output,CURRENT)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s12_storage_native_paper_reader.py", line 29, in _require_subject
+    raise ValueError('NATIVE_READER_OUTPUT_SUBJECT_MISMATCH')
+ValueError: NATIVE_READER_OUTPUT_SUBJECT_MISMATCH
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_native_reader_subject.py", line 14, in test_actual_current_native_subject_is_accepted_without_creating_fixture
+    except Exception as error:self.fail('Actual current native subject wrongly denied: '+str(error))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Actual current native subject wrongly denied: NATIVE_READER_OUTPUT_SUBJECT_MISMATCH
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=1)

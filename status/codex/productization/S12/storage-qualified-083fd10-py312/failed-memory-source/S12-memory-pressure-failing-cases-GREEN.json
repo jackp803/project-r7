@@ -1,0 +1,68 @@
+{
+  "started_at_utc": "2026-10-08T01:23:34.621461Z",
+  "finished_at_utc": "2026-10-08T01:23:40.075145Z",
+  "executable_revision": "083fd10e419e3eec903c3597093ea56e465f57cd",
+  "source_before": {
+    "revision": "083fd10e419e3eec903c3597093ea56e465f57cd",
+    "worktree": "CLEAN"
+  },
+  "source_after": {
+    "revision": "083fd10e419e3eec903c3597093ea56e465f57cd",
+    "worktree": "CLEAN"
+  },
+  "source_inputs_unchanged": true,
+  "source_input_count": 614,
+  "tests_run": 2,
+  "failures": 0,
+  "errors": 0,
+  "returncode": 0,
+  "passed": true,
+  "tree_reaped": true,
+  "awake_request": {
+    "scope": "CURRENT_THREAD_ACTIVE_QUALIFICATION_ONLY;NO_PERSISTENT_POWER_POLICY_CHANGE",
+    "requested": true,
+    "request_flags": "ES_CONTINUOUS|ES_SYSTEM_REQUIRED",
+    "previous_state": 2147483648,
+    "restored": true,
+    "explicit_user_sleep": "NOT_PREVENTED",
+    "display_or_away_mode_request": "NONE"
+  },
+  "log_sha256": "sha256:1f810f1f0957b5633a36b5a70e12ce34be0224415bc0d4bd158d4954e643aa37",
+  "cases": [
+    "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_changed_paper_policy_cannot_transplant_old_ready_evidence_into_approval",
+    "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_direct_store_operational_skip_and_restart_cannot_resume_live"
+  ],
+  "hardware_before": {
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 255HX",
+    "logical_cores": 20,
+    "physical_memory_bytes": 33736265728,
+    "available_memory_bytes": 6245724160,
+    "disk_free_bytes": 468410396672,
+    "disk_total_bytes": 991139196928,
+    "filesystem": "NTFS",
+    "os_name": "Windows",
+    "os_version": "10.0.26200",
+    "architecture": "AMD64",
+    "gpu_status": "NOT_REQUIRED",
+    "memory_enforcement": "SOFT_LIMIT_ONLY"
+  },
+  "hardware_after": {
+    "cpu_model": "Intel(R) Core(TM) Ultra 7 255HX",
+    "logical_cores": 20,
+    "physical_memory_bytes": 33736265728,
+    "available_memory_bytes": 6471475200,
+    "disk_free_bytes": 468410191872,
+    "disk_total_bytes": 991139196928,
+    "filesystem": "NTFS",
+    "os_name": "Windows",
+    "os_version": "10.0.26200",
+    "architecture": "AMD64",
+    "gpu_status": "NOT_REQUIRED",
+    "memory_enforcement": "SOFT_LIMIT_ONLY"
+  },
+  "scope": "TWO_CASES_AFTER_ACTUAL_MEMORY_PRESSURE;NO_FULL_QUALIFICATION_CREDIT;UNCHANGED_ADMISSION_THRESHOLD",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

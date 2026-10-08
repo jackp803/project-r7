@@ -1,0 +1,44 @@
+test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation) ... ok
+test_all_actual_owner_connections_close_on_context_failure (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_all_actual_owner_connections_close_on_context_failure) ... ok
+test_denied_workflow_cannot_create_or_accept_a_paper_run (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_denied_workflow_cannot_create_or_accept_a_paper_run) ... ok
+test_existing_other_namespace_is_not_rebound_by_paper_factory (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_existing_other_namespace_is_not_rebound_by_paper_factory) ... ok
+test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread) ... ok
+test_independent_worker_uses_composition_for_actual_protection_and_flat_close (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_independent_worker_uses_composition_for_actual_protection_and_flat_close) ... ok
+test_local_research_diagnostic_defaults_do_not_enable_selected_workflow (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_local_research_diagnostic_defaults_do_not_enable_selected_workflow) ... ok
+test_missing_canonical_database_is_not_initialized_by_factory (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_missing_canonical_database_is_not_initialized_by_factory) ... ok
+test_parent_path_cannot_open_or_mutate_an_existing_outside_store (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_parent_path_cannot_open_or_mutate_an_existing_outside_store) ... 
+  test_parent_path_cannot_open_or_mutate_an_existing_outside_store (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_parent_path_cannot_open_or_mutate_an_existing_outside_store) (root_parts=('<PROJECT_ROOT>', 'artifacts', 'S09-paper-owner-composition-PATH_RED-temp', 'R7 paper outside store k136i3v5', 'inside')) ... FAIL
+  test_parent_path_cannot_open_or_mutate_an_existing_outside_store (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_parent_path_cannot_open_or_mutate_an_existing_outside_store) (root_parts=('<PROJECT_ROOT>', 'artifacts', 'S09-paper-owner-composition-PATH_RED-temp', 'R7 paper outside store k136i3v5', 'inside', '..')) ... FAIL
+test_restore_inhibition_prevents_new_start_even_with_selected_workflow (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_restore_inhibition_prevents_new_start_even_with_selected_workflow) ... ok
+test_same_namespace_authenticator_and_bounded_local_store_are_required (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_same_namespace_authenticator_and_bounded_local_store_are_required) ... ok
+test_selection_is_a_deep_immutable_observation_of_explicit_policies (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_is_a_deep_immutable_observation_of_explicit_policies) ... ok
+test_selection_rejects_truthy_workflow_and_unknown_fields (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_rejects_truthy_workflow_and_unknown_fields) ... ok
+test_selection_uses_existing_same_namespace_policy_validators (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_uses_existing_same_namespace_policy_validators) ... ok
+test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json) ... ok
+test_unbounded_actor_policy_reference_and_namespace_are_rejected (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_unbounded_actor_policy_reference_and_namespace_are_rejected) ... ok
+test_canonical_runtime_existing_mode_rejects_missing_database_without_creation (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_canonical_runtime_existing_mode_rejects_missing_database_without_creation) ... ok
+test_platform_existing_mode_rejects_missing_database_without_creation (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_platform_existing_mode_rejects_missing_database_without_creation) ... ok
+test_runtime_migration_failure_closes_actual_open_connection (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_runtime_migration_failure_closes_actual_open_connection) ... ok
+
+======================================================================
+FAIL: test_parent_path_cannot_open_or_mutate_an_existing_outside_store (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_parent_path_cannot_open_or_mutate_an_existing_outside_store) (root_parts=('<PROJECT_ROOT>', 'artifacts', 'S09-paper-owner-composition-PATH_RED-temp', 'R7 paper outside store k136i3v5', 'inside'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 163, in test_parent_path_cannot_open_or_mutate_an_existing_outside_store
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_parent_path_cannot_open_or_mutate_an_existing_outside_store (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_parent_path_cannot_open_or_mutate_an_existing_outside_store) (root_parts=('<PROJECT_ROOT>', 'artifacts', 'S09-paper-owner-composition-PATH_RED-temp', 'R7 paper outside store k136i3v5', 'inside', '..'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 163, in test_parent_path_cannot_open_or_mutate_an_existing_outside_store
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 19 tests in 27.815s
+
+FAILED (failures=2)

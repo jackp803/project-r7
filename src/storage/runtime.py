@@ -207,10 +207,10 @@ class PaperRuntimeJournal:
         return recovery
 
 
-def open_paper_runtime_journal(path: str | Path) -> PaperRuntimeJournal:
+def open_paper_runtime_journal(path: str | Path, *, require_existing: bool = False) -> PaperRuntimeJournal:
     """Open/migrate SQLite and return the safe E6 Paper durability service."""
 
-    return PaperRuntimeJournal(_open_paper_runtime_store(path))
+    return PaperRuntimeJournal(_open_paper_runtime_store(path, require_existing=require_existing))
 
 
 __all__ = [

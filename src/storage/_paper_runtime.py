@@ -1204,7 +1204,11 @@ class _PaperRuntimeStore:
         )
 
 
-def _open_paper_runtime_store(path: str | Path) -> _PaperRuntimeStore:
-    connection = _connect(path)
-    _apply_migrations(connection)
-    return _PaperRuntimeStore(connection)
+def _open_paper_runtime_store(path: str | Path, *, require_existing: bool = False) -> _PaperRuntimeStore:
+    connection = _connect(path, require_existing=require_existing)
+    try:
+        _apply_migrations(connection)
+        return _PaperRuntimeStore(connection)
+    except BaseException:
+        connection.close()
+        raise

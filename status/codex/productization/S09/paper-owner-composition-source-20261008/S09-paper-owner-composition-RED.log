@@ -1,0 +1,207 @@
+test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation) ... FAIL
+test_all_actual_owner_connections_close_on_context_failure (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_all_actual_owner_connections_close_on_context_failure) ... FAIL
+test_denied_workflow_cannot_create_or_accept_a_paper_run (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_denied_workflow_cannot_create_or_accept_a_paper_run) ... FAIL
+test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread) ... FAIL
+test_independent_worker_uses_composition_for_actual_protection_and_flat_close (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_independent_worker_uses_composition_for_actual_protection_and_flat_close) ... FAIL
+test_missing_canonical_database_is_not_initialized_by_factory (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_missing_canonical_database_is_not_initialized_by_factory) ... FAIL
+test_restore_inhibition_prevents_new_start_even_with_selected_workflow (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_restore_inhibition_prevents_new_start_even_with_selected_workflow) ... FAIL
+test_same_namespace_authenticator_and_bounded_local_store_are_required (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_same_namespace_authenticator_and_bounded_local_store_are_required) ... FAIL
+test_selection_is_a_deep_immutable_observation_of_explicit_policies (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_is_a_deep_immutable_observation_of_explicit_policies) ... FAIL
+test_selection_rejects_truthy_workflow_and_unknown_fields (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_rejects_truthy_workflow_and_unknown_fields) ... FAIL
+test_selection_uses_existing_same_namespace_policy_validators (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_uses_existing_same_namespace_policy_validators) ... FAIL
+test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json) ... FAIL
+test_unbounded_actor_policy_reference_and_namespace_are_rejected (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_unbounded_actor_policy_reference_and_namespace_are_rejected) ... FAIL
+test_canonical_runtime_existing_mode_rejects_missing_database_without_creation (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_canonical_runtime_existing_mode_rejects_missing_database_without_creation) ... FAIL
+test_platform_existing_mode_rejects_missing_database_without_creation (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_platform_existing_mode_rejects_missing_database_without_creation) ... FAIL
+test_runtime_migration_failure_closes_actual_open_connection (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_runtime_migration_failure_closes_actual_open_connection) ... FAIL
+
+======================================================================
+FAIL: test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 71, in test_actual_start_port_prepares_e6_run_without_attaching_runtime_generation
+    m=self.module();f=self.fixture();owners=self.composition(m,f)
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_all_actual_owner_connections_close_on_context_failure (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_all_actual_owner_connections_close_on_context_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 103, in test_all_actual_owner_connections_close_on_context_failure
+    m=self.module();f=self.fixture();owners=self.composition(m,f);connections=[]
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_denied_workflow_cannot_create_or_accept_a_paper_run (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_denied_workflow_cannot_create_or_accept_a_paper_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 113, in test_denied_workflow_cannot_create_or_accept_a_paper_run
+    m=self.module();f=self.fixture();owners=self.composition(m,f,selection=self.selection(m,workflow_authorized=False))
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 92, in test_factory_can_be_created_on_control_thread_and_opened_on_owner_thread
+    m=self.module();f=self.fixture();owners=self.composition(m,f);outcomes=[]
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_independent_worker_uses_composition_for_actual_protection_and_flat_close (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_independent_worker_uses_composition_for_actual_protection_and_flat_close)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 81, in test_independent_worker_uses_composition_for_actual_protection_and_flat_close
+    m=self.module();f=self.fixture();owners=self.composition(m,f);run_id=f.start()
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_missing_canonical_database_is_not_initialized_by_factory (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_missing_canonical_database_is_not_initialized_by_factory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 145, in test_missing_canonical_database_is_not_initialized_by_factory
+    m=self.module();f=self.fixture();config=replace(f.config,database_path=f.config.local_data_root/'missing-composition.sqlite3')
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_restore_inhibition_prevents_new_start_even_with_selected_workflow (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_restore_inhibition_prevents_new_start_even_with_selected_workflow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 121, in test_restore_inhibition_prevents_new_start_even_with_selected_workflow
+    m=self.module();f=self.fixture();f.restore_inhibited(self);owners=self.composition(m,f)
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_same_namespace_authenticator_and_bounded_local_store_are_required (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_same_namespace_authenticator_and_bounded_local_store_are_required)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 136, in test_same_namespace_authenticator_and_bounded_local_store_are_required
+    m=self.module();f=self.fixture()
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_selection_is_a_deep_immutable_observation_of_explicit_policies (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_is_a_deep_immutable_observation_of_explicit_policies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 45, in test_selection_is_a_deep_immutable_observation_of_explicit_policies
+    m=self.module();values=self.values();selection=m.PaperOwnerSelection(**values)
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_selection_rejects_truthy_workflow_and_unknown_fields (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_rejects_truthy_workflow_and_unknown_fields)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 53, in test_selection_rejects_truthy_workflow_and_unknown_fields
+    m=self.module()
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_selection_uses_existing_same_namespace_policy_validators (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_selection_uses_existing_same_namespace_policy_validators)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 59, in test_selection_uses_existing_same_namespace_policy_validators
+    m=self.module()
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 126, in test_unavailable_release_reader_is_not_replaced_by_current_source_or_pass_json
+    m=self.module();f=self.fixture()
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_unbounded_actor_policy_reference_and_namespace_are_rejected (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_unbounded_actor_policy_reference_and_namespace_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 66, in test_unbounded_actor_policy_reference_and_namespace_are_rejected
+    m=self.module()
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 25, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.owners'),'Trusted same-store PAPER composition is missing')
+AssertionError: unexpectedly None : Trusted same-store PAPER composition is missing
+
+======================================================================
+FAIL: test_canonical_runtime_existing_mode_rejects_missing_database_without_creation (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_canonical_runtime_existing_mode_rejects_missing_database_without_creation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 167, in test_canonical_runtime_existing_mode_rejects_missing_database_without_creation
+    with open_paper_runtime_journal(path,require_existing=True):self.fail('Missing runtime store created')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: open_paper_runtime_journal() got an unexpected keyword argument 'require_existing'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 168, in test_canonical_runtime_existing_mode_rejects_missing_database_without_creation
+    except TypeError:self.fail('Supported existing-store runtime factory policy is missing')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Supported existing-store runtime factory policy is missing
+
+======================================================================
+FAIL: test_platform_existing_mode_rejects_missing_database_without_creation (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_platform_existing_mode_rejects_missing_database_without_creation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 158, in test_platform_existing_mode_rejects_missing_database_without_creation
+    with open_sqlite_platform(path,research_namespace='FIXTURE',require_existing=True):self.fail('Missing store created')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: open_sqlite_platform() got an unexpected keyword argument 'require_existing'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 159, in test_platform_existing_mode_rejects_missing_database_without_creation
+    except TypeError:self.fail('Supported existing-store E6 factory policy is missing')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Supported existing-store E6 factory policy is missing
+
+======================================================================
+FAIL: test_runtime_migration_failure_closes_actual_open_connection (tests.application.test_paper_owner_composition.PaperOwnerExistingStoreTests.test_runtime_migration_failure_closes_actual_open_connection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 182, in test_runtime_migration_failure_closes_actual_open_connection
+    with self.assertRaises(sqlite3.ProgrammingError):captured[0].execute('SELECT 1')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProgrammingError not raised
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.011s
+
+FAILED (failures=16)

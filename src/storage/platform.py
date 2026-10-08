@@ -15,6 +15,7 @@ def open_sqlite_platform(
     research_namespace: str | None = None,
     product_assessment_boundary=None,
     lifecycle_boundary=None,
+    require_existing: bool = False,
 ) -> StrategyPlatformService:
     """Return the supported E6 SQLite-backed platform service.
 
@@ -24,7 +25,7 @@ def open_sqlite_platform(
     trusted-process modular-monolith implementation.
     """
 
-    store = _open_authorized_store(path)
+    store = _open_authorized_store(path, require_existing=require_existing)
     try:
         if research_namespace is not None: store.bind_research_namespace(research_namespace)
     except BaseException:

@@ -715,10 +715,10 @@ class _SQLiteRegistryStore:
             raise
 
 
-def _open_authorized_store(path: str | Path) -> _SQLiteRegistryStore:
+def _open_authorized_store(path: str | Path, *, require_existing: bool = False) -> _SQLiteRegistryStore:
     """Factory-only production composition primitive; never return the raw connection."""
 
-    connection = _connect(path)
+    connection = _connect(path, require_existing=require_existing)
     try:
         _apply_migrations(connection)
         return _SQLiteRegistryStore(connection, _writer_capability=_WRITER_CAPABILITY)

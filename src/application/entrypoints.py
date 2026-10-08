@@ -26,12 +26,17 @@ def _outside_installation(path):
         raise ValueError('User data and configuration must be outside the installation')
 
 
-def initialize_profile(config_path, data_root, *, instance_id, port=8765):
+def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_root=None):
     """Publish one fully validated complete profile without replacing any file."""
     config_path = absolute_path(str(config_path), 'config')
     data_root = absolute_path(str(data_root), 'local_data_root')
     _outside_installation(config_path)
     _outside_installation(data_root)
+    if cloud_root is not None:
+        cloud_root = absolute_path(str(cloud_root), 'cloud_root')
+        _outside_installation(cloud_root)
+        if config_path.is_relative_to(cloud_root):
+            raise ValueError('Local configuration must be outside cloud staging')
     if not isinstance(instance_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,96}', instance_id):
         raise ValueError('Invalid product instance identifier')
     if type(port) is not int or not 1024 <= port <= 65535:
@@ -40,7 +45,7 @@ def initialize_profile(config_path, data_root, *, instance_id, port=8765):
     if config_path.exists():
         raise ValueError('Existing profile must be preserved')
     payload = dict(schema_version='r7-product-config-v0.2', product_instance_id=instance_id,
-        local_data_root=str(data_root), cloud_root=None, control_api_host='127.0.0.1',
+        local_data_root=str(data_root), cloud_root=None if cloud_root is None else str(cloud_root), control_api_host='127.0.0.1',
         control_api_port=port, diagnostic_only=True, paper_runtime_enabled=False)
     config_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     descriptor, temporary = tempfile.mkstemp(prefix='.r7-profile-', dir=config_path.parent)

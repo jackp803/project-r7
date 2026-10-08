@@ -11,23 +11,29 @@ from registry import StrategyIdentity
 from strategy.v02.capabilities import build_capability_snapshot
 
 
+def validate_research_selections(policies):
+    """Validate and freeze selection shape without opening owner stores."""
+    result = json.loads(canonical(policies))
+    required = {'dataset_ref', 'split_policy_ref', 'cost_policy_ref', 'research_policy_ref', 'robustness_policy_ref',
+                    'risk_policy_ref', 'family_id', 'seed', 'requested_dataset_profile', 'requested_validation_profile', 'requested_robustness_profile'}
+    if not isinstance(result, dict) or len(result) > 128: raise ValueError('Bounded local policy selections required')
+    for policy_id, selected in result.items():
+        safe_component(policy_id)
+        if not isinstance(selected, dict) or set(selected) != required: raise ValueError('Complete explicit local research selection required')
+        for key in required:
+            if key.endswith('_ref'): safe_relative(selected[key])
+            elif key != 'seed': safe_component(selected[key])
+        if type(selected['seed']) is not int or not 0 <= selected['seed'] < 2**64: raise ValueError('Explicit bounded seed required')
+    return result
+
+
 class ResearchRequestResolver:
     def __init__(self, local_root, *, snapshot_root, intake_factory, registry_factory, policies):
         self.root, self.snapshots = Path(local_root).absolute(), Path(snapshot_root).absolute()
         if not self.snapshots.is_relative_to(self.root) or not callable(intake_factory) or not callable(registry_factory):
             raise ValueError('Trusted local sealed intake composition required')
         self.intake_factory, self.registry_factory = intake_factory, registry_factory
-        self.policies = json.loads(canonical(policies))
-        required = {'dataset_ref', 'split_policy_ref', 'cost_policy_ref', 'research_policy_ref', 'robustness_policy_ref',
-                    'risk_policy_ref', 'family_id', 'seed', 'requested_dataset_profile', 'requested_validation_profile', 'requested_robustness_profile'}
-        if not isinstance(self.policies, dict) or len(self.policies) > 128: raise ValueError('Bounded local policy selections required')
-        for policy_id, selected in self.policies.items():
-            safe_component(policy_id)
-            if not isinstance(selected, dict) or set(selected) != required: raise ValueError('Complete explicit local research selection required')
-            for key in required:
-                if key.endswith('_ref'): safe_relative(selected[key])
-                elif key != 'seed': safe_component(selected[key])
-            if type(selected['seed']) is not int or not 0 <= selected['seed'] < 2**64: raise ValueError('Explicit bounded seed required')
+        self.policies = validate_research_selections(policies)
 
     def _accepted_package(self, submission_id):
         safe_component(submission_id)

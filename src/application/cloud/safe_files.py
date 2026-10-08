@@ -26,7 +26,7 @@ def _windows_native_path(path):
     return '\\\\?\\'+value
 
 
-def _windows_read(path: Path, limit):
+def _windows_read(path: Path, limit, *, require_single_link=False):
     from ctypes import wintypes as w
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
     kernel.CreateFileW.argtypes = [w.LPCWSTR, w.DWORD, w.DWORD, ctypes.c_void_p, w.DWORD, w.DWORD, w.HANDLE]
@@ -62,6 +62,8 @@ def _windows_read(path: Path, limit):
                 raise CloudError("BLOCKED", "REPARSE_POINT_FORBIDDEN")
             if bool(info.attributes & 0x10) != directory:
                 raise CloudError("BLOCKED", "ARTIFACT_TYPE_INVALID")
+            if require_single_link and not directory and info.links != 1:
+                raise CloudError("BLOCKED", "HARDLINK_ALIAS_FORBIDDEN")
         chunks, size = [], 0
         while size <= limit:
             buffer = ctypes.create_string_buffer(min(65536, limit + 1 - size))
@@ -80,7 +82,7 @@ def _windows_read(path: Path, limit):
             kernel.CloseHandle(handle)
 
 
-def _posix_read(path: Path, limit):
+def _posix_read(path: Path, limit, *, require_single_link=False):
     descriptors = []
     try:
         descriptor = os.open(path.anchor, os.O_RDONLY | os.O_DIRECTORY)
@@ -89,8 +91,11 @@ def _posix_read(path: Path, limit):
             directory = index < len(path.parts) - 2
             descriptor = os.open(part, os.O_RDONLY | os.O_NOFOLLOW | (os.O_DIRECTORY if directory else 0), dir_fd=descriptor)
             descriptors.append(descriptor)
-        if not stat.S_ISREG(os.fstat(descriptor).st_mode):
+        information=os.fstat(descriptor)
+        if not stat.S_ISREG(information.st_mode):
             raise CloudError("BLOCKED", "ARTIFACT_TYPE_INVALID")
+        if require_single_link and information.st_nlink != 1:
+            raise CloudError("BLOCKED", "HARDLINK_ALIAS_FORBIDDEN")
         chunks, size = [], 0
         while size <= limit:
             raw = os.read(descriptor, min(65536, limit + 1 - size))

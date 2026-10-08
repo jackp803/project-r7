@@ -12,12 +12,25 @@ from application.datasets.catalog import decode, read_local
 from application.intake.ledger import IntakeLedger
 from application.intake.service import StrategyInboxService
 from application.research.queue import ResearchQueue
-from application.research.selection import ResearchRequestResolver
+from application.research.selection import ResearchRequestResolver, validate_research_selections
 from application.research.service import ResearchService
 from storage import open_sqlite_platform
 from storage.paper_process import open_paper_process_journal
 from storage.runtime import open_paper_runtime_journal
 from strategy.v02.capabilities import build_capability_snapshot
+
+
+def validate_owner_selections(value):
+    """The same non-secret profile is used by CLI setup and normal startup."""
+    if not isinstance(value, dict) or set(value) != {'schema_version','cloud_root_id','research_policies'}:
+        raise ValueError('Exact bounded owner selection profile required')
+    if value['schema_version'] != 'r7-owner-selections-v0.2':
+        raise ValueError('Unsupported local owner selection profile')
+    cloud_id=value['cloud_root_id']
+    if cloud_id is not None:
+        safe_component(cloud_id)
+    return dict(schema_version=value['schema_version'],cloud_root_id=cloud_id,
+                research_policies=validate_research_selections(value['research_policies']))
 
 
 class LocalOwners:
@@ -37,10 +50,7 @@ class LocalOwners:
         selected = dict(schema_version='r7-owner-selections-v0.2', cloud_root_id=None, research_policies={})
         if selection_path.exists():
             selected = decode(read_local(config.local_data_root, 'owner-selections.json', 65536))
-        if not isinstance(selected, dict) or set(selected) != {'schema_version', 'cloud_root_id', 'research_policies'}:
-            raise ValueError('Exact bounded owner selection profile required')
-        if selected['schema_version'] != 'r7-owner-selections-v0.2':
-            raise ValueError('Unsupported local owner selection profile')
+        selected=validate_owner_selections(selected)
         cloud_id = selected['cloud_root_id']
         if cloud_id is not None:
             safe_component(cloud_id)

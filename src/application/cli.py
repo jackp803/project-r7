@@ -35,8 +35,12 @@ def main(argv=None):
     profile = commands.add_parser('init-profile', help='Create explicit non-trading local settings')
     profile.add_argument('--config', type=Path, required=True)
     profile.add_argument('--data-root', type=Path, required=True)
+    profile.add_argument('--cloud-root', type=Path)
     profile.add_argument('--instance-id', default=None)
     profile.add_argument('--port', type=int, default=8765)
+    setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
+    setup.add_argument('--config', type=Path, required=True)
+    setup.add_argument('--selection-profile', type=Path, required=True)
     enroll = commands.add_parser('enroll-owner', help='Enroll first local owner using hidden terminal input')
     enroll.add_argument('--config', type=Path, required=True)
     enroll.add_argument('--username', required=True)
@@ -270,8 +274,13 @@ def main(argv=None):
     if args.command == 'init-profile':
         from application.entrypoints import initialize_profile
         result = initialize_profile(args.config, args.data_root,
-                                    instance_id=args.instance_id or str(uuid.uuid4()), port=args.port)
+                                    instance_id=args.instance_id or str(uuid.uuid4()), port=args.port,
+                                    cloud_root=args.cloud_root)
         print(json.dumps(result, ensure_ascii=False))
+        return 0
+    if args.command == 'configure-research':
+        from application.research.setup import configure_research
+        print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
         return 0
     if args.command in ('enroll-owner', 'serve'):
         from application.config import load_config

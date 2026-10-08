@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S09/S12/S13",
-  "next_step": "Continue bounded owning fixed-check producer/current-release adapter with isolated fixtures and actual native PAPER owner composition/probes. Production release profile remains PROPOSED_NOT_ACTIVE pending PM/E6 acceptance. Full master/S15/S16 and mandatory Ubuntu evidence remain open.",
+  "next_step": "Qualify the exact-clean runtime identity read candidate with complete source/LF/FP regression; then continue owning fixed-check producer/current-release adapter and isolated actual native PAPER composition. Production release profile PROPOSED_NOT_ACTIVE pending PM/E6 acceptance. Mandatory Ubuntu/full master/S15/S16 remain open.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -1659,7 +1659,8 @@
     "status/codex/productization/S09/owner-worker-qualified-9bf8534-py312/disposition.json",
     "status/codex/productization/S09/local-control-qualified-41fa2fe-py312/disposition.json",
     "status/codex/productization/S09/local-control-metadata-41fa2fe/disposition.json",
-    "status/codex/productization/S12/storage-qualified-083fd10-py312/disposition.json"
+    "status/codex/productization/S12/storage-qualified-083fd10-py312/disposition.json",
+    "status/codex/productization/S12/runtime-identity-source-20261008/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -2340,5 +2341,20 @@
     },
     "source_input_files": 614,
     "retained_files": 188
+  },
+  "runtime_identity_read": {
+    "status": "SOURCE_COMPONENT22_PASS;EXACT_CLEAN_FULL_QUALIFICATION_PENDING",
+    "source_parent_revision": "accfda5cde4c56dab6dba5af5f182ce6be09df2e",
+    "implementation_hash": "sha256:9619620f97ca958450fae637c0037581011330627c0bf691563c13b1b81c1330",
+    "new_cases": 22,
+    "review": "BOUNDED0_CRITICAL0_IMPORTANT;REVIEWER_EXECUTION_NONE",
+    "evidence_ref": "status/codex/productization/S12/runtime-identity-source-20261008/disposition.json",
+    "source_inputs": {
+      "src/application/platform/runtime_identity.py": "45eb3b8726a7f416cfedc505187986c12e9a15b9abd94baa5e4228f1827b21d7",
+      "tests/application/test_runtime_identity_read.py": "9e1a4d3f1c0d75101163e712365fd1dd02050647b62a3c7a2703e3150ef2f8e7",
+      "docs/product/v0_2/RUNTIME_IDENTITY_READ_IMPLEMENTATION.md": "942f9c59e33087dc68c949ec4258d2afb471873b7eb68a156fb491a4ca1045f2"
+    },
+    "ordinary_native_paper": "NOT_RUN",
+    "production_profile": "PROPOSED_NOT_ACTIVE"
   }
 }

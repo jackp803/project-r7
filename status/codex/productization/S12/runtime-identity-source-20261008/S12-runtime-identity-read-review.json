@@ -1,0 +1,27 @@
+{
+  "critical": 0,
+  "important": 0,
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "reviewed_source_raw_sha256": {
+    "src/application/platform/runtime_identity.py": "45eb3b8726a7f416cfedc505187986c12e9a15b9abd94baa5e4228f1827b21d7",
+    "tests/application/test_runtime_identity_read.py": "9e1a4d3f1c0d75101163e712365fd1dd02050647b62a3c7a2703e3150ef2f8e7",
+    "docs/product/v0_2/RUNTIME_IDENTITY_READ_IMPLEMENTATION.md": "942f9c59e33087dc68c949ec4258d2afb471873b7eb68a156fb491a4ca1045f2"
+  },
+  "reviewed_external_raw_sha256": {
+    "s12_runtime_identity_source_qualify.py": "7ae9e3ae10b1483dcf946a05935871b0ee7c13a396da2b48f2a7db2ce0121222"
+  },
+  "scope": "BOUNDED_READ_ONLY_RUNTIME_IDENTITY_COMPONENT_AND_UNCHANGED_FULL_SOURCE_LAUNCHER_POLICY;NOT_WHOLE_PRODUCT_ACCEPTANCE",
+  "resolved_findings": [
+    "PER_FIELD_TYPES_BEFORE_UUID_PROVENANCE_PARSE",
+    "ACTUAL_NATIVE_PID_ABI_RANGE_BEFORE_OS_QUERY"
+  ],
+  "historical_review": {
+    "critical": 0,
+    "important": 1,
+    "qualification_credit": "NONE"
+  },
+  "full_source": "PENDING",
+  "native": "NOT_RUN_FOR_THIS_INCREMENT",
+  "production_profile": "PROPOSED_NOT_ACTIVE"
+}

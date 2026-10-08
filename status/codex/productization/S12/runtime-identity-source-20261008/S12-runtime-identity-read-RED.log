@@ -1,0 +1,176 @@
+test_absent_process_is_denied_despite_recent_consistent_rows (test_runtime_identity_read.RuntimeIdentityReadTests.test_absent_process_is_denied_despite_recent_consistent_rows) ... FAIL
+test_changed_configuration_cannot_read_old_runtime_as_current (test_runtime_identity_read.RuntimeIdentityReadTests.test_changed_configuration_cannot_read_old_runtime_as_current) ... FAIL
+test_changed_migration_commitment_is_denied_without_repair (test_runtime_identity_read.RuntimeIdentityReadTests.test_changed_migration_commitment_is_denied_without_repair) ... FAIL
+test_changed_schema_is_denied_without_migration (test_runtime_identity_read.RuntimeIdentityReadTests.test_changed_schema_is_denied_without_migration) ... FAIL
+test_current_identity_is_immutable_and_read_does_not_attach_or_write (test_runtime_identity_read.RuntimeIdentityReadTests.test_current_identity_is_immutable_and_read_does_not_attach_or_write) ... FAIL
+test_duplicate_json_keys_are_denied_even_when_history_matches (test_runtime_identity_read.RuntimeIdentityReadTests.test_duplicate_json_keys_are_denied_even_when_history_matches) ... FAIL
+test_future_heartbeat_is_denied (test_runtime_identity_read.RuntimeIdentityReadTests.test_future_heartbeat_is_denied) ... FAIL
+test_generation_counter_drift_is_denied (test_runtime_identity_read.RuntimeIdentityReadTests.test_generation_counter_drift_is_denied) ... FAIL
+test_history_identity_mismatch_is_denied (test_runtime_identity_read.RuntimeIdentityReadTests.test_history_identity_mismatch_is_denied) ... FAIL
+test_identity_types_software_commitments_and_authority_are_validated (test_runtime_identity_read.RuntimeIdentityReadTests.test_identity_types_software_commitments_and_authority_are_validated) ... FAIL
+test_invalid_clock_and_policy_do_not_create_runtime_storage (test_runtime_identity_read.RuntimeIdentityReadTests.test_invalid_clock_and_policy_do_not_create_runtime_storage) ... FAIL
+test_missing_runtime_does_not_create_local_directory_or_database (test_runtime_identity_read.RuntimeIdentityReadTests.test_missing_runtime_does_not_create_local_directory_or_database) ... FAIL
+test_native_identity_shape_preserves_build_but_grants_no_permission (test_runtime_identity_read.RuntimeIdentityReadTests.test_native_identity_shape_preserves_build_but_grants_no_permission) ... FAIL
+test_other_actual_owner_does_not_create_runtime_generation (test_runtime_identity_read.RuntimeIdentityReadTests.test_other_actual_owner_does_not_create_runtime_generation) ... FAIL
+test_oversized_identity_is_denied_before_json_decode (test_runtime_identity_read.RuntimeIdentityReadTests.test_oversized_identity_is_denied_before_json_decode) ... FAIL
+test_record_columns_cannot_disagree_with_persisted_identity (test_runtime_identity_read.RuntimeIdentityReadTests.test_record_columns_cannot_disagree_with_persisted_identity) ... FAIL
+test_restart_returns_new_actual_generation_and_leaves_old_snapshot_unchanged (test_runtime_identity_read.RuntimeIdentityReadTests.test_restart_returns_new_actual_generation_and_leaves_old_snapshot_unchanged) ... FAIL
+test_stale_heartbeat_is_denied_without_renewal (test_runtime_identity_read.RuntimeIdentityReadTests.test_stale_heartbeat_is_denied_without_renewal) ... FAIL
+test_stopped_owner_cannot_supply_current_identity (test_runtime_identity_read.RuntimeIdentityReadTests.test_stopped_owner_cannot_supply_current_identity) ... FAIL
+
+======================================================================
+FAIL: test_absent_process_is_denied_despite_recent_consistent_rows (test_runtime_identity_read.RuntimeIdentityReadTests.test_absent_process_is_denied_despite_recent_consistent_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_changed_configuration_cannot_read_old_runtime_as_current (test_runtime_identity_read.RuntimeIdentityReadTests.test_changed_configuration_cannot_read_old_runtime_as_current)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_changed_migration_commitment_is_denied_without_repair (test_runtime_identity_read.RuntimeIdentityReadTests.test_changed_migration_commitment_is_denied_without_repair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_changed_schema_is_denied_without_migration (test_runtime_identity_read.RuntimeIdentityReadTests.test_changed_schema_is_denied_without_migration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_current_identity_is_immutable_and_read_does_not_attach_or_write (test_runtime_identity_read.RuntimeIdentityReadTests.test_current_identity_is_immutable_and_read_does_not_attach_or_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_duplicate_json_keys_are_denied_even_when_history_matches (test_runtime_identity_read.RuntimeIdentityReadTests.test_duplicate_json_keys_are_denied_even_when_history_matches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_future_heartbeat_is_denied (test_runtime_identity_read.RuntimeIdentityReadTests.test_future_heartbeat_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_generation_counter_drift_is_denied (test_runtime_identity_read.RuntimeIdentityReadTests.test_generation_counter_drift_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_history_identity_mismatch_is_denied (test_runtime_identity_read.RuntimeIdentityReadTests.test_history_identity_mismatch_is_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_identity_types_software_commitments_and_authority_are_validated (test_runtime_identity_read.RuntimeIdentityReadTests.test_identity_types_software_commitments_and_authority_are_validated)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_invalid_clock_and_policy_do_not_create_runtime_storage (test_runtime_identity_read.RuntimeIdentityReadTests.test_invalid_clock_and_policy_do_not_create_runtime_storage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_missing_runtime_does_not_create_local_directory_or_database (test_runtime_identity_read.RuntimeIdentityReadTests.test_missing_runtime_does_not_create_local_directory_or_database)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_native_identity_shape_preserves_build_but_grants_no_permission (test_runtime_identity_read.RuntimeIdentityReadTests.test_native_identity_shape_preserves_build_but_grants_no_permission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_other_actual_owner_does_not_create_runtime_generation (test_runtime_identity_read.RuntimeIdentityReadTests.test_other_actual_owner_does_not_create_runtime_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_oversized_identity_is_denied_before_json_decode (test_runtime_identity_read.RuntimeIdentityReadTests.test_oversized_identity_is_denied_before_json_decode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_record_columns_cannot_disagree_with_persisted_identity (test_runtime_identity_read.RuntimeIdentityReadTests.test_record_columns_cannot_disagree_with_persisted_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_restart_returns_new_actual_generation_and_leaves_old_snapshot_unchanged (test_runtime_identity_read.RuntimeIdentityReadTests.test_restart_returns_new_actual_generation_and_leaves_old_snapshot_unchanged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_stale_heartbeat_is_denied_without_renewal (test_runtime_identity_read.RuntimeIdentityReadTests.test_stale_heartbeat_is_denied_without_renewal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+======================================================================
+FAIL: test_stopped_owner_cannot_supply_current_identity (test_runtime_identity_read.RuntimeIdentityReadTests.test_stopped_owner_cannot_supply_current_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_runtime_identity_read.py", line 27, in setUp
+    self.assertIsNotNone(importlib.util.find_spec('application.platform.runtime_identity'),
+AssertionError: unexpectedly None : Missing bounded read-only runtime identity accessor
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.008s
+
+FAILED (failures=19)

@@ -196,5 +196,7 @@ class ResearchSetupFlowTests(unittest.TestCase):
 
     def test_actual_insufficient_oos_samples_never_become_candidate(self):
         actual,lifecycle=self.flow('INSUFFICIENT')
-        self.assertEqual(lifecycle,'BACKTESTING');self.assertEqual(actual['state'],'BLOCKED')
+        self.assertEqual(lifecycle,'BACKTESTING');self.assertEqual(actual['state'],'COMPLETE')
+        self.assertEqual(actual['outcome']['status'],'BLOCKED')
+        self.assertEqual(actual['evidence']['status'],'BLOCKED')
         self.assertEqual(actual['evidence']['sealed_oos'],'BLOCKED')

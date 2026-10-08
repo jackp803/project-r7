@@ -1,0 +1,219 @@
+"""Retain only a fixed public corpus for the exact local-control candidate."""
+from pathlib import Path
+import hashlib,json,os,subprocess,sys
+
+BASE=Path(__file__).resolve().parent
+PROJECT=BASE.parent
+REPO=PROJECT/'workspaces/project-r7-productization-master-20261002'
+sys.path.insert(0,str(REPO/'src'))
+from application.datasets.catalog import read_local
+from application.cloud.safe_files import _windows_read,_posix_read
+from application.platform.supervision import _local_path
+from application.platform.distribution import verify_distribution
+from application.qualification import revision_fact,parse_result,_sanitize
+
+REVISION='a21f2647af65fa6766603f8ad48df93a3e2502e5'
+SHORT=REVISION[:7]
+EXPECTED=dict(revision=REVISION,worktree='CLEAN')
+REF=f'status/codex/productization/S12/runtime-identity-sharing-fixed-qualified-{SHORT}-py312'
+SOURCE_LOGS='''001-phase_1-brokers.log 002-phase_1-position.log 003-phase_1-execution.log
+004-phase_1-execution.log 005-phase_1-position.log 006-phase_1-brokers.log 007-phase_1-execution.log
+008-phase_1-position.log 009-phase_1-storage.log 010-phase_1-storage.log 011-phase_1-storage.log
+012-phase_1-integration.log 013-phase_1-integration.log 014-phase_1-integration.log 015-phase_1-safety.log
+016-phase_1-e2e.log 017-phase_2-market_data.log 018-phase_2-indicators.log 019-phase_2-strategy.log
+020-phase_2-backtest.log 021-phase_2-validation.log 022-phase_2-execution.log 023-phase_2-brokers.log
+024-phase_2-risk.log 025-phase_2-position.log 026-phase_2-storage.log 027-phase_2-platform.log
+028-phase_2-integration.log 029-phase_2-e2e.log 030-phase_2-safety.log 031-phase_2-application.log
+032-phase_2-product.log 033-phase_2-registry.log'''.split()
+SMOKE_LOGS='''01-doctor.log 02-init-profile.log 03-preserve-profile.log
+04-first-control-start-second-process-denied.log 04-first-control-start.log 05-control-restart.log
+06-control-config-change.log 07-unconfigured-research-worker.log 08-tampered-resource-denied.log'''.split()
+REVIEWED={
+    "s12_runtime_identity_sharing_fixed_source_qualify.py": "9f86950cbaef71db56279010b498315275c1ca20104d928b62d5808df79ea8f5",
+    "s12_runtime_identity_sharing_fixed_native_regression.py": "54dd5e6a070bd7644b8b15a1eabfc676eb1c9caed96e90c576d5767e1cbc4a34",
+    "test_s12_runtime_identity_sharing_fixed_native_handoff.py": "2936dca067f952ec631ebd585ef9cffaa86c9107b262746f4beb16b2a1736764",
+    "test_s12_runtime_identity_sharing_fixed_native_final_guards.py": "f6c6844e3fa2d171ff7df7202b0d3d1f6991773a47a978d20530d8cfc90da386",
+    "s12_storage_native_paper_reader.py": "64827044fd5960610cb9302f4dd7351062820a1fd25127eb373e8674eacd8b98",
+    "s09_owner_worker_native_regression.py": "20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "s09_owner_worker_source_qualify.py": "77b2ba6ffd9419d40904dc94a1dd4a2c70aa4cc0041d962d779b877860d4c679",
+    "s09_local_paper_control_native_regression.py": "ae79794233ae72bc288c9a7afefd81a4dc1199e1450783b68fe7fcdbe5ae1a2f",
+    "s13_native_access_integrity.py": "0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "s14_feedback_cli_native_paper.py": "81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "S14LocalFakeRclone.cs": "26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "local_windows_qualification_awake.py": "626783f420996584618930fd50f2f1285d7d5536ae0bd672fe9191003be91f34"
+}
+
+
+def sha(raw):return 'sha256:'+hashlib.sha256(raw).hexdigest()
+def encoded(value):return (json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode('utf-8')
+def read_public(path,limit):
+    if path==REPO/'src/application/platform/_loopback_probe.py':
+        _local_path(path)
+        return (_windows_read if os.name=='nt' else _posix_read)(path,limit)
+    return read_local(path.parent,path.name,limit)
+
+def collect():
+    assert revision_fact(REPO,REVISION,True)==EXPECTED
+    snapshots={};retained={}
+    def capture(path,target=None,limit=64*1024**2):
+        if path not in snapshots:snapshots[path]=read_public(path,limit)
+        raw=snapshots[path]
+        if target is not None:
+            assert target not in retained
+            retained[target]=_sanitize(raw.decode('utf-8'),REPO).replace('\r\n','\n').encode('utf-8')
+        return raw
+    def report(path,target):return json.loads(capture(path,target))
+    source=BASE/f'r7-productization-S12-runtime-identity-sharing-fixed-qualified-{SHORT}'
+    q=report(source/'qualification.json','source/qualification.json')
+    context=report(source/'qualification-context.json','source/qualification-context.json')
+    hardware=report(source/'hardware-observations.json','source/hardware-observations.json')
+    native=report(BASE/f'S12-runtime-identity-sharing-fixed-{SHORT}-native-regression.json','native/native-regression.json')
+    native_paths=[BASE/'s12_runtime_identity_sharing_fixed_native_regression.py',BASE/'s09_local_paper_control_native_regression.py',BASE/'s09_owner_worker_native_regression.py',
+        BASE/'s12_storage_native_paper_reader.py',BASE/'s13_native_access_integrity.py',
+        REPO/'src/application/platform/_loopback_probe.py',REPO/'tools/build_product.py',REPO/'tools/verify_native_product.py',
+        BASE/'s14_feedback_cli_native_paper.py',BASE/'S14LocalFakeRclone.exe',BASE/'S14LocalFakeRclone.cs',
+        source/'qualification.json',source/'qualification-context.json',BASE/'s09_owner_worker_source_qualify.py',
+        BASE/'s12_runtime_identity_sharing_fixed_source_qualify.py',BASE/'local_windows_qualification_awake.py']
+    assert set(native['input_hashes_before'])=={p.relative_to(PROJECT).as_posix() for p in native_paths},'UNEXPECTED_NATIVE_INPUT_SET'
+    assert native['input_hashes_before']==native['input_hashes_after']
+    for path in (source/'qualification.json',source/'qualification-context.json'):
+        assert sha(snapshots[path])==native['input_hashes_before'][path.relative_to(PROJECT).as_posix()]
+    assert q['passed'] is True and q['tests_run']==2016 and len(q['commands'])==33
+    assert q['source_before']==q['source_after']==context['source_before']==context['source_after']==EXPECTED
+    assert context['inputs_unchanged'] is True and context['memory_monitor_joined'] is True
+    assert context['configuration']==dict(suites=['all'],include_focused=True,require_clean=True,
+        timeout_seconds=900,expected_revision=REVISION)
+    assert [c['log'] for c in q['commands']]==SOURCE_LOGS
+    phase=dict(phase_1=0,phase_2=0)
+    for command in q['commands']:
+        assert command['passed'] is True and command['tree_reaped'] is True and command['source_after']==EXPECTED
+        assert command['returncode']==command['failures']==command['errors']==command['skipped']==command['expected_failures']==command['unexpected_successes']==0
+        raw=capture(source/command['log'],'source/'+command['log'])
+        assert sha(raw)=='sha256:'+command['log_sha256']
+        result=parse_result(raw.decode('utf-8').replace('\r\n','\n'),returncode=0)
+        assert result.passed and result.tests_run==command['tests_run']
+        phase[command['phase']]+=result.tests_run
+    assert phase==dict(phase_1=247,phase_2=1769)
+    tracked=set(subprocess.check_output(['git','ls-files','--','src','tests','tools','packaging','ui','docs','contracts'],
+        cwd=REPO,text=True,encoding='utf-8',timeout=15).splitlines())
+    assert len(tracked)==618 and set(context['source_input_hashes'])==tracked,'UNEXPECTED_SOURCE_INPUT_SET'
+    for name,expected in context['source_input_hashes'].items():
+        path=REPO/name;_local_path(path)
+        assert not Path(name).is_absolute() and '..' not in Path(name).parts
+        assert sha((_windows_read if os.name=='nt' else _posix_read)(path,64*1024**2))==expected
+    for name,expected in REVIEWED.items():assert sha(capture(BASE/name,'tools/'+name))=='sha256:'+expected
+    assert context['launcher_sha256']=='sha256:'+REVIEWED['s12_runtime_identity_sharing_fixed_source_qualify.py']
+    assert context['awake_request']['restored'] is True
+    assert context['awake_helper_sha256_before']==context['awake_helper_sha256_after']=='sha256:'+REVIEWED['local_windows_qualification_awake.py']
+    assert native['awake_request']['restored'] is True
+    for name,count,failures,errors,code in [
+        ('S12-runtime-identity-native-handoff-initial-RED.log',1,1,0,1),
+        ('S12-runtime-identity-native-handoff-RED.log',1,0,1,1),
+        ('S12-runtime-identity-sharing-fixed-native-guards-GREEN.log',4,0,0,0)]:
+        value=parse_result(capture(BASE/name,'tool-history/'+name).decode('utf-8'),returncode=code)
+        assert (value.tests_run,value.failures,value.errors,value.returncode)==(count,failures,errors,code)
+    for name in ('retain_s12_runtime_identity_sharing_fixed_qualification.py','test_s12_runtime_identity_sharing_fixed_retention_scope.py'):
+        capture(BASE/name,'tools/'+name)
+    for label in ('GREEN',):
+        name=f'S12-runtime-identity-sharing-fixed-retention-scope-{label}.log';raw=capture(BASE/name,'tool-history/'+name)
+        result=parse_result(raw.decode('utf-8').replace('\r\n','\n'),returncode=0)
+        assert result.passed and result.tests_run==2
+    review=report(BASE/'S12-runtime-identity-sharing-fixed-bounded-review.json','bounded-review.json')
+    assert review['critical']==review['important']==0 and review['reviewer_execution']=='NONE'
+    expected_review=set(REVIEWED)|{'retain_s12_runtime_identity_sharing_fixed_qualification.py','test_s12_runtime_identity_sharing_fixed_retention_scope.py'}
+    assert set(review['reviewed_external_raw_sha256'])==expected_review
+    for name,expected in review['reviewed_external_raw_sha256'].items():assert sha(capture(BASE/name))=='sha256:'+expected
+    assert native['passed'] is True and native['executable_revision']==REVISION
+    assert native['native_worker_invoked'] is False and native['ordinary_native_paper']=='NOT_RUN'
+    assert [c['label'] for c in native['commands']]==['build','smoke','historical-paper','paper-reader']
+    for path in native_paths:assert sha(capture(path))==native['input_hashes_before'][path.relative_to(PROJECT).as_posix()]
+    for command in native['commands']:
+        assert command['passed'] is True and command['tree_reaped'] is True and command['exit_code']==0
+        assert command['log']==f'S12-runtime-identity-sharing-fixed-{SHORT}-native-{command["label"]}.log'
+        assert sha(capture(BASE/command['log'],'native/'+command['log']))==command['log_sha256']
+    build_root=BASE/f'r7-native-windows-S12-runtime-identity-sharing-fixed-{SHORT}';package=build_root/'dist/R7'
+    identity=verify_distribution(package)
+    assert identity==native['native_build_identity'] and identity['executable_revision']==REVISION
+    assert identity['implementation_hash']==context['implementation_hash']
+    build=report(build_root/'build-result.json','native-build/build-result.json')
+    assert build['identity']==identity and build['target']=='windows'
+    assert build['source']==EXPECTED|{'implementation_hash':context['implementation_hash']}
+    assert build['archive']==f'r7-product-0.2.0-windows-{SHORT}.zip'
+    assert sha(capture(build_root/build['archive'],limit=128*1024**2))=='sha256:'+build['archive_sha256']
+    for path,target in [(build_root/'pyinstaller.log','pyinstaller.log'),(package/'distribution.json','distribution.json'),
+        (package/'licenses/inventory.json','licenses-inventory.json')]:capture(path,'native-build/'+target)
+    probes=[('smoke','native-smoke.json',8,SMOKE_LOGS),
+        ('historical','native-paper-feedback.json',3,['01-historical-paper-publish.log','02-historical-paper-idempotent.log']),
+        ('reader','native-paper-reader.json',2,['01-native-profile.log','02-native-control.log'])]
+    for label,name,count,logs in probes:
+        prefix='r7-native-S12-runtime-identity-sharing-fixed-reader-fixed' if label in ('smoke','historical') else 'r7-native-S12-storage-reader-fixed'
+        folder=BASE/f'{prefix}-{label}-{SHORT}';target='native-'+label
+        value=report(folder/name,target+'/'+name)
+        assert value['passed'] is True and value['identity']==identity and value['scenario_count']==count
+        assert len(value['scenarios'])==count and [c['log'] for c in value['commands']]==logs
+        for case in value['scenarios']:assert case.get('passed',case.get('result')=='PASS') is True
+        for command in value['commands']:
+            assert command['passed'] is True and command['tree_reaped'] is True
+            raw=capture(folder/command['log'],target+'/'+command['log']);expected=command['log_sha256']
+            assert sha(raw)==(expected if expected.startswith('sha256:') else 'sha256:'+expected)
+        if label in ('historical','reader'):
+            assert value['source_before']==value['source_after']==EXPECTED
+        if label=='historical':
+            assert value['normal_runtime']=='NOT_RUN' and value['fixture_cleanup_complete'] is True
+            assert value['input_sha256_before']==value['input_sha256_after']
+        if label=='reader':
+            paths=[BASE/'s12_storage_native_paper_reader.py',BASE/'s09_owner_worker_native_regression.py',
+                REPO/'src/application/local_owners.py',REPO/'src/application/control_api/paper_ports.py',
+                REPO/'src/application/entrypoints.py',REPO/'src/application/control_api/auth.py',
+                REPO/'src/application/control_api/app.py',BASE/'s13_native_access_integrity.py',
+                REPO/'src/application/platform/_loopback_probe.py']
+            assert set(value['input_hashes_before'])=={p.relative_to(PROJECT).as_posix() for p in paths}
+            assert value['input_hashes_before']==value['input_hashes_after']
+            for path in paths:assert sha(capture(path))==value['input_hashes_before'][path.relative_to(PROJECT).as_posix()]
+            assert value['native_worker_invoked'] is False and value['ordinary_native_paper']=='NOT_RUN'
+            assert value['auth_origin']=='SOURCE_CREATED_NEW_SYNTHETIC_LOCAL_AUTH_FIXTURE;NOT_NATIVE_CLI_ENROLLMENT'
+            assert value['native_path']=='EMPTY' and value['native_pythonpath']=='UNSET'
+            assert value['real_credentials']=='NONE' and value['provider_requests']==0 and value['capital']=='NONE'
+    samples=hardware['samples'];assert samples
+    memory=dict(samples=len(samples),minimum_available_bytes=min(x['available_memory_bytes'] for x in samples),
+        below_unchanged_admission_threshold=sum(x['available_memory_bytes']<x['existing_admission_minimum_bytes'] for x in samples),
+        scope=hardware['scope'])
+    facts=dict(task_id=context['task_id'],spec_baseline=context['spec_baseline'],spec_revision=context['spec_revision'],
+        revision=REVISION,implementation_hash=context['implementation_hash'],
+        source=dict(passed=True,tests=2016,commands=33,phase=phase),source_input_files=618,
+        native_build=identity,native_scoped=dict(passed=True,scenarios=13,commands=13,wrapper_stages=4),memory=memory,
+        source_awake_request=context['awake_request'],native_awake_request=native['awake_request'],
+        accepted_prior_revision='083fd10e419e3eec903c3597093ea56e465f57cd',new_component_cases=22,fixture_sharing_cases=3,failed_prior_candidate='3c7c04c7fd9ebd06a626756c7313c4c17168a4ec;NO_FULL_CREDIT',
+        external_native_guard_tests=4,external_retention_guard_tests=2,
+        native_runtime_identity_accessor='NOT_INVOKED',native_worker_invoked=False,ordinary_native_paper='NOT_RUN',
+        browser='NOT_RUN_FOR_THIS_CANDIDATE',production_profile='PROPOSED_NOT_ACTIVE',owning_producer='NOT_IMPLEMENTED',
+        ubuntu24='NOT_RUN',ubuntu26='NOT_RUN',real_cloud='NOT_RUN',real_dataset='NOT_RUN',real_forward='NOT_RUN',
+        provider_requests=0,credentials='NONE',capital='NONE',github_compute='NOT_USED',master='IN_PROGRESS',
+        scope='READ_ONLY_RUNTIME_IDENTITY_SOURCE_COMPONENT_FULL_SOURCE_REGRESSION_AND_CURRENT_BUILD_EXISTING13_NATIVE_SCENARIOS;NO_NATIVE_ACCESSOR_OR_ORDINARY_PAPER_EXECUTION',
+        limitations=['2016 source execution instances include focused repeats; not distinct definitions.',
+          'Native13 are8 first-run,3 historical publication,2 source-created synthetic auth empty reads/start denial.',
+          'No native CLI auth enrollment,managed reader stop,native accessor/worker,current browser or whole-product acceptance.',
+          'No24GB target or pressure-capacity claim; no historical qualification transferred.',
+          'Earlier native handoff RED logs are historical only; fresh4 guards use the current wrapper.',
+          'Prior3c7 source failed and stays unqualified; original exact child failure cause unproven, compatible Windows race fixed.'])
+    retained['disposition.json']=encoded(facts)
+    for path,raw in snapshots.items():assert read_public(path,max(64*1024**2,len(raw)))==raw
+    assert revision_fact(REPO,REVISION,True)==EXPECTED and verify_distribution(package)==identity
+    return retained,snapshots,facts
+
+def main():
+    retained,snapshots,facts=collect();assert len(retained)==81;target=REPO/REF
+    _local_path(target);assert not os.path.lexists(target);target.mkdir()
+    manifest={}
+    for name,raw in sorted(retained.items()):
+        path=target/name;_local_path(path);path.parent.mkdir(exist_ok=True)
+        with path.open('xb') as stream:stream.write(raw)
+        assert read_local(path.parent,path.name,64*1024**2)==raw
+        manifest[path.relative_to(REPO).as_posix()]=sha(raw)
+    path=target.parent/f'runtime-identity-sharing-fixed-qualified-artifact-hashes-{SHORT}.json';_local_path(path)
+    with path.open('xb') as stream:stream.write(encoded(dict(files=manifest,
+        captured_raw_sha256={p.relative_to(PROJECT).as_posix():sha(raw) for p,raw in snapshots.items()},
+        capture_tool_sha256=sha(read_public(Path(__file__),1024**2)),scope='FIXED_PUBLIC_CORPUS;PRIVATE_DB_CONFIG_ARCHIVE_NOT_RETAINED')))
+    print(json.dumps(dict(retained_files=len(manifest),source_tests=2016,native_scoped=facts['native_scoped'],state='MASTER_IN_PROGRESS')))
+
+if __name__=='__main__':main()

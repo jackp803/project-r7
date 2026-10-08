@@ -1,0 +1,16 @@
+test_reader_receives_its_bound_output_and_full_revision_before_package_read (test_s12_runtime_identity_native_handoff.NativeReaderHandoff.test_reader_receives_its_bound_output_and_full_revision_before_package_read) ... ERROR
+
+======================================================================
+ERROR: test_reader_receives_its_bound_output_and_full_revision_before_package_read (test_s12_runtime_identity_native_handoff.NativeReaderHandoff.test_reader_receives_its_bound_output_and_full_revision_before_package_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s12_runtime_identity_native_handoff.py", line 20, in test_reader_receives_its_bound_output_and_full_revision_before_package_read
+    reader._require_subject(package,Path(argv[3]),argv[4])
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\s12_storage_native_paper_reader.py", line 29, in _require_subject
+    raise ValueError('NATIVE_READER_OUTPUT_SUBJECT_MISMATCH')
+ValueError: NATIVE_READER_OUTPUT_SUBJECT_MISMATCH
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)

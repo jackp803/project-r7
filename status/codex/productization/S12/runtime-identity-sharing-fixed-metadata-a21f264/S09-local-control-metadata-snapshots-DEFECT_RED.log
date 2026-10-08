@@ -1,0 +1,42 @@
+test_empty_manifest_is_rejected_before_progress_update (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_empty_manifest_is_rejected_before_progress_update) ... FAIL
+test_metadata_uses_the_verified_build_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_build_bytes) ... FAIL
+test_metadata_uses_the_verified_disposition_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_disposition_bytes) ... FAIL
+
+======================================================================
+FAIL: test_empty_manifest_is_rejected_before_progress_update (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_empty_manifest_is_rejected_before_progress_update)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 47, in test_empty_manifest_is_rejected_before_progress_update
+    with self.assertRaisesRegex(AssertionError,'MISSING_MANDATORY_QUALIFICATION_ARTIFACTS'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+======================================================================
+FAIL: test_metadata_uses_the_verified_build_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_build_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 43, in test_metadata_uses_the_verified_build_bytes
+    self.assertEqual(saved['PROGRESS.json']['platforms']['windows-11-x86_64']['native_archive_sha256'],expected)
+AssertionError: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' != 'ac470b606c2265108405ad605074aec844bcde819fb7a280de0f6d07768a9292'
+- bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
++ ac470b606c2265108405ad605074aec844bcde819fb7a280de0f6d07768a9292
+
+
+======================================================================
+FAIL: test_metadata_uses_the_verified_disposition_bytes (test_s09_local_control_metadata_snapshots.MetadataSnapshotTests.test_metadata_uses_the_verified_disposition_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s09_local_control_metadata_snapshots.py", line 37, in test_metadata_uses_the_verified_disposition_bytes
+    self.assertEqual(saved['PROGRESS.json']['paper_read_control_composition']['implementation_hash'],expected)
+AssertionError: 'sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' != 'sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734'
+- sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
++ sha256:115cc62f2d7c9574557bb43f99c2346ea0b74180e746b63dded6cf64df8f6734
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.132s
+
+FAILED (failures=3)
+{"recorded": true, "qualified_executable": "41fa2fe0d74435fed5831ed728af8b87c28883f0", "retained_files": 0, "state": "IN_PROGRESS"}
+{"recorded": true, "qualified_executable": "41fa2fe0d74435fed5831ed728af8b87c28883f0", "retained_files": 74, "state": "IN_PROGRESS"}
+{"recorded": true, "qualified_executable": "41fa2fe0d74435fed5831ed728af8b87c28883f0", "retained_files": 74, "state": "IN_PROGRESS"}

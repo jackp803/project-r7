@@ -131,7 +131,11 @@ def _local_path(path):
     require_local_database_volume(path)
     for current in (*reversed(path.parents), path):
         try:
-            information = current.lstat()
+            if os.name=='nt':
+                from application.cloud.safe_files import _windows_native_path
+                information = Path(_windows_native_path(current)).lstat()
+            else:
+                information = current.lstat()
         except FileNotFoundError:
             continue
         if stat.S_ISLNK(information.st_mode) or getattr(information, 'st_file_attributes', 0) & 0x400:

@@ -11,12 +11,12 @@ from pathlib import Path
 
 from application.platform.backup import (_capture_database_bundle, _inventory,
     _destination, _deadline, _profile_current, _unique_pairs, CONSISTENCY, _verify_database_backup_snapshot)
-from application.platform.private_files import create_private_directory, require_private, write_private_new
+from application.platform.private_files import create_private_directory, require_private, write_private_new, _filesystem_path
 from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
 from application.platform.supervision import _local_path, config_hash
 from application.cloud.manifest import safe_relative, parse_manifest, validate_package, scan_untrusted
 from application.cloud.protocol import PackageSnapshot
-from application.cloud.safe_files import read_bounded
+from application.cloud.safe_files import read_bounded, _windows_native_path
 from application.datasets.catalog import DatasetCatalog, decode, read_local
 from application.research.evidence import stamp, capture_provenance
 
@@ -60,7 +60,8 @@ def _walk(root, end, *, exclusions=True):
     while pending:
         directory = pending.pop()
         _local_path(directory)
-        for path in directory.iterdir():
+        for entry in _filesystem_path(directory).iterdir():
+            path = directory / entry.name
             _deadline(end)
             visited += 1
             if visited > MAX_FILES * 2:
@@ -71,7 +72,7 @@ def _walk(root, end, *, exclusions=True):
                 continue  # Deliberately do not open or enumerate captures/locks.
             _safe_backup_relative(relative)
             _local_path(path)
-            information = path.lstat()
+            information = entry.lstat()
             if stat.S_ISDIR(information.st_mode):
                 pending.append(path)
             elif stat.S_ISREG(information.st_mode) and information.st_nlink == 1:
@@ -99,7 +100,7 @@ def _opened_source(path):
             for index, part in enumerate(path.parts[1:]):
                 current = current / part
                 directory = index < len(path.parts) - 2
-                handle = kernel.CreateFileW(str(current), 0x80 if directory else 0x80000000,
+                handle = kernel.CreateFileW(_windows_native_path(current), 0x80 if directory else 0x80000000,
                     1, None, 3, 0x200000 | (0x2000000 if directory else 0), None)
                 if handle == ctypes.c_void_p(-1).value:
                     raise ProductBackupError('PRODUCT_BACKUP_PINNED_READ_DENIED')
@@ -220,13 +221,13 @@ def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadat
 def _copy_file(source, target, row, end):
     for parent in reversed(target.parent.parents):
         # Caller establishes the private root; create only missing descendants.
-        if not parent.exists():
+        if not _filesystem_path(parent).exists():
             create_private_directory(parent)
-    if not target.parent.exists():
+    if not _filesystem_path(target.parent).exists():
         create_private_directory(target.parent)
     write_private_new(target, b'')
     count, digest = 0, hashlib.sha256()
-    with _opened_source(source) as incoming, target.open('wb') as outgoing:
+    with _opened_source(source) as incoming, _filesystem_path(target).open('wb') as outgoing:
         while chunk := incoming.read(1024 * 1024):
             _deadline(end)
             count += len(chunk)
@@ -291,7 +292,7 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
             manifest = dict(schema_version=SCHEMA, backup_id=db_manifest['backup_id'], created_at=stamp(datetime.now(timezone.utc)),
                 product_instance_id=config.product_instance_id, config_hash=config_hash(config), data_class='PRIVATE_LOCAL',
                 cloud_publication='FORBIDDEN', consistency=CONSISTENCY, source_provenance=capture_provenance(),
-                database_manifest_sha256='sha256:'+hashlib.sha256((target/'databases'/'manifest.json').read_bytes()).hexdigest(),
+                database_manifest_sha256='sha256:'+hashlib.sha256(_filesystem_path(target/'databases'/'manifest.json').read_bytes()).hexdigest(),
                 files=rows, coverage='COMPLETE_SUPPORTED_LOCAL_PROFILE', excluded_transient_roots=excluded,
                 source_restoration=restoration)
             _deadline(end)
@@ -331,7 +332,7 @@ def _verified_manifest(config, destination, end):
         _safe_backup_relative(row['relative_path'])
     if len({row['relative_path'].casefold() for row in rows}) != len(rows):
         raise ProductBackupError('PRODUCT_BACKUP_MANIFEST_INVALID')
-    if {p.name for p in path.iterdir()} != {'databases','files','manifest.json'}:
+    if {p.name for p in _filesystem_path(path).iterdir()} != {'databases','files','manifest.json'}:
         raise ProductBackupError('PRODUCT_BACKUP_UNEXPECTED_ARTIFACT')
     require_private(path/'files', directory=True)
     actual, _ = _data_inventory(path/'files', end, exclusions=False)

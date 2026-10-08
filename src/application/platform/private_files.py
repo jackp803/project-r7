@@ -5,6 +5,12 @@ from pathlib import Path
 import stat
 
 from application.platform.supervision import _local_path
+from application.cloud.safe_files import _windows_native_path
+
+
+def _filesystem_path(path):
+    """Native spelling only; original logical path checks still precede I/O."""
+    return Path(_windows_native_path(path)) if os.name=='nt' else Path(path)
 
 
 def _windows_security():
@@ -63,7 +69,7 @@ def _current_sid(security, kernel):
 def require_private(path, *, directory=False):
     path = Path(path)
     _local_path(path)
-    information = path.lstat()
+    information = _filesystem_path(path).lstat()
     if (directory and not stat.S_ISDIR(information.st_mode)) or (not directory and not stat.S_ISREG(information.st_mode)):
         raise ValueError('Private regular artifact required')
     if not directory and information.st_nlink != 1:
@@ -75,11 +81,11 @@ def require_private(path, *, directory=False):
     from ctypes import wintypes as w
     security, kernel = _windows_security()
     size = w.DWORD()
-    security.GetFileSecurityW(str(path), 4, None, 0, ctypes.byref(size))
+    security.GetFileSecurityW(_windows_native_path(path), 4, None, 0, ctypes.byref(size))
     if not 0 < size.value <= 65536:
         raise OSError('Private permissions unavailable')
     descriptor = ctypes.create_string_buffer(size.value)
-    if not security.GetFileSecurityW(str(path), 4, descriptor, size, ctypes.byref(size)):
+    if not security.GetFileSecurityW(_windows_native_path(path), 4, descriptor, size, ctypes.byref(size)):
         raise OSError('Private permissions unavailable')
     control, revision = w.WORD(), w.DWORD()
     if not security.GetSecurityDescriptorControl(descriptor, ctypes.byref(control), ctypes.byref(revision)):
@@ -105,7 +111,7 @@ def require_private(path, *, directory=False):
 def create_private_directory(path):
     path = Path(path)
     _local_path(path)
-    path.mkdir(mode=0o700)  # Explicit existing parent; never replace/merge.
+    _filesystem_path(path).mkdir(mode=0o700)  # Explicit existing parent; never replace/merge.
     if os.name == 'nt':
         security, kernel = _windows_security()
         descriptor = ctypes.c_void_p()
@@ -113,7 +119,7 @@ def create_private_directory(path):
         if not security.ConvertStringSecurityDescriptorToSecurityDescriptorW(sddl, 1, ctypes.byref(descriptor), None):
             raise OSError('Private permissions initialization failed')
         try:
-            if not security.SetFileSecurityW(str(path), 4 | 0x80000000, descriptor):
+            if not security.SetFileSecurityW(_windows_native_path(path), 4 | 0x80000000, descriptor):
                 raise OSError('Private permissions initialization failed')
         finally:
             kernel.LocalFree(descriptor)
@@ -121,7 +127,9 @@ def create_private_directory(path):
 
 
 def write_private_new(path, raw):
-    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    path=Path(path)
+    _local_path(path)
+    descriptor = os.open(_filesystem_path(path), os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(descriptor, 'wb') as stream:
         stream.write(raw)
         stream.flush()

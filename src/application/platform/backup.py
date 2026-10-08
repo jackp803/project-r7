@@ -7,15 +7,17 @@ from contextlib import ExitStack, closing
 from datetime import datetime, timezone
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import sqlite3
 import time
 import uuid
+from urllib.parse import quote
 
 from application.config import ProductConfig, load_config
 from application.platform.paths import overlapping
-from application.platform.private_files import create_private_directory, require_private, write_private_new
+from application.platform.private_files import create_private_directory, require_private, write_private_new, _filesystem_path
 from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
 from application.platform.supervision import _local_path, config_hash
 from application.research.evidence import capture_provenance, stamp
@@ -67,7 +69,8 @@ def _deadline(end):
 def _connect(path, mode, end, *, immutable=False):
     _local_path(path)
     suffix = '&immutable=1' if immutable else ''
-    db = sqlite3.connect(path.as_uri() + '?mode=' + mode + suffix, timeout=min(2, max(0.001, end - time.monotonic())), uri=True)
+    uri = 'file:' + quote(str(_filesystem_path(path)), safe='/:') if os.name == 'nt' else path.as_uri()
+    db = sqlite3.connect(uri + '?mode=' + mode + suffix, timeout=min(2, max(0.001, end - time.monotonic())), uri=True)
     db.execute('PRAGMA trusted_schema=OFF')
     db.set_progress_handler(lambda: int(time.monotonic() >= end), 1000)
     return db
@@ -86,15 +89,17 @@ def _database_facts(db):
 
 
 def _hash_file(path, end):
-    size = path.stat().st_size
+    _local_path(path)
+    native = _filesystem_path(path)
+    size = native.stat().st_size
     if not 0 < size <= MAX_DATABASE_BYTES:
         raise BackupError('DATABASE_SIZE_LIMIT')
     digest = hashlib.sha256()
-    with path.open('rb') as stream:
+    with native.open('rb') as stream:
         while raw := stream.read(1024 * 1024):
             _deadline(end)
             digest.update(raw)
-    if path.stat().st_size != size:
+    if native.stat().st_size != size:
         raise BackupError('BACKUP_ARTIFACT_CHANGED')
     return {'sha256': 'sha256:' + digest.hexdigest(), 'bytes': size}
 
@@ -108,8 +113,9 @@ def _present(inventory):
     result = set()
     for name, path in inventory.items():
         _local_path(path)
-        if path.exists():
-            if not path.is_file() or path.stat().st_nlink != 1:
+        native = _filesystem_path(path)
+        if native.exists():
+            if not native.is_file() or native.stat().st_nlink != 1:
                 raise BackupError('REGULAR_SINGLE_LINK_DATABASE_REQUIRED')
             result.add(name)
     if 'canonical' not in result:
@@ -133,7 +139,7 @@ def _capture_database_bundle(config, path, inventory, end, stack, *, config_path
         _deadline(end)
         target = path / (name + '.sqlite')
         write_private_new(target, b'')
-        with closing(_connect(inventory[name], 'ro', end)) as source, closing(sqlite3.connect(target)) as copied:
+        with closing(_connect(inventory[name], 'ro', end)) as source, closing(_connect(target, 'rw', end)) as copied:
             copied.execute('PRAGMA journal_mode=DELETE')
             copied.execute('PRAGMA synchronous=FULL')
             source.backup(copied, pages=128, progress=lambda *_: _deadline(end), sleep=0.05)
@@ -198,7 +204,7 @@ def _verify_database_backup_snapshot(config, destination, *, timeout_seconds=30,
         require_private(path, directory=True)
         manifest_path = path / 'manifest.json'
         require_private(manifest_path)
-        with manifest_path.open('rb') as stream:
+        with _filesystem_path(manifest_path).open('rb') as stream:
             raw = stream.read(65537)
         if len(raw) > 65536:
             raise BackupError('BACKUP_MANIFEST_SIZE_LIMIT')
@@ -244,9 +250,9 @@ def _verify_database_backup_snapshot(config, destination, *, timeout_seconds=30,
                 raise BackupError('BACKUP_ARTIFACT_CHANGED_DURING_INSPECTION')
         if 'canonical' not in found or found & set(absent) or found | set(absent) != set(inventory):
             raise BackupError('BACKUP_MANIFEST_INVENTORY_INVALID')
-        if {item.name for item in path.iterdir()} != {'manifest.json', *(name + '.sqlite' for name in found)}:
+        if {item.name for item in _filesystem_path(path).iterdir()} != {'manifest.json', *(name + '.sqlite' for name in found)}:
             raise BackupError('BACKUP_UNEXPECTED_ARTIFACT')
-        with manifest_path.open('rb') as stream:
+        with _filesystem_path(manifest_path).open('rb') as stream:
             if stream.read(65537)!=raw:
                 raise BackupError('BACKUP_MANIFEST_CHANGED_DURING_INSPECTION')
         summary=dict(status='DATABASE_BACKUP_VERIFIED', schema_version=SCHEMA, backup_id=manifest['backup_id'],

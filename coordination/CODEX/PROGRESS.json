@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S09/S12/S13",
-  "next_step": "Continue owning fixed-check producer/current-release adapter and packaged PAPER worker integration. Production release profile remains PROPOSED_NOT_ACTIVE pending PM/E6 mapping acceptance. Complete current browser/S15 mapping and mandatory Ubuntu/S16 evidence without transferring historical or FIXTURE PASS.",
+  "next_step": "Continue owning release producer/current adapter and packaged PAPER worker integration under PM/E6 accepted mappings. Map current source UI15/Edge11 and owner component evidence into S15 scoped support without full requirement credit. Native UI, Ubuntu24/26/S16 and real-forward/cloud/dataset commissioning remain pending; production profile PROPOSED_NOT_ACTIVE.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -81,7 +81,10 @@
       "native_first_run_build_hash": "sha256:24f2a04e4cce72166b33eae75bcde0136d23bd8d4e22b1654a91f24e0858b087",
       "native_archive_sha256": "fd627bdc13c38eb85cd747e657c76e1dad7cdb4f7c9a2261c7d6d39407f413c3",
       "native_full_product_acceptance": "NOT_RUN",
-      "native_package_scope": "CURRENT_BUILD8_FIRST_RUN3_HISTORICAL2_SOURCE_AUTH_EMPTY_READ_START_DENIAL;NEW_NATIVE_FACTORY_WORKER_BROWSER_NOT_RUN"
+      "native_package_scope": "CURRENT_BUILD8_FIRST_RUN3_HISTORICAL2_SOURCE_AUTH_EMPTY_READ_START_DENIAL;NEW_NATIVE_FACTORY_WORKER_BROWSER_NOT_RUN",
+      "current_source_ui_status": "BOUND_FIXTURE_UNIT15_EDGE11_PASS",
+      "current_source_ui_revision": "e1e738dc0384e56cf0a6a3d56c16a37279e6d4b9",
+      "native_ui_current_status": "NOT_RUN"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -1697,6 +1700,19 @@
       "independent_review": "BOUNDED_SOURCE_AND_TOOLING0_CRITICAL0_IMPORTANT;REVIEWER_EXECUTION_NONE;NOT_WHOLE_PRODUCT_ACCEPTANCE",
       "step": "S09/S12/S13",
       "phase": "TRUSTED_PAPER_OWNER_SOURCE_AND_CURRENT_EXISTING_NATIVE_REGRESSIONS"
+    },
+    {
+      "step": "S13/S15",
+      "status": "SCOPED_CURRENT_SOURCE_UI_PASS",
+      "execution_revision": "e1e738dc0384e56cf0a6a3d56c16a37279e6d4b9",
+      "qualified_executable_revision": "ac0b889829777db884666f82bd2d18f2c38ba4cb",
+      "unit_tests": 15,
+      "browser_tests": 11,
+      "external_asset_guard_tests": 3,
+      "failures": 0,
+      "skipped": 0,
+      "evidence_ref": "status/codex/productization/S13/current-source-ui-bound-e1e738d/disposition.json",
+      "scope": "ACTUAL_LOCAL_WINDOWS_EDGE_SOURCE_UI_WITH_ISOLATED_CANONICAL_FIXTURE_API;NO_NATIVE_UI_ORDINARY_OR_FORWARD_PAPER"
     }
   ],
   "evidence_refs": [
@@ -1762,7 +1778,8 @@
     "status/codex/productization/S12/runtime-identity-source-20261008/disposition.json",
     "status/codex/productization/S12/runtime-identity-sharing-fixed-qualified-a21f264-py312/disposition.json",
     "status/codex/productization/S09/paper-owner-composition-source-20261008/disposition.json",
-    "status/codex/productization/S09/paper-owner-composition-qualified-ac0b889-py312/disposition.json"
+    "status/codex/productization/S09/paper-owner-composition-qualified-ac0b889-py312/disposition.json",
+    "status/codex/productization/S13/current-source-ui-bound-e1e738d/disposition.json"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -2567,5 +2584,45 @@
     "external_retention_guard_tests": 0,
     "retained_files": 77,
     "independent_review": "BOUNDED_SOURCE_AND_TOOLING0_CRITICAL0_IMPORTANT;REVIEWER_EXECUTION_NONE;NOT_WHOLE_PRODUCT_ACCEPTANCE"
+  },
+  "current_source_ui_checkpoint": {
+    "status": "CURRENT_SOURCE_UI_BOUND_ISOLATED_FIXTURE_PASS;MASTER_IN_PROGRESS",
+    "execution_revision": "e1e738dc0384e56cf0a6a3d56c16a37279e6d4b9",
+    "qualified_executable_revision": "ac0b889829777db884666f82bd2d18f2c38ba4cb",
+    "compatibility": "ALL621_SOURCE_INPUTS_AND_IMPLEMENTATION_BYTES_IDENTICAL;EXECUTION_REVISION_METADATA_ONLY_DESCENDANT;NOT_NATIVE_UI_CREDIT",
+    "implementation_hash": "sha256:67fcf7cb612e1ccd8d0ad2c7229e15f4598914f1c97c90c0add5d9db6439824b",
+    "source_inputs": 621,
+    "unit_tests": 15,
+    "browser_tests": 11,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "flaky": 0,
+    "commands": 5,
+    "tree_reaped": true,
+    "awake_restored": true,
+    "ui_dist_inventory": {
+      "d:.vite": "DIRECTORY",
+      "f:.vite/manifest.json": "sha256:4a7f51cdfb5855879d5928cd2974d0f44c0cc613f3edfe1de7ff029863417d03",
+      "d:assets": "DIRECTORY",
+      "f:assets/index-9eMSzMnz.js": "sha256:238a38a07d857b988c54a6c6d753c95a34cedc3fecad28a1772b86ae9703e323",
+      "f:assets/index-BNcSzDm-.css": "sha256:02a7ab1781f630311da93920ebc814cb2ccf753c9b8fef9bfe207b9fe9d45998",
+      "f:index.html": "sha256:14e11e8a8f441a37a03d56276416ff386392116e8621b248ca1ae1baff51b642"
+    },
+    "ui_dist_inventory_hash": "sha256:92debd2780a54f09a909acb5520106efc802443575e76b2aa73fa48213ee4c55",
+    "external_asset_guard_tests": 3,
+    "original_unbound_observation": "15UNIT11BROWSER_OBSERVED_PASS;BUILT_ASSET_SUBJECT_UNBOUND;NO_FINAL_UI_ACCEPTANCE_CREDIT",
+    "visual_review": "SELF_REVIEW_OF_OWNED_FIXTURE_OVERVIEW;TRADITIONAL_CHINESE_LAYOUT_AND_FIXTURE_NULL_LABELS",
+    "native_ui": "NOT_RUN",
+    "ordinary_paper": "NOT_RUN",
+    "real_forward": "NOT_RUN",
+    "production_profile": "PROPOSED_NOT_ACTIVE",
+    "full_requirement_pass_claims": 0,
+    "provider_requests": 0,
+    "credentials": "NONE",
+    "capital": "NONE",
+    "github_compute": "NOT_USED",
+    "evidence_ref": "status/codex/productization/S13/current-source-ui-bound-e1e738d/disposition.json",
+    "manifest_ref": "status/codex/productization/S13/current-source-ui-bound-artifact-hashes-e1e738d.json"
   }
 }

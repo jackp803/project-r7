@@ -1,0 +1,41 @@
+test_actual_hardlinked_asset_is_rejected (test_s13_current_ui_dist_guard.DistSubjectGuards.test_actual_hardlinked_asset_is_rejected) ... FAIL
+test_added_or_deleted_actual_asset_cannot_keep_original_subject (test_s13_current_ui_dist_guard.DistSubjectGuards.test_added_or_deleted_actual_asset_cannot_keep_original_subject) ... FAIL
+test_changed_actual_asset_cannot_keep_original_subject (test_s13_current_ui_dist_guard.DistSubjectGuards.test_changed_actual_asset_cannot_keep_original_subject) ... FAIL
+
+======================================================================
+FAIL: test_actual_hardlinked_asset_is_rejected (test_s13_current_ui_dist_guard.DistSubjectGuards.test_actual_hardlinked_asset_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s13_current_ui_dist_guard.py", line 33, in test_actual_hardlinked_asset_is_rejected
+    capture,_=self.methods()
+              ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s13_current_ui_dist_guard.py", line 8, in methods
+    self.assertTrue(callable(capture) and callable(require),'Built UI asset subject guards are missing')
+AssertionError: False is not true : Built UI asset subject guards are missing
+
+======================================================================
+FAIL: test_added_or_deleted_actual_asset_cannot_keep_original_subject (test_s13_current_ui_dist_guard.DistSubjectGuards.test_added_or_deleted_actual_asset_cannot_keep_original_subject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s13_current_ui_dist_guard.py", line 24, in test_added_or_deleted_actual_asset_cannot_keep_original_subject
+    capture,require=self.methods()
+                    ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s13_current_ui_dist_guard.py", line 8, in methods
+    self.assertTrue(callable(capture) and callable(require),'Built UI asset subject guards are missing')
+AssertionError: False is not true : Built UI asset subject guards are missing
+
+======================================================================
+FAIL: test_changed_actual_asset_cannot_keep_original_subject (test_s13_current_ui_dist_guard.DistSubjectGuards.test_changed_actual_asset_cannot_keep_original_subject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s13_current_ui_dist_guard.py", line 17, in test_changed_actual_asset_cannot_keep_original_subject
+    capture,require=self.methods()
+                    ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\test_s13_current_ui_dist_guard.py", line 8, in methods
+    self.assertTrue(callable(capture) and callable(require),'Built UI asset subject guards are missing')
+AssertionError: False is not true : Built UI asset subject guards are missing
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (failures=3)

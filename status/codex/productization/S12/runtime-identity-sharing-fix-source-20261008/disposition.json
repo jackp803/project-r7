@@ -1,0 +1,50 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "failed_executable_revision": "3c7c04c7fd9ebd06a626756c7313c4c17168a4ec",
+  "failed_source": {
+    "commands": 32,
+    "tests_run": 1968,
+    "failures": 1,
+    "errors": 0,
+    "registry": "NOT_RUN",
+    "qualification_credit": "NONE"
+  },
+  "original_child_trace": "UNAVAILABLE_ORIGINAL_TEMPORARY_LOG_REMOVED",
+  "root_cause_status": "DETERMINISTIC_WINDOWS_SHARING_RACE_REPRODUCED;COMPATIBLE_WITH_ORIGINAL_FAILURE_NOT_PROVEN_EXACT_CAUSE",
+  "diagnostic": {
+    "unchanged_isolation_case": "1_PASS",
+    "sample_gaps_max_seconds": 2.016529,
+    "memory_below_existing_admission": 0
+  },
+  "fixture_fix": {
+    "scope": "ISOLATED_TEST_WORKER_ONLY",
+    "windows_error_codes": [
+      5,
+      32
+    ],
+    "retry_window_seconds": 5,
+    "atomic_replace": true,
+    "observation_timeout_seconds": 20,
+    "paper_owned_timeout_seconds": 60,
+    "red": {
+      "tests": 2,
+      "failures": 2
+    },
+    "green": {
+      "tests": 3,
+      "failures": 0
+    },
+    "integration": {
+      "tests": 4,
+      "failures": 0
+    }
+  },
+  "new_candidate": "REQUIRED;FRESH_EXACT_CLEAN_FULL_SOURCE_AND_SCOPED_NATIVE_NOT_YET_RUN",
+  "production_profile": "PROPOSED_NOT_ACTIVE",
+  "ordinary_native_paper": "NOT_RUN",
+  "real_provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "master_complete": false
+}

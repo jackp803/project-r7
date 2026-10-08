@@ -10,7 +10,17 @@ import time
 def publish(path, value):
     temporary=path.with_suffix('.tmp')
     temporary.write_text(json.dumps(value,sort_keys=True)+'\n',encoding='utf-8')
-    temporary.replace(path)
+    # Ordinary Windows readers temporarily deny delete/replace sharing.
+    # Keep publication atomic; a permanent lock still fails within five seconds.
+    deadline=time.monotonic()+5
+    while True:
+        try:
+            temporary.replace(path)
+            return
+        except PermissionError as exc:
+            if os.name!='nt' or exc.winerror not in (5,32) or time.monotonic()>=deadline:
+                raise
+            time.sleep(.02)
 
 
 def paper(root):

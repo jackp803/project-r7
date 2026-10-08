@@ -5,7 +5,7 @@
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S09/S12/S13",
-  "next_step": "Qualify the exact-clean runtime identity read candidate with complete source/LF/FP regression; then continue owning fixed-check producer/current-release adapter and isolated actual native PAPER composition. Production release profile PROPOSED_NOT_ACTIVE pending PM/E6 acceptance. Mandatory Ubuntu/full master/S15/S16 remain open.",
+  "next_step": "Derive this new source checkpoint full Git HEAD, run artifacts/s12_runtime_identity_sharing_fixed_source_qualify.py with that exact-clean revision (all+focused, unchanged900s/thresholds); only after full PASS run fresh scoped native build/regression. Continue owning fixed-check producer/current-release adapter/isolated native PAPER, then current browser/S15/S16. Production profile PROPOSED_NOT_ACTIVE, Ubuntu and real commissioning pending.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -2343,7 +2343,7 @@
     "retained_files": 188
   },
   "runtime_identity_read": {
-    "status": "SOURCE_COMPONENT22_PASS;EXACT_CLEAN_FULL_QUALIFICATION_PENDING",
+    "status": "SOURCE_COMPONENT22_PASS;3C7_FULL_SOURCE_FAILED;SHARING_FIX_NEW_EXACT_CLEAN_CANDIDATE_PENDING",
     "source_parent_revision": "accfda5cde4c56dab6dba5af5f182ce6be09df2e",
     "implementation_hash": "sha256:9619620f97ca958450fae637c0037581011330627c0bf691563c13b1b81c1330",
     "new_cases": 22,
@@ -2355,6 +2355,27 @@
       "docs/product/v0_2/RUNTIME_IDENTITY_READ_IMPLEMENTATION.md": "942f9c59e33087dc68c949ec4258d2afb471873b7eb68a156fb491a4ca1045f2"
     },
     "ordinary_native_paper": "NOT_RUN",
-    "production_profile": "PROPOSED_NOT_ACTIVE"
+    "production_profile": "PROPOSED_NOT_ACTIVE",
+    "failed_source_qualification": {
+      "executable_revision": "3c7c04c7fd9ebd06a626756c7313c4c17168a4ec",
+      "commands": 32,
+      "tests_run": 1968,
+      "failures": 1,
+      "errors": 0,
+      "registry": "NOT_RUN",
+      "full_qualification_credit": "NONE"
+    },
+    "fixture_sharing_fix": {
+      "status": "3_FOCUSED_AND4_INTEGRATED_PASS;FRESH_FULL_QUALIFICATION_PENDING",
+      "root_cause": "OBSERVED_WINDOWS_ATOMIC_REPLACE_SHARING_RACE;ORIGINAL_FAILURE_EXACT_CAUSE_UNPROVEN",
+      "scope": "ISOLATED_TEST_WORKER_ONLY",
+      "red_tests": 2,
+      "red_failures": 2,
+      "green_tests": 3,
+      "integration_tests": 4,
+      "review": "BOUNDED0_CRITICAL0_IMPORTANT;REVIEWER_EXECUTION_NONE",
+      "evidence_ref": "status/codex/productization/S12/runtime-identity-sharing-fix-source-20261008/disposition.json",
+      "manifest_ref": "status/codex/productization/S12/runtime-identity-sharing-fix-source-artifact-hashes-20261008.json"
+    }
   }
 }

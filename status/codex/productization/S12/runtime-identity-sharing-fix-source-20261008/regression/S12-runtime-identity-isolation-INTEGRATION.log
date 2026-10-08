@@ -1,0 +1,10 @@
+test_heartbeat_replaces_atomically_after_an_existing_reader_releases (tests.product.test_paper_worker_fixture_publish.PaperWorkerFixturePublishTests.test_heartbeat_replaces_atomically_after_an_existing_reader_releases) ... ok
+test_permanent_windows_reader_lock_fails_within_finite_publish_deadline (tests.product.test_paper_worker_fixture_publish.PaperWorkerFixturePublishTests.test_permanent_windows_reader_lock_fails_within_finite_publish_deadline) ... ok
+test_unrelated_replace_permission_error_propagates_without_retry (tests.product.test_paper_worker_fixture_publish.PaperWorkerFixturePublishTests.test_unrelated_replace_permission_error_propagates_without_retry) ... ok
+test_memory_failure_and_owned_timeout_preserve_separate_actual_paper_management (tests.product.test_research_isolation.ResearchIsolationTests.test_memory_failure_and_owned_timeout_preserve_separate_actual_paper_management) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 14.292s
+
+OK
+R7_RESOURCE_ISOLATION {"actual_host_oom": "NOT_RUN", "memory_error": "CONTROLLED_INJECTION", "paper_final": {"closed_trades": 1, "graph_status": "READY", "heartbeat_count": 36, "mode": "ACCELERATED_FIXTURE", "namespace": "FIXTURE", "net_quantity": "0.000", "status": "CLOSED"}, "research_timeout": "REAPED"}

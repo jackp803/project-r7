@@ -1,0 +1,28 @@
+test_memory_failure_and_owned_timeout_preserve_separate_actual_paper_management (tests.product.test_research_isolation.ResearchIsolationTests.test_memory_failure_and_owned_timeout_preserve_separate_actual_paper_management) ... {"label": "ROOT_CREATED", "elapsed": 0.0}
+{"label": "SPAWN", "elapsed": 0.0, "kind": "paper", "timeout": 60}
+{"label": "WAIT_BEGIN", "elapsed": 0.0}
+{"label": "WAIT_END", "elapsed": 2.843, "value": {"counter": 1, "lifecycle": "OPEN_PROTECTED", "mode": "ACCELERATED_FIXTURE", "namespace": "FIXTURE", "pid": 71628}}
+{"label": "SPAWN", "elapsed": 2.859, "kind": "memory", "timeout": 30}
+{"label": "WAIT_BEGIN", "elapsed": 2.859}
+{"label": "WAIT_END", "elapsed": 3.781, "value": {"kind": "memory", "pid": 72040, "stage": "ACTUAL_E3_DEVELOPMENT_REPLAY"}}
+{"label": "WAIT_BEGIN", "elapsed": 3.859}
+{"label": "WAIT_END", "elapsed": 3.937, "value": {"counter": 12, "lifecycle": "OPEN_PROTECTED", "mode": "ACCELERATED_FIXTURE", "namespace": "FIXTURE", "pid": 71628}}
+{"label": "SPAWN", "elapsed": 3.953, "kind": "timeout", "timeout": 4}
+{"label": "WAIT_BEGIN", "elapsed": 3.953}
+{"label": "WAIT_END", "elapsed": 4.937, "value": {"kind": "timeout", "pid": 75912, "stage": "ACTUAL_E3_DEVELOPMENT_REPLAY"}}
+{"label": "WAIT_BEGIN", "elapsed": 4.937}
+{"label": "WAIT_END", "elapsed": 7.984, "value": "TerminationReport(terminated=True, reaped=True, reason='TIMEOUT')"}
+{"label": "WAIT_BEGIN", "elapsed": 7.984}
+{"label": "WAIT_END", "elapsed": 8.078, "value": {"counter": 32, "lifecycle": "OPEN_PROTECTED", "mode": "ACCELERATED_FIXTURE", "namespace": "FIXTURE", "pid": 71628}}
+{"label": "WAIT_BEGIN", "elapsed": 8.078}
+{"label": "WAIT_END", "elapsed": 8.515, "value": {"closed_trades": 1, "graph_status": "READY", "heartbeat_count": 32, "mode": "ACCELERATED_FIXTURE", "namespace": "FIXTURE", "net_quantity": "0.000", "status": "CLOSED"}}
+R7_RESOURCE_ISOLATION {"actual_host_oom": "NOT_RUN", "memory_error": "CONTROLLED_INJECTION", "paper_final": {"closed_trades": 1, "graph_status": "READY", "heartbeat_count": 32, "mode": "ACCELERATED_FIXTURE", "namespace": "FIXTURE", "net_quantity": "0.000", "status": "CLOSED"}, "research_timeout": "REAPED"}
+{"label": "OWNED_FINAL", "elapsed": 8.625, "returncode": 0, "report": {"terminated": true, "reaped": true, "reason": "COMPLETED"}}
+{"label": "OWNED_FINAL", "elapsed": 8.625, "returncode": 3, "report": {"terminated": true, "reaped": true, "reason": "COMPLETED"}}
+{"label": "OWNED_FINAL", "elapsed": 8.625, "returncode": 124, "report": {"terminated": true, "reaped": true, "reason": "TIMEOUT"}}
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 8.639s
+
+OK

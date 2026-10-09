@@ -17,7 +17,7 @@ import stat
 import threading
 import uuid
 
-from application.config import ProductConfig, load_config
+from application.config import ProductConfig, load_config, product_namespace
 from application.control_api.auth import _ClosingConnection
 from application.platform.resources import require_local_database_volume
 from application.platform.processes import process_alive
@@ -123,6 +123,10 @@ def config_hash(config):
     if not isinstance(config, ProductConfig):
         raise ValueError('Validated product configuration required')
     values = {key: str(value) if isinstance(value, Path) else value for key, value in asdict(config).items()}
+    # An absent/default mode retains the accepted v0.2 commitment convention.
+    # FIXTURE is a distinct subject; it can never borrow a legacy local hash.
+    if product_namespace(config) == 'LOCAL_RESEARCH':
+        values.pop('execution_mode')
     raw = json.dumps(values, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
     return 'sha256:' + hashlib.sha256(raw).hexdigest()
 

@@ -38,6 +38,10 @@ def main(argv=None):
     profile.add_argument('--cloud-root', type=Path)
     profile.add_argument('--instance-id', default=None)
     profile.add_argument('--port', type=int, default=8765)
+    profile.add_argument('--execution-mode', choices=('LOCAL_RESEARCH','FIXTURE'), default='LOCAL_RESEARCH')
+    fixture = commands.add_parser('prepare-fixture', help='Generate fresh labeled synthetic inputs for explicit isolated FIXTURE mode')
+    fixture.add_argument('--config', type=Path, required=True)
+    fixture.add_argument('--scenario', choices=('positive','oos-loss','insufficient-oos'), required=True)
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
@@ -275,12 +279,16 @@ def main(argv=None):
         from application.entrypoints import initialize_profile
         result = initialize_profile(args.config, args.data_root,
                                     instance_id=args.instance_id or str(uuid.uuid4()), port=args.port,
-                                    cloud_root=args.cloud_root)
+                                    cloud_root=args.cloud_root, execution_mode=args.execution_mode)
         print(json.dumps(result, ensure_ascii=False))
         return 0
     if args.command == 'configure-research':
         from application.research.setup import configure_research
         print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+        return 0
+    if args.command == 'prepare-fixture':
+        from application.fixtures.recipe import prepare_fixture
+        print(json.dumps(prepare_fixture(args.config, args.scenario), ensure_ascii=False))
         return 0
     if args.command in ('enroll-owner', 'serve'):
         from application.config import load_config

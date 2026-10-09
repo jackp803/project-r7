@@ -3,7 +3,7 @@ from contextlib import ExitStack
 import os
 from pathlib import Path
 
-from application.config import load_config
+from application.config import load_config, product_namespace
 from application.datasets.catalog import canonical, decode, digest, read_local
 from application.local_owners import validate_owner_selections
 from application.platform.restoration import require_valid_restoration
@@ -20,6 +20,7 @@ def configure_research(config_path, selection_profile):
     actual research-owner checks. This command does not initialize a database.
     """
     config=load_config(config_path)
+    namespace=product_namespace(config)
     profile=Path(selection_profile)
     if not profile.is_absolute() or '..' in profile.parts or str(profile).startswith(('\\\\','//')):
         raise ValueError('Absolute local operator selection profile required')
@@ -39,7 +40,7 @@ def configure_research(config_path, selection_profile):
         for key, reference in policy.items():
             if not key.endswith('_ref'): continue
             value=decode(read_local(config.local_data_root,reference,262144 if key=='robustness_policy_ref' else 65536))
-            if not isinstance(value,dict) or value.get('namespace')!='LOCAL_RESEARCH':
+            if not isinstance(value,dict) or value.get('namespace')!=namespace:
                 raise ValueError('Fresh same-namespace local research inputs required')
     if selected['cloud_root_id'] is not None:
         marker=decode(read_bounded(config.cloud_root,'.r7-root.json',4096))
@@ -62,7 +63,7 @@ def configure_research(config_path, selection_profile):
             except CloudError as error:
                 raise ValueError('Owner selection could not be published') from error
     return dict(status='ALREADY_CONFIGURED' if existing else 'RESEARCH_CONFIGURED',
-        namespace='LOCAL_RESEARCH',selection_hash=digest(raw),policy_count=len(selected['research_policies']),
+        namespace=namespace,selection_hash=digest(raw),policy_count=len(selected['research_policies']),
         validation_scope='SELECTION_SHAPE_LOCAL_REFERENCES_AND_NAMESPACE',
         cloud='NOT_CONNECTED' if selected['cloud_root_id'] is None else 'LOCAL_STAGING_SELECTED',
         research='NOT_STARTED',paper='NOT_STARTED',live='NOT_STARTED',provider_requests=0,credentials='NONE',capital='NONE')

@@ -8,7 +8,7 @@ import re
 import sys
 import tempfile
 
-from application.config import load_config
+from application.config import load_config, product_namespace, validate_execution_mode
 from application.platform.paths import absolute_path
 from application.platform.resources import require_local_database_volume
 
@@ -26,8 +26,10 @@ def _outside_installation(path):
         raise ValueError('User data and configuration must be outside the installation')
 
 
-def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_root=None):
+def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_root=None,
+                       execution_mode='LOCAL_RESEARCH'):
     """Publish one fully validated complete profile without replacing any file."""
+    namespace = validate_execution_mode(execution_mode)
     config_path = absolute_path(str(config_path), 'config')
     data_root = absolute_path(str(data_root), 'local_data_root')
     _outside_installation(config_path)
@@ -46,7 +48,7 @@ def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_
         raise ValueError('Existing profile must be preserved')
     payload = dict(schema_version='r7-product-config-v0.2', product_instance_id=instance_id,
         local_data_root=str(data_root), cloud_root=None if cloud_root is None else str(cloud_root), control_api_host='127.0.0.1',
-        control_api_port=port, diagnostic_only=True, paper_runtime_enabled=False)
+        control_api_port=port, diagnostic_only=True, paper_runtime_enabled=False, execution_mode=namespace)
     config_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     descriptor, temporary = tempfile.mkstemp(prefix='.r7-profile-', dir=config_path.parent)
     try:
@@ -61,11 +63,12 @@ def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_
             raise ValueError('Existing profile must be preserved') from None
     finally:
         Path(temporary).unlink(missing_ok=True)
-    return dict(status='PROFILE_CREATED', namespace=NAMESPACE, diagnostic_only=True,
+    return dict(status='PROFILE_CREATED', namespace=namespace, diagnostic_only=True,
                 paper_runtime_enabled=False, cloud='NOT_CONNECTED', runtime='NOT_STARTED')
 
 
 def enroll_owner(config, username):
+    namespace = product_namespace(config)
     if sys.stdin is None or not sys.stdin.isatty():
         raise ValueError('Owner enrollment requires a local interactive terminal')
     _outside_installation(config.local_data_root)
@@ -78,9 +81,9 @@ def enroll_owner(config, username):
         if password != confirmation:
             raise ValueError('Password confirmation does not match')
         from application.control_api.auth import LocalAuth
-        auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=NAMESPACE)
+        auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=namespace)
         auth.create_owner(username, password)
-    return dict(status='OWNER_CONFIGURED', namespace=NAMESPACE)
+    return dict(status='OWNER_CONFIGURED', namespace=namespace)
 
 
 def default_asset_root():
@@ -90,19 +93,20 @@ def default_asset_root():
 
 
 def create_local_app(config, *, asset_root=None):
-    """Local research namespace only; operational owners require later selection."""
+    """Explicit product namespace; operational owners require separate selection."""
     from application.control_api.app import create_app
     from application.control_api.assets import mount_control_center, validate_control_center_assets
     from application.control_api.auth import LocalAuth
     from application.control_api.commands import CommandLedger
     from application.local_owners import LocalOwners
 
+    namespace = product_namespace(config)
     _outside_installation(config.local_data_root)
     root = validate_control_center_assets(default_asset_root() if asset_root is None else asset_root)
     clock = lambda: datetime.now(timezone.utc)
-    composition = LocalOwners(config, namespace=NAMESPACE, clock=clock)
-    auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=NAMESPACE, clock=clock)
-    commands = CommandLedger(config.local_data_root / 'control-commands.sqlite', namespace=NAMESPACE, clock=clock)
+    composition = LocalOwners(config, namespace=namespace, clock=clock)
+    auth = LocalAuth(config.local_data_root / 'local-auth.sqlite', namespace=namespace, clock=clock)
+    commands = CommandLedger(config.local_data_root / 'control-commands.sqlite', namespace=namespace, clock=clock)
     owners = composition.control_services()
     app = create_app(config, auth=auth, commands=commands, services=owners)
     app.state.local_auth = auth

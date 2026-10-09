@@ -14,6 +14,12 @@ class ConfigError(ValueError):
     """Invalid non-secret configuration; messages never include values."""
 
 
+def validate_execution_mode(value):
+    if type(value) is not str or value not in ('LOCAL_RESEARCH', 'FIXTURE'):
+        raise ConfigError('Unsupported product execution mode')
+    return value
+
+
 @dataclass(frozen=True)
 class ProductConfig:
     schema_version: str
@@ -27,6 +33,14 @@ class ProductConfig:
     control_api_port: int = 8765
     diagnostic_only: bool = True
     paper_runtime_enabled: bool = False
+    execution_mode: str = 'LOCAL_RESEARCH'
+
+
+def product_namespace(config):
+    """Normal entries derive namespace from the explicit profile, never a grant."""
+    if not isinstance(config, ProductConfig):
+        raise ConfigError('Actual product configuration required')
+    return validate_execution_mode(config.execution_mode)
 
 
 def _unique_pairs(pairs):
@@ -60,6 +74,7 @@ def load_config(path: Path) -> ProductConfig:
             raise ConfigError("Unknown configuration fields")
         if payload.get("schema_version") != "r7-product-config-v0.2":
             raise ConfigError("Unsupported configuration schema")
+        mode = validate_execution_mode(payload.get('execution_mode', 'LOCAL_RESEARCH'))
         instance = payload.get("product_instance_id")
         if not isinstance(instance, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,96}", instance):
             raise ConfigError("product_instance_id: invalid identifier")
@@ -90,7 +105,7 @@ def load_config(path: Path) -> ProductConfig:
                 raise ConfigError(f"{field}: boolean required")
             values[field] = value
         return ProductConfig("r7-product-config-v0.2", instance, local, cloud,
-                             database, control_api_host=host, **values)
+                             database, control_api_host=host, execution_mode=mode, **values)
     except ConfigError:
         raise
     except (OSError, ValueError, UnicodeError, RecursionError) as from_error:

@@ -5,7 +5,7 @@ from pathlib import Path
 import subprocess
 import sys
 
-from application.config import load_config
+from application.config import load_config, product_namespace
 from application.local_owners import LocalOwners
 from application.platform.processes import ResourceLimits, spawn_owned, terminate_owned
 from application.platform.resources import ResourcePolicy, inspect_hardware
@@ -25,7 +25,7 @@ def run_research_job(config_path, run_id, generation, *, expected_config_hash=No
     config = load_config(config_path)
     if expected_config_hash is not None and config_hash(config) != expected_config_hash:
         raise ValueError('Research child configuration changed before owner composition')
-    owners = LocalOwners(config)
+    owners = LocalOwners(config, namespace=product_namespace(config))
     if owners.queue is None: raise ValueError('Research selections are not configured')
     result = owners.queue.step(run_id, generation)
     return dict(status=result['state'], run_id=run_id, generation=generation)
@@ -98,7 +98,7 @@ def research_worker(config_path, *, once=False, expected_config_hash=None):
         raise ValueError('Research service configuration changed before supervision')
     with ManagedStop() as stop, ProcessSupervisor(config, 'research', config_path=config_path) as supervisor:
         while not stop.requested:
-            result = _worker_once(config_path, config, namespace='LOCAL_RESEARCH', job_argv_factory=None,
+            result = _worker_once(config_path, config, namespace=product_namespace(config), job_argv_factory=None,
                                   hardware_probe=inspect_hardware, limits=ResourceLimits(900), supervisor=supervisor,stop=stop)
             print(json.dumps(result), flush=True)
             if once: return 0 if result['status'] != 'JOB_TERMINATED' else 2

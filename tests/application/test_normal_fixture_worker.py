@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
 
 from application.config import load_config
@@ -17,7 +18,22 @@ from tests.application import test_research_setup_flow as research_normal
 
 
 class NormalFixtureWorkerTests(unittest.TestCase):
-    setUp=normal.NormalFixturePaperTests.setUp
+    def setUp(self):
+        temporary=tempfile.TemporaryDirectory(prefix='R7 public fixture worker 中文 ')
+        self.root=Path(temporary.name)
+        self.config_path=self.root/'config.json'
+        self.data,self.cloud=self.root/'local data',self.root/'cloud simulation'
+        self.profile=self.root/'operator selection.json'
+        def cleanup():
+            # Windows publication paths exceed MAX_PATH. Keep logical product
+            # paths canonical and extend only the owned recursive cleanup path.
+            target=self.root.resolve()
+            base=Path(tempfile.gettempdir()).resolve()
+            self.assertTrue(target!=base and target.is_relative_to(base))
+            from application.platform.private_files import _filesystem_path
+            temporary.name=str(_filesystem_path(target))
+            temporary.cleanup()
+        self.addCleanup(cleanup)
     call=normal.NormalFixturePaperTests.call
     initialize=normal.NormalFixturePaperTests.initialize
     generate=normal.NormalFixturePaperTests.generate

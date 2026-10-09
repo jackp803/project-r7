@@ -24,7 +24,7 @@ class PaperOwnerCompositionTests(unittest.TestCase):
     def test_subject_bound_start_port_rejects_another_actual_same_risk_candidate(self):
         from application.control_api.errors import APIError
         m=self.module();f=self.fixture();owners=self.composition(m,f)
-        other=f.second_candidate('foreign-validity-candidate')
+        other=f.second_candidate()
         with f.h.registry_factory() as registry:
             revision=registry.get_strategy(other).registry_revision
             self.assertEqual(registry.get_strategy(other).current_lifecycle_state,'CANDIDATE')

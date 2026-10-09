@@ -77,8 +77,8 @@ class NormalFixturePaperTests(unittest.TestCase):
             self.assertEqual(paper[0]['mode'],'ACCELERATED_FIXTURE')
             strategy = client.get('/api/v1/strategies').json()['data']['items'][0]
             start = client.post('/api/v1/paper/runs',json=dict(command_id='normal-paper-start',
-                expected_revision=strategy['registry_revision'],strategy_id=strategy['strategy_id'],
-                strategy_version=strategy['strategy_version'],policy_id=paper[0]['policy_id']),headers=headers)
+                expected_revision=strategy['registry_revision'],strategy_id=strategy['identity']['strategy_id'],
+                strategy_version=strategy['identity']['strategy_version'],policy_id=paper[0]['policy_id']),headers=headers)
             self.assertEqual(start.status_code,200,start.text)
             run = start.json()['effect_ref'].removeprefix('paper:')
             from storage.paper_process import open_paper_process_journal

@@ -1,0 +1,155 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "spec_baseline": "r7-product-v0.2",
+  "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
+  "revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+  "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+  "source": {
+    "passed": true,
+    "tests": 2052,
+    "commands": 33,
+    "phase": {
+      "phase_1": 247,
+      "phase_2": 1805
+    }
+  },
+  "source_input_files": 625,
+  "native_build": {
+    "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+    "build_hash": "sha256:aeb806602baf175b45686818f0898bf9ef6f7b1c3fbc417ce82ca5d52e9e29c1",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "native_scoped": {
+    "passed": true,
+    "scenarios": 25,
+    "commands": 28,
+    "wrapper_stages": 6,
+    "existing_scoped_scenarios": 13,
+    "existing_scoped_commands": 13,
+    "public_setup_scenarios": 10,
+    "public_setup_commands": 11,
+    "long_backup_scenarios": 2,
+    "long_backup_commands": 4
+  },
+  "memory": {
+    "samples": 480,
+    "minimum_available_bytes": 6435893248,
+    "below_unchanged_admission_threshold": 0,
+    "scope": "ACTUAL_HOST_SAMPLES_ONLY;NO_24GB_TARGET_CLAIM"
+  },
+  "source_awake_request": {
+    "scope": "CURRENT_THREAD_ACTIVE_QUALIFICATION_ONLY;NO_PERSISTENT_POWER_POLICY_CHANGE",
+    "requested": true,
+    "request_flags": "ES_CONTINUOUS|ES_SYSTEM_REQUIRED",
+    "previous_state": 2147483648,
+    "restored": true,
+    "explicit_user_sleep": "NOT_PREVENTED",
+    "display_or_away_mode_request": "NONE"
+  },
+  "native_awake_request": {
+    "scope": "CURRENT_THREAD_ACTIVE_QUALIFICATION_ONLY;NO_PERSISTENT_POWER_POLICY_CHANGE",
+    "requested": true,
+    "request_flags": "ES_CONTINUOUS|ES_SYSTEM_REQUIRED",
+    "previous_state": 2147483648,
+    "restored": true,
+    "explicit_user_sleep": "NOT_PREVENTED",
+    "display_or_away_mode_request": "NONE"
+  },
+  "native_evidence_binding": "FIRST_FIVE_COMPLETED_STAGES_KEEP_ORIGINAL_CLOSURE;LONG_BACKUP_USES_FIXED_CONTINUATION_CLOSURE;NO_EXECUTION_CREDIT_FOR_TWO_FAILED_PROBES",
+  "original_failed_native_aggregate_binding": "UNRECORDED;COMPLETED_STAGE_GUARDS_IN_HASHED_LAUNCHER_AND_EXACT_CURRENT_REVALIDATION_ONLY",
+  "failed_native_probes": [
+    "OUTER_TEST_IMPORT_MISSING;NO_PRODUCT_COMMAND_RUN",
+    "SYNTHETIC_PROFILE_PARENT_ACL_NOT_PRIVATE;NO_PRODUCT_COMMAND_RUN"
+  ],
+  "accepted_prior_revision": "ac0b889829777db884666f82bd2d18f2c38ba4cb",
+  "new_component_cases": 11,
+  "failed_prior_source_attempt": {
+    "tests": 2001,
+    "commands": 32,
+    "errors": 3,
+    "failed_group": "product",
+    "reason": "ACTUAL_RESEARCH_MEMORY_PRESSURE",
+    "registry": "NOT_RUN",
+    "acceptance": "NONE"
+  },
+  "failed_backup_source_attempt": {
+    "revision": "048713ada12e8773b2af5e5b42151505f34d10dd",
+    "tests": 1796,
+    "commands": 31,
+    "failures": 1,
+    "failed_group": "application",
+    "reason": "DETERMINISTIC_WINDOWS_LONG_PRIVATE_DIRECTORY_PATH",
+    "product": "NOT_RUN",
+    "registry": "NOT_RUN",
+    "acceptance": "NONE"
+  },
+  "long_path_recovery": {
+    "new_tests": 6,
+    "affected_tests": 32,
+    "original_failed_restored_backup_repetitions_passed": 3,
+    "native_scenarios": 2,
+    "native_commands": 4,
+    "review": {
+      "reviewer": "/root/qualification_review",
+      "reviewer_execution": "NONE",
+      "scope": "BOUNDED_READ_ONLY_LONG_PATH_PRIVATE_BACKUP_SOURCE_REVIEW;NOT_WHOLE_PRODUCT_ACCEPTANCE",
+      "initial_critical": 0,
+      "initial_important": 2,
+      "findings": [
+        "Native spelling was missing from inventory enumeration/stat",
+        "Fixed test padding did not guarantee long paths on POSIX"
+      ],
+      "disposition": "BOTH_REPRODUCED_OR_DIRECTLY_VERIFIED_AND_FIXED;INDEPENDENT_RE_REVIEW_NO_REMAINING_CRITICAL_OR_IMPORTANT",
+      "remaining_critical": 0,
+      "remaining_important": 0,
+      "raw_reviewed_sha256": {
+        "src/application/platform/private_files.py": "b4d338af5d504632810a5e84323262883d12c7bd197a523c6054ee1463354776",
+        "src/application/platform/product_backup.py": "99110d64b0517026014beb954f9a20098d496074bd148f9bf31c60fc3f24128c",
+        "src/application/platform/supervision.py": "694e9f3f7ca446c69aa855af2f93e558897e450b319782572147530050b522f0",
+        "src/application/platform/backup.py": "f25e481e6bead267a470f7a57c296edc778455c934d63558188fd4c61c05c825",
+        "tests/application/test_private_long_paths.py": "2d73556ab02995a9fcc6dffab4f54b13c757e81071fdc7b3df0607ae40fcfcee"
+      }
+    }
+  },
+  "development_setup_and_regression_tests": 51,
+  "external_execution_binding_guard_tests": 2,
+  "external_binding_mutation_subcases": 5,
+  "external_native_reference_guard_tests": 3,
+  "bounded_review": {
+    "initial_critical": 0,
+    "initial_important": 3,
+    "reviewer_execution": "NONE",
+    "disposition": "THREE_FINDINGS_REPRODUCED_AND_FIXED_BY_REGRESSION;NO_INDEPENDENT_RE_REVIEW_CLAIM"
+  },
+  "native_owner_composition_factory": "NOT_INVOKED",
+  "native_worker_invoked": false,
+  "ordinary_native_paper": "NOT_RUN",
+  "browser": "NOT_RUN_FOR_THIS_CANDIDATE",
+  "production_profile": "PROPOSED_NOT_ACTIVE",
+  "owning_producer": "NOT_IMPLEMENTED",
+  "ubuntu24": "NOT_RUN",
+  "ubuntu26": "NOT_RUN",
+  "real_cloud": "NOT_RUN",
+  "real_dataset": "NOT_RUN",
+  "real_forward": "NOT_RUN",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "master": "IN_PROGRESS",
+  "scope": "NORMAL_PUBLIC_SOURCE_SETUP_LOGIN_INTAKE_ACTUAL_RESEARCH_CHILD;FROZEN_SETUP_PLUS_EXISTING_SCOPED_NATIVE_REGRESSIONS;NO_NORMAL_PAPER_WORKFLOW_COMPLETION",
+  "limitations": [
+    "2052 source execution instances include focused repeats; not distinct definitions.",
+    "Native25 are8 first-run,3 historical publication,2 source-created synthetic auth empty reads/start denial,10 actual frozen setup and2 long backup scenarios.",
+    "New native setup checks selection shape/local references/namespace only; no actual native research or auth enrollment in this increment.",
+    "The three new source research flows use newly generated synthetic LOCAL_RESEARCH inputs and a local-folder cloud simulation.",
+    "Historical development failures are preserved observations, not final exact-clean qualification credit.",
+    "No native CLI auth enrollment,managed reader stop,native composition factory/worker,current browser or whole-product acceptance.",
+    "No24GB target or pressure-capacity claim; no historical qualification transferred.",
+    "Two final runner guard tests include five actual dependency-copy mutations, separate from product qualification.",
+    "Ordinary LOCAL_RESEARCH Paper remains without accepted production release mapping; authorized normal FIXTURE wiring is pending implementation."
+  ]
+}

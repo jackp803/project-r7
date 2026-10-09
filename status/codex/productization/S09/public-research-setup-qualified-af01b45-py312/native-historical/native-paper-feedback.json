@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+    "build_hash": "sha256:aeb806602baf175b45686818f0898bf9ef6f7b1c3fbc417ce82ca5d52e9e29c1",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "name": "historical-paper-publish",
+      "started_at_utc": "2026-10-08T09:58:55.702833Z",
+      "finished_at_utc": "2026-10-08T09:59:09.864374Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "01-historical-paper-publish.log",
+      "log_sha256": "sha256:d814add280f63c1ae8f51f724c536d8e0fb42f2b09c156d89f2ffae018b29027",
+      "result": {
+        "status": "COMPLETE",
+        "attempted": 1,
+        "local_staged": 0,
+        "cloud_acknowledged": 1,
+        "unavailable": 0,
+        "conflicts": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "historical-paper-idempotent",
+      "started_at_utc": "2026-10-08T09:59:11.277528Z",
+      "finished_at_utc": "2026-10-08T09:59:12.385325Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "log": "02-historical-paper-idempotent.log",
+      "log_sha256": "sha256:933f55c7843d4566984f2acd51e6ac4239c624b2ee176f83c5709633c78a7224",
+      "result": {
+        "status": "COMPLETE",
+        "attempted": 0,
+        "local_staged": 0,
+        "cloud_acknowledged": 0,
+        "unavailable": 0,
+        "conflicts": 0
+      },
+      "passed": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "native-historical-paper-exact-byte-ack-through-compiled-local-fake",
+      "passed": true
+    },
+    {
+      "name": "native-durable-paper-ack-is-not-republished",
+      "passed": true
+    },
+    {
+      "name": "native-publication-preserves-historical-runtime-generation-and-checkpoint",
+      "passed": true
+    }
+  ],
+  "source_before": {
+    "revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "worktree": "CLEAN"
+  },
+  "harness_binding": "BEFORE_AND_AFTER_EVERY_NATIVE_COMMAND",
+  "input_sha256_before": {
+    "artifacts/s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+    "artifacts/S14LocalFakeRclone.cs": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "workspaces/project-r7-productization-master-20261002/tests/product/test_paper_runtime_v02.py": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+    "workspaces/project-r7-productization-master-20261002/tests/registry/test_operational_lifecycle_v02.py": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+    "workspaces/project-r7-productization-master-20261002/tests/application/test_product_assessment_binding.py": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+    "workspaces/project-r7-productization-master-20261002/tests/validation/test_paper_promotion_policy.py": "sha256:b98b83744a7c3f790ce0621e18d60f997b8dfe16ad42e786c19fae43e5441f54"
+  },
+  "fixture_origin": "SOURCE_CREATED_ACTUAL_E2_E5_E6_ACCELERATED_FIXTURE;NOT_NATIVE_RUNTIME_COMPOSITION",
+  "transport": "OFFLINE_COMPILED_FAKE_ONLY",
+  "normal_runtime": "NOT_RUN",
+  "real_cloud": "NOT_RUN",
+  "real_forward": "NOT_RUN",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "native_path": "EMPTY",
+  "native_pythonpath": "UNSET",
+  "native_node": "UNAVAILABLE_ON_PATH",
+  "financial_authority": "NONE",
+  "ubuntu": "NOT_RUN",
+  "scenario_count": 3,
+  "command_count": 2,
+  "source_after": {
+    "revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "worktree": "CLEAN"
+  },
+  "input_sha256_after": {
+    "artifacts/s14_feedback_cli_native_paper.py": "sha256:81aa2a6bbfd19a980095cbf168d7d3ea2c85a0f19ff012d720402d9dade218b5",
+    "artifacts/S14LocalFakeRclone.exe": "sha256:c27cc536a0b54588c8030a23a6cf61b224d615a879a6ccbc61304901bc609a15",
+    "artifacts/S14LocalFakeRclone.cs": "sha256:26b022c358ac900f94df4972576b43bd40a669aa801cc70c337d84eba8665f7f",
+    "workspaces/project-r7-productization-master-20261002/tests/product/test_paper_runtime_v02.py": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+    "workspaces/project-r7-productization-master-20261002/tests/registry/test_operational_lifecycle_v02.py": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+    "workspaces/project-r7-productization-master-20261002/tests/application/test_product_assessment_binding.py": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+    "workspaces/project-r7-productization-master-20261002/tests/validation/test_paper_promotion_policy.py": "sha256:b98b83744a7c3f790ce0621e18d60f997b8dfe16ad42e786c19fae43e5441f54"
+  },
+  "implementation_hash_after": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+  "fixture_cleanup_complete": true
+}

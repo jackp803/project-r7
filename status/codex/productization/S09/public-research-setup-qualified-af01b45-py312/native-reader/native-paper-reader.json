@@ -1,0 +1,115 @@
+{
+  "passed": true,
+  "identity": {
+    "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+    "build_hash": "sha256:aeb806602baf175b45686818f0898bf9ef6f7b1c3fbc417ce82ca5d52e9e29c1",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "source_before": {
+    "revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "worktree": "CLEAN"
+  },
+  "input_hashes_before": {
+    "artifacts/s12_storage_native_paper_reader.py": "sha256:64827044fd5960610cb9302f4dd7351062820a1fd25127eb373e8674eacd8b98",
+    "artifacts/s09_owner_worker_native_regression.py": "sha256:20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "workspaces/project-r7-productization-master-20261002/src/application/local_owners.py": "sha256:6e8187934f0832b9205f52a66f8b59d2839e3b4ee5102123f5eb51be2b72724d",
+    "workspaces/project-r7-productization-master-20261002/src/application/control_api/paper_ports.py": "sha256:9f7d334d31bf0f797fdb565d2b7d38f5fa088486f986d08ae23912fd0505e87a",
+    "workspaces/project-r7-productization-master-20261002/src/application/entrypoints.py": "sha256:f48e125a75a28e5347cc3a424d2745e574dab40ada7b5c493ab69bc16ca8cc76",
+    "workspaces/project-r7-productization-master-20261002/src/application/control_api/auth.py": "sha256:763fd6499c0062475802c148cb17b7816ff89f7e624075b724eec9360e269c23",
+    "workspaces/project-r7-productization-master-20261002/src/application/control_api/app.py": "sha256:ed26e2992353dad876322754b870d54e111bbc8ba0dbe5182fb45cbc027c5cdf",
+    "artifacts/s13_native_access_integrity.py": "sha256:0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "workspaces/project-r7-productization-master-20261002/src/application/platform/_loopback_probe.py": "sha256:294eaceb4ce4e9801b37aa409b723de1ab3c1e8bc9d06525b77ae5319d4fdb1e"
+  },
+  "commands": [
+    {
+      "name": "native-profile",
+      "started_at_utc": "2026-10-08T09:59:16.163055Z",
+      "finished_at_utc": "2026-10-08T09:59:17.188546Z",
+      "exit_code": 0,
+      "tree_reaped": true,
+      "passed": true,
+      "log": "01-native-profile.log",
+      "log_sha256": "sha256:d48452b9d3323fee2822164204a70bc7aef4078b96c156ef0e97009ec5e3ec92"
+    },
+    {
+      "name": "native-control",
+      "started_at_utc": "2026-10-08T09:59:17.905032Z",
+      "finished_at_utc": "2026-10-08T09:59:21.331741Z",
+      "exit_code": 124,
+      "termination_reason": "CANCELLED",
+      "tree_reaped": true,
+      "passed": true,
+      "log": "02-native-control.log",
+      "log_sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "termination_scope": "OWNED_KERNEL_STOP_OF_ISOLATED_NONTRADING_CONTROL;NO_MANAGED_STOP_CLAIM"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "native-authenticated-real-empty-paper-inventory",
+      "passed": true
+    },
+    {
+      "name": "native-unselected-paper-start-denied-without-runtime-authority",
+      "passed": true
+    }
+  ],
+  "auth_origin": "SOURCE_CREATED_NEW_SYNTHETIC_LOCAL_AUTH_FIXTURE;NOT_NATIVE_CLI_ENROLLMENT",
+  "namespace": "LOCAL_RESEARCH",
+  "native_path": "EMPTY",
+  "native_pythonpath": "UNSET",
+  "provider_requests": 0,
+  "real_credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "native_worker_invoked": false,
+  "ordinary_native_paper": "NOT_RUN",
+  "production_profile": "PROPOSED_NOT_ACTIVE",
+  "ubuntu": "NOT_RUN",
+  "native_control_generation": {
+    "architecture": "AMD64",
+    "build_hash": "sha256:aeb806602baf175b45686818f0898bf9ef6f7b1c3fbc417ce82ca5d52e9e29c1",
+    "capital": "NONE",
+    "config_hash": "sha256:a97a1488109fe3bd7bef866078f93988056edbf944759658ecd098bc1a711ad9",
+    "credentials": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2",
+    "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "execution": "LOCAL",
+    "financial_authority": "NONE",
+    "generation": 1,
+    "github_compute": "NOT_USED",
+    "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+    "os": "Windows",
+    "os_version": "10.0.26200",
+    "pid": 11604,
+    "process_generation_id": "35ccf04f-88a8-4a50-8100-8880951923fb",
+    "product_instance_id": "native-reader-fixture",
+    "provider_requests": 0,
+    "python": "3.12.10",
+    "restart_admission": "RECONCILIATION_REQUIRED",
+    "role": "control",
+    "schema_version": "r7-process-generation-v0.2",
+    "started_at": "2026-10-08T09:59:19.522977Z",
+    "worktree": "UNAVAILABLE"
+  },
+  "source_after": {
+    "revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "worktree": "CLEAN"
+  },
+  "input_hashes_after": {
+    "artifacts/s12_storage_native_paper_reader.py": "sha256:64827044fd5960610cb9302f4dd7351062820a1fd25127eb373e8674eacd8b98",
+    "artifacts/s09_owner_worker_native_regression.py": "sha256:20c41ca946c78f8c98d418707ea9d90a0443096b9d32d71b34fd66576354a2af",
+    "workspaces/project-r7-productization-master-20261002/src/application/local_owners.py": "sha256:6e8187934f0832b9205f52a66f8b59d2839e3b4ee5102123f5eb51be2b72724d",
+    "workspaces/project-r7-productization-master-20261002/src/application/control_api/paper_ports.py": "sha256:9f7d334d31bf0f797fdb565d2b7d38f5fa088486f986d08ae23912fd0505e87a",
+    "workspaces/project-r7-productization-master-20261002/src/application/entrypoints.py": "sha256:f48e125a75a28e5347cc3a424d2745e574dab40ada7b5c493ab69bc16ca8cc76",
+    "workspaces/project-r7-productization-master-20261002/src/application/control_api/auth.py": "sha256:763fd6499c0062475802c148cb17b7816ff89f7e624075b724eec9360e269c23",
+    "workspaces/project-r7-productization-master-20261002/src/application/control_api/app.py": "sha256:ed26e2992353dad876322754b870d54e111bbc8ba0dbe5182fb45cbc027c5cdf",
+    "artifacts/s13_native_access_integrity.py": "sha256:0f98ebae810800be38138c23099dfedaec6dd0daa6416bd60ba083716dc0d186",
+    "workspaces/project-r7-productization-master-20261002/src/application/platform/_loopback_probe.py": "sha256:294eaceb4ce4e9801b37aa409b723de1ab3c1e8bc9d06525b77ae5319d4fdb1e"
+  },
+  "scenario_count": 2,
+  "command_count": 2
+}

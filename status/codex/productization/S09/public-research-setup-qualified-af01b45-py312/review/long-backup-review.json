@@ -1,0 +1,18 @@
+{
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "scope": "BOUNDED_READ_ONLY_LONG_PATH_PRIVATE_BACKUP_SOURCE_REVIEW;NOT_WHOLE_PRODUCT_ACCEPTANCE",
+  "initial_critical": 0,
+  "initial_important": 2,
+  "findings": ["Native spelling was missing from inventory enumeration/stat", "Fixed test padding did not guarantee long paths on POSIX"],
+  "disposition": "BOTH_REPRODUCED_OR_DIRECTLY_VERIFIED_AND_FIXED;INDEPENDENT_RE_REVIEW_NO_REMAINING_CRITICAL_OR_IMPORTANT",
+  "remaining_critical": 0,
+  "remaining_important": 0,
+  "raw_reviewed_sha256": {
+    "src/application/platform/private_files.py": "b4d338af5d504632810a5e84323262883d12c7bd197a523c6054ee1463354776",
+    "src/application/platform/product_backup.py": "99110d64b0517026014beb954f9a20098d496074bd148f9bf31c60fc3f24128c",
+    "src/application/platform/supervision.py": "694e9f3f7ca446c69aa855af2f93e558897e450b319782572147530050b522f0",
+    "src/application/platform/backup.py": "f25e481e6bead267a470f7a57c296edc778455c934d63558188fd4c61c05c825",
+    "tests/application/test_private_long_paths.py": "2d73556ab02995a9fcc6dffab4f54b13c757e81071fdc7b3df0607ae40fcfcee"
+  }
+}

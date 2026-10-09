@@ -1,0 +1,193 @@
+{
+  "passed": true,
+  "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+  "native_build_identity": {
+    "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+    "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
+    "build_hash": "sha256:aeb806602baf175b45686818f0898bf9ef6f7b1c3fbc417ce82ca5d52e9e29c1",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "scope": "ACTUAL_FROZEN_PUBLIC_RESEARCH_SETUP_SELECTION_SHAPE_AND_NAMESPACE_ONLY",
+  "scenarios": [
+    {
+      "id": "FIRST_RUN_EXPLICIT_DISJOINT_ROOTS",
+      "passed": true
+    },
+    {
+      "id": "PUBLIC_NATIVE_LOCAL_SELECTION",
+      "passed": true
+    },
+    {
+      "id": "IMMUTABLE_IDENTICAL_RETRY",
+      "passed": true
+    },
+    {
+      "id": "DIFFERENT_SELECTION_DENIED",
+      "passed": true
+    },
+    {
+      "id": "CLOUD_ORIGIN_SELECTION_DENIED",
+      "passed": true
+    },
+    {
+      "id": "ACTUAL_WINDOWS_CLOUD_HARDLINK_DENIED",
+      "passed": true
+    },
+    {
+      "id": "CALLER_AUTHORITY_FIELD_DENIED",
+      "passed": true
+    },
+    {
+      "id": "MISSING_SELECTED_INPUT_DENIED",
+      "passed": true
+    },
+    {
+      "id": "CONFIG_INSIDE_OR_EQUAL_CLOUD_DENIED_BEFORE_WRITE",
+      "passed": true
+    },
+    {
+      "id": "OVERLAPPING_ROOTS_DENIED_BEFORE_WRITE",
+      "passed": true
+    }
+  ],
+  "commands": [
+    {
+      "label": "01-init",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:25.585235Z",
+      "finished_at_utc": "2026-10-08T09:59:26.597437Z",
+      "log": "01-init.log",
+      "log_sha256": "sha256:d48452b9d3323fee2822164204a70bc7aef4078b96c156ef0e97009ec5e3ec92",
+      "passed": true
+    },
+    {
+      "label": "02-configure",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:28.047219Z",
+      "finished_at_utc": "2026-10-08T09:59:29.270452Z",
+      "log": "02-configure.log",
+      "log_sha256": "sha256:dfe7eac949cb466a4293985bb74bc630dee7fb1382796de29347df7c2c6779ce",
+      "passed": true
+    },
+    {
+      "label": "03-identical-retry",
+      "exit_code": 0,
+      "expected_rejection": false,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:30.717900Z",
+      "finished_at_utc": "2026-10-08T09:59:31.883921Z",
+      "log": "03-identical-retry.log",
+      "log_sha256": "sha256:281b20e1b3867c5409526bb867e43dd3c3d1427ad9ea461ef6427daa0e3df3fd",
+      "passed": true
+    },
+    {
+      "label": "04-different-selection",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:33.309247Z",
+      "finished_at_utc": "2026-10-08T09:59:34.475709Z",
+      "log": "04-different-selection.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "05-cloud-origin",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:35.920140Z",
+      "finished_at_utc": "2026-10-08T09:59:37.074195Z",
+      "log": "05-cloud-origin.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "06-cloud-hardlink",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:38.512425Z",
+      "finished_at_utc": "2026-10-08T09:59:39.685711Z",
+      "log": "06-cloud-hardlink.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "07-unknown-authority",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:41.124180Z",
+      "finished_at_utc": "2026-10-08T09:59:42.331421Z",
+      "log": "07-unknown-authority.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "08-missing-local-input",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:43.761186Z",
+      "finished_at_utc": "2026-10-08T09:59:44.926581Z",
+      "log": "08-missing-local-input.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "09-cloud-config",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:46.363869Z",
+      "finished_at_utc": "2026-10-08T09:59:47.339730Z",
+      "log": "09-cloud-config.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "10-equal-cloud-config",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:48.762995Z",
+      "finished_at_utc": "2026-10-08T09:59:49.751877Z",
+      "log": "10-equal-cloud-config.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    },
+    {
+      "label": "11-overlapping-roots",
+      "exit_code": 2,
+      "expected_rejection": true,
+      "tree_reaped": true,
+      "started_at_utc": "2026-10-08T09:59:51.182319Z",
+      "finished_at_utc": "2026-10-08T09:59:52.329395Z",
+      "log": "11-overlapping-roots.log",
+      "log_sha256": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "passed": true
+    }
+  ],
+  "launcher_sha256_before": "sha256:4e0ddcf3ac3739171a5a987d05bd8852c429062a9e760b037fa19a2ae6bc044f",
+  "launcher_sha256_after": "sha256:4e0ddcf3ac3739171a5a987d05bd8852c429062a9e760b037fa19a2ae6bc044f",
+  "private_fixture_removed": true,
+  "native_authentication": "NOT_INVOKED",
+  "research": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "product_path": "EMPTY",
+  "pythonpath": "UNSET",
+  "node": "UNAVAILABLE_ON_PATH",
+  "live": "NOT_STARTED",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "ubuntu": "NOT_RUN"
+}

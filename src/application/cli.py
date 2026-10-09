@@ -48,6 +48,9 @@ def main(argv=None):
     paper_setup = commands.add_parser('configure-paper', help='Select isolated FIXTURE Paper policies while all owners are stopped')
     paper_setup.add_argument('--config', type=Path, required=True)
     paper_setup.add_argument('--selection-profile', type=Path, required=True)
+    paper_worker = commands.add_parser('paper-worker', help='Run independent isolated FIXTURE Paper with labeled synthetic market data')
+    paper_worker.add_argument('--config', type=Path, required=True)
+    paper_worker.add_argument('--maximum-ticks', type=int)
     enroll = commands.add_parser('enroll-owner', help='Enroll first local owner using hidden terminal input')
     enroll.add_argument('--config', type=Path, required=True)
     enroll.add_argument('--username', required=True)
@@ -273,6 +276,9 @@ def main(argv=None):
     if args.command == 'research-worker':
         from application.research.worker import research_worker
         return research_worker(args.config, once=args.once)
+    if args.command == 'paper-worker':
+        from application.paper.entrypoint import paper_worker
+        return paper_worker(args.config, maximum_ticks=args.maximum_ticks)
     if args.command == '_research-job':
         from application.research.worker import run_research_job
         result = run_research_job(args.config, args.run_id, args.generation, expected_config_hash=args.expected_config_hash)

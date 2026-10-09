@@ -92,7 +92,7 @@ class LocalOwners:
             self.paper_owners = load_fixture_paper_owners(self.config,clock=self.clock,resolver=self.resolver)
             if self.paper_owners is not None:
                 paper_start = PaperStartControlPort(namespace=self.namespace,service_factory=self.paper_owners.service,
-                    strategy_identity=self.paper_owners.fixture_strategy_identity)
+                    strategy_identity=self.paper_owners.strategy_identity)
         reader = PaperReadControlPort(namespace=self.namespace, clock=self.clock,
             process_factory=lambda: open_paper_process_journal(self.config.database_path),
             canonical_factory=lambda: open_paper_runtime_journal(self.config.database_path))

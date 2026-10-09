@@ -21,6 +21,21 @@ from tests.validation.test_paper_promotion_policy import policy_fixture
 NOW=datetime(2026,10,8,tzinfo=timezone.utc)
 
 class PaperOwnerCompositionTests(unittest.TestCase):
+    def test_subject_bound_service_denies_foreign_start_and_recovery_without_generation_change(self):
+        m=self.module();f=self.fixture();other=f.second_candidate()
+        owners=self.composition(m,f,strategy_identity=f.identity)
+        with f.h.registry_factory() as registry:
+            revision=registry.get_strategy(other).registry_revision
+        with owners.service() as service,self.assertRaises(EvidenceGateError):
+            service.start(other,'owner-fixture-policy',revision,'foreign-core-start')
+        with closing(sqlite3.connect(f.config.database_path)) as db:
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM paper_process_runs').fetchone()[0],0)
+        foreign_run=f.start('actual-foreign-fixture-start',identity=other)
+        before=f.recover(foreign_run)
+        with owners.service() as service,self.assertRaises(EvidenceGateError):
+            service.runtime(foreign_run)
+        self.assertEqual(f.recover(foreign_run),before)
+
     def test_subject_bound_start_port_rejects_another_actual_same_risk_candidate(self):
         from application.control_api.errors import APIError
         m=self.module();f=self.fixture();owners=self.composition(m,f)

@@ -10,7 +10,7 @@ from brokers.paper import PaperBroker
 from execution.models import require_utc
 from market_data.candle import Candle
 from market_data.current import MarketSnapshot
-from registry import EvidenceGateError, StrategyPlatformService
+from registry import EvidenceGateError, StrategyPlatformService, StrategyIdentity
 from registry.operational_authority import OwnerEvidence, ReleaseBinding
 from registry.product_assessment import canonical, digest
 from risk.product_policy import parse_product_risk_policy
@@ -52,7 +52,8 @@ class PaperMarketEventError(ValueError):
 class PaperService:
     def __init__(self, *, registry, process_journal, canonical_journal, namespace,
                  simulation_policy, risk_policy, promotion_policy, paper_policy_ref,
-                 submission_validity, actor, workflow_authorized, current_release, clock, monotonic_clock=monotonic_ns):
+                 submission_validity, actor, workflow_authorized, current_release, clock, monotonic_clock=monotonic_ns,
+                 strategy_identity=None):
         if (not isinstance(registry, StrategyPlatformService) or
             not isinstance(process_journal, PaperProcessJournal) or
             not isinstance(canonical_journal, PaperRuntimeJournal) or
@@ -60,6 +61,9 @@ class PaperService:
             raise ValueError('Actual registry/journals and explicit local workflow authority required')
         if not isinstance(actor, str) or not actor.strip() or len(actor) > 256:
             raise ValueError('Trusted configured runtime actor required')
+        if strategy_identity is not None and not isinstance(strategy_identity,StrategyIdentity):
+            raise ValueError('Actual selected PAPER strategy identity required')
+        self.strategy_identity=strategy_identity
         self.registry=registry; self.process=process_journal; self.canonical=canonical_journal
         self.namespace=namespace; self.clock=clock; self.current_release=current_release
         self.monotonic_clock=monotonic_clock
@@ -71,6 +75,8 @@ class PaperService:
         self._runtimes={}; self._instance_id='paper-process-'+uuid.uuid4().hex
 
     def _binding(self, strategy):
+        if self.strategy_identity is not None and strategy.identity!=self.strategy_identity:
+            raise EvidenceGateError('PAPER policy belongs to another selected strategy')
         return dict(namespace=self.namespace, mode=self.simulation.as_dict()['mode'],
             strategy_id=strategy.identity.strategy_id, strategy_version=strategy.identity.strategy_version,
             strategy_content_hash=strategy.content_hash, implementation_hash=_revision(),

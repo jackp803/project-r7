@@ -15,7 +15,7 @@ from application.platform.restoration import require_valid_restoration
 from application.platform.resources import require_local_database_volume
 from application.platform.supervision import _local_path
 from execution.models import require_utc
-from registry import EvidenceGateError
+from registry import EvidenceGateError,StrategyIdentity
 from registry.operational_authority import ProductLifecycleComposition,HumanAuthenticator
 from registry.product_assessment import canonical,digest
 from risk.product_policy import parse_product_risk_policy
@@ -57,7 +57,7 @@ class PaperOwnerSelection:
 
 
 class PaperOwnerComposition:
-    def __init__(self,config,*,selection,current_release,authenticator,clock):
+    def __init__(self,config,*,selection,current_release,authenticator,clock,strategy_identity=None):
         if (not isinstance(config,ProductConfig) or not isinstance(selection,PaperOwnerSelection)
                 or not isinstance(authenticator,HumanAuthenticator) or authenticator.namespace!=selection.namespace
                 or not callable(current_release) or not callable(clock)):
@@ -68,6 +68,9 @@ class PaperOwnerComposition:
                 or config.database_path==config.local_data_root or not config.database_path.is_relative_to(config.local_data_root)):
             raise ValueError('Canonical PAPER store inside configured local root required')
         self.config=config
+        if strategy_identity is not None and not isinstance(strategy_identity,StrategyIdentity):
+            raise ValueError('Actual selected PAPER strategy identity required')
+        self.strategy_identity=strategy_identity
         self.selection=PaperOwnerSelection(**selection.as_dict())
         self.current_release=current_release;self.authenticator=authenticator;self.clock=clock
 
@@ -98,7 +101,8 @@ class PaperOwnerComposition:
             process=stack.enter_context(open_paper_process_journal(self.config.database_path,require_existing=True))
             canonical_journal=stack.enter_context(open_paper_runtime_journal(self.config.database_path,require_existing=True))
             service=PaperService(registry=registry,process_journal=process,canonical_journal=canonical_journal,
-                namespace=namespace,current_release=self.current_release,clock=self.clock,**selected)
+                namespace=namespace,current_release=self.current_release,clock=self.clock,
+                strategy_identity=self.strategy_identity,**selected)
             yield service
 
 

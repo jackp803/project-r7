@@ -12,20 +12,20 @@ from application.platform.processes import spawn_owned,terminate_owned,ResourceL
 from application.platform.supervision import process_health
 from storage.paper_process import open_paper_process_journal
 from storage.runtime import open_paper_runtime_journal
-from tests.application.test_normal_fixture_paper import NormalFixturePaperTests as normal
-from tests.application.test_research_setup_flow import ResearchSetupFlowTests
+from tests.application import test_normal_fixture_paper as normal
+from tests.application import test_research_setup_flow as research_normal
 
 
 class NormalFixtureWorkerTests(unittest.TestCase):
-    setUp=normal.setUp
-    call=normal.call
-    initialize=normal.initialize
-    generate=normal.generate
-    prepare=normal.prepare
-    configure=normal.configure
-    app=normal.app
-    flow=normal.flow
-    configure_paper=normal.configure_paper
+    setUp=normal.NormalFixturePaperTests.setUp
+    call=normal.NormalFixturePaperTests.call
+    initialize=normal.NormalFixturePaperTests.initialize
+    generate=normal.NormalFixturePaperTests.generate
+    prepare=normal.NormalFixturePaperTests.prepare
+    configure=normal.NormalFixturePaperTests.configure
+    app=normal.NormalFixturePaperTests.app
+    flow=normal.NormalFixturePaperTests.flow
+    configure_paper=normal.NormalFixturePaperTests.configure_paper
 
     @contextmanager
     def authenticated(self,config):
@@ -74,7 +74,7 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         return result
 
     def test_ordinary_worker_rejected_before_owner_store_initialization(self):
-        ResearchSetupFlowTests.initialize(self)
+        research_normal.ResearchSetupFlowTests.initialize(self)
         with self.assertRaises(ValueError):
             self.call(['paper-worker','--config',str(self.config_path),'--maximum-ticks','2'])
         self.assertFalse(self.data.exists())

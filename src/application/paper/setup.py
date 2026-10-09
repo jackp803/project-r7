@@ -150,8 +150,7 @@ def load_fixture_paper_owners(config, *, clock, resolver):
     # alone can select permitted fixture PaperStart, never financial authority.
     authenticator = HumanAuthenticator(namespace='FIXTURE',reauth_seconds=300,verifier=lambda _:None,clock=clock)
     owners = PaperOwnerComposition(config,selection=reader.owner,current_release=reader.current,
-        authenticator=authenticator,clock=clock)
-    owners.fixture_strategy_identity = reader.identity
+        authenticator=authenticator,clock=clock,strategy_identity=reader.identity)
     return owners
 
 

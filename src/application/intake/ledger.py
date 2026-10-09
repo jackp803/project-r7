@@ -249,11 +249,11 @@ class IntakeLedger:
         row = self._connection.execute("SELECT state,next_retry_at FROM app_sync_retry WHERE instance_id=? AND submission_id=?", (self.instance_id,submission_id)).fetchone()
         return row is None or row["state"] != "SYNC_STALLED" and row["next_retry_at"] <= stamp
 
-    def pending_outbox(self, limit):
-        if type(limit) is not int or not 1 <= limit <= 100:
+    def pending_outbox(self, limit, *, include_local_staged=True):
+        if type(limit) is not int or not 1 <= limit <= 100 or type(include_local_staged) is not bool:
             raise ValueError("Bounded publication batch required")
-        rows = self._connection.execute("SELECT * FROM app_outbox WHERE instance_id=? AND state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') ORDER BY operation_id LIMIT ?",
-                                        (self.instance_id,limit)).fetchall()
+        rows = self._connection.execute("SELECT * FROM app_outbox WHERE instance_id=? AND state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') AND (state!='LOCAL_STAGED' OR ?) ORDER BY operation_id LIMIT ?",
+                                        (self.instance_id,include_local_staged,limit)).fetchall()
         return tuple(OutboxItem(row["operation_id"],row["submission_id"],row["logical_path"],row["payload"],row["payload_hash"],row["state"]) for row in rows)
 
     def record_publication(self, operation_id, status, *, artifact_hash=None):

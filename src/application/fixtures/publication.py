@@ -41,16 +41,16 @@ def publish_fixture_outbox(config_path,*,limit=10):
         intake=config.local_data_root/'intake.sqlite'
         if intake.is_file():
             with IntakeLedger(intake,instance_id=config.product_instance_id) as ledger:
-                add(Publisher(ledger,transport).flush(limit))
+                add(Publisher(ledger,transport).flush(limit,include_local_staged=False))
         remaining=limit-counts['attempted']
         research=config.local_data_root/'research.sqlite'
         if remaining and research.is_file():
             with ResearchJournal(research) as journal:
-                add(flush_feedback(journal,transport,limit=remaining))
+                add(flush_feedback(journal,transport,limit=remaining,include_local_staged=False))
         remaining=limit-counts['attempted']
         if remaining and config.database_path.is_file():
             with open_paper_process_journal(config.database_path,require_existing=True) as process:
-                add(PaperFeedbackOutbox(process).flush(transport,limit=remaining))
+                add(PaperFeedbackOutbox(process).flush(transport,limit=remaining,include_local_staged=False))
     return dict(status='INCOMPLETE' if counts['unavailable'] or counts['conflicts'] else 'LOCAL_STAGED',
         namespace='FIXTURE',transport='SYNTHETIC_LOCAL_FOLDER',**counts,provider_requests=0,
         credentials='NONE',capital='NONE',financial_authority='NONE',remote_verification='NOT_RUN')

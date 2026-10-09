@@ -147,13 +147,13 @@ class ResearchJournal:
             self._db.execute('INSERT INTO research_feedback_publications VALUES(?,?,?,?,?,?,?,?,?,?)',
                 (operation,run_id,raw.decode('utf-8'),h,bundle.logical_path,payloads,artifact,'PENDING',0,stamp(now)))
         return operation
-    def pending_feedback_publications(self,limit):
+    def pending_feedback_publications(self,limit,*,include_local_staged=True):
         from application.cloud.feedback import validate_feedback_publication
         from application.cloud.manifest import byte_hash,canonical_bytes
         from application.cloud.protocol import ArtifactBundle
-        if type(limit) is not int or not 1<=limit<=100:raise ValueError('Bounded feedback batch required')
+        if type(limit) is not int or not 1<=limit<=100 or type(include_local_staged) is not bool:raise ValueError('Bounded feedback batch required')
         result=[]
-        for row in self._db.execute("SELECT * FROM research_feedback_publications WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') ORDER BY operation_id LIMIT ?",(limit,)).fetchall():
+        for row in self._db.execute("SELECT * FROM research_feedback_publications WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') AND (state!='LOCAL_STAGED' OR ?) ORDER BY operation_id LIMIT ?",(include_local_staged,limit)).fetchall():
             if byte_hash(row['feedback_json'].encode('utf-8'))!=row['feedback_hash']:
                 raise ResearchEvidenceConflict('Feedback output hash mismatch')
             payloads={name:value.encode('utf-8') for name,value in json.loads(row['payloads_json']).items()}

@@ -191,12 +191,12 @@ def queue_feedback(service,run_id,*,performance_opt_in=False):
     return service.journal.enqueue_feedback(feedback,now_utc())
 
 
-def flush_feedback(journal,transport,*,limit,fault_hook=None):
+def flush_feedback(journal,transport,*,limit,fault_hook=None,include_local_staged=True):
     from application.research.evidence import ResearchJournal
     from application.cloud.publisher import PublishSummary
     from application.cloud.protocol import CloudError
     if type(journal) is not ResearchJournal:raise FeedbackError('ACTUAL_RESEARCH_JOURNAL_REQUIRED')
-    items=journal.pending_feedback_publications(limit)
+    items=journal.pending_feedback_publications(limit,include_local_staged=include_local_staged)
     counts=dict(local_staged=0,cloud_acknowledged=0,unavailable=0,conflicts=0)
     for operation,bundle,expected in items:
         try:

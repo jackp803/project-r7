@@ -19,9 +19,11 @@ class Publisher:
     def __init__(self, ledger, transport, *, fault_hook=None):
         self.ledger, self.transport, self.fault_hook = ledger, transport, fault_hook
 
-    def flush(self, limit: int) -> PublishSummary:
+    def flush(self, limit: int, *, include_local_staged=True) -> PublishSummary:
+        if type(include_local_staged) is not bool:
+            raise ValueError('Explicit local staging retry selection required')
         counts = dict(local_staged=0, cloud_acknowledged=0, unavailable=0, conflicts=0)
-        items = self.ledger.pending_outbox(limit)
+        items = self.ledger.pending_outbox(limit) if include_local_staged else self.ledger.pending_outbox(limit,include_local_staged=False)
         for item in items:
             try:
                 if byte_hash(item.payload) != item.payload_hash:

@@ -89,9 +89,9 @@ class PaperFeedbackOutbox:
             raise FeedbackError('PAPER_FEEDBACK_STORED_LINEAGE_CHANGED')
         return ArtifactBundle(row['logical_path'],payloads)
 
-    def pending(self,limit):
-        if type(limit) is not int or not 1<=limit<=100:raise FeedbackError('BOUNDED_PAPER_FEEDBACK_BATCH_REQUIRED')
-        rows=self.journal._db.execute("SELECT * FROM paper_feedback_publications WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') ORDER BY operation_id LIMIT ?",(limit,)).fetchall()
+    def pending(self,limit,*,include_local_staged=True):
+        if type(limit) is not int or not 1<=limit<=100 or type(include_local_staged) is not bool:raise FeedbackError('BOUNDED_PAPER_FEEDBACK_BATCH_REQUIRED')
+        rows=self.journal._db.execute("SELECT * FROM paper_feedback_publications WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') AND (state!='LOCAL_STAGED' OR ?) ORDER BY operation_id LIMIT ?",(include_local_staged,limit)).fetchall()
         return tuple((row['operation_id'],self._check_record(row),row['artifact_hash']) for row in rows)
 
     def publications(self,limit=100):
@@ -110,9 +110,9 @@ class PaperFeedbackOutbox:
                 return
             self.journal._db.execute('UPDATE paper_feedback_publications SET state=?,attempts=attempts+1 WHERE operation_id=?',(status,operation))
 
-    def flush(self,transport,*,limit,fault_hook=None):
+    def flush(self,transport,*,limit,fault_hook=None,include_local_staged=True):
         if self.journal._db.in_transaction:raise FeedbackError('PAPER_FEEDBACK_IDLE_OWNER_CONNECTION_REQUIRED')
-        items=self.pending(limit);counts=dict(local_staged=0,cloud_acknowledged=0,unavailable=0,conflicts=0)
+        items=self.pending(limit,include_local_staged=include_local_staged);counts=dict(local_staged=0,cloud_acknowledged=0,unavailable=0,conflicts=0)
         for operation,bundle,expected in items:
             try:
                 receipt=transport.publish(bundle,operation)

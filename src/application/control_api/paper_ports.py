@@ -8,6 +8,7 @@ from storage.paper_process import PaperProcessJournal
 from storage.runtime import PaperRuntimeJournal
 from registry import StrategyPlatformService
 import json
+from datetime import datetime
 
 
 class PaperStartControlPort:
@@ -69,8 +70,16 @@ class PaperReadControlPort:
 
     def pause(self,run_id,command_id,actor,expected_revision):
         with self.process_factory() as process:
-            self._recover(process,run_id)
-            return process.request_entry_pause(run_id,command_id,actor=actor,expected_revision=expected_revision,now=self.clock())
+            recovered=self._recover(process,run_id)
+            now=self.clock()
+            # ACCELERATED_FIXTURE checkpoints explicitly use synthetic time.
+            # Select from the verified owner observation, never an API clock
+            # argument; actual forward and authentication keep their clocks.
+            if (self.namespace=='FIXTURE' and recovered.binding['mode']=='ACCELERATED_FIXTURE' and
+                    recovered.state['runtime']['forward']['observed_at'] is not None):
+                observed=datetime.fromisoformat(recovered.state['runtime']['forward']['observed_at'].replace('Z','+00:00'))
+                now=max(now,observed)
+            return process.request_entry_pause(run_id,command_id,actor=actor,expected_revision=expected_revision,now=now)
 
     def view(self,run_id):
         with self.process_factory() as process:

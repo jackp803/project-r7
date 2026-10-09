@@ -1,4 +1,4 @@
-"""Public independent FIXTURE worker with real UTC and actual owning journals."""
+"""Public independent FIXTURE worker with labeled clocks and actual journals."""
 from contextlib import contextmanager
 import json
 import os
@@ -66,6 +66,8 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         result=json.loads(text)
         self.assertEqual(result['namespace'],'FIXTURE')
         self.assertEqual(result['market_source'],'SYNTHETIC_FIXTURE')
+        self.assertEqual(result['observation_clock'],'SYNTHETIC_UTC_SECONDS')
+        self.assertEqual(result['process_health_clock'],'ACTUAL_UTC')
         self.assertEqual(result['financial_authority'],'NONE')
         self.assertEqual(result['ticks'],ticks)
         self.assertEqual(result['status'],'STOPPED')
@@ -97,6 +99,7 @@ class NormalFixtureWorkerTests(unittest.TestCase):
             with open_paper_process_journal(config.database_path,require_existing=True) as journal:
                 before=journal.recover(run)
             position=before.state['runtime']['position']
+            self.assertIsNotNone(position)
             self.assertEqual(position['lifecycle_state'],'OPEN_PROTECTED')
             self.assertEqual(before.process_generation,1)
             view=client.get('/api/v1/paper/runs/'+run).json()['data']
@@ -117,6 +120,7 @@ class NormalFixtureWorkerTests(unittest.TestCase):
             self.assertFalse(after.state['runtime']['paper_entries_allowed'])
             self.assertEqual(len(after.state['runtime']['closed_trades']),1)
             self.assertEqual(after.binding,before.binding)
+            self.assertEqual(after.state['runtime']['forward']['real_elapsed_ns'],0)
             with open_paper_runtime_journal(config.database_path,require_existing=True) as canonical:
                 graph=canonical.recover(position_id=position['position_id'])
             self.assertEqual(graph.status,'READY')

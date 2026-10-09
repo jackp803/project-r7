@@ -85,7 +85,20 @@ def _fence_financial_processes(path,token,now,end):
         with PaperProcessJournal(_restore_connection(path,end)) as journal:
             for run,generation in paper:
                 _deadline(end)
-                journal.begin_process(run,'restore:'+token,expected_generation=generation,now=now)
+                recovered=journal.recover(run)
+                fence_at=now
+                if (recovered.binding['namespace']=='FIXTURE' and recovered.binding['mode']=='ACCELERATED_FIXTURE'):
+                    # The copied owner explicitly uses synthetic UTC. Append
+                    # its fencing generation on that clock while restore
+                    # metadata/auth/process health retain actual UTC. No state
+                    # or elapsed credit is rewritten and activation stays denied.
+                    latest=journal._db.execute('SELECT started_at FROM paper_process_generations WHERE run_id=? ORDER BY generation DESC LIMIT 1',(run,)).fetchone()
+                    clocks=[latest['started_at']] if latest is not None else []
+                    observed=recovered.state['runtime']['forward']['observed_at']
+                    if observed is not None:clocks.append(observed)
+                    for value in clocks:
+                        fence_at=max(fence_at,datetime.fromisoformat(value.replace('Z','+00:00')))
+                journal.begin_process(run,'restore:'+token,expected_generation=generation,now=fence_at)
                 _deadline(end)
 
 def restore_database_backup(config,backup,destination,*,config_path=None,timeout_seconds=30):

@@ -47,6 +47,7 @@ class PaperOwnerWorker:
         self._lock = threading.Lock()
         self._schedulers = {}
         self._failures = {}
+        self._feedback_failures = {}
         self._discovery_offset = 0
         self._discovery_status = 'NOT_STARTED'
         self._capacity_exceeded = False
@@ -209,9 +210,9 @@ class PaperOwnerWorker:
         except FeedbackError:
             # Publication cannot stop protection of another owning run. Keep
             # this attachment and visible failure so the next tick can retry.
-            self._failures[run_id]='FEEDBACK_PUBLICATION_PENDING'
+            self._feedback_failures[run_id]='FEEDBACK_PUBLICATION_PENDING'
             return None
-        self._failures.pop(run_id,None)
+        self._feedback_failures.pop(run_id,None)
         return operation
 
     def snapshot(self):
@@ -220,9 +221,10 @@ class PaperOwnerWorker:
             runs = tuple(self._schedulers)
             acquisition = {key: dict(status=value.acquisition_status, pending_events=value.pending_events)
                            for key, value in self._schedulers.items()}
-        return dict(status='DEGRADED' if self._failures or self._discovery_status in
+        failures={**self._feedback_failures,**self._failures}
+        return dict(status='DEGRADED' if failures or self._discovery_status in
             ('CAPACITY_EXCEEDED', 'INVENTORY_LIMIT_EXCEEDED') else 'RUNNING',
-            active_runs=runs, run_failures=dict(self._failures), acquisition=acquisition,
+            active_runs=runs, run_failures=failures,feedback_failures=dict(self._feedback_failures),acquisition=acquisition,
             discovery_status=self._discovery_status, discovery_offset=self._discovery_offset,
             process_generation=self.supervisor.identity['generation'],
             process_generation_id=self.supervisor.identity['process_generation_id'],

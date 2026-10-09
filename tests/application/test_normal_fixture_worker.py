@@ -235,13 +235,18 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         self.assertEqual(restored.execution_mode,'FIXTURE')
         with open_paper_process_journal(restored.database_path,require_existing=True) as process:
             recovered=process.recover(run)
-        self.assertEqual(recovered,before)
+        self.assertEqual(recovered.process_generation,before.process_generation+1)
+        self.assertEqual(recovered.state,before.state)
+        self.assertEqual(recovered.binding,before.binding)
+        self.assertEqual(recovered.revision,before.revision)
         self.assertEqual((restored.local_data_root/'paper-owner-selections.json').read_bytes(),
             (config.local_data_root/'paper-owner-selections.json').read_bytes())
         with self.assertRaises(ValueError):
             self.call(['paper-worker','--config',str(target/'restored-product.json'),'--maximum-ticks','2'])
         self.app(restored)
         with open_paper_process_journal(restored.database_path,require_existing=True) as process:
+            self.assertEqual(process.recover(run),recovered)
+        with open_paper_process_journal(config.database_path,require_existing=True) as process:
             self.assertEqual(process.recover(run),before)
         from application.platform.product_backup import ProductBackupError
         subject=config.local_data_root/'paper-owner-selections.json'

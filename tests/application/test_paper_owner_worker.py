@@ -96,6 +96,19 @@ class PaperOwnerWorkerTests(unittest.TestCase):
             self.assertNotIn(first,worker.snapshot()['run_failures'])
             self.assertIn(second,worker.snapshot()['active_runs'])
 
+    def test_actual_feedback_success_preserves_rejected_market_failure(self):
+        from application.paper.service import PaperMarketEvent
+        run=self.f.start()
+        with self.worker() as worker:
+            worker.tick()
+            valid=self.f.event(0,bars=True)
+            bar=replace(valid.candles[0],timeframe='4h',open_time=valid.candles[0].close_time-timedelta(hours=4))
+            self.assertTrue(worker.submit_event(run,PaperMarketEvent(valid.snapshot,(bar,),'FIXTURE')))
+            worker.tick()
+            self.assertEqual(worker.snapshot()['run_failures'][run],'MARKET_EVENT_REJECTED')
+            self.assertIsNotNone(worker.queue_feedback(run))
+            self.assertEqual(worker.snapshot()['run_failures'][run],'MARKET_EVENT_REJECTED')
+
     def test_duplicate_owner_is_denied_before_factory_or_per_run_generation_changes(self):
         run_id = self.f.start()
         with self.worker() as first:

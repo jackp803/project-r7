@@ -144,7 +144,7 @@ class NormalFixtureWorkerTests(unittest.TestCase):
             view=client.get('/api/v1/paper/runs/'+run).json()['data']['payload']
             self.assertEqual(view['closed_trades_count'],1)
         self.call(['queue-research-feedback','--config',str(self.config_path),
-            '--run-id',actual['run_id'],'--namespace','FIXTURE'])
+            '--run-id',actual['owner_run_id'],'--namespace','FIXTURE'])
         from storage.paper_feedback import PaperFeedbackOutbox
         with open_paper_process_journal(config.database_path,require_existing=True) as process:
             generation=process.recover(run).process_generation

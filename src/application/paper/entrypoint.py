@@ -46,7 +46,8 @@ def paper_worker(config_path,*,maximum_ticks=None):
         owners.clock=scenario_clock
         with owners.service() as service:
             yield service
-    with ManagedStop() as stop,PaperOwnerWorker(config,actual_service,namespace='FIXTURE',config_path=config_path) as worker:
+    with ManagedStop() as stop,PaperOwnerWorker(config,actual_service,namespace='FIXTURE',
+            config_path=config_path,feedback_on_quiescence=True) as worker:
         ticks=0
         while not stop.requested:
             worker.tick()
@@ -61,6 +62,8 @@ def paper_worker(config_path,*,maximum_ticks=None):
                 stop.wait(1)
                 scenario_clock.advance()
         final=worker.snapshot()
+        for run_id in final['active_runs']:
+            worker.queue_feedback(run_id)
     print(json.dumps(dict(status='STOPPED',namespace='FIXTURE',ticks=ticks,
         market_source='SYNTHETIC_FIXTURE',mode='ACCELERATED_FIXTURE',
         observation_clock='SYNTHETIC_UTC_SECONDS',process_health_clock='ACTUAL_UTC',

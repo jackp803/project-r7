@@ -51,6 +51,9 @@ def main(argv=None):
     paper_worker = commands.add_parser('paper-worker', help='Run independent isolated FIXTURE Paper with labeled synthetic market data')
     paper_worker.add_argument('--config', type=Path, required=True)
     paper_worker.add_argument('--maximum-ticks', type=int)
+    fixture_publish=commands.add_parser('publish-fixture-outbox',help='Stage actual FIXTURE receipts and reports in the selected synthetic local folder')
+    fixture_publish.add_argument('--config',type=Path,required=True)
+    fixture_publish.add_argument('--limit',type=int,default=10)
     enroll = commands.add_parser('enroll-owner', help='Enroll first local owner using hidden terminal input')
     enroll.add_argument('--config', type=Path, required=True)
     enroll.add_argument('--username', required=True)
@@ -303,6 +306,11 @@ def main(argv=None):
         from application.paper.setup import configure_paper
         print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
         return 0
+    if args.command == 'publish-fixture-outbox':
+        from application.fixtures.publication import publish_fixture_outbox
+        result=publish_fixture_outbox(args.config,limit=args.limit)
+        print(json.dumps(result))
+        return 0 if result['status']=='LOCAL_STAGED' else 2
     if args.command in ('enroll-owner', 'serve'):
         from application.config import load_config
         from application.entrypoints import enroll_owner, serve

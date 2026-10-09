@@ -24,13 +24,16 @@ class PaperWorkerError(RuntimeError):
 
 class PaperOwnerWorker:
     def __init__(self, config, service_factory, *, namespace, config_path=None,
-                 maximum_active_runs=200, maximum_pending_events=32):
+                 maximum_active_runs=200, maximum_pending_events=32,feedback_on_quiescence=False):
         if (not isinstance(config, ProductConfig) or not callable(service_factory)
                 or namespace not in ('FIXTURE', 'LOCAL_RESEARCH')):
             raise ValueError('Actual configured PAPER service factory required')
         if (type(maximum_active_runs) is not int or not 1 <= maximum_active_runs <= 200
                 or type(maximum_pending_events) is not int or not 1 <= maximum_pending_events <= 256):
             raise ValueError('Bounded PAPER owner capacity required')
+        if type(feedback_on_quiescence) is not bool:
+            raise ValueError('Explicit owning PAPER feedback selection required')
+        self.feedback_on_quiescence=feedback_on_quiescence
         self.config, self.factory, self.namespace = config, service_factory, namespace
         self.config_path = config_path
         self.maximum_active_runs = maximum_active_runs
@@ -180,6 +183,8 @@ class PaperOwnerWorker:
             self._tick_run(run_id, outcomes)
             try:
                 if self.service.is_quiescent(run_id):
+                    if self.feedback_on_quiescence:
+                        self.queue_feedback(run_id)
                     self.service.release_quiescent_runtime(run_id)
                     with self._lock:
                         del self._schedulers[run_id]
@@ -190,6 +195,14 @@ class PaperOwnerWorker:
             self._tick_run(run_id, outcomes)
         self.supervisor.require_current()
         return outcomes
+
+    def queue_feedback(self,run_id):
+        """Snapshot an attached actual owner; never attach a historical run."""
+        self._require_owner()
+        if run_id not in self._schedulers:
+            raise PaperWorkerError('CURRENT_ATTACHED_PAPER_FEEDBACK_OWNER_REQUIRED')
+        from storage.paper_feedback import PaperFeedbackOutbox
+        return PaperFeedbackOutbox(self.service.process).queue(self.service.runtime(run_id))
 
     def snapshot(self):
         self._require_owner()

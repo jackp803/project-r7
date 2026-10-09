@@ -211,3 +211,35 @@ class NormalFixtureWorkerTests(unittest.TestCase):
             self.assertEqual(process.recover(run).process_generation,generation)
             self.assertEqual(PaperFeedbackOutbox(process).publications()[0]['state'],'LOCAL_STAGED')
         self.assertEqual(staged('manifest.json'),manifest_bytes)
+
+    def test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences(self):
+        self.assertEqual(self.flow('positive')[1],'CANDIDATE')
+        self.configure_paper()
+        config=load_config(self.config_path)
+        with self.authenticated(config) as (client,headers):
+            run=self.start(client,headers)
+            self.worker(2,'backup-protected')
+        with open_paper_process_journal(config.database_path,require_existing=True) as process:
+            before=process.recover(run)
+        self.assertEqual(before.state['runtime']['position']['lifecycle_state'],'OPEN_PROTECTED')
+        backup=self.root/'private product backup'
+        target=self.root/'restored product'
+        result=self.call(['backup-product-data','--config',str(self.config_path),'--destination',str(backup)])
+        self.assertEqual(result['status'],'PRODUCT_DATA_BACKUP_COMPLETE')
+        self.call(['verify-product-backup','--config',str(self.config_path),'--destination',str(backup)])
+        self.call(['restore-product-data','--config',str(self.config_path),'--backup',str(backup),'--destination',str(target)])
+        restored=load_config(target/'restored-product.json')
+        self.assertIsNone(restored.cloud_root)
+        self.assertTrue(restored.diagnostic_only)
+        self.assertFalse(restored.paper_runtime_enabled)
+        self.assertEqual(restored.execution_mode,'FIXTURE')
+        with open_paper_process_journal(restored.database_path,require_existing=True) as process:
+            recovered=process.recover(run)
+        self.assertEqual(recovered,before)
+        self.assertEqual((restored.local_data_root/'paper-owner-selections.json').read_bytes(),
+            (config.local_data_root/'paper-owner-selections.json').read_bytes())
+        with self.assertRaises(ValueError):
+            self.call(['paper-worker','--config',str(target/'restored-product.json'),'--maximum-ticks','2'])
+        self.app(restored)
+        with open_paper_process_journal(restored.database_path,require_existing=True) as process:
+            self.assertEqual(process.recover(run),before)

@@ -122,3 +122,18 @@ class NormalFixturePaperTests(unittest.TestCase):
             with self.subTest(field=field),self.assertRaises((ValueError,EvidenceGateError)):
                 self.app(config)
         path.write_bytes(original)
+
+    def test_composed_reader_revalidates_sealed_payload_before_start(self):
+        config, path = self.selected_candidate()
+        from application.local_owners import LocalOwners
+        local = LocalOwners(config,namespace='FIXTURE')
+        local.control_services()
+        record = json.loads(path.read_bytes())
+        _, package = local.resolver.package(record['submission_id'])
+        payload = package.snapshot.payload_paths['strategy_definition']
+        original = payload.read_bytes()
+        payload.write_bytes(original+b' ')
+        with self.assertRaises(EvidenceGateError):
+            local.paper_owners.current_release()
+        payload.write_bytes(original)
+        self.assertEqual(local.paper_owners.current_release().namespace,'FIXTURE')

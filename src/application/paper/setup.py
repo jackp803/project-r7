@@ -9,7 +9,7 @@ from pathlib import Path
 
 from application.config import load_config, product_namespace
 from application.datasets.catalog import canonical, decode, digest, read_local
-from application.cloud.manifest import safe_component, safe_relative
+from application.cloud.manifest import safe_component, safe_relative, validate_package
 from application.cloud.protocol import CloudError
 from application.cloud.safe_files import _windows_read, _posix_read, write_immutable
 from application.platform.restoration import require_valid_restoration
@@ -99,6 +99,14 @@ class FixtureReleaseReader:
         self.input_refs, self.input_hashes = dict(record['input_refs']), dict(record['input_hashes'])
         for reference in self.input_refs.values():
             safe_relative(reference)
+        try:
+            _, accepted = self.resolver.package(self.submission_id)
+        except (ResearchQueueError,CloudError) as error:
+            raise EvidenceGateError('Actual selected sealed PAPER submission required') from error
+        # Resolve the accepted intake/E6 subject before an E6 write transaction.
+        # Inside current(), revalidate these sealed bytes without opening another
+        # registry writer. Restart always resolves the actual accepted subject.
+        self.snapshot = accepted.snapshot
         self.current()
 
     def current(self):
@@ -106,24 +114,24 @@ class FixtureReleaseReader:
                 require_valid_restoration(self.config)['status']!='NOT_RESTORED' or
                 digest(read_local(self.config.local_data_root,SELECTION_FILE,65536))!=self.raw_hash):
             raise EvidenceGateError('FIXTURE PAPER owner subject changed or restored')
-        for name, reference in self.input_refs.items():
-            raw = read_local(self.config.local_data_root,reference,65536)
-            if digest(raw)!=self.input_hashes[name]:
-                raise EvidenceGateError('Selected FIXTURE PAPER input changed')
         selected = self.owner.as_dict()
         observed = dict(selected)
         for field, reference in self.input_refs.items():
-            observed[field.removesuffix('_ref')] = decode(read_local(self.config.local_data_root,reference,65536))
+            raw = read_local(self.config.local_data_root,reference,65536)
+            if digest(raw)!=self.input_hashes[field]:
+                raise EvidenceGateError('Selected FIXTURE PAPER input changed')
+            observed[field.removesuffix('_ref')] = decode(raw)
         if PaperOwnerSelection(**observed).selection_hash!=self.owner.selection_hash:
             raise EvidenceGateError('PAPER owner policy differs from actual selected input')
         try:
-            _, package = self.resolver.package(self.submission_id)
-        except (ResearchQueueError,CloudError) as error:
+            package = validate_package(self.snapshot)
+        except CloudError as error:
             raise EvidenceGateError('Actual selected sealed PAPER submission required') from error
         manifest = package.manifest.raw
         subject = dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
             content_hash=manifest['strategy_content_hash'])
         if (package.manifest.manifest_hash!=self.manifest_hash or subject!=self.strategy or
+                manifest.get('capability_snapshot_hash')!=build_capability_snapshot().snapshot_hash or
                 selected['submission_validity']!={key:manifest[key] for key in ('intent_class','validity')}):
             raise EvidenceGateError('Selected PAPER strategy/manifest/validity changed')
         if _release(self.config,self.owner)!=self.release:

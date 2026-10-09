@@ -184,7 +184,8 @@ class PaperOwnerWorker:
             try:
                 if self.service.is_quiescent(run_id):
                     if self.feedback_on_quiescence:
-                        self.queue_feedback(run_id)
+                        if self.queue_feedback(run_id) is None:
+                            continue
                     self.service.release_quiescent_runtime(run_id)
                     with self._lock:
                         del self._schedulers[run_id]
@@ -202,7 +203,16 @@ class PaperOwnerWorker:
         if run_id not in self._schedulers:
             raise PaperWorkerError('CURRENT_ATTACHED_PAPER_FEEDBACK_OWNER_REQUIRED')
         from storage.paper_feedback import PaperFeedbackOutbox
-        return PaperFeedbackOutbox(self.service.process).queue(self.service.runtime(run_id))
+        from application.cloud.feedback import FeedbackError
+        try:
+            operation=PaperFeedbackOutbox(self.service.process).queue(self.service.runtime(run_id))
+        except FeedbackError:
+            # Publication cannot stop protection of another owning run. Keep
+            # this attachment and visible failure so the next tick can retry.
+            self._failures[run_id]='FEEDBACK_PUBLICATION_PENDING'
+            return None
+        self._failures.pop(run_id,None)
+        return operation
 
     def snapshot(self):
         self._require_owner()

@@ -64,6 +64,7 @@ def paper_worker(config_path,*,maximum_ticks=None):
         final=worker.snapshot()
         for run_id in final['active_runs']:
             worker.queue_feedback(run_id)
+        final=worker.snapshot()
     print(json.dumps(dict(status='STOPPED',namespace='FIXTURE',ticks=ticks,
         market_source='SYNTHETIC_FIXTURE',mode='ACCELERATED_FIXTURE',
         observation_clock='SYNTHETIC_UTC_SECONDS',process_health_clock='ACTUAL_UTC',

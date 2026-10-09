@@ -104,6 +104,13 @@ class NormalFixtureWorkerTests(unittest.TestCase):
                 self.call(['paper-worker','--config',str(self.config_path),'--maximum-ticks',ticks])
         self.assertFalse(self.data.exists())
 
+    def test_ordinary_publisher_has_no_fixture_staging_authority(self):
+        research_normal.ResearchSetupFlowTests.initialize(self)
+        with self.assertRaises(ValueError):
+            self.call(['publish-fixture-outbox','--config',str(self.config_path)])
+        self.assertFalse(self.data.exists())
+        self.assertFalse(self.cloud.exists())
+
     def test_public_worker_stop_pause_restart_protects_and_closes_actual_trade(self):
         self.assertEqual(self.flow('positive')[1],'CANDIDATE')
         self.configure_paper()
@@ -178,16 +185,20 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         self.assertEqual(result['status'],'LOCAL_STAGED')
         self.assertGreaterEqual(result['local_staged'],3)
         self.assertEqual(result['cloud_acknowledged'],0)
-        folder=self.cloud/bundle.logical_path
-        self.assertEqual((folder/'feedback.json').read_bytes(),bundle.payloads['feedback.json'])
-        self.assertEqual((folder/'report.html').read_bytes(),bundle.payloads['report.html'])
-        receipt=json.loads((folder/'manifest.json').read_bytes())
+        from application.cloud.safe_files import read_bounded
+        def staged(name):
+            return read_bounded(self.cloud,bundle.logical_path+'/'+name,262144)
+        self.assertEqual(staged('feedback.json'),bundle.payloads['feedback.json'])
+        self.assertEqual(staged('report.html'),bundle.payloads['report.html'])
+        manifest_bytes=staged('manifest.json')
+        receipt=json.loads(manifest_bytes)
         self.assertEqual(receipt['operation_id'],operation)
         self.assertEqual(receipt['artifact_hash'],artifact)
-        manifests=list((self.cloud/'receipts').rglob('manifest.json'))
+        from application.platform.private_files import _filesystem_path
+        manifests=list(_filesystem_path(self.cloud/'receipts').rglob('manifest.json'))
         self.assertGreaterEqual(len(manifests),1)
         self.call(['publish-fixture-outbox','--config',str(self.config_path),'--limit','10'])
         with open_paper_process_journal(config.database_path,require_existing=True) as process:
             self.assertEqual(process.recover(run).process_generation,generation)
             self.assertEqual(PaperFeedbackOutbox(process).publications()[0]['state'],'LOCAL_STAGED')
-        self.assertEqual((folder/'manifest.json').read_bytes(),json.dumps(receipt,sort_keys=True,separators=(',',':')).encode())
+        self.assertEqual(staged('manifest.json'),manifest_bytes)

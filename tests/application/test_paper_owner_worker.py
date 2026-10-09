@@ -65,6 +65,37 @@ class PaperOwnerWorkerTests(unittest.TestCase):
             self.assertEqual(len(graph.fills), 2)
             self.assertEqual(graph.trade_result.payload, self.f.recover(run_id).state['runtime']['closed_trades'][0])
 
+    def test_actual_full_feedback_outbox_cannot_stop_other_protected_management(self):
+        first=self.f.start()
+        other=self.f.second_candidate()
+        second=self.f.start('other-protected-owner',identity=other)
+        with self.worker(feedback_on_quiescence=True) as worker:
+            worker.tick()
+            self.event_tick(worker,first,0,bars=True)
+            self.event_tick(worker,second,0,bars=True)
+            self.event_tick(worker,first,1)
+            self.event_tick(worker,second,1)
+            self.event_tick(worker,first,2,'60020')
+            self.event_tick(worker,first,3,'60020')
+            self.assertIsNotNone(worker.queue_feedback(first))
+            protected=self.f.recover(second).state['runtime']['position']
+            self.f.reader.pause(first,'outbox-capacity-pause','fixture-owner',self.f.reader.revision(first))
+            # Exercise the actual bounded writer with a one-item unit capacity;
+            # no outbox row, lifecycle or result is inserted by the test.
+            with patch('storage.paper_feedback.MAX_PENDING',1):
+                outcomes=worker.tick()
+                self.assertIn(second,outcomes)
+                self.assertEqual(worker.snapshot()['run_failures'][first],'FEEDBACK_PUBLICATION_PENDING')
+                self.assertIn(first,worker.snapshot()['active_runs'])
+                self.assertIn(second,worker.snapshot()['active_runs'])
+                self.event_tick(worker,second,4)
+            self.assertEqual(self.f.recover(second).state['runtime']['position']['position_id'],protected['position_id'])
+            self.assertEqual(self.f.recover(second).state['runtime']['position']['lifecycle_state'],'OPEN_PROTECTED')
+            worker.tick()
+            self.assertNotIn(first,worker.snapshot()['active_runs'])
+            self.assertNotIn(first,worker.snapshot()['run_failures'])
+            self.assertIn(second,worker.snapshot()['active_runs'])
+
     def test_duplicate_owner_is_denied_before_factory_or_per_run_generation_changes(self):
         run_id = self.f.start()
         with self.worker() as first:

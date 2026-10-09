@@ -132,3 +132,46 @@ class NormalFixtureWorkerTests(unittest.TestCase):
             self.assertEqual(final['position'],closed)
             self.assertEqual(final['namespace'],'FIXTURE')
             self.assertEqual(final['mode'],'ACCELERATED_FIXTURE')
+
+    def test_normal_completed_trade_stages_actual_reports_and_receipts(self):
+        actual,lifecycle=self.flow('positive')
+        self.assertEqual(lifecycle,'CANDIDATE')
+        self.configure_paper()
+        config=load_config(self.config_path)
+        with self.authenticated(config) as (client,headers):
+            run=self.start(client,headers)
+            self.worker(5,'publication')
+            view=client.get('/api/v1/paper/runs/'+run).json()['data']['payload']
+            self.assertEqual(view['closed_trades_count'],1)
+        self.call(['queue-research-feedback','--config',str(self.config_path),
+            '--run-id',actual['run_id'],'--namespace','FIXTURE'])
+        from storage.paper_feedback import PaperFeedbackOutbox
+        with open_paper_process_journal(config.database_path,require_existing=True) as process:
+            generation=process.recover(run).process_generation
+            pending=PaperFeedbackOutbox(process).pending(10)
+        self.assertEqual(len(pending),1)
+        operation,bundle,artifact=pending[0]
+        report=json.loads(bundle.payloads['feedback.json'])
+        self.assertEqual(report['observation']['closed_trades'],1)
+        self.assertEqual(report['observation']['actual_elapsed_seconds'],0)
+        self.assertEqual(report['assessment']['status'],'BLOCKED')
+        self.assertEqual(report['live']['status'],'NOT_RUN')
+        self.assertIsNone(report['performance'])
+        self.assertEqual(report['financial_authority'],'NONE')
+        result=self.call(['publish-fixture-outbox','--config',str(self.config_path),'--limit','10'])
+        self.assertEqual(result['status'],'LOCAL_STAGED')
+        self.assertGreaterEqual(result['local_staged'],3)
+        self.assertEqual(result['cloud_acknowledged'],0)
+        folder=self.cloud/bundle.logical_path
+        self.assertEqual((folder/'feedback.json').read_bytes(),bundle.payloads['feedback.json'])
+        self.assertEqual((folder/'report.html').read_bytes(),bundle.payloads['report.html'])
+        receipt=json.loads((folder/'manifest.json').read_bytes())
+        self.assertEqual(receipt['operation_id'],operation)
+        self.assertEqual(receipt['artifact_hash'],artifact)
+        manifests=list((self.cloud/'receipts').rglob('manifest.json'))
+        self.assertGreaterEqual(len(manifests),1)
+        self.call(['publish-fixture-outbox','--config',str(self.config_path),'--limit','10'])
+        with open_paper_process_journal(config.database_path,require_existing=True) as process:
+            self.assertEqual(process.recover(run).process_generation,generation)
+            self.assertEqual(PaperFeedbackOutbox(process).publications()[0]['state'],'LOCAL_STAGED')
+        self.assertEqual((folder/'manifest.json').read_bytes(),json.dumps(receipt,sort_keys=True,separators=(',',':')).encode())

@@ -64,9 +64,9 @@ def _release(config, owner):
     selected = owner.as_dict()
     risk = parse_product_risk_policy(selected['risk_policy'],namespace='FIXTURE')
     return ReleaseBinding(namespace='FIXTURE',implementation_hash=facts['implementation_hash'],
-        executable_revision=facts['executable_revision'],build_hash=facts.get('build_hash',digest(canonical(facts))),
+        executable_revision=facts['executable_revision'],build_hash=facts.get('build_hash') or digest(canonical(facts).encode('utf-8')),
         config_hash=config_hash(config),config_generation=1,capability_hash=build_capability_snapshot().snapshot_hash,
-        provider_profile_hash=digest(canonical(selected['simulation_policy'])),provider_ref='FIXTURE_PAPER_SIMULATOR',
+        provider_profile_hash=digest(canonical(selected['simulation_policy']).encode('utf-8')),provider_ref='FIXTURE_PAPER_SIMULATOR',
         account_ref='FIXTURE_ISOLATED_ACCOUNT',risk_policy_hash=risk.policy_hash,
         risk_generation=selected['risk_policy']['generation'],runtime_generation=1,release_kind='FIXTURE')
 

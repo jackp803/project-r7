@@ -8,6 +8,7 @@ from unittest.mock import patch
 from application import cli
 from application.config import load_config
 from application.platform.scope_lock import ProcessScopeLock, ScopeBusy, operational_lock_root
+from registry import EvidenceGateError
 from tests.application import test_fixture_recipe_flow as recipe
 from tests.application import test_research_setup_flow as normal
 
@@ -89,3 +90,35 @@ class NormalFixturePaperTests(unittest.TestCase):
             self.assertEqual(payload['closed_trades_count'],0)
             with closing(sqlite3.connect(self.data/'process-supervision.sqlite')) as supervision:
                 self.assertEqual(supervision.execute("SELECT COUNT(*) FROM process_session_history WHERE role='runtime'").fetchone()[0],0)
+
+    def selected_candidate(self):
+        self.assertEqual(self.flow('positive')[1],'CANDIDATE')
+        self.configure_paper()
+        return load_config(self.config_path),self.data/'paper-owner-selections.json'
+
+    def test_restarted_reader_must_match_all_selected_policy_bytes(self):
+        config, path = self.selected_candidate()
+        original = path.read_bytes()
+        for field in ('simulation_policy','risk_policy','promotion_policy'):
+            value = json.loads(original)
+            if field=='simulation_policy': value['owner'][field]['quantity']='0.002'
+            elif field=='risk_policy': value['owner'][field]['policy']['max_margin']='99'
+            else: value['owner'][field]['max_drawdown_usdt']='20'
+            path.write_text(json.dumps(value),encoding='utf-8')
+            with self.subTest(field=field),self.assertRaises((ValueError,EvidenceGateError)):
+                self.app(config)
+        path.write_bytes(original)
+
+    def test_restarted_reader_must_match_actual_selected_manifest_and_validity(self):
+        config, path = self.selected_candidate()
+        original = path.read_bytes()
+        for field in ('submission_id','manifest_hash','submission_validity'):
+            value = json.loads(original)
+            if field=='submission_id': value[field]='other-synthetic-submission'
+            elif field=='manifest_hash': value[field]='sha256:'+'f'*64
+            else: value['owner'][field]=dict(intent_class='TACTICAL_STRATEGY',
+                validity={'from':'2026-10-01T00:00:00Z','until':'2026-11-01T00:00:00Z'})
+            path.write_text(json.dumps(value),encoding='utf-8')
+            with self.subTest(field=field),self.assertRaises((ValueError,EvidenceGateError)):
+                self.app(config)
+        path.write_bytes(original)

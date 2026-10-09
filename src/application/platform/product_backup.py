@@ -145,12 +145,83 @@ def _file_facts(path, end):
     return dict(bytes=count, sha256='sha256:' + digest.hexdigest())
 
 
+def _fixture_paper_inputs(root,paths,selected):
+    """Exact typed fixture metadata/input coverage; never a release admission."""
+    from application.paper.setup import INPUT_KEYS,INPUT_SCHEMA,RECORD_KEYS,SELECTION_SCHEMA,SELECTION_FILE
+    from application.paper.owners import PaperOwnerSelection
+    from application.paper.policy import parse_simulation_policy
+    from registry.operational_authority import ReleaseBinding
+    from risk.product_policy import parse_product_risk_policy
+    from validation.paper_policy import parse_paper_promotion_policy
+    from application.cloud.manifest import safe_component,byte_hash
+    from application.datasets.catalog import canonical
+    allowed,hashes=set(),{}
+    profile='fixture-inputs/selection.json'
+    if profile in paths:
+        if selected is None or decode(read_local(root,profile,65536))!=selected:
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_SELECTION_MISMATCH')
+        allowed.add(profile)
+    operator='fixture-inputs/paper-selection.json'
+    inputs=None
+    if operator in paths:
+        inputs=decode(read_local(root,operator,65536))
+        if not isinstance(inputs,dict) or set(inputs)!=INPUT_KEYS or inputs['schema_version']!=INPUT_SCHEMA:
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_INPUT_INVALID')
+        safe_component(inputs['submission_id']);safe_component(inputs['paper_policy_ref'])
+        allowed.add(operator)
+    record=None
+    if SELECTION_FILE in paths:
+        record=decode(read_local(root,SELECTION_FILE,65536))
+        if not isinstance(record,dict) or set(record)!=RECORD_KEYS or record['schema_version']!=SELECTION_SCHEMA:
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_SUBJECT_INVALID')
+        owner=PaperOwnerSelection(**record['owner'])
+        release=ReleaseBinding(**record['release'])
+        refs=record['input_refs']
+        keys={'simulation_policy_ref','risk_policy_ref','promotion_policy_ref'}
+        if (owner.namespace!='FIXTURE' or release.namespace!='FIXTURE' or release.release_kind!='FIXTURE' or
+                not isinstance(refs,dict) or set(refs)!=keys or not isinstance(record['input_hashes'],dict) or
+                set(record['input_hashes'])!=keys):
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_SUBJECT_INVALID')
+        safe_component(record['submission_id'])
+        snapshot='snapshots/'+record['submission_id']+'-'+record['manifest_hash'][7:]
+        manifest=parse_manifest(read_local(root,snapshot+'/manifest.json',65536))
+        if (manifest.manifest_hash!=record['manifest_hash'] or record['strategy']!=dict(
+                strategy_id=manifest.strategy_id,strategy_version=manifest.strategy_version,content_hash=manifest.strategy_content_hash) or
+                owner.as_dict()['submission_validity']!={key:manifest.raw[key] for key in ('intent_class','validity')}):
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_MANIFEST_MISMATCH')
+        if inputs is not None and inputs!={**refs,'schema_version':INPUT_SCHEMA,
+                'submission_id':record['submission_id'],'paper_policy_ref':owner.as_dict()['paper_policy_ref']}:
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_INPUT_MISMATCH')
+        inputs=refs
+        allowed.add(SELECTION_FILE)
+    if inputs is not None:
+        values={}
+        for field,validator in (('simulation_policy',parse_simulation_policy),('risk_policy',parse_product_risk_policy),
+                ('promotion_policy',parse_paper_promotion_policy)):
+            relative=safe_relative(inputs[field+'_ref'])
+            if not relative.endswith('.json') or relative.split('/')[0] in TRANSIENT_ROOTS:
+                raise ProductBackupError('PRODUCT_BACKUP_POLICY_PATH_INVALID')
+            raw=read_local(root,relative,65536);value=decode(raw);scan_untrusted(value)
+            validator(value,namespace='FIXTURE')
+            values[field]=value;allowed.add(relative)
+            if record is not None:
+                if byte_hash(raw)!=record['input_hashes'][field+'_ref']:
+                    raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_INPUT_CHANGED')
+                hashes[relative]=byte_hash(raw)
+        if record is not None:
+            observed={**owner.as_dict(),**values}
+            if PaperOwnerSelection(**observed).selection_hash!=owner.selection_hash:
+                raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_POLICY_MISMATCH')
+    return allowed,hashes
+
+
 def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadata=False):
     paths, excluded = _walk(root, end, exclusions=exclusions)
     ignored = {name + suffix for name in databases for suffix in ('', '-wal', '-shm', '-journal')}
     if restore_metadata:
         ignored.update(RESTORE_METADATA)
     allowed, expected_hashes = set(), {}
+    selected=None
     selection = 'owner-selections.json'
     if selection in paths:
         selected = decode(read_local(root, selection, 65536))
@@ -173,6 +244,8 @@ def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadat
                         dataset_refs.add(relative)
     else:
         dataset_refs = set()
+    fixture_files,fixture_hashes=_fixture_paper_inputs(root,paths,selected)
+    allowed.update(fixture_files);expected_hashes.update(fixture_hashes)
     # Retain all supported imported revisions, including currently unselected ones.
     dataset_refs.update(name for name in paths if name.startswith('datasets/')
         and len(name.split('/')) == 4 and name.endswith('/dataset.json'))

@@ -17,7 +17,9 @@ from application.platform.scope_lock import ProcessScopeLock, operational_lock_r
 from application.platform.supervision import config_hash
 from application.research.evidence import capture_provenance
 from application.research.product_assessment import require_promotable_provenance
-from registry import EvidenceGateError
+from application.research.selection import ResearchRequestResolver
+from application.research.queue import ResearchQueueError
+from registry import EvidenceGateError, StrategyIdentity
 from registry.operational_authority import HumanAuthenticator, ReleaseBinding
 from risk.product_policy import parse_product_risk_policy
 from strategy.v02.capabilities import build_capability_snapshot
@@ -27,7 +29,7 @@ INPUT_SCHEMA = 'r7-fixture-paper-inputs-v0.2'
 SELECTION_SCHEMA = 'r7-fixture-paper-owner-v0.2'
 SELECTION_FILE = 'paper-owner-selections.json'
 INPUT_KEYS = {'schema_version','submission_id','simulation_policy_ref','risk_policy_ref','promotion_policy_ref','paper_policy_ref'}
-RECORD_KEYS = {'schema_version','owner','release','submission_id','manifest_hash','input_refs','input_hashes'}
+RECORD_KEYS = {'schema_version','owner','release','submission_id','manifest_hash','strategy','input_refs','input_hashes'}
 
 
 def _operator_profile(config, selection_profile):
@@ -65,17 +67,27 @@ def _release(config, owner):
     risk = parse_product_risk_policy(selected['risk_policy'],namespace='FIXTURE')
     return ReleaseBinding(namespace='FIXTURE',implementation_hash=facts['implementation_hash'],
         executable_revision=facts['executable_revision'],build_hash=facts.get('build_hash') or digest(canonical(facts).encode('utf-8')),
-        config_hash=config_hash(config),config_generation=1,capability_hash=build_capability_snapshot().snapshot_hash,
+        config_hash=digest(canonical(dict(product_config_hash=config_hash(config),paper_selection_hash=owner.selection_hash)).encode('utf-8')),
+        config_generation=1,capability_hash=build_capability_snapshot().snapshot_hash,
         provider_profile_hash=digest(canonical(selected['simulation_policy']).encode('utf-8')),provider_ref='FIXTURE_PAPER_SIMULATOR',
         account_ref='FIXTURE_ISOLATED_ACCOUNT',risk_policy_hash=risk.policy_hash,
         risk_generation=selected['risk_policy']['generation'],runtime_generation=1,release_kind='FIXTURE')
 
 
 class FixtureReleaseReader:
-    def __init__(self, config, record, raw):
+    def __init__(self, config, record, raw, resolver):
         if not isinstance(record,dict) or set(record)!=RECORD_KEYS or record['schema_version']!=SELECTION_SCHEMA:
             raise ValueError('Exact isolated FIXTURE PAPER owner subject required')
         self.config, self.raw_hash = config, digest(raw)
+        if not isinstance(resolver,ResearchRequestResolver):
+            raise ValueError('Actual accepted intake resolver required for FIXTURE PAPER')
+        self.resolver = resolver
+        safe_component(record['submission_id'])
+        self.submission_id,self.manifest_hash = record['submission_id'],record['manifest_hash']
+        self.strategy = record['strategy']
+        if not isinstance(self.strategy,dict) or set(self.strategy)!={'strategy_id','strategy_version','content_hash'}:
+            raise ValueError('Exact selected strategy subject required')
+        self.identity = StrategyIdentity(self.strategy['strategy_id'],self.strategy['strategy_version'])
         self.owner = PaperOwnerSelection(**record['owner'])
         self.release = ReleaseBinding(**record['release'])
         if self.owner.namespace!='FIXTURE' or self.release.namespace!='FIXTURE' or not self.owner.as_dict()['workflow_authorized']:
@@ -95,25 +107,44 @@ class FixtureReleaseReader:
                 digest(read_local(self.config.local_data_root,SELECTION_FILE,65536))!=self.raw_hash):
             raise EvidenceGateError('FIXTURE PAPER owner subject changed or restored')
         for name, reference in self.input_refs.items():
-            if digest(read_local(self.config.local_data_root,reference,65536))!=self.input_hashes[name]:
+            raw = read_local(self.config.local_data_root,reference,65536)
+            if digest(raw)!=self.input_hashes[name]:
                 raise EvidenceGateError('Selected FIXTURE PAPER input changed')
+        selected = self.owner.as_dict()
+        observed = dict(selected)
+        for field, reference in self.input_refs.items():
+            observed[field.removesuffix('_ref')] = decode(read_local(self.config.local_data_root,reference,65536))
+        if PaperOwnerSelection(**observed).selection_hash!=self.owner.selection_hash:
+            raise EvidenceGateError('PAPER owner policy differs from actual selected input')
+        try:
+            _, package = self.resolver.package(self.submission_id)
+        except (ResearchQueueError,CloudError) as error:
+            raise EvidenceGateError('Actual selected sealed PAPER submission required') from error
+        manifest = package.manifest.raw
+        subject = dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
+            content_hash=manifest['strategy_content_hash'])
+        if (package.manifest.manifest_hash!=self.manifest_hash or subject!=self.strategy or
+                selected['submission_validity']!={key:manifest[key] for key in ('intent_class','validity')}):
+            raise EvidenceGateError('Selected PAPER strategy/manifest/validity changed')
         if _release(self.config,self.owner)!=self.release:
             raise EvidenceGateError('Current FIXTURE source/build/configuration changed')
         return self.release
 
 
-def load_fixture_paper_owners(config, *, clock):
+def load_fixture_paper_owners(config, *, clock, resolver):
     if product_namespace(config)!='FIXTURE' or require_valid_restoration(config)['status']!='NOT_RESTORED':
         return None
     if not (config.local_data_root/SELECTION_FILE).exists():
         return None
     raw = read_local(config.local_data_root,SELECTION_FILE,65536)
-    reader = FixtureReleaseReader(config,decode(raw),raw)
+    reader = FixtureReleaseReader(config,decode(raw),raw,resolver)
     # This authenticator always refuses approval/deployment. Local UI login
     # alone can select permitted fixture PaperStart, never financial authority.
     authenticator = HumanAuthenticator(namespace='FIXTURE',reauth_seconds=300,verifier=lambda _:None,clock=clock)
-    return PaperOwnerComposition(config,selection=reader.owner,current_release=reader.current,
+    owners = PaperOwnerComposition(config,selection=reader.owner,current_release=reader.current,
         authenticator=authenticator,clock=clock)
+    owners.fixture_strategy_identity = reader.identity
+    return owners
 
 
 def configure_paper(config_path, selection_profile):
@@ -143,6 +174,8 @@ def configure_paper(config_path, selection_profile):
         release = _release(config,owner)
         record = dict(schema_version=SELECTION_SCHEMA,owner=owner.as_dict(),release=release.as_dict(),
             submission_id=selected['submission_id'],manifest_hash=package.manifest.manifest_hash,
+            strategy=dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
+                content_hash=manifest['strategy_content_hash']),
             input_refs={name:selected[name] for name in inputs},input_hashes={name:digest(raw) for name,raw in inputs.items()})
         raw = canonical(record).encode('utf-8')
         destination = config.local_data_root/SELECTION_FILE

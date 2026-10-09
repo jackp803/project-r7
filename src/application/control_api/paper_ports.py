@@ -11,10 +11,13 @@ import json
 
 
 class PaperStartControlPort:
-    def __init__(self,*,namespace,service_factory):
+    def __init__(self,*,namespace,service_factory,strategy_identity=None):
         if namespace not in ('FIXTURE','LOCAL_RESEARCH') or not callable(service_factory):
             raise ValueError('Explicit owner-composed Paper factory required')
         self.namespace,self.factory=namespace,service_factory
+        if strategy_identity is not None and not isinstance(strategy_identity,StrategyIdentity):
+            raise ValueError('Actual selected strategy identity required')
+        self.strategy_identity=strategy_identity
 
     def policy_views(self):
         with self.factory() as service:
@@ -25,10 +28,12 @@ class PaperStartControlPort:
                 policy_hash=service.promotion.policy_hash,simulation_policy_hash=service.simulation.policy_hash)]
 
     def start(self,arguments,*,actor,command_id,expected_revision):
+        identity=StrategyIdentity(arguments['strategy_id'],arguments['strategy_version'])
+        if self.strategy_identity is not None and identity!=self.strategy_identity:
+            raise APIError('INVALID_INPUT','PAPER_POLICY_STRATEGY_MISMATCH',422)
         with self.factory() as service:
             if not isinstance(service,PaperService) or service.namespace!=self.namespace:
                 raise APIError('NOT_CONFIGURED','ACTUAL_PAPER_OWNER_REQUIRED',503)
-            identity=StrategyIdentity(arguments['strategy_id'],arguments['strategy_version'])
             result=service.start(identity,arguments['policy_id'],expected_revision,command_id)
             # start persists the accepted initial run/E6 transition only. The
             # native independent worker later attaches; no generation is stolen.

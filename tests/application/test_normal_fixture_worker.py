@@ -181,10 +181,19 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         self.assertEqual(report['live']['status'],'NOT_RUN')
         self.assertIsNone(report['performance'])
         self.assertEqual(report['financial_authority'],'NONE')
-        result=self.call(['publish-fixture-outbox','--config',str(self.config_path),'--limit','10'])
-        self.assertEqual(result['status'],'LOCAL_STAGED')
-        self.assertGreaterEqual(result['local_staged'],3)
-        self.assertEqual(result['cloud_acknowledged'],0)
+        staged_count=0
+        for _ in range(10):
+            result=self.call(['publish-fixture-outbox','--config',str(self.config_path),'--limit','1'])
+            self.assertEqual(result['status'],'LOCAL_STAGED')
+            self.assertLessEqual(result['attempted'],1)
+            self.assertEqual(result['cloud_acknowledged'],0)
+            staged_count+=result['local_staged']
+            if not result['attempted']:
+                break
+        with open_paper_process_journal(config.database_path,require_existing=True) as process:
+            self.assertEqual(PaperFeedbackOutbox(process).publications()[0]['state'],'LOCAL_STAGED',
+                'Limit-one fixture staging must reach actual Paper feedback')
+        self.assertGreaterEqual(staged_count,3)
         from application.cloud.safe_files import read_bounded
         def staged(name):
             return read_bounded(self.cloud,bundle.logical_path+'/'+name,262144)

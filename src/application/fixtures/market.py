@@ -1,16 +1,36 @@
 """Named synthetic E1 scenario for the public isolated FIXTURE Paper owner.
 
-Actual UTC drives observations and protection. Two mechanical uptrend candles
-are supplied only to an empty run; durable state drives the synthetic target.
+An explicitly synthetic UTC clock drives the accelerated scenario; process
+health keeps its actual clock. Two aligned mechanical uptrend candles are
+supplied only to an empty run; durable state drives the synthetic target.
 This producer has no provider port and writes no lifecycle or execution facts.
 """
-from datetime import timedelta
+from datetime import datetime,timedelta,timezone
 from decimal import Decimal
 
 from execution.models import require_utc
 from market_data.candle import Candle
 from market_data.current import MarketSnapshot
 from application.paper.service import PaperMarketEvent
+
+
+class FixtureScenarioClock:
+    """Product-owned virtual clock; never a real-forward time producer."""
+    def __init__(self):
+        actual=datetime.now(timezone.utc)
+        self.value=actual.replace(minute=0,second=0,microsecond=0)+timedelta(hours=1)
+
+    def __call__(self):
+        return self.value
+
+    def resume(self,observed_at):
+        if observed_at is not None:
+            value=datetime.fromisoformat(observed_at.replace('Z','+00:00'))
+            require_utc(value,'retained fixture clock')
+            self.value=value+timedelta(seconds=1)
+
+    def advance(self):
+        self.value+=timedelta(seconds=1)
 
 
 def fixture_market_event(runtime_state,now):

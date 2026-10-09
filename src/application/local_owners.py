@@ -5,7 +5,7 @@ import hashlib
 
 from application.cloud.manifest import safe_component
 from application.cloud.synced_folder import SyncedFolderCloudTransport
-from application.config import ProductConfig
+from application.config import ProductConfig, product_namespace
 from application.control_api.owner_services import OwnerControlServices
 from application.control_api.paper_ports import PaperReadControlPort
 from application.datasets.catalog import decode, read_local
@@ -85,10 +85,17 @@ class LocalOwners:
             self.inbox_factory = inbox
 
     def control_services(self):
+        paper_start = None
+        if self.namespace=='FIXTURE' and product_namespace(self.config)=='FIXTURE':
+            from application.paper.setup import load_fixture_paper_owners
+            from application.control_api.paper_ports import PaperStartControlPort
+            self.paper_owners = load_fixture_paper_owners(self.config,clock=self.clock)
+            if self.paper_owners is not None:
+                paper_start = PaperStartControlPort(namespace=self.namespace,service_factory=self.paper_owners.service)
         reader = PaperReadControlPort(namespace=self.namespace, clock=self.clock,
             process_factory=lambda: open_paper_process_journal(self.config.database_path),
             canonical_factory=lambda: open_paper_runtime_journal(self.config.database_path))
         return OwnerControlServices(self.config, namespace=self.namespace, clock=self.clock,
             registry_factory=self.registry_factory, intake_factory=self.intake_factory,
             inbox_factory=self.inbox_factory, research_queue=self.queue, research_resolver=self.resolver,
-            paper_reader=reader)
+            paper_reader=reader,paper_start=paper_start)

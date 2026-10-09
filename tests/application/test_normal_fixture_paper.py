@@ -1,0 +1,91 @@
+"""Actual public fixture selection and PaperStart; no injected owner factories."""
+import json
+import sqlite3
+from contextlib import closing
+import unittest
+from unittest.mock import patch
+
+from application import cli
+from application.config import load_config
+from application.platform.scope_lock import ProcessScopeLock, ScopeBusy, operational_lock_root
+from tests.application import test_fixture_recipe_flow as recipe
+from tests.application import test_research_setup_flow as normal
+
+
+class NormalFixturePaperTests(unittest.TestCase):
+    setUp = recipe.FixtureRecipeFlowTests.setUp
+    call = recipe.FixtureRecipeFlowTests.call
+    initialize = recipe.FixtureRecipeFlowTests.initialize
+    generate = recipe.FixtureRecipeFlowTests.generate
+    prepare = recipe.FixtureRecipeFlowTests.prepare
+    configure = recipe.FixtureRecipeFlowTests.configure
+    app = recipe.FixtureRecipeFlowTests.app
+    flow = recipe.FixtureRecipeFlowTests.flow
+
+    def configure_paper(self):
+        return self.call(['configure-paper','--config',str(self.config_path),
+            '--selection-profile',str(self.data/'fixture-inputs'/'paper-selection.json')])
+
+    def test_ordinary_mode_has_no_fixture_paper_authority_or_side_effect(self):
+        normal.ResearchSetupFlowTests.initialize(self)
+        with self.assertRaises(ValueError):
+            self.configure_paper()
+        self.assertFalse(self.data.exists())
+
+    def test_all_running_owners_fence_paper_selection(self):
+        config, _ = self.prepare()
+        self.configure()
+        for role in ('control','research','runtime','cloud'):
+            with self.subTest(role=role),ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)):
+                with self.assertRaises(ScopeBusy):
+                    self.configure_paper()
+            self.assertFalse((self.data/'paper-owner-selections.json').exists())
+
+    def test_operator_profile_cannot_supply_qualification_or_workflow_authority(self):
+        self.prepare()
+        path = self.data/'fixture-inputs'/'paper-selection.json'
+        original = path.read_bytes()
+        for field in ('qualified_release','workflow_authorized','approval','release_kind'):
+            value = json.loads(original)
+            value[field] = 'PASS'
+            path.write_text(json.dumps(value),encoding='utf-8')
+            with self.assertRaises(ValueError):
+                self.configure_paper()
+        self.assertFalse((self.data/'paper-owner-selections.json').exists())
+
+    def test_normal_candidate_selects_paper_and_api_prepares_generation_zero(self):
+        actual, lifecycle = self.flow('positive')
+        self.assertEqual(lifecycle,'CANDIDATE')
+        result = self.configure_paper()
+        self.assertEqual(result['status'],'FIXTURE_PAPER_CONFIGURED')
+        self.assertEqual(result['financial_authority'],'NONE')
+        before = (self.data/'paper-owner-selections.json').read_bytes()
+        self.assertEqual(self.configure_paper()['status'],'ALREADY_CONFIGURED')
+        self.assertEqual((self.data/'paper-owner-selections.json').read_bytes(),before)
+        config = load_config(self.config_path)
+        from fastapi.testclient import TestClient
+        with TestClient(self.app(config),base_url='http://127.0.0.1:8765',client=('127.0.0.1',42000)) as client:
+            login = client.post('/api/v1/auth/login',json=dict(username='fixture-owner',
+                password='synthetic-source-recipe-password-2026',command_id='paper-login',expected_revision=0),
+                headers={'Origin':'http://127.0.0.1:8765'})
+            self.assertEqual(login.status_code,200,login.text)
+            headers = {'Origin':'http://127.0.0.1:8765','x-r7-csrf':login.json()['csrf_token']}
+            policies = client.get('/api/v1/policies').json()['data']['items']
+            paper = [row for row in policies if row['kind']=='PAPER']
+            self.assertEqual(len(paper),1)
+            self.assertEqual(paper[0]['mode'],'ACCELERATED_FIXTURE')
+            strategy = client.get('/api/v1/strategies').json()['data']['items'][0]
+            start = client.post('/api/v1/paper/runs',json=dict(command_id='normal-paper-start',
+                expected_revision=strategy['registry_revision'],strategy_id=strategy['strategy_id'],
+                strategy_version=strategy['strategy_version'],policy_id=paper[0]['policy_id']),headers=headers)
+            self.assertEqual(start.status_code,200,start.text)
+            run = start.json()['effect_ref'].removeprefix('paper:')
+            from storage.paper_process import open_paper_process_journal
+            with open_paper_process_journal(config.database_path,require_existing=True) as journal:
+                self.assertEqual(journal.recover(run).process_generation,0)
+            payload = client.get('/api/v1/paper/runs/'+run).json()['data']['payload']
+            self.assertEqual(payload['mode'],'ACCELERATED_FIXTURE')
+            self.assertEqual(payload['runtime_status'],'NOT_STARTED')
+            self.assertEqual(payload['closed_trades_count'],0)
+            with closing(sqlite3.connect(self.data/'process-supervision.sqlite')) as supervision:
+                self.assertEqual(supervision.execute("SELECT COUNT(*) FROM process_session_history WHERE role='runtime'").fetchone()[0],0)

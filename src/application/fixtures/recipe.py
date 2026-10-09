@@ -95,7 +95,20 @@ def _policies(scenario):
             exit_slippage_add_bps='10',funding_adverse_multiplier='2')],
         monte_carlo=[_monte_carlo('TRADE_PERMUTATION'),_monte_carlo('MOVING_BLOCK_BOOTSTRAP')],
         max_monte_carlo_drawdown_q95='100',minimum_block_expectancy_q05_usdt_per_trade='0')
-    return dict(split=split,cost=cost,research=research,robustness=robustness,risk=_risk_policy())
+    simulation = dict(schema_version='r7-paper-simulation-policy-v0.2',namespace='FIXTURE',mode='ACCELERATED_FIXTURE',
+        policy_id='FIXTURE_SIMULATION',generation=1,initial_balance_usdt='1000',quantity='0.001',leverage='1',
+        fee_rate='0.00005',slippage_bps='0',estimated_roundtrip_cost_usdt='0.006',initial_fill_fraction='1',
+        partial_remainder_behavior='CANCEL_AFTER_FIRST_FILL',market_max_age_seconds=5,action_ttl_seconds=30,
+        protection_poll_seconds=1,maximum_cached_candles_per_timeframe=2000,
+        funding_model='EXPLICIT_REGISTERED_PAPER_ZERO',account_scope='ISOLATED_PER_STRATEGY_RUN')
+    promotion = dict(schema_version='r7-paper-promotion-policy-v0.2',policy_id='FIXTURE_FORWARD_POLICY',namespace='FIXTURE',generation=1,
+        validation_policy_version='FIXTURE_FORWARD_THRESHOLDS_V1',min_elapsed_seconds=3600,min_closed_trades=2,
+        min_net_pnl_usdt='0',min_expectancy_usdt_per_trade='0',max_drawdown_usdt='10',max_consecutive_losses=3,
+        min_profit_factor='1',profit_factor_null_handling='ALLOW_NO_LOSSES',required_healthy_seconds=3600,
+        maximum_observation_gap_seconds=30,units=dict(time='SECONDS',trade_count='CLOSED_TRADES',pnl='USDT_AMOUNT',
+            expectancy='USDT_PER_CLOSED_TRADE',drawdown='USDT_AMOUNT'))
+    return dict(split=split,cost=cost,research=research,robustness=robustness,risk=_risk_policy(),
+        simulation=simulation,promotion=promotion)
 
 
 def _dataset(scenario):
@@ -179,6 +192,10 @@ def prepare_fixture(config_path, scenario):
         policy.update(family_id='r7-synthetic-fixture-family',seed=42,requested_dataset_profile='synthetic-fixture',
             requested_validation_profile='synthetic-fixture',requested_robustness_profile='synthetic-fixture')
         selection = dict(schema_version='r7-owner-selections-v0.2',cloud_root_id=ROOT_ID,research_policies={POLICY_ID:policy})
+        paper = dict(schema_version='r7-fixture-paper-inputs-v0.2',submission_id=SUBMISSION,
+            simulation_policy_ref='fixture-inputs/simulation.json',risk_policy_ref='fixture-inputs/risk.json',
+            promotion_policy_ref='fixture-inputs/promotion.json',paper_policy_ref='r7-synthetic-paper-policy')
+        write_private_new(target/'paper-selection.json',_raw(paper))
         if load_config(config_path)!=config:
             raise ValueError('Fixture configuration changed during input generation')
         write_private_new(target/'selection.json',_raw(selection))

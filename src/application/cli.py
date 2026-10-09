@@ -45,6 +45,9 @@ def main(argv=None):
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
+    paper_setup = commands.add_parser('configure-paper', help='Select isolated FIXTURE Paper policies while all owners are stopped')
+    paper_setup.add_argument('--config', type=Path, required=True)
+    paper_setup.add_argument('--selection-profile', type=Path, required=True)
     enroll = commands.add_parser('enroll-owner', help='Enroll first local owner using hidden terminal input')
     enroll.add_argument('--config', type=Path, required=True)
     enroll.add_argument('--username', required=True)
@@ -289,6 +292,10 @@ def main(argv=None):
     if args.command == 'prepare-fixture':
         from application.fixtures.recipe import prepare_fixture
         print(json.dumps(prepare_fixture(args.config, args.scenario), ensure_ascii=False))
+        return 0
+    if args.command == 'configure-paper':
+        from application.paper.setup import configure_paper
+        print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
         return 0
     if args.command in ('enroll-owner', 'serve'):
         from application.config import load_config

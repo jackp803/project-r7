@@ -225,7 +225,7 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         backup=self.root/'private product backup'
         target=self.root/'restored product'
         result=self.call(['backup-product-data','--config',str(self.config_path),'--destination',str(backup)])
-        self.assertEqual(result['status'],'PRODUCT_DATA_BACKUP_COMPLETE')
+        self.assertEqual(result['status'],'PRODUCT_DATA_BACKUP_VERIFIED')
         self.call(['verify-product-backup','--config',str(self.config_path),'--destination',str(backup)])
         self.call(['restore-product-data','--config',str(self.config_path),'--backup',str(backup),'--destination',str(target)])
         restored=load_config(target/'restored-product.json')
@@ -243,3 +243,18 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         self.app(restored)
         with open_paper_process_journal(restored.database_path,require_existing=True) as process:
             self.assertEqual(process.recover(run),before)
+        from application.platform.product_backup import ProductBackupError
+        subject=config.local_data_root/'paper-owner-selections.json'
+        original=subject.read_bytes()
+        changed=json.loads(original)
+        changed['owner']['promotion_policy']['max_drawdown_usdt']='20'
+        subject.write_text(json.dumps(changed),encoding='utf-8')
+        with self.assertRaises(ProductBackupError):
+            self.call(['backup-product-data','--config',str(self.config_path),'--destination',str(self.root/'mismatched backup')])
+        self.assertFalse((self.root/'mismatched backup').exists())
+        subject.write_bytes(original)
+        unknown=config.local_data_root/'fixture-inputs'/'unselected.json'
+        unknown.write_text('{}',encoding='utf-8')
+        with self.assertRaises(ProductBackupError):
+            self.call(['backup-product-data','--config',str(self.config_path),'--destination',str(self.root/'unknown backup')])
+        self.assertFalse((self.root/'unknown backup').exists())

@@ -154,7 +154,6 @@ def _fixture_paper_inputs(root,paths,selected):
     from risk.product_policy import parse_product_risk_policy
     from validation.paper_policy import parse_paper_promotion_policy
     from application.cloud.manifest import safe_component,byte_hash
-    from application.datasets.catalog import canonical
     allowed,hashes=set(),{}
     profile='fixture-inputs/selection.json'
     if profile in paths:

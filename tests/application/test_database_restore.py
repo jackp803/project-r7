@@ -109,6 +109,40 @@ class DatabaseRestoreTests(unittest.TestCase):
             self.assertEqual(recovered.process_generation,2);self.assertEqual(recovered.state,previous.state)
             with self.assertRaises(RuntimeConflictError):journal.prepare('paper-run','old-paper-operation',{'kind':'SYNTHETIC'},expected_revision=0,now=current,process_generation=1)
         with open_product_dispatch_journal(self.config.database_path) as journal:self.assertEqual(journal.recover('run').process_generation,1)
+    def future_minimal_paper(self,mode):
+        from storage.paper_process import open_paper_process_journal
+        from tests.storage.test_paper_process_journal import PaperProcessJournalTests
+        fixture=PaperProcessJournalTests();binding=fixture.binding();binding['mode']=mode
+        if mode=='REAL_TIME':binding['namespace']='LOCAL_RESEARCH'
+        future=datetime(2099,1,1,tzinfo=timezone.utc)
+        with open_paper_process_journal(self.config.database_path) as journal:
+            journal.create_run('future-paper',binding,fixture.state(),now=future)
+            journal.begin_process('future-paper','original',expected_generation=0,now=future)
+            return journal.recover('future-paper')
+    def test_legacy_accelerated_state_without_forward_fences_future_owner_clock(self):
+        from storage.paper_process import open_paper_process_journal
+        previous=self.future_minimal_paper('ACCELERATED_FIXTURE')
+        self.assertNotIn('forward',previous.state['runtime'])
+        self.backup_now();self.module().restore_database_backup(self.config,self.backup,self.target)
+        with open_paper_process_journal(self.target/'canonical.sqlite3') as journal:
+            recovered=journal.recover('future-paper')
+            self.assertEqual(recovered.process_generation,2)
+            self.assertEqual(recovered.state,previous.state)
+            self.assertEqual(recovered.binding,previous.binding)
+            self.assertEqual(recovered.revision,previous.revision)
+        restored=load_config(self.target/'restored-product.json')
+        self.assertFalse(restored.paper_runtime_enabled);self.assertTrue(restored.diagnostic_only)
+        with open_paper_process_journal(self.config.database_path) as journal:
+            self.assertEqual(journal.recover('future-paper'),previous)
+    def test_real_time_future_owner_clock_remains_fail_closed(self):
+        from storage.paper_process import open_paper_process_journal
+        previous=self.future_minimal_paper('REAL_TIME')
+        self.backup_now();module=self.module()
+        with self.assertRaises(module.RestoreError):
+            module.restore_database_backup(self.config,self.backup,self.target)
+        self.assertFalse((self.target/'restore-generation.json').exists())
+        with open_paper_process_journal(self.config.database_path) as journal:
+            self.assertEqual(journal.recover('future-paper'),previous)
     def test_actual_research_queue_lease_is_failed_and_retained_without_replay(self):
         from application.research.queue import ResearchQueue,ResearchQueueError
         now=datetime.now(timezone.utc)

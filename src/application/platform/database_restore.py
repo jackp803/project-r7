@@ -94,7 +94,11 @@ def _fence_financial_processes(path,token,now,end):
                     # or elapsed credit is rewritten and activation stays denied.
                     latest=journal._db.execute('SELECT started_at FROM paper_process_generations WHERE run_id=? ORDER BY generation DESC LIMIT 1',(run,)).fetchone()
                     clocks=[latest['started_at']] if latest is not None else []
-                    observed=recovered.state['runtime']['forward']['observed_at']
+                    # The E6 journal also accepts historical minimal runtime
+                    # checkpoints without forward observations. Their actual
+                    # generation clock still fences the copied owner.
+                    runtime=recovered.state['runtime']
+                    observed=runtime['forward']['observed_at'] if 'forward' in runtime else None
                     if observed is not None:clocks.append(observed)
                     for value in clocks:
                         fence_at=max(fence_at,datetime.fromisoformat(value.replace('Z','+00:00')))

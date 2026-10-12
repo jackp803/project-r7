@@ -1,5 +1,5 @@
 from dataclasses import asdict
-from contextlib import closing
+from contextlib import closing,contextmanager
 from datetime import datetime, timedelta, timezone
 import importlib
 import json
@@ -8,6 +8,7 @@ import sqlite3
 from tempfile import TemporaryDirectory
 import time
 import unittest
+from unittest.mock import patch
 
 from application.config import ProductConfig
 from application.platform.scope_lock import ProcessScopeLock, ScopeBusy
@@ -79,6 +80,23 @@ class ProcessSupervisionTests(unittest.TestCase):
         with self.session(clock=lambda: observed) as session:
             self.assertEqual(session.health(now=observed + timedelta(seconds=20))['status'], 'STALE_HEARTBEAT')
             self.assertEqual(session.health(now=observed - timedelta(seconds=1))['status'], 'CLOCK_REGRESSION')
+
+    def test_heartbeat_updated_between_clock_and_snapshot_is_not_clock_regression(self):
+        module=self.module();now=[datetime.now(timezone.utc)]
+        with self.session(clock=lambda:now[0]) as session:
+            original_db=module._db
+            @contextmanager
+            def advancing_read(path,*,writable=False):
+                with original_db(path,writable=writable) as db:
+                    if not writable:
+                        now[0]+=timedelta(microseconds=1)
+                        with original_db(path,writable=True) as writer:
+                            writer.execute('UPDATE process_sessions SET heartbeat_at=? WHERE role=?',
+                                (module.stamp(now[0]),'research'))
+                    yield db
+            with patch.object(module,'_db',side_effect=advancing_read):
+                self.assertEqual(session.health()['status'],'RECENT_HEARTBEAT')
+                session.require_current()
 
     def test_a_stolen_durable_generation_cannot_be_renewed_or_cleanly_stopped(self):
         with self.assertRaises(self.module().SupervisionError):

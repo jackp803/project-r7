@@ -103,10 +103,10 @@ class OwnerControlServices(LocalControlServices):
             with self.registry_factory() as e6: e6.lifecycle_counts()
             value['storage']='E6_AND_CONTROL_STORES_AVAILABLE'
             from application.platform.supervision import process_health
-            control = process_health(self.config, 'control', now=self.clock())
+            control = process_health(self.config, 'control', clock=self.clock)
             if control['status'] != 'NOT_STARTED': value['control'] = 'PROCESS_' + control['status']
             if self.queue is not None:
-                worker = process_health(self.config, 'research', now=self.clock())
+                worker = process_health(self.config, 'research', clock=self.clock)
                 value['research'] = 'QUEUE_AVAILABLE_WORKER_' + worker['status']
             return value
         if name=='paper_runs' and self.paper_reader is not None:

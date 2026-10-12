@@ -1,0 +1,17 @@
+test_heartbeat_updated_between_clock_and_snapshot_is_not_clock_regression (tests.application.test_process_supervision.ProcessSupervisionTests.test_heartbeat_updated_between_clock_and_snapshot_is_not_clock_regression) ... FAIL
+
+======================================================================
+FAIL: test_heartbeat_updated_between_clock_and_snapshot_is_not_clock_regression (tests.application.test_process_supervision.ProcessSupervisionTests.test_heartbeat_updated_between_clock_and_snapshot_is_not_clock_regression)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_process_supervision.py", line 98, in test_heartbeat_updated_between_clock_and_snapshot_is_not_clock_regression
+    self.assertEqual(session.health()['status'],'RECENT_HEARTBEAT')
+AssertionError: 'CLOCK_REGRESSION' != 'RECENT_HEARTBEAT'
+- CLOCK_REGRESSION
++ RECENT_HEARTBEAT
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.281s
+
+FAILED (failures=1)

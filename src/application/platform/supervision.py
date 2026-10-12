@@ -157,17 +157,22 @@ def _db(path, *, writable=False):
     return _ClosingConnection(db)
 
 
-def process_health(config, role, *, now=None, max_age_seconds=15):
+def process_health(config, role, *, now=None, max_age_seconds=15,
+                   clock=lambda: datetime.now(timezone.utc)):
     if role not in PROCESS_ROLES or type(max_age_seconds) is not int or not 1 <= max_age_seconds <= 60:
         raise ValueError('Bounded process health policy required')
-    current = datetime.now(timezone.utc) if now is None else now
-    stamp(current)
+    if not callable(clock): raise ValueError('Trusted observation clock required')
+    if now is not None: stamp(now)
     path = config.local_data_root / 'process-supervision.sqlite'
     if not path.exists(): return dict(status='NOT_STARTED', financial_authority='NONE')
     try:
         with _db(path) as db:
             row = db.execute('SELECT * FROM process_sessions WHERE role=?', (role,)).fetchone()
         if row is None: return dict(status='NOT_STARTED', financial_authority='NONE')
+        # Observe time after the durable heartbeat snapshot. A concurrently
+        # advanced heartbeat must not look newer than an earlier clock sample.
+        current = clock() if now is None else now
+        stamp(current)
         result = dict(row)
         result.pop('identity_json')
         heartbeat = datetime.fromisoformat(row['heartbeat_at'].replace('Z', '+00:00'))
@@ -299,7 +304,7 @@ class ProcessSupervisor:
             raise SupervisionError('PROCESS_GENERATION_NOT_CURRENT')
 
     def health(self, *, now=None):
-        return process_health(self.config, self.role, now=self.clock() if now is None else now)
+        return process_health(self.config, self.role, now=now, clock=self.clock)
 
     def __exit__(self, exception_type=None, *_):
         self.stop.set()

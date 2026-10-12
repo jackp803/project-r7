@@ -21,3 +21,11 @@ The first full source candidate `a3a6a1c501a12e58acbe80d88ce171583ee37066` faile
 - Snapshot replacement red: `manifest-swap-red-a3a6a1c.log` (1 failure).
 - Snapshot-bound focused green: `submission-validity-binding-green.log` (37 passed).
 - Full failed source attempt: `source-a3a6a1c/qualification.json` and `source-artifact-hashes-a3a6a1c.json`.
+
+The second full candidate `56ed85aa42658688a412e1168ce10f45ce90bb6c` reached 31/33 groups and 1857 executions, with one error in the 473-test application group: normal OOS-loss research was fenced by PROCESS_GENERATION_NOT_CURRENT. Available memory had recovered, so this was diagnosed separately. Live health sampled its clock before reading the durable heartbeat; a heartbeat updated between those reads looked like a future observation and was incorrectly labeled CLOCK_REGRESSION. A deterministic regression reproduced that ordering failure before repair.
+
+The supervision repair samples the trusted live clock after the heartbeat snapshot. Explicit historical `now`, actual clock-regression inhibition, the 15-second freshness threshold and generation/config/failed-session checks remain intact. Both ProcessSupervisor and public owner health use that ordered observation. Focused 58-test supervision/native-worker/normal-fixture/API regression passed, including the new race and existing stale/future/true-regression cases. Independent bounded supervision recheck: 0 Critical / 0 Important, reviewer execution NONE. The failed second full attempt remains preserved with no qualification credit. A third exact-clean candidate must qualify before native acceptance.
+
+- Second failed source: `source-56ed85a/qualification.json`, original producer bytes in `qualification.json.raw`, manifest `source-artifact-hashes-56ed85a.json`.
+- Heartbeat ordering red: `heartbeat-sample-race-red-56ed85a.log` (1 failure).
+- Heartbeat ordering green: `heartbeat-sample-race-green.log` (58 passed).

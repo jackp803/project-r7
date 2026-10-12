@@ -62,7 +62,7 @@ class LocalOwners:
         self.intake_factory = lambda: IntakeLedger(config.local_data_root / 'intake.sqlite', instance_id=config.product_instance_id)
         self.snapshots = config.local_data_root / 'snapshots'
         resolver = ResearchRequestResolver(config.local_data_root, snapshot_root=self.snapshots,
-            intake_factory=self.intake_factory, registry_factory=self.registry_factory, policies=selected['research_policies'])
+            intake_factory=self.intake_factory, registry_factory=self.registry_factory, policies=selected['research_policies'],clock=self.clock)
         config.local_data_root.mkdir(parents=True, exist_ok=True, mode=0o700)
         config.database_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         with self.registry_factory() as e6: e6.lifecycle_counts()

@@ -63,6 +63,9 @@ class ResearchQueue:
 
     def _resolve(self, submission_id, policy_id):
         try: selected = self.resolve_request(submission_id, policy_id)
+        except ResearchQueueError as error:
+            if error.code in ('SUBMISSION_EXPIRED','SUBMISSION_NOT_YET_VALID'): raise
+            raise ResearchQueueError('RESEARCH_SELECTION_NOT_CONFIGURED') from error
         except Exception as error: raise ResearchQueueError('RESEARCH_SELECTION_NOT_CONFIGURED') from error
         if not isinstance(selected, dict) or set(selected) != {'submission_revision', 'arguments', 'selection_hash'}:
             raise ResearchQueueError('EXACT_SELECTED_RESEARCH_INPUT_REQUIRED')
@@ -221,6 +224,10 @@ class ResearchQueue:
             if row['owner_run_id'] is not None and row['owner_run_id'] != owner_run_id: raise ResearchQueueError('OWNER_RUN_IDENTITY_CONFLICT')
             db.execute('UPDATE research_queue_jobs SET owner_run_id=?,stage=?,lease_deadline=?,updated_at=? WHERE run_id=?',
                 (owner_run_id, stage, stamp(now+timedelta(seconds=300)), current, run_id))
+        # Recheck the sealed envelope and frozen selection outside the queue
+        # transaction, before another owner stage or effect can execute.
+        if self._resolve(row['submission_id'],row['policy_id']) != json.loads(row['input_json'])['selected']:
+            raise ResearchQueueError('QUEUED_SELECTION_CHANGED')
 
     def _finish(self, run_id, generation, state, *, outcome=None, reason_codes=()):
         with self._db() as db:
@@ -245,12 +252,15 @@ class ResearchQueue:
                     raise ResearchQueueError('ACTUAL_SAME_NAMESPACE_RESEARCH_OWNER_REQUIRED')
                 owner.orchestrator.checkpoint = lambda owner_run_id, stage: self._checkpoint(run_id, lease_generation, owner_run_id, stage)
                 result = owner.run(**selected['arguments'])
+            if self._resolve(row['submission_id'],row['policy_id']) != original['selected']:
+                raise ResearchQueueError('QUEUED_SELECTION_CHANGED')
             return self._finish(run_id, lease_generation, 'COMPLETE', outcome=asdict(result))
         except ResearchCanceled:
             return self._finish(run_id, lease_generation, 'CANCELED', reason_codes=('RESEARCH_CANCELED',))
         except ResearchQueueError as error:
             if error.code=='RESEARCH_WORKER_FENCED': raise
-            return self._finish(run_id,lease_generation,'BLOCKED',reason_codes=(error.code,))
+            state='EXPIRED' if error.code=='SUBMISSION_EXPIRED' else 'BLOCKED'
+            return self._finish(run_id,lease_generation,state,reason_codes=(error.code,))
         except Exception as error:
             import re
             reason = getattr(error, 'code', type(error).__name__)
@@ -275,7 +285,7 @@ class ResearchQueue:
             row = db.execute('SELECT * FROM research_queue_jobs WHERE run_id=?', (claim.run_id,)).fetchone()
             if row is None or row['owner_id'] != self.owner_id or row['generation'] != claim.generation:
                 raise ResearchQueueError('RESEARCH_WORKER_FENCED')
-            if row['state'] in ('COMPLETE', 'BLOCKED', 'FAILED', 'CANCELED'):
+            if row['state'] in ('COMPLETE', 'BLOCKED', 'FAILED', 'CANCELED', 'EXPIRED'):
                 return self.get(claim.run_id)
             if row['state'] not in ('RUNNING', 'CANCEL_REQUESTED'):
                 raise ResearchQueueError('RESEARCH_WORKER_FENCED')

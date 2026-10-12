@@ -1,5 +1,6 @@
 """Frozen server-selected research request from actual sealed accepted intake."""
 import json
+from datetime import datetime,timezone
 from pathlib import Path
 
 from application.cloud.manifest import parse_manifest, validate_package, safe_component, safe_relative, byte_hash
@@ -9,6 +10,7 @@ from application.datasets.catalog import read_local, canonical, digest
 from application.research.queue import ResearchQueueError
 from registry import StrategyIdentity
 from strategy.v02.capabilities import build_capability_snapshot
+from strategy.v02.temporal import assess_submission_validity
 
 
 def validate_research_selections(policies):
@@ -28,11 +30,14 @@ def validate_research_selections(policies):
 
 
 class ResearchRequestResolver:
-    def __init__(self, local_root, *, snapshot_root, intake_factory, registry_factory, policies):
+    def __init__(self, local_root, *, snapshot_root, intake_factory, registry_factory, policies,
+                 clock=lambda: datetime.now(timezone.utc)):
         self.root, self.snapshots = Path(local_root).absolute(), Path(snapshot_root).absolute()
         if not self.snapshots.is_relative_to(self.root) or not callable(intake_factory) or not callable(registry_factory):
             raise ValueError('Trusted local sealed intake composition required')
         self.intake_factory, self.registry_factory = intake_factory, registry_factory
+        if not callable(clock): raise ValueError('Actual UTC clock required')
+        self.clock=clock
         self.policies = validate_research_selections(policies)
 
     def _accepted_package(self, submission_id):
@@ -70,6 +75,9 @@ class ResearchRequestResolver:
         selected = self.policies.get(policy_id)
         if selected is None: raise ResearchQueueError('RESEARCH_POLICY_NOT_CONFIGURED')
         submission, package = self.package(submission_id)
+        if package.manifest.schema_version.endswith('v0.2'):
+            validity=assess_submission_validity(package.manifest,self.clock())
+            if not validity.new_entry_allowed: raise ResearchQueueError('SUBMISSION_'+validity.status)
         for field in ('requested_dataset_profile', 'requested_validation_profile', 'requested_robustness_profile'):
             if package.manifest.raw[field] != selected[field]: raise ResearchQueueError('REQUESTED_PROFILE_SELECTION_MISMATCH')
         arguments = {key:value for key,value in selected.items() if not key.startswith('requested_')}

@@ -1,0 +1,18 @@
+test_subject_bound_service_denies_foreign_start_and_recovery_without_generation_change (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_subject_bound_service_denies_foreign_start_and_recovery_without_generation_change) ... ERROR
+
+======================================================================
+ERROR: test_subject_bound_service_denies_foreign_start_and_recovery_without_generation_change (tests.application.test_paper_owner_composition.PaperOwnerCompositionTests.test_subject_bound_service_denies_foreign_start_and_recovery_without_generation_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 26, in test_subject_bound_service_denies_foreign_start_and_recovery_without_generation_change
+    owners=self.composition(m,f,strategy_identity=f.identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_composition.py", line 71, in composition
+    return m.PaperOwnerComposition(f.config,**args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PaperOwnerComposition.__init__() got an unexpected keyword argument 'strategy_identity'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.769s
+
+FAILED (errors=1)

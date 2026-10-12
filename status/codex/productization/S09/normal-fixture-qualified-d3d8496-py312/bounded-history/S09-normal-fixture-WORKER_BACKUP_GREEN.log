@@ -1,0 +1,19 @@
+test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences) ... FAIL
+
+======================================================================
+FAIL: test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 228, in test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences
+    self.assertEqual(result['status'],'PRODUCT_DATA_BACKUP_COMPLETE')
+AssertionError: 'PRODUCT_DATA_BACKUP_VERIFIED' != 'PRODUCT_DATA_BACKUP_COMPLETE'
+- PRODUCT_DATA_BACKUP_VERIFIED
+?                     ^ ^^^^ -
++ PRODUCT_DATA_BACKUP_COMPLETE
+?                     ^^^^^ ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 8.986s
+
+FAILED (failures=1)

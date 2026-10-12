@@ -1,0 +1,29 @@
+test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts) ... ERROR
+
+======================================================================
+ERROR: test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 146, in test_normal_completed_trade_stages_actual_reports_and_receipts
+    self.call(['queue-research-feedback','--config',str(self.config_path),
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 194, in main
+    operation=queue_feedback(service,args.run_id,performance_opt_in=args.performance_opt_in)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\feedback.py", line 190, in queue_feedback
+    feedback=build_research_feedback(service,run_id,performance_opt_in=performance_opt_in)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\feedback.py", line 106, in build_research_feedback
+    report=service.report(run_id)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 270, in report
+    if result is None: raise ResearchError('REPORT_NOT_READY')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchError: REPORT_NOT_READY
+
+----------------------------------------------------------------------
+Ran 1 test in 11.647s
+
+FAILED (errors=1)

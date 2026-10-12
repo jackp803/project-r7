@@ -4,8 +4,8 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "S09/S12/S13 NORMAL_PRODUCT_PAPER_FLOW",
-  "next_step": "Implement authorized explicit FIXTURE product profile, normal PaperStart owner composition and independent packaged Paper worker/fake-market input. Use actual research producers, UI, pause/controlled stop/restart/recovery/publication. Ordinary release mapping remains PM/E6 proposal; do not wait idly or invent acceptance.",
+  "active_step": "S09/S12/S13/S14/S15 NORMAL_PRODUCT_FIXTURE_CHECKPOINT_AND_REMAINING_MASTER",
+  "next_step": "Fix owner-derived forward-seconds UI mapping with focused regression; complete native rejected/insufficient outcomes and remaining authorized Master acceptance. Ordinary release mapping requires Git PM/E6 decision; continue independent work.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -75,19 +75,20 @@
       "additional_source_python": "3.14.3",
       "native_package_status": "PASS",
       "native_first_run_status": "PASS",
-      "native_first_run_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+      "native_first_run_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
       "native_first_run_scenarios": 8,
       "native_first_run_commands": 9,
-      "native_first_run_build_hash": "sha256:aeb806602baf175b45686818f0898bf9ef6f7b1c3fbc417ce82ca5d52e9e29c1",
-      "native_archive_sha256": "d7a86967e46822af4756d48de8c77cc0cf6990437fb9c422cd60973842b3a6a2",
+      "native_first_run_build_hash": "sha256:cda73cb8bfbba31a84289272e0960b4aec028b9a4ce4a9e795c2467cee5da04e",
+      "native_archive_sha256": "4b86a16aa38fc0953c5202efed8ce6a1e83d3648eadc67ce3415078e882ef32c",
       "native_full_product_acceptance": "NOT_RUN",
-      "native_package_scope": "BUILD8_FIRST_RUN3_HISTORICAL2_SOURCE_AUTH_EMPTY_READ_DENIAL10_FROZEN_SETUP2_LONG_BACKUP;NORMAL_PAPER_FACTORY_WORKER_BROWSER_NOT_RUN",
-      "current_source_ui_status": "HISTORICAL_BOUND_FIXTURE_UNIT15_EDGE11_PASS;NEW_SETUP_INCREMENT_BROWSER_NOT_RUN",
+      "native_package_scope": "CURRENT_BUILD25_BASELINE_SCENARIOS28_COMMANDS;NORMAL_POSITIVE_FIXTURE22_OWNED_COMMANDS5_BROWSER_STAGES;TTY1_AND_CONTROL_STARTS3_SEPARATE;NO_ORDINARY_REAL_TIME_PAPER_CREDIT",
+      "current_source_ui_status": "HISTORICAL15_UNIT11_FIXTURE_BROWSER_PASS;CURRENT_NATIVE_PUBLIC_FLOW_SEPARATE",
       "current_source_ui_revision": "e1e738dc0384e56cf0a6a3d56c16a37279e6d4b9",
-      "native_ui_current_status": "NOT_RUN",
+      "native_ui_current_status": "ACTUAL_PACKAGED5_BROWSER_STAGES_PASS;SELF_VISUAL_REVIEW;KNOWN_FORWARD_SECONDS_LABEL_MAPPING_GAP;NOT_FULL_UI_ACCEPTANCE",
       "native_public_setup_status": "PASS",
       "native_public_setup_scenarios": 10,
-      "native_public_setup_commands": 11
+      "native_public_setup_commands": 11,
+      "native_normal_fixture_status": "PASS;POSITIVE_ONLY;NEGATIVE_AND_INSUFFICIENT_NATIVE_NOT_RUN"
     },
     "ubuntu-24.04-x86_64": {
       "status": "NOT_RUN",
@@ -1846,6 +1847,25 @@
       "github_compute": "NOT_USED",
       "step": "S09/S12/S13",
       "phase": "PUBLIC_SETUP_AND_ACTUAL_NORMAL_SOURCE_RESEARCH_WITH_FROZEN_SETUP"
+    },
+    {
+      "step": "S09/S12/S13/S14/S15",
+      "phase": "NORMAL_PRODUCT_FIXTURE_EXACT_CLEAN_CHECKPOINT",
+      "result": "SCOPED_PASS;FULL_MASTER_IN_PROGRESS",
+      "executable_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
+      "phase_1": 247,
+      "phase_2": 1854,
+      "total": 2101,
+      "commands": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "native_baseline_scenarios": 25,
+      "native_baseline_commands": 28,
+      "normal_native_owned_commands": 22,
+      "normal_native_browser_stages": 5,
+      "evidence_ref": "status/codex/productization/S09/normal-fixture-qualified-d3d8496-py312/disposition.json",
+      "scope": "SOURCE_EXECUTION_INSTANCES_AND_NATIVE_PUBLIC_POSITIVE_FIXTURE_FLOW;NOT_UNIQUE_TEST_COUNT_OR_WHOLE_PRODUCT_ACCEPTANCE"
     }
   ],
   "evidence_refs": [
@@ -1915,7 +1935,10 @@
     "status/codex/productization/S13/current-source-ui-bound-e1e738d/disposition.json",
     "status/codex/productization/S09/public-research-setup-qualified-af01b45-py312/disposition.json",
     "status/codex/productization/S09/PRODUCT_USABILITY_CHECKPOINT_af01b45.md",
-    "status/codex/productization/S09/PRODUCT_USABILITY_DEPENDENCIES_20261008.md"
+    "status/codex/productization/S09/PRODUCT_USABILITY_DEPENDENCIES_20261008.md",
+    "status/codex/productization/S09/normal-fixture-qualified-d3d8496-py312/disposition.json",
+    "status/codex/productization/S09/normal-fixture-qualified-artifact-hashes-d3d8496.json",
+    "status/codex/productization/S09/PRODUCT_USABILITY_CHECKPOINT_d3d8496.md"
   ],
   "external_gaps": [
     "Required native Ubuntu targets not attached",
@@ -1960,9 +1983,9 @@
     "S12 native bounded algo inventory/actual FP04-FP11-E5 protection interpretation/E6 replay checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS",
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
-  "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
-  "qualified_executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
-  "candidate_executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
+  "executable_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
+  "qualified_executable_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
+  "candidate_executable_revision": null,
   "pending_recovery_checkpoint": {
     "status": "PASS",
     "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
@@ -2763,7 +2786,7 @@
     "current_revision_credit": "NOT_TRANSFERRED_TO_NEW_SETUP_INCREMENT;ORIGINAL_EXECUTION_REVISION_AND_COUNTS_PRESERVED"
   },
   "public_research_setup": {
-    "status": "NORMAL_SOURCE_RESEARCH_FLOW_PASS;FROZEN_SETUP_PASS;COMPLETE_PAPER_USER_FLOW_PENDING",
+    "status": "HISTORICAL_AF01B45_CHECKPOINT;SUPERSEDED_BY_NORMAL_FIXTURE_PRODUCT_CHECKPOINT;ORIGINAL_COUNTS_AND_EVIDENCE_PRESERVED",
     "executable_revision": "af01b45f980882e64f3c83784d0a4da0731728ba",
     "implementation_hash": "sha256:afe82b1b8fb9c411f2b9d05b0f2dea41fb4c08445ce0ce38d40e155d1c802fbf",
     "source_tests": 2052,
@@ -2893,7 +2916,110 @@
   "status_semantics": {
     "milestones": "FULL_PROGRAM_COMPLETION;NONE_PASS",
     "steps": "PAST_SCOPED_IMPLEMENTATION_AND_RECORDED_CHECKS;S_STEP_PASS_DOES_NOT_CLOSE_MILESTONE_OR_WHOLE_PRODUCT_ACCEPTANCE",
-    "correction": "M8/M10/M11 changed from stale NOT_STARTED to IN_PROGRESS using existing packaging/cloud/scoped acceptance work; executable_revision reconciled to current scoped qualified executable.",
+    "correction": "Current authoritative checkpoint d3d8496 normal public source/native positive FIXTURE flow replaces stale af01b45 pending-Paper narrative; historical records preserved. All M1-M11 remain IN_PROGRESS, full requirement PASS0.",
     "full_requirement_acceptance": "NONE_CLAIMED;WINDOWS_SOURCE_FIXTURE_EVIDENCE_DOES_NOT_SATISFY_UBUNTU_REAL_CLOUD_OR_FORWARD"
+  },
+  "normal_fixture_product_checkpoint": {
+    "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+    "spec_baseline": "r7-product-v0.2",
+    "state": "IN_PROGRESS",
+    "executable_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
+    "implementation_hash": "sha256:8d39e6f6adf87e18450ef6a7fc43dafee7f5b1ba43b1be20ac2c3781b4039fc6",
+    "native_build_identity": {
+      "executable_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
+      "implementation_hash": "sha256:8d39e6f6adf87e18450ef6a7fc43dafee7f5b1ba43b1be20ac2c3781b4039fc6",
+      "build_hash": "sha256:cda73cb8bfbba31a84289272e0960b4aec028b9a4ce4a9e795c2467cee5da04e",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "source": {
+      "passed": true,
+      "commands": 33,
+      "tests": 2101,
+      "phase_1": 247,
+      "phase_2": 1854,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "input_files": 636
+    },
+    "native_baseline": {
+      "passed": true,
+      "scenarios": 25,
+      "commands": 28,
+      "stages": 6
+    },
+    "normal_native_fixture": {
+      "passed": true,
+      "recorded_owned_commands": 22,
+      "browser_stages": 5,
+      "public_native_cli_commands": 17,
+      "separately_observed_native_tty_enrollments": 1,
+      "owned_native_control_starts": 3,
+      "canonical_fills": 2,
+      "canonical_closed_trades": 1,
+      "paper_runtime_generations": [
+        0,
+        1,
+        2
+      ],
+      "paper_reports": 2,
+      "local_staging": true,
+      "cloud_acknowledged": 0,
+      "real_elapsed_ns": 0,
+      "control_stop": "FORCED_OWNED_CLEANUP;NO_GRACEFUL_CONTROL_STOP_CREDIT",
+      "worker_stop": "PUBLIC_BOUNDED_MANAGED_STOP",
+      "visual_review": "SELF_REVIEW_OF_ACTUAL_PACKAGED_PROTECTED_PAUSED_AND_CLOSED_UI;NO_WHOLE_UI_ACCEPTANCE",
+      "ui_follow_up": "FORWARD_SECONDS_SUMMARY_USES_ABSENT_SECONDS_FIELD_WHILE_OWNER_REAL_ELAPSED_NS_IS_ZERO;MAPPING_NOT_YET_FIXED;ENTRY_ROLE_IS_ACTUALLY_NULL_AND_UNAVAILABLE_LABEL_IS_TRUTHFUL"
+    },
+    "native_archive": {
+      "location": "artifacts/r7-native-windows-S09-normal-fixture-d3d8496/r7-product-0.2.0-windows-d3d8496.zip",
+      "sha256": "sha256:4b86a16aa38fc0953c5202efed8ce6a1e83d3648eadc67ce3415078e882ef32c",
+      "retention": "PRIVATE_LOCAL_BINARY_NOT_COMMITTED"
+    },
+    "independent_review": "BOUNDED_SOURCE_AND_TOOLING0_CRITICAL0_IMPORTANT;REVIEWER_EXECUTION_NONE;NOT_WHOLE_PRODUCT_ACCEPTANCE",
+    "failed_prior_source": {
+      "revision": "666fdde223d394f79552bc04078862f4122cddc8",
+      "tests": 1849,
+      "commands": 31,
+      "errors": 1,
+      "reason": "LEGACY_E6_MINIMAL_RUNTIME_NO_FORWARD;REPRODUCED_FIXED"
+    },
+    "failed_prior_native_flow": "BROWSER_HARNESS_EDGE_CHANNEL_ENV_LOOKUP;FAILED_BEFORE_BROWSER_RESEARCH_OR_PAPER;FRESH_CORPUS_RETRY_PASSED",
+    "source_authentication": "SYNTHETIC_TTY_SEAM;NATIVE_TTY_AND_BROWSER_SEPARATE_ACTUAL_PROOF",
+    "ordinary_paper": "NOT_RUN",
+    "production_profile": "PROPOSED_NOT_ACTIVE",
+    "real_cloud": "NOT_RUN",
+    "real_dataset": "NOT_RUN",
+    "real_forward": "NOT_RUN",
+    "ubuntu24": "NOT_RUN",
+    "ubuntu26": "NOT_RUN",
+    "full_requirement_pass_claims": 0,
+    "real_provider_requests": 0,
+    "credentials": "NONE",
+    "capital": "NONE",
+    "runtime_llm_calls": 0,
+    "github_compute": "NOT_USED",
+    "main_merge": "NOT_PERFORMED",
+    "excluded": "PRIVATE_CONFIG_DATASET_STORES_AUTH_SESSIONS_BACKUPS_NATIVE_BINARY_ARCHIVES_NODE_BINARY_AND_OTHER_PRIVATE_FIXTURE_CONTENT",
+    "retained_files": 329,
+    "created_at_utc": "2026-10-12T00:46:25.138793Z",
+    "status": "SCOPED_NORMAL_SOURCE_AND_FROZEN_FIXTURE_FLOW_PASS;KNOWN_UI_MAPPING_GAP;FULL_MASTER_IN_PROGRESS",
+    "evidence_ref": "status/codex/productization/S09/normal-fixture-qualified-d3d8496-py312/disposition.json",
+    "manifest_ref": "status/codex/productization/S09/normal-fixture-qualified-artifact-hashes-d3d8496.json",
+    "report_ref": "status/codex/productization/S09/PRODUCT_USABILITY_CHECKPOINT_d3d8496.md",
+    "package_root": "C:\\Users\\jackp\\Desktop\\交易機器人主體\\artifacts\\r7-native-windows-S09-normal-fixture-d3d8496\\dist\\R7",
+    "source_outcomes": [
+      "CANDIDATE",
+      "REJECTED",
+      "BLOCKED/BACKTESTING"
+    ],
+    "native_outcomes": [
+      "CANDIDATE"
+    ],
+    "native_negative_outcomes": "NOT_RUN",
+    "source_hash_compatibility": "ALL636_PINNED_INPUTS_UNCHANGED;STATUS_ONLY_DESCENDANTS_DO_NOT_CHANGE_PINNED_EXECUTABLE",
+    "retention_failed_attempts": "TWO_PARTIAL_COLLECTIONS_PRESERVED_LOCAL;NO_ACCEPTANCE_CREDIT;FINAL_SHORT_PATH_PRIVATE_FILTERED_COLLECTION_SUCCEEDED"
   }
 }

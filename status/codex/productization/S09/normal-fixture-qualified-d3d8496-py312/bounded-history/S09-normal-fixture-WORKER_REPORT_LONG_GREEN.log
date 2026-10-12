@@ -1,0 +1,21 @@
+test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts) ... ERROR
+
+======================================================================
+ERROR: test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 182, in test_normal_completed_trade_stages_actual_reports_and_receipts
+    self.assertEqual((folder/'feedback.json').read_bytes(),bundle.payloads['feedback.json'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S09-normal-fixture-WORKER_REPORT_LONG_GREEN-temp\\R7 public fixture worker 中文 7ure_su2\\cloud simulation\\reports\\feedback\\paper\\r7-synthetic-trend\\0.2.0\\2914845b7d1f2cd3196a813c784cac19dbc2497b786c4feeb16ce7832a1ab6e7\\feedback.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 12.051s
+
+FAILED (errors=1)

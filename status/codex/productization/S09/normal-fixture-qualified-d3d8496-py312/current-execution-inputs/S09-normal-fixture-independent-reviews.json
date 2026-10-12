@@ -1,0 +1,57 @@
+{
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "whole_product_acceptance": "NOT_CLAIMED",
+  "reviews": [
+    {
+      "scope": "BOUNDED_MODE_RECIPE_SOURCE",
+      "initial_critical": 0,
+      "initial_important": 2,
+      "findings": ["Native installation boundary", "Legacy default configuration commitment"],
+      "disposition": "REPRODUCED_AND_FIXED;RE_REVIEW0_CRITICAL0_IMPORTANT"
+    },
+    {
+      "scope": "BOUNDED_PAPER_SELECTION_SOURCE",
+      "initial_critical": 0,
+      "initial_important": 3,
+      "findings": ["Actual accepted subject and original validity", "Actual selected decoded policy bindings", "Bytes hashing type failure"],
+      "disposition": "REPRODUCED_AND_FIXED;NESTED_REGISTRY_WRITER_LOCK_DIAGNOSED_AND_FIXED"
+    },
+    {
+      "scope": "BOUNDED_WORKER_PUBLICATION_SOURCE",
+      "initial_critical": 0,
+      "initial_important": 2,
+      "findings": ["Feedback capacity failure stops protection management", "Limit-one staging starvation"],
+      "follow_up_important": 1,
+      "follow_up_finding": "Successful publication cleared unrelated management failure",
+      "disposition": "ALL_REPRODUCED_AND_FIXED;RE_REVIEW0_CRITICAL0_IMPORTANT",
+      "reviewed_raw_sha256": {
+        "src/application/paper/worker.py": "2bbefc80fb77f9c59138ee212831711290d9e9dc6eaccf04a7472b3365afc4f0",
+        "tests/application/test_paper_owner_worker.py": "8a10538046aa7eae21c2b0538012b2becad283c6ab9df87afb4dcd28676a7995",
+        "tests/application/test_normal_fixture_worker.py": "cce8d701a376503473ce8a1420a9bb4da2314dfce6419ecad4b9873ba3c638f8"
+      }
+    },
+    {
+      "scope": "BOUNDED_LEGACY_RESTORE_CLOCK_COMPATIBILITY_SOURCE",
+      "critical": 0,
+      "important": 0,
+      "reviewed_raw_sha256": {
+        "src/application/platform/database_restore.py": "b5b3d4f95a3619637927c9044de81d2198df9f400439b9ccf9c7f33642b1826c",
+        "tests/application/test_database_restore.py": "a942928144694838670c80056f87220397702b920246d74be3aac81d47544144"
+      },
+      "qualification_and_native": "NOT_JUDGED_BY_REVIEWER"
+    },
+    {
+      "scope": "BOUNDED_EXTERNAL_NATIVE_EVIDENCE_LAUNCHERS_SOURCE",
+      "initial_important": 4,
+      "findings": ["Readonly API redirect outside browser routing", "TTY evidence validation/hash snapshot mismatch", "Any error could receive restore denial credit", "Screenshot path overwrite or link escape"],
+      "disposition": "FIXED_BEFORE_NATIVE_EXECUTION;RE_REVIEW0_CRITICAL0_IMPORTANT",
+      "reviewed_raw_sha256": {
+        "s09_normal_fixture_native_regression.py": "bac4f8b405a4506d97524bdb252868d2f5e441493c197284862d3dc3bb55f99d",
+        "s09_native_normal_fixture_flow.py": "0360493c7f5fba6eded7206118692a92566c0862e46f4e10646619f4b9e22300",
+        "s09_native_normal_fixture_browser.mjs": "f41b07a6b19021b2f2491f338d5cc553af77a5ca7f461c2a88489cc167528323"
+      },
+      "native_execution_tty_qualification_and_financial_acceptance": "NOT_JUDGED_BY_REVIEWER"
+    }
+  ]
+}

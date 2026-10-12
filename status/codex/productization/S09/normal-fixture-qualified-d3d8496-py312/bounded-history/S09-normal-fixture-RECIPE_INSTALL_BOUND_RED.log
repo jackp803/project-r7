@@ -1,0 +1,29 @@
+test_frozen_installation_cannot_be_used_as_data (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data) ... FAIL
+test_frozen_installation_cannot_be_used_as_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_fake_staging) ... FAIL
+
+======================================================================
+FAIL: test_frozen_installation_cannot_be_used_as_data (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 112, in test_frozen_installation_cannot_be_used_as_data
+    self.reject_installation(config.local_data_root)
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 105, in reject_installation
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_frozen_installation_cannot_be_used_as_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_fake_staging)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 116, in test_frozen_installation_cannot_be_used_as_fake_staging
+    self.reject_installation(config.cloud_root)
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 105, in reject_installation
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.369s
+
+FAILED (failures=2)

@@ -1,0 +1,25 @@
+test_frozen_installation_cannot_be_used_as_data_or_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data_or_fake_staging) ... 
+  test_frozen_installation_cannot_be_used_as_data_or_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data_or_fake_staging) (installation=WindowsPath('<USER_HOME>/Desktop/交易機器人主體/artifacts/S09-normal-fixture-RECIPE_INSTALL_RED-temp/R7 public setup 中文 lyrjkqqr/local data')) ... FAIL
+test_frozen_installation_cannot_be_used_as_data_or_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data_or_fake_staging) ... FAIL
+
+======================================================================
+FAIL: test_frozen_installation_cannot_be_used_as_data_or_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data_or_fake_staging) (installation=WindowsPath('<USER_HOME>/Desktop/交易機器人主體/artifacts/S09-normal-fixture-RECIPE_INSTALL_RED-temp/R7 public setup 中文 lyrjkqqr/local data'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 107, in test_frozen_installation_cannot_be_used_as_data_or_fake_staging
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_frozen_installation_cannot_be_used_as_data_or_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data_or_fake_staging)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 109, in test_frozen_installation_cannot_be_used_as_data_or_fake_staging
+    self.assertFalse(self.data.exists())
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.243s
+
+FAILED (failures=2)

@@ -1,0 +1,26 @@
+test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects) ... ACTUAL_SYNTHETIC_RESTORE_EXCEPTION _fence_financial_processes KeyError 'forward'
+ACTUAL_SYNTHETIC_RESTORE_EXCEPTION _restore_backup KeyError 'forward'
+ACTUAL_SYNTHETIC_RESTORE_EXCEPTION _restore_backup RestoreError PRIVATE_DATABASE_RESTORE_FAILED
+ACTUAL_SYNTHETIC_RESTORE_EXCEPTION restore_database_backup RestoreError PRIVATE_DATABASE_RESTORE_FAILED
+ACTUAL_SYNTHETIC_RESTORE_EXCEPTION test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects RestoreError PRIVATE_DATABASE_RESTORE_FAILED
+ERROR
+
+======================================================================
+ERROR: test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 101, in test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects
+    self.backup_now();module=self.module();module.restore_database_backup(self.config,self.backup,self.target)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 105, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 186, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+----------------------------------------------------------------------
+Ran 1 test in 0.786s
+
+FAILED (errors=1)

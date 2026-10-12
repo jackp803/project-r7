@@ -1,0 +1,26 @@
+test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences) ... ERROR
+
+======================================================================
+ERROR: test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 227, in test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences
+    result=self.call(['backup-product-data','--config',str(self.config_path),'--destination',str(backup)])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 260, in main
+    result=create_product_backup(config,args.destination,config_path=args.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 280, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 212, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+----------------------------------------------------------------------
+Ran 1 test in 7.994s
+
+FAILED (errors=1)

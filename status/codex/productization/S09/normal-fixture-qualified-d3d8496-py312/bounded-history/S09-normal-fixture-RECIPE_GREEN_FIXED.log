@@ -1,0 +1,58 @@
+test_all_operational_owners_fence_generation_before_any_fixture_write (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_all_operational_owners_fence_generation_before_any_fixture_write) ... ok
+test_existing_inputs_are_never_replaced_by_another_scenario (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_existing_inputs_are_never_replaced_by_another_scenario) ... ok
+test_generation_creates_only_fresh_inputs_and_actual_e2_package (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_generation_creates_only_fresh_inputs_and_actual_e2_package) ... ok
+test_ordinary_mode_rejects_fixture_generation_before_writing_inputs (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_ordinary_mode_rejects_fixture_generation_before_writing_inputs) ... ok
+test_product_generated_insufficient_oos_remains_blocked (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_insufficient_oos_remains_blocked) ... FAIL
+test_product_generated_oos_loss_is_actually_rejected (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_oos_loss_is_actually_rejected) ... FAIL
+test_product_generated_positive_reaches_candidate_through_normal_child (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_positive_reaches_candidate_through_normal_child) ... FAIL
+test_restored_generation_cannot_receive_new_fixture_inputs (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_restored_generation_cannot_receive_new_fixture_inputs) ... ok
+
+======================================================================
+FAIL: test_product_generated_insufficient_oos_remains_blocked (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_insufficient_oos_remains_blocked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 75, in test_product_generated_insufficient_oos_remains_blocked
+    actual, state = self.flow('insufficient-oos')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 56, in flow
+    completed = self.call(['research-worker','--config',str(self.config_path),'--once'])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-82c774a600cd34b9f1beaaf4d3f65e7c6dbc4ee25cb8195467c679dd9af49037", "generation": 1, "job_state": "FAILED", "parent_pid": 89284, "child_pid": 89364, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-82c774a600cd34b9f1beaaf4d3f65e7c6dbc4ee25cb8195467c679dd9af49037-1.log", "reason_codes": ["ARTIFACT_MISSING"]}
+
+
+======================================================================
+FAIL: test_product_generated_oos_loss_is_actually_rejected (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_oos_loss_is_actually_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 70, in test_product_generated_oos_loss_is_actually_rejected
+    actual, state = self.flow('oos-loss')
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 56, in flow
+    completed = self.call(['research-worker','--config',str(self.config_path),'--once'])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-04c9f4a383ed6dfc0936ddf4a195b489919a6a9cb3203358b16cbbc288a499b3", "generation": 1, "job_state": "FAILED", "parent_pid": 89284, "child_pid": 82428, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-04c9f4a383ed6dfc0936ddf4a195b489919a6a9cb3203358b16cbbc288a499b3-1.log", "reason_codes": ["ARTIFACT_MISSING"]}
+
+
+======================================================================
+FAIL: test_product_generated_positive_reaches_candidate_through_normal_child (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_positive_reaches_candidate_through_normal_child)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 65, in test_product_generated_positive_reaches_candidate_through_normal_child
+    actual, state = self.flow('positive')
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_recipe_flow.py", line 56, in flow
+    completed = self.call(['research-worker','--config',str(self.config_path),'--once'])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-dec2c20b5f19b2498c33fbcfe17b0d388d24d2babd78da5346675e8322533207", "generation": 1, "job_state": "FAILED", "parent_pid": 89284, "child_pid": 82864, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-dec2c20b5f19b2498c33fbcfe17b0d388d24d2babd78da5346675e8322533207-1.log", "reason_codes": ["ARTIFACT_MISSING"]}
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 8.312s
+
+FAILED (failures=3)

@@ -1,0 +1,83 @@
+test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences) ... ERROR
+test_invalid_tick_bound_rejected_before_composition (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_invalid_tick_bound_rejected_before_composition) ... ok
+test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts) ... ERROR
+test_ordinary_publisher_has_no_fixture_staging_authority (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_ordinary_publisher_has_no_fixture_staging_authority) ... ok
+test_ordinary_worker_rejected_before_owner_store_initialization (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_ordinary_worker_rejected_before_owner_store_initialization) ... ok
+test_public_worker_stop_pause_restart_protects_and_closes_actual_trade (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_public_worker_stop_pause_restart_protects_and_closes_actual_trade) ... ERROR
+
+======================================================================
+ERROR: test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 217, in test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 25, in require_promotable_provenance
+    raise EvidenceGateError('Source research promotion requires exact clean source')
+registry.models.EvidenceGateError: Source research promotion requires exact clean source
+
+======================================================================
+ERROR: test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 162, in test_normal_completed_trade_stages_actual_reports_and_receipts
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 25, in require_promotable_provenance
+    raise EvidenceGateError('Source research promotion requires exact clean source')
+registry.models.EvidenceGateError: Source research promotion requires exact clean source
+
+======================================================================
+ERROR: test_public_worker_stop_pause_restart_protects_and_closes_actual_trade (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_public_worker_stop_pause_restart_protects_and_closes_actual_trade)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 116, in test_public_worker_stop_pause_restart_protects_and_closes_actual_trade
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 25, in require_promotable_provenance
+    raise EvidenceGateError('Source research promotion requires exact clean source')
+registry.models.EvidenceGateError: Source research promotion requires exact clean source
+
+----------------------------------------------------------------------
+Ran 6 tests in 11.205s
+
+FAILED (errors=3)

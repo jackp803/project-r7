@@ -1,0 +1,22 @@
+test_actual_full_feedback_outbox_cannot_stop_other_protected_management (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_full_feedback_outbox_cannot_stop_other_protected_management) ... ERROR
+
+======================================================================
+ERROR: test_actual_full_feedback_outbox_cannot_stop_other_protected_management (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_full_feedback_outbox_cannot_stop_other_protected_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 86, in test_actual_full_feedback_outbox_cannot_stop_other_protected_management
+    outcomes=worker.tick()
+             ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 187, in tick
+    self.queue_feedback(run_id)
+  File "<SOURCE_ROOT>\src\application\paper\worker.py", line 205, in queue_feedback
+    return PaperFeedbackOutbox(self.service.process).queue(self.service.runtime(run_id))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_feedback.py", line 61, in queue
+    raise FeedbackError('PAPER_FEEDBACK_OUTBOX_CAPACITY')
+application.cloud.feedback.FeedbackError: PAPER_FEEDBACK_OUTBOX_CAPACITY
+
+----------------------------------------------------------------------
+Ran 1 test in 5.759s
+
+FAILED (errors=1)

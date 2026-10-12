@@ -1,0 +1,15 @@
+test_normal_candidate_selects_paper_and_api_prepares_generation_zero (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_normal_candidate_selects_paper_and_api_prepares_generation_zero) ... SANITIZED_FIXTURE_START_EXCEPTION OperationalError database is locked
+FAIL
+
+======================================================================
+FAIL: test_normal_candidate_selects_paper_and_api_prepares_generation_zero (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_normal_candidate_selects_paper_and_api_prepares_generation_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 82, in test_normal_candidate_selects_paper_and_api_prepares_generation_zero
+    self.assertEqual(start.status_code,200,start.text)
+AssertionError: 500 != 200 : {"error":{"category":"INTERNAL_ERROR","reason_codes":["CONTROL_OPERATION_FAILED"],"correlation_id":"dac3cb3149ae05966fa34e0453293f5b"}}
+
+----------------------------------------------------------------------
+Ran 1 test in 10.900s
+
+FAILED (failures=1)

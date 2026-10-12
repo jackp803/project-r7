@@ -1,0 +1,48 @@
+test_legacy_profile_without_mode_remains_local_research (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_legacy_profile_without_mode_remains_local_research) ... ok
+test_unknown_or_live_modes_fail_before_profile_or_database_initialization (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_unknown_or_live_modes_fail_before_profile_or_database_initialization) ... ok
+test_actual_database_restore_preserves_fixture_mode_and_inhibition (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_actual_database_restore_preserves_fixture_mode_and_inhibition) ... ok
+test_actual_insufficient_oos_samples_never_become_candidate (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_actual_insufficient_oos_samples_never_become_candidate) ... ok
+test_actual_oos_losses_produce_rejection_through_normal_entry (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_actual_oos_losses_produce_rejection_through_normal_entry) ... ok
+test_canonical_cloud_alias_is_rejected_before_opening_profile_bytes (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_canonical_cloud_alias_is_rejected_before_opening_profile_bytes) ... ok
+test_cloud_borne_selection_unknown_authority_and_missing_local_inputs_are_rejected (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_cloud_borne_selection_unknown_authority_and_missing_local_inputs_are_rejected) ... ok
+test_config_inside_or_equal_to_cloud_root_is_rejected_before_any_write (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_config_inside_or_equal_to_cloud_root_is_rejected_before_any_write) ... ok
+test_each_running_owner_fences_configuration_without_changing_selection (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_each_running_owner_fences_configuration_without_changing_selection) ... ok
+test_explicit_setup_is_immutable_idempotent_and_creates_no_owner_database (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_explicit_setup_is_immutable_idempotent_and_creates_no_owner_database) ... ok
+test_first_run_cloud_root_is_explicit_disjoint_and_never_connected (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_first_run_cloud_root_is_explicit_disjoint_and_never_connected) ... ok
+test_initialized_e6_cannot_be_relabelled_by_changing_product_mode (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_initialized_e6_cannot_be_relabelled_by_changing_product_mode) ... ERROR
+test_outside_profile_hardlinked_to_cloud_input_is_rejected_without_publication (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_outside_profile_hardlinked_to_cloud_input_is_rejected_without_publication) ... ok
+test_overlapping_cloud_root_never_publishes_profile_or_initializes_database (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_overlapping_cloud_root_never_publishes_profile_or_initializes_database) ... ok
+test_public_enrollment_cannot_relabel_existing_authentication_store (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_public_enrollment_cannot_relabel_existing_authentication_store) ... ok
+test_public_setup_login_scan_and_independent_worker_produce_actual_candidate (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_public_setup_login_scan_and_independent_worker_produce_actual_candidate) ... ok
+test_wrong_namespace_inputs_are_rejected_without_publication (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_wrong_namespace_inputs_are_rejected_without_publication) ... ok
+
+======================================================================
+ERROR: test_initialized_e6_cannot_be_relabelled_by_changing_product_mode (tests.application.test_fixture_product_mode.FixtureProductModeTests.test_initialized_e6_cannot_be_relabelled_by_changing_product_mode)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 62, in test_initialized_e6_cannot_be_relabelled_by_changing_product_mode
+    self.app(self.relabel())
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 49, in app
+    return importlib.import_module('application.entrypoints').create_local_app(config, asset_root=assets)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\entrypoints.py", line 107, in create_local_app
+    composition = LocalOwners(config, namespace=namespace, clock=clock)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 68, in __init__
+    with self.registry_factory() as e6: e6.lifecycle_counts()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 61, in <lambda>
+    self.registry_factory = lambda: open_sqlite_platform(config.database_path, research_namespace=namespace)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 30, in open_sqlite_platform
+    if research_namespace is not None: store.bind_research_namespace(research_namespace)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 367, in bind_research_namespace
+    elif row['namespace']!=namespace: raise EvidenceGateError('Fixture and real research registry namespaces cannot mix')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+registry.models.EvidenceGateError: Fixture and real research registry namespaces cannot mix
+
+----------------------------------------------------------------------
+Ran 17 tests in 13.427s
+
+FAILED (errors=1)

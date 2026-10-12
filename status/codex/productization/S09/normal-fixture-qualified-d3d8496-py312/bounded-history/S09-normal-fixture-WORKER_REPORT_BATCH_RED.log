@@ -1,0 +1,17 @@
+test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts) ... FAIL
+
+======================================================================
+FAIL: test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 194, in test_normal_completed_trade_stages_actual_reports_and_receipts
+    self.assertEqual(PaperFeedbackOutbox(process).publications()[0]['state'],'LOCAL_STAGED',
+AssertionError: 'PENDING' != 'LOCAL_STAGED'
+- PENDING
++ LOCAL_STAGED
+ : Limit-one fixture staging must reach actual Paper feedback
+
+----------------------------------------------------------------------
+Ran 1 test in 12.076s
+
+FAILED (failures=1)

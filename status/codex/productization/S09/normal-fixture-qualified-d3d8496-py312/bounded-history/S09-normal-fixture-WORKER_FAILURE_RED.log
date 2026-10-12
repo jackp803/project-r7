@@ -1,0 +1,15 @@
+test_actual_feedback_success_preserves_rejected_market_failure (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_feedback_success_preserves_rejected_market_failure) ... ERROR
+
+======================================================================
+ERROR: test_actual_feedback_success_preserves_rejected_market_failure (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_feedback_success_preserves_rejected_market_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owner_worker.py", line 110, in test_actual_feedback_success_preserves_rejected_market_failure
+    self.assertEqual(worker.snapshot()['run_failures'][run],'MARKET_EVENT_REJECTED')
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+KeyError: 'paper_dc946897d2dddee710f31f8f5e8fc3ce363c1c3c40a39e799b746909ce74db19'
+
+----------------------------------------------------------------------
+Ran 1 test in 3.033s
+
+FAILED (errors=1)

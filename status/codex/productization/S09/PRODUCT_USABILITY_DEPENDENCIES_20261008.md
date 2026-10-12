@@ -7,12 +7,18 @@ Main was fetched: 9fd277798b1c51d1bc79b29a61bec81b552efeb1.
 
 ## Verified dependencies
 
-Normal `src/application/entrypoints.py:create_local_app` composes LOCAL_RESEARCH
-authentication, command ledger and LocalOwners. `local_owners.py:control_services`
-installs actual E6/intake/research adapters and PaperReadControlPort, but no
-PaperStartControlPort or PaperOwnerWorker. The current packaged CLI has no
-Paper worker entry. The source UI qualification used qa/serve_fixture.py and
-does not prove normal native composition.
+Updated 2026-10-12 at executable d3d849642f278ccd39723355367bf1030d8f0619.
+Normal `src/application/entrypoints.py:create_local_app` and
+`local_owners.py:control_services` now compose authentication, command ledger,
+actual E6/intake/research and Paper read/start adapters for the explicitly
+selected isolated FIXTURE workflow. Public configure-paper establishes an
+immutable subject/policy selection and FIXTURE release reader; public
+paper-worker uses the product-owned loader and independent actual owners.
+Actual frozen Windows TTY enrollment, UI login/research/start/pause/read,
+protected worker stop/restart/close, feedback/staging and inhibited backup
+restore passed in the normal positive fixture flow. Source rejected and
+insufficient research outcomes passed; these native outcomes remain NOT_RUN.
+Historical qa/serve_fixture.py evidence remains separate.
 
 `application/paper/owners.py:PaperOwnerComposition` is implemented and qualified
 at ac0b889829777db884666f82bd2d18f2c38ba4cb. It opens actual same-store owners on
@@ -50,14 +56,15 @@ service wiring, selected workflow controls, independent worker and recovery.
 An isolated immutable FIXTURE product acceptance mode is authorized by the
 usability objective and UI-01/OPS-01. It uses ReleaseBinding release_kind FIXTURE,
 actual research producers and normal product composition, conspicuous labeling
-and no financial approvals. Implementing that mode is outstanding work, not a
-PM blocker. Existing test-only private fixtures do not satisfy it.
+and no financial approvals. This mode is now implemented and its normal
+positive frozen Windows flow separately executed. It does not issue an ordinary
+qualified release or satisfy real-forward, real-cloud or whole-product acceptance.
 
-Public first-run staging/research selection is being integrated and verified
-through the normal CLI/API/research child. Next, wire the defined isolated
-acceptance mode and normal Paper worker, fake market, pause/stop/restart and
-publication using actual canonical services. The ordinary release mapping
-decision can proceed independently; no idle waiting is authorized.
+Current scoped evidence is described in PRODUCT_USABILITY_CHECKPOINT_d3d8496.md.
+Next, fix the observed owner-derived forward-seconds UI label and execute native
+rejected/insufficient scenarios, then continue remaining Master acceptance.
+The four ordinary release decisions above are still required and unresolved
+in authoritative Git; no idle waiting is authorized.
 
 Ubuntu 24.04/26.04 native environment, real cloud connection/dataset and real-time
 forward observation are still unexecuted. Windows/source and accelerated fixture

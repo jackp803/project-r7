@@ -1,0 +1,49 @@
+test_default_mode_preserves_legacy_commitment_and_fixture_mode_is_distinct (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_default_mode_preserves_legacy_commitment_and_fixture_mode_is_distinct) ... FAIL
+test_actual_legacy_backup_verifies_and_restores_with_unchanged_inhibition (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_actual_legacy_backup_verifies_and_restores_with_unchanged_inhibition) ... ERROR
+test_actual_legacy_restoration_marker_still_requires_reconciliation (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_actual_legacy_restoration_marker_still_requires_reconciliation) ... ERROR
+
+======================================================================
+ERROR: test_actual_legacy_backup_verifies_and_restores_with_unchanged_inhibition (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_actual_legacy_backup_verifies_and_restores_with_unchanged_inhibition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 143, in test_actual_legacy_backup_verifies_and_restores_with_unchanged_inhibition
+    self.call(['verify-database-backup','--config',str(self.config_path),'--destination',str(backup)])
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 267, in main
+    if args.command == 'backup-databases' else verify_database_backup(config, args.destination))
+                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\backup.py", line 193, in verify_database_backup
+    return _verify_database_backup_snapshot(config,destination,timeout_seconds=timeout_seconds,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\backup.py", line 217, in _verify_database_backup_snapshot
+    raise BackupError('BACKUP_MANIFEST_INVALID')
+application.platform.backup.BackupError: BACKUP_MANIFEST_INVALID
+
+======================================================================
+ERROR: test_actual_legacy_restoration_marker_still_requires_reconciliation (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_actual_legacy_restoration_marker_still_requires_reconciliation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 165, in test_actual_legacy_restoration_marker_still_requires_reconciliation
+    status = require_valid_restoration(restored)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\restoration.py", line 66, in require_valid_restoration
+    raise RestorationError('RESTORE_GENERATION_INVALID')
+application.platform.restoration.RestorationError: RESTORE_GENERATION_INVALID
+
+======================================================================
+FAIL: test_default_mode_preserves_legacy_commitment_and_fixture_mode_is_distinct (tests.application.test_fixture_product_mode.DefaultAndUnsupportedModeTests.test_default_mode_preserves_legacy_commitment_and_fixture_mode_is_distinct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 133, in test_default_mode_preserves_legacy_commitment_and_fixture_mode_is_distinct
+    self.assertEqual(config_hash(config),self.legacy_hash(config))
+AssertionError: 'sha256:eedf7b6cca6107ec1ea2d3d11552c377e7c8683430122322f1fba643eab3d7f0' != 'sha256:c04ace9948ee452771d91b430b3a5fa5661c7d1f290c1f241733900786d337c9'
+- sha256:eedf7b6cca6107ec1ea2d3d11552c377e7c8683430122322f1fba643eab3d7f0
++ sha256:c04ace9948ee452771d91b430b3a5fa5661c7d1f290c1f241733900786d337c9
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.363s
+
+FAILED (failures=1, errors=2)

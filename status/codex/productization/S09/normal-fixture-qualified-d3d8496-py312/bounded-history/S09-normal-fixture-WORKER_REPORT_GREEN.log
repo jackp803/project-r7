@@ -1,0 +1,23 @@
+test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts) ... ERROR
+
+======================================================================
+ERROR: test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 629, in _rmtree_unsafe
+    onexc(os.rmdir, fullname, err)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 627, in _rmtree_unsafe
+    os.rmdir(fullname)
+OSError: [WinError 145] 目錄不是空的。: '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\S09-normal-fixture-WORKER_REPORT_GREEN-temp\\R7 public setup 中文 w2eezobt\\cloud simulation\\receipts\\normal-fixture-mode\\r7-synthetic-fixture-input\\c5e93f5067bc0913464be61f6e20b02f5f045464c6f8619c2ff811d6dad8c330'
+
+----------------------------------------------------------------------
+Ran 1 test in 12.074s
+
+FAILED (errors=1)

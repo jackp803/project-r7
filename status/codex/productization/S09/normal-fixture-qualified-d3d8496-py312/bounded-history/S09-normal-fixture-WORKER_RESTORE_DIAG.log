@@ -1,0 +1,22 @@
+test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences) ... ERROR
+
+======================================================================
+ERROR: test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 230, in test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences
+    self.call(['restore-product-data','--config',str(self.config_path),'--backup',str(backup),'--destination',str(target)])
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 258, in main
+    result=restore_product_backup(config,args.backup,args.destination,config_path=args.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 448, in restore_product_backup
+    raise ProductBackupError('PRIVATE_PRODUCT_RESTORE_FAILED') from None
+application.platform.product_backup.ProductBackupError: PRIVATE_PRODUCT_RESTORE_FAILED
+
+----------------------------------------------------------------------
+Ran 1 test in 11.409s
+
+FAILED (errors=1)

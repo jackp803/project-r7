@@ -1,0 +1,36 @@
+test_all_running_owners_fence_paper_selection (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_all_running_owners_fence_paper_selection) ... ok
+test_normal_candidate_selects_paper_and_api_prepares_generation_zero (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_normal_candidate_selects_paper_and_api_prepares_generation_zero) ... ERROR
+test_operator_profile_cannot_supply_qualification_or_workflow_authority (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_operator_profile_cannot_supply_qualification_or_workflow_authority) ... ok
+test_ordinary_mode_has_no_fixture_paper_authority_or_side_effect (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_ordinary_mode_has_no_fixture_paper_authority_or_side_effect) ... ok
+
+======================================================================
+ERROR: test_normal_candidate_selects_paper_and_api_prepares_generation_zero (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_normal_candidate_selects_paper_and_api_prepares_generation_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 59, in test_normal_candidate_selects_paper_and_api_prepares_generation_zero
+    result = self.configure_paper()
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 26, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 298, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 143, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 67, in _release
+    executable_revision=facts['executable_revision'],build_hash=facts.get('build_hash',digest(canonical(facts))),
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\datasets\catalog.py", line 18, in digest
+    def digest(raw): return 'sha256:'+hashlib.sha256(raw).hexdigest()
+                                      ^^^^^^^^^^^^^^^^^^^
+TypeError: Strings must be encoded before hashing
+
+----------------------------------------------------------------------
+Ran 4 tests in 4.476s
+
+FAILED (errors=1)

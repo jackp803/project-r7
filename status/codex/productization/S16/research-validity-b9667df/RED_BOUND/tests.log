@@ -1,0 +1,82 @@
+test_exclusive_upper_boundary_admits_one_microsecond_before_expiry (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_exclusive_upper_boundary_admits_one_microsecond_before_expiry) ... ok
+test_expired_accepted_envelope_denies_new_research_but_keeps_author_context (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expired_accepted_envelope_denies_new_research_but_keeps_author_context) ... FAIL
+test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite) ... FAIL
+test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition) ... FAIL
+test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate) ... FAIL
+test_expiry_before_robustness_keeps_actual_development_evidence_without_oos (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_robustness_keeps_actual_development_evidence_without_oos) ... FAIL
+test_reaped_worker_parent_keeps_expired_terminal_disposition (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_reaped_worker_parent_keeps_expired_terminal_disposition) ... FAIL
+
+======================================================================
+FAIL: test_expired_accepted_envelope_denies_new_research_but_keeps_author_context (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expired_accepted_envelope_denies_new_research_but_keeps_author_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 51, in test_expired_accepted_envelope_denies_new_research_but_keeps_author_context
+    with self.assertRaises(ResearchQueueError) as denied:self.enqueue(owners)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ResearchQueueError not raised
+
+======================================================================
+FAIL: test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 60, in test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite
+    self.assertEqual(result['state'],'EXPIRED')
+AssertionError: 'COMPLETE' != 'EXPIRED'
+- COMPLETE
++ EXPIRED
+
+
+======================================================================
+FAIL: test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 73, in test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition
+    self.assertEqual(result['state'],'EXPIRED')
+AssertionError: 'COMPLETE' != 'EXPIRED'
+- COMPLETE
++ EXPIRED
+
+
+======================================================================
+FAIL: test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 100, in test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate
+    owners,result=self.expire_at_stage('e6_product_assessment')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 84, in expire_at_stage
+    self.assertEqual(result['state'],'EXPIRED')
+AssertionError: 'COMPLETE' != 'EXPIRED'
+- COMPLETE
++ EXPIRED
+
+
+======================================================================
+FAIL: test_expiry_before_robustness_keeps_actual_development_evidence_without_oos (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_robustness_keeps_actual_development_evidence_without_oos)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 92, in test_expiry_before_robustness_keeps_actual_development_evidence_without_oos
+    owners,result=self.expire_at_stage('robustness')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 84, in expire_at_stage
+    self.assertEqual(result['state'],'EXPIRED')
+AssertionError: 'COMPLETE' != 'EXPIRED'
+- COMPLETE
++ EXPIRED
+
+
+======================================================================
+FAIL: test_reaped_worker_parent_keeps_expired_terminal_disposition (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_reaped_worker_parent_keeps_expired_terminal_disposition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_submission_validity_research.py", line 113, in test_reaped_worker_parent_keeps_expired_terminal_disposition
+    self.assertEqual(expired['state'],'EXPIRED')
+AssertionError: 'COMPLETE' != 'EXPIRED'
+- COMPLETE
++ EXPIRED
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 8.951s
+
+FAILED (failures=6)

@@ -1,0 +1,295 @@
+test_exclusive_upper_boundary_admits_one_microsecond_before_expiry (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_exclusive_upper_boundary_admits_one_microsecond_before_expiry) ... ok
+test_expired_accepted_envelope_denies_new_research_but_keeps_author_context (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expired_accepted_envelope_denies_new_research_but_keeps_author_context) ... ok
+test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite) ... ok
+test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition) ... ok
+test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate) ... ok
+test_expiry_before_robustness_keeps_actual_development_evidence_without_oos (tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_robustness_keeps_actual_development_evidence_without_oos) ... ok
+test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft) ... ok
+test_expired_submission_is_terminal_observation_without_e6_or_receipt (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_expired_submission_is_terminal_observation_without_e6_or_receipt) ... ok
+test_finite_evergreen_interval_also_stops_new_expired_submission (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_finite_evergreen_interval_also_stops_new_expired_submission) ... ok
+test_future_submission_is_blocked_until_actual_validity_boundary (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_future_submission_is_blocked_until_actual_validity_boundary) ... ok
+test_partial_payload_recovered_after_expiry_cannot_create_intake_effect (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_partial_payload_recovered_after_expiry_cannot_create_intake_effect) ... ok
+test_snapshot_manifest_replacement_cannot_use_old_validity (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_snapshot_manifest_replacement_cannot_use_old_validity) ... ok
+test_actual_worker_composes_existing_owners_and_retains_candidate_lineage (tests.product.test_research_queue.ResearchQueueTests.test_actual_worker_composes_existing_owners_and_retains_candidate_lineage) ... ok
+test_cancel_queued_job_is_actual_cas_and_retains_immutable_inputs (tests.product.test_research_queue.ResearchQueueTests.test_cancel_queued_job_is_actual_cas_and_retains_immutable_inputs) ... ok
+test_changed_selected_files_block_before_replay_without_replacing_frozen_inputs (tests.product.test_research_queue.ResearchQueueTests.test_changed_selected_files_block_before_replay_without_replacing_frozen_inputs) ... ok
+test_cooperative_cancel_before_robustness_retains_completed_development_evidence (tests.product.test_research_queue.ResearchQueueTests.test_cooperative_cancel_before_robustness_retains_completed_development_evidence) ... ok
+test_enqueue_is_durable_queued_not_inline_replay_or_candidate (tests.product.test_research_queue.ResearchQueueTests.test_enqueue_is_durable_queued_not_inline_replay_or_candidate) ... ok
+test_expired_worker_generation_is_fenced_and_recovery_keeps_same_job (tests.product.test_research_queue.ResearchQueueTests.test_expired_worker_generation_is_fenced_and_recovery_keeps_same_job) ... ok
+test_identical_enqueue_retries_are_one_logical_job_and_changed_identity_conflicts (tests.product.test_research_queue.ResearchQueueTests.test_identical_enqueue_retries_are_one_logical_job_and_changed_identity_conflicts) ... ok
+test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception (tests.product.test_research_queue.ResearchQueueTests.test_lost_selected_configuration_blocks_job_without_leaving_running_or_echoing_exception) ... ok
+test_stale_submission_or_unconfigured_policy_cannot_queue (tests.product.test_research_queue.ResearchQueueTests.test_stale_submission_or_unconfigured_policy_cannot_queue) ... ok
+test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths (tests.product.test_research_queue.ResearchQueueTests.test_valid_actor_and_command_identifiers_are_not_treated_as_filesystem_paths) ... ok
+test_all_operational_owners_fence_generation_before_any_fixture_write (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_all_operational_owners_fence_generation_before_any_fixture_write) ... ok
+test_existing_inputs_are_never_replaced_by_another_scenario (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_existing_inputs_are_never_replaced_by_another_scenario) ... ok
+test_frozen_installation_cannot_be_used_as_data (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_data) ... ok
+test_frozen_installation_cannot_be_used_as_fake_staging (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_frozen_installation_cannot_be_used_as_fake_staging) ... ok
+test_generation_creates_only_fresh_inputs_and_actual_e2_package (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_generation_creates_only_fresh_inputs_and_actual_e2_package) ... ok
+test_ordinary_mode_rejects_fixture_generation_before_writing_inputs (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_ordinary_mode_rejects_fixture_generation_before_writing_inputs) ... ok
+test_product_generated_insufficient_oos_remains_blocked (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_insufficient_oos_remains_blocked) ... ok
+test_product_generated_oos_loss_is_actually_rejected (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_oos_loss_is_actually_rejected) ... ok
+test_product_generated_positive_reaches_candidate_through_normal_child (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_positive_reaches_candidate_through_normal_child) ... ok
+test_restored_generation_cannot_receive_new_fixture_inputs (tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_restored_generation_cannot_receive_new_fixture_inputs) ... ok
+test_all_running_owners_fence_paper_selection (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_all_running_owners_fence_paper_selection) ... ok
+test_composed_reader_revalidates_sealed_payload_before_start (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_composed_reader_revalidates_sealed_payload_before_start) ... ERROR
+test_normal_candidate_selects_paper_and_api_prepares_generation_zero (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_normal_candidate_selects_paper_and_api_prepares_generation_zero) ... ERROR
+test_operator_profile_cannot_supply_qualification_or_workflow_authority (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_operator_profile_cannot_supply_qualification_or_workflow_authority) ... ok
+test_ordinary_mode_has_no_fixture_paper_authority_or_side_effect (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_ordinary_mode_has_no_fixture_paper_authority_or_side_effect) ... ok
+test_restarted_reader_must_match_actual_selected_manifest_and_validity (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_restarted_reader_must_match_actual_selected_manifest_and_validity) ... ERROR
+test_restarted_reader_must_match_all_selected_policy_bytes (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_restarted_reader_must_match_all_selected_policy_bytes) ... ERROR
+test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences) ... ERROR
+test_invalid_tick_bound_rejected_before_composition (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_invalid_tick_bound_rejected_before_composition) ... ok
+test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts) ... ERROR
+test_ordinary_publisher_has_no_fixture_staging_authority (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_ordinary_publisher_has_no_fixture_staging_authority) ... ok
+test_ordinary_worker_rejected_before_owner_store_initialization (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_ordinary_worker_rejected_before_owner_store_initialization) ... ok
+test_public_worker_stop_pause_restart_protects_and_closes_actual_trade (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_public_worker_stop_pause_restart_protects_and_closes_actual_trade) ... ERROR
+test_actual_research_owner_runs_in_owned_child_and_publishes_canonical_candidate (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_actual_research_owner_runs_in_owned_child_and_publishes_canonical_candidate) ... ok
+test_config_change_terminates_actual_owned_job_and_preserves_failed_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_config_change_terminates_actual_owned_job_and_preserves_failed_claim) ... ok
+test_controlled_timeout_reaps_child_and_records_failed_owned_job (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_controlled_timeout_reaps_child_and_records_failed_owned_job) ... ok
+test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_managed_stop_reaps_actual_child_grandchild_and_disposes_only_its_exact_claim) ... ok
+test_memory_pressure_leaves_job_queued_and_starts_no_child (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_memory_pressure_leaves_job_queued_and_starts_no_child) ... ok
+test_production_namespace_refuses_fixture_executable_override (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_production_namespace_refuses_fixture_executable_override) ... ok
+test_second_worker_is_denied_before_hardware_or_queue_mutation (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_second_worker_is_denied_before_hardware_or_queue_mutation) ... ok
+test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_stop_before_admission_leaves_job_queued_without_probing_or_starting_child) ... ok
+test_terminated_old_generation_cannot_overwrite_a_successor_claim (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_terminated_old_generation_cannot_overwrite_a_successor_claim) ... ok
+test_unconfigured_worker_is_truthful_and_does_not_claim_work (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_unconfigured_worker_is_truthful_and_does_not_claim_work) ... ok
+test_zero_process_exit_without_owner_publication_is_not_a_finished_research_job (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_zero_process_exit_without_owner_publication_is_not_a_finished_research_job) ... ok
+test_actual_insufficient_oos_samples_never_become_candidate (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_actual_insufficient_oos_samples_never_become_candidate) ... FAIL
+test_actual_oos_losses_produce_rejection_through_normal_entry (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_actual_oos_losses_produce_rejection_through_normal_entry) ... FAIL
+test_canonical_cloud_alias_is_rejected_before_opening_profile_bytes (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_canonical_cloud_alias_is_rejected_before_opening_profile_bytes) ... ok
+test_cloud_borne_selection_unknown_authority_and_missing_local_inputs_are_rejected (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_cloud_borne_selection_unknown_authority_and_missing_local_inputs_are_rejected) ... ok
+test_config_inside_or_equal_to_cloud_root_is_rejected_before_any_write (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_config_inside_or_equal_to_cloud_root_is_rejected_before_any_write) ... ok
+test_each_running_owner_fences_configuration_without_changing_selection (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_each_running_owner_fences_configuration_without_changing_selection) ... ok
+test_explicit_setup_is_immutable_idempotent_and_creates_no_owner_database (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_explicit_setup_is_immutable_idempotent_and_creates_no_owner_database) ... ok
+test_first_run_cloud_root_is_explicit_disjoint_and_never_connected (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_first_run_cloud_root_is_explicit_disjoint_and_never_connected) ... ok
+test_outside_profile_hardlinked_to_cloud_input_is_rejected_without_publication (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_outside_profile_hardlinked_to_cloud_input_is_rejected_without_publication) ... ok
+test_overlapping_cloud_root_never_publishes_profile_or_initializes_database (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_overlapping_cloud_root_never_publishes_profile_or_initializes_database) ... ok
+test_public_setup_login_scan_and_independent_worker_produce_actual_candidate (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_public_setup_login_scan_and_independent_worker_produce_actual_candidate) ... FAIL
+
+======================================================================
+ERROR: test_composed_reader_revalidates_sealed_payload_before_start (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_composed_reader_revalidates_sealed_payload_before_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 127, in test_composed_reader_revalidates_sealed_payload_before_start
+    config, path = self.selected_candidate()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 96, in selected_candidate
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+ERROR: test_normal_candidate_selects_paper_and_api_prepares_generation_zero (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_normal_candidate_selects_paper_and_api_prepares_generation_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 60, in test_normal_candidate_selects_paper_and_api_prepares_generation_zero
+    result = self.configure_paper()
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+ERROR: test_restarted_reader_must_match_actual_selected_manifest_and_validity (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_restarted_reader_must_match_actual_selected_manifest_and_validity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 113, in test_restarted_reader_must_match_actual_selected_manifest_and_validity
+    config, path = self.selected_candidate()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 96, in selected_candidate
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+ERROR: test_restarted_reader_must_match_all_selected_policy_bytes (tests.application.test_normal_fixture_paper.NormalFixturePaperTests.test_restarted_reader_must_match_all_selected_policy_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 100, in test_restarted_reader_must_match_all_selected_policy_bytes
+    config, path = self.selected_candidate()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 96, in selected_candidate
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+ERROR: test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 217, in test_complete_normal_fixture_backup_preserves_protected_truth_and_restore_fences
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+ERROR: test_normal_completed_trade_stages_actual_reports_and_receipts (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 162, in test_normal_completed_trade_stages_actual_reports_and_receipts
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+ERROR: test_public_worker_stop_pause_restart_protects_and_closes_actual_trade (tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_public_worker_stop_pause_restart_protects_and_closes_actual_trade)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_worker.py", line 116, in test_public_worker_stop_pause_restart_protects_and_closes_actual_trade
+    self.configure_paper()
+  File "<SOURCE_ROOT>\tests\application\test_normal_fixture_paper.py", line 27, in configure_paper
+    return self.call(['configure-paper','--config',str(self.config_path),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 39, in call
+    code = cli.main(arguments)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 307, in main
+    print(json.dumps(configure_paper(args.config, args.selection_profile), ensure_ascii=False))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 181, in configure_paper
+    release = _release(config,owner)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\setup.py", line 65, in _release
+    require_promotable_provenance(facts)
+  File "<SOURCE_ROOT>\src\application\research\product_assessment.py", line 22, in require_promotable_provenance
+    raise EvidenceGateError('Exact executable revision required')
+registry.models.EvidenceGateError: Exact executable revision required
+
+======================================================================
+FAIL: test_actual_insufficient_oos_samples_never_become_candidate (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_actual_insufficient_oos_samples_never_become_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 198, in test_actual_insufficient_oos_samples_never_become_candidate
+    actual,lifecycle=self.flow('INSUFFICIENT')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 182, in flow
+    result=self.call(['research-worker','--config',str(self.config_path),'--once'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-f076511322be24117ab87b5924df4ed05c06c766cae56582f529bfaade3f7d0d", "generation": 1, "job_state": "FAILED", "parent_pid": 24800, "child_pid": 8644, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-f076511322be24117ab87b5924df4ed05c06c766cae56582f529bfaade3f7d0d-1.log", "reason_codes": ["EvidenceGateError"]}
+
+
+======================================================================
+FAIL: test_actual_oos_losses_produce_rejection_through_normal_entry (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_actual_oos_losses_produce_rejection_through_normal_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 194, in test_actual_oos_losses_produce_rejection_through_normal_entry
+    actual,lifecycle=self.flow('REJECTED')
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 182, in flow
+    result=self.call(['research-worker','--config',str(self.config_path),'--once'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-b8645a56ea11bffbf254c89737d721ede96d6f3f68bc7b4980af316c52e4d905", "generation": 1, "job_state": "FAILED", "parent_pid": 24800, "child_pid": 87792, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-b8645a56ea11bffbf254c89737d721ede96d6f3f68bc7b4980af316c52e4d905-1.log", "reason_codes": ["EvidenceGateError"]}
+
+
+======================================================================
+FAIL: test_public_setup_login_scan_and_independent_worker_produce_actual_candidate (tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_public_setup_login_scan_and_independent_worker_produce_actual_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 190, in test_public_setup_login_scan_and_independent_worker_produce_actual_candidate
+    actual,lifecycle=self.flow('CANDIDATE')
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 182, in flow
+    result=self.call(['research-worker','--config',str(self.config_path),'--once'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-bf150694bf317b64940378fcadee917572f27f30858570c2aceeafcd68893bf8", "generation": 1, "job_state": "FAILED", "parent_pid": 24800, "child_pid": 41460, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-bf150694bf317b64940378fcadee917572f27f30858570c2aceeafcd68893bf8-1.log", "reason_codes": ["EvidenceGateError"]}
+
+
+----------------------------------------------------------------------
+Ran 67 tests in 80.865s
+
+FAILED (failures=3, errors=7)

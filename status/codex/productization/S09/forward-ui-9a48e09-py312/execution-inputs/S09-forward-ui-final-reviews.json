@@ -1,0 +1,38 @@
+{
+  "reviewer": "/root/qualification_review",
+  "reviewer_execution": "NONE",
+  "origin": "READ_ONLY_REVIEWER_MESSAGES_RETAINED_BY_CODEX",
+  "scope": "BOUNDED_SOURCE_UI_AND_LOCAL_SOURCE_UI_PROOF_TOOLING_ONLY",
+  "whole_product_or_native_acceptance": "NOT_CLAIMED",
+  "source_ui": {
+    "executable_revision": "9a48e09f877b46d5e6f0971cf6a47df8c0485859",
+    "critical": 0,
+    "important": 0,
+    "paths": ["ui/src/model.ts", "ui/src/App.tsx", "ui/src/model.test.ts", "ui/qa/control-center.spec.ts"],
+    "provenance": "PRIOR_REVIEW_DISPOSITION_CONFIRMED_FOR_UNCHANGED_FOUR_FILES"
+  },
+  "prior_prefix_driver": {
+    "critical": 0,
+    "important": 1,
+    "raw_sha256": "8e725aa6b1bb6e0f7ed68a6379ac60e9bac0ff902bc54a0009816ad3e1821239",
+    "remaining_finding": "msedge channel may resolve a different browser than hashed literal Edge",
+    "credit": "ONLY_FOUR_NON_BROWSER_COMPLETED_STAGES_REUSED;FAILED_PARALLEL_BROWSER_NOT_CREDITED"
+  },
+  "old_serial_driver": {
+    "critical": 0,
+    "important": 2,
+    "preserved_execution_input": "s09_forward_ui_serial_browser-before-review.py",
+    "raw_sha256": "905575fe409a55a432fffcd75a80e4b1f499fb05feb50e47c6a8c7cd8b7db935",
+    "findings": ["Referenced prefix helper/log inventories were not validated before reads", "Bare py launcher did not bind the fixture interpreter"],
+    "credit": "INCOMPLETE_OLD_RUN;NO_FINAL_CLOSURE_ACCEPTANCE"
+  },
+  "repaired_serial_driver": {
+    "critical": 0,
+    "important": 0,
+    "raw_sha256": "c192374e1c54dfb1c8acda7bb7ce389fd0253e9f5ac823018a11cef2e31fe56c",
+    "guard_test_raw_sha256": "f8c8de58aea096115964f4de71cb6b25007f682ffedc914e6512187d763ef0a4",
+    "repairs": ["Exact eight helper paths and five ordered label/log pairs before referenced reads", "Quoted literal hash-bound Python interpreter", "Literal hash-bound Edge", "Fresh output name preserves failed corpus"],
+    "source_review_only": true,
+    "reviewer_did_not_execute_or_accept_results": true
+  }
+}

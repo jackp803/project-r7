@@ -1,0 +1,50 @@
+test_changed_command_inventory_rejected (__main__.PrefixGuards.test_changed_command_inventory_rejected) ... FAIL
+test_escaping_log_rejected (__main__.PrefixGuards.test_escaping_log_rejected) ... FAIL
+test_exact_known_inventory_allowed (__main__.PrefixGuards.test_exact_known_inventory_allowed) ... FAIL
+test_omitted_helper_rejected (__main__.PrefixGuards.test_omitted_helper_rejected) ... FAIL
+test_private_absolute_helper_rejected (__main__.PrefixGuards.test_private_absolute_helper_rejected) ... FAIL
+
+======================================================================
+FAIL: test_changed_command_inventory_rejected (__main__.PrefixGuards.test_changed_command_inventory_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\artifacts\test_s09_forward_ui_prefix_guards.py", line 13, in setUp
+    self.assertIn('require_prefix_inventory',scope,'Prefix inventory guard missing')
+AssertionError: 'require_prefix_inventory' not found in {} : Prefix inventory guard missing
+
+======================================================================
+FAIL: test_escaping_log_rejected (__main__.PrefixGuards.test_escaping_log_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\artifacts\test_s09_forward_ui_prefix_guards.py", line 13, in setUp
+    self.assertIn('require_prefix_inventory',scope,'Prefix inventory guard missing')
+AssertionError: 'require_prefix_inventory' not found in {} : Prefix inventory guard missing
+
+======================================================================
+FAIL: test_exact_known_inventory_allowed (__main__.PrefixGuards.test_exact_known_inventory_allowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\artifacts\test_s09_forward_ui_prefix_guards.py", line 13, in setUp
+    self.assertIn('require_prefix_inventory',scope,'Prefix inventory guard missing')
+AssertionError: 'require_prefix_inventory' not found in {} : Prefix inventory guard missing
+
+======================================================================
+FAIL: test_omitted_helper_rejected (__main__.PrefixGuards.test_omitted_helper_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\artifacts\test_s09_forward_ui_prefix_guards.py", line 13, in setUp
+    self.assertIn('require_prefix_inventory',scope,'Prefix inventory guard missing')
+AssertionError: 'require_prefix_inventory' not found in {} : Prefix inventory guard missing
+
+======================================================================
+FAIL: test_private_absolute_helper_rejected (__main__.PrefixGuards.test_private_absolute_helper_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\artifacts\test_s09_forward_ui_prefix_guards.py", line 13, in setUp
+    self.assertIn('require_prefix_inventory',scope,'Prefix inventory guard missing')
+AssertionError: 'require_prefix_inventory' not found in {} : Prefix inventory guard missing
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+FAILED (failures=5)

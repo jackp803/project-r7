@@ -1,3 +1,5 @@
+Later current Windows native3-outcome checkpoint: [dd53369](PRODUCT_USABILITY_CHECKPOINT_dd53369.md). Its package includes the forward-seconds fix;the historical evidence below retains its original scope.
+
 # 正常產品隔離流程檢查點：d3d8496
 
 Master：CODEX-R7-PRODUCTIZATION-MASTER-20261002，分支 codex/r7-productization-master-20261002，狀態 IN_PROGRESS。2026-10-12 重新 fetch 的 main 為 9fd277798b1c51d1bc79b29a61bec81b552efeb1，沒有新裁定。M1–M11 均未完成；此檢查點沒有完整 requirement PASS 宣稱。

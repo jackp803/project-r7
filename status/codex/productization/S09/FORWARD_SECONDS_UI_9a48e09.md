@@ -1,3 +1,5 @@
+Later current Windows native3-outcome checkpoint: [dd53369](PRODUCT_USABILITY_CHECKPOINT_dd53369.md). Its package includes the forward-seconds fix;the historical evidence below retains its original scope.
+
 # Forward observation seconds UI checkpoint
 
 Current UI source candidate: `9a48e09f877b46d5e6f0971cf6a47df8c0485859`. Accepted full source/native revision remains `d3d849642f278ccd39723355367bf1030d8f0619`. Same Master task and branch; IN_PROGRESS.

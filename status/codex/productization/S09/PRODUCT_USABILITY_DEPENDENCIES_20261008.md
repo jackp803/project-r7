@@ -1,3 +1,5 @@
+Current Windows native normal positive,rejected and insufficient outcomes all pass at dd53369;see [current package/workflow checkpoint](PRODUCT_USABILITY_CHECKPOINT_dd53369.md). This does not accept any of the four ordinary release decisions below.
+
 # Normal product Paper flow: dependency and decision bundle
 
 Task CODEX-R7-PRODUCTIZATION-MASTER-20261002 remains ACTIVE on

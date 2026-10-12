@@ -1,4 +1,4 @@
-Current Windows native normal positive,rejected and insufficient outcomes all pass at dd53369;see [current package/workflow checkpoint](PRODUCT_USABILITY_CHECKPOINT_dd53369.md). This does not accept any of the four ordinary release decisions below.
+Current13d7375 Windows native normal positive,rejected and insufficient outcomes all pass;see [current package/workflow checkpoint](PRODUCT_USABILITY_CHECKPOINT_13d7375.md). This does not accept the four ordinary release decisions below.
 
 # Normal product Paper flow: dependency and decision bundle
 
@@ -9,7 +9,7 @@ Main was fetched: 9fd277798b1c51d1bc79b29a61bec81b552efeb1.
 
 ## Verified dependencies
 
-Updated 2026-10-12 at executable d3d849642f278ccd39723355367bf1030d8f0619.
+Updated 2026-10-12 at executable 13d7375d6297c8df94124e95856821df6dee7f09.
 Normal `src/application/entrypoints.py:create_local_app` and
 `local_owners.py:control_services` now compose authentication, command ledger,
 actual E6/intake/research and Paper read/start adapters for the explicitly
@@ -18,8 +18,8 @@ immutable subject/policy selection and FIXTURE release reader; public
 paper-worker uses the product-owned loader and independent actual owners.
 Actual frozen Windows TTY enrollment, UI login/research/start/pause/read,
 protected worker stop/restart/close, feedback/staging and inhibited backup
-restore passed in the normal positive fixture flow. Source rejected and
-insufficient research outcomes passed; these native outcomes remain NOT_RUN.
+restore passed in the normal positive fixture flow. Fresh native rejected and
+insufficient research outcomes also passed,with UI/direct API start denial and0 runs.
 Historical qa/serve_fixture.py evidence remains separate.
 
 `application/paper/owners.py:PaperOwnerComposition` is implemented and qualified
@@ -62,9 +62,9 @@ and no financial approvals. This mode is now implemented and its normal
 positive frozen Windows flow separately executed. It does not issue an ordinary
 qualified release or satisfy real-forward, real-cloud or whole-product acceptance.
 
-Current scoped evidence is described in PRODUCT_USABILITY_CHECKPOINT_d3d8496.md.
-Next, fix the observed owner-derived forward-seconds UI label and execute native
-rejected/insufficient scenarios, then continue remaining Master acceptance.
+Current scoped evidence is described in PRODUCT_USABILITY_CHECKPOINT_13d7375.md.
+The forward-seconds label and all3 current native outcomes are verified.
+Continue remaining temporal/recovery/capacity/platform and full Master acceptance.
 The four ordinary release decisions above are still required and unresolved
 in authoritative Git; no idle waiting is authorized.
 

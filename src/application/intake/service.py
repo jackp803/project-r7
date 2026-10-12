@@ -9,6 +9,7 @@ from registry import IdentityConflict
 from application.cloud.manifest import canonical_bytes, parse_manifest, validate_package
 from application.cloud.protocol import CloudError
 from application.intake.ledger import IntakeLedger, ManifestConflict, OutboxCapacityError
+from strategy.v02.temporal import assess_submission_validity
 
 
 @dataclass(frozen=True)
@@ -61,6 +62,12 @@ class StrategyInboxService:
                         raise CloudError("BLOCKED", "CAPABILITY_SNAPSHOT_NOT_CONFIGURED")
                     if manifest.raw["capability_snapshot_hash"] != self.capability_snapshot_hash:
                         raise CloudError("BLOCKED", "CAPABILITY_SNAPSHOT_MISMATCH")
+                    # Envelope validity governs this request, never E6 lifecycle.
+                    # Verify sealed inputs first; expiry cannot legitimize bad bytes.
+                    validity = assess_submission_validity(manifest, now)
+                    if not validity.new_entry_allowed:
+                        state = "EXPIRED" if validity.status == "EXPIRED" else "BLOCKED"
+                        raise CloudError(state, "SUBMISSION_" + validity.status)
                 claim = self.ledger.claim(manifest.submission_id, manifest.manifest_hash, self.owner_id, now)
                 if not claim.acquired:
                     state = "IDEMPOTENT" if claim.state == "INTAKE_ACCEPTED" else "CLAIM_BUSY"

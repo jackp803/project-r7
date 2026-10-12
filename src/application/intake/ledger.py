@@ -220,7 +220,7 @@ class IntakeLedger:
 
     def observe(self, submission_id, state, reason, now, manifest_hash=None):
         safe_component(submission_id)
-        if state not in {"BLOCKED", "INCOMPLETE_SYNC", "CONFLICT", "UNAVAILABLE", "SYNC_STALLED", "CLOUD_NOT_CONNECTED"}:
+        if state not in {"BLOCKED", "EXPIRED", "INCOMPLETE_SYNC", "CONFLICT", "UNAVAILABLE", "SYNC_STALLED", "CLOUD_NOT_CONNECTED"}:
             raise ValueError("Unsupported observation state")
         safe_component(reason)
         stamp = _timestamp(now)

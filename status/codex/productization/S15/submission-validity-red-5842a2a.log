@@ -1,0 +1,65 @@
+test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft) ... FAIL
+test_expired_submission_is_terminal_observation_without_e6_or_receipt (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_expired_submission_is_terminal_observation_without_e6_or_receipt) ... FAIL
+test_finite_evergreen_interval_also_stops_new_expired_submission (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_finite_evergreen_interval_also_stops_new_expired_submission) ... FAIL
+test_future_submission_is_blocked_until_actual_validity_boundary (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_future_submission_is_blocked_until_actual_validity_boundary) ... FAIL
+test_partial_payload_recovered_after_expiry_cannot_create_intake_effect (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_partial_payload_recovered_after_expiry_cannot_create_intake_effect) ... FAIL
+
+======================================================================
+FAIL: test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_submission_validity_intake.py", line 52, in test_exclusive_upper_boundary_keeps_prior_immutable_receipt_and_draft
+    self.assertEqual(inbox.scan_once(UNTIL).results[0].state,'EXPIRED')
+AssertionError: 'IDEMPOTENT' != 'EXPIRED'
+- IDEMPOTENT
++ EXPIRED
+
+
+======================================================================
+FAIL: test_expired_submission_is_terminal_observation_without_e6_or_receipt (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_expired_submission_is_terminal_observation_without_e6_or_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_submission_validity_intake.py", line 39, in test_expired_submission_is_terminal_observation_without_e6_or_receipt
+    self.assertEqual(summary.results[0].state,'EXPIRED')
+AssertionError: 'INTAKE_ACCEPTED' != 'EXPIRED'
+- INTAKE_ACCEPTED
++ EXPIRED
+
+
+======================================================================
+FAIL: test_finite_evergreen_interval_also_stops_new_expired_submission (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_finite_evergreen_interval_also_stops_new_expired_submission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_submission_validity_intake.py", line 81, in test_finite_evergreen_interval_also_stops_new_expired_submission
+    self.assertEqual(inbox.scan_once(UNTIL).results[0].state,'EXPIRED')
+AssertionError: 'INTAKE_ACCEPTED' != 'EXPIRED'
+- INTAKE_ACCEPTED
++ EXPIRED
+
+
+======================================================================
+FAIL: test_future_submission_is_blocked_until_actual_validity_boundary (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_future_submission_is_blocked_until_actual_validity_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_submission_validity_intake.py", line 63, in test_future_submission_is_blocked_until_actual_validity_boundary
+    self.assertEqual(outcome.state,'BLOCKED')
+AssertionError: 'INTAKE_ACCEPTED' != 'BLOCKED'
+- INTAKE_ACCEPTED
++ BLOCKED
+
+
+======================================================================
+FAIL: test_partial_payload_recovered_after_expiry_cannot_create_intake_effect (tests.application.test_submission_validity_intake.SubmissionValidityIntakeTests.test_partial_payload_recovered_after_expiry_cannot_create_intake_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_submission_validity_intake.py", line 75, in test_partial_payload_recovered_after_expiry_cannot_create_intake_effect
+    self.assertEqual(inbox.scan_once(UNTIL+timedelta(seconds=5)).results[0].state,'EXPIRED')
+AssertionError: 'INTAKE_ACCEPTED' != 'EXPIRED'
+- INTAKE_ACCEPTED
++ EXPIRED
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.924s
+
+FAILED (failures=5)

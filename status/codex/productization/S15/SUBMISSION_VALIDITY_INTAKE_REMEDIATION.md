@@ -10,7 +10,14 @@ Five new regression tests first failed for the observed behavior. The focused 36
 
 This candidate requires fresh exact-clean full source execution and a new native build before receiving any new native PASS. Prior package and three-outcome Paper evidence remain historical and are not transferred to changed executable inputs. Remaining cases involving expiry after research enqueue or during validation/approval are separate STR-06/Master audit work; this repair does not claim that entire requirement complete. Ubuntu24/26, ordinary release acceptance, real cloud/dataset/time Paper and capital/provider activation remain unqualified. Master remains IN_PROGRESS.
 
+Independent read-only review found 0 Critical / 1 Important in the first repair: the initial remote manifest and the later sealed manifest were not bound together. A real transport/snapshot/E6 probe reproduced a valid-to-expired replacement being accepted. The follow-up repair requires equal canonical manifest hashes before claiming and then uses the verified manifest for capability, validity and receipt identity. The sixth regression first failed; the updated focused run passed all 37 tests. The review and repair are bounded incoming-intake evidence, not whole-Master approval.
+
+The first full source candidate `a3a6a1c501a12e58acbe80d88ce171583ee37066` failed after 31/33 groups and 1856 test executions, with 6 failures / 1 error in the 472-test application group. Its research resource gate observed 4695027712 available bytes, below the unchanged 5060439859 threshold; source inputs stayed unchanged. Preserve this failed attempt with no qualification credit. The second manifest-binding repair requires its own clean source qualification. No native package for either repaired candidate has yet received acceptance at this note's checkpoint.
+
 - Baseline native outcome: `native-negative-intake-5842a2a/outcome.json` (4/5, expired=INTAKE_ACCEPTED).
 - Baseline artifact manifest: `native-negative-intake-artifact-hashes-5842a2a.json`.
 - Regression red: `submission-validity-red-5842a2a.log` (5 failures).
 - Focused regression green: `submission-validity-green.log` (36 passed).
+- Snapshot replacement red: `manifest-swap-red-a3a6a1c.log` (1 failure).
+- Snapshot-bound focused green: `submission-validity-binding-green.log` (37 passed).
+- Full failed source attempt: `source-a3a6a1c/qualification.json` and `source-artifact-hashes-a3a6a1c.json`.

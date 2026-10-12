@@ -1,0 +1,17 @@
+test_snapshot_manifest_replacement_cannot_use_old_validity (__main__.ManifestSwapProbe.test_snapshot_manifest_replacement_cannot_use_old_validity) ... FAIL
+
+======================================================================
+FAIL: test_snapshot_manifest_replacement_cannot_use_old_validity (__main__.ManifestSwapProbe.test_snapshot_manifest_replacement_cannot_use_old_validity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\artifacts\s15_manifest_swap_red.py", line 21, in test_snapshot_manifest_replacement_cannot_use_old_validity
+    self.assertEqual(result.state,'INCOMPLETE_SYNC')
+AssertionError: 'INTAKE_ACCEPTED' != 'INCOMPLETE_SYNC'
+- INTAKE_ACCEPTED
++ INCOMPLETE_SYNC
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.428s
+
+FAILED (failures=1)

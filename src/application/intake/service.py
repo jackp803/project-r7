@@ -57,6 +57,9 @@ class StrategyInboxService:
                 if existing is not None and existing.manifest_hash != manifest.manifest_hash:
                     raise CloudError("CONFLICT", "IMMUTABLE_SUBMISSION_CHANGED")
                 verified = validate_package(self.transport.snapshot(descriptor, self.snapshot_root))
+                if verified.manifest.manifest_hash != manifest.manifest_hash:
+                    raise CloudError("INCOMPLETE_SYNC", "MANIFEST_CHANGED_DURING_SNAPSHOT")
+                manifest = verified.manifest
                 if manifest.schema_version.endswith("v0.2"):
                     if self.capability_snapshot_hash is None:
                         raise CloudError("BLOCKED", "CAPABILITY_SNAPSHOT_NOT_CONFIGURED")

@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-10-02T00:00:00Z",
+  "name": "SYNTHETIC FIXTURE trend scenario",
+  "parameters": {
+    "fast_window": 2
+  },
+  "required_timeframes": [
+    "1h"
+  ],
+  "rules": {
+    "behavior_profile": "r7-closed-bar-v0.2",
+    "dsl_version": "0.2",
+    "evaluation_timeframe": "1h",
+    "exit_policy": {
+      "max_hold_seconds": 3600,
+      "stop": {
+        "kind": "fixed_distance",
+        "value": "10"
+      },
+      "target": {
+        "kind": "reward_risk",
+        "multiple": "2"
+      },
+      "trailing": null
+    },
+    "features": {
+      "trend": {
+        "kind": "indicator",
+        "name": "EMA",
+        "output": "value",
+        "parameters": {
+          "window": {
+            "kind": "parameter",
+            "name": "fast_window"
+          }
+        },
+        "semantic_version": "r7-ema-v1",
+        "source": {
+          "field": "close",
+          "kind": "field",
+          "timeframe": "1h"
+        }
+      }
+    },
+    "long": {
+      "args": [
+        {
+          "field": "close",
+          "kind": "field",
+          "timeframe": "1h"
+        },
+        {
+          "kind": "feature",
+          "name": "trend"
+        }
+      ],
+      "kind": "operator",
+      "name": "GT"
+    },
+    "short": {
+      "args": [
+        {
+          "field": "close",
+          "kind": "field",
+          "timeframe": "1h"
+        },
+        {
+          "kind": "feature",
+          "name": "trend"
+        }
+      ],
+      "kind": "operator",
+      "name": "LT"
+    }
+  },
+  "runtime_compatibility": {
+    "runtime_family": "project-r7-e2-strategy-runtime",
+    "runtime_version": "0.2.0"
+  },
+  "schema_version": "contracts-v0.1",
+  "strategy_id": "r7-negative-expired-subject",
+  "strategy_version": "0.2.0",
+  "symbol": "BTC_USDT_PERP"
+}

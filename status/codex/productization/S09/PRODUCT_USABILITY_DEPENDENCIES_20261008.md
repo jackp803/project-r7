@@ -1,4 +1,4 @@
-Current13d7375 Windows native normal positive,rejected and insufficient outcomes all pass;see [current package/workflow checkpoint](PRODUCT_USABILITY_CHECKPOINT_13d7375.md). This does not accept the four ordinary release decisions below.
+Currentd36d916 Windows native normal positive,rejected and insufficient outcomes all pass;see [current package/workflow checkpoint](PRODUCT_USABILITY_CHECKPOINT_d36d916.md). This does not accept the four ordinary release decisions below.
 
 # Normal product Paper flow: dependency and decision bundle
 
@@ -9,7 +9,7 @@ Main was fetched: 9fd277798b1c51d1bc79b29a61bec81b552efeb1.
 
 ## Verified dependencies
 
-Updated 2026-10-12 at executable 13d7375d6297c8df94124e95856821df6dee7f09.
+Updated 2026-10-12 at executable d36d916207b3a2ca4b1479c48c238e836def9dcb.
 Normal `src/application/entrypoints.py:create_local_app` and
 `local_owners.py:control_services` now compose authentication, command ledger,
 actual E6/intake/research and Paper read/start adapters for the explicitly
@@ -62,9 +62,9 @@ and no financial approvals. This mode is now implemented and its normal
 positive frozen Windows flow separately executed. It does not issue an ordinary
 qualified release or satisfy real-forward, real-cloud or whole-product acceptance.
 
-Current scoped evidence is described in PRODUCT_USABILITY_CHECKPOINT_13d7375.md.
+Current scoped evidence is described in PRODUCT_USABILITY_CHECKPOINT_d36d916.md.
 The forward-seconds label and all3 current native outcomes are verified.
-Continue remaining temporal/recovery/capacity/platform and full Master acceptance.
+Source request-expiry repair7 regressions and full b9662115 instances PASS;all638 inputs are included unchanged in the d36 metadata-descendant native package. Current native expiry-specific/intake scenarios remain NOT_RUN;historical13d intake5 is not transferred. Continue remaining temporal/recovery/capacity/platform and full Master acceptance.
 The four ordinary release decisions above are still required and unresolved
 in authoritative Git; no idle waiting is authorized.
 

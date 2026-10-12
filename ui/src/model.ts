@@ -3,6 +3,13 @@ export const object=(value:unknown):Row=>value!==null&&typeof value==='object'&&
 export const rows=(value:unknown):Row[]=>Array.isArray(value)?value.map(object):[];
 export const text=(value:unknown):string=>typeof value==='string'?value:typeof value==='number'?String(value):value===true?'是':value===false?'否':'未提供';
 export const metric=(value:unknown):string=>value===null||value===undefined?'未提供':text(value);
+export function actualForwardSeconds(value:unknown):string|null{
+  const nanoseconds=object(value).real_elapsed_ns;
+  if(typeof nanoseconds!=='number'||!Number.isSafeInteger(nanoseconds)||nanoseconds<0)return null;
+  const measured=BigInt(nanoseconds);const scale=1_000_000_000n;
+  const fraction=(measured%scale).toString().padStart(9,'0').replace(/0+$/,'');
+  return (measured/scale).toString()+(fraction?'.'+fraction:'');
+}
 const healthCodes:Record<string,string>={
   ONLINE:'控制介面可連線',NOT_CONFIGURED:'尚未設定',NOT_CONNECTED:'尚未連線',
   NOT_STARTED:'尚未啟動',RECENT_HEARTBEAT:'最近收到程序心跳',STOPPED:'已停止',FAILED:'程序失敗；需檢查',

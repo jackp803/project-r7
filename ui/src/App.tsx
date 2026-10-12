@@ -1,6 +1,6 @@
 import {useEffect,useRef,useState,type FormEvent,type ReactNode} from 'react';
 import {api,commandId,ControlError,type Envelope,type Schema} from './api';
-import {approvalBlock,canPauseDeployment,deploymentActivationBlock,healthStatus,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
+import {approvalBlock,canPauseDeployment,deploymentActivationBlock,healthStatus,actualForwardSeconds,metric,object,progressLabel,reasonText,revision,rows,temporalFacts,text,utcDisplay,type Row} from './model';
 
 type Zone='UTC'|'Asia/Taipei';
 type Session=Schema['SessionView'];
@@ -204,7 +204,7 @@ function Trading(props:Common){
         <p className="hint">這不會平倉、取消保護或停止服務。已在途的成交仍須核對；既有管理繼續由原 runtime 負責。</p><Reasons codes={value.reason_codes}/>
         <h3>委託 ACK 與實際成交</h3><p className="hint">最近最多 {text(run.orders_limit)} 筆委託（總數 {text(run.orders_total)}），每筆顯示最後最多 {text(run.fills_limit)} 筆成交。原始 ACK 時點不會被目前狀態覆寫。</p>
         {rows(run.orders).length===0?<p>尚無資料</p>:<div className="table-wrap"><table><thead><tr><th>Client order ID／角色</th><th>原始 ACK</th><th>目前狀態</th><th>實際成交量</th><th>成交證據</th></tr></thead><tbody>{rows(run.orders).map(row=><tr key={text(row.client_order_id)}><td><code>{text(row.client_order_id)}</code><small className="block">{text(row.role)}</small></td><td>{text(row.original_ack_status)}<small className="block">{utcDisplay(row.original_ack_at,props.zone)}</small></td><td>{text(row.current_status)}<small className="block">{utcDisplay(row.current_observed_at,props.zone)}</small></td><td>{metric(row.actual_filled_quantity)}</td><td><JsonDetail value={row.fills} title={'成交 '+text(row.fill_count)+' 筆'}/></td></tr>)}</tbody></table></div>}
-        <h3>已發布結果與觀察</h3><div className="facts"><Fact label="已發布關閉交易" value={run.closed_trades_count}/><Fact label="E3 淨損益（USDT）" value={metrics.net_pnl}/><Fact label="實際 forward 秒數" value={object(run.forward_observations).actual_elapsed_seconds}/></div><p>成本慣例：{text(run.cost_convention)}。成交價已含滑價，未再扣一次；未實現損益未提供時維持未知。</p>
+        <h3>已發布結果與觀察</h3><div className="facts"><Fact label="已發布關閉交易" value={run.closed_trades_count}/><Fact label="E3 淨損益（USDT）" value={metrics.net_pnl}/><Fact label="實際 forward 秒數" value={actualForwardSeconds(run.forward_observations)} testId="paper-real-forward-seconds"/></div><p>成本慣例：{text(run.cost_convention)}。成交價已含滑價，未再扣一次；未實現損益未提供時維持未知。</p>
         <JsonDetail value={run.metrics} title="原始 E3 結果"/><JsonDetail value={run.forward_observations} title="真實時間與來源觀察"/><JsonDetail value={{Signal:run.last_signal,TradeIntent:run.last_intent,RiskDecision:run.risk_decision,Position:run.position,Protection:run.protection_request}} title="E2 / E5 / E4 / E6 原始訊號、風險與保護事實"/>
       </Panel>;}}</Frame>}</>;
 }

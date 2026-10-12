@@ -85,6 +85,9 @@ test('protected owner facts distinguish ACK/fill, remaining exposure and as-of s
   await expect(page.getByText('OPEN_PROTECTED',{exact:true}).first()).toBeVisible();
   await expect(page.getByText('委託 ACK 與實際成交',{exact:true})).toBeVisible();
   await expect(page.getByTestId('paper-freshness')).toContainText('LAST_KNOWN_GOOD');
+  const observed=(await (await page.request.get(origins.protected+'/api/v1/paper/runs')).json()).data.items;
+  expect(observed[0].forward_observations.real_elapsed_ns).toBe(0);
+  await expect(page.getByTestId('paper-real-forward-seconds').locator('strong')).toHaveText('0');
   await page.getByRole('button',{name:'停止新進場',exact:true}).click();
   await expect(page.getByTestId('paper-position')).toContainText('0.001');
   const runs=(await (await page.request.get(origins.protected+'/api/v1/paper/runs')).json()).data.items;

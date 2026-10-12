@@ -1,7 +1,23 @@
 import {describe,expect,it} from 'vitest';
-import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment,healthStatus} from './model';
+import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment,healthStatus,actualForwardSeconds} from './model';
 
 describe('truthful display and command prerequisites',()=>{
+  it('shows actual owner forward nanoseconds as exact seconds, including zero',()=>{
+    expect(actualForwardSeconds({real_elapsed_ns:0})).toBe('0');
+    expect(actualForwardSeconds({real_elapsed_ns:2_000_000_001})).toBe('2.000000001');
+    expect(actualForwardSeconds({real_elapsed_ns:1_250_000_000})).toBe('1.25');
+  });
+  it('keeps absent, invalid or imprecise actual forward observations unavailable',()=>{
+    for(const value of [null,undefined,{},[],{real_elapsed_ns:null},{real_elapsed_ns:'0'},
+      {real_elapsed_ns:-1},{real_elapsed_ns:0.5},{real_elapsed_ns:Infinity},
+      {real_elapsed_ns:NaN},{real_elapsed_ns:Number.MAX_SAFE_INTEGER+1}]){
+      expect(actualForwardSeconds(value)).toBeNull();
+    }
+  });
+  it('never substitutes simulated time or an unrelated seconds field for real forward',()=>{
+    expect(actualForwardSeconds({simulated_elapsed_seconds:86400,actual_elapsed_seconds:86400})).toBeNull();
+    expect(actualForwardSeconds({real_elapsed_ns:0,simulated_elapsed_seconds:86400,actual_elapsed_seconds:86400})).toBe('0');
+  });
   it('distinguishes an available queue from an actually observed worker heartbeat in Chinese',()=>{
     expect(healthStatus('PROCESS_RECENT_HEARTBEAT')).toBe('最近收到程序心跳');
     expect(healthStatus('QUEUE_AVAILABLE_WORKER_NOT_STARTED')).toBe('工作佇列可用；工作者尚未啟動');

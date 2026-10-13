@@ -1,0 +1,27 @@
+test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary (test_paper_owned_producer.PaperOwnedProducerTests.test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary) ... ok
+test_native_manifest_requires_all_actual_bound_assertions_no_supplied_pass (test_paper_owned_producer.PaperOwnedProducerTests.test_native_manifest_requires_all_actual_bound_assertions_no_supplied_pass) ... ok
+test_unit_log_binds_exact_executed_case_order_and_success (test_paper_owned_producer.PaperOwnedProducerTests.test_unit_log_binds_exact_executed_case_order_and_success) ... FAIL
+
+======================================================================
+FAIL: test_unit_log_binds_exact_executed_case_order_and_success (test_paper_owned_producer.PaperOwnedProducerTests.test_unit_log_binds_exact_executed_case_order_and_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owned_producer.py", line 18, in test_unit_log_binds_exact_executed_case_order_and_success
+    self.assertEqual(m.executed_cases(documented),cases)
+AssertionError: Lists differ: ['test_owned.Actual.test_second'] != ['test_owned.Actual.test_first', 'test_owned.Actual.test_second']
+
+First differing element 0:
+'test_owned.Actual.test_second'
+'test_owned.Actual.test_first'
+
+Second list contains 1 additional elements.
+First extra element 1:
+'test_owned.Actual.test_second'
+
+- ['test_owned.Actual.test_second']
++ ['test_owned.Actual.test_first', 'test_owned.Actual.test_second']
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.190s
+
+FAILED (failures=1)

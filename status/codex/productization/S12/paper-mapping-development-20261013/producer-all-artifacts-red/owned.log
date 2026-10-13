@@ -1,0 +1,17 @@
+test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary (test_paper_owned_producer.PaperOwnedProducerTests.test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary) ... FAIL
+test_native_manifest_requires_all_actual_bound_assertions_no_supplied_pass (test_paper_owned_producer.PaperOwnedProducerTests.test_native_manifest_requires_all_actual_bound_assertions_no_supplied_pass) ... ok
+test_unit_log_binds_exact_executed_case_order_and_success (test_paper_owned_producer.PaperOwnedProducerTests.test_unit_log_binds_exact_executed_case_order_and_success) ... ok
+
+======================================================================
+FAIL: test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary (test_paper_owned_producer.PaperOwnedProducerTests.test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_owned_producer.py", line 45, in test_all_retained_native_logs_and_screenshots_are_bound_not_only_summary
+    with self.assertRaises(ValueError):m.native_assertions(report,dict(assertions=['measured']),root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.222s
+
+FAILED (failures=1)

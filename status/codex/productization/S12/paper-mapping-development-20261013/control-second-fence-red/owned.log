@@ -1,0 +1,38 @@
+test_control_observer_fencing_requests_exit_and_surfaces_failure (test_managed_product_stop.ManagedProductStopTests.test_control_observer_fencing_requests_exit_and_surfaces_failure) ... Exception in thread r7-control-supervision:
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "<SOURCE_ROOT>\src\application\entrypoints.py", line 144, in watch
+    try:observe_service_stop(supervisor,stop)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_managed_product_stop.py", line 64, in fenced_observation
+    raise SupervisionError('TEST_SECOND_FENCE_CHANGED')
+application.platform.supervision.SupervisionError: TEST_SECOND_FENCE_CHANGED
+FAIL
+test_foreign_or_malformed_request_never_clears_pause_or_claims_flat (test_managed_product_stop.ManagedProductStopTests.test_foreign_or_malformed_request_never_clears_pause_or_claims_flat) ... ok
+test_request_never_starts_or_allocates_and_owning_loop_observes_exact_incarnation (test_managed_product_stop.ManagedProductStopTests.test_request_never_starts_or_allocates_and_owning_loop_observes_exact_incarnation) ... ok
+
+======================================================================
+FAIL: test_control_observer_fencing_requests_exit_and_surfaces_failure (test_managed_product_stop.ManagedProductStopTests.test_control_observer_fencing_requests_exit_and_surfaces_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_managed_product_stop.py", line 68, in test_control_observer_fencing_requests_exit_and_surfaces_failure
+    with self.assertRaisesRegex(SupervisionError,'TEST_SECOND_FENCE_CHANGED'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: SupervisionError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.227s
+
+FAILED (failures=1)

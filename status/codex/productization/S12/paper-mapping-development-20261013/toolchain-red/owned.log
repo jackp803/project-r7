@@ -1,0 +1,29 @@
+test_actual_installed_tools_are_measured_without_user_paths_or_network (test_paper_toolchain.PaperToolchainTests.test_actual_installed_tools_are_measured_without_user_paths_or_network) ... FAIL
+test_changed_tool_identity_is_denied_before_any_qualification_execution (test_paper_toolchain.PaperToolchainTests.test_changed_tool_identity_is_denied_before_any_qualification_execution) ... FAIL
+
+======================================================================
+FAIL: test_actual_installed_tools_are_measured_without_user_paths_or_network (test_paper_toolchain.PaperToolchainTests.test_actual_installed_tools_are_measured_without_user_paths_or_network)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_toolchain.py", line 17, in test_actual_installed_tools_are_measured_without_user_paths_or_network
+    m=self.module();observed=m.measure(Path(__file__).resolve().parents[2])
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_toolchain.py", line 10, in module
+    self.assertTrue(path.is_file(),'Actual interpreter/browser execution identities must be frozen')
+AssertionError: False is not true : Actual interpreter/browser execution identities must be frozen
+
+======================================================================
+FAIL: test_changed_tool_identity_is_denied_before_any_qualification_execution (test_paper_toolchain.PaperToolchainTests.test_changed_tool_identity_is_denied_before_any_qualification_execution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_toolchain.py", line 26, in test_changed_tool_identity_is_denied_before_any_qualification_execution
+    m=self.module();actual=m.measure(Path(__file__).resolve().parents[2])
+      ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_toolchain.py", line 10, in module
+    self.assertTrue(path.is_file(),'Actual interpreter/browser execution identities must be frozen')
+AssertionError: False is not true : Actual interpreter/browser execution identities must be frozen
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.006s
+
+FAILED (failures=2)

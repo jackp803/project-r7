@@ -73,6 +73,8 @@ def _worker_once(config_path, config, *, namespace, job_argv_factory, hardware_p
         try:
             while True:
                 supervisor.require_current()
+                from application.platform.service_stop import observe_service_stop
+                observe_service_stop(supervisor,stop)
                 if stop.requested:
                     interrupted=True
                     break
@@ -98,6 +100,8 @@ def research_worker(config_path, *, once=False, expected_config_hash=None):
         raise ValueError('Research service configuration changed before supervision')
     with ManagedStop() as stop, ProcessSupervisor(config, 'research', config_path=config_path) as supervisor:
         while not stop.requested:
+            from application.platform.service_stop import observe_service_stop
+            if observe_service_stop(supervisor,stop):break
             result = _worker_once(config_path, config, namespace=product_namespace(config), job_argv_factory=None,
                                   hardware_probe=inspect_hardware, limits=ResourceLimits(900), supervisor=supervisor,stop=stop)
             print(json.dumps(result), flush=True)

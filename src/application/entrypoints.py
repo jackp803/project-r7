@@ -27,9 +27,11 @@ def _outside_installation(path):
 
 
 def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_root=None,
-                       execution_mode='LOCAL_RESEARCH'):
+                       execution_mode='LOCAL_RESEARCH',paper_runtime_enabled=False):
     """Publish one fully validated complete profile without replacing any file."""
     namespace = validate_execution_mode(execution_mode)
+    if type(paper_runtime_enabled) is not bool or paper_runtime_enabled and namespace!='LOCAL_RESEARCH':
+        raise ValueError('Explicit ordinary Paper runtime selection required')
     config_path = absolute_path(str(config_path), 'config')
     data_root = absolute_path(str(data_root), 'local_data_root')
     _outside_installation(config_path)
@@ -48,7 +50,8 @@ def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_
         raise ValueError('Existing profile must be preserved')
     payload = dict(schema_version='r7-product-config-v0.2', product_instance_id=instance_id,
         local_data_root=str(data_root), cloud_root=None if cloud_root is None else str(cloud_root), control_api_host='127.0.0.1',
-        control_api_port=port, diagnostic_only=True, paper_runtime_enabled=False, execution_mode=namespace)
+        control_api_port=port, diagnostic_only=not paper_runtime_enabled,
+        paper_runtime_enabled=paper_runtime_enabled, execution_mode=namespace)
     config_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     descriptor, temporary = tempfile.mkstemp(prefix='.r7-profile-', dir=config_path.parent)
     try:
@@ -63,8 +66,8 @@ def initialize_profile(config_path, data_root, *, instance_id, port=8765, cloud_
             raise ValueError('Existing profile must be preserved') from None
     finally:
         Path(temporary).unlink(missing_ok=True)
-    return dict(status='PROFILE_CREATED', namespace=namespace, diagnostic_only=True,
-                paper_runtime_enabled=False, cloud='NOT_CONNECTED', runtime='NOT_STARTED')
+    return dict(status='PROFILE_CREATED', namespace=namespace, diagnostic_only=not paper_runtime_enabled,
+                paper_runtime_enabled=paper_runtime_enabled, cloud='NOT_CONNECTED', runtime='NOT_STARTED')
 
 
 def enroll_owner(config, username):
@@ -129,13 +132,21 @@ def serve(config, *, desktop=False, config_path=None,stop=None):
         server = uvicorn.Server(uvicorn.Config(app, host=config.control_api_host, port=config.control_api_port,
                                                log_level='warning', access_log=False, workers=1))
         finished = threading.Event()
+        watcher_failures = []
         def watch():
             opened = False
             while not finished.wait(0.2):
                 try:
                     supervisor.require_current()
-                except SupervisionError:
+                except SupervisionError as error:
+                    watcher_failures.append(error)
                     server.should_exit = True
+                    return
+                from application.platform.service_stop import observe_service_stop
+                try:observe_service_stop(supervisor,stop)
+                except (ValueError,OSError,RuntimeError) as error:
+                    watcher_failures.append(error)
+                    server.should_exit=True
                     return
                 if stop.requested:
                     server.should_exit=True
@@ -152,5 +163,7 @@ def serve(config, *, desktop=False, config_path=None,stop=None):
             finished.set()
             watcher.join(3)
             if watcher.is_alive(): raise SupervisionError('CONTROL_STOP_NOT_CONFIRMED')
+        if watcher_failures:
+            raise watcher_failures[0]
         supervisor.require_current()
     return 0

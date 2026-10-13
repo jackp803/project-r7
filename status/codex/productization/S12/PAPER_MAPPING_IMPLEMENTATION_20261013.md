@@ -25,7 +25,7 @@ Ruling: use accepted native-only `NATIVE_QUALIFIED`; retain `SOURCE_QUALIFIED` d
 ## Current execution
 
 - Mapping design: `MAPPINGS_ACCEPTED_WITH_CLARIFICATIONS_FOR_IMPLEMENTATION`.
-- Issuer/adapter/ordinary wiring: `IN_PROGRESS`; not claimed implemented.
+- Issuer/adapter/ordinary wiring: `IN_PROGRESS`. Protected E6 v0.3 receipt payload, same-database operational ledger migration 0019, exact-native adapter, explicit ordinary configuration and real independent idle-worker composition are implemented. The producer fails closed until every fixed native group actually passes; no ordinary release is qualified yet.
 - New executable target qualification: `NOT_RUN`.
 - Local user workflow selection: not inferred from PM/demo.
 - Actual real-time forward: `NOT_RUN`.
@@ -33,3 +33,17 @@ Ruling: use accepted native-only `NATIVE_QUALIFIED`; retain `SOURCE_QUALIFIED` d
 - Independent Master review and Ubuntu/cloud/data/forward commissioning remain separate.
 
 The active record is updated at each stable executable/evidence checkpoint. Ordinary deterministic defects are remediation work, not new PM-design blockers.
+
+## Development checkpoint — 2026-10-13
+
+Actual affected Paper regressions: 59 executions, 0 failures/errors/skips, owned tree reaped. Additional actual LOCAL composition regression: 1 execution PASS after reproducing a historical-config recovery error. The test creates fresh LOCAL intake/research, uses the formal ordinary configuration/normal PaperStart port, real ProcessSupervisor/PID/history and E5/E6 owners, then changes product configuration and selection generation. Loss of the controlled unit software receipt denies admission while the actual successor preserves the original risk/quantity/binding/anchor/protection and closes flat. Native/source provenance at this unit boundary is explicitly controlled; this is not native software qualification or financial authority.
+
+Current adapter/history negatives: 11 executions PASS. Managed-stop observer-race regression: 3 executions PASS after an actual uncaught-fence reproduction. Producer exact executed-test parser and all-artifact binding: 3 executions PASS after separate regressions. Execution-toolchain identity: 2 executions PASS after 2 missing-module failures. Actual local Python/library/unittest, Node, browser binary/version and Playwright files are frozen before qualification; external execution tools are not invoked by runtime admission/protection.
+
+Bounded read-only review: 0 Critical / 0 Important after historical configuration recovery repair; reviewer_execution `NONE`. Failed and passing attempts are separately retained. Public sanitized development evidence is under `paper-mapping-development-20261013`; private profiles/databases/local logins remain outside Git.
+
+The hidden actual Windows OS console successfully enrolled a fresh synthetic owner using the unchanged public native command in the old d36 installation. Password echo was absent and the owned tree reaped. This establishes terminal tooling only; it does not qualify d36 or the new implementation. POSIX enrollment cleanup now measures group disappearance before claiming reaping; actual Ubuntu enrollment remains NOT_RUN.
+
+The committed seven-group inventory specifies every mandatory assertion and 39 ordered commands. The PQR-03 driver executes fresh native auth, public rendered UI, actual research, three outcomes, negative admission, independent Paper protection/pause/restart/exit and canonical flat history. Native PQR-04..07 drivers remain incomplete and explicitly return NOT_RUN/failure. The profile is not eligible while these observations are missing. Native PQR-02/03 and full source on this new exact-clean candidate are the next executions, not completed claims.
+
+Remaining independent implementation: native intake/idempotency/expiry, crash/fault/capacity/security/report observations; unattended everyday ownership; bounded currentness latency; ordinary public market acquisition. Existing market acquisition reports NOT_CONNECTED. Ubuntu hosts, actual cloud/data/forward commissioning and unspecified restore reauthorization remain separate NOT_RUN items. No ordinary workflow permission is inferred from PM or the fixture demo.

@@ -30,7 +30,7 @@ class PaperOwnerFixture:
         claim = h.queue.claim_next()
         case.assertEqual(claim.run_id, job_id)
         outcome = h.queue.step(claim.run_id, claim.generation)
-        case.assertEqual(outcome['state'], 'COMPLETE')
+        case.assertEqual(outcome['state'], 'COMPLETE',outcome.get('reason_codes'))
         case.assertEqual(outcome['outcome']['strategy_lifecycle'], 'CANDIDATE')
         self.h, self.config = h, h.config
         self.identity = StrategyIdentity(subject()['strategy_id'], subject()['strategy_version'])

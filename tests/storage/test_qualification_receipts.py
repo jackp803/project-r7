@@ -213,4 +213,72 @@ class QualificationReceiptTests(unittest.TestCase):
             self.assertEqual(db.execute('SELECT COUNT(*) FROM product_qualification_receipts').fetchone()[0],1)
             self.assertEqual(db.execute("SELECT COUNT(*) FROM schema_migrations WHERE migration_name='0018_product_qualification_receipts.sql'").fetchone()[0],1)
 
+    def test_unknown_canonical_migration_is_not_accepted_as_a_newer_store(self):
+        m=self.module()
+        with closing(sqlite3.connect(self.path)) as db,db:
+            db.execute("INSERT INTO schema_migrations(migration_name) VALUES('9999_unowned.sql')")
+        with self.assertRaisesRegex(m.QualificationReceiptError,'MIGRATION_UNRECOGNIZED'):
+            m._open_qualification_receipt_owner(self.path,namespace='FIXTURE')
+
+    def manifest_fields(self):
+        import hashlib
+        manifest={'profile_id':'fixed-profile','groups':[{'check_id':'PQR-01','members':['case-one']}]}
+        raw=json.dumps(manifest,sort_keys=True,separators=(',',':'),allow_nan=False)
+        return dict(profile_manifest=manifest,profile_hash='sha256:'+hashlib.sha256(raw.encode()).hexdigest(),
+            execution_evidence={'case-one':{'status':'PASS','artifact_hash':HASH}})
+
+    def test_frozen_profile_and_actual_evidence_survive_restart_without_mutable_alias(self):
+        m=self.module();fields=self.manifest_fields()
+        with m._open_qualification_receipt_owner(self.path,namespace='FIXTURE') as owner:
+            self.assertIn('profile_manifest',__import__('inspect').signature(owner._append).parameters,
+                'Receipt must bind the frozen inventory instead of only aggregate PASS')
+            receipt=self.append(m,owner,**fields)
+        fields['profile_manifest']['groups'][0]['members'].append('forged')
+        fields['execution_evidence']['case-one']['status']='FAIL'
+        with m.open_qualification_receipts(self.path,namespace='FIXTURE') as reader:
+            loaded=reader.get(receipt.receipt_id)
+            self.assertEqual(loaded.profile_manifest['groups'][0]['members'],['case-one'])
+            self.assertEqual(loaded.execution_evidence['case-one']['status'],'PASS')
+            view=loaded.profile_manifest;view['groups'].clear()
+            self.assertEqual(loaded.profile_manifest['groups'][0]['members'],['case-one'])
+            self.assertEqual(loaded.scope,'SOFTWARE_CHECK_EXECUTION_ONLY')
+
+    def test_missing_changed_or_non_json_profile_evidence_is_denied_before_append(self):
+        m=self.module()
+        with m._open_qualification_receipt_owner(self.path,namespace='FIXTURE') as owner:
+            self.assertIn('profile_manifest',__import__('inspect').signature(owner._append).parameters)
+            for changes in ({'profile_hash':HASH},{'profile_manifest':{}},{'execution_evidence':None},
+                    {'execution_evidence':{}},{'profile_manifest':{'non_json':float('nan')}},
+                    {'execution_evidence':{'huge':'x'*1048576}}):
+                with self.subTest(changes=tuple(changes)),self.assertRaises(m.QualificationReceiptError):
+                    self.append(m,owner,**{**self.manifest_fields(),**changes})
+            with self.assertRaises(m.QualificationReceiptError):
+                self.append(m,owner,execution_evidence={'unbound':True})
+            self.assertIsNone(owner.get('qualification-'+'a'*64))
+
+    def test_changed_member_evidence_conflicts_and_failed_attempt_is_retained(self):
+        m=self.module();fields=self.manifest_fields()
+        with m._open_qualification_receipt_owner(self.path,namespace='FIXTURE') as owner:
+            self.assertIn('profile_manifest',__import__('inspect').signature(owner._append).parameters)
+            first=self.append(m,owner,**fields)
+            self.assertEqual(self.append(m,owner,**fields),first)
+            with self.assertRaisesRegex(m.QualificationReceiptError,'CONFLICT'):
+                self.append(m,owner,**{**fields,'execution_evidence':{'case-one':{'status':'FAIL'}}})
+            failed=self.append(m,owner,execution_id='failed-attempt',checks=(self.check(m,failures=1,returncode=1),),
+                **{**fields,'execution_evidence':{'case-one':{'status':'FAIL'}}})
+            self.assertFalse(owner.get(failed.receipt_id).passed)
+            self.assertEqual(owner.get(first.receipt_id),first)
+
+    def test_legacy_receipt_has_no_frozen_inventory_and_keeps_original_identity(self):
+        m=self.module()
+        with m._open_qualification_receipt_owner(self.path,namespace='FIXTURE') as owner:receipt=self.append(m,owner)
+        with m.open_qualification_receipts(self.path,namespace='FIXTURE') as reader:
+            loaded=reader.get(receipt.receipt_id)
+            self.assertTrue(hasattr(loaded,'profile_manifest'))
+            self.assertIsNone(loaded.profile_manifest);self.assertIsNone(loaded.execution_evidence)
+            self.assertEqual(loaded,receipt)
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(json.loads(db.execute('SELECT payload_json FROM product_qualification_receipts').fetchone()[0])['schema_version'],
+                'r7-owned-software-check-receipt-v0.2')
+
 if __name__=='__main__':unittest.main()

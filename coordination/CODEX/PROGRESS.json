@@ -5,7 +5,7 @@
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12_ORDINARY_PAPER_FIXED_ISSUER_CURRENT_RELEASE_ADAPTER_AND_PRODUCT_INTEGRATION",
-  "next_step": "Implement accepted D1-D4 under PM_PAPER_RELEASE_MAPPING_DECISION_20261013. Freeze seven PQR groups before qualification; preserve FIXTURE regression and original per-run management. Continue impacted exact-clean source/native and remaining fault/capacity/unattended/platform acceptance. No generic pending-four-mappings blocker.",
+  "next_step": "Full exact-clean source and native PQR-02/03 development checkpoint; complete fixed PQR-04..07 native drivers and unattended ordinary workflow. No software eligibility before complete PQR. Preserve historical bindings after config change/receipt loss.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -3637,5 +3637,25 @@
     "user_workflow_selection": "NOT_INFERRED",
     "real_forward": "NOT_RUN",
     "ledger": "status/codex/productization/S12/PAPER_MAPPING_IMPLEMENTATION_20261013.md"
+  },
+  "ordinary_paper_mapping": {
+    "status": "IN_PROGRESS",
+    "decision_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
+    "source_components": "IMPLEMENTED_PENDING_COMPLETE_QUALIFICATION",
+    "new_native": "NOT_RUN",
+    "development_evidence": "status/codex/productization/S12/paper-mapping-development-20261013/manifest.json",
+    "remaining_native_groups": [
+      "PQR-04",
+      "PQR-05",
+      "PQR-06",
+      "PQR-07"
+    ],
+    "ordinary_market": "NOT_CONNECTED",
+    "unattended": "IN_PROGRESS",
+    "ubuntu24": "NOT_RUN",
+    "ubuntu26": "NOT_RUN",
+    "real_cloud": "NOT_RUN",
+    "real_data": "NOT_RUN",
+    "real_forward": "NOT_RUN"
   }
 }

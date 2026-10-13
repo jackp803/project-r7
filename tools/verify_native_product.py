@@ -202,6 +202,21 @@ def verify(package, output):
         report['passed'] = True
         report['scenario_count'] = len(scenarios)
         persist()
+        # Owning fixed PQR output, after the concrete native assertions above.
+        # The manifest is not accepted on exit code alone.
+        observation=output/'native-smoke.json'
+        observation_hash='sha256:'+hashlib.sha256(observation.read_bytes()).hexdigest()
+        required=('NATIVE_HARDWARE_WITH_EMPTY_PATH','CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION',
+            'SECOND_NATIVE_CONTROL_PROCESS_DENIED','ACTUAL_NATIVE_E6_MIGRATIONS',
+            'CONTROL_RESTART_AUTH_AND_LOOPBACK_DENIAL','NATIVE_CONFIG_DRIFT_STOPS_CONTROL',
+            'NATIVE_UNSELECTED_WORKER_TRUTHFUL','TAMPERED_MIGRATION_DENIED_BEFORE_START')
+        if tuple(row['name'] for row in scenarios)!=required or not all(c['passed'] for c in commands):
+            raise ValueError('Complete concrete native install checks required')
+        assertions=[dict(assertion_id=name,status='PASS',evidence_ref=observation.name,evidence_hash=observation_hash)
+            for name in ('EXACT_NATIVE_IDENTITY_RESOURCES_LICENSES_UI','TAMPER_DENIED_EXTERNAL_DATA')]
+        artifacts=[dict(ref=observation.name,hash=observation_hash)]
+        artifacts.extend(dict(ref=c['log'],hash='sha256:'+c['log_sha256']) for c in commands)
+        (output/'pqr-result.json').write_text(json.dumps(dict(assertions=assertions,artifacts=artifacts))+'\n',encoding='utf-8')
         print(json.dumps(dict(passed=True, scenarios=len(scenarios), commands=len(commands), build_hash=identity['build_hash'])))
         return 0
     except Exception:

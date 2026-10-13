@@ -16,7 +16,8 @@ def paper_worker(config_path,*,maximum_ticks=None):
         raise ValueError('Explicit bounded FIXTURE tick count required')
     config=load_config(config_path)
     if product_namespace(config)!='FIXTURE':
-        raise ValueError('Ordinary PAPER release mapping requires separate acceptance')
+        from .ordinary_setup import ordinary_paper_worker
+        return ordinary_paper_worker(config_path,maximum_ticks=maximum_ticks)
     from application.entrypoints import _outside_installation
     _outside_installation(config.local_data_root)
     if (require_valid_restoration(config)['status']!='NOT_RESTORED' or
@@ -50,6 +51,8 @@ def paper_worker(config_path,*,maximum_ticks=None):
             config_path=config_path,feedback_on_quiescence=True) as worker:
         ticks=0
         while not stop.requested:
+            from application.platform.service_stop import observe_service_stop
+            if observe_service_stop(worker.supervisor,stop):break
             worker.tick()
             for run_id in worker.snapshot()['active_runs']:
                 state=worker.service.process.recover(run_id).state['runtime']

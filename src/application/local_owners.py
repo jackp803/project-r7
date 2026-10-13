@@ -93,6 +93,14 @@ class LocalOwners:
             if self.paper_owners is not None:
                 paper_start = PaperStartControlPort(namespace=self.namespace,service_factory=self.paper_owners.service,
                     strategy_identity=self.paper_owners.strategy_identity)
+        elif self.namespace=='LOCAL_RESEARCH' and product_namespace(self.config)=='LOCAL_RESEARCH':
+            from application.paper.ordinary_setup import load_ordinary_paper_owners
+            from application.control_api.paper_ports import PaperStartControlPort
+            self.selected_paper=load_ordinary_paper_owners(self.config,clock=self.clock,resolver=self.resolver)
+            if self.selected_paper is not None:
+                self.paper_owners=self.selected_paper.owners
+                paper_start=PaperStartControlPort(namespace=self.namespace,service_factory=self.paper_owners.service,
+                    strategy_identity=self.paper_owners.strategy_identity)
         reader = PaperReadControlPort(namespace=self.namespace, clock=self.clock,
             process_factory=lambda: open_paper_process_journal(self.config.database_path),
             canonical_factory=lambda: open_paper_runtime_journal(self.config.database_path))

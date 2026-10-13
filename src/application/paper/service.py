@@ -53,7 +53,7 @@ class PaperService:
     def __init__(self, *, registry, process_journal, canonical_journal, namespace,
                  simulation_policy, risk_policy, promotion_policy, paper_policy_ref,
                  submission_validity, actor, workflow_authorized, current_release, clock, monotonic_clock=monotonic_ns,
-                 strategy_identity=None):
+                 strategy_identity=None,management_selection=None,selection_current=None,entry_current=None):
         if (not isinstance(registry, StrategyPlatformService) or
             not isinstance(process_journal, PaperProcessJournal) or
             not isinstance(canonical_journal, PaperRuntimeJournal) or
@@ -63,6 +63,11 @@ class PaperService:
             raise ValueError('Trusted configured runtime actor required')
         if strategy_identity is not None and not isinstance(strategy_identity,StrategyIdentity):
             raise ValueError('Actual selected PAPER strategy identity required')
+        if any(value is not None and not callable(value) for value in (management_selection,selection_current,entry_current)):
+            raise ValueError('Trusted original selection/currentness readers required')
+        self.management_selection,self.selection_current=management_selection,selection_current
+        self.entry_current=entry_current
+        self._management_services={}
         self.strategy_identity=strategy_identity
         self.registry=registry; self.process=process_journal; self.canonical=canonical_journal
         self.namespace=namespace; self.clock=clock; self.current_release=current_release
@@ -136,11 +141,49 @@ class PaperService:
 
     def runtime(self,run_id):
         if run_id not in self._runtimes:
-            self._runtimes[run_id]=PaperRuntime(self,run_id)
+            management=self._management_service(run_id)
+            runtime=PaperRuntime(management,run_id)
+            self._runtimes[run_id]=management._runtimes[run_id]=runtime
         return self._runtimes[run_id]
+
+    def entry_release_is_current(self,run_id):
+        # New entry/first-fill boundary only. Protective management never
+        # evaluates qualification or waits for this read-only admission check.
+        if self.entry_current is None:return self.namespace=='FIXTURE'
+        try:
+            result=self.entry_current(run_id)
+            return type(result) is bool and result
+        except (ValueError,OSError,RuntimeError):return False
+
+    def requires_entry_pause(self,run_id):
+        if self.selection_current is None:return False
+        current=self.selection_current(run_id)
+        if type(current) is not bool:raise EvidenceGateError('Actual selection currentness required')
+        return not current
+
+    def _management_service(self,run_id):
+        if self.management_selection is None:return self
+        if run_id not in self._management_services:
+            from .owners import PaperOwnerSelection
+            original=self.management_selection(run_id)
+            if original is None:return self
+            if not isinstance(original,PaperOwnerSelection) or original.namespace!=self.namespace:
+                raise EvidenceGateError('Exact same-namespace original Paper selection required')
+            selected=original.as_dict();selected.pop('namespace')
+            # This historical composition can manage its accepted run, never
+            # start another one or inherit replacement workflow permission.
+            selected['workflow_authorized']=False
+            recovered=self.process.recover(run_id)
+            identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
+            self._management_services[run_id]=PaperService(registry=self.registry,process_journal=self.process,
+                canonical_journal=self.canonical,namespace=self.namespace,current_release=self.current_release,
+                clock=self.clock,monotonic_clock=self.monotonic_clock,strategy_identity=identity,**selected)
+        return self._management_services[run_id]
 
     def is_quiescent(self,run_id):
         """Actual terminal/paused flat truth, never inferred from lifecycle alone."""
+        management=self._management_service(run_id)
+        if management is not self:return management.is_quiescent(run_id)
         from registry import StrategyIdentity
         recovered=self.process.recover(run_id)
         identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
@@ -173,6 +216,7 @@ class PaperService:
         if not self.is_quiescent(run_id):
             raise EvidenceGateError('Actual quiescent Paper truth required')
         self._runtimes.pop(run_id,None)
+        self._management_services.pop(run_id,None)
 
     def stop_new_entries(self,run_id,command_id):
         return self.runtime(run_id).coordinator.execute('pause:'+command_id,dict(kind='PAUSE'))

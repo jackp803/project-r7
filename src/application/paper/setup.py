@@ -58,7 +58,7 @@ def _operator_profile(config, selection_profile):
 
 def _release(config, owner):
     if product_namespace(config)!='FIXTURE':
-        raise EvidenceGateError('Ordinary PAPER release mapping is not accepted')
+        raise EvidenceGateError('FIXTURE release cannot qualify ordinary Paper')
     facts = capture_provenance()
     # The existing producer enforces real CLEAN source or exact verified native
     # inventory. No caller PASS/status is accepted, including in FIXTURE mode.
@@ -157,7 +157,8 @@ def load_fixture_paper_owners(config, *, clock, resolver):
 def configure_paper(config_path, selection_profile):
     config = load_config(config_path)
     if product_namespace(config)!='FIXTURE':
-        raise ValueError('Ordinary PAPER release mapping requires separate acceptance')
+        from .ordinary_setup import configure_ordinary_paper
+        return configure_ordinary_paper(config_path,selection_profile)
     from application.entrypoints import _outside_installation
     _outside_installation(config.local_data_root)
     with ExitStack() as stack:

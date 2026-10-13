@@ -118,6 +118,7 @@ class PaperOwnerWorker:
             if run_id in self._schedulers:
                 continue
             try:
+                self._pause_changed_selection(run_id)
                 if self.service.is_quiescent(run_id):
                     self._failures.pop(run_id, None)
                     continue
@@ -152,9 +153,18 @@ class PaperOwnerWorker:
             del self._failures[next(iter(self._failures))]
         return attached
 
+    def _pause_changed_selection(self,run_id):
+        if self.service.requires_entry_pause(run_id) and not self.service.process.entry_pause_requested(run_id):
+            try:
+                self.service.process.request_entry_pause(run_id,'selection-fence:'+run_id,actor=self.service.actor,
+                    expected_revision=self.service.process.control_revision(run_id),now=self.service.clock())
+            except RuntimeConflictError:
+                if not self.service.process.entry_pause_requested(run_id):raise
+
     def _tick_run(self, run_id, outcomes):
         self.supervisor.require_current()
         try:
+            self._pause_changed_selection(run_id)
             if self._restoration['status'] == 'RESTORED_INHIBITED' and not self.service.process.entry_pause_requested(run_id):
                 try:
                     self.service.process.request_entry_pause(run_id,

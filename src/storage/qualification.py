@@ -5,7 +5,7 @@ by trusted producer composition; no API/cloud PASS importer exists. These rows
 do not issue ReleaseBinding, qualified admission, lifecycle or financial authority.
 """
 from contextlib import closing
-from dataclasses import asdict,dataclass
+from dataclasses import asdict,dataclass,field
 from datetime import datetime,timedelta,timezone
 import hashlib,json,re,sqlite3
 from pathlib import Path
@@ -95,12 +95,40 @@ class QualificationReceipt:
     checks:tuple[QualificationCheck,...]
     started_at:str
     finished_at:str
+    _profile_manifest_json:str|None=field(default=None,repr=False)
+    _execution_evidence_json:str|None=field(default=None,repr=False)
+    @property
+    def profile_manifest(self):
+        return None if self._profile_manifest_json is None else json.loads(self._profile_manifest_json)
+    @property
+    def execution_evidence(self):
+        return None if self._execution_evidence_json is None else json.loads(self._execution_evidence_json)
     @property
     def scope(self):return 'SOFTWARE_CHECK_EXECUTION_ONLY'
     @property
     def passed(self):return all(check.passed for check in self.checks)
 
-def _payload(execution_id,subject,profile_id,profile_hash,checks,started_at,finished_at):
+def _manifest(value):
+    if not isinstance(value,dict) or not value:_fail('QUALIFICATION_MANIFEST_REQUIRED')
+    def validate(item,depth=0):
+        if depth>24:_fail('QUALIFICATION_MANIFEST_INVALID')
+        if isinstance(item,dict):
+            if any(not isinstance(key,str) for key in item):_fail('QUALIFICATION_MANIFEST_INVALID')
+            for child in item.values():validate(child,depth+1)
+        elif isinstance(item,list):
+            for child in item:validate(child,depth+1)
+        elif item is not None and type(item) not in (str,bool,int,float):_fail('QUALIFICATION_MANIFEST_INVALID')
+    try:
+        validate(value);raw=_canonical(value)
+    except (ValueError,TypeError,RecursionError) as error:
+        if isinstance(error,QualificationReceiptError):raise
+        raise QualificationReceiptError('QUALIFICATION_MANIFEST_INVALID') from error
+    if len(raw.encode('utf-8'))>_LIMIT:_fail('QUALIFICATION_PAYLOAD_TOO_LARGE')
+    return raw
+
+
+def _payload(execution_id,subject,profile_id,profile_hash,checks,started_at,finished_at,*,
+             profile_manifest=None,execution_evidence=None):
     _atom(execution_id);_atom(profile_id);_hash(profile_hash)
     if not isinstance(subject,QualificationSubject):_fail('QUALIFICATION_SUBJECT_REQUIRED')
     if (not isinstance(checks,tuple) or not 1<=len(checks)<=256 or
@@ -114,9 +142,15 @@ def _payload(execution_id,subject,profile_id,profile_hash,checks,started_at,fini
     value=dict(schema_version='r7-owned-software-check-receipt-v0.2',scope='SOFTWARE_CHECK_EXECUTION_ONLY',
         execution_id=execution_id,subject=asdict(subject),profile_id=profile_id,profile_hash=profile_hash,
         checks=[asdict(check) for check in checks],started_at=started,finished_at=finished)
+    profile_raw=evidence_raw=None
+    if profile_manifest is not None or execution_evidence is not None:
+        profile_raw=_manifest(profile_manifest);evidence_raw=_manifest(execution_evidence)
+        if _digest(profile_raw)!=profile_hash:_fail('QUALIFICATION_PROFILE_HASH_MISMATCH')
+        value.update(schema_version='r7-owned-software-check-receipt-v0.3',
+            profile_manifest=json.loads(profile_raw),execution_evidence=json.loads(evidence_raw))
     raw=_canonical(value)
     if len(raw.encode('utf-8'))>_LIMIT:_fail('QUALIFICATION_PAYLOAD_TOO_LARGE')
-    receipt=QualificationReceipt('qualification-'+_digest(raw)[7:],execution_id,subject,profile_id,profile_hash,checks,started,finished)
+    receipt=QualificationReceipt('qualification-'+_digest(raw)[7:],execution_id,subject,profile_id,profile_hash,checks,started,finished,profile_raw,evidence_raw)
     return receipt,raw
 
 def _columns(receipt,raw):
@@ -137,13 +171,17 @@ def _decode(row):
     try:
         value=json.loads(raw,object_pairs_hook=_pairs,parse_constant=lambda _: _fail('QUALIFICATION_JSON_INVALID'))
         expected={'schema_version','scope','execution_id','subject','profile_id','profile_hash','checks','started_at','finished_at'}
-        if (not isinstance(value,dict) or set(value)!=expected or value['schema_version']!='r7-owned-software-check-receipt-v0.2'
+        if not isinstance(value,dict):_fail('QUALIFICATION_PAYLOAD_INVALID')
+        schema=value.get('schema_version')
+        if schema=='r7-owned-software-check-receipt-v0.3':expected|={'profile_manifest','execution_evidence'}
+        if (set(value)!=expected or schema not in ('r7-owned-software-check-receipt-v0.2','r7-owned-software-check-receipt-v0.3')
             or value['scope']!='SOFTWARE_CHECK_EXECUTION_ONLY' or not isinstance(value['checks'],list)
             or not 1<=len(value['checks'])<=256):_fail('QUALIFICATION_PAYLOAD_INVALID')
         subject=QualificationSubject(**value['subject'])
         checks=tuple(QualificationCheck(**check) for check in value['checks'])
         receipt,canonical=_payload(value['execution_id'],subject,value['profile_id'],value['profile_hash'],checks,
-            _utc(value['started_at']),_utc(value['finished_at']))
+            _utc(value['started_at']),_utc(value['finished_at']),
+            profile_manifest=value.get('profile_manifest'),execution_evidence=value.get('execution_evidence'))
         if canonical!=raw or tuple(row)!=_columns(receipt,raw):_fail('QUALIFICATION_ROW_INVALID')
         return receipt
     except (ValueError,TypeError,KeyError,UnicodeError) as error:
@@ -186,7 +224,11 @@ def _ensure_owner_schema(db,namespace,signatures):
         _require_namespace(db,namespace,namespace_signature)
         expected={p.name for p in _MIGRATIONS_DIR.glob('*.sql') if p.name<=_MIGRATION}
         applied={row[0] for row in db.execute('SELECT migration_name FROM schema_migrations')}
-        if applied not in (expected,expected-{_MIGRATION}):_fail('QUALIFICATION_CANONICAL_MIGRATION_UNRECOGNIZED')
+        current={p.name for p in _MIGRATIONS_DIR.glob('*.sql')}
+        # Preserve the original receipt-only upgrade and recognize the exact
+        # known current canonical schema. Unknown/partial later sets deny.
+        if applied not in (expected,expected-{_MIGRATION},current,current-{_MIGRATION}):
+            _fail('QUALIFICATION_CANONICAL_MIGRATION_UNRECOGNIZED')
         if _MIGRATION not in applied:
             if _schema(db,_TABLE):_fail('QUALIFICATION_SCHEMA_UNRECEIPTED')
             _execute_receipt_migration(db,script)
@@ -218,8 +260,10 @@ class _QualificationReceiptOwner(_QualificationReceiptReader):
     def __init__(self,db,namespace,signatures,*,_writer_capability=None):
         if _writer_capability is not _WRITER_CAPABILITY:_fail('QUALIFICATION_WRITER_CAPABILITY_REQUIRED')
         super().__init__(db,namespace,signatures)
-    def _append(self,*,execution_id,subject,profile_id,profile_hash,checks,started_at,finished_at):
-        receipt,raw=_payload(execution_id,subject,profile_id,profile_hash,checks,started_at,finished_at)
+    def _append(self,*,execution_id,subject,profile_id,profile_hash,checks,started_at,finished_at,
+                profile_manifest=None,execution_evidence=None):
+        receipt,raw=_payload(execution_id,subject,profile_id,profile_hash,checks,started_at,finished_at,
+            profile_manifest=profile_manifest,execution_evidence=execution_evidence)
         if subject.namespace!=self.namespace:_fail('QUALIFICATION_NAMESPACE_MISMATCH')
         columns=_columns(receipt,raw);existing=None
         self._db.execute('BEGIN IMMEDIATE')

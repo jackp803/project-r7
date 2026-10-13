@@ -135,6 +135,11 @@ class PaperEngine:
         if product.risk_policy_hash!=self.service.risk.policy_hash: return False,'RISK_POLICY_CHANGED'
         validity=assess_submission_validity(json.loads(self.service.validity_json),now)
         if not validity.new_entry_allowed: return False,'SUBMISSION_'+validity.status
+        if not self.service.entry_release_is_current(self.run_id):return False,'PAPER_RELEASE_NOT_CURRENT'
+        # Ordinary release reads may take time. Recheck the actual clock after
+        # admission; an expired envelope cannot borrow the earlier observation.
+        validity=assess_submission_validity(json.loads(self.service.validity_json),self.service.clock())
+        if not validity.new_entry_allowed:return False,'SUBMISSION_'+validity.status
         return True,None
 
     def _fill(self, broker, request, quantity, market, now, effects, *, cancel_entry_remainder=False):

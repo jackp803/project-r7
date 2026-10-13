@@ -39,16 +39,17 @@ def main(argv=None):
     profile.add_argument('--instance-id', default=None)
     profile.add_argument('--port', type=int, default=8765)
     profile.add_argument('--execution-mode', choices=('LOCAL_RESEARCH','FIXTURE'), default='LOCAL_RESEARCH')
+    profile.add_argument('--enable-paper-runtime',action='store_true',help='Select ordinary Paper process capability; separate policy/workflow/qualification still required')
     fixture = commands.add_parser('prepare-fixture', help='Generate fresh labeled synthetic inputs for explicit isolated FIXTURE mode')
     fixture.add_argument('--config', type=Path, required=True)
     fixture.add_argument('--scenario', choices=('positive','oos-loss','insufficient-oos'), required=True)
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
-    paper_setup = commands.add_parser('configure-paper', help='Select isolated FIXTURE Paper policies while all owners are stopped')
+    paper_setup = commands.add_parser('configure-paper', help='Select explicit local Paper policies while all owners are stopped')
     paper_setup.add_argument('--config', type=Path, required=True)
     paper_setup.add_argument('--selection-profile', type=Path, required=True)
-    paper_worker = commands.add_parser('paper-worker', help='Run independent isolated FIXTURE Paper with labeled synthetic market data')
+    paper_worker = commands.add_parser('paper-worker', help='Run independent selected Paper owner; ordinary startup requires complete native qualification')
     paper_worker.add_argument('--config', type=Path, required=True)
     paper_worker.add_argument('--maximum-ticks', type=int)
     fixture_publish=commands.add_parser('publish-fixture-outbox',help='Stage actual FIXTURE receipts and reports in the selected synthetic local folder')
@@ -63,6 +64,9 @@ def main(argv=None):
     worker = commands.add_parser('research-worker', help='Supervise one resource-admitted research child at a time')
     worker.add_argument('--config', type=Path, required=True)
     worker.add_argument('--once', action='store_true')
+    stop_service=commands.add_parser('stop-product',help='Request cooperative stop of the current local owner; does not assert flat exposure')
+    stop_service.add_argument('--config',type=Path,required=True)
+    stop_service.add_argument('--role',choices=('control','research','runtime','cloud'),required=True)
     for name, description in (('plan-services','Export an exact native Ubuntu control/research plan without installation'),
                               ('guarded-service','Start an exact native Ubuntu control/research subject under its dedicated account'),
                               ('install-services','Preview or explicitly apply bounded native Ubuntu service files'),
@@ -276,6 +280,11 @@ def main(argv=None):
                   if args.command == 'backup-databases' else verify_database_backup(config, args.destination))
         print(json.dumps(result))
         return 0
+    if args.command == 'stop-product':
+        from application.config import load_config
+        from application.platform.service_stop import request_service_stop
+        print(json.dumps(request_service_stop(load_config(args.config),args.role)))
+        return 0
     if args.command == 'research-worker':
         from application.research.worker import research_worker
         return research_worker(args.config, once=args.once)
@@ -291,7 +300,8 @@ def main(argv=None):
         from application.entrypoints import initialize_profile
         result = initialize_profile(args.config, args.data_root,
                                     instance_id=args.instance_id or str(uuid.uuid4()), port=args.port,
-                                    cloud_root=args.cloud_root, execution_mode=args.execution_mode)
+                                    cloud_root=args.cloud_root, execution_mode=args.execution_mode,
+                                    paper_runtime_enabled=args.enable_paper_runtime)
         print(json.dumps(result, ensure_ascii=False))
         return 0
     if args.command == 'configure-research':

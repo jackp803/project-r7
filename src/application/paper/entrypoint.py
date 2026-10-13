@@ -58,7 +58,10 @@ def paper_worker(config_path,*,maximum_ticks=None):
             worker.tick()
             for run_id in worker.snapshot()['active_runs']:
                 state=worker.service.process.recover(run_id).state['runtime']
-                worker.submit_event(run_id,fixture_market_event(state,worker.service.clock()))
+                # The actual accepted run owns its timeframe; an auxiliary
+                # fixture file cannot replace the selected strategy.
+                timeframe=worker.service.runtime(run_id).engine.strategy.required_timeframe
+                worker.submit_event(run_id,fixture_market_event(state,worker.service.clock(),timeframe=timeframe))
             worker.tick()
             ticks+=1
             if maximum_ticks is not None and ticks>=maximum_ticks:

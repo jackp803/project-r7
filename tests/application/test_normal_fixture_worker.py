@@ -111,6 +111,38 @@ class NormalFixtureWorkerTests(unittest.TestCase):
         self.assertFalse(self.data.exists())
         self.assertFalse(self.cloud.exists())
 
+    def test_short_tactical_worker_acks_fills_and_protects_across_minute_boundary(self):
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        from application.fixtures.temporal import utc
+        class AuthorTime(datetime):
+            @classmethod
+            def now(cls,tz=None):
+                # Only author input timing is fixed. Intake/research/process
+                # health and worker clocks retain their normal owners.
+                return datetime.now(timezone.utc).replace(second=1,microsecond=0)
+        def generate(scenario='positive'):
+            with patch('application.fixtures.temporal.datetime',AuthorTime):
+                return self.call(['prepare-fixture','--config',str(self.config_path),'--scenario',scenario,
+                    '--temporal-case','paper-expire-after-protection'])
+        self.generate=generate
+        self.assertEqual(self.flow('positive')[1],'CANDIDATE')
+        self.configure_paper();config=load_config(self.config_path)
+        temporal=json.loads((self.data/'fixture-inputs/temporal.json').read_bytes())
+        with self.authenticated(config) as (client,headers):
+            run=self.start(client,headers);first=self.worker(2,'minute-boundary')
+            with open_paper_process_journal(config.database_path,require_existing=True) as journal:
+                current=journal.recover(run)
+            runtime=current.state['runtime'];position=runtime['position']
+            self.assertIsNotNone(position)
+            self.assertEqual(position['lifecycle_state'],'OPEN_PROTECTED')
+            self.assertEqual(runtime['risk_decision']['decision'],'APPROVE')
+            age=(utc(runtime['plan']['created_at'])-utc(runtime['last_intent']['generated_at'])).total_seconds()
+            self.assertEqual(age,59)
+            self.assertLess(utc(runtime['forward']['observed_at']),utc(temporal['validity']['until']))
+            self.assertEqual(runtime['forward']['real_elapsed_ns'],0)
+            self.assertEqual(first['process_generation'],1)
+
     def test_public_worker_stop_pause_restart_protects_and_closes_actual_trade(self):
         self.assertEqual(self.flow('positive')[1],'CANDIDATE')
         self.configure_paper()

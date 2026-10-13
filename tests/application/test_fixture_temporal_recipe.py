@@ -85,6 +85,68 @@ class FixtureTemporalRecipeTests(unittest.TestCase):
         self.assertEqual(clock(),until)
         with self.assertRaises(ValueError):clock.resume((until-timedelta(seconds=4)).isoformat())
 
+    def test_short_paper_cases_seal_minute_strategy_dataset_and_matching_windows(self):
+        config,_=self.prepare('paper-expire-after-protection')
+        strategy=json.loads((self.cloud/'inbox/strategies'/SUBMISSION/'strategy.json').read_bytes())
+        dataset=json.loads((self.data/'fixture-inputs/dataset.json').read_bytes())
+        split=json.loads((self.data/'fixture-inputs/split.json').read_bytes())
+        risk=json.loads((self.data/'fixture-inputs/risk.json').read_bytes())
+        self.assertEqual(strategy['required_timeframes'],['1m'])
+        self.assertEqual(strategy['rules']['evaluation_timeframe'],'1m')
+        self.assertEqual(dataset['candles'][0]['timeframe'],'1m')
+        utc=self.temporal().utc
+        self.assertEqual(utc(split['training']['end'])-utc(split['training']['start']),timedelta(minutes=16))
+        self.assertEqual(split['max_holding_seconds'],60)
+        self.assertEqual(strategy['rules']['exit_policy']['max_hold_seconds'],60)
+        self.assertEqual(risk['policy']['max_hold_seconds'],60)
+        self.assertEqual(risk['policy']['max_intent_age_seconds'],60)
+        self.assertEqual(risk['policy']['plan_ttl_seconds'],30)
+        self.assertEqual(split['embargo_seconds'],60)
+        self.assertEqual(split['label_horizon_seconds'],60)
+        self.assertEqual(utc(dataset['information_cutoff'])-utc(dataset['candles'][0]['start']),timedelta(minutes=48))
+        self.assertEqual(dataset['funding']['interval_seconds'],480)
+        import pyarrow as pa
+        import pyarrow.parquet as pq
+        def records(path):
+            table=pq.read_table(path)
+            # Read canonical UTC epoch values without requiring an unrelated
+            # host timezone database on Windows.
+            for index,field in enumerate(table.schema):
+                if pa.types.is_timestamp(field.type):
+                    table=table.set_column(index,field.name,table.column(index).cast(pa.timestamp('us')))
+            return table.to_pylist()
+        rows=records(self.data/'fixture-inputs/candles.parquet')
+        self.assertEqual(len(rows),48)
+        for row in rows:
+            self.assertEqual(row['timeframe'],'1m')
+            self.assertEqual(row['close_time']-row['open_time'],timedelta(minutes=1))
+            self.assertEqual(row['received_at'],row['close_time'])
+        funding=records(self.data/'fixture-inputs/funding.parquet')
+        self.assertEqual(len(funding),6)
+        self.assertEqual([r['event_at'] for r in funding],[rows[i]['open_time'] for i in range(0,48,8)])
+
+    def test_short_paper_market_keeps_closed_aligned_intent_inside_original_age_limit(self):
+        from application.fixtures.market import fixture_market_event
+        for second in (0,31,59):
+            now=datetime(2026,10,13,9,36,second,tzinfo=timezone.utc)
+            with self.subTest(second=second):
+                event=fixture_market_event(dict(position=None,candles={}),now,timeframe='1m')
+                self.assertEqual(len(event.candles),2)
+                for candle in event.candles:
+                    self.assertEqual(candle.timeframe,'1m')
+                    self.assertEqual(candle.close_time-candle.open_time,timedelta(minutes=1))
+                    self.assertEqual(candle.close_time.second,0)
+                    self.assertLessEqual(candle.close_time,now)
+                self.assertLess((now-event.candles[-1].close_time).total_seconds(),60)
+
+    def test_research_expiry_retains_original_hour_recipe(self):
+        self.prepare('research-expire-before-robustness')
+        strategy=json.loads((self.cloud/'inbox/strategies'/SUBMISSION/'strategy.json').read_bytes())
+        risk=json.loads((self.data/'fixture-inputs/risk.json').read_bytes())
+        self.assertEqual(strategy['required_timeframes'],['1h'])
+        self.assertEqual(risk['policy']['max_intent_age_seconds'],60)
+        self.assertEqual(risk['policy']['max_hold_seconds'],3600)
+
     def claim(self,owner='source-temporal-owner'):
         owners=self.owners
         with owners.intake_factory() as intake:revision=intake.get_submission(SUBMISSION).revision

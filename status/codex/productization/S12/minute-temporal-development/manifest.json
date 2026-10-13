@@ -1,0 +1,40 @@
+{
+  "status": "DIRTY_DEVELOPMENT_NOT_QUALIFICATION",
+  "source_red": {
+    "tests": 12,
+    "failures": 1,
+    "errors": 3
+  },
+  "source_green": {
+    "tests": 23,
+    "failures": 0,
+    "errors": 0
+  },
+  "review": "Independent read-only review found one Important: use actual runtime.engine.strategy at the public worker callsite. Corrected; actual public accepted-run minute-boundary regression added. Reviewer execution NONE; review grants no qualification. Remaining scaled fields reviewed consistent.",
+  "actual_native_previous": {
+    "revision": "334febdb94e6f1c4aa43001c1155655ce71e986f",
+    "passed": 5,
+    "total": 7,
+    "attempted": 6
+  },
+  "pending": [
+    "Clean public worker regression",
+    "New exact-clean build and native04",
+    "Current full source and native05..07",
+    "Ordinary bounded currentness and unattended user flow"
+  ],
+  "artifacts": [
+    {
+      "ref": "minute-temporal-red.log",
+      "hash": "sha256:407ed1bc342939f41b25928bc59333a30e3fec2364e5c154056448b44534c8d6"
+    },
+    {
+      "ref": "minute-temporal-green.log",
+      "hash": "sha256:21bbb4bd238e586e1ec012f1771e0f41a757f53071a785e428c29a332ab194b8"
+    }
+  ],
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

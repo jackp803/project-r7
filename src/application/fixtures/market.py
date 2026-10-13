@@ -44,15 +44,17 @@ class FixtureScenarioClock:
         self.value+=timedelta(seconds=1)
 
 
-def fixture_market_event(runtime_state,now):
+def fixture_market_event(runtime_state,now,*,timeframe='1h'):
     require_utc(now,'fixture market observation')
+    seconds={'1h':3600,'1m':60}[timeframe]
     position=runtime_state['position']
     price='60020' if position is not None else '60000'
     snapshot=MarketSnapshot('contracts-v0.1','BTC_USDT_PERP',now,now,
         'HEALTHY','SYNTHETIC_FIXTURE',last_price=Decimal(price),freshness_ms=0)
-    boundary=now.replace(minute=0,second=0,microsecond=0)
-    candles=tuple(Candle('contracts-v0.1','BTC_USDT_PERP','1h',
-        boundary-timedelta(hours=2-index),boundary-timedelta(hours=1-index),
+    boundary=now.replace(second=0,microsecond=0)
+    if timeframe=='1h':boundary=boundary.replace(minute=0)
+    candles=tuple(Candle('contracts-v0.1','BTC_USDT_PERP',timeframe,
+        boundary-timedelta(seconds=(2-index)*seconds),boundary-timedelta(seconds=(1-index)*seconds),
         Decimal(value),Decimal(value)+1,Decimal(value)-1,Decimal(value),Decimal('1'),
         True,'SYNTHETIC_FIXTURE',received_at=boundary)
         for index,value in enumerate(('59000','60000'))) if not runtime_state['candles'] else ()

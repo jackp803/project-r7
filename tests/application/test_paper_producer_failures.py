@@ -1,6 +1,7 @@
 """Controlled source producer failures retain actual negative E6 outcomes."""
-from contextlib import ExitStack
+from contextlib import ExitStack,redirect_stdout
 import importlib
+import io
 import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -37,7 +38,10 @@ class PaperProducerFailureTests(unittest.TestCase):
                 stack.enter_context(patch.object(self.m,name,return_value=value))
             stack.enter_context(patch.object(self.m,'_guard',**overrides.pop('guard',dict(return_value=None))))
             for name,value in overrides.items():stack.enter_context(patch.object(self.m,name,side_effect=value))
-            result=self.m.qualify(self.config,self.source,self.root/'package')
+            progress=io.StringIO()
+            with redirect_stdout(progress):
+                result=self.m.qualify(self.config,self.source,self.root/'package')
+            self.execution_progress=progress.getvalue()
         self.assertEqual(result['status'],'NATIVE_PAPER_SOFTWARE_NOT_QUALIFIED')
         output=load_config(self.config).local_data_root/'qualification'/result['execution_id']
         self.assertEqual(json.loads((output/'result.json').read_bytes()),result)
@@ -55,6 +59,13 @@ class PaperProducerFailureTests(unittest.TestCase):
     def test_fresh_profile_data_is_initialized_under_owned_locks(self):
         (self.root/'data').rmdir()
         self.execute(spawn_owned=OSError('controlled unavailable child'))
+
+    def test_nested_producer_progress_does_not_corrupt_outer_test_case_output(self):
+        progress=io.StringIO()
+        with redirect_stdout(progress):
+            self.execute(guard=dict(side_effect=[None,None,ValueError('actual input drift')]))
+        self.assertEqual(progress.getvalue(),'')
+        self.assertEqual(json.loads(self.execution_progress)['member'],'PQR-01-001')
 
     def test_post_command_source_guard_failure_cannot_leave_success_only_receipt(self):
         output,receipt=self.execute(guard=dict(side_effect=[None,None,ValueError('actual input drift')]))

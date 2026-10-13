@@ -5,7 +5,7 @@
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12_ORDINARY_PAPER_FIXED_ISSUER_CURRENT_RELEASE_ADAPTER_AND_PRODUCT_INTEGRATION",
-  "next_step": "Freeze repaired inventory, commit exact clean candidate; full source/new native02/03; complete native04..07 expiry/fault/capacity/security/report and unattended ownership. No generic PM mapping wait.",
+  "next_step": "Freeze test-output isolation repair; commit exact-clean candidate; build and actual native03, then finish native04..07, bounded runtime currentness and unattended ownership; complete owning qualification on final changed subject.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -73,7 +73,7 @@
       "logical_cores": 20,
       "measured_memory_kib": 32945572,
       "additional_source_python": "3.14.3",
-      "native_package_status": "664_SOURCE_BUILD_NATIVE02_PASS;NATIVE03_FAILED_AUTH_TOOL;REPAIRS_PENDING_NEW_CANDIDATE",
+      "native_package_status": "C334_NATIVE_BUILD_PASS;OWNING_SOURCE_CASE_INVENTORY_FAILED;NATIVE_GROUPS_NOT_RUN",
       "native_first_run_status": "664_EXACT_NATIVE_PASS8_SCENARIOS9_COMMANDS",
       "native_first_run_revision": "664e05358879e61df926553b6721376a39815d3e",
       "native_first_run_scenarios": 8,
@@ -3670,14 +3670,25 @@
     },
     "completed_expired_api_replay": "IMPLEMENTED;RED503_GREEN1;AFFECTED_API44_COMMAND11_PASS;REVIEW0C/I",
     "last_native_build": {
-      "executable_revision": "664e05358879e61df926553b6721376a39815d3e",
-      "implementation_hash": "sha256:a08cbd7dba8ab8bbc7bc9a3436238b1d8c3f1efbd11c6cac90ed8c3f472362a7",
-      "build_hash": "sha256:795385cebf5a8c6dbdf0ae7690dcca534ae62b1e46e95d374e24cf14aa404d42",
+      "executable_revision": "c3347261cc36c6389b2dec47b75df6683e809339",
+      "implementation_hash": "sha256:b8481e2e653ddc8783df63b25cdf91c694f3c598211b40e4d2e76378f6e7287e",
+      "build_hash": "sha256:87d8264018730b6578807659009d7992b4e502f20c1a90066b504e70a631220e",
       "worktree": "UNAVAILABLE",
       "financial_authority": "NONE",
       "distribution_profile": "r7-native-distribution-v0.2"
     },
     "native02": "664e053_PASS8_SCENARIOS9_COMMANDS",
-    "native03": "664e053_FAILED_AUTH_TOOL_INPUT;KEY_UP_REPAIRED;NEW_CANDIDATE_PENDING"
+    "native03": "664e053_FAILED_AUTH_TOOL_INPUT;KEY_UP_REPAIRED;NEW_CANDIDATE_PENDING",
+    "last_owning_attempt": {
+      "revision": "c3347261cc36c6389b2dec47b75df6683e809339",
+      "status": "FAILED_EXECUTED_CASE_INVENTORY",
+      "commands_executed": 31,
+      "tests_executed": 1921,
+      "source_complete": false,
+      "receipt_ref": "qualification-c2579bfaef7ee51199942a1b8da21928ba8d3b2c6d29f985f31a8ab2db337d60",
+      "groups_completed": 0,
+      "groups_required": 7,
+      "evidence_ref": "status/codex/productization/S12/paper-owning-checkpoint-c334726/manifest.json"
+    }
   }
 }

@@ -1,0 +1,41 @@
+[
+  {
+    "attempt": "producer-progress-green",
+    "tests": 6,
+    "success_rows": 6,
+    "exact_case_ids": [
+      "test_paper_producer_failures.PaperProducerFailureTests.test_fresh_profile_data_is_initialized_under_owned_locks",
+      "test_paper_producer_failures.PaperProducerFailureTests.test_log_write_failure_preserves_original_raw_until_retention_succeeds",
+      "test_paper_producer_failures.PaperProducerFailureTests.test_nested_producer_progress_does_not_corrupt_outer_test_case_output",
+      "test_paper_producer_failures.PaperProducerFailureTests.test_post_command_source_guard_failure_cannot_leave_success_only_receipt",
+      "test_paper_producer_failures.PaperProducerFailureTests.test_spawn_failure_is_sanitized_and_retained_as_negative_receipt",
+      "test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt"
+    ]
+  },
+  {
+    "attempt": "native-driver-progress-green",
+    "tests": 2,
+    "success_rows": 2,
+    "exact_case_ids": [
+      "test_paper_native_driver.PaperNativeDriverTests.test_artifact_alias_is_rejected_before_reading_external_sentinel",
+      "test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject"
+    ]
+  },
+  {
+    "attempt": "native-entrypoints-progress-green",
+    "tests": 10,
+    "success_rows": 10,
+    "exact_case_ids": [
+      "test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed",
+      "test_native_entrypoints.NativeEntrypointTests.test_existing_profile_is_preserved_including_identical_retry",
+      "test_native_entrypoints.NativeEntrypointTests.test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority",
+      "test_native_entrypoints.NativeEntrypointTests.test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker",
+      "test_native_entrypoints.NativeEntrypointTests.test_mismatched_password_confirmation_creates_no_auth_store",
+      "test_native_entrypoints.NativeEntrypointTests.test_missing_built_ui_fails_before_creating_any_profile_database",
+      "test_native_entrypoints.NativeEntrypointTests.test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password",
+      "test_native_entrypoints.NativeEntrypointTests.test_redirected_enrollment_is_refused_without_reading_or_creating_auth",
+      "test_native_entrypoints.NativeEntrypointTests.test_relative_root_and_installed_binary_directory_are_rejected",
+      "test_native_entrypoints.NativeEntrypointTests.test_source_cli_cannot_borrow_private_frozen_bootstrap_mode"
+    ]
+  }
+]

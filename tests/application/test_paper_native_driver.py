@@ -1,5 +1,7 @@
 """Source-only driver boundary checks; mocked flows earn no native credit."""
 import importlib
+from contextlib import redirect_stdout
+import io
 import json
 import os
 from pathlib import Path
@@ -15,6 +17,13 @@ class PaperNativeDriverTests(unittest.TestCase):
         with patch.object(sys,'path',[str(root/'tools'),*sys.path]):
             return importlib.import_module('tools.verify_paper_product')
 
+    def verify(self,module,package,output):
+        progress=io.StringIO()
+        with redirect_stdout(progress):
+            code=module.verify(package,output,'PQR-03')
+        self.assertEqual(json.loads(progress.getvalue())['passed'],False)
+        return code
+
     def test_every_scenario_and_final_distribution_match_original_group_subject(self):
         m=self.module();a=dict(build_hash='a');b=dict(build_hash='b')
         for identities in ([a,b,a,a,a],[a,a,a,a,b]):
@@ -24,7 +33,7 @@ class PaperNativeDriverTests(unittest.TestCase):
                      patch.object(m.PublicFixture,'run',lambda self:dict(passed=True,identity=self.identity)):
                     (root/'package').mkdir()
                     (root/'package/distribution.json').write_text('{"entrypoint":"R7.exe"}')
-                    self.assertEqual(m.verify(root/'package',output,'PQR-03'),2)
+                    self.assertEqual(self.verify(m,root/'package',output),2)
                 report=json.loads((output/'native-observations.json').read_bytes())
                 self.assertFalse(report['passed'])
                 self.assertEqual(report['reason'],'ACTUAL_NATIVE_GROUP_FAILED')
@@ -40,7 +49,7 @@ class PaperNativeDriverTests(unittest.TestCase):
             package=root/'package';package.mkdir();(package/'distribution.json').write_text('{"entrypoint":"R7.exe"}')
             with patch.object(m,'verify_distribution',return_value=dict(build_hash='a')), \
                  patch.object(m.PublicFixture,'run',observation):
-                self.assertEqual(m.verify(package,output,'PQR-03'),2)
+                self.assertEqual(self.verify(m,package,output),2)
             self.assertFalse(json.loads((output/'native-observations.json').read_bytes())['passed'])
             self.assertEqual(sentinel.read_bytes(),b'OWNED_EXTERNAL_SENTINEL')
 

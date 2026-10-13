@@ -1,5 +1,5 @@
 """First-run CLI and actual local E6/API composition, without trading startup."""
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout,redirect_stderr
 import importlib
 import io
 import json
@@ -129,6 +129,9 @@ class NativeEntrypointTests(unittest.TestCase):
         bootstrap.assert_called_once_with(['child.exe', 'bounded-argument'])
 
     def test_source_cli_cannot_borrow_private_frozen_bootstrap_mode(self):
-        with self.assertRaises(SystemExit) as rejected:
-            cli.main(['_owned-process-bootstrap', 'child.exe'])
+        with redirect_stderr(io.StringIO()) as error:
+            with self.assertRaises(SystemExit) as rejected:
+                cli.main(['_owned-process-bootstrap', 'child.exe'])
         self.assertEqual(rejected.exception.code, 2)
+        self.assertIn('invalid choice',error.getvalue())
+        self.assertIn('_owned-process-bootstrap',error.getvalue())

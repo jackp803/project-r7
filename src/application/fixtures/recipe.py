@@ -151,11 +151,14 @@ def _dataset(scenario):
     return manifest, candles.getvalue(), funding.getvalue()
 
 
-def prepare_fixture(config_path, scenario):
+def prepare_fixture(config_path, scenario, *, temporal_case='none'):
     """Fresh stopped-owner synthetic inputs; actual research must run separately."""
     config = load_config(config_path)
     if product_namespace(config)!='FIXTURE' or scenario not in SCENARIOS or config.cloud_root is None:
         raise ValueError('Explicit FIXTURE mode, scenario and fresh fake cloud staging required')
+    from .temporal import CASES,generate,policy_ref
+    if temporal_case not in CASES:
+        raise ValueError('Closed FIXTURE temporal case required')
     from application.entrypoints import _outside_installation
     _outside_installation(config.local_data_root)
     _outside_installation(config.cloud_root)
@@ -181,11 +184,16 @@ def prepare_fixture(config_path, scenario):
         write_private_new(target/'dataset.json',_raw(manifest))
         for name,value in _policies(scenario).items():
             write_private_new(target/(name+'.json'),_raw(value))
+        temporal=generate(temporal_case)
+        if temporal is not None:write_private_new(target/'temporal.json',_raw(temporal))
         package = emit_package(_definition(),config.cloud_root/'inbox'/'strategies'/SUBMISSION,
             submission_id=SUBMISSION,created_at=_z(START),created_by='SYNTHETIC FIXTURE product recipe',
             research_hypothesis='Accelerated mechanical demonstration; no real strategy evidence',
             requested_dataset_profile='synthetic-fixture',requested_validation_profile='synthetic-fixture',
-            requested_robustness_profile='synthetic-fixture')
+            requested_robustness_profile='synthetic-fixture',
+            intent_class='TACTICAL_STRATEGY' if temporal is not None else 'EVERGREEN_STRATEGY',
+            validity=None if temporal is None else temporal['validity'],
+            notes=None if temporal is None else canonical(temporal))
         write_private_new(config.cloud_root/'.r7-root.json',_raw({'root_id':ROOT_ID}))
         policy = {('dataset_ref' if key=='dataset' else key+'_policy_ref'):
             'fixture-inputs/'+key+'.json' for key in ('dataset','split','cost','research','robustness','risk')}
@@ -194,13 +202,14 @@ def prepare_fixture(config_path, scenario):
         selection = dict(schema_version='r7-owner-selections-v0.2',cloud_root_id=ROOT_ID,research_policies={POLICY_ID:policy})
         paper = dict(schema_version='r7-fixture-paper-inputs-v0.2',submission_id=SUBMISSION,
             simulation_policy_ref='fixture-inputs/simulation.json',risk_policy_ref='fixture-inputs/risk.json',
-            promotion_policy_ref='fixture-inputs/promotion.json',paper_policy_ref='r7-synthetic-paper-policy')
+            promotion_policy_ref='fixture-inputs/promotion.json',
+            paper_policy_ref='r7-synthetic-paper-policy' if temporal is None else policy_ref(temporal))
         write_private_new(target/'paper-selection.json',_raw(paper))
         if load_config(config_path)!=config:
             raise ValueError('Fixture configuration changed during input generation')
         write_private_new(target/'selection.json',_raw(selection))
     return dict(status='SYNTHETIC_FIXTURE_INPUTS_CREATED',namespace='FIXTURE',scenario=scenario,
-        recipe_version='r7-synthetic-fixture-v1',selection_profile_ref='fixture-inputs/selection.json',
+        recipe_version='r7-synthetic-fixture-v1',temporal_case=temporal_case,selection_profile_ref='fixture-inputs/selection.json',
         submission_id=SUBMISSION,policy_id=POLICY_ID,manifest_hash=package['manifest_hash'],
         cloud='FAKE_LOCAL_STAGING',market='SYNTHETIC_FIXTURE',execution_evidence='NOT_RUN',
         financial_authority='NONE',provider_requests=0,credentials='NONE',capital='NONE')

@@ -42,14 +42,17 @@ def _revision_int(value):
 
 class ResearchQueue:
     def __init__(self, database_path, *, namespace, owner_id, resolve_request, service_factory,
-                 clock=lambda: datetime.now(timezone.utc), stage_observer=None):
+                 clock=lambda: datetime.now(timezone.utc), stage_observer=None,checkpoint_observer=None):
         if namespace not in ('FIXTURE', 'LOCAL_RESEARCH') or not all(callable(value) for value in (resolve_request, service_factory, clock)):
             raise ResearchQueueError('EXPLICIT_QUEUE_COMPOSITION_REQUIRED')
+        if checkpoint_observer is not None and (namespace!='FIXTURE' or not callable(checkpoint_observer)):
+            raise ResearchQueueError('FIXTURE_CHECKPOINT_COMPOSITION_REQUIRED')
         self.path = Path(database_path).absolute(); require_local_database_volume(self.path)
         if self.path.is_symlink(): raise ResearchQueueError('LOCAL_QUEUE_REQUIRED')
         self.path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
         self.namespace, self.owner_id, self.clock = namespace, safe_component(owner_id), clock
         self.resolve_request, self.service_factory, self.stage_observer = resolve_request, service_factory, stage_observer
+        self.checkpoint_observer=checkpoint_observer
         with self._db() as db:
             db.executescript((Path(__file__).parents[1]/'migrations/0005_research_queue.sql').read_text(encoding='utf-8'))
             db.execute('INSERT OR IGNORE INTO research_queue_namespace VALUES(1,?)', (namespace,))
@@ -221,13 +224,31 @@ class ResearchQueue:
             now = self.clock(); current = stamp(now); db.execute('BEGIN IMMEDIATE')
             row = self._owned(db, run_id, generation, current)
             if row['cancel_requested']: raise ResearchCanceled()
+            if digest(row['input_json'].encode())!=row['input_hash']:raise ResearchQueueError('QUEUE_INPUT_CORRUPT')
             if row['owner_run_id'] is not None and row['owner_run_id'] != owner_run_id: raise ResearchQueueError('OWNER_RUN_IDENTITY_CONFLICT')
             db.execute('UPDATE research_queue_jobs SET owner_run_id=?,stage=?,lease_deadline=?,updated_at=? WHERE run_id=?',
                 (owner_run_id, stage, stamp(now+timedelta(seconds=300)), current, run_id))
+        if self.checkpoint_observer is not None:
+            # Trusted closed FIXTURE composition receives the actual owned job
+            # and frozen input hash, after binding/cancel/lease checks. HTTP and
+            # native CLI never select callbacks or supply this context.
+            self.checkpoint_observer(run_id,generation,owner_run_id,stage,row['input_hash'])
         # Recheck the sealed envelope and frozen selection outside the queue
         # transaction, before another owner stage or effect can execute.
         if self._resolve(row['submission_id'],row['policy_id']) != json.loads(row['input_json'])['selected']:
             raise ResearchQueueError('QUEUED_SELECTION_CHANGED')
+
+    def checkpoint_claim(self,run_id,generation,owner_run_id,*,input_hash=None):
+        """Read actual checkpoint identity/cancel without renewing its lease."""
+        safe_component(run_id);safe_component(owner_run_id);_revision_int(generation)
+        with self._db() as db:
+            row=self._owned(db,run_id,generation,stamp(self.clock()))
+            if row['cancel_requested']:raise ResearchCanceled()
+            if row['owner_run_id']!=owner_run_id:raise ResearchQueueError('OWNER_RUN_IDENTITY_CONFLICT')
+            if (digest(row['input_json'].encode())!=row['input_hash'] or
+                    input_hash is not None and row['input_hash']!=input_hash):
+                raise ResearchQueueError('QUEUE_INPUT_CORRUPT')
+            return dict(submission_id=row['submission_id'],policy_id=row['policy_id'],input_hash=row['input_hash'])
 
     def _finish(self, run_id, generation, state, *, outcome=None, reason_codes=()):
         with self._db() as db:

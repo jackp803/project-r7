@@ -5,7 +5,7 @@
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12_ORDINARY_PAPER_FIXED_ISSUER_CURRENT_RELEASE_ADAPTER_AND_PRODUCT_INTEGRATION",
-  "next_step": "Implement native04 sealed temporal FIXTURE inputs and native expiry/intake drivers; continue native05..07, bounded currentness and unattended ordinary flow. Complete source/owning PQR on final changed exact subject.",
+  "next_step": "Build new exact-clean temporal/native04 candidate and execute all seven actual native04 cases; retain failures, minimally remediate; then native05..07, bounded currentness, unattended ordinary flow and final owning qualification.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -3697,6 +3697,12 @@
       "groups_completed": 0,
       "groups_required": 7,
       "evidence_ref": "status/codex/productization/S12/paper-owning-checkpoint-c334726/manifest.json"
+    },
+    "native04_development": {
+      "status": "SOURCE_DEVELOPMENT_PASS_NATIVE_PENDING",
+      "source_tests": 24,
+      "evidence_ref": "status/codex/productization/S12/paper-temporal-development-20261013/manifest.json",
+      "review": "3 Important fixed; readonly execution NONE"
     }
   }
 }

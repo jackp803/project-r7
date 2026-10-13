@@ -26,12 +26,14 @@ def paper_worker(config_path,*,maximum_ticks=None):
     scenario_clock=FixtureScenarioClock()
     @contextmanager
     def actual_service():
+        nonlocal scenario_clock
         # PaperOwnerWorker acquires the runtime scope before this factory opens
         # actual product stores. No caller-supplied factory/executable is exposed.
         local=LocalOwners(config,namespace='FIXTURE')
         owners=load_fixture_paper_owners(config,clock=local.clock,resolver=local.resolver)
         if owners is None:
             raise ValueError('Actual isolated FIXTURE Paper composition required')
+        scenario_clock=FixtureScenarioClock(temporal=owners.fixture_temporal)
         # Seed only from actual accepted E6 starts and their durable owner
         # observations. No result, lifecycle, generation or approval is written.
         with local.registry_factory() as registry:

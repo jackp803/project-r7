@@ -43,6 +43,9 @@ def main(argv=None):
     fixture = commands.add_parser('prepare-fixture', help='Generate fresh labeled synthetic inputs for explicit isolated FIXTURE mode')
     fixture.add_argument('--config', type=Path, required=True)
     fixture.add_argument('--scenario', choices=('positive','oos-loss','insufficient-oos'), required=True)
+    from application.fixtures.temporal import CASES as fixture_temporal_cases
+    fixture.add_argument('--temporal-case',choices=fixture_temporal_cases,default='none',
+        help='Closed isolated synthetic expiry inputs; no result or ordinary authority')
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
@@ -310,7 +313,7 @@ def main(argv=None):
         return 0
     if args.command == 'prepare-fixture':
         from application.fixtures.recipe import prepare_fixture
-        print(json.dumps(prepare_fixture(args.config, args.scenario), ensure_ascii=False))
+        print(json.dumps(prepare_fixture(args.config, args.scenario,temporal_case=args.temporal_case), ensure_ascii=False))
         return 0
     if args.command == 'configure-paper':
         from application.paper.setup import configure_paper

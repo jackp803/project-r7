@@ -128,6 +128,11 @@ class FixtureReleaseReader:
         except CloudError as error:
             raise EvidenceGateError('Actual selected sealed PAPER submission required') from error
         manifest = package.manifest.raw
+        from application.fixtures.temporal import read_temporal,policy_ref
+        temporal=read_temporal(self.config,package)
+        if temporal is not None and selected['paper_policy_ref']!=policy_ref(temporal):
+            raise EvidenceGateError('Sealed fixture timing differs from original Paper policy binding')
+        self.temporal=temporal
         subject = dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
             content_hash=manifest['strategy_content_hash'])
         if (package.manifest.manifest_hash!=self.manifest_hash or subject!=self.strategy or
@@ -151,6 +156,7 @@ def load_fixture_paper_owners(config, *, clock, resolver):
     authenticator = HumanAuthenticator(namespace='FIXTURE',reauth_seconds=300,verifier=lambda _:None,clock=clock)
     owners = PaperOwnerComposition(config,selection=reader.owner,current_release=reader.current,
         authenticator=authenticator,clock=clock,strategy_identity=reader.identity)
+    owners.fixture_temporal=reader.temporal
     return owners
 
 
@@ -175,6 +181,10 @@ def configure_paper(config_path, selection_profile):
             raise ValueError('Actual accepted strategy intake and local research selection required')
         _, package = local.resolver.package(selected['submission_id'])
         manifest = package.manifest.raw
+        from application.fixtures.temporal import read_temporal,policy_ref
+        temporal=read_temporal(config,package)
+        if temporal is not None and selected['paper_policy_ref']!=policy_ref(temporal):
+            raise ValueError('Sealed temporal case requires its exact fixture Paper policy reference')
         owner = PaperOwnerSelection(namespace='FIXTURE',simulation_policy=decode(inputs['simulation_policy_ref']),
             risk_policy=decode(inputs['risk_policy_ref']),promotion_policy=decode(inputs['promotion_policy_ref']),
             paper_policy_ref=selected['paper_policy_ref'],submission_validity={key:manifest[key] for key in ('intent_class','validity')},

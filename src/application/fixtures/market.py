@@ -16,9 +16,18 @@ from application.paper.service import PaperMarketEvent
 
 class FixtureScenarioClock:
     """Product-owned virtual clock; never a real-forward time producer."""
-    def __init__(self):
+    def __init__(self,*,temporal=None):
         actual=datetime.now(timezone.utc)
         self.value=actual.replace(minute=0,second=0,microsecond=0)+timedelta(hours=1)
+        self.origin=None
+        if temporal is not None:
+            from .temporal import validate,utc
+            document=validate(temporal)
+            if document['case']=='research-expire-before-robustness':
+                raise ValueError('Research-only temporal case cannot initialize Paper timing')
+            self.value=utc(document['validity']['until'])
+            if document['case']=='paper-expire-after-protection':self.value-=timedelta(seconds=2)
+            self.origin=self.value
 
     def __call__(self):
         return self.value
@@ -27,6 +36,8 @@ class FixtureScenarioClock:
         if observed_at is not None:
             value=datetime.fromisoformat(observed_at.replace('Z','+00:00'))
             require_utc(value,'retained fixture clock')
+            if self.origin is not None and (value<self.origin or value+timedelta(seconds=1)<self.value):
+                raise ValueError('Retained named fixture observation regressed')
             self.value=value+timedelta(seconds=1)
 
     def advance(self):

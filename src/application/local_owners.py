@@ -69,8 +69,14 @@ class LocalOwners:
         self.resolver = resolver if resolver.policies else None
         self.queue = None
         if self.resolver is not None:
+            checkpoint_observer=None
+            if namespace=='FIXTURE' and product_namespace(config)=='FIXTURE':
+                from application.fixtures.temporal import research_checkpoint
+                checkpoint_observer=lambda run,generation,owner,stage,input_hash:research_checkpoint(
+                    config,self.resolver,self.queue,run,generation,owner,stage,input_hash)
             self.queue = ResearchQueue(config.local_data_root / 'queue.sqlite', namespace=namespace,
                 owner_id=self.worker_id, resolve_request=self.resolver.resolve, clock=self.clock,
+                checkpoint_observer=checkpoint_observer,
                 service_factory=lambda: ResearchService(local_root=config.local_data_root,
                     database_path=config.local_data_root / 'research.sqlite', registry_path=config.database_path,
                     namespace=namespace, owner_id=self.worker_id))

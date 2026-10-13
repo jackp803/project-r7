@@ -1,0 +1,82 @@
+test_auxiliary_temporal_inputs_must_match_actual_sealed_payload (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_auxiliary_temporal_inputs_must_match_actual_sealed_payload) ... ERROR
+test_existing_case_is_never_replaced (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_existing_case_is_never_replaced) ... ERROR
+test_named_cases_seal_original_tactical_validity_as_input_only (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_named_cases_seal_original_tactical_validity_as_input_only) ... ERROR
+test_named_clock_resumes_from_original_observation_without_backward_jump (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_named_clock_resumes_from_original_observation_without_backward_jump) ... ERROR
+test_ordinary_namespace_cannot_receive_temporal_inputs (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_ordinary_namespace_cannot_receive_temporal_inputs) ... ERROR
+test_unknown_case_is_denied_before_any_inputs (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_unknown_case_is_denied_before_any_inputs) ... ERROR
+
+======================================================================
+ERROR: test_auxiliary_temporal_inputs_must_match_actual_sealed_payload (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_auxiliary_temporal_inputs_must_match_actual_sealed_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 67, in test_auxiliary_temporal_inputs_must_match_actual_sealed_payload
+    config,package=self.accepted();module=self.temporal()
+                   ^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 60, in accepted
+    config,_=self.prepare('paper-expire-after-protection');self.configure()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 20, in prepare
+    result=prepare_fixture(self.config_path,'positive',temporal_case=case)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'temporal_case'
+
+======================================================================
+ERROR: test_existing_case_is_never_replaced (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_existing_case_is_never_replaced)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 54, in test_existing_case_is_never_replaced
+    self.prepare('paper-expire-before-entry')
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 20, in prepare
+    result=prepare_fixture(self.config_path,'positive',temporal_case=case)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'temporal_case'
+
+======================================================================
+ERROR: test_named_cases_seal_original_tactical_validity_as_input_only (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_named_cases_seal_original_tactical_validity_as_input_only)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 28, in test_named_cases_seal_original_tactical_validity_as_input_only
+    config,result=self.prepare('paper-expire-after-protection')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 20, in prepare
+    result=prepare_fixture(self.config_path,'positive',temporal_case=case)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'temporal_case'
+
+======================================================================
+ERROR: test_named_clock_resumes_from_original_observation_without_backward_jump (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_named_clock_resumes_from_original_observation_without_backward_jump)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 78, in test_named_clock_resumes_from_original_observation_without_backward_jump
+    config,package=self.accepted();document=self.temporal().read_temporal(config,package)
+                   ^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 60, in accepted
+    config,_=self.prepare('paper-expire-after-protection');self.configure()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 20, in prepare
+    result=prepare_fixture(self.config_path,'positive',temporal_case=case)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'temporal_case'
+
+======================================================================
+ERROR: test_ordinary_namespace_cannot_receive_temporal_inputs (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_ordinary_namespace_cannot_receive_temporal_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 49, in test_ordinary_namespace_cannot_receive_temporal_inputs
+    with self.assertRaises(ValueError):prepare_fixture(self.config_path,'positive',temporal_case='paper-expire-before-entry')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'temporal_case'
+
+======================================================================
+ERROR: test_unknown_case_is_denied_before_any_inputs (test_fixture_temporal_recipe.FixtureTemporalRecipeTests.test_unknown_case_is_denied_before_any_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_temporal_recipe.py", line 43, in test_unknown_case_is_denied_before_any_inputs
+    with self.assertRaises(ValueError):prepare_fixture(self.config_path,'positive',temporal_case='arbitrary-stage')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'temporal_case'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.119s
+
+FAILED (errors=6)

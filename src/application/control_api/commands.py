@@ -91,6 +91,28 @@ class CommandLedger:
         db.execute('PRAGMA busy_timeout=5000'); db.execute('PRAGMA journal_mode=WAL'); db.execute('PRAGMA synchronous=FULL')
         return _ClosingConnection(db)
 
+    def completed(self, *, command_id, operation, resource, actor, expected_revision, arguments):
+        """Read exact authenticated completed history before current admission.
+
+        Prepared/unknown outcomes still require owner reconciliation. This read
+        creates no command, lease, generation or new owner effect.
+        """
+        for value in (command_id,operation,resource,actor):_text(value)
+        if type(expected_revision) is not int or not 0<=expected_revision<2**63:
+            raise CommandError('INVALID_INPUT')
+        raw=_json(dict(namespace=self.namespace,command_id=command_id,operation=operation,resource=resource,
+                       actor=actor,expected_revision=expected_revision,arguments=arguments))
+        with _ClosingConnection(sqlite3.connect(self.path.as_uri()+'?mode=ro',uri=True,timeout=5)) as db:
+            db.row_factory=sqlite3.Row;db.execute('PRAGMA query_only=ON')
+            if db.execute('SELECT namespace FROM control_namespace WHERE singleton=1').fetchone()[0]!=self.namespace:
+                raise CommandError('NAMESPACE_CONFLICT')
+            row=db.execute('SELECT * FROM control_commands WHERE command_id=?',(command_id,)).fetchone()
+            if row is None:return None
+            if row['request_json']!=raw or row['request_hash']!=_hash(raw):raise CommandError()
+            if row['status']!='COMPLETE':return None
+            if _hash(row['receipt_json'])!=row['receipt_hash']:raise CommandError('COMMAND_STORE_CORRUPT')
+            return json.loads(row['receipt_json'])
+
     def prepare(self, *, command_id, operation, resource, actor, expected_revision, actual_revision, arguments):
         for value in (command_id, operation, resource, actor): _text(value)
         for revision in (expected_revision, actual_revision):

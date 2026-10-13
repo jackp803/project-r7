@@ -1,0 +1,14 @@
+test_same_completed_command_replays_after_expiry_without_new_owner_work (test_expired_research_api_replay.ExpiredResearchAPIReplayTests.test_same_completed_command_replays_after_expiry_without_new_owner_work) ... FAIL
+
+======================================================================
+FAIL: test_same_completed_command_replays_after_expiry_without_new_owner_work (test_expired_research_api_replay.ExpiredResearchAPIReplayTests.test_same_completed_command_replays_after_expiry_without_new_owner_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_expired_research_api_replay.py", line 34, in test_same_completed_command_replays_after_expiry_without_new_owner_work
+    self.assertEqual(replay.status_code,202,replay.text)
+AssertionError: 503 != 202 : {"error":{"category":"NOT_CONFIGURED","reason_codes":["RESEARCH_SELECTION_UNAVAILABLE"],"correlation_id":"c51b4e9ff185bc8042ba6ab09eead061"}}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.967s
+
+FAILED (failures=1)

@@ -1,0 +1,14 @@
+test_same_completed_command_replays_after_expiry_without_new_owner_work (test_expired_research_api_replay.ExpiredResearchAPIReplayTests.test_same_completed_command_replays_after_expiry_without_new_owner_work) ... FAIL
+
+======================================================================
+FAIL: test_same_completed_command_replays_after_expiry_without_new_owner_work (test_expired_research_api_replay.ExpiredResearchAPIReplayTests.test_same_completed_command_replays_after_expiry_without_new_owner_work)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_expired_research_api_replay.py", line 23, in test_same_completed_command_replays_after_expiry_without_new_owner_work
+    self.assertEqual(login.status_code,200,login.text)
+AssertionError: 403 != 200 : {"error":{"category":"AUTHORIZATION_REQUIRED","reason_codes":["LOOPBACK_REQUIRED"],"correlation_id":"f05cacd487701b5079eca234e0aca148"}}
+
+----------------------------------------------------------------------
+Ran 1 test in 0.776s
+
+FAILED (failures=1)

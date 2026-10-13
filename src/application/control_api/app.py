@@ -76,6 +76,11 @@ def create_app(config: ProductConfig, *, auth: LocalAuth, commands: CommandLedge
             if auth.namespace == 'FIXTURE': raise APIError('AUTHORIZATION_REQUIRED', 'FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN', 403)
             human = issuer.authenticate(auth.current_reauthentication(request.cookies.get('r7_session')))
         arguments = body.model_dump(exclude={'command_id', 'expected_revision'})
+        cached=commands.completed(command_id=body.command_id,operation=operation,resource=resource,
+            actor=identity.actor,expected_revision=body.expected_revision,arguments=arguments)
+        if cached is not None:
+            if 'error_response' in cached:return JSONResponse(cached['error_response'],status_code=cached['status_code'])
+            return JSONResponse(cached,status_code=202 if cached['status']=='QUEUED' else 200)
         actual = owners.revision(operation, resource, arguments)
         claim = commands.prepare(command_id=body.command_id, operation=operation, resource=resource,
             actor=identity.actor, expected_revision=body.expected_revision, actual_revision=actual, arguments=arguments)

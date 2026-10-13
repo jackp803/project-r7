@@ -81,5 +81,28 @@ class ControlCommandTests(unittest.TestCase):
         with self.assertRaises(self.error): self.type(self.path, namespace='LOCAL_RESEARCH', clock=lambda: self.clock[0])
         with self.assertRaises(self.error): self.prepare(expected=True, actual=True)
 
+    def test_completed_read_requires_original_actor_request_and_creates_no_claim(self):
+        from contextlib import closing
+        import sqlite3,json
+        claim=self.prepare()
+        receipt={'status':'COMPLETE','effect_ref':'original-history'}
+        self.ledger.complete(claim,receipt)
+        # Use exactly the actual protected request, without guessed defaults.
+        request=json.loads(claim.request_json)
+        arguments={key:request[key] for key in ('command_id','operation','resource','actor','expected_revision','arguments')}
+        with closing(sqlite3.connect(self.path)) as db:before=db.execute('SELECT * FROM control_commands').fetchall()
+        self.clock[0]+=timedelta(seconds=31)
+        self.assertEqual(self.ledger.completed(**arguments),receipt)
+        for changes in ({'actor':'different-owner'},{'expected_revision':True},{'arguments':{'changed':True}}):
+            with self.subTest(changes=changes),self.assertRaises(self.error):self.ledger.completed(**{**arguments,**changes})
+        self.assertIsNone(self.ledger.completed(**{**arguments,'command_id':'absent-history'}))
+        with closing(sqlite3.connect(self.path)) as db:self.assertEqual(db.execute('SELECT * FROM control_commands').fetchall(),before)
+
+    def test_prepared_unknown_outcome_is_not_returned_as_completed_history(self):
+        import json
+        claim=self.prepare();request=json.loads(claim.request_json)
+        arguments={key:request[key] for key in ('command_id','operation','resource','actor','expected_revision','arguments')}
+        self.assertIsNone(self.ledger.completed(**arguments))
+
 
 if __name__ == '__main__': unittest.main()

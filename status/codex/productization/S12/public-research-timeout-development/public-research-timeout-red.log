@@ -1,0 +1,171 @@
+test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) ... 
+  test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) (seconds=900) ... FAIL
+usage: r7 [-h]
+          {doctor,plan-ssh-tunnel,probe-control-access,init-profile,prepare-fixture,configure-research,configure-paper,paper-worker,publish-fixture-outbox,enroll-owner,serve,research-worker,stop-product,plan-services,guarded-service,install-services,uninstall-services,author-package,export-capabilities,queue-research-feedback,cloud-pull,cloud-import-dataset,cloud-publish-outbox,backup-databases,verify-database-backup,restore-databases,backup-product-data,verify-product-backup,restore-product-data,_research-job}
+          ...
+r7: error: unrecognized arguments: --job-timeout-seconds 1
+  test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) (seconds=1) ... ERROR
+usage: r7 [-h]
+          {doctor,plan-ssh-tunnel,probe-control-access,init-profile,prepare-fixture,configure-research,configure-paper,paper-worker,publish-fixture-outbox,enroll-owner,serve,research-worker,stop-product,plan-services,guarded-service,install-services,uninstall-services,author-package,export-capabilities,queue-research-feedback,cloud-pull,cloud-import-dataset,cloud-publish-outbox,backup-databases,verify-database-backup,restore-databases,backup-product-data,verify-product-backup,restore-product-data,_research-job}
+          ...
+r7: error: unrecognized arguments: --job-timeout-seconds 900
+  test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) (seconds=900) ... ERROR
+test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) ... 
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=None) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=True) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=False) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=0.2) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=1.0) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value='1') ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=0) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=-1) ... ERROR
+  test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=901) ... ERROR
+test_public_research_timeout_reaches_fixed_owned_job_limits (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_reaches_fixed_owned_job_limits) ... 
+  test_public_research_timeout_reaches_fixed_owned_job_limits (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_reaches_fixed_owned_job_limits) (seconds=1) ... ERROR
+  test_public_research_timeout_reaches_fixed_owned_job_limits (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_reaches_fixed_owned_job_limits) (seconds=900) ... ERROR
+
+======================================================================
+ERROR: test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) (seconds=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 52, in test_research_worker_cli_forwards_default_and_explicit_timeout
+    self.assertEqual(main(['research-worker','--config',str(self.config_path),'--once',*options]),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 145, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1908, in parse_args
+    self.error(msg)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) (seconds=900)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 52, in test_research_worker_cli_forwards_default_and_explicit_timeout
+    self.assertEqual(main(['research-worker','--config',str(self.config_path),'--once',*options]),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 145, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1908, in parse_args
+    self.error(msg)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=0.2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=1.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value='1')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_rejects_before_owner_side_effects (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects) (value=901)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 66, in test_public_research_timeout_rejects_before_owner_side_effects
+    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_reaches_fixed_owned_job_limits (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_reaches_fixed_owned_job_limits) (seconds=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 75, in test_public_research_timeout_reaches_fixed_owned_job_limits
+    self.assertEqual(module.research_worker(self.config_path,once=True,job_timeout_seconds=seconds),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+ERROR: test_public_research_timeout_reaches_fixed_owned_job_limits (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_reaches_fixed_owned_job_limits) (seconds=900)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 75, in test_public_research_timeout_reaches_fixed_owned_job_limits
+    self.assertEqual(module.research_worker(self.config_path,once=True,job_timeout_seconds=seconds),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: research_worker() got an unexpected keyword argument 'job_timeout_seconds'
+
+======================================================================
+FAIL: test_research_worker_cli_forwards_default_and_explicit_timeout (tests.application.test_native_research_worker.NativeResearchWorkerTests.test_research_worker_cli_forwards_default_and_explicit_timeout) (seconds=900)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_research_worker.py", line 53, in test_research_worker_cli_forwards_default_and_explicit_timeout
+    owner.assert_called_once_with(self.config_path,once=True,job_timeout_seconds=seconds)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 961, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 949, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: research_worker(WindowsPath('<USER_HOME>/AppData/Local/Temp/R7 本機 owner 整合 cj04dxt4/worker 設定.json'), once=True, job_timeout_seconds=900)
+  Actual: research_worker(WindowsPath('<USER_HOME>/AppData/Local/Temp/R7 本機 owner 整合 cj04dxt4/worker 設定.json'), once=True)
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.218s
+
+FAILED (failures=1, errors=13)

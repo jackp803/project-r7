@@ -93,7 +93,10 @@ def _worker_once(config_path, config, *, namespace, job_argv_factory, hardware_p
         log_ref='worker-logs/' + log.name, reason_codes=result['reason_codes'])
 
 
-def research_worker(config_path, *, once=False, expected_config_hash=None):
+def research_worker(config_path, *, once=False, expected_config_hash=None,job_timeout_seconds=900):
+    if type(job_timeout_seconds) is not int or not 1<=job_timeout_seconds<=900:
+        raise ValueError('Public owned research timeout must be an integer from 1 to 900 seconds')
+    limits=ResourceLimits(job_timeout_seconds)
     config_path = Path(config_path).absolute()
     config = load_config(config_path)
     if expected_config_hash is not None and config_hash(config) != expected_config_hash:
@@ -103,7 +106,7 @@ def research_worker(config_path, *, once=False, expected_config_hash=None):
             from application.platform.service_stop import observe_service_stop
             if observe_service_stop(supervisor,stop):break
             result = _worker_once(config_path, config, namespace=product_namespace(config), job_argv_factory=None,
-                                  hardware_probe=inspect_hardware, limits=ResourceLimits(900), supervisor=supervisor,stop=stop)
+                                  hardware_probe=inspect_hardware, limits=limits, supervisor=supervisor,stop=stop)
             print(json.dumps(result), flush=True)
             if once: return 0 if result['status'] != 'JOB_TERMINATED' else 2
             stop.wait(5)

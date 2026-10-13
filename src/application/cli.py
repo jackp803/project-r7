@@ -67,6 +67,8 @@ def main(argv=None):
     worker = commands.add_parser('research-worker', help='Supervise one resource-admitted research child at a time')
     worker.add_argument('--config', type=Path, required=True)
     worker.add_argument('--once', action='store_true')
+    worker.add_argument('--job-timeout-seconds',type=int,default=900,
+        help='Owned research child deadline in seconds (1..900; default 900)')
     stop_service=commands.add_parser('stop-product',help='Request cooperative stop of the current local owner; does not assert flat exposure')
     stop_service.add_argument('--config',type=Path,required=True)
     stop_service.add_argument('--role',choices=('control','research','runtime','cloud'),required=True)
@@ -290,7 +292,7 @@ def main(argv=None):
         return 0
     if args.command == 'research-worker':
         from application.research.worker import research_worker
-        return research_worker(args.config, once=args.once)
+        return research_worker(args.config, once=args.once,job_timeout_seconds=args.job_timeout_seconds)
     if args.command == 'paper-worker':
         from application.paper.entrypoint import paper_worker
         return paper_worker(args.config, maximum_ticks=args.maximum_ticks)

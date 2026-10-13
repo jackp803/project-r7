@@ -1,0 +1,23 @@
+{
+  "status": "DESIGN_ONLY_NOT_IMPLEMENTED",
+  "scope": "Formal operational research-worker timeout only",
+  "files": [
+    "src/application/cli.py",
+    "src/application/research/worker.py",
+    "tests/application/test_native_research_worker.py"
+  ],
+  "public_option": "--job-timeout-seconds",
+  "public_domain": "exact int1..900 default900",
+  "compatibility": "Internal worker_once retains positive finite ResourceLimits and existing0.2s controlled-fixture tests; no executable/hardware override added to public entrypoint",
+  "test_first": [
+    "Invalid None/bool/float/zero/negative/>900 rejected before load_config, supervision, hardware or queue effects",
+    "CLI dispatch preserves explicit1/900 and default900",
+    "Actual public worker forced short deadline: normal _research-job child terminated/reaped, queueFAILED reasonOWNED_WORKER_TIMEOUT; sealed checkpoint wait gives deterministic long work, no job_argv_factory override"
+  ],
+  "validation": "Focused worker and CLI regression; native05 actual timeout while separate original protection continues. New exact candidate/frozen inventory before native execution. No claim of deadline on arbitrary blocking OS calls.",
+  "pending_native04_revision": "764044eade77dfb1748dac9c8c98f59453d71f39",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

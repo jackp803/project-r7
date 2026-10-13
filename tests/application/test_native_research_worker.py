@@ -1,12 +1,15 @@
 from dataclasses import asdict, replace
+from contextlib import redirect_stderr,redirect_stdout
 from datetime import datetime, timedelta, timezone
 import importlib
+import io
 import json
 from pathlib import Path
 import sys
 import threading
 import time
 import unittest
+from unittest.mock import patch
 
 from application.platform.resources import inspect_hardware
 from application.platform.processes import ResourceLimits, spawn_owned, process_alive
@@ -38,6 +41,44 @@ class NativeResearchWorkerTests(unittest.TestCase):
     def child(self, config_path, run_id, generation):
         return [sys.executable, '-m', 'tests.application.native_research_job_fixture', '--config', str(config_path),
                 '--run-id', run_id, '--generation', str(generation)]
+
+    def test_research_worker_cli_forwards_default_and_explicit_timeout(self):
+        from application.cli import main
+        module=self.worker()
+        with patch.object(module,'research_worker',return_value=0) as owner:
+            for options,seconds in (([],900),(['--job-timeout-seconds','1'],1),(['--job-timeout-seconds','900'],900)):
+                with self.subTest(seconds=seconds):
+                    owner.reset_mock()
+                    self.assertEqual(main(['research-worker','--config',str(self.config_path),'--once',*options]),0)
+                    owner.assert_called_once_with(self.config_path,once=True,job_timeout_seconds=seconds)
+            owner.reset_mock()
+            with redirect_stderr(io.StringIO()),self.assertRaises(SystemExit) as denied:
+                main(['research-worker','--config',str(self.config_path),'--job-timeout-seconds','0.2'])
+            self.assertEqual(denied.exception.code,2)
+            owner.assert_not_called()
+
+    def test_public_research_timeout_rejects_before_owner_side_effects(self):
+        module=self.worker()
+        with patch.object(module,'load_config') as config,patch.object(module,'ProcessSupervisor') as supervisor, \
+             patch.object(module,'LocalOwners') as owners,patch.object(module,'spawn_owned') as child:
+            for invalid in (None,True,False,0.2,1.0,'1',0,-1,901):
+                with self.subTest(value=invalid),self.assertRaises(ValueError):
+                    module.research_worker(self.config_path,once=True,job_timeout_seconds=invalid)
+            for boundary in (config,supervisor,owners,child):boundary.assert_not_called()
+
+    def test_public_research_timeout_reaches_fixed_owned_job_limits(self):
+        module=self.worker()
+        for seconds in (1,900):
+            with self.subTest(seconds=seconds),patch.object(module,'load_config',return_value=self.fixture.config), \
+                 patch.object(module,'ProcessSupervisor'),patch('application.platform.service_stop.observe_service_stop',return_value=False), \
+                 patch.object(module,'_worker_once',return_value=dict(status='IDLE')) as admitted,redirect_stdout(io.StringIO()):
+                self.assertEqual(module.research_worker(self.config_path,once=True,job_timeout_seconds=seconds),0)
+                admitted.assert_called_once()
+                self.assertEqual(admitted.call_args.kwargs['limits'].timeout_seconds,seconds)
+                self.assertIsNone(admitted.call_args.kwargs['job_argv_factory'])
+                self.assertIs(admitted.call_args.kwargs['hardware_probe'],module.inspect_hardware)
+        with self.assertRaises(TypeError):module.research_worker(self.config_path,job_argv_factory=self.child)
+        with self.assertRaises(TypeError):module.research_worker(self.config_path,hardware_probe=lambda _:None)
 
     def test_actual_research_owner_runs_in_owned_child_and_publishes_canonical_candidate(self):
         owners, queued = self.enqueue()

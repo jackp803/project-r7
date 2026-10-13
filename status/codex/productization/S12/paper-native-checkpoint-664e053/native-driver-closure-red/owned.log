@@ -1,0 +1,36 @@
+test_artifact_alias_is_rejected_before_reading_external_sentinel (test_paper_native_driver.PaperNativeDriverTests.test_artifact_alias_is_rejected_before_reading_external_sentinel) ... FAIL
+test_every_scenario_and_final_distribution_match_original_group_subject (test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject) ... 
+  test_every_scenario_and_final_distribution_match_original_group_subject (test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject) (identities=[{'build_hash': 'a'}, {'build_hash': 'b'}, {'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'a'}]) ... FAIL
+  test_every_scenario_and_final_distribution_match_original_group_subject (test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject) (identities=[{'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'b'}]) ... FAIL
+
+======================================================================
+FAIL: test_artifact_alias_is_rejected_before_reading_external_sentinel (test_paper_native_driver.PaperNativeDriverTests.test_artifact_alias_is_rejected_before_reading_external_sentinel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 43, in test_artifact_alias_is_rejected_before_reading_external_sentinel
+    self.assertEqual(m.verify(package,output,'PQR-03'),2)
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_every_scenario_and_final_distribution_match_original_group_subject (test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject) (identities=[{'build_hash': 'a'}, {'build_hash': 'b'}, {'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'a'}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 27, in test_every_scenario_and_final_distribution_match_original_group_subject
+    self.assertEqual(m.verify(root/'package',output,'PQR-03'),2)
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_every_scenario_and_final_distribution_match_original_group_subject (test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject) (identities=[{'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'a'}, {'build_hash': 'b'}])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 27, in test_every_scenario_and_final_distribution_match_original_group_subject
+    self.assertEqual(m.verify(root/'package',output,'PQR-03'),2)
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.396s
+
+FAILED (failures=3)
+{"group": "PQR-03", "passed": true, "target": "windows-11-x86_64", "provider_requests": 0}
+{"group": "PQR-03", "passed": true, "target": "windows-11-x86_64", "provider_requests": 0}
+{"group": "PQR-03", "passed": true, "target": "windows-11-x86_64", "provider_requests": 0}

@@ -130,14 +130,18 @@ def _console_child(executable, config):
             for character in password.decode('ascii') + '\r':
                 event = INPUT_RECORD()
                 event.kind = 1
-                event.event.key.down = True
                 event.event.key.repeat = 1
-                event.event.key.virtual_key = 13 if character == '\r' else 0
+                event.event.key.virtual_key = 13 if character == '\r' else ord(character.upper())
                 event.event.key.character.UnicodeChar = character
-                count = w.DWORD()
-                checked(kernel.WriteConsoleInputW(handles[0], ctypes.byref(event), 1, ctypes.byref(count)))
-                if count.value != 1:
-                    raise ValueError('Native terminal keyboard input incomplete')
+                # Consecutive identical key-down records can be coalesced by
+                # Windows into one repeat-count event; getwch consumes only
+                # one character. Real down/up pairs preserve the input bytes.
+                for down in (True, False):
+                    event.event.key.down = down
+                    count = w.DWORD()
+                    checked(kernel.WriteConsoleInputW(handles[0], ctypes.byref(event), 1, ctypes.byref(count)))
+                    if count.value != 1:
+                        raise ValueError('Native terminal keyboard input incomplete')
         code = process.wait(timeout=max(.1, deadline - time.monotonic()))
         observed = screen()
         if code or password.decode('ascii') in observed or 'OWNER_CONFIGURED' not in observed:

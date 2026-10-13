@@ -21,7 +21,7 @@ from application.config import load_config,product_namespace
 from application.datasets.catalog import read_local
 from application.platform.distribution import verify_distribution
 from application.platform.private_files import create_private_directory,write_private_new,require_private
-from application.platform.processes import spawn_owned,ResourceLimits
+from application.platform.processes import spawn_owned,terminate_owned,ResourceLimits
 from application.platform.restoration import require_valid_restoration
 from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
 from application.qualification import revision_fact,parse_result,_sanitize,discover_suites,FOCUSED
@@ -30,7 +30,7 @@ from storage import open_sqlite_platform
 from storage.qualification import QualificationSubject,QualificationCheck,_open_qualification_receipt_owner
 from strategy.v02.capabilities import _source_revision,build_capability_snapshot
 from .inventory import fixed_profile,current_target
-from .qualification import validate_qualified_receipt
+from .qualification import validate_qualified_receipt,artifact_bytes
 
 
 def executed_cases(text):
@@ -46,11 +46,8 @@ def require_executed_cases(text,expected):
     return observed
 
 
-def native_assertions(report,member,root):
-    rows=report.get('assertions') if isinstance(report,dict) else None
-    if not isinstance(rows,list) or any(not isinstance(row,dict) for row in rows) or [row.get('assertion_id') for row in rows]!=member['assertions']:
-        raise ValueError('Required actual native observations missing')
-    artifacts=report.get('artifacts')
+def native_artifacts(report,root):
+    artifacts=report.get('artifacts') if isinstance(report,dict) else None
     if not isinstance(artifacts,list) or not 1<=len(artifacts)<=127:
         raise ValueError('Complete bounded retained native artifact inventory required')
     bindings={}
@@ -58,15 +55,38 @@ def native_assertions(report,member,root):
         if not isinstance(artifact,dict) or set(artifact)!={'ref','hash'}:
             raise ValueError('Exact native artifact binding required')
         ref=safe_relative(artifact['ref'])
-        if ref in bindings or 'sha256:'+hashlib.sha256(read_local(root,ref,8*1024*1024)).hexdigest()!=artifact['hash']:
+        if ref in bindings or 'sha256:'+hashlib.sha256(artifact_bytes(root,ref)).hexdigest()!=artifact['hash']:
             raise ValueError('Retained native artifact changed or duplicated')
         bindings[ref]=artifact['hash']
+    return bindings
+
+
+def native_assertions(report,member,root):
+    rows=report.get('assertions') if isinstance(report,dict) else None
+    if not isinstance(rows,list) or any(not isinstance(row,dict) for row in rows) or [row.get('assertion_id') for row in rows]!=member['assertions']:
+        raise ValueError('Required actual native observations missing')
+    bindings=native_artifacts(report,root)
     for row in rows:
         if set(row)!={'assertion_id','status','evidence_ref','evidence_hash'} or row['status']!='PASS':
             raise ValueError('Native observation did not pass')
         ref=safe_relative(row['evidence_ref'])
         if bindings.get(ref)!=row['evidence_hash']:raise ValueError('Actual native observation artifact missing or changed')
     return rows
+
+
+def _retain_execution_failure(output,checks,results,error,tree_reaped):
+    # Exception text may contain uncontrolled input or paths. Retain only its
+    # bounded type and actual cleanup, never an invented successful member.
+    ref='execution-failure.log'
+    raw=(canonical(dict(status='FAILED',error_type=type(error).__name__[:96],
+        tree_reaped=tree_reaped,scope='OWNING_FIXED_SOFTWARE_EXECUTION_ONLY'))+'\n').encode('utf-8')
+    write_private_new(output/ref,raw)
+    label='PQR-EXECUTION-FAILURE';commitment='sha256:'+hashlib.sha256(raw).hexdigest()
+    checks.append(QualificationCheck(check_id=label,command_ref='owning-fixed-execution',log_ref=ref,
+        log_hash=commitment,returncode=2,tree_reaped=tree_reaped,duration_ms=0,
+        tests_run=0,failures=0,errors=1,skipped=0,expected_failures=0,unexpected_successes=0))
+    results.append(dict(member_id=label,group_id='PQR-ERROR',test_cases=[],assertions=[],
+        artifacts=[dict(ref=ref,hash=commitment)]))
 
 
 def _guard(root,revision,package,facts,profile):
@@ -109,6 +129,7 @@ def qualify(config_path,source_root,package_root):
         for role in ('control','research','runtime','cloud'):
             stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
         if load_config(config_path)!=config:raise ValueError('Qualification configuration changed')
+        if not config.local_data_root.exists():create_private_directory(config.local_data_root)
         # Initialize through E6 namespace binding, never raw database mutation.
         with open_sqlite_platform(config.database_path,research_namespace='LOCAL_RESEARCH'):pass
         base=config.local_data_root/'qualification'
@@ -118,54 +139,66 @@ def qualify(config_path,source_root,package_root):
         write_private_new(output/'preflight.json',(canonical(dict(profile=profile,measured=measured,
             execution_id=execution,source_revision=revision,source_worktree='CLEAN'))+'\n').encode('utf-8'))
         env=os.environ.copy();env.update(PYTHONPATH=str(root/'src'),PYTHONDONTWRITEBYTECODE='1',PYTHONUTF8='1')
-        for group in profile['groups']:
-            for member in group['members']:
-                _guard(root,revision,package,facts,profile)
-                label=member['member_id'];log_ref=label+'.log';raw=output/(label+'.raw')
-                command=[sys.executable,'-X','utf8']
-                native_output=output/(label+'-artifacts')
-                if member['kind']=='UNITTEST':
-                    command+=['-m','unittest','discover','-s',member['directory'],'-p',member['pattern'],'-v']
-                else:
-                    command+=[str(root/member['tool_ref']),'--package-root',str(package),'--output',str(native_output)]
-                    if group['check_id']!='PQR-02':command+=['--group',group['check_id']]
-                before=time.monotonic()
-                with raw.open('xb') as stream:
-                    owned=spawn_owned(command,cwd=root,limits=ResourceLimits(member['timeout_seconds']),stdout=stream,stderr=subprocess.STDOUT,env=env)
-                    code=owned.wait()
-                text=_sanitize(raw.read_text(encoding='utf-8',errors='replace'),root).replace(str(config.local_data_root),'<LOCAL_DATA_ROOT>')
-                raw.unlink() # This new raw output only, after preserving sanitized observations.
-                log_bytes=text.encode('utf-8');write_private_new(output/log_ref,log_bytes)
-                artifacts=[dict(ref=log_ref,hash='sha256:'+hashlib.sha256(log_bytes).hexdigest())]
-                assertions=[];cases=[]
-                parsed=parse_result(text,returncode=code)
-                if member['kind']=='UNITTEST':
-                    try:cases=require_executed_cases(text,member['test_cases'])
-                    except ValueError:code=code or 2
-                    if not parsed.passed:code=code or 2
-                    counts={key:getattr(parsed,key) for key in ('tests_run','failures','errors','skipped','expected_failures','unexpected_successes')}
-                else:
-                    counts=dict(tests_run=0,failures=0,errors=0,skipped=0,expected_failures=0,unexpected_successes=0)
-                    try:
-                        report=json.loads(read_local(native_output,'pqr-result.json',262144))
-                        rows=native_assertions(report,member,native_output)
-                        for artifact in report['artifacts']:
-                            artifacts.append(dict(ref=f'{native_output.name}/{artifact["ref"]}',hash=artifact['hash']))
-                        for row in rows:
-                            prefixed=f'{native_output.name}/{row["evidence_ref"]}'
-                            assertions.append({**row,'evidence_ref':prefixed})
-                    except (ValueError,OSError,KeyError,TypeError):code=code or 2
-                check=QualificationCheck(check_id=label,command_ref=member['command_ref'],log_ref=log_ref,
-                    log_hash=artifacts[0]['hash'],returncode=code,tree_reaped=owned.termination_report.reaped,
-                    duration_ms=int((time.monotonic()-before)*1000),**counts)
-                checks.append(check);results.append(dict(member_id=label,group_id=group['check_id'],test_cases=cases,
-                    artifacts=artifacts,assertions=assertions))
-                print(json.dumps(dict(member=label,passed=check.passed,tests=check.tests_run,tree_reaped=check.tree_reaped)),flush=True)
-                _guard(root,revision,package,facts,profile)
-                # Keep actual failed outcomes. A repaired candidate must use a
-                # distinct execution with its separately committed inventory.
-                if not check.passed:break
-            if checks and not checks[-1].passed:break
+        tree_reaped=True
+        try:
+            for group in profile['groups']:
+                for member in group['members']:
+                    _guard(root,revision,package,facts,profile)
+                    label=member['member_id'];log_ref=label+'.log';raw=output/(label+'.raw')
+                    command=[sys.executable,'-X','utf8']
+                    native_output=output/(label+'-artifacts')
+                    if member['kind']=='UNITTEST':
+                        command+=['-m','unittest','discover','-s',member['directory'],'-p',member['pattern'],'-v']
+                    else:
+                        command+=[str(root/member['tool_ref']),'--package-root',str(package),'--output',str(native_output)]
+                        if group['check_id']!='PQR-02':command+=['--group',group['check_id']]
+                    before=time.monotonic()
+                    tree_reaped=False
+                    with raw.open('xb') as stream:
+                        owned=None
+                        try:
+                            owned=spawn_owned(command,cwd=root,limits=ResourceLimits(member['timeout_seconds']),stdout=stream,stderr=subprocess.STDOUT,env=env)
+                            code=owned.wait()
+                        finally:
+                            if owned is not None:
+                                tree_reaped=False
+                                cleanup=terminate_owned(owned,deadline_seconds=5)
+                                tree_reaped=cleanup.reaped
+                    text=_sanitize(artifact_bytes(output,raw.name).decode('utf-8',errors='replace').replace('\r\n','\n'),root).replace(str(config.local_data_root),'<LOCAL_DATA_ROOT>')
+                    log_bytes=text.encode('utf-8');write_private_new(output/log_ref,log_bytes)
+                    raw.unlink() # Only after sanitized retention has succeeded.
+                    artifacts=[dict(ref=log_ref,hash='sha256:'+hashlib.sha256(log_bytes).hexdigest())]
+                    assertions=[];cases=[]
+                    parsed=parse_result(text,returncode=code)
+                    if member['kind']=='UNITTEST':
+                        try:cases=require_executed_cases(text,member['test_cases'])
+                        except ValueError:code=code or 2
+                        if not parsed.passed:code=code or 2
+                        counts={key:getattr(parsed,key) for key in ('tests_run','failures','errors','skipped','expected_failures','unexpected_successes')}
+                    else:
+                        counts=dict(tests_run=0,failures=0,errors=0,skipped=0,expected_failures=0,unexpected_successes=0)
+                        try:
+                            report=json.loads(artifact_bytes(native_output,'pqr-result.json',262144))
+                            for ref,commitment in native_artifacts(report,native_output).items():
+                                artifacts.append(dict(ref=f'{native_output.name}/{ref}',hash=commitment))
+                            rows=native_assertions(report,member,native_output)
+                            for row in rows:
+                                prefixed=f'{native_output.name}/{row["evidence_ref"]}'
+                                assertions.append({**row,'evidence_ref':prefixed})
+                        except (ValueError,OSError,KeyError,TypeError):code=code or 2
+                    check=QualificationCheck(check_id=label,command_ref=member['command_ref'],log_ref=log_ref,
+                        log_hash=artifacts[0]['hash'],returncode=code,tree_reaped=owned.termination_report.reaped,
+                        duration_ms=int((time.monotonic()-before)*1000),**counts)
+                    checks.append(check);results.append(dict(member_id=label,group_id=group['check_id'],test_cases=cases,
+                        artifacts=artifacts,assertions=assertions))
+                    print(json.dumps(dict(member=label,passed=check.passed,tests=check.tests_run,tree_reaped=check.tree_reaped)),flush=True)
+                    _guard(root,revision,package,facts,profile)
+                    # Keep actual failed outcomes. A repaired candidate must use a
+                    # distinct execution with its separately committed inventory.
+                    if not check.passed:break
+                if checks and not checks[-1].passed:break
+        except Exception as error:
+            _retain_execution_failure(output,checks,results,error,tree_reaped)
         evidence=dict(schema_version='r7-qualified-paper-execution-evidence-v0.2',provenance='FIXTURE_SOFTWARE_CHECKS_ONLY',members=results)
         with _open_qualification_receipt_owner(config.database_path,namespace='LOCAL_RESEARCH') as owner:
             receipt=owner._append(execution_id=execution,subject=QualificationSubject(namespace='LOCAL_RESEARCH',

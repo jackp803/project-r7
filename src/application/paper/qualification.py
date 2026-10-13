@@ -6,14 +6,26 @@ body. This verifier neither imports PASS nor starts/migrates an owner.
 from dataclasses import asdict
 import hashlib
 from pathlib import Path
+import os
 
 from application.datasets.catalog import read_local
 from application.cloud.manifest import safe_relative
 from registry.product_assessment import canonical, digest
 from storage.qualification import QualificationReceipt
+from application.cloud.safe_files import _windows_read,_posix_read
+from application.cloud.protocol import CloudError
 
 PROFILE_ID = 'r7-qualified-paper-release-v0.2'
 GROUPS = tuple(f'PQR-{number:02d}' for number in range(1,8))
+
+
+def artifact_bytes(root,ref,limit=8*1024*1024):
+    """Opened local evidence only, with bounded bytes and no linked aliases."""
+    safe_relative(ref)
+    try:
+        return (_windows_read if os.name=='nt' else _posix_read)(
+            Path(root).absolute()/ref,limit,require_single_link=True)
+    except CloudError as error:raise ValueError('QUALIFICATION_ARTIFACT_UNSAFE') from error
 
 
 def validate_qualified_receipt(receipt, profile, *, artifact_root, measured):
@@ -75,7 +87,7 @@ def _validate(receipt, profile, root, measured):
             if not isinstance(artifact,dict) or set(artifact) != {'ref','hash'}:
                 raise ValueError()
             ref=safe_relative(artifact['ref'])
-            if ref in bindings or 'sha256:'+hashlib.sha256(read_local(root,ref,8*1024*1024)).hexdigest() != artifact['hash']:
+            if ref in bindings or 'sha256:'+hashlib.sha256(artifact_bytes(root,ref)).hexdigest() != artifact['hash']:
                 raise ValueError()
             bindings[ref]=artifact['hash']
         if bindings.get(check.log_ref) != check.log_hash:

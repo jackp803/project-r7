@@ -1,0 +1,105 @@
+test_log_write_failure_preserves_original_raw_until_retention_succeeds (test_paper_producer_failures.PaperProducerFailureTests.test_log_write_failure_preserves_original_raw_until_retention_succeeds) ... ERROR
+test_post_command_source_guard_failure_cannot_leave_success_only_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_post_command_source_guard_failure_cannot_leave_success_only_receipt) ... ERROR
+test_spawn_failure_is_sanitized_and_retained_as_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_spawn_failure_is_sanitized_and_retained_as_negative_receipt) ... ERROR
+test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt) ... ERROR
+
+======================================================================
+ERROR: test_log_write_failure_preserves_original_raw_until_retention_succeeds (test_paper_producer_failures.PaperProducerFailureTests.test_log_write_failure_preserves_original_raw_until_retention_succeeds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 65, in test_log_write_failure_preserves_original_raw_until_retention_succeeds
+    output,receipt=self.execute(write_private_new=write)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 38, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 113, in qualify
+    with open_sqlite_platform(config.database_path,research_namespace='LOCAL_RESEARCH'):pass
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 28, in open_sqlite_platform
+    store = _open_authorized_store(path, require_existing=require_existing)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 721, in _open_authorized_store
+    connection = _connect(path, require_existing=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 41, in _connect
+    connection = sqlite3.connect(target, uri=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+======================================================================
+ERROR: test_post_command_source_guard_failure_cannot_leave_success_only_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_post_command_source_guard_failure_cannot_leave_success_only_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 54, in test_post_command_source_guard_failure_cannot_leave_success_only_receipt
+    output,receipt=self.execute(guard=dict(side_effect=[None,None,ValueError('actual input drift')]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 38, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 113, in qualify
+    with open_sqlite_platform(config.database_path,research_namespace='LOCAL_RESEARCH'):pass
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 28, in open_sqlite_platform
+    store = _open_authorized_store(path, require_existing=require_existing)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 721, in _open_authorized_store
+    connection = _connect(path, require_existing=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 41, in _connect
+    connection = sqlite3.connect(target, uri=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+======================================================================
+ERROR: test_spawn_failure_is_sanitized_and_retained_as_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_spawn_failure_is_sanitized_and_retained_as_negative_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 49, in test_spawn_failure_is_sanitized_and_retained_as_negative_receipt
+    output,receipt=self.execute(spawn_owned=OSError('UNTRUSTED_SECRET_SHOULD_NOT_APPEAR'))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 38, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 113, in qualify
+    with open_sqlite_platform(config.database_path,research_namespace='LOCAL_RESEARCH'):pass
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 28, in open_sqlite_platform
+    store = _open_authorized_store(path, require_existing=require_existing)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 721, in _open_authorized_store
+    connection = _connect(path, require_existing=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 41, in _connect
+    connection = sqlite3.connect(target, uri=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+======================================================================
+ERROR: test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 74, in test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt
+    output,receipt=self.execute(spawn_owned=spawn)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 38, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 113, in qualify
+    with open_sqlite_platform(config.database_path,research_namespace='LOCAL_RESEARCH'):pass
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 28, in open_sqlite_platform
+    store = _open_authorized_store(path, require_existing=require_existing)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 721, in _open_authorized_store
+    connection = _connect(path, require_existing=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 41, in _connect
+    connection = sqlite3.connect(target, uri=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.232s
+
+FAILED (errors=4)

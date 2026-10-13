@@ -25,6 +25,7 @@ sys.path.insert(0,str(ROOT/'src'))
 from application.config import load_config
 from application.datasets.catalog import read_local
 from application.paper.inventory import NATIVE_ASSERTIONS,current_target
+from application.paper.qualification import artifact_bytes
 from application.platform.distribution import verify_distribution
 from application.platform.private_files import create_private_directory,write_private_new,require_private
 from application.platform.processes import ResourceLimits,spawn_owned,terminate_owned
@@ -57,14 +58,17 @@ def owns_pid(owned,pid):
 
 
 class PublicFixture:
-    def __init__(self,package,output,scenario):
+    def __init__(self,package,output,scenario,*,expected_identity=None):
         self.package,self.output,self.scenario=package,output,scenario
         self.identity=verify_distribution(package)
+        if expected_identity is not None and self.identity!=expected_identity:
+            raise ValueError('Native scenario changed the original group subject')
         manifest=json.loads((package/'distribution.json').read_bytes())
         self.executable=package/manifest['entrypoint']
         create_private_directory(output)
         self.config=output/'product.json';self.data=output/'data';self.cloud=output/'synthetic-cloud'
-        self.password=secrets.token_hex(24)
+        # Deliberate repeated keyboard input catches OS-console coalescing.
+        self.password='a'*12+secrets.token_hex(24)
         self.env={k:os.environ[k] for k in ('SystemRoot','WINDIR','SystemDrive','TEMP','TMP') if k in os.environ}
         self.env.update(PATH='',PYTHONUTF8='1')
         self.commands=[];self.browser=[];self.control=None;self.control_stream=None;self.control_log=None
@@ -231,11 +235,11 @@ def verify(package,output,group):
     identity=verify_distribution(package);target=current_target();create_private_directory(output)
     report=dict(group=group,target=target,identity=identity,passed=False,observations=[],
         provider_requests=0,credentials='NONE',capital='NONE',github_compute='NOT_USED')
-    assertions=[]
+    assertions=[];artifacts=[]
     try:
         if group=='PQR-03':
             for scenario in ('positive','oos-loss','insufficient-oos'):
-                report['observations'].append(PublicFixture(package,output/scenario,scenario).run())
+                report['observations'].append(PublicFixture(package,output/scenario,scenario,expected_identity=identity).run())
             if not all(row['passed'] for row in report['observations']):raise ValueError('Fresh native flows incomplete')
             report['passed']=True
         else:
@@ -243,14 +247,17 @@ def verify(package,output,group):
             # an actual fixed driver. It cannot issue eligibility from old tests.
             report['remaining_native_observations']=list(NATIVE_ASSERTIONS[group])
             report['reason']='NATIVE_GROUP_IMPLEMENTATION_IN_PROGRESS'
+        if verify_distribution(package)!=identity:raise ValueError('Native group subject changed')
+        for path in sorted(output.rglob('*')):
+            if path.suffix in ('.log','.png') or path.name=='observations.json':
+                ref=path.relative_to(output).as_posix()
+                artifacts.append(dict(ref=ref,hash=sha(artifact_bytes(output,ref))))
+                if len(artifacts)>126:raise ValueError('Bounded native artifact inventory required')
     except Exception as error:
-        report.update(reason='ACTUAL_NATIVE_GROUP_FAILED',error_type=type(error).__name__)
+        report.update(passed=False,reason='ACTUAL_NATIVE_GROUP_FAILED',error_type=type(error).__name__)
     observation='native-observations.json';raw=(canonical(report)+'\n').encode('utf-8')
     write_private_new(output/observation,raw)
-    artifacts=[dict(ref=observation,hash=sha(raw))]
-    for path in sorted(output.rglob('*')):
-        if path.is_file() and (path.suffix=='.log' or path.suffix=='.png' or path.name=='observations.json'):
-            artifacts.append(dict(ref=path.relative_to(output).as_posix(),hash=sha(path.read_bytes())))
+    artifacts.insert(0,dict(ref=observation,hash=sha(raw)))
     assertions=[dict(assertion_id=name,status='PASS' if report['passed'] else 'NOT_RUN',
         evidence_ref=observation,evidence_hash=sha(raw)) for name in NATIVE_ASSERTIONS[group]]
     write_private_new(output/'pqr-result.json',(canonical(dict(assertions=assertions,artifacts=artifacts))+'\n').encode('utf-8'))

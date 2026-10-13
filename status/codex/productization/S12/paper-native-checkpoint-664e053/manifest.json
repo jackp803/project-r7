@@ -1,0 +1,606 @@
+{
+  "scope": "EXACT_CLEAN_SOURCE_AND_SCOPED_NATIVE_FIRST_RUN;FAILED_NATIVE03;DIRTY_REPAIRS",
+  "executable_revision": "664e05358879e61df926553b6721376a39815d3e",
+  "source_commands": 33,
+  "source_tests": 2166,
+  "phases": {
+    "phase_1": {
+      "tests": 247,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "phase_2": {
+      "tests": 1919,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "source_passed": true,
+  "source_inputs_unchanged": true,
+  "native_build": {
+    "executable_revision": "664e05358879e61df926553b6721376a39815d3e",
+    "implementation_hash": "sha256:a08cbd7dba8ab8bbc7bc9a3436238b1d8c3f1efbd11c6cac90ed8c3f472362a7",
+    "build_hash": "sha256:795385cebf5a8c6dbdf0ae7690dcca534ae62b1e46e95d374e24cf14aa404d42",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "native02": {
+    "status": "PASS",
+    "scenarios": 8,
+    "commands": 9
+  },
+  "native03": {
+    "status": "FAILED_AUTH_INPUT",
+    "cause": "WINDOWS_IDENTICAL_KEY_DOWN_COALESCING",
+    "ordinary_paper": "NOT_QUALIFIED"
+  },
+  "repairs": {
+    "console": "ACTUAL_GETWCH_20_OF48_RED_TO48_OF48_GREEN;PUBLIC_LOGIN_RETRY_PENDING",
+    "native_driver": "2_TESTS_RED3_FAILURES_GREEN",
+    "producer": "5_TESTS_GREEN;ACTUAL_SPAWN_WAIT_GUARD_LOG_FAILURES",
+    "review": "0_CRITICAL_3_IMPORTANT_REPAIRED;REVIEWER_EXECUTION_NONE"
+  },
+  "source_host_memory": {
+    "physical_bytes": 33736265728,
+    "minimum_available_bytes": 13781905408,
+    "samples": 598,
+    "capacity_claim": "NONE;ACTUAL_HOST_ONLY"
+  },
+  "artifacts": [
+    {
+      "ref": "source-664e053/001-phase_1-brokers.log",
+      "hash": "sha256:039dbcef887d98dd2bc36fb38ea4ce621e6ce51dffa01dff333ebdd0c2b2b3df",
+      "original_artifact_hash": "sha256:039dbcef887d98dd2bc36fb38ea4ce621e6ce51dffa01dff333ebdd0c2b2b3df",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/002-phase_1-position.log",
+      "hash": "sha256:8dad230e3d1bf728827ec2249f3699aeadc14386b839b6a0f842bb737c756e1a",
+      "original_artifact_hash": "sha256:8dad230e3d1bf728827ec2249f3699aeadc14386b839b6a0f842bb737c756e1a",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/003-phase_1-execution.log",
+      "hash": "sha256:51d4765c8a60f20ab490adf2135c631725ff006d7ab16c7cf21114e135928ccd",
+      "original_artifact_hash": "sha256:51d4765c8a60f20ab490adf2135c631725ff006d7ab16c7cf21114e135928ccd",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/004-phase_1-execution.log",
+      "hash": "sha256:ac9d6a8c1d02c8c4d4167366475289ed879680af9b05e63045a68d0c776caf48",
+      "original_artifact_hash": "sha256:ac9d6a8c1d02c8c4d4167366475289ed879680af9b05e63045a68d0c776caf48",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/005-phase_1-position.log",
+      "hash": "sha256:c99ffbb6d9a6a5923457e8fabac980cff3aa37e388d0f3f9dc550db28ac45efe",
+      "original_artifact_hash": "sha256:c99ffbb6d9a6a5923457e8fabac980cff3aa37e388d0f3f9dc550db28ac45efe",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/006-phase_1-brokers.log",
+      "hash": "sha256:b649282c9c3dddbda32db85820483039108263e6fbb814240b783885e214ffaf",
+      "original_artifact_hash": "sha256:b649282c9c3dddbda32db85820483039108263e6fbb814240b783885e214ffaf",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/007-phase_1-execution.log",
+      "hash": "sha256:69c269ea1d49ef7bbaf9cb00cbb4e728d099f88a60a852d6864e3df031b6bbb9",
+      "original_artifact_hash": "sha256:69c269ea1d49ef7bbaf9cb00cbb4e728d099f88a60a852d6864e3df031b6bbb9",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/008-phase_1-position.log",
+      "hash": "sha256:481b43c514455c407f08cd962ab4b76508b22abb6831699b293ea2bee35d8a25",
+      "original_artifact_hash": "sha256:481b43c514455c407f08cd962ab4b76508b22abb6831699b293ea2bee35d8a25",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/009-phase_1-storage.log",
+      "hash": "sha256:4abc41173c967753e11015f3e9d131ce5f26d0773192fa87fa6693107d862aac",
+      "original_artifact_hash": "sha256:4abc41173c967753e11015f3e9d131ce5f26d0773192fa87fa6693107d862aac",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/010-phase_1-storage.log",
+      "hash": "sha256:b8ee452a259d54b3136cc563c1dffa26197b5ff800efa9e3b92846dd1dd9e451",
+      "original_artifact_hash": "sha256:b8ee452a259d54b3136cc563c1dffa26197b5ff800efa9e3b92846dd1dd9e451",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/011-phase_1-storage.log",
+      "hash": "sha256:3c80dda3d2048147b09bc61cf42a1bb8f3625c350726d1c07a5091ea5e15e7a8",
+      "original_artifact_hash": "sha256:3c80dda3d2048147b09bc61cf42a1bb8f3625c350726d1c07a5091ea5e15e7a8",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/012-phase_1-integration.log",
+      "hash": "sha256:ab712f3c8f8b0743ac6e5bc70bbfa6df1efa61455d1f3b008f76f5a59fe50a0d",
+      "original_artifact_hash": "sha256:ab712f3c8f8b0743ac6e5bc70bbfa6df1efa61455d1f3b008f76f5a59fe50a0d",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/013-phase_1-integration.log",
+      "hash": "sha256:ac383e18ae1cbaf34eff47ab7984cd8dbc784da29c14317f4145462e65efe0b8",
+      "original_artifact_hash": "sha256:ac383e18ae1cbaf34eff47ab7984cd8dbc784da29c14317f4145462e65efe0b8",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/014-phase_1-integration.log",
+      "hash": "sha256:de8a6d545f89d2fd5959518d1468d10c043432227f13d88fdf365672f1774165",
+      "original_artifact_hash": "sha256:de8a6d545f89d2fd5959518d1468d10c043432227f13d88fdf365672f1774165",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/015-phase_1-safety.log",
+      "hash": "sha256:7409786cfa3521a0d73e9e2cb03d0b9fb0f1a7a22f812fd3d1cb5378b9d9bde5",
+      "original_artifact_hash": "sha256:7409786cfa3521a0d73e9e2cb03d0b9fb0f1a7a22f812fd3d1cb5378b9d9bde5",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/016-phase_1-e2e.log",
+      "hash": "sha256:83442219f32a8f7bc0a62595f2139b351a85c489696874bf8b0d1321c3ca15e8",
+      "original_artifact_hash": "sha256:83442219f32a8f7bc0a62595f2139b351a85c489696874bf8b0d1321c3ca15e8",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/017-phase_2-market_data.log",
+      "hash": "sha256:bd5b81b18fcb4468f68ec1657d87bb6dafea39c9781cc977e1acde6d6a2b5e5d",
+      "original_artifact_hash": "sha256:bd5b81b18fcb4468f68ec1657d87bb6dafea39c9781cc977e1acde6d6a2b5e5d",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/018-phase_2-indicators.log",
+      "hash": "sha256:0a527c45d257440b02c223db292302307ac3dd00edb3221dafbdb0bf8f4362db",
+      "original_artifact_hash": "sha256:0a527c45d257440b02c223db292302307ac3dd00edb3221dafbdb0bf8f4362db",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/019-phase_2-strategy.log",
+      "hash": "sha256:7f8018a0844e4a99f28ca1f960bdc36ea39cb1b09ae3a8696219dcc129504019",
+      "original_artifact_hash": "sha256:7f8018a0844e4a99f28ca1f960bdc36ea39cb1b09ae3a8696219dcc129504019",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/020-phase_2-backtest.log",
+      "hash": "sha256:d673d7d1abfaf9ec5bea7797baaa841345f5af918fc8ccc4ada0252be7d69a35",
+      "original_artifact_hash": "sha256:d673d7d1abfaf9ec5bea7797baaa841345f5af918fc8ccc4ada0252be7d69a35",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/021-phase_2-validation.log",
+      "hash": "sha256:441896790a694a5a0989d74e09f7a86be8fb001ccf19a24b3fa5ab24cd35c216",
+      "original_artifact_hash": "sha256:441896790a694a5a0989d74e09f7a86be8fb001ccf19a24b3fa5ab24cd35c216",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/022-phase_2-execution.log",
+      "hash": "sha256:33adb4049c27f99320e26d9e84d79730b2f5195eb7d9a95ff371fd3c5e61829b",
+      "original_artifact_hash": "sha256:33adb4049c27f99320e26d9e84d79730b2f5195eb7d9a95ff371fd3c5e61829b",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/023-phase_2-brokers.log",
+      "hash": "sha256:866bdbbf8f026ceef9c9a8a48df0b857d8f4c83b3f7a17830d3ae65dc9e75b92",
+      "original_artifact_hash": "sha256:866bdbbf8f026ceef9c9a8a48df0b857d8f4c83b3f7a17830d3ae65dc9e75b92",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/024-phase_2-risk.log",
+      "hash": "sha256:fa24abdb030488753efd6ea8de54a58bd491a3d08c339539a65bf6b03014f3f1",
+      "original_artifact_hash": "sha256:fa24abdb030488753efd6ea8de54a58bd491a3d08c339539a65bf6b03014f3f1",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/025-phase_2-position.log",
+      "hash": "sha256:f6b111fbf5e922b4ff6ec0f1639a1caad047ca3ca1d630c407ce0608b9b31f74",
+      "original_artifact_hash": "sha256:f6b111fbf5e922b4ff6ec0f1639a1caad047ca3ca1d630c407ce0608b9b31f74",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/026-phase_2-storage.log",
+      "hash": "sha256:6b9f4830b6fcd45ad89ba0d8f8921472185e594c9319c12abc6ff53e9372f68f",
+      "original_artifact_hash": "sha256:6b9f4830b6fcd45ad89ba0d8f8921472185e594c9319c12abc6ff53e9372f68f",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/027-phase_2-platform.log",
+      "hash": "sha256:ad10a6f662a5cd957f361e8683a107d794adfd9099b82de00b96f2d3b69d9a26",
+      "original_artifact_hash": "sha256:ad10a6f662a5cd957f361e8683a107d794adfd9099b82de00b96f2d3b69d9a26",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/028-phase_2-integration.log",
+      "hash": "sha256:286a744b247957d135834be26ebec28bcce7e73c55598c429345385fd1af13bc",
+      "original_artifact_hash": "sha256:286a744b247957d135834be26ebec28bcce7e73c55598c429345385fd1af13bc",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/029-phase_2-e2e.log",
+      "hash": "sha256:b4e89324bd842d757aa03eeac859a3a02ac0a00ea00d4d46266ea0e4246d6110",
+      "original_artifact_hash": "sha256:b4e89324bd842d757aa03eeac859a3a02ac0a00ea00d4d46266ea0e4246d6110",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/030-phase_2-safety.log",
+      "hash": "sha256:4d405555ff05893f4cc0463112ba0d8a21165cc38f30765be9050798be709ee5",
+      "original_artifact_hash": "sha256:4d405555ff05893f4cc0463112ba0d8a21165cc38f30765be9050798be709ee5",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/031-phase_2-application.log",
+      "hash": "sha256:574eb3507aa51ee6f9c9d61abe65aa724ff0aa444ad0ef069fabc77540ed061d",
+      "original_artifact_hash": "sha256:574eb3507aa51ee6f9c9d61abe65aa724ff0aa444ad0ef069fabc77540ed061d",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/032-phase_2-product.log",
+      "hash": "sha256:aad78f9b37e364153bb9c9a2634a4f101f11fa803f71a4ec72ce640f4ec3fb21",
+      "original_artifact_hash": "sha256:aad78f9b37e364153bb9c9a2634a4f101f11fa803f71a4ec72ce640f4ec3fb21",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/033-phase_2-registry.log",
+      "hash": "sha256:0986f1a65cf766dd3ad4d3d4b8cbbbcc82c055411fe8cc34812faecb49e36e02",
+      "original_artifact_hash": "sha256:0986f1a65cf766dd3ad4d3d4b8cbbbcc82c055411fe8cc34812faecb49e36e02",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/checkpoint.json",
+      "hash": "sha256:dab81124eef9c7c0db97f682a6c7d94173190194a3dc659c58e96e1f82297aa2",
+      "original_artifact_hash": "sha256:dab81124eef9c7c0db97f682a6c7d94173190194a3dc659c58e96e1f82297aa2",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "source-664e053/qualification.json",
+      "hash": "sha256:5a9725545b4e85f73a25e0696338922a1dd9dd22f60694ba450ea7cede0ab88e",
+      "original_artifact_hash": "sha256:e07d7e106353bd6ac5596730ee414f657413790eb98397feea6e432f68bcaa84",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/01-doctor.log",
+      "hash": "sha256:3ee8276967c5dee623271064470d5a85bcd06f864f9e949df31e68265cfaf9e7",
+      "original_artifact_hash": "sha256:0ed7e0cce3de6c85139b4a7014908aee71d501e652cfe4eee5eaa3cff67c15b9",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/02-init-profile.log",
+      "hash": "sha256:d48452b9d3323fee2822164204a70bc7aef4078b96c156ef0e97009ec5e3ec92",
+      "original_artifact_hash": "sha256:ec4242cd2956552d280b9a59fbc4286b60e012f526b9b5c159aff19dc1fcfb2a",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/03-preserve-profile.log",
+      "hash": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "original_artifact_hash": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/04-first-control-start-second-process-denied.log",
+      "hash": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "original_artifact_hash": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/04-first-control-start.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_artifact_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/05-control-restart.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_artifact_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/06-control-config-change.log",
+      "hash": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "original_artifact_hash": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/07-unconfigured-research-worker.log",
+      "hash": "sha256:8763f859008af01729ea521a621ca9eb4fa6694d119cf16806d99be2fdec9246",
+      "original_artifact_hash": "sha256:49aaa5bdf4d4d107848b44894111a3c034b36ae9cf81c751ed485de2d3861100",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/08-tampered-resource-denied.log",
+      "hash": "sha256:b97ea884306433d8cb807d5c3cd3255eff9aa4b1ae27d0431838810c2d49e149",
+      "original_artifact_hash": "sha256:f54dc507239221033f9a6763e7755d5cd704dcfbb481a5f1b7019052e69a87d0",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/checkpoint.json",
+      "hash": "sha256:a05c2711ca485a26927bf88cda7e3eed7789bc9e754c3dd704322e715f86b106",
+      "original_artifact_hash": "sha256:a05c2711ca485a26927bf88cda7e3eed7789bc9e754c3dd704322e715f86b106",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/native-smoke.json",
+      "hash": "sha256:395bb731ae4259f8c1084b37784476588e9dcb68c4477fc85e4d75082eea1aee",
+      "original_artifact_hash": "sha256:395bb731ae4259f8c1084b37784476588e9dcb68c4477fc85e4d75082eea1aee",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native02-664e053/pqr-result.json",
+      "hash": "sha256:de39aaa64c98a1b2e5919f1a39d816bd8803c31764477534627477dd46b3fc05",
+      "original_artifact_hash": "sha256:78f834a1b7cfa045e39af52e251904976505b98c16b6513a71aa0b12be19a0e4",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/checkpoint.json",
+      "hash": "sha256:fc28ab6414d48467a00b16015422002f43ccc3b91bb2920306bc335f956d36b5",
+      "original_artifact_hash": "sha256:fc28ab6414d48467a00b16015422002f43ccc3b91bb2920306bc335f956d36b5",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/native-observations.json",
+      "hash": "sha256:812e8dba0ee1942bb267bad1b0ec361fedc2513f9b45c3666acc824ff86b3ef8",
+      "original_artifact_hash": "sha256:812e8dba0ee1942bb267bad1b0ec361fedc2513f9b45c3666acc824ff86b3ef8",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/browser-research-enqueue.log",
+      "hash": "sha256:326b2b00cbc305cae6204f6220a946f645658c1900d30b69a654d760f296785e",
+      "original_artifact_hash": "sha256:326b2b00cbc305cae6204f6220a946f645658c1900d30b69a654d760f296785e",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/control-research.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_artifact_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/init.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+      "original_artifact_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/observations.json",
+      "hash": "sha256:b92b7d38eb5e9f434eb899ca9a2fa1d6e7ddd926f161339b0e4827dccff1fb18",
+      "original_artifact_hash": "sha256:b92b7d38eb5e9f434eb899ca9a2fa1d6e7ddd926f161339b0e4827dccff1fb18",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/prepare.log",
+      "hash": "sha256:6d8e3aa2af8ac7c102f35504095a70e9ff090a21308006797b0879e5a83eae99",
+      "original_artifact_hash": "sha256:6d8e3aa2af8ac7c102f35504095a70e9ff090a21308006797b0879e5a83eae99",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/research-selection.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+      "original_artifact_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/positive/stop-control-research.log",
+      "hash": "sha256:c8678f4c0041107ed569b3e99ebf148279ef3ae032b9ac804ac3e398f2a656f1",
+      "original_artifact_hash": "sha256:c8678f4c0041107ed569b3e99ebf148279ef3ae032b9ac804ac3e398f2a656f1",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native03-664e053/pqr-result.json",
+      "hash": "sha256:11e0e488a801c0e4b254c37d0e4b49329eb697d8eb2f0a4a8297064d2f1abf8d",
+      "original_artifact_hash": "sha256:11e0e488a801c0e4b254c37d0e4b49329eb697d8eb2f0a4a8297064d2f1abf8d",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "build-664e053/build-result.json",
+      "hash": "sha256:3fef437da9764fdc9696fab305fcec6f78c137a8310d090c3d5bebe68b96b96d",
+      "original_artifact_hash": "sha256:3fef437da9764fdc9696fab305fcec6f78c137a8310d090c3d5bebe68b96b96d",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "build-664e053/checkpoint.json",
+      "hash": "sha256:c464153ab168172b19937c329e37b80317294f4e87942ab4b3e4b982a02b16a2",
+      "original_artifact_hash": "sha256:c464153ab168172b19937c329e37b80317294f4e87942ab4b3e4b982a02b16a2",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "build-664e053-build.log",
+      "hash": "sha256:45cae4b7e7f10a3f968ccd95d36cb441e58deee7475f025c5d437b584b8fb492",
+      "original_artifact_hash": "sha256:45cae4b7e7f10a3f968ccd95d36cb441e58deee7475f025c5d437b584b8fb492",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "build-664e053-missing-build-dependencies/checkpoint.json",
+      "hash": "sha256:8d927cd8c45cf2aa883ca27f1394be0e4572efabcb087b9a9206aef025d22442",
+      "original_artifact_hash": "sha256:8d927cd8c45cf2aa883ca27f1394be0e4572efabcb087b9a9206aef025d22442",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "console-login-diagnostic/result.json",
+      "hash": "sha256:6e5c4448f3b85028f707dae57207d434370f022c93f80628714a9adbb7105a89",
+      "original_artifact_hash": "sha256:c340381add886a682467a79c671f407f56a4b95a7482a2c28ed1f47761f0279c",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "console-calibration-keyup-green.json",
+      "hash": "sha256:34e6da1b240a31d339237064695c945c8079028fe907dad4d67a7ab522b5f8d3",
+      "original_artifact_hash": "sha256:bc6ddee91abf5751ec978c0bf884123a5d22a153ec903ee4f63d15141ee034ee",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native-driver-closure-red/result.json",
+      "hash": "sha256:572e9b8ab121b0d689c9b1989c80922cf0af0d688a2f77df57f4159c4b43b822",
+      "original_artifact_hash": "sha256:b0d3565afa0bf7d51e0be120e1bd6ee9f297d4f61695aee187a6246159fe13fc",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native-driver-closure-red/owned.log",
+      "hash": "sha256:2527655c34acd719d14786a6b33401dc86c371bb3b0f941bd6dd2db8889729fc",
+      "original_artifact_hash": "sha256:556c9e4dec8214c31cefdc2c92650da55d825e7ed85c3d506844989e4265fd63",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native-driver-closure-green/result.json",
+      "hash": "sha256:7cb5de078652c6d34fda28101f632f7f9584c13683c686c41a2d9a672ddbec04",
+      "original_artifact_hash": "sha256:c37f2d6bda27fe5b67acc2583f34e924e8dce4584efa54eaf11dba22111a9280",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "native-driver-closure-green/owned.log",
+      "hash": "sha256:bd410c24653b53654e07fec0a7edcc106afe1ee427aa8f08e2fb6ce75e9b0b47",
+      "original_artifact_hash": "sha256:e822e1cfdf52689bb7e893f78eab9ad49fc2b809834a1f48739b516c1f9aa2d3",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-red/result.json",
+      "hash": "sha256:2b2bd81e4ffe61161b658b999b34196df87988851d1f861a8b8ed9e564c4d920",
+      "original_artifact_hash": "sha256:1b45746cf87f898fa21bcf7daa2d94a5da451931cc7cf7f6169471ad1ea16ba0",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-red/owned.log",
+      "hash": "sha256:862ddd98da77202aaef603a8ec6cb96874152ebfc02e17f7f69485b8db271810",
+      "original_artifact_hash": "sha256:e84436eb7ebdbda167f7cc2f362d60c41de5321aa464a2f662255a8f43b86d9e",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-meaningful-red/result.json",
+      "hash": "sha256:f547a34de0c9a2e28da99e14bdc5c0a7361a7fd57f591e29ac85740a36f3ad89",
+      "original_artifact_hash": "sha256:9e005f17511305c924325d458e3f3e01500387f5254d8129273d53d014731997",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-meaningful-red/owned.log",
+      "hash": "sha256:5bebd6043bfac3472f8c92a73eee1205a27ee818547d937f9e3214e066f6c836",
+      "original_artifact_hash": "sha256:cc94089df9d1bff270a6c3f01e2d6f0677ccd373f419bbe2ec86f4376e395f6a",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green/result.json",
+      "hash": "sha256:d9000da342b93bcca294f52567305ec8c2bcfe5bf73d7ec7f506b4e5f17f2e32",
+      "original_artifact_hash": "sha256:bb48075a9c9f2f39718b8719792b633ca7b38bddc6550d5261535e3b53853d73",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green/owned.log",
+      "hash": "sha256:878752bd0b70d081b085194f0c8831c5828ace1d19086b1d32fc77d305e9eefb",
+      "original_artifact_hash": "sha256:e39bdb3fd4b1216d6ed842eae69abb2cab07948a5b2188c76e9d3b1323a49eee",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green-final/result.json",
+      "hash": "sha256:12c2d52a7a4c55979c9fdbc2fafaa9a6a2846ea216d86278e99f18f150214194",
+      "original_artifact_hash": "sha256:80f31b368f3b39844b09129d8c8dbe079ab006ca78ab3381d889cd94cea9e638",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green-final/owned.log",
+      "hash": "sha256:d5565f63f202f0d39c853ad900ccac76c064d82bcb3989d04f915c2ac64d4114",
+      "original_artifact_hash": "sha256:da689bf601a5a66f2038b8fc79cc2360f2ae67662359e982e3426b7a333d1da9",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green-verified/result.json",
+      "hash": "sha256:87d84e4de14c92132e131c42f838d1fe202c8dd2447ce7dea0b93b476fcb7df6",
+      "original_artifact_hash": "sha256:cf4996d318921a01f81c734c930e48e3b181508224817f23cd62a67ac1730b65",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green-verified/owned.log",
+      "hash": "sha256:022988708cce5acbfea8afe090b4c33b94a42adbc03a6a6ec6c42ffe3c2f43d9",
+      "original_artifact_hash": "sha256:63d8d4d7f54d7e4fb8f56a39d94bdcb5303442b95248874cadcb8f2e0e99e53d",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-log-diagnostic/result.json",
+      "hash": "sha256:8644b766d416390180425de01a96fb2ae05da8d47a0b3733133f60f005ecfaf1",
+      "original_artifact_hash": "sha256:3c5213e0584042db27584cf1335ce26cb241e90ccf5524cea8e47b3af3ea0b64",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-log-diagnostic/owned.log",
+      "hash": "sha256:950480f6236055972c248b08c4d2ffe664f0e07ac0915746128dbb29375ba5c1",
+      "original_artifact_hash": "sha256:db139fc148ba05eec1b1a87fc517ce59311a4c2d05e6544bb06e940af90a2036",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green-complete/result.json",
+      "hash": "sha256:d04cd65f27bc3d8625600505f28d3e8c4f3efde230e6cbf42e0f263077c7986e",
+      "original_artifact_hash": "sha256:1c76585ad2818b2866545bfaa9b593018dceb4876ac8f7d71de82cefa3bf0d03",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-failure-retention-green-complete/owned.log",
+      "hash": "sha256:8d08c38ca07c66eb6fe9414ea3b8905a70b89a1dc576c0805db6b0036863bd90",
+      "original_artifact_hash": "sha256:568e18df072eade25891a7e25f3943a3d68f3b98f7fa158375b7af76a965c2c3",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-existing-regression/result.json",
+      "hash": "sha256:718ac3262dc529304d067c6119022d16b2a30389786f4d1df3388b6353fbdbd3",
+      "original_artifact_hash": "sha256:839d9ba3cefa256ad4a0eb2ba2329fc3b2903b87568a02e733441e9922d04eb8",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "producer-existing-regression/owned.log",
+      "hash": "sha256:954b10cd5b09f065523a89aeb16e4ede1bc1263e6f27308ee85420c10efcdb50",
+      "original_artifact_hash": "sha256:1629343af97f181b46608babb10010b255668f0996b11fa6a568136b91831cae",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "qualification-profile-artifact-regression/result.json",
+      "hash": "sha256:4d36f70ed6a84bc1239b26ed181d557c6f40422176938d9f575035b9ce209e05",
+      "original_artifact_hash": "sha256:144eba309a0c7939bb2ed7f3724bdc1b7722aece7000805c159af885145a1b46",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "qualification-profile-artifact-regression/owned.log",
+      "hash": "sha256:4c7eaeb9de006db44ad1403f2db642abe2fccb825191beb28e325f8d27d482d3",
+      "original_artifact_hash": "sha256:73e1304eed4803bb239bcca92c42ef500cbd77e929a39f9ef937384cfd7afeaa",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "execution-tools/run_mapping_checkpoint_source_664e053.py",
+      "hash": "sha256:667d101525de20aa4fa86382827365204a304e37ff64636e05f1a2516942eaaa",
+      "original_artifact_hash": "sha256:d283369efd9e84b3b022a8b5912501e56d8c8ed9ec53fc9c69ef3113f661f161",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "execution-tools/run_mapping_checkpoint_build_664e053.py",
+      "hash": "sha256:b74f96a717b537fe14129ed1c60855a2f2222098d372401c3700bfd39a59f9b1",
+      "original_artifact_hash": "sha256:096b92699e13c2ce6a6a3d0e5ee63e88673f40e010cefa1aeefad38b69e56d8a",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "execution-tools/run_mapping_checkpoint.py",
+      "hash": "sha256:a769107d2dfd65845a5b006c0dd296cf3a7dfdf35666164033a94bde1bf7dd02",
+      "original_artifact_hash": "sha256:db72062686bf71fa30dd2cffc4b6173a15a8d182592a816cf9c0b66bfb87c17b",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "paper-native-repair-affected/result.json",
+      "hash": "sha256:8eaf3ce39280cfd94d3d754f1f4adaa042c416701510343abc9a9f1dd2ac5323",
+      "original_artifact_hash": "sha256:454cdcd61ace73a03ba28a7fdb360d60a7d2c14514fab2b3a1c73fd9e5029279",
+      "retention": "SANITIZED_CANONICAL_LF"
+    },
+    {
+      "ref": "paper-native-repair-affected/owned.log",
+      "hash": "sha256:97fe5ec226942821bdfde65e6ff7c7bd1b61ffb54682428f6fdbb450515b86ab",
+      "original_artifact_hash": "sha256:367501423463378e63f4ad1666c4a2cbff465fefffad78d35de362cb9c322392",
+      "retention": "SANITIZED_CANONICAL_LF"
+    }
+  ],
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "affected_dirty": {
+    "tests": 94,
+    "failures": 0,
+    "errors": 4,
+    "skips": 0,
+    "tree_reaped": true,
+    "reason": "FOUR_NORMAL_SOURCE_PROMOTION_CASES_REQUIRE_EXACT_CLEAN_SOURCE;GUARD_UNCHANGED"
+  }
+}

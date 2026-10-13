@@ -1,0 +1,151 @@
+test_fresh_profile_data_is_initialized_under_owned_locks (test_paper_producer_failures.PaperProducerFailureTests.test_fresh_profile_data_is_initialized_under_owned_locks) ... ERROR
+test_log_write_failure_preserves_original_raw_until_retention_succeeds (test_paper_producer_failures.PaperProducerFailureTests.test_log_write_failure_preserves_original_raw_until_retention_succeeds) ... ERROR
+test_post_command_source_guard_failure_cannot_leave_success_only_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_post_command_source_guard_failure_cannot_leave_success_only_receipt) ... {"member": "PQR-01-001", "passed": true, "tests": 1, "tree_reaped": true}
+ERROR
+test_spawn_failure_is_sanitized_and_retained_as_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_spawn_failure_is_sanitized_and_retained_as_negative_receipt) ... ERROR
+test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt) ... ERROR
+test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt) ... ERROR
+
+======================================================================
+ERROR: test_fresh_profile_data_is_initialized_under_owned_locks (test_paper_producer_failures.PaperProducerFailureTests.test_fresh_profile_data_is_initialized_under_owned_locks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 57, in test_fresh_profile_data_is_initialized_under_owned_locks
+    self.execute(spawn_owned=OSError('controlled unavailable child'))
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 40, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 113, in qualify
+    with open_sqlite_platform(config.database_path,research_namespace='LOCAL_RESEARCH'):pass
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 28, in open_sqlite_platform
+    store = _open_authorized_store(path, require_existing=require_existing)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 721, in _open_authorized_store
+    connection = _connect(path, require_existing=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 41, in _connect
+    connection = sqlite3.connect(target, uri=require_existing)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: unable to open database file
+
+======================================================================
+ERROR: test_log_write_failure_preserves_original_raw_until_retention_succeeds (test_paper_producer_failures.PaperProducerFailureTests.test_log_write_failure_preserves_original_raw_until_retention_succeeds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 71, in test_log_write_failure_preserves_original_raw_until_retention_succeeds
+    output,receipt=self.execute(write_private_new=write)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 40, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 138, in qualify
+    log_bytes=text.encode('utf-8');write_private_new(output/log_ref,log_bytes)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 69, in write
+    if Path(path).name=='PQR-01-001.log':raise OSError('controlled retained-write failure')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: controlled retained-write failure
+
+======================================================================
+ERROR: test_post_command_source_guard_failure_cannot_leave_success_only_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_post_command_source_guard_failure_cannot_leave_success_only_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 60, in test_post_command_source_guard_failure_cannot_leave_success_only_receipt
+    output,receipt=self.execute(guard=dict(side_effect=[None,None,ValueError('actual input drift')]))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 40, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 164, in qualify
+    _guard(root,revision,package,facts,profile)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1202, in _execute_mock_call
+    raise result
+ValueError: actual input drift
+
+======================================================================
+ERROR: test_spawn_failure_is_sanitized_and_retained_as_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_spawn_failure_is_sanitized_and_retained_as_negative_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 51, in test_spawn_failure_is_sanitized_and_retained_as_negative_receipt
+    output,receipt=self.execute(spawn_owned=OSError('UNTRUSTED_SECRET_SHOULD_NOT_APPEAR'))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 40, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 134, in qualify
+    owned=spawn_owned(command,cwd=root,limits=ResourceLimits(member['timeout_seconds']),stdout=stream,stderr=subprocess.STDOUT,env=env)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+OSError: UNTRUSTED_SECRET_SHOULD_NOT_APPEAR
+
+======================================================================
+ERROR: test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 80, in test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt
+    output,receipt=self.execute(spawn_owned=spawn)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 40, in execute
+    result=self.m.qualify(self.config,self.source,self.root/'package')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\producer.py", line 135, in qualify
+    code=owned.wait()
+         ^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 78, in <lambda>
+    child.wait=lambda *a,**k:(_ for _ in ()).throw(OSError('controlled wait failure'))
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_producer_failures.py", line 78, in <genexpr>
+    child.wait=lambda *a,**k:(_ for _ in ()).throw(OSError('controlled wait failure'))
+OSError: controlled wait failure
+
+======================================================================
+ERROR: test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt (test_paper_producer_failures.PaperProducerFailureTests.test_wait_failure_reaps_the_actual_spawned_child_before_negative_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 633, in _rmtree_unsafe
+    os.unlink(fullname)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 PQR failure nolli56h\\data\\qualification\\pqr-93152a9e61d448f4b0f7749c6dc4ccb4\\PQR-01-001.raw'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\R7 PQR failure nolli56h\\data\\qualification\\pqr-93152a9e61d448f4b0f7749c6dc4ccb4\\PQR-01-001.raw'
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.071s
+
+FAILED (errors=6)

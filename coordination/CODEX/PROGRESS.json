@@ -5,7 +5,7 @@
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12_ORDINARY_PAPER_FIXED_ISSUER_CURRENT_RELEASE_ADAPTER_AND_PRODUCT_INTEGRATION",
-  "next_step": "Full exact-clean source and native PQR-02/03 development checkpoint; complete fixed PQR-04..07 native drivers and unattended ordinary workflow. No software eligibility before complete PQR. Preserve historical bindings after config change/receipt loss.",
+  "next_step": "Freeze repaired inventory, commit exact clean candidate; full source/new native02/03; complete native04..07 expiry/fault/capacity/security/report and unattended ownership. No generic PM mapping wait.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -73,12 +73,12 @@
       "logical_cores": 20,
       "measured_memory_kib": 32945572,
       "additional_source_python": "3.14.3",
-      "native_package_status": "SCOPED_CURRENT_D36_NORMAL3_PASS;FULL_PRODUCT_INCOMPLETE",
-      "native_first_run_status": "D36_PUBLIC_INIT_FIXTURE_CONFIG_ACTUAL_HIDDEN_TTY3_NORMAL;OTHER_FIRST_RUN_SCENARIOS_HISTORICAL",
-      "native_first_run_revision": "d3d849642f278ccd39723355367bf1030d8f0619",
+      "native_package_status": "664_SOURCE_BUILD_NATIVE02_PASS;NATIVE03_FAILED_AUTH_TOOL;REPAIRS_PENDING_NEW_CANDIDATE",
+      "native_first_run_status": "664_EXACT_NATIVE_PASS8_SCENARIOS9_COMMANDS",
+      "native_first_run_revision": "664e05358879e61df926553b6721376a39815d3e",
       "native_first_run_scenarios": 8,
       "native_first_run_commands": 9,
-      "native_first_run_build_hash": "sha256:cda73cb8bfbba31a84289272e0960b4aec028b9a4ce4a9e795c2467cee5da04e",
+      "native_first_run_build_hash": "sha256:795385cebf5a8c6dbdf0ae7690dcca534ae62b1e46e95d374e24cf14aa404d42",
       "native_archive_sha256": "ddffe736db5e053b4fad726579bea9354cbf7b329d92733476e4dced899564d7",
       "native_full_product_acceptance": "NOT_RUN",
       "native_package_scope": "D36_NORMAL3;38_COMMANDS27_CLI11_BROWSER3_TTY7_CONTROL;INTAKE_EXPIRY_NATIVE_NOT_RUN",
@@ -3658,14 +3658,26 @@
     "real_data": "NOT_RUN",
     "real_forward": "NOT_RUN",
     "last_complete_source_attempt": {
-      "revision": "f5d53caa8bb0cbeeaab3a3615020e74d55c76e5c",
-      "status": "FAILED_RESOURCE",
-      "commands_completed": 31,
+      "revision": "664e05358879e61df926553b6721376a39815d3e",
+      "status": "PASS",
+      "commands_completed": 33,
       "required": 33,
-      "failures": 4,
-      "errors": 5,
-      "evidence_ref": "status/codex/productization/S12/paper-replay-resource-20261013/manifest.json"
+      "tests": 2166,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0,
+      "evidence_ref": "status/codex/productization/S12/paper-native-checkpoint-664e053/manifest.json"
     },
-    "completed_expired_api_replay": "IMPLEMENTED;RED503_GREEN1;AFFECTED_API44_COMMAND11_PASS;REVIEW0C/I"
+    "completed_expired_api_replay": "IMPLEMENTED;RED503_GREEN1;AFFECTED_API44_COMMAND11_PASS;REVIEW0C/I",
+    "last_native_build": {
+      "executable_revision": "664e05358879e61df926553b6721376a39815d3e",
+      "implementation_hash": "sha256:a08cbd7dba8ab8bbc7bc9a3436238b1d8c3f1efbd11c6cac90ed8c3f472362a7",
+      "build_hash": "sha256:795385cebf5a8c6dbdf0ae7690dcca534ae62b1e46e95d374e24cf14aa404d42",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "native02": "664e053_PASS8_SCENARIOS9_COMMANDS",
+    "native03": "664e053_FAILED_AUTH_TOOL_INPUT;KEY_UP_REPAIRED;NEW_CANDIDATE_PENDING"
   }
 }

@@ -3,7 +3,7 @@
 - task_id: `CODEX-R7-PRODUCTIZATION-MASTER-20261002`
 - state: `ACTIVE`
 - spec_baseline: `r7-product-v0.2`
-- updated_at: `2026-10-02`
+- updated_at: `2026-10-13`
 - repository: `jackp803/project-r7`
 - execution_model: `CONTINUOUS M1 -> M11; refined by S01-S16`
 - implementation_branch: `codex/r7-productization-master-20261002`
@@ -20,8 +20,15 @@
 4. `docs/product/v0_2/00_EXECUTION_BASELINE.md`.
 5. All v0.2 component specifications, `06_EXECUTION_PLAN.md` and `07_ACCEPTANCE_MATRIX.json`.
 6. Applicable original v0.1 product documents, canonical contracts, ADRs and relevant actual E1-E6 implementation/tests.
+7. `status/PM_PAPER_RELEASE_MAPPING_DECISION_20261013.md` for the four S09/S12 ordinary PAPER mapping decisions and fixed software-check inventory.
 
 The v0.2 baseline lists exactly which older product provisions it supersedes. Do not select a contradictory older Windows-only instruction or a P1-only stop instruction. Preserve canonical financial/execution semantics and legacy strategy behavior.
+
+## PM clarification — 2026-10-13
+
+The four named ordinary PAPER mapping-design questions are accepted with the clarifications in the PM decision above. This is implementation direction, not acceptance of d36d916 or any other executable, an E6 test sign-off, local workflow consent, or financial/forward/LIVE authority. Do not retain a generic "waiting for those four PM mappings" blocker once the decision is read; report any specific newly demonstrated semantic conflict separately.
+
+Continue owning producer/current-release adapter and ordinary product owner integration, native fault/recovery/capacity, unattended user flow and the existing platform/final acceptance. Preserve the successful FIXTURE path as regression. Do not replace missing ordinary functionality with repeated demonstrations. Reuse required tests and run impacted verification; do not add a general-purpose certification framework or execute full qualification in the trading/protection loop. All previously required final and commissioning evidence remains distinct and mandatory within its scope.
 
 ## Mission
 

@@ -257,6 +257,13 @@ class NativeExpiryFlow(PublicFixture):
             raise ValueError('Actual Paper read port forward observations required')
         return forward['real_elapsed_ns']
 
+    @staticmethod
+    def unsupported_manifest(raw):
+        original=json.loads(raw)
+        if 'package_schema_version' not in original:raise ValueError('Actual authored package version required')
+        original['package_schema_version']='r7-strategy-package-unsupported-v999'
+        return canonical(original).encode('utf-8')
+
     def request(self,method,path,body=None,*,expected=200):
         if not path.startswith('/api/v1/'):raise ValueError('Fixed loopback product API required')
         self.require_api_control()
@@ -344,8 +351,7 @@ class NativeExpiryFlow(PublicFixture):
             with path.open('wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
         write(manifest,b'{');malformed=self.scan()[2]
         if malformed['blocked']!=1 or self.submission()['receipt'] is not None:raise ValueError('Malformed submission accepted')
-        unsupported=json.loads(original);unsupported['schema_version']='r7-package-unsupported-v999'
-        write(manifest,canonical(unsupported).encode());self.scan()
+        write(manifest,self.unsupported_manifest(original));self.scan()
         if self.submission()['latest_observation']['reason']!='UNSUPPORTED_PACKAGE_VERSION':raise ValueError('Unsupported package not denied')
         write(manifest,original);payload.unlink();self.scan()
         if self.submission()['latest_observation']['state']!='INCOMPLETE_SYNC':raise ValueError('Partial sync not retained')

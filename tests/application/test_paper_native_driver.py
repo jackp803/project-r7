@@ -109,6 +109,17 @@ class PaperNativeDriverTests(unittest.TestCase):
         with self.assertRaises(ValueError):fixture.request('POST','/api/v1/auth/login',dict(password='SOURCE_SYNTHETIC_ONLY'))
         fixture.opener.open.assert_not_called()
 
+    def test_unsupported_fault_changes_actual_package_version_without_adding_fields(self):
+        m=self.module()
+        from application.cloud.manifest import parse_manifest,canonical_bytes
+        from application.cloud.protocol import CloudError
+        original=dict(package_schema_version='r7-strategy-package-v0.2',submission_id='source-driver-test')
+        changed=m.NativeExpiryFlow.unsupported_manifest(canonical_bytes(original))
+        self.assertEqual(set(json.loads(changed)),set(original))
+        self.assertEqual(original['package_schema_version'],'r7-strategy-package-v0.2')
+        with self.assertRaises(CloudError) as denied:parse_manifest(changed)
+        self.assertEqual(denied.exception.reason,'UNSUPPORTED_PACKAGE_VERSION')
+
     def test_failed_expiry_case_still_binds_sanitized_log_and_partial_observation(self):
         m=self.module()
         def failed(fixture):

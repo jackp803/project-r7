@@ -5,7 +5,7 @@
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12_ORDINARY_PAPER_FIXED_ISSUER_CURRENT_RELEASE_ADAPTER_AND_PRODUCT_INTEGRATION",
-  "next_step": "Build new exact-clean temporal/native04 candidate and execute all seven actual native04 cases; retain failures, minimally remediate; then native05..07, bounded currentness, unattended ordinary flow and final owning qualification.",
+  "next_step": "Continue new exact-clean native04 attempt after wrong version-field fault repaired; then native05..07, bounded currentness, unattended ordinary flow and complete owning qualification.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -3703,6 +3703,14 @@
       "source_tests": 24,
       "evidence_ref": "status/codex/productization/S12/paper-temporal-development-20261013/manifest.json",
       "review": "3 Important fixed; readonly execution NONE"
+    },
+    "native04": {
+      "status": "ACTUAL_NATIVE04_FAILED_RETAINED",
+      "revision": "fc615e3442d626274ac7560f1b4e3566321de260",
+      "actual_cases_passed": 0,
+      "actual_cases_attempted": 1,
+      "required_cases": 7,
+      "evidence_ref": "status/codex/productization/S12/paper-native04-fc615e3/manifest.json"
     }
   }
 }

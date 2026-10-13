@@ -1,0 +1,61 @@
+test_actual_insufficient_oos_samples_never_become_candidate (test_research_setup_flow.ResearchSetupFlowTests.test_actual_insufficient_oos_samples_never_become_candidate) ... FAIL
+test_actual_oos_losses_produce_rejection_through_normal_entry (test_research_setup_flow.ResearchSetupFlowTests.test_actual_oos_losses_produce_rejection_through_normal_entry) ... FAIL
+test_canonical_cloud_alias_is_rejected_before_opening_profile_bytes (test_research_setup_flow.ResearchSetupFlowTests.test_canonical_cloud_alias_is_rejected_before_opening_profile_bytes) ... ok
+test_cloud_borne_selection_unknown_authority_and_missing_local_inputs_are_rejected (test_research_setup_flow.ResearchSetupFlowTests.test_cloud_borne_selection_unknown_authority_and_missing_local_inputs_are_rejected) ... ok
+test_config_inside_or_equal_to_cloud_root_is_rejected_before_any_write (test_research_setup_flow.ResearchSetupFlowTests.test_config_inside_or_equal_to_cloud_root_is_rejected_before_any_write) ... ok
+test_each_running_owner_fences_configuration_without_changing_selection (test_research_setup_flow.ResearchSetupFlowTests.test_each_running_owner_fences_configuration_without_changing_selection) ... ok
+test_explicit_setup_is_immutable_idempotent_and_creates_no_owner_database (test_research_setup_flow.ResearchSetupFlowTests.test_explicit_setup_is_immutable_idempotent_and_creates_no_owner_database) ... ok
+test_first_run_cloud_root_is_explicit_disjoint_and_never_connected (test_research_setup_flow.ResearchSetupFlowTests.test_first_run_cloud_root_is_explicit_disjoint_and_never_connected) ... ok
+test_outside_profile_hardlinked_to_cloud_input_is_rejected_without_publication (test_research_setup_flow.ResearchSetupFlowTests.test_outside_profile_hardlinked_to_cloud_input_is_rejected_without_publication) ... ok
+test_overlapping_cloud_root_never_publishes_profile_or_initializes_database (test_research_setup_flow.ResearchSetupFlowTests.test_overlapping_cloud_root_never_publishes_profile_or_initializes_database) ... ok
+test_public_setup_login_scan_and_independent_worker_produce_actual_candidate (test_research_setup_flow.ResearchSetupFlowTests.test_public_setup_login_scan_and_independent_worker_produce_actual_candidate) ... FAIL
+
+======================================================================
+FAIL: test_actual_insufficient_oos_samples_never_become_candidate (test_research_setup_flow.ResearchSetupFlowTests.test_actual_insufficient_oos_samples_never_become_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 198, in test_actual_insufficient_oos_samples_never_become_candidate
+    actual,lifecycle=self.flow('INSUFFICIENT')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 182, in flow
+    result=self.call(['research-worker','--config',str(self.config_path),'--once'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-8ea6360452a2b684fa002837016b48477906fc664aaba272edbd5616a32816a1", "generation": 1, "job_state": "FAILED", "parent_pid": 112800, "child_pid": 111900, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-8ea6360452a2b684fa002837016b48477906fc664aaba272edbd5616a32816a1-1.log", "reason_codes": ["EvidenceGateError"]}
+
+
+======================================================================
+FAIL: test_actual_oos_losses_produce_rejection_through_normal_entry (test_research_setup_flow.ResearchSetupFlowTests.test_actual_oos_losses_produce_rejection_through_normal_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 194, in test_actual_oos_losses_produce_rejection_through_normal_entry
+    actual,lifecycle=self.flow('REJECTED')
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 182, in flow
+    result=self.call(['research-worker','--config',str(self.config_path),'--once'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-9602691ce55eb8b1c137f12180664380afbb4093988e551f9af85ad4082756b0", "generation": 1, "job_state": "FAILED", "parent_pid": 112800, "child_pid": 75388, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-9602691ce55eb8b1c137f12180664380afbb4093988e551f9af85ad4082756b0-1.log", "reason_codes": ["EvidenceGateError"]}
+
+
+======================================================================
+FAIL: test_public_setup_login_scan_and_independent_worker_produce_actual_candidate (test_research_setup_flow.ResearchSetupFlowTests.test_public_setup_login_scan_and_independent_worker_produce_actual_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 190, in test_public_setup_login_scan_and_independent_worker_produce_actual_candidate
+    actual,lifecycle=self.flow('CANDIDATE')
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 182, in flow
+    result=self.call(['research-worker','--config',str(self.config_path),'--once'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_research_setup_flow.py", line 40, in call
+    self.assertEqual(code, 0, output.getvalue())
+AssertionError: 2 != 0 : {"status": "JOB_TERMINATED", "run_id": "job-6e1a5552b12e92c01319c2e4bfbf2f3831a724eaaa0b1da9747c38ebeef362c1", "generation": 1, "job_state": "FAILED", "parent_pid": 112800, "child_pid": 109060, "exit_code": 2, "tree_reaped": true, "memory_enforcement": "SOFT_LIMIT_ONLY", "log_ref": "worker-logs/job-6e1a5552b12e92c01319c2e4bfbf2f3831a724eaaa0b1da9747c38ebeef362c1-1.log", "reason_codes": ["EvidenceGateError"]}
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 16.033s
+
+FAILED (failures=3)

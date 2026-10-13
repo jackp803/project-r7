@@ -5,7 +5,7 @@
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
   "active_step": "S12_ORDINARY_PAPER_FIXED_ISSUER_CURRENT_RELEASE_ADAPTER_AND_PRODUCT_INTEGRATION",
-  "next_step": "Freeze and commit corrected native04 drivers/temporal filename; build exact-clean candidate and execute all seven actual native04 cases; continue native05..07 and bounded currentness/ordinary supervision.",
+  "next_step": "Freeze/commit safe startup diagnostics; rerun research setup11 exact-clean, build candidate, resolve native04 fresh setup failure using actual diagnostic and complete all7; continue native05..07/currentness/ordinary supervision.",
   "long_path_remediation": {
     "status": "PASS",
     "source_checkpoint": "86643c4b0444db2cfb33ce071618c1e3f708ad37",
@@ -3706,16 +3706,23 @@
     },
     "native04": {
       "status": "ACTUAL_NATIVE04_FAILED_RETAINED",
-      "revision": "d2df1a8df6924b12959789df05e7766c26032566",
-      "actual_cases_passed": 2,
-      "actual_cases_attempted": 3,
+      "revision": "cd588de18bafb5d4fd1efe7c8eff6328311ca063",
+      "attempt": "retry01",
+      "actual_cases_passed": 1,
+      "actual_cases_attempted": 2,
       "required_cases": 7,
-      "evidence_ref": "status/codex/productization/S12/paper-native04-d2df1a8/manifest.json"
+      "evidence_ref": "status/codex/productization/S12/paper-native04-cd588de-retry01/manifest.json"
     },
     "native04_remediation": {
       "status": "DEVELOPMENT_REMEDIATION_ONLY_NO_PQR_CREDIT",
       "evidence_ref": "status/codex/productization/S12/paper-native04-owner-name-remediation/manifest.json",
       "focused_tests": 20
+    },
+    "startup_diagnostic_remediation": {
+      "status": "SAFE_DIAGNOSTICS_DEVELOPMENT_PASS",
+      "evidence_ref": "status/codex/productization/S12/startup-diagnostics-development/manifest.json",
+      "focused_green": 13,
+      "source_clean_prerequisite_retry": 11
     }
   }
 }

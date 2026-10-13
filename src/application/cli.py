@@ -351,6 +351,38 @@ def main(argv=None):
     return 0
 
 
+def _startup_diagnostic(error):
+    """Fixed categories and source locations only; never exception text/args."""
+    from application.cloud.protocol import CloudError
+    from application.platform.scope_lock import ScopeBusy
+    known_reasons={'PUBLICATION_FINALIZE_FAILED','PUBLICATION_STAGE_WRITE_FAILED',
+        'PUBLICATION_STAGE_FLUSH_FAILED','PUBLICATION_PARENT_WRITE_FAILED',
+        'ARTIFACT_READ_DENIED','ARTIFACT_MISSING','HARDLINK_ALIAS_FORBIDDEN','REPARSE_POINT_FORBIDDEN'}
+    known_files={'cli.py','setup.py','safe_files.py','scope_lock.py','config.py',
+        'distribution.py','local_owners.py','paths.py','resources.py','supervision.py'}
+    result=dict(schema_version='r7-startup-diagnostic-v0.2',error_kind='VALIDATION' if isinstance(error,ValueError) else 'OTHER',
+        reason_code='LOCAL_STARTUP_VALIDATION_FAILED',os_error=None,windows_error=None,source_location=None)
+    seen=set()
+    for _ in range(8):
+        if error is None or id(error) in seen:break
+        seen.add(id(error))
+        if isinstance(error,ScopeBusy):result['error_kind']='OWNER_SCOPE_BUSY'
+        if isinstance(error,CloudError) and type(error.reason) is str and error.reason in known_reasons:result['reason_code']=error.reason
+        if isinstance(error,OSError):
+            result['error_kind']='OS_FAILURE'
+            for attribute,key in (('errno','os_error'),('winerror','windows_error')):
+                value=getattr(error,attribute,None)
+                if type(value) is int and 0<=value<2**31:result[key]=value
+        frame=error.__traceback__
+        for _ in range(32):
+            if frame is None:break
+            name=Path(frame.tb_frame.f_code.co_filename).name
+            if name in known_files:result['source_location']=dict(file=name,line=frame.tb_lineno)
+            frame=frame.tb_next
+        error=error.__cause__
+    return result
+
+
 def run():
     """Sanitized executable boundary; argparse retains its ordinary exit codes."""
     try:
@@ -361,6 +393,7 @@ def run():
     except KeyboardInterrupt:
         print('R7: stopped', file=sys.stderr)
         return 130
-    except Exception:
+    except Exception as error:
         print('R7: local configuration or startup validation failed', file=sys.stderr)
+        print(json.dumps(_startup_diagnostic(error)),file=sys.stderr)
         return 2

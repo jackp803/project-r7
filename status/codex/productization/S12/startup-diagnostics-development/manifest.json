@@ -1,0 +1,81 @@
+{
+  "scope": "DIRTY_FOCUSED_DEVELOPMENT_NOT_QUALIFICATION",
+  "status": "SAFE_DIAGNOSTICS_DEVELOPMENT_PASS",
+  "intended_red": {
+    "tests": 3,
+    "errors": 3,
+    "reason": "Missing structured safe diagnostic JSON"
+  },
+  "green": {
+    "tests": 3,
+    "failures": 0,
+    "errors": 0
+  },
+  "entrypoint_regression": {
+    "tests": 10,
+    "failures": 0,
+    "errors": 0
+  },
+  "research_source_attempt": {
+    "tests": 11,
+    "failures": 3,
+    "errors": 0,
+    "status": "DIRTY_SOURCE_CLEAN_PROVENANCE_PREREQUISITE_NOT_SATISFIED",
+    "next": "Rerun unchanged positive flows on committed exact-clean candidate; keep clean promotion gate unchanged"
+  },
+  "independent_review": {
+    "critical": 0,
+    "important": 0,
+    "reviewer": "qualification_review",
+    "execution": "NONE"
+  },
+  "original_native_setup_cause": "UNRESOLVED; safe diagnostics needed, no retry weakening",
+  "full_source": "NOT_RUN",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "artifacts": [
+    {
+      "ref": "startup-diagnostic-red/owned.log",
+      "hash": "sha256:f023bcf641365e5dcae7a0b9e5ebedb6db7d8355a5b55b3855b8d5d8af1a192f",
+      "original_artifact_hash": "sha256:9a3eea6a2fca88b385fcd573b58b3c4beb956c3d4c1f3aae197f0a8dfff44203"
+    },
+    {
+      "ref": "startup-diagnostic-red/result.json",
+      "hash": "sha256:d572e3aabd181eafd9a44603b447728bf5492bd10ceee65d0ca736d630ded268",
+      "original_artifact_hash": "sha256:aebe9bb72ecaabc7c8587eee648b3817e7fe879c3b37e78d85e633d18525fa51"
+    },
+    {
+      "ref": "startup-diagnostic-final-green/owned.log",
+      "hash": "sha256:7e9e8db6146c448e4b2911f52a99476fdd6c1119c2a2855dc2b545ee2fc06cac",
+      "original_artifact_hash": "sha256:f9dfadc138e94c593da0fcc431410002bf71df2505e90a4fdcc273992049ea5e"
+    },
+    {
+      "ref": "startup-diagnostic-final-green/result.json",
+      "hash": "sha256:4b1c14afb3144420968fd026c417f4d57d03a6acf1570d9848cc6a2b6da2d7f3",
+      "original_artifact_hash": "sha256:d619bda952179f07efe04d2134af0379336a85d5e2b6eb49dc9f0afc2a28dcc0"
+    },
+    {
+      "ref": "startup-diagnostic-entrypoints-green/owned.log",
+      "hash": "sha256:62f671a3fbedd2499fbfc17163d51c4bb2235a7e3c25a7c67ec21a5221bd13c9",
+      "original_artifact_hash": "sha256:b8d02ec7894d0ed97bfcbb6e5129d5b32ae03fa12dd9b03f0122075930cbf582"
+    },
+    {
+      "ref": "startup-diagnostic-entrypoints-green/result.json",
+      "hash": "sha256:5560a9e7e7e225083310f95ab72a141de3ead1e403764cfa670c9d8f181aba2c",
+      "original_artifact_hash": "sha256:706c56bf7b3243f75939ede0479fbc1c8d9355f0fbeb042eda98463defb9dae6"
+    },
+    {
+      "ref": "startup-diagnostic-research-setup-green/owned.log",
+      "hash": "sha256:cc4d8faa0b22685838b860f1acc24a46d4f4939119ccba66f6239e171803d642",
+      "original_artifact_hash": "sha256:21bd3579782b3acccd96b687008c34477d1d1e907b3e697ce06a38f4b05720f4"
+    },
+    {
+      "ref": "startup-diagnostic-research-setup-green/result.json",
+      "hash": "sha256:3fd4bd98570a0e756ae77c1d2fc407d67b119484476e95410254a1ff43de26f0",
+      "original_artifact_hash": "sha256:de81f91bf8b17112968490ec9f40d699c9a7dcb1678d1feb06a4064a7affe20b"
+    }
+  ],
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

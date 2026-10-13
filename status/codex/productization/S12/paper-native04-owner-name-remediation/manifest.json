@@ -1,0 +1,110 @@
+{
+  "status": "DEVELOPMENT_REMEDIATION_ONLY_NO_PQR_CREDIT",
+  "old_native_revision": "d2df1a8df6924b12959789df05e7766c26032566",
+  "defect": "Native owner ID plus UUID exceeded the existing safe artifact component limit; filename bounded without relaxing path protections. Full owner ID retained in observation body.",
+  "red": {
+    "tests": 9,
+    "errors": 1,
+    "failures": 0,
+    "intended_reason": "UNSAFE_PATH_COMPONENT"
+  },
+  "green": {
+    "tests": 9,
+    "errors": 0,
+    "failures": 0
+  },
+  "driver_green": {
+    "tests": 11,
+    "errors": 0,
+    "failures": 0
+  },
+  "superseded_overlapping_run": "Earlier overlapping development failure occurred during intake; not used as intended RED evidence.",
+  "full_source": "NOT_RUN",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "ref": "development/artifact-878e25dc22762da8.json",
+      "hash": "sha256:8104a62bf8354ac6fdee94468a6e0e06f9c71fdc082dbf8c3ee1281106631457",
+      "original_hash": "sha256:8104a62bf8354ac6fdee94468a6e0e06f9c71fdc082dbf8c3ee1281106631457"
+    },
+    {
+      "ref": "development/artifact-2ca5d96f6cfcbd02.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "ref": "development/checkpoint-04f8ae2d46709565.finish.json",
+      "hash": "sha256:69e38d403010fa40612678de8cd3c9a04711d45bc4053575f92c74530386d1f6",
+      "original_hash": "sha256:69e38d403010fa40612678de8cd3c9a04711d45bc4053575f92c74530386d1f6"
+    },
+    {
+      "ref": "development/checkpoint-3069a00e7ea12967.start.json",
+      "hash": "sha256:21c79f45c1e43f59b4306e0951dada5bb64c892644576ec8135f2353ff530604",
+      "original_hash": "sha256:21c79f45c1e43f59b4306e0951dada5bb64c892644576ec8135f2353ff530604"
+    },
+    {
+      "ref": "development/artifact-23dd4c6355fe45a6.log",
+      "hash": "sha256:ced04d50292d76ea5e026978f27524155a564b670152364904ee668e2b96421b",
+      "original_hash": "sha256:8e3958c97729281757de344562c353e3c81297f310e64ed4062e90d72fe8af5b"
+    },
+    {
+      "ref": "development/artifact-c80e4b5ecf75d7b0.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+      "original_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "ref": "development/artifact-7ebb03b2c2303ce5.log",
+      "hash": "sha256:0263268b6ab421d541d88b012311d4e1ef3ae6536ca7e0d0e0d86bdc7566fdce",
+      "original_hash": "sha256:0263268b6ab421d541d88b012311d4e1ef3ae6536ca7e0d0e0d86bdc7566fdce"
+    },
+    {
+      "ref": "development/artifact-6dedd9a2870bbf0e.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+      "original_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "ref": "development/artifact-8fe9ac7055af347b.log",
+      "hash": "sha256:f6c2033f9b66ea55e91069f765e7e03e32b1a89886b74cf90ab9bfb65a151a25",
+      "original_hash": "sha256:f6c2033f9b66ea55e91069f765e7e03e32b1a89886b74cf90ab9bfb65a151a25"
+    },
+    {
+      "ref": "development/artifact-098cf7fc24af25a2.log",
+      "hash": "sha256:b73e9f5482d651c886d7731f26c68d3974296b05c75acd58ab2ef79e753c2e42",
+      "original_hash": "sha256:b73e9f5482d651c886d7731f26c68d3974296b05c75acd58ab2ef79e753c2e42"
+    },
+    {
+      "ref": "regression/native04-owner-name-red-confirmed/owned.log",
+      "hash": "sha256:669fff48b67a14fd599b7b94533c9b02b9511114682e18c67daeeaf7a1186444",
+      "original_hash": "sha256:a9cf279f6241e6865e1b0d3f55666123eab316dc1dfe855be33f2f012bb8c9a1"
+    },
+    {
+      "ref": "regression/native04-owner-name-red-confirmed/result.json",
+      "hash": "sha256:816e414f4e89f7db972c13fdfdba6985b40492ebc5e36d193e6af327da6c72f6",
+      "original_hash": "sha256:bf8d274fe4d1c06c9e268441d84c20a0872958e2e7e754987128627ea583ccfe"
+    },
+    {
+      "ref": "regression/native04-owner-name-green-confirmed/owned.log",
+      "hash": "sha256:d9960d726301fbb033eb3228e61363845801cf0983ef6e91bcbac066f10cf86b",
+      "original_hash": "sha256:9c498e856911b6a9d4191f105c1bdae8d89ebf8c3daff5a5d93424a42f837f23"
+    },
+    {
+      "ref": "regression/native04-owner-name-green-confirmed/result.json",
+      "hash": "sha256:40e29a9bd3435d87889313ebbac7e12f61551ca35f2b50fb32b4a856924d424f",
+      "original_hash": "sha256:52e0f50812b4b6c91e11439eb5cca3406b1afc79061a89de3de83e19286a4576"
+    },
+    {
+      "ref": "regression/native04-post-owner-name-driver-green/owned.log",
+      "hash": "sha256:23bdbd7b7d6f1d6ae525ab8dc596e73e8a3d8c6cface77db95e1778938766e91",
+      "original_hash": "sha256:af4da791004c320a5e11b10ba629cdb88ced77184960a9e9b3d98d84248e9ba3"
+    },
+    {
+      "ref": "regression/native04-post-owner-name-driver-green/result.json",
+      "hash": "sha256:b22d12f77080cece63465c55b7af87839e8edab0359a6699127682102209e315",
+      "original_hash": "sha256:55a30fa15ae83b7bebdbe39c06ed3d5c3aaa2bf901130d22a9035004d0448491"
+    }
+  ]
+}

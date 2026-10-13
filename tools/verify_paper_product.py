@@ -91,7 +91,7 @@ class PublicFixture:
             require_private(path)
             with path.open('wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
 
-    def command(self,label,args,*,timeout=300,expected=0,argv=None,env=None):
+    def command(self,label,args,*,timeout=300,expected=0,argv=None,env=None,json_result=False):
         self.guard();raw_path=self.output/(label+'.raw');log=self.output/(label+'.log')
         with raw_path.open('xb') as stream:
             owned=spawn_owned(argv or [str(self.executable),*map(str,args)],cwd=self.output,
@@ -104,7 +104,7 @@ class PublicFixture:
             tree_reaped=owned.termination_report.reaped,log=log.name,log_hash=sha(log.read_bytes())))
         self.persist();self.guard()
         if code!=expected or not owned.termination_report.reaped:raise ValueError('Actual native public command failed')
-        return json.loads(text) if expected==0 else None
+        return json.loads(text) if expected==0 or json_result else None
 
     def health(self,role,owned):
         config=load_config(self.config);health=process_health(config,role)
@@ -322,9 +322,14 @@ class NativeExpiryFlow(PublicFixture):
         receipt=self.request('POST','/api/v1/research/runs',body,expected=202)
         return body,receipt,receipt['effect_ref'].removeprefix('research-job:')
 
-    def research(self):
-        result=self.command('research-worker',['research-worker','--config',self.config,'--once'],timeout=180)
-        if result['status']!='JOB_FINISHED' or not result['tree_reaped'] or result['parent_pid']==result['child_pid']:
+    def research(self,*,expected_state='COMPLETE'):
+        if expected_state not in ('COMPLETE','EXPIRED'):raise ValueError('Fixed native research expected state required')
+        expired=expected_state=='EXPIRED'
+        result=self.command('research-worker',['research-worker','--config',self.config,'--once'],timeout=180,
+            expected=2 if expired else 0,json_result=True)
+        if (result['status']!=('JOB_TERMINATED' if expired else 'JOB_FINISHED') or result['job_state']!=expected_state
+                or not result['tree_reaped'] or result['parent_pid']==result['child_pid']
+                or expired and (result['exit_code']!=2 or result['reason_codes']!=['SUBMISSION_EXPIRED'])):
             raise ValueError('Actual independent native research child required')
         return result
 
@@ -487,10 +492,10 @@ class NativeExpiryFlow(PublicFixture):
                     self.request('POST','/api/v1/research/runs',changed,expected=409)
                     self.request('POST','/api/v1/research/runs',{**body,'command_id':'new-'+secrets.token_hex(12)},expected=503)
                     if len(self.view('research/runs')['items'])!=1:raise ValueError('Expired enqueue added a job')
-                    self.research()
+                    self.research(expected_state='EXPIRED')
                 elif self.native_case=='checkpoint-cancel':self.cancel_checkpoint(run)
                 else:
-                    self.research();rows=self.retained_checkpoint_observations()
+                    self.research(expected_state='EXPIRED');rows=self.retained_checkpoint_observations()
                     from application.fixtures.temporal import utc
                     if len(rows)!=2 or not any('actual_finished_at' in r and utc(r['actual_finished_at'])>=utc(r['original_validity']['until']) for r in rows):
                         raise ValueError('Actual original research expiry not observed')

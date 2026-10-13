@@ -91,7 +91,10 @@ def research_checkpoint(config,resolver,queue,run_id,generation,owner_run_id,sta
     target=config.local_data_root/'fixture-observations'
     if not target.exists():create_private_directory(target)
     require_private(target,directory=True)
-    observation=owner_run_id+'-'+uuid.uuid4().hex
+    # Full native owner IDs stay in the sealed observation body. A bounded
+    # random filename remains inside the existing safe artifact component limit.
+    observation='checkpoint-'+uuid.uuid4().hex
+    safe_component(observation+'-start.json');safe_component(observation+'-finish.json')
     evidence=dict(schema_version=SCHEMA,case=document['case'],owner_run_id=owner_run_id,
         stage=stage,manifest_hash=package.manifest.manifest_hash,original_validity=document['validity'],
         actual_started_at=started.isoformat(),clock='ACTUAL_UTC',execution_evidence='OBSERVATION_ONLY')

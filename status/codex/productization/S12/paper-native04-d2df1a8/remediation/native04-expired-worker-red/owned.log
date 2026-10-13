@@ -1,0 +1,25 @@
+test_actual_paper_read_port_forward_shape_is_used (test_paper_native_driver.PaperNativeDriverTests.test_actual_paper_read_port_forward_shape_is_used) ... ok
+test_api_observation_requires_same_actual_owned_control_before_and_after (test_paper_native_driver.PaperNativeDriverTests.test_api_observation_requires_same_actual_owned_control_before_and_after) ... ok
+test_artifact_alias_is_rejected_before_reading_external_sentinel (test_paper_native_driver.PaperNativeDriverTests.test_artifact_alias_is_rejected_before_reading_external_sentinel) ... ok
+test_cancel_exception_retains_child_cleanup_facts_and_log (test_paper_native_driver.PaperNativeDriverTests.test_cancel_exception_retains_child_cleanup_facts_and_log) ... ok
+test_every_scenario_and_final_distribution_match_original_group_subject (test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject) ... ok
+test_expected_native_expiry_requires_exact_negative_worker_result (test_paper_native_driver.PaperNativeDriverTests.test_expected_native_expiry_requires_exact_negative_worker_result) ... ERROR
+test_expiry_group_executes_every_fixed_case_and_retains_original_subject (test_paper_native_driver.PaperNativeDriverTests.test_expiry_group_executes_every_fixed_case_and_retains_original_subject) ... ok
+test_expiry_group_partial_failure_cannot_issue_group_success (test_paper_native_driver.PaperNativeDriverTests.test_expiry_group_partial_failure_cannot_issue_group_success) ... ok
+test_failed_expiry_case_still_binds_sanitized_log_and_partial_observation (test_paper_native_driver.PaperNativeDriverTests.test_failed_expiry_case_still_binds_sanitized_log_and_partial_observation) ... ok
+test_owner_exit_before_login_prevents_sending_synthetic_password (test_paper_native_driver.PaperNativeDriverTests.test_owner_exit_before_login_prevents_sending_synthetic_password) ... ok
+test_unsupported_fault_changes_actual_package_version_without_adding_fields (test_paper_native_driver.PaperNativeDriverTests.test_unsupported_fault_changes_actual_package_version_without_adding_fields) ... ok
+
+======================================================================
+ERROR: test_expected_native_expiry_requires_exact_negative_worker_result (test_paper_native_driver.PaperNativeDriverTests.test_expected_native_expiry_requires_exact_negative_worker_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 129, in test_expected_native_expiry_requires_exact_negative_worker_result
+    self.assertEqual(fixture.research(expected_state='EXPIRED'),exact)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: NativeExpiryFlow.research() got an unexpected keyword argument 'expected_state'
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.077s
+
+FAILED (errors=1)

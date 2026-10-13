@@ -85,12 +85,12 @@ class FixtureTemporalRecipeTests(unittest.TestCase):
         self.assertEqual(clock(),until)
         with self.assertRaises(ValueError):clock.resume((until-timedelta(seconds=4)).isoformat())
 
-    def claim(self):
+    def claim(self,owner='source-temporal-owner'):
         owners=self.owners
         with owners.intake_factory() as intake:revision=intake.get_submission(SUBMISSION).revision
         owners.queue.enqueue(SUBMISSION,'r7-synthetic-fixture-policy','temporal-source-enqueue',revision,actor='fixture-owner')
         claim=owners.queue.claim_next()
-        owners.queue._checkpoint(claim.run_id,claim.generation,'source-temporal-owner','development')
+        owners.queue._checkpoint(claim.run_id,claim.generation,owner,'development')
         return claim
 
     def test_actual_checkpoint_read_rejects_wrong_owner_run_and_claim_generation(self):
@@ -118,6 +118,21 @@ class FixtureTemporalRecipeTests(unittest.TestCase):
         files=list((self.data/'fixture-observations').glob('*.json'))
         self.assertEqual(len(files),1)
         self.assertTrue(files[0].name.endswith('-start.json'))
+
+    def test_native_length_owner_run_id_keeps_bounded_safe_artifact_name(self):
+        from application.research.queue import ResearchCanceled
+        from application.cloud.manifest import safe_component
+        owner='run-'+'a'*64
+        self.accepted('research-expire-before-robustness');claim=self.claim(owner);queue=self.owners.queue
+        def cancel(seconds):
+            current=queue.get(claim.run_id)
+            queue.cancel(claim.run_id,current['revision'],'long-owner-source-cancel',actor='fixture-owner')
+        with patch.object(self.temporal().time,'sleep',side_effect=cancel):
+            with self.assertRaises(ResearchCanceled):queue._checkpoint(claim.run_id,claim.generation,owner,'robustness')
+        files=list((self.data/'fixture-observations').glob('*.json'))
+        self.assertEqual(len(files),1)
+        safe_component(files[0].name)
+        self.assertEqual(json.loads(files[0].read_bytes())['owner_run_id'],owner)
 
 
 if __name__=='__main__':unittest.main()

@@ -120,6 +120,21 @@ class PaperNativeDriverTests(unittest.TestCase):
         with self.assertRaises(CloudError) as denied:parse_manifest(changed)
         self.assertEqual(denied.exception.reason,'UNSUPPORTED_PACKAGE_VERSION')
 
+    def test_expected_native_expiry_requires_exact_negative_worker_result(self):
+        m=self.module();fixture=object.__new__(m.NativeExpiryFlow)
+        fixture.config=Path('SOURCE_ONLY.json')
+        exact=dict(status='JOB_TERMINATED',job_state='EXPIRED',exit_code=2,tree_reaped=True,
+            parent_pid=1,child_pid=2,reason_codes=['SUBMISSION_EXPIRED'])
+        fixture.command=Mock(return_value=exact)
+        self.assertEqual(fixture.research(expected_state='EXPIRED'),exact)
+        self.assertEqual(fixture.command.call_args.kwargs['expected'],2)
+        self.assertTrue(fixture.command.call_args.kwargs['json_result'])
+        for bad in ({**exact,'job_state':'FAILED'},{**exact,'reason_codes':['OWNED_WORKER_TIMEOUT']},
+                    {**exact,'tree_reaped':False},{**exact,'child_pid':1}):
+            with self.subTest(bad=bad):
+                fixture.command=Mock(return_value=bad)
+                with self.assertRaises(ValueError):fixture.research(expected_state='EXPIRED')
+
     def test_failed_expiry_case_still_binds_sanitized_log_and_partial_observation(self):
         m=self.module()
         def failed(fixture):

@@ -1,0 +1,17 @@
+{
+  "status": "DESIGN_BEFORE_IMPLEMENTATION",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "scope": "PM PQR05 first sealed FIXTURE E1/recovery input slice only",
+  "root_is_sole_writer": true,
+  "public_enum": ["normal", "hold-for-recovery", "fill-at-target", "partial-fill-hold", "duplicate-market-hold", "missing-market-hold", "stale-market-hold"],
+  "sealing": "Three-key versioned case document in actual author research_notes and fresh matching private auxiliary. Non-normal case and temporal case mutually exclusive. Unknown fields/cases/LOCAL namespace denied before creation. Exact named policy-ref and initial_fill_fraction validated before selection persistence and during reader reload.",
+  "legacy": "Default normal emits no extra notes/case artifact and keeps existing market/policy behavior. E5 max-intent60, max-hold3600, TTL, polling and all financial/count gates unchanged.",
+  "sequence": "Initial normal60000 closed-candle/ACK/fill. Hold cases keep60000 until immutable E5 first_fill_at+30synthetic seconds, then60020 for actual E5 target exit. Partial reuses normal0.5fraction/remainder cancel. Target-at-fill chooses60020 only after actual entry_request exists. Missing/stale/duplicate apply at first_fill_at+1synthetic second after actual OPEN_PROTECTED, then restore fresh; no process-local cursor or database edits.",
+  "durability": "Existing product synthetic clock resumes from durable forward.observed_at; phase derives from original E5 exit_anchor.payload.first_fill_at. Original position/binding/quantity/protection/anchor are not modified by input producer.",
+  "limits": "E1 missing/stale market does not prove standing protection missing/stale. That separate typed Paper-only observation fault remains next slice, followed by actual native driver and capacity/isolation. No source/native/PQR PASS inferred from plan or synthetic input creation.",
+  "review": "pqr_inventory_map bounded read-only sealing map; execution NONE",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

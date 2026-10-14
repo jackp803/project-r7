@@ -133,6 +133,9 @@ class FixtureReleaseReader:
         if temporal is not None and selected['paper_policy_ref']!=policy_ref(temporal):
             raise EvidenceGateError('Sealed fixture timing differs from original Paper policy binding')
         self.temporal=temporal
+        from application.fixtures.faults import read_case,require_selection
+        self.paper_case=read_case(self.config,package)
+        require_selection(self.paper_case,selected)
         subject = dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
             content_hash=manifest['strategy_content_hash'])
         if (package.manifest.manifest_hash!=self.manifest_hash or subject!=self.strategy or
@@ -157,6 +160,7 @@ def load_fixture_paper_owners(config, *, clock, resolver):
     owners = PaperOwnerComposition(config,selection=reader.owner,current_release=reader.current,
         authenticator=authenticator,clock=clock,strategy_identity=reader.identity)
     owners.fixture_temporal=reader.temporal
+    owners.fixture_paper_case=reader.paper_case
     return owners
 
 
@@ -189,6 +193,8 @@ def configure_paper(config_path, selection_profile):
             risk_policy=decode(inputs['risk_policy_ref']),promotion_policy=decode(inputs['promotion_policy_ref']),
             paper_policy_ref=selected['paper_policy_ref'],submission_validity={key:manifest[key] for key in ('intent_class','validity')},
             actor='r7-fixture-paper-owner',workflow_authorized=True)
+        from application.fixtures.faults import read_case,require_selection
+        require_selection(read_case(config,package),owner.as_dict())
         release = _release(config,owner)
         record = dict(schema_version=SELECTION_SCHEMA,owner=owner.as_dict(),release=release.as_dict(),
             submission_id=selected['submission_id'],manifest_hash=package.manifest.manifest_hash,

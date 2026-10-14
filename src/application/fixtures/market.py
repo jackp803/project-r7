@@ -44,13 +44,36 @@ class FixtureScenarioClock:
         self.value+=timedelta(seconds=1)
 
 
-def fixture_market_event(runtime_state,now,*,timeframe='1h'):
+def fixture_market_event(runtime_state,now,*,timeframe='1h',paper_case=None):
     require_utc(now,'fixture market observation')
     seconds={'1h':3600,'1m':60}[timeframe]
     position=runtime_state['position']
     price='60020' if position is not None else '60000'
-    snapshot=MarketSnapshot('contracts-v0.1','BTC_USDT_PERP',now,now,
-        'HEALTHY','SYNTHETIC_FIXTURE',last_price=Decimal(price),freshness_ms=0)
+    stale=False
+    if paper_case is not None:
+        from .faults import validate,HOLD_SECONDS
+        case=validate(paper_case)['case']
+        price='60000'
+        if case=='fill-at-target' and runtime_state['entry_request'] is not None:price='60020'
+        anchor=runtime_state['exit_anchor']
+        if position is not None and anchor is not None:
+            first=datetime.fromisoformat(anchor['payload']['first_fill_at'].replace('Z','+00:00'))
+            require_utc(first,'original fixture first-fill anchor')
+            age=(now-first).total_seconds()
+            if age<0:raise ValueError('Fixture market clock predates original first fill')
+            if age>=HOLD_SECONDS:price='60020'
+            if position['lifecycle_state']=='OPEN_PROTECTED' and case=='missing-market-hold' and 1<=age<8:
+                # Retain last-known facts while withholding fresh acquisitions
+                # beyond the unchanged five-second owner freshness threshold.
+                return None
+            if position['lifecycle_state']=='OPEN_PROTECTED' and 1<=age<2:
+                if case=='stale-market-hold':stale=True
+                if case=='duplicate-market-hold':
+                    from application.paper.engine import _market
+                    if runtime_state['last_market'] is None:raise ValueError('Actual original snapshot required for duplicate input')
+                    return PaperMarketEvent(_market(runtime_state['last_market']),(),'FIXTURE')
+    snapshot=MarketSnapshot('contracts-v0.1','BTC_USDT_PERP',now-timedelta(seconds=10) if stale else now,now,
+        'HEALTHY','SYNTHETIC_FIXTURE',last_price=Decimal(price),freshness_ms=10000 if stale else 0)
     boundary=now.replace(second=0,microsecond=0)
     if timeframe=='1h':boundary=boundary.replace(minute=0)
     candles=tuple(Candle('contracts-v0.1','BTC_USDT_PERP',timeframe,

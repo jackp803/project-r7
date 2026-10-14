@@ -1,0 +1,54 @@
+test_sealed_partial_case_preserved_and_unbound_auxiliary_denied (tests.application.test_fixture_sealed_input_backup.FixtureSealedInputBackupTests.test_sealed_partial_case_preserved_and_unbound_auxiliary_denied) ... ERROR
+test_sealed_temporal_case_preserved_with_original_validity (tests.application.test_fixture_sealed_input_backup.FixtureSealedInputBackupTests.test_sealed_temporal_case_preserved_with_original_validity) ... ERROR
+test_old_process_currentness_observations_are_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_old_process_currentness_observations_are_excluded_from_restore) ... ERROR
+
+======================================================================
+ERROR: test_sealed_partial_case_preserved_and_unbound_auxiliary_denied (tests.application.test_fixture_sealed_input_backup.FixtureSealedInputBackupTests.test_sealed_partial_case_preserved_and_unbound_auxiliary_denied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_sealed_input_backup.py", line 60, in test_sealed_partial_case_preserved_and_unbound_auxiliary_denied
+    self.backup_restore(config,'fixture-inputs/paper-case.json')
+  File "<SOURCE_ROOT>\tests\application\test_fixture_sealed_input_backup.py", line 39, in backup_restore
+    result=product_backup.create_product_backup(config,backup)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 352, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 284, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+======================================================================
+ERROR: test_sealed_temporal_case_preserved_with_original_validity (tests.application.test_fixture_sealed_input_backup.FixtureSealedInputBackupTests.test_sealed_temporal_case_preserved_with_original_validity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_sealed_input_backup.py", line 69, in test_sealed_temporal_case_preserved_with_original_validity
+    self.backup_restore(config,'fixture-inputs/temporal.json')
+  File "<SOURCE_ROOT>\tests\application\test_fixture_sealed_input_backup.py", line 39, in backup_restore
+    result=product_backup.create_product_backup(config,backup)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 352, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 284, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+======================================================================
+ERROR: test_old_process_currentness_observations_are_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_old_process_currentness_observations_are_excluded_from_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 89, in test_old_process_currentness_observations_are_excluded_from_restore
+    result=module.create_product_backup(self.config,self.backup)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 352, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 284, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.341s
+
+FAILED (errors=3)

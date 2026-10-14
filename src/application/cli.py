@@ -46,6 +46,9 @@ def main(argv=None):
     from application.fixtures.temporal import CASES as fixture_temporal_cases
     fixture.add_argument('--temporal-case',choices=fixture_temporal_cases,default='none',
         help='Closed isolated synthetic expiry inputs; no result or ordinary authority')
+    from application.fixtures.faults import CASES as fixture_paper_cases
+    fixture.add_argument('--paper-case',choices=fixture_paper_cases,default='normal',
+        help='Closed sealed synthetic recovery market inputs; no terminal state or authority')
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
@@ -324,7 +327,7 @@ def main(argv=None):
         return 0
     if args.command == 'prepare-fixture':
         from application.fixtures.recipe import prepare_fixture
-        print(json.dumps(prepare_fixture(args.config, args.scenario,temporal_case=args.temporal_case), ensure_ascii=False))
+        print(json.dumps(prepare_fixture(args.config,args.scenario,temporal_case=args.temporal_case,paper_case=args.paper_case), ensure_ascii=False))
         return 0
     if args.command == 'configure-paper':
         from application.paper.setup import configure_paper

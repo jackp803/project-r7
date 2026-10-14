@@ -1,0 +1,62 @@
+test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture) ... 
+  test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture) (failure='NoneType') ... FAIL
+  test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture) (failure='TimeoutError') ... ERROR
+test_native_fault_unreaped_scope_aborts_later_cases (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unreaped_scope_aborts_later_cases) ... FAIL
+
+======================================================================
+ERROR: test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture) (failure='TimeoutError')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 155, in test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture
+    self.assertIsNone(fixture.runtime_stream);self.assertFalse(fixture.commands[-1]['tree_reaped'])
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: <_io.BufferedWriter name='<USER_HOME>\\AppData\\Local\\Temp\\tmpy2uh2wau\\worker.log'> is not None
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 633, in _rmtree_unsafe
+    os.unlink(fullname)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\tmpy2uh2wau\\worker.log'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 143, in test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture
+    with self.subTest(failure=type(failure).__name__),TemporaryDirectory() as temp:
+                                                      ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 950, in __exit__
+    self.cleanup()
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 954, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+    return _rmtree_unsafe(path, onexc)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 635, in _rmtree_unsafe
+    onexc(os.unlink, fullname, err)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 909, in onexc
+    _os.unlink(path)
+PermissionError: [WinError 32] 程序無法存取檔案，因為檔案正由另一個程序使用。: '<USER_HOME>\\AppData\\Local\\Temp\\tmpy2uh2wau\\worker.log'
+
+======================================================================
+FAIL: test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture) (failure='NoneType')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 154, in test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture
+    self.assertIs(fixture.runtime_child,original,'Unconfirmed cleanup must retain exact owned handle for retry')
+AssertionError: None is not <Mock id='2986993817488'> : Unconfirmed cleanup must retain exact owned handle for retry
+
+======================================================================
+FAIL: test_native_fault_unreaped_scope_aborts_later_cases (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_unreaped_scope_aborts_later_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 168, in test_native_fault_unreaped_scope_aborts_later_cases
+    self.assertEqual(len(rows),1,'A surviving owned process must stop the native slice')
+AssertionError: 2 != 1 : A surviving owned process must stop the native slice
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.229s
+
+FAILED (failures=2, errors=1)

@@ -22,7 +22,7 @@ from application.research.evidence import stamp, capture_provenance
 
 SCHEMA = 'r7-private-product-data-backup-v0.2'
 MAX_FILES, MAX_BYTES, MAX_FILE_BYTES = 4096, 16 * 1024**3, 64 * 1024**2
-TRANSIENT_ROOTS = frozenset({'process-scopes', 'worker-logs'})
+TRANSIENT_ROOTS = frozenset({'process-scopes', 'worker-logs', 'paper-release-observations'})
 RESTORE_METADATA = frozenset({'restore-generation.json','restore-in-progress.json','restored-product.json'})
 TOP_KEYS = {'schema_version', 'backup_id', 'created_at', 'product_instance_id', 'config_hash',
     'data_class', 'cloud_publication', 'consistency', 'source_provenance', 'database_manifest_sha256',
@@ -145,6 +145,33 @@ def _file_facts(path, end):
     return dict(bytes=count, sha256='sha256:' + digest.hexdigest())
 
 
+def _sealed_fixture_auxiliary(root,manifest,snapshot,selected):
+    """Only the exact auxiliary bytes already bound by selected author notes."""
+    from application.fixtures import faults,temporal
+    from application.cloud.manifest import byte_hash
+    notes=[spec for spec in manifest.payloads if spec.role=='research_notes']
+    if not notes:return set(),{}
+    raw=read_local(root,snapshot+'/'+notes[0].relative_path,65536)
+    try:value=decode(raw)
+    except ValueError:return set(),{}
+    if not isinstance(value,dict):return set(),{}
+    schema=value.get('schema_version')
+    if schema==faults.SCHEMA:
+        document=faults.validate(value);reference=faults.REFERENCE
+        faults.require_selection(document,selected)
+        intent='EVERGREEN_STRATEGY';validity={'from':None,'until':None}
+    elif schema==temporal.SCHEMA:
+        document=temporal.validate(value);reference=temporal.REFERENCE
+        if selected['paper_policy_ref']!=temporal.policy_ref(document):
+            raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_AUXILIARY_POLICY_MISMATCH')
+        intent='TACTICAL_STRATEGY';validity=document['validity']
+    else:return set(),{}
+    if (manifest.submission_id!=document['submission_id'] or manifest.raw['intent_class']!=intent
+            or manifest.raw['validity']!=validity or read_local(root,reference,65536)!=raw):
+        raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_AUXILIARY_SEAL_MISMATCH')
+    return {reference},{reference:byte_hash(raw)}
+
+
 def _fixture_paper_inputs(root,paths,selected):
     """Exact typed fixture metadata/input coverage; never a release admission."""
     from application.paper.setup import INPUT_KEYS,INPUT_SCHEMA,RECORD_KEYS,SELECTION_SCHEMA,SELECTION_FILE
@@ -211,6 +238,8 @@ def _fixture_paper_inputs(root,paths,selected):
             observed={**owner.as_dict(),**values}
             if PaperOwnerSelection(**observed).selection_hash!=owner.selection_hash:
                 raise ProductBackupError('PRODUCT_BACKUP_FIXTURE_PAPER_POLICY_MISMATCH')
+            auxiliary,auxiliary_hashes=_sealed_fixture_auxiliary(root,manifest,snapshot,observed)
+            allowed.update(auxiliary);hashes.update(auxiliary_hashes)
     return allowed,hashes
 
 

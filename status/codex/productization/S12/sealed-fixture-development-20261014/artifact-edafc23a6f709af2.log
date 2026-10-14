@@ -1,0 +1,99 @@
+test_default_normal_keeps_legacy_notes_policy_and_market_behavior (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_default_normal_keeps_legacy_notes_policy_and_market_behavior) ... ERROR
+test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase) ... FAIL
+test_ordinary_namespace_and_running_owner_cannot_create_case_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_ordinary_namespace_and_running_owner_cannot_create_case_inputs) ... ERROR
+test_partial_case_seals_only_declarative_inputs_and_existing_fraction (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_partial_case_seals_only_declarative_inputs_and_existing_fraction) ... ERROR
+test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes) ... ERROR
+test_schema_rejects_terminal_flags_price_time_code_and_unknown_case (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_schema_rejects_terminal_flags_price_time_code_and_unknown_case) ... FAIL
+test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs) ... 
+  test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs) (kwargs={'paper_case': 'arbitrary-price-or-code'}) ... ERROR
+  test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs) (kwargs={'paper_case': 'hold-for-recovery', 'temporal_case': 'paper-expire-after-protection'}) ... ERROR
+
+======================================================================
+ERROR: test_default_normal_keeps_legacy_notes_policy_and_market_behavior (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_default_normal_keeps_legacy_notes_policy_and_market_behavior)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 40, in test_default_normal_keeps_legacy_notes_policy_and_market_behavior
+    _,_=self.prepare('normal');module=self.cases()
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 24, in prepare
+    config=self.initialize();result=prepare_fixture(self.config_path,'positive',paper_case=case)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'paper_case'
+
+======================================================================
+ERROR: test_ordinary_namespace_and_running_owner_cannot_create_case_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_ordinary_namespace_and_running_owner_cannot_create_case_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 55, in test_ordinary_namespace_and_running_owner_cannot_create_case_inputs
+    with self.assertRaises(ValueError):prepare_fixture(self.config_path,'positive',paper_case='hold-for-recovery')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'paper_case'
+
+======================================================================
+ERROR: test_partial_case_seals_only_declarative_inputs_and_existing_fraction (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_partial_case_seals_only_declarative_inputs_and_existing_fraction)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 29, in test_partial_case_seals_only_declarative_inputs_and_existing_fraction
+    config,result=self.prepare('partial-fill-hold');module=self.cases()
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 24, in prepare
+    config=self.initialize();result=prepare_fixture(self.config_path,'positive',paper_case=case)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'paper_case'
+
+======================================================================
+ERROR: test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 65, in test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes
+    config,_=self.prepare('hold-for-recovery');self.configure()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 24, in prepare
+    config=self.initialize();result=prepare_fixture(self.config_path,'positive',paper_case=case)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'paper_case'
+
+======================================================================
+ERROR: test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs) (kwargs={'paper_case': 'arbitrary-price-or-code'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 50, in test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs
+    with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):prepare_fixture(self.config_path,'positive',**kwargs)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'paper_case'
+
+======================================================================
+ERROR: test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs) (kwargs={'paper_case': 'hold-for-recovery', 'temporal_case': 'paper-expire-after-protection'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 50, in test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs
+    with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):prepare_fixture(self.config_path,'positive',**kwargs)
+                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: prepare_fixture() got an unexpected keyword argument 'paper_case'
+
+======================================================================
+FAIL: test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 77, in test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase
+    module=self.cases();from application.fixtures.market import fixture_market_event
+           ^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 20, in cases
+    self.assertIsNotNone(importlib.util.find_spec('application.fixtures.faults'),'Finite sealed recovery cases missing')
+AssertionError: unexpectedly None : Finite sealed recovery cases missing
+
+======================================================================
+FAIL: test_schema_rejects_terminal_flags_price_time_code_and_unknown_case (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_schema_rejects_terminal_flags_price_time_code_and_unknown_case)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 59, in test_schema_rejects_terminal_flags_price_time_code_and_unknown_case
+    module=self.cases();document=module.generate('hold-for-recovery')
+           ^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 20, in cases
+    self.assertIsNotNone(importlib.util.find_spec('application.fixtures.faults'),'Finite sealed recovery cases missing')
+AssertionError: unexpectedly None : Finite sealed recovery cases missing
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.097s
+
+FAILED (failures=2, errors=6)

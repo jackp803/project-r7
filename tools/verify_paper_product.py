@@ -540,6 +540,15 @@ def verify(package,output,group):
                     raise
             if not all(row['passed'] for row in report['observations']):raise ValueError('Fresh native expiry flows incomplete')
             report['passed']=True
+        elif group=='PQR-05':
+            from verify_paper_faults import verify_slice
+            report['observations']=verify_slice(package,output,identity)
+            report['scoped_fixture_cases_passed']=sum(row['passed'] is True for row in report['observations'])
+            report['scoped_fixture_cases_total']=len(report['observations'])
+            report['remaining_native_observations']=['STANDING_PROTECTION_MISSING_STALE_LOST',
+                'RESEARCH_FAULT_PROTECTION_ISOLATION','ACTUAL_HOST_BOUNDED_CAPACITY_RESOURCE_MEASUREMENT',
+                'STALE_GENERATION_OPERATION_FENCE']
+            report['reason']='PQR05_SCOPED_SLICE_ONLY_NOT_QUALIFIED'
         else:
             # This fails closed until every concrete native scenario below has
             # an actual fixed driver. It cannot issue eligibility from old tests.

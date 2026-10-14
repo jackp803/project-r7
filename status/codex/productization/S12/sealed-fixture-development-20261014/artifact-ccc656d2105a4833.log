@@ -1,0 +1,14 @@
+test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase) ... FAIL
+
+======================================================================
+FAIL: test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_paper_case_recipe.py", line 97, in test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase
+    self.assertIsNone(fixture_market_event(protected,first+timedelta(seconds=7),paper_case=module.generate('missing-market-hold')))
+AssertionError: PaperMarketEvent(snapshot=MarketSnapshot(schema_version='contracts-v0.1', symbol='BTC_USDT_PERP', observed_at=datetime.datetime(2026, 10, 14, 10, 0, 7, tzinfo=datetime.timezone.utc), received_at=datetime.datetime(2026, 10, 14, 10, 0, 7, tzinfo=datetime.timezone.utc), health_status='HEALTHY', source='SYNTHETIC_FIXTURE', last_price=Decimal('60000'), best_bid=None, best_ask=None, freshness_ms=0), candles=(), source_kind='FIXTURE') is not None
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=1)

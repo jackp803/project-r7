@@ -155,7 +155,7 @@ def _dataset(scenario,timeframe='1h'):
     return manifest, candles.getvalue(), funding.getvalue()
 
 
-def prepare_fixture(config_path, scenario, *, temporal_case='none'):
+def prepare_fixture(config_path, scenario, *, temporal_case='none',paper_case='normal'):
     """Fresh stopped-owner synthetic inputs; actual research must run separately."""
     config = load_config(config_path)
     if product_namespace(config)!='FIXTURE' or scenario not in SCENARIOS or config.cloud_root is None:
@@ -163,6 +163,9 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none'):
     from .temporal import CASES,generate,policy_ref
     if temporal_case not in CASES:
         raise ValueError('Closed FIXTURE temporal case required')
+    from .faults import CASES as paper_cases,generate as generate_paper_case,policy_ref as paper_case_policy
+    if paper_case not in paper_cases or paper_case!='normal' and temporal_case!='none':
+        raise ValueError('Closed mutually exclusive FIXTURE Paper/temporal case required')
     # A short tactical expiry needs a fresh closed-bar intent within the
     # unchanged 60-second E5 limit. Ordinary and research-only recipes stay 1h.
     timeframe='1m' if temporal_case in ('paper-expire-before-entry','paper-expire-after-protection') else '1h'
@@ -189,10 +192,15 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none'):
         write_private_new(target/'candles.parquet',candles)
         write_private_new(target/'funding.parquet',funding)
         write_private_new(target/'dataset.json',_raw(manifest))
-        for name,value in _policies(scenario,timeframe).items():
+        policies=_policies(scenario,timeframe)
+        if paper_case=='partial-fill-hold':policies['simulation']['initial_fill_fraction']='0.5'
+        for name,value in policies.items():
             write_private_new(target/(name+'.json'),_raw(value))
         temporal=generate(temporal_case)
         if temporal is not None:write_private_new(target/'temporal.json',_raw(temporal))
+        paper_document=generate_paper_case(paper_case)
+        if paper_document is not None:write_private_new(target/'paper-case.json',_raw(paper_document))
+        notes=temporal if temporal is not None else paper_document
         package = emit_package(_definition(timeframe),config.cloud_root/'inbox'/'strategies'/SUBMISSION,
             submission_id=SUBMISSION,created_at=_z(START),created_by='SYNTHETIC FIXTURE product recipe',
             research_hypothesis='Accelerated mechanical demonstration; no real strategy evidence',
@@ -200,7 +208,7 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none'):
             requested_robustness_profile='synthetic-fixture',
             intent_class='TACTICAL_STRATEGY' if temporal is not None else 'EVERGREEN_STRATEGY',
             validity=None if temporal is None else temporal['validity'],
-            notes=None if temporal is None else canonical(temporal))
+            notes=None if notes is None else canonical(notes))
         write_private_new(config.cloud_root/'.r7-root.json',_raw({'root_id':ROOT_ID}))
         policy = {('dataset_ref' if key=='dataset' else key+'_policy_ref'):
             'fixture-inputs/'+key+'.json' for key in ('dataset','split','cost','research','robustness','risk')}
@@ -211,12 +219,13 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none'):
             simulation_policy_ref='fixture-inputs/simulation.json',risk_policy_ref='fixture-inputs/risk.json',
             promotion_policy_ref='fixture-inputs/promotion.json',
             paper_policy_ref='r7-synthetic-paper-policy' if temporal is None else policy_ref(temporal))
+        if paper_document is not None:paper['paper_policy_ref']=paper_case_policy(paper_document)
         write_private_new(target/'paper-selection.json',_raw(paper))
         if load_config(config_path)!=config:
             raise ValueError('Fixture configuration changed during input generation')
         write_private_new(target/'selection.json',_raw(selection))
     return dict(status='SYNTHETIC_FIXTURE_INPUTS_CREATED',namespace='FIXTURE',scenario=scenario,
-        recipe_version='r7-synthetic-fixture-v1',temporal_case=temporal_case,selection_profile_ref='fixture-inputs/selection.json',
+        recipe_version='r7-synthetic-fixture-v1',temporal_case=temporal_case,paper_case=paper_case,selection_profile_ref='fixture-inputs/selection.json',
         submission_id=SUBMISSION,policy_id=POLICY_ID,manifest_hash=package['manifest_hash'],
         cloud='FAKE_LOCAL_STAGING',market='SYNTHETIC_FIXTURE',execution_evidence='NOT_RUN',
         financial_authority='NONE',provider_requests=0,credentials='NONE',capital='NONE')

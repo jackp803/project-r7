@@ -1,0 +1,15 @@
+test_native_fault_exception_retains_type_without_private_exception_text (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_exception_retains_type_without_private_exception_text) ... FAIL
+
+======================================================================
+FAIL: test_native_fault_exception_retains_type_without_private_exception_text (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_native_fault_exception_retains_type_without_private_exception_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 136, in test_native_fault_exception_retains_type_without_private_exception_text
+    self.assertNotIn('PRIVATE_EXCEPTION_CANARY',raw);self.assertNotIn(str(root),raw)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'PRIVATE_EXCEPTION_CANARY' unexpectedly found in '{"case": "hold-for-recovery", "passed": false, "error_type": "OSError", "error_message": "PRIVATE_EXCEPTION_CANARY: C:\\\\Users\\\\jackp\\\\AppData\\\\Local\\\\Temp\\\\tmpywecry2r\\\\hold-for-recovery\\\\product.json"}'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.202s
+
+FAILED (failures=1)

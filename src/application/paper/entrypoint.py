@@ -24,9 +24,10 @@ def paper_worker(config_path,*,maximum_ticks=None):
             not (config.local_data_root/SELECTION_FILE).is_file() or not config.database_path.is_file()):
         raise ValueError('Actual selected non-restored FIXTURE Paper store required')
     scenario_clock=FixtureScenarioClock()
+    paper_case=None
     @contextmanager
     def actual_service():
-        nonlocal scenario_clock
+        nonlocal scenario_clock,paper_case
         # PaperOwnerWorker acquires the runtime scope before this factory opens
         # actual product stores. No caller-supplied factory/executable is exposed.
         local=LocalOwners(config,namespace='FIXTURE')
@@ -34,6 +35,7 @@ def paper_worker(config_path,*,maximum_ticks=None):
         if owners is None:
             raise ValueError('Actual isolated FIXTURE Paper composition required')
         scenario_clock=FixtureScenarioClock(temporal=owners.fixture_temporal)
+        paper_case=owners.fixture_paper_case
         # Seed only from actual accepted E6 starts and their durable owner
         # observations. No result, lifecycle, generation or approval is written.
         with local.registry_factory() as registry:
@@ -61,7 +63,8 @@ def paper_worker(config_path,*,maximum_ticks=None):
                 # The actual accepted run owns its timeframe; an auxiliary
                 # fixture file cannot replace the selected strategy.
                 timeframe=worker.service.runtime(run_id).engine.strategy.required_timeframe
-                worker.submit_event(run_id,fixture_market_event(state,worker.service.clock(),timeframe=timeframe))
+                event=fixture_market_event(state,worker.service.clock(),timeframe=timeframe,paper_case=paper_case)
+                if event is not None:worker.submit_event(run_id,event)
             worker.tick()
             ticks+=1
             if maximum_ticks is not None and ticks>=maximum_ticks:

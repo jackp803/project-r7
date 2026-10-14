@@ -101,6 +101,90 @@ class PaperNativeDriverTests(unittest.TestCase):
         self.assertEqual(m.NativeExpiryFlow.forward_elapsed(dict(forward_observations=dict(real_elapsed_ns=0))),0)
         with self.assertRaises(ValueError):m.NativeExpiryFlow.forward_elapsed(dict(forward=dict(real_elapsed_ns=0)))
 
+    def test_scoped_fixture_fault_success_cannot_issue_complete_pqr05_pass(self):
+        m=self.module()
+        root=Path(__file__).resolve().parents[2]
+        with patch.object(sys,'path',[str(root/'tools'),*sys.path]):
+            faults=importlib.import_module('verify_paper_faults')
+        scoped=[dict(case=case,passed=True) for case in faults.NativeFixtureFaultFlow.PAPER_CASES]
+        with TemporaryDirectory() as temp:
+            directory=Path(temp);package=directory/'package';package.mkdir()
+            identity=dict(build_hash='source-boundary-only')
+            with patch.object(m,'verify_distribution',return_value=identity),patch.object(faults,'verify_slice',return_value=scoped):
+                self.assertEqual(self.verify(m,package,directory/'result','PQR-05'),2)
+            report=json.loads((directory/'result/native-observations.json').read_bytes())
+            self.assertEqual(report['scoped_fixture_cases_passed'],6)
+            self.assertFalse(report['passed']);self.assertIn('STANDING_PROTECTION_MISSING_STALE_LOST',report['remaining_native_observations'])
+            result=json.loads((directory/'result/pqr-result.json').read_bytes())
+            self.assertTrue(all(row['status']=='NOT_RUN' for row in result['assertions']))
+
+    def test_native_fault_exception_retains_type_without_private_exception_text(self):
+        self.module()
+        root=Path(__file__).resolve().parents[2]
+        with patch.object(sys,'path',[str(root/'tools'),*sys.path]):
+            faults=importlib.import_module('verify_paper_faults')
+        class FailingFlow:
+            PAPER_CASES=('hold-for-recovery',)
+            def __init__(self,package,output,case,**kwargs):
+                self.output=output;output.mkdir();self.observation=dict(case=case,passed=False)
+            def run(self):raise OSError('PRIVATE_EXCEPTION_CANARY: '+str(self.output/'product.json'))
+            def persist(self):(self.output/'observations.json').write_text(json.dumps(self.observation))
+        with TemporaryDirectory() as temp,patch.object(faults,'NativeFixtureFaultFlow',FailingFlow):
+            root=Path(temp);rows=faults.verify_slice(root/'package',root,dict(build_hash='source-only'))
+            raw=(root/'hold-for-recovery/observations.json').read_text()
+            self.assertEqual(rows[0]['error_type'],'OSError')
+            self.assertNotIn('PRIVATE_EXCEPTION_CANARY',raw);self.assertNotIn(str(root),raw)
+
+    def test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture(self):
+        self.module();root=Path(__file__).resolve().parents[2]
+        with patch.object(sys,'path',[str(root/'tools'),*sys.path]):faults=importlib.import_module('verify_paper_faults')
+        from types import SimpleNamespace
+        for failure in (None,TimeoutError('SOURCE_ONLY_CLEANUP_FAILURE')):
+            with self.subTest(failure=type(failure).__name__),TemporaryDirectory() as temp:
+                fixture=object.__new__(faults.NativeFixtureFaultFlow)
+                fixture.output=Path(temp);fixture.config=fixture.output/'unused-config.json'
+                fixture.runtime_log=fixture.output/'worker.log';fixture.runtime_stream=fixture.runtime_log.open('xb')
+                capture=fixture.runtime_stream
+                fixture.runtime_child=Mock();original=fixture.runtime_child
+                original.process.returncode=1;fixture.commands=[];fixture.password='SOURCE_SYNTHETIC';fixture.persist=Mock()
+                with patch.object(faults,'terminate_owned',return_value=SimpleNamespace(reaped=False),side_effect=failure), \
+                        patch.object(faults,'load_config',return_value=object()), \
+                        patch.object(faults,'process_health',return_value=dict(state='RUNNING',status='PROCESS_NOT_RUNNING')):
+                    try:
+                        with self.assertRaises(Exception):fixture.finish_runtime(crash=True)
+                    finally:
+                        capture_was_closed=capture.closed;capture.close()
+                self.assertIs(fixture.runtime_child,original,'Unconfirmed cleanup must retain exact owned handle for retry')
+                self.assertTrue(capture_was_closed);self.assertIsNone(fixture.runtime_stream);self.assertFalse(fixture.commands[-1]['tree_reaped'])
+
+    def test_native_fault_unreaped_scope_aborts_later_cases(self):
+        self.module();root=Path(__file__).resolve().parents[2]
+        with patch.object(sys,'path',[str(root/'tools'),*sys.path]):faults=importlib.import_module('verify_paper_faults')
+        class UnreapedFlow:
+            PAPER_CASES=('hold-for-recovery','partial-fill-hold')
+            def __init__(self,package,output,case,**kwargs):
+                self.observation=dict(case=case,passed=False);self.runtime_child=object()
+            def run(self):raise RuntimeError('SOURCE_ONLY_UNREAPED_SCOPE')
+            def persist(self):pass
+        with TemporaryDirectory() as temp,patch.object(faults,'NativeFixtureFaultFlow',UnreapedFlow):
+            rows=faults.verify_slice(Path(temp)/'package',Path(temp),dict(build_hash='source-only'))
+            self.assertEqual(len(rows),1,'A surviving owned process must stop the native slice')
+
+    def test_scope_denial_uses_actual_cli_banner_and_one_bounded_diagnostic(self):
+        self.module();root=Path(__file__).resolve().parents[2]
+        with patch.object(sys,'path',[str(root/'tools'),*sys.path]):faults=importlib.import_module('verify_paper_faults')
+        from application import cli
+        from application.platform.scope_lock import ScopeBusy
+        from contextlib import redirect_stderr
+        captured=io.StringIO()
+        with redirect_stderr(captured),patch.object(cli,'main',side_effect=ScopeBusy('SOURCE_ONLY_SCOPE_BUSY')):
+            self.assertEqual(cli.run(),2)
+        raw=captured.getvalue().encode();parser=getattr(faults,'require_scope_denial',None)
+        self.assertIsNotNone(parser,'Actual two-line native scope denial parser required')
+        parser(raw)
+        for changed in (raw+b'{}\n',b'{}\n',raw.replace(b'OWNER_SCOPE_BUSY',b'VALIDATION'),raw*300):
+            with self.subTest(changed=changed[:24]),self.assertRaises(ValueError):parser(changed)
+
     def test_owner_exit_before_login_prevents_sending_synthetic_password(self):
         m=self.module();fixture=object.__new__(m.NativeExpiryFlow)
         fixture.origin='http://127.0.0.1:8765';fixture.control=object()

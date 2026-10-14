@@ -1,0 +1,61 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "scope": "SOURCE_DRIVER_REMEDIATION_NOT_QUALIFICATION",
+  "driver_and_temporal_tests": 28,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "clean_candidate_inventory": {
+    "groups": 7,
+    "commands": 39,
+    "test_cases": 2236,
+    "source_files": 269
+  },
+  "inventory_failure": {
+    "interpreter": "BUILD_ONLY_RUNTIME",
+    "cause": "SOURCE_TEST_DEPENDENCY_JSONSCHEMA_MISSING",
+    "remedy": "Existing complete Python3.12 source-test runtime used; no download/dependency/gate change"
+  },
+  "review_findings": [
+    "Exception-path disclosure",
+    "Unconfirmed cleanup handle discarded",
+    "Actual CLI two-line scope diagnostic"
+  ],
+  "remediation": "All three fixes have retained fail-first source regressions",
+  "reviewer_execution": "NONE",
+  "remaining_native": [
+    "STANDING_PROTECTION_MISSING_STALE_LOST",
+    "RESEARCH_FAULT_PROTECTION_ISOLATION",
+    "ACTUAL_HOST_BOUNDED_CAPACITY_RESOURCE_MEASUREMENT",
+    "STALE_GENERATION_OPERATION_FENCE"
+  ],
+  "native": "NOT_RUN_AT_THIS_CHECKPOINT",
+  "full_pqr": "NOT_QUALIFIED",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "origin": "native-fault-denial-parser-red.log",
+      "ref": "artifact-d33f17324c6ba2bd.log",
+      "hash": "sha256:d33f17324c6ba2bd78f93fa8d936c4f8eed663affd31eef1906794b6721a26ec"
+    },
+    {
+      "origin": "sealed-fixture-driver-green-attempt5.log",
+      "ref": "artifact-829a0c4f1363d0a4.log",
+      "hash": "sha256:829a0c4f1363d0a4039c29a70af68babd8b25b49a2b64eef09f6389170617105"
+    },
+    {
+      "origin": "fixture-inventory-build-interpreter-denial.log",
+      "ref": "artifact-989d4211a952b4a4.log",
+      "hash": "sha256:989d4211a952b4a48af420141b3eac61f86ddf5826f1cbdf6730074fdb15f6c7"
+    },
+    {
+      "origin": "fixture-inventory-frozen.log",
+      "ref": "artifact-1b573fd0a5bd4fa5.log",
+      "hash": "sha256:1b573fd0a5bd4fa51feeae3edb81ac6cfab7b23056506c459bd694352c2c2b82"
+    }
+  ]
+}

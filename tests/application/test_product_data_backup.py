@@ -81,6 +81,16 @@ class ProductDataBackupTests(unittest.TestCase):
         self.assertIn('worker-logs', result['excluded_transient_roots'])
         self.assertFalse(any(p.name == 'synthetic-capture.log' for p in self.backup.rglob('*')))
 
+    def test_old_process_currentness_observations_are_excluded_from_restore(self):
+        module=self.module()
+        observations=self.data/'paper-release-observations'
+        observations.mkdir()
+        (observations/'old-process-currentness.json').write_bytes(b'SYNTHETIC_OLD_PROCESS_NOT_AUTHORITY')
+        result=module.create_product_backup(self.config,self.backup)
+        self.assertIn('paper-release-observations',result['excluded_transient_roots'])
+        module.restore_product_backup(self.config,self.backup,self.target)
+        self.assertFalse((self.target/'paper-release-observations').exists())
+
     def test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation(self):
         module = self.module()
         module.create_product_backup(self.config, self.backup)

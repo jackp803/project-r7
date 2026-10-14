@@ -1,0 +1,721 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "executable_revision": "525abcb09e62538476e676a2dce26c91830c5772",
+  "native_identity": {
+    "executable_revision": "525abcb09e62538476e676a2dce26c91830c5772",
+    "implementation_hash": "sha256:a9b9cb2e2e3f165a7d6e7337f48fd1562397e3e50d5411e6bcfe0c7a99a06764",
+    "build_hash": "sha256:4e38530163fa34fd978ff7b4b2027493020d4418fbea9676595a271ecb70f129",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "scope": "FINITE_SEALED_FIXTURE_CASE_BACKUP_RECOVERY_ONLY",
+  "full_pqr": "NOT_QUALIFIED",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "build_passed": true,
+  "focused_tests": 97,
+  "focused_passed": true,
+  "native_passed": true,
+  "native_cases_passed": 6,
+  "native_cases_total": 6,
+  "cases": [
+    {
+      "case": "hold-for-recovery",
+      "passed": true,
+      "error_type": null,
+      "commands": 21,
+      "all_command_trees_reaped": true,
+      "backup_restore": {
+        "verified": true,
+        "restored": "RESTORED_INHIBITED",
+        "cloud": "DISCONNECTED",
+        "original_state_hash": "sha256:a94b7a03f9ca177329120f9604c2000c8ac4dba6b6c1bf7e6d8b7b23cf570a10",
+        "restored_state_hash": "sha256:a94b7a03f9ca177329120f9604c2000c8ac4dba6b6c1bf7e6d8b7b23cf570a10",
+        "restored_generation": 3,
+        "restored_worker_denied": true,
+        "source_unchanged": true
+      },
+      "market_fault": null
+    },
+    {
+      "case": "protection-rejected-hold",
+      "passed": true,
+      "error_type": null,
+      "commands": 11,
+      "all_command_trees_reaped": true,
+      "backup_restore": null,
+      "market_fault": null
+    },
+    {
+      "case": "partial-fill-hold",
+      "passed": true,
+      "error_type": null,
+      "commands": 17,
+      "all_command_trees_reaped": true,
+      "backup_restore": {
+        "verified": true,
+        "restored": "RESTORED_INHIBITED",
+        "cloud": "DISCONNECTED",
+        "original_state_hash": "sha256:920453cabc8ea497a7cf8e7a7546770503b2f51862fd0e73b0601a1119816d0f",
+        "restored_state_hash": "sha256:920453cabc8ea497a7cf8e7a7546770503b2f51862fd0e73b0601a1119816d0f",
+        "restored_generation": 2,
+        "restored_worker_denied": true,
+        "source_unchanged": true
+      },
+      "market_fault": null
+    },
+    {
+      "case": "duplicate-market-hold",
+      "passed": true,
+      "error_type": null,
+      "commands": 12,
+      "all_command_trees_reaped": true,
+      "backup_restore": null,
+      "market_fault": {
+        "case": "duplicate-market-hold",
+        "market_operation_increment": 0,
+        "protected": true,
+        "healthy": true,
+        "actual_observed_at": "2026-10-14T04:00:02Z",
+        "last_market_observed_at": "2026-10-14T04:00:01.000Z"
+      }
+    },
+    {
+      "case": "missing-market-hold",
+      "passed": true,
+      "error_type": null,
+      "commands": 12,
+      "all_command_trees_reaped": true,
+      "backup_restore": null,
+      "market_fault": {
+        "case": "missing-market-hold",
+        "market_operation_increment": 0,
+        "protected": true,
+        "healthy": false,
+        "actual_observed_at": "2026-10-14T04:00:08Z",
+        "last_market_observed_at": "2026-10-14T04:00:01.000Z"
+      }
+    },
+    {
+      "case": "stale-market-hold",
+      "passed": true,
+      "error_type": null,
+      "commands": 12,
+      "all_command_trees_reaped": true,
+      "backup_restore": null,
+      "market_fault": {
+        "case": "stale-market-hold",
+        "market_operation_increment": 1,
+        "protected": true,
+        "healthy": false,
+        "actual_observed_at": "2026-10-14T04:00:02Z",
+        "last_market_observed_at": "2026-10-14T03:59:52.000Z"
+      }
+    }
+  ],
+  "inputs_unchanged": true,
+  "input_files": 622,
+  "awake_restored": true,
+  "failures_preserved": true,
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "origin": "build-525abcb-build.log",
+      "ref": "artifact-e9007c985df9a38c.log",
+      "hash": "sha256:e9007c985df9a38c2a1214c0067ac3f0a7f2530e0bfbb671db17d81f24076a01"
+    },
+    {
+      "origin": "retain_fixture_native.py",
+      "ref": "artifact-a9445de4ea0a73e3.py",
+      "hash": "sha256:a9445de4ea0a73e3bd732c1a1caf3914990daeb7310db8bed86dde09a09918e4"
+    },
+    {
+      "origin": "run_fixture_checkpoint.py",
+      "ref": "artifact-b778f8dd5c736c70.py",
+      "hash": "sha256:b778f8dd5c736c70ddce451d1192ecc5f8f1ef3f8fd9cc7616eddf33a5100fe6"
+    },
+    {
+      "origin": "build-525abcb/build-result.json",
+      "ref": "artifact-544be23335887acc.json",
+      "hash": "sha256:544be23335887accbb649b73a3da55d272788a0666e8d29409f28230d2b89ff9"
+    },
+    {
+      "origin": "build-525abcb/checkpoint.json",
+      "ref": "artifact-f3ba9ee9393502e3.json",
+      "hash": "sha256:f3ba9ee9393502e31679ee4c0b644f5f3ec8c34ba937cb538c460d49b4c519d8"
+    },
+    {
+      "origin": "build-525abcb/pyinstaller.log",
+      "ref": "artifact-b8ecba487ed48d43.log",
+      "hash": "sha256:b8ecba487ed48d43a456a0cb3896b221e2fb3ed609f18f2079fc3cb84db236ac"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_fixture_paper_case_recipe.log",
+      "ref": "artifact-1fb537769704ccb6.log",
+      "hash": "sha256:1fb537769704ccb6c40d58742864f20d51b4619079ecd26d2c730d0103eb0cdf"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_fixture_protection_rejection.log",
+      "ref": "artifact-6e23d5c0cebddd44.log",
+      "hash": "sha256:6e23d5c0cebddd4442cd75a74cca747eadb2c24a9bb15c8fdbac261349dc6f03"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_fixture_recipe_flow.log",
+      "ref": "artifact-a49c34a0a5ae9a8f.log",
+      "hash": "sha256:a49c34a0a5ae9a8fa1ae583a082d914271958ef346f01c1c314f419dd668c04c"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_fixture_rejection_worker.log",
+      "ref": "artifact-a5e616b142b6ba3d.log",
+      "hash": "sha256:a5e616b142b6ba3d41a929e77b82bc4c2565bd0038537e65f7b05d4c0eab1efc"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_fixture_sealed_input_backup.log",
+      "ref": "artifact-b5d1d30225c7f81e.log",
+      "hash": "sha256:b5d1d30225c7f81efee271a1d46d65c38ebca18ea4eb475d02158a0c06e70a7f"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_fixture_temporal_recipe.log",
+      "ref": "artifact-08721701f27de86f.log",
+      "hash": "sha256:08721701f27de86fb7d06f13ccdc1beb65ef770e1036b82610ed05b3fec9b523"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_normal_fixture_paper.log",
+      "ref": "artifact-ec0a901154af7554.log",
+      "hash": "sha256:ec0a901154af755441d2b7ddcb1ece99f0b51e8174957d626d66a920bb4ee09c"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_normal_fixture_worker.log",
+      "ref": "artifact-630b8da5ae6c0e02.log",
+      "hash": "sha256:630b8da5ae6c0e024dc15d600db9461083633c7af26b82bf251d567119affb44"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_paper_native_driver.log",
+      "ref": "artifact-b14f92bf5abf9b5b.log",
+      "hash": "sha256:b14f92bf5abf9b5bac8ac3a489c8db43f519886f8b0a053f04ad7a1be3677fa2"
+    },
+    {
+      "origin": "fixture-focused-525abcb/application-test_product_data_backup.log",
+      "ref": "artifact-efd709e9fc4df852.log",
+      "hash": "sha256:efd709e9fc4df85274e9cadd69b3c88c1070fd8101eb621eeac2917ee7bbd14c"
+    },
+    {
+      "origin": "fixture-focused-525abcb/brokers-test_fixture_protection_rejection.log",
+      "ref": "artifact-a2bcdbd366099e10.log",
+      "hash": "sha256:a2bcdbd366099e102c8906fea15a49c20f956299c1cccec56cdf83c6c60269b0"
+    },
+    {
+      "origin": "fixture-focused-525abcb/brokers-test_paper_broker.log",
+      "ref": "artifact-2558ee6362db4694.log",
+      "hash": "sha256:2558ee6362db469423e9efaf445113f50a8eb71308928856cde9c71770fb4d4a"
+    },
+    {
+      "origin": "fixture-focused-525abcb/brokers-test_paper_broker_protection_terminal.log",
+      "ref": "artifact-757090fa916cf9ab.log",
+      "hash": "sha256:757090fa916cf9abdf8115ecc59614c36cbbc952ff0f99807b9c617541266dea"
+    },
+    {
+      "origin": "fixture-focused-525abcb/checkpoint.json",
+      "ref": "artifact-fb6ac91828d4001e.json",
+      "hash": "sha256:fb6ac91828d4001ead02be5410976c3a7df65e8737639435bde8c8341ef27cd3"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/checkpoint.json",
+      "ref": "artifact-46b100ea9f459982.json",
+      "hash": "sha256:46b100ea9f459982d9fc28f72f53dc11d52f2814d512efb1a35b303795fe8d62"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/control-paper.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/control-research.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/init.log",
+      "ref": "artifact-1a84b912c7772aaa.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/observations.json",
+      "ref": "artifact-eadf0b2ca1510da8.json",
+      "hash": "sha256:eadf0b2ca1510da8c4d3d5448892a7ff1b13da34bf0e394d22fd261cdfd8aeef"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/paper-fault-window.log",
+      "ref": "artifact-7b34a55c1cbde975.log",
+      "hash": "sha256:7b34a55c1cbde975a6afbb786219b2688a355c6a235225f731b7000a6cf3304b"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/paper-first.log",
+      "ref": "artifact-45f8c2812ca214c5.log",
+      "hash": "sha256:45f8c2812ca214c51881232bfcce7942af9b3e9ab228b505839091d98d05940a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/paper-selection.log",
+      "ref": "artifact-80824083fb6bf244.log",
+      "hash": "sha256:80824083fb6bf244a6808b705168873a506b403af9bc53336672b9186370c6e2"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/paper-successor-exit.log",
+      "ref": "artifact-704ad4a59d953ba7.log",
+      "hash": "sha256:704ad4a59d953ba761868dc59e2f6f5eda0a368741e7ba0a4fd8d062dbce5424"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/prepare.log",
+      "ref": "artifact-068c2a41bdc6de6c.log",
+      "hash": "sha256:068c2a41bdc6de6c739331e7f741e202800f128c733d758b68caed7f30cb56e5"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/research-selection.log",
+      "ref": "artifact-91f134d4bbfd9d92.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/research-worker.log",
+      "ref": "artifact-7a27b0d422812cb6.log",
+      "hash": "sha256:7a27b0d422812cb692c139186d795ce3216fe0b54d3bbf289c1c6d93a21c943b"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/stop-control-paper.log",
+      "ref": "artifact-619553a0c9d90ad9.log",
+      "hash": "sha256:619553a0c9d90ad99f81357e80c24de5e614bec9936ddf96034ebac655142455"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/stop-control-research.log",
+      "ref": "artifact-32d57355a5b81ff1.log",
+      "hash": "sha256:32d57355a5b81ff1ea609563e17926eab4ba6e047cf4822f7c230ec4bf7451e8"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/backup-verify.log",
+      "ref": "artifact-bfe745d2323f0392.log",
+      "hash": "sha256:bfe745d2323f03923f62fc3bc3d168e3d30afc0bced98cc179cdf0d096a378a9"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/backup.log",
+      "ref": "artifact-bfe745d2323f0392.log",
+      "hash": "sha256:bfe745d2323f03923f62fc3bc3d168e3d30afc0bced98cc179cdf0d096a378a9"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/contender-denied.log",
+      "ref": "artifact-1649bcba2e731770.log",
+      "hash": "sha256:1649bcba2e7317701e29e66221c8020e68da2ae4e8cb7c48373c99246d9c3561"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/control-after-backup.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/control-paper.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/control-research.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/idle-crash.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/init.log",
+      "ref": "artifact-1a84b912c7772aaa.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/managed-successor.log",
+      "ref": "artifact-20ba11d3c1b420c9.log",
+      "hash": "sha256:20ba11d3c1b420c946f696e7c5f1b9ca216e9cc964afed45f792ff982249b5d2"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/observations.json",
+      "ref": "artifact-0208c9c0ee278d59.json",
+      "hash": "sha256:0208c9c0ee278d594a97de6c1cb552e90433240a5cab02d28e004cd00d11d28a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/owning-worker-crash.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/paper-selection.log",
+      "ref": "artifact-229d811597beddbf.log",
+      "hash": "sha256:229d811597beddbfd3c30889c0de0a843f323aa4b558918ef2a7922c09caff95"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/paper-successor-exit.log",
+      "ref": "artifact-405874544463a0d8.log",
+      "hash": "sha256:405874544463a0d830ad3d0e90515375d34bb2a7a6e93600de4da5fe40080478"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/prepare.log",
+      "ref": "artifact-301abb99ddafc5b0.log",
+      "hash": "sha256:301abb99ddafc5b010788ab2c35599e9e1705e43c0d8a7401e9094629ee8f3ce"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/research-selection.log",
+      "ref": "artifact-91f134d4bbfd9d92.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/research-worker.log",
+      "ref": "artifact-dac61e83745e41a6.log",
+      "hash": "sha256:dac61e83745e41a6e142117b7f3bd435c693998fb396060d4f23f43c492a781f"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/restore.log",
+      "ref": "artifact-27ad21ff14894ce7.log",
+      "hash": "sha256:27ad21ff14894ce78d1f1a6e51e0b398c36ca21844011a789c959fade24e1484"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/restored-worker-denied.log",
+      "ref": "artifact-36adf8d64c4d7c0a.log",
+      "hash": "sha256:36adf8d64c4d7c0a4abd43064246861db2f08eb50013c321a2a575ca48010233"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/stop-control-after-backup.log",
+      "ref": "artifact-6dc334231aae27e1.log",
+      "hash": "sha256:6dc334231aae27e1a3365f0e9c0a2e7f3466cdc50cdaa5d10f945361c9d49d06"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/stop-control-paper.log",
+      "ref": "artifact-ea43ba93da165197.log",
+      "hash": "sha256:ea43ba93da165197653351a8d07c1de97a96f250b7de574927a139f85306581d"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/stop-control-research.log",
+      "ref": "artifact-5b0a76bdc06dac76.log",
+      "hash": "sha256:5b0a76bdc06dac769681a111c23aa864248f3ce2c2f87dd03e90b3dbac09d561"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/stop-managed-successor.log",
+      "ref": "artifact-3cdefca01614490c.log",
+      "hash": "sha256:3cdefca01614490c0dcf06568d0fab3ced2643e5b7412ce0d97f34adda434be0"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/control-paper.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/control-research.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/init.log",
+      "ref": "artifact-1a84b912c7772aaa.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/observations.json",
+      "ref": "artifact-39432b7a4504f8c5.json",
+      "hash": "sha256:39432b7a4504f8c599fec5a4b2ab1c58099ffef961fd66d3ff9a301aea03ca01"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/paper-fault-window.log",
+      "ref": "artifact-fbf88ae50e0be885.log",
+      "hash": "sha256:fbf88ae50e0be88535fe9ab6f6b04fbd8274e033b26b7f04b4753d84a3bdd390"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/paper-first.log",
+      "ref": "artifact-45f8c2812ca214c5.log",
+      "hash": "sha256:45f8c2812ca214c51881232bfcce7942af9b3e9ab228b505839091d98d05940a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/paper-selection.log",
+      "ref": "artifact-db7b3b67dcb3f44c.log",
+      "hash": "sha256:db7b3b67dcb3f44c07666f97759b59be60e12f193fd766b7a79eae3ae07813ff"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/paper-successor-exit.log",
+      "ref": "artifact-704ad4a59d953ba7.log",
+      "hash": "sha256:704ad4a59d953ba761868dc59e2f6f5eda0a368741e7ba0a4fd8d062dbce5424"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/prepare.log",
+      "ref": "artifact-9368d80f0ace4d9d.log",
+      "hash": "sha256:9368d80f0ace4d9d3dd2f8f282801ae873b5cdb40390593fbfd79b46879d2898"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/research-selection.log",
+      "ref": "artifact-91f134d4bbfd9d92.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/research-worker.log",
+      "ref": "artifact-0c8194981916321f.log",
+      "hash": "sha256:0c8194981916321fe0d4a5aa988c72a641b6cbe3cac6af82d4c29fae69e32526"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/stop-control-paper.log",
+      "ref": "artifact-12f1669d1ed80424.log",
+      "hash": "sha256:12f1669d1ed804242f1442e9dff8734f527116cbdbfc7e584e92039836ef78a5"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/stop-control-research.log",
+      "ref": "artifact-8bb6e1f327f8fb3d.log",
+      "hash": "sha256:8bb6e1f327f8fb3dc017d2ab97c5ae11e47a88c5536be50ef212d8c205b055b7"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/backup-verify.log",
+      "ref": "artifact-548e38b4c845e93a.log",
+      "hash": "sha256:548e38b4c845e93a24a64c32fd1616c483226bacbbc49c13d2622705fc5e68df"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/backup.log",
+      "ref": "artifact-548e38b4c845e93a.log",
+      "hash": "sha256:548e38b4c845e93a24a64c32fd1616c483226bacbbc49c13d2622705fc5e68df"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/control-after-backup.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/control-paper.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/control-research.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/init.log",
+      "ref": "artifact-1a84b912c7772aaa.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/observations.json",
+      "ref": "artifact-90088ab28cf47f3b.json",
+      "hash": "sha256:90088ab28cf47f3b7f75dbcf5d9e53da10a46098e7f46e4b1fb02beb4d1f2946"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/paper-first.log",
+      "ref": "artifact-45f8c2812ca214c5.log",
+      "hash": "sha256:45f8c2812ca214c51881232bfcce7942af9b3e9ab228b505839091d98d05940a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/paper-selection.log",
+      "ref": "artifact-8777d5a775c8fab4.log",
+      "hash": "sha256:8777d5a775c8fab43d0353ef52476eb7bb1966af3d44f7541d3655e00b908c2a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/paper-successor-exit.log",
+      "ref": "artifact-b8e8be9eef34d610.log",
+      "hash": "sha256:b8e8be9eef34d6104b71ea576500df5dace34d774190b5badf087cde21abdbaf"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/prepare.log",
+      "ref": "artifact-bc234128d43f9dff.log",
+      "hash": "sha256:bc234128d43f9dff047dd2c6030171c210d011fb02a106755dd32b7d5b3debda"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/research-selection.log",
+      "ref": "artifact-91f134d4bbfd9d92.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/research-worker.log",
+      "ref": "artifact-ca1099f19e996170.log",
+      "hash": "sha256:ca1099f19e99617014cd4edfdb68c5cf31983dd22e422825cd280dd8542e8822"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/restore.log",
+      "ref": "artifact-f2e6eaf5d85cfd7f.log",
+      "hash": "sha256:f2e6eaf5d85cfd7f0e65727ecfd45cefeec24aaed732a1403602b292ff0a72fe"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/restored-worker-denied.log",
+      "ref": "artifact-36adf8d64c4d7c0a.log",
+      "hash": "sha256:36adf8d64c4d7c0a4abd43064246861db2f08eb50013c321a2a575ca48010233"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/stop-control-after-backup.log",
+      "ref": "artifact-ce91ad2142ff43f4.log",
+      "hash": "sha256:ce91ad2142ff43f428ef304b70326dc19c3614967d7c3c85c0e533cb8709ef4d"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/stop-control-paper.log",
+      "ref": "artifact-d7f591f35710541f.log",
+      "hash": "sha256:d7f591f35710541f7c75b5bca0f0395f1febe0c6d3cd0ed20ec5202a3aa031ba"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/stop-control-research.log",
+      "ref": "artifact-8780b4e60f68ea65.log",
+      "hash": "sha256:8780b4e60f68ea65afdb4c23e20ceb909ce326ea174b07e7dade890132c8c900"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/control-paper.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/control-research.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/init.log",
+      "ref": "artifact-1a84b912c7772aaa.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/observations.json",
+      "ref": "artifact-37d80de93dbc9557.json",
+      "hash": "sha256:37d80de93dbc95578371759c5a26b3bad04d2ac6ba4084ddf5cf09fb2f4c448c"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/owning-worker-crash.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/paper-selection.log",
+      "ref": "artifact-cc5dfdb700af79d9.log",
+      "hash": "sha256:cc5dfdb700af79d9908b0c8f6864eade8026e4ba8cf7b919982e198887b7c264"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/paper-successor-exit.log",
+      "ref": "artifact-554bc1d79610b9e7.log",
+      "hash": "sha256:554bc1d79610b9e7a1504858026fb961d92c14119635003756157167e9500cbb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/prepare.log",
+      "ref": "artifact-ea07bedb34ff7d31.log",
+      "hash": "sha256:ea07bedb34ff7d315c05a30d275dec298b74754d37bc0da6a051f255463951f2"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/research-selection.log",
+      "ref": "artifact-91f134d4bbfd9d92.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/research-worker.log",
+      "ref": "artifact-10d0cf2c93053db1.log",
+      "hash": "sha256:10d0cf2c93053db1a6c4eada9e81693d69cfd7e65c038fc8567194229c02f7fc"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/stop-control-paper.log",
+      "ref": "artifact-edd6155cc3f7e300.log",
+      "hash": "sha256:edd6155cc3f7e3008d5959531a3a35b94b75d5453543cf7536e718997f1446c1"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/stop-control-research.log",
+      "ref": "artifact-3b3a4422060845fe.log",
+      "hash": "sha256:3b3a4422060845fe78bb59e181d0bd071b0689ae6877f0e399750391d5ca9d2f"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/control-paper.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/control-research.log",
+      "ref": "artifact-e3b0c44298fc1c14.log",
+      "hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/init.log",
+      "ref": "artifact-1a84b912c7772aaa.log",
+      "hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/observations.json",
+      "ref": "artifact-c5f53c51a5388f88.json",
+      "hash": "sha256:c5f53c51a5388f88eb0a7a6c3a6a181eb484518c5c414172c86da24ea94b24fe"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/paper-fault-window.log",
+      "ref": "artifact-7b34a55c1cbde975.log",
+      "hash": "sha256:7b34a55c1cbde975a6afbb786219b2688a355c6a235225f731b7000a6cf3304b"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/paper-first.log",
+      "ref": "artifact-45f8c2812ca214c5.log",
+      "hash": "sha256:45f8c2812ca214c51881232bfcce7942af9b3e9ab228b505839091d98d05940a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/paper-selection.log",
+      "ref": "artifact-05464c57026f9b03.log",
+      "hash": "sha256:05464c57026f9b033fd3b091535c7b1f51cb6c4c339e22a63c24f815a32ce3d2"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/paper-successor-exit.log",
+      "ref": "artifact-704ad4a59d953ba7.log",
+      "hash": "sha256:704ad4a59d953ba761868dc59e2f6f5eda0a368741e7ba0a4fd8d062dbce5424"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/prepare.log",
+      "ref": "artifact-7287cc93467c4224.log",
+      "hash": "sha256:7287cc93467c4224d75e0dd691e1def2ca5cf5ba7621bd7025c1f5cd7b14821b"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/research-selection.log",
+      "ref": "artifact-91f134d4bbfd9d92.log",
+      "hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/research-worker.log",
+      "ref": "artifact-d3d7496f1617f489.log",
+      "hash": "sha256:d3d7496f1617f489ad6c040fa0fe42a8504e8adffe979a26516fb80bc11797d6"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/stop-control-paper.log",
+      "ref": "artifact-fa2071fc3f4f7460.log",
+      "hash": "sha256:fa2071fc3f4f746088934b88e873e76e03d940b04375f096e6cda3f2eff85e76"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/stop-control-research.log",
+      "ref": "artifact-1e307c76217036db.log",
+      "hash": "sha256:1e307c76217036db1ff330edb373e4d703fb215be304f2220ae34bf17818c60d"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/duplicate-market-hold/data/worker-logs/job-521d0cdda71b909c50b29f404e05764660f34f66a6c2433fe3e430ef36858b88-1.log",
+      "ref": "artifact-1bbb056c20e54613.log",
+      "hash": "sha256:1bbb056c20e54613fe0f0d913526418311c5438da1d4ebf2719236f75f30569b"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/hold-for-recovery/data/worker-logs/job-68f539b7913b4bf4cf58dc1fce59cd53c415ea3643bdfdbb94d74aa72509ea38-1.log",
+      "ref": "artifact-d65b3eab7cc903e1.log",
+      "hash": "sha256:d65b3eab7cc903e1c08f35a0a2360ca4887d0733123234b8b432e3043146bc64"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/missing-market-hold/data/worker-logs/job-ba7b05e43711a11445cbd5c7e304a05384ca15458162d1b95ac53bf61d85db08-1.log",
+      "ref": "artifact-0101d26396b18f24.log",
+      "hash": "sha256:0101d26396b18f249c9107d5af3875855c3958b03ae4396a6ad011db064e8fd1"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/partial-fill-hold/data/worker-logs/job-88fa65b3a921b1bfe7ca3ce2551cca2c2742094b08337cd973ebacceb0720b9a-1.log",
+      "ref": "artifact-896e608111bc4e8a.log",
+      "hash": "sha256:896e608111bc4e8ad436a72a43685b1f032fe546f260943bc64d3eceb603ac0a"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/protection-rejected-hold/data/worker-logs/job-33f7f10c4dd0556420cc88079e3620bee7e9c8c8bdb0ba15489dac3c95d8a635-1.log",
+      "ref": "artifact-4e5bb814a4856dd0.log",
+      "hash": "sha256:4e5bb814a4856dd0796ee481e3022b9408d8b0543c86611119dbb0bf0cbd5020"
+    },
+    {
+      "origin": "fixture-native-faults-525abcb/stale-market-hold/data/worker-logs/job-b1d751cd03366cd45b37deb967ad72c3f0e3f2625bad99774d07f11839a33217-1.log",
+      "ref": "artifact-8efa78e4784632e4.log",
+      "hash": "sha256:8efa78e4784632e40f45ea2fee3837d2e8d620e3bc779bc42d8ed902e102d7f9"
+    }
+  ],
+  "launch_notes": {
+    "ref": "execution.md",
+    "hash": "sha256:877c562d9ff5614bf2560dc4cea22d54ae556ff2a3cca7dee4e48a993b089548"
+  }
+}

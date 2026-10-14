@@ -194,6 +194,8 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none',paper_case='n
         write_private_new(target/'dataset.json',_raw(manifest))
         policies=_policies(scenario,timeframe)
         if paper_case=='partial-fill-hold':policies['simulation']['initial_fill_fraction']='0.5'
+        if paper_case=='protection-rejected-hold':
+            policies['simulation'].update(schema_version='r7-paper-simulation-policy-v0.3',fixture_protection_submission='REJECT')
         for name,value in policies.items():
             write_private_new(target/(name+'.json'),_raw(value))
         temporal=generate(temporal_case)

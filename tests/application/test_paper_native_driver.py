@@ -185,6 +185,20 @@ class PaperNativeDriverTests(unittest.TestCase):
         for changed in (raw+b'{}\n',b'{}\n',raw.replace(b'OWNER_SCOPE_BUSY',b'VALIDATION'),raw*300):
             with self.subTest(changed=changed[:24]),self.assertRaises(ValueError):parser(changed)
 
+    def test_successor_observation_waits_for_new_generation_and_consumed_pause(self):
+        self.module();root=Path(__file__).resolve().parents[2]
+        with patch.object(sys,'path',[str(root/'tools'),*sys.path]):faults=importlib.import_module('verify_paper_faults')
+        from types import SimpleNamespace
+        def recovered(generation,paused):
+            return SimpleNamespace(process_generation=generation,state=dict(runtime=dict(
+                position=dict(lifecycle_state='OPEN_PROTECTED'),paper_entries_allowed=not paused)))
+        old=recovered(1,False);attached=recovered(2,False);new=recovered(2,True)
+        flow=object.__new__(faults.NativeFixtureFaultFlow);flow.paper_run='source-only-run'
+        flow.runtime_child=Mock();flow.runtime_child.process.poll.return_value=None
+        flow.journal=Mock(side_effect=[old,attached,new])
+        self.assertIs(flow.wait_position('OPEN_PROTECTED',generation=2,entries_paused=True),new)
+        self.assertEqual(flow.journal.call_count,3)
+
     def test_owner_exit_before_login_prevents_sending_synthetic_password(self):
         m=self.module();fixture=object.__new__(m.NativeExpiryFlow)
         fixture.origin='http://127.0.0.1:8765';fixture.control=object()

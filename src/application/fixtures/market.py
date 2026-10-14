@@ -54,7 +54,6 @@ def fixture_market_event(runtime_state,now,*,timeframe='1h',paper_case=None):
         from .faults import validate,HOLD_SECONDS
         case=validate(paper_case)['case']
         price='60000'
-        if case=='fill-at-target' and runtime_state['entry_request'] is not None:price='60020'
         anchor=runtime_state['exit_anchor']
         if position is not None and anchor is not None:
             first=datetime.fromisoformat(anchor['payload']['first_fill_at'].replace('Z','+00:00'))

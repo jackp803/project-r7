@@ -1,0 +1,82 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "scope": "DIRTY_SOURCE_REMEDIATION_NOT_QUALIFICATION",
+  "prior_exact_native_attempt": "3c702d5f0cf738481d9ed4c3e653bcfada6e516b",
+  "prior_native_result": "3_OF_6",
+  "changes": [
+    "Wait for actual successor E6 generation and applied durable pause",
+    "Exclude incarnation-bound managed stop requests from restore",
+    "Retire invalid target-at-first-fill input; do not relax existing E5 anchor geometry",
+    "Use closed FIXTURE-only simulation v0.3 first protection submit rejection; existing E4 codec and E5 interpretation",
+    "Observe actual nonzero EMERGENCY with rejected protection, then actual successor canonical close"
+  ],
+  "source_commands": [
+    {
+      "tests": 27,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    },
+    {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skips": 0
+    }
+  ],
+  "source_counts_overlap": true,
+  "review": {
+    "critical": 0,
+    "important": 0,
+    "reviewer_execution": "NONE"
+  },
+  "native": "NOT_RUN_FOR_NEW_CANDIDATE",
+  "full_pqr": "NOT_QUALIFIED",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "origin": "native-fault-recovery-backup-red.log",
+      "ref": "artifact-61beaa9ec6a8ade9.log",
+      "hash": "sha256:61beaa9ec6a8ade90a990bfad92d1537140381f73b5c8be30dfc3de60cc9833f"
+    },
+    {
+      "origin": "native-fault-recovery-backup-green.log",
+      "ref": "artifact-7bc7a4888419415b.log",
+      "hash": "sha256:7bc7a4888419415b93bf4ba8d29092a4d852f33a56243fbbeac6bb57d0931452"
+    },
+    {
+      "origin": "fixture-protection-rejection-red.log",
+      "ref": "artifact-1c04a0183cb8931b.log",
+      "hash": "sha256:1c04a0183cb8931bed55ddd1ae69ff83d781d7c6e2d729a029c13e65b1fbd1d0"
+    },
+    {
+      "origin": "fixture-protection-rejection-green-attempt1.log",
+      "ref": "artifact-ea55e91671611879.log",
+      "hash": "sha256:ea55e91671611879e3bf05cfa4e9632eb4c66c60c6ab3cd108d744182a82bf43"
+    },
+    {
+      "origin": "fixture-protection-rejection-green-attempt2.log",
+      "ref": "artifact-52fe7513dfa345a2.log",
+      "hash": "sha256:52fe7513dfa345a2332232864959327088b70c8478f74c0c1d013b0f4ca3b57a"
+    },
+    {
+      "origin": "fixture-recovery-remediation-green.log",
+      "ref": "artifact-a60373fb5bcaded8.log",
+      "hash": "sha256:a60373fb5bcaded86b88938009d23fd73a73c45e96ef5ffee4a64c24230be732"
+    },
+    {
+      "origin": "fixture-remediation-inventory-frozen.log",
+      "ref": "artifact-562f6efafb7ed8b2.log",
+      "hash": "sha256:562f6efafb7ed8b263d5a899a1ab7ccdd9f818f10ba35f54c4aea0c1630bb2c8"
+    },
+    {
+      "origin": "run_fixture_checkpoint.py",
+      "ref": "artifact-b778f8dd5c736c70.py",
+      "hash": "sha256:b778f8dd5c736c70ddce451d1192ecc5f8f1ef3f8fd9cc7616eddf33a5100fe6"
+    }
+  ]
+}

@@ -4,7 +4,7 @@ from application.cloud.manifest import validate_package
 from application.cloud.safe_files import read_bounded
 from application.datasets.catalog import canonical,decode,read_local
 
-CASES=('normal','hold-for-recovery','fill-at-target','partial-fill-hold',
+CASES=('normal','hold-for-recovery','protection-rejected-hold','partial-fill-hold',
     'duplicate-market-hold','missing-market-hold','stale-market-hold')
 SCHEMA='r7-synthetic-fixture-paper-case-v1'
 REFERENCE='fixture-inputs/paper-case.json'
@@ -36,6 +36,13 @@ def require_selection(document,selected):
     if (selected['paper_policy_ref']!=policy_ref(document)
             or selected['simulation_policy']['initial_fill_fraction']!=fraction):
         raise ValueError('Sealed fixture case requires its exact policy/fill semantics')
+    simulation=selected['simulation_policy']
+    if document['case']=='protection-rejected-hold':
+        if (simulation.get('schema_version')!='r7-paper-simulation-policy-v0.3'
+                or simulation.get('fixture_protection_submission')!='REJECT'):
+            raise ValueError('Sealed rejection case requires its exact fixture-only simulation version')
+    elif 'fixture_protection_submission' in simulation:
+        raise ValueError('Protection rejection cannot enter a different sealed case')
 
 
 def read_case(config,package):

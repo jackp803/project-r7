@@ -287,6 +287,8 @@ class PaperEngine:
             self._effect(effects,'POSITION_ACTION',action)
             request=prepare_trigger_validated_protection_order(action,runtime['plan'],position,
                 outcome.trigger_validity_evidence,market,market_freshness_classification='FRESH',now=now)
+            if self.config.get('fixture_protection_submission')=='REJECT':
+                broker.reject_fixture_protection_submission(request,namespace=self.service.namespace)
             ack=broker.submit_order(request)
             self._effect(effects,'ORDER_REQUEST',encode_fact(request)); self._effect(effects,'ORDER_RESULT',encode_fact(ack))
             interpreted=interpret_protection_result(request,ProtectionResultEvidence(True,

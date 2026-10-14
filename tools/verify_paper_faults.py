@@ -126,12 +126,14 @@ class NativeFixtureFaultFlow(NativeExpiryFlow):
             self.persist()
             if not reaped:raise NativeFixtureCleanupError('NATIVE_RUNTIME_CLEANUP_UNCONFIRMED')
 
-    def wait_position(self,state):
+    def wait_position(self,state,*,generation=None,entries_paused=False):
         end=time.monotonic()+25
         while time.monotonic()<end:
             if self.runtime_child.process.poll() is not None:raise ValueError('Native runtime died before position observation')
             current=self.journal(self.paper_run);position=current.state['runtime']['position']
-            if position is not None and position['lifecycle_state']==state:return current
+            if (position is not None and position['lifecycle_state']==state
+                    and (generation is None or current.process_generation==generation)
+                    and (not entries_paused or not current.state['runtime']['paper_entries_allowed'])):return current
             time.sleep(.05)
         raise ValueError('Actual native position deadline: '+state)
 
@@ -208,9 +210,9 @@ class NativeFixtureFaultFlow(NativeExpiryFlow):
                 if self.view('paper/runs')['items']:raise ValueError('Idle native worker created a run')
                 self.finish_runtime(crash=True);self.observation['actual_idle_flat_crash']=True
             self.paper_start()
-            if self.native_case in ('hold-for-recovery','fill-at-target'):
+            if self.native_case in ('hold-for-recovery','protection-rejected-hold'):
                 identity=self.start_runtime('owning-worker-crash')
-                pending=self.wait_position('EXIT_REQUESTED' if self.native_case=='fill-at-target' else 'OPEN_PROTECTED')
+                pending=self.wait_position('EMERGENCY' if self.native_case=='protection-rejected-hold' else 'OPEN_PROTECTED',generation=1)
                 if self.native_case=='hold-for-recovery':
                     self.command('contender-denied',['paper-worker','--config',self.config,'--maximum-ticks','2'],expected=2)
                     require_scope_denial((self.output/'contender-denied.log').read_bytes())
@@ -221,15 +223,19 @@ class NativeFixtureFaultFlow(NativeExpiryFlow):
                 before=self.journal(self.paper_run)
                 if before.state['runtime']['position']['lifecycle_state']!=pending.state['runtime']['position']['lifecycle_state']:
                     raise ValueError('Crash missed the observed lifecycle state')
-                if self.native_case=='fill-at-target':
-                    if before.state['runtime']['protection_request'] is not None or Decimal(before.state['runtime']['position']['actual_quantity'])<=0:
-                        raise ValueError('Expected actual nonzero unprotected exit request')
-                    self.observation['actual_crash_state']='EXIT_REQUESTED_NONZERO_NO_PROTECTION'
-                    self.finish_trade(before,ticks=3)
+                if self.native_case=='protection-rejected-hold':
+                    runtime=before.state['runtime'];broker=PaperBroker.from_state(before.state['broker'])
+                    protection=decode_fact(OrderRequest,runtime['protection_request'])
+                    if (broker.query_order(protection.client_order_id).order_status!=OrderStatus.REJECTED
+                            or Decimal(runtime['position']['actual_quantity'])<=0):
+                        raise ValueError('Expected actual nonzero position with definitively rejected protection')
+                    self.observation['actual_crash_state']='EMERGENCY_NONZERO_PROTECTION_REJECTED'
+                    self.finish_trade(before,ticks=4)
                 else:
                     self.observation['actual_crash_state']='OPEN_PROTECTED'
                     self.start_runtime('managed-successor')
-                    successor=self.wait_position('OPEN_PROTECTED');self.require_original(before,successor)
+                    successor=self.wait_position('OPEN_PROTECTED',generation=before.process_generation+1,entries_paused=True)
+                    self.require_original(before,successor)
                     if successor.process_generation!=before.process_generation+1 or successor.state['runtime']['paper_entries_allowed']:
                         raise ValueError('Successor fencing/pause not retained')
                     self.finish_runtime(crash=False);before=self.journal(self.paper_run)

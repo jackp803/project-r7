@@ -22,7 +22,7 @@ from application.research.evidence import stamp, capture_provenance
 
 SCHEMA = 'r7-private-product-data-backup-v0.2'
 MAX_FILES, MAX_BYTES, MAX_FILE_BYTES = 4096, 16 * 1024**3, 64 * 1024**2
-TRANSIENT_ROOTS = frozenset({'process-scopes', 'worker-logs', 'paper-release-observations'})
+TRANSIENT_ROOTS = frozenset({'process-scopes', 'worker-logs', 'paper-release-observations', 'managed-stop-requests'})
 RESTORE_METADATA = frozenset({'restore-generation.json','restore-in-progress.json','restored-product.json'})
 TOP_KEYS = {'schema_version', 'backup_id', 'created_at', 'product_instance_id', 'config_hash',
     'data_class', 'cloud_publication', 'consistency', 'source_provenance', 'database_manifest_sha256',

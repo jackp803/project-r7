@@ -1,0 +1,48 @@
+test_rejection_version_is_closed_and_cannot_select_ordinary_paper (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_rejection_version_is_closed_and_cannot_select_ordinary_paper) ... ERROR
+test_sealed_case_uses_explicit_fixture_only_version_without_financial_change (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_sealed_case_uses_explicit_fixture_only_version_without_financial_change) ... ERROR
+test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec) ... ok
+test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) ... ok
+test_case_policy_reference_and_partial_fraction_are_exact (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_case_policy_reference_and_partial_fraction_are_exact) ... ok
+test_default_normal_keeps_legacy_notes_policy_and_market_behavior (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_default_normal_keeps_legacy_notes_policy_and_market_behavior) ... ok
+test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_named_market_hold_target_partial_and_single_missing_stale_duplicate_phase) ... ok
+test_ordinary_namespace_cannot_create_case_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_ordinary_namespace_cannot_create_case_inputs) ... ok
+test_partial_case_seals_only_declarative_inputs_and_existing_fraction (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_partial_case_seals_only_declarative_inputs_and_existing_fraction) ... ok
+test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_reader_requires_actual_sealed_case_and_matching_auxiliary_bytes) ... ok
+test_running_owner_scope_denies_case_generation_before_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_running_owner_scope_denies_case_generation_before_inputs) ... ok
+test_schema_rejects_terminal_flags_price_time_code_and_unknown_case (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_schema_rejects_terminal_flags_price_time_code_and_unknown_case) ... ok
+test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs (tests.application.test_fixture_paper_case_recipe.FixturePaperCaseRecipeTests.test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs) ... ok
+
+======================================================================
+ERROR: test_rejection_version_is_closed_and_cannot_select_ordinary_paper (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_rejection_version_is_closed_and_cannot_select_ordinary_paper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 29, in test_rejection_version_is_closed_and_cannot_select_ordinary_paper
+    value=self.policy()
+          ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 13, in policy
+    self.initialize();prepare_fixture(self.config_path,'positive',paper_case='protection-rejected-hold')
+    ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 20, in initialize
+    result = self.call(['init-profile', '--config', str(self.config_path),
+             ^^^^^^^^^
+AttributeError: 'FixtureProtectionRejectionTests' object has no attribute 'call'
+
+======================================================================
+ERROR: test_sealed_case_uses_explicit_fixture_only_version_without_financial_change (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_sealed_case_uses_explicit_fixture_only_version_without_financial_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 17, in test_sealed_case_uses_explicit_fixture_only_version_without_financial_change
+    value=self.policy();parsed=parse_simulation_policy(value,namespace='FIXTURE')
+          ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 13, in policy
+    self.initialize();prepare_fixture(self.config_path,'positive',paper_case='protection-rejected-hold')
+    ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 20, in initialize
+    result = self.call(['init-profile', '--config', str(self.config_path),
+             ^^^^^^^^^
+AttributeError: 'FixtureProtectionRejectionTests' object has no attribute 'call'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.989s
+
+FAILED (errors=2)

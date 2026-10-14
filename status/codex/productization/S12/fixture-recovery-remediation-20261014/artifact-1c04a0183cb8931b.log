@@ -1,0 +1,88 @@
+test_rejection_version_is_closed_and_cannot_select_ordinary_paper (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_rejection_version_is_closed_and_cannot_select_ordinary_paper) ... ERROR
+test_sealed_case_uses_explicit_fixture_only_version_without_financial_change (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_sealed_case_uses_explicit_fixture_only_version_without_financial_change) ... ERROR
+test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec) ... ERROR
+test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) ... 
+  test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) (namespace='FIXTURE') ... ERROR
+  test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) (namespace='LOCAL_RESEARCH') ... ERROR
+  test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) (namespace='FIXTURE') ... ERROR
+test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) ... ERROR
+
+======================================================================
+ERROR: test_rejection_version_is_closed_and_cannot_select_ordinary_paper (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_rejection_version_is_closed_and_cannot_select_ordinary_paper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 29, in test_rejection_version_is_closed_and_cannot_select_ordinary_paper
+    value=self.policy()
+          ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 13, in policy
+    self.initialize();prepare_fixture(self.config_path,'positive',paper_case='protection-rejected-hold')
+    ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 20, in initialize
+    result = self.call(['init-profile', '--config', str(self.config_path),
+             ^^^^^^^^^
+AttributeError: 'FixtureProtectionRejectionTests' object has no attribute 'call'
+
+======================================================================
+ERROR: test_sealed_case_uses_explicit_fixture_only_version_without_financial_change (tests.application.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_sealed_case_uses_explicit_fixture_only_version_without_financial_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 17, in test_sealed_case_uses_explicit_fixture_only_version_without_financial_change
+    value=self.policy();parsed=parse_simulation_policy(value,namespace='FIXTURE')
+          ^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_protection_rejection.py", line 13, in policy
+    self.initialize();prepare_fixture(self.config_path,'positive',paper_case='protection-rejected-hold')
+    ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_fixture_product_mode.py", line 20, in initialize
+    result = self.call(['init-profile', '--config', str(self.config_path),
+             ^^^^^^^^^
+AttributeError: 'FixtureProtectionRejectionTests' object has no attribute 'call'
+
+======================================================================
+ERROR: test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_fixture_protection_rejection.py", line 26, in test_actual_first_protection_rejection_retains_fills_and_roundtrips_existing_codec
+    broker.reject_fixture_protection_submission(request,namespace='FIXTURE')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'reject_fixture_protection_submission'
+
+======================================================================
+ERROR: test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) (namespace='FIXTURE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_fixture_protection_rejection.py", line 41, in test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order
+    broker.reject_fixture_protection_submission(candidate,namespace=namespace)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'reject_fixture_protection_submission'
+
+======================================================================
+ERROR: test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) (namespace='LOCAL_RESEARCH')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_fixture_protection_rejection.py", line 41, in test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order
+    broker.reject_fixture_protection_submission(candidate,namespace=namespace)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'reject_fixture_protection_submission'
+
+======================================================================
+ERROR: test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order) (namespace='FIXTURE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_fixture_protection_rejection.py", line 41, in test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order
+    broker.reject_fixture_protection_submission(candidate,namespace=namespace)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'reject_fixture_protection_submission'
+
+======================================================================
+ERROR: test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order (tests.brokers.test_fixture_protection_rejection.FixtureProtectionRejectionTests.test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_fixture_protection_rejection.py", line 43, in test_fault_cannot_target_entry_ordinary_namespace_absent_fill_or_existing_order
+    with self.assertRaises(ValueError):PaperBroker().reject_fixture_protection_submission(request,namespace='FIXTURE')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PaperBroker' object has no attribute 'reject_fixture_protection_submission'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+FAILED (errors=7)

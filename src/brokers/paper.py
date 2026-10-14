@@ -174,6 +174,26 @@ class PaperBroker(Broker):
         # authoritative order truth lives in _orders and may evolve later.
         order.result = result
 
+    def reject_fixture_protection_submission(self,request: OrderRequest,*,namespace: str) -> None:
+        """Select existing first-submit rejection only for a filled FIXTURE stop.
+
+        E5 still owns lifecycle/recovery. No result, fill, position or accepted
+        order is changed, and the original broker state codec remains exact.
+        """
+        if (namespace!='FIXTURE' or not isinstance(request,OrderRequest)
+                or request.order_role!='PROTECTION_STOP' or request.authorization_type!='POSITION_ACTION'
+                or request.order_type!='STOP_MARKET' or request.reduce_only is not True
+                or request.client_order_id in self._submissions or request.client_order_id in self._ambiguous_outcomes):
+            raise ValueError('Actual unsubmitted FIXTURE protection request required')
+        exposure=self.query_position(request.symbol).net_quantity
+        filled=[order for order in self._orders.values() if order.request.trade_plan_id==request.trade_plan_id
+            and order.request.symbol==request.symbol and not order.request.reduce_only and order.fills]
+        if (not filled or not request.quantity.is_finite() or not 0<request.quantity<=abs(exposure)
+                or request.side!=(Side.SELL if exposure>0 else Side.BUY)
+                or any(request.created_at<fill.filled_at for order in filled for fill in order.fills)):
+            raise ValueError('Actual current filled exposure required for fixture protection rejection')
+        self._rejected_outcomes[request.client_order_id]='SYNTHETIC_FIXTURE_PROTECTION_REJECTED'
+
     def submit_order(self, request: OrderRequest) -> OrderResult:
         if request.schema_version != SCHEMA_VERSION:
             raise ValueError("unsupported OrderRequest schema_version")

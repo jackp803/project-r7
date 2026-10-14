@@ -91,6 +91,20 @@ class ProductDataBackupTests(unittest.TestCase):
         module.restore_product_backup(self.config,self.backup,self.target)
         self.assertFalse((self.target/'paper-release-observations').exists())
 
+    def test_actual_old_managed_stop_request_is_excluded_from_restore(self):
+        from application.platform.supervision import ProcessSupervisor
+        from application.platform.service_stop import request_service_stop
+        with ProcessSupervisor(self.config,'control'):
+            request=request_service_stop(self.config,'control')
+            self.assertEqual(request['status'],'COOPERATIVE_STOP_REQUESTED')
+        path=self.data/'managed-stop-requests'/(request['process_generation_id']+'.json')
+        original=path.read_bytes();module=self.module()
+        result=module.create_product_backup(self.config,self.backup)
+        self.assertIn('managed-stop-requests',result['excluded_transient_roots'])
+        module.restore_product_backup(self.config,self.backup,self.target)
+        self.assertFalse((self.target/'managed-stop-requests').exists())
+        self.assertEqual(path.read_bytes(),original)
+
     def test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation(self):
         module = self.module()
         module.create_product_backup(self.config, self.backup)

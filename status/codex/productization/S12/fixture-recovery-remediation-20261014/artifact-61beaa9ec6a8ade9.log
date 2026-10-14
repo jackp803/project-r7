@@ -1,0 +1,30 @@
+test_actual_old_managed_stop_request_is_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_old_managed_stop_request_is_excluded_from_restore) ... ERROR
+test_successor_observation_waits_for_new_generation_and_consumed_pause (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_successor_observation_waits_for_new_generation_and_consumed_pause) ... ERROR
+
+======================================================================
+ERROR: test_actual_old_managed_stop_request_is_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_old_managed_stop_request_is_excluded_from_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 102, in test_actual_old_managed_stop_request_is_excluded_from_restore
+    result=module.create_product_backup(self.config,self.backup)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 381, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 313, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+======================================================================
+ERROR: test_successor_observation_waits_for_new_generation_and_consumed_pause (tests.application.test_paper_native_driver.PaperNativeDriverTests.test_successor_observation_waits_for_new_generation_and_consumed_pause)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_native_driver.py", line 199, in test_successor_observation_waits_for_new_generation_and_consumed_pause
+    self.assertIs(flow.wait_position('OPEN_PROTECTED',generation=2,entries_paused=True),new)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: NativeFixtureFaultFlow.wait_position() got an unexpected keyword argument 'generation'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.971s
+
+FAILED (errors=2)

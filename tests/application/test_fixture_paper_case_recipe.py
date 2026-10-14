@@ -47,6 +47,7 @@ class FixturePaperCaseRecipeTests(unittest.TestCase):
     def test_unknown_case_and_mixed_temporal_case_deny_before_creating_inputs(self):
         self.initialize()
         for kwargs in ({'paper_case':'arbitrary-price-or-code'},
+                {'paper_case':'fill-at-target'},
                 {'paper_case':'hold-for-recovery','temporal_case':'paper-expire-after-protection'}):
             with self.subTest(kwargs=kwargs),self.assertRaises(ValueError):prepare_fixture(self.config_path,'positive',**kwargs)
         self.assertFalse(self.data.exists());self.assertFalse(self.cloud.exists())
@@ -105,8 +106,8 @@ class FixturePaperCaseRecipeTests(unittest.TestCase):
         self.assertEqual(stale.snapshot.freshness_ms,10000)
         duplicate=fixture_market_event(protected,first+timedelta(seconds=1),paper_case=module.generate('duplicate-market-hold'))
         self.assertEqual(duplicate.snapshot,initial.snapshot)
-        target=fixture_market_event(dict(empty,entry_request={'actual-owner-request':'present'}),first,paper_case=module.generate('fill-at-target'))
-        self.assertEqual(target.snapshot.last_price,60020)
+        rejected=fixture_market_event(dict(empty,entry_request={'actual-owner-request':'present'}),first,paper_case=module.generate('protection-rejected-hold'))
+        self.assertEqual(rejected.snapshot.last_price,60000)
 
     def test_case_policy_reference_and_partial_fraction_are_exact(self):
         module=self.cases();document=module.generate('partial-fill-hold')

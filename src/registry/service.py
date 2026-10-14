@@ -341,9 +341,13 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
     def candidate_product_assessment(self,identity):
         """Immutable qualified product/risk selection for actual local consumers."""
         from .product_assessment import require_product_record
+        from .operational_authority import ProductLifecycleComposition
         strategy=self._require_strategy(identity)
         record=self._store.candidate_product_assessment(identity)
-        require_product_record(self._store,strategy,record,status='PASS')
+        boundary=getattr(self._store,'_lifecycle_boundary',None)
+        source=boundary.implementation_hash if (isinstance(boundary,ProductLifecycleComposition)
+            and boundary.namespace==self.research_namespace) else None
+        require_product_record(self._store,strategy,record,status='PASS',implementation_hash=source)
         return record
 
     def record_product_assessment(self,identity,*,run_id,actor):

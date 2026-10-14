@@ -144,6 +144,11 @@ def main(argv=None):
     job.add_argument('--run-id', required=True)
     job.add_argument('--generation', type=int, required=True)
     job.add_argument('--expected-config-hash')
+    observe=commands.add_parser('_paper-release-observe',help=argparse.SUPPRESS)
+    observe.add_argument('--config',type=Path,required=True)
+    observe.add_argument('--receipt-ref',required=True)
+    observe.add_argument('--mode',choices=('software','management','runtime'),required=True)
+    observe.add_argument('--runtime-token')
     args = parser.parse_args(argv)
     if args.command=='plan-ssh-tunnel':
         from application.platform.ssh_access import plan_ssh_tunnel
@@ -301,6 +306,10 @@ def main(argv=None):
         result = run_research_job(args.config, args.run_id, args.generation, expected_config_hash=args.expected_config_hash)
         print(json.dumps(result))
         return 0 if result['status'] in ('COMPLETE', 'BLOCKED', 'CANCELED') else 2
+    if args.command=='_paper-release-observe':
+        from application.paper.release_observation import observe_native_subject
+        print(json.dumps(observe_native_subject(args.config,args.receipt_ref,mode=args.mode,runtime_token=args.runtime_token)))
+        return 0
     if args.command == 'init-profile':
         from application.entrypoints import initialize_profile
         result = initialize_profile(args.config, args.data_root,

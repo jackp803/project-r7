@@ -1,0 +1,16 @@
+test_runner_accepts_fixed_result_from_real_pipe_only_after_reaped_and_mode_shape (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_runner_accepts_fixed_result_from_real_pipe_only_after_reaped_and_mode_shape) ... FAIL
+test_observer_verifies_actual_sealed_inputs_without_writing_store_and_denies_mutation (tests.application.test_ordinary_paper_composition.OrdinaryPaperCompositionTests.test_observer_verifies_actual_sealed_inputs_without_writing_store_and_denies_mutation) ... ok
+
+======================================================================
+FAIL: test_runner_accepts_fixed_result_from_real_pipe_only_after_reaped_and_mode_shape (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_runner_accepts_fixed_result_from_real_pipe_only_after_reaped_and_mode_shape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 155, in test_runner_accepts_fixed_result_from_real_pipe_only_after_reaped_and_mode_shape
+    with self.assertRaises(ValueError):m.check_native_once(self.root/'product.json',self.ref)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.301s
+
+FAILED (failures=1)

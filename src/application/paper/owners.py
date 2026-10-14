@@ -8,6 +8,7 @@ from contextlib import ExitStack,contextmanager
 from dataclasses import dataclass
 from datetime import datetime,timezone
 import json
+import re
 from pathlib import Path
 
 from application.config import ProductConfig
@@ -57,7 +58,7 @@ class PaperOwnerSelection:
 
 
 class PaperOwnerComposition:
-    def __init__(self,config,*,selection,current_release,authenticator,clock,strategy_identity=None,operational_generation=None):
+    def __init__(self,config,*,selection,current_release,authenticator,clock,strategy_identity=None,operational_generation=None,implementation_hash=None):
         if (not isinstance(config,ProductConfig) or not isinstance(selection,PaperOwnerSelection)
                 or not isinstance(authenticator,HumanAuthenticator) or authenticator.namespace!=selection.namespace
                 or not callable(current_release) or not callable(clock)):
@@ -75,6 +76,10 @@ class PaperOwnerComposition:
                 or not 1<=operational_generation<=2147483647 or selection.namespace!='LOCAL_RESEARCH'):
             raise ValueError('Actual protected ordinary selection generation required')
         self.operational_generation=operational_generation
+        if implementation_hash is not None and (type(implementation_hash) is not str
+                or not re.fullmatch('sha256:[0-9a-f]{64}',implementation_hash)):
+            raise ValueError('Trusted selected owner source commitment required')
+        self.implementation_hash=implementation_hash
         self.selection=PaperOwnerSelection(**selection.as_dict())
         self.current_release=current_release;self.authenticator=authenticator;self.clock=clock
 
@@ -97,7 +102,7 @@ class PaperOwnerComposition:
             if service is None:raise EvidenceGateError('Actual PAPER owner is not composed')
             return service.resolve_owner_evidence(kind,reference,identity)
         boundary=ProductLifecycleComposition(namespace=namespace,current_release=self.current_release,
-            resolve_evidence=resolve,authenticator=self.authenticator,clock=self.clock)
+            resolve_evidence=resolve,authenticator=self.authenticator,clock=self.clock,implementation_hash=self.implementation_hash)
         boundary.select_paper_policy(selected['paper_policy_ref'],selected['promotion_policy'])
         with ExitStack() as stack:
             registry=stack.enter_context(open_sqlite_platform(self.config.database_path,
@@ -139,7 +144,7 @@ class PaperOwnerComposition:
                                 or envelope['account_ref']!=release.account_ref):
                             raise EvidenceGateError('Original Paper simulator/account commitment changed')
                         from .release import _historical_owner
-                        owner=_historical_owner(record)
+                        owner=_historical_owner(record,implementation_hash=release.implementation_hash)
                         risk=parse_product_risk_policy(owner.as_dict()['risk_policy'],namespace=namespace)
                         if (risk.policy_hash!=release.risk_policy_hash
                                 or owner.as_dict()['risk_policy']['generation']!=release.risk_generation):
@@ -162,7 +167,7 @@ class PaperOwnerComposition:
             service=PaperService(registry=registry,process_journal=process,canonical_journal=canonical_journal,
                 namespace=namespace,current_release=self.current_release,clock=self.clock,
                 strategy_identity=self.strategy_identity,management_selection=management_selection,
-                selection_current=selection_current,entry_current=entry_current,**selected)
+                selection_current=selection_current,entry_current=entry_current,implementation_hash=self.implementation_hash,**selected)
             yield service
 
 

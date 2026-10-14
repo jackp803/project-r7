@@ -5,6 +5,7 @@ from pathlib import Path
 import importlib
 import json
 import unittest
+from unittest.mock import patch
 
 from application.platform.supervision import config_hash
 from registry import EvidenceGateError
@@ -55,6 +56,27 @@ class NativePaperReleaseAdapterTests(PaperReleaseSelectionTests):
         with self.assertRaises(ValueError):reader.current()
         self.assertFalse(self.config.database_path.exists())
         self.assertFalse((self.config.local_data_root/'process-supervision.sqlite').exists())
+
+    def test_verified_snapshot_projection_has_no_full_source_or_capability_hashing(self):
+        m,selection,measured,identity=self.prepare();capability=build_capability_snapshot().snapshot_hash
+        measured['capability_hash']=capability
+        with patch.object(m,'_revision',side_effect=AssertionError('No hot source hash')),patch.object(m,'build_capability_snapshot',side_effect=AssertionError('No hot capability build')):
+            release=m._binding_from_current_facts(self.config,selection,measured,identity,
+                implementation_hash=measured['implementation_hash'],capability_hash=capability)
+            self.assertEqual(release.implementation_hash,measured['implementation_hash'])
+            self.assertEqual(release.capability_hash,capability)
+            for changed in ({**measured,'implementation_hash':'sha256:'+'e'*64},
+                    {**measured,'capability_hash':'sha256:'+'e'*64}):
+                with self.subTest(changed=changed),self.assertRaises(ValueError):
+                    m._binding_from_current_facts(self.config,selection,changed,identity,
+                        implementation_hash=measured['implementation_hash'],capability_hash=capability)
+
+    def test_historical_simulator_uses_original_accepted_source_commitment(self):
+        m,selection,measured,_=self.prepare()
+        with patch.object(m,'_revision',side_effect=AssertionError('No historical hot source hash')):
+            owner=m._historical_owner(selection.as_dict(),implementation_hash=measured['implementation_hash'])
+            self.assertEqual(owner.selection_hash,self.owner().selection_hash)
+            with self.assertRaises(ValueError):m._historical_owner(selection.as_dict(),implementation_hash='sha256:'+'e'*64)
 
 
 if __name__=='__main__':unittest.main()

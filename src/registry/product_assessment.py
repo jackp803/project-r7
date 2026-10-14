@@ -6,6 +6,7 @@ store calls. It does not sandbox hostile Python or a raw SQLite writer.
 from dataclasses import dataclass
 import hashlib
 import json
+import re
 
 from .models import EvidenceGateError,StrategyIdentity
 
@@ -42,13 +43,16 @@ def product_managed(store,strategy):
     return store.get_research_namespace() is not None or strategy.declared_runtime_version=='0.2.0'
 
 
-def require_product_record(store,strategy,record,*,status):
+def require_product_record(store,strategy,record,*,status,implementation_hash=None):
     from strategy.v02.capabilities import _revision
     if record is None or record.status!=status:
         raise EvidenceGateError('Complete actual E3 product assessment required')
     if record.identity!=strategy.identity or record.strategy_content_hash!=strategy.content_hash:
         raise EvidenceGateError('Product assessment subject mismatch')
-    if record.namespace!=store.get_research_namespace() or record.implementation_hash!=_revision():
+    source=_revision() if implementation_hash is None else implementation_hash
+    if type(source) is not str or not re.fullmatch('sha256:[0-9a-f]{64}',source):
+        raise EvidenceGateError('Trusted exact owner source commitment required')
+    if record.namespace!=store.get_research_namespace() or record.implementation_hash!=source:
         raise EvidenceGateError('Product assessment namespace or current source mismatch')
     if digest(record.payload_json)!=record.payload_hash:
         raise EvidenceGateError('Product assessment content commitment mismatch')
@@ -58,9 +62,9 @@ def require_product_record(store,strategy,record,*,status):
     return payload
 
 
-def require_product_candidate(store,strategy,decision_id):
+def require_product_candidate(store,strategy,decision_id,*,implementation_hash=None):
     record=store.product_assessment_for_decision(decision_id)
-    payload=require_product_record(store,strategy,record,status='PASS')
+    payload=require_product_record(store,strategy,record,status='PASS',implementation_hash=implementation_hash)
     if payload.get('independent_oos') is not True or payload.get('sealed_dataset_verification',{}).get('scope')!='FULL_LOGICAL_VERIFIED':
         raise EvidenceGateError('Complete independent final OOS required')
     if record.risk_policy_json is None or digest(record.risk_policy_json)!=record.risk_policy_hash:

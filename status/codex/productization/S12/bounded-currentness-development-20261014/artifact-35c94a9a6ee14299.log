@@ -1,0 +1,25 @@
+test_owner_verification_is_background_nonoverlapping_and_pending_denies_without_io (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_owner_verification_is_background_nonoverlapping_and_pending_denies_without_io) ... FAIL
+
+======================================================================
+FAIL: test_owner_verification_is_background_nonoverlapping_and_pending_denies_without_io (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_owner_verification_is_background_nonoverlapping_and_pending_denies_without_io)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 184, in test_owner_verification_is_background_nonoverlapping_and_pending_denies_without_io
+    self.assertEqual(dict(owner.current(selection)),facts)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\release_observation.py", line 177, in current
+    self.supervisor.require_current()
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Memory read cannot touch profile/health SQLite
+
+----------------------------------------------------------------------
+Ran 1 test in 0.076s
+
+FAILED (failures=1)

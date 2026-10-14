@@ -50,6 +50,7 @@ def read_operator_profile(config,path):
 
 
 def configure_ordinary_paper(config_path,selection_profile):
+    config_path=Path(config_path).absolute()
     config=load_config(config_path)
     selected=read_operator_profile(config,selection_profile)
     if product_namespace(config)!='LOCAL_RESEARCH' or config.diagnostic_only or not config.paper_runtime_enabled:
@@ -63,7 +64,9 @@ def configure_ordinary_paper(config_path,selection_profile):
             raise ValueError('Unchanged non-restored ordinary profile required')
         # Software eligibility precedes owner initialization. No idle runtime
         # identity is required yet; its generation is observed after bootstrap.
-        NativePaperReleaseReader(config,receipt_ref=selected['qualification_receipt_ref']).software_eligible()
+        from .release_observation import check_native_once
+        verified,_,_=check_native_once(config_path,selected['qualification_receipt_ref'])
+        installed=verified['facts']
         inputs={name:read_local(config.local_data_root,selected[name],65536)
             for name in ('simulation_policy_ref','risk_policy_ref','promotion_policy_ref')}
         from application.local_owners import LocalOwners
@@ -74,7 +77,7 @@ def configure_ordinary_paper(config_path,selection_profile):
             risk_policy=decode(inputs['risk_policy_ref']),promotion_policy=decode(inputs['promotion_policy_ref']),
             paper_policy_ref=selected['paper_policy_ref'],actor=selected['actor'],workflow_authorized=selected['workflow_authorized'],
             submission_validity={key:manifest[key] for key in ('intent_class','validity')})
-        record=operational_record(config,owner,account_ref=selected['account_ref'])
+        record=operational_record(config,owner,account_ref=selected['account_ref'],implementation_hash=installed['implementation_hash'])
         record['source_subject']=dict(schema_version='r7-local-paper-source-subject-v0.2',
             submission_id=selected['submission_id'],manifest_hash=package.manifest.manifest_hash,
             strategy=dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
@@ -90,9 +93,14 @@ def configure_ordinary_paper(config_path,selection_profile):
 
 
 class OrdinarySelectedPaper:
-    def __init__(self,config,selection,*,resolver,clock):
+    def __init__(self,config,selection,*,resolver,clock,observation_reader=None,implementation_hash=None):
         self.config,self.selection,self.clock=config,selection,clock
-        record=selection.as_dict();self.owner=validate_operational_record(config,record)
+        record=selection.as_dict()
+        # The protected selection is only a pending commitment in Control.
+        # Admission must independently reconcile it to measured native facts.
+        # The runtime factory injects its bounded verified installed subject.
+        self.implementation_hash=record['simulator_profile']['implementation_hash'] if implementation_hash is None else implementation_hash
+        self.owner=validate_operational_record(config,record,implementation_hash=self.implementation_hash)
         source=record.get('source_subject')
         if not isinstance(source,dict) or set(source)!=SOURCE_KEYS or source['schema_version']!='r7-local-paper-source-subject-v0.2':
             raise ValueError('Exact ordinary Paper source subject required')
@@ -109,38 +117,30 @@ class OrdinarySelectedPaper:
         for ref in source['input_refs'].values():safe_relative(ref)
         _,package=resolver.package(source['submission_id']);self.snapshot=package.snapshot
         self.native=NativePaperReleaseReader(config,receipt_ref=source['qualification_receipt_ref'],
-            selection_generation=selection.generation)
+            selection_generation=selection.generation,observation_reader=observation_reader)
         authenticator=HumanAuthenticator(namespace='LOCAL_RESEARCH',reauth_seconds=300,verifier=lambda _:None,clock=clock)
         self.owners=PaperOwnerComposition(config,selection=self.owner,current_release=self.current,
-            authenticator=authenticator,clock=clock,strategy_identity=self.identity,operational_generation=selection.generation)
+            authenticator=authenticator,clock=clock,strategy_identity=self.identity,operational_generation=selection.generation,
+            implementation_hash=self.implementation_hash)
 
     def current(self):
         try:
-            selected=self.owner.as_dict();observed=dict(selected)
-            for field,ref in self.source['input_refs'].items():
-                raw=read_local(self.config.local_data_root,ref,65536)
-                if digest(raw)!=self.source['input_hashes'][field]:raise ValueError()
-                observed[field.removesuffix('_ref')]=decode(raw)
-            if PaperOwnerSelection(**observed).selection_hash!=self.owner.selection_hash:raise ValueError()
-            package=validate_package(self.snapshot);manifest=package.manifest.raw
-            subject=dict(strategy_id=manifest['strategy_id'],strategy_version=manifest['strategy_version'],
-                content_hash=manifest['strategy_content_hash'])
-            validity={key:manifest[key] for key in ('intent_class','validity')}
-            if (subject!=self.source['strategy'] or package.manifest.manifest_hash!=self.source['manifest_hash']
-                    or manifest.get('capability_snapshot_hash')!=build_capability_snapshot().snapshot_hash
-                    or selected['submission_validity']!=validity or not assess_submission_validity(validity,self.clock()).new_entry_allowed):
-                raise ValueError()
+            # Full input, source, installed bytes and receipt verification runs
+            # in the owned observer. This live path checks only bounded facts
+            # and the original sealed temporal constraint; no full rehashing.
+            if not assess_submission_validity(self.owner.as_dict()['submission_validity'],self.clock()).new_entry_allowed:raise ValueError()
             return self.native.current()
         except (ValueError,RuntimeError,OSError,KeyError,TypeError,CloudError) as error:
             raise EvidenceGateError('Current qualified native Paper selection/runtime evidence required') from error
 
 
-def load_ordinary_paper_owners(config,*,clock,resolver):
+def load_ordinary_paper_owners(config,*,clock,resolver,observation_reader=None,implementation_hash=None):
     if product_namespace(config)!='LOCAL_RESEARCH' or not config.database_path.is_file():return None
     if require_valid_restoration(config)['status']!='NOT_RESTORED':return None
     with open_paper_selections(config.database_path) as reader:selection=reader.current()
     if selection is None:return None
-    return OrdinarySelectedPaper(config,selection,resolver=resolver,clock=clock)
+    return OrdinarySelectedPaper(config,selection,resolver=resolver,clock=clock,
+        observation_reader=observation_reader,implementation_hash=implementation_hash)
 
 
 def ordinary_paper_worker(config_path,*,maximum_ticks=None):
@@ -154,29 +154,35 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None):
     from application.platform.shutdown import ManagedStop
     from .worker import PaperOwnerWorker
     if not getattr(sys,'frozen',False):raise ValueError('Qualified native ordinary Paper worker required')
-    config=load_config(config_path)
+    config_path=Path(config_path).absolute();config=load_config(config_path)
     if product_namespace(config)!='LOCAL_RESEARCH' or config.diagnostic_only or not config.paper_runtime_enabled:
         raise ValueError('Explicit ordinary Paper runtime profile required')
     with open_paper_selections(config.database_path) as reader:selection=reader.current()
     if selection is None:raise ValueError('Explicit protected ordinary Paper selection required')
-    record=selection.as_dict();validate_operational_record(config,record)
+    record=selection.as_dict()
     ref=record['source_subject']['qualification_receipt_ref']
-    admission=NativePaperReleaseReader(config,receipt_ref=ref)
-    try:admission.software_eligible()
+    from .release_observation import check_native_once,OwnerReleaseObservation
+    try:verified,_,_=check_native_once(config_path,ref)
     except ValueError:
         # Reconciliation is for accepted original E5/E6 work only. Its current
         # release reader continues denying new starts and fills on receipt loss.
-        admission.management_eligible()
+        verified,_,_=check_native_once(config_path,ref,mode='management')
+    installed=verified['facts']
+    validate_operational_record(config,record,implementation_hash=installed['implementation_hash'])
     from contextlib import contextmanager
     from application.local_owners import LocalOwners
     @contextmanager
     def actual_service():
         local=LocalOwners(config,namespace='LOCAL_RESEARCH')
-        selected=load_ordinary_paper_owners(config,clock=local.clock,resolver=local.resolver)
-        if selected is None:raise ValueError('Actual ordinary Paper composition required')
-        with selected.owners.service() as service:yield service
-    with ManagedStop() as stop,PaperOwnerWorker(config,actual_service,namespace='LOCAL_RESEARCH',
-            config_path=config_path,feedback_on_quiescence=True) as worker:
+        with open_paper_selections(config.database_path) as ledger:
+            if ledger.current()!=selection:raise ValueError('Paper selection changed during qualified bootstrap')
+        with OwnerReleaseObservation(config,config_path,ref,supervisor=worker.supervisor,selection=selection) as observer:
+            selected=load_ordinary_paper_owners(config,clock=local.clock,resolver=local.resolver,
+                observation_reader=observer,implementation_hash=installed['implementation_hash'])
+            if selected is None:raise ValueError('Actual ordinary Paper composition required')
+            with selected.owners.service() as service:yield service
+    worker=PaperOwnerWorker(config,actual_service,namespace='LOCAL_RESEARCH',config_path=config_path,feedback_on_quiescence=True)
+    with ManagedStop() as stop,worker:
         from application.platform.service_stop import observe_service_stop
         tick=0
         while not stop.requested:

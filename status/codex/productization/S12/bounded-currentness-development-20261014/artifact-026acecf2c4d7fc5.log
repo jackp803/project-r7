@@ -1,0 +1,29 @@
+test_normal_local_port_idle_bootstrap_real_history_selection_change_protective_successor (tests.application.test_ordinary_paper_composition.OrdinaryPaperCompositionTests.test_normal_local_port_idle_bootstrap_real_history_selection_change_protective_successor) ... FAIL
+
+======================================================================
+FAIL: test_normal_local_port_idle_bootstrap_real_history_selection_change_protective_successor (tests.application.test_ordinary_paper_composition.OrdinaryPaperCompositionTests.test_normal_local_port_idle_bootstrap_real_history_selection_change_protective_successor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_ordinary_paper_composition.py", line 133, in test_normal_local_port_idle_bootstrap_real_history_selection_change_protective_successor
+    release=selected.current();self.assertEqual(release.config_generation,1);self.assertEqual(release.runtime_generation,1)
+            ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\ordinary_setup.py", line 130, in current
+    or manifest.get('capability_snapshot_hash')!=build_capability_snapshot().snapshot_hash
+                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\strategy\v02\capabilities.py", line 82, in build_capability_snapshot
+    revision=_revision()
+             ^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: No hot capability/source hashing
+
+----------------------------------------------------------------------
+Ran 1 test in 3.712s
+
+FAILED (failures=1)

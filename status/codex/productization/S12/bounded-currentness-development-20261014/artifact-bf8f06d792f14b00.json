@@ -1,0 +1,41 @@
+{
+  "status": "ENGINEERING_DESIGN_ONLY_IMPLEMENTATION_NOT_RUN",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "authority": "PM_PAPER_RELEASE_MAPPING_DECISION_20261013_D1_D3_D4",
+  "measured_gap": {
+    "scope": "SOURCE_INSPECTION_OF_ACTUAL_NATIVE_INSTALLATION",
+    "revision": "fc615e3442d626274ac7560f1b4e3566321de260",
+    "files": 1092,
+    "bytes": 122747611,
+    "warm_complete_verify_seconds": [0.7842608, 0.6309889, 0.6430113],
+    "cold": "NOT_MEASURED",
+    "evidence_ref": "native-integrity-io-fc615e3.json"
+  },
+  "implementation_sequence": [
+    "Fixed private native verifier child; existing complete installation/source/profile/receipt/artifact validation only; no caller executable/code/inventory/PASS import",
+    "Owned hard deadline from spawn to child exit; bounded output; terminate and reap timeout; no overlapping attempts; late completion and unreaped children invalidate observation",
+    "Actual owning runtime bootstrap obtains full validation before idle startup; per-loop refresh is nonblocking; API reads never launch worker or verifier or allocate generations",
+    "Consumer validates private immutable observation, exact native subject/profile/receipt, start-time-based monotonic age, actual runtime PID/generation/current product config, protected current operational selection/restoration and original sealed submission",
+    "Currentness pending/stale/error/mutation denies new start/ACK/first fill; original accepted E5/E6 risk/position/binding/protection continue without full installation or receipt I/O",
+    "Pass trusted composition source identity into binding and lifecycle exact-source gates; leave global _revision fresh; use accepted original subject only for existing management"
+  ],
+  "unresolved_engineering_details": [
+    "Measure actual native verifier cold-like first-launch/warm duration and hard timeout cleanup before choosing committed TTL/deadline/refresh bounds",
+    "Use bounded owner-only interprocess observation transport; control cannot publish/import observations; verify ownership and runtime successor fencing",
+    "Finite age leaves a bounded between-scans integrity detection window; known mutation invalidates immediately; watchers supplement full bytes rather than replace them",
+    "Do not leave package/source full hashing inside OrdinarySelectedPaper.current, historical selection validation or ProductLifecycleComposition.current"
+  ],
+  "required_regressions": [
+    "timeout/kill/reap failure/oversized output/no overlapping attempts",
+    "pending/stale/receipt loss/artifact or installed mutation denies entry while protected ticks continue",
+    "runtime successor/selection change/late child result cannot reuse observation",
+    "protected tick and API reads never perform complete distribution/receipt/source hashing",
+    "actual native mixed protected and pending admission lateness; independently observed bounded cleanup"
+  ],
+  "review": "EXISTING_READ_ONLY_PAPER_ADAPTER_MAP;EXECUTION_NONE",
+  "ordinary_software_eligibility": "NOT_QUALIFIED",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

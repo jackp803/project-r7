@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import hashlib
 import json
+import re
 import uuid
 from time import monotonic_ns
 
@@ -53,7 +54,7 @@ class PaperService:
     def __init__(self, *, registry, process_journal, canonical_journal, namespace,
                  simulation_policy, risk_policy, promotion_policy, paper_policy_ref,
                  submission_validity, actor, workflow_authorized, current_release, clock, monotonic_clock=monotonic_ns,
-                 strategy_identity=None,management_selection=None,selection_current=None,entry_current=None):
+                 strategy_identity=None,management_selection=None,selection_current=None,entry_current=None,implementation_hash=None):
         if (not isinstance(registry, StrategyPlatformService) or
             not isinstance(process_journal, PaperProcessJournal) or
             not isinstance(canonical_journal, PaperRuntimeJournal) or
@@ -67,6 +68,10 @@ class PaperService:
             raise ValueError('Trusted original selection/currentness readers required')
         self.management_selection,self.selection_current=management_selection,selection_current
         self.entry_current=entry_current
+        if implementation_hash is not None and (type(implementation_hash) is not str
+                or not re.fullmatch('sha256:[0-9a-f]{64}',implementation_hash)):
+            raise ValueError('Trusted owner source commitment required')
+        self.implementation_hash=implementation_hash
         self._management_services={}
         self.strategy_identity=strategy_identity
         self.registry=registry; self.process=process_journal; self.canonical=canonical_journal
@@ -84,7 +89,7 @@ class PaperService:
             raise EvidenceGateError('PAPER policy belongs to another selected strategy')
         return dict(namespace=self.namespace, mode=self.simulation.as_dict()['mode'],
             strategy_id=strategy.identity.strategy_id, strategy_version=strategy.identity.strategy_version,
-            strategy_content_hash=strategy.content_hash, implementation_hash=_revision(),
+            strategy_content_hash=strategy.content_hash, implementation_hash=_revision() if self.implementation_hash is None else self.implementation_hash,
             config_hash=digest(canonical(dict(simulation=self.simulation.as_dict(),
                 submission_validity=json.loads(self.validity_json)))),
             risk_policy_hash=self.risk.policy_hash, paper_policy_hash=self.promotion.policy_hash)
@@ -98,7 +103,8 @@ class PaperService:
         if product.namespace != self.namespace or product.risk_policy_hash != self.risk.policy_hash:
             raise EvidenceGateError('PAPER selected risk differs from actual candidate assessment')
         release=self.current_release()
-        if not isinstance(release, ReleaseBinding) or release.namespace != self.namespace or release.implementation_hash != _revision():
+        source=_revision() if self.implementation_hash is None else self.implementation_hash
+        if not isinstance(release, ReleaseBinding) or release.namespace != self.namespace or release.implementation_hash != source:
             raise EvidenceGateError('Current exact local PAPER release required')
         parsed=parse_strategy_definition(strategy.definition_json)
         if parsed.symbol != 'BTC_USDT_PERP': raise EvidenceGateError('Current E4 canonical Paper instrument unsupported')
@@ -177,7 +183,8 @@ class PaperService:
             identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
             self._management_services[run_id]=PaperService(registry=self.registry,process_journal=self.process,
                 canonical_journal=self.canonical,namespace=self.namespace,current_release=self.current_release,
-                clock=self.clock,monotonic_clock=self.monotonic_clock,strategy_identity=identity,**selected)
+                clock=self.clock,monotonic_clock=self.monotonic_clock,strategy_identity=identity,
+                implementation_hash=self.implementation_hash,**selected)
         return self._management_services[run_id]
 
     def is_quiescent(self,run_id):

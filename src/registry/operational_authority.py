@@ -242,7 +242,7 @@ class ProductLifecycleComposition:
     def __init__(self,*,namespace: str,current_release: Callable[[],ReleaseBinding],
                  resolve_evidence: Callable[[str,str,StrategyIdentity],OwnerEvidence],
                  authenticator: HumanAuthenticator,clock: Callable[[],datetime],
-                 verify_runtime_admission: Callable[[OwnerEvidence,ReleaseBinding],None] | None=None):
+                 verify_runtime_admission: Callable[[OwnerEvidence,ReleaseBinding],None] | None=None,implementation_hash=None):
         if namespace not in ('FIXTURE','LOCAL_RESEARCH') or not callable(current_release) or not callable(resolve_evidence) or not callable(clock):
             raise EvidenceGateError('Explicit lifecycle owner composition required')
         if not isinstance(authenticator,HumanAuthenticator) or authenticator.namespace!=namespace:
@@ -250,11 +250,15 @@ class ProductLifecycleComposition:
         self.namespace=namespace; self.authenticator=authenticator; self.clock=clock
         self._current=current_release; self._resolve=resolve_evidence; self._admission=verify_runtime_admission; self._envelopes={}
         self._paper_policies={}; self._selected_paper_policy=None
+        if implementation_hash is not None and (type(implementation_hash) is not str or not _HASH.fullmatch(implementation_hash)):
+            raise EvidenceGateError('Trusted lifecycle source commitment required')
+        self.implementation_hash=implementation_hash
 
     def current(self):
         from strategy.v02.capabilities import _revision
         value=self._current()
-        if not isinstance(value,ReleaseBinding) or value.namespace!=self.namespace or value.implementation_hash!=_revision():
+        source=_revision() if self.implementation_hash is None else self.implementation_hash
+        if not isinstance(value,ReleaseBinding) or value.namespace!=self.namespace or value.implementation_hash!=source:
             raise EvidenceGateError('Current exact release source/namespace mismatch')
         utc(stamp(self.clock()))
         return value
@@ -410,7 +414,7 @@ def require_owner_transition(store,strategy,transition):
     if not utc(gate.issued_at)<=now<utc(gate.expires_at): raise EvidenceGateError('Owner evidence expired or from the future')
     product=store.candidate_product_assessment(strategy.identity)
     if product is None: raise EvidenceGateError('Complete candidate lineage required')
-    require_product_candidate(store,strategy,product.validation_evidence_id)
+    require_product_candidate(store,strategy,product.validation_evidence_id,implementation_hash=release.implementation_hash)
     if product.risk_policy_hash!=release.risk_policy_hash:
         raise EvidenceGateError('Selected risk generation changed since research')
     if kind in ('PAPER_START','FORWARD_READY'):

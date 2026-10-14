@@ -135,3 +135,18 @@ def write_private_new(path, raw):
         stream.flush()
         os.fsync(stream.fileno())
     require_private(path)
+
+
+def write_private_atomic(path, raw, *, fault_hook=None):
+    """Bounded owner observation replacement under a pinned private parent."""
+    path=Path(path)
+    _local_path(path)
+    if type(raw) is not bytes or not 0<len(raw)<=65536:
+        raise ValueError('Bounded private observation bytes required')
+    require_private(path.parent,directory=True)
+    if path.exists():require_private(path)
+    from application.cloud.manifest import safe_component
+    from application.cloud.safe_files import _windows_stage,_posix_stage
+    safe_component(path.name)
+    (_windows_stage if os.name=='nt' else _posix_stage)(path.parent,path.name,raw,fault_hook,replace=True)
+    require_private(path)

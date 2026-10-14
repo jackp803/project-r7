@@ -1,0 +1,25 @@
+test_verified_snapshot_projection_has_no_full_source_or_capability_hashing (tests.application.test_native_paper_release_adapter.NativePaperReleaseAdapterTests.test_verified_snapshot_projection_has_no_full_source_or_capability_hashing) ... ERROR
+test_historical_simulator_uses_original_accepted_source_commitment (tests.application.test_native_paper_release_adapter.NativePaperReleaseAdapterTests.test_historical_simulator_uses_original_accepted_source_commitment) ... ERROR
+
+======================================================================
+ERROR: test_verified_snapshot_projection_has_no_full_source_or_capability_hashing (tests.application.test_native_paper_release_adapter.NativePaperReleaseAdapterTests.test_verified_snapshot_projection_has_no_full_source_or_capability_hashing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_adapter.py", line 64, in test_verified_snapshot_projection_has_no_full_source_or_capability_hashing
+    release=m._binding_from_current_facts(self.config,selection,measured,identity,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _binding_from_current_facts() got an unexpected keyword argument 'implementation_hash'
+
+======================================================================
+ERROR: test_historical_simulator_uses_original_accepted_source_commitment (tests.application.test_native_paper_release_adapter.NativePaperReleaseAdapterTests.test_historical_simulator_uses_original_accepted_source_commitment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_adapter.py", line 77, in test_historical_simulator_uses_original_accepted_source_commitment
+    owner=m._historical_owner(selection.as_dict(),implementation_hash=measured['implementation_hash'])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _historical_owner() got an unexpected keyword argument 'implementation_hash'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.096s
+
+FAILED (errors=2)

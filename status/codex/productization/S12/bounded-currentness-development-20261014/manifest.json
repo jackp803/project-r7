@@ -1,0 +1,228 @@
+{
+  "status": "BOUNDED_CURRENTNESS_SOURCE_DEVELOPMENT_PASS",
+  "scope": "DIRTY_SOURCE_NOT_NATIVE_QUALIFICATION",
+  "updated_at": "2026-10-14T01:17:15.587874+00:00",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "implementation_branch": "codex/r7-productization-master-20261002",
+  "focused_final": {
+    "tests": 28,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "affected_regression": {
+    "application": {
+      "tests": 106,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "tree_reaped": true
+    },
+    "registry": {
+      "tests": 45,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "tree_reaped": true
+    },
+    "subject_note": "Before final two additive child-mode and sealed-input cases; final28 reruns all modified boundary/ordinary cases"
+  },
+  "intended_red": {
+    "first_boundary": {
+      "tests": 7,
+      "failures": 7
+    },
+    "owner": {
+      "tests": 9,
+      "errors": 3
+    },
+    "binding": {
+      "tests": 2,
+      "errors": 2
+    },
+    "ordinary_hot_hash": {
+      "tests": 1,
+      "failures": 1
+    },
+    "memory_reader": {
+      "tests": 1,
+      "failures": 1
+    },
+    "child_mode": {
+      "tests": 2,
+      "failures": 1
+    }
+  },
+  "held_pipe_red": {
+    "status": "ACTUAL_SOURCE_HELD_PIPE_BLOCK_REPRODUCED",
+    "observed_block_seconds_greater_than": 10,
+    "owned_source_test_pid": 43136,
+    "owned_test_stopped": true,
+    "qualification": "NONE",
+    "repair": "Nonblocking OS pipe reads with independent start-clock deadline; close in finally even unreaped"
+  },
+  "independent_review": {
+    "critical": 0,
+    "important": 0,
+    "reviewer": "qualification_review",
+    "execution": "NONE"
+  },
+  "callsite_review": {
+    "reviewer": "paper_adapter_map",
+    "hot_full_hash_calls": "NONE_ON_SPECIFIED_ORDINARY_CHAIN",
+    "execution": "NONE"
+  },
+  "mechanics": "Fixed child; one background verifier per actual runtime token; owner memory observation; actual before/after generation control reader; full byte/receipt checks outside protection; original E5/E6 management source retained",
+  "caps": {
+    "deadline_seconds": 15,
+    "max_age_seconds": 30,
+    "refresh_seconds": 5,
+    "max_output_bytes": 65536,
+    "limits": "Admission caps, not a hard wall promise for arbitrary blocking OS calls; finite between-scan integrity detection window; same-user private storage is not cryptographic issuer isolation"
+  },
+  "frozen_inventory": {
+    "groups": 7,
+    "commands": 39,
+    "source_cases": 2216
+  },
+  "native_background_observer": "NOT_RUN",
+  "native_protection_isolation": "NOT_RUN",
+  "full_pqr": "NOT_QUALIFIED",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "ubuntu": "NOT_RUN",
+  "real_cloud": "NOT_RUN",
+  "real_dataset": "NOT_RUN",
+  "real_forward": "NOT_RUN",
+  "artifacts": [
+    {
+      "ref": "artifact-afff3c1f9f80cc29.log",
+      "source_ref": "native-observation-binding-green.log",
+      "hash": "sha256:0932df695b22f55683b452d0fac721e9270e8a824ca7b1a4f04a8168a859de6c",
+      "original_artifact_hash": "sha256:19a5742ba6e840702aaa96c7f832ce89b9de33bdc3f513d8782dcd527691883b"
+    },
+    {
+      "ref": "artifact-d734de742ac90989.log",
+      "source_ref": "native-observation-binding-red.log",
+      "hash": "sha256:503a07cefd9aee386c6b5978f2c33801b6a0a99193c721a610bd69458fe83d95",
+      "original_artifact_hash": "sha256:16c94a5be2c6e13102abef3db767a1c4139caf4e43451529c231e34374b0d90f"
+    },
+    {
+      "ref": "artifact-d6f22088139f7ce4.log",
+      "source_ref": "native-observation-child-shape-red.log",
+      "hash": "sha256:013d9b69d58c8a798709a54f3dc37292e7b1a258e1b4733e94ac83ec807334b5",
+      "original_artifact_hash": "sha256:e7209dc1cc561a51df0294ef708e6496e97c0f5aacfb45e47bf140765a5b0ed1"
+    },
+    {
+      "ref": "artifact-b1ef127f129c2ab5.log",
+      "source_ref": "native-observation-final-focused-green.log",
+      "hash": "sha256:e5975431054ef18a109fcc59e9b6150ef0aeae75d28a378a213e0bcaf2dec96d",
+      "original_artifact_hash": "sha256:dd931a4cd21bd0e057f7d22972112377c8ca1edab328ab30e64051cb100bfe40"
+    },
+    {
+      "ref": "artifact-91d51de54afd5558.log",
+      "source_ref": "native-observation-green-attempt1.log",
+      "hash": "sha256:a3bd45efab8e860cd19498c0b00d82656f08131fa8609d58c11bd9b7805b6e93",
+      "original_artifact_hash": "sha256:0d2e95ede937559c8b9a5bb053f1abc16ade039b38553cf8095d8c1b3b031d79"
+    },
+    {
+      "ref": "artifact-52cc020513fd6dc5.log",
+      "source_ref": "native-observation-intended-red.log",
+      "hash": "sha256:36e4c43861c67bf403eb23b9bd4136680ecf4e9d986d7fb32f6151624b07327a",
+      "original_artifact_hash": "sha256:eb1a53d2543b8d779ce945f9c3363bc4258875092042c515e6c32226cdb31770"
+    },
+    {
+      "ref": "artifact-1f810b9ce2795e6b.log",
+      "source_ref": "native-observation-memory-green.log",
+      "hash": "sha256:1de0584ea69358c2d5918623982d2837d8ecdcd77ea54de021a6ceb4f8518657",
+      "original_artifact_hash": "sha256:111db63ac099ea18483730a1866c647a23151c684f2e6666e07af4636a8ab30d"
+    },
+    {
+      "ref": "artifact-35c94a9a6ee14299.log",
+      "source_ref": "native-observation-memory-red.log",
+      "hash": "sha256:ea96035016e460e3240c4ec8c0eeaecaebb0f7739d035f7b61502f6bca8eacae",
+      "original_artifact_hash": "sha256:e2059f869f3e222d200b7bbacc3510419d6788dad2d2952d77d066e7b15e1a9c"
+    },
+    {
+      "ref": "artifact-3ecd130a40cc88c3.log",
+      "source_ref": "native-observation-ordinary-green-attempt1.log",
+      "hash": "sha256:63f5ddf7251a912b754515a503b0c35cfb29aa03ea65f106ba4109ecbdf72833",
+      "original_artifact_hash": "sha256:53ce5e654b752c14b864deed8dc5fac7ab80b4fad24733b6e434c758a0e29243"
+    },
+    {
+      "ref": "artifact-7f27ee8841cea4aa.log",
+      "source_ref": "native-observation-ordinary-green-attempt2.log",
+      "hash": "sha256:ab7da6b2b7128568b896454b6b37d4f4639fdfb7326ea6168fb3a3a18c842ac8",
+      "original_artifact_hash": "sha256:1e1b54bb918b11c9d8fa411b670721c565defc4c28bcbdfd7aa40d0a0a399b69"
+    },
+    {
+      "ref": "artifact-026acecf2c4d7fc5.log",
+      "source_ref": "native-observation-ordinary-hot-red.log",
+      "hash": "sha256:72923808811fa06baa40e6fbe3ea08735eb6f41ca34148b7330bd54aec9ccd75",
+      "original_artifact_hash": "sha256:efa65c5319e4c2fc8508c7f7d04b6244a5d519e7a4d5384e93b5ab9df40c97c5"
+    },
+    {
+      "ref": "artifact-a173da4402b02c96.log",
+      "source_ref": "native-observation-owner-green.log",
+      "hash": "sha256:501106e6db9844943d5f5e70d2eb9c856be649dfc981ab716dfe5fb0983fde62",
+      "original_artifact_hash": "sha256:ebbd3855cc83bcfa89798442c1c17637cd3f47a4b7a17396510c20b2f48209be"
+    },
+    {
+      "ref": "artifact-768743904a8083b8.log",
+      "source_ref": "native-observation-owner-red.log",
+      "hash": "sha256:614770289851fc7dfc0ad02f84258aa38892d5e577d96237c9c581754dadc12d",
+      "original_artifact_hash": "sha256:046e6ed6f59a01348eed5812a7f4327045e2f5e25c13e70be1ead4624f88d46c"
+    },
+    {
+      "ref": "artifact-7123ca47ba736074.log",
+      "source_ref": "native-observation-pipe-green.log",
+      "hash": "sha256:8f88182678bda02178975ebf863ab4199babcffc09b31531c8f1503094b20d06",
+      "original_artifact_hash": "sha256:065066dec2bd439c8d2bdb97e613bd24925027dc42b65e5e769fcf3f007b571f"
+    },
+    {
+      "ref": "artifact-d88d2538a16ce438.log",
+      "source_ref": "native-observation-red.log",
+      "hash": "sha256:19845f55413c422a40e21d43f8d81584a3cb7d576c0a075692c5e8f294a9048b",
+      "original_artifact_hash": "sha256:8a48b7345759d791b31548d12c0122e37637cd61e79f9bd5bb1fb9d8ba8a7c88"
+    },
+    {
+      "ref": "artifact-bf8f06d792f14b00.json",
+      "source_ref": "bounded-currentness-design.json",
+      "hash": "sha256:95d77820e1b426279d22701c381af3a22d5b86587eb2da15724f6c8bd27ac6ae",
+      "original_artifact_hash": "sha256:95d77820e1b426279d22701c381af3a22d5b86587eb2da15724f6c8bd27ac6ae"
+    },
+    {
+      "ref": "artifact-19b0a517edf29e46.py",
+      "source_ref": "run_observation_regression.py",
+      "hash": "sha256:9be7a6071512d80704844fc587afe7b82a0776bd4e8c75764baf0fd57393d54e",
+      "original_artifact_hash": "sha256:9be7a6071512d80704844fc587afe7b82a0776bd4e8c75764baf0fd57393d54e"
+    },
+    {
+      "ref": "artifact-daf4f79574d8483a.log",
+      "source_ref": "native-observation-regression-application/owned.log",
+      "hash": "sha256:c9bd5b70d57becc6c7047485ae90e3b55d53aa62ac706d831bef83f0edc5f7e9",
+      "original_artifact_hash": "sha256:c9bd5b70d57becc6c7047485ae90e3b55d53aa62ac706d831bef83f0edc5f7e9"
+    },
+    {
+      "ref": "artifact-c00892443f34e32a.json",
+      "source_ref": "native-observation-regression-application/result.json",
+      "hash": "sha256:ef0b217559ae5cc9d5ecc7964b1c1992aefe3a6d8bc92dea5b1e12ea3b7e41d6",
+      "original_artifact_hash": "sha256:ef0b217559ae5cc9d5ecc7964b1c1992aefe3a6d8bc92dea5b1e12ea3b7e41d6"
+    },
+    {
+      "ref": "artifact-2b7893cd9fa5dd10.log",
+      "source_ref": "native-observation-regression-registry/owned.log",
+      "hash": "sha256:4a2b4833d8e6ae44f5cb3790fcee89fbd1426740193e477924f7ef0294f0624b",
+      "original_artifact_hash": "sha256:4a2b4833d8e6ae44f5cb3790fcee89fbd1426740193e477924f7ef0294f0624b"
+    },
+    {
+      "ref": "artifact-e1d2458a99b33feb.json",
+      "source_ref": "native-observation-regression-registry/result.json",
+      "hash": "sha256:8d7f6a575b4f8a56458e62e3ebb2f9d4a5bd5f1dd662b920d79762b3e1f25325",
+      "original_artifact_hash": "sha256:8d7f6a575b4f8a56458e62e3ebb2f9d4a5bd5f1dd662b920d79762b3e1f25325"
+    }
+  ],
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

@@ -1,0 +1,78 @@
+{
+  "status": "FINITE_OWNING_DENIAL_DEVELOPMENT_PASS",
+  "scope": "FOCUSED_SOURCE_NOT_NATIVE_QUALIFICATION",
+  "intended_red": {
+    "tests": 3,
+    "failures": 3
+  },
+  "green": {
+    "tests": 31,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "startup_regression": {
+    "tests": 3,
+    "passed": true,
+    "tree_reaped": true
+  },
+  "entrypoint_regression": {
+    "tests": 10,
+    "passed": true,
+    "tree_reaped": true
+  },
+  "independent_review": {
+    "critical": 0,
+    "important": 0,
+    "reviewer": "qualification_review",
+    "execution": "NONE"
+  },
+  "behavior": "Only finite owning STORE_MISSING/RECEIPT_MISSING causes; installed verification precedes missing-store deny; actual exit2/timely/reaped child propagates finite reason only. Never raw exception text, paths, extra fields or PASS import. Existing denial exit and eligibility thresholds unchanged.",
+  "native_specific_denial": "NOT_RUN",
+  "native_positive_observation": "NOT_RUN",
+  "native_protected_isolation": "NOT_RUN",
+  "full_pqr": "NOT_QUALIFIED",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "artifacts": [
+    {
+      "ref": "artifact-4e6f762a3c1f57d1.log",
+      "source_ref": "native-qualification-denial-red.log",
+      "hash": "sha256:59f7418fd98cf10f9fa09ebe8e60bacbacd333d445fafdd0faeb98f086c4e049",
+      "original_artifact_hash": "sha256:d4cc2b21ac564a0f294772c6b336b04deeb65368ca462db472cb83b31dfa1d31"
+    },
+    {
+      "ref": "artifact-a280443698f82e2a.log",
+      "source_ref": "native-qualification-denial-green.log",
+      "hash": "sha256:7f7015c7cfed125f2b819543310c7ab8edc70e5158958d8dd43a420e76f5aba8",
+      "original_artifact_hash": "sha256:1bea7d74f8c05beb1110ab4e35a7d79cf5b77898249a25bdb4833e74aa8ec68a"
+    },
+    {
+      "ref": "artifact-cd776ad5f7fa60f2.log",
+      "source_ref": "typed-denial-startup-regression/owned.log",
+      "hash": "sha256:8a090d8cfad1e965706f8cd66cb0fc3d7540f82c909c3b687a207739ea75e4da",
+      "original_artifact_hash": "sha256:3af0ee677a6671348e353e47a380242a9ae6bdd114ffce77fec4bedc13f5544a"
+    },
+    {
+      "ref": "artifact-fc0b37baf59bddd4.json",
+      "source_ref": "typed-denial-startup-regression/result.json",
+      "hash": "sha256:5363366bec7fc171c926e732d6d08b1a24b948053497d3a82ecffad1be59891a",
+      "original_artifact_hash": "sha256:b66a921757f33747648733182886c48951c9eec7d0622c82359a0d6dcff321f9"
+    },
+    {
+      "ref": "artifact-a5c2993ae1df0970.log",
+      "source_ref": "typed-denial-entrypoint-regression/owned.log",
+      "hash": "sha256:befad535e6c7568a31299b0bfdbdfee4b972daf3b464e8e8e8aae97e6b2850f0",
+      "original_artifact_hash": "sha256:c9cf6619c2d95829448eab985d471f27c2a9767c809700a5f450be2cee9bc594"
+    },
+    {
+      "ref": "artifact-1a800c71aca60b9c.json",
+      "source_ref": "typed-denial-entrypoint-regression/result.json",
+      "hash": "sha256:44dd744978b06f58eba48a53d202abd5c47648ab7ff9fb48e657a0699630af6b",
+      "original_artifact_hash": "sha256:1e4a99da78f596ff65a42300aed8712bc0f2a1f3a9abda47e354223124fb273f"
+    }
+  ],
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

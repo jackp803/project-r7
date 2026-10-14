@@ -366,6 +366,7 @@ def _startup_diagnostic(error):
     """Fixed categories and source locations only; never exception text/args."""
     from application.cloud.protocol import CloudError
     from application.platform.scope_lock import ScopeBusy
+    from application.paper.errors import NativePaperReleaseUnavailable,QUALIFICATION_DENIALS
     known_reasons={'PUBLICATION_FINALIZE_FAILED','PUBLICATION_STAGE_WRITE_FAILED',
         'PUBLICATION_STAGE_FLUSH_FAILED','PUBLICATION_PARENT_WRITE_FAILED',
         'ARTIFACT_READ_DENIED','ARTIFACT_MISSING','HARDLINK_ALIAS_FORBIDDEN','REPARSE_POINT_FORBIDDEN'}
@@ -378,6 +379,8 @@ def _startup_diagnostic(error):
         if error is None or id(error) in seen:break
         seen.add(id(error))
         if isinstance(error,ScopeBusy):result['error_kind']='OWNER_SCOPE_BUSY'
+        if isinstance(error,NativePaperReleaseUnavailable) and type(error.reason_code) is str and error.reason_code in QUALIFICATION_DENIALS:
+            result['reason_code']=error.reason_code
         if isinstance(error,CloudError) and type(error.reason) is str and error.reason in known_reasons:result['reason_code']=error.reason
         if isinstance(error,OSError):
             result['error_kind']='OS_FAILURE'

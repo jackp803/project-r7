@@ -23,6 +23,7 @@ from application.platform.runtime_identity import read_runtime_identity
 from application.platform.supervision import config_hash,ProcessSupervisor
 from registry.product_assessment import canonical,digest
 from storage.paper_selection import OperationalSelection,open_paper_selections
+from .errors import NativePaperReleaseUnavailable,QUALIFICATION_DENIALS
 
 DEADLINE_SECONDS=15
 MAX_AGE_SECONDS=30
@@ -232,6 +233,18 @@ def check_native_once(config_path,receipt_ref,*,mode='software',runtime_token=No
         code=owned.wait(timeout=DEADLINE_SECONDS+5)
         finished=monotonic_ns()
         if code!=0 or not owned.termination_report.reaped or finished-started>DEADLINE_SECONDS*1_000_000_000:
+            if code==2 and owned.termination_report.reaped and finished-started<=DEADLINE_SECONDS*1_000_000_000:
+                # Carry only a finite owning denial from the actual completed
+                # native target. No arbitrary text, paths or caller verdicts.
+                lines=[line for line in raw.splitlines() if line.startswith(b'{')]
+                if len(lines)==1:
+                    try:diagnostic=decode(lines[0])
+                    except ValueError:diagnostic=None
+                    if (isinstance(diagnostic,dict) and diagnostic.get('schema_version')=='r7-startup-diagnostic-v0.2'
+                            and diagnostic.get('error_kind')=='VALIDATION'
+                            and type(diagnostic.get('reason_code')) is str
+                            and diagnostic['reason_code'] in QUALIFICATION_DENIALS):
+                        raise NativePaperReleaseUnavailable(diagnostic['reason_code'])
             raise ValueError('Native observation late, failed or unreaped')
         value=decode(raw)
         if (not isinstance(value,dict) or set(value)!=CHILD_KEYS or value['schema_version']!=CHILD_SCHEMA

@@ -220,5 +220,45 @@ class NativePaperObservationTests(unittest.TestCase):
                     with self.assertRaises(ValueError):owner.current(selection)
                 self.assertNotEqual(json.loads(owner.path.read_bytes())['state'],'CURRENT')
 
+    def typed_errors(self):
+        self.assertIsNotNone(importlib.util.find_spec('application.paper.errors'),
+            'Owning qualification denials need finite attributable safe reasons')
+        return importlib.import_module('application.paper.errors')
+
+    def test_missing_owning_store_is_explicit_before_receipt_io_or_store_creation(self):
+        errors=self.typed_errors();from application.paper.release import NativePaperReleaseReader
+        _,facts,_,_=self.document()
+        reader=NativePaperReleaseReader(self.config,receipt_ref=self.ref)
+        with patch.object(reader,'_installed_facts',return_value=facts),patch('application.paper.release.open_qualification_receipts',side_effect=AssertionError('Missing store should deny before lookup')):
+            with self.assertRaises(errors.NativePaperReleaseUnavailable) as failure:reader.software_eligible()
+        self.assertEqual(failure.exception.reason_code,'OWNING_SOFTWARE_QUALIFICATION_STORE_MISSING')
+        self.assertFalse(self.config.database_path.exists())
+
+    def test_owned_child_finite_denial_is_transported_without_untrusted_text(self):
+        m=self.module();errors=self.typed_errors()
+        for code in ('OWNING_SOFTWARE_QUALIFICATION_STORE_MISSING','SYNTHETIC_PRIVATE_CANARY'):
+            value=dict(schema_version='r7-startup-diagnostic-v0.2',error_kind='VALIDATION',reason_code=code,
+                source_location={'file':'SYNTHETIC_PRIVATE_CANARY','line':1})
+            read_fd,write_fd=os.pipe();stream=os.fdopen(read_fd,'rb',buffering=0)
+            with os.fdopen(write_fd,'wb',buffering=0) as output:output.write(('generic startup failure\n'+canonical(value)+'\n').encode())
+            owned=SimpleNamespace(process=SimpleNamespace(stdout=stream),wait=lambda **_:2,
+                termination_report=SimpleNamespace(reaped=True))
+            with patch.object(m.sys,'frozen',True,create=True),patch.object(m,'spawn_owned',return_value=owned),patch.object(m,'terminate_owned',return_value=owned.termination_report):
+                with self.assertRaises(ValueError) as failure:m.check_native_once(self.root/'product.json',self.ref)
+            if code.startswith('OWNING_'):
+                self.assertIsInstance(failure.exception,errors.NativePaperReleaseUnavailable)
+                self.assertEqual(failure.exception.reason_code,code)
+            else:self.assertNotIsInstance(failure.exception,errors.NativePaperReleaseUnavailable)
+            self.assertNotIn('SYNTHETIC_PRIVATE_CANARY',str(failure.exception))
+            self.assertTrue(stream.closed)
+
+    def test_startup_diagnostic_preserves_only_finite_owning_qualification_reason(self):
+        errors=self.typed_errors();from application.cli import _startup_diagnostic
+        reason='OWNING_SOFTWARE_QUALIFICATION_RECEIPT_MISSING'
+        diagnostic=_startup_diagnostic(errors.NativePaperReleaseUnavailable(reason))
+        self.assertEqual(diagnostic['reason_code'],reason)
+        with self.assertRaises(ValueError):errors.NativePaperReleaseUnavailable('SYNTHETIC_PRIVATE_CANARY')
+        self.assertNotIn('SYNTHETIC_PRIVATE_CANARY',canonical(_startup_diagnostic(ValueError('SYNTHETIC_PRIVATE_CANARY'))))
+
 
 if __name__=='__main__':unittest.main()

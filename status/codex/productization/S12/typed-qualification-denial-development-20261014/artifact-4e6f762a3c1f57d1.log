@@ -1,0 +1,41 @@
+test_missing_owning_store_is_explicit_before_receipt_io_or_store_creation (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_missing_owning_store_is_explicit_before_receipt_io_or_store_creation) ... FAIL
+test_owned_child_finite_denial_is_transported_without_untrusted_text (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_owned_child_finite_denial_is_transported_without_untrusted_text) ... FAIL
+test_startup_diagnostic_preserves_only_finite_owning_qualification_reason (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_startup_diagnostic_preserves_only_finite_owning_qualification_reason) ... FAIL
+
+======================================================================
+FAIL: test_missing_owning_store_is_explicit_before_receipt_io_or_store_creation (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_missing_owning_store_is_explicit_before_receipt_io_or_store_creation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 229, in test_missing_owning_store_is_explicit_before_receipt_io_or_store_creation
+    errors=self.typed_errors();from application.paper.release import NativePaperReleaseReader
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 224, in typed_errors
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.errors'),
+AssertionError: unexpectedly None : Owning qualification denials need finite attributable safe reasons
+
+======================================================================
+FAIL: test_owned_child_finite_denial_is_transported_without_untrusted_text (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_owned_child_finite_denial_is_transported_without_untrusted_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 238, in test_owned_child_finite_denial_is_transported_without_untrusted_text
+    m=self.module();errors=self.typed_errors()
+                           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 224, in typed_errors
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.errors'),
+AssertionError: unexpectedly None : Owning qualification denials need finite attributable safe reasons
+
+======================================================================
+FAIL: test_startup_diagnostic_preserves_only_finite_owning_qualification_reason (tests.application.test_native_paper_release_observation.NativePaperObservationTests.test_startup_diagnostic_preserves_only_finite_owning_qualification_reason)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 256, in test_startup_diagnostic_preserves_only_finite_owning_qualification_reason
+    errors=self.typed_errors();from application.cli import _startup_diagnostic
+           ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_native_paper_release_observation.py", line 224, in typed_errors
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.errors'),
+AssertionError: unexpectedly None : Owning qualification denials need finite attributable safe reasons
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.015s
+
+FAILED (failures=3)

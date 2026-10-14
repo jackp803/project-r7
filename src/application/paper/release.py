@@ -18,6 +18,7 @@ from storage.qualification import open_qualification_receipts
 from strategy.v02.capabilities import _revision,build_capability_snapshot
 from .owners import PaperOwnerSelection
 from .policy import parse_simulation_policy
+from .errors import NativePaperReleaseUnavailable
 
 
 def simulator_profile(owner,*,implementation_hash=None):
@@ -149,12 +150,14 @@ class NativePaperReleaseReader:
         facts=self._installed_facts()
         if require_valid_restoration(self.config)['status'] != 'NOT_RESTORED':
             raise ValueError('RESTORED_PAPER_ADMISSION_INHIBITED')
+        if not self.config.database_path.is_file():
+            raise NativePaperReleaseUnavailable('OWNING_SOFTWARE_QUALIFICATION_STORE_MISSING')
         from .inventory import fixed_profile
         from .qualification import validate_qualified_receipt
         with open_qualification_receipts(self.config.database_path,namespace='LOCAL_RESEARCH') as reader:
             receipt=reader.get(self.receipt_ref)
         if receipt is None:
-            raise ValueError('OWNING_SOFTWARE_QUALIFICATION_RECEIPT_MISSING')
+            raise NativePaperReleaseUnavailable('OWNING_SOFTWARE_QUALIFICATION_RECEIPT_MISSING')
         validate_qualified_receipt(receipt,fixed_profile(facts['platform_id']),
             artifact_root=self.config.local_data_root/'qualification'/receipt.execution_id,measured=facts)
         return facts

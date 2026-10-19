@@ -1,3 +1,27 @@
+# Current Windows owning qualification checkpoint - 2026-10-19
+
+Exact-clean f86ee8948ad65d0e579a81899a221a039b0cb1c1 built and native06
+security/receipt boundaries scoped PASS. Full owning run FAILED at source
+application member031900-second deadline: prior30commands PASS,521successful
+application rows before termination, no complete summary, owned tree reaped.
+The last backup module independently passes10cases/22.397s. Full software
+eligibility remains NOT_QUALIFIED. No native05/07 credit from this failed run.
+
+Minimal mapping repair gives each sorted application test file its own owned
+child at the unchanged900-second bound. Shared freezer/producer/general runner
+mapping, full file/case/order comparison, regression and receipt-size checks
+required before the fresh committed exact-clean full run. No test omission or
+financial/authority change. Independent mapping review: no material conflict,
+reviewer execution NONE. Evidence status/codex/productization/S12/native-completion-f86ee89/.
+
+Additional public calls0; cumulative8requests/8responses; no credentials,
+private API, provider mutation, capital or GitHub compute. Headless590 proof
+retained at its original subject. Master remains IN_PROGRESS. Continue current
+Windows native qualification, clean install/headless confirmation, fresh Chat
+kit and66+150acceptance mapping; old target/Ubuntu/cloud/forward stay separate.
+
+---
+
 # Native headless recovery checkpoint - 2026-10-19
 
 Exact-clean5904adf7efae936fbe50aeaef859fc7279121ae5 built; actual native

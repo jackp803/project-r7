@@ -26,6 +26,32 @@ class QualificationRunnerTests(unittest.TestCase):
         with self.assertRaises(module.QualificationError):
             module.select_suites(module.discover_suites(root), ["nonexistent"])
 
+    def test_application_commands_preserve_every_file_once_with_finite_per_file_deadlines(self):
+        module=require(self,"application.qualification")
+        root=Path(__file__).resolve().parents[2]
+        commands=module.source_commands(root)
+        self.assertEqual(commands[:len(module.FOCUSED)],
+            [("tests/"+name,pattern) for name,pattern in module.FOCUSED])
+        complete=commands[len(module.FOCUSED):]
+        application=[pattern for directory,pattern in complete if directory=='tests/application']
+        expected=sorted(path.name for path in (root/'tests/application').glob('test_*.py'))
+        self.assertEqual(application,expected)
+        self.assertNotIn('test_*.py',application)
+        observed=[]
+        for directory,pattern in complete:
+            observed.extend((root/directory).glob(pattern))
+        self.assertEqual(sorted(observed),sorted(root.glob('tests/**/test_*.py')))
+        self.assertEqual(len(observed),len(set(observed)))
+
+    def test_selected_application_runner_uses_same_complete_per_file_commands(self):
+        module=require(self,"application.qualification")
+        root=Path(__file__).resolve().parents[2]
+        suite=module.select_suites(module.discover_suites(root),['application'])[0]
+        self.assertEqual(module.suite_patterns(suite),
+            tuple(path.name for path in suite.test_files))
+        other=module.select_suites(module.discover_suites(root),['registry'])[0]
+        self.assertEqual(module.suite_patterns(other),('test_*.py',))
+
     def test_summary_requires_nonzero_tests_and_rejects_skips_expected_failures(self):
         module = require(self, "application.qualification")
         for text in ("Ran 0 tests in 0.0s\n\nOK", "Ran 2 tests in 0.1s\n\nOK (skipped=1)",

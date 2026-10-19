@@ -92,6 +92,22 @@ def select_suites(inventory, names):
     return tuple(indexed[name] for name in names)
 
 
+def suite_patterns(suite):
+    # The growing application suite exceeds one bounded child deadline. Keep
+    # its complete discovery order while giving each file its own owned child.
+    # No test is removed and each command retains the same finite deadline.
+    return (tuple(path.name for path in suite.test_files) if suite.name == 'application'
+            else ('test_*.py',))
+
+
+def source_commands(root):
+    """Complete fixed source mapping shared by freezing and owning execution."""
+    commands=[('tests/'+name,pattern) for name,pattern in FOCUSED]
+    commands.extend(('tests/'+suite.name,pattern)
+        for suite in discover_suites(root) for pattern in suite_patterns(suite))
+    return commands
+
+
 def parse_result(output: str, *, returncode: int) -> TestResult:
     matches = re.findall(r"^Ran (\d+) tests? in [^\r\n]+$", output, re.MULTILINE)
     count = int(matches[0]) if len(matches) == 1 else 0
@@ -157,7 +173,8 @@ def run_qualification(root, output_root, *, suites=("all",), include_focused=Fal
             if not (root / "tests" / name / pattern).is_file():
                 raise QualificationError("Required focused test file missing")
             commands.append(("phase_1", name, pattern))
-    commands += [("phase_2", suite.name, "test_*.py") for suite in selected]
+    commands += [("phase_2", suite.name, pattern) for suite in selected
+                 for pattern in suite_patterns(suite)]
     output.mkdir(parents=True, exist_ok=True)
     # Inherit the local environment without inspecting/printing its values.
     environment = os.environ.copy()

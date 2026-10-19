@@ -14,7 +14,7 @@ import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path[:0]=[str(ROOT),str(ROOT/'src')]
-from application.qualification import discover_suites,FOCUSED
+from application.qualification import source_commands
 from application.platform.processes import spawn_owned,ResourceLimits
 from application.paper.inventory import NATIVE_ASSERTIONS
 from application.paper.inventory import current_target
@@ -35,17 +35,16 @@ def cases(directory,pattern):
 
 
 def generate():
-    selected=[(name,pattern) for name,pattern in FOCUSED]
-    selected.extend((suite.name,'test_*.py') for suite in discover_suites(ROOT))
+    selected=source_commands(ROOT)
     members=[]
-    for index,(suite,pattern) in enumerate(selected,1):
+    for index,(directory,pattern) in enumerate(selected,1):
         with tempfile.TemporaryFile() as stream:
-            owned=spawn_owned([sys.executable,str(Path(__file__)),'--discover',f'tests/{suite}',pattern],
+            owned=spawn_owned([sys.executable,str(Path(__file__)),'--discover',directory,pattern],
                 cwd=ROOT,limits=ResourceLimits(60),stdout=stream,stderr=subprocess.STDOUT)
             code=owned.wait();stream.seek(0);raw=stream.read(4*1024*1024)
         if code!=0 or not owned.termination_report.reaped:raise ValueError('Owned test inventory discovery failed')
         members.append(dict(member_id=f'PQR-01-{index:03d}',kind='UNITTEST',command_ref=f'source-tests-{index:03d}',
-            tool_ref='tools/run_credential_free_tests.py',directory=f'tests/{suite}',pattern=pattern,
+            tool_ref='tools/run_credential_free_tests.py',directory=directory,pattern=pattern,
             test_cases=json.loads(raw),assertions=[],timeout_seconds=900,target_predicate='ALL_SOURCE_ON_NAMED_NATIVE_HOST'))
     groups=[dict(check_id='PQR-01',members=members)]
     for group,assertions in NATIVE_ASSERTIONS.items():

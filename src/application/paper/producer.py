@@ -25,7 +25,7 @@ from application.platform.processes import spawn_owned,terminate_owned,ResourceL
 from application.platform.restoration import require_valid_restoration
 from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
 from application.platform.supervision import PROCESS_ROLES
-from application.qualification import revision_fact,parse_result,_sanitize,discover_suites,FOCUSED
+from application.qualification import revision_fact,parse_result,_sanitize,source_commands
 from registry.product_assessment import canonical,digest
 from storage import open_sqlite_platform
 from storage.qualification import QualificationSubject,QualificationCheck,_open_qualification_receipt_owner
@@ -100,8 +100,7 @@ def _guard(root,revision,package,facts,profile):
     actual={p.relative_to(root).as_posix() for p in (root/'tests').rglob('*.py')}
     frozen={ref for ref in profile['source_files'] if ref.startswith('tests/')}
     if actual!=frozen:raise ValueError('Complete current test file discovery differs from frozen inventory')
-    commands=[(f'tests/{name}',pattern) for name,pattern in FOCUSED]
-    commands.extend((f'tests/{suite.name}','test_*.py') for suite in discover_suites(root))
+    commands=source_commands(root)
     if commands!=[(m['directory'],m['pattern']) for m in profile['groups'][0]['members']]:
         raise ValueError('Complete ordered source commands differ from committed inventory')
     for ref,expected in profile['source_files'].items():

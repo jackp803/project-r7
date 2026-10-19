@@ -51,7 +51,10 @@ def generate():
         tool='tools/verify_native_product.py' if group=='PQR-02' else 'tools/verify_paper_product.py'
         groups.append(dict(check_id=group,members=[dict(member_id=group+'-native',kind='NATIVE_ASSERTIONS',
             command_ref=group.lower()+'-native',tool_ref=tool,test_cases=[],assertions=list(assertions),
-            timeout_seconds=1200,target_predicate='NAMED_NATIVE_TARGET')]))
+            # Expanded nine-fault plus isolation sequence actually takes >20m.
+            # This is only the aggregate harness cap; all child/health/E5/stop
+            # deadlines and mandatory observations remain unchanged.
+            timeout_seconds=1800 if group=='PQR-05' else 1200,target_predicate='NAMED_NATIVE_TARGET')]))
     paths=sorted(list((ROOT/'tests').rglob('*.py'))+list((ROOT/'tools').glob('*.py'))+
                  list((ROOT/'tools').glob('*.mjs'))+[ROOT/'status/PM_PAPER_RELEASE_MAPPING_DECISION_20261013.md',
                  ROOT/'packaging/windows/requirements-build-py312.lock',

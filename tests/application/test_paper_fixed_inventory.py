@@ -28,7 +28,8 @@ class FixedPaperInventoryTests(unittest.TestCase):
         self.assertTrue(all(h.startswith('sha256:') for h in profile['source_files'].values()))
         native=[c for g in profile['groups'][1:] for c in g['members']]
         self.assertTrue(all(c['timeout_seconds']==900 for c in profile['groups'][0]['members']))
-        self.assertTrue(all(c['timeout_seconds']==1200 for c in native))
+        self.assertEqual({c['member_id']:c['timeout_seconds'] for c in native},
+            {f'PQR-{i:02d}-native':1800 if i==5 else 1200 for i in range(2,8)})
         self.assertTrue(all(c['kind']=='NATIVE_ASSERTIONS' and c['target_predicate']=='NAMED_NATIVE_TARGET' for c in native))
         self.assertEqual(profile['os_applicability']['systemd'],'OS_INAPPLICABLE_WINDOWS')
         self.assertEqual(m.fixed_profile('ubuntu-24.04-x86_64')['os_applicability']['systemd'],'REQUIRED_ACTUAL_UNPRIVILEGED_SERVICE')

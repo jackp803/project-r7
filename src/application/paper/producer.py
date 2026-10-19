@@ -63,6 +63,24 @@ def native_artifacts(report,root):
     return bindings
 
 
+def retain_native_artifacts(report,workspace,destination):
+    """Archive only the declared, verified closure, never native work stores."""
+    bindings=native_artifacts(report,workspace)
+    if destination.exists():raise ValueError('Fresh durable native evidence required')
+    create_private_directory(destination)
+    for ref,commitment in bindings.items():
+        raw=artifact_bytes(workspace,ref)
+        if 'sha256:'+hashlib.sha256(raw).hexdigest()!=commitment:
+            raise ValueError('Native workspace changed before durable retention')
+        target=destination/ref
+        for parent in reversed(target.parent.parents):
+            if parent.is_relative_to(destination) and not parent.exists():create_private_directory(parent)
+        if not target.parent.exists():create_private_directory(target.parent)
+        write_private_new(target,raw)
+    if native_artifacts(report,destination)!=bindings:raise ValueError('Durable native artifact closure changed')
+    return bindings
+
+
 def native_assertions(report,member,root):
     rows=report.get('assertions') if isinstance(report,dict) else None
     if not isinstance(rows,list) or any(not isinstance(row,dict) for row in rows) or [row.get('assertion_id') for row in rows]!=member['assertions']:
@@ -151,6 +169,14 @@ def qualify(config_path,source_root,package_root):
                     if member['kind']=='UNITTEST':
                         command+=['-m','unittest','discover','-s',member['directory'],'-p',member['pattern'],'-v']
                     else:
+                        # Native workspaces contain private DBs/config/build
+                        # intermediates. Only hash-bound report artifacts enter
+                        # the durable software receipt's backup closure.
+                        work=config.local_data_root/'worker-logs'
+                        if not work.exists():create_private_directory(work)
+                        work=work/execution
+                        if not work.exists():create_private_directory(work)
+                        native_output=work/(label+'-artifacts')
                         command+=[str(root/member['tool_ref']),'--package-root',str(package),'--output',str(native_output)]
                         if group['check_id']!='PQR-02':command+=['--group',group['check_id']]
                     before=time.monotonic()
@@ -180,9 +206,10 @@ def qualify(config_path,source_root,package_root):
                         counts=dict(tests_run=0,failures=0,errors=0,skipped=0,expected_failures=0,unexpected_successes=0)
                         try:
                             report=json.loads(artifact_bytes(native_output,'pqr-result.json',262144))
-                            for ref,commitment in native_artifacts(report,native_output).items():
+                            retained_output=output/native_output.name
+                            for ref,commitment in retain_native_artifacts(report,native_output,retained_output).items():
                                 artifacts.append(dict(ref=f'{native_output.name}/{ref}',hash=commitment))
-                            rows=native_assertions(report,member,native_output)
+                            rows=native_assertions(report,member,retained_output)
                             for row in rows:
                                 prefixed=f'{native_output.name}/{row["evidence_ref"]}'
                                 assertions.append({**row,'evidence_ref':prefixed})

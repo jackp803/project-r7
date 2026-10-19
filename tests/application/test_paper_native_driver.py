@@ -13,6 +13,24 @@ from unittest.mock import Mock
 
 
 class PaperNativeDriverTests(unittest.TestCase):
+    def test_durable_native_evidence_copies_only_declared_bytes_and_refuses_changed_workspace(self):
+        from application.paper import producer
+        import hashlib
+        with TemporaryDirectory() as directory:
+            root=Path(directory);workspace=root/'transient';workspace.mkdir()
+            (workspace/'nested').mkdir();raw=b'ACTUAL_LOCAL_EVIDENCE_BYTES\n'
+            (workspace/'nested/observations.json').write_bytes(raw)
+            (workspace/'unbound-workspace.json').write_bytes(b'UNBOUND_WORKSPACE_MUST_NOT_BE_ARCHIVED')
+            report=dict(artifacts=[dict(ref='nested/observations.json',hash='sha256:'+hashlib.sha256(raw).hexdigest())])
+            retained=root/'durable'
+            bindings=producer.retain_native_artifacts(report,workspace,retained)
+            self.assertEqual(set(bindings),{'nested/observations.json'})
+            self.assertEqual((retained/'nested/observations.json').read_bytes(),raw)
+            self.assertFalse((retained/'unbound-workspace.json').exists())
+            (workspace/'nested/observations.json').write_bytes(b'CHANGED')
+            with self.assertRaises(ValueError):producer.retain_native_artifacts(report,workspace,root/'changed-denied')
+            self.assertFalse((root/'changed-denied').exists())
+
     def test_native_artifact_closure_covers_expanded_scenarios_and_still_checks_every_hash(self):
         from application.paper.producer import native_artifacts
         import hashlib

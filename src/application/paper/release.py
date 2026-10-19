@@ -60,6 +60,7 @@ def _historical_owner(record,*,implementation_hash=None):
         raise ValueError('Complete canonical operational selection required')
     try:
         owner = PaperOwnerSelection(**record['owner'])
+        if owner.namespace!='LOCAL_RESEARCH':raise ValueError()
         envelope=record['envelope'];profile=simulator_profile(owner,implementation_hash=implementation_hash)
         if (set(envelope)!={'schema_version','product_config_hash','owner_selection_hash',
                 'simulator_profile_hash','account_ref'}

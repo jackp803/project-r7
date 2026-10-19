@@ -53,6 +53,22 @@ class QualificationReceiptTests(unittest.TestCase):
             with self.assertRaises((AttributeError,TypeError)):loaded.receipt_id='forged'
             self.assertIsNone(reader.get('qualification-'+'a'*64))
 
+    def test_bounded_history_preserves_failure_and_sealed_snapshot_adds_no_sidecars(self):
+        m=self.module()
+        with m._open_qualification_receipt_owner(self.path,namespace='FIXTURE') as owner:
+            first=self.append(m,owner)
+            second=self.append(m,owner,execution_id='owned-run-02',checks=(self.check(m,returncode=2,tests_run=0,errors=1),))
+        snapshot=self.root/'sealed-canonical.sqlite3'
+        with closing(sqlite3.connect(self.path)) as source,closing(sqlite3.connect(snapshot)) as target:
+            source.backup(target)
+        before={p.name:p.read_bytes() for p in self.root.glob('sealed-canonical*')}
+        with m.open_qualification_receipts(snapshot,namespace='FIXTURE',immutable=True) as reader:
+            self.assertEqual(reader.history(limit=2),(first,second))
+            self.assertFalse(reader.history(limit=2)[1].passed)
+            for limit in (True,0,257,1):
+                with self.subTest(limit=limit),self.assertRaises(m.QualificationReceiptError):reader.history(limit=limit)
+        self.assertEqual(before,{p.name:p.read_bytes() for p in self.root.glob('sealed-canonical*')})
+
     def test_missing_or_deleted_database_is_never_created(self):
         m=self.module();missing=self.root/'missing.sqlite3'
         for factory in (m.open_qualification_receipts,m._open_qualification_receipt_owner):

@@ -18,7 +18,7 @@ from storage.paper_selection import open_paper_selections,_open_paper_selection_
 from strategy.v02.capabilities import build_capability_snapshot
 from strategy.v02.temporal import assess_submission_validity
 from .owners import PaperOwnerSelection,PaperOwnerComposition
-from .release import NativePaperReleaseReader,operational_record,validate_operational_record
+from .release import NativePaperReleaseReader,operational_record,_historical_owner
 
 INPUT_SCHEMA='r7-local-paper-inputs-v0.2'
 INPUT_KEYS={'schema_version','submission_id','simulation_policy_ref','risk_policy_ref','promotion_policy_ref',
@@ -101,7 +101,9 @@ class OrdinarySelectedPaper:
         # Admission must independently reconcile it to measured native facts.
         # The runtime factory injects its bounded verified installed subject.
         self.implementation_hash=record['simulator_profile']['implementation_hash'] if implementation_hash is None else implementation_hash
-        self.owner=validate_operational_record(config,record,implementation_hash=self.implementation_hash)
+        # Composition retains original obligations when nonfinancial product
+        # settings change. Native current() still validates current admission.
+        self.owner=_historical_owner(record,implementation_hash=self.implementation_hash)
         source=record.get('source_subject')
         if not isinstance(source,dict) or set(source)!=SOURCE_KEYS or source['schema_version']!='r7-local-paper-source-subject-v0.2':
             raise ValueError('Exact ordinary Paper source subject required')
@@ -173,7 +175,7 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
         # release reader continues denying new starts and fills on receipt loss.
         verified,_,_=check_native_once(config_path,ref,mode='management')
     installed=verified['facts']
-    validate_operational_record(config,record,implementation_hash=installed['implementation_hash'])
+    _historical_owner(record,implementation_hash=installed['implementation_hash'])
     from contextlib import contextmanager
     from application.local_owners import LocalOwners
     @contextmanager

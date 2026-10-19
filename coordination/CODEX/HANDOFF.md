@@ -1,3 +1,48 @@
+# Ordinary Paper recovery and complete backup repair - 2026-10-19
+
+Task CODEX-R7-PRODUCTIZATION-MASTER-20261002, same branch. Main remains
+7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812. No source work discarded.
+
+Actual exact-clean f6f333838ad5f043c2863807f2ef11c2deae4805 native05 PASS:
+all9faults plus research fault/protection isolation and current-host bounded
+capacity. Actual1285.056655seconds;160declared artifacts retained with original
+and sanitized hashes. Scope one Paper+one research+control, SOFT_LIMIT_ONLY;
+maximum load/24GB target NOT_ESTABLISHED, Windows systemd OS-inapplicable.
+This scoped run is not a full owning software qualification or ordinary grant.
+
+Independent integration review found2Important ordinary issues. Regression-first
+repairs retain historical owner composition after config-only changes while
+native current admission stays denied; real public ordinary worker bootstrap
+receipt-loss fallback is covered with explicitly source-only measurement seams.
+Typed policies and failed qualification history now back up against the actual
+captured canonical snapshot, including inhibited restore/rebackup. Conflicting
+historical same-path inputs, mutation, unbound files and metadata replacement
+deny. Valid DB>64MiB and actual>320char Windows backup/verify/restore pass;
+existing namespace and private boundaries remain. Native transient workspaces
+move under worker-logs; only declared hash-verified artifacts become durable.
+
+Focused18commands/147checks PASS, allownedtreesreaped; independent bounded
+repair review0Critical/0Important, reviewerexecutionNONE. New compiled inventory
+7groups/130commands/2421source-caseexecutions/295tool-testfiles. Application
+per-file900s unchanged. PQR05 aggregate orchestration budget1200->1800s for the
+expanded measured21m25s sequence; inner command/E5/health/resource/graceful-stop
+bounds unchanged. No new native/full qualification credit for these repairs.
+
+Evidence: status/codex/productization/S12/native-completion-f6f3338/ and
+status/codex/productization/S12/ordinary-recovery-backup-source-20261019/.
+Next: new committed exact-clean build, native07 first preflight, full owning
+PQR/software readback, ZIP clean install, actual owning-store backup, current
+headless plus unattended real-data diagnostic intake/research/report generation,
+fresh Chat kit and66+150acceptance mapping. External drafts remain in project
+artifacts/current-windows-20261019 (not acceptance PASS). Formal policies and
+real forward unselected/not started; old target/Ubuntu/cloud remain separate.
+
+Additionalpubliccalls0; cumulative8requests/8responses; private0/credentialsNONE/
+provider mutation0/capitalNONE/GitHubcomputeNOT_USED. No OS setting change.
+Master IN_PROGRESS. Preserve all older native/failure/source evidence below.
+
+---
+
 # Current Windows owning qualification checkpoint - 2026-10-19
 
 Exact-clean f86ee8948ad65d0e579a81899a221a039b0cb1c1 built and native06

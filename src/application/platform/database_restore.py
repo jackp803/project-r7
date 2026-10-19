@@ -10,9 +10,9 @@ from datetime import datetime,timezone
 import hashlib,json,math,os,sqlite3,time,uuid
 from pathlib import Path
 from application.platform.backup import (_destination,_deadline,_profile_current,
-    _verify_database_backup_snapshot,_database_facts)
+    _verify_database_backup_snapshot,_database_facts,_connect)
 from application.platform.paths import overlapping
-from application.platform.private_files import create_private_directory,write_private_new,require_private
+from application.platform.private_files import create_private_directory,write_private_new,require_private,_filesystem_path
 from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
 from application.platform.supervision import config_hash, PROCESS_ROLES
 from application.research.evidence import capture_provenance,stamp
@@ -26,7 +26,7 @@ def _verify_within_deadline(config,backup,end,*,product_data=False):
 
 def _restore_connection(path,end):
     _deadline(end)
-    db=sqlite3.connect(path,timeout=min(2,max(0.001,end-time.monotonic())))
+    db=_connect(path,'rw',end)
     try:
         db.row_factory=sqlite3.Row
         db.set_progress_handler(lambda:int(time.monotonic()>=end),1000)
@@ -146,7 +146,7 @@ def _restore_backup(config,backup,destination,*,config_path=None,timeout_seconds
                     if parent.is_relative_to(target) and not parent.exists():create_private_directory(parent)
                 if not path.parent.exists():create_private_directory(path.parent)
                 write_private_new(path,b'');digest=hashlib.sha256();count=0
-                with source.open('rb') as incoming,path.open('wb') as outgoing:
+                with _filesystem_path(source).open('rb') as incoming,_filesystem_path(path).open('wb') as outgoing:
                     while chunk:=incoming.read(1024*1024):
                         _deadline(end);count+=len(chunk)
                         if count>row['bytes']:raise RestoreError('RESTORE_SOURCE_CHANGED')

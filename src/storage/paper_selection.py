@@ -10,7 +10,7 @@ from pathlib import Path
 import sqlite3
 
 from ._sqlite_registry import _connect, _MIGRATIONS_DIR
-from .qualification import _canonical, _digest, _hash, _manifest, _pairs, _schema, _signatures, _require_namespace
+from .qualification import _canonical, _digest, _hash, _manifest, _pairs, _schema, _signatures, _require_namespace,_readonly_uri
 
 _MIGRATION = '0019_paper_operational_selections.sql'
 _TABLE = 'paper_operational_selections'
@@ -143,12 +143,13 @@ class _SelectionOwner(_SelectionReader):
             raise
 
 
-def _open(path, *, writer):
+def _open(path, *, writer,immutable=False):
+    if type(immutable) is not bool or writer and immutable:raise PaperSelectionError('PAPER_SELECTION_SNAPSHOT_MODE_INVALID')
     db = None
     try:
         from application.platform.supervision import _local_path
         path = Path(path).absolute(); _local_path(path)
-        db = _connect(path, require_existing=True) if writer else sqlite3.connect(path.as_uri()+'?mode=ro', uri=True)
+        db = _connect(path, require_existing=True) if writer else sqlite3.connect(_readonly_uri(path,immutable=immutable), uri=True)
         db.row_factory = sqlite3.Row; db.isolation_level = None
         db.execute('PRAGMA busy_timeout=5000')
         if writer:
@@ -166,8 +167,9 @@ def _open(path, *, writer):
         raise
 
 
-def open_paper_selections(path):
-    return _open(path, writer=False)
+def open_paper_selections(path,*,immutable=False):
+    """Immutable mode is for an already verified sealed backup snapshot only."""
+    return _open(path, writer=False,immutable=immutable)
 
 
 def _open_paper_selection_owner(path):

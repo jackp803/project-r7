@@ -256,6 +256,20 @@ class _QualificationReceiptReader:
         finally:self._db.rollback()
         return None if row is None else _decode(row)
 
+    def history(self,*,limit=256):
+        """Bounded validated archive inventory; failed evidence remains failed."""
+        if type(limit) is not int or not 1<=limit<=256:_fail('QUALIFICATION_HISTORY_LIMIT')
+        self._db.execute('BEGIN')
+        try:
+            _require_namespace(self._db,self.namespace,self._signatures[1])
+            _require_schema(self._db,self._signatures[2])
+            rows=self._db.execute('SELECT * FROM product_qualification_receipts WHERE namespace=? ORDER BY execution_id LIMIT ?',
+                (self.namespace,limit+1)).fetchall()
+            if len(rows)>limit:_fail('QUALIFICATION_HISTORY_LIMIT')
+            return tuple(_decode(row) for row in rows)
+        except sqlite3.Error as error:raise QualificationReceiptError('QUALIFICATION_READ_FAILED') from error
+        finally:self._db.rollback()
+
 class _QualificationReceiptOwner(_QualificationReceiptReader):
     def __init__(self,db,namespace,signatures,*,_writer_capability=None):
         if _writer_capability is not _WRITER_CAPABILITY:_fail('QUALIFICATION_WRITER_CAPABILITY_REQUIRED')
@@ -282,7 +296,17 @@ class _QualificationReceiptOwner(_QualificationReceiptReader):
             _fail('QUALIFICATION_EXECUTION_CONFLICT')
         return receipt
 
-def _open(path,namespace,*,writer):
+def _readonly_uri(path,*,immutable=False):
+    """Native SQLite spelling after callers validate the original logical path."""
+    import os
+    from urllib.parse import quote
+    from application.platform.private_files import _filesystem_path
+    uri='file:'+quote(str(_filesystem_path(path)),safe='/:') if os.name=='nt' else path.as_uri()
+    return uri+'?mode=ro'+('&immutable=1' if immutable else '')
+
+
+def _open(path,namespace,*,writer,immutable=False):
+    if type(immutable) is not bool or writer and immutable:_fail('QUALIFICATION_SNAPSHOT_MODE_INVALID')
     _namespace(namespace);db=None
     try:
         from application.platform.resources import require_local_database_volume
@@ -291,7 +315,7 @@ def _open(path,namespace,*,writer):
         signatures=_signatures()
         if writer:db=_connect(path,require_existing=True)
         else:
-            db=sqlite3.connect(path.as_uri()+'?mode=ro',uri=True);db.row_factory=sqlite3.Row
+            db=sqlite3.connect(_readonly_uri(path,immutable=immutable),uri=True);db.row_factory=sqlite3.Row
         db.isolation_level=None;db.execute('PRAGMA busy_timeout=5000')
         # Validation never calls the namespace binder or creates a replacement DB.
         _require_namespace(db,namespace,signatures[1])
@@ -306,9 +330,9 @@ def _open(path,namespace,*,writer):
         if isinstance(error,(sqlite3.Error,OSError)):raise QualificationReceiptError('QUALIFICATION_STORE_UNAVAILABLE') from error
         raise
 
-def open_qualification_receipts(path:str|Path,*,namespace:str):
-    """Existing-store, SQLite read-only software evidence resolution; no admission."""
-    return _open(path,namespace,writer=False)
+def open_qualification_receipts(path:str|Path,*,namespace:str,immutable=False):
+    """Read-only evidence; immutable is only for verified sealed DB snapshots."""
+    return _open(path,namespace,writer=False,immutable=immutable)
 
 def _open_qualification_receipt_owner(path:str|Path,*,namespace:str):
     """Trusted owning producer composition only; never an HTTP/package factory."""

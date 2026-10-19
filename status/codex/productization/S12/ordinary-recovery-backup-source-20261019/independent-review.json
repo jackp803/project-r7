@@ -1,0 +1,88 @@
+{
+  "schema_version": "r7-bounded-repair-review-v1",
+  "review_date": "2026-10-19",
+  "scope": "S16 ordinary Paper configuration-only recovery, typed private backup history, captured canonical verification, database-size and Windows long-path repairs, and producer durable native artifact retention",
+  "original_review": "s16-integration-review-f6f3338.json",
+  "original_review_preserved": true,
+  "base_candidate_revision": "f6f333838ad5f043c2863807f2ef11c2deae4805",
+  "reviewed_subject": "Subsequent current repair source inspected during the bounded follow-up reviews; no new exact-clean executable or native qualification asserted",
+  "reviewer_execution": "NONE",
+  "method": "Read-only inspection of scoped public source, diffs, selected regression bodies and directly necessary helper contracts. This record persists the already delivered review; no repeat review, tests, product/native processes or network calls were performed to create it.",
+  "inspected_paths": [
+    "src/application/paper/ordinary_setup.py",
+    "src/application/paper/release.py",
+    "src/application/paper/producer.py",
+    "src/application/platform/product_backup.py",
+    "src/application/platform/paper_backup_history.py",
+    "src/application/platform/database_restore.py",
+    "src/application/platform/backup.py",
+    "src/storage/paper_selection.py",
+    "src/storage/qualification.py",
+    "tests/application/test_ordinary_config_recovery.py",
+    "tests/application/test_ordinary_backup_history.py"
+  ],
+  "resolved_findings": [
+    {
+      "id": "S16-I1",
+      "origin": "Original integration review",
+      "severity": "Important",
+      "finding": "Configuration-only change blocked original Paper recovery and eager control read/pause composition.",
+      "status": "RESOLVED_BY_SOURCE_REVIEW",
+      "resolution": "Composition and ordinary worker bootstrap validate the immutable historical owner separately from current admission. Native current release still validates current product configuration. The selected historical risk/simulation and accepted E6 binding remain unchanged; new entry stays denied. New regression bodies cover config-only read/pause/protect/exit and the actual ordinary_paper_worker bootstrap with explicitly controlled source/native observation seams and actual management fallback."
+    },
+    {
+      "id": "S16-I2",
+      "origin": "Original integration review",
+      "severity": "Important",
+      "finding": "Full product backup did not recognize ordinary selected policies or owning qualification artifact history.",
+      "status": "RESOLVED_BY_SOURCE_REVIEW",
+      "resolution": "Typed bounded history derives policy and artifact commitments from validated ordinary selection/receipt records. Verification first validates the captured DB bundle, reads its canonical DB in explicit immutable mode, then rechecks captured bytes. Producer native working stores are placed under excluded worker-logs; durable qualification retains only copied and hash-rechecked declared artifacts. Unknown files and changed bindings remain rejected; restored inhibition remains enforced."
+    },
+    {
+      "id": "S16-DRAFT-I1",
+      "origin": "Outside-Git backup history draft review",
+      "severity": "Important",
+      "finding": "Cross-generation bindings.update could overwrite a conflicting same-path policy commitment.",
+      "status": "RESOLVED_BY_SOURCE_REVIEW",
+      "resolution": "Cross-generation same-path conflicts now reject explicitly. Versioned retained policy files can preserve both generations; no policy authority is changed. Regression bodies cover conflicting and versioned real selection generations."
+    },
+    {
+      "id": "S16-DRAFT-I2",
+      "origin": "Outside-Git backup history draft review",
+      "severity": "Important",
+      "finding": "Preflight validation and hashing used separate reads.",
+      "status": "RESOLVED_BY_SOURCE_REVIEW",
+      "resolution": "Preflight is captured once and that same raw snapshot is decoded, validated and hashed. The regression substitutes a different second-read result and checks that only one capture occurs."
+    },
+    {
+      "id": "S16-REPAIR-I1",
+      "origin": "Tracked repair review",
+      "severity": "Important",
+      "finding": "Captured canonical recheck imposed the 64 MiB non-database file limit on a valid SQLite database.",
+      "status": "RESOLVED_BY_SOURCE_REVIEW",
+      "resolution": "Canonical recheck uses the existing deadline-aware database hashing helper and database byte limit. The new regression creates a real SQLite freelist above 64 MiB without financial result rows and covers backup, verification and inhibited restoration."
+    },
+    {
+      "id": "S16-REPAIR-I2",
+      "origin": "Tracked repair review",
+      "severity": "Important",
+      "finding": "New sealed read-only store paths reintroduced ordinary SQLite URI spelling for Windows captured paths beyond MAX_PATH.",
+      "status": "RESOLVED_BY_SOURCE_REVIEW",
+      "resolution": "Both read-only stores use the shared extended native SQLite URI spelling after original logical-path guards. Backup history metadata existence and restore file I/O use native filesystem spelling; restore connections reuse the existing guarded deadline-aware SQLite helper. Regression bodies cover ordinary selected/failed-receipt history at an actual captured DB path exceeding 320 characters through backup, verify and inhibited restore."
+    }
+  ],
+  "withdrawn_draft_concern": {
+    "finding": "Capability hash appeared absent when inspecting only the inventory generator output shape.",
+    "status": "WITHDRAWN_AFTER_ADJACENT_CONTRACT_VERIFICATION",
+    "reason": "inventory.fixed_profile augments frozen data with capability_hash and platform_id; the actual producer profile supplies the field used by archival metadata validation. This concern is not an unresolved defect."
+  },
+  "counts": {"Critical": 0, "Important": 0},
+  "disposition": "NO_REMAINING_CRITICAL_OR_IMPORTANT_FINDINGS_IN_BOUNDED_REPAIR_SCOPE",
+  "limits": [
+    "Source review only; root-reported RED/GREEN or native outcomes are not reviewer executions and are not independently granted execution credit here.",
+    "Source-native measurement and observer seams in regressions are explicitly controlled component fixtures, not installed-native or ordinary financial qualification.",
+    "New complete exact-clean source qualification and native qualification of the repaired candidate remain pending and must bind the frozen current subject.",
+    "Generated giant _fixed_inventory.py, private credentials/auth/config/database contents and generated execution evidence were not inspected.",
+    "No full PQR, whole-Master acceptance, ordinary financial workflow authorization, real provider/cloud/forward commissioning, Ubuntu acceptance or merge authorization is issued by this review."
+  ]
+}

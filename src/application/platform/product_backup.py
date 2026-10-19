@@ -10,7 +10,7 @@ import hashlib, json, math, os, stat, time, uuid
 from pathlib import Path
 
 from application.platform.backup import (_capture_database_bundle, _inventory,
-    _destination, _deadline, _profile_current, _unique_pairs, CONSISTENCY, _verify_database_backup_snapshot)
+    _destination, _deadline, _profile_current, _unique_pairs, CONSISTENCY, _verify_database_backup_snapshot,_hash_file)
 from application.platform.private_files import create_private_directory, require_private, write_private_new, _filesystem_path
 from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
 from application.platform.supervision import _local_path, config_hash, PROCESS_ROLES
@@ -243,7 +243,8 @@ def _fixture_paper_inputs(root,paths,selected):
     return allowed,hashes
 
 
-def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadata=False):
+def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadata=False,
+                    canonical_database=None,namespace=None,sealed_database=False):
     paths, excluded = _walk(root, end, exclusions=exclusions)
     ignored = {name + suffix for name in databases for suffix in ('', '-wal', '-shm', '-journal')}
     if restore_metadata:
@@ -278,6 +279,10 @@ def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadat
         dataset_refs = set()
     fixture_files,fixture_hashes=_fixture_paper_inputs(root,paths,selected)
     allowed.update(fixture_files);expected_hashes.update(fixture_hashes)
+    if namespace=='LOCAL_RESEARCH':
+        from .paper_backup_history import ordinary_history_inventory
+        paper_files,paper_hashes=ordinary_history_inventory(root,paths,canonical_database,end,sealed_database=sealed_database)
+        allowed.update(paper_files);expected_hashes.update(paper_hashes)
     # Public read-only captures include raw audit bytes, even rejected or
     # interrupted attempts. They never imply dataset/research readiness.
     public_roots=set()
@@ -398,7 +403,9 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
             restoration=_source_restoration(config)
             restored=restoration['status']=='RESTORED_INHIBITED'
             relatives = [path.relative_to(config.local_data_root).as_posix() for path in inventory.values()]
-            rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored)
+            from application.config import product_namespace
+            history=dict(canonical_database=config.database_path,namespace=product_namespace(config))
+            rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,**history)
             create_private_directory(target)
             db_manifest = _capture_database_bundle(config, target/'databases', inventory, end, stack, config_path=config_path)
             if sum(row['bytes'] for row in rows + db_manifest['databases']) > MAX_BYTES:
@@ -406,7 +413,7 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
             create_private_directory(target/'files')
             for row in rows:
                 _copy_file(config.local_data_root/row['relative_path'], target/'files'/row['relative_path'], row, end)
-            if (_data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored) != (rows, excluded)
+            if (_data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,**history) != (rows, excluded)
                     or _source_restoration(config)!=restoration):
                 raise ProductBackupError('PRODUCT_BACKUP_SOURCE_CHANGED')
             _profile_current(config, config_path)
@@ -456,14 +463,21 @@ def _verified_manifest(config, destination, end):
     if {p.name for p in _filesystem_path(path).iterdir()} != {'databases','files','manifest.json'}:
         raise ProductBackupError('PRODUCT_BACKUP_UNEXPECTED_ARTIFACT')
     require_private(path/'files', directory=True)
-    actual, _ = _data_inventory(path/'files', end, exclusions=False)
+    # Bind file closure to the verified captured ledger, never the live store.
+    database,db_manifest,db_raw = _verify_database_backup_snapshot(config, path/'databases', timeout_seconds=_remaining(end), _include_settings=True)
+    if database['backup_id'] != manifest['backup_id'] or 'sha256:'+hashlib.sha256(db_raw).hexdigest() != manifest['database_manifest_sha256']:
+        raise ProductBackupError('PRODUCT_BACKUP_DATABASE_BINDING_MISMATCH')
+    canonical=next((row for row in db_manifest['databases'] if row['logical_name']=='canonical'),None)
+    captured=None if canonical is None else path/'databases'/canonical['artifact']
+    from application.config import product_namespace
+    actual, _ = _data_inventory(path/'files', end, exclusions=False,canonical_database=captured,
+        namespace=product_namespace(config),sealed_database=True)
     for row in actual:
         require_private(path/'files'/row['relative_path'])
     if actual != rows:
         raise ProductBackupError('PRODUCT_BACKUP_DATA_HASH_MISMATCH')
-    database,db_manifest,db_raw = _verify_database_backup_snapshot(config, path/'databases', timeout_seconds=_remaining(end), _include_settings=True)
-    if database['backup_id'] != manifest['backup_id'] or 'sha256:'+hashlib.sha256(db_raw).hexdigest() != manifest['database_manifest_sha256']:
-        raise ProductBackupError('PRODUCT_BACKUP_DATABASE_BINDING_MISMATCH')
+    if canonical is not None and _hash_file(captured,end)!={key:canonical[key] for key in ('bytes','sha256')}:
+        raise ProductBackupError('PRODUCT_BACKUP_CAPTURED_CANONICAL_CHANGED')
     if sum(row['bytes'] for row in rows + db_manifest['databases']) > MAX_BYTES:
         raise ProductBackupError('PRODUCT_BACKUP_TRANSFER_LIMIT')
     _deadline(end)

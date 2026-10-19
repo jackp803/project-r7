@@ -1,0 +1,76 @@
+{
+  "schema_version": "r7-bounded-integration-review-v1",
+  "candidate_revision": "f6f333838ad5f043c2863807f2ef11c2deae4805",
+  "review_scope": "S16 current productization integration: owning software qualification, ordinary operational selection/current release, independent Paper worker, public market acquisition, coordinator, private backup/restoration, shared source-command mapping",
+  "reviewer_execution": "NONE",
+  "review_method": "Read-only public repository source, selected existing tests and governing documents; read-only Git HEAD and tracked-clean inspection. No tests, builds, product/native processes, provider/network calls, credentials, private profiles/databases or generated execution evidence inspected.",
+  "tracked_subject_observed": {
+    "head": "f6f333838ad5f043c2863807f2ef11c2deae4805",
+    "tracked_worktree": "CLEAN"
+  },
+  "authority_documents": [
+    "docs/plans/2026-10-19-current-windows-checkpoint.md",
+    "status/PM_PAPER_RELEASE_MAPPING_DECISION_20261013.md"
+  ],
+  "counts": {"Critical": 0, "Important": 2},
+  "findings": [
+    {
+      "id": "S16-I1",
+      "severity": "Important",
+      "title": "Configuration-only change blocks original Paper management and control composition",
+      "locations": [
+        {"path": "src/application/paper/ordinary_setup.py", "line": 176, "symbol": "ordinary_paper_worker"},
+        {"path": "src/application/paper/ordinary_setup.py", "line": 104, "symbol": "OrdinarySelectedPaper.__init__"},
+        {"path": "src/application/local_owners.py", "line": 105, "symbol": "LocalOwners.control_services"},
+        {"path": "src/application/coordinator.py", "line": 125, "symbol": "_compose"}
+      ],
+      "scenario": "An actual accepted ordinary Paper run is OPEN_PROTECTED. Stop the worker and change only a nonfinancial product setting such as control_api_port while retaining the canonical store and existing operational-selection generation. Restart through the normal ordinary worker/control/coordinator composition.",
+      "evidence": "The bootstrap and OrdinarySelectedPaper constructor unconditionally call validate_operational_record against the current ProductConfig. The stored envelope retains the original product-config hash, so composition raises before a management service is yielded. management_eligible correctly validates historical native/E5 obligations, but does not bypass the subsequent unconditional current-config validation. Eager LocalOwners.control_services loading can also prevent last-known read/pause API construction. The existing ordinary composition test changes both config and protected ledger selection, so it does not cover configuration-only recovery.",
+      "contract": "PM D3/D4: configuration changes invalidate new entry while existing positions retain original E5/E6 policy, pause, protection and recovery duties.",
+      "minimal_fix_direction": "Keep strict current-config validation for current admission. Permit a narrowly management-only bootstrap from an exactly verified original accepted native run and immutable historical selection when current selection/config is not admission-current; deny new starts/fills. Preserve control read/pause composition when the start port cannot be constructed.",
+      "minimal_regressions": [
+        "Real accepted protected ordinary component run; change only control_api_port, retain ledger generation; normal successor composition protects/closes with original binding, first-fill anchor and risk/simulation policy while new entry is denied.",
+        "Repeat with receipt unavailable to exercise management fallback without manufacturing eligibility.",
+        "Control services still provide last-known read and durable pause when ordinary admission selection is not current."
+      ],
+      "existing_test_gap": "tests/application/test_ordinary_paper_composition.py:155-178 changes both product config and ledger generation and constructs the component worker through a controlled factory, rather than exercising this normal bootstrap failure."
+    },
+    {
+      "id": "S16-I2",
+      "severity": "Important",
+      "title": "Full product backup lacks ordinary Paper and owning qualification data coverage",
+      "locations": [
+        {"path": "src/application/platform/product_backup.py", "line": 246, "symbol": "_data_inventory"},
+        {"path": "src/application/platform/product_backup.py", "line": 279, "symbol": "_data_inventory / _fixture_paper_inputs"},
+        {"path": "src/application/platform/product_backup.py", "line": 332, "symbol": "_data_inventory coverage equality"},
+        {"path": "src/application/paper/ordinary_setup.py", "line": 71, "symbol": "configure_ordinary_paper"},
+        {"path": "src/application/paper/producer.py", "line": 139, "symbol": "qualify durable qualification output"}
+      ],
+      "scenario": "Configure ordinary Paper with valid explicitly selected local simulation/promotion files (for example paper-sim.json and paper-promotion.json from the existing actual composition fixture), and/or complete owning qualification in the configured data root; stop owners and invoke full product backup.",
+      "evidence": "The inventory admits research policy references and the typed FIXTURE selection helper, but never derives ordinary input_refs/input_hashes from paper_operational_selections. Ordinary-only simulation/promotion files therefore remain unsupported and trigger PRODUCT_BACKUP_COVERAGE_GAP. The owning producer also writes qualification/<execution>/... under the local root, which is neither transient nor covered by any durable typed inventory, so an actually qualified ordinary root also fails coverage before a complete backup can be created. Failure is conservative, but the advertised ordinary supported product backup cannot complete.",
+      "contract": "Existing private complete product backup / inhibited restoration obligations, including explicit selected policy inputs and protected software evidence, remain applicable to ordinary product composition.",
+      "minimal_fix_direction": "Add bounded typed inventory support for immutable ordinary selection input references/hashes and the necessary owning receipt/artifact closure, validating their existing canonical bindings. Do not admit arbitrary folders or copy unvalidated fixture/private capture trees. Preserve unknown-file rejection and restored inhibition.",
+      "minimal_regressions": [
+        "Actual ordinary configure-paper component selection with simulation/promotion inputs not otherwise referenced by research; full backup and verify succeed and preserve exact input bytes.",
+        "Use an actually generated protected software receipt/artifact fixture at the canonical qualification root, with source-only provenance clearly labeled; full backup/verify/inhibited restore preserves required receipt/artifact bytes and cannot enable restored entry.",
+        "Changed/missing ordinary policy or required receipt artifact, unsafe reference/link and unrelated file remain rejected."
+      ],
+      "existing_test_gap": "tests/application/test_ordinary_paper_composition.py:62-70 creates ordinary-specific input files, while the full product backup inventory has only FIXTURE Paper input support; existing native backup scenarios exercise FIXTURE rather than this ordinary durable layout."
+    }
+  ],
+  "other_inspected_boundaries": [
+    "Protected selection generation compares complete canonical record bytes, retaining source-subject changes even when the operational envelope hash is unchanged.",
+    "Current release requires the current protected selection, actual native observation and independently observed runtime-role identity; software receipt completeness is separate from generic receipt.passed.",
+    "Original management callbacks select historical risk/simulation policy and entry-current checks do not rebind the original accepted E6 run.",
+    "Public market acquisition uses immutable runtime/E6 descriptors and owner-side subject checks; blocking network work is outside the protective owner thread.",
+    "Coordinator child config commitment, owned process membership, finite restart budget and cleanup remain explicit; restored runtime is denied.",
+    "Source command splitting uses the shared mapping in producer/freezer and the same application patterns in generic qualification, with unique ordinal logs; generated full inventory and serialized receipt-size models were not read or executed in this review."
+  ],
+  "limitations": [
+    "Bounded architecture/integration review, not exhaustive Master acceptance or a repeat audit of every canonical E1-E6 implementation.",
+    "Giant _fixed_inventory.py, private data, auth/config/database contents, raw native evidence and current build outputs excluded.",
+    "Root-reported source/native outcomes are not reviewer executions and were not independently re-run or granted credit.",
+    "No claim of complete PQR, current native qualification, ordinary financial workflow authorization, real provider/cloud/forward commissioning, Ubuntu acceptance or merge authorization."
+  ],
+  "disposition": "TWO_IMPORTANT_INTEGRATION_REPAIRS_REQUIRED; NO_WHOLE_PRODUCT_ACCEPTANCE"
+}

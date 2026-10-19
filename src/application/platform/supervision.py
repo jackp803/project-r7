@@ -29,7 +29,7 @@ class SupervisionError(RuntimeError):
     pass
 
 
-PROCESS_ROLES = ('control', 'research', 'runtime', 'cloud')
+PROCESS_ROLES = ('control', 'research', 'runtime', 'cloud', 'coordinator')
 _SUPERVISION_COLUMNS = {
     'process_generation_counters': ('role', 'generation'),
     'process_sessions': ('role', 'generation', 'process_generation_id', 'product_instance_id',
@@ -68,7 +68,7 @@ def _table_schema(db, table):
         for row in db.execute('SELECT type,name,tbl_name,sql FROM sqlite_master WHERE tbl_name=? ORDER BY type,name', (table,)))
 
 
-def _recognized_supervision_schemas(legacy, additive):
+def _recognized_supervision_schemas(legacy, additive, coordinator=None):
     with _ClosingConnection(sqlite3.connect(':memory:')) as model:
         _execute_owned_migration(model, legacy)
         model.execute(_SCHEMA_RECEIPT_SQL)
@@ -76,7 +76,10 @@ def _recognized_supervision_schemas(legacy, additive):
         original = {name: _table_schema(model, name) for name in names}
         _execute_owned_migration(model, additive)
         migrated = {name: _table_schema(model, name) for name in names}
-    return original, migrated
+        if coordinator is None:return original,migrated
+        _execute_owned_migration(model,coordinator)
+        coordinated={name:_table_schema(model,name) for name in names}
+        return original,migrated,coordinated
 
 
 def _require_supervision_schema(db, expected):
@@ -91,10 +94,12 @@ def _apply_supervision_schema(db):
     root = Path(__file__).parents[1] / 'migrations'
     legacy = (root / '0006_process_supervision.sql').read_text(encoding='utf-8')
     additive = (root / '0008_runtime_process_supervision.sql').read_text(encoding='utf-8')
+    coordinator = (root / '0009_coordinator_process_supervision.sql').read_text(encoding='utf-8')
     # UTF-8/LF semantics keep the owned migration commitment stable across the
     # accepted Windows/Ubuntu distributions and private backup restoration.
     commitment = 'sha256:' + hashlib.sha256(additive.replace('\r\n', '\n').encode('utf-8')).hexdigest()
-    original, migrated = _recognized_supervision_schemas(legacy, additive)
+    coordinator_commitment='sha256:'+hashlib.sha256(coordinator.replace('\r\n','\n').encode('utf-8')).hexdigest()
+    original, migrated, coordinated = _recognized_supervision_schemas(legacy, additive, coordinator)
     db.execute('BEGIN IMMEDIATE')
     try:
         _execute_owned_migration(db, legacy)
@@ -103,16 +108,28 @@ def _apply_supervision_schema(db):
             raise SupervisionError('SUPERVISION_SCHEMA_UNRECOGNIZED')
         receipt = db.execute('SELECT sha256 FROM process_supervision_schema WHERE migration=?',
             ('0008_runtime_process_supervision',)).fetchone()
+        coordinator_receipt=db.execute('SELECT sha256 FROM process_supervision_schema WHERE migration=?',
+            ('0009_coordinator_process_supervision',)).fetchone()
+        if coordinator_receipt is not None and receipt is None:
+            raise SupervisionError('SUPERVISION_MIGRATION_CHAIN_MISSING')
         if receipt is None:
             _require_supervision_schema(db, original)
             _execute_owned_migration(db, additive)
-            _require_supervision_schema(db, migrated)
+            _require_supervision_schema(db,migrated)
             db.execute('INSERT INTO process_supervision_schema VALUES(?,?)',
-                ('0008_runtime_process_supervision', commitment))
-        elif receipt[0] != commitment:
+                ('0008_runtime_process_supervision',commitment))
+        elif receipt[0]!=commitment:
             raise SupervisionError('SUPERVISION_MIGRATION_COMMITMENT_CHANGED')
         else:
-            _require_supervision_schema(db, migrated)
+            _require_supervision_schema(db,coordinated if coordinator_receipt is not None else migrated)
+        if coordinator_receipt is None:
+            _execute_owned_migration(db,coordinator)
+            _require_supervision_schema(db,coordinated)
+            db.execute('INSERT INTO process_supervision_schema VALUES(?,?)',
+                       ('0009_coordinator_process_supervision',coordinator_commitment))
+        elif coordinator_receipt[0]!=coordinator_commitment:
+            raise SupervisionError('SUPERVISION_MIGRATION_COMMITMENT_CHANGED')
+        else:_require_supervision_schema(db,coordinated)
         db.commit()
     except BaseException:
         db.rollback()

@@ -48,7 +48,8 @@ def configure_research(config_path, selection_profile):
             raise ValueError('Explicit local staging root identity required')
     raw=canonical(selected).encode('utf-8')
     with ExitStack() as stack:
-        for role in ('control','research','runtime','cloud'):
+        from application.platform.supervision import PROCESS_ROLES
+        for role in PROCESS_ROLES:
             stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
         if require_valid_restoration(config)['status']!='NOT_RESTORED':
             raise ValueError('Restored product data requires separate reauthorization')

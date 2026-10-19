@@ -29,6 +29,13 @@ class ResourceLimits:
             raise ValueError("Positive finite process timeout required")
 
 
+@dataclass(frozen=True)
+class ServiceResourceLimits:
+    """Long-lived owned service: group isolation, no research job deadline."""
+    timeout_seconds: None = field(default=None,init=False)
+    memory_enforcement: str = field(default='SOFT_LIMIT_ONLY',init=False)
+
+
 class _WindowsJob:
     def __init__(self):
         from ctypes import wintypes as w
@@ -41,6 +48,7 @@ class _WindowsJob:
             "OpenProcess": ([w.DWORD, w.BOOL, w.DWORD], w.HANDLE),
             "TerminateJobObject": ([w.HANDLE, w.UINT], w.BOOL),
             "CloseHandle": ([w.HANDLE], w.BOOL),
+            "IsProcessInJob": ([w.HANDLE,w.HANDLE,ctypes.POINTER(w.BOOL)],w.BOOL),
             "WaitForSingleObject": ([w.HANDLE, w.DWORD], w.DWORD),
         }
         for name, (arguments, result) in declarations.items():
@@ -153,7 +161,7 @@ class TerminationReport:
 @dataclass
 class OwnedProcess:
     process: subprocess.Popen
-    limits: ResourceLimits
+    limits: ResourceLimits | ServiceResourceLimits
     started_monotonic: float
     _job: object = field(default=None, repr=False)
     _lock: object = field(default_factory=threading.RLock, repr=False)
@@ -168,10 +176,19 @@ class OwnedProcess:
 
 
 def spawn_owned(argv, *, cwd: Path, limits: ResourceLimits, stdout=None, stderr=None, env=None) -> OwnedProcess:
+    if not isinstance(limits,ResourceLimits): raise ValueError('ResourceLimits required')
+    return _spawn_owned(argv,cwd=cwd,limits=limits,stdout=stdout,stderr=stderr,env=env)
+
+
+def spawn_owned_service(argv,*,cwd:Path,stdout=None,stderr=None,env=None)->OwnedProcess:
+    return _spawn_owned(argv,cwd=cwd,limits=ServiceResourceLimits(),stdout=stdout,stderr=stderr,env=env)
+
+
+def _spawn_owned(argv,*,cwd,limits,stdout,stderr,env):
     if (not isinstance(argv, (list, tuple)) or not argv
             or any(not isinstance(arg, str) or not arg or "\x00" in arg for arg in argv)):
         raise ValueError("Nonempty argv strings required; shell commands forbidden")
-    if not isinstance(limits, ResourceLimits):
+    if not isinstance(limits, (ResourceLimits,ServiceResourceLimits)):
         raise ValueError("ResourceLimits required")
     if getattr(sys, "frozen", False):
         bootstrap = [sys.executable, "_owned-process-bootstrap"]
@@ -183,20 +200,21 @@ def spawn_owned(argv, *, cwd: Path, limits: ResourceLimits, stdout=None, stderr=
         process = subprocess.Popen(
             bootstrap + list(argv), cwd=Path(cwd), shell=False, stdin=subprocess.PIPE,
             stdout=stdout, stderr=stderr, env=env,
-            creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS if os.name == "nt" else 0,
+            creationflags=subprocess.BELOW_NORMAL_PRIORITY_CLASS if os.name == "nt" and isinstance(limits,ResourceLimits) else 0,
             start_new_session=os.name != "nt")
         if job is not None:
             job.assign(process.pid)
-        elif hasattr(os, "setpriority"):
+        elif hasattr(os, "setpriority") and isinstance(limits,ResourceLimits):
             os.setpriority(os.PRIO_PROCESS, process.pid, 10)
         handle = OwnedProcess(process, limits, time.monotonic(), job)
         process.stdin.write(b"GO\n")
         process.stdin.flush()
         process.stdin.close()
-        handle._timer = threading.Timer(limits.timeout_seconds, terminate_owned,
-                                         args=(handle,), kwargs={"deadline_seconds": 5, "reason": "TIMEOUT"})
-        handle._timer.daemon = True
-        handle._timer.start()
+        if limits.timeout_seconds is not None:
+            handle._timer = threading.Timer(limits.timeout_seconds, terminate_owned,
+                                             args=(handle,), kwargs={"deadline_seconds": 5, "reason": "TIMEOUT"})
+            handle._timer.daemon = True
+            handle._timer.start()
         return handle
     except BaseException:
         # Before GO the bootstrap cannot have launched any target descendants.
@@ -209,6 +227,27 @@ def spawn_owned(argv, *, cwd: Path, limits: ResourceLimits, stdout=None, stderr=
             if process.stdin is not None:
                 process.stdin.close()
         raise
+
+
+def owned_contains_pid(handle:OwnedProcess,pid:int)->bool:
+    """Actual group membership only; a current role name is not ownership."""
+    if type(pid) is not int or not 0<pid<=(0xffffffff if os.name=='nt' else 0x7fffffff):
+        raise ValueError('Actual PID within native ABI range required')
+    with handle._lock:
+        if handle.termination_report is not None and handle.termination_report.reaped:return False
+        if os.name=='nt':
+            if handle._job is None or not handle._job.handle:return False
+            from ctypes import wintypes as w
+            process=handle._job.kernel.OpenProcess(0x1000,False,pid)
+            if not process:return False
+            try:
+                present=w.BOOL()
+                if not handle._job.kernel.IsProcessInJob(process,handle._job.handle,ctypes.byref(present)):
+                    raise ctypes.WinError(ctypes.get_last_error())
+                return bool(present.value)
+            finally:handle._job.kernel.CloseHandle(process)
+        try:return os.getpgid(pid)==handle.process.pid
+        except ProcessLookupError:return False
 
 
 def terminate_owned(handle: OwnedProcess, *, deadline_seconds=5, reason="CANCELLED") -> TerminationReport:

@@ -14,7 +14,7 @@ from application.cloud.protocol import CloudError
 from application.cloud.safe_files import _windows_read, _posix_read, write_immutable
 from application.platform.restoration import require_valid_restoration
 from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
-from application.platform.supervision import config_hash
+from application.platform.supervision import config_hash, PROCESS_ROLES
 from application.research.evidence import capture_provenance
 from application.research.product_assessment import require_promotable_provenance
 from application.research.selection import ResearchRequestResolver
@@ -172,7 +172,7 @@ def configure_paper(config_path, selection_profile):
     from application.entrypoints import _outside_installation
     _outside_installation(config.local_data_root)
     with ExitStack() as stack:
-        for role in ('control','research','runtime','cloud'):
+        for role in PROCESS_ROLES:
             stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
         if load_config(config_path)!=config or require_valid_restoration(config)['status']!='NOT_RESTORED':
             raise ValueError('Unchanged non-restored FIXTURE profile required')

@@ -10,6 +10,21 @@ from tests.application.test_platform import require
 
 
 class OwnedProcessTreeTests(unittest.TestCase):
+    def test_service_tree_has_no_job_deadline_and_membership_excludes_unrelated_pid(self):
+        import os
+        module=require(self,'application.platform.processes')
+        self.assertTrue(hasattr(module,'spawn_owned_service'))
+        handle=module.spawn_owned_service([sys.executable,'-c','import time;time.sleep(120)'],cwd=Path.cwd())
+        self.addCleanup(lambda:module.terminate_owned(handle,deadline_seconds=5))
+        self.assertIsNone(handle._timer)
+        self.assertIsNone(handle.limits.timeout_seconds)
+        self.assertTrue(module.owned_contains_pid(handle,handle.process.pid))
+        self.assertFalse(module.owned_contains_pid(handle,os.getpid()))
+        with self.assertRaises(ValueError):module.owned_contains_pid(handle,2**32+handle.process.pid)
+        report=module.terminate_owned(handle,deadline_seconds=5)
+        self.assertTrue(report.reaped)
+        self.assertFalse(module.owned_contains_pid(handle,handle.process.pid))
+
     def test_timeout_then_new_owned_tree_does_not_report_reaped_with_live_descendants(self):
         self.test_automatic_timeout_reaps_without_caller_cancellation()
         self.test_timeout_reaps_parent_child_grandchild_and_preserves_unrelated_process()

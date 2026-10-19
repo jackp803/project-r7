@@ -16,6 +16,21 @@ from application.platform.scope_lock import ScopeBusy
 
 
 class RuntimeProcessSupervisionTests(unittest.TestCase):
+    def test_coordinator_is_actual_separate_role_with_no_financial_grant_and_stop_fence(self):
+        self.assertIn('coordinator',self.module.PROCESS_ROLES)
+        from application.platform.service_stop import request_service_stop
+        with self.module.ProcessSupervisor(self.config,'coordinator',config_path=self.profile) as coordinator:
+            first=coordinator.identity
+            self.assertEqual(first['financial_authority'],'NONE')
+            self.assertEqual(first['role'],'coordinator')
+            with self.assertRaises(ScopeBusy):
+                with self.module.ProcessSupervisor(self.config,'coordinator',config_path=self.profile): pass
+            with self.assertRaises(ValueError):
+                request_service_stop(self.config,'coordinator',expected_process_generation_id='stale-token')
+            self.assertEqual(request_service_stop(self.config,'coordinator',expected_process_generation_id=first['process_generation_id'])['status'],'COOPERATIVE_STOP_REQUESTED')
+        with self.module.ProcessSupervisor(self.config,'coordinator',config_path=self.profile) as successor:
+            self.assertGreater(successor.identity['generation'],first['generation'])
+
     def setUp(self):
         self.temp = TemporaryDirectory(prefix='R7 runtime supervision ')
         self.addCleanup(self.temp.cleanup)
@@ -129,13 +144,29 @@ class RuntimeProcessSupervisionTests(unittest.TestCase):
         return {name: db.execute('SELECT * FROM ' + name + ' ORDER BY role').fetchall()
             for name in ('process_generation_counters','process_sessions','process_session_history')}
 
+    def test_runtime_0008_schema_upgrades_without_changing_rows_or_existing_receipt(self):
+        import hashlib
+        db=self.legacy_database()
+        source=Path(self.module.__file__).parents[1]/'migrations/0008_runtime_process_supervision.sql'
+        sql=source.read_text(encoding='utf-8')
+        db.executescript(sql);db.execute(self.module._SCHEMA_RECEIPT_SQL)
+        commitment='sha256:'+hashlib.sha256(sql.replace('\r\n','\n').encode()).hexdigest()
+        db.execute('INSERT INTO process_supervision_schema VALUES(?,?)',('0008_runtime_process_supervision',commitment));db.commit()
+        before=self.snapshot(db)
+        self.module._apply_supervision_schema(db)
+        self.assertEqual(before,self.snapshot(db))
+        self.assertEqual(db.execute("SELECT sha256 FROM process_supervision_schema WHERE migration='0008_runtime_process_supervision'").fetchone()[0],commitment)
+        db.execute("INSERT INTO process_generation_counters VALUES('coordinator',1)");db.commit()
+        self.module._apply_supervision_schema(db)
+        self.assertEqual(db.execute("SELECT generation FROM process_generation_counters WHERE role='coordinator'").fetchone()[0],1)
+
     def test_legacy_migration_preserves_exact_rows_history_and_counters_and_is_idempotent(self):
         db = self.legacy_database()
         before = self.snapshot(db)
         self.module._apply_supervision_schema(db)
         self.assertEqual(before, self.snapshot(db))
         receipt = db.execute('SELECT * FROM process_supervision_schema').fetchall()
-        self.assertEqual(len(receipt), 1)
+        self.assertEqual(len(receipt), 2)
         self.module._apply_supervision_schema(db)
         self.assertEqual(receipt, db.execute('SELECT * FROM process_supervision_schema').fetchall())
         self.assertEqual(before, self.snapshot(db))
@@ -232,7 +263,7 @@ class RuntimeProcessSupervisionTests(unittest.TestCase):
         source = Path(self.module.__file__).parents[1] / 'migrations'
         alternate = self.root / 'packaged/migrations'
         alternate.mkdir(parents=True)
-        for name in ('0006_process_supervision.sql','0008_runtime_process_supervision.sql'):
+        for name in ('0006_process_supervision.sql','0008_runtime_process_supervision.sql','0009_coordinator_process_supervision.sql'):
             original = (source / name).read_text(encoding='utf-8')
             (alternate / name).write_bytes(original.replace('\n','\r\n').encode('utf-8'))
         with mock.patch.object(self.module, '__file__', str(self.root / 'packaged/platform/supervision.py')):

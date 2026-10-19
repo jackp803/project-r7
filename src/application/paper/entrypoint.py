@@ -11,13 +11,16 @@ from .setup import load_fixture_paper_owners,SELECTION_FILE
 from .worker import PaperOwnerWorker
 
 
-def paper_worker(config_path,*,maximum_ticks=None):
+def paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=None):
     if maximum_ticks is not None and (type(maximum_ticks) is not int or not 1<=maximum_ticks<=10000):
         raise ValueError('Explicit bounded FIXTURE tick count required')
     config=load_config(config_path)
+    from application.platform.supervision import config_hash
+    if expected_config_hash is not None and config_hash(config)!=expected_config_hash:
+        raise ValueError('Paper child configuration changed before owner composition')
     if product_namespace(config)!='FIXTURE':
         from .ordinary_setup import ordinary_paper_worker
-        return ordinary_paper_worker(config_path,maximum_ticks=maximum_ticks)
+        return ordinary_paper_worker(config_path,maximum_ticks=maximum_ticks,expected_config_hash=expected_config_hash)
     from application.entrypoints import _outside_installation
     _outside_installation(config.local_data_root)
     if (require_valid_restoration(config)['status']!='NOT_RESTORED' or

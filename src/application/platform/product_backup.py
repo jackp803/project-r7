@@ -13,7 +13,7 @@ from application.platform.backup import (_capture_database_bundle, _inventory,
     _destination, _deadline, _profile_current, _unique_pairs, CONSISTENCY, _verify_database_backup_snapshot)
 from application.platform.private_files import create_private_directory, require_private, write_private_new, _filesystem_path
 from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
-from application.platform.supervision import _local_path, config_hash
+from application.platform.supervision import _local_path, config_hash, PROCESS_ROLES
 from application.cloud.manifest import safe_relative, parse_manifest, validate_package, scan_untrusted
 from application.cloud.protocol import PackageSnapshot
 from application.cloud.safe_files import read_bounded, _windows_native_path
@@ -373,7 +373,7 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
         inventory = _inventory(config, include_settings=True)
         _profile_current(config, config_path)
         with ExitStack() as stack:
-            for role in ('control','research','runtime','cloud'):
+            for role in PROCESS_ROLES:
                 stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id, lock_root=operational_lock_root(config)))
             restoration=_source_restoration(config)
             restored=restoration['status']=='RESTORED_INHIBITED'

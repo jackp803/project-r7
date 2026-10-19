@@ -77,9 +77,20 @@ def main(argv=None):
     worker.add_argument('--once', action='store_true')
     worker.add_argument('--job-timeout-seconds',type=int,default=900,
         help='Owned research child deadline in seconds (1..900; default 900)')
+    run_product=commands.add_parser('run-product',help='Run explicitly selected local services and schedules with one headless owner; changes no host settings')
+    run_product.add_argument('--config',type=Path,required=True)
+    run_product.add_argument('--operations-profile',type=Path,required=True)
+    run_product.add_argument('--maximum-cycles',type=int,help='Bounded verification only; omitted for normal continuous operation')
+    product_status=commands.add_parser('product-status',help='Read actual local service heartbeats without granting financial permission')
+    product_status.add_argument('--config',type=Path,required=True)
+    product_child=commands.add_parser('_product-service',help=argparse.SUPPRESS)
+    product_child.add_argument('--config',type=Path,required=True)
+    product_child.add_argument('--role',choices=('control','research','runtime'),required=True)
+    product_child.add_argument('--expected-config-hash',required=True)
     stop_service=commands.add_parser('stop-product',help='Request cooperative stop of the current local owner; does not assert flat exposure')
     stop_service.add_argument('--config',type=Path,required=True)
-    stop_service.add_argument('--role',choices=('control','research','runtime','cloud'),required=True)
+    from application.platform.supervision import PROCESS_ROLES
+    stop_service.add_argument('--role',choices=PROCESS_ROLES,required=True)
     for name, description in (('plan-services','Export an exact native Ubuntu control/research plan without installation'),
                               ('guarded-service','Start an exact native Ubuntu control/research subject under its dedicated account'),
                               ('install-services','Preview or explicitly apply bounded native Ubuntu service files'),
@@ -316,6 +327,20 @@ def main(argv=None):
         from application.config import load_config
         from application.platform.service_stop import request_service_stop
         print(json.dumps(request_service_stop(load_config(args.config),args.role)))
+        return 0
+    if args.command=='run-product':
+        from application.coordinator import run_product
+        result=run_product(args.config,args.operations_profile,maximum_cycles=args.maximum_cycles)
+        print(json.dumps(result))
+        return 0 if result['status']=='STOPPED' and result['all_owned_trees_reaped'] and all(value.get('status') not in ('RESTART_BUDGET_EXHAUSTED','FAILED','FORCED_STOP') for value in result['roles'].values()) else 2
+    if args.command=='_product-service':
+        from application.coordinator import run_selected_service
+        return run_selected_service(args.config,args.role,args.expected_config_hash)
+    if args.command=='product-status':
+        from application.config import load_config
+        from application.platform.supervision import process_health,PROCESS_ROLES
+        config=load_config(args.config)
+        print(json.dumps(dict(roles={role:process_health(config,role) for role in PROCESS_ROLES},financial_authority='NONE',exposure_status='NOT_ASSERTED')))
         return 0
     if args.command == 'research-worker':
         from application.research.worker import research_worker

@@ -14,7 +14,7 @@ from application.platform.backup import (_destination,_deadline,_profile_current
 from application.platform.paths import overlapping
 from application.platform.private_files import create_private_directory,write_private_new,require_private
 from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
-from application.platform.supervision import config_hash
+from application.platform.supervision import config_hash, PROCESS_ROLES
 from application.research.evidence import capture_provenance,stamp
 
 class RestoreError(RuntimeError):pass
@@ -117,7 +117,7 @@ def _restore_backup(config,backup,destination,*,config_path=None,timeout_seconds
         if overlapping(target,backup) or target.exists():raise RestoreError('FRESH_DISJOINT_RESTORE_GENERATION_REQUIRED')
         _profile_current(config,config_path)
         with ExitStack() as stack:
-            for role in ('control','research','runtime','cloud'):
+            for role in PROCESS_ROLES:
                 stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
             bundle=None
             database_backup=backup

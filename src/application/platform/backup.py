@@ -19,7 +19,7 @@ from application.config import ProductConfig, load_config
 from application.platform.paths import overlapping
 from application.platform.private_files import create_private_directory, require_private, write_private_new, _filesystem_path
 from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
-from application.platform.supervision import _local_path, config_hash
+from application.platform.supervision import _local_path, config_hash, PROCESS_ROLES
 from application.research.evidence import capture_provenance, stamp
 
 
@@ -169,7 +169,7 @@ def create_database_backup(config, destination, *, config_path=None, timeout_sec
         path = _destination(config, destination)
         _profile_current(config, config_path)
         with ExitStack() as stack:
-            for role in ('control', 'research', 'runtime', 'cloud'):
+            for role in PROCESS_ROLES:
                 stack.enter_context(ProcessScopeLock(role + ':' + config.product_instance_id,
                                                      lock_root=operational_lock_root(config)))
             _capture_database_bundle(config, path, inventory, end, stack, config_path=config_path)

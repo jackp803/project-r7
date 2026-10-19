@@ -58,7 +58,8 @@ def configure_ordinary_paper(config_path,selection_profile):
     from application.entrypoints import _outside_installation
     _outside_installation(config.local_data_root)
     with ExitStack() as stack:
-        for role in ('control','research','runtime','cloud'):
+        from application.platform.supervision import PROCESS_ROLES
+        for role in PROCESS_ROLES:
             stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
         if load_config(config_path)!=config or require_valid_restoration(config)['status']!='NOT_RESTORED':
             raise ValueError('Unchanged non-restored ordinary profile required')
@@ -143,7 +144,7 @@ def load_ordinary_paper_owners(config,*,clock,resolver,observation_reader=None,i
         observation_reader=observation_reader,implementation_hash=implementation_hash)
 
 
-def ordinary_paper_worker(config_path,*,maximum_ticks=None):
+def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=None):
     """Bootstrap a qualified idle independent runtime, then discover E6 starts.
 
     Unconfigured public acquisition remains NOT_CONNECTED. No synthetic events,
@@ -155,6 +156,9 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None):
     from .worker import PaperOwnerWorker
     if not getattr(sys,'frozen',False):raise ValueError('Qualified native ordinary Paper worker required')
     config_path=Path(config_path).absolute();config=load_config(config_path)
+    from application.platform.supervision import config_hash
+    if expected_config_hash is not None and config_hash(config)!=expected_config_hash:
+        raise ValueError('Ordinary Paper child configuration changed before owner composition')
     if product_namespace(config)!='LOCAL_RESEARCH' or config.diagnostic_only or not config.paper_runtime_enabled:
         raise ValueError('Explicit ordinary Paper runtime profile required')
     with open_paper_selections(config.database_path) as reader:selection=reader.current()

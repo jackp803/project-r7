@@ -28,9 +28,11 @@ def _payload(config,identity):
         action='COOPERATIVE_OWNER_STOP',financial_authority='NONE',exposure_status='NOT_ASSERTED')
 
 
-def request_service_stop(config,role):
+def request_service_stop(config,role,*,expected_process_generation_id=None):
     if role not in PROCESS_ROLES:raise ValueError('Named local process role required')
     health=process_health(config,role)
+    if expected_process_generation_id is not None and health.get('process_generation_id')!=expected_process_generation_id:
+        raise ValueError('Process changed before incarnation-fenced cooperative stop')
     if health['status']!='RECENT_HEARTBEAT':
         return dict(status='NO_CURRENT_PROCESS',role=role,financial_authority='NONE',exposure_status='NOT_ASSERTED')
     path=_request_path(config,health['process_generation_id']);raw=canonical(_payload(config,health)).encode('utf-8')

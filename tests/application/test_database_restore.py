@@ -75,6 +75,12 @@ class DatabaseRestoreTests(unittest.TestCase):
         alternate=self.root/'fresh-other'
         with self.assertRaises(module.RestoreError):module.restore_database_backup(self.config,self.backup,alternate)
         self.assertFalse(alternate.exists())
+    def test_active_coordinator_denies_restore_before_destination_changes(self):
+        self.backup_now();module=self.module()
+        from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
+        with ProcessScopeLock('coordinator:'+self.config.product_instance_id,lock_root=operational_lock_root(self.config)):
+            with self.assertRaises(module.RestoreError):module.restore_database_backup(self.config,self.backup,self.target)
+        self.assertFalse(self.target.exists())
     def test_source_backup_and_cloud_targets_are_never_overwritten(self):
         self.backup_now();module=self.module()
         for target in (self.data/'child',self.backup/'child',self.cloud/'child'):

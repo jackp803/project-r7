@@ -68,6 +68,17 @@ class RuntimeIdentityReadTests(unittest.TestCase):
             self.denied()
             self.assertEqual(self.logical_snapshot(), before)
 
+    def test_coordinator_migration_receipt_requires_complete_exact_chain(self):
+        with self.owner():
+            before=self.logical_snapshot();self.read()
+            self.change("DELETE FROM process_supervision_schema WHERE migration='0008_runtime_process_supervision'")
+            self.denied()
+
+    def test_changed_coordinator_migration_receipt_is_denied(self):
+        with self.owner():
+            self.change("UPDATE process_supervision_schema SET sha256='changed' WHERE migration='0009_coordinator_process_supervision'")
+            self.denied()
+
     def test_current_identity_is_immutable_and_read_does_not_attach_or_write(self):
         with self.owner() as owner:
             before = self.logical_snapshot()

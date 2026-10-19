@@ -129,15 +129,19 @@ def read_runtime_identity(config, *, now=None, max_age_seconds=15):
         root = Path(__file__).parents[1] / 'migrations'
         legacy = (root / '0006_process_supervision.sql').read_text(encoding='utf-8')
         additive = (root / '0008_runtime_process_supervision.sql').read_text(encoding='utf-8')
-        _, schema = _recognized_supervision_schemas(legacy, additive)
+        coordinator=(root/'0009_coordinator_process_supervision.sql').read_text(encoding='utf-8')
+        _, schema, coordinated_schema = _recognized_supervision_schemas(legacy, additive, coordinator)
         commitment = 'sha256:' + hashlib.sha256(additive.replace('\r\n', '\n').encode('utf-8')).hexdigest()
+        coordinator_commitment='sha256:'+hashlib.sha256(coordinator.replace('\r\n','\n').encode('utf-8')).hexdigest()
         with _db(path) as db:
             db.execute('PRAGMA query_only=ON')
             db.execute('BEGIN')
-            _require_supervision_schema(db, schema)
-            receipts = [tuple(row) for row in db.execute('SELECT migration,sha256 FROM process_supervision_schema')]
-            if receipts != [('0008_runtime_process_supervision', commitment)]:
-                _invalid()
+            receipts = [tuple(row) for row in db.execute('SELECT migration,sha256 FROM process_supervision_schema ORDER BY migration')]
+            expected=[('0008_runtime_process_supervision',commitment)]
+            if receipts==expected:_require_supervision_schema(db,schema)
+            elif receipts==expected+[('0009_coordinator_process_supervision',coordinator_commitment)]:
+                _require_supervision_schema(db,coordinated_schema)
+            else:_invalid()
             size = db.execute("SELECT length(CAST(identity_json AS BLOB)) FROM process_sessions WHERE role='runtime'").fetchone()
             if size is None:
                 raise RuntimeIdentityUnavailable('RUNTIME_NOT_STARTED')

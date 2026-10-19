@@ -52,6 +52,9 @@ def main(argv=None):
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
+    market_setup=commands.add_parser('configure-market-data',help='Select keyless BTC public reads while all owners are stopped; grants no Paper eligibility')
+    market_setup.add_argument('--config',type=Path,required=True)
+    market_setup.add_argument('--selection-profile',type=Path,required=True)
     public_data=commands.add_parser('acquire-public-data',help='Acquire bounded keyless OKX BTC 4H candles and realized funding; counts actual public requests')
     public_data.add_argument('--config',type=Path,required=True)
     public_data.add_argument('--dataset-id',required=True)
@@ -87,6 +90,10 @@ def main(argv=None):
     product_child.add_argument('--config',type=Path,required=True)
     product_child.add_argument('--role',choices=('control','research','runtime'),required=True)
     product_child.add_argument('--expected-config-hash',required=True)
+    market_child=commands.add_parser('_paper-market-acquire',help=argparse.SUPPRESS)
+    market_child.add_argument('--config',type=Path,required=True)
+    for name in ('runtime-token','attempt-id','request-hash','expected-config-hash','selection-hash'):
+        market_child.add_argument('--'+name,required=True)
     stop_service=commands.add_parser('stop-product',help='Request cooperative stop of the current local owner; does not assert flat exposure')
     stop_service.add_argument('--config',type=Path,required=True)
     from application.platform.supervision import PROCESS_ROLES
@@ -336,6 +343,11 @@ def main(argv=None):
     if args.command=='_product-service':
         from application.coordinator import run_selected_service
         return run_selected_service(args.config,args.role,args.expected_config_hash)
+    if args.command=='_paper-market-acquire':
+        from application.paper.public_feed import run_market_acquire
+        print(json.dumps(run_market_acquire(args.config,args.runtime_token,args.attempt_id,args.request_hash,
+            args.expected_config_hash,args.selection_hash)))
+        return 0
     if args.command=='product-status':
         from application.config import load_config
         from application.platform.supervision import process_health,PROCESS_ROLES
@@ -368,6 +380,10 @@ def main(argv=None):
     if args.command == 'configure-research':
         from application.research.setup import configure_research
         print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+        return 0
+    if args.command=='configure-market-data':
+        from application.paper.public_market import configure_market_data
+        print(json.dumps(configure_market_data(args.config,args.selection_profile)))
         return 0
     if args.command == 'prepare-fixture':
         from application.fixtures.recipe import prepare_fixture

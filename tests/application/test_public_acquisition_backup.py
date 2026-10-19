@@ -25,6 +25,16 @@ class PublicAcquisitionBackupTests(unittest.TestCase):
 
     def backup(self):return create_product_backup(self.config,self.base/'private-backup')
 
+    def test_explicit_market_selection_is_backed_up_but_transient_network_attempts_are_excluded(self):
+        from tests.application.test_public_paper_market import profile
+        (self.config.local_data_root/'public-market.json').write_text(canonical(profile()),encoding='utf-8')
+        transient=self.config.local_data_root/'public-market-observations';transient.mkdir()
+        (transient/'interrupted-attempt.json').write_bytes(b'not financial authority')
+        self.backup()
+        restore_product_backup(self.config,self.base/'private-backup',self.base/'restored')
+        self.assertEqual(json.loads((self.base/'restored/public-market.json').read_bytes()),profile())
+        self.assertFalse((self.base/'restored/public-market-observations').exists())
+
     def test_unselected_successful_public_capture_roundtrips_all_raw_receipts_and_stays_inhibited(self):
         self.assertEqual(self.acquire()['status'],'DATASET_ACQUIRED')
         before={p.relative_to(self.config.local_data_root).as_posix():p.read_bytes() for p in self.capture.rglob('*') if p.is_file()}

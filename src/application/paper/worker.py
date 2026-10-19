@@ -101,6 +101,12 @@ class PaperOwnerWorker:
                 raise PaperWorkerError('PAPER_RUN_NOT_ATTACHED')
             return scheduler.submit_event(event)
 
+    def market_subscriptions(self):
+        self._require_owner()
+        from .public_market import subscription
+        return tuple(value for scheduler in self._schedulers.values() if (value:=subscription(
+            scheduler.runtime,self.namespace,self.supervisor.identity['process_generation_id'])) is not None)
+
     def _discover(self):
         # One bounded page per tick; repeated sweeps find starts made by the API
         # without a second owner or a long read transaction. Historical PAPER

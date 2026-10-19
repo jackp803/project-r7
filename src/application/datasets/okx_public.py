@@ -57,14 +57,20 @@ class PublicTransport:
         self.minimum_interval=minimum_interval;self.attempts=0;self.responses=0
         self.started=time.monotonic();self.previous=None
 
-    def get(self,path,params):
+    def _parameters(self,path,params):
         required={'instId','after','limit'}|({'bar'} if path==HISTORY else set())
         if path not in (HISTORY,FUNDING) or not isinstance(params,dict) or set(params)!=required:
             raise ValueError('Fixed public read-only parameters required')
         if params['instId']!=INSTRUMENT or params['limit']!='100' or (path==HISTORY and params['bar']!='4H'):
             raise ValueError('Only selected BTC 4H public data is supported')
         timestamp(params['after'])
-        if self.attempts>=64 or time.monotonic()-self.started>=300: fail('PUBLIC_REQUEST_BUDGET_EXHAUSTED')
+
+    request_budget=64
+    deadline_seconds=300
+
+    def get(self,path,params):
+        self._parameters(path,params)
+        if self.attempts>=self.request_budget or time.monotonic()-self.started>=self.deadline_seconds: fail('PUBLIC_REQUEST_BUDGET_EXHAUSTED')
         if self.previous is not None:
             time.sleep(max(0,self.minimum_interval-(time.monotonic()-self.previous)))
         sequence=f'requests/{self.attempts+1:03d}'

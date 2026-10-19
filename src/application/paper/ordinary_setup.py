@@ -147,8 +147,9 @@ def load_ordinary_paper_owners(config,*,clock,resolver,observation_reader=None,i
 def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=None):
     """Bootstrap a qualified idle independent runtime, then discover E6 starts.
 
-    Unconfigured public acquisition remains NOT_CONNECTED. No synthetic events,
-    elapsed time, real data access or workflow authorization are manufactured.
+    Explicit keyless public reads run in an owned acquisition child. An absent
+    market selection remains NOT_CONNECTED; software/financial gates still own
+    every start and fill. No synthetic events or elapsed time are manufactured.
     """
     import json
     import sys
@@ -186,17 +187,36 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
             if selected is None:raise ValueError('Actual ordinary Paper composition required')
             with selected.owners.service() as service:yield service
     worker=PaperOwnerWorker(config,actual_service,namespace='LOCAL_RESEARCH',config_path=config_path,feedback_on_quiescence=True)
-    with ManagedStop() as stop,worker:
+    from contextlib import ExitStack
+    from .public_market import load_market_profile
+    from .public_feed import PublicMarketFeed
+    from .public_acquisition import event_for
+    from datetime import datetime,timezone
+    market=dict(market_source='NOT_CONNECTED',provider_requests=0,provider_responses=0,request_accounting='COMPLETE',credentials='NONE',provider_mutation=0)
+    with ManagedStop() as stop,worker,ExitStack() as acquisition:
+        feed=None
+        if load_market_profile(config) is not None:
+            feed=acquisition.enter_context(PublicMarketFeed(config,config_path,worker.supervisor.identity['process_generation_id']))
         from application.platform.service_stop import observe_service_stop
-        tick=0
+        tick=0;market_rejections=0
         while not stop.requested:
             if observe_service_stop(worker.supervisor,stop):break
             worker.tick();tick+=1
+            if feed is not None:
+                subscriptions=worker.market_subscriptions();feed.update(subscriptions)
+                result=feed.take()
+                if result is not None:
+                    for subscription in subscriptions:
+                        try:
+                            event=event_for(subscription,result,now=datetime.now(timezone.utc))
+                            if event is not None:worker.submit_event(subscription.run_id,event)
+                        except (ValueError,RuntimeError,TypeError,KeyError):market_rejections+=1
             if maximum_ticks is not None and tick>=maximum_ticks:break
             stop.wait(1)
         final=worker.snapshot()
+    if feed is not None:market=feed.summary()
     print(json.dumps(dict(status='STOPPED',namespace='LOCAL_RESEARCH',mode='REAL_TIME',
-        market_source='NOT_CONNECTED',process_generation=final['process_generation'],
-        run_failures=final['run_failures'],financial_authority='NONE',provider_requests=0,credentials='NONE',
+        **market,market_event_rejections=market_rejections,process_generation=final['process_generation'],
+        run_failures=final['run_failures'],financial_authority='NONE',
         capital='NONE',real_forward_qualification='NOT_ISSUED')))
     return 0 if not final['run_failures'] else 2

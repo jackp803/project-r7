@@ -1,0 +1,31 @@
+E
+======================================================================
+ERROR: test_helper_dependency_copy_at_owning_qualification_depth (tests.application.test_paper_publication_driver.PaperPublicationDriverTests.test_helper_dependency_copy_at_owning_qualification_depth)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_publication_driver.py", line 316, in test_helper_dependency_copy_at_owning_qualification_depth
+    helper = self.flow._build_helper()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tools\verify_paper_publication.py", line 350, in _build_helper
+    owned = spawn_owned(argv,cwd=self.output,limits=ResourceLimits(900),stdout=stream,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_paper_publication_driver.py", line 308, in compile_copy
+    shutil.copyfile(dependency_source, dependency)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 262, in copyfile
+    with open(dst, 'wb') as fdst:
+         ^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\AppData\\Local\\Temp\\R7 publication driver bq7g_oti\\scope\\owning\\qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq\\data\\worker-logs\\fixture-helper-build\\dist\\R7FixtureCopy\\_internal\\pyarrow.libs\\msvcp140-d448dcabdad98c14abc6ff2741df95cd.dll'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.137s
+
+FAILED (errors=1)

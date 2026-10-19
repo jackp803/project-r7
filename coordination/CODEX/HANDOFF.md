@@ -1,3 +1,33 @@
+# Owning-depth publication helper repair - 2026-10-19
+
+Same Master task/implementation branch; no previous evidence discarded.
+Exact b53ad6d built and ran full owning:154source commands/2428case executions
+PASS with0failures/errors/skips; native02-06 PASS; groups6/7. Native07 actual
+reports/local staging succeeded, then PyInstaller COLLECT failed copying its
+helper dependency to a267-character ordinary Windows path. Software NOT_QUALIFIED.
+All owned trees reaped and guarded source/package unchanged.2056actual owned-tree
+resource samples: peakRSS954613760/private605581312bytes; minimumhostavailable
+4293382144bytes. Observed current host only, not target24GB/maxcapacity.
+
+Minimal development helper workspace changed to private OUTPUT/h; no dependency,
+resource, provenance, deadline or OS setting changes. Actual shutil.copyfile at
+owning-depth regression RED1FileNotFoundError, then16driver+2inventory checks PASS.
+Independent review0Critical/0Important, executionNONE. New frozen inventory
+7groups/160commands/2429source-case executions/296files.517sanitized artifacts
+and supplemental verification retained with original/retained hashes at
+status/codex/productization/S12/current-windows-b53ad6d-failed/.
+
+Next new exact-clean native build; actual native07 preflight at identical owning
+depth; fresh complete owning run and final native software readback. Only after
+actual complete receipt: fresh ZIP install, headless recovery, unattended diagnostic,
+ordinary coordinator idle runtime, qualified backup/restore, semantic66+150 records.
+Prior successes remain scoped to their subjects; no receipt stitching.
+Public8requests/8responses cumulative, additional0/private0/credentialsNONE/
+mutation0/capitalNONE/GitHubcomputeNOT_USED. Policies/forward/oldPC/Ubuntu/cloud
+remain distinct. No main merge. Master IN_PROGRESS.
+
+---
+
 # Source inventory platform applicability - 2026-10-19
 
 Same task/branch. dffb0a3 exact-clean native build PASS, full owning NOT_STARTED.

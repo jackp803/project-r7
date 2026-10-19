@@ -4,6 +4,7 @@ import importlib
 import io
 import json
 from pathlib import Path
+import shutil
 import sqlite3
 import sys
 from tempfile import TemporaryDirectory
@@ -266,7 +267,7 @@ class PaperPublicationDriverTests(unittest.TestCase):
         self.assertNotIn('--clean', argv)
         self.assertIn('--onedir', argv)
         self.assertLessEqual(options['limits'].timeout_seconds, 900)
-        build_home=self.flow.data/'worker-logs/fixture-helper-build/home'
+        build_home=self.flow.output/'h/home'
         self.assertEqual(options['env'].get('USERPROFILE'),str(build_home))
         self.assertTrue(build_home.is_dir())
         self.assertEqual(options['env'].get('PYINSTALLER_CONFIG_DIR'),str(build_home/'pyinstaller-cache'))
@@ -284,6 +285,37 @@ class PaperPublicationDriverTests(unittest.TestCase):
         dependency.write_bytes(b'replaced runtime')
         self.assertEqual(self.module.sha(self.flow.helper.read_bytes()),self.flow.helper_hash)
         with self.assertRaises(ValueError):self.flow._require_helper()
+
+    def test_helper_dependency_copy_at_owning_qualification_depth(self):
+        # Reproduce the ordinary copy operation that failed inside PyInstaller's
+        # COLLECT step. Only the compiler process is substituted in this test.
+        output = self.output / 'owning' / ('q' * (144-len(str(self.output))-8))
+        create_private_directory(output.parent)
+        create_private_directory(output)
+        self.flow.output = output
+        self.flow.data = output / 'data'
+        create_private_directory(self.flow.data)
+        self.flow.env = {}
+        self.flow._build_python = Mock(return_value=Path(sys.executable))
+        dependency_source = self.output / 'synthetic-library.dll'
+        write_private_new(dependency_source, b'SYNTHETIC_DEPENDENCY_BYTES_NOT_EXECUTED')
+
+        def compile_copy(argv, **kwargs):
+            destination = Path(argv[argv.index('--distpath')+1]) / 'R7FixtureCopy'
+            libraries = destination / '_internal' / 'pyarrow.libs'
+            libraries.mkdir(parents=True)
+            dependency = libraries / 'msvcp140-d448dcabdad98c14abc6ff2741df95cd.dll'
+            shutil.copyfile(dependency_source, dependency)
+            self.assertEqual(dependency.read_bytes(), dependency_source.read_bytes())
+            launcher = 'R7FixtureCopy.exe' if self.module.os.name == 'nt' else 'R7FixtureCopy'
+            write_private_new(destination / launcher, b'SYNTHETIC_LAUNCHER_NOT_EXECUTED')
+            return SimpleNamespace(wait=lambda:0, termination_report=SimpleNamespace(reaped=True))
+
+        with patch.object(self.module, 'spawn_owned', side_effect=compile_copy), patch.object(
+                self.module, 'terminate_owned', return_value=SimpleNamespace(reaped=True)):
+            helper = self.flow._build_helper()
+        self.assertTrue(helper.is_file())
+        self.flow._require_helper()
 
 
 if __name__ == '__main__':

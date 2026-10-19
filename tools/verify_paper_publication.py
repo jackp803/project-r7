@@ -322,7 +322,9 @@ class NativePublicationFlow(PublicFixture):
         return ROOT.parents[1]/'toolchains/py312-native-build/Scripts/python.exe'
 
     def _build_helper(self):
-        base = self.data/'worker-logs/fixture-helper-build'
+        # PyInstaller's COLLECT uses ordinary Windows file copies. Keep its
+        # private tree shallow enough for dependency filenames at owning depth.
+        base = self.output/'h'
         if base.exists():
             raise ValueError('Fresh native helper build output required')
         self._private_directory(base)

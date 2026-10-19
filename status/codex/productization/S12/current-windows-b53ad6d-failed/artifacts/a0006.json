@@ -1,0 +1,20 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only the uncommitted helper-build depth change and corresponding publication-driver test delta.",
+  "inspected_sources": {
+    "tools/verify_paper_publication.py": "5aed52787a9ba10e80cac42b096fa838451b50f1047e2d0ab57f9bd855c100b7",
+    "tests/application/test_paper_publication_driver.py": "d257931b829ebe42a0ef9c04655fa14b770013d8cf9a866318510fb970c43de3"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "static_checks": [
+    "The only execution-path change moves the compiler's private build base from data/worker-logs/fixture-helper-build to output/h. It remains a strict descendant of the existing private output root and still uses _private_directory's local-path and owner-private checks. Existing output refusal is unchanged.",
+    "Home, cache, dist, work and spec paths remain under the same protected build base. The 900-second owned compiler limit, finally cleanup, reaping requirement and source-before/after hash check are unchanged.",
+    "The returned helper path and recorded output-relative executable reference derive from the new base. Launcher hash, complete onedir inventory and pre/post-copy dependency verification remain in force; no identity or acceptance assertion is removed.",
+    "The new regression substitutes compiler process creation while performing the real ordinary shutil.copyfile to the representative dependency basename at owning output depth, verifies copied bytes and invokes the real helper inventory guard. Synthetic DLL and launcher bytes are explicitly not executed. The existing test now expects the relocated compiler home/cache.",
+    "The driver-contract test module explicitly states that mocked compiler execution does not establish native qualification. No product policy, lifecycle, financial threshold or qualification deadline changes are present in this delta."
+  ],
+  "limits": "No tests, PyInstaller, native process, qualification, active evidence, private material, provider or network were executed or inspected. The copy regression targets the observed representative owning depth rather than proving arbitrary Windows path depths or a complete PyInstaller build. Root-reported RED/GREEN results and the superseded b53 run remain separate evidence; a new exact-subject full qualification is not asserted by this review."
+}

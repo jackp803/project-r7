@@ -3845,7 +3845,7 @@
       "REAL_CLOUD_DATASET_FORWARD_NOT_COMMISSIONED"
     ]
   },
-  "updated_at": "2026-10-19T09:43:27.315311+00:00",
+  "updated_at": "2026-10-19T15:37:25.963270+00:00",
   "current_windows_checkpoint_20261019": {
     "status": "IN_PROGRESS",
     "evidence_ref": "status/codex/productization/S12/public-readonly-c62b11a/disposition.json",
@@ -3874,11 +3874,11 @@
     "public_market_evidence_ref": "status/codex/productization/S12/public-market-source-493805c/disposition.json",
     "protection_recovery": "SOURCE_PASS;NATIVE_PENDING",
     "protection_recovery_evidence_ref": "status/codex/productization/S12/protection-recovery-source-1cb57aa/disposition.json",
-    "last_built_candidate": "f6f9fb4e0792812fb235ad7b6c1eda2c6d6d9d66",
-    "native_completion_evidence_ref": "status/codex/productization/S12/current-windows-f6f9fb4-failed/disposition.json",
+    "last_built_candidate": "b53ad6dcfd04966da82322e94fbe06d60fcea568",
+    "native_completion_evidence_ref": "status/codex/productization/S12/current-windows-b53ad6d-failed/disposition.json",
     "native06": "SCOPED_ACTUAL_PASS",
     "headless_native_evidence_ref": "status/codex/productization/S12/native-completion-5904adf/disposition.json",
-    "owning_pqr": "F6F9FB4_FAIL_NATIVE04_SNAPSHOT_LONG_PATH;SOURCE_ALL2422_PASS;GROUPS3_OF7",
+    "owning_pqr": "B53AD6D_FAIL_NATIVE07_HELPER_PATH;SOURCE_ALL2428_PASS;GROUPS6_OF7",
     "native05": "SCOPED_ACTUAL_PASS_AT_F6F3338_NINE_FAULTS_AND_RESEARCH_ISOLATION",
     "native05_evidence_ref": "status/codex/productization/S12/native-completion-f6f3338/disposition.json",
     "ordinary_recovery_backup": "FOCUSED_SOURCE147_CHECKS_PASS;NEW_NATIVE_QUALIFICATION_PENDING",
@@ -3893,7 +3893,7 @@
       "other_native_aggregate_limit_seconds": 1200,
       "individual_native_health_resource_protection_stop_limits": "UNCHANGED"
     },
-    "native07": "SCOPED_ACTUAL_PASS_AT_F6F9FB4;NOT_FULL_OWNING",
+    "native07": "FAILED_IN_COMPLETE_OWNING_HELPER_COLLECT;NEW_SOURCE_REPAIR_PENDING",
     "native07_evidence_ref": "status/codex/productization/S12/current-windows-f6f9fb4-failed/disposition.json",
     "snapshot_command_repair": "SOURCE30_PASS;NATIVE_PENDING",
     "snapshot_command_repair_evidence_ref": "status/codex/productization/S12/snapshot-command-repair-20261019/disposition.json"
@@ -3944,21 +3944,77 @@
       "native_build": "PASS",
       "full_qualification": "NOT_STARTED",
       "reason": "Removed platform skips before any full owning run; same production repair"
+    },
+    "b53_actual_owning_observation": {
+      "source_all": "PASS154_COMMANDS2428_CASE_EXECUTIONS",
+      "native02_06": "PASS",
+      "full_software": "NOT_QUALIFIED",
+      "memory_observation": "2056_SAMPLES;NO_CUMULATIVE_PARENT_GROWTH_OBSERVED;NOT_MAX_CAPACITY",
+      "evidence_ref": "status/codex/productization/S12/current-windows-b53ad6d-failed/disposition.json"
     }
   },
   "current_windows_checkpoint": {
-    "executable_revision": "c3f4f2a71d4203d3ceb12796570ebc9958a63323",
-    "implementation_hash": "sha256:425e6df3cd8ee9912bb985c4d07627a5050746671e273de15eac7f6e0921988b",
-    "build_hash": "sha256:d746274e0c7b8e9d61884abaf81447ab00a16f604a4aa22410acf897cfa43e22",
+    "executable_revision": "b53ad6dcfd04966da82322e94fbe06d60fcea568",
+    "implementation_hash": "sha256:9d7578d213e769b8ac90f6a70cbdc810f1eaa241ef4290111b9beb8d9f8f4fcc",
+    "build_hash": "sha256:d4823fc11964b3a7a6f69790493419ee2d95c04649efb9381767ccc2407b00df",
     "build": "PASS",
-    "scoped_native04": "PASS7_OF7",
-    "portable": "PASS1107_FILES8_SCENARIOS9_COMMANDS",
-    "archive_sha256": "83c012438a0cd2c24fe9f131295dafbc1cb939526883bc5861c631c740c742d1",
-    "headless": "PASS_START_STOP_DUPLICATE_CONTROL_CRASH_COORDINATOR_CRASH_RECOVERY",
     "owning_software": "NOT_QUALIFIED",
-    "owning_first": "105_SOURCE_COMMANDS_PASS;SOURCE106_ERRORS2_AFTER_LID_STANDBY",
-    "owning_retry01": "150_SOURCE_COMMANDS_PASS;SOURCE151_ERRORS10_ACTUAL_RESEARCH_MEMORY_PRESSURE",
-    "backup_unattended_current": "NOT_RUN_REQUIRES_COMPLETE_OWNING_RECEIPT",
-    "evidence_ref": "status/codex/productization/S12/c3-interim-and-ctypes-repair-20261019/disposition.json"
+    "source_commands_passed": 154,
+    "source_case_executions": 2428,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "owning_groups_completed": 6,
+    "owning_groups_required": 7,
+    "native02_06": "PASS",
+    "native07": "FAIL_HELPER_COLLECT_WINDOWS_MAX_PATH_267_CHARS",
+    "receipt_ref": "qualification-ff89bc840ca78197eb3116f779e4bb2139267018ae475a43b6bfe98bb1d13188",
+    "all_owned_trees_reaped": true,
+    "source_and_package_unchanged": true,
+    "peak_observed_owned_rss_bytes": 954613760,
+    "peak_observed_owned_private_bytes": 605581312,
+    "minimum_observed_host_available_bytes": 4293382144,
+    "resource_samples": 2056,
+    "portable_headless_unattended_idle_backup": "NOT_RUN_FOR_B53;REQUIRE_COMPLETE_OWNING_RECEIPT",
+    "evidence_ref": "status/codex/productization/S12/current-windows-b53ad6d-failed/disposition.json"
+  },
+  "current_windows_checkpoint_history": [
+    {
+      "executable_revision": "c3f4f2a71d4203d3ceb12796570ebc9958a63323",
+      "implementation_hash": "sha256:425e6df3cd8ee9912bb985c4d07627a5050746671e273de15eac7f6e0921988b",
+      "build_hash": "sha256:d746274e0c7b8e9d61884abaf81447ab00a16f604a4aa22410acf897cfa43e22",
+      "build": "PASS",
+      "scoped_native04": "PASS7_OF7",
+      "portable": "PASS1107_FILES8_SCENARIOS9_COMMANDS",
+      "archive_sha256": "83c012438a0cd2c24fe9f131295dafbc1cb939526883bc5861c631c740c742d1",
+      "headless": "PASS_START_STOP_DUPLICATE_CONTROL_CRASH_COORDINATOR_CRASH_RECOVERY",
+      "owning_software": "NOT_QUALIFIED",
+      "owning_first": "105_SOURCE_COMMANDS_PASS;SOURCE106_ERRORS2_AFTER_LID_STANDBY",
+      "owning_retry01": "150_SOURCE_COMMANDS_PASS;SOURCE151_ERRORS10_ACTUAL_RESEARCH_MEMORY_PRESSURE",
+      "backup_unattended_current": "NOT_RUN_REQUIRES_COMPLETE_OWNING_RECEIPT",
+      "evidence_ref": "status/codex/productization/S12/c3-interim-and-ctypes-repair-20261019/disposition.json"
+    }
+  ],
+  "windows_qualification_helper_path_repair": {
+    "status": "SOURCE_VERIFIED_NEW_EXACT_CANDIDATE_PENDING",
+    "source": "tools/verify_paper_publication.py",
+    "old_workspace": "DATA/worker-logs/fixture-helper-build",
+    "workspace": "OUTPUT/h",
+    "regression": "tests/application/test_paper_publication_driver.py",
+    "actual_copy_red_errors": 1,
+    "green_and_inventory_checks": 18,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "independent_review": "0_CRITICAL_0_IMPORTANT;EXECUTION_NONE",
+    "evidence_ref": "status/codex/productization/S12/current-windows-b53ad6d-failed/disposition.json",
+    "source_inventory": {
+      "groups": 7,
+      "commands": 160,
+      "source_commands": 154,
+      "source_case_executions": 2429,
+      "source_files": 296
+    },
+    "next": "NEW_EXACT_BUILD;ACTUAL_NATIVE07_AT_OWNING_DEPTH;COMPLETE_OWNING;PORTABLE_HEADLESS_UNATTENDED_IDLE_BACKUP"
   }
 }

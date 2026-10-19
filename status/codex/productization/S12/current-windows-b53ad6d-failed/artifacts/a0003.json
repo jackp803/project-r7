@@ -1,0 +1,26 @@
+{
+  "schema_version": "r7-owning-memory-observer-final2-static-review-v1",
+  "execution": "NONE",
+  "helper": "run_owning_with_memory.py",
+  "helper_sha256": "sha256:8a2694577ba0c89263ed081bbff2bc9faae9a67b07e7445dc8a31c919c4f909c",
+  "critical": 0,
+  "important": 0,
+  "disposition": "NO_REMAINING_CRITICAL_OR_IMPORTANT_FINDINGS_IN_BOUNDED_STATIC_REPAIR_REVIEW",
+  "verified_repairs": [
+    "Transient descendant exit remains an explicitly incomplete sample and retries while the exact owning root remains alive.",
+    "Monitor join is isolated from owned termination; an unstarted thread is not joined, join exceptions are typed, and a surviving daemon records MONITOR_CLEANUP failure.",
+    "Final exit0 explicitly requires monitor_stopped as well as actual wrapper code0, owning_passed exactlyTrue, actual tree reaping, source/wrapper guards, valid measurements and no top-level errors.",
+    "Final metrics and serialization use list(samples) snapshot; per-sample dictionaries are constructed once and appended, not subsequently mutated by the monitor.",
+    "Missing/failed measurements yield null extrema and cannot establish observer success. Missing owning checkpoint and independent retention/guard failures remain typed negative outcomes.",
+    "Process ownership remains the existing finite kernel job API. No arbitrary PID termination, breakaway flag, production threshold change, receipt mutation or substituted qualification result is introduced."
+  ],
+  "preserved_limits": [
+    "This is a sampled diagnostic observer, not memory enforcement or continuous maximum-load proof. Aggregate working sets can double-count shared pages, and2second sampling can miss spikes.",
+    "The10800second outer deadline is operational containment and must be distinguished from native research timeout/capacity evidence if reached.",
+    "An observer success is not independent qualification authority. The unchanged full actual owning producer and its typed receipt remain the sole qualification evidence.",
+    "This static review does not establish Windows nested-job runtime compatibility, complete sample coverage, current qualification PASS, or any resource leak root cause.",
+    "No helper execution, compilation, test/native/build/network run, active evidence read, process inspection, private runtime access or source/Git mutation was performed."
+  ],
+  "source_changes": false,
+  "qualification_claims_created": 0
+}

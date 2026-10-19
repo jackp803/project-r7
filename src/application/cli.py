@@ -189,7 +189,9 @@ def main(argv=None):
         from application.datasets.catalog import utc
         from application.datasets.okx_public import acquire_okx_public_dataset
         from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
+        from application.entrypoints import _outside_installation
         config=load_config(args.config);safe_component(args.dataset_id)
+        _outside_installation(config.local_data_root)
         if product_namespace(config)!='LOCAL_RESEARCH': raise ValueError('Public data acquisition requires explicit LOCAL_RESEARCH config')
         with ProcessScopeLock('public-data:'+config.product_instance_id,lock_root=operational_lock_root(config)):
             result=acquire_okx_public_dataset(config.local_data_root/'datasets'/args.dataset_id,start=utc(args.start),end=utc(args.end))

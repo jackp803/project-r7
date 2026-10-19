@@ -161,3 +161,18 @@ class PublicDatasetTests(unittest.TestCase):
         with self.assertRaises(SystemExit),redirect_stdout(io.StringIO()),redirect_stderr(io.StringIO()):
             cli.main(['acquire-public-data','--config',str(config),'--dataset-id','bounded-btc',
                       '--start','2026-10-01T00:00:00Z','--end','2026-10-03T00:00:00Z','--api-key','FORBIDDEN'])
+
+    def test_edited_profile_cannot_write_public_dataset_inside_installation(self):
+        from application import cli
+        from contextlib import redirect_stdout
+        from unittest.mock import patch
+        config=self.root.parent/'config.json'
+        with redirect_stdout(io.StringIO()):
+            cli.main(['init-profile','--config',str(config),'--data-root',str(self.root),'--instance-id','public-installation-test'])
+        before=list(self.root.parent.rglob('*'))
+        with patch('application.entrypoints.installed_root',return_value=self.root), \
+             patch('application.datasets.okx_public.acquire_okx_public_dataset',return_value={'status':'DATASET_ACQUIRED'}) as acquire, \
+             self.assertRaises(ValueError):
+            cli.main(['acquire-public-data','--config',str(config),'--dataset-id','bounded-btc',
+                      '--start','2026-10-01T00:00:00Z','--end','2026-10-03T00:00:00Z'])
+        acquire.assert_not_called();self.assertEqual(before,list(self.root.parent.rglob('*')))

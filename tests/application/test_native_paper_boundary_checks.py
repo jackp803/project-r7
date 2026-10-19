@@ -29,6 +29,22 @@ class NativeBoundaryCheckTests(unittest.TestCase):
             root=Path(directory)
             with self.assertRaises(ValueError):module.run_native_boundary_checks(root/'not-created.json')
             self.assertEqual(list(root.iterdir()),[])
+
+    def test_partial_diagnostic_record_has_companion_evidence_and_no_pqr_member_claim(self):
+        from datetime import datetime,timezone
+        from storage.qualification import QualificationCheck,_payload
+        module=self.module()
+        with TemporaryDirectory() as directory:
+            root=Path(directory);_,facts,_=self.subject(root)
+            check=QualificationCheck('source-only-in-memory-check','source-unit','source.log','sha256:'+'a'*64,
+                0,True,0,0,0,0,0,0,1)
+            now=datetime.now(timezone.utc)
+            captured=module.diagnostic_receipt_input(facts,{'source_fixture':'IN_MEMORY_ONLY'},check,now,now)
+            receipt,_=_payload(**captured)
+            self.assertEqual(receipt.execution_evidence['executed_pqr_members'],[])
+            self.assertFalse(receipt.execution_evidence['qualification_complete'])
+            self.assertEqual(receipt.execution_evidence['observed_checks'][0]['log_hash'],check.log_hash)
+            self.assertFalse(list(root.iterdir()),'Source model must remain in memory, without storage or authority')
     def test_synthetic_models_exercise_real_guards_without_any_receipt_or_selection_storage(self):
         module=self.module()
         with TemporaryDirectory() as directory:

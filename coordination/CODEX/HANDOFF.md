@@ -1,3 +1,29 @@
+# Native headless recovery checkpoint - 2026-10-19
+
+Exact-clean5904adf7efae936fbe50aeaef859fc7279121ae5 built; actual native
+LOCAL_RESEARCH diagnostic coordinator PASS: duplicate owner denied, control
+crash isolated/restarted, cooperative/repeated stop, coordinator crash children
+dead before cleanup, successor generations recovered, all final stops graceful
+and every tree reaped. Real public input28files+2engineering policies copied
+and hash preserved. No new research job/Paper runtime/auth enrollment/HTTP call.
+This is current-host control+idle research daemon proof, not boot registration,
+ordinary financial policy selection, Paper-forward or old-target acceptance.
+
+Native06 actual security and actual doctor PASS; subsequent component record
+failed because its fixed composer omitted companion execution_evidence while
+supplying profile_manifest. Existing E6 rejection is correct. Minimal repair
+supplies paired nonqualifying diagnostic evidence, claims no executed PQR member;
+11source checks PASS, independent0Critical/Important executionNONE. New native
+recheck/full owning PQR still pending. Preserve earlier failures as evidence.
+
+Evidence: status/codex/productization/S12/native-completion-5904adf/.
+Additional public requests0; cumulative8requests/8responses; credentialsNONE,
+private0, capitalNONE, hosted computeNONE. No host startup/sleep/security change.
+Master IN_PROGRESS. Continue native06, native05/07, owning qualification and final
+portable clean install; policies/forward/old target/Ubuntu/cloud remain separate.
+
+---
+
 # Current Windows native completion attempt - 2026-10-19
 
 Exact-clean candidate1073343c2bbe23dc911148a0b75110fd80d3f162 built and pushed.

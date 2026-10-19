@@ -170,6 +170,19 @@ def run_native_stale_paper_check(config_path,run_id):
     return stale_paper_operation_check(load_config(config_path),run_id,facts['implementation_hash'],config_path=config_path)
 
 
+def diagnostic_receipt_input(facts,profile,check,started,finished):
+    """Paired E6 manifests for one observed diagnostic, with no PQR claim."""
+    from .qualification import PROFILE_ID
+    return dict(execution_id='native-diagnostic-'+uuid.uuid4().hex,
+        subject=QualificationSubject(namespace='LOCAL_RESEARCH',
+            **{key:facts[key] for key in ('executable_revision','implementation_hash','build_hash','platform_id')}),
+        profile_id=PROFILE_ID,profile_hash=digest(canonical(profile)),profile_manifest=profile,
+        checks=(check,),started_at=started,finished_at=finished,
+        execution_evidence=dict(schema_version='r7-native-diagnostic-evidence-v1',
+            provenance='ONE_OBSERVED_DIAGNOSTIC_NOT_PQR_QUALIFICATION',qualification_complete=False,
+            executed_pqr_members=[],observed_checks=[asdict(check)]))
+
+
 def run_native_boundary_checks(config_path):
     if not getattr(sys,'frozen',False):raise ValueError('Installed native boundary diagnostic required')
     from .release import NativePaperReleaseReader
@@ -197,10 +210,7 @@ def run_native_boundary_checks(config_path):
             denied(lambda:NativePaperReleaseReader(config,receipt_ref=missing).software_eligible(),reason='RECEIPT_MISSING')
             results.append('ACTUAL_SOFTWARE_RECEIPT_MISSING_DENIED')
             profile=fixed_profile(facts['platform_id'])
-            captured=dict(execution_id='native-diagnostic-'+uuid.uuid4().hex,subject=QualificationSubject(namespace='LOCAL_RESEARCH',
-                **{key:facts[key] for key in ('executable_revision','implementation_hash','build_hash','platform_id')}),
-                profile_id=profile['profile_id'],profile_hash=digest(canonical(profile)),profile_manifest=profile,
-                checks=(actual_check,),started_at=started,finished_at=finished)
+            captured=diagnostic_receipt_input(facts,profile,actual_check,started,finished)
             with _open_qualification_receipt_owner(config.database_path,namespace='LOCAL_RESEARCH') as owner:
                 receipt=owner._append(**captured)
                 if owner._append(**captured)!=receipt:raise RuntimeError('Actual receipt replay changed')

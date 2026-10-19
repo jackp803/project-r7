@@ -1,3 +1,25 @@
+# Public acquisition backup integration checkpoint — 2026-10-19
+
+Executable42d37331e62132eb9a040046a32a056d65304ef5, clean-source CLI:
+real existing public-data profile backup/verify/restore/rebackup/reverify PASS.
+28 actual public capture files retained byte-for-byte; complete supported bundle
+contains35 files and6 owned DBs. Source unchanged. Restore remains inhibited,
+diagnostic-only, ordinary runtime disabled and cloud disconnected. No new API
+calls: actual cumulative public requests8/responses8, private0/credentialsNONE.
+
+New typed public-capture inventory preserves raw receipts/responses and rejected
+or interrupted audit captures, without dataset/readiness inference from a
+prepared-only receipt. Unknown files, private URLs, extra fields and changed
+response commitments remain denied. Focused37 source tests PASS; bounded
+read-only review0 Critical/Important. This is not native/full PQR qualification.
+Evidence: `status/codex/productization/S12/public-backup-42d3733/`.
+
+Next: ordinary public-market producer outside protective deadlines; remaining
+native05/06/07 and full qualification; portable installed candidate on current
+Windows. Preserve all prior evidence and pending external targets.
+
+---
+
 # Headless local operations source checkpoint — 2026-10-19
 
 Executable 56f1f1d7c495fdcb705d5619faebf2abd2b321b7, exact clean source:

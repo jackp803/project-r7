@@ -1,7 +1,10 @@
-"""Repeated native file/resource checks must not retain a new ABI type per call."""
+"""Native file/resource checks keep fresh observations and bounded ABI types.
+
+Windows exercises the repaired Win32 path; other hosts exercise their actual
+platform branch without introducing skips into the owning source inventory.
+"""
 import ctypes
 import gc
-import os
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
@@ -17,7 +20,6 @@ def retained_pointer_inputs(module):
     return {kind for kind in ctypes._pointer_type_cache if getattr(kind, '__module__', None) == module}
 
 
-@unittest.skipUnless(os.name == 'nt', 'Actual Windows ABI lifetime regression')
 class WindowsCtypesLifetimeTests(unittest.TestCase):
     def test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types(self):
         with TemporaryDirectory(prefix='r7-abi-read-') as directory:

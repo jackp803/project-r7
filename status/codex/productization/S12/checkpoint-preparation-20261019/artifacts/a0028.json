@@ -1,0 +1,61 @@
+{
+  "document_kind": "PRIOR_VERIFIED_BOUNDARY_ADVISORY;NO_FRESH_SOURCE_OR_EXECUTION_REVIEW",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "subject_context": "Root reports c3f4f2a retry01 guard active; this advisory does not requalify that subject.",
+  "answer": "The previously integrated ordinary adapter separates full byte verification from protected management through a bounded native observation child and finite owner-fenced observations. No new concrete violation is demonstrated by the available prior evidence. This is not an independently refreshed proof of every current callsite.",
+  "known_call_boundaries": [
+    {
+      "ref": "src/application/paper/ordinary_setup.py -> src/application/paper/release_observation.py::check_native_once",
+      "basis": "Previously reported integrated configure/bootstrap path",
+      "meaning": "Before runtime exists, setup performs a bounded fixed native child check rather than installing an indefinitely cached source revision. This is setup admission work, not an E5 protective tick."
+    },
+    {
+      "ref": "src/application/paper/release_observation.py::observe_native_subject",
+      "basis": "Previously directly read implementation",
+      "meaning": "Frozen-only child target constructs NativePaperReleaseReader. Software mode calls software_eligible; management mode calls management_eligible plus installed facts; runtime mode additionally validates actual runtime token and selected inputs before rechecking selection/runtime/config. Expensive byte verification belongs in this child, not in a cached caller PASS."
+    },
+    {
+      "ref": "src/application/paper/release_observation.py::OwnerReleaseObservation",
+      "basis": "Previously accepted integration report from root",
+      "meaning": "Actual runtime composition binds the observation owner to the real supervisor process-generation token. Refreshed immutable observations have finite age/deadline and exact subject/owner fencing. Control defaults to consuming the read-only observation; it does not spawn a verifier or allocate a generation."
+    },
+    {
+      "ref": "src/application/paper/owners.py, src/application/paper/service.py; src/registry/operational_authority.py, src/registry/product_assessment.py, src/registry/service.py",
+      "basis": "Previously accepted trusted internal implementation_hash/capability_hash injection integration report",
+      "meaning": "Ordinary composition supplies measured source/capability commitments internally so _revision/build_capability_snapshot need not run in admission/protective owner evaluation. Full equality checks remain bound to the verified observation and original canonical subject. Legacy/FIXTURE defaults remain fresh; there is no permanent global _revision cache. Exact constructor argument spellings and every current private method are not reasserted without a fresh source read."
+    }
+  ],
+  "existing_named_regressions": [
+    {
+      "ref": "tests/application/test_native_paper_release_observation.py::NativePaperObservationTests.test_current_observation_checks_exact_owner_selection_receipt_and_start_age",
+      "assertion_scope": "Exact owner/selection/receipt and observation start-age binding."
+    },
+    {
+      "ref": "tests/application/test_native_paper_release_observation.py::NativePaperObservationTests.test_pending_stale_future_late_wrong_owner_or_subject_cannot_establish_currentness",
+      "assertion_scope": "Pending, stale, future, late or crossed-owner/subject observations cannot establish current admission."
+    },
+    {
+      "ref": "tests/application/test_native_paper_release_observation.py::NativePaperObservationTests.test_control_reader_uses_actual_generation_before_and_after_without_spawn_or_writes",
+      "assertion_scope": "Control binds actual generation before/after and consumes without child spawn or durable writes."
+    },
+    {
+      "ref": "tests/application/test_native_paper_release_observation.py::NativePaperObservationTests.test_atomic_private_publication_keeps_previous_document_visible_until_complete",
+      "assertion_scope": "Publication is atomic; readers never consume a partially written observation."
+    },
+    {
+      "ref": "tests/application/test_native_paper_release_observation.py::NativePaperObservationTests.test_fixed_native_verifier_has_no_source_execution_or_caller_argv_override",
+      "assertion_scope": "Native verifier uses a fixed command boundary, without source fallback or caller-selected argv."
+    }
+  ],
+  "additional_prior_root_report": "Actual LOCAL_RESEARCH start/ACK/protect plus receipt-loss/config-change recovery had source regressions with hot full-hash calls trapped; no test count or exact method identity is invented here. That report supports the integrated management boundary but is not independently rerun by this advisory.",
+  "PM_D1_D4_interpretation": "New entry requires a fresh exact verified subject and denies pending/stale/error/mutation. Failure to establish new admission must not abandon original exposure/protection; original-management permission remains independently bound to the accepted historical owner. A full qualification guard is development execution, not a runtime full-test call.",
+  "concrete_new_gaps_demonstrated": [],
+  "limits": [
+    "No new source, Git, private data, DB, auth or network read; no commands/tests/native execution performed.",
+    "Named observation regressions establish fencing/transport separation; by themselves they do not prove a hard upper bound for every E5 tick or disk I/O under every host fault.",
+    "No independent current-head or native PASS claim. Root's exact current guard and existing hot-hash-trap regressions remain the applicable validation evidence.",
+    "Do not turn this uncertainty into a generic new architecture/certification blocker or infer a demonstrated runtime defect."
+  ],
+  "source_changes": [],
+  "native_pass_claim": false
+}

@@ -1,3 +1,19 @@
+# Source inventory platform applicability - 2026-10-19
+
+Same task/branch. dffb0a3 exact-clean native build PASS, full owning NOT_STARTED.
+Before full execution removed Windows-only skips from new ABI regression tests:
+each now runs the actual host branch, preserving zero-skip qualification and
+leaving Ubuntu execution NOT_RUN.15checks PASS,0failures/errors/skips; bounded
+delta review0Critical/0Important. Production repair unchanged. Inventory remains
+7groups/160commands/2428source-case executions/296files.53explicit preparation,
+review, mapping and prior-build files retained with original/retained hashes at
+status/codex/productization/S12/checkpoint-preparation-20261019/.
+Next build final exact-clean candidate then complete owning execution with
+verified-owned-tree memory observer. No qualification credit from diagnostics.
+All previous successes/failures and authority boundaries remain below.
+
+---
+
 # Windows ABI lifetime repair and c3 actual checkpoint - 2026-10-19
 
 Same Master task and implementation branch. Main fetched unchanged7d1f447.

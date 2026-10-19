@@ -1,0 +1,47 @@
+{
+  "schema_version": "r7-owning-memory-observer-static-review-v1",
+  "execution": "NONE",
+  "helper": "run_owning_with_memory.py",
+  "helper_sha256": "sha256:5182df89dd84409a7855339de34359f0d71c602bbec940986f481ced4a60f1c7",
+  "critical": 0,
+  "important": 2,
+  "disposition": "REPAIR_SAMPLER_CONTINUITY_AND_FAILURE_EVIDENCE_BEFORE_USE",
+  "findings": [
+    {
+      "id": "MEM-OBS-01",
+      "severity": "Important",
+      "lines": [24,33],
+      "title": "One transient descendant exit permanently stops the whole-run sampler",
+      "detail": "MeasurementProcessExited is not exclusively root/job completion. verify_paper_isolation.py:_read_process raises it if any enumerated owned descendant exits before/during reading its counters. During normal full owning execution, short-lived command/bootstrap processes repeatedly exit. Breaking at observer line33 can stop all further observations while the qualifier parent remains alive, losing the later memory-pressure interval this helper exists to diagnose.",
+      "minimal_repair": "Treat descendant exit as a typed incomplete sample and retry while the exact owned root/job remains live. Stop only on observed root completion/job disposal. Preserve incomplete-sample reason and time, without inserting zero counters. Do not weaken sampler membership/liveness checks or reuse partial sums as complete samples.",
+      "meaningful_regression": "A controlled sampler raises MeasurementProcessExited once while root poll reports live, then returns a valid owned sample; assert monitoring continues. A root-exited observation should end monitoring. No native run needed for this source regression."
+    },
+    {
+      "id": "MEM-OBS-02",
+      "severity": "Important",
+      "lines": [40,41,42,46,47,48,54,55,56,58],
+      "title": "Failure paths can lose diagnostic closure and claim numeric zero without a measurement",
+      "detail": "Thread.start happens before the try/finally owning cleanup region. A start failure leaves the new owned job until its long timer. wait/cleanup exceptions skip all final evidence; a timeout before wrapper checkpoint exists raises at48, also skipping final sample tail/cleanup summary. Revision/wrapper mismatch similarly prevents a typed observer failure artifact. If every sample errors, max/min default0 fabricates numeric peak/minimum observations instead of saying measurement unavailable. These paths matter precisely for the failed/hung runs being diagnosed.",
+      "minimal_repair": "Establish outer owned-handle try/finally immediately after spawn; isolate monitor-stop/join and terminate/reap so one cleanup error cannot skip the other. Always attempt finite sanitized diagnostic persistence with typed errors, actual cleanup report, sample tail and measurement completeness. Check thread termination explicitly. Treat missing/invalid wrapper checkpoint as unavailable owning result and fail observer; never borrow another attempt. Use null/unavailable extrema when no valid samples exist. Only mark source/wrapper unchanged after their checks succeed; preserve guard failure as failure metadata, without any qualification credit.",
+      "meaningful_regression": "Controlled thread-start failure still calls termination. Missing wrapper checkpoint or final-guard rejection retains a failed observer artifact with samples and actual cleanup state. All-invalid samples produce measurement-unavailable and null extrema rather than zeros."
+    }
+  ],
+  "nested_job_and_security_review": [
+    "Observer calls existing spawn_owned with exact argv, explicit revision/attempt and shell-free command execution. It adds one finite10800-second outer job, kill-on-close ownership and existing below-normal process priority; no breakaway flag, CPU/memory limit, production threshold or receipt mutation is introduced.",
+    "Existing Windows owned-job API assigns the bootstrap before GO and uses kernel-scoped termination. Windows nested-job compatibility remains an actual-run property; this static review found no new incompatible job limit or cross-owner termination logic.",
+    "Sampler enumerates only this owned job, verifies process membership and stable handles, reads public numeric counters, and closes per-process handles. It does not inspect credentials/process environments or read arbitrary process memory payloads.",
+    "Observer's inherited environment is passed normally and not serialized. Output directory is private; wrapper log is sanitized. Raw wrapper output remains private and must not be included as public diagnostic evidence.",
+    "10800 seconds is an additional outer operational timeout and must be disclosed if reached; outer timeout is not a production research timeout/capacity acceptance proof."
+  ],
+  "evidence_limits": [
+    "Sum RSS can double-count shared pages; call it sampled sum of working sets, not uniquely attributable physical host usage. Sum private bytes is a separate process commitment metric.",
+    "Two-second samples can miss spikes and command transitions. Keep sample count/error count/span/gaps; peaks are sampled bounds, not continuous maxima.",
+    "Only aggregates are retained currently, so this observer can compare owned aggregate pressure with host available memory but cannot attribute growth to one descendant. Retaining bounded pid/parent_pid/created_100ns/numeric metric rows would improve diagnosis without reading private payloads; this is optional.",
+    "Owning qualification status must remain solely the actual unchanged wrapper/typed receipt result. This helper provides diagnostic observations and no substitute PASS authority."
+  ],
+  "files_read": ["run_owning_with_memory.py","run_current_checkpoint.py source excerpts","src/application/platform/processes.py owned-job lifecycle","tools/verify_paper_isolation.py WindowsOwnedProcessSampler"],
+  "active_evidence_read": false,
+  "source_changes": false,
+  "tests_or_native_runs": 0,
+  "qualification_claims_created": 0
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Test-only removal of platform skips from the three ctypes lifetime regressions.",
+  "inspected_sources": {
+    "tests/application/test_windows_ctypes_lifetime.py": "e87ef166307e0e0696c39ce46bebb604c89e34f09472395d65dd0b6b0cb84cc6"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "checks": [
+    "The Windows-only skip decorator and its unused os import are removed. All three methods remain discoverable and invoke the actual public read, stage and hardware functions on the executing host.",
+    "Changed-byte read assertions, staged-byte readback, physical/available-memory sanity checks and warm-cache cardinality checks are unchanged. No test body is replaced by a simulated success or a platform skip.",
+    "The docstring distinguishes the repaired Win32 path from other hosts' actual platform branches. It does not claim an Ubuntu run, native release acceptance or cross-platform parity.",
+    "On a POSIX host, the file/resource branch assertions are meaningful, while the absence of new Windows ABI pointer types does not demonstrate execution of the Win32 repair. Qualification attribution must remain tied to the actual recorded host."
+  ],
+  "limits": "Only the test delta was reviewed. The previously reviewed production repair was not re-audited. No tests, native code, qualification or Ubuntu execution was performed by this reviewer; root-reported test results are separate evidence. Frozen inventory regeneration and complete qualification remain outside this review."
+}

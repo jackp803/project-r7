@@ -1,0 +1,63 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only explicit qualification-attempt selection and forwarding across the nine public external tools/test. No helper/test/native/build/network execution, source/Git edits or active/private checkpoint/log/config/auth/database reads.",
+  "reviewed_files": [
+    {
+      "ref": "artifacts/current-windows-20261019/run_current_checkpoint.py",
+      "sha256": "90d47258b9da85de31c30607799bf871f79fd9ebcc577d57c14bb4ae40642243"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/verify_unattended_checkpoint.py",
+      "sha256": "d6203401dd7e25ddf2cf3beb1698747e2ffc385426096100f7ba2499c061e318"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/verify_qualified_backup_checkpoint.py",
+      "sha256": "1661dab6509bb9a712bfc8a2a0a51f1cfb66f4ca81b52c1d2ab940fc21e63b9a"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/index_current_qualification.py",
+      "sha256": "4fe517fee600b8b72d5c17c17b1d47e61562ed53399f42b1791faf69f295f2e4"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/bind_current_acceptance_records.py",
+      "sha256": "acefeca871be58b1c990d0e8305a835ccf4b0cdd7e1b9c106e58ecee296fa263"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/write_current_launch_guide.py",
+      "sha256": "95eb26b5c19d94a156fef4cbc6557ece7189b207990bd8c8d4acf0ea0530f1b1"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+      "sha256": "c6273693cb6b32a7ec10a90241c2996c7cf3b53df7ef09348bb2fb9f1bfc01a2"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/run-post-owning-checkpoint.ps1",
+      "sha256": "4a1066b7ce1046d3fcb4e656e17f8faaa2fcf00e86bb7a59b29be3c4a85bf8f4"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/test_explicit_qualification_attempt.py",
+      "sha256": "ca6d72d9587758a33f6da663eecbb9bc0f3115dc859ba52b006a62c8d202e74e"
+    }
+  ],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "findings": [],
+  "conclusions": [
+    "qualification_output validates the full40-lowercase-hex subject and explicit first/retryNN closed attempt grammar before constructing the qualification path. There is no newest-directory search, status import or automatic attempt selection.",
+    "run_current_checkpoint retains separate qualify-<short>-<attempt> and q-<short>-<attempt> roots with existing fresh-output checks; the failed first corpus is not reused or overwritten.",
+    "Unattended and backup use the selected qualifier config/checkpoint; backup's same-owning-profile/identity/receipt guards remain. Their own output roots and portable/headless/build roots remain first.",
+    "Index and binder receive the same qualification_attempt. Binder's independent rebuild_index call forwards it explicitly with emit=False, so it does not fall back to first or overwrite the emitted index.",
+    "Guide and retainer override only their qualify stage using qualification_output. Other stage roots remain fixed first paths and existing exact receipt/native/archive/source guards remain.",
+    "PowerShell validates QualificationAttempt, checks that exact prerequisite checkpoint and passes it explicitly to unattended/backup/index/binder/guide. Portable and headless calls intentionally retain first. The script does not automatically publish the retainer.",
+    "The source-only utility test distinguishes first/retry01 and rejects traversal, absolute, malformed and unrecognized attempts and a partial revision. It does not inspect actual attempts or import a passing result."
+  ],
+  "operational_note": "Any later manual retainer invocation must explicitly pass retry01 for this retry. Omission deliberately selects first and fails its prerequisite; it must not silently choose a different execution.",
+  "limitations": [
+    "Parent-reported standby failure, isolated rerun and active retry are context only; no actual evidence was inspected or qualification credit issued.",
+    "The active retry remains IN_PROGRESS for this review; failed first results remain failed and cannot be merged with retry subsets.",
+    "This is a forwarding/path delta review, not a renewed whole-helper, native, financial-authority or Master acceptance audit."
+  ]
+}

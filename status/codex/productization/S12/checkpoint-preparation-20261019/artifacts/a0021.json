@@ -1,0 +1,3460 @@
+{
+  "schema_version": "r7-acceptance-research-expanded-source-map-v1",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "status": "DRAFT_NAMED_ASSERTION_MAPPING_ONLY;NO_ACCEPTANCE_RESULT",
+  "input_draft_ref": "artifacts/current-windows-20261019/acceptance-v02-draft.json",
+  "input_draft_sha256": "sha256:12ef52b4835a7cf7e80dfbd99cd9ffbaa64764eb4920d062598d1e9afb087177",
+  "guard_state_at_assignment": "FullPQR f6f9fb4 in progress, frozen inputs; no current full PASS inferred; source untouched.",
+  "methodology": "Read actual current test assertion bodies and directly relevant implementation functions. Case catalog records complete assert/fail call coordinates and expressions, with clause-specific scope summaries. No tests/build/native/network/DB/evidence execution; no generated _fixed_inventory.py read. Root will later bind actual case instances.",
+  "counts": {
+    "requirements": 11,
+    "clauses": 47,
+    "unique_named_cases": 71,
+    "assertion_call_coordinates": 313,
+    "requirements_with_explicit_bounded_gaps": 6,
+    "acceptance_pass_claims": 0
+  },
+  "requirements": [
+    {
+      "requirement_id": "DATA-01",
+      "requirement_text": "Logical candle hash and Parquet byte hash both validated; no missing bars/funding manufactured",
+      "owner_step": "S06",
+      "required_evidence": "data_integrity_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "DATA-01.1",
+          "clause": "Validate physical Parquet bytes independently from logical candle hash",
+          "case_ids": [
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_container_encoding_changes_byte_identity_but_preserves_logical_identity",
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_changed_container_cannot_reuse_prior_manifest_or_mutate_resolved_input",
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_logical_hash_is_verified_independently_of_container_hash"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Encoding variants keep logical hash equal while manifest/container hashes differ; byte mutation raises CONTAINER_HASH_MISMATCH; wrong logical hash raises LOGICAL_HASH_MISMATCH.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "DATA-01.2",
+          "clause": "Never fabricate missing, duplicate or unfinished candles or missing arrival times",
+          "case_ids": [
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_gap_duplicate_unclosed_and_missing_arrival_fail_before_e2",
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_late_receipt_and_missing_recorded_funding_coverage_are_not_silently_repaired"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Four named subtests reject gap/duplicate/unclosed/arrival defects; late receipt raises DATA_OUTSIDE_INFORMATION_CUTOFF.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "DATA-01.3",
+          "clause": "Missing or incomplete recorded funding remains explicit, not factual zero",
+          "case_ids": [
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_missing_funding_is_explicit_blocker_never_factual_zero",
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_late_receipt_and_missing_recorded_funding_coverage_are_not_silently_repaired",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_missing_funding_blocks_replay_without_inventing_zero_cost"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "MISSING mode gives promotion_data_ready false/reason MISSING_FUNDING/funding_model None; insufficient recorded coverage raises MISSING_FUNDING_COVERAGE; pipeline backtest None/sealed OOS NOT_RUN.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "DATA-01.4",
+          "clause": "Validate typed numeric containers/units before using records",
+          "case_ids": [
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_parquet_numeric_schema_and_oversized_row_group_fail_before_record_decode",
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_wrong_units_unknown_fields_and_path_escape_rejected"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Float price schema and oversized row group produce specific errors; wrong units, untrusted PASS field and escape path reject.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [],
+      "interpretation_notes": [
+        "The gap test calls DatasetResolver directly and asserts errors; its name alone does not spy on E2 invocation. Resolver source has no E2 entrypoint, so no actual E2 execution credit is claimed.",
+        "Controlled data fixtures do not establish commissioning quality of all real datasets. Prior public capture evidence is neither read nor transferred here."
+      ],
+      "prior_representative_cases": [
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_container_encoding_changes_byte_identity_but_preserves_logical_identity"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/application/datasets/resolver.py",
+          "symbol": "_resolve",
+          "line": 114,
+          "end_line": 176,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/application/datasets/catalog.py",
+          "symbol": "load",
+          "line": 69,
+          "end_line": 116,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "DATA-02",
+      "requirement_text": "Chronological split/warmup/purge/embargo and threshold units bound before computation",
+      "owner_step": "S06",
+      "required_evidence": "leakage_negative_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "DATA-02.1",
+          "clause": "Freeze chronological training/development/sealed OOS split before caller can mutate it",
+          "case_ids": [
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Mutating original development end does not alter frozen split; development end/sealed start/warmup start/entry limits/sealed flag/policy hash asserted.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "DATA-02.2",
+          "clause": "Bind feature-only warmup, bounded purge horizon and explicit embargo",
+          "case_ids": [
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup",
+            "tests.application.test_dataset_binding.DatasetBindingTests.test_overlap_unbounded_horizon_and_unspecified_embargo_block_protocol"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Fixture exact entry_start/entry_end and warmup_start asserted; overlap, missing max_holding horizon and omitted embargo reject.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "DATA-02.3",
+          "clause": "Bind threshold/cost units and finite values before replay",
+          "case_ids": [
+            "tests.validation.test_robustness_v02.RobustnessTests.test_legacy_validation_policy_receives_drawdown_amount_with_explicit_equity",
+            "tests.validation.test_robustness_v02.RobustnessTests.test_public_versioned_policy_schemas_are_strict_and_match_runtime_profiles",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_wrong_fee_units_and_nonfinite_costs_block_before_replay",
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_immutable_risk_adapter_reuses_e5_and_rejects_wrong_namespace_or_units"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Drawdown fraction0.02*equity1234 produces24.68USDT and invalid PERCENT rejects; schemas reject external PASS; fee FRACTION/NaN reject; selected E5 wrong namespace/units/unknown/boolean reject.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "DATA-02.4",
+          "clause": "Freeze selected cost assumptions and reject computation without budget admission",
+          "case_ids": [
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_cost_file_change_after_freeze_cannot_change_actual_replay_assumptions",
+            "tests.validation.test_robustness_v02.RobustnessTests.test_declared_budget_is_admitted_before_any_e2_runtime_execution"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Source file changed after read does not change frozen taker4bps input/replay assumptions; insufficient replay budget causes0 E2 binding calls.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [
+        "Exact purge=max(max_holding_seconds,label_horizon_seconds) is implemented in split_plan._resolve_split, but mapped tests use one fixture geometry. No direct differing-horizon boundary case was located proving each operand can dominate.",
+        "Wrong fee/nonfinite tests assert ValueError rather than an explicit no-replay spy; do not overstate that individual assertion as proof of every precomputation path."
+      ],
+      "interpretation_notes": [
+        "Selected unit assertions are specific, not exhaustive acceptance of every production threshold combination."
+      ],
+      "prior_representative_cases": [
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/application/datasets/split_plan.py",
+          "symbol": "_resolve_split",
+          "line": 44,
+          "end_line": 68,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/validation/robustness/evaluator.py",
+          "symbol": "window",
+          "line": 58,
+          "end_line": 66,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-01",
+      "requirement_text": "Actual E1/E2/E3/E6 replay pipeline with durable stage and execution provenance",
+      "owner_step": "S06",
+      "required_evidence": "real_domain_e2e",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-01.1",
+          "clause": "Run actual E1/E2/E3 pipeline and persist E6 backtest evidence",
+          "case_ids": [
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Actual v0.2 runtime invocations>0, E6 evidence ID nonempty, compatibility market boundary, namespace/provenance/provider0 and BACKTESTING rather than candidate asserted.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-01.2",
+          "clause": "Reject unsupported execution and retain data-resolution/resource failures",
+          "case_ids": [
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_division_by_zero_runtime_result_cannot_pass_compatibility",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_failed_dataset_resolution_is_a_retained_stage_attempt",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_memory_pressure_prevents_parquet_decode_and_is_recorded",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_invalid_split_and_exhausted_budget_preserve_failed_attempts"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Division by zero blocks compatibility/DRAFT/no backtest; dataset failure retained as FAILED stage with typed reason; memory admission records measurements/output; split/budget failures retain output hash.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-01.3",
+          "clause": "Durably bind stage input/output hashes, times and repeat/reopen identity",
+          "case_ids": [
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_resume_returns_same_durable_outputs_and_does_not_repeat_replay"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Every report attempt has hashes/timestamps; close/reopen returns identical outcome, attempts and E6 evidence ID.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-01.4",
+          "clause": "Recover interrupted E6 persistence and fence stale worker completion",
+          "case_ids": [
+            "tests.application.test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_expired_worker_cannot_finish_new_generation_and_attempt_is_retained"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Injected journal-finish crash leaves RUNNING, fixture lease expiry then ABORTED/COMPLETE; separate stale-generation finish rejected and attempt generations retained.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [
+        "Crash-after-E6-save regression asserts a nonempty recovered evidence ID and ABORTED/COMPLETE attempts, but does not capture pre-crash canonical evidence ID or assert exactly one canonical row. Reopen-without-crash test asserts same ID; do not merge these into a direct crash-bound same-row assertion."
+      ],
+      "interpretation_notes": [
+        "Recovery uses explicit injected journal-finish exception and accelerated job clock; it is source fault mechanics, not actual OS crash/native or forward time."
+      ],
+      "prior_representative_cases": [
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate"
+      ],
+      "inherited_native_definition_refs_only": [
+        {
+          "group": "PQR-03",
+          "assertion": "PUBLIC_FRESH_AUTH_INTAKE_RESEARCH_THREE_OUTCOMES",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::verify",
+          "semantic_scope": "Fresh local synthetic packages use actual installed public commands and research child for candidate/rejected/blocked outcomes",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/application/research/service.py",
+          "symbol": "run",
+          "line": 82,
+          "end_line": 92,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/application/research/orchestrator.py",
+          "symbol": "execute",
+          "line": 7,
+          "end_line": 32,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-02",
+      "requirement_text": "Adaptive selection uses development only; finalist frozen before sealed OOS",
+      "owner_step": "S07",
+      "required_evidence": "leakage_negative_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-02.1",
+          "clause": "Adaptive development port excludes sealed rows and funding events",
+          "case_ids": [
+            "tests.validation.test_robustness_v02.RobustnessTests.test_adaptive_binding_has_no_sealed_rows_or_funding_events"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "All candle closes<=development end, funding events<end, no full dataset/sealed_oos attribute and immutable candle mapping asserted.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-02.2",
+          "clause": "Complete robustness before durable finalist freeze, then sealed OOS",
+          "case_ids": [
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_freeze_requires_actual_completed_robustness_and_exact_immutable_inputs"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Actual stage order robustness<finalist_freeze<sealed_oos; freeze needs actual completed run and exact policy/strategy/dataset commitments; changed inputs reject.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-02.3",
+          "clause": "No full sealed financial normalization before durable freeze",
+          "case_ids": [
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_full_normalization_occurs_only_after_durable_finalist_freeze",
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_unselected_diagnostic_never_normalizes_invalid_sealed_values"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Observed resolver full-read hook sees persisted finalist for every call; invalid sealed financial values do not break unselected development diagnostic; OOS remains NOT_RUN.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-02.4",
+          "clause": "Finalist-bound OOS is independent/once-only and cannot be replaced by interleaved reader",
+          "case_ids": [
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_actual_finalist_is_frozen_before_oos_read_and_replay_is_once",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_concurrent_reader_cannot_publish_blocked_over_the_owned_replay",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_upstream_result_with_a_different_input_commitment_cannot_freeze_finalist"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Actual sealed replay invocations/independent_oos/canonical decision/finalist/raw hashes asserted; repeated result equal and one EVALUATION_BEGIN; competing blocked result cannot overwrite actual owner result; mismatched upstream hash cannot freeze.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [],
+      "interpretation_notes": [
+        "The normalization/reader tests deliberately patch observation seams; they execute domain owners but do not prove actual native IO timing on every dataset.",
+        "Independent OOS here is fixture ledger isolation, not a new real-world never-seen holdout."
+      ],
+      "prior_representative_cases": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_adaptive_binding_has_no_sealed_rows_or_funding_events"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/validation/robustness/evaluator.py",
+          "symbol": "from_dataset",
+          "line": 44,
+          "end_line": 57,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/application/research/holdout.py",
+          "symbol": "freeze_finalist",
+          "line": 74,
+          "end_line": 107,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/application/research/holdout.py",
+          "symbol": "evaluate_sealed_oos",
+          "line": 197,
+          "end_line": 215,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-03",
+      "requirement_text": "Trial ledger retains failures/Chat revisions and marks previously exposed holdout as observed",
+      "owner_step": "S07",
+      "required_evidence": "persistence_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-03.1",
+          "clause": "Retain invalid/failed/aborted trial events append-only across reopen",
+          "case_ids": [
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_append_only_trials_keep_invalid_failed_and_aborted_after_restart"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Explicit owner ledger events INVALID/FAILED/ABORTED survive reopen; actual SQLite update/delete reject.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-03.2",
+          "clause": "Record interrupted actual adaptive STARTED trials before terminal result exists",
+          "case_ids": [
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_interrupted_adaptive_trial_is_retained_before_stage_result_exists"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Injected interruption after second STARTED leaves no robustness stage result; reopen has both STARTED events and RUN_FAILED.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-03.3",
+          "clause": "Mark Chat-exposed symbol/period globally observed despite family/hash/policy revisions",
+          "case_ids": [
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_amended_policy_generation_cannot_reset_observed_holdout"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "CHAT_OBSERVATION plus MANUAL_CHAT_REVISION retained; renamed family cannot reopen same holdout even with corrupt payload; amended generation gets new run but blocked HOLDOUT_ALREADY_OBSERVED and only one observation.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-03.4",
+          "clause": "Consumed incomplete OOS and changed/misbound frozen inputs cannot become new favorable evidence",
+          "case_ids": [
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_changed_source_or_policy_after_freeze_never_becomes_oos_pass",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_upstream_result_with_a_different_input_commitment_cannot_freeze_finalist"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Claim/reopen incomplete remains BLOCKED/HOLDOUT_EXPOSED_INCOMPLETE/no sealed backtest; changed dataset manifest rejects; mismatched upstream commitment cannot freeze.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [
+        "Ledger INVALID/FAILED/ABORTED persistence case explicitly authors those storage events; interrupted-real-trial case proves STARTED/RUN_FAILED only. The selected cases do not directly assert all automatic terminal failure/abort classifications from a replay exception are retained in the trial ledger."
+      ],
+      "interpretation_notes": [
+        "MANUAL_CHAT_REVISION is a typed manually recorded source event; no live Chat service/model provenance is executed by these tests."
+      ],
+      "prior_representative_cases": [
+        "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_append_only_trials_keep_invalid_failed_and_aborted_after_restart"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/application/research/holdout.py",
+          "symbol": "record_event",
+          "line": 47,
+          "end_line": 53,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/application/research/holdout.py",
+          "symbol": "observe_holdout",
+          "line": 121,
+          "end_line": 128,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-04",
+      "requirement_text": "Finite parameter neighborhood retains invalid/unfavorable variants",
+      "owner_step": "S07",
+      "required_evidence": "deterministic_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-04.1",
+          "clause": "Generate a finite, distinct parameter neighborhood through actual E2/E3",
+          "case_ids": [
+            "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Exactly4 distinct variant hashes, actual runtime invocations>0 for valid variants, development runtime_provider E2 and raw-result hashes asserted.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-04.2",
+          "clause": "Retain invalid and insufficient variant results instead of filtering them",
+          "case_ids": [
+            "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Ordered statuses BLOCKED/PASS/PASS/INVALID; INVALID_WINDOW retained, pass_fraction0.5 and all4 variants remain.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-04.3",
+          "clause": "Retain unfavorable cost/funding stress outcomes and selected criterion failure",
+          "case_ids": [
+            "tests.validation.test_robustness_v02.RobustnessTests.test_stress_replays_keep_unfavorable_cost_outcomes_and_fail_selected_criterion"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Actual adverse fee scenario returns FAIL/STRESS_TOLERANCE_NOT_MET, negative net PnL, positive fees and explicit adverse-funding assumption.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-04.4",
+          "clause": "Reject unsupported/unbounded selection before computation and freeze outputs",
+          "case_ids": [
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_selected_execution_requires_both_frozen_profiles_explicit_family_and_seed",
+            "tests.validation.test_robustness_v02.RobustnessTests.test_unknown_and_over_budget_profiles_do_not_begin_replay",
+            "tests.validation.test_robustness_v02.RobustnessTests.test_declared_budget_is_admitted_before_any_e2_runtime_execution",
+            "tests.validation.test_robustness_v02.RobustnessTests.test_frozen_outputs_and_decimal_profile_cannot_be_changed_by_caller"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Missing selected profiles/family/seed rejects; unknown parameter/trial/replay/evaluation caps reject; E2 binding0 on failed budget; caller policy/result mutation and ambient Decimal context do not change result.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [
+        "The neighborhood fixture has no valid quantitative FAIL variant (only BLOCKED/PASS/PASS/INVALID). Stress FAIL is outside the parameter-neighborhood list. No mapped direct assertion shows a valid unprofitable neighborhood variant remains in that list and its trial ledger; do not use stress failure as that proof."
+      ],
+      "interpretation_notes": [],
+      "prior_representative_cases": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/validation/robustness/evaluator.py",
+          "symbol": "_variants",
+          "line": 108,
+          "end_line": 133,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/validation/robustness/evaluator.py",
+          "symbol": "_evaluate_variant",
+          "line": 135,
+          "end_line": 147,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-05",
+      "requirement_text": "Walk-forward purges overlap and does not double-count evaluation intervals",
+      "owner_step": "S07",
+      "required_evidence": "positive_negative_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-05.1",
+          "clause": "Purged/embargoed walk-forward scores trades inside bounded disjoint entry intervals once",
+          "case_ids": [
+            "tests.validation.test_walk_forward.WalkForwardTests.test_actual_training_selection_and_each_disjoint_scored_interval_once"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Two windows/four training variants; FEATURE_ONLY/PURGED labels, positive purge/embargo; each trade entry/exit inside declared bounds; all trade IDs unique and aggregate count equals actual IDs.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-05.2",
+          "clause": "Reject overlapping/misaligned/out-of-development-sealed evaluation windows",
+          "case_ids": [
+            "tests.validation.test_walk_forward.WalkForwardTests.test_overlap_misalignment_and_sealed_access_rejected"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Three actual policy mutations reject evaluation overlap, minute misalignment and sealed-boundary access.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-05.3",
+          "clause": "Later evaluation prices do not influence earlier training choice or outcomes",
+          "case_ids": [
+            "tests.validation.test_walk_forward.WalkForwardTests.test_later_evaluation_values_cannot_change_earlier_training_choice"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Mutating later rows preserves earlier selected_variant_hash, earlier evaluation net PnL and every earlier training variant net PnL.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-05.4",
+          "clause": "Apply policy to stitched aggregate rather than independently favorable windows",
+          "case_ids": [
+            "tests.validation.test_walk_forward.WalkForwardTests.test_stitched_loss_streak_is_checked_even_when_each_window_meets_its_limit"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "One losing trade passes local threshold; stitched2-trade loss streak returns max2/FAIL/MAX_CONSECUTIVE_LOSSES_EXCEEDED.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [
+        "Tests assert purge/embargo positivity and emitted trade bounds, but not a distinct hold-vs-label-horizon dominant-max boundary. See DATA-02 geometry gap.",
+        "Uniqueness of scored trade IDs/counts is direct; no assertion pins an exact complete expected set of evaluation interval IDs when a window has zero trades. Do not expand this into all-observation counting guarantees."
+      ],
+      "interpretation_notes": [],
+      "prior_representative_cases": [
+        "tests.validation.test_walk_forward.WalkForwardTests.test_actual_training_selection_and_each_disjoint_scored_interval_once"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/validation/robustness/evaluator.py",
+          "symbol": "_walk_forward",
+          "line": 154,
+          "end_line": 186,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-06",
+      "requirement_text": "Seeded Monte Carlo reproducible; permutation versus block-bootstrap interpretation explicit",
+      "owner_step": "S07",
+      "required_evidence": "deterministic_statistical_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-06.1",
+          "clause": "Seeded permutation reproducible with versioned RNG and explicit limited interpretation",
+          "case_ids": [
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_seeded_permutation_reproduces_pinned_order_but_never_infers_expectancy"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Identical seed gives complete equal output/pinned first indices; changed seed differs; permutation net PnL invariant5,20resamples,SHA256 counter RNG, drawdown/order-only interpretation and expectancy quantiles None.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-06.2",
+          "clause": "Moving-block bootstrap preserves selected dependence model and interpretation",
+          "case_ids": [
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_moving_blocks_preserve_local_order_and_record_conditional_sensitivity"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Exact source-index adjacency inside2-length blocks,6 observations/path, conditional sensitivity label, expectancy quantiles present, dependence-length limitation explicit.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-06.3",
+          "clause": "Equity/quantile/Decimal numerical conventions reproducible",
+          "case_ids": [
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_fraction_drawdown_has_explicit_equity_denominator_and_nearest_rank_quantiles",
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_fixed_decimal_profile_is_independent_of_ambient_context"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Explicit100equity gives0.03 fractional drawdown; all nearest-rank quantiles pinned; ambient precision5 reproduces full/sparse moving-block outputs.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-06.4",
+          "clause": "Reject unversioned/unknown units, float samples/seeds and over-budget policies",
+          "case_ids": [
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_unknown_float_seed_units_and_computation_budget_rejected"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Untrusted PASS, host-random,PERCENT,budget/resample cap,NaN equity,float/boolean/negative seeds and float samples rejected.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [],
+      "interpretation_notes": [
+        "These are deterministic conditional historical resample mechanics, not return guarantees, independence of trades, or future strategy qualification."
+      ],
+      "prior_representative_cases": [
+        "tests.validation.test_monte_carlo.MonteCarloTests.test_seeded_permutation_reproduces_pinned_order_but_never_infers_expectancy"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/validation/robustness/monte_carlo.py",
+          "symbol": "evaluate_monte_carlo",
+          "line": 73,
+          "end_line": 130,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "RES-07",
+      "requirement_text": "Insufficient samples or missing stages cannot become favorable zero-risk PASS",
+      "owner_step": "S07",
+      "required_evidence": "negative_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "RES-07.1",
+          "clause": "Empty/small/too-few-effective-block samples cannot produce favorable quantiles",
+          "case_ids": [
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_empty_small_and_too_few_blocks_are_insufficient_not_zero_risk_pass"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "All3 cases BLOCKED/INSUFFICIENT_EVIDENCE, samples empty and drawdown quantiles None.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-07.2",
+          "clause": "Arithmetic overflow becomes typed incomplete evidence",
+          "case_ids": [
+            "tests.validation.test_monte_carlo.MonteCarloTests.test_decimal_arithmetic_overflow_is_typed_incomplete_evidence"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "No unstructured DecimalException; result BLOCKED/ARITHMETIC_PROFILE_EXCEEDED, no samples/drawdown quantiles.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-07.3",
+          "clause": "Absent research policy/too few development trades cannot become quantitative PASS",
+          "case_ids": [
+            "tests.validation.test_robustness_v02.RobustnessTests.test_no_selected_policy_and_too_few_samples_are_blocked_not_quantitative_fail"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Missing research policy BLOCKED/MISSING_RESEARCH_POLICY; selected minimum100trades BLOCKED/INSUFFICIENT_EVIDENCE.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-07.4",
+          "clause": "Insufficient final OOS remains blocked and retains actual canonical numeric decision",
+          "case_ids": [
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_insufficient_final_oos_is_product_blocked_and_preserves_legacy_numeric_decision"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Robustness PASS but product BLOCKED/INSUFFICIENT_EVIDENCE; canonical OOS decision FAIL preserved, sealed trades>0 and one holdout observation.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "RES-07.5",
+          "clause": "Missing robustness/OOS and missing risk do not mint candidate",
+          "case_ids": [
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_missing_risk_preserves_diagnostic_pass_without_candidate_authority",
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Diagnostic missing promotion/robustness stays BACKTESTING/OOS NOT_RUN; quantitative FAIL→REJECTED versus sample BLOCKED→BACKTESTING; risk-free PASS still no candidate.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [],
+      "interpretation_notes": [
+        "UI truthfulness and formal-policy commissioning are not closed by these domain assertions."
+      ],
+      "prior_representative_cases": [
+        "tests.validation.test_monte_carlo.MonteCarloTests.test_empty_small_and_too_few_blocks_are_insufficient_not_zero_risk_pass"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/validation/robustness/evaluator.py",
+          "symbol": "evaluate_robustness",
+          "line": 188,
+          "end_line": 250,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "LIFE-01",
+      "requirement_text": "All canonical legal edges implemented with named methods; illegal skips and generic bypass rejected",
+      "owner_step": "S08",
+      "required_evidence": "edge_matrix_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "LIFE-01.1",
+          "clause": "Exact canonical19edges/10states and every allowed predicate pair",
+          "case_ids": [
+            "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_full_canonical_model_has_exact_nineteen_edges_and_ten_states"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Equality to explicit edge/state sets plus predicate check for all100 state pairs.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-01.2",
+          "clause": "Every illegal pair rejected by actual owner storage and18legal edges use named service methods",
+          "case_ids": [
+            "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Per-state forged noncanonical transition raises InvalidTransition with state unchanged;18 legal named transitions update exactly one revision and preserve definition.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-01.3",
+          "clause": "Actual quantitative failure covers19th BACKTESTING→REJECTED edge",
+          "case_ids": [
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Real full assessment FAIL gives REJECTED, BLOCKED gives BACKTESTING; repeat outcome identical, not forged lifecycle row.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-01.4",
+          "clause": "Reject legal-looking generic/direct/legacy skips",
+          "case_ids": [
+            "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_product_namespace_cannot_promote_using_legacy_pass_metadata",
+            "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+            "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_v02_subject_cannot_escape_product_gates_in_unclassified_legacy_registry",
+            "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_direct_store_operational_skip_and_restart_cannot_resume_live",
+            "tests.registry.test_validation_lifecycle.ValidationLifecycleTests.test_candidate_service_exposes_no_approval_or_live_path"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Legacy PASS metadata cannot promote product namespaces; direct forged candidate/resume denied; v0.2 cannot escape through unclassified registry; legacy API exposes no transition/approve/go_live/promote_to_live methods.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-01.5",
+          "clause": "Retirement terminal/audit and noncanonical retirement preserved",
+          "case_ids": [
+            "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_draft_retirement_preserves_definition_and_audits_actor_and_reason",
+            "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_backtesting_retirement_is_not_a_canonical_edge"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "DRAFT retire preserves definition/revision/auditactor/reasons; repeat retire rejects; BACKTESTING retire invalid/state retained.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [],
+      "interpretation_notes": [
+        "Operational fixture resolves synthetic forward/admission/approval evidence to exercise guarded edges; no actual LIVE/Paper readiness authority is issued.",
+        "A has-no-generic-method check on the legacy service is not a universal audit of every future surface; current direct-store gates and exact model cover the selected canonical interfaces."
+      ],
+      "prior_representative_cases": [
+        "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_full_canonical_model_has_exact_nineteen_edges_and_ten_states"
+      ],
+      "inherited_native_definition_refs_only": [],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/registry/models.py",
+          "symbol": "is_canonical_lifecycle_transition_allowed",
+          "line": 37,
+          "end_line": 38,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "requirement_id": "LIFE-02",
+      "requirement_text": "CANDIDATE requires full product assessment including robustness and independent OOS",
+      "owner_step": "S08",
+      "required_evidence": "negative_positive_execution",
+      "acceptance_result": "NOT_RUN",
+      "proposed_status": "EXPANDED_SOURCE_ASSERTION_MAP;NOT_ACCEPTANCE",
+      "clauses": [
+        {
+          "clause_id": "LIFE-02.1",
+          "clause": "Actual full assessment plus exact selected risk enters durable CANDIDATE",
+          "case_ids": [
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Pipeline candidate_gate PASS and exact risk inputs; replay idempotence; reopen E6 finds PASS assessment/risk hash and same candidate/record.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-02.2",
+          "clause": "Require actual robustness plus sealed finalist/independent OOS mechanics",
+          "case_ids": [
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_actual_finalist_is_frozen_before_oos_read_and_replay_is_once",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_freeze_requires_actual_completed_robustness_and_exact_immutable_inputs"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Actual robustness/product/OOS positive, FULL_LOGICAL_VERIFIED sealed source, ordered freeze; actual OOS independent flag true/canonical PASS/one observation; missing robustness/changed commitments cannot freeze.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-02.3",
+          "clause": "Missing risk, quantitative failure or sample insufficiency cannot promote",
+          "case_ids": [
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_missing_risk_preserves_diagnostic_pass_without_candidate_authority",
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting",
+            "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Risk-free assessment PASS remains BACKTESTING/MISSING_SELECTED_RISK_POLICY; FAIL→REJECTED, sample BLOCKED→BACKTESTING; diagnostic no promotion policy/OOS cannot candidate.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-02.4",
+          "clause": "No caller PASS, wrong subject, stale source or unauthorized writer can manufacture assessment",
+          "case_ids": [
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_e6_product_record_requires_configured_actual_producer_not_caller_pass",
+            "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_wrong_subject_stale_source_and_direct_writer_do_not_create_product_authority",
+            "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_product_namespace_cannot_promote_using_legacy_pass_metadata",
+            "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+            "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_v02_subject_cannot_escape_product_gates_in_unclassified_legacy_registry"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Missing configured producer rejects; wrong strategy version/stale source/direct writer reject; SQLite assessment update/delete reject; legacy PASS and unclassified v0.2 bypasses rejected.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        },
+        {
+          "clause_id": "LIFE-02.5",
+          "clause": "Observed/revised holdout cannot count as independent final OOS",
+          "case_ids": [
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+            "tests.application.test_research_robustness.ResearchRobustnessTests.test_amended_policy_generation_cannot_reset_observed_holdout",
+            "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version"
+          ],
+          "assertion_coordinates": "Resolve each case_id into case_catalog assertion_refs, exact source line and assertion expression. Every listed method body was statically read.",
+          "supported_assertion_scope": "Previously observed symbol-period or consumed-incomplete holdout returns BLOCKED with no sealed backtest, including policy generation changes/reopen.",
+          "proposed_status": "NAMED_ASSERTION_MAPPING_ONLY;CURRENT_EXECUTION_BINDING_PENDING"
+        }
+      ],
+      "concrete_gaps_or_limits": [
+        "Positive candidate test and independent_oos positive test are separate actual domain paths. No mapped direct candidate-gate negative test mutates a bound otherwise-PASS product payload independent_oos=false or sealed_dataset_verification scope away from FULL_LOGICAL_VERIFIED and then asserts candidate denial. Source guard exists; coverage is not inferred from its existence."
+      ],
+      "interpretation_notes": [
+        "The legacy validation test that manually supplies LOCAL_EXECUTION PASS is not used as full product-assessment positive proof.",
+        "Fixture independent-OOS semantics do not prove a real never-exposed holdout or formal promotion-policy selection."
+      ],
+      "prior_representative_cases": [
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy"
+      ],
+      "inherited_native_definition_refs_only": [
+        {
+          "group": "PQR-03",
+          "assertion": "PUBLIC_FRESH_AUTH_INTAKE_RESEARCH_THREE_OUTCOMES",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::verify",
+          "semantic_scope": "Fresh local synthetic packages use actual installed public commands and research child for candidate/rejected/blocked outcomes",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "current_execution_instance_ids": [],
+      "implementation_anchors": [
+        {
+          "source": "src/registry/product_assessment.py",
+          "symbol": "require_product_candidate",
+          "line": 65,
+          "end_line": 76,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/registry/service.py",
+          "symbol": "record_product_assessment",
+          "line": 353,
+          "end_line": 391,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        },
+        {
+          "source": "src/application/research/product_assessment.py",
+          "symbol": "resolve",
+          "line": 54,
+          "end_line": 88,
+          "status": "IMPLEMENTATION_ONLY;NOT_ACCEPTANCE_EVIDENCE"
+        }
+      ]
+    }
+  ],
+  "case_catalog": [
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_container_encoding_changes_byte_identity_but_preserves_logical_identity",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_container_encoding_changes_byte_identity_but_preserves_logical_identity",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 76,
+      "definition_end_line": 86,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 81,
+          "end_line": 81,
+          "assertion": "self.assertEqual(one.logical_hash, two.logical_hash)"
+        },
+        {
+          "line": 82,
+          "end_line": 82,
+          "assertion": "self.assertNotEqual(one.manifest_hash, two.manifest_hash)"
+        },
+        {
+          "line": 83,
+          "end_line": 83,
+          "assertion": "self.assertNotEqual(one.container_hashes, two.container_hashes)"
+        },
+        {
+          "line": 84,
+          "end_line": 84,
+          "assertion": "self.assertEqual(12, len(one.candles_by_timeframe['1h']))"
+        },
+        {
+          "line": 85,
+          "end_line": 85,
+          "assertion": "self.assertEqual('100', str(one.candles_by_timeframe['1h'][0].open))"
+        },
+        {
+          "line": 86,
+          "end_line": 86,
+          "assertion": "self.assertEqual('FIXTURE', one.namespace)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_changed_container_cannot_reuse_prior_manifest_or_mutate_resolved_input",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_changed_container_cannot_reuse_prior_manifest_or_mutate_resolved_input",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 88,
+      "definition_end_line": 96,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 93,
+          "end_line": 93,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        },
+        {
+          "line": 94,
+          "end_line": 94,
+          "assertion": "self.assertEqual('CONTAINER_HASH_MISMATCH', caught.exception.code)"
+        },
+        {
+          "line": 95,
+          "end_line": 95,
+          "assertion": "self.assertEqual(12, len(bound.candles_by_timeframe['1h']))"
+        },
+        {
+          "line": 96,
+          "end_line": 96,
+          "assertion": "self.assertRaises(TypeError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_logical_hash_is_verified_independently_of_container_hash",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_logical_hash_is_verified_independently_of_container_hash",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 98,
+      "definition_end_line": 103,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 102,
+          "end_line": 102,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        },
+        {
+          "line": 103,
+          "end_line": 103,
+          "assertion": "self.assertEqual('LOGICAL_HASH_MISMATCH', caught.exception.code)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_gap_duplicate_unclosed_and_missing_arrival_fail_before_e2",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_gap_duplicate_unclosed_and_missing_arrival_fail_before_e2",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 105,
+      "definition_end_line": 115,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 115,
+          "end_line": 115,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_late_receipt_and_missing_recorded_funding_coverage_are_not_silently_repaired",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_late_receipt_and_missing_recorded_funding_coverage_are_not_silently_repaired",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 54,
+      "definition_end_line": 66,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 60,
+          "end_line": 60,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        },
+        {
+          "line": 61,
+          "end_line": 61,
+          "assertion": "self.assertEqual('DATA_OUTSIDE_INFORMATION_CUTOFF', caught.exception.code)"
+        },
+        {
+          "line": 65,
+          "end_line": 65,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        },
+        {
+          "line": 66,
+          "end_line": 66,
+          "assertion": "self.assertEqual('MISSING_FUNDING_COVERAGE', caught.exception.code)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_missing_funding_is_explicit_blocker_never_factual_zero",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_missing_funding_is_explicit_blocker_never_factual_zero",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 117,
+      "definition_end_line": 124,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 122,
+          "end_line": 122,
+          "assertion": "self.assertFalse(bound.promotion_data_ready)"
+        },
+        {
+          "line": 123,
+          "end_line": 123,
+          "assertion": "self.assertIn('MISSING_FUNDING', bound.reason_codes)"
+        },
+        {
+          "line": 124,
+          "end_line": 124,
+          "assertion": "self.assertIsNone(bound.funding_model)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_missing_funding_blocks_replay_without_inventing_zero_cost",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_missing_funding_blocks_replay_without_inventing_zero_cost",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 163,
+      "definition_end_line": 171,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 169,
+          "end_line": 169,
+          "assertion": "self.assertIn('MISSING_FUNDING', result.reason_codes)"
+        },
+        {
+          "line": 170,
+          "end_line": 170,
+          "assertion": "self.assertIsNone(report['backtest'])"
+        },
+        {
+          "line": 171,
+          "end_line": 171,
+          "assertion": "self.assertEqual('NOT_RUN', report['sealed_oos'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_parquet_numeric_schema_and_oversized_row_group_fail_before_record_decode",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_parquet_numeric_schema_and_oversized_row_group_fail_before_record_decode",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 33,
+      "definition_end_line": 52,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 51,
+          "end_line": 51,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        },
+        {
+          "line": 52,
+          "end_line": 52,
+          "assertion": "self.assertEqual('PARQUET_SCHEMA_MISMATCH' if kind == 'float' else 'PARQUET_ROW_GROUP_LIMIT', caught.exception.code)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_wrong_units_unknown_fields_and_path_escape_rejected",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_wrong_units_unknown_fields_and_path_escape_rejected",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 126,
+      "definition_end_line": 135,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 135,
+          "end_line": 135,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 137,
+      "definition_end_line": 150,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 144,
+          "end_line": 144,
+          "assertion": "self.assertEqual(START + timedelta(hours=8), split.development.end)"
+        },
+        {
+          "line": 145,
+          "end_line": 145,
+          "assertion": "self.assertEqual(START + timedelta(hours=8), split.sealed_oos.start)"
+        },
+        {
+          "line": 146,
+          "end_line": 146,
+          "assertion": "self.assertEqual(START + timedelta(hours=2), split.development.warmup_start)"
+        },
+        {
+          "line": 147,
+          "end_line": 147,
+          "assertion": "self.assertEqual(START + timedelta(hours=5), split.development.entry_start)"
+        },
+        {
+          "line": 148,
+          "end_line": 148,
+          "assertion": "self.assertEqual(START + timedelta(hours=7), split.development.entry_end)"
+        },
+        {
+          "line": 149,
+          "end_line": 149,
+          "assertion": "self.assertTrue(split.sealed_oos.sealed)"
+        },
+        {
+          "line": 150,
+          "end_line": 150,
+          "assertion": "self.assertTrue(split.policy_hash.startswith('sha256:'))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_overlap_unbounded_horizon_and_unspecified_embargo_block_protocol",
+      "runner_suffix_id": "test_dataset_binding.DatasetBindingTests.test_overlap_unbounded_horizon_and_unspecified_embargo_block_protocol",
+      "source": "tests/application/test_dataset_binding.py",
+      "definition_line": 152,
+      "definition_end_line": 161,
+      "source_sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+      "assertion_refs": [
+        {
+          "line": 161,
+          "end_line": 161,
+          "assertion": "self.assertRaises(api.DatasetError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_legacy_validation_policy_receives_drawdown_amount_with_explicit_equity",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_legacy_validation_policy_receives_drawdown_amount_with_explicit_equity",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 88,
+      "definition_end_line": 97,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 94,
+          "end_line": 94,
+          "assertion": "self.assertEqual('24.68', str(actual.validation_policy('development').max_drawdown))"
+        },
+        {
+          "line": 95,
+          "end_line": 95,
+          "assertion": "self.assertEqual('0.02', actual.as_dict()['drawdown_limit'])"
+        },
+        {
+          "line": 97,
+          "end_line": 97,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_public_versioned_policy_schemas_are_strict_and_match_runtime_profiles",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_public_versioned_policy_schemas_are_strict_and_match_runtime_profiles",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 9,
+      "definition_end_line": 23,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 18,
+          "end_line": 18,
+          "assertion": "self.assertTrue(path.is_file(), 'Missing strict schema ' + name)"
+        },
+        {
+          "line": 21,
+          "end_line": 21,
+          "assertion": "self.assertTrue(list(validator.iter_errors(forged)))"
+        },
+        {
+          "line": 23,
+          "end_line": 23,
+          "assertion": "self.assertTrue(list(validator.iter_errors(forged)))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_wrong_fee_units_and_nonfinite_costs_block_before_replay",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_wrong_fee_units_and_nonfinite_costs_block_before_replay",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 173,
+      "definition_end_line": 179,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 179,
+          "end_line": 179,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_immutable_risk_adapter_reuses_e5_and_rejects_wrong_namespace_or_units",
+      "runner_suffix_id": "test_product_assessment_binding.ProductAssessmentBindingTests.test_immutable_risk_adapter_reuses_e5_and_rejects_wrong_namespace_or_units",
+      "source": "tests/application/test_product_assessment_binding.py",
+      "definition_line": 88,
+      "definition_end_line": 103,
+      "source_sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+      "assertion_refs": [
+        {
+          "line": 91,
+          "end_line": 91,
+          "assertion": "self.fail('Missing strict selected E5 RiskPolicy adapter')"
+        },
+        {
+          "line": 94,
+          "end_line": 94,
+          "assertion": "self.assertIsInstance(parsed.risk_policy, RiskPolicy)"
+        },
+        {
+          "line": 95,
+          "end_line": 95,
+          "assertion": "self.assertEqual('100', str(parsed.risk_policy.max_notional))"
+        },
+        {
+          "line": 102,
+          "end_line": 102,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_cost_file_change_after_freeze_cannot_change_actual_replay_assumptions",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_cost_file_change_after_freeze_cannot_change_actual_replay_assumptions",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 51,
+      "definition_end_line": 65,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 64,
+          "end_line": 64,
+          "assertion": "self.assertEqual('4', report['inputs']['cost_policy']['taker_bps'])"
+        },
+        {
+          "line": 65,
+          "end_line": 65,
+          "assertion": "self.assertEqual('4', report['backtest']['reproducibility']['cost_assumptions']['fee']['taker_bps'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_declared_budget_is_admitted_before_any_e2_runtime_execution",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_declared_budget_is_admitted_before_any_e2_runtime_execution",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 79,
+      "definition_end_line": 87,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 85,
+          "end_line": 85,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 87,
+          "end_line": 87,
+          "assertion": "self.assertEqual(0, executed.call_count)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 116,
+      "definition_end_line": 136,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 122,
+          "end_line": 122,
+          "assertion": "self.assertEqual('BLOCKED', result.status)"
+        },
+        {
+          "line": 123,
+          "end_line": 123,
+          "assertion": "self.assertIn('MISSING_PROMOTION_POLICY', result.reason_codes)"
+        },
+        {
+          "line": 124,
+          "end_line": 124,
+          "assertion": "self.assertIn('ROBUSTNESS_NOT_RUN', result.reason_codes)"
+        },
+        {
+          "line": 125,
+          "end_line": 125,
+          "assertion": "self.assertEqual('PASS', result.compatibility_status)"
+        },
+        {
+          "line": 126,
+          "end_line": 126,
+          "assertion": "self.assertEqual('BACKTESTING', result.strategy_lifecycle)"
+        },
+        {
+          "line": 128,
+          "end_line": 128,
+          "assertion": "self.assertEqual('0.2.0', evidence['backtest']['runtime_version'])"
+        },
+        {
+          "line": 129,
+          "end_line": 129,
+          "assertion": "self.assertGreater(evidence['backtest']['reproducibility']['runtime_invocations'], 0)"
+        },
+        {
+          "line": 130,
+          "end_line": 130,
+          "assertion": "self.assertEqual('NOT_RUN', evidence['sealed_oos'])"
+        },
+        {
+          "line": 131,
+          "end_line": 131,
+          "assertion": "self.assertEqual('FIXTURE', evidence['namespace'])"
+        },
+        {
+          "line": 132,
+          "end_line": 132,
+          "assertion": "self.assertEqual(0, evidence['provenance']['provider_requests'])"
+        },
+        {
+          "line": 133,
+          "end_line": 133,
+          "assertion": "self.assertTrue(evidence['provenance']['implementation_hash'].startswith('sha256:'))"
+        },
+        {
+          "line": 134,
+          "end_line": 134,
+          "assertion": "self.assertTrue(evidence['backtest_e6_evidence_id'])"
+        },
+        {
+          "line": 135,
+          "end_line": 135,
+          "assertion": "self.assertTrue(evidence['compatibility']['signal']['market_boundary_ref'])"
+        },
+        {
+          "line": 136,
+          "end_line": 136,
+          "assertion": "self.assertTrue(all((item['input_hash'] and item['output_hash'] and item['started_at'] and item['ended_at'] for item in evidence['attempts'])))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_division_by_zero_runtime_result_cannot_pass_compatibility",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_division_by_zero_runtime_result_cannot_pass_compatibility",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 21,
+      "definition_end_line": 35,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 32,
+          "end_line": 32,
+          "assertion": "self.assertEqual('BLOCKED', result.compatibility_status)"
+        },
+        {
+          "line": 33,
+          "end_line": 33,
+          "assertion": "self.assertEqual('DRAFT', result.strategy_lifecycle)"
+        },
+        {
+          "line": 34,
+          "end_line": 34,
+          "assertion": "self.assertIn('DIVISION_BY_ZERO', result.reason_codes)"
+        },
+        {
+          "line": 35,
+          "end_line": 35,
+          "assertion": "self.assertIsNone(service.report(result.run_id)['backtest'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_failed_dataset_resolution_is_a_retained_stage_attempt",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_failed_dataset_resolution_is_a_retained_stage_attempt",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 37,
+      "definition_end_line": 49,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 42,
+          "end_line": 42,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 43,
+          "end_line": 43,
+          "assertion": "self.assertTrue(hasattr(service.journal, 'runs'), 'Missing retained run inventory')"
+        },
+        {
+          "line": 45,
+          "end_line": 45,
+          "assertion": "self.assertEqual(1, len(runs))"
+        },
+        {
+          "line": 47,
+          "end_line": 47,
+          "assertion": "self.assertEqual('dataset_resolution', attempt['stage'])"
+        },
+        {
+          "line": 48,
+          "end_line": 48,
+          "assertion": "self.assertEqual('FAILED', attempt['status'])"
+        },
+        {
+          "line": 49,
+          "end_line": 49,
+          "assertion": "self.assertIn('CONTAINER_HASH_MISMATCH', attempt['reason_codes_json'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_memory_pressure_prevents_parquet_decode_and_is_recorded",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_memory_pressure_prevents_parquet_decode_and_is_recorded",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 67,
+      "definition_end_line": 88,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 75,
+          "end_line": 75,
+          "assertion": "self.assertTrue(hasattr(api, 'inspect_hardware'), 'Missing actual research admission')"
+        },
+        {
+          "line": 77,
+          "end_line": 77,
+          "assertion": "self.assertRaises(api.ResearchError)"
+        },
+        {
+          "line": 78,
+          "end_line": 78,
+          "assertion": "self.assertEqual('RESEARCH_MEMORY_PRESSURE', caught.exception.code)"
+        },
+        {
+          "line": 80,
+          "end_line": 80,
+          "assertion": "self.assertIsNotNone(measurement, 'Preserve actual admission-time measurements without changing the gate')"
+        },
+        {
+          "line": 81,
+          "end_line": 81,
+          "assertion": "self.assertEqual(measurement['available_memory_bytes'], 1024)"
+        },
+        {
+          "line": 82,
+          "end_line": 82,
+          "assertion": "self.assertEqual(measurement['physical_memory_bytes'], low.physical_memory_bytes)"
+        },
+        {
+          "line": 83,
+          "end_line": 83,
+          "assertion": "self.assertEqual(measurement['minimum_available_memory_bytes'], max(2 * 1024 ** 3, low.physical_memory_bytes * 15 // 100))"
+        },
+        {
+          "line": 84,
+          "end_line": 84,
+          "assertion": "self.assertNotIn(str(root), str(caught.exception))"
+        },
+        {
+          "line": 86,
+          "end_line": 86,
+          "assertion": "self.assertEqual('resource_admission', attempts[-1]['stage'])"
+        },
+        {
+          "line": 87,
+          "end_line": 87,
+          "assertion": "self.assertEqual('FAILED', attempts[-1]['status'])"
+        },
+        {
+          "line": 88,
+          "end_line": 88,
+          "assertion": "self.assertEqual(json.loads(attempts[-1]['output_json'])['resource_observation'], dict(measurement))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_invalid_split_and_exhausted_budget_preserve_failed_attempts",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_invalid_split_and_exhausted_budget_preserve_failed_attempts",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 90,
+      "definition_end_line": 102,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 99,
+          "end_line": 99,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 101,
+          "end_line": 101,
+          "assertion": "self.assertEqual('FAILED', attempts[-1]['status'])"
+        },
+        {
+          "line": 102,
+          "end_line": 102,
+          "assertion": "self.assertTrue(attempts[-1]['output_hash'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_resume_returns_same_durable_outputs_and_does_not_repeat_replay",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_resume_returns_same_durable_outputs_and_does_not_repeat_replay",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 138,
+      "definition_end_line": 148,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 146,
+          "end_line": 146,
+          "assertion": "self.assertEqual(first, second)"
+        },
+        {
+          "line": 147,
+          "end_line": 147,
+          "assertion": "self.assertEqual(original['attempts'], resumed['attempts'])"
+        },
+        {
+          "line": 148,
+          "end_line": 148,
+          "assertion": "self.assertEqual(original['backtest_e6_evidence_id'], resumed['backtest_e6_evidence_id'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record",
+      "runner_suffix_id": "test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record",
+      "source": "tests/application/test_research_e6_recovery.py",
+      "definition_line": 12,
+      "definition_end_line": 33,
+      "source_sha256": "sha256:8482a2fce1350fbdd9a4583b82b478b6e34cc84626824d179f1f426cebf18801",
+      "assertion_refs": [
+        {
+          "line": 22,
+          "end_line": 22,
+          "assertion": "self.assertRaises(RuntimeError)"
+        },
+        {
+          "line": 24,
+          "end_line": 24,
+          "assertion": "self.assertEqual('RUNNING', service.journal.attempts(run_id)[-1]['status'])"
+        },
+        {
+          "line": 31,
+          "end_line": 31,
+          "assertion": "self.assertEqual(['ABORTED', 'COMPLETE'], [a['status'] for a in attempts])"
+        },
+        {
+          "line": 32,
+          "end_line": 32,
+          "assertion": "self.assertTrue(report['backtest_e6_evidence_id'])"
+        },
+        {
+          "line": 33,
+          "end_line": 33,
+          "assertion": "self.assertEqual('BACKTESTING', result.strategy_lifecycle)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_expired_worker_cannot_finish_new_generation_and_attempt_is_retained",
+      "runner_suffix_id": "test_research_pipeline.ResearchPipelineTests.test_expired_worker_cannot_finish_new_generation_and_attempt_is_retained",
+      "source": "tests/application/test_research_pipeline.py",
+      "definition_line": 181,
+      "definition_end_line": 193,
+      "source_sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+      "assertion_refs": [
+        {
+          "line": 187,
+          "end_line": 187,
+          "assertion": "self.assertRaises(ResearchLeaseConflict)"
+        },
+        {
+          "line": 189,
+          "end_line": 189,
+          "assertion": "self.assertRaises(ResearchLeaseConflict)"
+        },
+        {
+          "line": 192,
+          "end_line": 192,
+          "assertion": "self.assertEqual(['ABORTED', 'COMPLETE'], [item['status'] for item in attempts])"
+        },
+        {
+          "line": 193,
+          "end_line": 193,
+          "assertion": "self.assertEqual(2, attempts[-1]['lease_generation'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_adaptive_binding_has_no_sealed_rows_or_funding_events",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_adaptive_binding_has_no_sealed_rows_or_funding_events",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 45,
+      "definition_end_line": 52,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 49,
+          "end_line": 49,
+          "assertion": "self.assertTrue(all((row.close_time <= split.development.end for rows in bound.candles_by_timeframe.values() for row in rows)))"
+        },
+        {
+          "line": 50,
+          "end_line": 50,
+          "assertion": "self.assertTrue(all((event < split.development.end for event, _ in bound.funding_model.events)))"
+        },
+        {
+          "line": 51,
+          "end_line": 51,
+          "assertion": "self.assertFalse(hasattr(bound, 'sealed_oos'))"
+        },
+        {
+          "line": 51,
+          "end_line": 51,
+          "assertion": "self.assertFalse(hasattr(bound, 'dataset'))"
+        },
+        {
+          "line": 52,
+          "end_line": 52,
+          "assertion": "self.assertRaises(TypeError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 21,
+      "definition_end_line": 38,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 26,
+          "end_line": 26,
+          "assertion": "self.assertEqual('PASS', result.status)"
+        },
+        {
+          "line": 26,
+          "end_line": 26,
+          "assertion": "self.assertEqual('BACKTESTING', result.strategy_lifecycle)"
+        },
+        {
+          "line": 27,
+          "end_line": 27,
+          "assertion": "self.assertEqual('PASS', report['robustness']['status'])"
+        },
+        {
+          "line": 27,
+          "end_line": 27,
+          "assertion": "self.assertEqual('PASS', report['product_assessment']['status'])"
+        },
+        {
+          "line": 28,
+          "end_line": 28,
+          "assertion": "self.assertEqual('PASS', report['sealed_oos'])"
+        },
+        {
+          "line": 28,
+          "end_line": 28,
+          "assertion": "self.assertEqual(0, report['provenance']['provider_requests'])"
+        },
+        {
+          "line": 29,
+          "end_line": 29,
+          "assertion": "self.assertEqual('FULL_LOGICAL_VERIFIED', report['product_assessment']['sealed_dataset_verification']['scope'])"
+        },
+        {
+          "line": 30,
+          "end_line": 30,
+          "assertion": "self.assertEqual('DEVELOPMENT_VERIFIED_SEALED_LOGICAL_PENDING', report['dataset_resolution']['verification_scope'])"
+        },
+        {
+          "line": 32,
+          "end_line": 32,
+          "assertion": "self.assertLess(stages.index('robustness'), stages.index('finalist_freeze'))"
+        },
+        {
+          "line": 33,
+          "end_line": 33,
+          "assertion": "self.assertLess(stages.index('finalist_freeze'), stages.index('sealed_oos'))"
+        },
+        {
+          "line": 34,
+          "end_line": 34,
+          "assertion": "self.assertGreater(report['product_assessment']['trial_count'], 0)"
+        },
+        {
+          "line": 35,
+          "end_line": 35,
+          "assertion": "self.assertEqual('BLOCKED', report['candidate_gate']['status'])"
+        },
+        {
+          "line": 36,
+          "end_line": 36,
+          "assertion": "self.assertEqual('BACKTESTING', service.report(result.run_id)['strategy_lifecycle'])"
+        },
+        {
+          "line": 37,
+          "end_line": 37,
+          "assertion": "self.assertEqual(result, self.execute(service))"
+        },
+        {
+          "line": 38,
+          "end_line": 38,
+          "assertion": "self.assertEqual(report['attempts'], service.report(result.run_id)['attempts'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_freeze_requires_actual_completed_robustness_and_exact_immutable_inputs",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_freeze_requires_actual_completed_robustness_and_exact_immutable_inputs",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 30,
+      "definition_end_line": 43,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 35,
+          "end_line": 35,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 38,
+          "end_line": 38,
+          "assertion": "self.assertTrue(frozen.finalist_id)"
+        },
+        {
+          "line": 38,
+          "end_line": 38,
+          "assertion": "self.assertEqual(subject()['content_hash'], frozen.as_dict()['strategy_content_hash'])"
+        },
+        {
+          "line": 39,
+          "end_line": 39,
+          "assertion": "self.assertEqual(data.manifest_hash, frozen.as_dict()['dataset_manifest_hash'])"
+        },
+        {
+          "line": 40,
+          "end_line": 40,
+          "assertion": "self.assertEqual(frozen, ledger.freeze_finalist('fixture-run', subject()['content_hash'], policies))"
+        },
+        {
+          "line": 42,
+          "end_line": 42,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 43,
+          "end_line": 43,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_full_normalization_occurs_only_after_durable_finalist_freeze",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_full_normalization_occurs_only_after_durable_finalist_freeze",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 69,
+      "definition_end_line": 79,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 79,
+          "end_line": 79,
+          "assertion": "self.assertTrue(reads)"
+        },
+        {
+          "line": 79,
+          "end_line": 79,
+          "assertion": "self.assertTrue(all(reads), 'Full OOS payload was normalized before finalist freeze')"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_unselected_diagnostic_never_normalizes_invalid_sealed_values",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_unselected_diagnostic_never_normalizes_invalid_sealed_values",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 80,
+      "definition_end_line": 92,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 89,
+          "end_line": 89,
+          "assertion": "self.fail('Diagnostic decoded/validated sealed financial values before any finalist freeze')"
+        },
+        {
+          "line": 90,
+          "end_line": 90,
+          "assertion": "self.assertEqual('PASS', result.compatibility_status)"
+        },
+        {
+          "line": 91,
+          "end_line": 91,
+          "assertion": "self.assertGreater(service.report(result.run_id)['backtest']['total_trades'], 0)"
+        },
+        {
+          "line": 92,
+          "end_line": 92,
+          "assertion": "self.assertEqual('NOT_RUN', service.report(result.run_id)['sealed_oos'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_actual_finalist_is_frozen_before_oos_read_and_replay_is_once",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_actual_finalist_is_frozen_before_oos_read_and_replay_is_once",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 44,
+      "definition_end_line": 60,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 53,
+          "end_line": 53,
+          "assertion": "self.assertEqual('PASS', result['status'])"
+        },
+        {
+          "line": 53,
+          "end_line": 53,
+          "assertion": "self.assertTrue(result['independent_oos'])"
+        },
+        {
+          "line": 54,
+          "end_line": 54,
+          "assertion": "self.assertEqual('PASS', result['canonical_oos_decision']['decision'])"
+        },
+        {
+          "line": 55,
+          "end_line": 55,
+          "assertion": "self.assertGreater(result['sealed_backtest']['reproducibility']['runtime_invocations'], 0)"
+        },
+        {
+          "line": 56,
+          "end_line": 56,
+          "assertion": "self.assertEqual(frozen.finalist_id, result['finalist_id'])"
+        },
+        {
+          "line": 57,
+          "end_line": 57,
+          "assertion": "self.assertTrue(result['raw_result_hashes'])"
+        },
+        {
+          "line": 57,
+          "end_line": 57,
+          "assertion": "self.assertTrue(result['trial_count'])"
+        },
+        {
+          "line": 58,
+          "end_line": 58,
+          "assertion": "self.assertEqual(result, api.evaluate_sealed_oos(frozen, binding).as_dict())"
+        },
+        {
+          "line": 59,
+          "end_line": 59,
+          "assertion": "self.assertEqual(1, len(ledger.holdout_observations()))"
+        },
+        {
+          "line": 60,
+          "end_line": 60,
+          "assertion": "self.assertEqual('EVALUATION_BEGIN', ledger.holdout_observations()[0]['kind'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_concurrent_reader_cannot_publish_blocked_over_the_owned_replay",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_concurrent_reader_cannot_publish_blocked_over_the_owned_replay",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 116,
+      "definition_end_line": 131,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 130,
+          "end_line": 130,
+          "assertion": "self.assertEqual('PASS', result['status'])"
+        },
+        {
+          "line": 130,
+          "end_line": 130,
+          "assertion": "self.assertEqual('BLOCKED', other[0]['status'])"
+        },
+        {
+          "line": 131,
+          "end_line": 131,
+          "assertion": "self.assertEqual(result, ledger.result(frozen).as_dict())"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_upstream_result_with_a_different_input_commitment_cannot_freeze_finalist",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_upstream_result_with_a_different_input_commitment_cannot_freeze_finalist",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 132,
+      "definition_end_line": 141,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 141,
+          "end_line": 141,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_append_only_trials_keep_invalid_failed_and_aborted_after_restart",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_append_only_trials_keep_invalid_failed_and_aborted_after_restart",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 79,
+      "definition_end_line": 94,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 88,
+          "end_line": 88,
+          "assertion": "self.assertEqual(3, len(events))"
+        },
+        {
+          "line": 88,
+          "end_line": 88,
+          "assertion": "self.assertEqual(['INVALID', 'FAILED', 'ABORTED'], [v['payload']['status'] for v in events])"
+        },
+        {
+          "line": 93,
+          "end_line": 93,
+          "assertion": "self.assertRaises(sqlite3.DatabaseError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_interrupted_adaptive_trial_is_retained_before_stage_result_exists",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_interrupted_adaptive_trial_is_retained_before_stage_result_exists",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 93,
+      "definition_end_line": 111,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 106,
+          "end_line": 106,
+          "assertion": "self.assertRaises(RuntimeError)"
+        },
+        {
+          "line": 107,
+          "end_line": 107,
+          "assertion": "self.assertIsNone(service.journal.result(service.journal.runs()[0]['run_id'], 'robustness'))"
+        },
+        {
+          "line": 110,
+          "end_line": 110,
+          "assertion": "self.assertEqual(2, len([v for v in events if v['kind'] == 'TRIAL' and v['payload']['status'] == 'STARTED']))"
+        },
+        {
+          "line": 111,
+          "end_line": 111,
+          "assertion": "self.assertTrue(any((v['kind'] == 'RUN_FAILED' for v in events)))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 61,
+      "definition_end_line": 78,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 75,
+          "end_line": 75,
+          "assertion": "self.assertEqual('BLOCKED', result['status'])"
+        },
+        {
+          "line": 75,
+          "end_line": 75,
+          "assertion": "self.assertFalse(result['independent_oos'])"
+        },
+        {
+          "line": 76,
+          "end_line": 76,
+          "assertion": "self.assertIn('HOLDOUT_ALREADY_OBSERVED', result['reason_codes'])"
+        },
+        {
+          "line": 76,
+          "end_line": 76,
+          "assertion": "self.assertIsNone(result['sealed_backtest'])"
+        },
+        {
+          "line": 77,
+          "end_line": 77,
+          "assertion": "self.assertEqual(1, len(ledger.holdout_observations()))"
+        },
+        {
+          "line": 78,
+          "end_line": 78,
+          "assertion": "self.assertIn('MANUAL_CHAT_REVISION', [event['kind'] for event in ledger.events('old-family')])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_amended_policy_generation_cannot_reset_observed_holdout",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_amended_policy_generation_cannot_reset_observed_holdout",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 52,
+      "definition_end_line": 62,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 56,
+          "end_line": 56,
+          "assertion": "self.assertEqual('PASS', first.status)"
+        },
+        {
+          "line": 58,
+          "end_line": 58,
+          "assertion": "self.assertNotEqual(first.run_id, second.run_id)"
+        },
+        {
+          "line": 59,
+          "end_line": 59,
+          "assertion": "self.assertEqual('BLOCKED', second.status)"
+        },
+        {
+          "line": 59,
+          "end_line": 59,
+          "assertion": "self.assertIn('HOLDOUT_ALREADY_OBSERVED', second.reason_codes)"
+        },
+        {
+          "line": 60,
+          "end_line": 60,
+          "assertion": "self.assertIsNone(service.report(second.run_id)['product_assessment']['sealed_backtest'])"
+        },
+        {
+          "line": 61,
+          "end_line": 61,
+          "assertion": "self.assertEqual(1, len(service.ledger.holdout_observations()))"
+        },
+        {
+          "line": 62,
+          "end_line": 62,
+          "assertion": "self.assertEqual(2, len([v for v in service.ledger.events('fixture-family') if v['kind'] == 'POLICY_SELECTION']))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 95,
+      "definition_end_line": 106,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 102,
+          "end_line": 102,
+          "assertion": "self.assertTrue(ledger.claim_holdout(frozen)['allowed'])"
+        },
+        {
+          "line": 105,
+          "end_line": 105,
+          "assertion": "self.assertEqual('BLOCKED', result['status'])"
+        },
+        {
+          "line": 105,
+          "end_line": 105,
+          "assertion": "self.assertIn('HOLDOUT_EXPOSED_INCOMPLETE', result['reason_codes'])"
+        },
+        {
+          "line": 106,
+          "end_line": 106,
+          "assertion": "self.assertIsNone(result['sealed_backtest'])"
+        },
+        {
+          "line": 106,
+          "end_line": 106,
+          "assertion": "self.assertEqual(1, len(ledger.holdout_observations()))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_changed_source_or_policy_after_freeze_never_becomes_oos_pass",
+      "runner_suffix_id": "test_holdout_ledger.HoldoutLedgerTests.test_changed_source_or_policy_after_freeze_never_becomes_oos_pass",
+      "source": "tests/validation/test_holdout_ledger.py",
+      "definition_line": 107,
+      "definition_end_line": 115,
+      "source_sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+      "assertion_refs": [
+        {
+          "line": 114,
+          "end_line": 114,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 115,
+          "end_line": 115,
+          "assertion": "self.assertEqual(1, len(ledger.holdout_observations()))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 32,
+      "definition_end_line": 44,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 35,
+          "end_line": 35,
+          "assertion": "self.assertEqual('PASS', result['status'])"
+        },
+        {
+          "line": 37,
+          "end_line": 37,
+          "assertion": "self.assertEqual(4, len(variants))"
+        },
+        {
+          "line": 37,
+          "end_line": 37,
+          "assertion": "self.assertEqual(4, len({v['variant_hash'] for v in variants}))"
+        },
+        {
+          "line": 38,
+          "end_line": 38,
+          "assertion": "self.assertEqual(['BLOCKED', 'PASS', 'PASS', 'INVALID'], [v['status'] for v in variants])"
+        },
+        {
+          "line": 39,
+          "end_line": 39,
+          "assertion": "self.assertIn('INVALID_WINDOW', variants[-1]['reason_codes'])"
+        },
+        {
+          "line": 40,
+          "end_line": 40,
+          "assertion": "self.assertEqual('0.5', result['neighborhood']['pass_fraction'])"
+        },
+        {
+          "line": 41,
+          "end_line": 41,
+          "assertion": "self.assertTrue(all((v['backtest']['reproducibility']['runtime_invocations'] > 0 for v in variants[:-1])))"
+        },
+        {
+          "line": 42,
+          "end_line": 42,
+          "assertion": "self.assertTrue(result['raw_result_hashes'])"
+        },
+        {
+          "line": 43,
+          "end_line": 43,
+          "assertion": "self.assertEqual(2, len(result['monte_carlo']))"
+        },
+        {
+          "line": 44,
+          "end_line": 44,
+          "assertion": "self.assertEqual('E2', result['development']['backtest']['reproducibility']['runtime_provider'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_stress_replays_keep_unfavorable_cost_outcomes_and_fail_selected_criterion",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_stress_replays_keep_unfavorable_cost_outcomes_and_fail_selected_criterion",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 53,
+      "definition_end_line": 62,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 57,
+          "end_line": 57,
+          "assertion": "self.assertEqual('FAIL', result['status'])"
+        },
+        {
+          "line": 58,
+          "end_line": 58,
+          "assertion": "self.assertIn('STRESS_TOLERANCE_NOT_MET', result['reason_codes'])"
+        },
+        {
+          "line": 60,
+          "end_line": 60,
+          "assertion": "self.assertLess(float(stressed['backtest']['net_pnl']), 0)"
+        },
+        {
+          "line": 61,
+          "end_line": 61,
+          "assertion": "self.assertGreater(float(stressed['backtest']['total_fees']), 0)"
+        },
+        {
+          "line": 62,
+          "end_line": 62,
+          "assertion": "self.assertIn('Adverse funding always charges absolute recorded event cost', stressed['assumptions'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_selected_execution_requires_both_frozen_profiles_explicit_family_and_seed",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_selected_execution_requires_both_frozen_profiles_explicit_family_and_seed",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 63,
+      "definition_end_line": 68,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 67,
+          "end_line": 67,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_unknown_and_over_budget_profiles_do_not_begin_replay",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_unknown_and_over_budget_profiles_do_not_begin_replay",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 72,
+      "definition_end_line": 78,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 78,
+          "end_line": 78,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_frozen_outputs_and_decimal_profile_cannot_be_changed_by_caller",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_frozen_outputs_and_decimal_profile_cannot_be_changed_by_caller",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 98,
+      "definition_end_line": 109,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 105,
+          "end_line": 105,
+          "assertion": "self.assertEqual(expected, assessment.as_dict())"
+        },
+        {
+          "line": 109,
+          "end_line": 109,
+          "assertion": "self.assertEqual(expected, repeated)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_actual_training_selection_and_each_disjoint_scored_interval_once",
+      "runner_suffix_id": "test_walk_forward.WalkForwardTests.test_actual_training_selection_and_each_disjoint_scored_interval_once",
+      "source": "tests/validation/test_walk_forward.py",
+      "definition_line": 17,
+      "definition_end_line": 33,
+      "source_sha256": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+      "assertion_refs": [
+        {
+          "line": 20,
+          "end_line": 20,
+          "assertion": "self.assertEqual('PASS', result['status'])"
+        },
+        {
+          "line": 20,
+          "end_line": 20,
+          "assertion": "self.assertEqual(2, len(result['windows']))"
+        },
+        {
+          "line": 23,
+          "end_line": 23,
+          "assertion": "self.assertEqual(4, len(window['training_variants']))"
+        },
+        {
+          "line": 24,
+          "end_line": 24,
+          "assertion": "self.assertEqual('FEATURE_ONLY', window['warmup'])"
+        },
+        {
+          "line": 25,
+          "end_line": 25,
+          "assertion": "self.assertEqual('PURGED', window['boundary_overlap'])"
+        },
+        {
+          "line": 26,
+          "end_line": 26,
+          "assertion": "self.assertGreater(window['purge_seconds'], 0)"
+        },
+        {
+          "line": 26,
+          "end_line": 26,
+          "assertion": "self.assertGreater(window['embargo_seconds'], 0)"
+        },
+        {
+          "line": 28,
+          "end_line": 28,
+          "assertion": "self.assertGreaterEqual(trade['opened_at'], window['evaluation_entry_start'])"
+        },
+        {
+          "line": 29,
+          "end_line": 29,
+          "assertion": "self.assertLess(trade['opened_at'], window['evaluation_entry_end'])"
+        },
+        {
+          "line": 30,
+          "end_line": 30,
+          "assertion": "self.assertLessEqual(trade['closed_at'], window['evaluation_end'])"
+        },
+        {
+          "line": 32,
+          "end_line": 32,
+          "assertion": "self.assertEqual(len(ids), len(set(ids)))"
+        },
+        {
+          "line": 33,
+          "end_line": 33,
+          "assertion": "self.assertEqual(len(ids), result['aggregate']['total_trades'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_overlap_misalignment_and_sealed_access_rejected",
+      "runner_suffix_id": "test_walk_forward.WalkForwardTests.test_overlap_misalignment_and_sealed_access_rejected",
+      "source": "tests/validation/test_walk_forward.py",
+      "definition_line": 34,
+      "definition_end_line": 40,
+      "source_sha256": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+      "assertion_refs": [
+        {
+          "line": 40,
+          "end_line": 40,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_later_evaluation_values_cannot_change_earlier_training_choice",
+      "runner_suffix_id": "test_walk_forward.WalkForwardTests.test_later_evaluation_values_cannot_change_earlier_training_choice",
+      "source": "tests/validation/test_walk_forward.py",
+      "definition_line": 41,
+      "definition_end_line": 51,
+      "source_sha256": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+      "assertion_refs": [
+        {
+          "line": 47,
+          "end_line": 47,
+          "assertion": "self.assertEqual(original['windows'][0]['selected_variant_hash'], changed['windows'][0]['selected_variant_hash'])"
+        },
+        {
+          "line": 48,
+          "end_line": 48,
+          "assertion": "self.assertEqual(original['windows'][0]['evaluation']['net_pnl'], changed['windows'][0]['evaluation']['net_pnl'])"
+        },
+        {
+          "line": 51,
+          "end_line": 51,
+          "assertion": "self.assertEqual(before, after)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_stitched_loss_streak_is_checked_even_when_each_window_meets_its_limit",
+      "runner_suffix_id": "test_walk_forward.WalkForwardTests.test_stitched_loss_streak_is_checked_even_when_each_window_meets_its_limit",
+      "source": "tests/validation/test_walk_forward.py",
+      "definition_line": 52,
+      "definition_end_line": 64,
+      "source_sha256": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+      "assertion_refs": [
+        {
+          "line": 53,
+          "end_line": 53,
+          "assertion": "self.assertTrue(hasattr(api, 'assess_walk_forward_aggregate'), 'Missing actual aggregate policy gate')"
+        },
+        {
+          "line": 60,
+          "end_line": 60,
+          "assertion": "self.assertEqual('PASS', one['assessment']['status'])"
+        },
+        {
+          "line": 62,
+          "end_line": 62,
+          "assertion": "self.assertEqual(2, stitched['metrics']['max_consecutive_losses'])"
+        },
+        {
+          "line": 63,
+          "end_line": 63,
+          "assertion": "self.assertEqual('FAIL', stitched['assessment']['status'])"
+        },
+        {
+          "line": 64,
+          "end_line": 64,
+          "assertion": "self.assertIn('MAX_CONSECUTIVE_LOSSES_EXCEEDED', stitched['assessment']['reason_codes'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_seeded_permutation_reproduces_pinned_order_but_never_infers_expectancy",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_seeded_permutation_reproduces_pinned_order_but_never_infers_expectancy",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 18,
+      "definition_end_line": 31,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 22,
+          "end_line": 22,
+          "assertion": "self.assertEqual(one, two)"
+        },
+        {
+          "line": 23,
+          "end_line": 23,
+          "assertion": "self.assertEqual('PASS', one['status'])"
+        },
+        {
+          "line": 24,
+          "end_line": 24,
+          "assertion": "self.assertEqual([4, 3, 2, 1, 5, 0], one['samples'][0]['source_indices'])"
+        },
+        {
+          "line": 25,
+          "end_line": 25,
+          "assertion": "self.assertEqual('DRAWDOWN_ORDER_SENSITIVITY_ONLY', one['interpretation'])"
+        },
+        {
+          "line": 26,
+          "end_line": 26,
+          "assertion": "self.assertIsNone(one['expectancy_quantiles'])"
+        },
+        {
+          "line": 27,
+          "end_line": 27,
+          "assertion": "self.assertEqual({'5'}, {item['net_pnl'] for item in one['samples']})"
+        },
+        {
+          "line": 28,
+          "end_line": 28,
+          "assertion": "self.assertEqual(20, one['resample_count'])"
+        },
+        {
+          "line": 29,
+          "end_line": 29,
+          "assertion": "self.assertEqual('SHA256_COUNTER_REJECTION_V1', one['rng_algorithm'])"
+        },
+        {
+          "line": 31,
+          "end_line": 31,
+          "assertion": "self.assertNotEqual(one['samples'], changed['samples'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_moving_blocks_preserve_local_order_and_record_conditional_sensitivity",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_moving_blocks_preserve_local_order_and_record_conditional_sensitivity",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 33,
+      "definition_end_line": 42,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 36,
+          "end_line": 36,
+          "assertion": "self.assertEqual('PASS', result['status'])"
+        },
+        {
+          "line": 37,
+          "end_line": 37,
+          "assertion": "self.assertEqual('CONDITIONAL_BLOCK_RESAMPLING_SENSITIVITY', result['interpretation'])"
+        },
+        {
+          "line": 38,
+          "end_line": 38,
+          "assertion": "self.assertIsNotNone(result['expectancy_quantiles'])"
+        },
+        {
+          "line": 40,
+          "end_line": 40,
+          "assertion": "self.assertEqual(6, len(item['source_indices']))"
+        },
+        {
+          "line": 41,
+          "end_line": 41,
+          "assertion": "self.assertEqual(item['source_indices'][i] + 1, item['source_indices'][i + 1])"
+        },
+        {
+          "line": 42,
+          "end_line": 42,
+          "assertion": "self.assertIn('Dependence beyond selected block length is not modeled', result['limitations'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_fraction_drawdown_has_explicit_equity_denominator_and_nearest_rank_quantiles",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_fraction_drawdown_has_explicit_equity_denominator_and_nearest_rank_quantiles",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 55,
+      "definition_end_line": 62,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 59,
+          "end_line": 59,
+          "assertion": "self.assertEqual('0.03', result['samples'][0]['max_drawdown'])"
+        },
+        {
+          "line": 60,
+          "end_line": 60,
+          "assertion": "self.assertEqual({'0.05': '0.03', '0.50': '0.03', '0.95': '0.03'}, result['drawdown_quantiles'])"
+        },
+        {
+          "line": 61,
+          "end_line": 61,
+          "assertion": "self.assertEqual('EMPIRICAL_NEAREST_RANK_V1', result['quantile_method'])"
+        },
+        {
+          "line": 62,
+          "end_line": 62,
+          "assertion": "self.assertEqual('100', result['initial_equity'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_fixed_decimal_profile_is_independent_of_ambient_context",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_fixed_decimal_profile_is_independent_of_ambient_context",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 64,
+      "definition_end_line": 75,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 70,
+          "end_line": 70,
+          "assertion": "self.assertEqual(expected, api.evaluate_monte_carlo(sample, policy, seed=99).as_dict())"
+        },
+        {
+          "line": 75,
+          "end_line": 75,
+          "assertion": "self.assertEqual(sparse, api.evaluate_monte_carlo(['1', '2'], sparse_policy, seed=99).as_dict())"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_unknown_float_seed_units_and_computation_budget_rejected",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_unknown_float_seed_units_and_computation_budget_rejected",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 77,
+      "definition_end_line": 85,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 81,
+          "end_line": 81,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 84,
+          "end_line": 84,
+          "assertion": "self.assertRaises(ValueError)"
+        },
+        {
+          "line": 85,
+          "end_line": 85,
+          "assertion": "self.assertRaises(ValueError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_empty_small_and_too_few_blocks_are_insufficient_not_zero_risk_pass",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_empty_small_and_too_few_blocks_are_insufficient_not_zero_risk_pass",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 44,
+      "definition_end_line": 53,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 50,
+          "end_line": 50,
+          "assertion": "self.assertEqual('BLOCKED', result['status'])"
+        },
+        {
+          "line": 51,
+          "end_line": 51,
+          "assertion": "self.assertIn('INSUFFICIENT_EVIDENCE', result['reason_codes'])"
+        },
+        {
+          "line": 52,
+          "end_line": 52,
+          "assertion": "self.assertEqual([], result['samples'])"
+        },
+        {
+          "line": 53,
+          "end_line": 53,
+          "assertion": "self.assertIsNone(result['drawdown_quantiles'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_monte_carlo.MonteCarloTests.test_decimal_arithmetic_overflow_is_typed_incomplete_evidence",
+      "runner_suffix_id": "test_monte_carlo.MonteCarloTests.test_decimal_arithmetic_overflow_is_typed_incomplete_evidence",
+      "source": "tests/validation/test_monte_carlo.py",
+      "definition_line": 86,
+      "definition_end_line": 94,
+      "source_sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b",
+      "assertion_refs": [
+        {
+          "line": 92,
+          "end_line": 92,
+          "assertion": "self.fail('Unstructured Decimal exception escaped research assessment')"
+        },
+        {
+          "line": 93,
+          "end_line": 93,
+          "assertion": "self.assertEqual('BLOCKED', result['status'])"
+        },
+        {
+          "line": 93,
+          "end_line": 93,
+          "assertion": "self.assertIn('ARITHMETIC_PROFILE_EXCEEDED', result['reason_codes'])"
+        },
+        {
+          "line": 94,
+          "end_line": 94,
+          "assertion": "self.assertEqual([], result['samples'])"
+        },
+        {
+          "line": 94,
+          "end_line": 94,
+          "assertion": "self.assertIsNone(result['drawdown_quantiles'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_no_selected_policy_and_too_few_samples_are_blocked_not_quantitative_fail",
+      "runner_suffix_id": "test_robustness_v02.RobustnessTests.test_no_selected_policy_and_too_few_samples_are_blocked_not_quantitative_fail",
+      "source": "tests/validation/test_robustness_v02.py",
+      "definition_line": 63,
+      "definition_end_line": 71,
+      "source_sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+      "assertion_refs": [
+        {
+          "line": 68,
+          "end_line": 68,
+          "assertion": "self.assertEqual('BLOCKED', result['status'])"
+        },
+        {
+          "line": 68,
+          "end_line": 68,
+          "assertion": "self.assertIn('MISSING_RESEARCH_POLICY', result['reason_codes'])"
+        },
+        {
+          "line": 71,
+          "end_line": 71,
+          "assertion": "self.assertEqual('BLOCKED', result['status'])"
+        },
+        {
+          "line": 71,
+          "end_line": 71,
+          "assertion": "self.assertIn('INSUFFICIENT_EVIDENCE', result['reason_codes'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_insufficient_final_oos_is_product_blocked_and_preserves_legacy_numeric_decision",
+      "runner_suffix_id": "test_research_robustness.ResearchRobustnessTests.test_insufficient_final_oos_is_product_blocked_and_preserves_legacy_numeric_decision",
+      "source": "tests/application/test_research_robustness.py",
+      "definition_line": 112,
+      "definition_end_line": 122,
+      "source_sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+      "assertion_refs": [
+        {
+          "line": 118,
+          "end_line": 118,
+          "assertion": "self.assertEqual('PASS', report['robustness']['status'])"
+        },
+        {
+          "line": 118,
+          "end_line": 118,
+          "assertion": "self.assertEqual('BLOCKED', result.status)"
+        },
+        {
+          "line": 119,
+          "end_line": 119,
+          "assertion": "self.assertIn('INSUFFICIENT_EVIDENCE', result.reason_codes)"
+        },
+        {
+          "line": 120,
+          "end_line": 120,
+          "assertion": "self.assertEqual('FAIL', report['product_assessment']['canonical_oos_decision']['decision'])"
+        },
+        {
+          "line": 121,
+          "end_line": 121,
+          "assertion": "self.assertGreater(report['product_assessment']['sealed_backtest']['total_trades'], 0)"
+        },
+        {
+          "line": 122,
+          "end_line": 122,
+          "assertion": "self.assertEqual(1, len(service.ledger.holdout_observations()))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_missing_risk_preserves_diagnostic_pass_without_candidate_authority",
+      "runner_suffix_id": "test_product_assessment_binding.ProductAssessmentBindingTests.test_missing_risk_preserves_diagnostic_pass_without_candidate_authority",
+      "source": "tests/application/test_product_assessment_binding.py",
+      "definition_line": 73,
+      "definition_end_line": 79,
+      "source_sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+      "assertion_refs": [
+        {
+          "line": 78,
+          "end_line": 78,
+          "assertion": "self.assertEqual('PASS', result.status)"
+        },
+        {
+          "line": 78,
+          "end_line": 78,
+          "assertion": "self.assertEqual('BACKTESTING', result.strategy_lifecycle)"
+        },
+        {
+          "line": 79,
+          "end_line": 79,
+          "assertion": "self.assertIn('MISSING_SELECTED_RISK_POLICY', report['candidate_gate']['reason_codes'])"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting",
+      "runner_suffix_id": "test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting",
+      "source": "tests/application/test_product_assessment_binding.py",
+      "definition_line": 56,
+      "definition_end_line": 71,
+      "source_sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+      "assertion_refs": [
+        {
+          "line": 69,
+          "end_line": 69,
+          "assertion": "self.assertEqual(outcome, result.status)"
+        },
+        {
+          "line": 70,
+          "end_line": 70,
+          "assertion": "self.assertEqual('REJECTED' if outcome == 'FAIL' else 'BACKTESTING', result.strategy_lifecycle)"
+        },
+        {
+          "line": 71,
+          "end_line": 71,
+          "assertion": "self.assertEqual(result, self.execute(service, risk=False))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_full_canonical_model_has_exact_nineteen_edges_and_ten_states",
+      "runner_suffix_id": "test_product_lifecycle_v02.ProductLifecycleModelTests.test_full_canonical_model_has_exact_nineteen_edges_and_ten_states",
+      "source": "tests/registry/test_product_lifecycle_v02.py",
+      "definition_line": 18,
+      "definition_end_line": 25,
+      "source_sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+      "assertion_refs": [
+        {
+          "line": 20,
+          "end_line": 20,
+          "assertion": "self.assertTrue(hasattr(models, 'CANONICAL_LIFECYCLE_TRANSITIONS'), 'Missing full authoritative lifecycle model')"
+        },
+        {
+          "line": 21,
+          "end_line": 21,
+          "assertion": "self.assertEqual(CANONICAL_EDGES, set(models.CANONICAL_LIFECYCLE_TRANSITIONS))"
+        },
+        {
+          "line": 22,
+          "end_line": 22,
+          "assertion": "self.assertEqual({'DRAFT', 'BACKTESTING', 'CANDIDATE', 'PAPER', 'READY_FOR_APPROVAL', 'APPROVED', 'LIVE', 'DEGRADED', 'REJECTED', 'RETIRED'}, set(models.CANONICAL_LIFECYCLE_STATES))"
+        },
+        {
+          "line": 25,
+          "end_line": 25,
+          "assertion": "self.assertEqual((a, b) in CANONICAL_EDGES, models.is_canonical_lifecycle_transition_allowed(a, b))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage",
+      "runner_suffix_id": "test_operational_lifecycle_v02.OperationalLifecycleTests.test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage",
+      "source": "tests/registry/test_operational_lifecycle_v02.py",
+      "definition_line": 110,
+      "definition_end_line": 134,
+      "source_sha256": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+      "assertion_refs": [
+        {
+          "line": 123,
+          "end_line": 123,
+          "assertion": "self.assertRaises(InvalidTransition)"
+        },
+        {
+          "line": 125,
+          "end_line": 125,
+          "assertion": "self.assertEqual(source, e6.get_strategy(identity).current_lifecycle_state)"
+        },
+        {
+          "line": 132,
+          "end_line": 132,
+          "assertion": "self.assertEqual(target, after.current_lifecycle_state)"
+        },
+        {
+          "line": 133,
+          "end_line": 133,
+          "assertion": "self.assertEqual(before.registry_revision + 1, after.registry_revision)"
+        },
+        {
+          "line": 134,
+          "end_line": 134,
+          "assertion": "self.assertEqual(before.definition_json, after.definition_json)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_product_namespace_cannot_promote_using_legacy_pass_metadata",
+      "runner_suffix_id": "test_product_lifecycle_v02.ProductLegacyBypassTests.test_product_namespace_cannot_promote_using_legacy_pass_metadata",
+      "source": "tests/registry/test_product_lifecycle_v02.py",
+      "definition_line": 66,
+      "definition_end_line": 73,
+      "source_sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+      "assertion_refs": [
+        {
+          "line": 71,
+          "end_line": 71,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        },
+        {
+          "line": 73,
+          "end_line": 73,
+          "assertion": "self.assertEqual('BACKTESTING', service.get_strategy(identity).current_lifecycle_state)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+      "runner_suffix_id": "test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+      "source": "tests/registry/test_product_lifecycle_v02.py",
+      "definition_line": 75,
+      "definition_end_line": 83,
+      "source_sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+      "assertion_refs": [
+        {
+          "line": 82,
+          "end_line": 82,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        },
+        {
+          "line": 83,
+          "end_line": 83,
+          "assertion": "self.assertEqual('BACKTESTING', service.get_strategy(identity).current_lifecycle_state)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_v02_subject_cannot_escape_product_gates_in_unclassified_legacy_registry",
+      "runner_suffix_id": "test_product_lifecycle_v02.ProductLegacyBypassTests.test_v02_subject_cannot_escape_product_gates_in_unclassified_legacy_registry",
+      "source": "tests/registry/test_product_lifecycle_v02.py",
+      "definition_line": 85,
+      "definition_end_line": 89,
+      "source_sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+      "assertion_refs": [
+        {
+          "line": 88,
+          "end_line": 88,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_direct_store_operational_skip_and_restart_cannot_resume_live",
+      "runner_suffix_id": "test_operational_lifecycle_v02.OperationalLifecycleTests.test_direct_store_operational_skip_and_restart_cannot_resume_live",
+      "source": "tests/registry/test_operational_lifecycle_v02.py",
+      "definition_line": 167,
+      "definition_end_line": 181,
+      "source_sha256": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+      "assertion_refs": [
+        {
+          "line": 176,
+          "end_line": 176,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        },
+        {
+          "line": 178,
+          "end_line": 178,
+          "assertion": "self.assertEqual('DEGRADED', restarted.get_strategy(identity).current_lifecycle_state)"
+        },
+        {
+          "line": 179,
+          "end_line": 179,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_validation_lifecycle.ValidationLifecycleTests.test_candidate_service_exposes_no_approval_or_live_path",
+      "runner_suffix_id": "test_validation_lifecycle.ValidationLifecycleTests.test_candidate_service_exposes_no_approval_or_live_path",
+      "source": "tests/registry/test_validation_lifecycle.py",
+      "definition_line": 157,
+      "definition_end_line": 161,
+      "source_sha256": "sha256:4592838662daa35b154614849c93e8dfd4bc93bd48ba408d7fb0c94b34879c82",
+      "assertion_refs": [
+        {
+          "line": 158,
+          "end_line": 158,
+          "assertion": "self.assertFalse(hasattr(self.service, 'approve'))"
+        },
+        {
+          "line": 159,
+          "end_line": 159,
+          "assertion": "self.assertFalse(hasattr(self.service, 'go_live'))"
+        },
+        {
+          "line": 160,
+          "end_line": 160,
+          "assertion": "self.assertFalse(hasattr(self.service, 'promote_to_live'))"
+        },
+        {
+          "line": 161,
+          "end_line": 161,
+          "assertion": "self.assertFalse(hasattr(self.service, 'transition'))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_draft_retirement_preserves_definition_and_audits_actor_and_reason",
+      "runner_suffix_id": "test_product_lifecycle_v02.ProductLifecycleModelTests.test_draft_retirement_preserves_definition_and_audits_actor_and_reason",
+      "source": "tests/registry/test_product_lifecycle_v02.py",
+      "definition_line": 26,
+      "definition_end_line": 42,
+      "source_sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+      "assertion_refs": [
+        {
+          "line": 33,
+          "end_line": 33,
+          "assertion": "self.assertTrue(hasattr(service, 'retire'), 'Missing named retirement workflow')"
+        },
+        {
+          "line": 35,
+          "end_line": 35,
+          "assertion": "self.assertEqual('RETIRED', retired.current_lifecycle_state)"
+        },
+        {
+          "line": 36,
+          "end_line": 36,
+          "assertion": "self.assertEqual(outcome.strategy.definition_json, retired.definition_json)"
+        },
+        {
+          "line": 37,
+          "end_line": 37,
+          "assertion": "self.assertEqual(1, retired.registry_revision)"
+        },
+        {
+          "line": 38,
+          "end_line": 38,
+          "assertion": "self.assertRaises(InvalidTransition)"
+        },
+        {
+          "line": 41,
+          "end_line": 41,
+          "assertion": "self.assertEqual(('DRAFT', 'RETIRED'), row[:2])"
+        },
+        {
+          "line": 41,
+          "end_line": 41,
+          "assertion": "self.assertTrue(row[2].endswith('Z'))"
+        },
+        {
+          "line": 42,
+          "end_line": 42,
+          "assertion": "self.assertEqual('fixture-operator', row[3])"
+        },
+        {
+          "line": 42,
+          "end_line": 42,
+          "assertion": "self.assertEqual(['USER_RETIRED'], json.loads(row[4]))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_backtesting_retirement_is_not_a_canonical_edge",
+      "runner_suffix_id": "test_product_lifecycle_v02.ProductLifecycleModelTests.test_backtesting_retirement_is_not_a_canonical_edge",
+      "source": "tests/registry/test_product_lifecycle_v02.py",
+      "definition_line": 43,
+      "definition_end_line": 49,
+      "source_sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+      "assertion_refs": [
+        {
+          "line": 47,
+          "end_line": 47,
+          "assertion": "self.assertTrue(hasattr(service, 'retire'), 'Missing canonical retirement guard')"
+        },
+        {
+          "line": 48,
+          "end_line": 48,
+          "assertion": "self.assertRaises(InvalidTransition)"
+        },
+        {
+          "line": 49,
+          "end_line": 49,
+          "assertion": "self.assertEqual('BACKTESTING', service.get_strategy(outcome.strategy.identity).current_lifecycle_state)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy",
+      "runner_suffix_id": "test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy",
+      "source": "tests/application/test_product_assessment_binding.py",
+      "definition_line": 37,
+      "definition_end_line": 54,
+      "source_sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+      "assertion_refs": [
+        {
+          "line": 41,
+          "end_line": 42,
+          "assertion": "self.assertIn('risk_policy_ref', __import__('inspect').signature(service.run).parameters, 'Missing pre-run frozen E5 risk selection')"
+        },
+        {
+          "line": 44,
+          "end_line": 44,
+          "assertion": "self.assertEqual('CANDIDATE', result.strategy_lifecycle)"
+        },
+        {
+          "line": 45,
+          "end_line": 45,
+          "assertion": "self.assertEqual('PASS', report['candidate_gate']['status'])"
+        },
+        {
+          "line": 46,
+          "end_line": 46,
+          "assertion": "self.assertEqual(risk_fixture(), report['inputs']['risk_policy'])"
+        },
+        {
+          "line": 47,
+          "end_line": 47,
+          "assertion": "self.assertEqual(result, self.execute(service))"
+        },
+        {
+          "line": 48,
+          "end_line": 48,
+          "assertion": "self.assertEqual(0, report['provenance']['provider_requests'])"
+        },
+        {
+          "line": 51,
+          "end_line": 51,
+          "assertion": "self.assertEqual('PASS', record.status)"
+        },
+        {
+          "line": 52,
+          "end_line": 52,
+          "assertion": "self.assertEqual('sha256:', record.risk_policy_hash[:7])"
+        },
+        {
+          "line": 53,
+          "end_line": 53,
+          "assertion": "self.assertEqual('CANDIDATE', e6.get_strategy(record.identity).current_lifecycle_state)"
+        },
+        {
+          "line": 54,
+          "end_line": 54,
+          "assertion": "self.assertEqual(record, e6.product_assessment(result.run_id))"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_e6_product_record_requires_configured_actual_producer_not_caller_pass",
+      "runner_suffix_id": "test_product_assessment_binding.ProductAssessmentBindingTests.test_e6_product_record_requires_configured_actual_producer_not_caller_pass",
+      "source": "tests/application/test_product_assessment_binding.py",
+      "definition_line": 81,
+      "definition_end_line": 86,
+      "source_sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+      "assertion_refs": [
+        {
+          "line": 84,
+          "end_line": 84,
+          "assertion": "self.assertTrue(hasattr(e6, 'record_product_assessment'), 'Missing owner product assessment interface')"
+        },
+        {
+          "line": 85,
+          "end_line": 85,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    },
+    {
+      "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_wrong_subject_stale_source_and_direct_writer_do_not_create_product_authority",
+      "runner_suffix_id": "test_product_assessment_binding.ProductAssessmentBindingTests.test_wrong_subject_stale_source_and_direct_writer_do_not_create_product_authority",
+      "source": "tests/application/test_product_assessment_binding.py",
+      "definition_line": 105,
+      "definition_end_line": 130,
+      "source_sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+      "assertion_refs": [
+        {
+          "line": 116,
+          "end_line": 116,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        },
+        {
+          "line": 120,
+          "end_line": 120,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        },
+        {
+          "line": 122,
+          "end_line": 122,
+          "assertion": "self.assertRaises(EvidenceGateError)"
+        },
+        {
+          "line": 124,
+          "end_line": 124,
+          "assertion": "self.assertEqual(record, e6.product_assessment(result.run_id))"
+        },
+        {
+          "line": 128,
+          "end_line": 128,
+          "assertion": "self.assertRaises(sqlite3.IntegrityError)"
+        },
+        {
+          "line": 130,
+          "end_line": 130,
+          "assertion": "self.assertRaises(sqlite3.IntegrityError)"
+        }
+      ],
+      "execution_state": "NOT_BOUND;NO_TEST_EXECUTION_THIS_TASK",
+      "fixture_scope": "Source test definition; controlled FIXTURE/source seams can be used. Does not establish native/external/financial execution."
+    }
+  ],
+  "global_limits": [
+    "Every acceptance_result remains NOT_RUN; source definitions/assertions never infer executed PASS.",
+    "Historical selected cases/native assertion definitions remain separate references, not current execution outcomes.",
+    "Case IDs are canonical tests-package identities plus runner suffix aliases; root must match actual frozen executed instance IDs, not use test counts as semantic acceptance.",
+    "Explicit faults, patched clocks, source observers and manually authored ledger events are labelled source mechanisms, never actual native/provider/forward proof.",
+    "Concrete test gaps are bounded-audit findings, not a claim no other repository test could cover them."
+  ],
+  "static_source_commitments": [
+    {
+      "path": "src/application/datasets/catalog.py",
+      "sha256": "sha256:a61cf385505c5b3e7c04a93020d908974376c2fcd6d9f7bedd94c782c33e2dde"
+    },
+    {
+      "path": "src/application/datasets/resolver.py",
+      "sha256": "sha256:928d0f18ed5f732c39c93ceae453c3c4c7aeb29dbbbad8c0c6ae816f7c90965a"
+    },
+    {
+      "path": "src/application/datasets/split_plan.py",
+      "sha256": "sha256:68642b70cd67374305f42a8046900e5b3dc0be4741cac84bc29a0f467eb48927"
+    },
+    {
+      "path": "src/application/research/holdout.py",
+      "sha256": "sha256:2a519b501722a464b2499f1e92fa079cb3d0e2ad17b4c3a98f6d5b9b789d524f"
+    },
+    {
+      "path": "src/application/research/orchestrator.py",
+      "sha256": "sha256:00d8359aac774024c95c7e7017fe172f8ffd30462104a6f3376a739a3da52e39"
+    },
+    {
+      "path": "src/application/research/product_assessment.py",
+      "sha256": "sha256:95c9727361d403d0a0807f223c97c11f0e6637ad883e4a64f45ef99b79392335"
+    },
+    {
+      "path": "src/application/research/service.py",
+      "sha256": "sha256:b12faf95dd0eed6e7a902641dd1783696893f5126c8fe120cdb4e5db81b6c093"
+    },
+    {
+      "path": "src/registry/models.py",
+      "sha256": "sha256:05eaee6d83886c93b4acdfe3edac64dcb2193c370ee33253f87246df5c4a06f3"
+    },
+    {
+      "path": "src/registry/product_assessment.py",
+      "sha256": "sha256:67c3e638da388575d5d980475fce1b6b29a3c884f72e299cc18049481cfd2b92"
+    },
+    {
+      "path": "src/registry/service.py",
+      "sha256": "sha256:75371656b607aa27e588518bda7d86c8532988cd3f0e37ec6e13726c53722fab"
+    },
+    {
+      "path": "src/validation/robustness/evaluator.py",
+      "sha256": "sha256:199a0bffda8c974356891210ab12736c7b806f94a761cd4a4aa3901bceecaeeb"
+    },
+    {
+      "path": "src/validation/robustness/monte_carlo.py",
+      "sha256": "sha256:1c81b644f0ef9df6780ac3bb0cf29d4df9c1c82077ece4792658b5c0e30b7760"
+    },
+    {
+      "path": "tests/application/test_dataset_binding.py",
+      "sha256": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b"
+    },
+    {
+      "path": "tests/application/test_product_assessment_binding.py",
+      "sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416"
+    },
+    {
+      "path": "tests/application/test_research_e6_recovery.py",
+      "sha256": "sha256:8482a2fce1350fbdd9a4583b82b478b6e34cc84626824d179f1f426cebf18801"
+    },
+    {
+      "path": "tests/application/test_research_pipeline.py",
+      "sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4"
+    },
+    {
+      "path": "tests/application/test_research_robustness.py",
+      "sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835"
+    },
+    {
+      "path": "tests/registry/test_operational_lifecycle_v02.py",
+      "sha256": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c"
+    },
+    {
+      "path": "tests/registry/test_product_lifecycle_v02.py",
+      "sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c"
+    },
+    {
+      "path": "tests/registry/test_validation_lifecycle.py",
+      "sha256": "sha256:4592838662daa35b154614849c93e8dfd4bc93bd48ba408d7fb0c94b34879c82"
+    },
+    {
+      "path": "tests/validation/test_holdout_ledger.py",
+      "sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e"
+    },
+    {
+      "path": "tests/validation/test_monte_carlo.py",
+      "sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b"
+    },
+    {
+      "path": "tests/validation/test_robustness_v02.py",
+      "sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1"
+    },
+    {
+      "path": "tests/validation/test_walk_forward.py",
+      "sha256": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae"
+    }
+  ]
+}

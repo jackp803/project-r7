@@ -1,0 +1,33 @@
+{
+  "schema_version": "r7-owning-memory-observer-final-static-review-v1",
+  "execution": "NONE",
+  "helper": "run_owning_with_memory.py",
+  "helper_sha256": "sha256:ca0cd10feb6a9324bb11155efc28a01364bd9c5d2b6fb4aaab038814ab6f4b51",
+  "critical": 0,
+  "important": 1,
+  "disposition": "ONE_REMAINING_CLEANUP_AND_SUCCESS_GATE_REPAIR",
+  "resolved": [
+    "MeasurementProcessExited is now recorded as an incomplete descendant race and sampling continues while the exact root remains alive.",
+    "Spawn/start/wait failure enters the owning cleanup block; missing checkpoint and independent retention/source/wrapper phases retain typed failures.",
+    "No valid measurement now produces null extrema and cannot produce exit0.",
+    "Full actual owning producer remains unchanged; the observer adds no receipt, production threshold or qualification-authority mutation."
+  ],
+  "findings": [
+    {
+      "id": "MEM-OBS-FINAL-01",
+      "severity": "Important",
+      "title": "Monitor completion is reported but not required for success or safe serialization",
+      "detail": "After worker.join(timeout=3), monitor_stopped may be false. The final exit0 predicate does not test monitor_stopped and no error is appended for an alive thread. A daemon still reading native handles or appending to samples can therefore coexist with final result serialization and an observer exit0. Also the join call is not isolated from terminate_owned: a join exception skips the following owned cleanup call and diagnostic phases.",
+      "minimal_repair": "Isolate monitor join and owned termination in independent try blocks so each cleanup is attempted. Record typed MONITOR_CLEANUP failure if join raises or the worker remains alive, require stopped monitor for exit0, and serialize a stable sample snapshot after the monitor is confirmed stopped. A surviving monitor must yield a failed diagnostic observation; it cannot justify fabricated sample completion.",
+      "meaningful_source_regression": "Controlled monitor join failure still invokes owned termination. A monitor remaining alive after its finite join yields nonzero observer status, an explicit cleanup error and no success-shaped measurement-complete claim."
+    }
+  ],
+  "preserved_limits": [
+    "Aggregate sampled RSS can double-count shared memory; two-second sampling cannot establish continuous peaks or process-specific leak attribution.",
+    "The10800-second outer deadline is operational observer containment, not native research timeout/capacity proof.",
+    "No active checkpoint, receipt database, build output, private runtime, credentials or process environment was read. No test/native/build/network command was executed.",
+    "Parent-reported compilation success was not rerun. No qualification PASS was observed or inferred."
+  ],
+  "source_changes": false,
+  "qualification_claims_created": 0
+}

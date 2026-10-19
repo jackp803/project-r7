@@ -1,0 +1,26 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "reviewed_subject": {
+    "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+    "sha256": "3b82548ac7bf3b41bb3cd08b15277c57ca04d4bc790ec59ae1c583c17f4a90b6"
+  },
+  "scope": "Narrow static recheck of the residual version-only tamper finding; earlier extraction containment, captured archive/build binding and emitted authoring-payload review conclusions are preserved. No helper, product, test, native, build, qualification or network execution; no private database, authentication, configuration, archive or executable inspection.",
+  "resolved_findings": [
+    {
+      "id": "PORTABLE-VERSION-METADATA-SELF-COMPARISON",
+      "status": "RESOLVED",
+      "evidence": "Lines 139-140 capture the intended serialized version bytes before exclusive publication. require_version at lines 25-26 compares a protected bounded read with that exact snapshot. The final author-kit closure at line 143 uses sha(version_bytes), and line 150 repeats the exact-byte version check after the final source/package guard, before passed=True."
+    }
+  ],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "findings": [],
+  "limitations": [
+    "Bounded review readiness only; no portable-install, authoring, source, native, complete PQR or whole-Master execution result is asserted.",
+    "Parent-reported three source-only helper regression results were not executed or credited by the reviewer.",
+    "No ordinary PAPER release or financial authority is issued."
+  ]
+}

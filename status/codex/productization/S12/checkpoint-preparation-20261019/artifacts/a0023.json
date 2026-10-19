@@ -1,0 +1,449 @@
+{
+  "schema_version": "r7-final-acceptance-record-plan-v1",
+  "status": "ADVISORY_ONLY;NO_ACCEPTANCE_RESULTS",
+  "reviewer_execution": "NONE",
+  "guard": "c3f4f2a full qualification running at assignment. No active evidence read; no current full qualification or any requirement PASS inferred.",
+  "counts": {
+    "v02_records": 66,
+    "legacy_records": 150,
+    "total_expected_requirement_ids": 216,
+    "per_record_required_fields": 21,
+    "source_candidate_routes": 31,
+    "explicit_semantic_gap_routes_in_existing_maps": 15,
+    "conditional_scope_or_evidence_kind_routes": 3,
+    "other_source_routes_still_need_binding": 13,
+    "current_pass_claims": 0
+  },
+  "status_vocabulary": {
+    "allowed_canonical": [
+      "PASS",
+      "FAIL",
+      "BLOCKED",
+      "NOT_RUN",
+      "NOT_APPLICABLE"
+    ],
+    "N_A": "Task shorthand for canonical NOT_APPLICABLE. Do not emit a sixth literal N_A value into the existing matrix contract.",
+    "forbidden": [
+      "PARTIAL_PASS",
+      "SOURCE_PASS",
+      "SOURCE_ONLY_WINDOWS as status",
+      "WAITING_EXTERNAL as acceptance status",
+      "IN_PROGRESS as acceptance status"
+    ],
+    "scope_location": "Use environment_class and limitations for SOURCE_ONLY_WINDOWS/native_WINDOWS/fixture/local transport boundaries. Keep program/commissioning work state in separate summaries."
+  },
+  "field_merge_contract": {
+    "acceptance_v02_draft": "Preserve requirement_id/text/owner/spec/required_evidence and explicit external/native definitions; replace its single representative mapped_source_cases as sufficiency basis with expanded clause mappings, not a union of prose claims.",
+    "acceptance_str_expanded_map": "requirements.case_keys+clauses -> required_case_catalog exact named cases/assertions and source_inventory/fixture commitments; preserve coverage_limits and additional_mapping_gaps. Designs add new potential case names only after actual assertion inspection and execution binding.",
+    "acceptance_research_expanded_map": "requirements.clauses.case_ids -> case_catalog source/definition/assertion_refs/raw source hash and runner_suffix_id; carry concrete_gaps_or_limits/interpretation_notes; implementation_anchors are not execution proof.",
+    "acceptance_cloud_trade_expanded_map": "requirements.named_cases case_id/source/method/definition_line/assertion_locations/asserted_semantics plus implementation coordinates; preserve concrete_uncovered_clauses_or_scope_limits and separate real commissioning. Historical_execution_instance_id never becomes current ID.",
+    "acceptance_disposition_advisory": "Use conditional_route/acceptance_criteria/remaining_limitation_or_gap to select evidence kind and outer target gates. It is advisory, never an executed result.",
+    "completion_designs": "Expected new cases, values and repair directions only. They cannot clear a gap until frozen current definition/assertions exist and actual named instance executes with the expected assertions.",
+    "legacy_150_draft": "All150 IDs and origin/requirement/requested evidence must remain. Proposed applicability/refinement and related source refs are not full requirement acceptance. Retain ID aliases/explicit v0.2 precedence without deleting legacy rows or inventing NOT_APPLICABLE."
+  },
+  "current_source_route_advisory": [
+    {
+      "requirement_id": "STR-01",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-01",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Bind retained golden fixture bytes; finite golden corpus does not require impossible proof over every historical strategy."
+      ]
+    },
+    {
+      "requirement_id": "STR-02",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-02",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Finite grammar vectors are bounded source assertions, not universal formal security proof; no arbitrary code execution requested."
+      ]
+    },
+    {
+      "requirement_id": "STR-03",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-03",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "EMA independent nonlinear recursive-alpha oracle missing from expanded map. Close with EMA-NONLINEAR-ORACLE actual asserted6/4 vector and current execution, not same-implementation parity."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "STR-04",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-04",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Finite exact Wilder/warmup/flat cases are the intended source oracle; every-family ambient precision permutations are optional unless a different semantic branch is identified."
+      ]
+    },
+    {
+      "requirement_id": "STR-06",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-06",
+      "proposed_admission_gate": "EXPLICIT_REVIEW_OR_EVIDENCE_KIND_DECISION_REQUIRED",
+      "uncovered_or_conditional_clauses": [
+        "Shared EMA arithmetic oracle gap affects a broad all-MACD-arithmetic claim. Exact stated MACD per-output readiness/Bollinger population variance/Donchian lag assertions may be admitted separately if fully mapped; do not invent unrelated new arithmetic coverage requirements."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "STR-07",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-07",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Parsed runtime immediately previous finalized CROSS pair and unavailable predecessor fail-closed are missing; direct operator previous_values is insufficient."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "STR-08",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-08",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Shared parsed CROSS unavailable-predecessor/as-of boundary composition remains a mapped design gap; a static red candidate is not observed FAIL."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "STR-11",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-11",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Positive ATR target with bound anchors and positive fixed-price stop/target E5 forms absent; retain non-widening/actual-fill scope and explicit nonexecutable trailing."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "STR-13",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json#requirement_id=STR-13",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Every-entry metadata/verification inventory assertion missing; EMA handler/flag representative cannot prove all profiles."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "CLOUD-01",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-01",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Actual local E2/E6 integration may establish domain contract; real cloud commissioning separate."
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-02",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-02",
+      "proposed_admission_gate": "EXPLICIT_REVIEW_OR_EVIDENCE_KIND_DECISION_REQUIRED",
+      "uncovered_or_conditional_clauses": [
+        "Literal byte-prefix truncation is not separately named; map currently uses missing/mismatched shortbytes and manifest-first ordering. Root must explicitly decide whether those actual assertions satisfy truncation at the same hash-guard boundary or add a precise finite truncation vector. No real network campaign is needed for the local retryable fault contract."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "CLOUD-03",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-03",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Source security assertions can support Windows scope; required Ubuntu native path-security records remain NOT_RUN until actually executed."
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-04",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-04",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Injected local crash/idempotency contract is not distributed cloud exactly-once proof."
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-05",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-05",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Mapped stale ledger completion and separate crash-after-E6 tests do not directly establish stale takeover cannot overwrite/duplicate canonical E6 in the joined path; retain exact canonical-state scope gap."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "CLOUD-06",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-06",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Controlled upload/ACK failure mechanics may support software outbox contract; real cloud commissioning remains separate."
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-08",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-08",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Transport/outbox statuses do not render the requirement word shown. Populated browser/API view of LOCAL_STAGED versus byte-verified ACK still needs exact mapping."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "CLOUD-09",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-09",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Strict report adversarial scan/opt-in-out is bounded artifact evidence. Whole-Git secret audit is OPS-02, populatedLIVE report capability is legacyK05; do not silently claim either."
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-10",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=CLOUD-10",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Distinct actual authored time-bar/data-gap example absent; current MTF author example1h/4h is not every specifically required4h/15m example. Existing tactical authoring alone does not prove expiry management."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "DATA-01",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=DATA-01",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Controlled data integrity checks may establish the validator mechanics; real independent OOS/data commissioning separate."
+      ]
+    },
+    {
+      "requirement_id": "DATA-02",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=DATA-02",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Dominant holding-vs-label max-horizon numerical boundary not directly mapped; research RCC-01/RCC-02 define precise tests. Wrong-unit exceptions alone do not prove every before-computation branch."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "RES-01",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-01",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Broader draft same-upstream crash recovery claim lacks pre-crash ID/one-canonical-row assertion; RCC-03 augments existing actual crash case. Required before retaining that broad durability statement."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "RES-02",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-02",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Source durable freeze/as-of/OOS isolation may be admitted only as fixture mechanics; real unseen holdout is separate."
+      ]
+    },
+    {
+      "requirement_id": "RES-03",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-03",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Authored INVALID/FAILED/ABORTED storage is distinct from actual automatic failure events. RCC-04 actual quantitative failed trials plus conditional RCC-05 replay-exception retention needed for the broader automatic-failure claim. Automatic BaseException ABORTED is not presently a required behavior."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "RES-04",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-04",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "No valid quantitative FAIL neighborhood variant retained in selected map; stress FAIL is a separate scenario. RCC-04 actual failing-neighbor list+ledger closes this."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "RES-05",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-05",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Exact differing hold/label-horizon max and numerical walk-forward embargo bounds absent; positive purge labels alone do not close RCC-02. Zero-trade invented interval IDs are not required."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "RES-06",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-06",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Seeded conditional historical resampling semantics only, no return/independence/profitability claim."
+      ]
+    },
+    {
+      "requirement_id": "RES-07",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=RES-07",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Domain insufficient-stage/sample negatives do not replace UI or financial-policy acceptance."
+      ]
+    },
+    {
+      "requirement_id": "LIFE-01",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=LIFE-01",
+      "proposed_admission_gate": "NO_ADDITIONAL_LOCAL_SEMANTIC_GAP_IDENTIFIED_IN_SELECTED_MAP;BINDING_STILL_REQUIRED",
+      "uncovered_or_conditional_clauses": [],
+      "scope_limits": [
+        "Use explicit19 model +18 actual operational edges +actual quantitative rejection19th. Synthetic approvals/forward/admission do not grant real authority."
+      ]
+    },
+    {
+      "requirement_id": "LIFE-02",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json#requirement_id=LIFE-02",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Direct canonical candidate denial for otherwise owner-produced PASS with independent_oos=false or nonFULL_LOGICAL_VERIFIED field not mapped. RCC-06 uses actual canonical validator and actual owner baseline; no generic fakePASS."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "TRADE-01",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=TRADE-01",
+      "proposed_admission_gate": "EXPLICIT_REVIEW_OR_EVIDENCE_KIND_DECISION_REQUIRED",
+      "uncovered_or_conditional_clauses": [
+        "Source review/no-stub completeness is a separate required evidence kind; all named fake-transport cases alone cannot substitute. Full joined fake-provider-to-flat gap belongs to legacyH16 unless traceable v0.2 clause independently requires it. Real private provider commissioning is COM-05, not authorization to call it here."
+      ],
+      "scope_limits": []
+    },
+    {
+      "requirement_id": "TRADE-02",
+      "mapping_ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json#requirement_id=TRADE-02",
+      "proposed_admission_gate": "EXPLICIT_SEMANTIC_ASSERTION_GAP_IN_EXISTING_MAP",
+      "uncovered_or_conditional_clauses": [
+        "Separate cloud PASS rejection, fixture approval denial and guarded dispatch do not yet map one malicious cloud/credential proposal through actual authority gates to zero fake-provider effect. Required security-negativeE2E clause must be explicitly joined or kept open."
+      ],
+      "scope_limits": []
+    }
+  ],
+  "binding_algorithm": [
+    "Freeze the216-ID inventory with no duplicates/omissions. Maintain external sidecar clause-coverage ledger linking each clause to exact mapped case/assertion, required scope and any explicit gap; avoid adding uncontrolled extra per-result fields beyond21.",
+    "Only after parent confirms actual run complete, join each mapped canonical case/runner alias to actual frozen owning execution_instance_id:member+actual executed module/class/method, exact real command/log/artifact hash, source/spec/config/build/implementation/OS identity. Resolve aliases unambiguously using trusted frozen inventory, not suffix guessing.",
+    "Require a current named execution outcome for every case used as proof. Verbose case outcome/receipt execution_evidence is authoritative, not tests_run total, method existence, representative case, previous revision or blanket PQR group status.",
+    "Validate source/test/fixture hashes against the actual frozen subject; if source has changed, use explicit audited compatibility and required requalification, never transplant PASS because a newer subject has same test count.",
+    "Fold only the distinct selected current case instances relevant to each row. Repeated focused/full executions or subTests are not new independent logical cases. Preserve all command-level details in hashed execution artifacts; do not manufacture per-test timestamps where only member execution interval exists.",
+    "Negative domain outcomes can satisfy a software test: actual expected BLOCKED/rejection with passing assertions can support a requirement PASS for that exact clause. Do not conflate strategy outcome FAIL/BLOCKED with test assertion failure, or test PASS with financial authority.",
+    "Apply explicit local semantic gaps, additional evidence kinds(source review/browser/native/fault campaign) and per-platform requirements before whole-row admission. A full successful PQR inventory is necessary owning software evidence but is not216 semantic acceptances.",
+    "Preserve valid earlier exact-scoped proof as historical/separate scoped record. Do not rerun equivalent checks merely for counts; run only genuinely uncovered claims after parent coordination. No current in-flight evidence is read by this advisory."
+  ],
+  "status_decision_table": [
+    {
+      "when": "Actual bound required assertion/test fails for this subject/scope",
+      "status": "FAIL",
+      "rule": "Include actual failure artifact/exit and preserve prior valid separately scoped evidence."
+    },
+    {
+      "when": "Critical mapped test skipped, or a known required gate is explicitly inhibited after evaluation",
+      "status": "BLOCKED",
+      "rule": "A framework exit0 with critical skips is not PASS. Use explicit blocker; do not call missing never-run target an executed failure."
+    },
+    {
+      "when": "Required semantic clause/evidence/target not executed or mapping is incomplete, including pending current run",
+      "status": "NOT_RUN",
+      "rule": "Retain passed clause facts in external coverage ledger; no whole-row partialPASS status."
+    },
+    {
+      "when": "Every mandatory clause/evidence kind for declared scope is mapped and actually executed with all expected assertions, no material errors/critical skips, exact subject and artifacts bound",
+      "status": "PASS",
+      "rule": "Environment/limitations must state exact scope. Mandatory target/commissioning aggregates remain separate; source Windows cannot establish Ubuntu/cloud/forward."
+    },
+    {
+      "when": "Specific requirement is formally found inapplicable with explicit v0.2 precedence/applicability rationale and authoritative decision reference",
+      "status": "NOT_APPLICABLE",
+      "rule": "N_A shorthand only. Missing host, credentials, time, policy or tests never makes applicable requirement inapplicable."
+    }
+  ],
+  "final21_fields": [
+    "requirement_id",
+    "status",
+    "test_ids",
+    "command",
+    "source_revision",
+    "spec_revision",
+    "environment_class",
+    "os_version",
+    "architecture",
+    "runtime_versions",
+    "config_hash",
+    "started_at_utc",
+    "finished_at_utc",
+    "exit_code",
+    "passed",
+    "failed",
+    "errors",
+    "skipped",
+    "artifact_refs",
+    "artifact_hashes",
+    "limitations"
+  ],
+  "field_population": {
+    "requirement_id": "Exact canonical ID from66 or inherited150; no new task/project ID.",
+    "status": "Only canonical five-value enum; derived using clause completeness, not test totals.",
+    "test_ids": "Actual named logical cases plus unambiguous current instance refs in linked artifact; include every case needed for all clauses, not one anchor.",
+    "command": "Exact actually executed command or documented ordered command collection linked to current owner/member records; never reconstruct a fictitious executed command from filename. Native assertion can reference actual native command/producer result.",
+    "source_revision/spec_revision": "Actual source executable subject and frozen spec revision, not evidence-commit revision.",
+    "environment_class/os_version/architecture/runtime_versions": "Actual observed environment for selected evidence; SOURCE_ONLY_WINDOWS and simulated fixture scope belong here/limitations.",
+    "config_hash": "Actual execution config commitment; no placeholder hash borrowed from another profile.",
+    "started_at_utc/finished_at_utc": "Actual available owning/member interval, with limitations stating when no per-case timestamp exists.",
+    "exit_code/passed/failed/errors/skipped": "Actual relevant executed outcomes/counts. Do not substitute requirement clause count or a Boolean for test counts, and do not default unknowns to successful0.",
+    "artifact_refs/artifact_hashes": "Aligned exact retained evidence refs/raw commitments; normalized bytes and original nested commitments distinguished explicitly.",
+    "limitations": "Remaining semantic gaps, source/fixture/native/platform/commissioning boundaries, prior-vs-current evidence and formal N_A rationale. Material gaps prohibit whole-rowPASS rather than being hidden in a footnote.",
+    "unexecuted_record": "All21 keys still required. Use schema-supported null/unavailable values for genuinely unobserved facts, never invent execution time/config/command/exit0. Preserve known actual fields; statusNOT_RUN."
+  },
+  "legacy_admission": [
+    "Keep all150 legacy IDs, original requested evidence and authoritative applicability decision in sidecar. Reuse exact current assertion mappings only where all old clauses genuinely covered; a v0.2 source route does not automatically close all related legacy rows.",
+    "H01 naming/composition refinement preserves behavior; J07 formal CLI root setup versus UI edit refinement requires explicit precedence decision; H17 authorized public-read exception retains actual8/8 accounting and private/trade/transferzero, never rewrites real calls as offline.",
+    "LegacyH16 joined fake-provider lifecycle and K05 populatedLIVE report remain their own gaps even if v0.2 TRADE01 fake-contract/source review or CLOUD09 redaction receives a bounded result.",
+    "No unavailable oldPC/Ubuntu/cloud/formal-policy/forward requirement becomes N_A by default. Missing target stays NOT_RUN and applicable. Current-PC independent engineering can continue without asking for an oldPC screenshot."
+  ],
+  "external_and_aggregate_gates": [
+    "Current Windows source/native scoped records may be retained while old target and Ubuntu24.04/26.04 stay NOT_RUN. Bind explicit applicable target requirement; do not transfer execution across OS.",
+    "Real cloud, formal financial policies, independent unseen OOS/real-forward and private-provider/capital activation remain separate authorized commissioning gates. Do not demand unauthorized calls merely to obtain software-domain tests.",
+    "Whole-branch independent/security/secret audit is separate from bounded redaction/source cases. Final Master remains bounded/incomplete until all actual mandatory criteria addressed;216 populated records alone are not completion."
+  ],
+  "inputs": [
+    {
+      "ref": "artifacts/current-windows-20261019/acceptance-v02-draft.json",
+      "sha256": "sha256:12ef52b4835a7cf7e80dfbd99cd9ffbaa64764eb4920d062598d1e9afb087177"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/acceptance-disposition-advisory.json",
+      "sha256": "sha256:c4b6c005186beb38ba29ad3f59959eee6dd8a863153a5ed7f0f1773a994e57be"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json",
+      "sha256": "sha256:167e5a726ced44bedbf2d6dd962b6c41f5575278bfe5101898c703835a97ab89"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json",
+      "sha256": "sha256:ddb12e0e90625cd5ed8d836f796440db611f68599678880661150b2992ffee3b"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/acceptance-cloud-trade-expanded-map.json",
+      "sha256": "sha256:5df577de7b7bd7891e9dee46fb5d0bd32c2c69d745f736c3531c6d83e2718d45"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/strategy-coverage-completion-design.json",
+      "sha256": "sha256:518c84b190b820f070609cf1f848cd0f3169dfa224455ef0f5b35e782f49097c"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/research-coverage-completion-design.json",
+      "sha256": "sha256:420f5136810735aec3a102d540cbbda6d750fe17695dd8d3e2ad60e1ce5cd059"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/legacy-150-draft.json",
+      "sha256": "sha256:7935b24bb6a9c7bb07a50d584714a2fff44f37658c012cf95e6006f72546162a"
+    }
+  ],
+  "source_route_defaults": {
+    "current_status": "NOT_RUN",
+    "execution_binding": "NONE_IN_THIS_PLAN;ROOT_MUST_JOIN_ACTUAL_FROZEN_INSTANCES",
+    "safe_after_cases_pass": "Still require every mandatory clause/evidence kind/target for the declared record scope. Passing representative cases or a design is insufficient."
+  }
+}

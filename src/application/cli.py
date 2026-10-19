@@ -52,6 +52,11 @@ def main(argv=None):
     setup = commands.add_parser('configure-research', help='Select explicit local research inputs while all owners are stopped')
     setup.add_argument('--config', type=Path, required=True)
     setup.add_argument('--selection-profile', type=Path, required=True)
+    public_data=commands.add_parser('acquire-public-data',help='Acquire bounded keyless OKX BTC 4H candles and realized funding; counts actual public requests')
+    public_data.add_argument('--config',type=Path,required=True)
+    public_data.add_argument('--dataset-id',required=True)
+    public_data.add_argument('--start',required=True)
+    public_data.add_argument('--end',required=True)
     paper_setup = commands.add_parser('configure-paper', help='Select explicit local Paper policies while all owners are stopped')
     paper_setup.add_argument('--config', type=Path, required=True)
     paper_setup.add_argument('--selection-profile', type=Path, required=True)
@@ -178,6 +183,18 @@ def main(argv=None):
             return run_guarded_service(args.config,role=args.role,**expected)
         print(json.dumps(export_service_plan(args.config,args.output,**expected)))
         return 0
+    if args.command == 'acquire-public-data':
+        from application.config import load_config,product_namespace
+        from application.cloud.manifest import safe_component
+        from application.datasets.catalog import utc
+        from application.datasets.okx_public import acquire_okx_public_dataset
+        from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
+        config=load_config(args.config);safe_component(args.dataset_id)
+        if product_namespace(config)!='LOCAL_RESEARCH': raise ValueError('Public data acquisition requires explicit LOCAL_RESEARCH config')
+        with ProcessScopeLock('public-data:'+config.product_instance_id,lock_root=operational_lock_root(config)):
+            result=acquire_okx_public_dataset(config.local_data_root/'datasets'/args.dataset_id,start=utc(args.start),end=utc(args.end))
+        print(json.dumps(result,ensure_ascii=False))
+        return 0 if result['status']=='DATASET_ACQUIRED' else 2
     if args.command == 'author-package':
         from application.cloud.authoring import emit_package
         from application.cloud.safe_files import read_bounded

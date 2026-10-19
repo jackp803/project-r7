@@ -21,11 +21,16 @@ def validate_research_selections(policies):
     if not isinstance(result, dict) or len(result) > 128: raise ValueError('Bounded local policy selections required')
     for policy_id, selected in result.items():
         safe_component(policy_id)
-        if not isinstance(selected, dict) or set(selected) != required: raise ValueError('Complete explicit local research selection required')
-        for key in required:
+        diagnostic = {'dataset_ref','split_policy_ref','cost_policy_ref','selection_mode',
+                      'requested_dataset_profile','requested_validation_profile','requested_robustness_profile'}
+        if not isinstance(selected, dict): raise ValueError('Complete explicit local research selection required')
+        is_diagnostic=set(selected)==diagnostic and selected['selection_mode']=='DIAGNOSTIC_DEVELOPMENT_ONLY'
+        if set(selected)!=required and not is_diagnostic: raise ValueError('Complete explicit local research selection required')
+        for key in selected:
             if key.endswith('_ref'): safe_relative(selected[key])
             elif key != 'seed': safe_component(selected[key])
-        if type(selected['seed']) is not int or not 0 <= selected['seed'] < 2**64: raise ValueError('Explicit bounded seed required')
+        if not is_diagnostic and (type(selected['seed']) is not int or not 0 <= selected['seed'] < 2**64):
+            raise ValueError('Explicit bounded seed required')
     return result
 
 
@@ -80,7 +85,7 @@ class ResearchRequestResolver:
             if not validity.new_entry_allowed: raise ResearchQueueError('SUBMISSION_'+validity.status)
         for field in ('requested_dataset_profile', 'requested_validation_profile', 'requested_robustness_profile'):
             if package.manifest.raw[field] != selected[field]: raise ResearchQueueError('REQUESTED_PROFILE_SELECTION_MISMATCH')
-        arguments = {key:value for key,value in selected.items() if not key.startswith('requested_')}
+        arguments = {key:value for key,value in selected.items() if not key.startswith('requested_') and key!='selection_mode'}
         arguments.update(submission_id=submission_id, definition=json.loads(package.strategy.canonical_json))
         hashes = {key:byte_hash(read_local(self.root, value, 262144 if key=='robustness_policy_ref' else 65536))
                   for key,value in selected.items() if key.endswith('_ref')}
@@ -88,7 +93,7 @@ class ResearchRequestResolver:
         return dict(submission_revision=submission.revision, arguments=arguments, selection_hash=digest(canonical(selection).encode()))
 
     def policy_views(self):
-        return [dict(policy_id=key, status='SELECTED_LOCAL', policy_hash=digest(canonical(value).encode()),
+        return [dict(policy_id=key, status='DIAGNOSTIC_ONLY' if value.get('selection_mode')=='DIAGNOSTIC_DEVELOPMENT_ONLY' else 'SELECTED_LOCAL', policy_hash=digest(canonical(value).encode()),
                      requested_dataset_profile=value['requested_dataset_profile'], requested_validation_profile=value['requested_validation_profile'],
                      requested_robustness_profile=value['requested_robustness_profile']) for key,value in sorted(self.policies.items())]
 

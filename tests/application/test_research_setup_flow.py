@@ -76,6 +76,10 @@ class ResearchSetupFlowTests(unittest.TestCase):
             research_policy_ref='research.json',robustness_policy_ref='robustness.json',risk_policy_ref='risk.json',
             family_id='public-setup-family',seed=42,requested_dataset_profile='fixture-data',
             requested_validation_profile='diagnostic',requested_robustness_profile='diagnostic')
+        if outcome=='DIAGNOSTIC':
+            for key in ('research_policy_ref','robustness_policy_ref','risk_policy_ref','family_id','seed'):
+                policy.pop(key)
+            policy['selection_mode']='DIAGNOSTIC_DEVELOPMENT_ONLY'
         self.profile.write_bytes(dataset_fixtures.encoded(dict(schema_version='r7-owner-selections-v0.2',
             cloud_root_id='synthetic-local-folder',research_policies={'selected-test':policy})))
         return config
@@ -200,3 +204,24 @@ class ResearchSetupFlowTests(unittest.TestCase):
         self.assertEqual(actual['outcome']['status'],'BLOCKED')
         self.assertEqual(actual['evidence']['status'],'BLOCKED')
         self.assertEqual(actual['evidence']['sealed_oos'],'BLOCKED')
+
+    def test_explicit_diagnostic_uses_normal_setup_intake_queue_worker_without_promotion(self):
+        actual,lifecycle=self.flow('DIAGNOSTIC')
+        self.assertEqual(lifecycle,'BACKTESTING')
+        self.assertEqual(actual['state'],'COMPLETE')
+        self.assertEqual(actual['outcome']['status'],'BLOCKED')
+        self.assertEqual(actual['evidence']['sealed_oos'],'NOT_RUN')
+        self.assertIn('MISSING_PROMOTION_POLICY',actual['outcome']['reason_codes'])
+
+    def test_diagnostic_selection_cannot_smuggle_promotion_risk_or_adaptive_authority(self):
+        from application.research.selection import validate_research_selections
+        self.prepare('DIAGNOSTIC')
+        policy=json.loads(self.profile.read_bytes())['research_policies']['selected-test']
+        self.assertEqual(validate_research_selections({'diagnostic':policy})['diagnostic'],policy)
+        for key,value in dict(research_policy_ref='research.json',robustness_policy_ref='robustness.json',
+                              risk_policy_ref='risk.json',family_id='family',seed=42,qualified=True).items():
+            with self.subTest(key=key),self.assertRaises(ValueError):
+                validate_research_selections({'diagnostic':dict(policy,**{key:value})})
+        for mode in ('CANDIDATE','DIAGNOSTIC','PASS',None):
+            with self.subTest(mode=mode),self.assertRaises(ValueError):
+                validate_research_selections({'diagnostic':dict(policy,selection_mode=mode)})

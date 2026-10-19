@@ -274,6 +274,22 @@ def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadat
         dataset_refs = set()
     fixture_files,fixture_hashes=_fixture_paper_inputs(root,paths,selected)
     allowed.update(fixture_files);expected_hashes.update(fixture_hashes)
+    # Public read-only captures include raw audit bytes, even rejected or
+    # interrupted attempts. They never imply dataset/research readiness.
+    public_roots=set()
+    for name in paths:
+        parts=name.split('/')
+        if len(parts)>=3 and parts[0]=='datasets' and (parts[2]=='acquisition.json' or
+                len(parts)==4 and parts[2]=='requests' and parts[3].endswith('-attempt.json')):
+            public_roots.add('/'.join(parts[:2]))
+    from application.datasets.public_capture import public_capture_inventory
+    for base in sorted(public_roots):
+        try:
+            refs,hashes,manifest_ref=public_capture_inventory(root,base,paths,deadline=lambda:_deadline(end))
+        except (ValueError,TypeError,KeyError,RuntimeError) as error:
+            raise ProductBackupError('PRODUCT_BACKUP_PUBLIC_CAPTURE_INVALID') from error
+        allowed.update(refs);expected_hashes.update(hashes)
+        if manifest_ref is not None:dataset_refs.add(manifest_ref)
     # Retain all supported imported revisions, including currently unselected ones.
     dataset_refs.update(name for name in paths if name.startswith('datasets/')
         and len(name.split('/')) == 4 and name.endswith('/dataset.json'))

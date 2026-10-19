@@ -1,3 +1,32 @@
+# Public market source integration checkpoint - 2026-10-19
+
+Executable 493805c80a7e0ee5fff031e209c6fefb6270ffdf, exact clean source:
+69 focused integration checks PASS. Explicit configure-market-data selection
+makes no network request or financial grant. Ordinary Paper alone starts an
+owned fixed public BTC acquisition child for actual attached E6 runs; no I/O
+in protection ticks. Actual request ledgers, E1 finality/base volume/freshness,
+immutable history, runtime/E6 fences, cancellable cleanup and incomplete-count
+disclosure tested. Six bounded review findings reproduced and fixed; scoped
+repair review has zero remaining Critical/Important, reviewer execution NONE.
+
+Existing private data and configuration handoff are fenced; actual stale E6
+owner cannot adopt successor generation. Actual owned source child refuses
+FIXTURE before network and is reaped. Controlled HTTP only in this phase:
+new public requests0; cumulative real public requests8/responses8. Private0,
+credentialsNONE, capitalNONE, hosted computeNONE, no host settings changes.
+Selection survives private backup while transient attempt diagnostics are
+explicitly excluded; restore remains inhibited. Raw diagnostics have finite
+per-generation retention and require operator archival for prolonged use.
+
+Evidence: status/codex/productization/S12/public-market-source-493805c/.
+Usage: docs/operations/headless-local-operations.md. Not installed/native/full
+PQR/ordinary Paper PASS. Native05/06/07, new full regression/frozen inventory,
+portable clean install and target checks remain. Formal local policies were
+not invented; public research stays engineering development-only BLOCKED and
+forward observation NOT_STARTED. Preserve older executable proofs as scoped.
+
+---
+
 # Public acquisition backup integration checkpoint — 2026-10-19
 
 Executable42d37331e62132eb9a040046a32a056d65304ef5, clean-source CLI:

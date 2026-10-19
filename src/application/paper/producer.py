@@ -24,6 +24,7 @@ from application.platform.private_files import create_private_directory,write_pr
 from application.platform.processes import spawn_owned,terminate_owned,ResourceLimits
 from application.platform.restoration import require_valid_restoration
 from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
+from application.platform.supervision import PROCESS_ROLES
 from application.qualification import revision_fact,parse_result,_sanitize,discover_suites,FOCUSED
 from registry.product_assessment import canonical,digest
 from storage import open_sqlite_platform
@@ -48,7 +49,8 @@ def require_executed_cases(text,expected):
 
 def native_artifacts(report,root):
     artifacts=report.get('artifacts') if isinstance(report,dict) else None
-    if not isinstance(artifacts,list) or not 1<=len(artifacts)<=127:
+    from .qualification import MAX_EXECUTION_ARTIFACTS
+    if not isinstance(artifacts,list) or not 1<=len(artifacts)<=MAX_EXECUTION_ARTIFACTS-1:
         raise ValueError('Complete bounded retained native artifact inventory required')
     bindings={}
     for artifact in artifacts:
@@ -126,7 +128,7 @@ def qualify(config_path,source_root,package_root):
     execution='pqr-'+uuid.uuid4().hex
     checks=[];results=[];started=datetime.now(timezone.utc);complete=False
     with ExitStack() as stack:
-        for role in ('control','research','runtime','cloud'):
+        for role in PROCESS_ROLES:
             stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
         if load_config(config_path)!=config:raise ValueError('Qualification configuration changed')
         if not config.local_data_root.exists():create_private_directory(config.local_data_root)

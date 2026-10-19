@@ -9,7 +9,7 @@ from decimal import Decimal
 import json,secrets,socket,sqlite3,subprocess,time
 
 from application.config import load_config
-from application.fixtures.faults import CASES
+from application.fixtures.faults import CASES,PROTECTION_CASES
 from application.platform.processes import ResourceLimits,spawn_owned,terminate_owned
 from application.platform.supervision import process_health
 from application.qualification import _sanitize
@@ -202,9 +202,50 @@ class NativeFixtureFaultFlow(NativeExpiryFlow):
             original_binding_preserved=True,original_first_fill_anchor_preserved=True,
             real_elapsed_ns=0,simulated_elapsed_seconds=runtime['forward']['simulated_elapsed_seconds'])
 
+    def standing_protection_case(self):
+        """Actual sealed E4 observations, interpreted and persisted by E5/E6."""
+        self.paper_start();self.worker('paper-first',2);before=self.journal(self.paper_run)
+        if before.state['runtime']['position']['lifecycle_state']!='OPEN_PROTECTED':
+            raise ValueError('Actual original protected position required')
+        self.pause()
+        mode=PROTECTION_CASES[self.native_case]
+        self.worker('paper-protection-fault',1 if mode=='CANCELED' else 3)
+        fault=self.journal(self.paper_run);runtime=fault.state['runtime']
+        self.require_original(before,fault)
+        if runtime['paper_entries_allowed']:raise ValueError('Actual operator pause was not consumed')
+        broker=PaperBroker.from_state(fault.state['broker']);request=decode_fact(OrderRequest,runtime['protection_request'])
+        with open_paper_runtime_journal(load_config(self.config).database_path,require_existing=True) as journal:
+            graph=journal.recover(position_id=runtime['position']['position_id'])
+        if mode=='CANCELED':
+            if (broker.query_order(request.client_order_id).order_status!=OrderStatus.CANCELED
+                    or runtime['position']['lifecycle_state']!='EXIT_REQUESTED'
+                    or Decimal(runtime['position']['actual_quantity'])<=0
+                    or not any(row.payload['lifecycle_event']=='PROTECTION_LOST' and row.payload['lifecycle_state']=='EMERGENCY'
+                               for row in graph.lifecycle_history)):
+                raise ValueError('Actual E4 cancellation/E5 emergency graph missing')
+            self.observation['actual_stop_cancellation']=True
+        else:
+            if (runtime['position']['lifecycle_state']!='RECONCILIATION_REQUIRED'
+                    or broker.query_order(request.client_order_id).order_status!=OrderStatus.OPEN):
+                raise ValueError('Unavailable read must preserve actual stop and E5 uncertainty')
+            self.worker('paper-protection-recovery',1);recovered=self.journal(self.paper_run)
+            self.require_original(before,recovered)
+            position=recovered.state['runtime']['position']
+            if (position['lifecycle_state']!='OPEN_PROTECTED' or position['lifecycle_event']!='RECONCILED_OPEN_PROTECTED'
+                    or recovered.process_generation<=fault.process_generation
+                    or recovered.state['runtime']['paper_entries_allowed']):
+                raise ValueError('Actual successor did not reconcile original stop while preserving pause')
+            self.observation.update(canonical_recovery_event=position['lifecycle_event'],paused_recovery_preserved=True)
+        self.observation.update(protection_fault_mode=mode,query_fault_state=runtime['position']['lifecycle_state'],
+            positive_quantity_during_fault=runtime['position']['actual_quantity'])
+        self.finish_trade(before,ticks=6 if mode=='CANCELED' else 32)
+
     def run(self):
         try:
             self.setup()
+            if self.native_case in PROTECTION_CASES:
+                self.standing_protection_case();self.observation['passed']=True
+                return self.observation
             if self.native_case=='hold-for-recovery':
                 self.start_runtime('idle-crash')
                 if self.view('paper/runs')['items']:raise ValueError('Idle native worker created a run')
@@ -239,6 +280,11 @@ class NativeFixtureFaultFlow(NativeExpiryFlow):
                     if successor.process_generation!=before.process_generation+1 or successor.state['runtime']['paper_entries_allowed']:
                         raise ValueError('Successor fencing/pause not retained')
                     self.finish_runtime(crash=False);before=self.journal(self.paper_run)
+                    stale=self.command('stale-generation-operation',['_paper-native-stale-check','--config',self.config,'--run-id',self.paper_run])
+                    if (stale['status']!='STALE_OPERATION_DENIED' or not stale['original_checkpoint_unchanged']
+                            or stale['actual_generation']!=before.process_generation):
+                        raise ValueError('Actual prior E6 generation was not denied')
+                    self.observation['stale_generation_operation_denied']=True
                     self.backup_restore(before);self.finish_trade(before)
             else:
                 self.worker('paper-first',2);before=self.journal(self.paper_run)

@@ -5,7 +5,9 @@ from application.cloud.safe_files import read_bounded
 from application.datasets.catalog import canonical,decode,read_local
 
 CASES=('normal','hold-for-recovery','protection-rejected-hold','partial-fill-hold',
-    'duplicate-market-hold','missing-market-hold','stale-market-hold')
+    'duplicate-market-hold','missing-market-hold','stale-market-hold',
+    'protection-query-missing-hold','protection-query-stale-hold','protection-lost-hold')
+PROTECTION_CASES={'protection-query-missing-hold':'MISSING','protection-query-stale-hold':'STALE','protection-lost-hold':'CANCELED'}
 SCHEMA='r7-synthetic-fixture-paper-case-v1'
 REFERENCE='fixture-inputs/paper-case.json'
 SUBMISSION='r7-synthetic-fixture-input'
@@ -43,6 +45,12 @@ def require_selection(document,selected):
             raise ValueError('Sealed rejection case requires its exact fixture-only simulation version')
     elif 'fixture_protection_submission' in simulation:
         raise ValueError('Protection rejection cannot enter a different sealed case')
+    if document['case'] in PROTECTION_CASES:
+        if (simulation.get('schema_version')!='r7-paper-simulation-policy-v0.4'
+                or simulation.get('fixture_protection_observation')!=PROTECTION_CASES[document['case']]):
+            raise ValueError('Sealed protection observation requires exact fixture-only simulation version')
+    elif 'fixture_protection_observation' in simulation:
+        raise ValueError('Protection observation cannot enter a different sealed case')
 
 
 def read_case(config,package):

@@ -8,12 +8,32 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from storage import open_sqlite_platform
 from storage.qualification import QualificationSubject,QualificationCheck,_open_qualification_receipt_owner
 
 
 class PaperQualificationProfileTests(unittest.TestCase):
+    def test_owning_qualification_refuses_active_coordinator_before_store_side_effects(self):
+        from application.config import ProductConfig
+        from application.paper import producer
+        from application.platform.scope_lock import ProcessScopeLock,ScopeBusy,operational_lock_root
+        import uuid
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory);data=root/'fresh-data'
+            config=ProductConfig('r7-product-config-v0.2','pqr-coordinator-'+uuid.uuid4().hex,data,None,data/'canonical.sqlite3')
+            facts=dict(executable_revision='a'*40,implementation_hash='sha256:'+'b'*64,build_hash='sha256:'+'c'*64)
+            with (patch.object(producer,'load_config',return_value=config),
+                    patch.object(producer,'verify_distribution',return_value=facts),
+                    patch.object(producer,'current_target',return_value='windows-11-x86_64'),
+                    patch.object(producer,'fixed_profile',return_value={'groups':[]}),
+                    patch.object(producer,'_guard'),
+                    ProcessScopeLock('coordinator:'+config.product_instance_id,lock_root=operational_lock_root(config)),
+                    self.assertRaises(ScopeBusy)):
+                producer.qualify(root/'unused-profile.json',root/'source',root/'package')
+            self.assertFalse(data.exists(),'Qualification must not initialize state while coordinator owns profile')
+
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory(prefix='r7-pqr-boundary-');self.addCleanup(self.temp.cleanup)
         self.root=Path(self.temp.name);self.path=self.root/'canonical.sqlite3'

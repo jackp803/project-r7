@@ -173,7 +173,8 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none',paper_case='n
     _outside_installation(config.local_data_root)
     _outside_installation(config.cloud_root)
     with ExitStack() as stack:
-        for role in ('control','research','runtime','cloud'):
+        from application.platform.supervision import PROCESS_ROLES
+        for role in PROCESS_ROLES:
             stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
         if load_config(config_path)!=config or require_valid_restoration(config)['status']!='NOT_RESTORED':
             raise ValueError('Unchanged non-restored fixture configuration required')
@@ -196,6 +197,9 @@ def prepare_fixture(config_path, scenario, *, temporal_case='none',paper_case='n
         if paper_case=='partial-fill-hold':policies['simulation']['initial_fill_fraction']='0.5'
         if paper_case=='protection-rejected-hold':
             policies['simulation'].update(schema_version='r7-paper-simulation-policy-v0.3',fixture_protection_submission='REJECT')
+        from .faults import PROTECTION_CASES
+        if paper_case in PROTECTION_CASES:
+            policies['simulation'].update(schema_version='r7-paper-simulation-policy-v0.4',fixture_protection_observation=PROTECTION_CASES[paper_case])
         for name,value in policies.items():
             write_private_new(target/(name+'.json'),_raw(value))
         temporal=generate(temporal_case)

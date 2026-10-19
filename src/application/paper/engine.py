@@ -199,8 +199,14 @@ class PaperEngine:
         request=decode_fact(OrderRequest,runtime['protection_request'])
         signed=Decimal(position['actual_quantity'])*(1 if position['side']=='LONG' else -1)
         consistent=broker.query_position(position['symbol']).net_quantity==signed
-        interpreted=interpret_protection_result(request,ProtectionResultEvidence(True,
-            broker.query_order(request.client_order_id),position_reconciliation_status='CONSISTENT' if consistent else 'MISMATCH'),position['lifecycle_state'])
+        query_performed=True;queried=broker.query_order(request.client_order_id)
+        fault=self.config.get('fixture_protection_observation')
+        if fault is not None and 1<=(now-utc(position['opened_at'])).total_seconds()<4:
+            observed=broker.observe_fixture_protection(request,namespace=self.service.namespace,mode=fault,observed_at=now)
+            query_performed,queried=observed.query_performed,observed.queried_order
+            if fault=='CANCELED':self._effect(effects,'ORDER_RESULT',encode_fact(queried))
+        interpreted=interpret_protection_result(request,ProtectionResultEvidence(query_performed,
+            queried,position_reconciliation_status='CONSISTENT' if consistent else 'MISMATCH'),position['lifecycle_state'])
         if interpreted.event is not None:
             source=dict(_broker_fact_payload(position),lifecycle_state=position['lifecycle_state'],
                         broker_state_observed_at=stamp(now))

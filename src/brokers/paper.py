@@ -48,6 +48,12 @@ class _PaperOrder:
     fills: list[Fill]
 
 
+@dataclass(frozen=True)
+class _FixtureProtectionObservation:
+    query_performed: bool
+    queried_order: OrderResult | None
+
+
 def _paper_order_id(client_order_id: str) -> str:
     return "paper_" + hashlib.sha256(client_order_id.encode("utf-8")).hexdigest()[:32]
 
@@ -249,6 +255,29 @@ class PaperBroker(Broker):
     def query_order(self, client_order_id: str) -> OrderResult | None:
         order = self._orders.get(client_order_id)
         return None if order is None else order.result
+
+    def observe_fixture_protection(self,request:OrderRequest,*,namespace:str,mode:str,observed_at:datetime):
+        """Finite isolated read outage or actual cancel of the existing E4 stop.
+
+        Missing/stale reads leave broker truth unchanged. Cancellation uses
+        the original normal E4 method; E5 alone interprets the resulting fact.
+        """
+        require_utc(observed_at,'fixture protection observation')
+        if (namespace!='FIXTURE' or mode not in ('MISSING','STALE','CANCELED')
+                or not isinstance(request,OrderRequest) or request.order_role!='PROTECTION_STOP'
+                or request.authorization_type!='POSITION_ACTION' or request.order_type!='STOP_MARKET'
+                or request.reduce_only is not True):raise ValueError('Closed FIXTURE protection observation required')
+        order=self._orders.get(request.client_order_id)
+        if order is None or order.request!=request or observed_at<order.result.observed_at:
+            raise ValueError('Exact retained current FIXTURE stop required')
+        exposure=self.query_position(request.symbol).net_quantity
+        if request.quantity!=abs(exposure) or exposure==0 or request.side!=(Side.SELL if exposure>0 else Side.BUY):
+            raise ValueError('Exact filled FIXTURE stop exposure required')
+        if mode=='MISSING':return _FixtureProtectionObservation(True,None)
+        if mode=='STALE':return _FixtureProtectionObservation(False,order.result)
+        if order.result.order_status not in (OrderStatus.OPEN,OrderStatus.PARTIALLY_FILLED):
+            raise ValueError('Active original FIXTURE stop required for cancellation')
+        return _FixtureProtectionObservation(True,self.cancel_order(request.client_order_id,observed_at=observed_at))
 
     def query_position(self, symbol: str) -> PositionExposureSnapshot:
         net = Decimal("0")

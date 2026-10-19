@@ -24,12 +24,15 @@ class PaperSimulationPolicy:
 def parse_simulation_policy(value, *, namespace):
     if not isinstance(value,dict):raise ValueError('Complete explicit simulation policy required')
     rejection=value.get('schema_version')=='r7-paper-simulation-policy-v0.3'
-    fields=_FIELDS|{'fixture_protection_submission'} if rejection else _FIELDS
+    observation=value.get('schema_version')=='r7-paper-simulation-policy-v0.4'
+    fields=_FIELDS|({'fixture_protection_submission'} if rejection else {'fixture_protection_observation'} if observation else set())
     if set(value) != fields:
         raise ValueError('Complete explicit simulation policy required')
     if rejection and (namespace!='FIXTURE' or value['fixture_protection_submission']!='REJECT'):
         raise ValueError('Closed fixture-only protection submission fault required')
-    if (value['schema_version'] not in ('r7-paper-simulation-policy-v0.2','r7-paper-simulation-policy-v0.3') or
+    if observation and (namespace!='FIXTURE' or value['fixture_protection_observation'] not in ('MISSING','STALE','CANCELED')):
+        raise ValueError('Closed fixture-only protection observation required')
+    if (value['schema_version'] not in ('r7-paper-simulation-policy-v0.2','r7-paper-simulation-policy-v0.3','r7-paper-simulation-policy-v0.4') or
         value['namespace'] != namespace or (namespace, value['mode']) not in
         (('FIXTURE', 'ACCELERATED_FIXTURE'), ('LOCAL_RESEARCH', 'REAL_TIME'))):
         raise ValueError('Paper fixture/real elapsed profile mismatch')

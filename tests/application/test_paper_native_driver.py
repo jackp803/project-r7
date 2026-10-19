@@ -13,6 +13,20 @@ from unittest.mock import Mock
 
 
 class PaperNativeDriverTests(unittest.TestCase):
+    def test_native_artifact_closure_covers_expanded_scenarios_and_still_checks_every_hash(self):
+        from application.paper.producer import native_artifacts
+        import hashlib
+        with TemporaryDirectory() as directory:
+            root=Path(directory);rows=[]
+            for index in range(130):
+                name=f'actual-command-{index:03d}.log';raw=f'command {index}\n'.encode()
+                (root/name).write_bytes(raw);rows.append(dict(ref=name,hash='sha256:'+hashlib.sha256(raw).hexdigest()))
+            self.assertEqual(len(native_artifacts(dict(artifacts=rows),root)),130)
+            (root/rows[-1]['ref']).write_bytes(b'changed command evidence')
+            with self.assertRaises(ValueError):native_artifacts(dict(artifacts=rows),root)
+            with self.assertRaisesRegex(ValueError,'Complete bounded retained native artifact inventory required'):
+                native_artifacts(dict(artifacts=rows*4),root)
+
     def module(self):
         root=Path(__file__).resolve().parents[2]
         with patch.object(sys,'path',[str(root/'tools'),*sys.path]):
@@ -106,15 +120,16 @@ class PaperNativeDriverTests(unittest.TestCase):
         root=Path(__file__).resolve().parents[2]
         with patch.object(sys,'path',[str(root/'tools'),*sys.path]):
             faults=importlib.import_module('verify_paper_faults')
+            isolation=importlib.import_module('verify_paper_isolation')
         scoped=[dict(case=case,passed=True) for case in faults.NativeFixtureFaultFlow.PAPER_CASES]
         with TemporaryDirectory() as temp:
             directory=Path(temp);package=directory/'package';package.mkdir()
             identity=dict(build_hash='source-boundary-only')
-            with patch.object(m,'verify_distribution',return_value=identity),patch.object(faults,'verify_slice',return_value=scoped):
+            with patch.object(m,'verify_distribution',return_value=identity),patch.object(faults,'verify_slice',return_value=scoped),patch.object(isolation,'verify_slice',return_value=[]):
                 self.assertEqual(self.verify(m,package,directory/'result','PQR-05'),2)
             report=json.loads((directory/'result/native-observations.json').read_bytes())
-            self.assertEqual(report['scoped_fixture_cases_passed'],6)
-            self.assertFalse(report['passed']);self.assertIn('STANDING_PROTECTION_MISSING_STALE_LOST',report['remaining_native_observations'])
+            self.assertEqual(report['scoped_fixture_cases_passed'],len(faults.NativeFixtureFaultFlow.PAPER_CASES))
+            self.assertFalse(report['passed']);self.assertIn('RESEARCH_FAULT_PROTECTION_ISOLATION',report['remaining_native_observations'])
             result=json.loads((directory/'result/pqr-result.json').read_bytes())
             self.assertTrue(all(row['status']=='NOT_RUN' for row in result['assertions']))
 

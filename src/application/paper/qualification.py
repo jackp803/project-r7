@@ -17,6 +17,7 @@ from application.cloud.protocol import CloudError
 
 PROFILE_ID = 'r7-qualified-paper-release-v0.2'
 GROUPS = tuple(f'PQR-{number:02d}' for number in range(1,8))
+MAX_EXECUTION_ARTIFACTS=512
 
 
 def artifact_bytes(root,ref,limit=8*1024*1024):
@@ -80,7 +81,7 @@ def _validate(receipt, profile, root, measured):
         else:
             raise ValueError()
         artifacts=result['artifacts']
-        if not isinstance(artifacts,list) or not 1 <= len(artifacts) <= 128:
+        if not isinstance(artifacts,list) or not 1 <= len(artifacts) <= MAX_EXECUTION_ARTIFACTS:
             raise ValueError()
         bindings={}
         for artifact in artifacts:

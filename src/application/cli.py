@@ -94,6 +94,11 @@ def main(argv=None):
     market_child.add_argument('--config',type=Path,required=True)
     for name in ('runtime-token','attempt-id','request-hash','expected-config-hash','selection-hash'):
         market_child.add_argument('--'+name,required=True)
+    boundary_check=commands.add_parser('_paper-native-boundary-check',help=argparse.SUPPRESS)
+    boundary_check.add_argument('--config',type=Path,required=True)
+    stale_check=commands.add_parser('_paper-native-stale-check',help=argparse.SUPPRESS)
+    stale_check.add_argument('--config',type=Path,required=True)
+    stale_check.add_argument('--run-id',required=True)
     stop_service=commands.add_parser('stop-product',help='Request cooperative stop of the current local owner; does not assert flat exposure')
     stop_service.add_argument('--config',type=Path,required=True)
     from application.platform.supervision import PROCESS_ROLES
@@ -347,6 +352,14 @@ def main(argv=None):
         from application.paper.public_feed import run_market_acquire
         print(json.dumps(run_market_acquire(args.config,args.runtime_token,args.attempt_id,args.request_hash,
             args.expected_config_hash,args.selection_hash)))
+        return 0
+    if args.command=='_paper-native-boundary-check':
+        from application.paper.native_boundary_checks import run_native_boundary_checks
+        print(json.dumps(run_native_boundary_checks(args.config)))
+        return 0
+    if args.command=='_paper-native-stale-check':
+        from application.paper.native_boundary_checks import run_native_stale_paper_check
+        print(json.dumps(run_native_stale_paper_check(args.config,args.run_id)))
         return 0
     if args.command=='product-status':
         from application.config import load_config

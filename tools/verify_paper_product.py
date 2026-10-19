@@ -26,7 +26,7 @@ sys.path.insert(0,str(ROOT/'src'))
 from application.config import load_config
 from application.datasets.catalog import read_local
 from application.paper.inventory import NATIVE_ASSERTIONS,current_target
-from application.paper.qualification import artifact_bytes
+from application.paper.qualification import artifact_bytes,MAX_EXECUTION_ARTIFACTS
 from application.platform.distribution import verify_distribution
 from application.platform.private_files import create_private_directory,write_private_new,require_private
 from application.platform.processes import ResourceLimits,spawn_owned,terminate_owned
@@ -187,6 +187,7 @@ class PublicFixture:
             self.command('research-selection',['configure-research','--config',self.config,'--selection-profile',self.data/'fixture-inputs/selection.json'])
             self.observation['enrollment']=enroll(self.executable,self.config,self.password,env=self.env)
             self.start_control('control-research');enqueued=self.rendered('research-enqueue')
+            self.research_job_id=enqueued['research_job_id']
             research=self.command('research-worker',['research-worker','--config',self.config,'--once'])
             if (research['status']!='JOB_FINISHED' or not research['tree_reaped'] or
                     research['parent_pid']==research['child_pid']):raise ValueError('Actual independent native research child required')
@@ -201,6 +202,7 @@ class PublicFixture:
                     raise ValueError('Negative native case changed owner state')
             else:
                 started=self.rendered('paper-start');run=started['run_id']
+                self.paper_run_id=run
                 first=self.command('paper-worker-first',['paper-worker','--config',self.config,'--maximum-ticks','2'])
                 protected=self.journal(run);position=protected.state['runtime']['position']
                 if (first['run_failures'] or protected.process_generation!=1 or
@@ -541,14 +543,45 @@ def verify(package,output,group):
             if not all(row['passed'] for row in report['observations']):raise ValueError('Fresh native expiry flows incomplete')
             report['passed']=True
         elif group=='PQR-05':
-            from verify_paper_faults import verify_slice
+            from verify_paper_faults import verify_slice,NativeFixtureFaultFlow
+            from verify_paper_isolation import verify_slice as isolation_slice
+            faults=verify_slice(package,output,identity)
+            report['observations']=list(faults)
+            report['scoped_fixture_cases_passed']=sum(row['passed'] is True for row in faults)
+            report['scoped_fixture_cases_total']=len(faults)
+            all_faults=([row.get('case') for row in faults]==list(NativeFixtureFaultFlow.PAPER_CASES)
+                and all(row.get('passed') is True for row in faults))
+            isolation=isolation_slice(package,output,identity) if all_faults else []
+            report['observations'].extend(isolation)
+            report['remaining_native_observations']=[]
+            for name,field in (('RESEARCH_FAULT_PROTECTION_ISOLATION','research_fault_protection_isolation'),
+                    ('ACTUAL_HOST_BOUNDED_CAPACITY_RESOURCE_MEASUREMENT','host_bounded_capacity_measured')):
+                if not (len(isolation)==1 and isolation[0].get('passed') is True and isolation[0].get(field) is True):
+                    report['remaining_native_observations'].append(name)
+            if not any(row.get('case')=='hold-for-recovery' and row.get('passed') is True and
+                    row.get('stale_generation_operation_denied') is True for row in report['observations']):
+                report['remaining_native_observations'].append('STALE_GENERATION_OPERATION_FENCE')
+            from application.fixtures.faults import PROTECTION_CASES
+            if not all(any(row.get('case')==case and row.get('passed') is True for row in report['observations']) for case in PROTECTION_CASES):
+                report['remaining_native_observations'].insert(0,'STANDING_PROTECTION_MISSING_STALE_LOST')
+            report['target_service_applicability']='OS_INAPPLICABLE_WINDOWS' if target=='windows-11-x86_64' else 'REQUIRED_ACTUAL_UNPRIVILEGED_SERVICE'
+            if target!='windows-11-x86_64':report['remaining_native_observations'].append('ACTUAL_UNPRIVILEGED_SERVICE_RECOVERY')
+            report['passed']=all_faults and not report['remaining_native_observations']
+            if not report['passed']:report['reason']='PQR05_NATIVE_OBSERVATIONS_INCOMPLETE'
+        elif group=='PQR-06':
+            from verify_paper_security import verify_slice as security_slice
+            from verify_paper_boundaries import verify_slice as boundary_slice
+            security=security_slice(package,output,identity)
+            boundaries=boundary_slice(package,output,identity)
+            report['observations']=[*security,*boundaries]
+            report['passed']=(len(security)==1 and security[0].get('scoped_native_security_passed') is True
+                and len(boundaries)==1 and boundaries[0].get('scoped_native_boundaries_passed') is True)
+            if not report['passed']:report['reason']='NATIVE_SECURITY_OR_BOUNDARY_CHECKS_INCOMPLETE'
+        elif group=='PQR-07':
+            from verify_paper_publication import verify_slice
             report['observations']=verify_slice(package,output,identity)
-            report['scoped_fixture_cases_passed']=sum(row['passed'] is True for row in report['observations'])
-            report['scoped_fixture_cases_total']=len(report['observations'])
-            report['remaining_native_observations']=['STANDING_PROTECTION_MISSING_STALE_LOST',
-                'RESEARCH_FAULT_PROTECTION_ISOLATION','ACTUAL_HOST_BOUNDED_CAPACITY_RESOURCE_MEASUREMENT',
-                'STALE_GENERATION_OPERATION_FENCE']
-            report['reason']='PQR05_SCOPED_SLICE_ONLY_NOT_QUALIFIED'
+            report['passed']=len(report['observations'])==1 and report['observations'][0].get('passed') is True
+            if not report['passed']:report['reason']='NATIVE_PUBLICATION_CHECKS_INCOMPLETE'
         else:
             # This fails closed until every concrete native scenario below has
             # an actual fixed driver. It cannot issue eligibility from old tests.
@@ -561,12 +594,12 @@ def verify(package,output,group):
     # cannot establish PASS, but their actual logs/cleanup facts remain bound.
     try:
         for path in sorted(output.rglob('*')):
-            if (path.suffix in ('.log','.png') or path.name=='observations.json'
+            if (path.suffix in ('.log','.png') or path.name in ('observations.json','doctor-execution.json')
                     or path.parent.parent==output and path.parent.name in NativeExpiryFlow.CASES
                     and path.suffix=='.json' and path.name.endswith(('-start.json','-finish.json'))):
                 ref=path.relative_to(output).as_posix()
                 artifacts.append(dict(ref=ref,hash=sha(artifact_bytes(output,ref))))
-                if len(artifacts)>126:raise ValueError('Bounded native artifact inventory required')
+                if len(artifacts)>MAX_EXECUTION_ARTIFACTS-2:raise ValueError('Bounded native artifact inventory required')
     except Exception as error:
         report.update(passed=False,reason='ACTUAL_NATIVE_GROUP_FAILED',error_type=type(error).__name__)
     observation='native-observations.json';raw=(canonical(report)+'\n').encode('utf-8')

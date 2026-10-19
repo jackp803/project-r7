@@ -149,6 +149,8 @@ def build(output, revision):
         raise ValueError('Native PyInstaller build failed; retain local build log')
     package = output / 'dist' / name
     shutil.copyfile(ROOT / 'packaging' / target / 'FIRST_RUN.md', package / 'FIRST_RUN.md')
+    if target == 'windows':
+        shutil.copyfile(ROOT / 'docs/operations/headless-local-operations.md', package / 'HEADLESS_LOCAL_OPERATIONS.md')
     shutil.copyfile(lock, package / 'requirements-build-py312.lock')
     _retain_service_assets(package,target)
     licenses = package / 'licenses'

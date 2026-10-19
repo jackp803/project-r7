@@ -1,3 +1,27 @@
+# Protection query recovery source checkpoint - 2026-10-19
+
+Executable1cb57aa97f57f099cd68a326a3960ded5828b20d, exact clean source:
+52 focused checks and the complete172-test E5 position suite PASS (overlapping
+inventories; do not sum them). Bounded independent review0 Critical/Important,
+reviewer execution NONE. No new financial contract, event or risk rule.
+
+Actual E4 unavailable read transitions to uncertainty. A later exact healthy
+OPEN query now uses the already canonical RECONCILED_OPEN_PROTECTED edge and
+the existing durable projection/execution-binding path. Current exposure must
+match. Fresh E6 successor preserves paused entries, original protection request,
+quantity, opened time and first-fill anchor. Repeated missing, changed identity
+or exposure stays blocked. No database repair or injected terminal state.
+
+Evidence: status/codex/productization/S12/protection-recovery-source-1cb57aa/.
+Public-market focused log commitment normalized to LF for portable Git bytes;
+original493805c test outcome unchanged. This source phase made0 public calls;
+cumulative real public requests8/responses8. No credentials/private APIs/orders/
+capital/hosted compute. Native/full PQR and portable candidate still pending.
+Next: sealed standing-protection missing/stale/lost native cases, research-fault
+isolation, host capacity/stale fencing, native06/07 and complete qualification.
+
+---
+
 # Public market source integration checkpoint - 2026-10-19
 
 Executable 493805c80a7e0ee5fff031e209c6fefb6270ffdf, exact clean source:

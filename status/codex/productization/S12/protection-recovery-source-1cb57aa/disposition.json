@@ -1,0 +1,40 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "executable_revision": "1cb57aa97f57f099cd68a326a3960ded5828b20d",
+  "scope": "SOURCE_ONLY",
+  "source_worktree": "CLEAN",
+  "focused_tests": 52,
+  "position_suite_tests": 172,
+  "counts_additive": false,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "log_hashes": {
+    "focused.log": "sha256:dbbbce19b89394695ecd945ef072db50deb2f9d39aa39be974bdb269b885d1ad",
+    "position.log": "sha256:ca5e679a918a9f1a2cdfa028b55a54d4f9aa9454593d5f7053625eb9f1055bf8"
+  },
+  "review": {
+    "critical": 0,
+    "important": 0,
+    "execution": "NONE"
+  },
+  "root_cause": "Existing exact healthy OPEN stop verification did not use the already canonical RECONCILED_OPEN_PROTECTED edge; Paper skipped querying reconciliation state",
+  "proof": [
+    "Actual E4 unavailable read produces E5 uncertainty without DB repair",
+    "Exact original stop read and current net exposure recover through existing E5 execution binding",
+    "Fresh service advances actual E6 generation and preserves paused entries",
+    "Original quantity, protection request, opened time and first-fill anchor preserved",
+    "Repeated missing, wrong identity and wrong current exposure stay blocked"
+  ],
+  "provider_requests_this_phase": 0,
+  "cumulative_public_requests": 8,
+  "cumulative_public_responses": 8,
+  "credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "native_pqr": "PENDING",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "forward": "NOT_STARTED"
+}

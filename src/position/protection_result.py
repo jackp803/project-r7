@@ -349,6 +349,12 @@ def interpret_protection_result(
                 reason_code="PROTECTION_REMAINS_ACTIVE",
                 protection_verified=True,
             )
+        if lifecycle == PositionLifecycleState.RECONCILIATION_REQUIRED:
+            # All exact E4 identity, quantity, query, health and ambiguity
+            # checks above still apply. Use the existing canonical recovery
+            # edge; an ACK, missing query or ambiguous result never reaches it.
+            return _event_outcome(lifecycle,PositionEvent.RECONCILED_OPEN_PROTECTED,
+                'PROTECTION_RECONCILED_ACTIVE_VERIFIED',protection_verified=True)
         return _unknown_outcome(lifecycle, "ACTIVE_PROTECTION_OUTSIDE_SUPPORTED_LIFECYCLE")
 
     if query_status in DEFINITIVE_INACTIVE_STATUSES:

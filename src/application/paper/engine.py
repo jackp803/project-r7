@@ -194,11 +194,13 @@ class PaperEngine:
 
     def _observe_protection(self, runtime, broker, effects, now):
         position=runtime['position']
-        if not runtime['protection_request'] or position['lifecycle_state'] not in ('OPEN_PROTECTED','PROFIT_PROTECTED'):
+        if not runtime['protection_request'] or position['lifecycle_state'] not in ('OPEN_PROTECTED','PROFIT_PROTECTED','RECONCILIATION_REQUIRED'):
             return
         request=decode_fact(OrderRequest,runtime['protection_request'])
+        signed=Decimal(position['actual_quantity'])*(1 if position['side']=='LONG' else -1)
+        consistent=broker.query_position(position['symbol']).net_quantity==signed
         interpreted=interpret_protection_result(request,ProtectionResultEvidence(True,
-            broker.query_order(request.client_order_id)),position['lifecycle_state'])
+            broker.query_order(request.client_order_id),position_reconciliation_status='CONSISTENT' if consistent else 'MISMATCH'),position['lifecycle_state'])
         if interpreted.event is not None:
             source=dict(_broker_fact_payload(position),lifecycle_state=position['lifecycle_state'],
                         broker_state_observed_at=stamp(now))
@@ -206,6 +208,7 @@ class PaperEngine:
                 lifecycle_event=interpreted.event,lifecycle_interpreted_at=now,
                 **_evidence(broker,runtime['plan']['trade_plan_id']))
             self._save_projection(runtime,broker,effects,composed.lifecycle_projection)
+            if interpreted.event.value=='RECONCILED_OPEN_PROTECTED':self.reconciled=True
 
     def _request_close(self, runtime, broker, effects, action, event, now):
         position=runtime['position']

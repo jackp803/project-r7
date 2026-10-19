@@ -410,6 +410,21 @@ class ProtectionResultBridgeTests(unittest.TestCase):
         self.assertEqual(PositionLifecycleState.RECONCILIATION_REQUIRED, outcome.next_state)
         self.assertFalse(outcome.protection_verified)
 
+    def test_exact_queried_healthy_open_stop_uses_existing_reconciled_protected_event(self):
+        request=self._request()
+        outcome=interpret_protection_result(request,ProtectionResultEvidence(True,self._result(request)),
+            PositionLifecycleState.RECONCILIATION_REQUIRED)
+        self.assertEqual(outcome.event,PositionEvent.RECONCILED_OPEN_PROTECTED)
+        self.assertEqual(outcome.next_state,PositionLifecycleState.OPEN_PROTECTED)
+        self.assertTrue(outcome.protection_verified)
+        for evidence in (ProtectionResultEvidence(False),ProtectionResultEvidence(True,None),
+                ProtectionResultEvidence(True,self._result(request,health=ExecutionHealthStatus.UNKNOWN)),
+                ProtectionResultEvidence(True,self._result(request,client_order_id='wrong-client')),
+                ProtectionResultEvidence(True,self._result(request),position_reconciliation_status='MISMATCH')):
+            with self.subTest(evidence=evidence):
+                denied=interpret_protection_result(request,evidence,PositionLifecycleState.RECONCILIATION_REQUIRED)
+                self.assertIsNone(denied.event);self.assertFalse(denied.protection_verified)
+
     def test_bridge_has_no_broker_submit_query_or_retry_dependency(self):
         parameters = tuple(inspect.signature(interpret_protection_result).parameters)
         self.assertEqual(("request", "evidence", "current_state"), parameters)

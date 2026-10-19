@@ -1,0 +1,32 @@
+test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path (test_cloud_long_paths.CloudLongPathTests.test_author_handoff_keeps_bounded_atomic_replacement_with_a_long_temporary_path) ... ok
+test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file (test_cloud_long_paths.CloudLongPathTests.test_immutable_publication_survives_a_temporary_path_longer_than_the_final_file) ... ok
+test_long_cloud_discovery_and_executable_entry_scan_keep_rejection (test_cloud_long_paths.CloudLongPathTests.test_long_cloud_discovery_and_executable_entry_scan_keep_rejection) ... FAIL
+test_opened_byte_reader_handles_actual_extended_length_parent_components (test_cloud_long_paths.CloudLongPathTests.test_opened_byte_reader_handles_actual_extended_length_parent_components) ... ok
+test_verified_snapshot_sealing_and_idempotence_survive_full_extended_paths (test_cloud_long_paths.CloudLongPathTests.test_verified_snapshot_sealing_and_idempotence_survive_full_extended_paths) ... ERROR
+
+======================================================================
+ERROR: test_verified_snapshot_sealing_and_idempotence_survive_full_extended_paths (test_cloud_long_paths.CloudLongPathTests.test_verified_snapshot_sealing_and_idempotence_survive_full_extended_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_long_paths.py", line 76, in test_verified_snapshot_sealing_and_idempotence_survive_full_extended_paths
+    first=transport.snapshot(descriptor,local)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\synced_folder.py", line 138, in snapshot
+    raise CloudError("UNAVAILABLE", "LOCAL_SNAPSHOT_WRITE_FAILED") from None
+application.cloud.protocol.CloudError: UNAVAILABLE: LOCAL_SNAPSHOT_WRITE_FAILED
+
+======================================================================
+FAIL: test_long_cloud_discovery_and_executable_entry_scan_keep_rejection (test_cloud_long_paths.CloudLongPathTests.test_long_cloud_discovery_and_executable_entry_scan_keep_rejection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_cloud_long_paths.py", line 95, in test_long_cloud_discovery_and_executable_entry_scan_keep_rejection
+    self.assertEqual(caught.exception.code,'BLOCKED')
+AssertionError: 'INCOMPLETE_SYNC' != 'BLOCKED'
+- INCOMPLETE_SYNC
++ BLOCKED
+
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.162s
+
+FAILED (failures=1, errors=1)

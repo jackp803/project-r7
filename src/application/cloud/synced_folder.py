@@ -11,12 +11,18 @@ from application.cloud.manifest import (MANIFEST_LIMIT, byte_hash, canonical_byt
                                         parse_manifest, safe_component, safe_relative, verify_payload)
 from application.cloud.protocol import (ArtifactDescriptor, ArtifactBundle, CloudError,
                                         PackageSnapshot, PublishReceipt)
-from application.cloud.safe_files import read_bounded, write_immutable
+from application.cloud.safe_files import read_bounded, write_immutable, _windows_native_path
+
+
+def _filesystem_path(path):
+    # Logical paths retain their admission checks and stored identities. Only
+    # filesystem calls use Windows' extended spelling, including atomic rename.
+    return Path(_windows_native_path(path)) if os.name == 'nt' else Path(path)
 
 
 def _reject_links(path: Path):
     try:
-        info = path.lstat()
+        info = _filesystem_path(path).lstat()
     except FileNotFoundError:
         raise CloudError("INCOMPLETE_SYNC", "ARTIFACT_MISSING") from None
     except OSError:
@@ -44,13 +50,13 @@ class SyncedFolderCloudTransport:
     def discover(self):
         self._check_root()
         inbox = self.root / "inbox/strategies"
-        if not inbox.exists():
+        if not _filesystem_path(inbox).exists():
             return
         for ancestor in (self.root / "inbox", inbox):
             _reject_links(ancestor)
         # Bounded batch. Repeated scans are hints; the durable ledger owns effects.
         names = []
-        with os.scandir(inbox) as entries:
+        with os.scandir(_filesystem_path(inbox)) as entries:
             for entry in entries:
                 if len(names) >= 1000:
                     raise CloudError("BLOCKED", "DISCOVERY_BATCH_LIMIT")
@@ -63,7 +69,7 @@ class SyncedFolderCloudTransport:
             collisions.add(name.casefold())
             folder = inbox / name
             _reject_links(folder)
-            if folder.is_dir() and (folder / "manifest.json").exists():
+            if _filesystem_path(folder).is_dir() and _filesystem_path(folder / "manifest.json").exists():
                 yield ArtifactDescriptor(name, "inbox/strategies/" + name)
 
     def read_verified(self, descriptor: ArtifactDescriptor, limit_bytes: int):
@@ -89,12 +95,13 @@ class SyncedFolderCloudTransport:
         load_json(raw_payloads["strategy_definition"], STRATEGY_LIMIT)
         folder = self.root / descriptor.logical_path
         seen = 0
-        for base, directories, files in os.walk(folder, followlinks=False):
+        native_folder = _filesystem_path(folder)
+        for base, directories, files in os.walk(native_folder, followlinks=False):
             for name in directories + files:
                 seen += 1
                 if seen > 32:
                     raise CloudError("BLOCKED", "PACKAGE_FILE_LIMIT")
-                path = Path(base) / name
+                path = folder / Path(base).relative_to(native_folder) / name
                 _reject_links(path)
                 if path.suffix.lower() in {".exe", ".dll", ".com", ".bat", ".cmd", ".ps1", ".py", ".sh", ".js"}:
                     raise CloudError("BLOCKED", "EXECUTABLE_ARTIFACT_FORBIDDEN")
@@ -107,31 +114,31 @@ class SyncedFolderCloudTransport:
             raise CloudError("BLOCKED", "SNAPSHOT_ROOT_MUST_BE_LOCAL_AND_DISJOINT")
         try:
             for ancestor in reversed(local.parents):
-                if ancestor.exists(): _reject_links(ancestor)
-            local.mkdir(parents=True, exist_ok=True, mode=0o700)
+                if _filesystem_path(ancestor).exists(): _reject_links(ancestor)
+            _filesystem_path(local).mkdir(parents=True, exist_ok=True, mode=0o700)
             _reject_links(local)
         except OSError:
             raise CloudError("UNAVAILABLE", "LOCAL_SNAPSHOT_WRITE_FAILED") from None
         target = local / (manifest.submission_id + "-" + manifest.manifest_hash[7:])
         payload_paths = MappingProxyType({spec.role:target / spec.relative_path for spec in manifest.payloads})
         snapshot = PackageSnapshot(target, manifest.manifest_hash, payload_paths)
-        if target.exists():
+        if _filesystem_path(target).exists():
             from application.cloud.manifest import validate_package
             validate_package(snapshot)
             return snapshot
         staging = local / ("staging-" + uuid.uuid4().hex)
         try:
-            staging.mkdir(mode=0o700)
-            (staging / "manifest.json").write_bytes(raw_manifest)
+            _filesystem_path(staging).mkdir(mode=0o700)
+            _filesystem_path(staging / "manifest.json").write_bytes(raw_manifest)
             for spec in manifest.payloads:
                 path = staging / spec.relative_path
-                path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
-                path.write_bytes(raw_payloads[spec.role])
+                _filesystem_path(path.parent).mkdir(parents=True, exist_ok=True, mode=0o700)
+                _filesystem_path(path).write_bytes(raw_payloads[spec.role])
             seal = {"schema_version":"r7-package-snapshot-v0.2", "manifest_hash":manifest.manifest_hash,
                     "manifest_byte_hash":byte_hash(raw_manifest),
                     "payload_hashes":{role:byte_hash(raw) for role, raw in raw_payloads.items()}}
-            (staging / ".seal.json").write_bytes(canonical_bytes(seal))
-            os.rename(staging, target)
+            _filesystem_path(staging / ".seal.json").write_bytes(canonical_bytes(seal))
+            os.rename(_filesystem_path(staging), _filesystem_path(target))
         except OSError:
             # Retain incomplete private staging for diagnosis; never recursively
             # remove a computed path or classify a disk failure as strategy failure.

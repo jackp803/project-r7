@@ -1,0 +1,57 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Dirty Windows filesystem-spelling remediation in SyncedFolderCloudTransport and the two new source regressions only. No tests/product/native/build/network execution and no private DB/auth/config/active evidence access.",
+  "reviewed_files": [
+    {
+      "ref": "src/application/cloud/synced_folder.py",
+      "sha256": "442dfbf9d10dfde22e2ba1e77673ff3b3897cdbd99027044544761b76d46e6e8"
+    },
+    {
+      "ref": "tests/application/test_cloud_long_paths.py",
+      "sha256": "c9aeb7fe4d366366411de87b4e31f0134cd2dfb38a5c205f9b1972a0ed28b8e2"
+    }
+  ],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "findings": [],
+  "static_findings": [
+    {
+      "ref": "src/application/cloud/synced_folder.py:17",
+      "conclusion": "The new helper uses the existing absolute extended Unicode spelling only for Windows filesystem calls; POSIX spelling is unchanged. Existing native helper rejects nonabsolute and dot-dot paths."
+    },
+    {
+      "ref": "src/application/cloud/synced_folder.py:23",
+      "conclusion": "Metadata link/reparse rejection now observes the same native spelling as enumeration and writes, avoiding MAX_PATH absence/misclassification. The same existing symlink/reparse-bit refusal remains."
+    },
+    {
+      "ref": "src/application/cloud/synced_folder.py:50",
+      "conclusion": "Root marker, component grammar, bounded batch and case-collision checks remain. Discovery enumerates natively but returns the original logical descriptor names."
+    },
+    {
+      "ref": "src/application/cloud/synced_folder.py:98",
+      "conclusion": "Native os.walk base names are explicitly mapped back beneath the original logical folder using relative_to(native_folder); original count/executable/link checks still apply to each resulting logical descendant."
+    },
+    {
+      "ref": "src/application/cloud/synced_folder.py:112",
+      "conclusion": "Original logical disjoint-root check and ancestor rejection remain. Existing target validation/idempotence, fresh staging, captured verified payloads and seal commitments are retained. Atomic rename now receives native spelling for both sibling paths."
+    },
+    {
+      "ref": "tests/application/test_cloud_long_paths.py:69",
+      "conclusion": "New actual filesystem source regression demands a manifest path beyond320 characters, validates actual authored package/strategy, preserves logical snapshot identity and byte-identical sealed retry."
+    },
+    {
+      "ref": "tests/application/test_cloud_long_paths.py:85",
+      "conclusion": "New source regression places a real unapproved.py in a cloud package folder beyond260 characters; requires exact BLOCKED/EXECUTABLE_ARTIFACT_FORBIDDEN before creating a local snapshot root. The injected source file is never executed."
+    }
+  ],
+  "adjacent_contract_read": "Only the existing safe_files._windows_native_path and protected reader interface were read for narrow context; no change to those modules is reviewed or made.",
+  "limitations": [
+    "No introduced Critical/Important defect found in the bounded path-representation delta; this is not an exhaustive audit of all pre-existing snapshot concurrency/security behavior.",
+    "Parent-reported RED/GREEN source results were not executed or credited by the reviewer.",
+    "The prior f6f9fb4 owning attempt remains failed. This source change requires a new exact subject and appropriate qualification; prior passing source/native subsets are not transferred.",
+    "No complete PQR, native temporal expiry, Ubuntu, real cloud, financial authority or whole-Master acceptance is issued."
+  ]
+}

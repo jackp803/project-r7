@@ -1,3 +1,34 @@
+# Native snapshot long path and bounded product mapping repair - 2026-10-19
+
+Same task/branch; main unchanged7d1f447. Exact-clean f6f9fb4 built, scoped
+native07 PASS. Full owning attempt failed: all124source commands/2422case
+executions PASS (247focused+2175remaining occurrences), native02/03 PASS,
+native04 failed fourth case before research enqueue: LOCAL_SNAPSHOT_WRITE_FAILED.
+Groups3/7; no complete software qualification. All owned trees reaped.
+Full failure/declared closure and scoped07 retained at
+status/codex/productization/S12/current-windows-f6f9fb4-failed/.
+
+Actual local target exceeded Windows260path limit. Minimal filesystem-only
+extended spelling repair preserves logical identities, seal/hash checks,
+disjoint roots, reparse rejection and blocked executable artifacts. Actual
+snapshot>320chars and forbidden cloud artifact>260chars fail first then pass.
+Product suite measured834702ms against unchanged900s; complete sorted per-file
+mapping now shared by freezer/runner/producer with no test omissions. All inner
+health/resource/E5/stop bounds unchanged. Two focused commands/30checks PASS;
+independent reviews0Critical/0Important, executionNONE. Regenerated inventory
+7groups/159commands/2425source-caseexecutions/295tool-testfiles.
+Source evidence status/codex/productization/S12/snapshot-command-repair-20261019/.
+
+Next new exact-clean build, native04 preflight, full owning qualification and
+actual native software readback; then portable/headless/unattended diagnostic
+research/report/qualified backup and semantic mapping. Do not transfer scoped
+or old subject credit. No new public calls; cumulative8requests/8responses,
+private0/credentialsNONE/provider mutation0/capitalNONE/GitHubcomputeNOT_USED.
+No OS setting change; policies/forward/old target/Ubuntu/cloud stay separate.
+Master IN_PROGRESS. Preserve all prior records below.
+
+---
+
 # Native07 isolated compiler home repair - 2026-10-19
 
 Same task and implementation branch. Latest main re-fetched unchanged at

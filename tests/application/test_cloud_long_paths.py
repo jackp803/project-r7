@@ -7,6 +7,11 @@ import unittest
 
 from application.cloud.protocol import CloudError
 from application.cloud.safe_files import read_bounded, stage_author_input, write_immutable
+from application.cloud.authoring import emit_package
+from application.cloud.manifest import validate_package
+from application.cloud.synced_folder import SyncedFolderCloudTransport
+from tests.strategy.test_slice1_runtime import make_definition
+import json
 
 
 def fixture_path(path):
@@ -54,6 +59,42 @@ class CloudLongPathTests(unittest.TestCase):
         stage_author_input(self.cloud,relative,b'{"synthetic":"FIRST"}')
         stage_author_input(self.cloud,relative,b'{"synthetic":"SECOND"}')
         self.assertEqual(read_bounded(self.cloud,relative,1024),b'{"synthetic":"SECOND"}')
+
+    def authored(self,cloud,submission):
+        fixture_path(cloud/'inbox/strategies').mkdir(parents=True,exist_ok=True)
+        fixture_path(cloud/'.r7-root.json').write_bytes(b'{"root_id":"long-snapshot-fixture"}')
+        return emit_package(json.dumps(make_definition()).encode(),cloud/'inbox/strategies'/submission,
+            submission_id=submission,package_version='0.1')
+
+    def test_verified_snapshot_sealing_and_idempotence_survive_full_extended_paths(self):
+        authored=self.authored(self.cloud,'long-snapshot-fixture')
+        transport=SyncedFolderCloudTransport(self.cloud,expected_root_id='long-snapshot-fixture')
+        descriptor=tuple(transport.discover())[0]
+        local=self.root/('本機 snapshots '+'l'*95)/('nested-'+'y'*64)
+        expected=local/(descriptor.submission_id+'-'+authored['manifest_hash'][7:])
+        self.assertGreater(len(str(expected/'manifest.json')),320)
+        first=transport.snapshot(descriptor,local)
+        self.assertEqual(first.root,expected)
+        before={p.name:p.read_bytes() for p in fixture_path(expected).iterdir()}
+        self.assertEqual(validate_package(first).strategy.content_hash,authored['strategy_content_hash'])
+        again=transport.snapshot(descriptor,local)
+        self.assertEqual(again.root,expected)
+        self.assertEqual({p.name:p.read_bytes() for p in fixture_path(expected).iterdir()},before)
+        self.assertFalse(str(first.root).startswith('\\\\?\\'))
+
+    def test_long_cloud_discovery_and_executable_entry_scan_keep_rejection(self):
+        cloud=self.cloud/('sync-layer-'+'x'*20);submission='submission-'+'s'*64
+        self.authored(cloud,submission)
+        folder=cloud/'inbox/strategies'/submission
+        self.assertGreater(len(str(folder)),260)
+        fixture_path(folder/'unapproved.py').write_bytes(b'raise RuntimeError("NEVER_EXECUTED")')
+        transport=SyncedFolderCloudTransport(cloud,expected_root_id='long-snapshot-fixture')
+        with self.assertRaises(CloudError) as caught:
+            descriptor=tuple(transport.discover())[0]
+            transport.snapshot(descriptor,self.root/'local-snapshots')
+        self.assertEqual(caught.exception.code,'BLOCKED')
+        self.assertEqual(caught.exception.reason,'EXECUTABLE_ARTIFACT_FORBIDDEN')
+        self.assertFalse((self.root/'local-snapshots').exists())
 
 
 if __name__=='__main__':

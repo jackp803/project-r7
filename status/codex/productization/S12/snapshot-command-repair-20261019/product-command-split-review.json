@@ -1,0 +1,33 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only the product per-file qualification command split and its new test; previously reviewed snapshot changes are excluded. No test/native/build/DB/auth/network execution or private data access.",
+  "reviewed_files": [
+    {
+      "ref": "src/application/qualification.py",
+      "sha256": "e5ba74691f0a11ab7280389075da5adde7d8294a23141070ec489cf63718bdbe"
+    },
+    {
+      "ref": "tests/application/test_qualification_runner.py",
+      "sha256": "66deb221882645585855adce1ba204fea53db5e272f426daf34c04e9c4564193"
+    }
+  ],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "findings": [],
+  "rationale": [
+    "The only behavioral delta adds product alongside application in suite_patterns. It returns every already discovered test filename in the same sorted per-directory inventory; other suites and the sixteen focused commands are unchanged.",
+    "Shared source_commands and generic run_qualification both consume suite_patterns. The owning producer/freezer therefore use the same committed mapping interface already established for application.",
+    "No deadline changes are present. Generic execution still passes the existing timeout_seconds into ResourceLimits and retains the same wait/owned reaping checks; this split changes command boundaries, not per-command limits, failure/skip policy or financial rules.",
+    "The new regression checks exact product pattern order and absence of the old wildcard command. The existing complete-inventory regression also verifies every discovered test file is covered exactly once in phase2.",
+    "Generic report commands retain the actual pattern, unique ordinal log names, actual counts, source-after identity and reaping facts. Multiple product rows do not overwrite one another."
+  ],
+  "limitations": [
+    "Static source inventory currently lists30 product test files; no unittest discovery or case execution was performed by the reviewer.",
+    "Method-level executed ID/order equality and the new complete profile/receipt inventory must be established by root's actual freeze/qualification; file enumeration alone is not executed evidence.",
+    "Changing command boundaries creates a new committed profile/subject. Prior full or partial evidence must not be relabeled as this new execution.",
+    "No full source/native/PQR/requirement/whole-Master acceptance is issued."
+  ]
+}

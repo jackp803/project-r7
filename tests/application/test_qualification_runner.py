@@ -52,6 +52,15 @@ class QualificationRunnerTests(unittest.TestCase):
         other=module.select_suites(module.discover_suites(root),['registry'])[0]
         self.assertEqual(module.suite_patterns(other),('test_*.py',))
 
+    def test_product_commands_bound_complete_measured_slow_suite_per_module(self):
+        module=require(self,'application.qualification');root=Path(__file__).resolve().parents[2]
+        suite=module.select_suites(module.discover_suites(root),['product'])[0]
+        expected=tuple(path.name for path in suite.test_files)
+        self.assertEqual(module.suite_patterns(suite),expected)
+        complete=module.source_commands(root)[len(module.FOCUSED):]
+        self.assertEqual(tuple(pattern for directory,pattern in complete if directory=='tests/product'),expected)
+        self.assertNotIn(('tests/product','test_*.py'),complete)
+
     def test_summary_requires_nonzero_tests_and_rejects_skips_expected_failures(self):
         module = require(self, "application.qualification")
         for text in ("Ran 0 tests in 0.0s\n\nOK", "Ran 2 tests in 0.1s\n\nOK (skipped=1)",

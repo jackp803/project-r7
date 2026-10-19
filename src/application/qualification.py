@@ -93,10 +93,11 @@ def select_suites(inventory, names):
 
 
 def suite_patterns(suite):
-    # The growing application suite exceeds one bounded child deadline. Keep
-    # its complete discovery order while giving each file its own owned child.
+    # Application exceeds one bounded child deadline; product measured 835s
+    # against the same 900s deadline. Keep each complete discovery order while
+    # giving each file its own owned child with room for host scheduling.
     # No test is removed and each command retains the same finite deadline.
-    return (tuple(path.name for path in suite.test_files) if suite.name == 'application'
+    return (tuple(path.name for path in suite.test_files) if suite.name in ('application', 'product')
             else ('test_*.py',))
 
 

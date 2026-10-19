@@ -1,0 +1,35 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "New outside-Git strict native isolation probe wrapper and its source-only revision-binding regression tests; no repeated source repair review",
+  "critical_count": 0,
+  "important_count": 0,
+  "findings": [],
+  "reviewed_raw_sha256": {
+    "artifacts/current-windows-20261019/verify_isolation_owning_depth.py": "sha256:ad22642dd9aea22329df8f4886c0d89800a4b53a021f530fa37590640baaff10",
+    "artifacts/current-windows-20261019/test_isolation_owning_depth_helper.py": "sha256:7271732c505a8c926678d4737b0345a2d2a99ad999fdccb29b90f793b0abaa3a"
+  },
+  "resolved_findings": [
+    {
+      "severity": "Important",
+      "issue": "The wrapper previously allowed a package with a different full executable revision but identical implementation to be attributed to the requested revision",
+      "resolution": "Both parent and child now compare verify_distribution facts.executable_revision with the full requested revision before guard, output setup or flow construction",
+      "regression_scope": "The two source-only tests exercise the actual parent and child entrypoints with a metadata-ancestor package and require refusal before guard or output setup; these are mocked admission boundaries, not native execution evidence"
+    }
+  ],
+  "static_observations": [
+    "The parent validates an exact Windows revision and closed fresh attempt name, creates private project-local stage and fixture roots, and checks the generated native-output path length against the owning path shape",
+    "The child invokes the existing strict NativeResearchIsolationFlow.run and requires its actual isolation and capacity observations; it supplies no result or runtime substitutes",
+    "The outer command uses the existing owned-process helper and bounded timeout; success requires the child observation, source/package guards and confirmed flow cleanup",
+    "The wrapper verifies its own bytes again before the final checkpoint and serializes the temporary awake request evidence after restoration",
+    "Failure output retains only an exception type, a literal present in the public isolation driver or a fixed fallback reason, and the final stack-site basename/function/line",
+    "The wrapper explicitly declares zero full qualification credit"
+  ],
+  "limitations": [
+    "No test, native probe, build, network operation or qualification was executed by the reviewer",
+    "No private configuration, authentication material, runtime database or generated fixture output was read",
+    "Root-reported RED/GREEN outcomes were not independently executed or issued as reviewer evidence",
+    "A fresh actual native probe on the subsequently committed and built exact subject remains pending",
+    "This is a bounded tooling disposition, not full PQR, ordinary Paper, financial authority, cross-platform or whole-Master acceptance"
+  ]
+}

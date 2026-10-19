@@ -1,0 +1,48 @@
+FF
+======================================================================
+FAIL: test_child_rejects_metadata_ancestor_package_before_guard_or_flow (__main__.IsolationProbeBindingTests.test_child_rejects_metadata_ancestor_package_before_guard_or_flow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_owning_depth_helper.py", line 12, in test_child_rejects_metadata_ancestor_package_before_guard_or_flow
+    self.check('child')
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_owning_depth_helper.py", line 24, in check
+    else:module.child('a'*40,Path('UNUSED_SOURCE_ONLY_OUTPUT'))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\verify_isolation_owning_depth.py", line 22, in child
+    _guard(ROOT,revision,package,facts,profile)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Unbound package reached guard
+
+======================================================================
+FAIL: test_parent_rejects_metadata_ancestor_package_before_guard_or_output (__main__.IsolationProbeBindingTests.test_parent_rejects_metadata_ancestor_package_before_guard_or_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_owning_depth_helper.py", line 9, in test_parent_rejects_metadata_ancestor_package_before_guard_or_output
+    self.check('parent')
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_owning_depth_helper.py", line 23, in check
+    if entry=='parent':module.run('a'*40,'probe99')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\verify_isolation_owning_depth.py", line 56, in run
+    profile=fixed_profile(current_target());_guard(ROOT,revision,package,facts,profile)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Unbound package reached guard
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.225s
+
+FAILED (failures=2)

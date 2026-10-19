@@ -1,0 +1,48 @@
+{
+  "revision": "e48f318710430414ceaab76e361c4916cfc2a602",
+  "full_qualification": "NOT_QUALIFIED",
+  "scope": "READONLY_REPLAY_OF_RETAINED_PUBLIC_OBSERVATIONS",
+  "original_error_type": "ValueError",
+  "exact_original_exception_site": "NOT_RECORDED_BY_ORIGINAL_DRIVER",
+  "reproduced_postcondition": "Actual research target descendant not measured; bootstrap is not target",
+  "timeout_shape_check": "PASS",
+  "timeout_shape_run_id_scope": "ACTUAL_TERMINAL_RESULT_SELF_ID_NOT_AN_INDEPENDENT_QUEUE_BINDING",
+  "actual_sample_count": 12,
+  "actual_target_descendant_observed": false,
+  "actual_timeout_result": {
+    "status": "JOB_TERMINATED",
+    "run_id": "job-e2381c7a3d93ad709df02f58a0b0d94c74d10db85436c55be809ed7f00d3ad5d",
+    "job_state": "FAILED",
+    "reason_codes": [
+      "OWNED_WORKER_TIMEOUT"
+    ],
+    "tree_reaped": true,
+    "memory_enforcement": "SOFT_LIMIT_ONLY",
+    "parent_pid": 32196,
+    "child_pid": 62140,
+    "exit_code": 124
+  },
+  "source_functions_unchanged": [
+    "require_timeout",
+    "require_research_target",
+    "progress_report"
+  ],
+  "original_driver_hash": "sha256:c5994d4e1b594e7ec1ce191bd33638abb3ae3390696de3ab17078da2a75401d3",
+  "repaired_driver_hash": "sha256:f2d89cdc57b6465e259a3678172e1890a4d091155dfb47519d96e10e055ae988",
+  "original_artifacts": [
+    {
+      "ref": "artifacts/q-e48f318-first/worker-logs/pqr-edd8eac481814fb6b6ad31d6a8c11b33/PQR-05-native-artifacts/research-isolation/observations.json",
+      "hash": "sha256:7b6cc937000d18dadd984e775b8df85921f2a28096564d916655047bae023cc4"
+    },
+    {
+      "ref": "artifacts/q-e48f318-first/worker-logs/pqr-edd8eac481814fb6b6ad31d6a8c11b33/PQR-05-native-artifacts/research-isolation/concurrent-research.log",
+      "hash": "sha256:b0470b2473fa7b81e6fc6d5b8432df6b7369f0d9877889d6af811aebf887e591"
+    }
+  ],
+  "repair_scope": "FIXED_TEST_LOCAL_FAULT_TIMEOUT_1_TO_5_SECONDS_ONLY",
+  "strict_new_native_probe": "PENDING",
+  "provider_requests_additional": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE"
+}

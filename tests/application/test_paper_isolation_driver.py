@@ -30,6 +30,30 @@ class PaperIsolationDriverTests(unittest.TestCase):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 module.require_timeout({**self.result(), **changes}, run_id='job-source', process_exit_code=2)
 
+    def test_fixed_native_timeout_fixture_leaves_startup_time_within_existing_observation_bound(self):
+        from tempfile import TemporaryDirectory
+        module = self.module()
+        flow = object.__new__(module.NativeResearchIsolationFlow)
+        with TemporaryDirectory() as temporary:
+            flow.output = Path(temporary)
+            flow.executable = Path('R7.exe')
+            flow.config = Path('SOURCE_CONFIG')
+            flow.env = {'SOURCE_FIXTURE': 'ONLY'}
+            with patch.object(module, 'spawn_owned', return_value=Mock()) as spawn:
+                flow.start_research()
+            try:
+                argv = spawn.call_args.args[0]
+                # The actual one-second e48 fixture timed out before any real
+                # research target was sampled. This remains a forced timeout,
+                # with separate unchanged outer ownership/observation bounds.
+                self.assertEqual(argv[-2:], ['--job-timeout-seconds', '5'])
+                self.assertEqual(argv[1:3], ['research-worker', '--config'])
+                self.assertEqual(spawn.call_args.kwargs['limits'].timeout_seconds, 25)
+                self.assertLess(5, module.OBSERVATION_SECONDS)
+                self.assertEqual(spawn.call_args.kwargs['env'], flow.env)
+            finally:
+                flow.research_stream.close()
+
     def test_sample_inventory_never_reads_outside_the_owned_job(self):
         module = self.module()
         sampler = object.__new__(module.WindowsOwnedProcessSampler)

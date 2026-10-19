@@ -1,0 +1,24 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Final source-only recheck of the fixed native research timeout stimulus and its added argv/envelope regression.",
+  "inspected_sources": {
+    "tools/verify_paper_isolation.py": "f2d89cdc57b6465e259a3678172e1890a4d091155dfb47519d96e10e055ae988",
+    "tests/application/test_paper_isolation_driver.py": "6b35977759b24c515aee5ebcdbd3ea329cd917abfd85cfbc9639df2dc722cd1f"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "diagnosis_ref": "research-isolation-timeout-budget-advisory.json",
+  "checks": [
+    "The driver diff changes only the explicit public fault-probe timeout argument from one to five seconds. Production default900, outer ResourceLimits25, observation20, terminal grace6, target ancestry, exact timeout result, protection/progress assertions and cleanup are unchanged.",
+    "The new source-only regression invokes the real start_research method with only process spawning substituted. It checks exact timeout argv5, the public research-worker command, unchanged outer25, the smaller-than-observation budget relation and the original environment, then closes the owned test stream.",
+    "The approved failed-attempt evidence establishes a correctly rejected missing-target observation. The longer finite test input is a reasonable narrow repair for that measurement stimulus, without introducing financial authority or accepting bootstrap-only samples."
+  ],
+  "execution_and_credit_limits": [
+    "Root reported a genuine RED failure and GREEN34 source-module results; those tests/logs were not executed or re-parsed by this reviewer.",
+    "The actual native five-second probe remains PENDING. It must still measure the real research target and satisfy actual timeout, original binding/protection, during/after progress and reaping checks. Normal early completion or continued missing-target coverage must remain a failed fault probe.",
+    "The original e48 attempt remains FAILED and receives no repaired native credit. Changed driver/test inputs require the next exact frozen candidate and fresh actual proofs; no full PQR or Master PASS is transferred."
+  ],
+  "limits": "No tests, native jobs, qualification, private data, provider or network were executed or accessed; no source or Git changes were made by the reviewer."
+}

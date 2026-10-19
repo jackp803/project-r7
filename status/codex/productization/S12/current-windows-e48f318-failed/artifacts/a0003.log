@@ -1,0 +1,24 @@
+F
+======================================================================
+FAIL: test_fixed_native_timeout_fixture_leaves_startup_time_within_existing_observation_bound (tests.application.test_paper_isolation_driver.PaperIsolationDriverTests.test_fixed_native_timeout_fixture_leaves_startup_time_within_existing_observation_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_paper_isolation_driver.py", line 49, in test_fixed_native_timeout_fixture_leaves_startup_time_within_existing_observation_bound
+    self.assertEqual(argv[-2:], ['--job-timeout-seconds', '5'])
+AssertionError: Lists differ: ['--job-timeout-seconds', '1'] != ['--job-timeout-seconds', '5']
+
+First differing element 1:
+'1'
+'5'
+
+- ['--job-timeout-seconds', '1']
+?                            ^
+
++ ['--job-timeout-seconds', '5']
+?                            ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.218s
+
+FAILED (failures=1)

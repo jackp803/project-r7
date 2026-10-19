@@ -1,3 +1,15 @@
+# Current Windows owning failure retained; bounded isolation fixture repair — 2026-10-20
+
+Task and branch remain `CODEX-R7-PRODUCTIZATION-MASTER-20261002` / `codex/r7-productization-master-20261002`.
+
+The actual e48f318 full owning execution is **NOT QUALIFIED**: 154 source commands / 2,429 case executions and PQR-02–04 passed, then PQR-05 failed. All nine native fault cases passed, but the one-second research timeout produced no sampled real research target beyond the native bootstraps. The original driver recorded only ValueError; replay of its unchanged target guard deterministically denies the retained samples. Actual research timeout/FAILED/reaped facts are preserved, not converted into isolation PASS. PQR-06–07 were NOT_RUN in that full attempt. Owning wrapper and source remained unchanged, all trees were reaped, minimum observed host available memory was 9,095,749,632 bytes.
+
+Sanitized failed closure: `status/codex/productization/S12/current-windows-e48f318-failed/disposition.json`. Prior same-depth native07 PASS is separately retained at `status/codex/productization/S12/current-windows-e48f318-native07-depth/disposition.json`; it grants no full qualification credit.
+
+The minimal driver-only repair changes this fixed test input from one to five seconds. Production/default resource policies and strict actual-target, timeout, progress, protection and cleanup gates are unchanged. Genuine RED1 then GREEN34; independent source review 0 Critical / 0 Important, reviewer execution NONE. Freeze/build the next exact clean commit, then run `artifacts/current-windows-20261019/verify_isolation_owning_depth.py <full-sha>` before the entire owning qualification. A successful job instead of the expected timeout, or continued missing target, remains a failed probe. Complete all postchecks and retention before applying any future Master drafts.
+
+No additional provider requests; cumulative public capture remains 8 requests / 8 responses. Private/provider mutations/credentials/capital: NONE. No host startup/sleep/security changes, paid API, GitHub compute or main merge. Master remains IN_PROGRESS; old-PC/Ubuntu/cloud/operator-policy/real-forward scopes remain separate.
+
 # Original-command browser recovery - 2026-10-20
 
 Same Master task and branch.1e99e09 exact native build PASS; native07 preflight

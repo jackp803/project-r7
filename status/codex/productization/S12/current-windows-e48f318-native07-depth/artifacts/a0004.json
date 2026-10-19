@@ -1,0 +1,29 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Narrow recheck of the two native07 owning-depth preflight admission and snapshot findings.",
+  "subject": {
+    "path": "artifacts/current-windows-20261019/verify_publication_owning_depth.py",
+    "sha256": "28c78df82e5e6a119bae45dcf6b775b85b8f0204c42a8cb18c075989037252e2"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "resolved_findings": [
+    {
+      "previous": "Requested revision was not explicitly equated with installed executable revision, and observation identity/target were unchecked.",
+      "status": "RESOLVED",
+      "evidence": "The helper now requires the full executable revision before creating outputs. It validates the actual CLI group/pass/target result and requires the captured native observation's identity and target to match the installed subject/current target."
+    },
+    {
+      "previous": "Artifact hashing and observation parsing used different reads, and mandatory assertions could be absent.",
+      "status": "RESOLVED",
+      "evidence": "Each declared artifact is captured once using bounded protected artifact_bytes, checked against its row hash and stored in a unique-reference map. The required native-observations entry is parsed from that same snapshot. The assertion list must exactly equal the current PQR-07 mandatory PASS assertions with that snapshot's hash. Missing observation data, duplicate references, incomplete assertions and non-passing observation rows fail closed."
+    }
+  ],
+  "additional_checks": [
+    "The final source/package guard is retained, and the helper's own bytes must still match its initially recorded hash before checkpoint publication.",
+    "Existing fresh owning-depth paths, 1200-second owned child/reaping contract, awake restoration and scoped-native07-only wording remain. No complete owning receipt or full PASS transfer is introduced."
+  ],
+  "limits": "Static helper repair review only. No helper, test, compiler, native process, qualification, generated/runtime evidence, database/auth/config content, provider or network was executed or accessed. Actual preflight success and complete owning qualification are not asserted."
+}

@@ -1,0 +1,62 @@
+{
+  "kind": "SOURCE_PREPARATION_NOT_NATIVE_EXECUTION",
+  "master": "IN_PROGRESS",
+  "inventory": {
+    "groups": 7,
+    "commands": 160,
+    "case_executions": 2430,
+    "source_files": 297,
+    "checks_passed": 2
+  },
+  "probe_wrapper": {
+    "binding_red_failures": 2,
+    "binding_green_tests": 2,
+    "native_execution": "PENDING",
+    "full_qualification_credit": "NONE",
+    "independent_source_review": "0_CRITICAL_0_IMPORTANT;EXECUTION_NONE"
+  },
+  "artifacts": [
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-timeout-inventory-green.log",
+      "original_hash": "sha256:72bf4c16566eda0e63087d0395fe6c81a51c6bd51c64228c8664611899f4f907",
+      "retained_ref": "p1.log",
+      "retained_hash": "sha256:63a9e3e5bd1d5f3a08776dea8e41de5e3b99d0ff4e497243376ee4c62546a4d1",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/verify_isolation_owning_depth.py",
+      "original_hash": "sha256:ad22642dd9aea22329df8f4886c0d89800a4b53a021f530fa37590640baaff10",
+      "retained_ref": "p2.py",
+      "retained_hash": "sha256:ad22642dd9aea22329df8f4886c0d89800a4b53a021f530fa37590640baaff10",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_isolation_owning_depth_helper.py",
+      "original_hash": "sha256:7271732c505a8c926678d4737b0345a2d2a99ad999fdccb29b90f793b0abaa3a",
+      "retained_ref": "p3.py",
+      "retained_hash": "sha256:7271732c505a8c926678d4737b0345a2d2a99ad999fdccb29b90f793b0abaa3a",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-probe-binding-red.log",
+      "original_hash": "sha256:d0c8f45802ea646b0ec84d3d3add80115d61ab55444dd76345f724be43ba55a8",
+      "retained_ref": "p4.log",
+      "retained_hash": "sha256:fa2dc6b56a4338f0af22a8924a0a8f35bdacfb1aed4ae01f0e7bb9a347e8a80d",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-probe-binding-green.log",
+      "original_hash": "sha256:d28303018a3dd89d5669390e67df0af63d86655c00389c81fe3a6f3d2dfab57b",
+      "retained_ref": "p5.log",
+      "retained_hash": "sha256:fd760fd350fcf7cec8d3586753ddff938b3c898b4574a5735aa5851b6fab0af1",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-owning-depth-helper-final-review.json",
+      "original_hash": "sha256:f15c8e6d1922e783ba831ef7f4dcb06fc08f063ff46fc82ef6a7119f66856bb5",
+      "retained_ref": "p6.json",
+      "retained_hash": "sha256:f15c8e6d1922e783ba831ef7f4dcb06fc08f063ff46fc82ef6a7119f66856bb5",
+      "normalization": "PROJECT_SANITIZATION_LF"
+    }
+  ]
+}

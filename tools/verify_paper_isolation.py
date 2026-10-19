@@ -274,7 +274,7 @@ class NativeResearchIsolationFlow(NativeFixtureFaultFlow):
         self.research_log = self.output / 'concurrent-research.log'
         self.research_stream = self.research_log.open('xb')
         self.research_child = spawn_owned([str(self.executable), 'research-worker', '--config', str(self.config),
-            '--once', '--job-timeout-seconds', '1'], cwd=self.output, limits=ResourceLimits(25),
+            '--once', '--job-timeout-seconds', '5'], cwd=self.output, limits=ResourceLimits(25),
             stdout=self.research_stream, stderr=subprocess.STDOUT, env=self.env)
 
     def cleanup_research(self):

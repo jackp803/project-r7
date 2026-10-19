@@ -1,0 +1,34 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Static readiness review of verify_publication_owning_depth.py, with narrow reads of the native07 report emitter, owning guard, owned command wrapper and awake context contracts.",
+  "subject": {
+    "path": "artifacts/current-windows-20261019/verify_publication_owning_depth.py",
+    "sha256": "c50f1bfe10e6b98148cc09d1facf94889271965aee3e34cc785bc393d2756b04"
+  },
+  "critical": 0,
+  "important": 2,
+  "findings": [
+    {
+      "severity": "Important",
+      "line": 19,
+      "problem": "The captured package identity is never required to have executable_revision equal to the requested full revision. _guard verifies exact current source, the implementation hash and an unchanged installation; it does not equate the package's executable revision to that argument. A package from a metadata ancestor with identical implementation can therefore receive this current-revision preflight PASS. The parsed observation's identity and target are also not compared to the captured subject.",
+      "minimal_fix": "Before creating output, require facts.executable_revision == revision. Require native-observations.identity == facts and its target == current_target(), retaining all existing source/package guards.",
+      "minimal_regression": "Use controlled boundary facts with an older full executable revision but the same implementation hash and a current clean source revision; the helper must refuse before output creation. Refuse a native observation with a different identity or target."
+    },
+    {
+      "severity": "Important",
+      "line": 35,
+      "problem": "The artifact loop hashes snapshots, but native-observations is then independently reread for parsing and again for its reported hash. A replacement between those reads can make PASS depend on bytes different from the artifact commitment. Empty or partial result artifact/assertion inventories are not rejected either, so the closure can be vacuous.",
+      "minimal_fix": "Capture each bounded protected artifact once, compare its captured hash to the declared row and parse the observation from that same captured snapshot. Require its declared artifact row, unique expected inventory, and the exact PQR-07 mandatory assertions with PASS and the observation's captured hash. Recheck captured commitments before final publication if currentness is claimed.",
+      "minimal_regression": "Stub only protected reads so observation bytes change after the first verified capture; no hash/parse mismatch may be accepted. Reject missing observation rows, duplicate references and empty/partial mandatory assertion lists. These are helper-only refusal tests, not native credit."
+    }
+  ],
+  "positive_observations": [
+    "The command argv and pqr-result artifacts ref/hash keys match tools/verify_paper_product.py. The native-observations group/passed fields also exist in that actual emitter.",
+    "The fixed depth and first names have equal length, and the UUID segment is 32 hex characters, matching the intended owning workspace shape. Fresh directories remain inside the approved project.",
+    "The reused command requires exit 0 and actual owned-tree reaping with a 1200-second child bound. The awake evidence is updated by the context after restoration before checkpoint serialization.",
+    "The helper explicitly scopes its result to native07 preflight at owning depth and does not itself issue a complete owning receipt or transfer full PASS credit."
+  ],
+  "limits": "No helper, test, compiler, native process, qualification, active/runtime evidence, database/auth/config content, provider or network was executed or accessed. The hash identifies the reviewed pre-repair snapshot; corrected bytes require a narrow recheck."
+}

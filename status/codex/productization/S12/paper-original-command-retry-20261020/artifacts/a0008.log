@@ -1,0 +1,29 @@
+
+Running 1 test using 1 worker
+
+(node:57496) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] qa\control-center.spec.ts:67:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+  1) qa\control-center.spec.ts:67:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+
+    TimeoutError: page.waitForResponse: Timeout 8000ms exceeded while waiting for event "response"
+
+       at ..\..\tools\paper_start_browser.mjs:5
+
+      3 |
+      4 | export async function startPaperViaUI(page,origin,expect){
+    > 5 |   const start=page.waitForResponse(r=>r.url()===origin+'/api/v1/paper/runs'&&r.request().method()==='POST');
+        |                    ^
+      6 |   await page.getByRole('button',{name:'開始 PAPER',exact:true}).click();
+      7 |   assert.equal((await start).status(),200);
+      8 | }
+        at startPaperViaUI (<SOURCE_ROOT>\tools\paper_start_browser.mjs:5:20)
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:81:24
+
+    Error Context: ..\..\..\artifacts\current-windows-20261019\paper-original-retry-source-red01\results\control-center-actual-cand-4b635-nd-show-unavailable-metrics\error-context.md
+
+
+  1 failed
+    qa\control-center.spec.ts:67:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics

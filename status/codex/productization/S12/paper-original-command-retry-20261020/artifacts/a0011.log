@@ -1,0 +1,27 @@
+test_captured_bytes_stay_bound_and_replacement_or_hardlink_denies (__main__.EvidenceAdmission.test_captured_bytes_stay_bound_and_replacement_or_hardlink_denies) ... ok
+test_deep_host_artifact_is_bounded_without_relaxing_cloud_reference_depth (__main__.EvidenceAdmission.test_deep_host_artifact_is_bounded_without_relaxing_cloud_reference_depth) ... ERROR
+test_idle_proof_requires_same_original_store_receipt_and_no_workflow (__main__.EvidenceAdmission.test_idle_proof_requires_same_original_store_receipt_and_no_workflow) ... ok
+test_owning_native04_primary_is_declared_exact_and_matches_actual_subject (__main__.EvidenceAdmission.test_owning_native04_primary_is_declared_exact_and_matches_actual_subject) ... ok
+test_stage_log_cannot_redirect_capture_to_other_project_file (__main__.EvidenceAdmission.test_stage_log_cannot_redirect_capture_to_other_project_file) ... ok
+test_stale_identity_profile_receipt_or_unreaped_stage_cannot_be_retained (__main__.EvidenceAdmission.test_stale_identity_profile_receipt_or_unreaped_stage_cannot_be_retained) ... ok
+
+======================================================================
+ERROR: test_deep_host_artifact_is_bounded_without_relaxing_cloud_reference_depth (__main__.EvidenceAdmission.test_deep_host_artifact_is_bounded_without_relaxing_cloud_reference_depth)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_retain_current_checkpoint.py", line 18, in test_deep_host_artifact_is_bounded_without_relaxing_cloud_reference_depth
+    self.assertEqual(captured.capture(path,helper.sha(raw)),raw)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\retain_current_checkpoint.py", line 42, in capture
+    raw=artifact_bytes(self.root,ref)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\paper\qualification.py", line 25, in artifact_bytes
+    safe_relative(ref)
+  File "<SOURCE_ROOT>\src\application\cloud\manifest.py", line 46, in safe_relative
+    raise CloudError("BLOCKED", "PATH_DEPTH_LIMIT")
+application.cloud.protocol.CloudError: BLOCKED: PATH_DEPTH_LIMIT
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.067s
+
+FAILED (errors=1)

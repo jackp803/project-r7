@@ -1,5 +1,6 @@
 import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
+import {startPaperViaUI} from '../../tools/paper_start_browser.mjs';
 
 const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772'};
 const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser');
@@ -67,7 +68,20 @@ test('actual candidate PAPER start and pause retain run identity and show unavai
   await login(page,'paper'); await page.getByRole('link',{name:'策略',exact:true}).click();
   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
   await page.getByLabel('PAPER 政策',{exact:true}).selectOption('fixture-paper-policy');
-  await page.getByRole('button',{name:'開始 PAPER',exact:true}).click();
+  // Source-only response-loss injection: the real owner completes first.
+  // Native acceptance never installs this route handler.
+  const attempts:string[]=[];let originalReceipt:Record<string,unknown>|null=null;
+  await page.route(origins.paper+'/api/v1/paper/runs',async route=>{
+    if(route.request().method()!=='POST')return route.continue();
+    attempts.push(route.request().postData()!);
+    if(attempts.length!==1)return route.continue();
+    const actual=await route.fetch({maxRedirects:0,maxRetries:0});expect(actual.status()).toBe(200);
+    originalReceipt=await actual.json();await route.abort('failed');
+  });
+  const recovery=await startPaperViaUI(page,origins.paper,expect);
+  expect(recovery.recovery).toBe('ORIGINAL_COMMAND_RETRY');
+  expect(attempts).toHaveLength(2);expect(attempts[1]).toBe(attempts[0]);
+  expect(recovery.receipt).toEqual(originalReceipt);
   await page.getByRole('link',{name:'交易',exact:true}).click();
   await expect(page.getByText('ACCELERATED_FIXTURE',{exact:true}).first()).toBeVisible();
   await page.getByRole('button',{name:'查看 PAPER',exact:true}).first().click();
@@ -76,6 +90,7 @@ test('actual candidate PAPER start and pause retain run identity and show unavai
   await expect(page.getByTestId('paper-entry-admission')).toContainText('PAUSED');
   const runs=(await (await page.request.get(origins.paper+'/api/v1/paper/runs')).json()).data.items;
   expect(runs).toHaveLength(1); expect(runs[0].process_generation).toBe(0); expect(runs[0].metrics).toBeNull();
+  expect(recovery.receipt.effect_ref).toBe('paper:'+runs[0].run_id);
 });
 
 test('protected owner facts distinguish ACK/fill, remaining exposure and as-of state',async({page})=>{

@@ -1,0 +1,27 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Current three-file browser-driver/QA delta for recovering a pending PAPER start by retrying the original UI command. Narrow unchanged API/UI contract and timeout reads only.",
+  "inspected_sources": {
+    "tools/paper_start_browser.mjs": "2f570d299dfc1a3cbd5b1db1af231e5d78d00050ef2087d2e3c00ed4f4c5080f",
+    "tools/paper_native_browser.mjs": "ff72fc1042b3d088ff9c8d260b6322f06841cd5330ad6f9fe72ef93010f57384",
+    "ui/qa/control-center.spec.ts": "01a25452d73f8a211f7ad743f1f2568473b87dbe582962d01a9cf81f86d5cc9f"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "static_checks": [
+    "The helper creates no command body and performs no direct owner POST. It captures the actual UI POST, validates the fixed DTO key set, and permits only the UI's pending original-command retry. A retry must have exactly byte-identical postData, command ID and expected revision.",
+    "The captured final HTTP 200 receipt must be COMPLETE and match the original command ID, expected revision and strategy resource. Native paperView still requires a sole actual run and now binds its run ID to the receipt effect_ref.",
+    "During pending recovery only bounded read-only GETs are added, with maxRedirects 0, a five-second request timeout, exact requested URL/status checks and a twenty-second polling window. Final retry response wait is ten seconds. Request/response listeners are removed in finally.",
+    "The existing UI fifteen-second abort behavior, pending-command storage and server completed-command replay are unchanged. No owner deadline, lease, financial check, canonical lifecycle or product authority is modified.",
+    "The QA route executes the real first POST via route.fetch with no redirect/retry, captures its actual successful receipt and aborts only the browser reply. It then requires two identical original POST bodies, equality with the real original receipt and a sole run. Native code installs no such response-loss route.",
+    "Returned driver evidence contains a request hash and the public command receipt, not login bodies, session tokens or CSRF headers. No provider or market request is added."
+  ],
+  "timing_and_provenance_limits": [
+    "The helper's staged waits are finite, but their nominal 20+20+10-second limits do not include every UI action, login, rendering or screenshot cost. The unchanged outer native watchdog remains authoritative; this static review does not guarantee completion within sixty seconds under load.",
+    "The source QA case retains its existing twenty-five-second test limit. Because it drops the reply after the real owner completes, it verifies response loss/idempotent original retry, not a measured twenty-nine-second native delay path.",
+    "The new imported helper must belong to the next exact frozen input inventory. These uncommitted hashes and source-only QA design do not transfer previous candidate, native, full-owning or Master PASS credit."
+  ],
+  "limits": "No browser/test/native process, qualification, active/runtime evidence, database/auth/config content, provider or network was executed or accessed. Root-reported RED/GREEN observations and actual ledger timing are separate evidence. No execution result or whole-product acceptance is issued."
+}

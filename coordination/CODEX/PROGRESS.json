@@ -3845,7 +3845,7 @@
       "REAL_CLOUD_DATASET_FORWARD_NOT_COMMISSIONED"
     ]
   },
-  "updated_at": "2026-10-19T15:37:25.963270+00:00",
+  "updated_at": "2026-10-19T16:02:47.803865+00:00",
   "current_windows_checkpoint_20261019": {
     "status": "IN_PROGRESS",
     "evidence_ref": "status/codex/productization/S12/public-readonly-c62b11a/disposition.json",
@@ -3874,7 +3874,7 @@
     "public_market_evidence_ref": "status/codex/productization/S12/public-market-source-493805c/disposition.json",
     "protection_recovery": "SOURCE_PASS;NATIVE_PENDING",
     "protection_recovery_evidence_ref": "status/codex/productization/S12/protection-recovery-source-1cb57aa/disposition.json",
-    "last_built_candidate": "b53ad6dcfd04966da82322e94fbe06d60fcea568",
+    "last_built_candidate": "1e99e09f08d2b5bd3b773c0f19610f2ef458fb8e",
     "native_completion_evidence_ref": "status/codex/productization/S12/current-windows-b53ad6d-failed/disposition.json",
     "native06": "SCOPED_ACTUAL_PASS",
     "headless_native_evidence_ref": "status/codex/productization/S12/native-completion-5904adf/disposition.json",
@@ -3896,7 +3896,10 @@
     "native07": "FAILED_IN_COMPLETE_OWNING_HELPER_COLLECT;NEW_SOURCE_REPAIR_PENDING",
     "native07_evidence_ref": "status/codex/productization/S12/current-windows-f6f9fb4-failed/disposition.json",
     "snapshot_command_repair": "SOURCE30_PASS;NATIVE_PENDING",
-    "snapshot_command_repair_evidence_ref": "status/codex/productization/S12/snapshot-command-repair-20261019/disposition.json"
+    "snapshot_command_repair_evidence_ref": "status/codex/productization/S12/snapshot-command-repair-20261019/disposition.json",
+    "last_scoped_preflight": "NATIVE07_FAIL_BROWSER_FIRST_RESPONSE_TIMEOUT;ACTUAL_START_COMPLETED",
+    "last_scoped_preflight_evidence_ref": "status/codex/productization/S12/current-windows-1e99e09-native07-depth/disposition.json",
+    "source_driver_repair_evidence_ref": "status/codex/productization/S12/paper-original-command-retry-20261020/disposition.json"
   },
   "windows_abi_type_lifetime_repair": {
     "status": "SOURCE_REPAIR_VERIFIED_PENDING_NEW_EXACT_EXECUTABLE",
@@ -4016,5 +4019,33 @@
       "source_files": 296
     },
     "next": "NEW_EXACT_BUILD;ACTUAL_NATIVE07_AT_OWNING_DEPTH;COMPLETE_OWNING;PORTABLE_HEADLESS_UNATTENDED_IDLE_BACKUP"
+  },
+  "paper_original_command_retry_checkpoint": {
+    "status": "SOURCE_DRIVER_REPAIR_VERIFIED_NEW_EXACT_CANDIDATE_PENDING",
+    "historical_revision": "1e99e09f08d2b5bd3b773c0f19610f2ef458fb8e",
+    "historical_native_build": "PASS",
+    "historical_native07": "FAIL_PAPER_START_RESPONSE_TIMEOUT_BEFORE_HELPER_BUILD",
+    "actual_backend_start": "COMPLETE_IN_29.090128_SECONDS;CLIENT_DEADLINE15_SECONDS",
+    "source_browser": "RED1_FAILURE;GREEN1_PASS;REAL_OWNER_FIRST_RESPONSE_LOSS_INJECTION_SOURCE_ONLY",
+    "source_api_owner_driver": "36PASS",
+    "frozen_inventory_checks": "2PASS",
+    "source_inventory": {
+      "groups": 7,
+      "commands": 160,
+      "source_commands": 154,
+      "source_case_executions": 2429,
+      "source_files": 297
+    },
+    "product_behavior": "UNCHANGED;VERIFIER_USES_EXISTING_ORIGINAL_COMMAND_RETRY",
+    "same_post_bytes": true,
+    "same_command_id": true,
+    "same_original_revision": true,
+    "same_receipt": true,
+    "sole_run": true,
+    "independent_reviews": "0_CRITICAL_0_IMPORTANT_FINAL;EXECUTION_NONE",
+    "evidence_ref": "status/codex/productization/S12/paper-original-command-retry-20261020/disposition.json",
+    "historical_failure_evidence_ref": "status/codex/productization/S12/current-windows-1e99e09-native07-depth/disposition.json",
+    "ancillary_retainer": "DEEP_HOST_ARTIFACT_COPY_WITH_ALL_ANCESTOR_SINGLELINK_GUARDS;CLOUD_DEPTH_UNCHANGED;6CHECKS_PASS",
+    "next": "NEW_EXACT_BUILD;NATIVE07_OWNING_DEPTH;FRESH_COMPLETE_OWNING;POSTCHAIN_AND_SEMANTIC_DISPOSITION"
   }
 }

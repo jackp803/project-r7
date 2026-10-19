@@ -1,3 +1,40 @@
+# Original-command browser recovery - 2026-10-20
+
+Same Master task and branch.1e99e09 exact native build PASS; native07 preflight
+at full owning publication-root depth141characters FAILED before helper build:
+browser waited30s for first PaperStart response. Readonly synthetic control
+ledger proves original operation COMPLETE in29.090128s; UI request deadline15s.
+No claim that all time was hashing; static repeated identity-check chain identified
+but individual latency phases not measured. All owned processes reaped.
+Historical partial native closure25files retained at
+status/codex/productization/S12/current-windows-1e99e09-native07-depth/.
+
+Existing product UI keeps exact pending original command on RESPONSE_UNKNOWN;
+backend returns completed receipt before owner revision/execution. Verifier now
+uses that normal retry button after readonly accepted-run evidence. It verifies
+byte-identical POST, same ID/original revision, receipt and sole run/effect_ref.
+No product authority/cache/deadline changes and no native route mocks.
+Actual source browser response-loss regression RED1failure then GREEN1PASS:
+real source owner completes, only first browser reply is dropped.36owner/API/
+driver checks and2frozen-inventory checks PASS. Source-only results are distinct
+from native/software qualification. Inventory7groups/160commands/2429source-case
+executions/297files.Independent review0Critical/0Important;executionNONE.
+
+Ancillary retainer now handles deep host artifacts with unchanged bounded opened
+file/ancestor/single-link checks; cloud eight-part limit remains unchanged.
+RED1depth error, GREEN6checks. Unsafe-ref sentinelbefore4capturecalls/after0;
+no private files read.25source/diagnostic/review/build artifacts retained at
+status/codex/productization/S12/paper-original-command-retry-20261020/.
+
+Next new exact-clean build, actual native07 at owning depth, then complete fresh
+owning7/7 and final software readback. Only then portable/headless/unattended/
+ordinary idle runtime/qualified backup and semantic66+150 records. Do not stitch
+the prior b53six passed groups. Public8requests/8responses cumulative, additional0;
+private0/credentialsNONE/mutation0/capitalNONE/GitHubcomputeNOT_USED. OSsettings
+unchanged; policies/forward/oldPC/Ubuntu/cloud distinct. Master IN_PROGRESS.
+
+---
+
 # Owning-depth publication helper repair - 2026-10-19
 
 Same Master task/implementation branch; no previous evidence discarded.

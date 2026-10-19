@@ -4,6 +4,7 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {open,lstat} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
+import {startPaperViaUI} from './paper_start_browser.mjs';
 const [repo,origin,stage,output,scenario]=process.argv.slice(2);
 assert.ok(['positive','oos-loss','insufficient-oos'].includes(scenario));
 const expected={positive:['CANDIDATE','PASS'],'oos-loss':['REJECTED','FAIL'],'insufficient-oos':['BACKTESTING','BLOCKED']}[scenario];
@@ -89,14 +90,14 @@ try{
       const policies=await read('/api/v1/policies');const selected=policies.items.filter(p=>p.kind==='PAPER');
       assert.equal(selected.length,1);assert.equal(selected[0].workflow_authorized,true);assert.equal(selected[0].mode,'ACCELERATED_FIXTURE');
       await page.getByLabel('PAPER 政策',{exact:true}).selectOption(selected[0].policy_id);
-      const start=page.waitForResponse(r=>r.url()===origin+'/api/v1/paper/runs'&&r.request().method()==='POST');
-      await page.getByRole('button',{name:'開始 PAPER',exact:true}).click();assert.equal((await start).status(),200);
+      result={...result,paper_start_command:await startPaperViaUI(page,origin,expect)};
     }
     await page.getByRole('link',{name:'交易',exact:true}).click();
     await page.getByRole('button',{name:'查看 PAPER',exact:true}).click();
     let view=await paperView();let run=view.payload;
     assert.equal(run.namespace,'FIXTURE');assert.equal(run.mode,'ACCELERATED_FIXTURE');
     if(stage==='paper-start'){
+      assert.equal(result.paper_start_command.receipt.effect_ref,'paper:'+run.run_id);
       assert.equal(run.process_generation,0);assert.equal(run.runtime_status,'NOT_STARTED');assert.equal(run.closed_trades_count,0);
       await expect(page.getByText('NOT_STARTED',{exact:true}).first()).toBeVisible();
     }else if(stage==='paper-pause'){

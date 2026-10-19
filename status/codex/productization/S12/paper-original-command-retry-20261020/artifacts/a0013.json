@@ -1,0 +1,28 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only approved-root host-path capture depth handling, its immediate reference callsites, and source-guard/write ordering in the two external retainers.",
+  "inspected_sources": {
+    "artifacts/current-windows-20261019/retain_current_checkpoint.py": "a3e4c6e1c713c3acb1bb78da7692f00d9e994ded099192486b932feec62909f6",
+    "artifacts/current-windows-20261019/retain_native07_depth_history.py": "0eb2d316e098be6c71b2946c6c95500cf239ec8fbc18f936925abf56a6a2469b"
+  },
+  "critical": 0,
+  "important": 1,
+  "findings": [
+    {
+      "severity": "Important",
+      "file": "artifacts/current-windows-20261019/retain_native07_depth_history.py",
+      "line": 37,
+      "problem": "Native result artifact refs are joined to output before requiring that each ref is relative to that exact native output. An absolute ref to an ordinary-named private file elsewhere inside PROJECT replaces the output prefix. capture() then accepts it because its containment check is only PROJECT-wide, so that file can be captured and published even though it is outside the declared native public corpus.",
+      "minimal_fix": "Validate each row.ref as a nonabsolute component-safe relative host reference before joining, and require the resulting path to remain relative to output before calling capture. This can avoid the cloud depth limit while retaining a narrower source boundary than PROJECT.",
+      "minimal_regression": "Use a mocked protected reader and a synthetic absolute PROJECT/private-sentinel/product.json reference; require refusal before the reader is called. Keep the real deep ordinary public-file success case. No real private file needs to be created or read."
+    }
+  ],
+  "safe_delta_observations": [
+    "For already allowlisted host paths, relative_to(approved_root) followed by safe_component on every retained component rejects outside-root paths and parent traversal before the protected reader is called.",
+    "Calling artifact_bytes(path.parent, path.name) avoids applying the cloud eight-component limit to the whole host-relative path. It still invokes the same bounded opened-file kernel reader, which checks all actual ancestors and rejects linked/reparse aliases and non-single-link files. No cloud policy or product source is changed.",
+    "CapturedEvidence retains one raw snapshot per path and refuses differing bytes on recapture; expected commitments are checked against those same bytes. Current retainer source/package guards remain before tracked evidence writes, so the capture change does not move those guards after publication.",
+    "The historical retainer explicitly maps actual PASS to PASS assertions and actual FAIL to NOT_RUN assertions, requires the recorded execution's reaping and guards, and gives full software qualification credit NONE. This is historical attribution rather than a new current-source guard claim."
+  ],
+  "limits": "No retainer, test, publication, native process, qualification, active/runtime evidence, database/auth/config content, provider or network was executed or accessed. This is not a full retainer re-audit or acceptance review. The hashes identify the inspected pre-repair snapshots."
+}

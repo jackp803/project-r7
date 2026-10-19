@@ -1,0 +1,23 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Narrow recheck of host-depth capture loops and the historical native artifact reference fence.",
+  "inspected_sources": {
+    "artifacts/current-windows-20261019/retain_current_checkpoint.py": "a3e4c6e1c713c3acb1bb78da7692f00d9e994ded099192486b932feec62909f6",
+    "artifacts/current-windows-20261019/retain_native07_depth_history.py": "9828555ba66136c56803cff2b25e742314c99d1434654f2917cbcb93fb3716b0"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "resolved_finding": {
+    "previous": "An absolute result artifact ref inside PROJECT could replace the native output prefix and reach a private file outside the declared corpus.",
+    "status": "RESOLVED",
+    "evidence": "The historical loop now invokes safe_relative(row['ref']) before path joining or capture. Absolute and traversal refs therefore fail before any referenced-file read. The remaining path is joined beneath the exact regex-validated native output root."
+  },
+  "preserved_checks": [
+    "Both capture functions retain approved PROJECT-root containment, per-component safety, bounded protected parent-and-leaf reads, commitment comparison and differing-recapture refusal.",
+    "Deep host ancestry is no longer interpreted as a cloud reference; the native artifact's own relative reference still receives its required reference validation.",
+    "Current retainer bytes are unchanged from the preceding review, including its source/package guard before tracked evidence writes. Historical PASS/FAIL attribution remains separate from full qualification credit."
+  ],
+  "limits": "Static source-only repair recheck. No probe/test, retainer/publication, native process, qualification, generated/runtime evidence, private data, provider or network was executed or accessed. Root-reported sentinel probe results are separate evidence. No full retainer audit or product acceptance is issued."
+}

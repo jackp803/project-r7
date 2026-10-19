@@ -1,0 +1,219 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "observed_at": "2026-10-19T16:02:03.259354+00:00",
+  "historical_executable_revision": "1e99e09f08d2b5bd3b773c0f19610f2ef458fb8e",
+  "historical_build": "PASS",
+  "historical_native07": "FAIL_PAPER_START_RESPONSE_TIMEOUT_BEFORE_HELPER_BUILD",
+  "actual_start_ledger": "COMPLETE;PREPARED15:42:18.896609Z;COMPLETED15:42:47.986737Z;2026-10-19",
+  "measured_start_duration_seconds": 29.090128,
+  "ui_request_deadline_seconds": 15,
+  "static_expensive_release_chain": "REPEATED_DISTRIBUTION_CHECKS;INDIVIDUAL_PHASE_LATENCY_NOT_MEASURED",
+  "repair": "NATIVE_VERIFIER_USES_EXISTING_UI_PENDING_ORIGINAL_COMMAND_RETRY;NO_PRODUCT_AUTHORITY_CHANGE",
+  "actual_source_browser": {
+    "red_failed_cases": 1,
+    "green_passed_cases": 1,
+    "skips": 0,
+    "scope": "REAL_SOURCE_OWNER;FIRST_BROWSER_RESPONSE_LOSS_INJECTION_SOURCE_ONLY",
+    "assertions": [
+      "VISIBLE_RESPONSE_UNKNOWN_AND_PENDING",
+      "BYTE_IDENTICAL_TWO_POSTS",
+      "ORIGINAL_COMPLETE_RECEIPT",
+      "SOLE_RUN_AND_SAME_EFFECT_REF",
+      "ORIGINAL_ZERO_GENERATION",
+      "PAUSE_RETENTION"
+    ]
+  },
+  "source_owner_api_driver_regressions": {
+    "passed": 36,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "frozen_inventory_checks": {
+    "passed": 2,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "frozen_inventory": {
+    "groups": 7,
+    "commands": 160,
+    "source_commands": 154,
+    "source_case_executions": 2429,
+    "source_files": 297
+  },
+  "ancillary_retainer_host_depth": {
+    "red_errors": 1,
+    "green_checks": 6,
+    "green_errors": 0,
+    "unsafe_ref_sentinel_before_capture_calls": 4,
+    "unsafe_ref_sentinel_after_capture_calls": 0,
+    "scope": "SOURCE_ONLY;NO_PRIVATE_FILE_READ;CLOUD_PATH_DEPTH_UNCHANGED"
+  },
+  "independent_reviews": "0_CRITICAL_0_IMPORTANT_FINAL;EXECUTION_NONE",
+  "next_exact_candidate_software_qualification": "PENDING",
+  "additional_public_requests": 0,
+  "cumulative_public_requests": 8,
+  "cumulative_public_responses": 8,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "os_power_settings": "UNCHANGED",
+  "master": "IN_PROGRESS",
+  "artifacts": [
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-start-timeout-ledger-readonly.json",
+      "original_hash": "sha256:c1149c404b253c3d5df4f2469bffb16dfe615d61dc8cce85e707847c7c29335f",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:ae08c2e4f2b9d33ee64a27a05479b0bc1020e53352c903fb092e83defe5eee75"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-start-response-timeout-review.json",
+      "original_hash": "sha256:821ce3000889679903a1665f3dd798a57baa11c858ef8e323b2d2bea22ca8969",
+      "retained_ref": "artifacts/a0002.json",
+      "retained_hash": "sha256:1aea71b49a3b1485932355576bf5d9b86103699605c2131aef182a44318ea672"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native-paper-retry-test-seam.json",
+      "original_hash": "sha256:154c4dce734c4d4b2b02d5dbafd23e74cc06347d0c369ce3acef4e12fdf02140",
+      "retained_ref": "artifacts/a0003.json",
+      "retained_hash": "sha256:cf004351ceaa586df34b391413bae582a2b147af5cd1ced7c87a8e12b6b0db51"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-review.json",
+      "original_hash": "sha256:b2f70eeaa43d6e31878557daa6ba0a3c9bea1ff438a7056ba89b887571bfac3f",
+      "retained_ref": "artifacts/a0004.json",
+      "retained_hash": "sha256:b2f70eeaa43d6e31878557daa6ba0a3c9bea1ff438a7056ba89b887571bfac3f"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-owner-regressions.log",
+      "original_hash": "sha256:55886af61f20f5903bcfb2ebef727db5292d6f347d8dedb414ce76a05a411a31",
+      "retained_ref": "artifacts/a0005.log",
+      "retained_hash": "sha256:6c917c930d9e751fece4d3fe3d678a553ec21edd95d540d4dca666d5cde679d6"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-inventory-green.log",
+      "original_hash": "sha256:0857ef43acb9f12bd167280120a5f220110ec9acb42a6e453ea823057efc739f",
+      "retained_ref": "artifacts/a0006.log",
+      "retained_hash": "sha256:6999e03321fcf808d30f4bad4df359fe1e6ae2d3dbcc356e58f9b85fe918955d"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-source-red01/checkpoint.json",
+      "original_hash": "sha256:d2b1cd58cc977934585a36fc4816b2b936eb14acc08fb4c72cfbd3c00bf4185a",
+      "retained_ref": "artifacts/a0007.json",
+      "retained_hash": "sha256:d2b1cd58cc977934585a36fc4816b2b936eb14acc08fb4c72cfbd3c00bf4185a"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-source-red01/browser.log",
+      "original_hash": "sha256:ceab7ec311c1f8ed63c8ee7b050910d1367d5598a0475beb8ba2e9fe82e85fef",
+      "retained_ref": "artifacts/a0008.log",
+      "retained_hash": "sha256:8e460f55aa8bf179447debf8f6bc5ba881e4805723ee81e4a7655e3f0a2eec56",
+      "retained_log_normalization": "UTF8_LF_ASCII_TRAILING_SPACE_REMOVED"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-source-green01/checkpoint.json",
+      "original_hash": "sha256:922a5b08093e10faeb8f790752a8595a941ba12550533cf1d6fa6c619d1e2152",
+      "retained_ref": "artifacts/a0009.json",
+      "retained_hash": "sha256:922a5b08093e10faeb8f790752a8595a941ba12550533cf1d6fa6c619d1e2152"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/paper-original-retry-source-green01/browser.log",
+      "original_hash": "sha256:6ad370bcdac5eccee69c2a5a2060e7c2003880c620fa843fdf5df63bea3ebe20",
+      "retained_ref": "artifacts/a0010.log",
+      "retained_hash": "sha256:6ad370bcdac5eccee69c2a5a2060e7c2003880c620fa843fdf5df63bea3ebe20"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retainer-host-depth-red.log",
+      "original_hash": "sha256:2899f80cc102b890c31b1577afbf9ef44fd61141f6925aadd8a8701caa5df5a7",
+      "retained_ref": "artifacts/a0011.log",
+      "retained_hash": "sha256:e4a02b181618d20e34c8345cf9140b8593844a3e4e801617373ebb6d9d40e8a9"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retainer-host-depth-green.log",
+      "original_hash": "sha256:1b0fb1e380a61f8cec3778a96fe80f08b31121596ebc5b45d1b8a88f8479016d",
+      "retained_ref": "artifacts/a0012.log",
+      "retained_hash": "sha256:92c21f2636a73c0cd8135889fe9e302f4069c18a5d21cbf9848097ae0b67bb5d"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retainer-host-depth-review.json",
+      "original_hash": "sha256:5645ffe1ab6725b809273a61a6ad4932dd7650901d6961010c1060f1b080ef02",
+      "retained_ref": "artifacts/a0013.json",
+      "retained_hash": "sha256:5645ffe1ab6725b809273a61a6ad4932dd7650901d6961010c1060f1b080ef02"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retainer-host-depth-final-review.json",
+      "original_hash": "sha256:289078930bd3a1fdac6dbff5e8eca977f1ef9471af048e8a586953acbd3e9841",
+      "retained_ref": "artifacts/a0014.json",
+      "retained_hash": "sha256:289078930bd3a1fdac6dbff5e8eca977f1ef9471af048e8a586953acbd3e9841"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-history-scope-probe.json",
+      "original_hash": "sha256:7033b98be74d31239d7524cd207004fa6c54eb0c67f3a16b4da2283f48d944b1",
+      "retained_ref": "artifacts/a0015.json",
+      "retained_hash": "sha256:d9001011e1abffe0e84d15f8efc367e6fd55ed0f0949efda11f7ac9e41b29b3f"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/probe_native07_history_scope.py",
+      "original_hash": "sha256:b38514a6c1260b88ae5197ed151a0dbbe85bcff9ad3603b676372a1fb06dfc0d",
+      "retained_ref": "artifacts/a0016.py",
+      "retained_hash": "sha256:b38514a6c1260b88ae5197ed151a0dbbe85bcff9ad3603b676372a1fb06dfc0d"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+      "original_hash": "sha256:a3e4c6e1c713c3acb1bb78da7692f00d9e994ded099192486b932feec62909f6",
+      "retained_ref": "artifacts/a0017.py",
+      "retained_hash": "sha256:a3e4c6e1c713c3acb1bb78da7692f00d9e994ded099192486b932feec62909f6"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_retain_current_checkpoint.py",
+      "original_hash": "sha256:2232249daa111ec25b27d03dbedc2f1f4dbbda85f023a4636ec770959b852b22",
+      "retained_ref": "artifacts/a0018.py",
+      "retained_hash": "sha256:2232249daa111ec25b27d03dbedc2f1f4dbbda85f023a4636ec770959b852b22"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retain_native07_depth_history.py",
+      "original_hash": "sha256:9828555ba66136c56803cff2b25e742314c99d1434654f2917cbcb93fb3716b0",
+      "retained_ref": "artifacts/a0019.py",
+      "retained_hash": "sha256:9828555ba66136c56803cff2b25e742314c99d1434654f2917cbcb93fb3716b0"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/run_source_ui_retry.py",
+      "original_hash": "sha256:7337a6eed7601edc1e072cc146d8ce0d889aecbbd11f451485086af54f42c3a4",
+      "retained_ref": "artifacts/a0020.py",
+      "retained_hash": "sha256:7337a6eed7601edc1e072cc146d8ce0d889aecbbd11f451485086af54f42c3a4"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retain_paper_retry_repair.py",
+      "original_hash": "sha256:df8f73d92010598f04fde5cfe3e12ff00bb17177a990f1b261993ce6e4e231ba",
+      "retained_ref": "artifacts/a0021.py",
+      "retained_hash": "sha256:df8f73d92010598f04fde5cfe3e12ff00bb17177a990f1b261993ce6e4e231ba"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/build-1e99e09-first/checkpoint.json",
+      "original_hash": "sha256:1db7929d73ce4d65d6d1227ed6909d2de958c050322c8f3537a392e2d0a5bac6",
+      "retained_ref": "artifacts/a0022.json",
+      "retained_hash": "sha256:1db7929d73ce4d65d6d1227ed6909d2de958c050322c8f3537a392e2d0a5bac6"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/build-1e99e09-first/native-build.log",
+      "original_hash": "sha256:85ef586566512af2c6257e429cb1a71253276ab5ebc6e99a578e97ac37ad677e",
+      "retained_ref": "artifacts/a0023.log",
+      "retained_hash": "sha256:85ef586566512af2c6257e429cb1a71253276ab5ebc6e99a578e97ac37ad677e"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/build-1e99e09-first/native-build-execution.json",
+      "original_hash": "sha256:08223e80f994dedeaaafe0681aa5c482e791ea4905f5d182f6a53d4edfff0442",
+      "retained_ref": "artifacts/a0024.json",
+      "retained_hash": "sha256:08223e80f994dedeaaafe0681aa5c482e791ea4905f5d182f6a53d4edfff0442"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/build-1e99e09/build-result.json",
+      "original_hash": "sha256:129f6d243e195bc9b0f380df1a97ace847c3b0f5ab0afd7ab23746480c93c5dd",
+      "retained_ref": "artifacts/a0025.json",
+      "retained_hash": "sha256:129f6d243e195bc9b0f380df1a97ace847c3b0f5ab0afd7ab23746480c93c5dd"
+    }
+  ]
+}

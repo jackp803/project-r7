@@ -1,0 +1,112 @@
+{
+  "executable_revision": "1073343c2bbe23dc911148a0b75110fd80d3f162",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "build": "EXACT_CLEAN_WINDOWS_PASS",
+  "ordinary_paper": "NOT_QUALIFIED",
+  "master": "IN_PROGRESS",
+  "fixed_inventory": {
+    "groups": 7,
+    "commands": 39,
+    "expected_source_case_executions": 2403,
+    "source_files": 293
+  },
+  "pre_freeze_focused": {
+    "tests": 118,
+    "result": "PASS",
+    "scope": "SOURCE_ONLY_BEFORE_INVENTORY_FREEZE"
+  },
+  "native06": {
+    "result": "FAIL",
+    "public_security_slice": "ACTUAL_PASS",
+    "component_diagnostic": "FAIL",
+    "suspected_failure": "Restricted environment lacks home variables; Path.home in log sanitization raises RuntimeError. Source regression reproduces; installed repair pending."
+  },
+  "headless": {
+    "result": "FAIL",
+    "actual_control_restart": true,
+    "actual_coordinator_crash_recovery": true,
+    "final_graceful_stop": "RESEARCH_FORCED_STOP_REAPED",
+    "all_retained_owned_sessions_reaped": true,
+    "defect": "Research idle wait and coordinator stop deadline both five seconds; persisted request observed too late."
+  },
+  "repairs": {
+    "research_work_cadence": "PRESERVED_FIVE_SECONDS",
+    "fenced_stop_observation_seconds": 0.2,
+    "worker_coordinator_source_tests": 26,
+    "diagnostic_runner_source_tests": 23,
+    "review": "ZERO_CRITICAL_IMPORTANT_READONLY",
+    "native": "PENDING_NEW_EXACT_CLEAN_CANDIDATE"
+  },
+  "additional_provider_requests": 0,
+  "cumulative_actual_public_requests": 8,
+  "cumulative_actual_public_responses": 8,
+  "credentials": "NONE",
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "evidence_normalization": "Known paths redacted and LF normalized. Nested original log commitments refer to retained private originals; mapping records both byte hashes.",
+  "retained_files": [
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/build-1073343/build-result.json",
+      "original_hash": "sha256:8c1774e385f19438a08badee4a31d35d8dad7574ab4a0694a59b62d575af2d03",
+      "retained_ref": "build.json",
+      "retained_hash": "sha256:8c1774e385f19438a08badee4a31d35d8dad7574ab4a0694a59b62d575af2d03"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/native06-1073343-first/checkpoint.json",
+      "original_hash": "sha256:70ccadd495e5e1f0b44d05acde25fd0b9391a4b8bcb9844fba407915414d2c3c",
+      "retained_ref": "native06-checkpoint.json",
+      "retained_hash": "sha256:70ccadd495e5e1f0b44d05acde25fd0b9391a4b8bcb9844fba407915414d2c3c"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/native06-1073343-first/execution/native-observations.json",
+      "original_hash": "sha256:875fe453919ac80f1b94b503f2ae21325df5ce7ec47d7b47027cb104d9b32578",
+      "retained_ref": "native06-observations.json",
+      "retained_hash": "sha256:875fe453919ac80f1b94b503f2ae21325df5ce7ec47d7b47027cb104d9b32578"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/native06-1073343-first/execution/component-boundaries/boundary-diagnostic.log",
+      "original_hash": "sha256:3efb54d44dac74d4e68ec1f3885610f2fb60b78106bb9e3312511b76296224fc",
+      "retained_ref": "boundary-failure.log",
+      "retained_hash": "sha256:3efb54d44dac74d4e68ec1f3885610f2fb60b78106bb9e3312511b76296224fc"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/native06-1073343-first/readonly-reader-probe.log",
+      "original_hash": "sha256:1cdc1850e96fc7c6f2564d651afaefd9059c0cafd3fce87cd718c48f6d2cfba1",
+      "retained_ref": "readonly-reader-probe.log",
+      "retained_hash": "sha256:2c7389f91f4a3502ee0f63724f6fd5226f3dc9e96097059a26c357307ed4a146"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/headless-1073343-first/checkpoint.json",
+      "original_hash": "sha256:a13652db9bf486b2a25ab6b1b53c624728ac1b3f1be75b8147f97d87fbe239be",
+      "retained_ref": "headless-checkpoint.json",
+      "retained_hash": "sha256:a13652db9bf486b2a25ab6b1b53c624728ac1b3f1be75b8147f97d87fbe239be"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/headless-1073343-first/execution/observations.json",
+      "original_hash": "sha256:0fca159417201cead5584fa99bd03489676ca10c0ce22d8aebacafce7b534f3b",
+      "retained_ref": "headless-observations.json",
+      "retained_hash": "sha256:0fca159417201cead5584fa99bd03489676ca10c0ce22d8aebacafce7b534f3b"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/headless-1073343-first/execution/coordinator-first.log",
+      "original_hash": "sha256:224a1a9f3fca6c0abb070d6b947b6d07950047dbe2c54fbe27418b352bb46353",
+      "retained_ref": "coordinator-first.log",
+      "retained_hash": "sha256:173d377a471049d104bc5336830876caf73228d3cf3f969fe7d49cd0212a35ca"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/headless-1073343-first/execution/coordinator-crash.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "coordinator-crash.log",
+      "retained_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_local_ref": "artifacts/current-windows-20261019/headless-1073343-first/execution/coordinator-recovered.log",
+      "original_hash": "sha256:d08b2526f7ebc4b50b44d85650701a478bd8c820af9cc91bddbf2c76d21d6ed5",
+      "retained_ref": "coordinator-recovered.log",
+      "retained_hash": "sha256:81727e3ff4b816193db56e15d5b9119dbfcb6b21f8a849331a8e24ebbd91a15a"
+    }
+  ]
+}

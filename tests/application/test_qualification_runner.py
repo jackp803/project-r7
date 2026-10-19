@@ -1,6 +1,7 @@
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from tests.application.test_platform import require
 
@@ -54,3 +55,10 @@ class QualificationRunnerTests(unittest.TestCase):
         redacted = module._sanitize(text, root)
         self.assertNotIn(str(root), redacted)
         self.assertNotIn(str(Path.home()).replace("\\", "\\\\"), redacted)
+
+    def test_restricted_native_environment_without_home_still_retains_redacted_evidence(self):
+        module=require(self,'application.qualification');root=Path(__file__).resolve().parents[2]
+        text=str(root)+'\n'+repr(str(root/'diagnostic.log'))
+        with patch.object(module.Path,'home',side_effect=RuntimeError('Could not determine home directory.')):
+            result=module._sanitize(text,root)
+        self.assertNotIn(str(root),result);self.assertIn('<SOURCE_ROOT>',result)

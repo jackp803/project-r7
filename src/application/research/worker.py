@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import time
 
 from application.config import load_config, product_namespace
 from application.local_owners import LocalOwners
@@ -93,6 +94,17 @@ def _worker_once(config_path, config, *, namespace, job_argv_factory, hardware_p
         log_ref='worker-logs/' + log.name, reason_codes=result['reason_codes'])
 
 
+def _wait_idle(supervisor,stop):
+    """Keep the work cadence while observing persisted fenced stop requests."""
+    from application.platform.service_stop import observe_service_stop
+    deadline=time.monotonic()+5
+    while not stop.requested:
+        if observe_service_stop(supervisor,stop):return
+        remaining=deadline-time.monotonic()
+        if remaining<=0:return
+        stop.wait(min(.2,remaining))
+
+
 def research_worker(config_path, *, once=False, expected_config_hash=None,job_timeout_seconds=900):
     if type(job_timeout_seconds) is not int or not 1<=job_timeout_seconds<=900:
         raise ValueError('Public owned research timeout must be an integer from 1 to 900 seconds')
@@ -109,5 +121,5 @@ def research_worker(config_path, *, once=False, expected_config_hash=None,job_ti
                                   hardware_probe=inspect_hardware, limits=limits, supervisor=supervisor,stop=stop)
             print(json.dumps(result), flush=True)
             if once: return 0 if result['status'] != 'JOB_TERMINATED' else 2
-            stop.wait(5)
+            _wait_idle(supervisor,stop)
     return 0

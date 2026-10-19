@@ -80,6 +80,46 @@ class NativeResearchWorkerTests(unittest.TestCase):
         with self.assertRaises(TypeError):module.research_worker(self.config_path,job_argv_factory=self.child)
         with self.assertRaises(TypeError):module.research_worker(self.config_path,hardware_probe=lambda _:None)
 
+    def test_persisted_stop_during_idle_is_observed_before_another_admission(self):
+        from application.platform.shutdown import ManagedStop
+        from application.platform.service_stop import request_service_stop
+        from application.platform.supervision import process_health
+        module=self.worker();waits=[];receipts=[];actual_wait=ManagedStop.wait
+        def request_in_idle(stop,seconds):
+            # The request is a real private, incarnation-fenced product request.
+            # Check the bound rather than asserting a fragile wall-clock deadline.
+            self.assertLessEqual(seconds,.2)
+            waits.append(seconds)
+            receipts.append(request_service_stop(self.fixture.config,'research'))
+            return actual_wait(stop,seconds)
+        with patch.object(module,'_worker_once',return_value=dict(status='IDLE')) as admission, \
+             patch.object(ManagedStop,'wait',request_in_idle),redirect_stdout(io.StringIO()):
+            self.assertEqual(module.research_worker(self.config_path),0)
+        self.assertEqual(admission.call_count,1)
+        self.assertEqual(len(waits),1)
+        self.assertEqual(receipts[0]['status'],'COOPERATIVE_STOP_REQUESTED')
+        health=process_health(self.fixture.config,'research')
+        self.assertEqual(health['status'],'STOPPED')
+        self.assertEqual(health['process_generation_id'],receipts[0]['process_generation_id'])
+
+    def test_idle_polling_preserves_five_second_work_cadence_and_managed_stop(self):
+        from application.platform.shutdown import ManagedStop
+        module=self.worker();elapsed=[0.0];waits=[];stop=ManagedStop()
+        def wait(seconds):
+            self.assertGreater(seconds,0);self.assertLessEqual(seconds,.2)
+            waits.append(seconds);elapsed[0]+=seconds
+        with patch.object(module.time,'monotonic',side_effect=lambda:elapsed[0]), \
+             patch.object(stop,'wait',side_effect=wait), \
+             patch('application.platform.service_stop.observe_service_stop',return_value=False) as observe:
+            module._wait_idle(object(),stop)
+        self.assertAlmostEqual(sum(waits),5)
+        self.assertGreater(observe.call_count,1)
+        stop.request()
+        with patch.object(stop,'wait') as blocked, \
+             patch('application.platform.service_stop.observe_service_stop') as observe:
+            module._wait_idle(object(),stop)
+        blocked.assert_not_called();observe.assert_not_called()
+
     def test_actual_research_owner_runs_in_owned_child_and_publishes_canonical_candidate(self):
         owners, queued = self.enqueue()
         result = self.worker().worker_once(self.config_path, namespace='FIXTURE', job_argv_factory=self.child)

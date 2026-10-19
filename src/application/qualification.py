@@ -132,8 +132,13 @@ def revision_fact(root, expected=None, require_clean=False):
 
 
 def _sanitize(output, root):
-    for path, replacement in ((str(Path(root).resolve()), "<SOURCE_ROOT>"),
-                              (str(Path.home()), "<USER_HOME>")):
+    paths=[(str(Path(root).resolve()), "<SOURCE_ROOT>")]
+    # Native child environments deliberately omit user-profile variables.
+    # Optional home discovery must not discard the actual diagnostic output.
+    try:home=Path.home()
+    except RuntimeError:home=None
+    if home is not None:paths.append((str(home),"<USER_HOME>"))
+    for path, replacement in paths:
         output = output.replace(path, replacement).replace(path.replace("\\", "/"), replacement)
         output = output.replace(path.replace("\\", "\\\\"), replacement)
     return output

@@ -1,3 +1,28 @@
+# Current Windows native completion attempt - 2026-10-19
+
+Exact-clean candidate1073343c2bbe23dc911148a0b75110fd80d3f162 built and pushed.
+Fixed inventory7groups/39commands/2403source-case executions/293tool-test files.
+Pre-freeze focused118checks PASS; no complete native/full PQR qualification.
+
+Actual native06 public security slice PASS, component diagnostic FAIL. An
+environment without home variables reproduces a Path.home log-retention error;
+source repair passes, installed recheck pending. Actual headless control restart
+and coordinator crash/new-generation recovery observed. Final research graceful
+stop became FORCED_STOP/reaped: idle wait and coordinator shutdown budget were
+both5seconds. Source repair preserves cadence and observes fenced stops every
+<=0.2seconds. Worker/coordinator26source checks and diagnostic/runner23checks
+PASS; bounded repair review0Critical/Important, execution NONE. Every retained
+owned session reaped. Do not weaken graceful-stop or qualification assertions.
+
+Evidence: status/codex/productization/S12/native-completion-1073343-failed/.
+Original private failed attempts preserved. No new public reads: cumulative8
+requests/8responses; private0, credentialsNONE, capitalNONE, hosted computeNONE.
+Next: repaired exact-clean candidate, native06/headless retry, native05/07,
+complete owning PQR, portable clean install. Ordinary financial policies remain
+unselected; real-forward NOT_STARTED. Old target/Ubuntu/cloud remain separate.
+
+---
+
 # Protection query recovery source checkpoint - 2026-10-19
 
 Executable1cb57aa97f57f099cd68a326a3960ded5828b20d, exact clean source:

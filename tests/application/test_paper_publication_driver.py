@@ -266,6 +266,11 @@ class PaperPublicationDriverTests(unittest.TestCase):
         self.assertNotIn('--clean', argv)
         self.assertIn('--onedir', argv)
         self.assertLessEqual(options['limits'].timeout_seconds, 900)
+        build_home=self.flow.data/'worker-logs/fixture-helper-build/home'
+        self.assertEqual(options['env'].get('USERPROFILE'),str(build_home))
+        self.assertTrue(build_home.is_dir())
+        self.assertEqual(options['env'].get('PYINSTALLER_CONFIG_DIR'),str(build_home/'pyinstaller-cache'))
+        self.assertEqual(self.flow.env,{})
         self.assertTrue(self.flow.commands[-1]['tree_reaped'])
 
     def test_helper_dependency_change_is_denied_even_with_unchanged_launcher(self):

@@ -1,3 +1,22 @@
+# Native07 isolated compiler home repair - 2026-10-19
+
+Same task and implementation branch. Latest main re-fetched unchanged at
+7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812. Actual4c0c4e5 build PASS;
+scoped native07 FAIL after actual local report staging, before remote ACK.
+PyInstaller could not determine a home in the isolated environment.
+Minimal driver repair gives only the compiler a fresh private build home/cache;
+product environment, external parsers and financial rules unchanged. Fifteen source regressions PASS;
+independent bounded review0Critical/0Important, executionNONE.
+Inventory7groups/130commands/2422source-caseexecutions/295tool-testfiles.
+Failed actual artifact closure and repair evidence retained at
+status/codex/productization/S12/native07-4c0c4e5-failed-home-repair/.
+New exact-clean build/native07/full owning execution still required.
+Do not transfer old f6native05/590headless/f86native06 credit to new subject.
+Additionalpubliccalls0; cumulative8/8; private0/credentialsNONE/capitalNONE/
+provider mutation0/GitHubcomputeNOT_USED. Master IN_PROGRESS.
+
+---
+
 # Native07 internal provenance parser repair - 2026-10-19
 
 Same task and implementation branch. Latest main re-fetched unchanged at

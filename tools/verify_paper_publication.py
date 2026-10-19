@@ -326,6 +326,13 @@ class NativePublicationFlow(PublicFixture):
         if base.exists():
             raise ValueError('Fresh native helper build output required')
         self._private_directory(base)
+        # The product runs without a user profile. Only this development
+        # compiler needs a home/cache; keep both in its private work tree.
+        build_home=base/'home'
+        self._private_directory(build_home)
+        self._private_directory(build_home/'pyinstaller-cache')
+        build_env={**self.env,'USERPROFILE':str(build_home),
+            'PYINSTALLER_CONFIG_DIR':str(build_home/'pyinstaller-cache')}
         source = TOOLS/'local_fixture_copy.py'
         source_before = sha(source.read_bytes())
         python = self._build_python()
@@ -341,7 +348,7 @@ class NativePublicationFlow(PublicFixture):
         try:
             with raw_path.open('xb') as stream:
                 owned = spawn_owned(argv,cwd=self.output,limits=ResourceLimits(900),stdout=stream,
-                    stderr=subprocess.STDOUT,env=self.env)
+                    stderr=subprocess.STDOUT,env=build_env)
                 try:
                     code = owned.wait()
                 finally:

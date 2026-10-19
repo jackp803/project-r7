@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\__main__.py", line 321, in <module>
+    run()
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\__main__.py", line 172, in run
+    parser = generate_parser()
+             ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\__main__.py", line 137, in generate_parser
+    import PyInstaller.building.build_main
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\building\build_main.py", line 28, in <module>
+    from PyInstaller.building.api import COLLECT, EXE, MERGE, PYZ
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\building\api.py", line 33, in <module>
+    from PyInstaller.building.splash import Splash  # argument type validation in EXE
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\building\splash.py", line 23, in <module>
+    from PyInstaller.depend import bindepend
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\depend\bindepend.py", line 26, in <module>
+    from PyInstaller.depend import dylib, utils
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\depend\dylib.py", line 335, in <module>
+    exclude_list = WinExcludeList(_excludes)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\toolchains\py312-native-build\Lib\site-packages\PyInstaller\depend\dylib.py", line 317, in __init__
+    self._home_dir = pathlib.Path.home().resolve()
+                     ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1202, in home
+    return cls("~").expanduser()
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1406, in expanduser
+    raise RuntimeError("Could not determine home directory.")
+RuntimeError: Could not determine home directory.

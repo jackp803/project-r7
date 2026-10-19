@@ -1,3 +1,33 @@
+# Headless local operations source checkpoint — 2026-10-19
+
+Executable 56f1f1d7c495fdcb705d5619faebf2abd2b321b7, exact clean source:
+103 focused checks PASS, including actual independent service startup, cooperative
+stop/reap, repeated coordinator denial, external owner preservation, actual crash
+and new-generation restart, changed-config handoff denial, and unconfirmed-tree
+cleanup retry without a successor. Bounded read-only review: 0 Critical/Important.
+
+One `run-product --config ... --operations-profile ...` launcher; `product-status`
+reads actual heartbeats; `stop-product --role coordinator` requests scoped stops.
+Existing owner commands schedule intake/research and local durable report outbox.
+Private child dispatcher pins the captured config hash; Paper still requires all
+original native/financial/currentness/restore gates. Additive0009 extends the
+existing supervision owner, preserves0006/0008 rows, and updates exact RO readers
+and stopped-owner backup/restore fences. No second financial lifecycle.
+
+Scope is SOURCE_PROCESS_INTEGRATION_ONLY, not native/full PQR/ordinary eligibility.
+No host startup, sleep or security settings changed. Long services have no research
+job deadline; jobs retain finite deadlines and lower scheduling priority. Memory
+remains SOFT_LIMIT_ONLY. Real cloud publication is not configured or acknowledged.
+Public-market producer and native owning PQR05/06/07 remain next; no new package.
+
+Evidence: `status/codex/productization/S12/headless-source-56f1f1d/`.
+Public requests remain actual8/responses8 from the separately retained c62b11a
+acquisition; this offline source phase made0. Public diagnostic remains BLOCKED,
+engineering example, no formal review policy, no OOS or Paper/forward start.
+The c62b11a Chat kit is versioned proof; re-export final installed capabilities.
+
+---
+
 # Current Windows priority checkpoint — 2026-10-19
 
 Same task and branch. Latest main remains 7d1f447 (PM mapping PR136); audited clean

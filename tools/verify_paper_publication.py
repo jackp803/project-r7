@@ -20,7 +20,7 @@ from application.cloud.manifest import canonical_bytes, load_json, safe_relative
 from application.cloud.public_feedback import validate_public_feedback_publication
 from application.cloud.rclone_bridge import _private_key, _private_text
 from application.cloud.safe_files import read_bounded
-from application.datasets.catalog import decode
+from application.datasets.catalog import decode,hash_value
 from application.fixtures.recipe import ROOT_ID
 from application.platform.private_files import create_private_directory, require_private, write_private_new
 from application.platform.processes import ResourceLimits, spawn_owned, terminate_owned
@@ -131,6 +131,27 @@ def _immutable(rows):
             for row in rows]
 
 
+def observed_research_input(row):
+    """Read a bounded, hash-bound internal owner record for lineage only.
+
+    Internal provenance explicitly declares credentials=NONE. The external
+    author/publication parser correctly rejects that field name, so it cannot
+    decode this private record. Public payloads keep their original validators.
+    """
+    raw=row['input_json'].encode('utf-8')
+    if len(raw)>MAX_PAYLOADS or sha(raw)!=row['input_hash']:
+        raise ValueError('Native research report input lineage missing')
+    value=decode(raw)
+    if not isinstance(value,dict) or not isinstance(value.get('strategy'),dict):
+        raise ValueError('Native research owner input structure differs')
+    provenance=value.get('provenance')
+    if (not isinstance(provenance,dict) or any(provenance.get(key)!=expected for key,expected in
+            dict(credentials='NONE',provider_requests=0,capital='NONE',github_compute='NOT_USED').items())):
+        raise ValueError('Expected credential-free local research owner input required')
+    hash_value(value.get('dataset_manifest_hash'));hash_value(value.get('split_policy_hash'))
+    return value
+
+
 def _summary(result, *, status, maximum=MAX_PUBLICATIONS):
     names = ('attempted','local_staged','cloud_acknowledged','unavailable','conflicts')
     if (not isinstance(result, dict) or result.get('status') != status
@@ -214,9 +235,9 @@ class NativePublicationFlow(PublicFixture):
             if len(found) != 1:
                 raise ValueError('One actual research feedback publication required')
             owner = db.execute('SELECT input_json,input_hash FROM research_runs WHERE run_id=?', (self.research_owner_run_id,)).fetchone()
-            if owner is None or sha(owner['input_json'].encode()) != owner['input_hash']:
+            if owner is None:
                 raise ValueError('Native research report input lineage missing')
-            inputs = load_json(owner['input_json'].encode(), MAX_PAYLOADS)
+            inputs = observed_research_input(owner)
             for original in found:
                 row = dict(original)
                 document, _ = validate_report_row(row, 'research', forbidden=forbidden)

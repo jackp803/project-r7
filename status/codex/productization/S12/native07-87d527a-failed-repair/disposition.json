@@ -1,0 +1,213 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "executable_revision": "87d527a3dbe577b424549ffecdeb208a7c33dd8a",
+  "actual_native07": "FAIL",
+  "reason": "EXTERNAL_PUBLIC_INPUT_PARSER_REJECTED_INTERNAL_HASHED_CREDENTIALS_NONE_DISCLOSURE",
+  "publication_ack": "NOT_RUN",
+  "real_cloud": "NOT_RUN",
+  "master": "IN_PROGRESS",
+  "owning_qualification": "NOT_RUN_AT_THIS_SUBJECT",
+  "repair": "INTERNAL_BOUNDED_HASHED_CATALOG_DECODER;EXTERNAL_PUBLIC_PARSER_UNCHANGED",
+  "focused_source_tests": 15,
+  "focused_failures": 0,
+  "focused_errors": 0,
+  "independent_review": "ZERO_CRITICAL_IMPORTANT;REVIEWER_EXECUTION_NONE",
+  "next_inventory": {
+    "groups": 7,
+    "commands": 130,
+    "source_cases": 2422,
+    "source_files": 295
+  },
+  "new_exact_clean_native_execution": "PENDING",
+  "additional_provider_requests": 0,
+  "cumulative_actual_public_requests": 8,
+  "cumulative_actual_public_responses": 8,
+  "credentials": "NONE",
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "retained_files": [
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/native-observations.json",
+      "original_hash": "sha256:785142de0ca8469328586382e9cc4b52708dfc3b061829aa77e52e8e23a422f8",
+      "retained_ref": "artifacts/a001.json",
+      "retained_hash": "sha256:785142de0ca8469328586382e9cc4b52708dfc3b061829aa77e52e8e23a422f8"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/browser-paper-closed.log",
+      "original_hash": "sha256:c9fb73e5931ff09d9383556cfdcd460e0bb1b48e898d417017fe96aefdad25a6",
+      "retained_ref": "artifacts/a002.log",
+      "retained_hash": "sha256:c9fb73e5931ff09d9383556cfdcd460e0bb1b48e898d417017fe96aefdad25a6"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/browser-paper-pause.log",
+      "original_hash": "sha256:0f5ffb368c677f5cf378ebc41be74011ba85cc7a8a79cc02de1828ed32a238c4",
+      "retained_ref": "artifacts/a003.log",
+      "retained_hash": "sha256:0f5ffb368c677f5cf378ebc41be74011ba85cc7a8a79cc02de1828ed32a238c4"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/browser-paper-start.log",
+      "original_hash": "sha256:b88332757725d800ee462d4c61c1715228b082300e6e6845a412f9b2644fd4eb",
+      "retained_ref": "artifacts/a004.log",
+      "retained_hash": "sha256:b88332757725d800ee462d4c61c1715228b082300e6e6845a412f9b2644fd4eb"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/browser-research-enqueue.log",
+      "original_hash": "sha256:4e547691f31abe9ddd5fe112adc8df7d7ec4c2ea77f1926db85417a8b20eef86",
+      "retained_ref": "artifacts/a005.log",
+      "retained_hash": "sha256:4e547691f31abe9ddd5fe112adc8df7d7ec4c2ea77f1926db85417a8b20eef86"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/browser-research-result.log",
+      "original_hash": "sha256:d3db404c62d572afde47bd1ac679c0566dbc365e69739c2d5c92c89595734b3f",
+      "retained_ref": "artifacts/a006.log",
+      "retained_hash": "sha256:d3db404c62d572afde47bd1ac679c0566dbc365e69739c2d5c92c89595734b3f"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/control-paper.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a007.log",
+      "retained_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/control-research.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a008.log",
+      "retained_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/data/worker-logs/job-a92836a0d806a05b619c4eb6b053bb2e4074931551eb26e16a87b6ef942e1b3e-1.log",
+      "original_hash": "sha256:f4557b191c72c006508e3153f6155c5f14f2a66b7812264eba562f8cfaf13169",
+      "retained_ref": "artifacts/a009.log",
+      "retained_hash": "sha256:20bf56a6bde3f217b275ab6c2ecf15f0012546c2f7e08e4ff02592939ea9ead2"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/init.log",
+      "original_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+      "retained_ref": "artifacts/a010.log",
+      "retained_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/observations.json",
+      "original_hash": "sha256:984a93f6b80bb79e442e700750fed72094ee949db933bd1f2cb9cfd93a6c5b17",
+      "retained_ref": "artifacts/a011.json",
+      "retained_hash": "sha256:984a93f6b80bb79e442e700750fed72094ee949db933bd1f2cb9cfd93a6c5b17"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/paper-closed.png",
+      "original_hash": "sha256:e77ed681710910fc3021349136bab33d01cc9d98e59f176ef96eba2d905f6553",
+      "retained_ref": "artifacts/a012.png",
+      "retained_hash": "sha256:e77ed681710910fc3021349136bab33d01cc9d98e59f176ef96eba2d905f6553"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/paper-pause.png",
+      "original_hash": "sha256:c1df0950606e7c717c4b88fa884ddd130142bcb3530e9b94e03cab21a422d40b",
+      "retained_ref": "artifacts/a013.png",
+      "retained_hash": "sha256:c1df0950606e7c717c4b88fa884ddd130142bcb3530e9b94e03cab21a422d40b"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/paper-selection.log",
+      "original_hash": "sha256:d27923e0e7349fe8995cd33c413536e383f4bdd7f9f959749adcfb943d8854f7",
+      "retained_ref": "artifacts/a014.log",
+      "retained_hash": "sha256:d27923e0e7349fe8995cd33c413536e383f4bdd7f9f959749adcfb943d8854f7"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/paper-start.png",
+      "original_hash": "sha256:8167a3c7faf712d1162fcdd0999b18116df4c38dc2b2cc6500f93a8c17ea91b7",
+      "retained_ref": "artifacts/a015.png",
+      "retained_hash": "sha256:8167a3c7faf712d1162fcdd0999b18116df4c38dc2b2cc6500f93a8c17ea91b7"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/paper-worker-first.log",
+      "original_hash": "sha256:45f8c2812ca214c51881232bfcce7942af9b3e9ab228b505839091d98d05940a",
+      "retained_ref": "artifacts/a016.log",
+      "retained_hash": "sha256:45f8c2812ca214c51881232bfcce7942af9b3e9ab228b505839091d98d05940a"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/paper-worker-successor.log",
+      "original_hash": "sha256:554bc1d79610b9e7a1504858026fb961d92c14119635003756157167e9500cbb",
+      "retained_ref": "artifacts/a017.log",
+      "retained_hash": "sha256:554bc1d79610b9e7a1504858026fb961d92c14119635003756157167e9500cbb"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/prepare.log",
+      "original_hash": "sha256:519267010566b490e448571822c1140cb60f139007bb65a55bddddd221c9d663",
+      "retained_ref": "artifacts/a018.log",
+      "retained_hash": "sha256:519267010566b490e448571822c1140cb60f139007bb65a55bddddd221c9d663"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/queue-actual-research-feedback.log",
+      "original_hash": "sha256:f7093ec9ac023ef3841934d13794110302e240690df19543249f33fce9ecb07a",
+      "retained_ref": "artifacts/a019.log",
+      "retained_hash": "sha256:f7093ec9ac023ef3841934d13794110302e240690df19543249f33fce9ecb07a"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/research-enqueue.png",
+      "original_hash": "sha256:856febf1ee3191561a8cc084a295866214b01ef26ccdd84e9ea4e1146cc58f03",
+      "retained_ref": "artifacts/a020.png",
+      "retained_hash": "sha256:856febf1ee3191561a8cc084a295866214b01ef26ccdd84e9ea4e1146cc58f03"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/research-result.png",
+      "original_hash": "sha256:2508f827c872c9f4c4bb39d218de1c89e4a729391227fdc65d1aefe64f0bb13f",
+      "retained_ref": "artifacts/a021.png",
+      "retained_hash": "sha256:2508f827c872c9f4c4bb39d218de1c89e4a729391227fdc65d1aefe64f0bb13f"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/research-selection.log",
+      "original_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+      "retained_ref": "artifacts/a022.log",
+      "retained_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/research-worker.log",
+      "original_hash": "sha256:84201cb5d6c140db0ef20d487dda5b7c318f706f8a33d8ae1ca93f0a2be36ed3",
+      "retained_ref": "artifacts/a023.log",
+      "retained_hash": "sha256:84201cb5d6c140db0ef20d487dda5b7c318f706f8a33d8ae1ca93f0a2be36ed3"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/stop-control-paper.log",
+      "original_hash": "sha256:77dc46f355ed384a281208fa435a1a4c2932c62294fbcf7da193c6da6f866db4",
+      "retained_ref": "artifacts/a024.log",
+      "retained_hash": "sha256:77dc46f355ed384a281208fa435a1a4c2932c62294fbcf7da193c6da6f866db4"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/publication/stop-control-research.log",
+      "original_hash": "sha256:dbdc6659e9bc7a9f6188baf5a0549969409ef00499d7aa1fafd2643409a4bd63",
+      "retained_ref": "artifacts/a025.log",
+      "retained_hash": "sha256:dbdc6659e9bc7a9f6188baf5a0549969409ef00499d7aa1fafd2643409a4bd63"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/execution/pqr-result.json",
+      "original_hash": "sha256:86994ef0d1d86c26cdb9b94ed006149596886275ba6dc2c6c5ee39f0becf3376",
+      "retained_ref": "original-report.json",
+      "retained_hash": "sha256:86994ef0d1d86c26cdb9b94ed006149596886275ba6dc2c6c5ee39f0becf3376"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/checkpoint.json",
+      "original_hash": "sha256:5dd12dcb81c5d285eac8cf0a581aed29eefe7cfe42a8ac567fffb57dbcdac4fa",
+      "retained_ref": "checkpoint.json",
+      "retained_hash": "sha256:5dd12dcb81c5d285eac8cf0a581aed29eefe7cfe42a8ac567fffb57dbcdac4fa"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-87d527a-first/readonly-record-probe.json",
+      "original_hash": "sha256:5365a70a15400d38cd62c75a2166f03ade491c25b69214d34832c08c89933112",
+      "retained_ref": "readonly-record-probe.json",
+      "retained_hash": "sha256:5365a70a15400d38cd62c75a2166f03ade491c25b69214d34832c08c89933112"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-driver-repair-review.json",
+      "original_hash": "sha256:059b516ed893e2a3a8e0585cd76b9aa60f4a51db042dd7f998303f05a95aabb4",
+      "retained_ref": "independent-review.json",
+      "retained_hash": "sha256:059b516ed893e2a3a8e0585cd76b9aa60f4a51db042dd7f998303f05a95aabb4"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/native07-publication-repair-focused.log",
+      "original_hash": "sha256:a33d955840e7de2b86f70c2421957b4b7cd6ca6f837e638cf43d5be0b2798e84",
+      "retained_ref": "focused-source.log",
+      "retained_hash": "sha256:7f5f71414dda0668ce9f0163d681f186c893c4c452f888df2a0ecf0dc510d495"
+    }
+  ]
+}

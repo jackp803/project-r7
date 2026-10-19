@@ -1,0 +1,29 @@
+{
+  "schema_version": "r7-bounded-native-driver-repair-review-v1",
+  "review_date": "2026-10-19",
+  "scope": "Native PQR-07 publication verifier: decode the hash-bound internal research owner input using the internal catalog codec while preserving external public payload validation",
+  "reviewer_execution": "NONE",
+  "counts": {"Critical": 0, "Important": 0},
+  "disposition": "NO_CRITICAL_OR_IMPORTANT_FINDINGS_IN_BOUNDED_REPAIR_SCOPE",
+  "reviewed_subject_hashes": {
+    "tools/verify_paper_publication.py": "sha256:37fa1df5dbb0596c46e2ed0da049ab97fdc256fe7466e104cdd1e3883a4491aa",
+    "tests/application/test_paper_publication_driver.py": "sha256:26aabec3d41c60eabf0b2b4c8cfa84755da67e3c3f5f877bd57ff77e9f0074d7"
+  },
+  "adjacent_contract_hashes": {
+    "src/application/datasets/catalog.py": "sha256:a61cf385505c5b3e7c04a93020d908974376c2fcd6d9f7bedd94c782c33e2dde",
+    "src/application/cloud/manifest.py": "sha256:a63fb5c28d800cc6c8fc3467e583bb314d51c3867d7f241e70e62590cf8f6b5c"
+  },
+  "observations": [
+    "observed_research_input bounds the UTF-8 raw record to 1 MiB and checks its original stored input hash before decoding.",
+    "The internal catalog decoder rejects duplicate keys, nonfinite numbers, binary floats, excessive nesting and excessive object count. The helper requires an object/strategy shape, credential-free local provenance markers, and typed dataset/split hash values.",
+    "Only the read-only research_runs lineage path uses the internal decoder. Research and Paper feedback payloads still pass validate_public_feedback_publication, the existing external load_json and private-field/content checks; intake and transport manifests retain their existing external parser.",
+    "The added regression body covers valid internal credentials=NONE provenance, confirms the same raw document remains rejected by the public parser, and denies changed input hash, duplicate JSON keys and oversized input.",
+    "No result/PASS import, qualification threshold change, owner state mutation, caller authority or financial permission is added by this repair."
+  ],
+  "limitations": [
+    "Read-only source/diff and selected regression-body review. No tests, product/native commands, builds, provider/network calls or private database/auth/config/evidence reads were performed.",
+    "The parent-reported 15-test GREEN is not a reviewer execution and does not establish native PQR-07 success.",
+    "The actual 87d527a failed native attempt remains historical failed evidence; this review does not overwrite or transfer its credit.",
+    "New exact-clean full source/native qualification remains pending for the repaired candidate. No full PQR, ordinary financial workflow, real cloud/forward or whole-Master acceptance is issued."
+  ]
+}

@@ -39,6 +39,21 @@ class PaperPublicationDriverTests(unittest.TestCase):
         self.flow.persist = Mock()
         self.flow.guard = Mock()
 
+    def test_internal_hashed_owner_input_none_disclosure_is_not_an_untrusted_public_payload(self):
+        h='sha256:'+'1'*64
+        value=dict(strategy={'content_hash':h},dataset_manifest_hash=h,split_policy_hash=h,
+            provenance=dict(credentials='NONE',provider_requests=0,capital='NONE',github_compute='NOT_USED'))
+        raw=canonical_bytes(value)
+        row=dict(input_json=raw.decode(),input_hash=self.module.sha(raw))
+        self.assertEqual(self.module.observed_research_input(row),value)
+        from application.cloud.manifest import load_json
+        from application.cloud.protocol import CloudError
+        with self.assertRaisesRegex(CloudError,'SECRET_FIELD_FORBIDDEN'):load_json(raw)
+        for changed in (dict(row,input_hash='sha256:'+'2'*64),
+                dict(input_json='{"provenance":{},"provenance":{}}',input_hash=self.module.sha(b'{"provenance":{},"provenance":{}}')),
+                dict(input_json=' '*(self.module.MAX_PAYLOADS+1),input_hash=self.module.sha(b' '*(self.module.MAX_PAYLOADS+1)))):
+            with self.subTest(changed=tuple(changed)),self.assertRaises(ValueError):self.module.observed_research_input(changed)
+
     def row(self):
         h = 'sha256:' + '1' * 64
         document = dict(schema_version=SCHEMA, run_id='paper-run', namespace='FIXTURE',

@@ -1,3 +1,23 @@
+# Native07 internal provenance parser repair - 2026-10-19
+
+Same task and implementation branch. Latest main re-fetched unchanged at
+7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812. Actual87d527a build PASS;
+scoped native07 FAIL before publication staging/ACK. The external public
+parser rejected the internal owner input disclosure credentials=NONE.
+Read-only probe verified stored input hash; no credential or DB mutation.
+Minimal driver repair uses bounded hash-verified internal catalog decode;
+external author/report validators unchanged. Fifteen source regressions PASS;
+independent bounded review0Critical/0Important, executionNONE.
+Inventory7groups/130commands/2422source-caseexecutions/295tool-testfiles.
+Failed actual artifact closure and repair evidence retained at
+status/codex/productization/S12/native07-87d527a-failed-repair/.
+New exact-clean build/native07/full owning execution still required.
+Do not transfer old f6native05/590headless/f86native06 credit to new subject.
+Additionalpubliccalls0; cumulative8/8; private0/credentialsNONE/capitalNONE/
+provider mutation0/GitHubcomputeNOT_USED. Master IN_PROGRESS.
+
+---
+
 # Ordinary Paper recovery and complete backup repair - 2026-10-19
 
 Task CODEX-R7-PRODUCTIZATION-MASTER-20261002, same branch. Main remains

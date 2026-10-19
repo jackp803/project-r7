@@ -1,0 +1,313 @@
+{
+  "acquisition": {
+    "candle_rows": 468,
+    "credentials": "NONE",
+    "dataset_ref": "dataset.json",
+    "duplicate_ranges": [],
+    "end": "2026-10-18T00:00:00Z",
+    "funding_mapping": "REALIZED_RATE_ONLY",
+    "funding_rows": 234,
+    "manifest_hash": "sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18",
+    "missing_ranges": [],
+    "offline_qualification": "NOT_RUN",
+    "private_requests": 0,
+    "promotion": "NOT_ASSESSED",
+    "provider": "OKX_PUBLIC",
+    "provider_mutation": 0,
+    "provider_requests": 8,
+    "provider_responses": 8,
+    "reason_code": null,
+    "schema_version": "r7-public-acquisition-v0.2",
+    "start": "2026-08-01T00:00:00Z",
+    "status": "DATASET_ACQUIRED",
+    "symbol": "BTC_USDT_PERP",
+    "timeframe": "4h",
+    "volume_mapping": "OKX_VOL_CCY_BASE_BTC;RAW_VOL_CONTRACTS_RETAINED"
+  },
+  "capital": "NONE",
+  "cost_assumptions": {
+    "cost_model_version": "engineering-fee5bps-slip2bps-v1",
+    "entry_bps": "2",
+    "exit_bps": "2",
+    "fee_unit": "BPS_OF_NOTIONAL",
+    "fixed_quantity": "0.001",
+    "generation": 1,
+    "maker_bps": "5",
+    "max_evaluations": 2000,
+    "namespace": "LOCAL_RESEARCH",
+    "policy_id": "ENGINEERING_COST_SCENARIO_NOT_ACCOUNT_FACT",
+    "quantity_unit": "BASE",
+    "schema_version": "r7-replay-cost-policy-v0.2",
+    "slippage_unit": "BPS_OF_REFERENCE_PRICE",
+    "taker_bps": "5"
+  },
+  "enqueue": {
+    "actor": "ENGINEERING_LOCAL_DIAGNOSTIC",
+    "command_id": "engineering-public-enqueue-c62b11a",
+    "effect_ref": "research-job:job-20cbd36a53f18e851231575c48798d9e219be2942b7915f5d3a261e8fed8fd83",
+    "expected_revision": 1,
+    "observed_at": "2026-10-19T03:24:59.450946Z",
+    "reason_codes": [],
+    "resource": "research",
+    "resource_revision": 1,
+    "status": "QUEUED"
+  },
+  "evidence": {
+    "attempts": [
+      {
+        "ended_at": "2026-10-19T03:25:00.460511Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:51116262658f2d852dabe56289982eaa6a5e59556085d254db0cbcc9a5696684",
+        "stage": "resource_admission",
+        "started_at": "2026-10-19T03:25:00.460511Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:00.533393Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:86d17835a6a6ab72e611e47e23c4bd08d53592a8d7e7e919daa7a579a98b3f49",
+        "stage": "split_resolution",
+        "started_at": "2026-10-19T03:25:00.531166Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:00.676663Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:c2f1a73b7e49138b2794732bb9da598e5b5e1c4d8d282f66f70f906310242714",
+        "stage": "dataset_resolution",
+        "started_at": "2026-10-19T03:25:00.591480Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:00.727235Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:dd27afe4b93ae3ffa05c6c16d55a411ae2ecdbff43a545de1dd4acc6870fcba8",
+        "stage": "cost_resolution",
+        "started_at": "2026-10-19T03:25:00.727235Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:00.838885Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:d2ff6e340f13130ebe243574dd0b911061eca6e55b2a264ed8ddba08911d89d5",
+        "stage": "compatibility",
+        "started_at": "2026-10-19T03:25:00.793679Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:03.196627Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:907153d5088e2538c6eb7b032e681d2282e465ea5f83a2eb45dd39d73f826092",
+        "stage": "development_replay",
+        "started_at": "2026-10-19T03:25:00.926601Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:03.280698Z",
+        "input_hash": "sha256:0139842d9b7a1d028d1949395757101533cbce3c3f2e570700fb6f34e2d05b3e",
+        "output_hash": "sha256:725734fcc2ff1f6a514ef42770a1d286cb110e885c87652edaa2d24e9458d705",
+        "stage": "e6_backtest_persistence",
+        "started_at": "2026-10-19T03:25:03.275949Z",
+        "status": "COMPLETE"
+      },
+      {
+        "ended_at": "2026-10-19T03:25:03.340007Z",
+        "input_hash": "sha256:3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+        "output_hash": "sha256:85030b04c1866e4871297e2724d5d67b6465c8b084b149c4dfed13cbbda4d48b",
+        "stage": "diagnostic_report",
+        "started_at": "2026-10-19T03:25:03.340007Z",
+        "status": "COMPLETE"
+      }
+    ],
+    "backtest": {
+      "average_loss": "-0.1187733814810956691189448913043478",
+      "average_win": "0",
+      "breakeven": 0,
+      "expectancy": "-0.1187733814810956691189448913043478",
+      "gross_pnl": "-7.44082124",
+      "losses": 184,
+      "max_consecutive_losses": 184,
+      "max_drawdown": "21.854302192521603117885860",
+      "net_pnl": "-21.854302192521603117885860",
+      "profit_factor": "0E+24",
+      "total_fees": "14.44655326622",
+      "total_funding_cost": "-0.033072313698396882114140",
+      "total_slippage_cost": "5.77862124",
+      "total_trades": 184,
+      "win_rate": "0",
+      "wins": 0
+    },
+    "backtest_e6_evidence_id": "evidence-57f08785-9d92-4a10-b24b-a2bd73f414d9",
+    "candidate_gate": {
+      "reason_codes": [
+        "PRODUCT_ASSESSMENT_NOT_COMPLETE"
+      ],
+      "status": "BLOCKED"
+    },
+    "compatibility": {
+      "reason_codes": [],
+      "status": "PASS"
+    },
+    "dataset_resolution": {
+      "container_hashes": [
+        [
+          "candles.parquet",
+          "sha256:cd899d1650322a371376b6bcbafa6970412cf8ed9fc311cad4b33905d27c4641"
+        ],
+        [
+          "funding.parquet",
+          "sha256:f519814544e370dbdcd4d00bc2ad6b08dc65b945dacc992deeda6d16cbf1fa69"
+        ]
+      ],
+      "logical_hash": "sha256:cc7037441fba92c1f2f7e9d565a68dd2c4432f00f93efd9043c24aaf0e2df12e",
+      "manifest_hash": "sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18",
+      "reason_codes": [],
+      "row_counts": {
+        "4h": 312
+      },
+      "verification_scope": "DEVELOPMENT_VERIFIED_SEALED_LOGICAL_PENDING"
+    },
+    "frozen_finalist": null,
+    "owner_report_ref": "research:run-3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20/diagnostic_report",
+    "provenance": {
+      "architecture": "AMD64",
+      "capital": "NONE",
+      "credentials": "NONE",
+      "executable_revision": "c62b11a11255ebf367e6a1a4737151019308cd6d",
+      "execution": "LOCAL",
+      "github_compute": "NOT_USED",
+      "implementation_hash": "sha256:73b639b0f0ee3bcb6059c2bc80b9b22e2178cd87c8e1ed457aaa5b4195a0bdf2",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "provider_requests": 0,
+      "python": "3.12.10",
+      "worktree": "CLEAN"
+    },
+    "reason_codes": [
+      "MISSING_PROMOTION_POLICY",
+      "ROBUSTNESS_NOT_RUN",
+      "SEALED_OOS_NOT_RUN"
+    ],
+    "sealed_oos": "NOT_RUN",
+    "split_resolution": {
+      "dataset_manifest_hash": "sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18",
+      "namespace": "LOCAL_RESEARCH",
+      "partitions": {
+        "development": {
+          "end": "2026-09-22T00:00:00Z",
+          "entry_end": "2026-09-21T20:00:00Z",
+          "entry_start": "2026-08-22T04:00:00Z",
+          "name": "development",
+          "sealed": false,
+          "start": "2026-08-22T00:00:00Z",
+          "warmup_start": "2026-08-21T16:00:00Z"
+        },
+        "sealed_oos": {
+          "end": "2026-10-18T00:00:00Z",
+          "entry_end": "2026-10-17T20:00:00Z",
+          "entry_start": "2026-09-22T04:00:00Z",
+          "name": "sealed_oos",
+          "sealed": true,
+          "start": "2026-09-22T00:00:00Z",
+          "warmup_start": "2026-09-21T16:00:00Z"
+        },
+        "training": {
+          "end": "2026-08-22T00:00:00Z",
+          "entry_end": "2026-08-21T20:00:00Z",
+          "entry_start": "2026-08-01T00:00:00Z",
+          "name": "training",
+          "sealed": false,
+          "start": "2026-08-01T00:00:00Z",
+          "warmup_start": "2026-08-01T00:00:00Z"
+        }
+      },
+      "policy_hash": "sha256:9b061cd25566ac2f3530dff072f9c272f36b16efb64cf8965b28513fa23faac6",
+      "schema_version": "r7-frozen-split-plan-v0.2"
+    },
+    "status": "BLOCKED"
+  },
+  "executable_revision": "c62b11a11255ebf367e6a1a4737151019308cd6d",
+  "formal_review_policy": "NOT_SELECTED",
+  "forward_observation": "NOT_STARTED",
+  "job": {
+    "cancellation_requested": false,
+    "created_at": "2026-10-19T03:24:59.450946Z",
+    "generation": 1,
+    "implementation_hash": "sha256:73b639b0f0ee3bcb6059c2bc80b9b22e2178cd87c8e1ed457aaa5b4195a0bdf2",
+    "input_hash": "sha256:20cbd36a53f18e851231575c48798d9e219be2942b7915f5d3a261e8fed8fd83",
+    "observed_at": "2026-10-19T03:25:03.396706Z",
+    "outcome": {
+      "compatibility_status": "PASS",
+      "reason_codes": [
+        "MISSING_PROMOTION_POLICY",
+        "ROBUSTNESS_NOT_RUN",
+        "SEALED_OOS_NOT_RUN"
+      ],
+      "run_id": "run-3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+      "status": "BLOCKED",
+      "strategy_lifecycle": "BACKTESTING"
+    },
+    "owner_run_id": "run-3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20",
+    "policy_id": "engineering-development-only",
+    "reason_codes": [],
+    "revision": 2,
+    "run_id": "job-20cbd36a53f18e851231575c48798d9e219be2942b7915f5d3a261e8fed8fd83",
+    "stage": "diagnostic_report",
+    "state": "COMPLETE",
+    "submission_id": "engineering-btc4h-realdata"
+  },
+  "live": "NOT_STARTED",
+  "paper": "NOT_STARTED",
+  "scan": {
+    "actor": "ENGINEERING_LOCAL_DIAGNOSTIC",
+    "command_id": "engineering-public-scan-c62b11a",
+    "effect_ref": "inbox-scan:engineering-public-scan-c62b11a",
+    "expected_revision": 0,
+    "observed_at": "2026-10-19T03:24:59.360421Z",
+    "reason_codes": [],
+    "resource": "inbox",
+    "resource_revision": 1,
+    "status": "COMPLETE"
+  },
+  "schema_version": "r7-real-public-research-diagnostic-v0.2",
+  "source_phase_provider_requests": 0,
+  "split_policy": {
+    "development": {
+      "end": "2026-09-22T00:00:00Z",
+      "start": "2026-08-22T00:00:00Z"
+    },
+    "embargo_rationale": "Engineering baseline: one closed 4H bar embargo; final holdout reserved, not executed or optimized",
+    "embargo_seconds": 14400,
+    "generation": 1,
+    "label_horizon_seconds": 14400,
+    "max_holding_seconds": 14400,
+    "namespace": "LOCAL_RESEARCH",
+    "policy_id": "ENGINEERING_CHRONOLOGICAL_SPLIT",
+    "schema_version": "r7-split-policy-v0.2",
+    "sealed_oos": {
+      "end": "2026-10-18T00:00:00Z",
+      "start": "2026-09-22T00:00:00Z"
+    },
+    "training": {
+      "end": "2026-08-22T00:00:00Z",
+      "start": "2026-08-01T00:00:00Z"
+    },
+    "warmup_bars": 2
+  },
+  "strategy_content_hash": "sha256:034645d0279cbff987828f59d7ba9a7791f2c9dc4774d1a76b91587bab87bcc7",
+  "strategy_kind": "ENGINEERING_BASELINE_NOT_GPT",
+  "total_public_provider_requests": 8,
+  "worker": {
+    "child_pid": 43928,
+    "exit_code": 0,
+    "generation": 1,
+    "job_state": "COMPLETE",
+    "log_ref": "worker-logs/job-20cbd36a53f18e851231575c48798d9e219be2942b7915f5d3a261e8fed8fd83-1.log",
+    "memory_enforcement": "SOFT_LIMIT_ONLY",
+    "parent_pid": 39644,
+    "reason_codes": [],
+    "run_id": "job-20cbd36a53f18e851231575c48798d9e219be2942b7915f5d3a261e8fed8fd83",
+    "status": "JOB_FINISHED",
+    "tree_reaped": true
+  }
+}

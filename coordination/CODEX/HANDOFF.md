@@ -1,3 +1,33 @@
+# Current Windows priority checkpoint — 2026-10-19
+
+Same task and branch. Latest main remains 7d1f447 (PM mapping PR136); audited clean
+local/remote baseline 0db3758. Preserve all prior evidence and target acceptance.
+
+Keyless public OKX acquisition is now explicitly user-authorized and separate
+from offline PQR: actual **8 public requests / 8 responses**, 468 BTC 4H bars and
+234 realized funding events, 2026-08-01 through 2026-10-18 UTC, no gaps found.
+Do not continue reporting global provider calls=0. No private API, credentials,
+provider mutation, Paper entry, LIVE or capital. Raw bytes retained locally;
+tracked hash index and actual manifest identify them.
+
+Executable c62b11a: normal diagnostic setup/intake/queue/owned research worker
+completed real-data development replay, **BLOCKED** (formal review policy absent),
+BACKTESTING; robustness and sealed OOS NOT_RUN. Actual package is engineering
+EMA2 4H example, not GPT research. Chat kit includes actual capability snapshot.
+Source focused50 PASS; boundary fix67aebf5 focused51 PASS. No native/full PQR claim.
+Independent read-only review found three Important defects; all minimally fixed
+with fail-first regressions (attempt counter, partial HTTP body, install boundary).
+Harness failures retained locally and summarized in disposition, no rerun of API.
+
+Evidence: `status/codex/productization/S12/public-readonly-c62b11a/`.
+Current Windows ordinary Paper/full PQR, unattended coordinator/public producer
+and new clean-installed portable candidate remain work in progress. Preserve
+525abcb scoped6/6, actual backup restore proof, and previous full-source subjects;
+do not transfer these PASS claims to the changed executable. No OS settings changed.
+Old Windows target/Ubuntu/cloud are still external, not a reason to stop local work.
+
+---
+
 Actual exact-clean 525abcb09e62538476e676a2dce26c91830c5772 Windows build and97 focused source tests PASS,13 commands/0failure/error/skip;622protected inputs unchanged. Fresh sealed FIXTURE native6/6PASS: actual idle-flat/protected crash and fenced successor/pause/managed stop; actual E5 EMERGENCY nonzero rejected protection crash/restart/canonical close; partial quantity0.0005/remainder canceled; duplicate/missing-fresh/stale market preserve protection. Actual2private backups verified/restored original truth; returned configs RESTORED_INHIBITED/DISCONNECTED and native workers deny. All owned trees reaped, awake restored. Previous3c702d5 native3/6failure retained; no E5 financial geometry relaxation. Evidence: status/codex/productization/S12/sealed-fixture-native-525abcb/manifest.json. Scope only; fullPQR/ordinary eligibility NOT_QUALIFIED. Next concrete native05 remaining cases, native06/07/unattended/owning qualification; Ubuntu/real commissioning NOT_RUN. Same Master task/branch; no provider/credentials/capital/GitHub compute/main merge.
 
 Actual clean572e0f825a8b4a2c87c31b245129371ca0940718 Windows build/31focused source PASS;615inputs unchanged/all trees reaped/awake restored. Actual7nativecommands prove6specific OWN...QUALIFICATION_STORE_MISSING denials through3private children and3formal configure parents (3.72..3.89s). No canonical/runtime/queue created. Scoped named missing-store only; whole PQR06/ordinary eligibility/native positive/protection isolation NOT_QUALIFIED/NOT_RUN. Build/source identities and all historical failures retained. Evidence: status/codex/productization/S12/typed-native-denial-572e0f8/manifest.json. Next sealed finite recovery market inputs/native05 faults/capacity, native06/07/unattended/final qualification. Same Master task/branch; no provider/credentials/capital/GitHub compute/main merge.

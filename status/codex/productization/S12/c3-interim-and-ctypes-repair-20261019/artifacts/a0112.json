@@ -1,0 +1,29 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Narrow stable Windows ctypes ABI type repair, its lifetime regressions, and the synthetic owned-process memory probe.",
+  "inspected_sources": {
+    "src/application/cloud/safe_files.py": "fed18d8e6f85f11a90a7ffe95b94856911fb0e638c108a3f607daad8b2906d20",
+    "src/application/platform/resources.py": "47969429a73c2278cc981b3c95f5e688a642150897313ed0b5598fb1f6c0514f",
+    "tests/application/test_windows_ctypes_lifetime.py": "820bffdf95779d2d4ee7440818cfddd27bc94a11c4965c097f648ff900baa2a0",
+    "artifacts/current-windows-20261019/probe_windows_ctypes_memory.py": "0025f09bfa1a59be768a3bb335990a664bf39452cb120eb542bc5369bb65d3f4"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "resolved_mechanism": "The two protected Windows file operations now reuse one module-private _WindowsFileInformation type; hardware samples reuse one _WindowsMemoryStatus type. Repeated POINTER calls therefore use stable input types instead of allocating a new globally retained type on each operation.",
+  "static_checks": [
+    "The Information fields, order and native packing are unchanged. The MemoryStatus fields and order are unchanged; c_ulong remains 32-bit on Windows and c_ulonglong remains 64-bit. Function prototypes, use_last_error and error handling are preserved.",
+    "Only types are shared. Information instances, MemoryStatus instances, file handles and buffers remain local to each operation. The repair introduces no shared mutable observation or result, and no new concurrency race was identified.",
+    "Both declarations are guarded by os.name == 'nt'. No WinDLL load or Windows API call was moved to import time. Existing POSIX branches remain unchanged.",
+    "The diff changes no path validation, fresh file inspection, reparse/single-link enforcement, no-replace behavior, byte bound, source hash check or resource admission threshold.",
+    "The new Windows regressions warm up the real operations and compare retained pointer-input type sets after repeated changed-byte reads, atomic stages and hardware samples. They do not clear the global ctypes cache. Windows-only skip scope is explicit.",
+    "The probe uses finite 5000-read/50-stage/100-sample work in a self-owned process with a 120-second resource bound. Its output explicitly gives qualification credit NONE, records child exit/reaping, and labels memory observations as synthetic diagnostics."
+  ],
+  "limits": [
+    "No tests, probe, native process or qualification was executed by this reviewer. Root-reported RED/GREEN and measured memory results were not independently re-run or read as runtime evidence.",
+    "The tests do not independently assert ABI field offsets or concurrent stress; the repair preserves the previous exact layouts and allocates fresh instances, so these omissions are not material blockers for this narrow type-lifetime change.",
+    "The probe records source-file hashes after execution; it is not a before/after unchanged-source qualification receipt. Its explicit diagnostic scope must remain, and it supplies no full-run incident-causality or host-memory guarantee.",
+    "The cache mechanism and isolated memory improvement do not exclude simultaneous external host pressure. No whole-product, native release, financial authority or complete qualification claim is issued."
+  ]
+}

@@ -1,0 +1,98 @@
+test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types) ... FAIL
+test_repeated_atomic_staging_does_not_retain_per_write_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_atomic_staging_does_not_retain_per_write_types) ... ERROR
+test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types) ... FAIL
+
+======================================================================
+ERROR: test_repeated_atomic_staging_does_not_retain_per_write_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_atomic_staging_does_not_retain_per_write_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_windows_ctypes_lifetime.py", line 36, in test_repeated_atomic_staging_does_not_retain_per_write_types
+    stage_author_input(root, 'inbox/result.json', b'first')
+  File "<SOURCE_ROOT>\src\application\cloud\safe_files.py", line 278, in stage_author_input
+    raise CloudError('BLOCKED', 'AUTHOR_INPUT_NAMESPACE_REQUIRED')
+application.cloud.protocol.CloudError: BLOCKED: AUTHOR_INPUT_NAMESPACE_REQUIRED
+
+======================================================================
+FAIL: test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_windows_ctypes_lifetime.py", line 54, in test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types
+    self.assertEqual(retained_pointer_inputs('application.platform.resources'), before)
+AssertionError: Items in the first set but not the second:
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+<class 'application.platform.resources._windows_memory.<locals>.MemoryStatus'>
+
+======================================================================
+FAIL: test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_windows_ctypes_lifetime.py", line 31, in test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types
+    self.assertEqual(retained_pointer_inputs('application.cloud.safe_files'), before)
+AssertionError: Items in the first set but not the second:
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+<class 'application.cloud.safe_files._windows_read.<locals>.Information'>
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.257s
+
+FAILED (failures=2, errors=1)

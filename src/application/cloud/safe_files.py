@@ -9,6 +9,17 @@ import uuid
 from application.cloud.protocol import CloudError
 
 
+if os.name == 'nt':
+    from ctypes import wintypes as w
+
+    # POINTER retains its input type globally. Reuse the fixed Windows ABI type,
+    # while every call still opens and inspects each actual file/ancestor afresh.
+    class _WindowsFileInformation(ctypes.Structure):
+        _fields_ = [("attributes", w.DWORD), ("creation", w.FILETIME), ("access", w.FILETIME),
+                    ("write", w.FILETIME), ("volume", w.DWORD), ("size_high", w.DWORD),
+                    ("size_low", w.DWORD), ("links", w.DWORD), ("index_high", w.DWORD), ("index_low", w.DWORD)]
+
+
 def _windows_native_path(path):
     """Use explicit absolute Unicode paths for final and private staging names.
 
@@ -33,10 +44,7 @@ def _windows_read(path: Path, limit, *, require_single_link=False):
     kernel.CreateFileW.restype = w.HANDLE
     kernel.CloseHandle.argtypes, kernel.CloseHandle.restype = [w.HANDLE], w.BOOL
     kernel.ReadFile.argtypes, kernel.ReadFile.restype = [w.HANDLE, ctypes.c_void_p, w.DWORD, ctypes.POINTER(w.DWORD), ctypes.c_void_p], w.BOOL
-    class Information(ctypes.Structure):
-        _fields_ = [("attributes", w.DWORD), ("creation", w.FILETIME), ("access", w.FILETIME),
-                    ("write", w.FILETIME), ("volume", w.DWORD), ("size_high", w.DWORD),
-                    ("size_low", w.DWORD), ("links", w.DWORD), ("index_high", w.DWORD), ("index_low", w.DWORD)]
+    Information = _WindowsFileInformation
     kernel.GetFileInformationByHandle.argtypes, kernel.GetFileInformationByHandle.restype = [w.HANDLE, ctypes.POINTER(Information)], w.BOOL
     handles = []
     try:
@@ -128,10 +136,7 @@ def read_bounded(root: Path, relative: str, limit: int) -> bytes:
 def _windows_stage(root, relative, raw, fault_hook, *, replace=False):
     from ctypes import wintypes as w
     kernel = ctypes.WinDLL("kernel32", use_last_error=True)
-    class Information(ctypes.Structure):
-        _fields_ = [("attributes", w.DWORD), ("creation", w.FILETIME), ("access", w.FILETIME),
-                    ("write", w.FILETIME), ("volume", w.DWORD), ("size_high", w.DWORD),
-                    ("size_low", w.DWORD), ("links", w.DWORD), ("index_high", w.DWORD), ("index_low", w.DWORD)]
+    Information = _WindowsFileInformation
     signatures = {
         "CreateFileW": ([w.LPCWSTR,w.DWORD,w.DWORD,ctypes.c_void_p,w.DWORD,w.DWORD,w.HANDLE],w.HANDLE),
         "CreateDirectoryW": ([w.LPCWSTR,ctypes.c_void_p],w.BOOL),

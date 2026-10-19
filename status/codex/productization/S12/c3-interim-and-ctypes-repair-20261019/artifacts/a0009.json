@@ -1,0 +1,31 @@
+{
+  "schema_version": "r7-fixture-memory-static-review-v1",
+  "execution": "NONE",
+  "scope": "Shared trading-position setup and direct research bootstrap dependencies only. No active sampler/qualification evidence, processes, private data, DB, auth or network accessed; no source/Git changes.",
+  "conclusion": "The inspected setup intentionally depends on actual current host admission. No unbounded allocation or global retained-result cache was found in this bounded path. Static inspection cannot determine the source of the parent-reported GB-scale host pressure.",
+  "parent_reported_observation_not_independently_verified": "Current owning retry reached member151, whose10 setups errored with ResearchResourceError; available host memory approximately3.5GB was below approximately5.06GB required, then recovered after exit. No current full qualification PASS follows.",
+  "exact_chain": [
+    {"ref":"tests/product/test_trading_position_v02.py:15","detail":"Each case constructs TradingDispatchV02Tests and registers helper.doCleanups before helper.setUp at17."},
+    {"ref":"tests/product/test_trading_dispatch_v02.py:21","detail":"Constructs LiveAdmissionV02Tests; registers nested doCleanups before setup. dispatch/canonical journals receive close cleanups at29."},
+    {"ref":"tests/product/test_live_admission_v02.py:14","detail":"Fresh TemporaryDirectory per setup, cleanup registered immediately at15. Calls OperationalLifecycleTests.fixture at17; registers research/e6 closes at18-19."},
+    {"ref":"tests/registry/test_operational_lifecycle_v02.py:25","detail":"Writes finite selected/risk fixtures, constructs actual ResearchService in FIXTURE. try/except BaseException closes research if _complete_fixture fails at29-33."},
+    {"ref":"tests/registry/test_operational_lifecycle_v02.py:35","detail":"Calls actual research.run at37 with selected research/robustness/risk policies before constructing lifecycle graph, so position-only source cases repeatedly execute full research bootstrap."},
+    {"ref":"src/application/research/service.py:133","detail":"Actual inspect_hardware(self.root), conservative policy and admission at134-138 are unconditional for FIXTURE and LOCAL_RESEARCH. Resource failure precedes split/dataset resolution and replay at145 onward."},
+    {"ref":"src/application/platform/resources.py:116","detail":"inspect_hardware reads actual OS available physical memory; Windows GlobalMemoryStatusEx is defined at35-48. No reservation/allocation is made by inspection."},
+    {"ref":"src/application/platform/resources.py:144","detail":"admission rejects available physical memory below max(2GiB,15percent physical RAM), and disk below max(2GiB,5percent disk total). Soft budget is a policy number, not a buffer allocation."}
+  ],
+  "finite_work_and_retention": [
+    "tests/validation/robustness_fixtures.py:19-26 creates48 one-hour candles, partitions16/16/16; dataset_fixtures.py:52 creates one funding row per8hours, therefore6 rows. configured first writes12 rows, then overwrites with48; this is not additive growth.",
+    "robustness_fixtures.py:43 caps trials4, replays40, evaluations2000. test_research_pipeline.py:16 sets cost max_evaluations100. test_monte_carlo.py:5-10 selects20 resamples, max_path_observations10000.",
+    "ResearchService._active_run_context stores only family/run IDs; context at144 is local to one _run. diagnostic_report cache at125 is fetched from the per-fixture persistent journal, not a process-global result collection. close at273 closes ledger and journal.",
+    "No module-level growing list/dict, lru_cache, repeated GB buffer or unlimited worker creation is present in the inspected setup. This does not rule out native-library allocator retention, an uninspected downstream leak, or other host consumers; numeric process sampling is required to distinguish them."
+  ],
+  "minimal_options_without_guard_weakening": [
+    "Keep production ResearchService/ResourcePolicy unchanged. If rerunning actual-host source qualification, require genuine free capacity and retain actual admission/denial diagnostics; a later focused success is not replacement whole-run PASS.",
+    "If these source trading/lifecycle tests are intended to isolate semantic owner mechanics, an explicit scoped typed SYNTHETIC FIXTURE hardware observation in their shared bootstrap can remove unrelated host availability dependence while executing the real research pipeline. Do not replace ResearchOutcome, canonical candidate results, owner receipts or financial authority with PASS fixtures. Record such tests as source/synthetic-hardware evidence.",
+    "Separately retain actual-host admission and native PQR05 resource/capacity/timeout proofs. Synthetic unit observations cannot establish actual native resource capacity, memory isolation or process reaping."
+  ],
+  "recommended_meaningful_regression_if_fixture_isolation_selected": "Run shared semantic bootstrap against an explicitly controlled valid typed HardwareReport; assert real diagnostic/product assessment lineage still originates from actual bounded research. Independently exercise real ResourcePolicy low/high boundary and ResearchResourceError numeric observation propagation, without changing thresholds or permitting the native worker to bypass actual inspection.",
+  "source_files_read": ["tests/product/test_trading_position_v02.py","tests/product/test_trading_dispatch_v02.py","tests/product/test_live_admission_v02.py","tests/registry/test_operational_lifecycle_v02.py","src/application/research/service.py","src/application/platform/resources.py","tests/application/test_research_robustness.py","tests/validation/robustness_fixtures.py","tests/application/dataset_fixtures.py","tests/application/test_research_pipeline.py configured excerpt","tests/validation/test_monte_carlo.py fixture_policy excerpt"],
+  "qualification_claims_created": 0
+}

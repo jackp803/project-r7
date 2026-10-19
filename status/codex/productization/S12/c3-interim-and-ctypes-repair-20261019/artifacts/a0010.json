@@ -1,0 +1,98 @@
+{
+  "schema": "r7-guard-memory-static-advisory-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only repeated producer _guard/toolchain measurement/source-capability hashing and directly reached reader/process lifetime. No diagnostics/tests/native/network execution or private/runtime/evidence/process inspection.",
+  "conclusion": "A concrete plausible cumulative parent-memory mechanism exists: a new ctypes file-information type and pointer type are created on every protected Windows file read, amplified by every frozen-file guard. No attribution of the observed multi-GB host-pressure event is established without measurement.",
+  "inspected_sources": [
+    {
+      "ref": "src/application/paper/producer.py",
+      "sha256": "a89d656695e8e543a1ff7f533249de8debb48c88642cfc8b552692ef23a9183c",
+      "symbols": [
+        "_guard",
+        "qualify setup"
+      ]
+    },
+    {
+      "ref": "tools/paper_toolchain.py",
+      "sha256": "8fa30dbc2fdc3d65d942c758459a675331a8a582ddc0b5bffd26e1e4b611b945",
+      "symbols": [
+        "_hash",
+        "_inventory",
+        "_version",
+        "_windows_version",
+        "measure",
+        "require_same"
+      ]
+    },
+    {
+      "ref": "src/strategy/v02/capabilities.py",
+      "sha256": "3afe1d0dae8cadd9c6870e9c4492bb5e0b9f794e420772f0088da95d3adcd326",
+      "symbols": [
+        "_source_revision",
+        "_revision",
+        "build_capability_snapshot"
+      ]
+    },
+    {
+      "ref": "src/application/datasets/catalog.py",
+      "sha256": "a61cf385505c5b3e7c04a93020d908974376c2fcd6d9f7bedd94c782c33e2dde",
+      "symbols": [
+        "read_local"
+      ]
+    },
+    {
+      "ref": "src/application/cloud/safe_files.py",
+      "sha256": "3bdaa5afdc57d408fca69616bfe73aff5bd3da3d77f7b7f3dcdcfa151f4f06f5",
+      "symbols": [
+        "_windows_read"
+      ]
+    },
+    {
+      "ref": "src/application/platform/distribution.py",
+      "sha256": "ba1c415f680c8aedeeeca34b66b06d76017953bd7b7988ff68282926764c646d",
+      "symbols": [
+        "_hash",
+        "_inventory",
+        "verify_distribution"
+      ]
+    },
+    {
+      "ref": "src/application/platform/processes.py",
+      "sha256": "161baa59d1fc898ede493271cfcbc4f52d0a854c66b714897463fc0c3e78876d",
+      "symbols": [
+        "OwnedProcess.wait",
+        "_spawn_owned",
+        "terminate_owned",
+        "_WindowsJob.close"
+      ]
+    }
+  ],
+  "finding": {
+    "id": "WINDOWS-READER-CTYPES-TYPE-CACHE-GROWTH",
+    "severity": "Important plausible cumulative-memory defect; incident causality unproven",
+    "chain": [
+      "producer._guard lines124-125 reads every frozen source/tool/test input via catalog.read_local on every guard.",
+      "catalog.read_local lines37-41 dispatches each Windows read to safe_files._windows_read.",
+      "safe_files._windows_read lines36-39 declares a fresh local Information ctypes.Structure class on every call.",
+      "Line40 calls ctypes.POINTER(Information); CPython uses its process-global _pointer_type_cache for pointer types. A fresh distinct Structure type produces a fresh cache key/type rather than reusing a bounded ABI type.",
+      "Therefore completed local reads can leave their distinct type/pointer descriptors rooted process-wide even after file handles close and file bytes are released. Repeated before/after guards multiply this by the number of guarded files."
+    ],
+    "primary_runtime_source_context": "The local CPython3.12 ctypes/__init__.py exports _pointer_type_cache at255 and its explicit reset path clears that cache at265-274. No runtime cache contents were inspected.",
+    "scale": "Approximately twice the source-command count in guard calls, multiplied by the frozen-file count, can produce tens or hundreds of thousands of distinct type requests. Per-type retained bytes and actual aggregate RSS are not measured here; no GB estimate is asserted.",
+    "minimal_fix_direction": "Reuse a single stable fixed-ABI file-information structure/pointer (module-level Windows type or bounded lazy type factory). Keep actual file bytes/metadata/source identities fresh. Do not clear global ctypes caches and do not add a content/stat/PASS cache.",
+    "meaningful_owned_regression": "In a fresh owned isolated source process, perform repeated actual reads of a fresh nonsecret ordinary file, compare pre/post count of this reader's Information pointer-type entries and actual bytes; count should remain bounded after initialization. Retain existing linked/reparse and metadata/byte integrity refusals. Root can separately measure that isolated process private bytes/RSS/handle count before/after; no unrelated application changes are needed.",
+    "adjacent_note": "_windows_stage also declares a local Information type, but it is not part of _guard's repeated read chain. A shared ABI type can cover it without changing IO/authority semantics."
+  },
+  "bounded_or_short_lived_paths": [
+    "Toolchain _hash and distribution _hash stream1MiB chunks with context-managed handles, rather than retaining browser/interpreter/package bytes.",
+    "Toolchain _inventory builds a local path->digest dictionary and canonical string, returns only a digest; no module-global inventory/content cache or growing list was found.",
+    "_source_revision creates local pending/files collections and one fresh file buffer at a time; no cross-call inventory/stat/content cache is present.",
+    "build_capability_snapshot builds a finite9-entry snapshot from eight indicators plus grammar. The qualify setup builds measured capability identity once; _guard itself calls fresh source hashes rather than accumulating snapshots.",
+    "Toolchain _version TemporaryFile is context-managed and output read is4096bytes. OwnedProcess.wait invokes terminate_owned; timer is cancelled and a successfully reaped Windows Job handle is closed. No success-path unbounded open-file/Job-handle list was found in this chain."
+  ],
+  "no_claims": [
+    "The parent-reported memory-pressure failure and post-parent available-memory rebound were not independently observed by this reviewer.",
+    "This static mechanism is compatible with cumulative process memory and release at parent exit, but does not establish the cause or amount of the actual host-memory deficit.",
+    "No source/native/PQR result or acceptance credit is issued. Any fix changes the source subject and needs its own actual regression and qualification."
+  ]
+}

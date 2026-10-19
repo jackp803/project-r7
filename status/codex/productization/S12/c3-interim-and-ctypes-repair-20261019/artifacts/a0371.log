@@ -1,0 +1,335 @@
+test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak) ... ERROR
+test_copied_mutated_stale_or_old_generation_position_cannot_create_projection (test_trading_position_v02.TradingPositionV02Tests.test_copied_mutated_stale_or_old_generation_position_cannot_create_projection) ... ERROR
+test_empty_position_response_and_stale_owner_version_are_denied_without_projection (test_trading_position_v02.TradingPositionV02Tests.test_empty_position_response_and_stale_owner_version_are_denied_without_projection) ... ERROR
+test_native_price_disagreement_with_complete_entry_facts_fails_closed (test_trading_position_v02.TradingPositionV02Tests.test_native_price_disagreement_with_complete_entry_facts_fails_closed) ... ERROR
+test_native_quantity_disagreement_with_complete_entry_facts_fails_closed (test_trading_position_v02.TradingPositionV02Tests.test_native_quantity_disagreement_with_complete_entry_facts_fails_closed) ... ERROR
+test_new_native_position_identity_cannot_reattest_the_original_e5_instance (test_trading_position_v02.TradingPositionV02Tests.test_new_native_position_identity_cannot_reattest_the_original_e5_instance) ... ERROR
+test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation (test_trading_position_v02.TradingPositionV02Tests.test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation) ... ERROR
+test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post (test_trading_position_v02.TradingPositionV02Tests.test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post) ... ERROR
+test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http) ... ERROR
+test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider (test_trading_position_v02.TradingPositionV02Tests.test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider) ... ERROR
+
+======================================================================
+ERROR: test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak (test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4512808960,"disk_free_bytes":335516323840,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_copied_mutated_stale_or_old_generation_position_cannot_create_projection (test_trading_position_v02.TradingPositionV02Tests.test_copied_mutated_stale_or_old_generation_position_cannot_create_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4419149824,"disk_free_bytes":335516323840,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_empty_position_response_and_stale_owner_version_are_denied_without_projection (test_trading_position_v02.TradingPositionV02Tests.test_empty_position_response_and_stale_owner_version_are_denied_without_projection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4377260032,"disk_free_bytes":335516258304,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_native_price_disagreement_with_complete_entry_facts_fails_closed (test_trading_position_v02.TradingPositionV02Tests.test_native_price_disagreement_with_complete_entry_facts_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4124758016,"disk_free_bytes":335516258304,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_native_quantity_disagreement_with_complete_entry_facts_fails_closed (test_trading_position_v02.TradingPositionV02Tests.test_native_quantity_disagreement_with_complete_entry_facts_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4124372992,"disk_free_bytes":335516270592,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_new_native_position_identity_cannot_reattest_the_original_e5_instance (test_trading_position_v02.TradingPositionV02Tests.test_new_native_position_identity_cannot_reattest_the_original_e5_instance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4112539648,"disk_free_bytes":335516332032,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation (test_trading_position_v02.TradingPositionV02Tests.test_pending_stop_facts_require_fresh_native_position_and_actual_e5_reattestation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4120629248,"disk_free_bytes":335516270592,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post (test_trading_position_v02.TradingPositionV02Tests.test_prior_unbound_protection_claim_blocks_another_initial_stop_before_post)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4118667264,"disk_free_bytes":335516270592,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http (test_trading_position_v02.TradingPositionV02Tests.test_projection_publication_failure_replays_exact_bundle_after_process_restart_without_http)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":4045217792,"disk_free_bytes":335516332032,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+======================================================================
+ERROR: test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider (test_trading_position_v02.TradingPositionV02Tests.test_provider_changed_during_native_read_cannot_issue_the_old_response_to_new_provider)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_position_v02.py", line 17, in setUp
+    self.addCleanup(self.helper.doCleanups);self.helper.setUp();self.fixture=self.helper.fixture
+                                            ^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_dispatch_v02.py", line 24, in setUp
+    self.fixture.setUp()
+  File "<SOURCE_ROOT>\tests\product\test_live_admission_v02.py", line 17, in setUp
+    self.owner,self.research,self.helper.run_id,self.identity,self.boundary,self.auth,self.clock,self.release,self.envelope=self.helper.fixture(self.root)
+                                                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 30, in fixture
+    return self._complete_fixture(root,research)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\registry\test_operational_lifecycle_v02.py", line 37, in _complete_fixture
+    result=research.run(submission_id='fixture',definition=subject(),dataset_ref='dataset.json',split_policy_ref='split.json',
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 86, in run
+    return self._run(submission_id=submission_id,definition=definition,dataset_ref=dataset_ref,split_policy_ref=split_policy_ref,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 143, in _run
+    admission=self.orchestrator.execute(run_id,admission_stage,inputs,admit)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\orchestrator.py", line 18, in execute
+    try: result=operation(claim)
+                ^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\service.py", line 138, in admit
+    if not decision.allowed: raise ResearchResourceError(decision.reason_codes[0],hardware,policy)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.research.service.ResearchResourceError: RESEARCH_MEMORY_PRESSURE {"available_memory_bytes":3502206976,"disk_free_bytes":335516270592,"disk_total_bytes":991139196928,"minimum_available_memory_bytes":5060439859,"minimum_disk_free_bytes":49556959846,"physical_memory_bytes":33736265728}
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.353s
+
+FAILED (errors=10)

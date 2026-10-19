@@ -12,6 +12,15 @@ from application.platform.paths import existing_ancestor
 GIB = 1024**3
 
 
+if os.name == 'nt':
+    # Repeated monitoring must not add a new globally cached POINTER input type.
+    class _WindowsMemoryStatus(ctypes.Structure):
+        _fields_ = [("length", ctypes.c_ulong), ("load", ctypes.c_ulong)] + [
+            (name, ctypes.c_ulonglong) for name in (
+                "total_phys", "avail_phys", "total_page", "avail_page",
+                "total_virtual", "avail_virtual", "avail_extended")]
+
+
 @dataclass(frozen=True)
 class HardwareReport:
     cpu_model: str
@@ -32,15 +41,10 @@ class HardwareReport:
 
 
 def _windows_memory():
-    class MemoryStatus(ctypes.Structure):
-        _fields_ = [("length", ctypes.c_ulong), ("load", ctypes.c_ulong)] + [
-            (name, ctypes.c_ulonglong) for name in (
-                "total_phys", "avail_phys", "total_page", "avail_page",
-                "total_virtual", "avail_virtual", "avail_extended")]
-    status = MemoryStatus()
+    status = _WindowsMemoryStatus()
     status.length = ctypes.sizeof(status)
     function = ctypes.WinDLL("kernel32", use_last_error=True).GlobalMemoryStatusEx
-    function.argtypes = [ctypes.POINTER(MemoryStatus)]
+    function.argtypes = [ctypes.POINTER(_WindowsMemoryStatus)]
     function.restype = ctypes.c_int
     if not function(ctypes.byref(status)):
         raise ctypes.WinError(ctypes.get_last_error())

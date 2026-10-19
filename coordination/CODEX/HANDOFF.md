@@ -1,3 +1,39 @@
+# Windows ABI lifetime repair and c3 actual checkpoint - 2026-10-19
+
+Same Master task and implementation branch. Main fetched unchanged7d1f447.
+Historical exact-clean c3f4f2a build PASS, scoped native04 PASS7/7, actual
+fresh ZIP install PASS1107byte-identical files/8scenarios9commands, headless
+start/duplicate/stop/control crash/coordinator crash/recovery PASS. These
+scoped successes remain valid for c3 only, not complete ordinary Paper.
+
+Full owning first attempt failed after105source commands PASS: source106
+13cases/2errors after actual lid Modern Standby/hibernation. Same-source
+post-resume13PASS. Owning retry01 passed150source commands, then source151
+10setup errors: actual host memory below unchanged15%physical admission.
+No failed receipt is promoted or stitched. All actual owned trees reaped.
+User confirmed plug-in/lid-open/awake; no OS settings modified.
+
+Independent static review found per-call ctypes POINTER input types retained
+globally. Actual32read/stage/hardware regressions RED3failures, then GREEN;
+66focused/affected checks and12frozen-inventory checks PASS.
+Inventory7groups/160commands/2428source-case executions/296files. Minimal Windows-only shared ABI type repair
+keeps new instances, file-content/hash/reparse/hardlink checks and resource
+thresholds. Actual5000reads/50stages/100hardware samples: retained new types
+5200before/0after; peak owned RSS93442048before/53473280after. Diagnostic only;
+full incident causality not established, host pressure may coexist.
+Independent review0Critical/0Important; executionNONE.
+
+374sanitized artifacts with original/retained hashes and typed failed receipts:
+status/codex/productization/S12/c3-interim-and-ctypes-repair-20261019/.
+Next build NEW exact-clean candidate, full owning PQR/native software readback,
+then portable/headless/unattended diagnostic/qualified backup and semantic
+66+150 disposition. No old success transfer. Policies/forward/old target/
+Ubuntu/cloud stay distinct. Public8requests/8responses cumulative, additional0,
+private0/credentialsNONE/mutation0/capitalNONE/GitHubcomputeNOT_USED.
+Master IN_PROGRESS. All earlier history preserved below.
+
+---
+
 # Native snapshot long path and bounded product mapping repair - 2026-10-19
 
 Same task/branch; main unchanged7d1f447. Exact-clean f6f9fb4 built, scoped

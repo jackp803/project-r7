@@ -1,0 +1,32 @@
+test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types) ... FAIL
+test_repeated_atomic_staging_does_not_retain_per_write_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_atomic_staging_does_not_retain_per_write_types) ... FAIL
+test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types) ... FAIL
+
+======================================================================
+FAIL: test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_windows_ctypes_lifetime.py", line 55, in test_repeated_actual_hardware_sampling_does_not_retain_per_sample_types
+    self.assertEqual(len(retained_pointer_inputs('application.platform.resources') - before), 0)
+AssertionError: 32 != 0
+
+======================================================================
+FAIL: test_repeated_atomic_staging_does_not_retain_per_write_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_atomic_staging_does_not_retain_per_write_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_windows_ctypes_lifetime.py", line 44, in test_repeated_atomic_staging_does_not_retain_per_write_types
+    self.assertEqual(len(retained_pointer_inputs('application.cloud.safe_files') - before), 0)
+AssertionError: 96 != 0
+
+======================================================================
+FAIL: test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types (tests.application.test_windows_ctypes_lifetime.WindowsCtypesLifetimeTests.test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_windows_ctypes_lifetime.py", line 31, in test_repeated_opened_reads_keep_fresh_bytes_without_retaining_per_read_types
+    self.assertEqual(len(retained_pointer_inputs('application.cloud.safe_files') - before), 0)
+AssertionError: 32 != 0
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.411s
+
+FAILED (failures=3)

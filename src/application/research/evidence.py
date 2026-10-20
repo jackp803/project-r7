@@ -47,6 +47,42 @@ class ResearchClaim:
     owner_id: str
     lease_generation: int
 
+
+def require_feedback_subject(feedback,run):
+    """Pure existing owner/input lineage check, shared by writer and RO history."""
+    if run is None or not isinstance(run['input_json'],str) or digest(run['input_json'].encode())!=run['input_hash']:
+        raise ResearchEvidenceConflict('Actual feedback run required')
+    inputs=json.loads(run['input_json']);strategy=inputs['strategy']
+    if (feedback['run_id']!=run['run_id'] or feedback['namespace']!=inputs['namespace'] or feedback['strategy']!={
+            **{key:strategy[key] for key in ('strategy_id','strategy_version','content_hash')},**strategy['runtime_compatibility']}
+            or feedback['dataset']['manifest_hash']!=inputs['dataset_manifest_hash']
+            or feedback['split']['policy_hash']!=inputs['split_policy_hash']):
+        raise ResearchEvidenceConflict('Actual feedback subject required')
+    return inputs
+
+
+def checked_feedback_record(row,run):
+    """Validate the actual persisted report/bundle; never generate a report."""
+    from application.cloud.feedback import validate_feedback_publication
+    from application.cloud.manifest import byte_hash,canonical_bytes
+    from application.cloud.protocol import ArtifactBundle
+    if any(not isinstance(row[key],str) for key in ('feedback_json','payloads_json')):
+        raise ResearchEvidenceConflict('Feedback output must be text')
+    raw=row['feedback_json'].encode('utf-8');encoded=row['payloads_json'].encode('utf-8')
+    if len(raw)>256*1024 or len(encoded)>1024*1024 or byte_hash(raw)!=row['feedback_hash']:
+        raise ResearchEvidenceConflict('Feedback output hash mismatch')
+    decoded=json.loads(encoded)
+    if not isinstance(decoded,dict) or any(not isinstance(value,str) for value in decoded.values()):
+        raise ResearchEvidenceConflict('Feedback payload mapping required')
+    payloads={name:value.encode('utf-8') for name,value in decoded.items()}
+    validate_feedback_publication(row['logical_path'],payloads)
+    if (payloads['feedback.json']!=raw or
+            byte_hash(canonical_bytes({name:byte_hash(value) for name,value in payloads.items()}))!=row['artifact_hash'] or
+            row['operation_id']!='r7-feedback-'+row['feedback_hash'][7:]):
+        raise ResearchEvidenceConflict('Feedback bundle hash mismatch')
+    require_feedback_subject(json.loads(raw),run)
+    return ArtifactBundle(row['logical_path'],payloads)
+
 class ResearchJournal:
     def __init__(self,path):
         path=Path(path).absolute(); require_local_database_volume(path)
@@ -118,14 +154,7 @@ class ResearchJournal:
         from application.cloud.manifest import byte_hash,canonical_bytes
         bundle=feedback_bundle(feedback)
         run_id=feedback['run_id'];row=self._db.execute('SELECT * FROM research_runs WHERE run_id=?',(run_id,)).fetchone()
-        if row is None or digest(row['input_json'].encode())!=row['input_hash']:
-            raise ResearchEvidenceConflict('Actual feedback run required')
-        inputs=json.loads(row['input_json']);strategy=inputs['strategy']
-        if (feedback['namespace']!=inputs['namespace'] or feedback['strategy']!={
-                **{key:strategy[key] for key in ('strategy_id','strategy_version','content_hash')},**strategy['runtime_compatibility']}
-                or feedback['dataset']['manifest_hash']!=inputs['dataset_manifest_hash']
-                or feedback['split']['policy_hash']!=inputs['split_policy_hash']):
-            raise ResearchEvidenceConflict('Actual feedback subject required')
+        require_feedback_subject(feedback,row)
         raw=canonical_bytes(feedback);h=byte_hash(raw)
         payloads=canonical({name:value.decode('utf-8') for name,value in bundle.payloads.items()})
         artifact=byte_hash(canonical_bytes({name:byte_hash(value) for name,value in bundle.payloads.items()}))
@@ -148,19 +177,11 @@ class ResearchJournal:
                 (operation,run_id,raw.decode('utf-8'),h,bundle.logical_path,payloads,artifact,'PENDING',0,stamp(now)))
         return operation
     def pending_feedback_publications(self,limit,*,include_local_staged=True):
-        from application.cloud.feedback import validate_feedback_publication
-        from application.cloud.manifest import byte_hash,canonical_bytes
-        from application.cloud.protocol import ArtifactBundle
         if type(limit) is not int or not 1<=limit<=100 or type(include_local_staged) is not bool:raise ValueError('Bounded feedback batch required')
         result=[]
         for row in self._db.execute("SELECT * FROM research_feedback_publications WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') AND (state!='LOCAL_STAGED' OR ?) ORDER BY operation_id LIMIT ?",(include_local_staged,limit)).fetchall():
-            if byte_hash(row['feedback_json'].encode('utf-8'))!=row['feedback_hash']:
-                raise ResearchEvidenceConflict('Feedback output hash mismatch')
-            payloads={name:value.encode('utf-8') for name,value in json.loads(row['payloads_json']).items()}
-            validate_feedback_publication(row['logical_path'],payloads)
-            if payloads['feedback.json']!=row['feedback_json'].encode('utf-8') or byte_hash(canonical_bytes({name:byte_hash(raw) for name,raw in payloads.items()}))!=row['artifact_hash']:
-                raise ResearchEvidenceConflict('Feedback bundle hash mismatch')
-            result.append((row['operation_id'],ArtifactBundle(row['logical_path'],payloads),row['artifact_hash']))
+            run=self._db.execute('SELECT * FROM research_runs WHERE run_id=?',(row['run_id'],)).fetchone()
+            result.append((row['operation_id'],checked_feedback_record(row,run),row['artifact_hash']))
         return tuple(result)
     def record_feedback_publication(self,operation_id,status,*,artifact_hash=None):
         if status not in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED','UNAVAILABLE','CONFLICT'):raise ValueError('Exact publication status required')

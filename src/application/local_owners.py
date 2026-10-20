@@ -110,7 +110,11 @@ class LocalOwners:
         reader = PaperReadControlPort(namespace=self.namespace, clock=self.clock,
             process_factory=lambda: open_paper_process_journal(self.config.database_path),
             canonical_factory=lambda: open_paper_runtime_journal(self.config.database_path))
+        from application.cloud.publication_history import ResearchPublicationReadPort,PaperPublicationReadPort
         return OwnerControlServices(self.config, namespace=self.namespace, clock=self.clock,
             registry_factory=self.registry_factory, intake_factory=self.intake_factory,
             inbox_factory=self.inbox_factory, research_queue=self.queue, research_resolver=self.resolver,
-            paper_reader=reader,paper_start=paper_start)
+            paper_reader=reader,paper_start=paper_start,
+            research_publications=ResearchPublicationReadPort(queue_path=self.config.local_data_root/'queue.sqlite',
+                research_path=self.config.local_data_root/'research.sqlite',namespace=self.namespace),
+            paper_publications=PaperPublicationReadPort(process_path=self.config.database_path,namespace=self.namespace))

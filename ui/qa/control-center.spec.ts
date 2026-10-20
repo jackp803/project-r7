@@ -2,7 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 import {startPaperViaUI} from '../../tools/paper_start_browser.mjs';
 
-const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773',delivery:'http://127.0.0.1:8774'};
+const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773',delivery:'http://127.0.0.1:8774','report-research':'http://127.0.0.1:8775','report-paper':'http://127.0.0.1:8776'};
 const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser');
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
@@ -12,6 +12,43 @@ async function login(page:Page,profile:keyof typeof origins){
   await page.getByRole('button',{name:'登入',exact:true}).click();
   await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
 }
+
+test('research report history displays actual owner delivery and original hashes',async({page})=>{
+  const origin=origins['report-research'];const remote:string[]=[];
+  page.on('request',request=>{if(!request.url().startsWith(origin))remote.push(request.url());});
+  await login(page,'report-research');await page.getByRole('link',{name:'研究',exact:true}).click();
+  const jobs=await (await page.request.get(origin+'/api/v1/research/runs')).json();
+  expect(jobs.data.items).toHaveLength(3);const states:string[]=[];
+  for(const job of jobs.data.items){
+    const response=await page.request.get(origin+'/api/v1/research/runs/'+job.run_id+'/publications');expect(response.status()).toBe(200);
+    const report=(await response.json()).data.items[0];states.push(report.state);
+    expect(report.run_id).toBe(job.owner_run_id);expect(report.run_id).not.toBe(job.run_id);
+    await page.getByRole('row').filter({hasText:job.run_id}).getByRole('button',{name:'查看研究',exact:true}).click();
+    const history=page.getByTestId('report-publications');await expect(history).toContainText('LOCAL_COPY_FIXTURE_ONLY');
+    const row=history.getByRole('row').filter({hasText:report.operation_id});
+    for(const key of ['state','artifact_hash','feedback_hash','queued_at','run_id'])await expect(row).toContainText(report[key]);
+    await expect(history).toContainText('不代表雲端目前可連線');
+    await page.screenshot({path:path.join(artifacts,'research-report-'+report.state+'.png'),fullPage:true});
+  }
+  expect(states.sort()).toEqual(['CLOUD_ACKNOWLEDGED','CONFLICT','LOCAL_STAGED']);expect(remote).toEqual([]);
+});
+
+test('paper report history preserves actual checkpoint producer and delivery states',async({page})=>{
+  const origin=origins['report-paper'];await login(page,'report-paper');
+  await page.getByRole('link',{name:'交易',exact:true}).click();
+  const runs=await (await page.request.get(origin+'/api/v1/paper/runs')).json();expect(runs.data.items).toHaveLength(1);
+  const run=runs.data.items[0];const response=await page.request.get(origin+'/api/v1/paper/runs/'+run.run_id+'/publications');
+  expect(response.status()).toBe(200);const reports=(await response.json()).data.items;expect(reports).toHaveLength(3);
+  await page.getByRole('button',{name:'查看 PAPER',exact:true}).click();const history=page.getByTestId('report-publications');
+  await expect(history).toContainText('LOCAL_COPY_FIXTURE_ONLY');
+  for(const report of reports){
+    const row=history.getByRole('row').filter({hasText:report.operation_id});
+    for(const key of ['state','artifact_hash','feedback_hash','queued_at'])await expect(row).toContainText(report[key]);
+    await expect(row).toContainText('Checkpoint '+report.run_revision+' · 程序世代 '+report.process_generation);
+  }
+  expect(reports.map((row:any)=>row.state).sort()).toEqual(['CLOUD_ACKNOWLEDGED','CONFLICT','LOCAL_STAGED']);
+  await page.screenshot({path:path.join(artifacts,'paper-report-history.png'),fullPage:true});
+});
 
 test('empty views use actual nulls, Traditional Chinese and persistent fixture labels',async({page})=>{
   const remote:string[]=[];

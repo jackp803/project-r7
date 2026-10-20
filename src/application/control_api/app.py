@@ -11,7 +11,7 @@ from application.control_api.auth import LocalAuth, AuthenticationError
 from application.control_api.commands import CommandLedger, CommandError, CommandClaim
 from application.control_api.dto import (
     ApprovalDTO, ApprovalPreviewQuery, ApprovalPreviewView, CapabilitiesView, CommandDTO, CommandReceipt, DeploymentActivateDTO, DeploymentPauseDTO,
-    ErrorResponse, HealthView, LoginDTO, OverviewView, OwnerObjectView, PageQuery, PageView,
+    ErrorResponse, HealthView, LoginDTO, OverviewView, OwnerObjectView, PageQuery, PublicationPageQuery, PageView,
     PaperStartDTO, ReauthenticationDTO, ResearchEnqueueDTO, SettingsDTO, SettingsView, TradingView, ViewEnvelope,
     AuthStatusView, LoginView, SessionView, LogoutView,
 )
@@ -168,6 +168,10 @@ def create_app(config: ProductConfig, *, auth: LocalAuth, commands: CommandLedge
     @app.get('/api/v1/research/runs/{run_id}', response_model=ViewEnvelope[OwnerObjectView])
     async def research_run(request: Request, run_id: str): return view(request, 'research_runs', subject=run_id)
 
+    @app.get('/api/v1/research/runs/{run_id}/publications',response_model=ViewEnvelope[PageView])
+    async def research_publications(request:Request,run_id:str,query:Annotated[PublicationPageQuery,Query()]):
+        return view(request,'research_publications',subject=run_id,limit=query.limit,offset=query.offset)
+
     @app.get('/api/v1/strategies/{strategy_id}/{strategy_version}', response_model=ViewEnvelope[OwnerObjectView])
     async def strategy(request: Request, strategy_id: str, strategy_version: str):
         return view(request, 'strategies', subject=(strategy_id, strategy_version))
@@ -178,6 +182,10 @@ def create_app(config: ProductConfig, *, auth: LocalAuth, commands: CommandLedge
 
     @app.get('/api/v1/paper/runs/{run_id}', response_model=ViewEnvelope[OwnerObjectView])
     async def paper_run(request: Request, run_id: str): return view(request, 'paper_runs', subject=run_id)
+
+    @app.get('/api/v1/paper/runs/{run_id}/publications',response_model=ViewEnvelope[PageView])
+    async def paper_publications(request:Request,run_id:str,query:Annotated[PublicationPageQuery,Query()]):
+        return view(request,'paper_publications',subject=run_id,limit=query.limit,offset=query.offset)
 
     responses = {status: dict(model=ErrorResponse) for status in (401, 403, 409, 422, 503)}
 

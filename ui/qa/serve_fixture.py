@@ -22,9 +22,10 @@ import unittest
 import uvicorn
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed','delivery'],required=True)
+    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed','delivery','report-research','report-paper'],required=True)
     parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
-    scratch=Path(os.environ['R7_BROWSER_ARTIFACT_ROOT'])/args.profile if 'R7_BROWSER_ARTIFACT_ROOT' in os.environ else ROOT.parent.parent/'artifacts/S11-browser'/args.profile
+    scratch_base=Path(os.environ.get('R7_BROWSER_SCRATCH_ROOT',os.environ.get('R7_BROWSER_ARTIFACT_ROOT',str(ROOT.parent.parent/'artifacts/S11-browser'))))
+    scratch=scratch_base/args.profile
     scratch.mkdir(parents=True,exist_ok=True)
     tempfile.tempdir=str(scratch)
     if args.profile=='empty':
@@ -37,8 +38,11 @@ def main():
         from tests.product.test_api_deployment_controls import APIDeploymentControlTests
         helper=APIDeploymentControlTests(methodName='runTest');helper.setUp();helper.control()
         fixture=helper.fixture;owners=fixture.app.state.owners
-    elif args.profile in ('research','temporal','failed','delivery'):
+    elif args.profile in ('research','temporal','failed','delivery','report-research'):
         fixture=APIOwnerServicesTests(); fixture.setUp(); owners=fixture.owners
+        if args.profile=='report-research':
+            from tests.application.report_delivery_fixtures import prepare_research_reports
+            prepare_research_reports(fixture)
         if args.profile=='delivery':
             from tests.application.cloud_delivery_fixtures import prepare_delivery
             prepare_delivery(fixture)
@@ -71,12 +75,17 @@ def main():
             (folder/'manifest.json').write_bytes(encoded(manifest))
     else:
         fixture=APIPaperServicesTests(); fixture.setUp()
+        if args.profile=='report-paper':
+            from tests.application.report_delivery_fixtures import prepare_paper_reports
+            prepare_paper_reports(fixture)
         if args.profile=='protected':
             _,_,run_id=fixture.api_start(); runtime=fixture.h.service.runtime(run_id)
             runtime.on_market_event(fixture.h.event(0,bars=True)); runtime.on_market_event(fixture.h.event(1))
         owners=OwnerControlServices(fixture.config,namespace='FIXTURE',clock=lambda:fixture.h.clock[0],
             registry_factory=lambda:open_sqlite_platform(fixture.path,research_namespace='FIXTURE'),
             paper_reader=fixture.reader,paper_start=fixture.start_port)
+        from application.cloud.publication_history import PaperPublicationReadPort
+        owners.paper_publications=PaperPublicationReadPort(process_path=fixture.h.root/'runtime.sqlite',namespace='FIXTURE')
     fixture.client.close()
     config=replace(fixture.config,control_api_port=args.port)
     if owners is not None: owners.config=config

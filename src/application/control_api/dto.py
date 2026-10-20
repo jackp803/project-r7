@@ -96,6 +96,10 @@ class PageQuery(StrictDTO):
     offset: Annotated[int, Field(ge=0, le=100000)] = 0
 
 
+class PublicationPageQuery(PageQuery):
+    limit: Annotated[int, Field(ge=1, le=100)] = 20
+
+
 class ApprovalPreviewQuery(StrictDTO):
     model_config = ConfigDict(extra='forbid', strict=False)
     envelope_ref: Identifier

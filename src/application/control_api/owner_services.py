@@ -13,12 +13,16 @@ from storage.runtime_models import RuntimePersistenceError
 
 class OwnerControlServices(LocalControlServices):
     def __init__(self, config, *, namespace, clock, registry_factory, intake_factory=None, inbox_factory=None,
-                 research_queue=None, research_resolver=None, paper_reader=None, paper_start=None, approval=None, deployment=None):
+                 research_queue=None, research_resolver=None, paper_reader=None, paper_start=None, approval=None, deployment=None,
+                 research_publications=None, paper_publications=None):
         super().__init__(config, namespace=namespace, clock=clock)
         if not callable(registry_factory): raise ValueError('Actual E6 registry factory required')
         self.registry_factory, self.intake_factory, self.inbox_factory = registry_factory, intake_factory, inbox_factory
         self.queue, self.resolver = research_queue, research_resolver
         self.paper_reader, self.paper_start, self.approval, self.deployment = paper_reader, paper_start, approval, deployment
+        self.research_publications,self.paper_publications=research_publications,paper_publications
+        for port in (research_publications,paper_publications):
+            if port is not None and port.namespace!=namespace:raise ValueError('Same namespace publication reader required')
         if research_queue is not None and research_queue.namespace != namespace: raise ValueError('Same namespace research queue required')
         with self._db() as db:
             db.executescript('''CREATE TABLE IF NOT EXISTS control_scans(singleton INTEGER PRIMARY KEY CHECK(singleton=1),revision INTEGER NOT NULL);
@@ -48,6 +52,14 @@ class OwnerControlServices(LocalControlServices):
         return value
 
     def view(self,name,*,subject=None,limit=50,offset=0):
+        if name in ('research_publications','paper_publications'):
+            from application.cloud.publication_history import PublicationHistoryError
+            reader=self.research_publications if name=='research_publications' else self.paper_publications
+            if reader is None:raise APIError('UNAVAILABLE','REPORT_PUBLICATION_HISTORY_NOT_CONFIGURED',503)
+            try:return reader.history(subject,limit=limit,offset=offset)
+            except PublicationHistoryError as error:
+                if error.code=='INVALID_PAGE':raise APIError('INVALID_INPUT',error.code,422) from None
+                raise APIError('UNAVAILABLE','REPORT_PUBLICATION_HISTORY_UNAVAILABLE',503) from None
         if name=='alerts' and self.queue is not None:
             try:page=self.queue.failed_alert_page(limit=limit,offset=offset)
             except ResearchQueueError:

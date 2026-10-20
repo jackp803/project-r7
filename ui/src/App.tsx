@@ -65,6 +65,20 @@ function PageButtons({page,offset,setOffset}:{page:Schema['PageView'];offset:num
     <small>此頁 {page.items.length} 筆；總筆數 {page.total??'未提供'}</small>
     <button disabled={offset>=100000||(page.total===null?page.items.length<page.limit:offset+page.limit>=page.total)} onClick={()=>setOffset(Math.min(100000,offset+page.limit))}>下一頁</button></div>;
 }
+function ReportHistory({path,props}:{path:string;props:Common}){
+  const [offset,setOffset]=useState(0);
+  const history=useView<Schema['PageView']>(`${path}/publications?limit=20&offset=${offset}`,props.refresh);
+  return <Panel title="報告交付歷史"><div data-testid="report-publications">
+    <p className="hint">確認狀態保留原始報告的目的端位元組讀回結果，不代表雲端目前可連線。排入時間不是目的端確認時間。</p>
+    {props.session.namespace==='FIXTURE'&&<p className="hint">LOCAL_COPY_FIXTURE_ONLY：FIXTURE 僅驗證隔離本機複製；真實雲端 NOT_RUN。</p>}
+    <Frame view={history} zone={props.zone}>{page=><><Badge value={page.status}/><Reasons codes={page.reason_codes}/>
+      {page.items.length===0?<p>{page.status==='NOT_RUN'?'報告尚未產生':'此頁尚無已排入的報告'}</p>:<div className="table-wrap"><table><thead><tr><th>報告操作／原始來源</th><th>交付結果</th><th>原始報告雜湊</th><th>排入時間</th></tr></thead>
+      <tbody>{rows(page.items).map(row=><tr key={text(row.operation_id)}><td><code>{text(row.operation_id)}</code><small className="block">{text(row.run_id)}</small>
+        {row.run_revision!=null&&<small className="block">Checkpoint {text(row.run_revision)} · 程序世代 {text(row.process_generation)}</small>}</td>
+        <td><Publication value={row}/><small className="block">交付嘗試 {text(row.attempts)}</small></td><td><code>{text(row.feedback_hash)}</code></td>
+        <td>{utcDisplay(row.queued_at,props.zone)}<small className="block"><code>{text(row.queued_at)}</code></small></td></tr>)}</tbody></table></div>}
+      <PageButtons page={page} offset={offset} setOffset={setOffset}/></>}</Frame></div></Panel>;
+}
 function Temporal({value}:{value:Row}){const facts=temporalFacts(value);return <dl><dt>評估週期</dt><dd>{facts.evaluation}</dd><dt>進場有效期間</dt><dd>{facts.validity}</dd><dt>最長持倉</dt><dd>{facts.maxHold}</dd></dl>;}
 
 function Overview(props:Common){
@@ -108,6 +122,7 @@ function Research(props:Common){
     </Panel>
     <Panel title="研究工作"><p className="hint">停止研究採合作取消，保留輸入、已完成階段與 OOS 觀察紀錄。</p><Frame view={jobs} zone={props.zone}>{page=><><Reasons codes={page.reason_codes}/>{page.items.length===0?<p>尚無資料</p>:<div className="table-wrap"><table><thead><tr><th>工作 ID</th><th>狀態</th><th>實際階段</th><th>操作</th></tr></thead><tbody>{rows(page.items).map(row=><tr key={text(row.run_id)}><td><code>{text(row.run_id)}</code></td><td><Badge value={row.state}/><Reasons codes={row.reason_codes}/></td><td>{text(row.stage)}<small className="block">{progressLabel(row.completed_count,row.total_count)}</small></td><td><button onClick={()=>setSelectedRun(text(row.run_id))}>查看研究</button><button disabled={props.busy||!['QUEUED','RUNNING','CANCEL_REQUESTED'].includes(text(row.state))} onClick={()=>void props.run('/api/v1/research/runs/'+encodeURIComponent(text(row.run_id))+'/cancel',{command_id:commandId(),expected_revision:revision(row.revision)})}>停止研究</button></td></tr>)}</tbody></table></div>}<PageButtons page={page} offset={jobsOffset} setOffset={setJobsOffset}/></>}</Frame>
       {selectedRun&&<Frame view={runDetail} zone={props.zone}>{value=><div className="detail"><h3>研究 {selectedRun}</h3><Badge value={value.status}/><Reasons codes={value.reason_codes}/><JsonDetail value={value.payload?.evidence} title="樣本、成本、不確定性、試驗與 train / development / sealed OOS 來源"/><JsonDetail value={value.payload} title="階段、輸入與擁有者 lineage"/></div>}</Frame>}</Panel>
+    {selectedRun&&<ReportHistory key={selectedRun} path={'/api/v1/research/runs/'+encodeURIComponent(selectedRun)} props={props}/>}
   </>;
 }
 
@@ -194,7 +209,8 @@ function Strategies(props:Common){
           <label>PAPER 政策<select aria-label="PAPER 政策" value={policy} required onChange={e=>setPolicy(e.target.value)}><option value="">請選擇已設定政策</option>{allowed.map(row=><option value={text(row.policy_id)} key={text(row.policy_id)}>{text(row.policy_id)} · {text(row.mode)}</option>)}</select></label>
           <button type="submit" disabled={props.busy||record.current_lifecycle_state!=='CANDIDATE'||!allowed.some(row=>row.policy_id===policy&&row.workflow_authorized===true)}>開始 PAPER</button></form>
         {record.deployment?<DeploymentControls key={text(object(record.deployment).deployment_id)+':'+text(value.revision)} record={record} props={props}/>:<FinancialApproval key={text(identity.strategy_id)+':'+text(identity.strategy_version)+':'+text(record.content_hash)+':'+text(value.revision)} record={record} props={props}/>}
-      </Panel>;}}</Frame>}</>;
+      </Panel>;}}</Frame>}
+  </>;
 }
 
 function Trading(props:Common){
@@ -214,7 +230,9 @@ function Trading(props:Common){
         {rows(run.orders).length===0?<p>尚無資料</p>:<div className="table-wrap"><table><thead><tr><th>Client order ID／角色</th><th>原始 ACK</th><th>目前狀態</th><th>實際成交量</th><th>成交證據</th></tr></thead><tbody>{rows(run.orders).map(row=><tr key={text(row.client_order_id)}><td><code>{text(row.client_order_id)}</code><small className="block">{text(row.role)}</small></td><td>{text(row.original_ack_status)}<small className="block">{utcDisplay(row.original_ack_at,props.zone)}</small></td><td>{text(row.current_status)}<small className="block">{utcDisplay(row.current_observed_at,props.zone)}</small></td><td>{metric(row.actual_filled_quantity)}</td><td><JsonDetail value={row.fills} title={'成交 '+text(row.fill_count)+' 筆'}/></td></tr>)}</tbody></table></div>}
         <h3>已發布結果與觀察</h3><div className="facts"><Fact label="已發布關閉交易" value={run.closed_trades_count}/><Fact label="E3 淨損益（USDT）" value={metrics.net_pnl}/><Fact label="實際 forward 秒數" value={actualForwardSeconds(run.forward_observations)} testId="paper-real-forward-seconds"/></div><p>成本慣例：{text(run.cost_convention)}。成交價已含滑價，未再扣一次；未實現損益未提供時維持未知。</p>
         <JsonDetail value={run.metrics} title="原始 E3 結果"/><JsonDetail value={run.forward_observations} title="真實時間與來源觀察"/><JsonDetail value={{Signal:run.last_signal,TradeIntent:run.last_intent,RiskDecision:run.risk_decision,Position:run.position,Protection:run.protection_request}} title="E2 / E5 / E4 / E6 原始訊號、風險與保護事實"/>
-      </Panel>;}}</Frame>}</>;
+      </Panel>;}}</Frame>}
+    {selected&&<ReportHistory key={selected} path={'/api/v1/paper/runs/'+encodeURIComponent(selected)} props={props}/>}
+  </>;
 }
 
 function Health(props:Common){

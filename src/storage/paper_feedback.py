@@ -18,6 +18,34 @@ MAX_PENDING_BYTES=16*1024*1024
 
 def _artifact(payloads):return byte_hash(canonical_bytes({name:byte_hash(raw) for name,raw in payloads.items()}))
 
+
+def checked_paper_feedback_record(row,run,checkpoint,generation):
+    """Pure original report/checkpoint/producer checks for writers and RO views."""
+    if any(not isinstance(row[key],str) for key in ('feedback_json','payloads_json')):
+        raise FeedbackError('PAPER_FEEDBACK_STORED_TEXT_REQUIRED')
+    raw=row['feedback_json'].encode('utf-8');encoded=row['payloads_json'].encode('utf-8')
+    if len(raw)>256*1024 or len(encoded)>1024*1024 or byte_hash(raw)!=row['feedback_hash']:
+        raise FeedbackError('PAPER_FEEDBACK_STORED_REPORT_CHANGED')
+    decoded=json.loads(encoded)
+    if not isinstance(decoded,dict) or any(not isinstance(value,str) for value in decoded.values()):
+        raise FeedbackError('PAPER_FEEDBACK_STORED_PAYLOAD_MAPPING_REQUIRED')
+    payloads={name:value.encode('utf-8') for name,value in decoded.items()}
+    validate_paper_feedback_publication(row['logical_path'],payloads)
+    if payloads['feedback.json']!=raw or _artifact(payloads)!=row['artifact_hash'] or row['operation_id']!='r7-paper-feedback-'+row['feedback_hash'][7:]:
+        raise FeedbackError('PAPER_FEEDBACK_STORED_BUNDLE_CHANGED')
+    document=json.loads(raw);binding=json.loads(run['binding_json'])
+    if (run['binding_hash']!=row['binding_hash'] or checkpoint['state_hash']!=row['checkpoint_state_hash'] or generation is None
+            or not isinstance(generation['instance_id'],str) or not 1<=len(generation['instance_id'])<=256
+            or document['run_id']!=row['run_id'] or document['assessment']['run_revision']!=row['run_revision']
+            or document['producer']['process_generation']!=row['process_generation']
+            or document['producer']['process_instance_hash']!=byte_hash(generation['instance_id'].encode('utf-8'))
+            or document['namespace']!=binding['namespace'] or document['observation']['mode']!=binding['mode']
+            or document['source']['implementation_hash']!=binding['implementation_hash']
+            or document['strategy']!=dict(strategy_id=binding['strategy_id'],strategy_version=binding['strategy_version'],content_hash=binding['strategy_content_hash'])
+            or document['binding']!={key:binding[key] for key in ('config_hash','risk_policy_hash','paper_policy_hash')}):
+        raise FeedbackError('PAPER_FEEDBACK_STORED_LINEAGE_CHANGED')
+    return ArtifactBundle(row['logical_path'],payloads)
+
 class PaperFeedbackOutbox:
     def __init__(self,journal):
         if type(journal) is not PaperProcessJournal:raise FeedbackError('ACTUAL_PAPER_FEEDBACK_JOURNAL_REQUIRED')
@@ -67,27 +95,10 @@ class PaperFeedbackOutbox:
         return operation
 
     def _check_record(self,row):
-        raw=row['feedback_json'].encode('utf-8');encoded=row['payloads_json'].encode('utf-8')
-        if len(raw)>256*1024 or len(encoded)>1024*1024 or byte_hash(raw)!=row['feedback_hash']:
-            raise FeedbackError('PAPER_FEEDBACK_STORED_REPORT_CHANGED')
-        payloads={name:value.encode('utf-8') for name,value in json.loads(encoded).items()}
-        validate_paper_feedback_publication(row['logical_path'],payloads)
-        if payloads['feedback.json']!=raw or _artifact(payloads)!=row['artifact_hash'] or row['operation_id']!='r7-paper-feedback-'+row['feedback_hash'][7:]:
-            raise FeedbackError('PAPER_FEEDBACK_STORED_BUNDLE_CHANGED')
         run=self.journal._run(row['run_id']);checkpoint=self.journal._checkpoint(row['run_id'],row['run_revision'])
         generation=self.journal._db.execute('SELECT instance_id FROM paper_process_generations WHERE run_id=? AND generation=?',
             (row['run_id'],row['process_generation'])).fetchone()
-        document=json.loads(raw);binding=json.loads(run['binding_json'])
-        if (run['binding_hash']!=row['binding_hash'] or checkpoint['state_hash']!=row['checkpoint_state_hash'] or generation is None
-                or document['run_id']!=row['run_id'] or document['assessment']['run_revision']!=row['run_revision']
-                or document['producer']['process_generation']!=row['process_generation']
-                or document['producer']['process_instance_hash']!=byte_hash(generation['instance_id'].encode('utf-8'))
-                or document['namespace']!=binding['namespace'] or document['observation']['mode']!=binding['mode']
-                or document['source']['implementation_hash']!=binding['implementation_hash']
-                or document['strategy']!=dict(strategy_id=binding['strategy_id'],strategy_version=binding['strategy_version'],content_hash=binding['strategy_content_hash'])
-                or document['binding']!={key:binding[key] for key in ('config_hash','risk_policy_hash','paper_policy_hash')}):
-            raise FeedbackError('PAPER_FEEDBACK_STORED_LINEAGE_CHANGED')
-        return ArtifactBundle(row['logical_path'],payloads)
+        return checked_paper_feedback_record(row,run,checkpoint,generation)
 
     def pending(self,limit,*,include_local_staged=True):
         if type(limit) is not int or not 1<=limit<=100 or type(include_local_staged) is not bool:raise FeedbackError('BOUNDED_PAPER_FEEDBACK_BATCH_REQUIRED')

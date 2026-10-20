@@ -77,6 +77,9 @@ export function deploymentActivationBlock(namespace:string,subject:Row,deploymen
   return deployment.financial_confirmation_available===true?null:'CURRENT_DEPLOYMENT_AUTHORITY_REQUIRED';
 }
 export const reasons:Record<string,string>={
+  REPORT_NOT_READY:'此工作尚未產生可交付報告；讀取畫面不會重跑研究。',
+  REPORT_PUBLICATION_HISTORY_UNAVAILABLE:'原始報告交付證據目前無法完整驗證；不能視為空清單或已確認。',
+  REPORT_PUBLICATION_HISTORY_NOT_CONFIGURED:'此環境尚未設定報告歷史來源。',
   AUTHORIZATION_REQUIRED:'登入已失效或身分驗證未通過。請重新登入；既有 runtime 仍由本機服務管理。',
   RESOURCE_REVISION_CONFLICT:'資料版本已變更。請重新整理後確認目前內容，再送出新命令。',
   OWNER_COMMAND_CONFLICT:'目前擁有者的版本或命令狀態衝突。請查看最新證據。',

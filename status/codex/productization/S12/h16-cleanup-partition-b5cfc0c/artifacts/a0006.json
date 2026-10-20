@@ -1,0 +1,38 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Applied eleven-test cleanup partition plus separate schema-only native uniqueness regression",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "subject_hashes": {
+    "tests/product/trading_stop_cleanup_fixtures.py": "ae45c1e51a0a8502a2c871cd98cb53bcd8d6f1c5dbfc6c2ace04d62aead9c8a7",
+    "tests/product/test_trading_stop_cleanup_v02.py": "1e59d0977fe727569fdf73d89fc03aca38612249e46f9c788febd876b3979476",
+    "tests/product/test_trading_cleanup_expiry_v02.py": "1b05a7a1e787baf448f5a2aa532b9e0f2297099b29f16725802fc3a832f0261c",
+    "tests/product/test_trading_cleanup_inventory_v02.py": "c6a4ff2aabe1a58dbeb31acc7d58f6f9ff6848a933bf2f65b326db7a8392f6e3",
+    "tests/product/test_trading_cleanup_races_v02.py": "4e4f82de0ff88acb646f9f67fe512eca2787e9495bb344a046699c0d7eeee5b8",
+    "tests/product/test_trading_cleanup_recovery_v02.py": "df290c72a2a317454483fc013fed2a48f2358115e2044b262f6f27f201810a48",
+    "tests/product/test_trading_cleanup_immutability_v02.py": "52c4ec8e127b695f272a05d4c507b2ea76b737cd79d89907d30821e99a3a4a1c",
+    "tests/storage/test_stop_cleanup_constraints.py": "58607532ad4dcaf65b3b1197d73f6b8f0f180966a195801ace9277360f6cd732"
+  },
+  "comparison_artifacts": {
+    "h16-stop-cleanup-unpartitioned.py.unapplied": "6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c",
+    "h16-cleanup-case-partition.json": "7eb289c465f4b35f306fefe1660aebb606048e89b1944fe1ccd407fc555038f3"
+  },
+  "supporting_static_context": {
+    "tests/storage/test_product_dispatch_v02.py": "5e43c90b3ecd1aab8ce812145ccc3523b5a72259f493ba806d8eb5ec0e55c38c",
+    "src/storage/migrations/0021_product_stop_cleanup_claim.sql": "8b0c6cff41b7bf6bd01b3af07172b2e84c0c6e9c8954fc375400c46a12414b4a"
+  },
+  "findings": [],
+  "conclusions": [
+    "All eleven original test method names occur exactly once across six TestCase classes, with counts 2/2/2/2/2/1 and one-to-one mapping. All seven applied output hashes equal the recorded mapping.",
+    "Text-body comparison confirms ten test bodies and all eight helper bodies unchanged, apart from trailing separator whitespace. The eleventh test has exactly the reviewed valid existing ENTRY FK correction and its three precondition assertions.",
+    "StopCleanupFixture has no TestCase base and no test_ methods. Module-only fixture imports do not expose imported TestCase classes as globals. The retained core class inherits setup/helpers and remains constructible with methodName=runTest for source fixture use.",
+    "The new independent schema test creates three genuine journal claims as disposable constraint fixtures, confirms FK enforcement and recursive_triggers=OFF, changes only the cleanup primary key to the existing unused entry claim, requires the exact replacement-trigger error, and rechecks original row plus foreign_key_check. Removing the native-unique trigger condition would permit OR REPLACE instead of satisfying its assertRaises.",
+    "Schema-only hand-authored cleanup row is explicitly labeled noncanonical and is not used as owner/lifecycle authority. Total owner scenarios remain eleven; the new schema regression is one additional separate test."
+  ],
+  "limits": [
+    "Static source/text comparison only. No script/AST/compile/tests, DB/process/native, Git/network, provider or tracked file mutations by reviewer. Only this authorized outside-Git review JSON was written.",
+    "No independent production-hash execution was performed. Lead-reported unchanged implementation remains distinct from these test-file commitments.",
+    "Original 158-test attempt remains FAILED with 92 memory errors. No post-partition execution, 900-second timing, full source/native qualification, H16 or whole-product acceptance is inferred."
+  ]
+}

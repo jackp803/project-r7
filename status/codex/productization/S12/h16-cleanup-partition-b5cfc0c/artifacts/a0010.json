@@ -1,0 +1,25 @@
+{
+  "status": "SCHEMA_ONLY_NORMAL_PASS_MUTANT_FAILS_EXPECTED",
+  "implementation_hash": "sha256:ee3c58cccb3a48450376153565fc8e1941c05eb00481f9e0df6702fa7c8c8397",
+  "source_unchanged": true,
+  "mutation": "Only native-unique OR branch removed from trigger in disposable migrated testDB, PK branch/UNIQUE/FKs/recursiveOFF preserved. No production source or product DB mutation.",
+  "owner_flow_credit": "NONE_THIS_SCHEMA_PROOF",
+  "private_requests": 0,
+  "public_requests": 0,
+  "results": {
+    "normal": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "log_hash": "sha256:b833845758cd4f95185bfccb1480163be2450cb766bf9e004c1783f77c4edd66"
+    },
+    "missing-native-trigger-branch": {
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0,
+      "log_hash": "sha256:1d8e19384dfc3e83aa76c5198a29836fec95db9e6f70f413d74ff72d9f2ad387"
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "b5cfc0c97cd8433bac65ad1e2098c83d904339f1",
+  "implementation_hash": "sha256:ee3c58cccb3a48450376153565fc8e1941c05eb00481f9e0df6702fa7c8c8397",
+  "status": "SCHEMA_SOURCE1_PASS_PARTITION_DISCOVERY_ONLY",
+  "production_source_changed": false,
+  "owner_cases": 11,
+  "partitions": {
+    "tests.product.test_trading_cleanup_expiry_v02": 2,
+    "tests.product.test_trading_cleanup_immutability_v02": 1,
+    "tests.product.test_trading_cleanup_inventory_v02": 2,
+    "tests.product.test_trading_cleanup_races_v02": 2,
+    "tests.product.test_trading_cleanup_recovery_v02": 2,
+    "tests.product.test_trading_stop_cleanup_v02": 2
+  },
+  "helper_cases": 0,
+  "partition_execution": "NOT_RUN_MEMORY_PRESSURE",
+  "deadline_seconds": 900,
+  "deadline_changed": false,
+  "review": "INDEPENDENT_STATIC0C0I_EXECUTION_NONE",
+  "schema_exact_clean_cases": 1,
+  "schema_source_unchanged": true,
+  "schema_tree_reaped": true,
+  "mutation_oracle": "Normal1PASS; isolated testDB trigger missing only native-unique OR branch causes expected1FAIL IntegrityError notraised. PK guard/FKs/UNIQUE/recursiveOFF remain. No owner-flow/financial authority credit.",
+  "previous_joined158": "FAILED92_MEMORY_ERRORS_66PASS_CLEANUP11PASS_PRESERVED",
+  "native_full": "NOT_RUN_FOR_THIS_SOURCE",
+  "H16": "INCOMPLETE_FINALIZATION_PENDING",
+  "K05": "INCOMPLETE_GENUINE_CLOSED_DISPATCH_PENDING",
+  "master": "IN_PROGRESS",
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "h16-cleanup-case-partition.json",
+      "original_hash": "sha256:7eb289c465f4b35f306fefe1660aebb606048e89b1944fe1ccd407fc555038f3",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:7eb289c465f4b35f306fefe1660aebb606048e89b1944fe1ccd407fc555038f3"
+    },
+    {
+      "original_ref": "h16-stop-cleanup-unpartitioned.py.unapplied",
+      "original_hash": "sha256:6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c",
+      "retained_ref": "artifacts/a0002.unapplied",
+      "retained_hash": "sha256:6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c"
+    },
+    {
+      "original_ref": "partition_h16_cleanup_tests.py",
+      "original_hash": "sha256:e73025fe04db990224a1ffebe4b7eb4af1d795d0a51428899fe190e8617fbaf3",
+      "retained_ref": "artifacts/a0003.py",
+      "retained_hash": "sha256:e73025fe04db990224a1ffebe4b7eb4af1d795d0a51428899fe190e8617fbaf3"
+    },
+    {
+      "original_ref": "h16-cleanup-partition-script-memory-review-initial-20261020.json",
+      "original_hash": "sha256:30a57fd7f9467e53ca61cbabffe8ab4b6964d0f747dcb1212992962116dacfcb",
+      "retained_ref": "artifacts/a0004.json",
+      "retained_hash": "sha256:30a57fd7f9467e53ca61cbabffe8ab4b6964d0f747dcb1212992962116dacfcb"
+    },
+    {
+      "original_ref": "h16-cleanup-partition-script-memory-review-final-20261020.json",
+      "original_hash": "sha256:7115c85e31f0659df189eecbffbbcf513facc82f98e6c520f5cf2ed1190c7ae4",
+      "retained_ref": "artifacts/a0005.json",
+      "retained_hash": "sha256:7115c85e31f0659df189eecbffbbcf513facc82f98e6c520f5cf2ed1190c7ae4"
+    },
+    {
+      "original_ref": "h16-cleanup-partition-source-review-20261020.json",
+      "original_hash": "sha256:276fdde41bfa9cb5421a204bb7174aaf6d3cf8a3e5e132ff3ac0de7074d2fd47",
+      "retained_ref": "artifacts/a0006.json",
+      "retained_hash": "sha256:276fdde41bfa9cb5421a204bb7174aaf6d3cf8a3e5e132ff3ac0de7074d2fd47"
+    },
+    {
+      "original_ref": "check_cleanup_constraint_oracle.py",
+      "original_hash": "sha256:1b7e8f002e1ffc0761a3d865a7d0f0bfb133eb3432810d986cf3a597c4d5a944",
+      "retained_ref": "artifacts/a0007.py",
+      "retained_hash": "sha256:1b7e8f002e1ffc0761a3d865a7d0f0bfb133eb3432810d986cf3a597c4d5a944"
+    },
+    {
+      "original_ref": "h16-cleanup-constraint-normal.log",
+      "original_hash": "sha256:b833845758cd4f95185bfccb1480163be2450cb766bf9e004c1783f77c4edd66",
+      "retained_ref": "artifacts/a0008.log",
+      "retained_hash": "sha256:b833845758cd4f95185bfccb1480163be2450cb766bf9e004c1783f77c4edd66"
+    },
+    {
+      "original_ref": "h16-cleanup-constraint-missing-native-trigger-branch.log",
+      "original_hash": "sha256:1d8e19384dfc3e83aa76c5198a29836fec95db9e6f70f413d74ff72d9f2ad387",
+      "retained_ref": "artifacts/a0009.log",
+      "retained_hash": "sha256:1d8e19384dfc3e83aa76c5198a29836fec95db9e6f70f413d74ff72d9f2ad387"
+    },
+    {
+      "original_ref": "h16-cleanup-constraint-oracle.json",
+      "original_hash": "sha256:36be6e9693bd76f3af415d8e30a827896f23331a3eea076fd589ca3e175edca1",
+      "retained_ref": "artifacts/a0010.json",
+      "retained_hash": "sha256:36be6e9693bd76f3af415d8e30a827896f23331a3eea076fd589ca3e175edca1"
+    },
+    {
+      "original_ref": "run_cleanup_partition_schema_source.py",
+      "original_hash": "sha256:8db1498daa9ddd558b416b6f1bd38b4f44e97ba26758fa87ba02b766bab91585",
+      "retained_ref": "artifacts/a0011.py",
+      "retained_hash": "sha256:8db1498daa9ddd558b416b6f1bd38b4f44e97ba26758fa87ba02b766bab91585"
+    },
+    {
+      "original_ref": "h16-cleanup-partition-schema-b5cfc0c/checkpoint.json",
+      "original_hash": "sha256:cd961e54c402f9ad2a5f5d8385fb605f4099b7b88d9b3edeabf1ee2b00e802b7",
+      "retained_ref": "artifacts/a0012.json",
+      "retained_hash": "sha256:cd961e54c402f9ad2a5f5d8385fb605f4099b7b88d9b3edeabf1ee2b00e802b7"
+    },
+    {
+      "original_ref": "h16-cleanup-partition-schema-b5cfc0c/source.log",
+      "original_hash": "sha256:94af4c312bc3cc3f309aeb220830a35584b8b36851c649153db352473c2308f3",
+      "retained_ref": "artifacts/a0013.log",
+      "retained_hash": "sha256:94af4c312bc3cc3f309aeb220830a35584b8b36851c649153db352473c2308f3"
+    }
+  ]
+}

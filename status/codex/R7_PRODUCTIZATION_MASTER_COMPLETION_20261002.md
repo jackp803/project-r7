@@ -1,3 +1,18 @@
+# H16 bounded test partition checkpoint — 2026-10-20
+
+Source `b5cfc0c97cd8433bac65ad1e2098c83d904339f1` retains all11owner cases as2/2/2/2/2/1 files with shared
+non-TestCase mixin/discovery0. Production hash unchanged. Ten methods byte-
+identical; alternatePK immutability test now uses actual claimedENTRY validFK.
+Independent static8files0C0I executionNONE. Partition timings remainNOT_RUN
+(memory pressure); original158 remainsFAILED92memoryerrors/66PASS,cleanup11PASS.
+Exact-clean schema1PASS unchanged/reaped. Isolated testDB mutation removing
+only native-unique trigger branch yields expected1FAIL while preserving FK,
+UNIQUE,PKguard,recursiveOFF. Schema proof earns no owner-flow authority credit.
+Evidence: `status/codex/productization/S12/h16-cleanup-partition-b5cfc0c/disposition.json`.
+H16 terminal target/E5 funded TradeResult/CLOSED/replay and genuine K05positive
+remain next; Windows7d preserved, MasterIN_PROGRESS. No addedproviderrequests,
+credentials/capital/LIVE/GitHubcompute. Final settled source qualification pending.
+
 # H16 cleanup checkpoint — 2026-10-20
 
 Exact `7de014eeedf2791c8e186a9608c589454c792f4c` source158/16modules FAILED:66pass,92errors,0failures/skip;

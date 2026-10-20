@@ -4,7 +4,7 @@
   "base_revision": "9fd277798b1c51d1bc79b29a61bec81b552efeb1",
   "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
   "implementation_branch": "codex/r7-productization-master-20261002",
-  "active_step": "H16_CLEANUP11_PASS_JOINED158_RESOURCE_FAILED_CONTINUE_LOCAL",
+  "active_step": "H16_PARTITION11_DISCOVERED_SCHEMA_ORACLE_PASS_CONTINUE_TERMINAL_FINALIZATION",
   "next_step": "Partition all11 and validFK oracle, genuine E5 funded TradeResult/CLOSED with durable replay and K05positive, F04/I04/J03/H01/portable/audits/clause binding. Final inventory/examples/full/native remain required.",
   "long_path_remediation": {
     "status": "PASS",
@@ -2158,9 +2158,9 @@
     "S12 native bounded algo inventory/actual FP04-FP11-E5 protection interpretation/E6 replay checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS",
     "S12 complete historical claim scans/actual FP04-FP11-E5 protection interpretation/E6 atomic generation fence checkpoint qualified; continuous orchestration, settlement and runtime projections remain IN_PROGRESS"
   ],
-  "executable_revision": "7de014eeedf2791c8e186a9608c589454c792f4c",
+  "executable_revision": "b5cfc0c97cd8433bac65ad1e2098c83d904339f1",
   "qualified_executable_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
-  "candidate_executable_revision": "7de014eeedf2791c8e186a9608c589454c792f4c",
+  "candidate_executable_revision": "b5cfc0c97cd8433bac65ad1e2098c83d904339f1",
   "pending_recovery_checkpoint": {
     "status": "PASS",
     "scope": "QUALIFIED_PRIVATE_RECOVERY_ONLY",
@@ -4320,5 +4320,13 @@
     "reviewed_revision": "7de014eeedf2791c8e186a9608c589454c792f4c",
     "evidence_ref": "status/codex/productization/S12/h16-stop-cleanup-source-7de014e/disposition.json",
     "live": "NOT_STARTED"
+  },
+  "h16_cleanup_partition_checkpoint": {
+    "executable_revision": "b5cfc0c97cd8433bac65ad1e2098c83d904339f1",
+    "status": "SCHEMA_SOURCE1_PASS_PARTITION_DISCOVERY_ONLY",
+    "owner_cases": 11,
+    "partition_execution": "NOT_RUN_MEMORY_PRESSURE",
+    "schema_cases": 1,
+    "evidence_ref": "status/codex/productization/S12/h16-cleanup-partition-b5cfc0c/disposition.json"
   }
 }

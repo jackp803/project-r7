@@ -1,0 +1,79 @@
+{
+  "status": "APPLIED_NOT_EXECUTED",
+  "original_revision": "7de014eeedf2791c8e186a9608c589454c792f4c",
+  "original_run_passed": false,
+  "original_run_status": "FAILED_92_MEMORY_ADMISSION_ERRORS_66_PASS_CLEANUP11_PASS",
+  "original_source_hash": "6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c",
+  "production_implementation_hash": "sha256:ee3c58cccb3a48450376153565fc8e1941c05eb00481f9e0df6702fa7c8c8397",
+  "cases_before": 11,
+  "cases_after": 11,
+  "shared_helper": "NON_TESTCASE_MIXIN_NO_TEST_METHODS",
+  "fixed_pqr_member_timeout_seconds": 900,
+  "partitions_need_actual_timing": true,
+  "outputs": {
+    "tests/product/trading_stop_cleanup_fixtures.py": "ae45c1e51a0a8502a2c871cd98cb53bcd8d6f1c5dbfc6c2ace04d62aead9c8a7",
+    "tests/product/test_trading_stop_cleanup_v02.py": "1e59d0977fe727569fdf73d89fc03aca38612249e46f9c788febd876b3979476",
+    "tests/product/test_trading_cleanup_expiry_v02.py": "1b05a7a1e787baf448f5a2aa532b9e0f2297099b29f16725802fc3a832f0261c",
+    "tests/product/test_trading_cleanup_inventory_v02.py": "c6a4ff2aabe1a58dbeb31acc7d58f6f9ff6848a933bf2f65b326db7a8392f6e3",
+    "tests/product/test_trading_cleanup_races_v02.py": "4e4f82de0ff88acb646f9f67fe512eca2787e9495bb344a046699c0d7eeee5b8",
+    "tests/product/test_trading_cleanup_recovery_v02.py": "df290c72a2a317454483fc013fed2a48f2358115e2044b262f6f27f201810a48",
+    "tests/product/test_trading_cleanup_immutability_v02.py": "52c4ec8e127b695f272a05d4c507b2ea76b737cd79d89907d30821e99a3a4a1c"
+  },
+  "case_mapping": [
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends",
+      "relocated": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_before_original_flat_cleanup_refuses_without_cancel",
+      "relocated": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_before_original_flat_cleanup_refuses_without_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_copied_expired_native_nonzero_or_unowned_inventory_cannot_cancel",
+      "relocated": "tests.product.test_trading_cleanup_expiry_v02.TradingCleanupExpiryV02Tests.test_copied_expired_native_nonzero_or_unowned_inventory_cannot_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_reads_expiring_during_actual_post_guard_preserve_claim_without_cancel",
+      "relocated": "tests.product.test_trading_cleanup_expiry_v02.TradingCleanupExpiryV02Tests.test_reads_expiring_during_actual_post_guard_preserve_claim_without_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_empty_inventory_or_competing_active_object_is_not_cleanup_authority",
+      "relocated": "tests.product.test_trading_cleanup_inventory_v02.TradingCleanupInventoryV02Tests.test_empty_inventory_or_competing_active_object_is_not_cleanup_authority",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_provider_or_execution_replacement_denies_before_any_cancel",
+      "relocated": "tests.product.test_trading_cleanup_inventory_v02.TradingCleanupInventoryV02Tests.test_provider_or_execution_replacement_denies_before_any_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_actual_second_connection_append_at_claim_writer_blocks_claim_and_cancel",
+      "relocated": "tests.product.test_trading_cleanup_races_v02.TradingCleanupRacesV02Tests.test_actual_second_connection_append_at_claim_writer_blocks_claim_and_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_actual_second_connection_append_after_claim_blocks_final_provider_guard",
+      "relocated": "tests.product.test_trading_cleanup_races_v02.TradingCleanupRacesV02Tests.test_actual_second_connection_append_after_claim_blocks_final_provider_guard",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_lost_cancel_ack_keeps_claim_then_native_terminal_is_reconciled_without_another_cancel",
+      "relocated": "tests.product.test_trading_cleanup_recovery_v02.TradingCleanupRecoveryV02Tests.test_lost_cancel_ack_keeps_claim_then_native_terminal_is_reconciled_without_another_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_successor_process_generation_two_reads_original_stop_without_resending_cancel",
+      "relocated": "tests.product.test_trading_cleanup_recovery_v02.TradingCleanupRecoveryV02Tests.test_successor_process_generation_two_reads_original_stop_without_resending_cancel",
+      "change": "METHOD_BODY_UNCHANGED"
+    },
+    {
+      "original": "tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_cleanup_claim_is_immutable_even_when_recursive_delete_triggers_are_disabled",
+      "relocated": "tests.product.test_trading_cleanup_immutability_v02.TradingCleanupImmutabilityV02Tests.test_cleanup_claim_is_immutable_even_when_recursive_delete_triggers_are_disabled",
+      "change": "VALID_EXISTING_ENTRY_FK_ORACLE"
+    }
+  ]
+}

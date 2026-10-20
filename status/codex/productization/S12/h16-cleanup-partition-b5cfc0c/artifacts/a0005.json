@@ -1,0 +1,36 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Only exact failed-attempt checkpoint and log pin repair",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "utility_sha256": "e73025fe04db990224a1ffebe4b7eb4af1d795d0a51428899fe190e8617fbaf3",
+  "resolved_findings": [
+    {
+      "id": "PARTITION-MEMORY-ATTEMPT-UNANCHORED",
+      "status": "RESOLVED",
+      "path": "partition_h16_cleanup_tests.py",
+      "lines": [
+        13,
+        23
+      ],
+      "reason": "Both raw SHA256 commitments are checked with ordinary raises before parsing/admission. The same captured checkpoint is parsed and the same captured log is classified. Both constants match the prior inspected failed attempt; passed=true substitution cannot retain the pinned checkpoint digest."
+    }
+  ],
+  "pinned_checkpoint_sha256": "342763ac9b99bb94124bb72bb40eac7a1e49ed5c3189ad278ae43a23a2a09b1c",
+  "pinned_log_sha256": "c6be7807600527ca1a2db41fbc67422c18532d3211783c8c85b69cc3d0145737",
+  "preserved_initial_review": {
+    "path": "h16-cleanup-partition-script-memory-review-initial-20261020.json",
+    "sha256": "30a57fd7f9467e53ca61cbabffe8ab4b6964d0f747dcb1212992962116dacfcb",
+    "exact_copy": true
+  },
+  "static_checks": [
+    "Exact text comparison confirms only the two same-byte hash admission checks changed from the prior captured utility revision.",
+    "Existing first-main ordinary optimized-mode rejection and fixed nine-file review pin remain. The exact original attempt remains failed, without PASS conversion."
+  ],
+  "findings": [],
+  "limits": [
+    "No utility, tests, native/product/process, DB/Git/network or tracked changes by reviewer. Parent-reported optimized-mode execution was not reviewer execution.",
+    "Repair-only static conclusion; no original failed-attempt qualification, future partition execution/timing or H16/native/full-product credit."
+  ]
+}

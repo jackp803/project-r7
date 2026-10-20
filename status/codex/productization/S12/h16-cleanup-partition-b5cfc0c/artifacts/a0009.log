@@ -1,0 +1,15 @@
+test_native_unique_replace_denies_alternate_valid_claim_key_with_recursive_triggers_off (tests.storage.test_stop_cleanup_constraints.StopCleanupConstraintTests.test_native_unique_replace_denies_alternate_valid_claim_key_with_recursive_triggers_off) ... FAIL
+
+======================================================================
+FAIL: test_native_unique_replace_denies_alternate_valid_claim_key_with_recursive_triggers_off (tests.storage.test_stop_cleanup_constraints.StopCleanupConstraintTests.test_native_unique_replace_denies_alternate_valid_claim_key_with_recursive_triggers_off)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_stop_cleanup_constraints.py", line 40, in test_native_unique_replace_denies_alternate_valid_claim_key_with_recursive_triggers_off
+    with self.assertRaises(sqlite3.IntegrityError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.367s
+
+FAILED (failures=1)

@@ -1,0 +1,50 @@
+
+Running 17 tests using 1 worker
+
+(node:95348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/17] qa\control-center.spec.ts:16:1 › research report history displays actual owner delivery and original hashes
+[2/17] qa\control-center.spec.ts:36:1 › paper report history preserves actual checkpoint producer and delivery states
+[3/17] qa\control-center.spec.ts:53:1 › empty views use actual nulls, Traditional Chinese and persistent fixture labels
+[4/17] qa\control-center.spec.ts:77:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+  1) qa\control-center.spec.ts:77:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+
+    TimeoutError: locator.selectOption: Timeout 8000ms exceeded.
+    Call log:
+      - waiting for getByLabel('此頁工作狀態篩選', { exact: true })
+
+
+      88 |   const actual=(await jobs.json()).data.items[0];expect(actual.state).toBe('CANCELED');
+      89 |   const filter=page.getByLabel('此頁工作狀態篩選',{exact:true});
+    > 90 |   await filter.selectOption('CANCELED');
+         |                ^
+      91 |   await expect(page.getByRole('row').filter({hasText:actual.run_id})).toHaveCount(1);
+      92 |   await expect(page.getByTestId('research-job-filter-count')).toHaveText('此頁符合 1 / 已載入 1 筆');
+      93 |   for(const state of ['QUEUED','CANCEL_REQUESTED']){
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:90:16
+
+    Error Context: ..\..\..\artifacts\current-windows-20261019\ui01-browser-retry01\browser\results\control-center-actual-inbo-a539e-nd-cooperative-cancellation\error-context.md
+
+
+(node:94232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/17] qa\control-center.spec.ts:110:1 › health shows a genuine owner failure with its original time and safe reason
+[6/17] qa\control-center.spec.ts:139:1 › health distinguishes actual supervised control from an available queue without a worker
+[7/17] qa\control-center.spec.ts:157:1 › delivery separates local staging from actual byte-verified fixture-copy acknowledgment
+[8/17] qa\control-center.spec.ts:176:1 › actual candidate PAPER start and pause retain run identity and show unavailable metrics
+[9/17] qa\control-center.spec.ts:215:1 › protected owner facts distinguish ACK/fill, remaining exposure and as-of state
+[10/17] qa\control-center.spec.ts:239:1 › stale settings show real backend conflict and keyboard form remains usable
+[11/17] qa\control-center.spec.ts:253:1 › financial controls stay visibly denied by actual fixture backend even after reauth
+[12/17] qa\control-center.spec.ts:269:1 › registered financial proposal shows actual source and limits and never grants fixture consent
+[13/17] qa\control-center.spec.ts:289:1 › stop new entries uses actual E6 pause while fixture activation remains unavailable
+[14/17] qa\control-center.spec.ts:302:1 › revoked server session returns to login without inferring runtime shutdown
+[15/17] qa\control-center.spec.ts:312:1 › actual four-hour declaration, tactical validity, holding clock and author context remain separate
+[16/17] qa\control-center.spec.ts:326:1 › two actual immutable versions remain independent in list and selected detail
+[17/17] qa\control-center.spec.ts:396:1 › UI01 diagnostic views show exact consumed facts and preserve explicit unknowns
+  1 failed
+    qa\control-center.spec.ts:77:1 › actual inbox scan, asynchronous enqueue and cooperative cancellation
+  16 passed (1.3m)

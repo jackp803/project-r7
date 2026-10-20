@@ -140,7 +140,97 @@ class ViewMetadata(StrictDTO):
     namespace: Literal['FIXTURE', 'LOCAL_RESEARCH']
 
 
+
+ObservationStatus = Literal['AVAILABLE','NOT_CONFIGURED','NOT_RUN','UNAVAILABLE']
+ProcessRole = Literal['control','research','runtime','cloud','coordinator']
+JobState = Literal['QUEUED','RUNNING','CANCEL_REQUESTED','COMPLETE','BLOCKED','FAILED','CANCELED','EXPIRED']
+
+
+class UnobservedFacts(StrictDTO):
+    pass
+
+
+F = TypeVar('F', bound=StrictDTO)
+class DiagnosticObservation(StrictDTO, Generic[F]):
+    status: ObservationStatus
+    source: Annotated[str, Field(min_length=1,max_length=96)]
+    as_of: str | None
+    checked_at: str
+    reason_codes: Annotated[list[Identifier], Field(max_length=16)]
+    facts: F
+    financial_authority: Literal['NONE']
+
+
+class ResourceLimitFacts(StrictDTO):
+    research_worker_count: Annotated[int, Field(ge=1,le=64)]
+
+
+class SelectedStrategyFact(StrictDTO):
+    strategy_id: Identifier
+    strategy_version: Identifier
+    content_hash: Hash
+    relationship: Literal['CONFIGURED_SELECTION']
+
+
+class StrategySubjectFacts(StrictDTO):
+    items: Annotated[list[SelectedStrategyFact], Field(max_length=1)]
+
+
+class ResearchStageCount(StrictDTO):
+    state: JobState
+    stage: Annotated[str, Field(min_length=1,max_length=64,pattern=r'^[A-Za-z_][A-Za-z0-9_]{0,63}$')] | None
+    count: Annotated[int, Field(ge=0,le=2**63-1)]
+    last_observed_at: str
+
+
+class ResearchStageFacts(StrictDTO):
+    items: Annotated[list[ResearchStageCount], Field(max_length=256)]
+    total_jobs: Annotated[int, Field(ge=0,le=2**63-1)]
+
+
+class HistoricalAlertFact(StrictDTO):
+    namespace: Literal['FIXTURE','LOCAL_RESEARCH']
+    run_id: Identifier
+    state: Literal['FAILED']
+    revision: Annotated[int, Field(ge=0,le=2**63-1)]
+    generation: Annotated[int, Field(ge=0,le=2**63-1)]
+    recorded_at: str
+    reason_codes: Annotated[list[Identifier], Field(min_length=1,max_length=16)]
+    source: Literal['research_queue']
+    alert_id: Identifier
+
+
+class AlertFacts(StrictDTO):
+    items: Annotated[list[HistoricalAlertFact], Field(max_length=5)]
+    total: Annotated[int, Field(ge=0,le=2**63-1)]
+
+
+class ProcessObservationFacts(StrictDTO):
+    role: ProcessRole
+    status: Literal['NOT_STARTED','RUNNING','STOPPED','FAILED','CONFIG_CHANGED','CLOCK_REGRESSION',
+                    'STALE_HEARTBEAT','PROCESS_NOT_RUNNING','RECENT_HEARTBEAT','SUPERVISION_STORAGE_FAILURE']
+    recorded_state: Literal['RUNNING','STOPPED','FAILED','CONFIG_CHANGED','CLOCK_REGRESSION','SUPERVISION_STORAGE_FAILURE'] | None
+    generation: Annotated[int, Field(ge=0,le=2**63-1)] | None
+    process_generation_id: Identifier | None
+    started_at: str | None
+    heartbeat_at: str | None
+    heartbeat_sequence: Annotated[int, Field(ge=0,le=2**63-1)] | None
+    config_hash: Hash | None
+
+
+class ComponentObservations(StrictDTO):
+    control: DiagnosticObservation[ProcessObservationFacts]
+    research: DiagnosticObservation[ProcessObservationFacts]
+    runtime: DiagnosticObservation[ProcessObservationFacts]
+    cloud: DiagnosticObservation[ProcessObservationFacts]
+    coordinator: DiagnosticObservation[ProcessObservationFacts]
+
+
 class OverviewView(StrictDTO):
+    strategy_subjects: DiagnosticObservation[StrategySubjectFacts | UnobservedFacts]
+    research_stage_counts: DiagnosticObservation[ResearchStageFacts | UnobservedFacts]
+    resource_limits: DiagnosticObservation[ResourceLimitFacts]
+    alerts: DiagnosticObservation[AlertFacts | UnobservedFacts]
     mode: Literal['RESEARCH', 'PAPER_FIXTURE', 'PAPER_REAL_TIME', 'LIVE']
     live_authorized: bool
     queued_jobs: int | None
@@ -169,6 +259,11 @@ class RestorationView(StrictDTO):
 
 
 class HealthView(StrictDTO):
+    components: ComponentObservations
+    risk: DiagnosticObservation[UnobservedFacts]
+    execution: DiagnosticObservation[UnobservedFacts]
+    preflight: DiagnosticObservation[UnobservedFacts]
+    external_consumer: DiagnosticObservation[UnobservedFacts]
     control: str
     research: str
     runtime: str
@@ -184,6 +279,11 @@ class HealthView(StrictDTO):
 
 
 class SettingsView(StrictDTO):
+    resource_limits: DiagnosticObservation[ResourceLimitFacts]
+    clock_health: DiagnosticObservation[UnobservedFacts]
+    backup: DiagnosticObservation[UnobservedFacts]
+    transport_test: DiagnosticObservation[UnobservedFacts]
+    credential_presence: DiagnosticObservation[UnobservedFacts]
     revision: int
     config_generation: int
     display_timezone: Literal['UTC', 'Asia/Taipei']

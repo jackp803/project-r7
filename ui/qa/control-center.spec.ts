@@ -85,11 +85,39 @@ test('actual inbox scan, asynchronous enqueue and cooperative cancellation',asyn
   await page.getByRole('button',{name:'停止研究',exact:true}).first().click();
   await expect(page.getByText('CANCELED',{exact:true}).first()).toBeVisible();
   const jobs=await page.request.get(origins.research+'/api/v1/research/runs');
-  expect((await jobs.json()).data.items[0].state).toBe('CANCELED');
+  const actual=(await jobs.json()).data.items[0];expect(actual.state).toBe('CANCELED');
+  const filter=page.getByRole('combobox',{name:'此頁工作狀態篩選',exact:true});
+  await filter.selectOption('CANCELED');
+  await expect(page.getByRole('row').filter({hasText:actual.run_id})).toHaveCount(1);
+  await expect(page.getByTestId('research-job-filter-count')).toHaveText('此頁符合 1 / 已載入 1 筆');
+  for(const state of ['QUEUED','CANCEL_REQUESTED']){
+    await filter.selectOption(state);await expect(page.getByRole('row').filter({hasText:actual.run_id})).toHaveCount(0);
+    await expect(page.getByText('此頁沒有符合篩選的工作',{exact:true})).toBeVisible();
+  }
+  await filter.selectOption('ALL');await expect(page.getByRole('row').filter({hasText:actual.run_id})).toHaveCount(1);
+  const overviewRead=page.waitForResponse(r=>r.url()===origins.research+'/api/v1/overview'&&r.request().method()==='GET');
+  await page.getByRole('link',{name:'總覽',exact:true}).click();const overview=(await (await overviewRead).json()).data;
+  await assertDiagnostic(page,'overview-research-stage-counts',overview.research_stage_counts);
+  const stages=page.getByTestId('overview-research-stage-counts');
+  expect(overview.research_stage_counts.facts.items.some((row:any)=>row.state==='CANCELED')).toBe(true);
+  for(const row of overview.research_stage_counts.facts.items){
+    const label=stages.locator('dt').filter({hasText:new RegExp('^'+row.state+' / '+(row.stage??'未提供')+'$')});
+    const fact=label.locator('xpath=following-sibling::dd[1]');await expect(fact).toContainText(String(row.count)+' 筆');
+    await expect(fact.locator('time')).toHaveAttribute('datetime',row.last_observed_at);
+  }
 });
 
 test('health shows a genuine owner failure with its original time and safe reason',async({page})=>{
-  await login(page,'failed');await page.getByRole('link',{name:'健康',exact:true}).click();
+  const overviewRead=page.waitForResponse(r=>r.url()===origins.failed+'/api/v1/overview'&&r.request().method()==='GET');
+  await login(page,'failed');const overview=(await (await overviewRead).json()).data;
+  const summary=page.getByTestId('overview-alerts');expect(overview.alerts.facts.items).toHaveLength(1);
+  for(const original of overview.alerts.facts.items){
+    const item=summary.getByTestId('overview-alert-item').filter({hasText:original.alert_id});
+    await expect(item).toContainText(original.run_id);await expect(item.locator('time')).toHaveAttribute('datetime',original.recorded_at);
+    for(const code of original.reason_codes)await expect(item).toContainText(code);
+  }
+  await assertDiagnostic(page,'overview-alerts',overview.alerts);
+  await page.getByRole('link',{name:'健康',exact:true}).click();
   const response=await page.request.get(origins.failed+'/api/v1/alerts?limit=50&offset=0');
   expect(response.status()).toBe(200);
   const body=await response.json();
@@ -109,7 +137,10 @@ test('health shows a genuine owner failure with its original time and safe reaso
 });
 
 test('health distinguishes actual supervised control from an available queue without a worker',async({page})=>{
-  await login(page,'research');await page.getByRole('link',{name:'健康',exact:true}).click();
+  await login(page,'research');
+  const consumed=page.waitForResponse(r=>r.url()===origins.research+'/api/v1/health'&&r.request().method()==='GET');
+  await page.getByRole('link',{name:'健康',exact:true}).click();
+  const consumedBody=await (await consumed).json();
   await expect(page.getByText('最近收到程序心跳',{exact:true})).toBeVisible();
   await expect(page.getByText('工作佇列可用；工作者尚未啟動',{exact:true})).toBeVisible();
   const response=await page.request.get(origins.research+'/api/v1/health');
@@ -118,6 +149,8 @@ test('health distinguishes actual supervised control from an available queue wit
   expect(actual.control).toBe('PROCESS_RECENT_HEARTBEAT');
   expect(actual.research).toBe('QUEUE_AVAILABLE_WORKER_NOT_STARTED');
   expect(actual.live_authorized).toBe(false);
+  await assertDiagnostic(page,'health-component-control',consumedBody.data.components.control);
+  expect(consumedBody.data.components.control.as_of).toBe(consumedBody.data.components.control.facts.heartbeat_at);
   await page.screenshot({path:path.join(artifacts,'supervised-health.png'),fullPage:true});
 });
 
@@ -141,7 +174,17 @@ test('delivery separates local staging from actual byte-verified fixture-copy ac
 });
 
 test('actual candidate PAPER start and pause retain run identity and show unavailable metrics',async({page})=>{
-  await login(page,'paper'); await page.getByRole('link',{name:'策略',exact:true}).click();
+  const overviewRead=page.waitForResponse(r=>r.url()===origins.paper+'/api/v1/overview'&&r.request().method()==='GET');
+  await login(page,'paper');const overview=(await (await overviewRead).json()).data;
+  expect(overview.strategy_subjects.status).toBe('AVAILABLE');expect(overview.strategy_subjects.facts.items).toHaveLength(1);
+  const selected=overview.strategy_subjects.facts.items[0];expect(selected.relationship).toBe('CONFIGURED_SELECTION');
+  const subject=page.getByTestId('overview-strategy-subjects');
+  const identity=subject.locator('dt').filter({hasText:/^策略／版本$/}).locator('xpath=following-sibling::dd[1]');
+  await expect(identity).toHaveText(selected.strategy_id+' / '+selected.strategy_version);
+  const content=subject.locator('dt').filter({hasText:/^內容雜湊$/}).locator('xpath=following-sibling::dd[1]');
+  await expect(content).toHaveText(selected.content_hash);
+  await assertDiagnostic(page,'overview-strategy-subjects',overview.strategy_subjects);
+  await page.getByRole('link',{name:'策略',exact:true}).click();
   await page.getByRole('button',{name:'查看策略',exact:true}).first().click();
   await page.getByLabel('PAPER 政策',{exact:true}).selectOption('fixture-paper-policy');
   // Source-only response-loss injection: the real owner completes first.
@@ -177,6 +220,12 @@ test('protected owner facts distinguish ACK/fill, remaining exposure and as-of s
   await expect(page.getByText('委託 ACK 與實際成交',{exact:true})).toBeVisible();
   await expect(page.getByTestId('paper-freshness')).toContainText('LAST_KNOWN_GOOD');
   const observed=(await (await page.request.get(origins.protected+'/api/v1/paper/runs')).json()).data.items;
+  const original=observed[0];
+  const evidence=page.locator('details.evidence').filter({has:page.getByText('E2 / E5 / E4 / E6 原始訊號、風險與保護事實',{exact:true})});
+  await evidence.locator('summary').click();
+  expect(JSON.parse(await evidence.locator('pre').innerText())).toEqual({Signal:original.last_signal,TradeIntent:original.last_intent,RiskDecision:original.risk_decision,Position:original.position,Protection:original.protection_request});
+  const metrics=page.locator('details.evidence').filter({has:page.getByText('原始 E3 結果',{exact:true})});
+  await metrics.locator('summary').click();expect(JSON.parse(await metrics.locator('pre').innerText())).toEqual(original.metrics);
   expect(observed[0].forward_observations.real_elapsed_ns).toBe(0);
   await expect(page.getByTestId('paper-real-forward-seconds').locator('strong')).toHaveText('0');
   await page.getByRole('button',{name:'停止新進場',exact:true}).click();
@@ -318,6 +367,10 @@ test('two actual immutable versions remain independent in list and selected deta
                         record.author_metadata.submission_id,record.author_metadata.manifest.research_hypothesis]){
       await expect(panel).toContainText(value);
     }
+    const declaration=panel.locator('details.evidence').filter({has:page.getByText('宣告、所需能力與出場規則原文',{exact:true})});
+    await declaration.locator('summary').click();expect(JSON.parse(await declaration.locator('pre').innerText())).toEqual(record.definition);
+    const lineage=panel.locator('details.evidence').filter({has:page.getByText('實際登錄與研究 lineage',{exact:true})});
+    await lineage.locator('summary').click();expect(JSON.parse(await lineage.locator('pre').innerText())).toEqual(record);
     const other=item===candidate?draft:candidate;
     await expect(page.getByRole('heading',{name:'策略 '+other.identity.strategy_id+' / '+other.identity.strategy_version,exact:true})).toHaveCount(0);
     await expect(page.getByRole('button',{name:'開始 PAPER',exact:true})).toBeDisabled();
@@ -326,4 +379,41 @@ test('two actual immutable versions remain independent in list and selected deta
   }
   const after=await (await page.request.get(origin+'/api/v1/strategies?limit=50&offset=0')).json();
   expect(after.data).toEqual(listing);expect(remote).toEqual([]);
+});
+
+async function assertDiagnostic(page:Page,testId:string,value:any){
+  const card=page.getByTestId(testId);await expect(card).toBeVisible();
+  await expect(card).toContainText(value.status);await expect(card).toContainText(value.source);
+  for(const [label,at] of [['來源時點',value.as_of],['本次讀取',value.checked_at]]){
+    const field=card.locator('dt').filter({hasText:new RegExp('^'+label+'$')}).locator('xpath=following-sibling::dd[1]');
+    if(at===null){await expect(field.locator('time')).toHaveCount(0);await expect(field).toHaveText('未觀察');}
+    else{await expect(field.locator('time')).toHaveAttribute('datetime',at);await expect(field.locator('code')).toHaveText(at);}
+  }
+  const evidence=card.locator('details.evidence');await evidence.locator('summary').click();
+  expect(JSON.parse(await evidence.locator('pre').innerText())).toEqual({facts:value.facts,financial_authority:'NONE'});
+}
+
+test('UI01 diagnostic views show exact consumed facts and preserve explicit unknowns',async({page})=>{
+  const remote:string[]=[];page.on('request',request=>{if(!request.url().startsWith(origins.empty))remote.push(request.url());});
+  const overviewRead=page.waitForResponse(r=>r.url()===origins.empty+'/api/v1/overview'&&r.request().method()==='GET');
+  await login(page,'empty');const overview=(await (await overviewRead).json()).data;
+  for(const [key,testId] of [['strategy_subjects','overview-strategy-subjects'],['research_stage_counts','overview-research-stage-counts'],['resource_limits','overview-resource-limits'],['alerts','overview-alerts']]){
+    await assertDiagnostic(page,testId,overview[key]);
+  }
+  expect(overview.strategy_subjects.status).toBe('NOT_CONFIGURED');expect(overview.research_stage_counts.status).toBe('NOT_CONFIGURED');
+  await expect(page.getByTestId('overview-resource-limits')).toContainText(String(overview.resource_limits.facts.research_worker_count));
+  const healthRead=page.waitForResponse(r=>r.url()===origins.empty+'/api/v1/health'&&r.request().method()==='GET');
+  await page.getByRole('link',{name:'健康',exact:true}).click();const health=(await (await healthRead).json()).data;
+  for(const role of ['control','research','runtime','cloud','coordinator'])await assertDiagnostic(page,'health-component-'+role,health.components[role]);
+  for(const key of ['risk','execution','preflight','external_consumer']){
+    expect(health[key].status).toBe('UNAVAILABLE');expect(health[key].as_of).toBeNull();expect(health[key].facts).toEqual({});
+    await assertDiagnostic(page,'health-'+key,health[key]);
+  }
+  const settingsRead=page.waitForResponse(r=>r.url()===origins.empty+'/api/v1/settings'&&r.request().method()==='GET');
+  await page.getByRole('link',{name:'設定',exact:true}).click();const settings=(await (await settingsRead).json()).data;
+  for(const key of ['resource_limits','clock_health','backup','transport_test','credential_presence'])await assertDiagnostic(page,'settings-'+key.replace('resource_limits','resource-limits'),settings[key]);
+  expect(settings.backup.status).toBe('NOT_CONFIGURED');expect(settings.transport_test.status).toBe('NOT_RUN');
+  expect(settings.credential_presence.status).toBe('UNAVAILABLE');expect(settings.credential_presence.facts).toEqual({});
+  expect(remote).toEqual([]);
+  await page.screenshot({path:path.join(artifacts,'ui01-settings-observations.png'),fullPage:true});
 });

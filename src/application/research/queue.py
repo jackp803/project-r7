@@ -223,6 +223,53 @@ class ResearchQueue:
         except (sqlite3.Error,OSError,ValueError,TypeError,KeyError,RecursionError):
             raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE') from None
 
+    def state_stage_counts(self):
+        """Bounded persisted stage/state facts; no owner work or writable open."""
+        from storage.qualification import _readonly_uri
+        end=time.monotonic()+2
+        allowed={'QUEUED','RUNNING','CANCEL_REQUESTED','COMPLETE','BLOCKED','FAILED','CANCELED','EXPIRED'}
+        try:
+            identity=self._alert_file_identity(self.path)
+            with closing(sqlite3.connect(':memory:')) as model:
+                model.executescript((Path(__file__).parents[1]/'migrations/0005_research_queue.sql').read_text(encoding='utf-8'))
+                expected=self._alert_schema(model)
+            with closing(sqlite3.connect(_readonly_uri(self.path),uri=True,timeout=1)) as db:
+                db.row_factory=sqlite3.Row
+                db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH,65536)
+                db.set_progress_handler(lambda:int(time.monotonic()>=end),1000)
+                db.execute('PRAGMA query_only=ON');db.execute('PRAGMA trusted_schema=OFF')
+                db.execute('PRAGMA busy_timeout=1000');db.execute('PRAGMA temp_store=MEMORY');db.execute('BEGIN')
+                if (self._alert_schema(db)!=expected or self.namespace not in ('FIXTURE','LOCAL_RESEARCH')
+                        or [tuple(row) for row in db.execute('SELECT singleton,namespace FROM research_queue_namespace LIMIT 2')]!=[(1,self.namespace)]):
+                    raise ResearchQueueError('RESEARCH_QUEUE_COUNTS_UNAVAILABLE')
+                cursor=db.execute('SELECT state,stage,updated_at FROM research_queue_jobs')
+                groups={};total=0;as_of=None
+                while batch:=cursor.fetchmany(128):
+                    if time.monotonic()>=end:raise ResearchQueueError('RESEARCH_QUEUE_COUNTS_UNAVAILABLE')
+                    for row in batch:
+                        state,stage,observed=row['state'],row['stage'],row['updated_at']
+                        if (state not in allowed or (stage is not None and (not isinstance(stage,str)
+                                or not re.fullmatch('[A-Za-z_][A-Za-z0-9_]{0,63}',stage)))
+                                or not isinstance(observed,str) or not 1<=len(observed)<=40
+                                or stamp(datetime.fromisoformat(observed.replace('Z','+00:00')))!=observed):
+                            raise ResearchQueueError('RESEARCH_QUEUE_COUNTS_UNAVAILABLE')
+                        key=(state,stage)
+                        if key not in groups:
+                            if len(groups)>=256:raise ResearchQueueError('RESEARCH_QUEUE_COUNTS_UNAVAILABLE')
+                            groups[key]=dict(state=state,stage=stage,count=0,last_observed_at=observed)
+                        group=groups[key]
+                        group['count']=_revision_int(group['count']+1)
+                        group['last_observed_at']=max(group['last_observed_at'],observed)
+                        total=_revision_int(total+1)
+                        as_of=observed if as_of is None else max(as_of,observed)
+                result=dict(items=[groups[key] for key in sorted(groups,key=lambda key:(key[0],key[1] or ''))],total_jobs=total,as_of=as_of)
+                if (len(canonical(result).encode())>65536 or time.monotonic()>=end
+                        or self._alert_file_identity(self.path)!=identity):
+                    raise ResearchQueueError('RESEARCH_QUEUE_COUNTS_UNAVAILABLE')
+                return result
+        except (ResearchQueueError,sqlite3.Error,OSError,ValueError,TypeError,KeyError,RecursionError):
+            raise ResearchQueueError('RESEARCH_QUEUE_COUNTS_UNAVAILABLE') from None
+
     def evidence_view(self,run_id):
         """Bounded actual owner summary. A view never reruns research or OOS."""
         from application.research.service import ResearchError

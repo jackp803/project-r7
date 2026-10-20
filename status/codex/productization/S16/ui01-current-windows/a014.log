@@ -1,0 +1,43 @@
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\ui\qa\serve_fixture.py", line 113, in <module>
+
+[WebServer]     if __name__=='__main__': main()
+[WebServer]                              ^^^^^^
+[WebServer]   File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\ui\qa\serve_fixture.py", line 48, in main
+[WebServer]     prepare_research_reports(fixture)
+[WebServer]   File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\report_delivery_fixtures.py", line 49, in prepare_research_reports
+[WebServer]     _deliver(lambda transport:flush_feedback(owner.journal,transport,limit=1),bridge,state)
+[WebServer]   File "<USER_HOME>\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\report_delivery_fixtures.py", line 27, in _deliver
+[WebServer]     if stage=='CLOUD_ACKNOWLEDGED' and result.cloud_acknowledged!=1:raise AssertionError('Actual byte readback ACK required')
+[WebServer]                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer] AssertionError: Actual byte readback ACK required
+
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\weakref.py", line 666, in _exitfunc
+[WebServer]     f()
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\weakref.py", line 590, in __call__
+
+[WebServer]     return info.func(*info.args, **(info.kwargs or {}))
+
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 939, in _cleanup
+
+[WebServer]     cls._rmtree(name, ignore_errors=ignore_errors)
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+
+[WebServer]     _shutil.rmtree(name, onexc=onexc)
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+
+[WebServer]     return _rmtree_unsafe(path, onexc)
+
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 629, in _rmtree_unsafe
+
+[WebServer]     onexc(os.rmdir, fullname, err)
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 627, in _rmtree_unsafe
+
+[WebServer]     os.rmdir(fullname)
+
+[WebServer] OSError: [WinError 145] �ؿ����O�Ū��C: '<USER_HOME>\\Desktop\\��������H�D��\\artifacts\\current-windows-20261019\\ui01-frontend-first\\browser-scratch\\report-research\\R7 ���� ���� 7pbm9q_o\\���� ���� �Ȧs\\reports\\feedback\\fixture-v02-trend\\0.2.0\\294c2be06a9d373ecb6f6535b9e13e0358e1aa724d4b78468d38e1475f891194'
+
+Error: Process from config.webServer was not able to start. Exit code: 1

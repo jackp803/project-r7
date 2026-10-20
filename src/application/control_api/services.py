@@ -1,5 +1,6 @@
 """Local service composition. Unconfigured owners are explicit delivery gaps."""
 from dataclasses import asdict
+from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -40,7 +41,7 @@ class LocalControlServices:
         db.execute('PRAGMA busy_timeout=5000'); db.execute('PRAGMA journal_mode=WAL'); db.execute('PRAGMA synchronous=FULL')
         return _ClosingConnection(db)
 
-    def settings(self):
+    def _static_settings(self):
         with self._db() as db:
             row = dict(db.execute('SELECT revision,config_generation,display_timezone,scan_interval FROM control_settings WHERE singleton=1').fetchone())
         row.update(local_data_root=str(self.config.local_data_root), cloud_root=None if self.config.cloud_root is None else str(self.config.cloud_root),
@@ -48,8 +49,53 @@ class LocalControlServices:
             diagnostic_only=self.config.diagnostic_only, paper_runtime_enabled=self.config.paper_runtime_enabled)
         return row
 
+    def _observation(self, source, *, status='UNAVAILABLE', facts=None, as_of=None, reasons=()):
+        return dict(status=status,source=source,as_of=as_of,checked_at=_stamp(self.clock()),
+                    reason_codes=list(reasons),facts={} if facts is None else facts,financial_authority='NONE')
+
+    def _resource_limits(self):
+        return self._observation('product_config',status='AVAILABLE',
+            facts=dict(research_worker_count=self.config.research_worker_count),
+            reasons=('CONFIGURED_WORKER_COUNT_ONLY',))
+
+    def settings(self):
+        value=self._static_settings()
+        value.update(resource_limits=self._resource_limits(),
+            clock_health=self._observation('clock_health',reasons=('CLOCK_HEALTH_NOT_OBSERVED',)),
+            backup=self._observation('backup_selection',status='NOT_CONFIGURED',reasons=('BACKUP_DESTINATION_NOT_CONFIGURED',)),
+            transport_test=self._observation('transport_test',status='NOT_RUN',reasons=('TRANSPORT_TEST_NOT_RUN',)),
+            credential_presence=self._observation('credential_presence',reasons=('CREDENTIAL_PRESENCE_NOT_OBSERVED',)))
+        return value
+
+    def _components(self):
+        from application.control_api.dto import ProcessObservationFacts
+        from application.platform.supervision import process_health
+        from application.research.evidence import stamp as source_stamp
+        result={}
+        for role in ('control','research','runtime','cloud','coordinator'):
+            try:
+                observed=process_health(self.config,role,clock=self.clock)
+                status=observed['status']
+                facts=dict(role=role,status=status,recorded_state=observed.get('state'),
+                    **{key:observed.get(key) for key in ('generation','process_generation_id','started_at',
+                                                        'heartbeat_at','heartbeat_sequence','config_hash')})
+                ProcessObservationFacts.model_validate(facts)
+                for key in ('started_at','heartbeat_at'):
+                    value=facts[key]
+                    if value is not None and source_stamp(datetime.fromisoformat(value.replace('Z','+00:00')))!=value:
+                        raise ValueError('Invalid supervision source time')
+            except (OSError,sqlite3.Error,ValueError,TypeError,KeyError,IndexError):
+                status='SUPERVISION_STORAGE_FAILURE';observed={}
+                facts=dict(role=role,status=status,recorded_state=None,
+                    **{key:None for key in ('generation','process_generation_id','started_at',
+                                           'heartbeat_at','heartbeat_sequence','config_hash')})
+            result[role]=self._observation('process_supervision:'+role,
+                status='UNAVAILABLE' if status=='SUPERVISION_STORAGE_FAILURE' else 'AVAILABLE',facts=facts,
+                as_of=observed.get('heartbeat_at'),reasons=(status,))
+        return result
+
     def metadata(self, source, *, data=None):
-        settings = self.settings()
+        settings = self._static_settings()
         config = {key: str(value) if isinstance(value, Path) else value for key, value in asdict(self.config).items()}
         raw = json.dumps(dict(config=config, selected_settings=settings), sort_keys=True, separators=(',', ':')).encode()
         return dict(source=source, observed_at=_stamp(self.clock()), as_of=_stamp(self.clock()), freshness='CURRENT',
@@ -63,13 +109,24 @@ class LocalControlServices:
         if name == 'health':
             from application.platform.restoration import restoration_status
             restoration = restoration_status(self.config)
-            return dict(control='ONLINE', research='NOT_CONFIGURED', runtime='NOT_CONFIGURED', storage='CONTROL_STORE_AVAILABLE',
+            components=self._components()
+            runtime_status=components['runtime']['facts']['status']
+            return dict(control='ONLINE', research='NOT_CONFIGURED',
+                runtime='NOT_CONFIGURED' if runtime_status=='NOT_STARTED' else 'PROCESS_'+runtime_status, storage='CONTROL_STORE_AVAILABLE',
                 cloud='NOT_CONNECTED', market='NOT_CONNECTED', provider='NOT_CONFIGURED', live_authorized=False, provider_requests=0,
-                runtime_llm_calls=0, restoration=restoration,
+                runtime_llm_calls=0, restoration=restoration, components=components,
+                risk=self._observation('risk_owner',reasons=('RISK_NOT_OBSERVED',)),
+                execution=self._observation('execution_owner',reasons=('EXECUTION_NOT_OBSERVED',)),
+                preflight=self._observation('preflight_owner',reasons=('PREFLIGHT_NOT_OBSERVED',)),
+                external_consumer=self._observation('external_consumer',reasons=('EXTERNAL_CONSUMER_NOT_OBSERVED',)),
                 reason_codes=['OPERATIONAL_OWNERS_NOT_CONFIGURED', *restoration.get('reason_codes',[])])
         if name == 'overview': return dict(mode='RESEARCH', live_authorized=False, queued_jobs=None, running_jobs=None, lifecycle_counts=None,
             exposure_quantity=None, realized_pnl_usdt=None, unrealized_pnl_usdt=None, runtime_status='NOT_CONFIGURED',
-            cloud_status='NOT_CONNECTED', reason_codes=['OPERATIONAL_OWNERS_NOT_CONFIGURED'])
+            cloud_status='NOT_CONNECTED', reason_codes=['OPERATIONAL_OWNERS_NOT_CONFIGURED'],
+            resource_limits=self._resource_limits(),
+            strategy_subjects=self._observation('paper_selection',status='NOT_CONFIGURED',reasons=('STRATEGY_SELECTION_NOT_CONFIGURED',)),
+            research_stage_counts=self._observation('research_queue',status='NOT_CONFIGURED',reasons=('RESEARCH_QUEUE_NOT_CONFIGURED',)),
+            alerts=self._observation('research_queue',status='NOT_CONFIGURED',reasons=('ALERT_OWNER_NOT_CONFIGURED',)))
         if name == 'trading': return dict(mode='NOT_STARTED', status='NOT_CONFIGURED', broker_observed_at=None, position=None, protection=None,
             reconciliation='UNKNOWN', realized_pnl_usdt=None, unrealized_pnl_usdt=None, reason_codes=['RUNTIME_NOT_CONFIGURED'])
         if subject is not None: raise APIError('NOT_CONFIGURED', 'OWNER_NOT_CONFIGURED', 503)
@@ -78,7 +135,7 @@ class LocalControlServices:
         raise APIError('UNAVAILABLE', 'VIEW_UNAVAILABLE', 404)
 
     def revision(self, operation, resource, arguments):
-        if operation == 'SETTINGS_UPDATE': return self.settings()['revision']
+        if operation == 'SETTINGS_UPDATE': return self._static_settings()['revision']
         raise APIError('NOT_CONFIGURED', 'OWNER_NOT_CONFIGURED', 503)
 
     def execute(self, operation, resource, arguments, *, actor, human, command_id, expected_revision):

@@ -1,0 +1,78 @@
+"""Owned frontend commands; actual browser, immutable source, no receipt credit."""
+from pathlib import Path
+from datetime import datetime,timezone
+import hashlib,json,os,re,sys
+BASE=Path(__file__).resolve().parent;PROJECT=BASE.parents[1]
+ROOT=PROJECT/'workspaces/project-r7-productization-master-20261002'
+sys.path[:0]=[str(BASE.parent),str(ROOT/'src'),str(ROOT)]
+from local_windows_qualification_awake import awake_request
+from application.platform.processes import spawn_owned,terminate_owned,ResourceLimits
+from application.platform.private_files import create_private_directory,write_private_new
+from application.platform.resources import _memory,GIB
+from application.qualification import _sanitize
+from strategy.v02.capabilities import _revision
+
+def sha(raw):return 'sha256:'+hashlib.sha256(raw).hexdigest()
+def pins():
+    paths=sorted(set([*(ROOT/'src').rglob('*.py'),*(ROOT/'src').rglob('*.sql'),
+        *(ROOT/'tests').rglob('*.py'),*(ROOT/'ui/src').rglob('*'),*(ROOT/'ui/qa').rglob('*.ts'),
+        *(ROOT/'ui/qa').rglob('*.py'),ROOT/'contracts/control_api_v0_2.openapi.json',
+        ROOT/'ui/package.json',ROOT/'ui/package-lock.json',ROOT/'ui/playwright.config.ts']))
+    return {p.relative_to(ROOT).as_posix():sha(p.read_bytes()) for p in paths if p.is_file()}
+
+out=BASE/sys.argv[1];create_private_directory(out)
+os.environ['R7_BROWSER_ARTIFACT_ROOT']=str(out/'browser')
+scratch_name=sys.argv[2] if len(sys.argv)>2 else 'ui01-browser-first'
+if not re.fullmatch('[a-z0-9-]{1,32}',scratch_name):raise ValueError('Contained short scratch label required')
+scratch=PROJECT/'artifacts'/scratch_name
+if scratch.exists():raise ValueError('Fresh short browser scratch required')
+os.environ['R7_BROWSER_SCRATCH_ROOT']=str(scratch)
+os.environ['PYTHONPATH']=str(ROOT/'src')+os.pathsep+str(ROOT)
+before=pins();impl=_revision()
+report=dict(scope='ACTUAL_SOURCE_UI01_FRONTEND_AND_BROWSER',native_qualification='NONE',
+    started_at=datetime.now(timezone.utc).isoformat(),implementation_hash=impl,
+    helper_hash=sha(Path(__file__).read_bytes()),source_hashes=before,commands=[],passed=False,
+    public_requests=0,private_requests=0,financial_authority='NONE')
+commands=[('types',['scripts/verify-contract.mjs'],120),
+ ('typecheck',['node_modules/typescript/bin/tsc','--noEmit'],120),
+ ('unit',['node_modules/vitest/vitest.mjs','run'],180),
+ ('build',['node_modules/vite/bin/vite.js','build'],180),
+ ('browser',['node_modules/@playwright/test/cli.js','test'],600)]
+if len(sys.argv)>3:
+    if sys.argv[3]!='browser':raise ValueError('Only scoped browser retry is supported')
+    commands=commands[-1:]
+report['scratch_ref']=scratch.relative_to(PROJECT).as_posix()
+try:
+    total,available=_memory();report['available_bytes']=available
+    if available<6*GIB:raise ValueError('RESOURCE_PREFLIGHT_BELOW_6GIB')
+    with awake_request() as awake:
+        report['awake']=awake
+        for name,args,timeout in commands:
+            if pins()!=before or _revision()!=impl:raise ValueError('SOURCE_CHANGED_BEFORE_COMMAND')
+            row=dict(name=name,arguments=args,timeout_seconds=timeout,
+                started_at=datetime.now(timezone.utc).isoformat())
+            owned=None;cleanup=None;code=None
+            try:
+                with (out/(name+'.raw')).open('xb') as stream:
+                    owned=spawn_owned(['C:/Program Files/nodejs/node.exe',*args],cwd=ROOT/'ui',
+                        limits=ResourceLimits(timeout),stdout=stream,stderr=stream)
+                    code=owned.wait()
+            finally:
+                if owned is not None:cleanup=terminate_owned(owned,deadline_seconds=10)
+            raw=(out/(name+'.raw')).read_text(encoding='utf-8',errors='replace')
+            safe=_sanitize(raw,ROOT).replace(str(PROJECT),'<PROJECT_ROOT>').replace('\r\n','\n').encode()
+            write_private_new(out/(name+'.log'),safe);(out/(name+'.raw')).unlink()
+            row.update(exit_code=code,tree_reaped=bool(cleanup and cleanup.reaped),log_hash=sha(safe),
+                finished_at=datetime.now(timezone.utc).isoformat(),source_unchanged=pins()==before and _revision()==impl)
+            report['commands'].append(row);print(json.dumps(row),flush=True)
+            if code!=0 or not row['tree_reaped'] or not row['source_unchanged']:break
+        report['passed']=len(report['commands'])==len(commands) and all(
+            r['exit_code']==0 and r['tree_reaped'] and r['source_unchanged'] for r in report['commands'])
+except BaseException as error:report['error_type']=type(error).__name__;report['error']=str(error)
+finally:
+    report['source_unchanged']=pins()==before and _revision()==impl
+    report['finished_at']=datetime.now(timezone.utc).isoformat()
+    report['passed']=report['passed'] and report['source_unchanged'] and report.get('awake',{}).get('restored') is True
+    write_private_new(out/'checkpoint.json',(json.dumps(report,indent=2)+'\n').encode())
+print(json.dumps({k:v for k,v in report.items() if k!='source_hashes'}),flush=True)
+raise SystemExit(0 if report['passed'] else 1)

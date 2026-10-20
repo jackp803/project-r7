@@ -1,6 +1,31 @@
 {
   "components": {
     "schemas": {
+      "AlertFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/HistoricalAlertFact"
+            },
+            "maxItems": 5,
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total"
+        ],
+        "title": "AlertFacts",
+        "type": "object"
+      },
       "ApprovalDTO": {
         "additionalProperties": false,
         "properties": {
@@ -358,6 +383,35 @@
         "title": "CommandReceipt",
         "type": "object"
       },
+      "ComponentObservations": {
+        "additionalProperties": false,
+        "properties": {
+          "cloud": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ProcessObservationFacts_"
+          },
+          "control": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ProcessObservationFacts_"
+          },
+          "coordinator": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ProcessObservationFacts_"
+          },
+          "research": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ProcessObservationFacts_"
+          },
+          "runtime": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ProcessObservationFacts_"
+          }
+        },
+        "required": [
+          "control",
+          "research",
+          "runtime",
+          "cloud",
+          "coordinator"
+        ],
+        "title": "ComponentObservations",
+        "type": "object"
+      },
       "DeploymentActivateDTO": {
         "additionalProperties": false,
         "properties": {
@@ -446,6 +500,426 @@
         "title": "DeploymentPauseDTO",
         "type": "object"
       },
+      "DiagnosticObservation_ProcessObservationFacts_": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of"
+          },
+          "checked_at": {
+            "title": "Checked At",
+            "type": "string"
+          },
+          "facts": {
+            "$ref": "#/components/schemas/ProcessObservationFacts"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "source": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "NOT_CONFIGURED",
+              "NOT_RUN",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "source",
+          "as_of",
+          "checked_at",
+          "reason_codes",
+          "facts",
+          "financial_authority"
+        ],
+        "title": "DiagnosticObservation[ProcessObservationFacts]",
+        "type": "object"
+      },
+      "DiagnosticObservation_ResourceLimitFacts_": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of"
+          },
+          "checked_at": {
+            "title": "Checked At",
+            "type": "string"
+          },
+          "facts": {
+            "$ref": "#/components/schemas/ResourceLimitFacts"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "source": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "NOT_CONFIGURED",
+              "NOT_RUN",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "source",
+          "as_of",
+          "checked_at",
+          "reason_codes",
+          "facts",
+          "financial_authority"
+        ],
+        "title": "DiagnosticObservation[ResourceLimitFacts]",
+        "type": "object"
+      },
+      "DiagnosticObservation_Union_AlertFacts__UnobservedFacts__": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of"
+          },
+          "checked_at": {
+            "title": "Checked At",
+            "type": "string"
+          },
+          "facts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AlertFacts"
+              },
+              {
+                "$ref": "#/components/schemas/UnobservedFacts"
+              }
+            ],
+            "title": "Facts"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "source": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "NOT_CONFIGURED",
+              "NOT_RUN",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "source",
+          "as_of",
+          "checked_at",
+          "reason_codes",
+          "facts",
+          "financial_authority"
+        ],
+        "title": "DiagnosticObservation[Union[AlertFacts, UnobservedFacts]]",
+        "type": "object"
+      },
+      "DiagnosticObservation_Union_ResearchStageFacts__UnobservedFacts__": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of"
+          },
+          "checked_at": {
+            "title": "Checked At",
+            "type": "string"
+          },
+          "facts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ResearchStageFacts"
+              },
+              {
+                "$ref": "#/components/schemas/UnobservedFacts"
+              }
+            ],
+            "title": "Facts"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "source": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "NOT_CONFIGURED",
+              "NOT_RUN",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "source",
+          "as_of",
+          "checked_at",
+          "reason_codes",
+          "facts",
+          "financial_authority"
+        ],
+        "title": "DiagnosticObservation[Union[ResearchStageFacts, UnobservedFacts]]",
+        "type": "object"
+      },
+      "DiagnosticObservation_Union_StrategySubjectFacts__UnobservedFacts__": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of"
+          },
+          "checked_at": {
+            "title": "Checked At",
+            "type": "string"
+          },
+          "facts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategySubjectFacts"
+              },
+              {
+                "$ref": "#/components/schemas/UnobservedFacts"
+              }
+            ],
+            "title": "Facts"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "source": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "NOT_CONFIGURED",
+              "NOT_RUN",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "source",
+          "as_of",
+          "checked_at",
+          "reason_codes",
+          "facts",
+          "financial_authority"
+        ],
+        "title": "DiagnosticObservation[Union[StrategySubjectFacts, UnobservedFacts]]",
+        "type": "object"
+      },
+      "DiagnosticObservation_UnobservedFacts_": {
+        "additionalProperties": false,
+        "properties": {
+          "as_of": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "As Of"
+          },
+          "checked_at": {
+            "title": "Checked At",
+            "type": "string"
+          },
+          "facts": {
+            "$ref": "#/components/schemas/UnobservedFacts"
+          },
+          "financial_authority": {
+            "const": "NONE",
+            "title": "Financial Authority",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "source": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Source",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "AVAILABLE",
+              "NOT_CONFIGURED",
+              "NOT_RUN",
+              "UNAVAILABLE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "source",
+          "as_of",
+          "checked_at",
+          "reason_codes",
+          "facts",
+          "financial_authority"
+        ],
+        "title": "DiagnosticObservation[UnobservedFacts]",
+        "type": "object"
+      },
       "ErrorDetail": {
         "additionalProperties": false,
         "properties": {
@@ -504,9 +978,18 @@
             "title": "Cloud",
             "type": "string"
           },
+          "components": {
+            "$ref": "#/components/schemas/ComponentObservations"
+          },
           "control": {
             "title": "Control",
             "type": "string"
+          },
+          "execution": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
+          },
+          "external_consumer": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
           },
           "live_authorized": {
             "title": "Live Authorized",
@@ -515,6 +998,9 @@
           "market": {
             "title": "Market",
             "type": "string"
+          },
+          "preflight": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
           },
           "provider": {
             "title": "Provider",
@@ -545,6 +1031,9 @@
               }
             ]
           },
+          "risk": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
+          },
           "runtime": {
             "title": "Runtime",
             "type": "string"
@@ -559,6 +1048,11 @@
           }
         },
         "required": [
+          "components",
+          "risk",
+          "execution",
+          "preflight",
+          "external_consumer",
           "control",
           "research",
           "runtime",
@@ -572,6 +1066,84 @@
           "reason_codes"
         ],
         "title": "HealthView",
+        "type": "object"
+      },
+      "HistoricalAlertFact": {
+        "additionalProperties": false,
+        "properties": {
+          "alert_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Alert Id",
+            "type": "string"
+          },
+          "generation": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Generation",
+            "type": "integer"
+          },
+          "namespace": {
+            "enum": [
+              "FIXTURE",
+              "LOCAL_RESEARCH"
+            ],
+            "title": "Namespace",
+            "type": "string"
+          },
+          "reason_codes": {
+            "items": {
+              "maxLength": 96,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+              "type": "string"
+            },
+            "maxItems": 16,
+            "minItems": 1,
+            "title": "Reason Codes",
+            "type": "array"
+          },
+          "recorded_at": {
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "revision": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "run_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Run Id",
+            "type": "string"
+          },
+          "source": {
+            "const": "research_queue",
+            "title": "Source",
+            "type": "string"
+          },
+          "state": {
+            "const": "FAILED",
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "run_id",
+          "state",
+          "revision",
+          "generation",
+          "recorded_at",
+          "reason_codes",
+          "source",
+          "alert_id"
+        ],
+        "title": "HistoricalAlertFact",
         "type": "object"
       },
       "JsonValue": {},
@@ -674,6 +1246,9 @@
       "OverviewView": {
         "additionalProperties": false,
         "properties": {
+          "alerts": {
+            "$ref": "#/components/schemas/DiagnosticObservation_Union_AlertFacts__UnobservedFacts__"
+          },
           "cloud_status": {
             "title": "Cloud Status",
             "type": "string"
@@ -746,6 +1321,12 @@
             "title": "Reason Codes",
             "type": "array"
           },
+          "research_stage_counts": {
+            "$ref": "#/components/schemas/DiagnosticObservation_Union_ResearchStageFacts__UnobservedFacts__"
+          },
+          "resource_limits": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ResourceLimitFacts_"
+          },
           "running_jobs": {
             "anyOf": [
               {
@@ -774,6 +1355,9 @@
             ],
             "title": "Scan Revision"
           },
+          "strategy_subjects": {
+            "$ref": "#/components/schemas/DiagnosticObservation_Union_StrategySubjectFacts__UnobservedFacts__"
+          },
           "unrealized_pnl_usdt": {
             "anyOf": [
               {
@@ -787,6 +1371,10 @@
           }
         },
         "required": [
+          "strategy_subjects",
+          "research_stage_counts",
+          "resource_limits",
+          "alerts",
           "mode",
           "live_authorized",
           "queued_jobs",
@@ -963,6 +1551,144 @@
         "title": "PaperStartDTO",
         "type": "object"
       },
+      "ProcessObservationFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "config_hash": {
+            "anyOf": [
+              {
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config Hash"
+          },
+          "generation": {
+            "anyOf": [
+              {
+                "maximum": 9.223372036854776e+18,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generation"
+          },
+          "heartbeat_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Heartbeat At"
+          },
+          "heartbeat_sequence": {
+            "anyOf": [
+              {
+                "maximum": 9.223372036854776e+18,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Heartbeat Sequence"
+          },
+          "process_generation_id": {
+            "anyOf": [
+              {
+                "maxLength": 96,
+                "minLength": 1,
+                "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Process Generation Id"
+          },
+          "recorded_state": {
+            "anyOf": [
+              {
+                "enum": [
+                  "RUNNING",
+                  "STOPPED",
+                  "FAILED",
+                  "CONFIG_CHANGED",
+                  "CLOCK_REGRESSION",
+                  "SUPERVISION_STORAGE_FAILURE"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recorded State"
+          },
+          "role": {
+            "enum": [
+              "control",
+              "research",
+              "runtime",
+              "cloud",
+              "coordinator"
+            ],
+            "title": "Role",
+            "type": "string"
+          },
+          "started_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Started At"
+          },
+          "status": {
+            "enum": [
+              "NOT_STARTED",
+              "RUNNING",
+              "STOPPED",
+              "FAILED",
+              "CONFIG_CHANGED",
+              "CLOCK_REGRESSION",
+              "STALE_HEARTBEAT",
+              "PROCESS_NOT_RUNNING",
+              "RECENT_HEARTBEAT",
+              "SUPERVISION_STORAGE_FAILURE"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role",
+          "status",
+          "recorded_state",
+          "generation",
+          "process_generation_id",
+          "started_at",
+          "heartbeat_at",
+          "heartbeat_sequence",
+          "config_hash"
+        ],
+        "title": "ProcessObservationFacts",
+        "type": "object"
+      },
       "ReauthenticationDTO": {
         "additionalProperties": false,
         "properties": {
@@ -1033,6 +1759,98 @@
           "policy_id"
         ],
         "title": "ResearchEnqueueDTO",
+        "type": "object"
+      },
+      "ResearchStageCount": {
+        "additionalProperties": false,
+        "properties": {
+          "count": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Count",
+            "type": "integer"
+          },
+          "last_observed_at": {
+            "title": "Last Observed At",
+            "type": "string"
+          },
+          "stage": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "minLength": 1,
+                "pattern": "^[A-Za-z_][A-Za-z0-9_]{0,63}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stage"
+          },
+          "state": {
+            "enum": [
+              "QUEUED",
+              "RUNNING",
+              "CANCEL_REQUESTED",
+              "COMPLETE",
+              "BLOCKED",
+              "FAILED",
+              "CANCELED",
+              "EXPIRED"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state",
+          "stage",
+          "count",
+          "last_observed_at"
+        ],
+        "title": "ResearchStageCount",
+        "type": "object"
+      },
+      "ResearchStageFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchStageCount"
+            },
+            "maxItems": 256,
+            "title": "Items",
+            "type": "array"
+          },
+          "total_jobs": {
+            "maximum": 9.223372036854776e+18,
+            "minimum": 0.0,
+            "title": "Total Jobs",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "items",
+          "total_jobs"
+        ],
+        "title": "ResearchStageFacts",
+        "type": "object"
+      },
+      "ResourceLimitFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "research_worker_count": {
+            "maximum": 64.0,
+            "minimum": 1.0,
+            "title": "Research Worker Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "research_worker_count"
+        ],
+        "title": "ResourceLimitFacts",
         "type": "object"
       },
       "RestorationView": {
@@ -1159,6 +1977,43 @@
         "title": "RestorationView",
         "type": "object"
       },
+      "SelectedStrategyFact": {
+        "additionalProperties": false,
+        "properties": {
+          "content_hash": {
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "relationship": {
+            "const": "CONFIGURED_SELECTION",
+            "title": "Relationship",
+            "type": "string"
+          },
+          "strategy_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Strategy Id",
+            "type": "string"
+          },
+          "strategy_version": {
+            "maxLength": 96,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$",
+            "title": "Strategy Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "strategy_id",
+          "strategy_version",
+          "content_hash",
+          "relationship"
+        ],
+        "title": "SelectedStrategyFact",
+        "type": "object"
+      },
       "SessionView": {
         "additionalProperties": false,
         "properties": {
@@ -1259,6 +2114,12 @@
       "SettingsView": {
         "additionalProperties": false,
         "properties": {
+          "backup": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
+          },
+          "clock_health": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
+          },
           "cloud_root": {
             "anyOf": [
               {
@@ -1281,6 +2142,9 @@
           "control_api_port": {
             "title": "Control Api Port",
             "type": "integer"
+          },
+          "credential_presence": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
           },
           "database_path": {
             "title": "Database Path",
@@ -1306,6 +2170,9 @@
             "title": "Paper Runtime Enabled",
             "type": "boolean"
           },
+          "resource_limits": {
+            "$ref": "#/components/schemas/DiagnosticObservation_ResourceLimitFacts_"
+          },
           "revision": {
             "title": "Revision",
             "type": "integer"
@@ -1313,9 +2180,17 @@
           "scan_interval": {
             "title": "Scan Interval",
             "type": "integer"
+          },
+          "transport_test": {
+            "$ref": "#/components/schemas/DiagnosticObservation_UnobservedFacts_"
           }
         },
         "required": [
+          "resource_limits",
+          "clock_health",
+          "backup",
+          "transport_test",
+          "credential_presence",
           "revision",
           "config_generation",
           "display_timezone",
@@ -1329,6 +2204,24 @@
           "paper_runtime_enabled"
         ],
         "title": "SettingsView",
+        "type": "object"
+      },
+      "StrategySubjectFacts": {
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SelectedStrategyFact"
+            },
+            "maxItems": 1,
+            "title": "Items",
+            "type": "array"
+          }
+        },
+        "required": [
+          "items"
+        ],
+        "title": "StrategySubjectFacts",
         "type": "object"
       },
       "TradingView": {
@@ -1427,6 +2320,12 @@
           "reason_codes"
         ],
         "title": "TradingView",
+        "type": "object"
+      },
+      "UnobservedFacts": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "UnobservedFacts",
         "type": "object"
       },
       "ViewEnvelope_ApprovalPreviewView_": {

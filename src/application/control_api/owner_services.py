@@ -122,19 +122,46 @@ class OwnerControlServices(LocalControlServices):
             with self.registry_factory() as e6: value['lifecycle_counts']=e6.lifecycle_counts()
             if self.inbox_factory is not None:
                 with self._db() as db: value['scan_revision']=db.execute('SELECT revision FROM control_scans WHERE singleton=1').fetchone()[0]
+            if self.paper_start is not None and self.paper_start.strategy_identity is not None:
+                try:
+                    identity=self.paper_start.strategy_identity
+                    with self.registry_factory() as e6:record=e6.get_strategy(identity)
+                    value['strategy_subjects']=self._observation('paper_selection',status='AVAILABLE',
+                        facts=dict(items=[dict(strategy_id=identity.strategy_id,strategy_version=identity.strategy_version,
+                            content_hash=record.content_hash,relationship='CONFIGURED_SELECTION')]),
+                        reasons=('CONFIGURED_SELECTION_NOT_RUNTIME_BINDING',))
+                except (ValueError,RuntimeError,KeyError):
+                    value['strategy_subjects']=self._observation('paper_selection',reasons=('STRATEGY_SELECTION_UNAVAILABLE',))
             if self.queue is not None:
-                counts=self.queue.counts(); value.update(queued_jobs=counts.get('QUEUED',0),running_jobs=counts.get('RUNNING',0)+counts.get('CANCEL_REQUESTED',0))
+                try:
+                    counts=self.queue.state_stage_counts()
+                    value['research_stage_counts']=self._observation('research_queue',status='AVAILABLE',
+                        facts=dict(items=counts['items'],total_jobs=counts['total_jobs']),as_of=counts['as_of'])
+                    states={}
+                    for row in counts['items']:states[row['state']]=states.get(row['state'],0)+row['count']
+                    value.update(queued_jobs=states.get('QUEUED',0),running_jobs=states.get('RUNNING',0)+states.get('CANCEL_REQUESTED',0))
+                except ResearchQueueError:
+                    value['research_stage_counts']=self._observation('research_queue',reasons=('RESEARCH_QUEUE_COUNTS_UNAVAILABLE',))
+                try:
+                    alerts=self.view('alerts',limit=5,offset=0)
+                    value['alerts']=self._observation('research_queue',status='AVAILABLE',
+                        facts=dict(items=alerts['items'],total=alerts['total']),
+                        as_of=max((row['recorded_at'] for row in alerts['items']),default=None),
+                        reasons=('HISTORICAL_FAILURES_NOT_CURRENT_HEALTH',))
+                except APIError:
+                    value['alerts']=self._observation('research_queue',reasons=('RESEARCH_ALERT_HISTORY_UNAVAILABLE',))
             return value
         if name=='health':
             value=super().view(name)
             with self.registry_factory() as e6: e6.lifecycle_counts()
             value['storage']='E6_AND_CONTROL_STORES_AVAILABLE'
-            from application.platform.supervision import process_health
-            control = process_health(self.config, 'control', clock=self.clock)
-            if control['status'] != 'NOT_STARTED': value['control'] = 'PROCESS_' + control['status']
+            components=value['components']
+            control=components['control']['facts']
+            if control['status']!='NOT_STARTED':value['control']='PROCESS_'+control['status']
+            runtime=components['runtime']['facts']
+            if runtime['status']!='NOT_STARTED':value['runtime']='PROCESS_'+runtime['status']
             if self.queue is not None:
-                worker = process_health(self.config, 'research', clock=self.clock)
-                value['research'] = 'QUEUE_AVAILABLE_WORKER_' + worker['status']
+                value['research']='QUEUE_AVAILABLE_WORKER_'+components['research']['facts']['status']
             return value
         if name=='paper_runs' and self.paper_reader is not None:
             if subject is None:

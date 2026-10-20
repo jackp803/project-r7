@@ -84,6 +84,11 @@ def main():
         if args.profile=='protected':
             _,_,run_id=fixture.api_start(); runtime=fixture.h.service.runtime(run_id)
             runtime.on_market_event(fixture.h.event(0,bars=True)); runtime.on_market_event(fixture.h.event(1))
+        # Explicitly select the actual registered subject through the same
+        # bounded public port constructor used by normal local composition.
+        from application.control_api.paper_ports import PaperStartControlPort
+        fixture.start_port=PaperStartControlPort(namespace='FIXTURE',service_factory=fixture.paper_factory,
+            strategy_identity=fixture.h.identity)
         owners=OwnerControlServices(fixture.config,namespace='FIXTURE',clock=lambda:fixture.h.clock[0],
             registry_factory=lambda:open_sqlite_platform(fixture.path,research_namespace='FIXTURE'),
             paper_reader=fixture.reader,paper_start=fixture.start_port)

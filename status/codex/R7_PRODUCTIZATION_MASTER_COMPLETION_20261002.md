@@ -1,3 +1,9 @@
+# Latest UI01 source checkpoint; native qualification next
+
+The demonstrated diagnostic/canceled-filter omissions are repaired. Actual owner, original RED-to-green, impacted API/process and full browser observations are retained in `productization/S16/ui01-current-windows/disposition.json`. New fixed discovery preserves all prior case order/multiplicity, native assertions/deadlines and toolchains, adding only10 UI01 cases (212commands/2654source cases). Discovery is not execution. New native candidate is still unqualified; aa2d remains the preserved qualified subject. Master IN_PROGRESS.
+
+---
+
 # R7 Master partial completion record
 
 **IN_PROGRESS — current Windows checkpoint completed; Master is not complete.**

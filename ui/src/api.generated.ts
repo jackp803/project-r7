@@ -550,6 +550,13 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** AlertFacts */
+        AlertFacts: {
+            /** Items */
+            items: components["schemas"]["HistoricalAlertFact"][];
+            /** Total */
+            total: number;
+        };
         /** ApprovalDTO */
         ApprovalDTO: {
             /** Command Id */
@@ -680,6 +687,14 @@ export interface components {
              */
             status: "COMPLETE" | "QUEUED" | "PAUSED";
         };
+        /** ComponentObservations */
+        ComponentObservations: {
+            cloud: components["schemas"]["DiagnosticObservation_ProcessObservationFacts_"];
+            control: components["schemas"]["DiagnosticObservation_ProcessObservationFacts_"];
+            coordinator: components["schemas"]["DiagnosticObservation_ProcessObservationFacts_"];
+            research: components["schemas"]["DiagnosticObservation_ProcessObservationFacts_"];
+            runtime: components["schemas"]["DiagnosticObservation_ProcessObservationFacts_"];
+        };
         /** DeploymentActivateDTO */
         DeploymentActivateDTO: {
             /** Command Id */
@@ -704,6 +719,141 @@ export interface components {
             /** Strategy Version */
             strategy_version: string;
         };
+        /** DiagnosticObservation[ProcessObservationFacts] */
+        DiagnosticObservation_ProcessObservationFacts_: {
+            /** As Of */
+            as_of: string | null;
+            /** Checked At */
+            checked_at: string;
+            facts: components["schemas"]["ProcessObservationFacts"];
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "AVAILABLE" | "NOT_CONFIGURED" | "NOT_RUN" | "UNAVAILABLE";
+        };
+        /** DiagnosticObservation[ResourceLimitFacts] */
+        DiagnosticObservation_ResourceLimitFacts_: {
+            /** As Of */
+            as_of: string | null;
+            /** Checked At */
+            checked_at: string;
+            facts: components["schemas"]["ResourceLimitFacts"];
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "AVAILABLE" | "NOT_CONFIGURED" | "NOT_RUN" | "UNAVAILABLE";
+        };
+        /** DiagnosticObservation[Union[AlertFacts, UnobservedFacts]] */
+        DiagnosticObservation_Union_AlertFacts__UnobservedFacts__: {
+            /** As Of */
+            as_of: string | null;
+            /** Checked At */
+            checked_at: string;
+            /** Facts */
+            facts: components["schemas"]["AlertFacts"] | components["schemas"]["UnobservedFacts"];
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "AVAILABLE" | "NOT_CONFIGURED" | "NOT_RUN" | "UNAVAILABLE";
+        };
+        /** DiagnosticObservation[Union[ResearchStageFacts, UnobservedFacts]] */
+        DiagnosticObservation_Union_ResearchStageFacts__UnobservedFacts__: {
+            /** As Of */
+            as_of: string | null;
+            /** Checked At */
+            checked_at: string;
+            /** Facts */
+            facts: components["schemas"]["ResearchStageFacts"] | components["schemas"]["UnobservedFacts"];
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "AVAILABLE" | "NOT_CONFIGURED" | "NOT_RUN" | "UNAVAILABLE";
+        };
+        /** DiagnosticObservation[Union[StrategySubjectFacts, UnobservedFacts]] */
+        DiagnosticObservation_Union_StrategySubjectFacts__UnobservedFacts__: {
+            /** As Of */
+            as_of: string | null;
+            /** Checked At */
+            checked_at: string;
+            /** Facts */
+            facts: components["schemas"]["StrategySubjectFacts"] | components["schemas"]["UnobservedFacts"];
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "AVAILABLE" | "NOT_CONFIGURED" | "NOT_RUN" | "UNAVAILABLE";
+        };
+        /** DiagnosticObservation[UnobservedFacts] */
+        DiagnosticObservation_UnobservedFacts_: {
+            /** As Of */
+            as_of: string | null;
+            /** Checked At */
+            checked_at: string;
+            facts: components["schemas"]["UnobservedFacts"];
+            /**
+             * Financial Authority
+             * @constant
+             */
+            financial_authority: "NONE";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Source */
+            source: string;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "AVAILABLE" | "NOT_CONFIGURED" | "NOT_RUN" | "UNAVAILABLE";
+        };
         /** ErrorDetail */
         ErrorDetail: {
             /**
@@ -724,12 +874,16 @@ export interface components {
         HealthView: {
             /** Cloud */
             cloud: string;
+            components: components["schemas"]["ComponentObservations"];
             /** Control */
             control: string;
+            execution: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
+            external_consumer: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
             /** Live Authorized */
             live_authorized: boolean;
             /** Market */
             market: string;
+            preflight: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
             /** Provider */
             provider: string;
             /** Provider Requests */
@@ -739,12 +893,43 @@ export interface components {
             /** Research */
             research: string;
             restoration?: components["schemas"]["RestorationView"] | null;
+            risk: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
             /** Runtime */
             runtime: string;
             /** Runtime Llm Calls */
             runtime_llm_calls: number;
             /** Storage */
             storage: string;
+        };
+        /** HistoricalAlertFact */
+        HistoricalAlertFact: {
+            /** Alert Id */
+            alert_id: string;
+            /** Generation */
+            generation: number;
+            /**
+             * Namespace
+             * @enum {string}
+             */
+            namespace: "FIXTURE" | "LOCAL_RESEARCH";
+            /** Reason Codes */
+            reason_codes: string[];
+            /** Recorded At */
+            recorded_at: string;
+            /** Revision */
+            revision: number;
+            /** Run Id */
+            run_id: string;
+            /**
+             * Source
+             * @constant
+             */
+            source: "research_queue";
+            /**
+             * State
+             * @constant
+             */
+            state: "FAILED";
         };
         JsonValue: unknown;
         /** LoginDTO */
@@ -784,6 +969,7 @@ export interface components {
         };
         /** OverviewView */
         OverviewView: {
+            alerts: components["schemas"]["DiagnosticObservation_Union_AlertFacts__UnobservedFacts__"];
             /** Cloud Status */
             cloud_status: string;
             /** Exposure Quantity */
@@ -805,12 +991,15 @@ export interface components {
             realized_pnl_usdt: string | null;
             /** Reason Codes */
             reason_codes: string[];
+            research_stage_counts: components["schemas"]["DiagnosticObservation_Union_ResearchStageFacts__UnobservedFacts__"];
+            resource_limits: components["schemas"]["DiagnosticObservation_ResourceLimitFacts_"];
             /** Running Jobs */
             running_jobs: number | null;
             /** Runtime Status */
             runtime_status: string;
             /** Scan Revision */
             scan_revision?: number | null;
+            strategy_subjects: components["schemas"]["DiagnosticObservation_Union_StrategySubjectFacts__UnobservedFacts__"];
             /** Unrealized Pnl Usdt */
             unrealized_pnl_usdt: string | null;
         };
@@ -857,6 +1046,33 @@ export interface components {
             /** Strategy Version */
             strategy_version: string;
         };
+        /** ProcessObservationFacts */
+        ProcessObservationFacts: {
+            /** Config Hash */
+            config_hash: string | null;
+            /** Generation */
+            generation: number | null;
+            /** Heartbeat At */
+            heartbeat_at: string | null;
+            /** Heartbeat Sequence */
+            heartbeat_sequence: number | null;
+            /** Process Generation Id */
+            process_generation_id: string | null;
+            /** Recorded State */
+            recorded_state: ("RUNNING" | "STOPPED" | "FAILED" | "CONFIG_CHANGED" | "CLOCK_REGRESSION" | "SUPERVISION_STORAGE_FAILURE") | null;
+            /**
+             * Role
+             * @enum {string}
+             */
+            role: "control" | "research" | "runtime" | "cloud" | "coordinator";
+            /** Started At */
+            started_at: string | null;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "NOT_STARTED" | "RUNNING" | "STOPPED" | "FAILED" | "CONFIG_CHANGED" | "CLOCK_REGRESSION" | "STALE_HEARTBEAT" | "PROCESS_NOT_RUNNING" | "RECENT_HEARTBEAT" | "SUPERVISION_STORAGE_FAILURE";
+        };
         /** ReauthenticationDTO */
         ReauthenticationDTO: {
             /** Command Id */
@@ -876,6 +1092,32 @@ export interface components {
             policy_id: string;
             /** Submission Id */
             submission_id: string;
+        };
+        /** ResearchStageCount */
+        ResearchStageCount: {
+            /** Count */
+            count: number;
+            /** Last Observed At */
+            last_observed_at: string;
+            /** Stage */
+            stage: string | null;
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "QUEUED" | "RUNNING" | "CANCEL_REQUESTED" | "COMPLETE" | "BLOCKED" | "FAILED" | "CANCELED" | "EXPIRED";
+        };
+        /** ResearchStageFacts */
+        ResearchStageFacts: {
+            /** Items */
+            items: components["schemas"]["ResearchStageCount"][];
+            /** Total Jobs */
+            total_jobs: number;
+        };
+        /** ResourceLimitFacts */
+        ResourceLimitFacts: {
+            /** Research Worker Count */
+            research_worker_count: number;
         };
         /** RestorationView */
         RestorationView: {
@@ -905,6 +1147,20 @@ export interface components {
             status: "NOT_RESTORED" | "RESTORED_INHIBITED" | "INVALID_RESTORE_GENERATION";
             /** User Data Restore */
             user_data_restore?: ("PENDING" | "COMPLETE_SUPPORTED_LOCAL_PROFILE") | null;
+        };
+        /** SelectedStrategyFact */
+        SelectedStrategyFact: {
+            /** Content Hash */
+            content_hash: string;
+            /**
+             * Relationship
+             * @constant
+             */
+            relationship: "CONFIGURED_SELECTION";
+            /** Strategy Id */
+            strategy_id: string;
+            /** Strategy Version */
+            strategy_version: string;
         };
         /** SessionView */
         SessionView: {
@@ -940,6 +1196,8 @@ export interface components {
         };
         /** SettingsView */
         SettingsView: {
+            backup: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
+            clock_health: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
             /** Cloud Root */
             cloud_root: string | null;
             /** Config Generation */
@@ -948,6 +1206,7 @@ export interface components {
             control_api_host: string;
             /** Control Api Port */
             control_api_port: number;
+            credential_presence: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
             /** Database Path */
             database_path: string;
             /** Diagnostic Only */
@@ -961,10 +1220,17 @@ export interface components {
             local_data_root: string;
             /** Paper Runtime Enabled */
             paper_runtime_enabled: boolean;
+            resource_limits: components["schemas"]["DiagnosticObservation_ResourceLimitFacts_"];
             /** Revision */
             revision: number;
             /** Scan Interval */
             scan_interval: number;
+            transport_test: components["schemas"]["DiagnosticObservation_UnobservedFacts_"];
+        };
+        /** StrategySubjectFacts */
+        StrategySubjectFacts: {
+            /** Items */
+            items: components["schemas"]["SelectedStrategyFact"][];
         };
         /** TradingView */
         TradingView: {
@@ -991,6 +1257,8 @@ export interface components {
             /** Unrealized Pnl Usdt */
             unrealized_pnl_usdt: string | null;
         };
+        /** UnobservedFacts */
+        UnobservedFacts: Record<string, never>;
         /** ViewEnvelope[ApprovalPreviewView] */
         ViewEnvelope_ApprovalPreviewView_: {
             data: components["schemas"]["ApprovalPreviewView"];

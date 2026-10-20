@@ -1,0 +1,189 @@
+{
+  "status": "STATIC_ONLY_UNAPPLIED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "source_hashes": [
+    {
+      "path": "src/application/platform/backup.py",
+      "sha256": "36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df"
+    },
+    {
+      "path": "src/application/platform/product_backup.py",
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+    },
+    {
+      "path": "src/application/platform/database_restore.py",
+      "sha256": "7a4862953568a0bfcf764dcc09da9d1a896b2eba02f3ff8fe15aa707e27a04f8"
+    },
+    {
+      "path": "src/application/cli.py",
+      "sha256": "34242992483bc50f0182797c4ff88d56052a9a32fddd23b79442c930094cca62"
+    },
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "sha256": "b5656fa76a02799e34acd130532ce0cb6634735c300bc74cc84add6ad0ca21d6"
+    },
+    {
+      "path": "src/application/intake/ledger.py",
+      "sha256": "7d28c77348c2929fd3f4470074d18a274e32a03bba68708149e9ca5d4dd1682a"
+    },
+    {
+      "path": "src/application/research/queue.py",
+      "sha256": "b2d507dc447518e6316abab416841cea87e37b9ace1068edb6ed51b3ccf68f66"
+    },
+    {
+      "path": "src/application/research/evidence.py",
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98"
+    },
+    {
+      "path": "src/application/research/holdout.py",
+      "sha256": "2a519b501722a464b2499f1e92fa079cb3d0e2ad17b4c3a98f6d5b9b789d524f"
+    },
+    {
+      "path": "src/application/research/service.py",
+      "sha256": "b12faf95dd0eed6e7a902641dd1783696893f5126c8fe120cdb4e5db81b6c093"
+    },
+    {
+      "path": "src/application/control_api/commands.py",
+      "sha256": "b769e33a1364607100626bfaf385cc9bc5505e28f8d6b0f697636b4f0ac123f4"
+    },
+    {
+      "path": "src/application/control_api/auth.py",
+      "sha256": "763fd6499c0062475802c148cb17b7816ff89f7e624075b724eec9360e269c23"
+    },
+    {
+      "path": "src/application/control_api/services.py",
+      "sha256": "d8c7a1857c411b61d8490782e44f3aa6b55afc4f643347b525de977a7d5b15e1"
+    },
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "sha256": "2b42e9927b80d75f6213bff8002db52977332964e953207d9a09ee918fdec056"
+    },
+    {
+      "path": "src/application/platform/supervision.py",
+      "sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde"
+    },
+    {
+      "path": "src/application/migrations/0001_intake_outbox.sql",
+      "sha256": "863d08c99df4aee6650ff33fa8d99767ca61e09f7ad3f309f8fc37d739cbe26d"
+    },
+    {
+      "path": "src/application/migrations/0002_research_attempts.sql",
+      "sha256": "cf9d2d78d7d6fd6b0423e0fc6c56f1f372441e043560ff7d6dd456a252c34297"
+    },
+    {
+      "path": "src/application/migrations/0003_research_trial_ledger.sql",
+      "sha256": "159bdb3657a0f1252089c8a57dc8f6e6983ab02f4776c2adf3598c8736329d36"
+    },
+    {
+      "path": "src/application/migrations/0004_control_commands.sql",
+      "sha256": "f1687958e34b2dc625dc621aa012d5ab380a62056e0c6d7ba2762f5a91afcefb"
+    },
+    {
+      "path": "src/application/migrations/0005_research_queue.sql",
+      "sha256": "edb435d06f29329d606448859458b16a5442fc653a6ed043973afebbe8e9aed5"
+    },
+    {
+      "path": "src/application/migrations/0006_process_supervision.sql",
+      "sha256": "5c0dcbda40205770e9f110125058cde44590567779eebabf881fdd3eb42beb8e"
+    },
+    {
+      "path": "src/application/migrations/0007_research_feedback_outbox.sql",
+      "sha256": "776a47c901d83a8766f27e733ad92adf84cef902687823b653bf84e6c6a367d8"
+    },
+    {
+      "path": "src/application/migrations/0008_runtime_process_supervision.sql",
+      "sha256": "377a455959843dc8add08927d01c8537ac77708611aec582b4b6d0b8dc1a41c2"
+    },
+    {
+      "path": "src/application/migrations/0009_coordinator_process_supervision.sql",
+      "sha256": "e0c707cb9dcbdb09ec05ffa1293775b1b7367ef8489a1d470b4120fd1b2cb960"
+    }
+  ],
+  "inventory": "backup._inventory(config,include_settings=True): canonical plus intake,queue,research,control,auth,supervision,settings; exact finite eight roles. Missing optional roles must remain explicit manifest absent entries; canonical required. Do not instantiate owner constructors on source or snapshots.",
+  "roles": [
+    {
+      "contract": "Packaged filename prefix ledger, exact applied/pending facts, unknown/gapped/malformed/unversioned refusal. Current guard does not attest historical script contents or full canonical schema equivalence. Pending suffix is reported, never executed by preflight.",
+      "role": "canonical",
+      "owner": "storage._sqlite_registry.check_migration_compatibility:47; _apply_migrations:102"
+    },
+    {
+      "file": "intake.sqlite",
+      "objects": "app_submissions,app_outbox,app_submission_observations,app_sync_retry plus exact PK/FK/checks/autoindexes and outbox triggers",
+      "role": "intake",
+      "contract": "One target schema shape; instance_id is row-scoped, no singleton namespace. Schema recognition does not create receipts or validate all historical payloads.",
+      "owner": "application.intake.ledger.IntakeLedger:58-79",
+      "ddl": "application/migrations/0001_intake_outbox.sql"
+    },
+    {
+      "file": "queue.sqlite",
+      "objects": "research_queue_namespace/jobs/commands/events, sqlite_sequence and exact triggers/autoindexes",
+      "role": "queue",
+      "contract": "One target schema shape; existing failed_alert_page already models actual DDL in memory then compares metadata and singleton namespace with bounded protected readonly connection. Reuse pattern, compare complete role schema not only research_queue_* filter.",
+      "owner": "application.research.queue.ResearchQueue:45-61; failed_alert_page:180-205",
+      "ddl": "application/migrations/0005_research_queue.sql"
+    },
+    {
+      "file": "research.sqlite",
+      "objects": "research_runs/attempts/feedback_publications; research_families/family_events/finalists/holdout_observations/holdout_results plus exact declared indexes/triggers",
+      "role": "research",
+      "contract": "Ordinary ResearchService composes union of all three scripts. Individual public storage constructors also create journal-only (0002+0007) or trial-only (0003) schemas; if supporting these actual partial profiles, name each finite recipe explicitly, not arbitrary subset acceptance. No application migration receipt exists here. Changed/unrecognized shape refuses.",
+      "owner": "ResearchJournal evidence.py:87-97; ResearchTrialLedger holdout.py:30-35; ResearchService service.py:74-81",
+      "ddl": "0002_research_attempts.sql + 0007_research_feedback_outbox.sql; 0003_research_trial_ledger.sql"
+    },
+    {
+      "file": "control-commands.sqlite",
+      "objects": "control_namespace/control_commands, control_one_pending_resource and immutable completed/no-delete triggers",
+      "role": "control",
+      "contract": "One target schema plus exact singleton (1,product_namespace(config)); metadata query only, no command replay.",
+      "owner": "application.control_api.commands.CommandLedger:76-87",
+      "ddl": "application/migrations/0004_control_commands.sql"
+    },
+    {
+      "file": "local-auth.sqlite",
+      "objects": "local_auth_meta/local_users/local_sessions/local_login_commands/local_auth_throttle and declared constraints/autoindexes",
+      "role": "auth",
+      "contract": "Expose existing exact inline DDL as owner constant for model construction; do not construct LocalAuth (RW setup/PasswordHasher). At most bounded namespace metadata if needed; never read users/password/session/token/throttle contents for preflight.",
+      "owner": "application.control_api.auth.LocalAuth:63-96",
+      "ddl": "Inline schema lines76-85"
+    },
+    {
+      "file": "process-supervision.sqlite",
+      "objects": "process_generation_counters/process_sessions/process_session_history/process_supervision_schema",
+      "role": "supervision",
+      "contract": "Already has _recognized_supervision_schemas, _table_schema, _require_supervision_schema and existing actual atomic owner migration. Minimum preflight accepts exact coordinated target shape and exact two migration/hash receipts (bounded3); refuses unknown receipts/extras/changed hashes. Recognized legacy shapes may be reported, but minimum scope does not authorize migrating them. Do not call _apply_supervision_schema on source or sealed backup.",
+      "owner": "application.platform.supervision:40-134",
+      "ddl": "0006_process_supervision.sql + _SCHEMA_RECEIPT_SQL + 0008_runtime_process_supervision.sql + 0009_coordinator_process_supervision.sql"
+    },
+    {
+      "file": "control-settings.sqlite",
+      "objects": "Exact base-only or exact base+owner extension, with declared autoindexes/checks",
+      "role": "settings",
+      "contract": "Two finite real constructor shapes. Share inline DDL constants from those owners; model DDL only, no settings()/row payload reads, no selected policy/auth installation.",
+      "owner": "LocalControlServices services.py:21-35; OwnerControlServices owner_services.py:15-30",
+      "ddl": "Inline base control_settings/settings_effects; owner extension control_scans/control_scan_receipts"
+    }
+  ],
+  "fingerprint_recipe": "Build finite target model(s) with sqlite3 :memory: and ONLY existing owner DDL scripts/constants; never invoke real owner constructors or seed data/financial authority. Reuse supervision._table_schema normalization pattern but compare entire ordered type,name,tbl_name,sql closure (including indexes/triggers, NULL autoindex SQL and sqlite_sequence), normalize CRLF only, bound10001 like backup._database_facts. Derive user_version from actual model, not hardcoded compatibility from zero. Keep raw manifest schema_hash distinct from normalized target shape hash. No fingerprints computed in this static task.",
+  "preflight": [
+    "Proposed thin application.platform upgrade-preflight service accepts validated config+verified product backup and bounded deadline (reuse existing5..300 bounds). Existing _verified_manifest returns manifest/raw/database/db_manifest/db_raw; never accept caller-supplied schema hashes or arbitrary file roles.",
+    "Acquire all PROCESS_ROLES locks exactly as backup/restore; reuse _profile_current, private/local/single-link checks, _hash_file before/after, backup._connect(path,ro,end,immutable=True) ONLY for sealed verified snapshots, add query_only=ON. Live optional inspection uses ordinary WAL-aware ro, never immutable. Current profile/config and finite inventory rechecked before return.",
+    "Per present logical role compare actual target contract above; optional absent roles remain explicit ABSENT, not PASS or unavailable. Read-only facts show canonical applied/pending even if another role blocks. Unknown extra object/column/trigger/index, changed role schema/user_version, namespace mismatch, receipt mismatch, file change, lock/deadline/integrity failure => typed refusal; do not silently create missing tables.",
+    "Overall result may say schema preflight compatible or blocked only for finite supported profile with every role covered. Canonical suffix pending is not migration completed, financial authorization, historical checksum proof or successful restore. Existing writers perform actual suffix only on a fresh inhibited clone in subsequent explicit workflow."
+  ],
+  "integration": {
+    "cli": "application/cli.py parser adjacent backup-product-data/verify-product-backup/restore-product-data:164-173; dispatch adjacent312-327. Proposed preflight-product-upgrade --config --backup, no destination/no writes; JSON facts + explicit financial_authority NONE,0/2 exit. Frozen run already verifies target distribution. Existing archival verify-product-backup remains integrity verification, not tightened into compatibility requirement.",
+    "pending_canonical": "Restore currently fences copied journals without migration via actual constructor(connection) APIs. A known prefix may be eligible only if that prefix supports those existing fencing API tables/columns; no blanket permission from prefix membership alone. For first bounded support, test old7d known prefix expressly, report unsupported older prefixes instead of invoking a new migration engine before fencing.",
+    "restore": "database_restore._restore_backup:123-131 already verifies manifest under all owner locks. Invoke same role checker on each verified database artifact after product/DB verification and size bound, BEFORE create_private_directory(target):132 and before _fence_app_store/_fence_financial_processes:167. Recheck hash/manifest; refusal leaves target absent. Raw database restore uses same checker with its exact7-role inventory, product restore includes settings8th."
+  },
+  "regressions": [
+    "Actual ordinary composition creates full role union -> existing backup -> new preflight reports exact current schema facts, zero source/bundle writes; fresh restore remains RESTORED_INHIBITED and source unchanged. Actual old known canonical prefix plus identical app schemas reports suffix; normal migration tested only on fresh clone.",
+    "Actual owner schema altered one role at a time (extra view/index/trigger or changedDDL/user_version) -> BLOCKED before restore target creation even with valid canonical ledger and integrity-valid byte-verified bundle. Recreate valid test bundle through normal backup, no forged manifest/checksum bypass.",
+    "Absent optional role stays explicit absent; missing declared artifact/corrupt/read-only denial/future supervision receipt/namespace mismatch/bound/deadline/active owner refuse. Sealed source hash and file inventory unchanged. Test inline base/extended settings separately; never inspect real auth data."
+  ],
+  "limits": [
+    "No numerical schema fingerprints or compatibility receipts generated; all source-only design. No DB/import/compile/tests/Git/network activity.",
+    "Old7d valid portable/backup proof stays its original scope. Old7d binary has no new guard; new target must prove its own future-ledger refusal and whole-profile preflight separately. Rollback uses untouched old data/verified old backup.",
+    "No new app migration engine, installer/uninstaller, automatic owner initialization, policy selection, authority grant or general certification framework."
+  ]
+}

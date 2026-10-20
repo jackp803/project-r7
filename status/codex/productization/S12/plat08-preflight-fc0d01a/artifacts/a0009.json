@@ -1,0 +1,135 @@
+{
+  "schema": "r7-bounded-independent-source-review-v1",
+  "date": "2026-10-21",
+  "review_kind": "PLAT08_PREFLIGHT_IMPLEMENTATION_FOCUSED",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Finite target schema preflight, packaged through-migration cap, CLI, product-only restore gate, extracted auth/settings/scan DDL and associated static test oracles. Existing backup/supervision/namespace producers read only as directly necessary contract references.",
+  "subject_hashes": {
+    "src/application/platform/upgrade_preflight.py": "1bda7994b9c79268212b1227703d582b3ac5bef59930df6f32d75b1503fe3158",
+    "src/storage/_sqlite_registry.py": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6",
+    "src/application/cli.py": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b",
+    "src/application/platform/database_restore.py": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811",
+    "src/application/control_api/auth.py": "722c44df31c4e8e56d2d7c30af191397059082e33d437a5922c9f3314a34c66d",
+    "src/application/control_api/services.py": "7db38c19536e1ccdf3e12541e75f67d2b335d0e155d06e1a2fe64460f057761a",
+    "src/application/control_api/owner_services.py": "afa591aa84c0dc0b07518a756eaf28e9cca938a9cf8894daa55844f794219749",
+    "tests/application/test_database_restore.py": "e7b0059c07d61cec763aa34e3402c81ae9e5c1e7b1b13b99f9d74f6baf09d931",
+    "tests/application/test_upgrade_preflight_cli_v02.py": "3e83550e0b8c132769e6434f1f5296e1f9f4dd5504059e816c973045654e6aed",
+    "tests/application/test_upgrade_preflight_v02.py": "7437090d385e79b50949e6c8ae41cd62132fd74c111f75ef0ff1e6db53e292d3",
+    "tests/application/upgrade_preflight_fixture.py": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+    "src/application/platform/backup.py": "36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df",
+    "src/application/platform/product_backup.py": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+    "src/application/platform/supervision.py": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde",
+    "tests/storage/test_migration_compatibility_v02.py": "55f1cb72bb02ed6d315336ebcc5960ba306349780e175d2fe0ecf596f75f7744",
+    "src/storage/qualification.py": "268f9cadd14f226bed523a5bf9e4c85b74b51916686b0a62e3d71671cae37501"
+  },
+  "packaged_application_ddl_hashes": {
+    "src/application/migrations/0001_intake_outbox.sql": "863d08c99df4aee6650ff33fa8d99767ca61e09f7ad3f309f8fc37d739cbe26d",
+    "src/application/migrations/0002_research_attempts.sql": "cf9d2d78d7d6fd6b0423e0fc6c56f1f372441e043560ff7d6dd456a252c34297",
+    "src/application/migrations/0003_research_trial_ledger.sql": "159bdb3657a0f1252089c8a57dc8f6e6983ab02f4776c2adf3598c8736329d36",
+    "src/application/migrations/0004_control_commands.sql": "f1687958e34b2dc625dc621aa012d5ab380a62056e0c6d7ba2762f5a91afcefb",
+    "src/application/migrations/0005_research_queue.sql": "edb435d06f29329d606448859458b16a5442fc653a6ed043973afebbe8e9aed5",
+    "src/application/migrations/0006_process_supervision.sql": "5c0dcbda40205770e9f110125058cde44590567779eebabf881fdd3eb42beb8e",
+    "src/application/migrations/0007_research_feedback_outbox.sql": "776a47c901d83a8766f27e733ad92adf84cef902687823b653bf84e6c6a367d8",
+    "src/application/migrations/0008_runtime_process_supervision.sql": "377a455959843dc8add08927d01c8537ac77708611aec582b4b6d0b8dc1a41c2",
+    "src/application/migrations/0009_coordinator_process_supervision.sql": "e0c707cb9dcbdb09ec05ffa1293775b1b7367ef8489a1d470b4120fd1b2cb960"
+  },
+  "findings": [],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "prior_finding_disposition": [
+    {
+      "id": "PLAT08-DBONLY-ARCHIVE-OVERGATE",
+      "status": "RESOLVED_IN_REVIEWED_BYTES",
+      "refs": [
+        "src/application/platform/database_restore.py:132",
+        "tests/application/test_database_restore.py:26"
+      ],
+      "basis": "Whole-profile preflight is now invoked only for product_data=True and still precedes target creation. Dedicated arbitrary-only archival test preserves exact marker/source bytes, DATABASES_ONLY/PENDING/inhibited/disconnected profile, absence of migration table, and actual normal canonical writer refusal without mutation."
+    },
+    {
+      "id": "PLAT08-CANONICAL-NAMESPACE-MODEL",
+      "status": "FINITE_REFINEMENT_PRESERVED",
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:76",
+        "src/storage/qualification.py:21"
+      ],
+      "basis": "Only the migrator-produced supported prefix, or that exact schema plus existing immutable namespace owner DDL, is accepted; no source SQL or namespace row is executed/seeded."
+    }
+  ],
+  "static_evidence": [
+    {
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:98",
+        "src/application/platform/backup.py:38"
+      ],
+      "conclusion": "Present/absent roles must be unique, disjoint and exactly close the fixed inventory; canonical must be present. Each present artifact has the canonical direct-child filename and exact configured relative path before private protected inspection."
+    },
+    {
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:35",
+        "src/application/platform/upgrade_preflight.py:46",
+        "src/application/platform/upgrade_preflight.py:76",
+        "src/storage/_sqlite_registry.py:102"
+      ],
+      "conclusion": "Target schema models are isolated in-memory SQLite schemas built from fixed packaged DDL. Canonical history must be a recognized packaged prefix at least 0019; the cap is exact packaged-name-only and cannot precede applied history or accept custom scripts. Actual source databases are not opened through migrating owners."
+    },
+    {
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:125",
+        "src/application/platform/upgrade_preflight.py:154",
+        "src/application/platform/backup.py:69"
+      ],
+      "conclusion": "Sealed artifacts are privately checked and hashed before and after mode=ro/immutable/query_only structural inspection. Shared deadline/progress handlers cover reads and model generation. Public entry holds all existing PROCESS_ROLES scope locks, verifies the same product manifest before/after and rechecks current config."
+    },
+    {
+      "refs": [
+        "src/application/control_api/auth.py:62",
+        "src/application/control_api/auth.py:87",
+        "src/application/control_api/services.py:14",
+        "src/application/control_api/services.py:35",
+        "src/application/control_api/owner_services.py:14",
+        "src/application/control_api/owner_services.py:33"
+      ],
+      "conclusion": "Extracted auth/settings/scan DDL constants are the same constants executed by normal constructors and consumed by the model builder. Preflight does not instantiate those writers, enroll users, create sessions or seed settings/scan rows."
+    },
+    {
+      "refs": [
+        "src/application/cli.py:316",
+        "src/application/platform/database_restore.py:132",
+        "src/application/platform/product_backup.py:503"
+      ],
+      "conclusion": "Standalone preflight and complete product restore use the strict gate. CLI reports finite blocked reasons and zero database/owner effects; successful facts are scoped COMPATIBLE_FOR_INHIBITED_CLONE with financial_authority NONE. DB-only archival restore retains its prior separate inhibited contract."
+    }
+  ],
+  "coverage_limits": {
+    "current_preflight_fixture": {
+      "present": [
+        "canonical",
+        "intake",
+        "queue",
+        "settings"
+      ],
+      "absent": [
+        "auth",
+        "control",
+        "research",
+        "supervision"
+      ]
+    },
+    "all_present_eight_role_execution": "NOT_ESTABLISHED_BY_REVIEWED_TESTS",
+    "source_test_execution": "NONE_BY_REVIEWER",
+    "old_7d_downgrade": "NOT_ESTABLISHED",
+    "native_and_full_profile": "NOT_ESTABLISHED"
+  },
+  "limits": [
+    "No tests, compilation, imports, DB, Git, process, provider or network operations performed by reviewer, and no tracked/source files changed. Only this new outside-Git review artifact is written.",
+    "Root-reported development executions are context only. No result of active green03 is inferred.",
+    "The compatibility result is bounded schema/layout suitability for an inhibited clone, not arbitrary historical SQL checksum proof, full logical-data validation, concurrent multi-version migration proof or current financial authority.",
+    "No all-present eight-role, CLI/native/full profile, PLAT08 row, H01, PQR or Master acceptance/completion claim."
+  ]
+}

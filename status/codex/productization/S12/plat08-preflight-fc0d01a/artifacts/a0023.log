@@ -1,0 +1,14 @@
+test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap) ... ERROR
+
+======================================================================
+ERROR: test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_migration_compatibility_v02.py", line 19, in test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap
+    _apply_migrations(db,through_migration=known[18])
+TypeError: _apply_migrations() got an unexpected keyword argument 'through_migration'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (errors=1)

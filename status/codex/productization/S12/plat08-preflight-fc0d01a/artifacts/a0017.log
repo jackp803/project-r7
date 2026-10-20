@@ -1,0 +1,37 @@
+test_actual_supported_eight_role_inventory_preflight_is_readonly (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly) ... ERROR
+test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target) ... ERROR
+
+======================================================================
+ERROR: test_actual_supported_eight_role_inventory_preflight_is_readonly (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_v02.py", line 11, in test_actual_supported_eight_role_inventory_preflight_is_readonly
+    c=make_verified_bundle(self)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\upgrade_preflight_fixture.py", line 55, in make_verified_bundle
+    write_private_new(config_path,(json.dumps(config_values,sort_keys=True)+'\n').encode())
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 137, in write_private_new
+    require_private(path)
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 101, in require_private
+    raise ValueError('Owner-private permissions required')
+ValueError: Owner-private permissions required
+
+======================================================================
+ERROR: test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_v02.py", line 30, in test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target
+    c=make_verified_bundle(self,mismatched_queue=True)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\upgrade_preflight_fixture.py", line 55, in make_verified_bundle
+    write_private_new(config_path,(json.dumps(config_values,sort_keys=True)+'\n').encode())
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 137, in write_private_new
+    require_private(path)
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 101, in require_private
+    raise ValueError('Owner-private permissions required')
+ValueError: Owner-private permissions required
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.686s
+
+FAILED (errors=2)

@@ -1,0 +1,523 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "status": "PLAT08_PREFLIGHT_SCOPED_SOURCE_PASS",
+  "executable_revision": "fc0d01a3ae54bb777238acacbfc9cad5a4b5317b",
+  "implementation_hash": "sha256:ec7cdc92f41e4d65032cd5282d90a7df187c9e1694b049e1f2e6cc7d8367b460",
+  "exact_modules": 11,
+  "exact_cases": 94,
+  "source_and_tests_unchanged": true,
+  "children_reaped": true,
+  "per_module_limit_seconds": 900,
+  "independent_review": "TWO_COMPLEMENTARY_STATIC0C0I_EXECUTION_NONE",
+  "review_bindings": [
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/platform/upgrade_preflight.py",
+      "review_sha256": "1bda7994b9c79268212b1227703d582b3ac5bef59930df6f32d75b1503fe3158",
+      "qualified_raw_sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+      "status": "SUPERSEDED_BY_EXACT_FINAL_DELTA_REVIEW"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/storage/_sqlite_registry.py",
+      "review_sha256": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6",
+      "qualified_raw_sha256": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/cli.py",
+      "review_sha256": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b",
+      "qualified_raw_sha256": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/platform/database_restore.py",
+      "review_sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811",
+      "qualified_raw_sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/control_api/auth.py",
+      "review_sha256": "722c44df31c4e8e56d2d7c30af191397059082e33d437a5922c9f3314a34c66d",
+      "qualified_raw_sha256": "722c44df31c4e8e56d2d7c30af191397059082e33d437a5922c9f3314a34c66d",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/control_api/services.py",
+      "review_sha256": "7db38c19536e1ccdf3e12541e75f67d2b335d0e155d06e1a2fe64460f057761a",
+      "qualified_raw_sha256": "7db38c19536e1ccdf3e12541e75f67d2b335d0e155d06e1a2fe64460f057761a",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/control_api/owner_services.py",
+      "review_sha256": "afa591aa84c0dc0b07518a756eaf28e9cca938a9cf8894daa55844f794219749",
+      "qualified_raw_sha256": "afa591aa84c0dc0b07518a756eaf28e9cca938a9cf8894daa55844f794219749",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "tests/application/test_database_restore.py",
+      "review_sha256": "e7b0059c07d61cec763aa34e3402c81ae9e5c1e7b1b13b99f9d74f6baf09d931",
+      "qualified_raw_sha256": "e7b0059c07d61cec763aa34e3402c81ae9e5c1e7b1b13b99f9d74f6baf09d931",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "tests/application/test_upgrade_preflight_cli_v02.py",
+      "review_sha256": "3e83550e0b8c132769e6434f1f5296e1f9f4dd5504059e816c973045654e6aed",
+      "qualified_raw_sha256": "3e83550e0b8c132769e6434f1f5296e1f9f4dd5504059e816c973045654e6aed",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "tests/application/test_upgrade_preflight_v02.py",
+      "review_sha256": "7437090d385e79b50949e6c8ae41cd62132fd74c111f75ef0ff1e6db53e292d3",
+      "qualified_raw_sha256": "211bfaf924868b301a24864276a4dbaa7f59b65a8f6b3b79083daab17e94801b",
+      "status": "SUPERSEDED_BY_EXACT_FINAL_DELTA_REVIEW"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "tests/application/upgrade_preflight_fixture.py",
+      "review_sha256": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+      "qualified_raw_sha256": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/platform/backup.py",
+      "review_sha256": "36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df",
+      "qualified_raw_sha256": "36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/platform/product_backup.py",
+      "review_sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+      "qualified_raw_sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/application/platform/supervision.py",
+      "review_sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde",
+      "qualified_raw_sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "tests/storage/test_migration_compatibility_v02.py",
+      "review_sha256": "55f1cb72bb02ed6d315336ebcc5960ba306349780e175d2fe0ecf596f75f7744",
+      "qualified_raw_sha256": "55f1cb72bb02ed6d315336ebcc5960ba306349780e175d2fe0ecf596f75f7744",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-implementation-review-20261021.json",
+      "path": "src/storage/qualification.py",
+      "review_sha256": "268f9cadd14f226bed523a5bf9e4c85b74b51916686b0a62e3d71671cae37501",
+      "qualified_raw_sha256": "268f9cadd14f226bed523a5bf9e4c85b74b51916686b0a62e3d71671cae37501",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "src/application/platform/upgrade_preflight.py",
+      "review_sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+      "qualified_raw_sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "tests/application/test_upgrade_preflight_complete_v02.py",
+      "review_sha256": "fa52e86491227d86179c513ba32be662b2243733e0171cefad4b730562eb53ea",
+      "qualified_raw_sha256": "fa52e86491227d86179c513ba32be662b2243733e0171cefad4b730562eb53ea",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "tests/application/upgrade_preflight_complete_fixture.py",
+      "review_sha256": "3080d1c1b955e4f9fd1dcdd8091d6c4ec448c4e6f9b88fea2f37e5ede3153150",
+      "qualified_raw_sha256": "3080d1c1b955e4f9fd1dcdd8091d6c4ec448c4e6f9b88fea2f37e5ede3153150",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "tests/application/test_upgrade_preflight_v02.py",
+      "review_sha256": "211bfaf924868b301a24864276a4dbaa7f59b65a8f6b3b79083daab17e94801b",
+      "qualified_raw_sha256": "211bfaf924868b301a24864276a4dbaa7f59b65a8f6b3b79083daab17e94801b",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "tests/application/test_upgrade_preflight_cli_v02.py",
+      "review_sha256": "3e83550e0b8c132769e6434f1f5296e1f9f4dd5504059e816c973045654e6aed",
+      "qualified_raw_sha256": "3e83550e0b8c132769e6434f1f5296e1f9f4dd5504059e816c973045654e6aed",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "tests/application/upgrade_preflight_fixture.py",
+      "review_sha256": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+      "qualified_raw_sha256": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "packaging/windows/FIRST_RUN.md",
+      "review_sha256": "c7bf0c3829d3a564061a71d5e71d9e5ee761d36ab3f47cd894b79f185743c559",
+      "qualified_raw_sha256": "c7bf0c3829d3a564061a71d5e71d9e5ee761d36ab3f47cd894b79f185743c559",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "src/application/entrypoints.py",
+      "review_sha256": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91",
+      "qualified_raw_sha256": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91",
+      "status": "EXACT_REVIEWED_BYTES"
+    },
+    {
+      "review_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "path": "src/application/research/evidence.py",
+      "review_sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98",
+      "qualified_raw_sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98",
+      "status": "EXACT_REVIEWED_BYTES"
+    }
+  ],
+  "actual_flows": [
+    "Normal actual four-present/four-absent and all-eight-present owner schemas -> create/verify complete backup -> target read-only preflight; all source DB/WAL/SHM and bundle bytes unchanged. Exact target provenance, source config hash and raw verified manifest binding retained.",
+    "Genuine source queue/research extra indexes, control user_version and supervision receipt changes -> normal valid backup -> typed unsupported preflight and complete restore denied before destination creation. Real held owner role and expired reader budget deny; subsequent successful request proves locks released.",
+    "Fresh actual canonical migrator prefix19 -> normal complete backup -> reports known pending suffix without source migration -> public product restore inhibited clone -> normal create_local_app applies packaged suffix to clone only; integrity/FK checks pass and RESTORED_INHIBITED persists.",
+    "Generic arbitrary-only DB archival restore preserves bytes and DATABASES_ONLY/PENDING/inhibited state; actual canonical runtime owner still refuses that unversioned archive. E6 generation/lease fencing regressions now start from genuine canonical schema, with all original assertions retained.",
+    "Actual migration cap accepts exact packaged prefix only, refuses unknown/backward cap and custom SQL directory; normal migration rollback, auth/session revocation, runtime supervision, API and owner composition regressions pass."
+  ],
+  "actual_failures_retained": [
+    "Initial private-profile fixture setup errors, then actual missing service and CLI after genuine verified backup.",
+    "Namespace model omission and archival overgate: failed green01 retained. Existing owner namespace shape added as finite second model; full gate restricted to product-data restore, dedicated generic archive RED then repaired.",
+    "Identity output missing actual RED; minimal measured target/config/manifest bindings added.",
+    "green04 remains FAILED with two root-mistyped nonexistent unittest modules; no failed-loader acceptance credit. Corrected actual regressions32PASS development, followed by exact-clean11module94case run."
+  ],
+  "scope": "SOURCE_ONLY;NOT_NATIVE_CROSSVERSION_OR_WHOLE_PLAT08_OR_FULL_PQR",
+  "limitations": [
+    "Historical migration ledger has filenames/time only; no historical SQL checksum attestation.",
+    "Compatibility is schema/layout suitability for an inhibited clone, not financial permission or complete logical data validation.",
+    "Old sealed7d lacks new guard: rollback must use untouched old data or verified compatible old backup; no retroactive downgrade refusal claim.",
+    "Native crossversion/install removal, final audits/S16 and final settled full/native inventory remain pending."
+  ],
+  "awake": "Validation-process-only system request explicitly released; no permanent power/display/away-mode changes.",
+  "preserved_qualified_windows": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "native": "NOT_RUN_FOR_THIS_SOURCE",
+  "master": "IN_PROGRESS",
+  "public_requests_cumulative": 8,
+  "public_responses_cumulative": 8,
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "plat08-affected-fc0d01a/checkpoint.json",
+      "original_hash": "sha256:06c8cd62c39957a6a5ccb959a107f6bac32d2ea397031821efcf8903ef0a0227",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:06c8cd62c39957a6a5ccb959a107f6bac32d2ea397031821efcf8903ef0a0227"
+    },
+    {
+      "original_ref": "run_plat08_exact_source.py",
+      "original_hash": "sha256:ce41510628ab2696856c63d0277976720479c20582f45a26a1ed4341654aec5c",
+      "retained_ref": "artifacts/a0002.py",
+      "retained_hash": "sha256:ce41510628ab2696856c63d0277976720479c20582f45a26a1ed4341654aec5c"
+    },
+    {
+      "original_ref": "plat08-exact-helper-binding.json",
+      "original_hash": "sha256:67aea79c2ce0a5d83b8983b2d593881bcbf2ee1bdd0a04983516d5638b11f890",
+      "retained_ref": "artifacts/a0003.json",
+      "retained_hash": "sha256:67aea79c2ce0a5d83b8983b2d593881bcbf2ee1bdd0a04983516d5638b11f890"
+    },
+    {
+      "original_ref": "run_owner_development_v03.py",
+      "original_hash": "sha256:faaff3485f7db52e29adb74c60444b81fb3dab8fa16197e8845d9e31763a7683",
+      "retained_ref": "artifacts/a0004.py",
+      "retained_hash": "sha256:faaff3485f7db52e29adb74c60444b81fb3dab8fa16197e8845d9e31763a7683"
+    },
+    {
+      "original_ref": "keep_awake_for_validation.py",
+      "original_hash": "sha256:06cf3c57bbccf1636d2885802e07ff2d75aa02c9d898d1d721c8e062bbc02cd0",
+      "retained_ref": "artifacts/a0005.py",
+      "retained_hash": "sha256:06cf3c57bbccf1636d2885802e07ff2d75aa02c9d898d1d721c8e062bbc02cd0"
+    },
+    {
+      "original_ref": "plat08-exact-temporary-awake-fc0d01a.json",
+      "original_hash": "sha256:c6e909d9b20c23fd733657039cf7b6f99225a08307381079b06cd4fca9a046a4",
+      "retained_ref": "artifacts/a0006.json",
+      "retained_hash": "sha256:c6e909d9b20c23fd733657039cf7b6f99225a08307381079b06cd4fca9a046a4"
+    },
+    {
+      "original_ref": "retain_plat08_source.py",
+      "original_hash": "sha256:1b178cf7d2b7b71b9bdd075c37db1b5f739c895e4e36a29f629090b577b5b217",
+      "retained_ref": "artifacts/a0007.py",
+      "retained_hash": "sha256:1b178cf7d2b7b71b9bdd075c37db1b5f739c895e4e36a29f629090b577b5b217"
+    },
+    {
+      "original_ref": "plat08-preflight-restore-contract-review-20261020.json",
+      "original_hash": "sha256:63d7176127cae7dc299ded071e1544c2dec0dfd8e88f9bc2b15fb44a0268313a",
+      "retained_ref": "artifacts/a0008.json",
+      "retained_hash": "sha256:63d7176127cae7dc299ded071e1544c2dec0dfd8e88f9bc2b15fb44a0268313a"
+    },
+    {
+      "original_ref": "plat08-preflight-implementation-review-20261021.json",
+      "original_hash": "sha256:f51b7879e3bd8c418d9b61bc9f2391c3a2616230b415e731dcc71bed35e7bb84",
+      "retained_ref": "artifacts/a0009.json",
+      "retained_hash": "sha256:f51b7879e3bd8c418d9b61bc9f2391c3a2616230b415e731dcc71bed35e7bb84"
+    },
+    {
+      "original_ref": "plat08-preflight-final-delta-review-20261021.json",
+      "original_hash": "sha256:bc806609c53610e5432c107f1218a8ee036ab51bea140b31503dd3ef585bb987",
+      "retained_ref": "artifacts/a0010.json",
+      "retained_hash": "sha256:bc806609c53610e5432c107f1218a8ee036ab51bea140b31503dd3ef585bb987"
+    },
+    {
+      "original_ref": "plat08-schema-preflight-minimal-gap-plan-20261020.json",
+      "original_hash": "sha256:5e2f70f68adfb37b471c24d85d27ae72516cbceca539508dff9668f53a291c2e",
+      "retained_ref": "artifacts/a0011.json",
+      "retained_hash": "sha256:4ec7b29418d43d464b1ced30a51c25672bf5983a7e72f32ad138d45463502151"
+    },
+    {
+      "original_ref": "plat08-wholeprofile-preflight-role-map-20261020.json",
+      "original_hash": "sha256:d64a5298f7944bbf653c178ece4bf91c175a0e13ee2f555a2e168952d63704d9",
+      "retained_ref": "artifacts/a0012.json",
+      "retained_hash": "sha256:a572874a6dc17bf6930b4f4f7b77f222fa33645c7123ffce326cc133f637f9bd"
+    },
+    {
+      "original_ref": "plat08-preflight-first-test-draft-20261020.json",
+      "original_hash": "sha256:aea5f533965a720423d3c8eb756bfea82fd5762f8a53a31a823e8eda5b799f7e",
+      "retained_ref": "artifacts/a0013.json",
+      "retained_hash": "sha256:92828ccbee6eea353ac8f2b5c614c9f5084e450252ac5cb778e03bd294c9e906"
+    },
+    {
+      "original_ref": "plat08-preflight-service-draft-assumptions-20261020.json",
+      "original_hash": "sha256:24cd282f80cefd668604eed4d588ab8cd021da1a0005fc91c39bac9607fe6ba9",
+      "retained_ref": "artifacts/a0014.json",
+      "retained_hash": "sha256:187782d3d69dcf55cecd668670a4f6297777506e5379577ece14c6499caa0b90"
+    },
+    {
+      "original_ref": "plat08-complete-role-test-drafts-20261021.json",
+      "original_hash": "sha256:74f9d3411e43fe06948cdc95cbe5f42ba53870274b09f9f27144e6b6423ef67d",
+      "retained_ref": "artifacts/a0015.json",
+      "retained_hash": "sha256:51e3952b4506852f4716ccce817ef8d2f9b3463d329dc0bd133cda5d6e08d326"
+    },
+    {
+      "original_ref": "plat08-product-preflight-red/checkpoint.json",
+      "original_hash": "sha256:f25d99aac306784e73f90000318645af768a2bc98500f55732fad5bfbd3b85e8",
+      "retained_ref": "artifacts/a0016.json",
+      "retained_hash": "sha256:f25d99aac306784e73f90000318645af768a2bc98500f55732fad5bfbd3b85e8"
+    },
+    {
+      "original_ref": "plat08-product-preflight-red/source.log",
+      "original_hash": "sha256:7aa39a56ce8c10983d512c13d3a90bd99f027fe8be6711421d351477e633f9b7",
+      "retained_ref": "artifacts/a0017.log",
+      "retained_hash": "sha256:7aa39a56ce8c10983d512c13d3a90bd99f027fe8be6711421d351477e633f9b7"
+    },
+    {
+      "original_ref": "plat08-product-preflight-red01/checkpoint.json",
+      "original_hash": "sha256:9df3f5b54b49086755e2ff55d5b48b3a7a90b782bec8634c065ba169cfbaab7a",
+      "retained_ref": "artifacts/a0018.json",
+      "retained_hash": "sha256:9df3f5b54b49086755e2ff55d5b48b3a7a90b782bec8634c065ba169cfbaab7a"
+    },
+    {
+      "original_ref": "plat08-product-preflight-red01/source.log",
+      "original_hash": "sha256:5fb66d345a8ce96a975048d90e481bb4aa3c98e8b170b903d41fb47756413b05",
+      "retained_ref": "artifacts/a0019.log",
+      "retained_hash": "sha256:5fb66d345a8ce96a975048d90e481bb4aa3c98e8b170b903d41fb47756413b05"
+    },
+    {
+      "original_ref": "plat08-preflight-cli-red/checkpoint.json",
+      "original_hash": "sha256:7b2e58716796fbfd0a00970c6575ce07214340bbd98f539d939dcdb3884ad4df",
+      "retained_ref": "artifacts/a0020.json",
+      "retained_hash": "sha256:7b2e58716796fbfd0a00970c6575ce07214340bbd98f539d939dcdb3884ad4df"
+    },
+    {
+      "original_ref": "plat08-preflight-cli-red/source.log",
+      "original_hash": "sha256:02ee2939acc08c42e0188bb4fe1910800b97569dd56784e8e0ce30719e939963",
+      "retained_ref": "artifacts/a0021.log",
+      "retained_hash": "sha256:6964ee9c8379cb1e1e35b53a6b7dd2dd1c6a0b03c7a4f4cc9f32a55f8b0507c4"
+    },
+    {
+      "original_ref": "plat08-prefix-model-red/checkpoint.json",
+      "original_hash": "sha256:6502fcfeab2f5897a5c3507fc72069fed45431f3e76ec20539f431e5603821e3",
+      "retained_ref": "artifacts/a0022.json",
+      "retained_hash": "sha256:6502fcfeab2f5897a5c3507fc72069fed45431f3e76ec20539f431e5603821e3"
+    },
+    {
+      "original_ref": "plat08-prefix-model-red/source.log",
+      "original_hash": "sha256:985070f62e504ba36b8d487f07c5ee7d0f55bcdfde31aec66dab290107039fff",
+      "retained_ref": "artifacts/a0023.log",
+      "retained_hash": "sha256:985070f62e504ba36b8d487f07c5ee7d0f55bcdfde31aec66dab290107039fff"
+    },
+    {
+      "original_ref": "plat08-prefix-model-green01/checkpoint.json",
+      "original_hash": "sha256:3cc391ac510c2d37fa5a28be1d46328307b6b42fbeee65a52126369d7b5284e7",
+      "retained_ref": "artifacts/a0024.json",
+      "retained_hash": "sha256:3cc391ac510c2d37fa5a28be1d46328307b6b42fbeee65a52126369d7b5284e7"
+    },
+    {
+      "original_ref": "plat08-prefix-model-green01/source.log",
+      "original_hash": "sha256:23c1ac56f0210eceb71cccd0767b4f8cbe5a4d100e1d5bb380f57ddd51d50539",
+      "retained_ref": "artifacts/a0025.log",
+      "retained_hash": "sha256:23c1ac56f0210eceb71cccd0767b4f8cbe5a4d100e1d5bb380f57ddd51d50539"
+    },
+    {
+      "original_ref": "plat08-product-preflight-green01/checkpoint.json",
+      "original_hash": "sha256:e6bf20317a4ec07984be44d8b9ca3db6925e6d4d1f042ea26a40506c242f912d",
+      "retained_ref": "artifacts/a0026.json",
+      "retained_hash": "sha256:e6bf20317a4ec07984be44d8b9ca3db6925e6d4d1f042ea26a40506c242f912d"
+    },
+    {
+      "original_ref": "plat08-product-preflight-green01/source.log",
+      "original_hash": "sha256:f948cf141a42ccd4bd1a2ff03b0b3011fbe6e7508c381449f06cbf244d9cfd8b",
+      "retained_ref": "artifacts/a0027.log",
+      "retained_hash": "sha256:526897c3e4cf74cc194e876368ddf4c060d4b1bc83fc6c6fd8dac79533df9af6"
+    },
+    {
+      "original_ref": "plat08-product-preflight-green02/checkpoint.json",
+      "original_hash": "sha256:25ae43253610f8c59e5a4ff9a088e49d88a3c34cdece119b7ee7008521c0b47c",
+      "retained_ref": "artifacts/a0028.json",
+      "retained_hash": "sha256:25ae43253610f8c59e5a4ff9a088e49d88a3c34cdece119b7ee7008521c0b47c"
+    },
+    {
+      "original_ref": "plat08-product-preflight-green02/source.log",
+      "original_hash": "sha256:f28813cb6fd7a05f70adb74a11bf08f1e17b7d809ecf48e08d7df18c993d13f1",
+      "retained_ref": "artifacts/a0029.log",
+      "retained_hash": "sha256:f28813cb6fd7a05f70adb74a11bf08f1e17b7d809ecf48e08d7df18c993d13f1"
+    },
+    {
+      "original_ref": "plat08-archival-contract-red/checkpoint.json",
+      "original_hash": "sha256:e3b5985741db15be439a2d92db329b56756acb26e34db5b654ca37344cbc5cc4",
+      "retained_ref": "artifacts/a0030.json",
+      "retained_hash": "sha256:e3b5985741db15be439a2d92db329b56756acb26e34db5b654ca37344cbc5cc4"
+    },
+    {
+      "original_ref": "plat08-archival-contract-red/source.log",
+      "original_hash": "sha256:6c1e1575bd9fdfeb8c68ace739f9811c2404926085d66c03e3b5a3cf802b88da",
+      "retained_ref": "artifacts/a0031.log",
+      "retained_hash": "sha256:6c1e1575bd9fdfeb8c68ace739f9811c2404926085d66c03e3b5a3cf802b88da"
+    },
+    {
+      "original_ref": "plat08-product-preflight-green03/checkpoint.json",
+      "original_hash": "sha256:7fdebb53327474d91c9e14f2b9d31759cd686d8a04cb853eb05b4528a7ecab93",
+      "retained_ref": "artifacts/a0032.json",
+      "retained_hash": "sha256:7fdebb53327474d91c9e14f2b9d31759cd686d8a04cb853eb05b4528a7ecab93"
+    },
+    {
+      "original_ref": "plat08-product-preflight-green03/source.log",
+      "original_hash": "sha256:bfff6310704604ce4a7336b7b65f4f1a26ab4882312c612d5fa1e35559e480e8",
+      "retained_ref": "artifacts/a0033.log",
+      "retained_hash": "sha256:bfff6310704604ce4a7336b7b65f4f1a26ab4882312c612d5fa1e35559e480e8"
+    },
+    {
+      "original_ref": "plat08-complete-identity-red/checkpoint.json",
+      "original_hash": "sha256:10fd7a7e81104f5e83359b676b04e130ee5eb4be64b26bbeec6a6ecfbe30b7e4",
+      "retained_ref": "artifacts/a0034.json",
+      "retained_hash": "sha256:10fd7a7e81104f5e83359b676b04e130ee5eb4be64b26bbeec6a6ecfbe30b7e4"
+    },
+    {
+      "original_ref": "plat08-complete-identity-red/source.log",
+      "original_hash": "sha256:95e111c2d2682dd648f75ea1706fabbf81ccf8a9ed03413e6ddba11a27663e7d",
+      "retained_ref": "artifacts/a0035.log",
+      "retained_hash": "sha256:95e111c2d2682dd648f75ea1706fabbf81ccf8a9ed03413e6ddba11a27663e7d"
+    },
+    {
+      "original_ref": "plat08-complete-product-green04/checkpoint.json",
+      "original_hash": "sha256:96fa3fb19b6a85024b5e0e8b0464095cebff0ad9d7610517c6b9e23e8666bbbf",
+      "retained_ref": "artifacts/a0036.json",
+      "retained_hash": "sha256:96fa3fb19b6a85024b5e0e8b0464095cebff0ad9d7610517c6b9e23e8666bbbf"
+    },
+    {
+      "original_ref": "plat08-complete-product-green04/source.log",
+      "original_hash": "sha256:559fa3e8ae20ff5eb992a9f99359f96092454960484e8e1c4ae01cf1ba2085e8",
+      "retained_ref": "artifacts/a0037.log",
+      "retained_hash": "sha256:559fa3e8ae20ff5eb992a9f99359f96092454960484e8e1c4ae01cf1ba2085e8"
+    },
+    {
+      "original_ref": "plat08-corrected-regressions-green05/checkpoint.json",
+      "original_hash": "sha256:855178969f1166136b4329e0237a852dfa0e24fc4fa5f2523310c70467975a35",
+      "retained_ref": "artifacts/a0038.json",
+      "retained_hash": "sha256:855178969f1166136b4329e0237a852dfa0e24fc4fa5f2523310c70467975a35"
+    },
+    {
+      "original_ref": "plat08-corrected-regressions-green05/source.log",
+      "original_hash": "sha256:da24f18b84ee642baf6249fbf47c22d1d68caa8087ab7c6405657e006e849acd",
+      "retained_ref": "artifacts/a0039.log",
+      "retained_hash": "sha256:da24f18b84ee642baf6249fbf47c22d1d68caa8087ab7c6405657e006e849acd"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/001.log",
+      "original_hash": "sha256:6ff2c89690bd0fbb3c8d003555c8f1469073651ed0003256d689b37e122943c0",
+      "retained_ref": "artifacts/a0040.log",
+      "retained_hash": "sha256:6ff2c89690bd0fbb3c8d003555c8f1469073651ed0003256d689b37e122943c0"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/002.log",
+      "original_hash": "sha256:c4c744ce5cd140e6521f92a2ce7d3c4dbbfc49e3e926f6224e73db0503cac771",
+      "retained_ref": "artifacts/a0041.log",
+      "retained_hash": "sha256:c4c744ce5cd140e6521f92a2ce7d3c4dbbfc49e3e926f6224e73db0503cac771"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/003.log",
+      "original_hash": "sha256:c19400013252a61fc0792e65e1a656d5976fb48ebb4e453a6f935a381fe5dee9",
+      "retained_ref": "artifacts/a0042.log",
+      "retained_hash": "sha256:c19400013252a61fc0792e65e1a656d5976fb48ebb4e453a6f935a381fe5dee9"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/004.log",
+      "original_hash": "sha256:ea17eb85d17a0ac0bcd230881c06744df56d94de26561820bd613f95f2dc4c90",
+      "retained_ref": "artifacts/a0043.log",
+      "retained_hash": "sha256:ea17eb85d17a0ac0bcd230881c06744df56d94de26561820bd613f95f2dc4c90"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/005.log",
+      "original_hash": "sha256:d374fcc55f217e73a4347b56db3f6bf38157fc1109622a345ff505f9e832e898",
+      "retained_ref": "artifacts/a0044.log",
+      "retained_hash": "sha256:d374fcc55f217e73a4347b56db3f6bf38157fc1109622a345ff505f9e832e898"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/006.log",
+      "original_hash": "sha256:0b29ef8e27bc73b9f4aa3ce64e9e7bb8d7e95b7f23a93c81032366b2f2207db8",
+      "retained_ref": "artifacts/a0045.log",
+      "retained_hash": "sha256:0b29ef8e27bc73b9f4aa3ce64e9e7bb8d7e95b7f23a93c81032366b2f2207db8"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/007.log",
+      "original_hash": "sha256:7a740f9544545f55974a75f91d493aa3f1fd5db66ffe9f83567360785f6a1c7f",
+      "retained_ref": "artifacts/a0046.log",
+      "retained_hash": "sha256:7a740f9544545f55974a75f91d493aa3f1fd5db66ffe9f83567360785f6a1c7f"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/008.log",
+      "original_hash": "sha256:c90cd948044e0636a45adf723befa7941a9c64318da76e9960427051f0ff3f0c",
+      "retained_ref": "artifacts/a0047.log",
+      "retained_hash": "sha256:c90cd948044e0636a45adf723befa7941a9c64318da76e9960427051f0ff3f0c"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/009.log",
+      "original_hash": "sha256:b85d7a78145688a8bba8289dacdf1757a87d984ce227f6ee12a42e1e1cd28ad8",
+      "retained_ref": "artifacts/a0048.log",
+      "retained_hash": "sha256:b85d7a78145688a8bba8289dacdf1757a87d984ce227f6ee12a42e1e1cd28ad8"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/010.log",
+      "original_hash": "sha256:27b77adb64a0e168dc203f182571e17767ce40bf8383fbbe002148c49c7a2a5d",
+      "retained_ref": "artifacts/a0049.log",
+      "retained_hash": "sha256:27b77adb64a0e168dc203f182571e17767ce40bf8383fbbe002148c49c7a2a5d"
+    },
+    {
+      "original_ref": "plat08-affected-fc0d01a/011.log",
+      "original_hash": "sha256:61723f37a9bd358a9dfd5c7e924da9f12ba87edeb2852f94e1e702b7d9a0fd25",
+      "retained_ref": "artifacts/a0050.log",
+      "retained_hash": "sha256:61723f37a9bd358a9dfd5c7e924da9f12ba87edeb2852f94e1e702b7d9a0fd25"
+    }
+  ]
+}

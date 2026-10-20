@@ -1,0 +1,103 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-21",
+  "source_hashes": [
+    {
+      "sha256": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+      "path": "tests/application/upgrade_preflight_fixture.py"
+    },
+    {
+      "sha256": "7437090d385e79b50949e6c8ae41cd62132fd74c111f75ef0ff1e6db53e292d3",
+      "path": "tests/application/test_upgrade_preflight_v02.py"
+    },
+    {
+      "sha256": "1bda7994b9c79268212b1227703d582b3ac5bef59930df6f32d75b1503fe3158",
+      "path": "src/application/platform/upgrade_preflight.py"
+    },
+    {
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+      "path": "src/application/platform/product_backup.py"
+    },
+    {
+      "sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811",
+      "path": "src/application/platform/database_restore.py"
+    },
+    {
+      "sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde",
+      "path": "src/application/platform/supervision.py"
+    },
+    {
+      "sha256": "7f12e6025af5ff1840db60f4b71b1031cc7c6d3836b564f1e8f1c7be4f8b0e43",
+      "path": "src/application/platform/scope_lock.py"
+    },
+    {
+      "sha256": "722c44df31c4e8e56d2d7c30af191397059082e33d437a5922c9f3314a34c66d",
+      "path": "src/application/control_api/auth.py"
+    },
+    {
+      "sha256": "b769e33a1364607100626bfaf385cc9bc5505e28f8d6b0f697636b4f0ac123f4",
+      "path": "src/application/control_api/commands.py"
+    },
+    {
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98",
+      "path": "src/application/research/evidence.py"
+    },
+    {
+      "sha256": "2a519b501722a464b2499f1e92fa079cb3d0e2ad17b4c3a98f6d5b9b789d524f",
+      "path": "src/application/research/holdout.py"
+    },
+    {
+      "sha256": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6",
+      "path": "src/storage/_sqlite_registry.py"
+    }
+  ],
+  "draft_hashes": [
+    {
+      "sha256": "7146d1187378b95b5c4ede23805195b7d389e6f9253163035542f127a3eedc75",
+      "path": "upgrade_preflight_complete_fixture.py.unapplied"
+    },
+    {
+      "sha256": "5fe81e24c9cfa2717834f82ecb47582ab11676129d3956182c8d7d798cf613e4",
+      "path": "test_upgrade_preflight_complete_v02.py.unapplied"
+    }
+  ],
+  "targets": [
+    "tests/application/upgrade_preflight_complete_fixture.py",
+    "tests/application/test_upgrade_preflight_complete_v02.py"
+  ],
+  "case_count": 4,
+  "genuine_setup": "Reuse current make_verified_bundle and preserve baseline. Real ResearchJournal+ResearchTrialLedger initialize research DB; actual CommandLedger creates control DB; actual LocalAuth creates empty auth namespace/schema without enroll/login/session/credential rows; actual supervision._db + _apply_supervision_schema creates genuine coordinated schema+receipts with process_sessions COUNT0. No ProcessSupervisor start, provider call or auth-row projection. Then a fresh normal create_product_backup+verify captures all8 PRESENT.",
+  "cases": [
+    {
+      "name": "test_all_eight_actual_owner_schemas_present_preflight_has_no_source_or_bundle_effects",
+      "boundary": "All8 COMPATIBLE, current full canonical applied+empty pending, NONE/0 mutations/0 starts, complete source DB/WAL/SHM and bundle hashes unchanged."
+    },
+    {
+      "name": "test_valid_normal_backups_of_changed_research_schema_control_version_or_supervision_receipt_refuse_before_restore",
+      "boundary": "Three finite adversarial test-source vectors after real owner init: actual research extra index, control user_version7, exact existing supervision coordinator receipt changed. Fresh normal backup+verify remains genuine integrity-valid; exact SchemaUnsupported; underlying actual restore wraps RestoreError before target generation exists; source/bundle unchanged. No forged manifest/positive financial rows."
+    },
+    {
+      "name": "test_actual_prefix19_source_normal_backup_reports_only_pending_suffix_without_migration",
+      "boundary": "Fresh private disjoint synthetic source made by actual capped canonical migrator through0019, no dropping/downgrading old current DB or fake receipts. Normal product backup+verify, preflight exact applied19/pending known suffix;7 optional ABSENT; source/bundle unchanged. New synthetic code-produced prefix is not historical old7d executable evidence."
+    },
+    {
+      "name": "test_actual_held_role_and_expired_reader_deadline_refuse_without_mutating_valid_bundle",
+      "boundary": "Real same-process nonreentrant research scope held -> public Unavailable; invalid public deadline0 -> DeadlineRequired; already verified internal seam under all actual locks with truly expired monotonic budget -> existing BackupError deadline, no clock patch/sleep. Postdenial valid public preflight works, proving locks released; hashes unchanged."
+    }
+  ],
+  "assumptions": [
+    "Auth constructor uses actual schema and namespace only, no create_owner/login/authenticate. Credentials are neither provided nor copied to output; normal test-private backup contains empty auth tables.",
+    "Current supervision has no standalone public schema initializer; use actual existing private schema-owner function with actual writable owner connection. No schema SQL copied into fixture or alternate migrator; process_sessions count must stay0.",
+    "Additional model tests use real synthetic owner constructor lifecycle, not model-schema helpers as truth. Existing baseline helper does an extra valid four-present backup before extension; preserved outside data, final all-present bundle is separately named. Root can refactor setup before firstbackup later without changing assertions.",
+    "Internal expired-deadline test intentionally checks BackupError because current internal seam uses backup._deadline directly; public caller sanitizes operational errors. This is deterministic budget-boundary proof, not a real elapsed30second workload/deadline-conformance claim.",
+    "Same-process scope exclusion is actual ProcessScopeLock in-process guard/kernel path, not multiprocess coordinator/native proof.",
+    "Prefix19 source is unbound canonical schema variant, explicitly supported current model. Normal backup must succeed genuinely; if backup rejects legitimate initialization, retain actual setup failure and investigate rather than hand-edit receipts/schema."
+  ],
+  "limits": [
+    "No tests/import/compile/DB/native/Git/network/provider execution performed. No tracked edits.",
+    "No acceptance/full-profile/native/oldPC/Ubuntu/realcloud/financial permission claims. Root must observe actual results and independently review before binding evidence.",
+    "Four TestCase methods, one has3 mutation subtests. Entirely controlled TemporaryDirectory sources; no real user config/auth/runtime data read."
+  ]
+}

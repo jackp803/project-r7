@@ -1,0 +1,21 @@
+test_arbitrary_only_database_is_archived_without_product_schema_acceptance (tests.application.test_database_restore.DatabaseRestoreTests.test_arbitrary_only_database_is_archived_without_product_schema_acceptance) ... ERROR
+
+======================================================================
+ERROR: test_arbitrary_only_database_is_archived_without_product_schema_acceptance (tests.application.test_database_restore.DatabaseRestoreTests.test_arbitrary_only_database_is_archived_without_product_schema_acceptance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 35, in test_arbitrary_only_database_is_archived_without_product_schema_acceptance
+    result=self.module().restore_database_backup(config,backup,target)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+----------------------------------------------------------------------
+Ran 1 test in 0.504s
+
+FAILED (errors=1)

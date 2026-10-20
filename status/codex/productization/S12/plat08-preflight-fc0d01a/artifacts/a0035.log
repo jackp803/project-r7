@@ -1,0 +1,20 @@
+test_actual_held_role_and_expired_reader_deadline_refuse_without_mutating_valid_bundle (tests.application.test_upgrade_preflight_complete_v02.UpgradePreflightCompleteV02Tests.test_actual_held_role_and_expired_reader_deadline_refuse_without_mutating_valid_bundle) ... ok
+test_actual_prefix19_source_normal_backup_reports_only_pending_suffix_without_migration (tests.application.test_upgrade_preflight_complete_v02.UpgradePreflightCompleteV02Tests.test_actual_prefix19_source_normal_backup_reports_only_pending_suffix_without_migration) ... ok
+test_all_eight_actual_owner_schemas_present_preflight_has_no_source_or_bundle_effects (tests.application.test_upgrade_preflight_complete_v02.UpgradePreflightCompleteV02Tests.test_all_eight_actual_owner_schemas_present_preflight_has_no_source_or_bundle_effects) ... ok
+test_real_prefix_restore_and_product_composition_migrate_only_inhibited_clone (tests.application.test_upgrade_preflight_complete_v02.UpgradePreflightCompleteV02Tests.test_real_prefix_restore_and_product_composition_migrate_only_inhibited_clone) ... ok
+test_valid_normal_backups_of_changed_research_schema_control_version_or_supervision_receipt_refuse_before_restore (tests.application.test_upgrade_preflight_complete_v02.UpgradePreflightCompleteV02Tests.test_valid_normal_backups_of_changed_research_schema_control_version_or_supervision_receipt_refuse_before_restore) ... ok
+test_result_binds_actual_target_source_configuration_and_verified_backup_bytes (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_result_binds_actual_target_source_configuration_and_verified_backup_bytes) ... ERROR
+
+======================================================================
+ERROR: test_result_binds_actual_target_source_configuration_and_verified_backup_bytes (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_result_binds_actual_target_source_configuration_and_verified_backup_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_v02.py", line 18, in test_result_binds_actual_target_source_configuration_and_verified_backup_bytes
+    self.assertEqual('r7-product-upgrade-preflight-v0.2',result['schema_version'])
+                                                         ~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'schema_version'
+
+----------------------------------------------------------------------
+Ran 6 tests in 23.173s
+
+FAILED (errors=1)

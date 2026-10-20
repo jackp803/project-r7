@@ -1,0 +1,86 @@
+{
+  "schema": "r7-bounded-independent-contract-review-v1",
+  "date": "2026-10-20",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Requested PLAT08 finite schema preflight, packaged migration cap and DB-only versus complete product restore contract; source sections only, no execution.",
+  "subject_hashes": {
+    "src/application/platform/upgrade_preflight.py": "1bda7994b9c79268212b1227703d582b3ac5bef59930df6f32d75b1503fe3158",
+    "src/application/platform/database_restore.py": "8ac8526572a9fb8e4236c3fd0669c936edcd387a65a83831657d677e107a69d6",
+    "src/application/cli.py": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b",
+    "tests/application/test_database_restore.py": "873e7439edd59ba9ae17096480f0eb3e6588f7f645e871c8d695bcfff6d11d30",
+    "src/storage/qualification.py": "268f9cadd14f226bed523a5bf9e4c85b74b51916686b0a62e3d71671cae37501",
+    "src/storage/_sqlite_registry.py": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6",
+    "src/application/platform/backup.py": "36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df",
+    "src/application/platform/product_backup.py": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+  },
+  "advisory_result": "NO_CONCRETE_CONTRADICTION_IN_PROPOSED_REPAIR;NOT_IMPLEMENTATION_ACCEPTANCE",
+  "counts": {
+    "critical": 0,
+    "important": 1,
+    "new_critical": 0,
+    "new_important": 0
+  },
+  "findings": [
+    {
+      "id": "PLAT08-DBONLY-ARCHIVE-OVERGATE",
+      "severity": "Important",
+      "status": "ALREADY_IDENTIFIED_BY_ROOT;PROPOSED_REPAIR_PENDING_IN_PINNED_BYTES",
+      "refs": [
+        "src/application/platform/database_restore.py:108",
+        "src/application/platform/database_restore.py:132",
+        "src/application/platform/database_restore.py:179",
+        "tests/application/test_database_restore.py:18"
+      ],
+      "finding": "The captured restore implementation invokes the supported whole-profile role/schema gate even for product_data=False. This changes the DB-only archival contract and rejects its existing verified arbitrary preserved-table database before target creation.",
+      "minimal_fix": "Condition the whole-profile role/schema gate on product_data=True. Keep standalone preflight_product_upgrade strict and complete product restore gated before target creation. Continue existing DB snapshot verification, containment, stopped-role locks, fencing and inhibited/PENDING result for DB-only archival restore.",
+      "regression": "Retain a dedicated arbitrary-only SQLite archival restore case proving exact marker preservation/source unchanged and DATABASES_ONLY/PENDING/inhibited output. Initialize actual canonical journal before the marker in the E6 recovery fixture so those generation-fencing cases never migrate an arbitrary unversioned dummy database."
+    }
+  ],
+  "resolved_during_review": [
+    {
+      "id": "PLAT08-CANONICAL-NAMESPACE-MODEL",
+      "status": "STATIC_REPAIR_PRESENT",
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:76",
+        "src/application/platform/upgrade_preflight.py:90",
+        "src/application/platform/upgrade_preflight.py:137",
+        "src/storage/qualification.py:21"
+      ],
+      "basis": "Updated captured preflight accepts exactly two finite schemas for the same applied packaged prefix: the actual migrator-produced schema, or that schema plus existing owner _NAMESPACE_SQL. It creates neither namespace seed nor source-store objects and still rejects any other schema difference."
+    }
+  ],
+  "supported_contract_conclusions": [
+    {
+      "refs": [
+        "src/application/platform/database_restore.py:1",
+        "src/application/platform/database_restore.py:179",
+        "src/application/platform/product_backup.py:503",
+        "src/application/cli.py:316",
+        "src/application/cli.py:341"
+      ],
+      "conclusion": "The public APIs already distinguish complete product-data restoration/upgrade from DB-only archival restoration. DATABASES_ONLY leaves user_data_restore PENDING, diagnostic_only true, Paper disabled, cloud disconnected and reconciliation/reauthorization required; successful archival copying need not declare a supported product profile."
+    },
+    {
+      "refs": [
+        "src/storage/_sqlite_registry.py:102",
+        "src/storage/_sqlite_registry.py:110"
+      ],
+      "conclusion": "through_migration is restricted to an exact packaged migration name, refuses a custom script directory and a cap below already applied history, and uses the existing actual migrator. No downgrade or caller SQL selection is introduced."
+    },
+    {
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:98",
+        "src/application/platform/upgrade_preflight.py:149"
+      ],
+      "conclusion": "The complete profile gate must still cover the fixed eight-role inventory, including explicitly absent optional stores, validate every present store against its finite actual schema, and finish before product target creation. Admitting the namespace model does not imply seeding or financial readiness."
+    }
+  ],
+  "limits": [
+    "Pinned captured source bytes only. The preflight file changed during review; its final recorded hash is the updated two-model refinement that was reread. Other file hashes identify the captured pre-repair restore/test bytes.",
+    "No tests, compilation, imports, DB, Git, process, provider or network operations performed. Only this outside-Git review artifact is written.",
+    "Root-reported failures and proposed fixes are not execution credit. No CLI/full-product restore, native, old-7d downgrade, full profile or Master acceptance is established."
+  ]
+}

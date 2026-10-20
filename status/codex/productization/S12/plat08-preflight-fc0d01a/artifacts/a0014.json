@@ -1,0 +1,86 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "source_hashes": [
+    {
+      "path": "tests/application/upgrade_preflight_fixture.py",
+      "sha256": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a"
+    },
+    {
+      "path": "tests/application/test_upgrade_preflight_v02.py",
+      "sha256": "7437090d385e79b50949e6c8ae41cd62132fd74c111f75ef0ff1e6db53e292d3"
+    },
+    {
+      "path": "src/application/platform/backup.py",
+      "sha256": "36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df"
+    },
+    {
+      "path": "src/application/platform/product_backup.py",
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+    },
+    {
+      "path": "src/application/platform/database_restore.py",
+      "sha256": "8ac8526572a9fb8e4236c3fd0669c936edcd387a65a83831657d677e107a69d6"
+    },
+    {
+      "path": "src/application/platform/supervision.py",
+      "sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde"
+    },
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "sha256": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6"
+    },
+    {
+      "path": "src/application/control_api/auth.py",
+      "sha256": "763fd6499c0062475802c148cb17b7816ff89f7e624075b724eec9360e269c23"
+    },
+    {
+      "path": "src/application/control_api/services.py",
+      "sha256": "d8c7a1857c411b61d8490782e44f3aa6b55afc4f643347b525de977a7d5b15e1"
+    },
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "sha256": "2b42e9927b80d75f6213bff8002db52977332964e953207d9a09ee918fdec056"
+    }
+  ],
+  "draft_hashes": [
+    {
+      "path": "upgrade_preflight.py.unapplied",
+      "sha256": "3126c60cedeb2904ce2b2686cfccb2a379ab7b94021cd1c514cc0e05d70d22b7"
+    },
+    {
+      "path": "upgrade-preflight-owned-ddl-extraction.patch.unapplied",
+      "sha256": "526239b05721219c1b50da7ae17497162a6215b149162fee2692d0a454ed6990"
+    }
+  ],
+  "red_basis": "Parent reports actual plat08-product-preflight-red01 two missing-module errors after valid normal backup/verify exact8 inventory, and through_migration API TypeError RED. Earlier privateconfig setup failure is explicitly not product RED credit. No evidence read/execution by draft agent.",
+  "observed_fixture_changes": "Current tracked fixture uses replace(config,execution_mode=FIXTURE), create_private_directory(private-source-profile), then private config file. Draft service uses actual config_path and normal helpers; old fixture draft is not current setup basis.",
+  "interfaces": [
+    "preflight_product_upgrade(config,backup,*,config_path=None,timeout_seconds=30): locks all PROCESS_ROLES, existing _verified_manifest before and after, internal sealed snapshot checks, profile recheck, no source owner starts or writes.",
+    "_preflight_verified_databases(config,database_backup,manifest,end,*,include_settings=False): caller already has locks and verified manifest; exact finite7 or8 inventory, rows+absent closure, fixed artifact/relative path, private/hash/facts before/after, mode=ro immutable only for sealed files, query_only, existing deadline. Restore calls before target-create/fence.",
+    "Report roles exact expected mapping; status COMPATIBLE_FOR_INHIBITED_CLONE, financial_authority NONE, database_mutations0,owner_starts0. Canonical row applied/pending tuples; optional absent explicit ABSENT. Counters mean source/snapshot DBs and actual operational owner starts; memory DDL models do not represent source mutation."
+  ],
+  "schema_rules": [
+    "Canonical actual check_migration_compatibility then existing _apply_migrations on memory with root-owned through_migration exact packaged name cap. Compare full normalized schema object closure/user_version against actual applied prefix model. Require nonempty known prefix >=0019; older and uninitialized return dedicated refusal. Pending suffix never runs on snapshot/source.",
+    "Other role models execute fixed actual packaged DDL only. Intake0001,queue0005,control0004; research journal0002+0007,trial0003 or actual combined recipe; settings base or base+owner extension; auth constant; supervision0006+receiptDDL+0008+0009. Full closure includes auxiliary objects and SQLite internal schema objects, not only columns. Unknown extra object/user_version refuses.",
+    "Supervision exact two migration/hash receipts checked with LIMIT3 and LF-normalized known script hashes. No auth/user/session/settings value rows queried; schema metadata only (plus canonical migration/supervision receipts). No namespace authority assertion or financial data validation claimed."
+  ],
+  "ddl_patch": "Auth and LocalControlServices exact literal SQL extracted into module constants, constructors still execute exact strings. OwnerControlServices exposes CONTROL_SCANS_SCHEMA_SQL/CONTROL_SCAN_RECEIPTS_SCHEMA_SQL from exact original text before/after existing metadata INSERT. Constructor concatenates them around exact original INSERT text in ONE original-order executescript; model executes only two DDL constants. No owner constructor invoked for models.",
+  "stable_codes": [
+    "UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED for unknown app shape, bad supervision receipt, canonical ledger rejection or exact prefix schema mismatch",
+    "UPGRADE_PREFLIGHT_CANONICAL_UNINITIALIZED; UPGRADE_PREFLIGHT_CANONICAL_PREFIX_UNSUPPORTED; UPGRADE_PREFLIGHT_INVENTORY_INVALID; UPGRADE_PREFLIGHT_ARTIFACT_CHANGED; UPGRADE_PREFLIGHT_SCHEMA_LIMIT; UPGRADE_PREFLIGHT_DEADLINE_REQUIRED; UPGRADE_PREFLIGHT_UNAVAILABLE sanitized generic public envelope"
+  ],
+  "root_owned_remaining": [
+    "Apply/review draft after active source guards; actual _apply_migrations through cap implementation and its test are root-owned.",
+    "CLI parser/handler and existing RestoreError wrapping integration before targetcreate are root-owned.",
+    "Actual source regressions and additional present-role fixtures (auth without row reads, actual research/supervision/control/settings variants) required; first two tests do not prove all present-role models.",
+    "Actual separate old7d prefix19 model/clone/native evidence remains future scoped task; no old7d binary downgrade refusal claimed."
+  ],
+  "limitations": [
+    "No imports/compile/tests/DB/Git/network/private runtime reads or tracked edits. This draft has not been syntax/runtime validated.",
+    "No source/snapshot migrator execution, no source schema SQL execution, no arbitrary role recipes or general framework. Memory models use trusted source DDL and sole canonical migrator.",
+    "Model imports owner modules to obtain constants but never instantiate owners, hasher, policies, broker or provider. Root review should verify import-time purity and full SQLite object normalization on actual target runtime.",
+    "Public preflight repeats existing full bundle verification within existing30s default; large real stores may consume deadline and must honestly refuse, not extend threshold silently."
+  ]
+}

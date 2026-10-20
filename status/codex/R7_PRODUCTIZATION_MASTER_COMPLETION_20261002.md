@@ -1,3 +1,27 @@
+# PLAT08 read-only upgrade preflight source checkpoint — 2026-10-21
+
+Exact source fc0d01a3ae54bb777238acacbfc9cad5a4b5317b, implementation sha256:ec7cdc92f41e4d65032cd5282d90a7df187c9e1694b049e1f2e6cc7d8367b460:11modules/94cases PASS,
+unchanged/reaped, original900s per module. Evidence: status/codex/productization/S12/plat08-preflight-fc0d01a/disposition.json.
+Two complementary independent static0C0I reviews, executionNONE. All initial
+fixture/model/archival/identity/import-name failures retained. Temporary system
+awake request explicitly released; no permanent power/display/away-mode change.
+
+Actual8role all-present and absent inventory, normal verified backups, read-only
+version/config/manifest bindings, genuine changed-schema/receipt/version denials
+before product restore target creation. Real prefix19 backup reports suffix;
+normal inhibited restore and product composition migrate clone only, source and
+backup unchanged. Generic archival remains DATABASES_ONLY/PENDING/inhibited and
+cannot open as a canonical product DB. Existing E6 fencing/auth/API/migration/
+supervision regressions preserved. No historical SQL checksum/financial claim.
+
+This source checkpoint is not native crossversion/removal/fullPQR/wholePLAT08.
+Next settled inventory/authoring refresh, build and full native qualification,
+actual portable crossversion/removal, audits and S16. Preserved7d package/proof
+remain separate; no old7d downgrade-guard or new native acceptance transfer.
+Master active, same task/branch, no merge. Public8/responses8/additional0/private0;
+credentialsNONE/capitalNONE/LIVE notstarted/GitHubNOT_USED. OldPC/Ubuntu/cloud/
+formal policies/real-forward remain unaccepted.
+
 # Original E2 EXIT and migration-writer source checkpoint — 2026-10-20
 
 Exact frozen source 84f0eccf76167af11b9b4e67fc69af880ebe44ae:29modules/112cases PASS; separate test-only append

@@ -1,0 +1,61 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "source_hashes": [
+    {
+      "sha256": "07bb5e22579eedaefc7520dc2eaba6948bbd929b29fcbada1e5eb4e02c97ba06",
+      "path": "tests/application/test_local_owner_composition.py"
+    },
+    {
+      "sha256": "4b8210eedf7654a5fa29e68145281c918089ee8f36f28bcd6720509b375ba205",
+      "path": "tests/application/test_product_data_backup.py"
+    },
+    {
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+      "path": "src/application/platform/product_backup.py"
+    },
+    {
+      "sha256": "7a4862953568a0bfcf764dcc09da9d1a896b2eba02f3ff8fe15aa707e27a04f8",
+      "path": "src/application/platform/database_restore.py"
+    },
+    {
+      "sha256": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b",
+      "path": "src/application/local_owners.py"
+    }
+  ],
+  "draft_hashes": [
+    {
+      "sha256": "f98c531011c17e6a18e9587ec15303b2afe68bcaa19de33152687c94c85f3f54",
+      "path": "upgrade_preflight_fixture.py.unapplied"
+    },
+    {
+      "sha256": "47e737f9aac046b93d3ed17bf28e75024367916bc55cfee509bc8e0041c6bf5d",
+      "path": "test_upgrade_preflight_v02.py.unapplied"
+    }
+  ],
+  "proposed_targets": [
+    "tests/application/upgrade_preflight_fixture.py",
+    "tests/application/test_upgrade_preflight_v02.py"
+  ],
+  "red_order": "Fixture has no new-service import. Each case normal LocalOwnerComposition configured owners -> accepted intake -> actual owner settings -> product backup -> verify -> exact present|absent8 role check. Only then import application.platform.upgrade_preflight. Missing API is therefore reached after genuine complete supported bundle creation, not before prerequisites.",
+  "cases": [
+    {
+      "case": "UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly",
+      "expected": "preflight_product_upgrade(config,backup,config_path=outside-data-profile,timeout_seconds=30) => status COMPATIBLE_FOR_INHIBITED_CLONE, financial_authority NONE, database_mutations0, owner_starts0, roles mapping exact8, present COMPATIBLE and absent ABSENT; current canonical pending empty; source database/WAL/SHM hashes and full bundle hashes unchanged."
+    },
+    {
+      "case": "UpgradePreflightV02Tests.test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target",
+      "expected": "One controlled test-source CREATE INDEX changes queue schema; normal actual backup and verify must still succeed. New preflight raises UpgradePreflightError exact UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED. Existing underlying product restore owner raises existing RestoreError PRIVATE_DATABASE_RESTORE_FAILED before targetcreate; source/bundle hashes unchanged. No forged backup manifest or invalidFK credit."
+    }
+  ],
+  "interface_assumptions": [
+    "roles is mapping by exact finite logical_name; each row status COMPATIBLE or ABSENT and canonical row pending tuple/list. Root may finalize report shape before applying, preserving semantic assertions.",
+    "UpgradePreflightError string is stable code UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED for unknown role schema. Existing _restore_backup wraps unexpected guard exceptions as RestoreError PRIVATE_DATABASE_RESTORE_FAILED; test invokes that actual owner with product_data=True because outer restore_product_backup presently wraps again as ProductBackupError. Public wrapper/CLI error surface remains separate regression scope."
+  ],
+  "scope_limits": [
+    "Real inventory covers8 roles: this minimal actual composition creates canonical/intake/queue/settings and explicitly marks auth/control/research/supervision absent. It does NOT claim present-auth/supervision/research shape coverage; future actual owner-composition cases must cover those finite shapes. No auth enrollment, password/session row reads or service starts.",
+    "Mismatch is schema-only adversarial test input, not positive financial rows or terminal-state injection. Whole preflight implementation remains undrafted until root observes genuine RED.",
+    "No imports/compilation/tests/DB/native/network/Git/tracked edits by drafting agent. Static files only, no PASS or acceptance claim."
+  ]
+}

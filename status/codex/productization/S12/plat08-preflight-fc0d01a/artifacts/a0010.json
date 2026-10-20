@@ -1,0 +1,82 @@
+{
+  "schema": "r7-bounded-independent-source-review-v1",
+  "date": "2026-10-21",
+  "review_kind": "PLAT08_FINAL_OUTPUT_TEST_DOC_DELTA",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Only the upgrade_preflight output-binding delta, new all-present/prefix/normal-create_local_app tests and helpers, updated identity-binding test, unchanged baseline test helpers for setup context, and FIRST_RUN upgrade/archive/rollback/removal section. Prior implementation review is not repeated.",
+  "baseline_review": {
+    "path": "plat08-preflight-implementation-review-20261021.json",
+    "sha256": "f51b7879e3bd8c418d9b61bc9f2391c3a2616230b415e731dcc71bed35e7bb84",
+    "preserved": true
+  },
+  "subject_hashes": {
+    "src/application/platform/upgrade_preflight.py": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+    "tests/application/test_upgrade_preflight_complete_v02.py": "fa52e86491227d86179c513ba32be662b2243733e0171cefad4b730562eb53ea",
+    "tests/application/upgrade_preflight_complete_fixture.py": "3080d1c1b955e4f9fd1dcdd8091d6c4ec448c4e6f9b88fea2f37e5ede3153150",
+    "tests/application/test_upgrade_preflight_v02.py": "211bfaf924868b301a24864276a4dbaa7f59b65a8f6b3b79083daab17e94801b",
+    "tests/application/test_upgrade_preflight_cli_v02.py": "3e83550e0b8c132769e6434f1f5296e1f9f4dd5504059e816c973045654e6aed",
+    "tests/application/upgrade_preflight_fixture.py": "940baa13a21fbb7477fcf2e05b554f91d058acda6785eede182744c01238729a",
+    "packaging/windows/FIRST_RUN.md": "c7bf0c3829d3a564061a71d5e71d9e5ee761d36ab3f47cd894b79f185743c559",
+    "src/application/entrypoints.py": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91",
+    "src/application/research/evidence.py": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98"
+  },
+  "findings": [],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "static_delta_evidence": [
+    {
+      "refs": [
+        "src/application/platform/upgrade_preflight.py:160",
+        "src/application/platform/upgrade_preflight.py:172",
+        "src/application/research/evidence.py:22"
+      ],
+      "conclusion": "Successful output adds a finite schema version, actual existing capture_provenance result, current source config commitment, verified backup UUID and SHA256 of the exact raw product manifest captured in sealed[1]. It uses the same sealed tuple already compared to the final verified manifest. Existing final config/deadline check remains after output binding."
+    },
+    {
+      "refs": [
+        "tests/application/test_upgrade_preflight_v02.py:10"
+      ],
+      "conclusion": "Identity oracle compares actual implementation hash/source execution, current config hash and actual raw product manifest UUID/hash; source database and backup bytes must remain unchanged. It does not import caller provenance or claim native execution."
+    },
+    {
+      "refs": [
+        "tests/application/upgrade_preflight_complete_fixture.py:37",
+        "tests/application/test_upgrade_preflight_complete_v02.py:53",
+        "tests/application/test_upgrade_preflight_complete_v02.py:67"
+      ],
+      "conclusion": "All-present fixture initializes real synthetic research, command/auth and supervision schema owners, without enrollment or process generations. Three schema/receipt mutations occur only in controlled source stores before normal fresh backup and verification; preflight and product restore must refuse without target creation or source/bundle changes."
+    },
+    {
+      "refs": [
+        "tests/application/upgrade_preflight_complete_fixture.py:71",
+        "tests/application/test_upgrade_preflight_complete_v02.py:23",
+        "src/application/entrypoints.py:98"
+      ],
+      "conclusion": "Prefix19 fixture is a separate fresh source built by the actual capped migrator, not a downgraded current DB or forged receipt ledger. Restore remains inhibited and at original prefix; normal create_local_app on the copied profile supplies the existing migrating writer path, after which full packaged ledger/FK/integrity and inhibited health are asserted while original source/bundle remain unchanged."
+    },
+    {
+      "refs": [
+        "tests/application/test_upgrade_preflight_complete_v02.py:99"
+      ],
+      "conclusion": "Held-role refusal, public parameter refusal and an already-expired internal budget are separate real paths. The final normal preflight checks lock release. No clock patch, increased threshold or caller success answer replaces those boundaries."
+    },
+    {
+      "refs": [
+        "packaging/windows/FIRST_RUN.md:65",
+        "packaging/windows/FIRST_RUN.md:73",
+        "packaging/windows/FIRST_RUN.md:80"
+      ],
+      "conclusion": "Upgrade guidance requires stopped owners, preserved old install/data/backup, a new target install and inhibited clone; it explicitly denies activation from preflight alone. DB-only archive is PENDING and cannot replace full product upgrade. Rollback uses untouched old data or compatible old backup, warns against old software opening migrated data and does not imply older versions contain the new guard."
+    }
+  ],
+  "limits": [
+    "No tests, compilation, imports, Git, DB, process, native, provider or network operations performed by reviewer; only this new outside-Git review artifact is written.",
+    "Root-reported first-five execution and corrected ongoing regression are not independently executed or given credit here. The reported two wrong-module-import attempt remains FAILED; this review neither changes nor merges its result.",
+    "All-present and normal clone migration tests are source scenarios. No native, actual historical release downgrade, complete PLAT08/full-profile, H01, PQR or Master acceptance/completion claim."
+  ]
+}

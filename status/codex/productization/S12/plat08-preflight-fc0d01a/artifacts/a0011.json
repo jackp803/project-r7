@@ -1,0 +1,75 @@
+{
+  "schema_version": "r7-plat08-minimal-schema-preflight-design-v1",
+  "status": "STATIC_ONLY",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "prior_plan": "plat08-portable-upgrade-removal-plan-20261020.json",
+  "source_hashes": {
+    "src/application/platform/product_backup.py": "sha256:bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+    "src/application/cli.py": "sha256:34242992483bc50f0182797c4ff88d56052a9a32fddd23b79442c930094cca62",
+    "tests/application/test_product_data_backup.py": "sha256:4b8210eedf7654a5fa29e68145281c918089ee8f36f28bcd6720509b375ba205",
+    "src/application/platform/database_restore.py": "sha256:7a4862953568a0bfcf764dcc09da9d1a896b2eba02f3ff8fe15aa707e27a04f8",
+    "docs/product/v0_2/01_PLATFORM_DEPLOYMENT.md": "sha256:edb3c4ba7c5c0cb5e1b1579493a1eb90a2cc0f2c2508eac02a3187aab011da75",
+    "src/application/platform/backup.py": "sha256:36993200c32c8f14da0b5c4b28519799b6cfcc57703851f331407ccb0ec258df",
+    "tests/application/test_database_restore.py": "sha256:873e7439edd59ba9ae17096480f0eb3e6588f7f645e871c8d695bcfff6d11d30",
+    "src/storage/_sqlite_registry.py": "sha256:5c79c3c81695a3aa1820f20a1a79d01c7f90c2d26d276ba78d93195208eca918"
+  },
+  "authoritative_contract": {
+    "clause": "Maintenance, no new entries, position-management handoff, consistent backup, migration preflight and startup reconciliation; refuse unverified schema downgrade; preserve user data and versioned backup manifest.",
+    "ref": "docs/product/v0_2/01_PLATFORM_DEPLOYMENT.md:82-84"
+  },
+  "observed_gap": {
+    "canonical": "src/storage/_sqlite_registry.py:47-85 reads schema_migrations names then applies missing packaged scripts, without unknown-name or non-prefix refusal. CREATE TABLE precedes validation. _open_authorized_store:718-728 calls that path on normal owner composition.",
+    "existing_backup": "backup.py:38 inventory and :70 _connect provide finite known database inventory and deadline-bounded protected URI reader; _database_facts validates quick_check/FK/schema hash/user_version. Those facts establish snapshot integrity, not compatibility with another release.",
+    "restore": "database_restore.py:112-175 verifies bundle under stopped-owner locks, copies to fresh disjoint generation, fences old authority and writes restored-product.json. It is not a migration preflight and its fencing may open production journals; unsupported schema must be refused before that work."
+  },
+  "minimal_product_change": {
+    "restore_guard": "Invoke same compatibility check on verified snapshot bytes before create_private_directory(target), journal fencing or any migration attempt. Preserve generic archival backup/verify ability for unsupported future schema; a valid backup is not permission to open it with an older owner.",
+    "canonical_rules": [
+      "Existing canonical database requires well-formed schema_migrations ledger and exact known ordered-prefix membership against target packaged SQL filenames; unknown/newer names, gaps, duplicates or malformed ledger fail closed. Empty brand-new database is a separate explicit initialization case; an existing arbitrary populated database with no ledger must not be treated as fresh.",
+      "Known prefix means migration candidates are a suffix, not proof migrations will succeed. Report required suffix and require migration on a fresh inhibited restored clone plus integrity/reconciliation checks before use.",
+      "Current ledger stores names/time only: no historical SQL checksums. Never report retrospective script-content verification. Changing already-applied script under the same name cannot be detected from this ledger alone. Existing distribution seals target scripts; stricter historical checksum compatibility requires explicit trusted historical schema/package evidence, not rewritten history."
+    ],
+    "shared_check": "One finite compatibility checker in storage migration owner, used both by canonical writer before first schema write and by target-native read-only preflight. No alternate migrator. Retain existing actual migration execution and transactions.",
+    "entrypoint": "Proposed additive target R7.exe preflight-product-upgrade --config <source-config> --backup <verified-product-bundle>; exact command name remains implementation choice. Pure read-only check under existing ProcessScopeLock for all PROCESS_ROLES; use private/local single-link path checks and finite deadlines, query_only + mode=ro, target verify_distribution on normal frozen entrypoint. Output target source/distribution identity, source config/product instance, verified bundle hash/identity, per-role compatibility facts and pending canonical suffix; financial_authority NONE. No migration, file creation, owner start or authority transfer.",
+    "all_database_boundary": "Use backup._inventory including settings, with verified bundle logical_name/relative_path hashes. Canonical names alone must not yield whole-profile compatible. For other present application stores, reuse their actual schema/version contracts; if no supported source-to-target contract exists, return typed unsupported/unverified for that role. Do not use user_version=0 or quick_check=ok as compatibility proof. Safe minimum first release can support only exactly validated known noncanonical schemas and refuse changes; expanding other-store migration is separate.",
+    "no_owner_bypass": "Normal canonical open must deny unknown/non-prefix schema even if operator skips advisory CLI. Acquire existing maintenance locks and preserve restore inhibition; no new E5/risk/policy engine, open-position automatic upgrade or installer."
+  },
+  "focused_test_design": [
+    {
+      "setup": "Actual storage factory creates historical schema using actual prefix SQL in controlled temporary fixture; normal consistent backup. Target checker identifies pending suffix, immutable source and backup hashes. Only new fresh inhibited clone runs actual existing migration owner.",
+      "assertions": "Prefix and pending suffix exact; preflight changes no bytes/schema/WAL; migrated clone has exact target ledger/integrity and original durable evidence; source unchanged. This is source-test setup, not hand-created financial terminal rows.",
+      "name": "known_prefix_preflight_is_read_only_then_existing_migrations_apply_on_clone"
+    },
+    {
+      "setup": "Controlled temporary test-owned schema ledger only: unknown future filename, known gap/nonprefix, malformed ledger and populated no-ledger cases. No financial results injected.",
+      "assertions": "Normal actual store open and preflight both typed deny; exact source bytes/ledger and directory inventory unchanged, no new migrations; restore rejects before target/fencing. Tests must exercise real writer entrypoint, not only pure helper.",
+      "name": "unknown_newer_and_gapped_schema_refused_before_any_write"
+    },
+    {
+      "setup": "Actual owner-created ordinary product fixture and verified bundle; alter only test schema/version fixture for one inventory role.",
+      "assertions": "Canonical compatible cannot override unsupported application role; unavailable/locked/corrupt/missing-declared snapshot fail; known absent optional roles remain explicit absent. Deadline and active-owner lock refusal; no runtime side effects.",
+      "name": "profile_preflight_does_not_ignore_noncanonical_database"
+    },
+    {
+      "setup": "Extend tests/application/test_product_data_backup.py actual LocalOwnerCompositionTests and tests/application/test_database_restore.py owner fencing regressions.",
+      "assertions": "Fresh restored config path, cloud DISCONNECTED, diagnostic_only true, paper_runtime_enabled false, reconciliation/reauthorization REQUIRED, original source data unchanged; compatibility success does not grant software/financial admission.",
+      "name": "restore_inhibition_and_portable_source_preservation"
+    }
+  ],
+  "already_executable_without_new_product_code": [
+    "Current normal backup-product-data -> verify-product-backup -> restore-product-data -> rebackup proves same-release supported profile recovery/fencing; restored config is <destination>/restored-product.json.",
+    "Fresh full ZIP extraction into installation1/installation2, actual doctor/product-status/start/stop using external data, then operator removal of verified synthetic installation1 only can prove portable relocation/removal and preservation; no MSI/registry/Windows uninstall claim.",
+    "Current normal commands have no documented migration-preflight or Windows upgrade command. Same-version two-copy test is not cross-version schema evidence. Rollback uses untouched old data or verified old backup in fresh inhibited generation, never old binary against migrated new data."
+  ],
+  "old7d_evidence": {
+    "retained_root": "status/codex/productization/S12/current-windows-7d821f2",
+    "backup": "artifacts/a0099.json",
+    "revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "portable": "artifacts/a0076.json",
+    "usable_scope": "Original qualified ZIP full-byte extraction/empty-PATH native smoke/same-version backup-verify-restore-rebackup only. Preserve originals. Not cross-version compatibility, arbitrary downgrade, new candidate qualification, old PC or Ubuntu proof.",
+    "receipt": "qualification-5a4a842d11cde1ccb042b25558bc988ba5a03c0c7101cdfbe98ae65428c6ae80",
+    "native_smoke": "artifacts/a0088.json"
+  },
+  "new_candidate_requirement": "After source regressions, exact clean sealed new native candidate must exercise target preflight against fresh clone of actual verified old7d synthetic backup, actual suffix migration through existing owner, startup reconciliation/inhibited observation, stopped-owner cleanup, rebackup and source hash preservation. Then old target must actually refuse newer schema with zero writes. Retain both exact executable/distribution identities and bundle/ledger facts; do not transfer old7d qualification or infer financial authority."
+}

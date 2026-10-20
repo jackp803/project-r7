@@ -1,0 +1,37 @@
+test_actual_supported_eight_role_inventory_preflight_is_readonly (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly) ... ERROR
+test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target) ... ERROR
+
+======================================================================
+ERROR: test_actual_supported_eight_role_inventory_preflight_is_readonly (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_v02.py", line 13, in test_actual_supported_eight_role_inventory_preflight_is_readonly
+    module=importlib.import_module('application.platform.upgrade_preflight')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.upgrade_preflight'
+
+======================================================================
+ERROR: test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_v02.py", line 32, in test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target
+    module=importlib.import_module('application.platform.upgrade_preflight')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.platform.upgrade_preflight'
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.619s
+
+FAILED (errors=2)

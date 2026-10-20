@@ -1,0 +1,336 @@
+test_actual_supported_eight_role_inventory_preflight_is_readonly (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly) ... ERROR
+test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_genuine_changed_queue_schema_backup_verifies_but_preflight_and_restore_refuse_before_target) ... ok
+test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects (tests.application.test_upgrade_preflight_cli_v02.UpgradePreflightCliV02Tests.test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects) ...
+  test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects (tests.application.test_upgrade_preflight_cli_v02.UpgradePreflightCliV02Tests.test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects) (changed=False) ... FAIL
+test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) ... ok
+test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap) ... ok
+test_malformed_duplicate_and_empty_populated_ledgers_are_refused_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_malformed_duplicate_and_empty_populated_ledgers_are_refused_unchanged) ... ok
+test_shared_check_is_read_only_for_fresh_prefix_and_complete_packaged_ledger (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_shared_check_is_read_only_for_fresh_prefix_and_complete_packaged_ledger) ... ok
+test_shared_reader_accepts_normal_readonly_uri_without_running_migrations (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_shared_reader_accepts_normal_readonly_uri_without_running_migrations) ... ok
+test_actual_cli_returns_only_sanitized_backup_and_restore_facts (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_cli_returns_only_sanitized_backup_and_restore_facts) ... ERROR
+test_actual_old_managed_stop_request_is_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_old_managed_stop_request_is_excluded_from_restore) ... ERROR
+test_actual_selected_data_snapshots_and_settings_survive_fresh_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_selected_data_snapshots_and_settings_survive_fresh_restore) ... ERROR
+test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile (tests.application.test_product_data_backup.ProductDataBackupTests.test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile) ... ERROR
+test_external_hard_links_are_refused_and_originals_remain_intact (tests.application.test_product_data_backup.ProductDataBackupTests.test_external_hard_links_are_refused_and_originals_remain_intact) ... ok
+test_old_process_currentness_observations_are_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_old_process_currentness_observations_are_excluded_from_restore) ... ERROR
+test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation (tests.application.test_product_data_backup.ProductDataBackupTests.test_same_size_tampering_and_extra_backup_files_fail_before_restore_creation) ... ok
+test_source_change_during_copy_cannot_publish_complete_manifest (tests.application.test_product_data_backup.ProductDataBackupTests.test_source_change_during_copy_cannot_publish_complete_manifest) ... ok
+test_transient_captures_are_excluded_without_opening_their_bytes (tests.application.test_product_data_backup.ProductDataBackupTests.test_transient_captures_are_excluded_without_opening_their_bytes) ... ok
+test_unknown_durable_files_do_not_silently_receive_complete_coverage (tests.application.test_product_data_backup.ProductDataBackupTests.test_unknown_durable_files_do_not_silently_receive_complete_coverage) ... ok
+test_active_coordinator_denies_restore_before_destination_changes (tests.application.test_database_restore.DatabaseRestoreTests.test_active_coordinator_denies_restore_before_destination_changes) ... ok
+test_active_owner_and_foreign_target_or_changed_backup_are_denied (tests.application.test_database_restore.DatabaseRestoreTests.test_active_owner_and_foreign_target_or_changed_backup_are_denied) ... ok
+test_actual_database_restore_cli_never_prints_private_paths_or_rows (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_database_restore_cli_never_prints_private_paths_or_rows) ... ERROR
+test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects) ... ERROR
+test_actual_research_queue_lease_is_failed_and_retained_without_replay (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_research_queue_lease_is_failed_and_retained_without_replay) ... ERROR
+test_authenticated_restored_health_surfaces_fence_and_refuses_copied_session (tests.application.test_database_restore.DatabaseRestoreTests.test_authenticated_restored_health_surfaces_fence_and_refuses_copied_session) ... ERROR
+test_deadline_expiry_during_actual_financial_fencing_stops_further_generations (tests.application.test_database_restore.DatabaseRestoreTests.test_deadline_expiry_during_actual_financial_fencing_stops_further_generations) ... ERROR
+test_interrupted_private_generation_has_no_ready_marker_and_preserves_original (tests.application.test_database_restore.DatabaseRestoreTests.test_interrupted_private_generation_has_no_ready_marker_and_preserves_original) ... FAIL
+test_legacy_accelerated_state_without_forward_fences_future_owner_clock (tests.application.test_database_restore.DatabaseRestoreTests.test_legacy_accelerated_state_without_forward_fences_future_owner_clock) ... ERROR
+test_manifest_changed_after_verification_never_writes_outside_generation (tests.application.test_database_restore.DatabaseRestoreTests.test_manifest_changed_after_verification_never_writes_outside_generation) ... ok
+test_partial_or_changed_restored_profile_cannot_start_an_owner (tests.application.test_database_restore.DatabaseRestoreTests.test_partial_or_changed_restored_profile_cannot_start_an_owner) ... ERROR
+test_real_time_future_owner_clock_remains_fail_closed (tests.application.test_database_restore.DatabaseRestoreTests.test_real_time_future_owner_clock_remains_fail_closed) ... ERROR
+test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration (tests.application.test_database_restore.DatabaseRestoreTests.test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration) ... ERROR
+test_restored_profile_reports_persistent_fence_across_control_restarts (tests.application.test_database_restore.DatabaseRestoreTests.test_restored_profile_reports_persistent_fence_across_control_restarts) ... ERROR
+test_running_research_attempt_is_fenced_without_changing_completed_evidence (tests.application.test_database_restore.DatabaseRestoreTests.test_running_research_attempt_is_fenced_without_changing_completed_evidence) ... ERROR
+test_source_backup_and_cloud_targets_are_never_overwritten (tests.application.test_database_restore.DatabaseRestoreTests.test_source_backup_and_cloud_targets_are_never_overwritten) ... ok
+test_stale_intake_claim_and_auth_session_cannot_survive_restore (tests.application.test_database_restore.DatabaseRestoreTests.test_stale_intake_claim_and_auth_session_cannot_survive_restore) ... ERROR
+
+======================================================================
+ERROR: test_actual_supported_eight_role_inventory_preflight_is_readonly (tests.application.test_upgrade_preflight_v02.UpgradePreflightV02Tests.test_actual_supported_eight_role_inventory_preflight_is_readonly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_v02.py", line 14, in test_actual_supported_eight_role_inventory_preflight_is_readonly
+    result=module.preflight_product_upgrade(c.config,c.backup,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\upgrade_preflight.py", line 161, in preflight_product_upgrade
+    result=_preflight_verified_databases(config,Path(backup)/'databases',sealed[3],end,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\upgrade_preflight.py", line 133, in _preflight_verified_databases
+    _fail('UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED')
+  File "<SOURCE_ROOT>\src\application\platform\upgrade_preflight.py", line 24, in _fail
+    def _fail(code): raise UpgradePreflightError(code)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.upgrade_preflight.UpgradePreflightError: UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED
+
+======================================================================
+ERROR: test_actual_cli_returns_only_sanitized_backup_and_restore_facts (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_cli_returns_only_sanitized_backup_and_restore_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 159, in test_actual_cli_returns_only_sanitized_backup_and_restore_facts
+    self.assertEqual(main([command, '--config', str(profile), *extra]), 0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 334, in main
+    result=restore_product_backup(config,args.backup,args.destination,config_path=args.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 511, in restore_product_backup
+    raise ProductBackupError('PRIVATE_PRODUCT_RESTORE_FAILED') from None
+application.platform.product_backup.ProductBackupError: PRIVATE_PRODUCT_RESTORE_FAILED
+
+======================================================================
+ERROR: test_actual_old_managed_stop_request_is_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_old_managed_stop_request_is_excluded_from_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 104, in test_actual_old_managed_stop_request_is_excluded_from_restore
+    module.restore_product_backup(self.config,self.backup,self.target)
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 511, in restore_product_backup
+    raise ProductBackupError('PRIVATE_PRODUCT_RESTORE_FAILED') from None
+application.platform.product_backup.ProductBackupError: PRIVATE_PRODUCT_RESTORE_FAILED
+
+======================================================================
+ERROR: test_actual_selected_data_snapshots_and_settings_survive_fresh_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_actual_selected_data_snapshots_and_settings_survive_fresh_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 44, in test_actual_selected_data_snapshots_and_settings_survive_fresh_restore
+    module.restore_product_backup(self.config, self.backup, self.target)
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 511, in restore_product_backup
+    raise ProductBackupError('PRIVATE_PRODUCT_RESTORE_FAILED') from None
+application.platform.product_backup.ProductBackupError: PRIVATE_PRODUCT_RESTORE_FAILED
+
+======================================================================
+ERROR: test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile (tests.application.test_product_data_backup.ProductDataBackupTests.test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 166, in test_complete_restored_generation_can_be_backed_up_again_without_reusing_its_profile
+    first=module.restore_product_backup(self.config,self.backup,self.target)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 511, in restore_product_backup
+    raise ProductBackupError('PRIVATE_PRODUCT_RESTORE_FAILED') from None
+application.platform.product_backup.ProductBackupError: PRIVATE_PRODUCT_RESTORE_FAILED
+
+======================================================================
+ERROR: test_old_process_currentness_observations_are_excluded_from_restore (tests.application.test_product_data_backup.ProductDataBackupTests.test_old_process_currentness_observations_are_excluded_from_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_product_data_backup.py", line 91, in test_old_process_currentness_observations_are_excluded_from_restore
+    module.restore_product_backup(self.config,self.backup,self.target)
+  File "<SOURCE_ROOT>\src\application\platform\product_backup.py", line 511, in restore_product_backup
+    raise ProductBackupError('PRIVATE_PRODUCT_RESTORE_FAILED') from None
+application.platform.product_backup.ProductBackupError: PRIVATE_PRODUCT_RESTORE_FAILED
+
+======================================================================
+ERROR: test_actual_database_restore_cli_never_prints_private_paths_or_rows (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_database_restore_cli_never_prints_private_paths_or_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 227, in test_actual_database_restore_cli_never_prints_private_paths_or_rows
+    self.assertEqual(main(['restore-databases','--config',str(profile),'--backup',str(self.backup),'--destination',str(self.target)]),0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 344, in main
+    result=restore_database_backup(load_config(args.config),args.backup,args.destination,config_path=args.config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+ERROR: test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 97, in test_actual_e6_dispatch_and_paper_generations_advance_without_replaying_effects
+    with open_product_dispatch_journal(self.config.database_path) as journal:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 607, in open_product_dispatch_journal
+    _apply_migrations(connection)
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 107, in _apply_migrations
+    facts = check_migration_compatibility(connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 67, in check_migration_compatibility
+    raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+registry.models.EvidenceGateError: MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED
+
+======================================================================
+ERROR: test_actual_research_queue_lease_is_failed_and_retained_without_replay (tests.application.test_database_restore.DatabaseRestoreTests.test_actual_research_queue_lease_is_failed_and_retained_without_replay)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 163, in test_actual_research_queue_lease_is_failed_and_retained_without_replay
+    self.backup_now();self.module().restore_database_backup(self.config,self.backup,self.target)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+ERROR: test_authenticated_restored_health_surfaces_fence_and_refuses_copied_session (tests.application.test_database_restore.DatabaseRestoreTests.test_authenticated_restored_health_surfaces_fence_and_refuses_copied_session)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 276, in test_authenticated_restored_health_surfaces_fence_and_refuses_copied_session
+    original=create_local_app(self.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\entrypoints.py", line 110, in create_local_app
+    composition = LocalOwners(config, namespace=namespace, clock=clock)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 68, in __init__
+    with self.registry_factory() as e6: e6.lifecycle_counts()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 61, in <lambda>
+    self.registry_factory = lambda: open_sqlite_platform(config.database_path, research_namespace=namespace)
+                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\platform.py", line 28, in open_sqlite_platform
+    store = _open_authorized_store(path, require_existing=require_existing)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 789, in _open_authorized_store
+    _apply_migrations(connection)
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 107, in _apply_migrations
+    facts = check_migration_compatibility(connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 67, in check_migration_compatibility
+    raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+registry.models.EvidenceGateError: MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED
+
+======================================================================
+ERROR: test_deadline_expiry_during_actual_financial_fencing_stops_further_generations (tests.application.test_database_restore.DatabaseRestoreTests.test_deadline_expiry_during_actual_financial_fencing_stops_further_generations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 255, in test_deadline_expiry_during_actual_financial_fencing_stops_further_generations
+    with open_product_dispatch_journal(self.config.database_path) as journal:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 607, in open_product_dispatch_journal
+    _apply_migrations(connection)
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 107, in _apply_migrations
+    facts = check_migration_compatibility(connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 67, in check_migration_compatibility
+    raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+registry.models.EvidenceGateError: MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED
+
+======================================================================
+ERROR: test_legacy_accelerated_state_without_forward_fences_future_owner_clock (tests.application.test_database_restore.DatabaseRestoreTests.test_legacy_accelerated_state_without_forward_fences_future_owner_clock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 130, in test_legacy_accelerated_state_without_forward_fences_future_owner_clock
+    previous=self.future_minimal_paper('ACCELERATED_FIXTURE')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 124, in future_minimal_paper
+    with open_paper_process_journal(self.config.database_path) as journal:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 396, in open_paper_process_journal
+    _apply_migrations(connection)
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 107, in _apply_migrations
+    facts = check_migration_compatibility(connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 67, in check_migration_compatibility
+    raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+registry.models.EvidenceGateError: MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED
+
+======================================================================
+ERROR: test_partial_or_changed_restored_profile_cannot_start_an_owner (tests.application.test_database_restore.DatabaseRestoreTests.test_partial_or_changed_restored_profile_cannot_start_an_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 205, in test_partial_or_changed_restored_profile_cannot_start_an_owner
+    self.backup_now();self.module().restore_database_backup(self.config,self.backup,self.target)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+ERROR: test_real_time_future_owner_clock_remains_fail_closed (tests.application.test_database_restore.DatabaseRestoreTests.test_real_time_future_owner_clock_remains_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 145, in test_real_time_future_owner_clock_remains_fail_closed
+    previous=self.future_minimal_paper('REAL_TIME')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 124, in future_minimal_paper
+    with open_paper_process_journal(self.config.database_path) as journal:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\paper_process.py", line 396, in open_paper_process_journal
+    _apply_migrations(connection)
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 107, in _apply_migrations
+    facts = check_migration_compatibility(connection)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\_sqlite_registry.py", line 67, in check_migration_compatibility
+    raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+registry.models.EvidenceGateError: MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED
+
+======================================================================
+ERROR: test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration (tests.application.test_database_restore.DatabaseRestoreTests.test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 26, in test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration
+    first=module.restore_database_backup(self.config,self.backup,self.target)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+ERROR: test_restored_profile_reports_persistent_fence_across_control_restarts (tests.application.test_database_restore.DatabaseRestoreTests.test_restored_profile_reports_persistent_fence_across_control_restarts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 191, in test_restored_profile_reports_persistent_fence_across_control_restarts
+    self.backup_now();self.module().restore_database_backup(self.config,self.backup,self.target)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+ERROR: test_running_research_attempt_is_fenced_without_changing_completed_evidence (tests.application.test_database_restore.DatabaseRestoreTests.test_running_research_attempt_is_fenced_without_changing_completed_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 239, in test_running_research_attempt_is_fenced_without_changing_completed_evidence
+    self.backup_now();self.module().restore_database_backup(self.config,self.backup,self.target)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+ERROR: test_stale_intake_claim_and_auth_session_cannot_survive_restore (tests.application.test_database_restore.DatabaseRestoreTests.test_stale_intake_claim_and_auth_session_cannot_survive_restore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 59, in test_stale_intake_claim_and_auth_session_cannot_survive_restore
+    self.backup_now();module=self.module();module.restore_database_backup(self.config,self.backup,self.target)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 109, in restore_database_backup
+    return _restore_backup(config,backup,destination,config_path=config_path,timeout_seconds=timeout_seconds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\database_restore.py", line 192, in _restore_backup
+    except Exception:raise RestoreError('PRIVATE_DATABASE_RESTORE_FAILED') from None
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.database_restore.RestoreError: PRIVATE_DATABASE_RESTORE_FAILED
+
+======================================================================
+FAIL: test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects (tests.application.test_upgrade_preflight_cli_v02.UpgradePreflightCliV02Tests.test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects) (changed=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_upgrade_preflight_cli_v02.py", line 18, in test_normal_cli_reports_actual_compatible_and_changed_schema_without_paths_or_effects
+    self.assertEqual(2 if changed else 0,code)
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_interrupted_private_generation_has_no_ready_marker_and_preserves_original (tests.application.test_database_restore.DatabaseRestoreTests.test_interrupted_private_generation_has_no_ready_marker_and_preserves_original)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_database_restore.py", line 182, in test_interrupted_private_generation_has_no_ready_marker_and_preserves_original
+    self.assertTrue(self.target.is_dir());self.assertFalse((self.target/'restore-generation.json').exists())
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 35 tests in 24.825s
+
+FAILED (failures=2, errors=18)

@@ -11,6 +11,50 @@ from registry.operational_authority import CurrentRuntimePermission, ReleaseBind
 
 
 class ProductDispatchV02Tests(unittest.TestCase):
+    def test_pending_close_intents_are_bounded_readonly_own_run_claims_with_original_clock(self):
+        from storage.product_dispatch import ProductDispatchError
+        journal,lease=self.initialized()
+        expected=[]
+        for number,role in enumerate(('POSITION_EXIT','EMERGENCY_EXIT')):
+            operation='intent-'+str(number);at=self.now+timedelta(seconds=number)
+            journal.prepare('run',operation,self.close_request('intentclient'+str(number),role),lease=lease,now=at)
+            journal.claim_dispatch('run',operation,lease=lease,now=at);expected.append((operation,at))
+        journal.prepare('run','unclaimed-close',self.close_request('unclaimedclose','POSITION_EXIT'),lease=lease,now=self.now)
+        journal.prepare('run','claimed-entry',self.request('claimedentry'),lease=lease,now=self.now)
+        journal.claim_dispatch('run','claimed-entry',lease=lease,now=self.now)
+        journal.ensure_run('foreign-run',self.owner,now=self.now)
+        other=journal.begin_process('foreign-run','foreign-owner',expected_generation=0,now=self.now)
+        journal.prepare('foreign-run','foreign-close',self.close_request('foreignclose','POSITION_EXIT'),lease=other,now=self.now)
+        journal.claim_dispatch('foreign-run','foreign-close',lease=other,now=self.now)
+        before=journal._db.total_changes
+        rows=journal.pending_close_intent_claims('run',limit=1)
+        self.assertEqual([(row.operation_id,at) for row,at in rows],expected[:1])
+        self.assertEqual([(row.operation_id,at) for row,at in journal.pending_close_intent_claims('run',limit=100)],expected)
+        self.assertEqual(journal._db.total_changes,before)
+        for invalid in (True,0,101,1.5):
+            with self.subTest(limit=invalid),self.assertRaises(ProductDispatchError):
+                journal.pending_close_intent_claims('run',limit=invalid)
+
+    def test_pending_close_intents_fence_an_actual_other_connection_append_during_materialization(self):
+        from unittest.mock import patch
+        from storage.product_dispatch import ProductDispatchError
+        journal,lease=self.initialized()
+        journal.prepare('run','first-intent',self.close_request('firstintent','POSITION_EXIT'),lease=lease,now=self.now)
+        journal.claim_dispatch('run','first-intent',lease=lease,now=self.now)
+        original=journal.operation;appended=[]
+        def materialize_then_append(*args):
+            operation=original(*args)
+            if not appended:
+                with self.open(self.path) as writer:
+                    writer.prepare('run','late-intent',self.close_request('lateintent','EMERGENCY_EXIT'),lease=lease,now=self.now)
+                    writer.claim_dispatch('run','late-intent',lease=lease,now=self.now)
+                appended.append(True)
+            return operation
+        with patch.object(journal,'operation',side_effect=materialize_then_append):
+            with self.assertRaises(ProductDispatchError) as caught:journal.pending_close_intent_claims('run')
+        self.assertEqual(caught.exception.code,'DISPATCH_CLAIM_INVENTORY_CHANGED')
+        self.assertTrue(appended)
+
     def close_request(self,client,role):
         # Legacy metadata-only uncertain claims have no canonical position ID;
         # they must conservatively block either close role for this account.

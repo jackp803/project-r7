@@ -451,6 +451,27 @@ class ProductDispatchJournal:
     def iter_claimed_entries_for_account(self, run_id):
         return self._iter_claim_inventory(run_id,'ENTRY')
 
+    def pending_close_intent_claims(self,run_id,*,limit=50):
+        """Bounded own-run local claims lacking any close-position bundle.
+
+        This is historical data for intent publication, never send authority.
+        Any existing native bundle excludes retroactive intent insertion.
+        """
+        self._run(run_id)
+        if type(limit) is not int or not 1<=limit<=100:raise ProductDispatchError('DISPATCH_BOUNDED_CLOSE_INTENT_PAGE_REQUIRED')
+        original=self.claim_inventory_generation()
+        try:
+            rows=self._db.execute('SELECT i.operation_id,c.dispatched_at FROM product_dispatch_intents i '
+                'JOIN product_dispatch_claims c USING(run_id,operation_id) WHERE i.run_id=? '
+                "AND json_extract(i.request_json,'$.role') IN ('POSITION_EXIT','EMERGENCY_EXIT') "
+                'AND NOT EXISTS (SELECT 1 FROM product_position_outbox p WHERE p.run_id=i.run_id AND p.operation_id=i.operation_id) '
+                'ORDER BY c.dispatched_at,i.operation_id LIMIT ?',(run_id,limit)).fetchall()
+            result=tuple((self.operation(run_id,row['operation_id']),datetime.fromisoformat(row['dispatched_at'].replace('Z','+00:00')))
+                for row in rows)
+        except (sqlite3.Error,ValueError):raise ProductDispatchError('DISPATCH_CLOSE_INTENT_INVENTORY_UNAVAILABLE') from None
+        self.require_claim_inventory_generation(original)
+        return result
+
     def iter_claimed_closes_for_position(self,run_id,position_id):
         """Both close roles share one account/position inventory read fence.
 

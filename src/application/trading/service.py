@@ -57,6 +57,8 @@ class TradingService:
 
     def recover_publications(self):
         self._coordinator().recover_publications()
+        from application.trading.close_intent import recover_close_intents
+        recover_close_intents(self)
 
     def prepare_fixture_close(self,trade_plan_id,observation,*,metadata,read_proof,close_proof,expected_revision,action='EXIT'):
         from application.trading.close_owner import prepare_fixture_close
@@ -105,6 +107,7 @@ class TradingService:
         observation=dict(status=status, provider_id=provider_id, reason_code=reason)
         if child_order_ids is not None: observation['child_order_ids']=list(child_order_ids)
         self._coordinator().observe(operation_id, observation, effects)
+        self.recover_publications()
         return TradingOutcome(operation_id, status, reason)
 
     def execute(self, prepared, *, expected_revision):

@@ -18,16 +18,17 @@ class TradingCloseProjectionV02Tests(unittest.TestCase):
         service.execute(prepared,expected_revision=self.fixture.revision)
         return context,prepared
 
-    def readback(self,context,prepared,*,filled='4',net='6',native_id='5678',old_update=False):
+    def readback(self,context,prepared,*,filled='4',net='6',native_id='5678',old_update=False,
+                 advance_seconds=2,first_fill_offset_seconds=1):
         from application.trading.provider import FakeProductProvider
-        service,provider,*_=context;self.fixture.clock[0]+=timedelta(seconds=2)
+        service,provider,*_=context;self.fixture.clock[0]+=timedelta(seconds=advance_seconds)
         now=self.fixture.clock[0]
         order=dict(prepared.materialization.body,instType='SWAP',ordId='3456',
             state='filled' if filled=='10' else 'partially_filled',accFillSz=filled,avgPx='61000')
         quantities=('4','6') if filled=='10' else ('4',)
         rows=[dict(instId='BTC-USDT-SWAP',clOrdId=prepared.materialization.provider_cl_ord_id,
             ordId='3456',tradeId=str(index+2),side='sell',posSide='net',fillSz=quantity,fillPx='61000',
-            fillTime=str(int((now-timedelta(seconds=1 if index==0 else 0)).timestamp()*1000)),
+            fillTime=str(int((now-timedelta(seconds=first_fill_offset_seconds if index==0 else 0)).timestamp()*1000)),
             fee='-0.01',feeCcy='USDT') for index,quantity in enumerate(quantities)]
         # Original fill identity/time is immutable across cumulative readbacks.
         if filled=='10':rows[0]['fillTime']=str(int((now-timedelta(seconds=3)).timestamp()*1000))

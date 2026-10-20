@@ -1,0 +1,2982 @@
+test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure (tests.product.test_api_owner_services.APIOwnerServicesTests.test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure) ...
+  test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure (tests.product.test_api_owner_services.APIOwnerServicesTests.test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure) (decoder='python', surface='reader') ... ERROR
+  test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure (tests.product.test_api_owner_services.APIOwnerServicesTests.test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure) (decoder='python', surface='http') ... FAIL
+
+======================================================================
+ERROR: test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure (tests.product.test_api_owner_services.APIOwnerServicesTests.test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure) (decoder='python', surface='reader')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_owner_services.py", line 56, in test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure
+    self.queue.failed_alert_page(limit=1, offset=0)
+  File "<SOURCE_ROOT>\src\application\research\queue.py", line 213, in failed_alert_page
+    reasons=json.loads(row['reason_codes_json'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_api_owner_services.py", line 49, in portable_decoder
+    return decoder.decode(raw)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 67, in scan_once
+    return _scan_once(string, idx)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\scanner.py", line 40, in _scan_once
+    return parse_array((string, idx + 1), _scan_once)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\json\decoder.py", line 231, in JSONArray
+    value, end = scan_once(s, end)
+                 ^^^^^^^^^^^^^^^^^
+RecursionError: maximum recursion depth exceeded
+
+======================================================================
+FAIL: test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure (tests.product.test_api_owner_services.APIOwnerServicesTests.test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure) (decoder='python', surface='http')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_owner_services.py", line 59, in test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure
+    self.assertEqual(response.status_code, 503, response.text)
+AssertionError: 500 != 503 : {"error":{"category":"INTERNAL_ERROR","reason_codes":["CONTROL_OPERATION_FAILED"],"correlation_id":"40894b07392b57ac29666e405489ed28"}}
+
+----------------------------------------------------------------------
+Ran 1 test in 1.216s
+
+FAILED (failures=1, errors=1)

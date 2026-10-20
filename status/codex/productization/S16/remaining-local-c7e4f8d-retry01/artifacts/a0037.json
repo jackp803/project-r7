@@ -1,0 +1,86 @@
+{
+  "status": "UNAPPLIED_SOURCE_DESIGN_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "Pure E5 native close-observation projection counterpart only; no implementation or active evidence reads",
+  "canonical_state_correction": "Actual PositionLifecycleState is EXIT_REQUESTED, not EXIT_PENDING. state_machine.py and authorize_close_position_action use EXIT_REQUESTED event/state. Earlier plan wording EXIT_PENDING must not become a new state/schema. This file corrects that wording without changing prior artifact.",
+  "proposed_api": {
+    "signature": "build_product_close_projection(plan, exit_authority, exit_request, exit_result, entry_order_requests, entry_order_results, entry_fills, exit_fills, position_snapshot, *, source_position, previous_projection, observed_at) -> ProductCloseProjectionOutcome",
+    "types": "plan/authority/source_position/previous_projection are existing canonical mappings; requests/results/Fill are existing execution.models objects; position_snapshot is existing PositionExposureSnapshot; observed_at is aware UTC. source_position is original positive projection bound to executed E5 action, not a caller final Position. previous_projection is latest protected/EXIT_REQUESTED projection.",
+    "output": "Frozen ProductCloseProjectionOutcome(profile=fixed product-close-observation-v0.2, projections=tuple of existing LifecycleProjectionWithExecutionBinding outcomes). Match entry_observation outcome convention; no new canonical shared DTO, Position state, funding or TradeResult fields.",
+    "scope_limit": "First slice supports one explicit E5 EXIT or EMERGENCY_EXIT request, cumulative partial/full fills of that exact request. Fail closed if unrelated additional exit/protection fills exist; do not silently omit them or claim multi-close/protection-trigger closure supported."
+  },
+  "owner_boundary": "PositionExposureSnapshot only has symbol/net_quantity; it cannot prove same native posId or observation provenance. Existing TradingService.read_position(expected_provider_position_id=original_id) plus require_position_read must enforce explicit one-row same-posId-zero, exact issuer/provider/process/metadata and five-second currentness before building snapshot and again before publication. Pure E5 must not accept caller native PASS or add provider posId to canonical Position. Exact zero source derivation and native issuer validation are complementary.",
+  "validation_reuse": [
+    {
+      "ref": "position/entry_observation.py::_build_entry_projection",
+      "reuse": "Typed request/result/Fill checks; approved-plan entry request reconstruction with ExecutionGateway at original request.created_at; bounded actual entry request quantity; exact plan/symbol/side/order/client/broker lineage, actual result average/filled quantity, all finite positive fill quantities/prices, unique fill IDs, coherent UTC clocks and earliest first fill. Recompute entry weighted average and total from complete actual entry set; preserve original position_id, opened_at and entry average. Do not reuse its net-position=entry-filled equality or rejection of reduced exposure."
+    },
+    {
+      "ref": "execution/close.py::prepare_close_order/validate_close_authority; position/trade_result.py::_validate_exit_request/_validate_exit_fill_binding",
+      "reuse": "Exact POSITION_ACTION authority/role/risk/action/position refs, opposite side, reduce_only true, MARKET no stop/limit; same quantity profile. Reconstruct canonical close request from original source_position and action at original request.created_at; owner translator may have bounded effective quantity. No expiration check against later observation time should retrospectively reject already-executed original action. Do not import private TradeResult validators that require final-flat/fees/funding wholesale; isolate shared validation only if needed."
+    },
+    {
+      "ref": "position/lifecycle_projection.py::_validate_source_and_previous/_broker_fact_payload",
+      "reuse": "Monotonic broker observation anchor, exact equal-time fact consistency, validated identity and lifecycle revision. Copy E4-owned historical fields only; derive fresh actual quantity/observation time from validated typed observations. Do not copy lifecycle profile metadata into raw broker facts."
+    },
+    {
+      "ref": "position/lifecycle_execution_binding.py::build_position_lifecycle_transition_with_execution_binding/build_position_lifecycle_reattestation_with_execution_binding",
+      "reuse": "Existing E5 EXIT_REQUESTED transition if prior state is allowed positive open/emergency; existing EXIT_REQUESTED reattestation on later partial/flat observation. Supply complete real order_requests/order_results/fills through observed_at so canonical execution binding retains actual close lineage; do not fabricate lifecycle_execution_binding."
+    }
+  ],
+  "derivation": {
+    "quantity": "E=sum actual entry quantities, X=sum exact scoped cumulative exit quantities, residual=E-X. Require 0<=X<=E, no duplicate/cross-set Fill IDs, request/result actual quantity consistency and nonincreasing residual versus previous projection. Signed expected snapshot is residual for LONG and -residual for SHORT; require exact equality and correct symbol. Full FILLED alone is never zero proof.",
+    "raw_fields": "schema_version=contracts-v0.1; stable product_entry_position_id(plan.trade_plan_id); original symbol/side/quantity profile/unit/asset; actual_quantity=format(residual,f); average_entry_price=actual entry weighted average preserved; opened_at=min(entry_fill.filled_at) exactly original; broker_state_observed_at=actual owner observation time; reconciliation_status=CONSISTENT; source lifecycle_state=actual existing prior state for lifecycle builder. Never add closed_at before TradeResult.",
+    "clock": "All request/fill/result/source/interpretation timestamps aware UTC. Entry and exit fills cannot exceed actual observation anchor; result.observed_at<=observed_at; exit fills cannot predate appropriate close request or completion of included entry fills; observation>=last included exit fill; no regression versus previous projection. Native provider uTime is distinct from actual receive anchor, enforced upstream.",
+    "projection": "If previous state already EXIT_REQUESTED: one reattestation with new derived source. If starting allowed open/emergency: transition with EXIT_REQUESTED from real action intent, yielding EXIT_REQUESTED; the owner must establish durable dispatch intent before treating this as actual close workflow. No POSITION_CLOSED/RECONCILED_FLAT workaround. Zero remains EXIT_REQUESTED until successful canonical TradeResult outcome drives dedicated closed_transition."
+  },
+  "minimum_test_vectors": [
+    "LONG E=0.0004, exit cumulative0.0001, signed native snapshot+0.0003 -> actual_quantity0.0003, stable opened_at/entry average/id, EXIT_REQUESTED and valid execution binding; no funding/result/closed_at.",
+    "Same request later cumulative exit0.0004 plus upstream explicit same-posId snapshot0 -> actual_quantity0, EXIT_REQUESTED, later anchor/revision, no CLOSED. SHORT symmetric entry SELL/exit BUY and signed residual negative.",
+    "Real initial action from OPEN_PROTECTED and EMERGENCY uses existing EXIT_REQUESTED transition; subsequent partial/flat refresh reattests existing EXIT_REQUESTED, not another invalid event.",
+    "Reject ACK-only/FILLED-without-fills; result cumulative mismatch; snapshot mismatch; overclose; residual increase; duplicate/cross-set/foreign plan/action/position/client/broker/side/role fills; nonfinite/zero/negative fill size/price; unsupported profile; replaced position identity/first-fill/entry average.",
+    "Reject observed_at before last exit fill/result or previous source anchor, equal-time changed actual quantity, exit time before source execution, changed original authority/request. Owner-layer separate cases: empty response, wrong posId, copied/stale/native-generation observation, not pure E5 asserted flags.",
+    "Identical same-anchor data must return deterministic output if same previous_projection; publication-level duplicate observation returns original receipt without another lifecycle revision. Pure builder called with its own previous output is not the idempotency cache.",
+    "Reject foreign additional close/protection fill set in first slice; do not silently calculate residual from only convenient rows. Test order input permutation deterministic, bounded input count and fee fields preserved for later result consumer without inventing funding."
+  ],
+  "concrete_unresolved_choices": [
+    "Exact slice scope for multiple exit requests: canonical build_trade_result currently takes one exit_order_request and _validate_exit_fill_binding binds every exit fill to it. Support only one explicit close request for first H16 scenario; multiple residual retries require separate design, not a projection hack.",
+    "Quantized effective close request may be less than E5 action quantity under translator cap, while TradeResult._validate_exit_request currently requires exact equality with authority.quantity. Choose exact-representable full close in first fixture, report general capped-close finalization conflict separately; do not loosen consumer equality here.",
+    "Pure E5 may accept existing PositionExposureSnapshot with all native identity checks at service boundary (preferred minimal layering), or new typed canonical attestation if architecture requires provenance in pure input. It must not import provider-native posId fields into shared Position.",
+    "Transition ordering relative to final dispatch source hash is an owner-layer issue; builder should require actual already-authorized intent and existing source projection. No helper is allowed to publish EXIT_REQUESTED before execute if that invalidates prepared.source_position_hash.",
+    "No evidence that zero EXIT_REQUESTED is forbidden by lifecycle projection schema: quantity allows canonical nonnegative zero. However actual execution-binding/canonical recovery integration must be tested after implementation; static schema compatibility is not a PASS."
+  ],
+  "source_hashes": [
+    {
+      "path": "src/position/entry_observation.py",
+      "sha256": "ae5811984f4d4bd864181a82b939bb9c060e6c11a0a5a7bd4e0bda130d460491"
+    },
+    {
+      "path": "src/position/lifecycle_projection.py",
+      "sha256": "cecf09d582662df0d43f66c8692fc11bcb5141b37147d1a2c2e61dfcc9c1f242"
+    },
+    {
+      "path": "src/position/trade_result.py",
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b"
+    },
+    {
+      "path": "src/position/lifecycle_execution_binding.py",
+      "sha256": "cc8b3fe7d3369a827ebdd24dfcfd71888bdcbe52a226c613ce6846924b1a13c4"
+    },
+    {
+      "path": "src/position/state_machine.py",
+      "sha256": "7cb68406d06514ec12eace2c70c4efa42560cdbfd708ed31ab37deb5b725816a"
+    },
+    {
+      "path": "src/execution/close.py",
+      "sha256": "cceee2694110d01bdac6ec60db56d32c1cfccaa1e3d1e9aa2acd6faa78825a6e"
+    }
+  ],
+  "verification": {
+    "native_run": [],
+    "tracked_changes": [],
+    "provider_calls": 0,
+    "tests_run": [],
+    "DB_reads": 0,
+    "Git_changes": []
+  }
+}

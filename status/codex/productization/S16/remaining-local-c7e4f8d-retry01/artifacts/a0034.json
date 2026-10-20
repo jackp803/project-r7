@@ -1,0 +1,80 @@
+{
+  "scope": "ACTUAL_OFFLINE_ENGINEERING_EXAMPLE_AUTHORING_ONLY",
+  "version": "0.2.1",
+  "execution_evidence": "NOT_RUN",
+  "research": "NOT_RUN",
+  "paper": "NOT_RUN",
+  "financial_authority": "NONE",
+  "base_revision": "0c535ac0045a371d92e2bdd8f7d978d55131fd4d",
+  "base_byte_hash": "sha256:8c0b8aef0d66b7b2e36ab2fd3276e6a3eda1a21fc4049af413545895be984b51",
+  "helper_hash": "sha256:2dc876ae4cef9bbeac35632246fdae9c1423cc4137c0a6722eaa79edb0b88de4",
+  "old_four_hour_content_hash": "sha256:034645d0279cbff987828f59d7ba9a7791f2c9dc4774d1a76b91587bab87bcc7",
+  "actual_authoring": {
+    "four-hour": {
+      "status": "AUTHORING_PACKAGE_CREATED",
+      "submission_id": "authoring-example-four-hour",
+      "manifest_hash": "sha256:f602df67c3743bec9bc22c5aef0012a38a851d5fd39a5891bb6a2fea0d504b01",
+      "strategy_content_hash": "sha256:1bf7e043a7bce1ab55552f302c9ac342062cb54a392392b6e7e9dff2f9b8e2ac",
+      "payload_hashes": {
+        "strategy.json": "sha256:1d29d889f7998de3274d577b631610540419d875c66ac158728e27ffc02515e5"
+      },
+      "capability_snapshot_hash": "sha256:9ddc0dab90940c1c943c56af5ce0c9e3b595cfce15495733e6a115adb217e887",
+      "execution_evidence": "NOT_RUN",
+      "financial_authority": "NONE"
+    },
+    "multitimeframe": {
+      "status": "AUTHORING_PACKAGE_CREATED",
+      "submission_id": "authoring-example-multitimeframe",
+      "manifest_hash": "sha256:657d68ee3b51aa7ffc12866383a3279fc3339f3be711fd814880051ca9e616cf",
+      "strategy_content_hash": "sha256:824ce9e497416ebe39d7c0b3e522bf11f26f3dff269c1ae92a147f628594f6d8",
+      "payload_hashes": {
+        "strategy.json": "sha256:994441522b9c5320f239c1948f338f124f9bc6dd5d0b05634f1cd38315aca225"
+      },
+      "capability_snapshot_hash": "sha256:9ddc0dab90940c1c943c56af5ce0c9e3b595cfce15495733e6a115adb217e887",
+      "execution_evidence": "NOT_RUN",
+      "financial_authority": "NONE"
+    }
+  },
+  "actual_rejection": {
+    "code": "CAPABILITY_GAP",
+    "gaps": [
+      {
+        "capability_id": "indicator:UNAVAILABLE_FEATURE",
+        "requested_version": "r7-ema-v1",
+        "available_version": null,
+        "source_location": "/rules/features/trend",
+        "reason": "UNSUPPORTED_FEATURE",
+        "reevaluation_conditions": [
+          "Require a new immutable submission bound to the current exact snapshot",
+          "Execute fresh compatibility and research against the corrected runtime"
+        ]
+      }
+    ]
+  },
+  "files": [
+    {
+      "ref": "docs/strategy/authoring-v0.2/examples/four-hour/strategy.json",
+      "sha256": "sha256:1d29d889f7998de3274d577b631610540419d875c66ac158728e27ffc02515e5"
+    },
+    {
+      "ref": "docs/strategy/authoring-v0.2/examples/four-hour/manifest.json",
+      "sha256": "sha256:f602df67c3743bec9bc22c5aef0012a38a851d5fd39a5891bb6a2fea0d504b01"
+    },
+    {
+      "ref": "docs/strategy/authoring-v0.2/examples/multitimeframe/strategy.json",
+      "sha256": "sha256:994441522b9c5320f239c1948f338f124f9bc6dd5d0b05634f1cd38315aca225"
+    },
+    {
+      "ref": "docs/strategy/authoring-v0.2/examples/multitimeframe/manifest.json",
+      "sha256": "sha256:657d68ee3b51aa7ffc12866383a3279fc3339f3be711fd814880051ca9e616cf"
+    },
+    {
+      "ref": "docs/strategy/authoring-v0.2/examples/unsupported-feature/strategy.json",
+      "sha256": "sha256:ddca3a05e97be2299d4431cc63560e9ee12901feb2afca5997d56403b71fd546"
+    },
+    {
+      "ref": "docs/strategy/authoring-v0.2/examples/unsupported-feature/gap_receipt.json",
+      "sha256": "sha256:581ed67aa4828825466889758b4cf1f5025c4a61e028fa4782f433ac4bb237c9"
+    }
+  ]
+}

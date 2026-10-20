@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tools\freeze_paper_inventory.py", line 78, in <module>
+    elif len(sys.argv)==1:generate()
+                          ^^^^^^^^^^
+  File "<SOURCE_ROOT>\tools\freeze_paper_inventory.py", line 45, in generate
+    if code!=0 or not owned.termination_report.reaped:raise ValueError('Owned test inventory discovery failed')
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Owned test inventory discovery failed

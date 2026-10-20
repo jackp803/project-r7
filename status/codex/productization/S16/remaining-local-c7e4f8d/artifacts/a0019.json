@@ -1,0 +1,40 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Final static review of the current J06 failed-alert reader, API mapping, Health history rendering and associated queue/API tests; no broad repository audit",
+  "critical_count": 0,
+  "important_count": 0,
+  "findings": [],
+  "reviewed_raw_sha256": {
+    "src/application/research/queue.py": "sha256:b2d507dc447518e6316abab416841cea87e37b9ace1068edb6ed51b3ccf68f66",
+    "src/application/control_api/owner_services.py": "sha256:0cf9a9a975bae96775decbb7dcd9d026992b8cfae71d6154a5730d0dbf58ab7c",
+    "ui/src/App.tsx": "sha256:d2b9ebc9d03f50d81ef74a65d3160936993b47e85ed4efe8fc9a559f8140fe98",
+    "tests/product/test_research_queue.py": "sha256:d0078cf0019f194723e6f3a10de15062ab5ddebe80de116bcf3d9f7cf71cb06c",
+    "tests/product/test_api_owner_services.py": "sha256:caa55d18146500f8e75ce10724c17c08cda292e9ace369a5eb4963ebeb8d1d27"
+  },
+  "resolved_findings": [
+    {
+      "id": "I1",
+      "prior_review": "artifacts/current-windows-20261019/j06-source-review.json",
+      "status": "RESOLVED",
+      "resolution": "ResearchQueue.failed_alert_page now translates RecursionError to the same finite RESEARCH_ALERT_HISTORY_UNAVAILABLE ResearchQueueError, which the API maps to sanitized503",
+      "regression_review": "The new source test first obtains FAILED through actual enqueue/claim/owner failure, then alters only that job's reason metadata in the controlled fixture. Both direct reader and authenticated HTTP are checked for typed denial, private-message exclusion and unchanged DB bytes",
+      "precise_attribution": "Root reports that this host's Python3.12 C decoder accepts the bounded nesting and existing shape validation rejects it; a genuine stdlib Python scanner seam demonstrates the RecursionError branch. This review does not claim a current native C-decoder failure, native execution or a stored fabricated terminal result"
+    }
+  ],
+  "bounded_static_observations": [
+    "The exception repair remains inside the readonly projection and does not catch or alter research execution, lifecycle, financial authority or producer outcomes",
+    "Existing mode=ro/query_only/trusted_schema=OFF, live WAL behavior, owned schema/namespace checks, file identity/link checks, single read transaction, pagination limits and query deadline remain unchanged",
+    "No input_json, outcome_json, raw exception message, owner identity or private path is added to the public alert projection",
+    "Original persisted failure time and stable job/revision/generation-derived alert identity remain separate from GET observation time",
+    "Visible Health rows and page controls retain the existing error and last-known source disclosure; stored research failure history is explicitly distinguished from current worker health",
+    "The new scanner seam uses the real stdlib decoder for the controlled nested payload and delegates other JSON parsing to the saved original decoder; it does not supply fake owner results"
+  ],
+  "static_limits": [
+    "Files were read and hashed through direct filesystem access; no shell commands, tests, native/product code, builds, Git mutations or network operations were run",
+    "No private DB, authentication, secret, configuration or generated evidence contents were read",
+    "Only this new outside-Git review artifact was written; prior review and all source/test changes were preserved",
+    "Root-reported RED/GREEN results were not independently executed or credited by this review",
+    "The new source delta receives no full-source, native, J06 final acceptance or whole-Master qualification credit from this static disposition"
+  ]
+}

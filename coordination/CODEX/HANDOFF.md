@@ -1,3 +1,26 @@
+# Remaining local source checkpoint — 2026-10-20
+
+Same task/branch. Source `c7e4f8df3fd5324d9a25071cf61cf76b1e82fafe`: exact-clean affected14modules/146cases PASS,
+no failures/errors/skips, source unchanged, owned tree reaped. Frozen inventory
+2458cases/160commands is not a full execution. J06 source browser3/3, UI18/18,
+typecheck/build PASS; static reviews0Critical/0Important, executionNONE.
+Retained disposition:
+`status/codex/productization/S16/remaining-local-c7e4f8d-retry01/disposition.json`.
+
+Current fully qualified Windows executable remains `7d821f29837e95e46bcd5fe32f14d536a28c9aa8` and its
+immutable ZIP/checksum/clean-install/backup/operations guide. Do not transfer
+that native qualification to changed source. Engineering examples0.2.1 have
+actual source behavior/intake proof only; public research remains0.2.0 diagnostic.
+Public requests cumulative8/responses8, additional0; private0/credentialsNONE/
+capitalNONE/LIVENOT_STARTED/GitHubcomputeNOT_USED. MasterIN_PROGRESS.
+
+Next: H16 real native close/funding/TradeResult owner integration, K05 readonly
+historical export, CLOUD08 populated delivery visibility, per-clause final
+review and a new exact-clean native/full run for the changed executable.
+Canonical close intermediate state is `EXIT_REQUESTED`; earlier advisory
+`EXIT_PENDING` is invalid wording, not an added state. No guard currently active.
+Old target/Ubuntu/cloud commissioning/policy selection/real forward remain open.
+
 # Current Windows checkpoint completed; Master continues - 2026-10-20T01:03:47.952318+00:00
 
 Same task/branch, source candidate 7d821f29837e95e46bcd5fe32f14d536a28c9aa8.

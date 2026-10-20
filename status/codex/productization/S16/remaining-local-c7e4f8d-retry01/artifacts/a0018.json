@@ -1,0 +1,42 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "New research failed-alert readonly projection, control API alert mapping, visible Health history/pagination and directly associated tests",
+  "critical_count": 0,
+  "important_count": 1,
+  "reviewed_raw_sha256": {
+    "src/application/research/queue.py": "sha256:09dc638e4c28730dc0197e988a693b15c47dc024c9f183559505316444c5dbb8",
+    "src/application/control_api/owner_services.py": "sha256:0cf9a9a975bae96775decbb7dcd9d026992b8cfae71d6154a5730d0dbf58ab7c",
+    "ui/src/App.tsx": "sha256:d2b9ebc9d03f50d81ef74a65d3160936993b47e85ed4efe8fc9a559f8140fe98",
+    "tests/product/test_research_queue.py": "sha256:d0078cf0019f194723e6f3a10de15062ab5ddebe80de116bcf3d9f7cf71cb06c",
+    "tests/product/test_api_owner_services.py": "sha256:f1d5706af084a27451d1e960f56da618da7b615e052cca5ecf7583c35702cb88"
+  },
+  "findings": [
+    {
+      "id": "I1",
+      "severity": "Important",
+      "file": "src/application/research/queue.py",
+      "symbol": "ResearchQueue.failed_alert_page",
+      "lines": "213,223-224",
+      "issue": "Deeply nested corrupt reason JSON escapes the promised typed unavailable path",
+      "evidence": "The 4096-character limit still permits roughly 1000 nested arrays. json.loads can raise RecursionError on that metadata before the subsequent list/reason validation. The final exception tuple translates sqlite3.Error/OSError/ValueError/TypeError/KeyError but omits RecursionError. OwnerControlServices.view catches only ResearchQueueError, so this source corruption escapes as an unstructured HTTP500 instead of sanitized503 RESEARCH_ALERT_HISTORY_UNAVAILABLE",
+      "minimal_fix": "Translate RecursionError to the same bounded ResearchQueueError, or use a depth-bounded decoder for this small reason list. Keep the original reason/time and no-outcome/input decoding behavior unchanged",
+      "minimal_regression": "Create a genuine failed job through the actual queue/owner failure seam, then corrupt only its reason_codes_json in an isolated test-owned copy to a deeply nested value shorter than4096. Assert the reader raises ResearchQueueError and authenticated GET returns sanitized503 without the private canary. Do not insert a handwritten FAILED terminal row or relax the owned schema"
+    }
+  ],
+  "other_static_observations": [
+    "The reader does not call the writable queue factory, resolver, service factory or migration binder; mode=ro/query_only/trusted_schema=OFF and a bounded query-work/lock budget are present",
+    "Schema/namespace/count/page reads occur within one readonly transaction; failed filtering precedes pagination and metadata is selected without input_json or outcome_json",
+    "The main DB and existing WAL/SHM companions are checked as ordinary single-link local files, and the main identity is checked again before returning",
+    "The API distinguishes configured empty history from unavailable source and derives alert IDs from stable namespace/job/revision/generation rather than GET clock",
+    "The Health screen renders actual job/time/source/reason history and reuses the existing error and last-known source disclosure and page controls; React text rendering introduces no raw HTML path",
+    "Associated tests use actual enqueue/claim/owner-failure paths and controlled malformed/missing sources; no real provider/LIVE claim is made"
+  ],
+  "limits": [
+    "No tests, product/native commands, build, Git mutation or network request was executed",
+    "No generated evidence, private database, configuration, authentication or provider material was read",
+    "Existing ART/j06-readonly-implementation-notes.json was reused for the established reader seams rather than broad repository exploration",
+    "Focused results reported by root were not independently run or issued as reviewer evidence",
+    "No full-source, native, J06 final acceptance or whole-Master acceptance is issued"
+  ]
+}

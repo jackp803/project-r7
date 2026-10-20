@@ -1,0 +1,44 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "critical_count": 0,
+  "important_count": 0,
+  "findings": [],
+  "scope": "CROSS immediate finalized predecessor repair; shipped engineering examples0.2.1 and authoring tests; new source-only failed-owner browser fixture/test/config delta",
+  "reviewed_raw_sha256": {
+    "src/strategy/v02/evaluation.py": "sha256:fca4050fca28ce977a1d80a9df0283b4581a79de6d949cf846bf1f972155e5f2",
+    "tests/strategy/test_v02_multitimeframe.py": "sha256:51137b83dbf3910531a2ee36c4daf4af7e0ac6991ecb6d1fd755797105a2dceb",
+    "tests/application/test_authoring_roundtrip.py": "sha256:e3ffff0b020b6f14ba65f4f0308e8b1e90557778f4d3cb91a36bba71c1e7b426",
+    "ui/qa/serve_fixture.py": "sha256:a7adb0c87952affd7b3fa2145e3641e4c4020a929e34b6054b6b5752420ab182",
+    "ui/qa/control-center.spec.ts": "sha256:77f807911d79fa37af1eb3883421446fc6bfc92b48bec386a6902e396b89c388",
+    "ui/playwright.config.ts": "sha256:af25f782fa6e83c2bb8f8be034cb1f1c5ffd3e596bcd40ae7b94df6c2603e7e9",
+    "docs/strategy/authoring-v0.2/README.md": "sha256:b42eba2a9da3b494942ef1aa5e847fec28ff9024eec82d2009d0c72ab03d405f",
+    "docs/strategy/authoring-v0.2/examples/four-hour/manifest.json": "sha256:fb4e1e16b322da25956508448f2fdf897d43b8ffe617cd7ded798f1df6d14e58",
+    "docs/strategy/authoring-v0.2/examples/four-hour/strategy.json": "sha256:1d29d889f7998de3274d577b631610540419d875c66ac158728e27ffc02515e5",
+    "docs/strategy/authoring-v0.2/examples/multitimeframe/manifest.json": "sha256:a6f0981702224c672dc8eb52bb34d763bbbb588fc891e16f817dd11240ff4205",
+    "docs/strategy/authoring-v0.2/examples/multitimeframe/strategy.json": "sha256:994441522b9c5320f239c1948f338f124f9bc6dd5d0b05634f1cd38315aca225",
+    "docs/strategy/authoring-v0.2/examples/unsupported-feature/gap_receipt.json": "sha256:581ed67aa4828825466889758b4cf1f5025c4a61e028fa4782f433ac4bb237c9",
+    "docs/strategy/authoring-v0.2/examples/unsupported-feature/strategy.json": "sha256:ddca3a05e97be2299d4431cc63560e9ee12901feb2afca5997d56403b71fd546"
+  },
+  "static_observations": [
+    "CROSS chooses rows[-2] once as the previous finalized boundary, constrains its information cutoff and requires that exact chosen predecessor to remain available. It then evaluates the preceding operands at that boundary rather than selecting another older pair. Existing contiguous AsOfBundle selection and cutoff-aware evaluator cache remain in use.",
+    "New parsed-runtime tests cover LONG/SHORT crossover at the middle boundary, first-observation unreadiness, no repeated crossover on the next bar, future-bar invariance and late/unavailable predecessor refusal. No strategy evaluation was run by the reviewer.",
+    "The shipped four-hour0.2.1 definition actually uses EMA direction and an ADX threshold in both entry branches, and binds ATR in the exit request. The source test checks the exact ATR anchor and derived LONG/SHORT stop/target constraints.",
+    "The shipped multitimeframe0.2.1 definition uses finalized4h EMA direction plus15m lag1 Donchian upper/lower breakout branches. The test evaluates both directions and compares the same decision with its later4h bar removed.",
+    "The unsupported-feature receipt comparison normalizes the actual typed exception gaps through canonical JSON before comparing the shipped JSON arrays. It remains a CAPABILITY_GAP refusal with no emitted package or compatibility PASS.",
+    "Roundtrip tests re-emit the actual shipped definitions through author-package, verify actual payload commitments/intake, repeated scan and canonical DRAFT; execution_evidence remains NOT_RUN and no automatic research/Paper/LIVE grant is asserted.",
+    "The README explicitly labels the strategies as engineering examples0.2.1 with unselected profiles, separates the historical0.2.0 public-data diagnostic, and requires re-authoring against a changed capability snapshot. The shipped manifest payload SHA values match the reviewed strategy-byte hashes.",
+    "The failed browser profile uses actual source fixture intake/enqueue/claim/queue.step and persistence, with a deliberately injected RuntimeError at ResearchService.run before its research replay. It does not fabricate a FAILED DB row or mock the HTTP response. This is controlled source-only failure handling, not a naturally observed research/provider failure or native fault.",
+    "The browser assertion reads the real authenticated alert API and visible row, checks original recorded_at against the later observation time, stable source/ID/reason, disabled one-page controls and private canary exclusion. The new server profile is explicitly FIXTURE; existing test/browser bounds and no retries remain unchanged."
+  ],
+  "supporting_context": [
+    "src/strategy/v02/temporal.py::AsOfBundle.visible/_select_candles (read-only context for cutoff and contiguity)",
+    "docs/product/v0_2/02_STRATEGY_SEMANTICS.md:64-74 (CROSS immediate predecessor and as-of requirements)"
+  ],
+  "limits": [
+    "Only direct filesystem reads/hashes and this outside-Git review write were performed; no shell commands, tests, product/native code, builds, Git mutations or provider/network calls were run.",
+    "No secrets, authentication records, private configuration/database or generated/active evidence were read.",
+    "Root-reported browser3PASS, TS/unit/build and authoring8PASS remain development observations, not independently executed reviewer evidence.",
+    "This review issues no full browser-suite, full-source, native, financial, cross-platform or whole-Master acceptance, and transfers no prior qualified-subject credit to the changed input set."
+  ]
+}

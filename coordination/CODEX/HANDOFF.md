@@ -1,3 +1,29 @@
+# H16 controlled allocated-ledger owner source checkpoint — 2026-10-20
+
+Source `53358976b1f5c3aa66b5948d8aa068860a6330eb` exact-clean14modules/146cases PASS, unchanged/reaped.
+Evidence: `status/codex/productization/S12/h16-ledger-source-5335897/disposition.json`.
+E4 registered FIXTURE-only source performs actual guarded fake GETs, bounded
+complete page acquisition and exact allocated signed-cost normalization. It
+binds original owner plan/position/native scope and actual flat EXIT_REQUESTED;
+only canonical funding is emitted. No CLOSED/result/stop cancellation inferred.
+Actual pending write failure then successor replays original fact without HTTP;
+damaged source/hash/original-link recovery refuses. INSERT OR REPLACE on both
+tables with recursive_triggers OFF refuses; exact receipt replay stays stable.
+All RED/implementation/test-fixture failures and field-only replay diagnosis
+retained. Initial static0C/2I and actual3method4fail counterexamples are followed
+by development34 PASS and final146 PASS/static0C/I (reviewer execution NONE).
+Logical account scope commits original E6 provider/account references; restored
+readback deliberately contains no ephemeral mechanical proof. Actual production
+ledger route/completeness/position allocation remains unsupported/not called.
+H16/K05 still incomplete: genuine full-entry/active-stop/close flow, exact owned
+durable stop cleanup/terminal evidence, E5 TradeResult and CLOSED publication.
+Unapplied next-step plans have no execution credit. Continue this local work;
+then regenerate final inventory/examples/full/native qualification. Preserve
+qualified Windows ZIP7d821f2 and all earlier valid evidence. Master IN_PROGRESS,
+original task/branch, public8/responses8/additional0/private0/credentialsNONE/
+capitalNONE/LIVENOT_STARTED/GitHubNOT_USED. TargetPC/Ubuntu/cloud/policies/forward
+remain external or unselected; no external environment wait for local work.
+
 # K05 sanitized historical summary source checkpoint — 2026-10-20
 
 Source `77613c3e91460ba1fe364457aadfac7118e636cd` exact-clean7modules/60cases PASS, unchanged/reaped.

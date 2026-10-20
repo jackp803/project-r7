@@ -1,0 +1,36 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "E4 controlled FIXTURE allocated-ledger source only",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "subject_hashes": {
+    "src/execution/ledger_funding.py": "d11c7552b42fcbeb6586226fd39b1fa0457c76d239ca306f14b27fe14758a281",
+    "tests/execution/test_ledger_funding.py": "2dbc208b451f3ab730ad17886efd2c9e9cecd4f9a0748b02dc4f2f7e420ffaf3",
+    "docs/product/v0_2/FIXTURE_FUNDING_LEDGER_SOURCE.md": "bd70b4dc929972bcb32fd7a97875e7832e9a181bb7b80d95361d7c2b49b4a1c4"
+  },
+  "reference_hashes": {
+    "docs/adr/ADR-0006-funding-allocation-evidence-boundary.md": "1ef2b821d5d713953e27023ca657b2b068371bf2f70efb20b5fe54bf220c8538",
+    "contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md": "9a1383c5ef51fd699b2d343b680c8f7025f0f5aca2773f4288087e412e3381ef",
+    "src/execution/funding.py": "63a9b76325b60c7e94abb9496ddec4dbecbafd69f71ab3bac957ab512cbad56f"
+  },
+  "static_checks": [
+    "Exact typed subject binds original plan/position/symbol plus private account/provider/native-position scope and canonical exact interval. Every page and every row allocation must agree with that scope.",
+    "Sequential page indices, requested/returned cursor equality, distinct next cursors, stable snapshot/coverage/watermark, positive final null exhaustion, and duplicate record refusal prevent partial or repeated pages from becoming zero evidence.",
+    "The source validates coverage and source-owned completeness through interval_end, then includes only start<=event<end. Zero-valued or canceling applicable rows retain INCLUDED and their actual count; only complete no-applicable-record captures produce ZERO_CONFIRMED.",
+    "Costs are strict bounded plain decimal strings. Explicit precision 300 and rounding/inexact traps cover the bounded 1000-row/128-character aggregation without ambient Decimal rounding; emission reuses the canonical stable evidence identity helper.",
+    "At most 16 pages, 1000 total records, 1MiB canonical wire bytes and 128 issued observations are retained. Issuance requires the exact frozen object, same source instance and unchanged captured commitment; copied/replaced/foreign objects deny.",
+    "Canonical output contains explicit fixture source/version and BROKER_LEDGER provenance, without raw account/native identifiers. It introduces no PaperZero relabel, provider connection, production fallback, lifecycle transition or TradeResult."
+  ],
+  "prospective_timing_note": {
+    "status": "NOT_IMPLEMENTED_IN_REVIEWED_HASH",
+    "recommendation": "For actual acquisition, validate the fixed request start before I/O, resolve a trusted received_at clock once after all pages and before issuance, and reject failure/regression; retain static datetime inputs for source tests and keep receive/calculation clocks outside allocation identity."
+  },
+  "limits": [
+    "Static read/hash inspection only; no tests, processes, DBs, auth/config/private material, native, network/provider or Git operations were executed.",
+    "Scripted page units demonstrate source wire/normalization semantics only. Actual guarded FakeProductProvider acquisition, original-owner publication, cleanup, E5 TradeResult, H16/K05/native/real-provider completeness remain outside this review.",
+    "This is a bounded 0 Critical/0 Important result, not exhaustive product acceptance or any financial authority grant."
+  ],
+  "source_bytes_unchanged_on_final_read": true
+}

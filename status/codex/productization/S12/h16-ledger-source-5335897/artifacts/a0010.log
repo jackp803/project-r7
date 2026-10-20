@@ -1,0 +1,137 @@
+test_actual_foreign_scope_and_production_composition_refuse (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_foreign_scope_and_production_composition_refuse) ... ERROR
+test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing) ... ERROR
+test_canonical_write_failure_replays_after_successor_without_ledger_or_order_request (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_canonical_write_failure_replays_after_successor_without_ledger_or_order_request) ... ERROR
+test_claim_appended_at_actual_outbox_writer_fence_blocks_publication (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_claim_appended_at_actual_outbox_writer_fence_blocks_publication) ... ERROR
+test_copied_replaced_provider_or_stale_observation_cannot_publish (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_copied_replaced_provider_or_stale_observation_cannot_publish) ... ERROR
+test_incomplete_empty_ledger_never_becomes_zero_or_closed (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_incomplete_empty_ledger_never_becomes_zero_or_closed) ... ERROR
+
+======================================================================
+ERROR: test_actual_foreign_scope_and_production_composition_refuse (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_foreign_scope_and_production_composition_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 138, in test_actual_foreign_scope_and_production_composition_refuse
+    with self.assertRaises(ValueError):self.read(context)
+                                       ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 100, in read_fixture_funding_ledger
+    return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 85, in read_fixture_funding_ledger
+    context=_context(service,trade_plan_id,position_id,expected_revision);started=service.clock();received=[]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 70, in _context
+    source=FundingLedgerSubject(trade_plan_id,position_id,position['symbol'],entry_prepared.mechanical_proof.account_hash,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'account_hash'
+
+======================================================================
+ERROR: test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 63, in test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing
+    value=self.read(context);published=self.publish(context,value)
+          ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 100, in read_fixture_funding_ledger
+    return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 85, in read_fixture_funding_ledger
+    context=_context(service,trade_plan_id,position_id,expected_revision);started=service.clock();received=[]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 70, in _context
+    source=FundingLedgerSubject(trade_plan_id,position_id,position['symbol'],entry_prepared.mechanical_proof.account_hash,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'account_hash'
+
+======================================================================
+ERROR: test_canonical_write_failure_replays_after_successor_without_ledger_or_order_request (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_canonical_write_failure_replays_after_successor_without_ledger_or_order_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 99, in test_canonical_write_failure_replays_after_successor_without_ledger_or_order_request
+    value=self.read(context);canonical=service.canonical
+          ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 100, in read_fixture_funding_ledger
+    return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 85, in read_fixture_funding_ledger
+    context=_context(service,trade_plan_id,position_id,expected_revision);started=service.clock();received=[]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 70, in _context
+    source=FundingLedgerSubject(trade_plan_id,position_id,position['symbol'],entry_prepared.mechanical_proof.account_hash,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'account_hash'
+
+======================================================================
+ERROR: test_claim_appended_at_actual_outbox_writer_fence_blocks_publication (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_claim_appended_at_actual_outbox_writer_fence_blocks_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 116, in test_claim_appended_at_actual_outbox_writer_fence_blocks_publication
+    value=self.read(context)
+          ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 100, in read_fixture_funding_ledger
+    return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 85, in read_fixture_funding_ledger
+    context=_context(service,trade_plan_id,position_id,expected_revision);started=service.clock();received=[]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 70, in _context
+    source=FundingLedgerSubject(trade_plan_id,position_id,position['symbol'],entry_prepared.mechanical_proof.account_hash,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'account_hash'
+
+======================================================================
+ERROR: test_copied_replaced_provider_or_stale_observation_cannot_publish (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_copied_replaced_provider_or_stale_observation_cannot_publish)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 89, in test_copied_replaced_provider_or_stale_observation_cannot_publish
+    value=self.read(context)
+          ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 100, in read_fixture_funding_ledger
+    return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 85, in read_fixture_funding_ledger
+    context=_context(service,trade_plan_id,position_id,expected_revision);started=service.clock();received=[]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 70, in _context
+    source=FundingLedgerSubject(trade_plan_id,position_id,position['symbol'],entry_prepared.mechanical_proof.account_hash,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'account_hash'
+
+======================================================================
+ERROR: test_incomplete_empty_ledger_never_becomes_zero_or_closed (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_incomplete_empty_ledger_never_becomes_zero_or_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 81, in test_incomplete_empty_ledger_never_becomes_zero_or_closed
+    with self.assertRaises(ValueError):self.read(context)
+                                       ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 100, in read_fixture_funding_ledger
+    return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 85, in read_fixture_funding_ledger
+    context=_context(service,trade_plan_id,position_id,expected_revision);started=service.clock();received=[]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 70, in _context
+    source=FundingLedgerSubject(trade_plan_id,position_id,position['symbol'],entry_prepared.mechanical_proof.account_hash,
+                                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'account_hash'
+
+----------------------------------------------------------------------
+Ran 6 tests in 70.129s
+
+FAILED (errors=6)

@@ -1,0 +1,24 @@
+{"context_changed_fields": ["generation"], "recovery_changed_fields": []}
+E
+======================================================================
+ERROR: test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 74, in test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing
+    calls=list(provider.calls);self.assertEqual(self.publish(context,value),published);self.assertEqual(provider.calls,calls)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 55, in publish
+    return context[0].publish_fixture_funding_ledger(value,expected_revision=self.fixture.revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 104, in publish_fixture_funding_ledger
+    return publish_fixture_funding_ledger(self,observation,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\funding_owner.py", line 127, in publish_fixture_funding_ledger
+    if current!=before:raise RuntimeAdmissionError('FUNDING_CANONICAL_SUBJECT_CHANGED')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.trading.admission.RuntimeAdmissionError: FUNDING_CANONICAL_SUBJECT_CHANGED
+
+----------------------------------------------------------------------
+Ran 1 test in 16.983s
+
+FAILED (errors=1)

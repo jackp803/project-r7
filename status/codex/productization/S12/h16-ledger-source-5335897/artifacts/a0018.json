@@ -1,0 +1,75 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Joined FIXTURE allocated-ledger owner, immutable E6 funding outbox, replay and source-clock repairs",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "subject_hashes": {
+    "src/application/trading/funding_owner.py": "dce60f0442d384c1485dc3bdd7bad8fa45d2e4504d4de18b38be23633795788d",
+    "src/storage/product_funding.py": "15bac56c7aa7f7cdfea837788bad48903822840e10c88ac82ef60fd06af458a5",
+    "src/storage/migrations/0020_product_funding_publication.sql": "8f27f4c950d86cddc7e47bc2729224dc7efa9abd05a5ca1beb93922a6d8a4d56",
+    "tests/product/test_trading_funding_v02.py": "0d560eb9fe405f5058e6091f26e1b5d05d294f850c4fbd862748376ffc87ddfd",
+    "src/execution/ledger_funding.py": "335c15a5d7202e28422e10c667deabc5f258d277da14e25991721cf64b35f210",
+    "tests/execution/test_ledger_funding.py": "978ffc056cfddb4cc9a76cca50b9999a4db7eb2452064e55ca9c1e5abdd64cd9",
+    "src/application/trading/service.py": "e6361d3afbbb9724a180cfa7b9e31a9b59a7f5ce2975d751b7cadf4181e64536",
+    "src/application/trading/orchestrator.py": "4a93d6f0cbd3d6cc29097e756e702407ce09b5caeb9ea6087c9c0ad10faeccfa",
+    "src/storage/product_dispatch.py": "47658263a2dfc0c8655c86f45feeac2e924818855fbbcb38d302eeb9a9a190dc",
+    "docs/product/v0_2/FIXTURE_FUNDING_LEDGER_SOURCE.md": "cafe41e73f4656bab50779580269949789cea6ed8c0236dce1ab17b0aa8f810d"
+  },
+  "prior_review": {
+    "path": "h16-ledger-owner-review-initial.json",
+    "sha256": "572fa43ccd24fa7a94025317dfcde84577b721947fb48206256a0357153e9b3c",
+    "critical": 0,
+    "important": 2,
+    "preserved": true
+  },
+  "resolved_findings": [
+    {
+      "id": "FUNDING-IMMUTABILITY-REPLACE",
+      "status": "RESOLVED_STATICALLY",
+      "paths": [
+        "src/storage/migrations/0020_product_funding_publication.sql:23-30",
+        "src/storage/product_funding.py:182-189"
+      ],
+      "resolution": "BEFORE INSERT guards reject an existing primary key in both immutable tables, independently of recursive delete-trigger behavior. Publication marking validates an existing exact receipt and returns before insertion, preserving idempotent replay."
+    },
+    {
+      "id": "FUNDING-RECOVERY-SOURCE-COMMITMENT",
+      "status": "RESOLVED_STATICALLY",
+      "paths": [
+        "src/storage/product_funding.py:40-75",
+        "src/storage/product_funding.py:78-129",
+        "src/storage/product_funding.py:165-180"
+      ],
+      "resolution": "Batch effects now require bounded canonical observation bytes and their exact stored hash, the expected profile/source/version, evidence/material and lineage/count commitments. Pending selection, stored lookup and marking also validate the actual original entry/close claims, hash-verified native original position/flat, exact flat publication and immutable FIXTURE run scope before recovery can publish."
+    }
+  ],
+  "additional_static_checks": [
+    "The account scope now derives from the actual immutable runtime release provider_ref/account_ref via the existing canonical hash helper. The document explicitly distinguishes it from an ephemeral mechanical account proof or exchange UID.",
+    "New publication requires the original observed claim-inventory generation at the transactional writer boundary. Existing-batch replay instead revalidates the complete current context and original batch, then fences the freshly scanned generation without restaging a new funding observation. Only the exact own funding fact is normalized out of the context comparison.",
+    "Acquisition uses the exact FakeProductProvider/FIXTURE composition, fresh guarded GETs, actual original entry plus single close/native-zero/full canonical graph, exact source-issued object/provider/lease binding and finite read cache/TTL. Production source composition is refused.",
+    "E4 resolves the trusted receive clock once after complete page acquisition and before issuing an allocation; source units retain static datetime inputs. A failed or regressed receive clock cannot issue an observation.",
+    "Canonical publication and successor recovery use retained funding facts only, without a new ledger or order request. The source layer does not close the Position, create TradeResult, cancel standing protection or issue financial permission."
+  ],
+  "regression_inspection": {
+    "path": "tests/product/test_trading_funding_v02.py",
+    "cases": [
+      "Actual partial refusal followed by original flat paginated source publication and exact replay",
+      "Incomplete empty allocation refusal",
+      "Copied/replaced-provider/stale read refusal",
+      "Canonical write failure followed by successor no-HTTP recovery",
+      "Actual second-connection foreign claim at the outbox writer fence",
+      "Foreign native scope and production composition refusal",
+      "Actual INSERT OR REPLACE refusal on both tables with recursive_triggers OFF",
+      "Damaged source observation/hash or original entry link denies pending recovery before canonical funding/receipt; restoring exact rows permits replay"
+    ],
+    "execution": "NOT_EXECUTED_BY_REVIEWER"
+  },
+  "source_bytes_unchanged_on_final_read": true,
+  "limitations": [
+    "Static source/test/SQL/document inspection and file hashing only. No tests, DB/auth/config/private data, processes, native, provider/network or Git operations were executed.",
+    "Root-reported development runs are not independently executed or promoted by this review.",
+    "This bounded 0 Critical/0 Important conclusion does not establish complete H16/K05, native-owner qualification, funded closed TradeResult/stop cleanup, real-provider funding completeness, actual LIVE commissioning or whole-Master acceptance."
+  ]
+}

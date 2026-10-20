@@ -1,0 +1,54 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Joined FIXTURE funding owner/outbox first-pass snapshot; superseded only by a later explicitly hashed repair review",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 2,
+  "subject_hashes": {
+    "src/application/trading/funding_owner.py": "8ae5067e279f7bbd5ede4e527dfe1635538bba2e032533367dc78486fcc81ecb",
+    "src/storage/product_funding.py": "58716b03763a4990dc9502a37a07b41749138bfd9c21f45dc34ac6bfeb51369a",
+    "src/storage/migrations/0020_product_funding_publication.sql": "af53c17bb4260557300721c64f5d189cc2b4e585f0929d793402ca781158d645",
+    "tests/product/test_trading_funding_v02.py": "a0f304b604ff26246b895bbb312410f0e4ff92a1d3a42c110bc7e0c9a682decb",
+    "src/execution/ledger_funding.py": "335c15a5d7202e28422e10c667deabc5f258d277da14e25991721cf64b35f210",
+    "tests/execution/test_ledger_funding.py": "978ffc056cfddb4cc9a76cca50b9999a4db7eb2452064e55ca9c1e5abdd64cd9",
+    "src/application/trading/service.py": "e6361d3afbbb9724a180cfa7b9e31a9b59a7f5ce2975d751b7cadf4181e64536",
+    "src/application/trading/orchestrator.py": "4a93d6f0cbd3d6cc29097e756e702407ce09b5caeb9ea6087c9c0ad10faeccfa",
+    "src/storage/product_dispatch.py": "47658263a2dfc0c8655c86f45feeac2e924818855fbbcb38d302eeb9a9a190dc"
+  },
+  "findings": [
+    {
+      "severity": "Important",
+      "id": "FUNDING-IMMUTABILITY-REPLACE",
+      "path": "src/storage/migrations/0020_product_funding_publication.sql",
+      "lines": [
+        17,
+        24
+      ],
+      "description": "The outbox and receipt tables have only UPDATE/DELETE refusal triggers. With SQLite recursive_triggers disabled, INSERT OR REPLACE at an existing primary key can replace the immutable observation/effects or publication receipt without firing the DELETE trigger.",
+      "minimal_fix": "Reject duplicate primary keys in BEFORE INSERT triggers; preserve exact writer/receipt replay by explicitly validating and returning an existing row before INSERT rather than relying on INSERT OR IGNORE.",
+      "regression": "Genuine owned pending/published rows; recursive_triggers=OFF; INSERT OR REPLACE with changed valid bytes must fail and preserve original rows in both tables."
+    },
+    {
+      "severity": "Important",
+      "id": "FUNDING-RECOVERY-SOURCE-COMMITMENT",
+      "path": "src/storage/product_funding.py",
+      "lines": [
+        40,
+        48
+      ],
+      "related_path": "src/application/trading/orchestrator.py:38-41",
+      "description": "ProductFundingPublication.effects verifies effects_json/effects_hash but never observation_json/observation_hash or the retained source_material commitment. Pending recovery publishes batch.effects, so a damaged source observation can still become a canonical funding fact and a marked publication.",
+      "minimal_fix": "Before exposing effects for recovery or marking, validate bounded canonical observation bytes against observation_hash, expected observation profile and original entry/flat links, and compare the same captured normalized source material to the evidence source_material_hash.",
+      "regression": "After genuine canonical-publication failure leaves a pending outbox, corrupt retained observation/hash/source/entry-link in controlled fixtures. Recovery must deny before canonical publication/receipt, then exact restored rows must replay with no provider requests."
+    }
+  ],
+  "other_notes": [
+    "Root independently reported restore_product_readback mechanical_proof=None causing its first six owner tests to error. That deterministic implementation issue was acknowledged separately; this record preserves the two independent static findings requested.",
+    "The sampled receive clock is resolved after complete acquisition before source issuance; no additional concrete C/I was found in that change at this first-pass snapshot."
+  ],
+  "limitations": [
+    "Static source inspection and hashing only; no tests, processes, native/provider/network, DB/auth/config/private data or Git operations executed.",
+    "This record reflects the captured first-pass bytes, not later repairs currently being implemented or validated.",
+    "No H16/K05 completion, native-owner qualification, actual production ledger semantics or financial authority is established."
+  ]
+}

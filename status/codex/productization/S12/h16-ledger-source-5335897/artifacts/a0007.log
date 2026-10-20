@@ -1,0 +1,23 @@
+test_receive_clock_is_sampled_once_after_pages_and_failure_issues_nothing (tests.execution.test_ledger_funding.AllocatedLedgerFundingTests.test_receive_clock_is_sampled_once_after_pages_and_failure_issues_nothing) ... ERROR
+
+======================================================================
+ERROR: test_receive_clock_is_sampled_once_after_pages_and_failure_issues_nothing (tests.execution.test_ledger_funding.AllocatedLedgerFundingTests.test_receive_clock_is_sampled_once_after_pages_and_failure_issues_nothing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\execution\test_ledger_funding.py", line 154, in test_receive_clock_is_sampled_once_after_pages_and_failure_issues_nothing
+    observed=source.read_interval(self.subject,request_started_at=self.started,received_at=clock)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\ledger_funding.py", line 114, in read_interval
+    started,received=_time(request_started_at),_time(received_at)
+                                               ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\execution\ledger_funding.py", line 46, in _time
+    _fail('FUNDING_LEDGER_UTC_REQUIRED')
+  File "<SOURCE_ROOT>\src\execution\ledger_funding.py", line 31, in _fail
+    def _fail(code):raise FundingEvidenceError(code,code)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+execution.funding.FundingEvidenceError: FUNDING_LEDGER_UTC_REQUIRED
+
+----------------------------------------------------------------------
+Ran 1 test in 0.017s
+
+FAILED (errors=1)

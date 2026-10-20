@@ -1,0 +1,53 @@
+test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing) ... ok
+test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt) ...
+  test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt) (table='product_dispatch_funding_outbox') ... FAIL
+  test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt) (table='product_dispatch_funding_publications') ... FAIL
+test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write) ...
+  test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write) (source_hash='sha256:fb7f08a0a63b8bc663654f5be50dfcc04dba9b99efcda7beb9dba781c16d5757') ... FAIL
+test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write) ... FAIL
+
+======================================================================
+FAIL: test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt) (table='product_dispatch_funding_outbox')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 153, in test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt
+    with self.subTest(table=table),self.assertRaises(sqlite3.IntegrityError):
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+======================================================================
+FAIL: test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt) (table='product_dispatch_funding_publications')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 153, in test_insert_or_replace_cannot_rewrite_original_funding_outbox_or_receipt
+    with self.subTest(table=table),self.assertRaises(sqlite3.IntegrityError):
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: IntegrityError not raised
+
+======================================================================
+FAIL: test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write) (source_hash='sha256:fb7f08a0a63b8bc663654f5be50dfcc04dba9b99efcda7beb9dba781c16d5757')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 179, in test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write
+    with self.subTest(source_hash=hashed),self.assertRaises(ValueError):service.recover_publications()
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 180, in test_damaged_pending_source_hash_or_original_link_blocks_recovery_before_canonical_write
+    self.assertEqual(self.flow.position.recover().funding_evidence,())
+AssertionError: Tuples differ: (StoredCanonicalObject(object_kind='FUNDIN[1131 chars]3'),) != ()
+
+First tuple contains 1 additional elements.
+First extra element 0:
+StoredCanonicalObject(object_kind='FUNDING_ALLOCATION_EVIDENCE', canonical_id='fundev_3616ec6eece70278af8b0bf59d12664ce74b718602ad8dbc6db9c2ade69f932d', payload_json='{"calculated_at":"2026-10-03T00:00:07Z","cost_currency":"USDT","funding_cost":"0.1","funding_evidence_id":"fundev_3616ec6eece70278af8b0bf59d12664ce74b718602ad8dbc6db9c2ade69f932d","funding_evidence_profile_version":"funding-allocation-v0.1","interval_end":"2026-10-03T00:00:06Z","interval_semantics":"START_INCLUSIVE_END_EXCLUSIVE","interval_start":"2026-10-03T00:00:00Z","position_id":"r7pos_a8fd0d4b9ccc530cf01cf79e3a36ca472fe5af18cc8ca9ec139d311572e620e1","schema_version":"contracts-v0.1","source":"R7_FIXTURE_ALLOCATED_FUNDING_LEDGER","source_complete_through":"2026-10-03T00:00:06Z","source_kind":"BROKER_LEDGER","source_material_hash":"ab285eeb72ed5243ca51eae2c46f247af15ea6e959a46c060df36a5072f51462","source_record_count":2,"source_version":"r7-fixture-allocated-ledger-v0.1","status":"INCLUDED","symbol":"BTC_USDT_PERP","trade_plan_id":"plan_8cb9790afebc29bff6cb5c6bf520177d4225aa07274a80698325769b734d26e5"}', payload_hash='sha256:c617cedcd8a4fd7de285c7cb0305a4fe46cb4fda0164a477d9bed889c7136733')
+
+Diff is 1261 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 3 tests in 40.196s
+
+FAILED (failures=4)

@@ -1,0 +1,112 @@
+{
+  "status": "STATIC_UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "E4 observed-ledger source/normalizer/producer and FIXTURE composition only; no OKX endpoint/field semantics guessed",
+  "exact_existing": [
+    {
+      "ref": "docs/adr/ADR-0006-funding-allocation-evidence-boundary.md sections1,3-8",
+      "fact": "E4 explicitly owns acquisition/completeness/normalization/position-interval allocation/emission and may add separate provider-neutral funding source port. E5 consumes; E6 persists. Exact half-open interval, explicit watermark>=end, USDT signed positive-cost/negative-credit, zero vs included count rules and immutable allocation identity are already governed."
+    },
+    {
+      "ref": "execution/funding.py::produce_paper_zero_funding_evidence/funding_evidence_identity_material/stable_funding_evidence_id",
+      "fact": "Only current source-specific canonical producer found is registered Paper zero. Identity helpers reusable. Source tree narrow search finds no BROKER_LEDGER acquisition/normalizer/port. Replacing PaperZero source_kind with BROKER_LEDGER is explicitly rejected by tests and is not a solution."
+    },
+    {
+      "ref": "application/trading/provider.py::FakeProductProvider.request",
+      "fact": "Existing real bounded in-memory fake transport requires actual _TradingEffectGuard with FIXTURE/FAKE_PROVIDER_VERIFICATION; records actual request and consumes scripted response. It can exercise acquisition code without network/vault. It has no native funding source contract today."
+    },
+    {
+      "ref": "brokers/okx_production_transport.py::_GET_QUERIES",
+      "fact": "Existing production private allowlist does not expose a funding-ledger route. No funding fields, pagination, coverage or position attribution can be asserted from it. Do not extend actual transport by guessed OKX path."
+    },
+    {
+      "ref": "application/trading/close_observation.py::project_close_position; close_owner.py::original_entry",
+      "fact": "Current actual owner already binds original entry/native posId, exact original plan/action/source hashes, actual exit requests/results/fills and explicit same-posId flat; canonical zero remains EXIT_REQUESTED. Use this recovered actual subject, not caller final Position, for funding interval."
+    },
+    {
+      "ref": "position/trade_result.py::_validate_canonical_funding_evidence/build_trade_result; storage/runtime.py::persist_funding_evidence",
+      "fact": "BROKER_LEDGER accepted with exact plan/position/symbol/interval and complete watermark/hash. INCLUDED requires count>=1 and permits signed or zero aggregate; ZERO_CONFIRMED count0/cost0. Existing canonical writer validates/persists/replays/conflicts but does not create source completeness."
+    }
+  ],
+  "minimal_source_work": [
+    {
+      "unit": "A. E4 normalized allocation and deterministic producer",
+      "proposed_api": "produce_broker_ledger_funding_evidence(parent_plan, final_position, observed_allocation, *, calculated_at)",
+      "contract": "New source-issued immutable normalized allocation (not arbitrary caller mapping) binds exact canonical plan/position/symbol and [opened_at,flat_observed_at), original private source scope commitment, signed USDT allocated rows with unique IDs/event UTC, explicit source coverage and stable source/version/material hash. Reuse existing interval/flat plan checks and stable ID helper without invoking Paper model validator. Source_complete_through>=end; record count actual allocated rows. Do not add risk/strategy authority fields to canonical funding.",
+      "independent": "Pure source normalization/aggregation tests possible with typed trusted source fixtures, clearly only unit semantics. They do not claim integration or issuer proof."
+    },
+    {
+      "unit": "B. Actual controlled-fake source acquisition adapter",
+      "proposed_api": "FundingLedgerSource.read_interval(subject, *, request_started_at, received_at) -> source-issued observed allocation; controlled fake implementation wraps exact FakeProductProvider through service current guard",
+      "contract": "A versioned fixture-only source wire/port must be explicitly authored before tests: fixed logical read operation, bounded records/pages, immutable source snapshot identity, exact source account/native-position attribution, interval boundaries, page chain/exhaustion and completeness watermark. These are new fake-source semantics, never named OKX fields. Fetch/validate actual scripted pages, bind all page bytes and source identity; require consistent snapshot/scope/watermark and full coverage. Opaque issuer+generation+content commitment prevents caller raw dictionary or complete=true being treated as authority.",
+      "independent": "Positive acquisition and missing/stale/incomplete pagination source cases can be implemented and tested locally without close/funding publication changes. Production implementation absent and default denied."
+    },
+    {
+      "unit": "C. Trusted TradingService owner orchestration",
+      "proposed_api": "read_fixture_funding_ledger(trade_plan_id,position_id,*,expected_revision,...actual owner proof) -> issued observation; publish_fixture_funding_ledger(observation,*,expected_revision) -> StoredCanonicalObject",
+      "contract": "FIXTURE plus exact FakeProductProvider only. Read actual canonical flat EXIT_REQUESTED and original entry/native-position ledger attribution; capture source/process/canonical graph then acquire controlled fake source, revalidate exact same generation/provider/subject/interval before producer and canonical publication. Existing outbox/persist_funding_evidence retains deterministic replay. No CLOSED/result during funding publication, no fresh native clock inference. Production driver cannot use this source.",
+      "independent": "Joined source regression follows genuine current close owner sequence; observe provider call, source coverage and canonical funding after partial then explicit same-posId zero, not a fabricated final Position."
+    }
+  ],
+  "coverage_and_allocation_rules": [
+    "Source-owned complete start coverage and through watermark must enclose entire [actual opened_at,actual flat broker_state_observed_at). All pages/snapshot identifiers agree; missing page, continuation unresolved, source gap/truncation/stale snapshot/error/nonfinite/ambiguous event-time semantics -> no canonical evidence. Observing last row is not proof of completeness.",
+    "Every allocated row must be source-proven exact original account/native position/symbol and canonical trade allocation. Do not apportion account-level funding by quantity/rate/time guesses. If actual provider only offers instrument/account bills with no unambiguous position allocation, actual production mapping remains unsupported. Synthetic fixture source may explicitly define per-position allocated rows as its source semantics.",
+    "Positive row, negative credit row and explicit zero-valued row are all source records. Sum with finite exact Decimal. One zero row -> INCLUDED count1 cost0; positive+negative cancel -> INCLUDED count2 cost0; no applicable rows -> ZERO_CONFIRMED only when complete source affirmatively proves no funding throughout exact interval. Unsupported currency rejects, no conversion.",
+    "Include event at interval start, exclude at interval end; reject duplicate/conflicting IDs and foreign scope, with deterministic canonical ordering. Stable source snapshot/page/normalized material hash excludes observation receive/calculated_at clocks. Actual source event/watermark clock cannot be silently advanced on retry.",
+    "Same immutable allocation and later calculated_at keep evidence ID; different allocation for same lineage triggers existing canonical conflict. Retain domain-local incomplete diagnostics only; never final evidence with UNKNOWN/PASS placeholder or rewritten source_kind."
+  ],
+  "existing_and_needed_tests": [
+    "tests/execution/test_funding.py::test_unsupported_source_or_model_version_never_falls_back_to_zero proves Paper zero cannot be broker relabeled; existing exact interval/material/ID tests are reusable conventions, not broker-source coverage.",
+    "tests/position/test_trade_result.py::test_zero_and_included_status_cost_currency_semantics covers canonical consumer signs/count/status; consumer manually serialized fixtures are not source producer evidence.",
+    "New E4 producer tests: debit0.125+credit-0.025=0.1; negative total; zero row INCLUDED; canceling total INCLUDED; complete empty ZERO_CONFIRMED; incomplete empty rejects; exact boundaries; lineage/currency/time mismatch; stable ID and changed allocation conflict.",
+    "New fake source adapter tests: actual fixed guarded GET and bounded complete pages; gap/duplicate/mixed-snapshot/foreign native posId/watermark or stale-clock failures; caller clone/dictionary/production composition rejected; no secrets/network/provider request beyond in-memory calls.",
+    "Extend tests/product/test_trading_close_projection_v02.py genuine actual partial->flat sequence with source read and canonical funding publication; failed source leaves actual flat EXIT_REQUESTED and no TradeResult/CLOSED, rather than resetting state or borrowing zero model."
+  ],
+  "concrete_conflicts": "No architecture/authority conflict demonstrated for new provider-neutral E4 source port and controlled-fake source contract: ADR explicitly permits it. Concrete actual-production gap is absent provider-specific funding retrieval/completeness/event-time/position attribution mapping and absent allowlisted route. Do not claim actual broker coverage from local tests; no private-provider authorization or endpoint research is requested here.",
+  "reviewed_hashes": [
+    {
+      "path": "docs/adr/ADR-0006-funding-allocation-evidence-boundary.md",
+      "sha256": "1ef2b821d5d713953e27023ca657b2b068371bf2f70efb20b5fe54bf220c8538"
+    },
+    {
+      "path": "src/execution/funding.py",
+      "sha256": "63a9b76325b60c7e94abb9496ddec4dbecbafd69f71ab3bac957ab512cbad56f"
+    },
+    {
+      "path": "src/application/trading/provider.py",
+      "sha256": "3104db3badae3ad51e559f8cfd88054455094e2e1ce39fb4f4e0bb0e1f6c7f0b"
+    },
+    {
+      "path": "src/application/trading/close_owner.py",
+      "sha256": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7"
+    },
+    {
+      "path": "src/application/trading/close_observation.py",
+      "sha256": "fdc43a544f961505f507ea7620351a56b953202be39de7ca580f3aacdc280142"
+    },
+    {
+      "path": "src/brokers/okx_production_transport.py",
+      "sha256": "bd9b172c63e9e51c78109709506fa70a6d9bd06e55b1913c68ddd4e49b81f7ce"
+    },
+    {
+      "path": "src/position/trade_result.py",
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b"
+    },
+    {
+      "path": "src/storage/_runtime_validation.py",
+      "sha256": "ce01815084ce22ae81394d9cd3eeeffe630b19d79ba8ec92279dc30920fe0f54"
+    },
+    {
+      "path": "tests/execution/test_funding.py",
+      "sha256": "4db781a79290f907b5a4472587851e959feaeb1bfa4d89f87677ce9247b423b0"
+    }
+  ],
+  "verification": {
+    "private_reads": 0,
+    "Git_commands": [],
+    "tracked_changes": [],
+    "network_calls": 0,
+    "native_run": [],
+    "DB_reads": 0,
+    "tests_run": []
+  }
+}

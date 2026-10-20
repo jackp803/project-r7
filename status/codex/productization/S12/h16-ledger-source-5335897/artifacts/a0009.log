@@ -1,0 +1,18 @@
+test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing) ... ERROR
+
+======================================================================
+ERROR: test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing (tests.product.test_trading_funding_v02.TradingFundingV02Tests.test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 59, in test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing
+    with self.assertRaises(ValueError):self.read(context)
+                                       ^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_funding_v02.py", line 49, in read
+    return context[0].read_fixture_funding_ledger(recovered.trade_plan_id,recovered.position_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_fixture_funding_ledger'
+
+----------------------------------------------------------------------
+Ran 1 test in 9.667s
+
+FAILED (errors=1)

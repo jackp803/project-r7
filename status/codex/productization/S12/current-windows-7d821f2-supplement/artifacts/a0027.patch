@@ -1,0 +1,86 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\application\test_research_robustness.py
+@@
++    def test_quantitatively_failing_neighbors_remain_in_actual_report_and_trial_ledger(self):
++        from decimal import Decimal
++        from application.datasets.catalog import canonical,digest
++        with TemporaryDirectory() as root:
++            selected(root)
++            cost_path=Path(root)/'cost.json'
++            cost=json.loads(cost_path.read_text())
++            cost['taker_bps']='1000'
++            cost_path.write_bytes(encoded(cost))
++            for name in ('research','robustness'):
++                path=Path(root)/(name+'.json')
++                policy=json.loads(path.read_text())
++                policy['cost_policy_hash']=digest(canonical(cost).encode())
++                path.write_bytes(encoded(policy))
++            with self.service(root) as service:
++                result=self.execute(service)
++                report=service.report(result.run_id)
++                neighborhood=report['robustness']['neighborhood']
++                variants=neighborhood['variants']
++                self.assertEqual([row['status'] for row in variants],['BLOCKED','FAIL','FAIL','INVALID'])
++                self.assertEqual(len({row['variant_hash'] for row in variants}),4)
++                self.assertEqual(neighborhood['pass_fraction'],'0')
++                self.assertEqual(neighborhood['denominator'],'ALL_DECLARED_VARIANTS_INCLUDING_INVALID')
++                failures=[row for row in variants if row['status']=='FAIL']
++                events=service.ledger.events('fixture-family')
++                for variant in failures:
++                    self.assertLess(Decimal(variant['backtest']['net_pnl']),0)
++                    self.assertGreater(Decimal(variant['backtest']['total_fees']),0)
++                    self.assertEqual(variant['assessment']['status'],'FAIL')
++                    self.assertIn('MIN_NET_PNL_NOT_MET',variant['reason_codes'])
++                    terminal=[row for row in events if row['kind']=='TRIAL' and row['payload']['stage']=='neighborhood'
++                        and row['payload']['variant_hash']==variant['variant_hash'] and row['payload']['status']=='FAIL']
++                    self.assertEqual(len(terminal),1)
++                    self.assertEqual(terminal[0]['payload']['run_id'],result.run_id)
++                    self.assertEqual(terminal[0]['payload']['result_hash'],digest(canonical(variant).encode()))
++                self.assertEqual(report['sealed_oos'],'NOT_RUN')
++            with self.service(root) as reopened:
++                self.assertEqual(reopened.ledger.events('fixture-family'),events)
++                self.assertEqual(reopened.report(result.run_id)['robustness']['neighborhood'],neighborhood)
++
++    def test_actual_trial_failure_is_recorded_by_owner_before_stage_exception_and_survives_reopen(self):
++        from unittest.mock import patch
++        from validation.robustness import evaluator
++        with TemporaryDirectory() as root:
++            selected(root)
++            original=evaluator._replay
++            actual_calls=[]
++            def fail_after_actual_neighbor_replay(*args,**kwargs):
++                result=original(*args,**kwargs)
++                actual_calls.append(result)
++                if len(actual_calls)==2: raise RuntimeError('SOURCE_ONLY_PRIVATE_TEXT_NOT_DISCLOSED')
++                return result
++            with self.service(root) as service:
++                with patch.object(evaluator,'_replay',side_effect=fail_after_actual_neighbor_replay):
++                    with self.assertRaises(RuntimeError): self.execute(service)
++                self.assertEqual(len(actual_calls),2)
++                run_id=service.journal.runs()[0]['run_id']
++                events=service.ledger.events('fixture-family')
++                trials=[row['payload'] for row in events if row['kind']=='TRIAL']
++                self.assertEqual([row['status'] for row in trials],['STARTED','FAILED'])
++                self.assertEqual(trials[0]['trial_id'],trials[1]['trial_id'])
++                self.assertEqual(trials[0]['variant_hash'],trials[1]['variant_hash'])
++                for trial in trials:
++                    self.assertEqual(trial['run_id'],run_id)
++                    self.assertEqual(trial['stage'],'neighborhood')
++                    self.assertRegex(trial['result_hash'],r'^sha256:[0-9a-f]{64}$')
++                self.assertEqual(trials[1]['reason_codes'],['RuntimeError'])
++                attempts=service.journal.attempts(run_id)
++                failed=[row for row in attempts if row['stage']=='robustness']
++                self.assertEqual(len(failed),1)
++                self.assertEqual(failed[0]['status'],'FAILED')
++                self.assertRegex(failed[0]['output_hash'],r'^sha256:[0-9a-f]{64}$')
++                self.assertIsNone(service.journal.result(run_id,'robustness'))
++                self.assertFalse(any(row['stage'] in ('finalist_freeze','sealed_oos') for row in attempts))
++                self.assertEqual(service.ledger.holdout_observations(),[])
++                self.assertTrue(any(row['kind']=='RUN_FAILED' and row['payload']['run_id']==run_id for row in events))
++                self.assertNotIn('SOURCE_ONLY_PRIVATE_TEXT_NOT_DISCLOSED',json.dumps(events))
++            with self.service(root) as reopened:
++                self.assertEqual(reopened.ledger.events('fixture-family'),events)
++                self.assertEqual(reopened.journal.attempts(run_id),attempts)
++
+     def service(self,root):
+*** End Patch

@@ -1,0 +1,42 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Recheck of the three prior Important history-retention findings and the new source-only regression tests",
+  "reviewed_raw_sha256": {
+    "artifacts/current-windows-20261019/retain_isolation_depth_history.py": "sha256:f27175f8d1aaec2b22c9761a88aa5f963bffd58d59d11edb45869edea08905ba",
+    "artifacts/current-windows-20261019/test_isolation_depth_history_helper.py": "sha256:717c82c43c0190c74b865197ae2e2e9bcce673eeda216652100a13b56cdc2209"
+  },
+  "critical_count": 0,
+  "important_count": 0,
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "I1",
+      "status": "RESOLVED",
+      "evidence": "The captured hash-checked outer log is parsed and required to equal the child report. Research result, target list, sample count, concurrent count and progress must match observations. Counts are derived from actual samples. The unique concurrent-research command requires its canonical log, recorded exit 2, reaping and exact captured log hash; that same log snapshot must contain the exact research result. The existing timeout validator receives the recorded command exit, and target/progress validation is replayed against the captured observation using the Git-bound original driver"
+    },
+    {
+      "id": "I2",
+      "status": "RESOLVED",
+      "evidence": "CapturedEvidence is constructed before admission. Qualifier, observer and successful primary disposition are captured through its protected bounded reader and included in retained commitments. The gate requires exact qualifier stage, observer kind, revision and attempt; exact passed booleans; source/observer termination fences; coherent observer exit/outcome; and successful seven-group primary retention before a passed owning chain permits historical publication"
+    },
+    {
+      "id": "I3",
+      "status": "RESOLVED",
+      "evidence": "Publication delegates to the existing private-directory and exclusive write_private_new primitives. Each prepared artifact is protected-read back and compared with its exact prepared bytes before writing the success disposition. The disposition is then protected-read back and compared with its exact serialized intended bytes"
+    }
+  ],
+  "regression_review": {
+    "methods_inspected": 6,
+    "scope": "Actual historical public observation consistency, tampered summaries/outputs/command rows, protected gate routing and attempt rejection, exclusive publication and post-write corruption refusal",
+    "execution": "NOT_RUN_BY_REVIEWER",
+    "root_reported_RED_GREEN": "Not independently executed or credited by this review"
+  },
+  "limitations": [
+    "No helper, test, build, native flow, qualification, publication or Git operation was executed by the reviewer",
+    "Only public source was read; no active evidence, private configuration, authentication material or runtime database was inspected",
+    "This review does not re-audit the accepted capture/kernel readers or the strict native isolation flow",
+    "Retained probe evidence remains HISTORICAL_STRICT_NATIVE_ISOLATION_ONLY with full_qualification_credit NONE",
+    "The current full owning run and whole-product, ordinary financial authority, cross-platform and Master acceptance remain outside this disposition"
+  ]
+}

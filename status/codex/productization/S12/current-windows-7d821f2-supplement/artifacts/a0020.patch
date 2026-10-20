@@ -1,0 +1,102 @@
+diff --git a/tests/product/test_trading_dispatch_v02.py b/tests/product/test_trading_dispatch_v02.py
+--- a/tests/product/test_trading_dispatch_v02.py
++++ b/tests/product/test_trading_dispatch_v02.py
+@@ -161,3 +161,98 @@
++    def test_malicious_cloud_proposal_cannot_restore_revoked_authority_or_reach_fake_provider(self):
++        # Real local E6/ASGI/admission/dispatch owners; explicit synthetic source
++        # only. An existing revoked owner is the negative control, not fake PASS.
++        import json
++        from fastapi.testclient import TestClient
++        from application.config import ProductConfig
++        from application.control_api.app import create_app
++        from application.control_api.auth import LocalAuth
++        from application.control_api.commands import CommandLedger
++        from application.control_api.owner_services import OwnerControlServices
++        from application.cloud.synced_folder import SyncedFolderCloudTransport
++        from application.intake.ledger import IntakeLedger
++        from application.intake.service import StrategyInboxService
++        from registry.product_assessment import digest
++        from tests.application.cloud_fixtures import package
++
++        service, provider = self.service([self.ack()])
++        baseline = self.admission.evaluate(self.fixture.identity, expected_revision=self.fixture.revision,
++            permission='NEW_EXPOSURE', execution='FAKE_PROVIDER_VERIFICATION')
++        self.assertTrue(baseline.allowed, baseline.reason_codes)
++        self.fixture.e6.revoke_approval(self.fixture.identity,
++            authenticated_human=self.fixture.auth.authenticate('FIXTURE_AUTH_PROOF'),
++            reason='fixture joined cloud denial control', command_id='joined-revoke')
++        revoked = self.fixture.e6.get_strategy(self.fixture.identity)
++        self.fixture.revision = revoked.registry_revision
++        denied = self.admission.evaluate(self.fixture.identity, expected_revision=self.fixture.revision,
++            permission='NEW_EXPOSURE', execution='FAKE_PROVIDER_VERIFICATION')
++        self.assertFalse(denied.allowed)
++        self.assertEqual(denied.reason_codes, ('CURRENT_OWNER_AUTHORITY_UNAVAILABLE',))
++        canonical_before = self.canonical.recover(trade_plan_id=self.plan['trade_plan_id'])
++        dispatch_before = self.dispatch.recover('fixture-run')
++
++        cloud = self.fixture.root / 'untrusted-cloud'; cloud.mkdir()
++        (cloud / '.r7-root.json').write_text('{"root_id":"joined-fixture"}', encoding='utf-8')
++        definition = json.loads(revoked.definition_json)
++        folder, manifest, _ = package(cloud, 'joined-malicious', version='0.2', definition=definition)
++        manifest.update(capability_snapshot_hash=self.fixture.release[0].capability_hash,
++            verification_status='PASS', approval_envelope_ref='fixture-envelope',
++            api_secret='SOURCE_SYNTHETIC_ATTACK_SENTINEL')
++        (folder / 'manifest.json').write_text(json.dumps(manifest), encoding='utf-8')
++        with IntakeLedger(self.fixture.root / 'joined-intake.sqlite', instance_id='joined-fixture') as ledger:
++            inbox = StrategyInboxService(SyncedFolderCloudTransport(cloud, expected_root_id='joined-fixture'),
++                ledger, self.fixture.e6, snapshot_root=self.fixture.root / 'joined-snapshots', owner_id='joined-worker',
++                capability_snapshot_hash=self.fixture.release[0].capability_hash)
++            scan = inbox.scan_once(self.fixture.clock[0])
++            self.assertEqual((scan.blocked, scan.accepted), (1, 0))
++            self.assertEqual(scan.results[0].state, 'BLOCKED')
++            self.assertIsNone(ledger.accepted_receipt('joined-malicious'))
++            self.assertEqual(ledger.pending_outbox(10), ())
++            self.assertNotIn(manifest['api_secret'], repr(scan))
++
++        config = ProductConfig('r7-product-config-v0.2', 'joined-fixture-control',
++            self.fixture.root, None, self.fixture.root / 'admission.sqlite')
++        clock = lambda: self.fixture.clock[0]
++        auth = LocalAuth(self.fixture.root / 'joined-auth.sqlite', namespace='FIXTURE', clock=clock)
++        password = 'explicit-test-only-password-123'; auth.create_owner('local-owner', password)
++        owners = OwnerControlServices(config, namespace='FIXTURE', clock=clock, registry_factory=self.fixture.factory)
++        app = create_app(config, auth=auth,
++            commands=CommandLedger(self.fixture.root / 'joined-commands.sqlite', namespace='FIXTURE', clock=clock), services=owners)
++        with TestClient(app, base_url='http://127.0.0.1:8765', client=('127.0.0.1', 42000), raise_server_exceptions=False) as client:
++            headers = {'Origin':'http://127.0.0.1:8765'}
++            login = client.post('/api/v1/auth/login', json=dict(username='local-owner', password=password,
++                command_id='joined-login', expected_revision=0), headers=headers)
++            self.assertEqual(login.status_code, 200, login.text)
++            headers['X-R7-CSRF'] = login.json()['csrf_token']
++            reauth = client.post('/api/v1/auth/reauthenticate', json=dict(password=password,
++                command_id='joined-reauth', expected_revision=1), headers=headers)
++            self.assertEqual(reauth.status_code, 200, reauth.text)
++            proposal = dict(command_id='joined-cloud-approval', expected_revision=revoked.registry_revision,
++                strategy_id=manifest['strategy_id'], strategy_version=manifest['strategy_version'],
++                envelope_ref=manifest['approval_envelope_ref'], decision='APPROVE', reason_code='USER_CONFIRMED',
++                expected_strategy_hash=manifest['strategy_content_hash'], expected_envelope_hash=digest(self.fixture.envelope))
++            injected = client.post('/api/v1/approvals', json=dict(proposal, api_secret=manifest['api_secret']), headers=headers)
++            self.assertEqual(injected.status_code, 422, injected.text)
++            self.assertEqual(injected.json()['error']['reason_codes'], ['DTO_VALIDATION_FAILED'])
++            self.assertNotIn(manifest['api_secret'], injected.text)
++            approval = client.post('/api/v1/approvals', json=proposal, headers=headers)
++            self.assertEqual(approval.status_code, 403, approval.text)
++            self.assertIn('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN', approval.json()['error']['reason_codes'])
++
++        self.assertEqual(self.fixture.e6.get_strategy(self.fixture.identity), revoked)
++        after = self.admission.evaluate(self.fixture.identity, expected_revision=self.fixture.revision,
++            permission='NEW_EXPOSURE', execution='FAKE_PROVIDER_VERIFICATION')
++        self.assertFalse(after.allowed)
++        self.assertEqual(after.reason_codes, denied.reason_codes)
++        with self.assertRaises(RuntimeAdmissionError) as caught:
++            service.execute(self.prepared, expected_revision=self.fixture.revision)
++        self.assertEqual(caught.exception.reason_codes, denied.reason_codes)
++        self.assertEqual(provider.calls, [])
++        self.assertIsNone(self.dispatch.operation('fixture-run', self.prepared.canonical_request.order_request_id))
++        self.assertEqual(self.dispatch.recover('fixture-run'), dispatch_before)
++        self.assertEqual(self.dispatch.pending_publications('fixture-run'), ())
++        self.assertEqual(self.canonical.recover(trade_plan_id=self.plan['trade_plan_id']), canonical_before)
++        self.assertEqual(self.fixture.e6.get_strategy(self.fixture.identity), revoked)
++
+     def test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack(self):
+         service, provider = self.service([self.ack()])
+         outcome = service.execute(self.prepared, expected_revision=self.fixture.revision)

@@ -1,0 +1,59 @@
+{
+  "document_kind": "BOUNDED_STATIC_FIXTURE_ONLY_FUNDING_ADAPTER_DESIGN",
+  "status": "LOCAL_SOFTWARE_DESIGN_POSSIBLE_NO_CONCRETE_AUTHORITY_CONFLICT_IDENTIFIED",
+  "existing_producer_gap": "Only existing allocation producer is registered Paper zero; BROKER_LEDGER is accepted by canonical consumer but has no observed-ledger allocation producer. New local software is required, not new LIVE permission.",
+  "minimal_scope": {
+    "composition": "Trusted internal FIXTURE trading composition only; require exact FakeProductProvider type, namespace FIXTURE and execution FAKE_PROVIDER_VERIFICATION. No public HTTP import/caller PASS/source_kind override; production driver cannot compose this adapter.",
+    "observation": "One bounded read through existing FakeProductProvider.request(method,path,*,guard,query=None,body=None) using a current actual _TradingEffectGuard and existing management permission before E5 final closure. Use fixed synthetic fixture-ledger operation understood only by fake driver; do not claim an actual private exchange endpoint or add a production route. Script must supply source records plus explicit coverage envelope; provider response is observed and validated, not directly used as final evidence.",
+    "financial_semantics": "Use already allocated signed USDT funding-cost ledger records for exact current trade/position, not a newly invented rate/notional formula. Sum Decimal costs; preserve existing net_pnl=gross-total_fees-funding_cost meaning: positive cost debit, negative credit. Explicit nonzero record is simplest positive fixture, yielding INCLUDED/count>=1; no implicit zero branch or Paper-zero borrowing.",
+    "source_material": "Canonical finite source envelope binds fixed synthetic source/version, FIXTURE/FAKE_PROVIDER_VERIFICATION labels, actual owner run+trade_plan_id+position_id+symbol, exact requested interval, complete_from/complete_through, observed_at, unique immutable record IDs and normalized rows. source_material_hash is lowercase SHA256 hex of this exact material (not sha256: prefix), retained for replay/audit via existing owner canonical publication conventions."
+  },
+  "required_checks": [
+    "Take actual parent ApprovedTradePlan, actual flat CONSISTENT Position, opened_at and broker_state_observed_at from the recovered canonical E4/E5 subject; no caller supplied flat flag/time. Require zero quantity, nonempty UTC [opened_at,flat_observed_at) interval, actual recorded fills/lineage unchanged. Funding adapter does not itself set CLOSED.",
+    "Source envelope must match exact plan/position/symbol and isolated account/run; source coverage complete_from<=opened_at and complete_through>=flat_observed_at. Missing page, ambiguous provider outcome, incomplete coverage or omitted watermark blocks result; empty records alone never imply ZERO_CONFIRMED.",
+    "Only fixed bounded finite list, unique record IDs, canonical finite signed Decimal cost strings, USDT currency; reject duplicate/reused/conflicting IDs, unsupported currency, foreign lineage, invalid timestamps and records outside start-inclusive/end-exclusive interval. Limit bytes/record count explicitly; root chooses bound, do not invent production capacity guarantee.",
+    "Use one injected aware UTC source/owner clock. Require record/event timestamps within covered interval, flat_observed_at<=observed_at<=calculated_at; source complete-through must not pretend unobserved future coverage. calculated_at from owner clock after final broker observation, not caller evidence.",
+    "Revalidate exact canonical plan/flat subject and active process generation around observation/publication. Publish through existing canonical writers/outbox mechanics; unknown observation or interrupted publication preserves pending state and retries observation/replay rather than fabricating a result.",
+    "Stable sorted canonical source records and fixed interval/material produce stable source hash and stable_funding_evidence_id. calculated_at is deliberately excluded from 17-field evidence identity; repeat same observation may change only calculated_at. Changed source allocation for same lineage must fail existing canonical conflict rules rather than silently replace evidence."
+  ],
+  "canonical_output": {
+    "fields": [
+      "schema_version=contracts-v0.1",
+      "funding_evidence_profile_version=funding-allocation-v0.1",
+      "source_kind=BROKER_LEDGER",
+      "source=fixed conspicuous R7_FIXTURE_FAKE_PRODUCT_PROVIDER_LEDGER",
+      "source_version=fixed versioned fixture adapter semantics",
+      "source_material_hash=canonical observed material SHA256 hex",
+      "source_record_count=actual unique allocated rows",
+      "source_complete_through=actual explicit source watermark",
+      "trade_plan_id=actual parent",
+      "position_id=actual final position",
+      "symbol=actual exact symbol",
+      "interval_start=actual opened_at",
+      "interval_end=actual flat broker_state_observed_at",
+      "interval_semantics=START_INCLUSIVE_END_EXCLUSIVE",
+      "status=INCLUDED for positive fixture with >=1 actual row",
+      "funding_cost=canonical Decimal sum",
+      "cost_currency=USDT",
+      "calculated_at=owner UTC observation calculation time",
+      "funding_evidence_id=stable_funding_evidence_id(evidence)"
+    ],
+    "notes": "Canonical field meanings remain unchanged. Source-specific namespace/execution labels live in committed source material and fixed source name; canonical schema has no namespace field. Namespace-isolated store, fixed composition and source-specific consumer/producer tests must prevent synthetic provenance being presented as real LIVE proof."
+  },
+  "authority_conclusion": "No concrete authority conflict demonstrated for explicit local controlled-fake source adapter and regression. Existing FIXTURE guard pairing and no transport/vault capability remain mandatory. This evidence proves only code capability under synthetic source; it cannot qualify private provider completeness, actual LIVE funding, capital authorization or production execution. Root decides exact local source contract after checkpoint.",
+  "regressions": [
+    "New execution funding fixture-adapter tests: signed allocated debit+credit sum, boundary at interval_start/end, exact lineage, missing watermark/gaps, duplicate IDs, nonfinite/currency/foreign rows, future source clock, same-ID replay and source mutation conflict.",
+    "Joined tests beside tests/product/test_trading_position_v02.py with existing test_trading_dispatch_v02 actual owner setup: guarded fake entry/protect/exit/flat, observed fixture ledger allocation, build_trade_result and canonical publication; deny funding/result when observation incomplete; forbid ProductionProductProvider composition.",
+    "Keep tests/position/test_trade_result.py consumer semantics unchanged; these consumer fixtures alone do not qualify new producer."
+  ],
+  "source_refs": [
+    "src/application/trading/provider.py::FakeProductProvider.request",
+    "src/application/trading/service.py::TradingService.__init__/_guard",
+    "src/application/trading/orchestrator.py::TradingCoordinator.observe/recover_publications",
+    "src/execution/funding.py::stable_funding_evidence_id",
+    "src/position/trade_result.py::_validate_canonical_funding_evidence/build_trade_result",
+    "src/storage/runtime.py::PaperRuntimeJournal.persist_funding_evidence",
+    "src/storage/canonical_publication.py::publish_canonical_effects"
+  ],
+  "verification": "Static only; no implementation/tests/native/private/provider/network/DB activity or PASS claim"
+}

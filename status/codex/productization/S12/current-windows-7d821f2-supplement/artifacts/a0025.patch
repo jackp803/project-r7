@@ -1,0 +1,32 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\application\test_product_assessment_binding.py
+@@
++    def test_canonical_candidate_validator_rejects_nonindependent_or_unverified_actual_product_evidence(self):
++        from dataclasses import replace
++        from unittest.mock import patch
++        from registry.product_assessment import canonical,digest,require_product_candidate
++        with TemporaryDirectory() as root:
++            selected(root)
++            (Path(root)/'risk.json').write_bytes(encoded(risk_fixture()))
++            with self.service(root) as service:
++                result=self.execute(service)
++            with open_sqlite_platform(Path(root)/'registry.sqlite',research_namespace='FIXTURE') as e6:
++                record=e6.product_assessment(result.run_id)
++                strategy=e6.get_strategy(record.identity)
++                self.assertEqual(require_product_candidate(e6._store,strategy,record.validation_evidence_id),record)
++                for field in ('independent_oos','sealed_dataset_verification'):
++                    payload=json.loads(record.payload_json)
++                    if field=='independent_oos': payload[field]=False
++                    else: payload[field]['scope']='DEVELOPMENT_VERIFIED_SEALED_LOGICAL_PENDING'
++                    raw=canonical(payload)
++                    hostile=replace(record,payload_json=raw,payload_hash=digest(raw))
++                    with self.subTest(field=field),patch.object(e6._store,'product_assessment_for_decision',return_value=hostile):
++                        with self.assertRaises(EvidenceGateError) as caught:
++                            require_product_candidate(e6._store,strategy,record.validation_evidence_id)
++                        self.assertEqual(str(caught.exception),'Complete independent final OOS required')
++                    self.assertEqual(e6.product_assessment(result.run_id),record)
++                    self.assertEqual(e6.get_strategy(record.identity),strategy)
++                    self.assertEqual(require_product_candidate(e6._store,strategy,record.validation_evidence_id),record)
++
+     def test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy(self):
+*** End Patch

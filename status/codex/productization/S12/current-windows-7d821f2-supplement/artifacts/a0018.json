@@ -1,0 +1,39 @@
+{
+  "schema_version": "r7-local-joined-evidence-test-drafts-v1",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "parent_reported_guarded_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "status": "UNAPPLIED;NOT_EXECUTED;NO_ACCEPTANCE_CREDIT",
+  "scope": "Exactlytwo preexisting local joined-evidence gaps. Only outside-Git ART drafts created; no product implementation, source edits, Git operations, tests, native jobs, DB/runtime/provider/network activity.",
+  "application_prerequisite": "Root must wait for guarded owning/postchain completion and retained/bookkept exact checkpoint before applying either patch. Keep current distribution/proof immutable. Review source fixture compatibility and run focused real tests only afterward; new definitions require future frozen inventory/evidence, not receipt inheritance.",
+  "drafts": [
+    {
+      "row": "CLOUD-05",
+      "patch": "postcheckpoint-cloud05-joined-e6-unapplied.patch",
+      "patch_sha256": "sha256:042b25a6bad272bc10721434260aed7434df5de966988e58efa8b70d0d1b7c58",
+      "target": "tests/application/test_claim_recovery.py",
+      "proposed_case": "ClaimRecoveryTests.test_stale_takeover_cannot_replace_real_e6_effect_or_winner_receipt",
+      "setup": "Existing cloud_fixtures.package v0.1, actual SyncedFolder transport, two IntakeLedger connections and two actual E6 facades sharing temporary stores. Each StrategyInboxService has its own worker/snapshot root. No test threads or sleeps.",
+      "joined_schedule": "Old scan claims at NOW. A source-test-only wrapper at old e6.intake lets successor scan at NOW+61s take generation2, execute actual E6 registration and commit actual receipt/outbox first. Wrapper then delegates old owner's original real intake unchanged, returning its actual result. Old normal ledger commit must throw LeaseConflict despite its retained NOW. This deliberately exercises generation fencing, not just wall-clock expiry.",
+      "assertions": ["Successor accepted exactlyone real submission; stale actual E6 call returns the same canonical intake_id as successor.","Actual canonical strategy record/lifecycle remains identical, DRAFT and sole strategy; winner receipt, effect_ref and outbox bytes remain identical after stale attempt.","Public claim replay reports worker2/generation2/INTAKE_ACCEPTED without new acquisition; repeated scan is idempotent.","Reopened real E6 and ledger reproduce the same canonical record/receipt and exactlyone outbox item."],
+      "injection_boundary": "The wrapper only controls a finite source-test scheduling interleaving and calls the original actual E6 method. It never returns fabricated E6 output, supplies PASS/receipt facts, changes a factory, writes raw DB rows or contributes native execution credit.",
+      "focused_future_selector": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_stale_takeover_cannot_replace_real_e6_effect_or_winner_receipt"
+    },
+    {
+      "row": "TRADE-02",
+      "patch": "postcheckpoint-trade02-joined-authority-unapplied.patch",
+      "patch_sha256": "sha256:e98bb93bfa1a4f297e8edb857452c38cc088e81af0f25d8686d93a716659ae77",
+      "target": "tests/product/test_trading_dispatch_v02.py",
+      "proposed_case": "TradingDispatchV02Tests.test_malicious_cloud_proposal_cannot_restore_revoked_authority_or_reach_fake_provider",
+      "setup": "Existing TradingDispatchV02Tests actual risk/plan/canonical/dispatch owners, issuer-prepared entry and one valid scripted FakeProductProvider ACK. Confirm genuine FIXTURE NEW_EXPOSURE baseline, then revoke through actual E6 revoke_approval and use its new current registry revision. This removes preexisting permission explicitly; the attack must not restore it.",
+      "joined_flow": "Same actual strategy is packaged through normal cloud_fixtures.package v0.2 with correct capability/subject hashes but malicious claimed PASS/envelope/credential fields. Real inbox blocks it with no accepted receipt/outbox. A real local FIXTURE TestClient, auth/CSRF/reauth and OwnerControlServices bound to the same registry then attempt the same proposal: credential-field injection gets422 DTO_VALIDATION_FAILED; valid-shaped financial approval gets403 FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN. Actual RuntimeAdmission and TradingService.execute then evaluate this exact still-revoked subject.",
+      "assertions": ["Cloud rejection never changes the actual E6 record or produces receipt/outbox; synthetic attack sentinel is not echoed.","Authenticated API denial preserves that same E6 record/current revision and cannot mint financial permission.","Actual current admission and execute deny specifically CURRENT_OWNER_AUTHORITY_UNAVAILABLE, not stale version or unconfigured transport.","FakeProductProvider.calls remains empty; no dispatch operation/claim/publication, process-generation change or canonical journal change occurs."],
+      "boundary": "Only explicit temporary FIXTURE stores and synthetic test login/attack strings. No ProductionProductProvider, vault, private credential, HTTP transport or financial authority. Fixture preflight/process facts stay labelled synthetic; passing this test would establish only the joined source security-negative composition.",
+      "focused_future_selector": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_malicious_cloud_proposal_cannot_restore_revoked_authority_or_reach_fake_provider"
+    }
+  ],
+  "static_checks_only": "Insertion anchors were found and patch hunk counts generated from source text. Referenced methods and error/DTO routes inspected statically. No import, parser/compiler, git apply check or test execution performed. Existing shared ResearchService fixture remains subject to its current source setup/resource policy; any setup failure must not be misreported as product defect.",
+  "outcome": "DRAFTS_ONLY;NOT_RUN",
+  "acceptance_credit": "NONE",
+  "tracked_changes": 0,
+  "external_files_created": ["postcheckpoint-cloud05-joined-e6-unapplied.patch","postcheckpoint-trade02-joined-authority-unapplied.patch","postcheckpoint-joined-evidence-test-design.json"]
+}

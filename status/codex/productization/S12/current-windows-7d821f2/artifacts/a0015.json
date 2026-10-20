@@ -1,0 +1,39 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "subject": {
+    "ref": "artifacts/current-windows-20261019/index_current_qualification.py",
+    "sha256": "9035ac44c9de3bb841eb7b9f908beaf1a14d2afaba193e4503f78df4db979d8d"
+  },
+  "previous_reviewed_helper_sha256": "df21848c6091ad768be5fe0864da2a43ae502f7fb3fd659c565e381b13806452",
+  "previous_review_artifact_sha256": "77d79a187d62de48fd78aaadf8572817170b335a11d85586ec709f2df8225848",
+  "final_delta": "Current publish_index lines18-20 invoke final_guard before opening the exclusive final output; run line65 supplies the exact source/package/profile guard. A rejected final guard therefore cannot publish the final index. The parent-reported external refusal regression was not executed by the reviewer.",
+  "scope": "Static field/path/parser/publication review of the external current qualification index helper. No helper, test, native, build or network execution; no live checkpoint/log/receipt, database, authentication or configuration data read.",
+  "confirmed": [
+    "QualificationReceipt exposes receipt_id/execution_id/checks/profile_hash/started_at/finished_at and execution_evidence with the fields used here.",
+    "validate_qualified_receipt binds the exact installed measured native subject, actual fixed profile, member sequence, counts, outcomes and committed artifact bytes before index construction.",
+    "Producer writes sanitized command logs as LF bytes before recording their SHA; the index's named-success parser matches that actual producer format, including unittest two-line method descriptions.",
+    "Each command log is protected-read, hash checked and parsed from the same captured raw bytes; exact member test-case sequence is required.",
+    "Source-only and native assertion observations are distinct; missing source definitions remain explicitly unresolved; timing is only the owning complete qualification window; no requirement PASS is issued."
+  ],
+  "counts": {"critical": 0, "important": 0},
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "CURRENT-INDEX-FINAL-GUARD-PUBLICATION-ORDER",
+      "status": "RESOLVED_BY_GUARD_BEFORE_EXCLUSIVE_FINAL_PUBLICATION",
+      "severity": "Important",
+      "ref": "artifacts/current-windows-20261019/index_current_qualification.py",
+      "line": 60,
+      "end_line": 62,
+      "finding": "The final execution-index file is written with PASS case rows and the original revision before the final _guard. If source, package or profile changes during indexing, the final guard raises but leaves a complete-looking final index published. The emitted index has no failed/provisional disposition distinguishing that rejected attempt.",
+      "minimal_fix": "Require final source/package/profile guards before opening the final exclusive output. If retaining an intermediate attempt, label it explicitly provisional/failed and keep it separate from the final index.",
+      "minimal_regression": "Force the final guard to reject after successful parsing and require no final execution-index file to exist; preserve existing successful-publication behavior."
+    }
+  ],
+  "limits": [
+    "No actual receipt or current qualification success was inspected or inferred.",
+    "AST coordinates are static source-resolution observations, not an exhaustive semantic or dynamic-dispatch proof.",
+    "No native/full-PQR/requirement/whole-Master acceptance is issued."
+  ]
+}

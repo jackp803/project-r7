@@ -1,0 +1,154 @@
+EEEEEEEEEEEEE
+======================================================================
+ERROR: test_actual_wrapper_and_concurrent_command_are_bound_without_native_rerun (__main__.HistoryRetentionTests.test_actual_wrapper_and_concurrent_command_are_bound_without_native_rerun)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 32, in test_actual_wrapper_and_concurrent_command_are_bound_without_native_rerun
+    command=self.validate()
+            ^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_changed_actual_wrapper_or_concurrent_output_are_rejected (__main__.HistoryRetentionTests.test_changed_actual_wrapper_or_concurrent_output_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 46, in test_changed_actual_wrapper_or_concurrent_output_are_rejected
+    with self.assertRaises(ValueError):self.validate(outer=b'{}')
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_changed_measurement_summaries_are_rejected (__main__.HistoryRetentionTests.test_changed_measurement_summaries_are_rejected) (field='sample_count')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 43, in test_changed_measurement_summaries_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_changed_measurement_summaries_are_rejected (__main__.HistoryRetentionTests.test_changed_measurement_summaries_are_rejected) (field='actual_target_concurrent_protected_samples')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 43, in test_changed_measurement_summaries_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_changed_measurement_summaries_are_rejected (__main__.HistoryRetentionTests.test_changed_measurement_summaries_are_rejected) (field='actual_research_target_pids')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 43, in test_changed_measurement_summaries_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_changed_measurement_summaries_are_rejected (__main__.HistoryRetentionTests.test_changed_measurement_summaries_are_rejected) (field='progress')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 43, in test_changed_measurement_summaries_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_changed_measurement_summaries_are_rejected (__main__.HistoryRetentionTests.test_changed_measurement_summaries_are_rejected) (field='research_result')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 43, in test_changed_measurement_summaries_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_gate_uses_protected_captured_documents_and_exact_subjects (__main__.HistoryRetentionTests.test_gate_uses_protected_captured_documents_and_exact_subjects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 72, in test_gate_uses_protected_captured_documents_and_exact_subjects
+    helper.require_ended_chain(captured,REVISION,'first')
+TypeError: require_ended_chain() takes 2 positional arguments but 3 were given
+
+======================================================================
+ERROR: test_missing_duplicate_or_changed_recorded_command_are_rejected (__main__.HistoryRetentionTests.test_missing_duplicate_or_changed_recorded_command_are_rejected) (mode='missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 59, in test_missing_duplicate_or_changed_recorded_command_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_missing_duplicate_or_changed_recorded_command_are_rejected (__main__.HistoryRetentionTests.test_missing_duplicate_or_changed_recorded_command_are_rejected) (mode='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 59, in test_missing_duplicate_or_changed_recorded_command_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_missing_duplicate_or_changed_recorded_command_are_rejected (__main__.HistoryRetentionTests.test_missing_duplicate_or_changed_recorded_command_are_rejected) (mode='exit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 59, in test_missing_duplicate_or_changed_recorded_command_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_missing_duplicate_or_changed_recorded_command_are_rejected (__main__.HistoryRetentionTests.test_missing_duplicate_or_changed_recorded_command_are_rejected) (mode='hash')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 59, in test_missing_duplicate_or_changed_recorded_command_are_rejected
+    with self.assertRaises(ValueError):self.validate(observation=changed)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 26, in validate
+    return helper.require_bound_observation(self.child,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'require_bound_observation'
+
+======================================================================
+ERROR: test_publication_is_exclusive_and_verifies_published_bytes (__main__.HistoryRetentionTests.test_publication_is_exclusive_and_verifies_published_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_isolation_depth_history_helper.py", line 80, in test_publication_is_exclusive_and_verifies_published_bytes
+    helper.publish_archive(target,[('artifacts/a0001.log',b'actual\n')],dict(passed=True))
+    ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_isolation_depth_history' has no attribute 'publish_archive'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.024s
+
+FAILED (errors=13)

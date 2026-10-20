@@ -1,0 +1,53 @@
+{
+  "schema_version": "r7-current-launch-guide-final-static-review-v1",
+  "status": "NO_CRITICAL_OR_IMPORTANT_FINDINGS_IN_REVIEWED_REPAIR",
+  "execution": "NONE",
+  "helper_ref": "artifacts/current-windows-20261019/write_current_launch_guide.py",
+  "helper_sha256": "sha256:ddf517fac012ec457cb98bcdfcdbf571016dabf6fc7e22a5296253025f25327b",
+  "test_ref": "artifacts/current-windows-20261019/test_current_launch_guide.py",
+  "test_sha256": "sha256:7cc9e6d30aa99db8815e469aa3a482410d0a0b40eb32845c0f0e28d80d73221f",
+  "counts": {
+    "critical": 0,
+    "important": 0,
+    "remaining_minor": 0
+  },
+  "resolved_findings": [
+    {
+      "id": "CLG-01",
+      "status": "ADDRESSED_STATIC_REVIEW",
+      "line": 31,
+      "basis": "Normal load_config reads exact selected non-secret profile; its config_hash must equal unattended owning-profile commitment, and qualified-backup owning_profile must exactly match. Guide derives actual host/port and brackets IPv6 host."
+    },
+    {
+      "id": "CLG-02",
+      "status": "ADDRESSED_STATIC_REVIEW",
+      "line": 16,
+      "basis": "require_delivery_binding rejects mismatched full revision, installed identity, archive_ref and archive SHA256 against actual portable output. archive_subject(build,revision,facts) supplies the existing strict archive subject boundary. Final guard, metadata/ZIP byte comparison and portable binding recheck precede document writes."
+    },
+    {
+      "id": "CLG-03",
+      "status": "ADDRESSED_STATIC_REVIEW",
+      "line": 85,
+      "basis": "Guide now tells operator to repeat product-status until coordinator/control/research STOPPED before restart/backup, preserving unknown/error states and making no flat-exposure claim."
+    }
+  ],
+  "source_test_review": {
+    "test_id": "test_current_launch_guide.LaunchGuideBindings.test_stale_portable_subject_or_zip_cannot_be_delivered",
+    "observed_body": "One admitted matching positive binding; four subtests mutate revision, identity/build hash, archive_ref and archive_hash and each require ValueError.",
+    "execution_by_this_reviewer": "NONE",
+    "reported_run": "Root reports source-only PASS1; not independently executed/certified by this review.",
+    "limit": "This test covers delivery-binding pure validation, not actual native ZIP extraction, configuration runtime state or the imported archive_subject implementation. Existing parent-owned archive verification remains a prerequisite."
+  },
+  "confirmed_scope": [
+    "Current helper writes only fresh local guide/checksum/version artifacts. Source/Git/native build inputs untouched.",
+    "Required current qualify/portable/headless/unattended/qualified-backup passed flags and full revisions checked before guide generation; this review did not read runtime evidence or certify those prerequisites.",
+    "No OS startup/sleep/security install/change, network call, account/trade/provider/private interface access or financial activation performed by the writer.",
+    "Guide preserves MasterIN_PROGRESS, engineering origin NOT_GPT, ordinary financial policy/forward unselected, outbox versus real-cloud ACK separation and restored inhibition.",
+    "Portable target-specific validation remains required; prior/current-PC evidence is not transplanted to old target or Ubuntu."
+  ],
+  "limits": [
+    "Read only current helper and its source regression. No tests/build/native/network/DB/auth/runtime evidence executed or inspected.",
+    "Hash-bound static repair review only, not a new whole qualification or native PASS.",
+    "Imported archive_subject trusted composition was reviewed at its call boundary here, not re-executed or broadly re-audited."
+  ]
+}

@@ -1,0 +1,78 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\position\test_v02_exit_requests.py
+@@
++    def test_atr_target_uses_bound_e2_observation_and_existing_e5_authority(self):
++        import json
++        for side, expected, price in (('LONG','61200','61300'), ('SHORT','58800','58700')):
++            with self.subTest(side=side):
++                request, api = self.request(side=side, atr=True, target={'kind':'atr_multiple','feature':'atr','multiple':'6'})
++                value = request.as_dict()
++                feature = value['feature_anchors']['atr']
++                self.assertEqual(feature, dict(value='200', semantic_version='r7-atr-wilder-v1',
++                    market_boundary_ref=value['market_boundary_ref'], observed_at=value['observed_at']))
++                constraints = api.resolve_exit_constraints(request)
++                self.assertEqual(constraints.target_level, Decimal(expected))
++                self.assertEqual(constraints.stop_level, Decimal('59400' if side=='LONG' else '60600'))
++                position, plan = self.facts(request, side=side)
++                position['lifecycle_state'] = 'OPEN_PROTECTED'
++                original_position, original_plan = json.loads(json.dumps(position)), json.loads(json.dumps(plan))
++                anchor = api.anchor_exit_request(request, position, plan)
++                at = NOW+timedelta(seconds=3)
++                result = api.interpret_exit_request(request, api.CurrentExitAuthority(position,plan,anchor,
++                    self.market(at,price),'FRESH',at,at+timedelta(seconds=30)))
++                self.assertEqual(result.position_action['action'], 'EXIT')
++                self.assertIn('E5_TARGET_REACHED', result.position_action['reason_codes'])
++                self.assertEqual(result.position_action['quantity'], position['actual_quantity'])
++                self.assertEqual(result.anchor.first_fill_at, anchor.first_fill_at)
++                self.assertEqual(result.anchor.hold_deadline, anchor.hold_deadline)
++                self.assertEqual(position, original_position)
++                self.assertEqual(plan, original_plan)
++
++    def test_atr_target_rejects_missing_foreign_future_or_changed_anchor(self):
++        import json
++        from strategy import StrategyValidationError
++        from strategy.v02.exits import ExitRequest
++        for side, changed_target in (('LONG','61206'), ('SHORT','58794')):
++            request, api = self.request(side=side, atr=True, target={'kind':'atr_multiple','feature':'atr','multiple':'6'})
++            missing = request.as_dict()
++            missing['feature_anchors'] = {}
++            with self.assertRaises(api.ExitRequestError) as caught:
++                api.resolve_exit_constraints(ExitRequest(json.dumps(missing)))
++            self.assertEqual(caught.exception.code, 'ATR_ANCHOR_BINDING_MISMATCH')
++            for field, changed, code in (('market_boundary_ref','sha256:'+'f'*64,'EXIT_FEATURE_BINDING_MISMATCH'),
++                ('semantic_version','unknown-atr-v1','EXIT_FEATURE_BINDING_MISMATCH'),
++                ('observed_at','2026-10-02T12:00:01Z','FUTURE_EXIT_FEATURE_ANCHOR')):
++                with self.subTest(side=side,field=field), self.assertRaises(StrategyValidationError) as caught:
++                    value=request.as_dict()
++                    value['feature_anchors']['atr'][field]=changed
++                    ExitRequest(json.dumps(value))
++                self.assertEqual(caught.exception.code, code)
++            value=request.as_dict()
++            value['feature_anchors']['atr']['value']='201'
++            changed=ExitRequest(json.dumps(value))
++            self.assertEqual(api.resolve_exit_constraints(changed).target_level, Decimal(changed_target))
++            position, plan=self.facts(request,side=side)
++            with self.assertRaises(api.ExitRequestError) as caught: api.anchor_exit_request(changed,position,plan)
++            self.assertEqual(caught.exception.code, 'APPROVED_TARGET_CONSTRAINT_MISMATCH')
++
++    def test_fixed_price_stop_and_target_resolve_and_close_under_e5(self):
++        for side, stop, target, price in (('LONG','59400','61200','61300'), ('SHORT','60600','58800','58700')):
++            with self.subTest(side=side):
++                request, api=self.request(side=side,stop={'kind':'fixed_price','value':stop},target={'kind':'fixed_price','value':target})
++                constraints=api.resolve_exit_constraints(request)
++                self.assertEqual((constraints.stop_level,constraints.target_level,constraints.max_hold_seconds),
++                    (Decimal(stop),Decimal(target),60))
++                position,plan=self.facts(request,side=side)
++                position['lifecycle_state']='OPEN_PROTECTED'
++                anchor=api.anchor_exit_request(request,position,plan)
++                at=NOW+timedelta(seconds=3)
++                result=api.interpret_exit_request(request,api.CurrentExitAuthority(position,plan,anchor,
++                    self.market(at,price),'FRESH',at,at+timedelta(seconds=30)))
++                self.assertEqual(result.position_action['action'],'EXIT')
++                self.assertIn('E5_TARGET_REACHED',result.position_action['reason_codes'])
++                self.assertEqual(result.position_action['quantity'],position['actual_quantity'])
++                self.assertEqual(result.anchor.first_fill_at,anchor.first_fill_at)
++                self.assertEqual(result.anchor.hold_deadline,anchor.hold_deadline)
++
+     def test_exit_request_rejects_unknown_authority_fields_and_mutually_mixed_shapes(self):
+*** End Patch

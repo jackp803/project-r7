@@ -1,0 +1,49 @@
+{
+  "schema_version": "r7-cloud10-authoritative-clause-clarification-v1",
+  "execution": "NONE",
+  "requirement_id": "CLOUD-10",
+  "decision": "NO_SEPARATE_TIME_BAR_OR_DATA_GAP_AUTHORING_EXAMPLE_REQUIRED_BY_IDENTIFIED_AUTHORITY",
+  "correction": "Earlier references to a distinct authored time-bar/data-gap example in this agent's maps/checklist were an unsupported interpretation of the word gap. Supersede that interpretation; do not add it as an acceptance gate. In CLOUD10, gap means missing capability/feature/version, as clarified by the detailed authoring specification and execution plan.",
+  "authoritative_quotes": [
+    {
+      "ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:52",
+      "quote": "Authoring helper emits schema-valid actual JSON packages and computed hashes for legacy4h/MTF/expiry/gap examples",
+      "meaning": "This acceptance-row shorthand must be read with the detailed authoring deliverables below."
+    },
+    {
+      "ref": "docs/product/v0_2/02_STRATEGY_SEMANTICS.md:104",
+      "quote": "Package the following examples with computed hashes using an executable offline authoring helper, not hand-invented hashes:"
+    },
+    {"ref":"docs/product/v0_2/02_STRATEGY_SEMANTICS.md:105","quote":"- valid legacy SMA definition (unchanged);"},
+    {"ref":"docs/product/v0_2/02_STRATEGY_SEMANTICS.md:106","quote":"- 4h EMA/ADX/ATR trend strategy;"},
+    {"ref":"docs/product/v0_2/02_STRATEGY_SEMANTICS.md:107","quote":"- 4h direction +15m Donchian entry strategy;"},
+    {"ref":"docs/product/v0_2/02_STRATEGY_SEMANTICS.md:108","quote":"- a tactical validity-window example that expires safely;"},
+    {"ref":"docs/product/v0_2/02_STRATEGY_SEMANTICS.md:109","quote":"- unsupported-feature example with a typed gap receipt."},
+    {
+      "ref": "docs/product/v0_2/02_STRATEGY_SEMANTICS.md:9",
+      "quote": "Missing capabilities return a structured gap receipt: requested feature/version, available version, source location, reason and re-evaluation conditions."
+    },
+    {
+      "ref": "docs/product/v0_2/06_EXECUTION_PLAN.md:207",
+      "quote": "- [ ] Test round-trip valid legacy,4h, multi-timeframe, tactical expiry and missing-feature packages; scan reports for secret/provider leakage.",
+      "meaning": "Explicit missing-feature terminology confirms capability-gap interpretation."
+    }
+  ],
+  "implication_for_three_drafts": [
+    "The two shipped positive-example tests address the specifically required4h EMA/ADX/ATR and4h-direction+15m-Donchian cases; their actual repaired rules must use these features, not just declare unused names.",
+    "The third typed UNSUPPORTED_FEATURE vector addresses the required capability gap; its UNSUPPORTED_VERSION subcase is consistent with the explicit feature/version receipt contract. A separate missing-candle authoring test is not required.",
+    "Existing legacy/tactical authoring and actual roundtrip/expiry scope still need their normal exact evidence binding. This clarification neither runs the drafts nor closes those acceptance clauses."
+  ],
+  "smallest_remaining_deliverable_check_if_needed": {
+    "requirement": "Ship the unsupported-feature example with its typed gap receipt, per semantics104/109.",
+    "existing_draft_boundary": "The third draft constructs its unsupported input in memory, which can prove actual AuthoringError.gaps behavior but does not itself prove a shipped example/receipt exists.",
+    "minimal_action": "If the final kit still lacks it, retain one explicitly unsupported negative input JSON and its actual generated typed rejection/receipt beside the existing authoring examples; reuse the existing third test against that input and assert the exact reason/version/source/reevaluation fields. Do not create a successful package, parser PASS or deployment authority for invalid input. No additional market-data scenario or new product behavior is needed.",
+    "status": "STATIC_DELIVERABLE_CAVEAT_ONLY;NOT_EXECUTED"
+  },
+  "separate_existing_data_contracts": "Missing-bar/no-forward-fill behavior remains an actual E1/strategy contract under DATA01 and strategy source readiness/as-of clauses, including semantics62. It must not be converted into an extra CLOUD10 authored example without authority.",
+  "superseded_phrase_locations": ["acceptance-cloud-trade-expanded-map.json CLOUD10 gap notes","final-acceptance-record-plan.json CLOUD10 advisory","POSTCHECKPOINT_LOCAL_MASTER_CHECKLIST.json order5 CLOUD10"],
+  "files_changed": ["cloud10-authoritative-clause-clarification.json only, outside Git"],
+  "source_or_prior_map_changes": false,
+  "tests_native_build_git_network_private_activity": 0,
+  "acceptance_claims_created": 0
+}

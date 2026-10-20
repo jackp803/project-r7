@@ -1,0 +1,290 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "identity": {
+    "executable_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "implementation_hash": "sha256:e3e79dc1b293a2cb26dbe64df22bf79f815c5810ccf473da76e9f568cf446fc1",
+    "build_hash": "sha256:0edb13bb6df357fb251b23618ba50b25c2ad1fbfe69aa7940486a83da8b4c3f4",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "retained_at": "2026-10-20T01:03:47.002271+00:00",
+  "scope": "HISTORICAL_STRICT_NATIVE_ISOLATION_ONLY",
+  "full_qualification_credit": "NONE",
+  "passed": true,
+  "sample_count": 28,
+  "actual_target_concurrent_protected_samples": 17,
+  "observed_progress": {
+    "broker_advances": 6,
+    "broker_clock": "SYNTHETIC_FIXTURE_UTC",
+    "checkpoint_advances": 12,
+    "deadline_conformance": "NOT_ESTABLISHED_BY_SAMPLED_FIXTURE",
+    "max_observed_checkpoint_gap_seconds": 1.157,
+    "max_observed_position_broker_gap_seconds": 1.344,
+    "observation_clock": "ACTUAL_MONOTONIC_NS",
+    "observed_gap_exceeds_selected_interval": true,
+    "selected_protection_poll_seconds": 1
+  },
+  "additional_public_requests": 0,
+  "cumulative_public_requests": 8,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-7d821f2-probe01/actual-isolation-execution.json",
+      "original_hash": "sha256:b4e32c7579b0cb35701cb5958cc806939b699fccce67beb1831074827c13d831",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:b4e32c7579b0cb35701cb5958cc806939b699fccce67beb1831074827c13d831",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-7d821f2-probe01/actual-isolation.log",
+      "original_hash": "sha256:7e1b22c7c46c725d5679ee23c683394c9b9711dbb21cb93187bac9866eded30d",
+      "retained_ref": "artifacts/a0002.log",
+      "retained_hash": "sha256:7e1b22c7c46c725d5679ee23c683394c9b9711dbb21cb93187bac9866eded30d",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-7d821f2-probe01/checkpoint.json",
+      "original_hash": "sha256:1789745320c47e4369c865eaafae44883a228cdf837986981bd14b7f23bd3c51",
+      "retained_ref": "artifacts/a0003.json",
+      "retained_hash": "sha256:1789745320c47e4369c865eaafae44883a228cdf837986981bd14b7f23bd3c51",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-depth-history-helper-final-review.json",
+      "original_hash": "sha256:5ccca805699b58e266acd368c08c5f3569e1bde26bf4e5f1b24e748a37b761ba",
+      "retained_ref": "artifacts/a0004.json",
+      "retained_hash": "sha256:5ccca805699b58e266acd368c08c5f3569e1bde26bf4e5f1b24e748a37b761ba",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-depth-history-helper-review.json",
+      "original_hash": "sha256:65ae36d84570d97fb04f291359c741ddd97d7e34f305aac9779be34242e9d919",
+      "retained_ref": "artifacts/a0005.json",
+      "retained_hash": "sha256:65ae36d84570d97fb04f291359c741ddd97d7e34f305aac9779be34242e9d919",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-history-retention-green.log",
+      "original_hash": "sha256:46f838ab3db669651ed3b335c9d70a5279f0ad2abc5b51ae998ab4929f83573f",
+      "retained_ref": "artifacts/a0006.log",
+      "retained_hash": "sha256:7fef6d6d64671aee4fcdf0e8ff22d837d1191e16cfe6ffdaa1b788dad47e0b10",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-history-retention-red.log",
+      "original_hash": "sha256:c25a85ae51b5b8f64cecbcda42d787481aff15f80cfd4bb8366821aca1921a01",
+      "retained_ref": "artifacts/a0007.log",
+      "retained_hash": "sha256:ad1b55e4759e622e6674a4777caaa6a29ef874b9840475b4abe88fab4f890986",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-owning-depth-helper-final-review.json",
+      "original_hash": "sha256:f15c8e6d1922e783ba831ef7f4dcb06fc08f063ff46fc82ef6a7119f66856bb5",
+      "retained_ref": "artifacts/a0008.json",
+      "retained_hash": "sha256:f15c8e6d1922e783ba831ef7f4dcb06fc08f063ff46fc82ef6a7119f66856bb5",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-probe-binding-green.log",
+      "original_hash": "sha256:d28303018a3dd89d5669390e67df0af63d86655c00389c81fe3a6f3d2dfab57b",
+      "retained_ref": "artifacts/a0009.log",
+      "retained_hash": "sha256:fd760fd350fcf7cec8d3586753ddff938b3c898b4574a5735aa5851b6fab0af1",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/isolation-probe-binding-red.log",
+      "original_hash": "sha256:d0c8f45802ea646b0ec84d3d3add80115d61ab55444dd76345f724be43ba55a8",
+      "retained_ref": "artifacts/a0010.log",
+      "retained_hash": "sha256:fa2dc6b56a4338f0af22a8924a0a8f35bdacfb1aed4ae01f0e7bb9a347e8a80d",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/owning-memory-7d821f2-first/checkpoint.json",
+      "original_hash": "sha256:48f2ff4f37edb78477996cf3d316e81eb8d7dd450da63625b8b3f79278162576",
+      "retained_ref": "artifacts/a0011.json",
+      "retained_hash": "sha256:48f2ff4f37edb78477996cf3d316e81eb8d7dd450da63625b8b3f79278162576",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/qualify-7d821f2-first/checkpoint.json",
+      "original_hash": "sha256:2f715d5496b7b55b3d490bf0dde8b8cf7c69a2c02a793c0f68538391efe8e320",
+      "retained_ref": "artifacts/a0012.json",
+      "retained_hash": "sha256:2f715d5496b7b55b3d490bf0dde8b8cf7c69a2c02a793c0f68538391efe8e320",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retain_isolation_depth_history.py",
+      "original_hash": "sha256:f27175f8d1aaec2b22c9761a88aa5f963bffd58d59d11edb45869edea08905ba",
+      "retained_ref": "artifacts/a0013.py",
+      "retained_hash": "sha256:f27175f8d1aaec2b22c9761a88aa5f963bffd58d59d11edb45869edea08905ba",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_isolation_depth_history_helper.py",
+      "original_hash": "sha256:717c82c43c0190c74b865197ae2e2e9bcce673eeda216652100a13b56cdc2209",
+      "retained_ref": "artifacts/a0014.py",
+      "retained_hash": "sha256:717c82c43c0190c74b865197ae2e2e9bcce673eeda216652100a13b56cdc2209",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_isolation_owning_depth_helper.py",
+      "original_hash": "sha256:7271732c505a8c926678d4737b0345a2d2a99ad999fdccb29b90f793b0abaa3a",
+      "retained_ref": "artifacts/a0015.py",
+      "retained_hash": "sha256:7271732c505a8c926678d4737b0345a2d2a99ad999fdccb29b90f793b0abaa3a",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/verify_isolation_owning_depth.py",
+      "original_hash": "sha256:ad22642dd9aea22329df8f4886c0d89800a4b53a021f530fa37590640baaff10",
+      "retained_ref": "artifacts/a0016.py",
+      "retained_hash": "sha256:ad22642dd9aea22329df8f4886c0d89800a4b53a021f530fa37590640baaff10",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/author-second-research.log",
+      "original_hash": "sha256:b44d774f23d97e19217990e5367fc9f1539e85f428e83ce525316b8a322c4cb2",
+      "retained_ref": "artifacts/a0017.log",
+      "retained_hash": "sha256:b44d774f23d97e19217990e5367fc9f1539e85f428e83ce525316b8a322c4cb2",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/concurrent-research.log",
+      "original_hash": "sha256:285479026021777df3b2c3dac8cfc82e095ea4912967ae2863c079ae883e9cca",
+      "retained_ref": "artifacts/a0018.log",
+      "retained_hash": "sha256:3be01eb15a59720ab8e6e07d014abf3d05668c512203f3fa1d15ed19b82e1636",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/control-paper.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a0019.log",
+      "retained_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/control-research.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a0020.log",
+      "retained_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/data/worker-logs/job-3ccf0659de1b87cd3257eca1dad3a4cd0e3cf236165bf37277d359afc224271b-1.log",
+      "original_hash": "sha256:e3c619384540a4dd3c21c7ec02116c7b7adafae957efee3c72c0031d6c72945f",
+      "retained_ref": "artifacts/a0021.log",
+      "retained_hash": "sha256:bce32830d8eb83a2e1a075cfe459c9e71f9445fa847925520505697a7f083d52",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/data/worker-logs/job-4248cc5a811155725df481fb6518150f00109f98e09abb4605d8d4d5ea30591f-1.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a0022.log",
+      "retained_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/init.log",
+      "original_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+      "retained_ref": "artifacts/a0023.log",
+      "retained_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/isolation-paper.log",
+      "original_hash": "sha256:90ebfb9070777b5d92ebcf643184cb0dc15d8e4cc7a1dd7a970120fe59f043a6",
+      "retained_ref": "artifacts/a0024.log",
+      "retained_hash": "sha256:90ebfb9070777b5d92ebcf643184cb0dc15d8e4cc7a1dd7a970120fe59f043a6",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/observations.json",
+      "original_hash": "sha256:6f84e7bfb5e9e92ef8cf66b1e542772456cabc39f718b28ee4015c43e9397917",
+      "retained_ref": "artifacts/a0025.json",
+      "retained_hash": "sha256:6f84e7bfb5e9e92ef8cf66b1e542772456cabc39f718b28ee4015c43e9397917",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/paper-selection.log",
+      "original_hash": "sha256:64911e07a8acc888d6b3b091f542a6e4783638b0047246809f64a855e85412b5",
+      "retained_ref": "artifacts/a0026.log",
+      "retained_hash": "sha256:64911e07a8acc888d6b3b091f542a6e4783638b0047246809f64a855e85412b5",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/paper-successor-exit.log",
+      "original_hash": "sha256:b8e8be9eef34d6104b71ea576500df5dace34d774190b5badf087cde21abdbaf",
+      "retained_ref": "artifacts/a0027.log",
+      "retained_hash": "sha256:b8e8be9eef34d6104b71ea576500df5dace34d774190b5badf087cde21abdbaf",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/prepare.log",
+      "original_hash": "sha256:dd85d9c4e1e52d2b9002c22d7cac710bcfd34a27d5d0a12a4d1882c2f322b297",
+      "retained_ref": "artifacts/a0028.log",
+      "retained_hash": "sha256:dd85d9c4e1e52d2b9002c22d7cac710bcfd34a27d5d0a12a4d1882c2f322b297",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/probe-result.json",
+      "original_hash": "sha256:3b5a39687b96d62daa8301b24ec5fe5627098ff216c5fe5935006a70d2eacc27",
+      "retained_ref": "artifacts/a0029.json",
+      "retained_hash": "sha256:3b5a39687b96d62daa8301b24ec5fe5627098ff216c5fe5935006a70d2eacc27",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/research-selection.log",
+      "original_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+      "retained_ref": "artifacts/a0030.log",
+      "retained_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/research-worker.log",
+      "original_hash": "sha256:a5e7d4d3227f4a2940b19419230632c2738a56f5d4340f0537b69ba5054c934d",
+      "retained_ref": "artifacts/a0031.log",
+      "retained_hash": "sha256:a5e7d4d3227f4a2940b19419230632c2738a56f5d4340f0537b69ba5054c934d",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/stop-isolation-control-paper.log",
+      "original_hash": "sha256:ced0d43d4f05742b627ec55f2bded64499186740e5880149b67678a7be93de35",
+      "retained_ref": "artifacts/a0032.log",
+      "retained_hash": "sha256:ced0d43d4f05742b627ec55f2bded64499186740e5880149b67678a7be93de35",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/stop-isolation-control-research.log",
+      "original_hash": "sha256:d23ab4ba54ae5a97ad50caf0b3b1698ba6cf099cf8b0f7874945482e8b6c7de5",
+      "retained_ref": "artifacts/a0033.log",
+      "retained_hash": "sha256:d23ab4ba54ae5a97ad50caf0b3b1698ba6cf099cf8b0f7874945482e8b6c7de5",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "artifacts/q-7d821f2-i0001/worker-logs/pqr-1acdb4df8d444fb9ac3d7f2ddfc56d56/PQR-05-native-artifacts/research-isolation/stop-isolation-paper.log",
+      "original_hash": "sha256:5bab544db34bd346d142c7ce03bfc0d7082b85807b38178b9bb9e125de709b1b",
+      "retained_ref": "artifacts/a0034.log",
+      "retained_hash": "sha256:5bab544db34bd346d142c7ce03bfc0d7082b85807b38178b9bb9e125de709b1b",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "workspaces/project-r7-productization-master-20261002/status/codex/productization/S12/current-windows-7d821f2/disposition.json",
+      "original_hash": "sha256:4bac85a6f8e7a57e31d01708a276aa78301b656394c5d793188090751e72f86a",
+      "retained_ref": "artifacts/a0035.json",
+      "retained_hash": "sha256:4bac85a6f8e7a57e31d01708a276aa78301b656394c5d793188090751e72f86a",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    },
+    {
+      "original_ref": "workspaces/project-r7-productization-master-20261002/tools/verify_paper_isolation.py",
+      "original_hash": "sha256:f2d89cdc57b6465e259a3678172e1890a4d091155dfb47519d96e10e055ae988",
+      "retained_ref": "artifacts/a0036.py",
+      "retained_hash": "sha256:f2d89cdc57b6465e259a3678172e1890a4d091155dfb47519d96e10e055ae988",
+      "normalization": "PROJECT_SANITIZATION_LF;LOG_TRAILING_SPACE_REMOVAL_IF_LOG"
+    }
+  ]
+}

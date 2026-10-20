@@ -1,0 +1,32 @@
+{
+  "schema_version": "r7-retainer-owning-only-delta-static-review-v1",
+  "execution": "NONE",
+  "helper": "retain_current_checkpoint.py",
+  "helper_sha256": "sha256:334755560f52850464be68a8e1ba64851567729b1fa8d11120894253835ca96b",
+  "test": "test_retain_current_checkpoint.py",
+  "test_sha256": "sha256:591999a14e9b06bbc4366730c0ebff16f0fa98e5bfc4aa95ff22ad107a9fcbd0",
+  "critical": 0,
+  "important": 0,
+  "disposition": "NO_CRITICAL_OR_IMPORTANT_FINDINGS_IN_OWNING_NATIVE04_RETAINER_DELTA",
+  "reviewed_delta": [
+    "Required ancillary stages no longer contain native04. Removing that duplicate scoped preflight does not remove the mandatory full owning native PQR-04 member.",
+    "run still calls validate_qualified_receipt against current fixed_profile, actual artifact root and measured package/target/capability facts before any retention. It separately binds actual result receipt/execution/revision/build and exactly7 completed groups.",
+    "require_owning_native04 requires exactlyone PQR-04 member named PQR-04-native, exactlyone declaration of PQR-04-native-artifacts/native-observations.json, actual committed bytes matching the declared hash, passed exactlyTrue, exact current identity facts and group PQR-04.",
+    "CapturedEvidence uses bounded artifact_bytes and retains immutable captured bytes; repeated capture refuses replacement. The required owning native04 primary is added to paths and then every artifact of every receipt evidence member is still hash-checked and retained. No owning artifact filter or group omission was introduced.",
+    "Existing build/portable/automatic diagnostic/backup/headless subject and cleanup gates remain. Final source/package/profile guard still completes before tracked retention begins. Sanitized retained hashes remain distinct from original committed hashes."
+  ],
+  "source_regression_review": [
+    "Tests now explicitly accept stage bindings without duplicate native04 while preserving stale identity/profile/receipt/unreaped-stage rejection.",
+    "New primary test exercises actual temporary filesystem bytes through CapturedEvidence and rejects mismatched identity, passedFalse, wrong group and missing declaration.",
+    "Existing tests cover arbitrary log redirection, byte replacement and hardlink refusal. The exact-member and duplicate-declaration checks are visible in code; dedicated negative subtests for those branches would be optional coverage, not a gate defect.",
+    "Parent reports RED2errors then GREEN4. Reviewer inspected source assertions only and did not execute any tests."
+  ],
+  "scope_and_history": [
+    "Historical c3 scoped proof remains a separate prior subject; it is neither required for nor transferable to the current candidate's full owning result.",
+    "No active b53 qualification checkpoint, native observation, artifact payload, receipt database or private runtime was read. No current qualification PASS was observed or inferred.",
+    "The change removes a duplicate ancillary execution requirement, not a canonical financial/qualification gate. Formal external/cloud/Ubuntu/forward limits remain separate."
+  ],
+  "files_read": ["retain_current_checkpoint.py","test_retain_current_checkpoint.py"],
+  "source_changes": false,
+  "qualification_claims_created": 0
+}

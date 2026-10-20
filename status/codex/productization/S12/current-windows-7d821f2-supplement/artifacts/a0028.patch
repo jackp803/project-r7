@@ -1,0 +1,46 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\strategy\test_v02_capabilities.py
+@@
++    def test_every_registry_entry_declares_metadata_without_fabricated_verification(self):
++        document=self.api().build_capability_snapshot().as_dict()
++        rows=document['capabilities']
++        expected={
++            'SMA':('r7-sma-v1',['value'],'n'),
++            'EMA':('r7-ema-v1',['value'],'n'),
++            'RSI':('r7-rsi-wilder-v1',['value'],'n+1'),
++            'ATR':('r7-atr-wilder-v1',['value'],'n'),
++            'ADX':('r7-adx-wilder-v1',['value','plus_di','minus_di'],'DI:n+1; ADX:2*n'),
++            'MACD':('r7-macd-v1',['line','signal','histogram'],'line:slow; signal/histogram:slow+signal_window-1'),
++            'BOLLINGER':('r7-bollinger-pop-v1',['middle','upper','lower','stddev'],'n'),
++            'DONCHIAN':('r7-donchian-v1',['upper','lower','middle'],'n+lag_bars')}
++        self.assertEqual(len(rows),9)
++        self.assertEqual({row['capability_id'] for row in rows},{'grammar:0.2',*('indicator:'+name for name in expected)})
++        self.assertEqual(document['runtime_profiles'],['0.1.0','0.2.0'])
++        self.assertRegex(document['implementation_revision'],r'^sha256:[0-9a-f]{64}$')
++        for row in rows:
++            with self.subTest(capability=row['capability_id']):
++                self.assertIsInstance(row['parameters'],dict)
++                for name in ('output_type','units','minimum_history','missing_data_behavior'):
++                    self.assertIsInstance(row[name],str)
++                    self.assertTrue(row[name])
++                self.assertEqual(row['supported_timeframes'],['1m','15m','1h','4h'])
++                self.assertEqual(row['arithmetic_profile'],'r7-decimal34-v1')
++                self.assertEqual(row['implementation_revision'],document['implementation_revision'])
++                self.assertIs(row['validator_available'],True)
++                self.assertIs(row['IMPLEMENTED'],True)
++                for name in ('VERIFIED_REFERENCE','PAPER_AVAILABLE','LIVE_PROVIDER_AVAILABLE'):
++                    self.assertIs(row[name],False)
++                self.assertEqual(row['verification_refs'],[])
++                if row['capability_id'].startswith('indicator:'):
++                    version,outputs,history=expected[row['capability_id'].removeprefix('indicator:')]
++                    self.assertEqual(row['semantic_version'],version)
++                    self.assertEqual(set(row['outputs']),set(outputs))
++                    self.assertEqual(len(row['outputs']),len(outputs))
++                    self.assertEqual(row['minimum_history'],history)
++                else:
++                    self.assertEqual(row['semantic_version'],'r7-closed-bar-v0.2')
++        self.assertEqual(document['platform_verification'],
++            dict(Windows11='NOT_RUN',**{'Ubuntu24.04':'NOT_RUN','Ubuntu26.04':'NOT_RUN'}))
++
+     def test_source_inventory_ignores_unreadable_non_executable_file_metadata(self):
+*** End Patch

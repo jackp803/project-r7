@@ -1,0 +1,39 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "critical_count": 0,
+  "important_count": 0,
+  "findings": [],
+  "scope": "Nested OperationalSelection shape repair, its source-only tests, and explicit backup-attempt propagation in three existing consumers; no broad consumer re-audit",
+  "reviewed_raw_sha256": {
+    "artifacts/current-windows-20261019/verify_qualified_backup_checkpoint.py": "sha256:c7ee11773bb71be1dbe99d4a2f473250ad159f5d8ab8787acac3375325bf4659",
+    "artifacts/current-windows-20261019/test_qualified_backup_checkpoint_helper.py": "sha256:6668e20b259781c07810a5a3ca287f35b5d406b5d6fab8b62cf8812691436734",
+    "artifacts/current-windows-20261019/retain_current_checkpoint.py": "sha256:6e73a6da6a389de32bc56337c6ca9c85b48fdf88368130bc0164ef4e751717cd",
+    "artifacts/current-windows-20261019/write_current_launch_guide.py": "sha256:0d57b9d91f2df54f412a2f69586d6ad9f931411120846f9e83ca139a324e2f42",
+    "artifacts/current-windows-20261019/record_current_windows_checkpoint.py": "sha256:d30eb8b7fa17e8320abfa2739405804c770799f48c20633a70743828990c90e2"
+  },
+  "static_findings_resolved": [
+    "The stopped-selection check reads envelope.product_config_hash and owner.namespace from the actual typed record, rather than nonexistent top-level fields",
+    "Original selection generation must equal the stopped idle checkpoint generation, the nested product configuration commitment must match idle_config_hash, namespace must be LOCAL_RESEARCH and workflow_authorized must be exactly false",
+    "All three captured/restored/reback selections must equal the original OperationalSelection, including generation, configuration-envelope hash and exact canonical JSON; false workflow and namespace are also checked explicitly",
+    "The reader is live readonly for original/restored stores and immutable only for the verified sealed backup/rebackup canonical captures",
+    "backup_output validates the full revision and closed first/retryNN attempt, producing a different fresh path for retry01; existing output refusal preserves the failed first folder",
+    "Retainer and launch-guide select their backup stage through backup_output. The recorder separately validates the same closed attempt grammar and argument count and selects the explicit backup label; defaults point to first and fail closed when that checkpoint is failed",
+    "Actual qualification receipt equality, software readback, restored admission denial, RESTORED_INHIBITED, unchanged original history and source/package cleanup gates remain in place",
+    "The source tests obtain the real typed selection through the readonly canonical port. Negative record mutations are in-memory dataclass copies, not writes of financial or terminal state"
+  ],
+  "evidence_attribution": {
+    "original_first_native_failure_error_site": "NOT_RECORDED; reviewer did not inspect private data or infer an exact original stack site",
+    "shape_defect": "Deterministic source-level record-shape mismatch reproduced by root; distinct from an independently retained original native stack trace",
+    "new_diagnostics": "Current helper records only an exception type, an exact source-literal reason or bounded fallback, and final source basename/function/line",
+    "root_reported_shape_regressions": "RED/GREEN reported by root; not executed by reviewer",
+    "root_reported_combined_regressions": "14 source-only helper checks reported by root; not executed by reviewer",
+    "fresh_four_store_native_retry": "PENDING; no credit issued by this static review"
+  },
+  "limitations": [
+    "No test, helper, native command, database read, build, network or Git operation was executed by the reviewer",
+    "Only public tool/test source and the directly necessary OperationalSelection field contract were inspected",
+    "The original failed first attempt remains historical and must not be relabeled as a successful four-store proof",
+    "This is an evidence-tool repair review, not whole-product, Master, real-forward, financial-authority or cross-platform acceptance"
+  ]
+}

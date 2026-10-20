@@ -1,0 +1,29 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\application\test_research_e6_recovery.py
+@@
+-                original=service.journal.finish
+-                def crash(claim,*args,**kwargs):
+-                    if claim.stage=='e6_backtest_persistence': raise RuntimeError('fixture crash after E6 save')
+-                    return original(claim,*args,**kwargs)
++                import sqlite3
++                from contextlib import closing
++                before=[]
++                def actual_evidence_rows():
++                    uri=(Path(root)/'registry.sqlite').resolve().as_uri()+'?mode=ro'
++                    with closing(sqlite3.connect(uri,uri=True)) as db:
++                        db.execute('PRAGMA query_only=ON')
++                        definition=strategy()
++                        return db.execute('SELECT * FROM validation_evidence WHERE evidence_type=? AND strategy_id=? AND strategy_version=? ORDER BY evidence_id',
++                            ('BACKTEST_RESULT',definition['strategy_id'],definition['strategy_version'])).fetchall()
++                original=service.journal.finish
++                def crash(claim,*args,**kwargs):
++                    if claim.stage=='e6_backtest_persistence':
++                        before.extend(actual_evidence_rows())
++                        self.assertEqual(len(before),1)
++                        raise RuntimeError('fixture crash after E6 save')
++                    return original(claim,*args,**kwargs)
+@@
+-                self.assertTrue(report['backtest_e6_evidence_id'])
++                self.assertEqual(report['backtest_e6_evidence_id'],before[0][0])
++                self.assertEqual(actual_evidence_rows(),before)
+*** End Patch

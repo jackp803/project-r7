@@ -1,0 +1,141 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "guarded_subject": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "status": "DRAFTS_ONLY_NOT_APPLIED_NOT_EXECUTED",
+  "prerequisite": "Wait full owning and all guarded postchain stages; retain full then scoped preflight then bookkeeping; commit/push evidence before source changes.",
+  "preserved_qualified_artifact": "Preserve the immutable 7d821f2 ZIP/distribution and any actual qualifying receipt; qualification remains pending until the full owning and postcheck chain passes. Later source changes do not inherit that receipt.",
+  "source_tests_planned": {
+    "strategy_new": 8,
+    "research_new": 5,
+    "research_existing_augmented": 1,
+    "j06_queue_new": 3,
+    "j06_api_new": 2,
+    "authoring_examples_new": 3
+  },
+  "sequence": [
+    "Apply source contract test patches only after guards and retained checkpoint.",
+    "Run affected actual source modules and record genuine failures. Test setup failures are not product defects.",
+    "Minimally fix reproduced deterministic contract defects, with no policy/authority relaxation.",
+    "Implement J06 read-only failed-research projection and visible timestamp/source/reason rows after failing actual queue/API tests.",
+    "Native J06 smoke must derive an actual failed worker, never manual database terminal-state writes.",
+    "Continue H16 fake-provider close-to-flat canonical TradeResult seam and K05 sanitized readonly historical feedback as existing plans allow.",
+    "Freeze new complete exact inventory/commit; source-only success is not full native qualification."
+  ],
+  "drafts": [
+    {
+      "ref": "prepare_strategy_test_drafts.py",
+      "sha256": "sha256:1860ab9b01bb1c2a1c97deffcc488b934c65773a334dd3f79d3491dca297d253"
+    },
+    {
+      "ref": "prepare_research_test_drafts.py",
+      "sha256": "sha256:9d4dfc769c5d4df1fc2d5d1fad77374e716fb52ee79988fa28b565372fd3a8d2"
+    },
+    {
+      "ref": "postcheckpoint_j06_queue_tests.patch",
+      "sha256": "sha256:4652539e4804edff307cdf210c385d570352d292fb9b5cf16ed37b77117f7453"
+    },
+    {
+      "ref": "postcheckpoint_j06_api_tests.patch",
+      "sha256": "sha256:ba32ba652ba0b00b90be8ea70d108227dcc7f4a9fb45cd2b97f0577fa69c2eb5"
+    },
+    {
+      "ref": "postcheckpoint-test-drafts-static-review.json",
+      "sha256": "sha256:b06c1b38ef7636391bfd39fe7738ef64d5a9dafc7e32f6863f50db26c37575c6"
+    },
+    {
+      "ref": "research-test-drafts-static-review.json",
+      "sha256": "sha256:d0eb67df88fc3f1628c50f052df2536e48f0fb3378bb22fd3af83f2c1713fdda"
+    },
+    {
+      "ref": "prepare_authoring_test_draft.py",
+      "sha256": "sha256:e265ca448397322132906878ed4d6d6b9ed240c0b5821c61fdba0ff570522e95"
+    },
+    {
+      "ref": "postcheckpoint_test_authoring_roundtrip_tests.patch",
+      "sha256": "sha256:58bd20cc47ea8fd57abe9ba49d694e758f3d7c015945b1b83034c3069652a847"
+    },
+    {
+      "ref": "POSTCHECKPOINT_LOCAL_MASTER_CHECKLIST.json",
+      "sha256": "sha256:ea9e9023aeb0d1c73fafce9bc8179ae4768cc3e1141a59bc7d4957f72b6d1c6e"
+    },
+    {
+      "ref": "fake-provider-funding-adapter-design.json",
+      "sha256": "sha256:bbb91e7234471104babdf597086345869347d6bbe9aa70841af1c9a6370ff945"
+    },
+    {
+      "ref": "authoring-test-drafts-final-review.json",
+      "sha256": "sha256:6db982e51a021adf0ea1b9a7f279766adb3e14f7b7579a7bba9b0fc1e603622b"
+    },
+    {
+      "ref": "postcheckpoint-cloud05-joined-e6-unapplied.patch",
+      "sha256": "sha256:042b25a6bad272bc10721434260aed7434df5de966988e58efa8b70d0d1b7c58"
+    },
+    {
+      "ref": "postcheckpoint-trade02-joined-authority-unapplied.patch",
+      "sha256": "sha256:e98bb93bfa1a4f297e8edb857452c38cc088e81af0f25d8686d93a716659ae77"
+    },
+    {
+      "ref": "postcheckpoint-joined-evidence-test-design.json",
+      "sha256": "sha256:954760aa30b6b8cc250bd3f8f48b9ba266e5d3e4b0a6688a347998c2b537a8a2"
+    },
+    {
+      "ref": "cloud10-authoritative-clause-clarification.json",
+      "sha256": "sha256:4568de2219298a8a5d1ac928588c12c2e04d3f5e5ded5ccfaa46297b405757fa"
+    },
+    {
+      "ref": "cloud10-map-correction-execution.json",
+      "sha256": "sha256:0d7a001ce135a765e32fdf67e4279631e87ddd5bc18f7c8f443dcbcb9be765db"
+    },
+    {
+      "ref": "h16-genuine-close-owner-plan.json",
+      "sha256": "sha256:277e29c9f2de579c731bd0ca510ee75e70de0137cce6766575fdb428f51eaf93"
+    }
+  ],
+  "authority": {
+    "provider_requests_this_work": 0,
+    "private_api": 0,
+    "credentials": "NONE",
+    "capital": "NONE",
+    "native_tests": "NOT_EXECUTED_BY_DRAFTS",
+    "tracked_writes": 0
+  },
+  "additional_preexisting_rows": [
+    "CLOUD-05",
+    "CLOUD-08",
+    "CLOUD-10",
+    "TRADE-02"
+  ],
+  "provenance_rule": "Before focused tests that require exact-clean actual candidate provenance, commit test-only additions on the same branch after checkpoint retention; do not misclassify a dirty-worktree authority denial as a product regression. Preserve real RED results from that exact source subject before implementation fixes.",
+  "additional_unapplied_drafts": [
+    {
+      "project_ref": "artifacts/k05-source-test-drafts-20261020/K05-test-design.json",
+      "sha256": "sha256:68b13a9cc72c48a18960c40fcf73f05a70837936a3a4640a3d1f733a4a1a5884",
+      "execution": "NONE",
+      "acceptance_credit": "NONE"
+    },
+    {
+      "project_ref": "artifacts/k05-source-test-drafts-20261020/test_k05_readonly_history.py.unapplied",
+      "sha256": "sha256:a238a88c2a9819f62e6b5caddb886f54954bed484054c3225265156e35dc55ca",
+      "execution": "NONE",
+      "acceptance_credit": "NONE"
+    },
+    {
+      "project_ref": "artifacts/k05-source-test-drafts-20261020/test_k05_feedback_privacy.py.unapplied",
+      "sha256": "sha256:eb534f86c13f00826d7a932212c663e0738f7d87da481f765e76f6c5b46cf97c",
+      "execution": "NONE",
+      "acceptance_credit": "NONE"
+    },
+    {
+      "project_ref": "unapplied-source-drafts/fake-provider-funding-20261020/api-plan.json",
+      "sha256": "sha256:2b20b3bb9577bced42407bea9beaef58210040e7185735b7110910cd75e36aa9",
+      "execution": "NONE",
+      "acceptance_credit": "NONE"
+    },
+    {
+      "project_ref": "unapplied-source-drafts/fake-provider-funding-20261020/test_fixture_allocated_ledger_draft.py",
+      "sha256": "sha256:3b378a404488134729d26b7b4ce1e7315941f28bee5347dba87f01fd8803f6a7",
+      "execution": "NONE",
+      "acceptance_credit": "NONE"
+    }
+  ]
+}

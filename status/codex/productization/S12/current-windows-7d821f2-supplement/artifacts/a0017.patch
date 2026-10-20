@@ -1,0 +1,70 @@
+diff --git a/tests/application/test_claim_recovery.py b/tests/application/test_claim_recovery.py
+--- a/tests/application/test_claim_recovery.py
++++ b/tests/application/test_claim_recovery.py
+@@ -106,3 +106,66 @@
++    def test_stale_takeover_cannot_replace_real_e6_effect_or_winner_receipt(self):
++        # SOURCE TEST DRAFT: the wrapper schedules two real owners; it supplies
++        # no E6 result, parser PASS, ledger row or terminal-state override.
++        from unittest.mock import patch
++        service_module = require(self, 'application.intake.service')
++        cloud_module = require(self, 'application.cloud.synced_folder')
++        ledger_module = require(self, 'application.intake.ledger')
++        with tempfile.TemporaryDirectory() as temp, ExitStack() as stack:
++            root = Path(temp); cloud = root / 'cloud'; cloud.mkdir()
++            (cloud / '.r7-root.json').write_text('{"root_id":"fixture"}', encoding='utf-8')
++            _, _, definition = package(cloud)
++            identity = StrategyIdentity(definition['strategy_id'], definition['strategy_version'])
++            stale_e6 = stack.enter_context(open_sqlite_platform(root / 'e6.sqlite3'))
++            winner_e6 = stack.enter_context(open_sqlite_platform(root / 'e6.sqlite3'))
++            stale_ledger = stack.enter_context(ledger_module.IntakeLedger(root / 'app.sqlite3', instance_id='fixture'))
++            winner_ledger = stack.enter_context(ledger_module.IntakeLedger(root / 'app.sqlite3', instance_id='fixture'))
++            transport = cloud_module.SyncedFolderCloudTransport(cloud, expected_root_id='fixture')
++            winner = service_module.StrategyInboxService(transport, winner_ledger, winner_e6,
++                snapshot_root=root / 'winner-snapshots', owner_id='worker2')
++            stale = service_module.StrategyInboxService(transport, stale_ledger, stale_e6,
++                snapshot_root=root / 'stale-snapshots', owner_id='worker1')
++            actual_stale_intake = stale_e6.intake
++            evidence = {}
++
++            def takeover_then_actual_stale_intake(*args, **kwargs):
++                self.assertEqual(stale_ledger.get_submission('submission-1').state, 'CLAIMED')
++                self.assertEqual(kwargs['operation_id'], stale_ledger.operation_key('submission-1'))
++                result = winner.scan_once(NOW + timedelta(seconds=61))
++                self.assertEqual(result.accepted, 1)
++                evidence['strategy'] = winner_e6.get_strategy(identity)
++                evidence['receipt'] = winner_ledger.accepted_receipt('submission-1')
++                evidence['outbox'] = winner_ledger.pending_outbox(10)
++                self.assertEqual(len(evidence['outbox']), 1)
++                # Delegate the original stale owner's actual E6 method only
++                # after takeover/registration/receipt commit have completed.
++                actual = actual_stale_intake(*args, **kwargs)
++                evidence['stale_actual_intake_id'] = actual.receipt.intake_id
++                return actual
++
++            with patch.object(stale_e6, 'intake', side_effect=takeover_then_actual_stale_intake):
++                with self.assertRaises(ledger_module.LeaseConflict):
++                    stale.scan_once(NOW)
++            receipt = evidence['receipt']
++            self.assertEqual(evidence['stale_actual_intake_id'], receipt['intake_id'])
++            self.assertEqual(winner_e6.get_strategy(identity), evidence['strategy'])
++            self.assertEqual(winner_e6.get_strategy(identity).current_lifecycle_state, 'DRAFT')
++            self.assertEqual(len(winner_e6.list_strategies()), 1)
++            self.assertEqual(winner_ledger.get_submission('submission-1').effect_ref, receipt['intake_id'])
++            self.assertEqual(winner_ledger.accepted_receipt('submission-1'), receipt)
++            self.assertEqual(winner_ledger.pending_outbox(10), evidence['outbox'])
++            observed = stale_ledger.claim('submission-1', receipt['manifest_hash'], 'worker3', NOW + timedelta(seconds=62))
++            self.assertFalse(observed.acquired)
++            self.assertEqual((observed.owner_id, observed.lease_generation, observed.state), ('worker2', 2, 'INTAKE_ACCEPTED'))
++            self.assertEqual(winner.scan_once(NOW + timedelta(seconds=63)).idempotent, 1)
++            self.assertEqual(winner_ledger.accepted_receipt('submission-1'), receipt)
++            self.assertEqual(winner_ledger.pending_outbox(10), evidence['outbox'])
++            reopened = stack.enter_context(ledger_module.IntakeLedger(root / 'app.sqlite3', instance_id='fixture'))
++            recovered_e6 = stack.enter_context(open_sqlite_platform(root / 'e6.sqlite3'))
++            self.assertEqual(reopened.accepted_receipt('submission-1'), receipt)
++            self.assertEqual(reopened.pending_outbox(10), evidence['outbox'])
++            self.assertEqual(recovered_e6.get_strategy(identity), evidence['strategy'])
++            self.assertEqual(len(recovered_e6.list_strategies()), 1)
++
+     def test_incomplete_sync_backoff_is_durable_bounded_and_stalls_after_one_day(self):
+         module = require(self, "application.intake.ledger")
+         with tempfile.TemporaryDirectory() as temp, ExitStack() as stack:

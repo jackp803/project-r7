@@ -1,0 +1,67 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\product\test_research_queue.py
+@@
++    def test_failed_alert_projection_filters_before_paging_and_retains_actual_failure_time(self):
++        from contextlib import contextmanager
++        from unittest.mock import patch
++        base_resolver = self.queue.resolve_request
++        def resolve_distinct(submission_id, policy_id):
++            selected_input = base_resolver('fixture-product', policy_id)
++            selected_input['arguments']['submission_id'] = submission_id
++            return selected_input
++        self.queue.resolve_request = resolve_distinct
++        refs = [self.enqueue('alert-'+str(number), submission_id='alert-'+str(number)) for number in range(4)]
++        refs.sort(key=lambda value: value['run_id'])
++        self.queue.cancel(refs[0]['run_id'], refs[0]['revision'], 'cancel-first-alert-fixture', actor='local-owner')
++        @contextmanager
++        def failing_actual_owner():
++            with self.service() as owner, patch.object(owner, 'run', side_effect=RuntimeError('SOURCE_ONLY_PRIVATE_TEXT_NOT_DISCLOSED')):
++                yield owner
++        self.queue.service_factory = failing_actual_owner
++        failed = []
++        for unused in range(2):
++            claim = self.queue.claim_next()
++            failed.append(self.queue.step(claim.run_id, claim.generation))
++        self.assertEqual([row['state'] for row in failed], ['FAILED','FAILED'])
++        self.assertEqual([row['reason_codes'] for row in failed], [['RuntimeError'],['RuntimeError']])
++        self.clock[0] += timedelta(seconds=10)
++        before_bytes = self.queue.path.read_bytes()
++        calls = self.resolver_calls
++        first = self.queue.failed_alert_page(limit=1, offset=0)
++        second = self.queue.failed_alert_page(limit=1, offset=1)
++        self.assertEqual(first['total'], 2)
++        self.assertEqual(second['total'], 2)
++        observed = first['items'] + second['items']
++        self.assertEqual([row['run_id'] for row in observed], [row['run_id'] for row in failed])
++        for actual, source in zip(observed, failed):
++            self.assertEqual(set(actual), {'namespace','run_id','state','revision','generation','recorded_at','reason_codes'})
++            self.assertEqual(actual, dict(namespace='FIXTURE',run_id=source['run_id'],state='FAILED',
++                revision=source['revision'],generation=source['generation'],recorded_at=source['observed_at'],reason_codes=['RuntimeError']))
++        self.assertNotIn('SOURCE_ONLY_PRIVATE_TEXT_NOT_DISCLOSED', json.dumps(first))
++        self.assertEqual(first, self.queue.failed_alert_page(limit=1, offset=0))
++        self.assertEqual(self.resolver_calls, calls)
++        self.assertEqual(self.queue.path.read_bytes(), before_bytes)
++
++    def test_failed_alert_projection_empty_missing_and_wrong_namespace_are_distinct(self):
++        self.assertEqual(self.queue.failed_alert_page(limit=1, offset=0), dict(items=[], total=0))
++        original = self.queue.path
++        try:
++            missing = self.root/'missing-alert-source.sqlite'
++            self.queue.path = missing
++            with self.assertRaises(self.error): self.queue.failed_alert_page(limit=1, offset=0)
++            self.assertFalse(missing.exists())
++            other = self.type(self.root/'other-namespace.sqlite', namespace='LOCAL_RESEARCH',
++                owner_id='other-namespace-owner',resolve_request=self.resolve,service_factory=self.service,clock=lambda:self.clock[0])
++            self.queue.path = other.path
++            with self.assertRaises(self.error): self.queue.failed_alert_page(limit=1, offset=0)
++        finally:
++            self.queue.path = original
++
++    def test_failed_alert_projection_rejects_invalid_pages(self):
++        for limit,offset in ((True,0),(1,True),(0,0),(201,0),(1,-1),(1,100001)):
++            with self.subTest(limit=limit,offset=offset),self.assertRaises(self.error):
++                self.queue.failed_alert_page(limit=limit,offset=offset)
++
+     def test_enqueue_is_durable_queued_not_inline_replay_or_candidate(self):
+         ref = self.enqueue()
+*** End Patch

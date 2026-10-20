@@ -1,0 +1,28 @@
+{
+  "schema": "bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only the added historical-first-backup capture block and unconditional sanitized power-interval artifact; prior attempt-propagation review remains separate",
+  "critical_count": 0,
+  "important_count": 0,
+  "findings": [],
+  "reviewed_raw_sha256": {
+    "artifacts/current-windows-20261019/retain_current_checkpoint.py": "sha256:7b1353616c1dbb32b81dc349c470456b7de70bd7fde6b20562b1b213486f7fa6",
+    "artifacts/current-windows-20261019/postqualification-power-interval-20261020.json": "sha256:a7ac2d12768281a8cf46df9daacce62f704200a9f1a94816a9924719900fd727"
+  },
+  "static_checks": [
+    "A non-first explicit backup attempt captures the fixed first checkpoint through CapturedEvidence before using it; exact revision, passed=false, all-owned-tree-reaped and source/package-unchanged flags are required",
+    "The preserved failed_v1 helper is read through protected capture with the original failed checkpoint helper_hash",
+    "Every historical command label must belong to the closed backup label inventory and its log_ref must equal that exact label plus .log before joining or reading the path; captured bytes must match the recorded log hash",
+    "The failed checkpoint, original helper and every captured failed command log are explicitly added to the retained paths, as are the fixed shape RED/GREEN/combined-GREEN and bounded review artifacts",
+    "The selected current backup checkpoint and all existing complete-stage gates remain unchanged; historical failed files supply no owning receipt/test/backup PASS credit",
+    "The unconditional power artifact contains only an allowlisted Windows event source, recorded UTC, sleep UTC and wake UTC, with SANITIZED_POWER_TIMES_ONLY scope and qualification_credit NONE",
+    "All new paths enter the existing protected capture and same-byte retention flow before the unchanged final subject guard and first tracked write"
+  ],
+  "limits": [
+    "No test, native command, helper, source/Git operation, network request or database read was executed by the reviewer",
+    "No running backup retry output, private data, authentication or configuration was read",
+    "The first backup failure's original stack site remains NOT_RECORDED; deterministic shape replay is separate source evidence",
+    "The power interval does not establish a qualification failure cause or add qualification credit",
+    "The active backup retry's actual four-store result remains pending and is not issued by this static review"
+  ]
+}

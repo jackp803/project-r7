@@ -1,0 +1,56 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\product\test_api_owner_services.py
+@@
++    def test_actual_failed_research_is_a_stable_alert_with_original_failure_time(self):
++        from datetime import timedelta
++        from unittest.mock import patch
++        response = self.enqueue()
++        job_id = response.json()['effect_ref'].removeprefix('research-job:')
++        original_factory = self.queue.service_factory
++        @contextmanager
++        def failing_owner():
++            with original_factory() as owner, patch.object(owner, 'run', side_effect=RuntimeError('SOURCE_ONLY_PRIVATE_TEXT_NOT_DISCLOSED')):
++                yield owner
++        self.queue.service_factory = failing_owner
++        claim = self.queue.claim_next()
++        failed = self.queue.step(claim.run_id, claim.generation)
++        self.assertEqual(failed['state'], 'FAILED')
++        self.clock[0] += timedelta(seconds=10)
++        before = self.queue.path.read_bytes()
++        result = self.client.get('/api/v1/alerts?limit=1&offset=0')
++        self.assertEqual(result.status_code, 200, result.text)
++        body = result.json()
++        self.assertEqual(body['data']['status'], 'AVAILABLE')
++        self.assertEqual(body['data']['total'], 1)
++        alert = body['data']['items'][0]
++        self.assertEqual(alert['run_id'], job_id)
++        self.assertEqual(alert['namespace'], 'FIXTURE')
++        self.assertEqual(alert['source'], 'research_queue')
++        self.assertEqual(alert['state'], 'FAILED')
++        self.assertEqual(alert['reason_codes'], ['RuntimeError'])
++        self.assertEqual(alert['recorded_at'], failed['observed_at'])
++        self.assertNotEqual(alert['recorded_at'], body['metadata']['observed_at'])
++        self.assertRegex(alert['alert_id'], r'^alert-[0-9a-f]{64}$')
++        self.assertNotIn('SOURCE_ONLY_PRIVATE_TEXT_NOT_DISCLOSED', result.text)
++        again = self.client.get('/api/v1/alerts?limit=1&offset=0')
++        self.assertEqual(again.json()['data'], body['data'])
++        self.assertEqual(self.queue.path.read_bytes(), before)
++
++    def test_configured_empty_alert_history_and_unavailable_queue_are_distinct(self):
++        empty = self.client.get('/api/v1/alerts').json()['data']
++        self.assertEqual(empty['status'], 'AVAILABLE')
++        self.assertEqual(empty['total'], 0)
++        self.assertEqual(empty['items'], [])
++        original = self.queue.path
++        missing = self.root/'missing-alert-api.sqlite'
++        try:
++            self.queue.path = missing
++            unavailable = self.client.get('/api/v1/alerts')
++            self.assertEqual(unavailable.status_code, 503, unavailable.text)
++            self.assertFalse(missing.exists())
++            self.assertNotEqual(unavailable.json().get('data',{}).get('status'), 'AVAILABLE')
++        finally:
++            self.queue.path = original
++
+     def test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake(self):
+*** End Patch

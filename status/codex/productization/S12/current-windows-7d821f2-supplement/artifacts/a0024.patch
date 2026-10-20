@@ -1,0 +1,29 @@
+*** Begin Patch
+*** Update File: <SOURCE_ROOT>\tests\application\test_dataset_binding.py
+@@
++    def test_purge_uses_larger_holding_or_label_horizon_without_changing_embargo(self):
++        import json
++        from application.datasets.split_plan import resolve_split
++        hashes=[]
++        clocks=[]
++        for hold,label in ((7200,3600),(3600,7200)):
++            with self.subTest(hold=hold,label=label),TemporaryDirectory() as root:
++                dataset(root)
++                policy=split_policy()
++                policy.update(max_holding_seconds=hold,label_horizon_seconds=label)
++                split=resolve_split(self.resolve(self.api(),root),policy)
++                self.assertEqual(json.loads(split.canonical_policy_json),policy)
++                hashes.append(split.policy_hash)
++                actual=[]
++                for name,start,end,warmup,entry_start,entry_end in (
++                    ('training',0,4,0,0,2),('development',4,8,2,5,6),('sealed_oos',8,12,6,9,10)):
++                    part=getattr(split,name)
++                    observed=(part.start,part.end,part.warmup_start,part.entry_start,part.entry_end)
++                    self.assertEqual(observed,tuple(START+timedelta(hours=n) for n in (start,end,warmup,entry_start,entry_end)))
++                    actual.append(observed)
++                clocks.append(actual)
++        self.assertEqual(clocks[0],clocks[1])
++        self.assertNotEqual(hashes[0],hashes[1])
++
+     def test_public_versioned_schemas_accept_bindings_and_reject_wrong_units_or_external_pass(self):
+*** End Patch

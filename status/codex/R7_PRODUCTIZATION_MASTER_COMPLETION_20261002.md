@@ -1,150 +1,132 @@
-# Original-command browser recovery - 2026-10-20
-
-Same Master task and branch.1e99e09 exact native build PASS; native07 preflight
-at full owning publication-root depth141characters FAILED before helper build:
-browser waited30s for first PaperStart response. Readonly synthetic control
-ledger proves original operation COMPLETE in29.090128s; UI request deadline15s.
-No claim that all time was hashing; static repeated identity-check chain identified
-but individual latency phases not measured. All owned processes reaped.
-Historical partial native closure25files retained at
-status/codex/productization/S12/current-windows-1e99e09-native07-depth/.
-
-Existing product UI keeps exact pending original command on RESPONSE_UNKNOWN;
-backend returns completed receipt before owner revision/execution. Verifier now
-uses that normal retry button after readonly accepted-run evidence. It verifies
-byte-identical POST, same ID/original revision, receipt and sole run/effect_ref.
-No product authority/cache/deadline changes and no native route mocks.
-Actual source browser response-loss regression RED1failure then GREEN1PASS:
-real source owner completes, only first browser reply is dropped.36owner/API/
-driver checks and2frozen-inventory checks PASS. Source-only results are distinct
-from native/software qualification. Inventory7groups/160commands/2429source-case
-executions/297files.Independent review0Critical/0Important;executionNONE.
-
-Ancillary retainer now handles deep host artifacts with unchanged bounded opened
-file/ancestor/single-link checks; cloud eight-part limit remains unchanged.
-RED1depth error, GREEN6checks. Unsafe-ref sentinelbefore4capturecalls/after0;
-no private files read.25source/diagnostic/review/build artifacts retained at
-status/codex/productization/S12/paper-original-command-retry-20261020/.
-
-Next new exact-clean build, actual native07 at owning depth, then complete fresh
-owning7/7 and final software readback. Only then portable/headless/unattended/
-ordinary idle runtime/qualified backup and semantic66+150 records. Do not stitch
-the prior b53six passed groups. Public8requests/8responses cumulative, additional0;
-private0/credentialsNONE/mutation0/capitalNONE/GitHubcomputeNOT_USED. OSsettings
-unchanged; policies/forward/oldPC/Ubuntu/cloud distinct. Master IN_PROGRESS.
-
----
-
-# Owning-depth publication helper repair - 2026-10-19
-
-Same Master task/implementation branch; no previous evidence discarded.
-Exact b53ad6d built and ran full owning:154source commands/2428case executions
-PASS with0failures/errors/skips; native02-06 PASS; groups6/7. Native07 actual
-reports/local staging succeeded, then PyInstaller COLLECT failed copying its
-helper dependency to a267-character ordinary Windows path. Software NOT_QUALIFIED.
-All owned trees reaped and guarded source/package unchanged.2056actual owned-tree
-resource samples: peakRSS954613760/private605581312bytes; minimumhostavailable
-4293382144bytes. Observed current host only, not target24GB/maxcapacity.
-
-Minimal development helper workspace changed to private OUTPUT/h; no dependency,
-resource, provenance, deadline or OS setting changes. Actual shutil.copyfile at
-owning-depth regression RED1FileNotFoundError, then16driver+2inventory checks PASS.
-Independent review0Critical/0Important, executionNONE. New frozen inventory
-7groups/160commands/2429source-case executions/296files.517sanitized artifacts
-and supplemental verification retained with original/retained hashes at
-status/codex/productization/S12/current-windows-b53ad6d-failed/.
-
-Next new exact-clean native build; actual native07 preflight at identical owning
-depth; fresh complete owning run and final native software readback. Only after
-actual complete receipt: fresh ZIP install, headless recovery, unattended diagnostic,
-ordinary coordinator idle runtime, qualified backup/restore, semantic66+150 records.
-Prior successes remain scoped to their subjects; no receipt stitching.
-Public8requests/8responses cumulative, additional0/private0/credentialsNONE/
-mutation0/capitalNONE/GitHubcomputeNOT_USED. Policies/forward/oldPC/Ubuntu/cloud
-remain distinct. No main merge. Master IN_PROGRESS.
-
----
-
 # R7 Master partial completion record
 
-Status: **IN_PROGRESS**, not final Master acceptance. Task
-`CODEX-R7-PRODUCTIZATION-MASTER-20261002`; branch
+**IN_PROGRESS — current Windows checkpoint completed; Master is not complete.**
+Task `CODEX-R7-PRODUCTIZATION-MASTER-20261002`; branch
 `codex/r7-productization-master-20261002`; spec `r7-product-v0.2` at
-`7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812`. Recorded2026-10-19;
-Git HEAD at generation `c3f4f2a71d4203d3ceb12796570ebc9958a63323` with the
-following bounded ABI lifetime repair awaiting its own exact executable.
+`7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812`. Recorded2026-10-20T01:03:47.952318+00:00.
+Source Git HEAD at generation and exact executable revision: `7d821f29837e95e46bcd5fe32f14d536a28c9aa8`.
+Subsequent evidence/document commits do not change this executable identity.
+Implementation `sha256:e3e79dc1b293a2cb26dbe64df22bf79f815c5810ccf473da76e9f568cf446fc1`; build `sha256:0edb13bb6df357fb251b23618ba50b25c2ad1fbfe69aa7940486a83da8b4c3f4`.
 
-## Current Windows software
+## Ordinary Windows Paper software
 
-The historical c3 executable built on this Windows11 x86-64 host. Its
-implementation hash is `sha256:425e6df3cd8ee9912bb985c4d07627a5050746671e273de15eac7f6e0921988b`;
-build hash `sha256:d746274e0c7b8e9d61884abaf81447ab00a16f604a4aa22410acf897cfa43e22`.
-Scoped native intake/expiry/cancel checks passed7/7. Complete owning software
-qualification has **not passed**: the first attempt failed after physical lid
-standby/hibernation; retry01 passed150source commands before10actual research
-memory-admission setup errors. Partial results do not issue an ordinary grant.
+Complete actual fixed owning qualification PASS7/7; 160commands,
+2430supporting source-case executions, failures/errors/skips0.
+Receipt `qualification-5a4a842d11cde1ccb042b25558bc988ba5a03c0c7101cdfbe98ae65428c6ae80`; execution `pqr-a10ac47e126f4ad4829eb588847aad32`.
+The installed native software readback verified this exact subject. This is
+fixed software qualification, not whole-Master acceptance or financial permission.
 
-Repeated native file checks and hardware sampling retained new ctypes ABI types.
-Three regression tests failed first; the minimal shared-type repair plus affected
-checks passed66tests. A bounded actual5000read/50stage/100sample experiment
-retained5200new types before and0after; owned RSS peaks93442048/53473280bytes.
-This demonstrates the defect, not the full byte-level cause of host pressure.
-File freshness, hardlink/reparse rejection and research thresholds remain intact.
-The next exact candidate must complete its own owning profile and native readback.
+Actual native isolated acceptance covered research candidate/rejection/insufficient
+evidence and Paper entry/ACK/fill/protection/pause/restart/exit/authoritative flat;
+expiry/cancel, nine faults, research/protection isolation, qualification/current
+release refusal boundaries and durable owner-report/publication recovery.
+These required isolated scenarios remain distinct from an operator strategy run.
+The ordinary LOCAL_RESEARCH coordinator also bootstrapped control/research/runtime,
+rejected a duplicate, recovered the verified runtime child and stopped/restarted
+all roles with its actual owning receipt. Software-only serialization inputs kept
+Paper workflow=false, no market acquisition, no strategy promotion or Paper run.
+Actual operator research/Paper/risk policies remain unselected; real forward has
+not started. Existing successful FIXTURE flows do not replace this distinction.
 
-## Public data and research
+The Windows per-call ctypes input-type leak was reproduced and minimally repaired.
+Changed-byte reads, atomic staging and actual hardware sampling remain fresh;
+no source-content cache, global-cache clearing or admission threshold change.
+The full owning resource observer recorded peak owned RSS
+958992384bytes and minimum available host memory
+8185294848bytes. This is an observed bounded test
+run, not maximum capacity or a hard memory cap. SOFT_LIMIT_ONLY remains explicit.
+Historical standby/memory failures and prior scoped successes remain retained at
+`status/codex/productization/S12/c3-interim-and-ctypes-repair-20261019/`.
+The full b53 helper-build path failure remains at
+`status/codex/productization/S12/current-windows-b53ad6d-failed/`; the1e99 native
+first-response failure remains at
+`status/codex/productization/S12/current-windows-1e99e09-native07-depth/`.
+Its actual backend command completed in29.090128s against a15s UI deadline.
+The verifier now uses the existing visible pending-original-command retry,
+checking identical POST bytes, original revision/receipt and the sole run.
+The source response-loss regression is separately labeled; native evidence
+claims only the actual recovery branch recorded by its current browser closure.
+The local publication helper's private build path was shortened without removing
+any identity/complete-runtime inventory checks or changing OS path settings.
+The full e48 failure remains at
+`status/codex/productization/S12/current-windows-e48f318-failed/`:
+its source checks and nine native fault cases passed, but no actual inner
+research target was sampled during the strict isolation fault. That attempt
+did not qualify. The test's explicit timeout input changed from1s to5s within
+the existing observation/resource bounds; production/default timeout and strict
+target/protection/cleanup requirements stayed unchanged. The strict same-depth
+preflight is separate historical evidence with no full qualification credit.
+This current full owning qualification supplies its own actual isolation proof.
 
-Actual keyless OKX read-only capture:8requests/8responses, additional requests
-during this continuation0;468BTC4H candles and234funding records from
-2026-08-01T00:00Z to2026-10-18T00:00Z, no observed gaps/duplicates. Manifest
+## Actual public data and research
+
+Keyless OKX public read-only capture made8requests/8responses cumulatively;
+additional requests in this continuation0, private requests0.468BTC4H candles and
+234funding records cover2026-08-01T00:00Z through2026-10-18T00:00Z, no observed
+gaps/duplicates. Manifest
 `sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18`.
-No qualifying GPT strategy package was found. The engineering baseline is
-`authoring-example-four-hour@0.2.0`, strategy hash
+
+No qualifying GPT strategy package was found. The actual engineering baseline is
+`authoring-example-four-hour@0.2.0`, hash
 `sha256:034645d0279cbff987828f59d7ba9a7791f2c9dc4774d1a76b91587bab87bcc7`.
-It is not a GPT research result or a promoted candidate.
+Native normal intake/research actually completed with
+`BLOCKED/MISSING_PROMOTION_POLICY` at BACKTESTING. The durable report retained
+that real refusal; it did not promote the engineering package. Independent final
+OOS, robustness promotion and real forward remain NOT_RUN. Train/development/sealed
+periods and engineering fee5bps/slippage2bps assumptions remain explicit; actual
+funding data is preserved. These are not selected ordinary operator policies or
+GPT research/profitability evidence.
 
-Normal research actually completed with `BLOCKED/MISSING_PROMOTION_POLICY` at
-BACKTESTING. Independent final OOS, robustness promotion and real forward are
-NOT_RUN. Train/development/sealed periods, actual funding, engineering fee5bps
-and slippage2bps assumptions remain in the retained public-input evidence.
-No demonstration policy substitutes for an operator-selected review policy.
+## Headless operation and recovery
 
-## Headless operation and portability
+One native run-product entry manages selected service roles without browser,
+Chat or Codex as a runtime dependency. Native tests covered start, duplicate,
+cooperative/repeated stop, control and coordinator crashes, descendant cleanup,
+ordinary idle runtime crash/restart and unchanged unauthorized workflow.
+The same qualified diagnostic store automatically scanned/enqueued/researched
+the engineering input and queued its actual durable report, without manual
+worker/enqueue/report commands. Publication stayed PENDING, no remote ACK invented.
+Positive operator Paper trading remains unstarted until its actual gates are met.
+No host startup, sleep or security setting changed. OS boot registration is not
+installed; normal user startup uses the single documented entry.
 
-The c3 native coordinator passed start, duplicate rejection, graceful/repeated
-stop, isolated control crash, coordinator crash, descendant cleanup and successor
-recovery. This was an idle LOCAL_RESEARCH diagnostic without a Paper job or
-owner enrollment. Same-subject unattended intake/research/report and qualified
-backup remain pending a complete owning receipt. No host startup/sleep/security
-setting changed; actual Windows startup registration remains a separate action.
+## Portable Windows candidate and private backup
 
-The actual c3 ZIP was extracted into a new isolated project installation:
-1107files byte-identical;8first-run scenarios/9commands passed with empty PATH,
-unset PYTHONPATH and no Node, copied authentication or configuration. Archive
-SHA256 `83c012438a0cd2c24fe9f131295dafbc1cb939526883bc5861c631c740c742d1`.
-The native capability export and engineering author package were produced.
-This portable smoke does not establish ordinary Paper software qualification.
-New repaired executable, current launch guide and qualified backup are pending.
+ZIP `artifacts/current-windows-20261019/build-7d821f2/r7-product-0.2.0-windows-7d821f2.zip`; checksum `sha256:8ef3e058da61d613bc7cd3488b390252190c224750abc90c1356ca1b8bd7b0a9`.
+Actual fresh installation `installations/windows-7d821f2-clean` extracted
+1107byte-identical files.8first-run scenarios/9commands
+passed with empty PATH, unset PYTHONPATH, no Node and fresh unconfigured auth;
+no copied developer configuration, credentials or another machine's authority.
+Actual native capability export and the labeled engineering author package form
+the Chat authoring kit at
+`artifacts/current-windows-20261019/portable-7d821f2-first/chat-authoring-kit/`.
+Actual launch/first-setup and target checklist: `deliveries/current-windows-7d821f2/README.md`
+and the packaged FIRST_RUN.md/HEADLESS_LOCAL_OPERATIONS.md.
 
-## Remaining acceptance
+Native backup/verify/restore/rebackup of this complete owning and diagnostic
+store passed four-way file and receipt equality. Restored software admission was
+denied; RESTORED_INHIBITED preserved, no cloud/runtime authority restored.
+Hardware evidence applies to the measured current32GB-class Windows development
+host. It does not certify the reported24GB target or maximum concurrent load.
+
+## Remaining Master and external acceptance
 
 | Area | Disposition |
 | --- | --- |
-| M1–M11 | IN_PROGRESS; component checks do not close whole milestones |
+| M1–M11 | IN_PROGRESS; component evidence does not close whole milestones |
 | S01–S08, S10–S11 | Existing scoped PASS retained in PROGRESS |
-| S09, S12–S16 | IN_PROGRESS; complete ordinary/native/final workflow evidence pending |
-| Windows current development host | Measured32GB class; scoped evidence above, complete owning software pending |
-| Original target PC | External commissioning pending; reported24GB is not measured target acceptance |
-| Ubuntu24.04 and26.04 x86-64 | Native build/installation/operation NOT_RUN; Windows credit does not transfer |
-| Cloud | Actual account setup/connection/remote acknowledgement external; fake copy-bridge evidence remains scoped |
-| Final66+legacy150 records | Authentic source/native bindings and per-clause gaps pending; no blanket PASS |
-| LIVE-capable code vs actual activation | Existing fake-provider code checks retained; actual LIVE/keys/capital NOT_AUTHORIZED and NOT_STARTED |
+| S09, S12–S16 | Remaining clause/platform/final acceptance IN_PROGRESS |
+| Exact66+legacy150 records | Actual case/command/source/receipt bindings retained; per-clause semantic review remains, no blanket PASS |
+| Remaining local work | Strategy/research named coverage, J06 timestamped alerts, H16 close-to-flat/TradeResult adapter and K05 sanitized historical reporting |
+| Original target PC | External native commissioning pending;24GB is user-reported, no hardware screenshot requested |
+| Ubuntu24.04/26.04 x86-64 | Native build/install/service/reboot NOT_RUN; Windows evidence does not transfer |
+| Real cloud | Account setup/connection/actual remote ACK external, no credentials accessed |
+| Formal policies and elapsed samples | Unselected/unstarted; no demonstration policy substitutes for real review |
+| LIVE | Code/fake-provider tests and actual activation are separate; real LIVE/keys/capital NOT_AUTHORIZED and NOT_STARTED |
 
-All sanitized c3 failures, scoped successes, memory diagnostics and source repair
-evidence: `status/codex/productization/S12/c3-interim-and-ctypes-repair-20261019/`.
-Public capture/research: `status/codex/productization/S12/public-readonly-c62b11a/`.
-The current Windows checkpoint takes priority; remaining authorized local Master
-implementation continues after it. Policies and adequate real-time samples must
-exist before forward evidence can begin. Runtime LLM calls0, private requests0,
-provider trading mutation0, credentialsNONE, capitalNONE, GitHubcomputeNOT_USED.
-No main merge, real-account access or financial activation is implied.
+Evidence: `status/codex/productization/S12/current-windows-7d821f2/disposition.json`. Public capture/research:
+`status/codex/productization/S12/public-readonly-c62b11a/`.
+Continue remaining authorized local Master work while preserving this exact
+qualified executable. Later source changes need their own release qualification.
+Runtime LLM calls0, private requests0, provider mutation0, credentialsNONE,
+capitalNONE, GitHubcomputeNOT_USED. No main merge or actual trading activation.

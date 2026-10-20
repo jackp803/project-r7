@@ -1,0 +1,22 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Unapplied future strategy-test generator and J06 queue/API test patches. Existing public fixture and directly relevant implementation contracts were read only to check setup and oracle compatibility.",
+  "inspected_drafts": {
+    "artifacts/current-windows-20261019/prepare_strategy_test_drafts.py": "1860ab9b01bb1c2a1c97deffcc488b934c65773a334dd3f79d3491dca297d253",
+    "artifacts/current-windows-20261019/postcheckpoint_j06_queue_tests.patch": "4652539e4804edff307cdf210c385d570352d292fb9b5cf16ed37b77117f7453",
+    "artifacts/current-windows-20261019/postcheckpoint_j06_api_tests.patch": "ba32ba652ba0b00b90be8ea70d108227dcc7f4a9fb45cd2b97f0577fa69c2eb5"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "bounded_checks": [
+    "The eight strategy methods use existing fixture imports and interfaces. EMA nonlinear seed/update expectations are 2, 6 and 4; ADX window-one observations use the actual two-bar readiness and Decimal34 oracle. No missing setup import was identified.",
+    "ATR-target and fixed-price cases use matching existing E5 plan levels, actual reference price 60000, ATR 200, both directions and original first-fill/holding anchors. The negative anchor codes match the current parser/consumer boundaries. The first method's json import is supplied by the generator's explicit insertion.",
+    "Parsed CROSS fixtures preserve 4h timeframe, canonical received timestamps and subject hash recalculation. The late-predecessor case is a proposed semantic regression, not an observed product failure. Capability metadata expectations match the current public snapshot fields and do not fabricate verification flags.",
+    "J06 distinct-submission setup updates the selected arguments consistently before queue input commitments are generated. It creates real queue rows and drives the existing failure handler with an actual ResearchService instance whose run call raises a controlled exception; it does not insert failure rows or bypass the queue's typed-owner check.",
+    "The queue/API clocks and existing enqueue receipt shapes support the planned original-failure-time and later-observation-time comparisons. Pagination setup includes canceled and queued rows surrounding two failed rows. Missing/wrong-namespace and no-create assertions exercise the intended future read-only projection boundary.",
+    "The generator writes only outside-Git patch files; its proposed tracked replacements remain unapplied. Existing target anchors and required fixture methods were inspected without parsing or executing generated code."
+  ],
+  "limits": "These are test-design compatibility observations only. No generator, patch, test, native process, qualification, private/runtime data, provider or network was executed or accessed; no repository or Git change was made. The future failed_alert_page/API behavior is not treated as currently implemented or passing. No acceptance, requirement expansion or full-product defect claim is issued. Drafts must be regenerated/reconciled against the eventual postcheckpoint source before application."
+}

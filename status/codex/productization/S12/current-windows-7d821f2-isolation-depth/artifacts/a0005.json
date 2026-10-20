@@ -1,0 +1,44 @@
+{
+  "schema": "bounded-static-review-v1",
+  "subject": "artifacts/current-windows-20261019/retain_isolation_depth_history.py",
+  "reviewed_raw_sha256": "sha256:ed3afc984c6d4f8d24d1aa17651f530b92c0f423f53880d610e69be38cd1b581",
+  "reviewer_execution": "NONE",
+  "critical_count": 0,
+  "important_count": 3,
+  "findings": [
+    {
+      "id": "I1",
+      "severity": "Important",
+      "lines": "46-65",
+      "issue": "Historical observations are not fully tied to the actual captured command result",
+      "evidence": "child is compared to row.observed, but the child summary's research_result, targets, sample_count, concurrent sample count and progress are not compared to observations.json. The hash-checked actual-isolation.log is not parsed back to that child result. require_timeout receives process_exit_code=2 as a literal rather than the actual captured concurrent-research command exit. Consequently a changed observations.json can supply different retained measurements without disagreeing with these checks",
+      "minimal_fix": "Parse the already captured actual-isolation.log JSON and require exact child equality; require every duplicated child observation field to match; derive counts from the captured process/protection samples. Require the canonical concurrent-research command row, its actual exit/reaping facts and hash-checked log, then parse the same captured log bytes and compare its actual result. Validate the recorded probe awake restoration as part of the closure",
+      "minimal_regression": "Use isolated public fixtures to change observations research_result or a count while preserving the actual child/outer log; each must reject. A captured concurrent command exit other than 2 must reject even if observations carries a valid-looking timeout result"
+    },
+    {
+      "id": "I2",
+      "severity": "Important",
+      "lines": "14-27,33-34",
+      "issue": "The first tracked-write admission gate bypasses protected bounded capture",
+      "evidence": "qualify/checkpoint.json, owning-memory/checkpoint.json and the successful primary disposition are read with ordinary Path.read_bytes before CapturedEvidence exists. A redirected or multi-link fixed path therefore reaches an ordinary read rather than the existing protected reader; the exact admission bytes are also absent from the captured history commitments. The gate does not check exact stage/kind/attempt or consistency between selected qualifier and observer outcome",
+      "minimal_fix": "Create CapturedEvidence before the gate, capture all fixed gate files through its protected bounded reader, parse those exact snapshots, validate exact stage/kind/revision/attempt and success/failure/exit consistency, and retain those captured admission files. Keep successful primary retention mandatory before any history write and require a completed, stopped, reaped observer",
+      "minimal_regression": "A controlled redirected/hardlinked gate file must fail before its bytes are consumed; wrong attempt/kind and mismatched qualifier/observer success must reject. No tracked target may exist after any admission refusal"
+    },
+    {
+      "id": "I3",
+      "severity": "Important",
+      "lines": "76-96",
+      "issue": "Published historical hashes describe intended bytes without verifying actual retained bytes",
+      "evidence": "The helper creates the tracked target and uses ordinary write_bytes/write_text, then reports passed=True without protected readback of artifacts or exact serialized disposition. The retained_hash fields are calculated from prepared buffers, so a replaced or corrupted target file can leave a successful disposition whose commitments do not match the published corpus. Target ancestor safety is not validated before these writes",
+      "minimal_fix": "Validate the fixed target and existing ancestors, use fresh exclusive/no-replace publication, then read all retained files through the protected reader and compare their exact hashes and intended serialized disposition before completion. Refuse any publication drift; do not issue success metadata for an incomplete corpus",
+      "minimal_regression": "In a fresh isolated public output tree, replace one written artifact or the disposition between write and final verification; retention must fail and must not publish a successful completion. A redirected target ancestor must be refused before a write"
+    }
+  ],
+  "scope_notes": [
+    "This review concerns only the new history-retention wrapper and directly necessary existing capture, observer and strict isolation command contracts",
+    "No helper, test, native flow, qualification, publication or Git command was executed by the reviewer",
+    "No active evidence, configuration, authentication material or runtime database was read",
+    "The K05 test drafts were created separately outside ART and remain unapplied and NOT_EXECUTED",
+    "The history remains zero full-qualification credit regardless of later evidence-only repairs; this is not whole-product acceptance"
+  ]
+}

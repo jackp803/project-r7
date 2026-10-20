@@ -1,0 +1,50 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "location": "Outside repository and ART; original design/gap artifacts unchanged",
+  "draft": "test_fixture_allocated_ledger_draft.py",
+  "new_proposed_internal_apis": [
+    {
+      "signature": "TradingService.read_fixture_funding_ledger(*, trade_plan_id, position_id, metadata, proof, expected_revision) -> FixtureAllocatedLedgerObservation",
+      "requirements": "Exact FIXTURE/FakeProductProvider/FAKE_PROVIDER_VERIFICATION only. Recover current canonical plan/flat Position; fixed fake-only GET /r7-fixture/allocated-funding-ledger with current management guard. Validate source coverage, finite actual signed allocated costs, scope, fixed synthetic provenance, actual read timestamps. Issue immutable observation registered by object identity+content hash+service/process lease+provider; no public caller-ledger importer."
+    },
+    {
+      "signature": "TradingService.publish_fixture_funding_ledger(observation, *, metadata, proof, expected_revision) -> StoredCanonicalObject",
+      "requirements": "Require current unexpired registered original read, issuer/proof/provider/process generation and unchanged canonical plan/flat subject; deterministic allocation with source_material_hash; stable_funding_evidence_id; owner invokes existing canonical.publish_canonical_effects/FUNDING_EVIDENCE or persist_funding_evidence. No CLOSED/TradeResult side effect. Same read replay yields original stored object; mutated allocation same lineage retains existing canonical conflict behavior."
+    },
+    {
+      "signature": "FixtureAllocatedLedgerObservation (private immutable issuer-bound type; not a public canonical schema)",
+      "requirements": "Actual observed source fields, full coverage envelope, rows, requested plan/position/symbol/interval, observed/received times and source material commitment. Fixture-only provenance fixed by producer. TTL proposed same five seconds as existing position-read owner, exact equality at expiry denies; root decides final bounds after checkpoint."
+    }
+  ],
+  "new_proposed_fixture_support": {
+    "signature": "tests.product.fixture_allocated_ledger.actual_flat_fixture_owner(testcase) -> context",
+    "state": "UNIMPLEMENTED_PREREQUISITE: do not apply/run draft until genuine close owner seam exists. It must use current TradingDispatchV02Tests/TradingProtectionMonitorV02Tests setup and actual guard-dispatched fake close/reconcile/position readback/E5 projection, ending actual flat but not fabricated CLOSED. No direct persistence of final Position/CLOSED or synthetic TradeResult/funding.",
+    "context_contract": [
+      "service; revision; plan_id; position_id; symbol; interval_start from actual opened_at; interval_end from actual flat broker_state_observed_at",
+      "recover() -> existing PaperRuntimeRecovery; current_metadata() -> existing metadata+READ_ONLY_RECONCILIATION proof; advance(timedelta) updates existing fixture owner clock",
+      "restart_owner_generation() through actual ProductDispatchJournal.begin_process with successor lease; second_service_same_fixture_process() separate issuer with exact existing dependencies",
+      "utc(datetime); allocated_row(id,event_at,cost) creates only scripted provider input with actual scope/USDT; ledger_response(records,complete_from,complete_through) creates fake source response with actual scope, observed_at and fixed FIXTURE/FAKE_PROVIDER_VERIFICATION provenance"
+    ]
+  },
+  "source_wire_draft": {
+    "envelope": "schema_version (fixed fixture-ledger version), namespace=FIXTURE, execution=FAKE_PROVIDER_VERIFICATION, source=fixed R7_FIXTURE_FAKE_PRODUCT_PROVIDER_LEDGER, source_version=fixed version, trade_plan_id, position_id, symbol, complete_from, complete_through, completeness=COMPLETE, observed_at, records",
+    "row": "record_id, event_at UTC, trade_plan_id/position_id/symbol exact actual scope, funding_cost canonical signed Decimal USDT cost, cost_currency=USDT",
+    "note": "Proposed local fake source wire only, not claimed existing provider endpoint or normative broker API. Explicit script input is allowed; only guarded observation can issue canonical evidence."
+  },
+  "coverage": [
+    "Signed cost 0.125 + -0.025 = canonical 0.1; positive included record count2; precise start-inclusive/end-exclusive interval and exact USDT scope; source hash form",
+    "Owner publication returns actual StoredCanonicalObject and recovery contains it, no result/closure effect; repeat observed source publication idempotent without new provider call",
+    "Caller raw source dictionary cannot act as issued observation; missing/incomplete coverage and unavailable-empty cannot mint zero",
+    "Foreign plan/position/symbol, duplicate rows, out-of-interval rows, nonfinite cost and wrong currency deny without lifecycle/funding/result side effects",
+    "Expiry exact5s, provider replacement, real successor process generation, foreign service issuer deny publication"
+  ],
+  "further_required_before_claims": [
+    "Draft now includes genuine reread/later-calculation identity and changed allocation canonical conflict tests. Observation receive/calculation time must not enter source_material_hash; stable source provenance/coverage/rows do.",
+    "Add full joined close/TradeResult publication regression separately after close publication seam exists. Draft intentionally does not invent that missing API or claim lifecycle closure."
+  ],
+  "static_limitations": [
+    "Draft imports proposed support/API and is intentionally not runnable as existing source. No test/import/compile/native/DB/network execution performed.",
+    "No product/source/Git changes. New files only in external unapplied-source-drafts directory.",
+    "Canonical BROKER_LEDGER semantics unchanged; fixture costs are synthetic positive/negative input examples, not financial defaults or LIVE evidence."
+  ]
+}

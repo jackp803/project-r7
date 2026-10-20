@@ -1,0 +1,21 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Final observability delta: exact coordinator service-log capture and actual ordinary idle runtime summary checks. Source-only inspection, with narrow coordinator log-emission and ordinary worker summary contract reads.",
+  "inspected_sources": {
+    "artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py": "cd75681a79fb0f1c7862a50217a71a4b7948004b784e32cc3b766952874da391",
+    "artifacts/current-windows-20261019/test_ordinary_idle_coordinator_helper.py": "d244d9ec0cdc35d83af3d5cffd38273bad7d1ea29de085664b016eb37e3a38bd"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "static_checks": [
+    "The service role set is validated as exactly control/research/runtime before log enumeration. Launch counts require exact int values from 1 through 3. References are constructed from the actual verified coordinator process-generation ID, those fixed roles and bounded launch ordinals, matching application.coordinator's emitted log naming convention.",
+    "Each log is captured once through bounded protected read_local. Original hashes and sanitized retained hashes derive from that same raw snapshot; no arbitrary result-supplied log path is dereferenced.",
+    "For the last graceful runtime launch in each coordinator session, the bounded summary parser requires actual STOPPED, LOCAL_RESEARCH, REAL_TIME, NOT_CONNECTED, complete accounting, empty run failures, the observed runtime generation, financial authority NONE and capital NONE. Both provider counters require exact int zero, excluding bool, missing values and nonzero values.",
+    "The ordinary worker's actual emitted summary uses these fields. The intentionally crashed predecessor log is retained without a fabricated graceful summary; the successor and restarted runtime summaries are separately checked.",
+    "The source regression directly calls the actual summary validator, accepts the expected record and refuses nonzero requests, wrong generation, connected market source and a missing response count. Its module explicitly labels subprocess/validator evidence as source helper evidence rather than native qualification.",
+    "Existing no-market-selection, no-Paper-run, unchanged lifecycle and policy checks remain. Previous redaction and exact duplicate-scope repairs remain present."
+  ],
+  "limits": "No helper/test/native process, qualification, runtime log, database/auth/config content, active evidence, provider or network was executed or accessed by this reviewer. Actual native idle execution and complete qualification remain separate pending evidence. This review issues no positive Paper lifecycle, real forward, financial authority, Ubuntu or whole-product acceptance."
+}

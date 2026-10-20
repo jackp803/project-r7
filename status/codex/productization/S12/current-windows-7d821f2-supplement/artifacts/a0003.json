@@ -1,0 +1,24 @@
+{
+  "schema_version": "r7-authoring-test-drafts-final-static-review-v1",
+  "execution": "NONE",
+  "status": "UNAPPLIED;NOT_EXECUTED;NO_ACCEPTANCE_CREDIT",
+  "helper": "prepare_authoring_test_draft.py",
+  "helper_sha256": "sha256:e265ca448397322132906878ed4d6d6b9ed240c0b5821c61fdba0ff570522e95",
+  "patch": "postcheckpoint_test_authoring_roundtrip_tests.patch",
+  "patch_sha256": "sha256:58bd20cc47ea8fd57abe9ba49d694e758f3d7c015945b1b83034c3069652a847",
+  "critical": 0,
+  "important": 0,
+  "disposition": "NO_REMAINING_CRITICAL_OR_IMPORTANT_FINDINGS_IN_BOUNDED_DRAFT_REPAIR_REVIEW",
+  "resolved": "Both exact current files use parameters.get('lag_bars',1), matching the canonical Donchian omitted-default semantics. The regenerated patch and helper contain the same repaired assertion. Typed unknown-feature/wrong-version gap vectors and fresh-destination/hash/NOT_RUN authoring setup remain unchanged and consistent with prior contract inspection.",
+  "coverage_caveats_preserved": [
+    "Feature names/timeframes alone are not behavior proof. Actual repaired4h EMA/ADX/ATR and4h direction/15m Donchian examples must reference their features in the real rules/exit AST; unused decorative features do not establish those strategy examples.",
+    "Repair both shipped strategies and sibling manifests through normal authoring, including semantic content hash, payload byte length and byte hash. Existing illustrative capability snapshot provenance must not be represented as current execution authority.",
+    "New tests exercise authoring emission and actual E2 parsing. Full authored-byte seal/E6-DRAFT mapping must bind those actual shipped definitions through the existing real transport/ledger/E6 roundtrip where claimed.",
+    "Current example deficiencies remain intended future RED assertions, not observed test results or setup failures. No source patch was applied and no tests/native/build/runtime/network or private-data activity was performed.",
+    "Passing a future source test cannot create native qualification, research completion, financial authority or whole CLOUD10 acceptance without its required exact evidence."
+  ],
+  "previous_review_preserved": "authoring-test-drafts-static-review.json",
+  "files_read": ["prepare_authoring_test_draft.py","postcheckpoint_test_authoring_roundtrip_tests.patch"],
+  "source_or_draft_changes": false,
+  "acceptance_claims_created": 0
+}

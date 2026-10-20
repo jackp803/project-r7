@@ -1,0 +1,58 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "reviewed_files": [
+    {
+      "ref": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+      "sha256": "2690ae7717c062b455bf15c1cd8486fa3ba4ecc74959f1c77b8faf6bb6baa496"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/test_retain_current_checkpoint.py",
+      "sha256": "08bcfca1390df551808f407e06533a76e9ccd0902219d5d64e7d460dadf25a39"
+    }
+  ],
+  "scope": "Narrow static review of the two residual retainer findings and adjacent source guard regressions. Prior review files preserved. No helper/test/native/build/network execution, source/Git edits or private/active checkpoint/config/auth/database reads.",
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "RETENTION-STAGE-LOCAL-PUBLIC-REFERENCE-ADMISSION",
+      "status": "RESOLVED_IN_REVIEWED_DELTA",
+      "evidence": [
+        "canonical_log requires a known fixed label and exact direct-child label+'.log' before constructing the selected stage path.",
+        "Headless command/session and unattended/backup references pass through canonical_log before protected capture.",
+        "exact_public_logs compares observed stage logs against the full trusted expected set and rejects missing or unexpected names.",
+        "Portable authoring kit is restricted to seven fixed public paths and revalidated using the actual authoring validator; native smoke uses its declared hash closure.",
+        "Owner report permits exactly feedback.json/report.html, captures those exact names, joins actual owner feedback/commitment and applies the existing strict publication validator."
+      ]
+    },
+    {
+      "id": "SCOPED-NATIVE04-PRIMARY-OBSERVATION-REQUIRED",
+      "status": "RESOLVED_IN_REVIEWED_DELTA",
+      "evidence": [
+        "native04 artifact bindings must contain native-observations.json before primary parsing.",
+        "Its captured primary unconditionally requires passed=True, identity equal to the admitted package and groupPQR-04.",
+        "The declared commitment is verified on capture in the complete artifact loop; CapturedEvidence rejects changes between reads and retention uses the captured bytes.",
+        "Native04 remains separate preflight evidence; owning PQR-07 remains in the typed receipt closure and does not require a second scoped07 run."
+      ]
+    }
+  ],
+  "test_review": [
+    "The new canonical-log source test covers an absolute other-project path, nested and parent refs, wrong filename and unapproved label without reading a real private file.",
+    "Existing actual owned-file replacement/hardlink test and controlled identity/profile/receipt/reaping refusal test remain.",
+    "Parent-reported three passing source checks were not executed or credited by the reviewer."
+  ],
+  "retained_prior_conclusions": [
+    "Typed actual receipt/profile/current native subject validation remains the primary owning qualification gate.",
+    "Receipt artifact bytes are protected captured, SHA checked and retained from the same snapshot; retained bytes and exact disposition serialization have protected readback.",
+    "Master remains IN_PROGRESS; financial selection/ordinary PAPER/real-forward/Ubuntu/real cloud gaps are not promoted."
+  ],
+  "limitations": [
+    "0Critical/0Important applies to this bounded static repair review; it is not an exhaustive artifact-forgery or whole-repository audit.",
+    "No actual current execution or complete checkpoint success was read, run or certified.",
+    "Root must retain the exact executed helper/test commitments and actual owning outcomes. A source/helper change cannot inherit an earlier subject's execution credit."
+  ]
+}

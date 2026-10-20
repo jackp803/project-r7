@@ -1,0 +1,136 @@
+{
+  "status": "UNAPPLIED_STATIC_SOURCE_PLAN_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "TradingService genuine close preparation/dispatch/readback/flat E5 publication prerequisite only; root sole writer",
+  "existing_calls": [
+    {
+      "ref": "src/position/close.py::authorize_close_position_action",
+      "signature": "authorize_close_position_action(position,parent_plan,*,action,created_at,expires_at,reason_codes=None) -> CloseActionOutcome",
+      "meaning": "Real positive CONSISTENT current E5 Position -> exact bounded close-v0.1 action and EXIT_REQUESTED intent; does not mutate Position or emit CLOSED."
+    },
+    {
+      "ref": "src/brokers/okx_product.py::OKXProductTranslator.prepare_close",
+      "signature": "prepare_close(value: OKXCloseSizingInput, metadata_binding, proof, *, now)",
+      "meaning": "Existing E4 close mechanical owner validates exact current capability/FP04/metadata sizing; calls execution.close.prepare_close_order; reduceOnly MARKET with capped effective canonical quantity. One-second issued preparation lifetime applies."
+    },
+    {
+      "ref": "src/application/trading/service.py::execute/reconcile",
+      "signature": "execute(prepared,*,expected_revision); reconcile(operation_id,*,expected_revision)",
+      "meaning": "Existing non-ENTRY path uses MANAGE_EXISTING; canonical current_execution_subject plan/action/position checked before effect. Coordinator durably prepares/claims before POST. Repeated claim reconciles instead of resending. ACK publishes pending only. Reconcile exact order/fills/quantity/average/clock; none of these proves flat."
+    },
+    {
+      "ref": "src/application/trading/service.py::read_position; position_observation.py::require_position_read",
+      "signature": "read_position(*,metadata,proof,expected_revision,expected_provider_position_id=None)",
+      "meaning": "Real owner-issued guarded GET observation bound to provider/process lease/metadata identity, five-second TTL. parse_product_position_response requires explicit one-row zero and expected original posId; empty response or changed posId fails."
+    },
+    {
+      "ref": "src/position/lifecycle_projection.py",
+      "signature": "build_position_lifecycle_transition(source_position,previous_projection,*,lifecycle_event,lifecycle_interpreted_at); build_position_lifecycle_reattestation(source_position,previous_projection,*,lifecycle_interpreted_at)",
+      "meaning": "EXIT_REQUESTED transition and later EXIT_PENDING reattestation preserve E5 history against authoritative E4 source facts. POSITION_CLOSED is expressly forbidden here."
+    },
+    {
+      "ref": "src/storage/product_dispatch.py::observe_position; src/application/trading/orchestrator.py::recover_publications",
+      "signature": "observe_position(run_id,operation_id,observation,effects,*,lease,now,claim_inventory_generation=None)",
+      "meaning": "Existing durable observation+canonical effects outbox; RAW_POSITION/POSITION_PROJECTION/LIFECYCLE_EXECUTION_BINDING writers and original process lease; crash replays exact bundle without HTTP."
+    }
+  ],
+  "minimal_new_internal_seams": [
+    {
+      "signature": "TradingService.prepare_close_owner(*,action,metadata,proof,expected_revision,expires_at) -> OKXProductPreparation",
+      "behavior": "Recover actual current subject and current original native position observation; E5 authorize action, canonical owner action persistence; build bounded OKXCloseSizingInput/metadata binding from actual issuer observations and protected registry/lineage; translator.prepare_close. Fixed trusted action choice, not caller Position or asserted FP04 PASS. Could instead keep preparation in trusted composition if smaller; no public route needed."
+    },
+    {
+      "signature": "TradingService.project_close_position(operation_id,observation,*,metadata,proof,expected_revision) -> TradingOutcome",
+      "behavior": "Require original issued current read, original durable POSITION_EXIT/EMERGENCY_EXIT claim, exact action/plan/request/source hashes and original native posId binding. Recover complete actual entry+exit order/fill sets; pure E5 close-observation builder reconciles quantities against explicit observation. Use existing observe_position/effect replay. Zero may produce authoritative flat EXIT_PENDING, never CLOSED or TradeResult."
+    },
+    {
+      "signature": "position close observation builder (new narrow counterpart of build_product_entry_projection): build_product_close_projection(plan,exit_request,current_exit_result,entry_fills,exit_fills,position_observation,previous_projection,*,observed_at)",
+      "behavior": "Derive new raw canonical facts from typed E4 observation and immutable prior E5 facts inside owner; preserve position_id/side/average entry/opened_at, quantity profile and original bindings. Reconcile actual residual=entry-filled minus all exit-filled, nonnegative and equals observed canonical magnitude; no enlargement/overclose/foreign fill. Explicit zero same posId plus full fill conservation yields flat source fact. This missing derivation must be real production code, not final Position assembled by tests."
+    }
+  ],
+  "specific_integration_constraints": [
+    "Preparation sequencing matters: _TradingEffectGuard compares prepared.source_position_hash with current canonical projection hash. Do not publish EXIT_PENDING before execute while preparation is bound to OPEN_PROTECTED; that changes the current subject and must deny. Keep original positive projection through preparation/final guard/claimed POST, then durably publish EXIT_REQUESTED intent as an owner effect with replay after dispatch outcome; root must specify ambiguous/rejected handling. No bypass of hash equality to bridge this ordering.",
+    "Existing OKXCloseSizingInput requires source/current Position, PRE_ACTION/prior outcome disposition, provider exposure, real FP04 ownership evidence/context, exact close capability and applicable metadata binding. Existing sizing tests construct these fixtures directly; they are not a TradingService adapter to actual read_position/protected dispatch lineage. Small owner assembly for these current bindings is a real missing seam, not authorization to reuse static fixture PASS.",
+    "Original native posId is private owner/dispatch evidence, never canonical Position field. Derive/retain it from existing issued position read/binding, and require same ID on zero read. Preserve received_at versus provider uTime clocks.",
+    "Current code has build_product_entry_projection only, no general native close-to-flat projection builder. Use canonical E5 lifecycle and execution-binding validators; do not call entry builder with a close request or relabel an entry projection.",
+    "Flat EXIT_PENDING is an interim source for actual funding allocation. Only build_trade_result(parent_plan,*,current_lifecycle_state,exit_authority,entry_order_requests,entry_fills,exit_order_request,exit_fills,final_position,funding_evidence) and build_position_lifecycle_closed_transition(...,trade_result_outcome=actual_outcome,...) can finalize CLOSED. Funding adapter alone cannot do so.",
+    "Active protection cleanup must remain explicit: inventory exact owned stop and cancel/reconcile through existing supported owner path before claiming safe completed lifecycle. A filled exit/zero position cannot imply stale stop gone; do not add blind cancel-all or suppress original protection obligation."
+  ],
+  "actual_fixture_sequence": [
+    "Use TradingDispatchV02Tests actual FIXTURE admission/dispatch/canonical setup; TradingProtectionMonitorV02Tests.context()/monitor() reaches real OPEN_PROTECTED through actual FakeProductProvider ACK/readback and E5 protection projection. Existing test_verified_exact_single_owned_stop_projects_actual_e5_protected_and_fp12 is concrete anchor.",
+    "Fresh metadata/proof/current positive same-posId read; actual E5 authorize EXIT from current protected projection; normal owner preparation with actual source bindings and valid close capability; service.execute prepared with script ACK on distinct native close ordId. Assert reduceOnly=true, one POST, pending not flat.",
+    "Advance fixture clock within valid observation/action bounds; script actual close order FILLED and fills with original clOrdId/ordId, sell LONG (buy SHORT), effective actual quantity, USDT fee and correct timestamps. service.reconcile operation; validate persisted OrderResult/Fill with canonical recovery.",
+    "Script explicit position response same original posId=5678,pos=0,avgPx=0,uTime<=received_at; service.read_position(expected_provider_position_id=5678); new project_close_position derives flat EXIT_PENDING and publishes outbox+binding. Assert no CLOSED, no TradeResult and no funding yet.",
+    "Repeat same projection -> original receipt/no extra history. Simulate publication failure using existing position test pattern, actual successor dispatch begin_process then recover_publications -> same effects/no HTTP resubmit. Wrong posId/empty row/partial residual/fill mismatch/stale read/foreign issuer/process conflict must not finalize.",
+    "Only then new guarded fixture funding ledger observation/publication and canonical TradeResult close owner may complete later H16 sequence; this plan does not pretend those calls already exist."
+  ],
+  "conflict_assessment": "No concrete authority conflict for controlled FIXTURE code/tests. Concrete implementation gaps are current ownership/close-sizing assembly, intent publication ordering and native close-to-flat E5 derivation. These require source work after guard, not direct state mutation or financial authority/default changes.",
+  "reviewed_sources": [
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "11dad6fb9e1b98d00485724cabd144340fb60dc512a395bc1d9656059b7fecd4"
+    },
+    {
+      "path": "src/application/trading/position_observation.py",
+      "sha256": "ff1dedc6e84ed05fae1d9759a7951274ad5656cdecd7c52b3d8347df8be2c138"
+    },
+    {
+      "path": "src/application/trading/guards.py",
+      "sha256": "5219df0119a75df44c2a9c61a02f37ff018fab280cd30256d0785635b597d8d0"
+    },
+    {
+      "path": "src/application/trading/orchestrator.py",
+      "sha256": "f5d3b34378e95394d007f693a34d2139f036337f174e95e998e8dea60e8a2de4"
+    },
+    {
+      "path": "src/brokers/okx_product.py",
+      "sha256": "3d5cda09463e72819d05421046deeaaac8620755aa856ec5aaeb1c2c14aab7aa"
+    },
+    {
+      "path": "src/brokers/okx_product_position.py",
+      "sha256": "ae1ffa307dd612d5710f04a25fe300c27230e252bfed0136ddb2fa09a2da9068"
+    },
+    {
+      "path": "src/brokers/okx_close_sizing.py",
+      "sha256": "111d431c6455994fc981fda7281b478fe700b2b0c8fc87d664109b49d1048687"
+    },
+    {
+      "path": "src/brokers/okx_product_capability.py",
+      "sha256": "dce00c3b9ac4d920ea3dccb0b8483c7068643a9b0c936ff349b3dcb305e71b8f"
+    },
+    {
+      "path": "src/position/close.py",
+      "sha256": "ed8efdfb13c9aaf42d4b6ee7b36f49f8db5dcbd6200a39da038cdbd7cc105154"
+    },
+    {
+      "path": "src/position/lifecycle_projection.py",
+      "sha256": "cecf09d582662df0d43f66c8692fc11bcb5141b37147d1a2c2e61dfcc9c1f242"
+    },
+    {
+      "path": "src/position/entry_observation.py",
+      "sha256": "ae5811984f4d4bd864181a82b939bb9c060e6c11a0a5a7bd4e0bda130d460491"
+    },
+    {
+      "path": "src/position/trade_result.py",
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b"
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "962f2bad9eeda38569af9b95d5688acd292e14816b4301e5a6ec4d71685d2db7"
+    },
+    {
+      "path": "tests/product/test_trading_protection_monitor_v02.py",
+      "sha256": "0a87460c67b997d007d1cae387f46988c66a864246b783e86580271da301a1d4"
+    },
+    {
+      "path": "tests/brokers/test_okx_product_close_v02.py",
+      "sha256": "95d30ecbd36e94a0931ddd3d42ff3e05f347338287daa96f9f4532d130be9512"
+    }
+  ],
+  "verification": {
+    "DB_reads": 0,
+    "private_reads": 0,
+    "native_run": [],
+    "tests_run": [],
+    "tracked_changes": []
+  }
+}

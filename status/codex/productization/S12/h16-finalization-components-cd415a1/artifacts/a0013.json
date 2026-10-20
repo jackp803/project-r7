@@ -1,0 +1,53 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Initial source review of FIXTURE single-close finalization, immutable outbox/receipt and seven declared source/migration subjects",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 2,
+  "subject_hashes": {
+    "src/application/trading/finalization.py": "6b01408b988527c5754a4c6eb995c2bfdafada79e5d1623689f5bfb022df167f",
+    "src/storage/product_finalization.py": "c3d1dc86b32f8b31668ca8164e85a0694adbe646fb3c73e1e1a9b817a25f41a5",
+    "src/storage/product_finalization_facts.py": "ad9deb3436f5ae39af8cad8d90a64509693869acb932ac269414046fa8a7eea1",
+    "src/storage/migrations/0022_product_trade_finalization.sql": "176572e8b5c8d6482635a9486dfe6af21b253c8d22ab67c2bbe1141e3ab9cccc",
+    "src/application/trading/service.py": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+    "src/application/trading/orchestrator.py": "188c6a30840222148392f0d93e7e814de8d83ee1e2e688ed76478f8ccf103248",
+    "src/storage/product_dispatch.py": "51942dede6e57110ea86b7ad317d3ce2bae992831d223f7932b1705e6d1cce0c"
+  },
+  "findings": [
+    {
+      "id": "FINALIZATION-STAGE-FINAL-FRESHNESS",
+      "severity": "Important",
+      "path": "src/storage/product_finalization.py",
+      "lines": [
+        187,
+        200
+      ],
+      "description": "The only five-second checks use caller-captured now before BEGIN IMMEDIATE. Under-lock original_refs, account claim scans and canonical snapshot validation can consume the remaining window, but INSERT and lease validation still use that old time. A newly expired source can become a durable replayable finalization batch.",
+      "minimal_fix": "Pass the trusted composition clock to staging; after all under-lock semantic scans, validate the original unrenewed source intervals and actual lease with a final sampled time immediately before the outbox INSERT.",
+      "minimal_regression": "Using genuine issued reads, advance the actual fixture clock from4.9 to5.1 seconds after a real final staging semantic scan. Require no outbox/receipt/canonical prefix."
+    },
+    {
+      "id": "FINALIZATION-TERMINAL-HASH-UNBOUND",
+      "severity": "Important",
+      "path": "src/storage/product_finalization.py",
+      "lines": [
+        92,
+        103
+      ],
+      "description": "The original terminal source_hash is persisted by the application, but original_refs reparses its retained row without comparing observed.source_hash to source.terminal_confirmation.source_hash. Altering only this declared commitment and updating bundle serialization/hash does not change E5 effects or original_refs, allowing a false terminal provenance commitment in the published receipt.",
+      "minimal_fix": "Validate the terminal source commitment against the exact retained bounded raw material used for parsing. Preserve sufficient full-row material if normalization removed fields, or fail closed for that unsupported representation.",
+      "minimal_regression": "Mutate only terminal_confirmation.source_hash in an otherwise genuine owner-produced source bundle and reserialize it. Stage/recovery must deny before any canonical prefix or receipt."
+    }
+  ],
+  "supported_static_conclusions": [
+    "Distinct-journal guard rejects shared connection, active transaction, absent main database and samefile aliases before stage/publish. It resolves the inspected unchanged-canonical-writer same-file/nested-transaction design problem without adding a database.",
+    "Staging commits the immutable outbox separately. Publisher owns one dispatch _write, validates original lease/batch/stable semantic claim history, invokes only normal canonical facade writes plus private receipt SQL, and avoids guard/recovery/public mark wrapper nesting.",
+    "Both migration tables have FK lineage, immutable UPDATE/DELETE and BEFORE INSERT duplicate guards. Publication requires the exact original stored batch and re-computed existing E5 effects.",
+    "Replay validates ordered exact0/1/2/3 prefixes, actual expected recovery diagnostics/current pointers, and only strips the exact own projection/binding/TradeResult before baseline comparison. No arbitrary READY synthesis is persisted.",
+    "Stable claim commitment covers actual account operation rows across ENTRY/PROTECTION_STOP/POSITION_EXIT/EMERGENCY_EXIT; connection-local tuple is used only as a fresh race fence, not stored authority."
+  ],
+  "limits": [
+    "This artifact records the captured initial seven subjects, which may subsequently be repaired by root. No reviewer tests/imports/DB/process/native/Git/network/provider or tracked edits occurred. Only this authorized outside-Git review JSON was written.",
+    "Active positive test result was not inspected or inferred. No finalization source/native qualification, H16/K05/LIVE, ordinary production or Master acceptance credit."
+  ]
+}

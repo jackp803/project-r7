@@ -1,0 +1,53 @@
+"""UNAPPLIED / NOT_EXECUTED / no acceptance credit. Non-TestCase owner helper."""
+from copy import deepcopy
+from tests.validation.robustness_fixtures import subject
+from tests.application.cloud_fixtures import package
+from tests.application.dataset_fixtures import encoded
+from strategy import compute_content_hash
+from strategy.v02.capabilities import build_capability_snapshot
+
+
+SECOND_SUBMISSION = 'fixture-product-v2'
+SECOND_HYPOTHESIS = '第二不可變版本：僅驗證版本與來源分離的工程測試'
+
+
+def prepare_two_version_context(fixture):
+    # Existing original fixture-product is untouched; only normal author input
+    # for a second distinct immutable definition/package is added before scan.
+    first = subject()
+    second = deepcopy(first)
+    second['strategy_version'] = '0.2.1'
+    second['content_hash'] = compute_content_hash(second)
+    fixture.assertNotEqual(first['strategy_version'], second['strategy_version'])
+    fixture.assertNotEqual(first['content_hash'], second['content_hash'])
+    folder, manifest, actual = package(fixture.cloud, submission=SECOND_SUBMISSION,
+                                       version='0.2', definition=second)
+    manifest.update(capability_snapshot_hash=build_capability_snapshot().snapshot_hash,
+                    research_hypothesis=SECOND_HYPOTHESIS)
+    (folder/'manifest.json').write_bytes(encoded(manifest))
+    fixture.assertEqual(actual, second)
+    # Normal authenticated scan+enqueue; only original submission is enqueued.
+    queued = fixture.enqueue()
+    fixture.assertEqual('QUEUED', queued.json()['status'])
+    job_id = queued.json()['effect_ref'].removeprefix('research-job:')
+    claim = fixture.queue.claim_next()
+    fixture.assertIsNotNone(claim)
+    fixture.assertEqual(job_id, claim.run_id)
+    fixture.queue.step(claim.run_id, claim.generation)  # Actual selected research.
+    response = fixture.client.get('/api/v1/research/runs/'+job_id)
+    fixture.assertEqual(200, response.status_code, response.text)
+    job = response.json()['data']['payload']
+    fixture.assertEqual('CANDIDATE', job['outcome']['strategy_lifecycle'])
+    fixture.assertEqual(job['owner_run_id'], job['outcome']['run_id'])
+    fixture.assertGreater(job['evidence']['backtest']['total_trades'], 0)
+    fixture.assertEqual(0, job['evidence']['provenance']['provider_requests'])
+    with fixture.registry_factory() as registry:
+        fixture.assertEqual('FIXTURE', registry.research_namespace)
+        from registry import StrategyIdentity
+        records = [registry.get_strategy(StrategyIdentity(value['strategy_id'],value['strategy_version']))
+                   for value in (first,second)]
+        fixture.assertEqual(['CANDIDATE','DRAFT'], [row.current_lifecycle_state for row in records])
+        fixture.assertEqual([first['content_hash'],second['content_hash']], [row.content_hash for row in records])
+    return dict(first=first,second=second,job_id=job_id,
+                first_submission='fixture-product',second_submission=SECOND_SUBMISSION,
+                first_hypothesis='測試宣告式策略',second_hypothesis=SECOND_HYPOTHESIS)

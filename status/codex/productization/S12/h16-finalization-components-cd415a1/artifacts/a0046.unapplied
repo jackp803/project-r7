@@ -1,0 +1,39 @@
+"""Future or inverted original source clocks cannot commit replay authority."""
+from copy import deepcopy
+from dataclasses import replace
+from datetime import timedelta
+import json
+import unittest
+from unittest.mock import patch
+from tests.product.trading_finalization_fixtures import FinalizationFixture
+
+
+class TradingFinalizationClockOrderV02Tests(FinalizationFixture,unittest.TestCase):
+    def test_impossible_receive_and_request_clocks_deny_before_outbox(self):
+        from storage.product_dispatch import _json
+        self.settled();reads=self.final_reads()
+        before=self.flow.recover();calls=deepcopy(self.provider.calls)
+        original=self.service.dispatch.stage_finalization
+        now=self.fixture.clock[0]
+        stamp=lambda value:value.isoformat().replace('+00:00','Z')
+        # The first reproducer changes ONLY the actual issued terminal receive
+        # time. Row/hash/request start are unchanged; no provider result patch.
+        cases=(('terminal_confirmation','received_at',now+timedelta(seconds=1)),
+               ('inventory_confirmation','received_at',now+timedelta(seconds=1)),
+               ('inventory_confirmation','received_at',now-timedelta(seconds=1)),
+               ('native_confirmation','request_started_at',now+timedelta(seconds=1)),
+               ('native_confirmation','provider_updated_at',now+timedelta(seconds=1)))
+        for section,field,value in cases:
+            changed=[]
+            def alter_only_clock(canonical,run_id,operation_id,observation,**kwargs):
+                source=json.loads(observation.source_json)
+                self.assertNotEqual(source[section][field],stamp(value))
+                source[section][field]=stamp(value);changed.append(True)
+                return original(canonical,run_id,operation_id,
+                    replace(observation,source_json=_json(source)),**kwargs)
+            with patch.object(self.service.dispatch,'stage_finalization',side_effect=alter_only_clock):
+                with self.assertRaises(ValueError,msg=section+'.'+field):self.finalize(reads)
+            self.assertTrue(changed)
+            self.assertIsNone(self.service.dispatch.finalization_batch(self.service.run_id,self.close_id))
+            self.assertEqual(before,self.flow.recover())
+            self.assertEqual(calls,self.provider.calls)

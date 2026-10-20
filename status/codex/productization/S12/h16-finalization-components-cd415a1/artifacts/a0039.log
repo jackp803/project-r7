@@ -1,0 +1,48 @@
+test_expiry_during_real_locked_scan_denies_new_outbox_and_all_canonical_effects (tests.product.test_trading_finalization_expiry_v02.TradingFinalizationExpiryV02Tests.test_expiry_during_real_locked_scan_denies_new_outbox_and_all_canonical_effects) ... FAIL
+test_changed_terminal_hash_in_actual_owner_produced_bundle_denies_before_outbox (tests.product.test_trading_finalization_terminal_hash_v02.TradingFinalizationTerminalHashV02Tests.test_changed_terminal_hash_in_actual_owner_produced_bundle_denies_before_outbox) ... FAIL
+test_missing_funding_denies_even_actual_terminal_stop_and_original_zero (tests.product.test_trading_finalization_missing_funding_v02.TradingFinalizationMissingFundingV02Tests.test_missing_funding_denies_even_actual_terminal_stop_and_original_zero) ... ERROR
+
+======================================================================
+ERROR: test_missing_funding_denies_even_actual_terminal_stop_and_original_zero (tests.product.test_trading_finalization_missing_funding_v02.TradingFinalizationMissingFundingV02Tests.test_missing_funding_denies_even_actual_terminal_stop_and_original_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_finalization_missing_funding_v02.py", line 9, in test_missing_funding_denies_even_actual_terminal_stop_and_original_zero
+    self.assert_denied_without_final_effect(self.final_reads())
+  File "<SOURCE_ROOT>\tests\product\trading_finalization_fixtures.py", line 99, in assert_denied_without_final_effect
+    self.finalize(reads)
+  File "<SOURCE_ROOT>\tests\product\trading_finalization_fixtures.py", line 92, in finalize
+    return self.service.finalize_fixture_trade(self.close_id, target, native, inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 117, in finalize_fixture_trade
+    return finalize_fixture_trade(self,operation_id,target,native,inventory,metadata=metadata,proof=proof,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\finalization.py", line 53, in finalize_fixture_trade
+    source['original_refs']=original_refs(service.dispatch,source)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_finalization.py", line 104, in original_refs
+    evidence=payload(baseline['funding_evidence'][0])
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_expiry_during_real_locked_scan_denies_new_outbox_and_all_canonical_effects (tests.product.test_trading_finalization_expiry_v02.TradingFinalizationExpiryV02Tests.test_expiry_during_real_locked_scan_denies_new_outbox_and_all_canonical_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_finalization_expiry_v02.py", line 22, in test_expiry_during_real_locked_scan_denies_new_outbox_and_all_canonical_effects
+    with self.assertRaises(ValueError):self.finalize(reads)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_changed_terminal_hash_in_actual_owner_produced_bundle_denies_before_outbox (tests.product.test_trading_finalization_terminal_hash_v02.TradingFinalizationTerminalHashV02Tests.test_changed_terminal_hash_in_actual_owner_produced_bundle_denies_before_outbox)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_finalization_terminal_hash_v02.py", line 24, in test_changed_terminal_hash_in_actual_owner_produced_bundle_denies_before_outbox
+    with self.assertRaises(ValueError):self.finalize(reads)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 212.648s
+
+FAILED (failures=2, errors=1)

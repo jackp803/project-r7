@@ -1,0 +1,137 @@
+{
+  "status": "UNAPPLIED",
+  "execution": "NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "task": "SAME_MASTER",
+  "scope": "ONE genuine H01 E2->E5->guarded E4 entry test draft only; root owns implementation and source edits",
+  "artifacts": [
+    {
+      "ref": "h01_entry_fixture.py.unapplied",
+      "intended_path": "tests/product/h01_entry_fixture.py",
+      "kind": "NON_TESTCASE_HELPER",
+      "sha256": "f9c9f8fac2d694ae7facd9ce29451cb2fc35d8ee82dca096396b0ff4cb54b952"
+    },
+    {
+      "ref": "test_trading_orchestrator_v02.py.unapplied",
+      "intended_path": "tests/product/test_trading_orchestrator_v02.py",
+      "kind": "ONE_TEST_METHOD",
+      "sha256": "2291d6a277670ff82a296b3b062f94fcc75a1fb9733c8f291bb847612220440c"
+    }
+  ],
+  "proposed_minimal_internal_api": {
+    "constructor": "application.trading.orchestrator.TradingOrchestrator(service: actual TradingService)",
+    "method": "evaluate_entry(bundle: actual AsOfBundle, *, selected_risk: actual SelectedRiskPolicy, risk_context: RiskContext, risk_proposal: RiskProposal, metadata, prerequisites, capability_proof, prerequisites_proof, expected_revision)",
+    "result": "Proposed frozen outcome exposes decision_id, operation_id, dispatch_outcome: existing TradingOutcome. No status/PASS/plan supplied by caller.",
+    "read_port": "Proposed ProductDispatchJournal.entry_decision(run_id, StrategyIdentity, boundary:datetime) -> immutable typed batch or None. Exposes effects (fixed RISK_DECISION + optional APPROVED_TRADE_PLAN), signal, trade_intent, exit_request, strategy_content_hash, boundary. This is a local read port, not a new approval/public API.",
+    "existing_ports": "All execution, claims, provider requests, E5 evaluation, risk/plan persistence and E7 rechecks delegate unchanged real existing methods.",
+    "current_expected_red": "TradingOrchestrator/entry_decision ports absent in current reviewed source; import/port failure is intended initial RED after root applies. No run was attempted."
+  },
+  "required_implementation_contract": [
+    "Runner loads actual registered strategy by service.identity from the actual current E6 owner factory and checks version/content against current permit. It must not use helper oracle outputs as inputs.",
+    "selected_risk is read from actual fixture E6.current_runtime_authority risk_policy_json and parsed normally. Runner rechecks its hash/generation/currentness under actual admission owner; supplied immutable selection is not independently sufficient permission.",
+    "AsOfBundle is passed explicitly. Current registered fixture strategy is actual1h v0.2 EMA2 with fixed-distance stop10/reward-risk2/maxhold3600; fixture4 rising closes59970/59980/59990/60000 ending at2026-10-03T00:00Z yield real LONG (not an injected signal).",
+    "RiskContext is an explicit finite synthetic test vector: account100, flat/no orders/no positions/no loss/no kill; provided by test caller, not hidden runner defaults. Native prereq snapshot is actual empty flat fixture account; context/proposal must never be relabelled real production observations.",
+    "Quantity0.001/leverage1/cost0 are explicit test inputs. Notional/margin and maxloss/reward/requiredstop/target derive from actual E2 reference/ExitRequest constraints; actual selected E5 evaluator must return APPROVE or fixture setup fails. No risk_fixtures.approved, hand-authored intent, patched Signal/RiskDecision or PASS is passed to runner.",
+    "First immutable decision timestamps use actual supplied bundle boundary/current synthetic owner time. After committing the first decision, exact retry preserves original timestamps/bytes and cannot calculate a fresh decision against changed time/context. Logical key run+identity/content+boundary; commitments are immutable payload, not new key suffixes.",
+    "Persist decision batch and actual E5 RISK_DECISION/APPROVED_TRADE_PLAN before original claim. service.execute remains actual last effect guard and actual FakeProductProvider.request enforces current RuntimeAdmission; exact retry uses service existing claim->GET order/fills readback, not another POST.",
+    "The single test observes both real claim calls (original and retry); pendingACK atfirstclock then OPEN0fill at+1second must produce ACK_PENDING then ORDER_OBSERVED. No fill/flat/trade is inferred.",
+    "After actual fixture approval revoke, saved decision stays readable unchanged but evaluate_entry must not bypass actual fresh current authority (RuntimeAdmissionError; zero additional FakeProductProvider calls). Historical decision read does not itself issue/return an opaque permit."
+  ],
+  "test_assertion_boundaries": [
+    "Exact registered strategy id/version/content and true AsOfBundle boundary/cutoff/final bar; actual E2 LONG and actual E5 APPROVE oracle.",
+    "Canonical store starts with no risk or approved plan for actual computed plan ID; accepted outputs are not preinstalled by helper.",
+    "Passive delegating claim spy sees actual immutable E6-local E2 decision and exact original canonical E5 risk+plan BEFORE original claim commit; passive provider spy sees actual committed READBACK_REQUIRED claim and same canonical outputs BEFORE actual guarded POST.",
+    "Exact retry preserves typed decision snapshot/ID, requestID, RiskDecision/ApprovedTradePlan bytes/hash and one canonical OrderRequest; actual provider call sequence POST/GET/GET, one POST total, zero fills and no TradeResult.",
+    "Revocation cannot mint a new actual NEW_EXPOSURE permit or create provider effect from saved decision; immutable historical decision remains equal."
+  ],
+  "instrumentation": "patch.object spies only assert then forward the original bound claim_dispatch/FakeProductProvider.request. They do not substitute results, owner factories, risk/evaluator outputs, permits, clock factories, database state, network or authority.",
+  "future_case_plan": {
+    "status": "NOT_EXECUTED_NOT_INCLUDED_IN_SINGLE_TEST_MODULE",
+    "name": "future_or_unavailable_asof_information_cannot_authorize_entry",
+    "vectors": [
+      "AsOfBundle.boundary strictly later than service current clock, even with finalized future-dated candles: reject before E5 approval/claim/provider; no canonical plan.",
+      "Operational information_cutoff strictly later than current owner clock: reject; do not turn future availability into current authority.",
+      "At valid boundary/cutoff, a candle closed after boundary or received after cutoff must remain invisible to actual AsOfBundle/E2. Assert it cannot change signal/ExitRequest vs identical visible prefix. This is exclusion, not necessarily a malformed-bundle error."
+    ],
+    "reuse": "Use same actual canonical Candle/AsOfBundle/evaluator ports and owner fixture. Add no extra slow fixture cases until root reviews API and first RED->GREEN."
+  },
+  "static_caveats": [
+    "No code executed or syntax compilation performed. These are source drafts with explicit proposed APIs; root must review then run the one initial RED test after current source guard.",
+    "This is one credential-free synthetic entry composition case, not full H01/M9/TRADE01/native/production/financial acceptance. Existing E7 fixture is explicitly synthetic accepted mechanics, not real runtime activation.",
+    "Independent oracle calls actual E2/E5/E4 only to compute expected outputs/wire identity. Oracle-produced plan is never persisted or passed to runner; request is used to assert original operation identity.",
+    "Existing fixture owner setup performs its real local research pipeline once; helper is not TestCase and imports fixture modules by module alias to prevent duplicate unittest discovery.",
+    "Keep root source writer exclusivity. Do not apply/execute these drafts while finalizer/source tests are active."
+  ],
+  "source_hashes": [
+    {
+      "ref": "tests/product/test_live_admission_v02.py",
+      "sha256": "343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba"
+    },
+    {
+      "ref": "tests/registry/test_operational_lifecycle_v02.py",
+      "sha256": "6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c"
+    },
+    {
+      "ref": "tests/validation/robustness_fixtures.py",
+      "sha256": "ebed9b2d62b2c51390be2aea901883d83c53fcf36c274ca58a290ee69b2d42bc"
+    },
+    {
+      "ref": "tests/backtest/test_v02_owner_binding.py",
+      "sha256": "bb9f7263aae328c4fa35c8ce51e135363b9638c7172a7687d6d6249eef5d4d7f"
+    },
+    {
+      "ref": "tests/strategy/v02_fixtures.py",
+      "sha256": "3056762366f7af1e65cd32ac875ebc04fa73ea96e7998c721ad1aa35dccef989"
+    },
+    {
+      "ref": "tests/product/test_trading_dispatch_v02.py",
+      "sha256": "76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490"
+    },
+    {
+      "ref": "src/application/trading/service.py",
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6"
+    },
+    {
+      "ref": "src/application/trading/admission.py",
+      "sha256": "b5890c1d040c1ca7521f22deb3100be987a7b878a80b6e6be612dce60d9e14d2"
+    },
+    {
+      "ref": "src/application/trading/provider.py",
+      "sha256": "3104db3badae3ad51e559f8cfd88054455094e2e1ce39fb4f4e0bb0e1f6c7f0b"
+    },
+    {
+      "ref": "src/strategy/runtime.py",
+      "sha256": "9791587218b01deebb099f3649aca6ebc32b8e538d410b011ee56e3f8822e62e"
+    },
+    {
+      "ref": "src/strategy/trade_intent.py",
+      "sha256": "8308499542565eb523ee670b56284397b67325f87b7e3bb64d0a2adcfcda2a38"
+    },
+    {
+      "ref": "src/strategy/v02/temporal.py",
+      "sha256": "0bdfd3dc719c8ffa2eb6c50d40b610eda1dcf18857c4ac289cc8ef38401fa02b"
+    },
+    {
+      "ref": "src/strategy/v02/exits.py",
+      "sha256": "259b248553eb44228ab2e05b056d41abecb033f549becfdb5e8cd3532c4e7264"
+    },
+    {
+      "ref": "src/risk/engine.py",
+      "sha256": "3e39dfb1a2aec8121283f4603201af7d222bd2ad8947af979cf2c9dabdb507a1"
+    },
+    {
+      "ref": "src/risk/product_policy.py",
+      "sha256": "ecae712fb3a2f611d84d62bf92207571f967853cf1090991dc73c031bfe84cae"
+    }
+  ],
+  "verification": {
+    "tests": [],
+    "compilation": [],
+    "db_reads": 0,
+    "network_calls": 0,
+    "native_processes": [],
+    "git": [],
+    "tracked_changes": [],
+    "acceptance_claims": 0
+  }
+}

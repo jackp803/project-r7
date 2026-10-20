@@ -1,0 +1,15 @@
+test_impossible_receive_and_request_clocks_deny_before_outbox (tests.product.test_trading_finalization_clock_order_v02.TradingFinalizationClockOrderV02Tests.test_impossible_receive_and_request_clocks_deny_before_outbox) ... FAIL
+
+======================================================================
+FAIL: test_impossible_receive_and_request_clocks_deny_before_outbox (tests.product.test_trading_finalization_clock_order_v02.TradingFinalizationClockOrderV02Tests.test_impossible_receive_and_request_clocks_deny_before_outbox)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_finalization_clock_order_v02.py", line 37, in test_impossible_receive_and_request_clocks_deny_before_outbox
+    with self.assertRaises(ValueError,msg=section+'.'+field):self.finalize(reads)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised : terminal_confirmation.received_at
+
+----------------------------------------------------------------------
+Ran 1 test in 69.889s
+
+FAILED (failures=1)

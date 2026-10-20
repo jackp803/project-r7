@@ -1,0 +1,60 @@
+{
+  "schema_version": "r7-bounded-static-design-review-v1",
+  "proposal_status": "UNAPPLIED",
+  "scope": "Dispatch lock across three unchanged canonical facade writes and immutable publication receipt",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 2,
+  "observed_production_defect": false,
+  "referenced_hashes": {
+    "src/storage/product_dispatch.py": "800204fe319c523863ac4012a0bb972c1bde113c676a45cfdcec58d20d2e296a",
+    "src/storage/runtime.py": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593",
+    "src/storage/_paper_runtime.py": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff",
+    "src/storage/_sqlite_registry.py": "5c79c3c81695a3aa1820f20a1a79d01c7f90c2d26d276ba78d93195208eca918",
+    "src/application/trading/orchestrator.py": "4a93d6f0cbd3d6cc29097e756e702407ce09b5caeb9ea6087c9c0ad10faeccfa",
+    "src/storage/canonical_publication.py": "cb540771f20ed41812df146d2760618e02b56e91750122925bb28e3e39a1da73",
+    "src/storage/_lifecycle_execution_binding.py": "6ed82cb1158a7c1a880d39d469cbe8e1434640d8eceb675030177636788f2891"
+  },
+  "source_fixture_context_hash": "76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+  "findings": [
+    {
+      "id": "FINALIZATION-SQLITE-TOPOLOGY",
+      "severity": "Important",
+      "paths": [
+        "src/storage/product_dispatch.py:166",
+        "src/storage/_paper_runtime.py:258",
+        "src/storage/_paper_runtime.py:760",
+        "src/storage/_lifecycle_execution_binding.py:364"
+      ],
+      "condition": "The proposed unchanged-writer approach permits dispatch and canonical handles to refer to the same SQLite database, or share one connection.",
+      "description": "An outer dispatch BEGIN IMMEDIATE excludes the separate canonical connection writer on that file until lock timeout. Sharing the connection instead makes the canonical BEGIN nested; its exception rollback can release the dispatch transaction. Existing constructors accept paths/connections without a distinct-store topology guard.",
+      "minimal_seam": "For this separate-journal FIXTURE composition, explicitly validate existing distinct database identities before entering the lock, without creating another DB. If same-file composition must be supported, it requires a deliberate shared transaction-aware canonical storage API; do not call the current independent committing facade methods inside that same-file writer lock.",
+      "regression": "Exercise same-file separate connections and shared-connection topology: require deterministic refusal before canonical mutation, or prove transaction-aware supported behavior. Retain separate-existing-store recovery coverage."
+    },
+    {
+      "id": "FINALIZATION-NESTED-DISPATCH-WRITERS",
+      "severity": "Important",
+      "paths": [
+        "src/storage/product_dispatch.py:168",
+        "src/storage/product_dispatch.py:180",
+        "src/storage/product_dispatch.py:362",
+        "src/application/trading/orchestrator.py:21"
+      ],
+      "condition": "The locked publisher invokes existing general guard/source/recovery or public publication marking paths.",
+      "description": "_write rejects an already active transaction. Existing source guards call ensure_run, recovery calls public mark_* and those paths start their own _write. Calling them while holding the new outer transaction therefore raises DISPATCH_IDLE_WRITER_REQUIRED; recursive recovery is also unsuitable for the pending batch itself.",
+      "minimal_seam": "Use one private finalization publish method owning exactly one _write. Within it use read-only lease/semantic inventory validators and an already-in-transaction exact receipt insert helper. Stage commits first. Invoke unchanged canonical writers only after topology validation; never call guard/recover/mark wrappers recursively under the lock.",
+      "regression": "Trap nested _write/guard/network calls while the locked publisher runs. Add failure after each canonical prefix and receipt insertion, then successor generation-two replay with zero provider requests and exact original prefix reuse."
+    }
+  ],
+  "supported_design_constraints": [
+    "The connection-local PRAGMA data_version/total_changes tuple must remain an ephemeral local race fence; persisting it across own writes/restart cannot be authority. A stable semantic commitment to actual claimed rows and immutable canonical source objects is appropriate for replay.",
+    "Existing canonical_publication explicitly commits each fact and supports byte-exact idempotent prefix replay. A previously committed outbox can survive rollback of only a later dispatch receipt transaction, provided the canonical journal is distinct and every replay validates original source/facts.",
+    "In the inspected TradingCoordinator path each canonical writer returns after its commit before dispatch.mark_* starts; no existing simultaneous canonical-lock then dispatch-lock hold was found in that bounded path. This is not an all-repository deadlock absence claim.",
+    "The normalized replay graph must strip only the exact expected own CLOSED projection, binding and TradeResult payload commitments; reject different same-ID payloads or foreign facts. Test every zero/one/two/three-fact prefix, derived recovery/current-pointer changes and replay after a legitimate successor lease.",
+    "Claim/lease checks must occur after acquiring BEGIN IMMEDIATE. Do not run provider/network or E5 math under the lock, renew observations, suppress writer errors, or use semantic hashes as a caller-created permission."
+  ],
+  "limits": [
+    "Design/source inspection only; no implementation/imports/tests/DB/Git/process/native/network/provider or tracked changes. Only this authorized new outside-Git review JSON was written.",
+    "These are concrete API/topology constraints on an unapplied proposal, not observed new production defects. Existing source/native scopes and H16 completion remain unclaimed."
+  ]
+}

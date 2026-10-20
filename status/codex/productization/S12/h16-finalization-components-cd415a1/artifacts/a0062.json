@@ -1,0 +1,182 @@
+{
+  "status": "NOT_RUN",
+  "implementation": "UNAPPLIED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "Exact H16 canonical-only ordered finalization replay; source inspection only, active RED1 untouched",
+  "assumptions": [
+    "Original persisted first-flat RAW_POSITION and EXIT_REQUESTED projection are CONSISTENT actual_quantity0; latest raw anchor is not newer than this flat anchor.",
+    "Canonical original stop CANCELED and all final request/result/fill facts already durable, no UNKNOWN/DEGRADED/extra lineage/conflict; actual canonical funding already durable.",
+    "Baseline current old binding is valid for old projection but its execution snapshot omits newly durable terminal stop fact. Baseline exact status/reasons are REINTERPRETATION_REQUIRED/[E5_EXECUTION_REINTERPRETATION_REQUIRED].",
+    "CLOSED/new binding/TradeResult are exact saved immutable outbox effects built by canonical E5 owners. No concurrent order/fill/raw/funding/lifecycle mutation or missing reference graph."
+  ],
+  "states": [
+    {
+      "prefix": 0,
+      "effects_present": [],
+      "status": "REINTERPRETATION_REQUIRED",
+      "reason_codes": [
+        "E5_EXECUTION_REINTERPRETATION_REQUIRED"
+      ],
+      "current_projection": "original EXIT_REQUESTED",
+      "current_binding": "original old binding",
+      "history_delta": "none",
+      "trade_result": null,
+      "refs": [
+        "src/storage/_lifecycle_execution_binding.py:635-672"
+      ]
+    },
+    {
+      "prefix": 1,
+      "effects_present": [
+        "POSITION_PROJECTION CLOSED"
+      ],
+      "status": "INCOMPLETE",
+      "reason_codes": [
+        "CLOSED_POSITION_TRADE_RESULT_MISSING",
+        "LIFECYCLE_EXECUTION_BINDING_MISSING"
+      ],
+      "current_projection": "saved CLOSED",
+      "current_binding": null,
+      "history_delta": "lifecycle_history appends exact saved CLOSED; lifecycle_execution_bindings unchanged",
+      "trade_result": null,
+      "refs": [
+        "src/storage/_paper_runtime.py:1140-1146,1174-1177",
+        "src/storage/_lifecycle_execution_binding.py:619-625,666-670"
+      ],
+      "subtlety": "Old binding is retained in history but is not current and is not checked for the new current projection; E5_EXECUTION_REINTERPRETATION_REQUIRED disappears, not carried forward."
+    },
+    {
+      "prefix": 2,
+      "effects_present": [
+        "POSITION_PROJECTION CLOSED",
+        "LIFECYCLE_EXECUTION_BINDING saved new"
+      ],
+      "status": "INCOMPLETE",
+      "reason_codes": [
+        "CLOSED_POSITION_TRADE_RESULT_MISSING"
+      ],
+      "current_projection": "saved CLOSED",
+      "current_binding": "saved new binding",
+      "history_delta": "lifecycle_history appends exact CLOSED; lifecycle_execution_bindings appends exact new binding",
+      "trade_result": null,
+      "refs": [
+        "src/storage/_paper_runtime.py:1143-1145,1176",
+        "src/storage/_lifecycle_execution_binding.py:627-642"
+      ],
+      "subtlety": "Full new binding matches actual complete snapshot including all original stop observations, so no reinterpretation reason. Old historical binding remains immutable even though stale versus current global execution snapshot."
+    },
+    {
+      "prefix": 3,
+      "effects_present": [
+        "POSITION_PROJECTION CLOSED",
+        "LIFECYCLE_EXECUTION_BINDING saved new",
+        "TRADE_RESULT saved exact"
+      ],
+      "status": "READY",
+      "reason_codes": [],
+      "current_projection": "saved CLOSED",
+      "current_binding": "saved new binding",
+      "history_delta": "same exact two appends",
+      "trade_result": "saved TradeResult",
+      "refs": [
+        "src/storage/_paper_runtime.py:1137-1155,1174-1184",
+        "src/storage/_traderesult_reference_remediation.py:144-173"
+      ],
+      "subtlety": "READY conditional on exact referenced plan/actions/requests/fills/funding graph. This state before publication receipt may be replayed idempotently, then exact saved publication receipt marked. No provider permission is inferred."
+    }
+  ],
+  "compare_to_original_baseline": {
+    "ordering": "First independently recognize exact prefix by exact object IDs+payload_json/hash, correct ordering/presence, exact status+reason tuple and unchanged other facts. Only then compare a canonical-facts normalization against saved original baseline. Normalized view is comparison-only; never persist or present it as actual recovery/authority.",
+    "fields_to_remove_or_restore": [
+      {
+        "field": "lifecycle_history",
+        "operation": "Remove ONLY exact saved CLOSED appended terminal element; require rest equals baseline in order. A foreign successor, duplicate/replaced row, wrong revision/predecessor or changed payload denies."
+      },
+      {
+        "field": "current_position_projection",
+        "operation": "For prefix>=1 restore the exact baseline original EXIT_REQUESTED object in comparison view; actual current must first equal saved CLOSED. Before prefix1 it must equal baseline."
+      },
+      {
+        "field": "lifecycle_execution_bindings",
+        "operation": "For prefix>=2 remove ONLY exact saved new binding; preserve ALL old bindings including original stale one in exact order. Prefix1 has no new binding to remove."
+      },
+      {
+        "field": "current_lifecycle_execution_binding",
+        "operation": "For prefix1 actual is None; prefix>=2 actual is saved new binding. Restore exact baseline old binding for comparison, retrieved by original projection linkage; do not choose last old record without exact identity."
+      },
+      {
+        "field": "trade_result",
+        "operation": "For prefix3 require exact saved TradeResult then remove it in comparison view (baseline None); otherwise actual must be None."
+      },
+      {
+        "field": "status / reason_codes",
+        "operation": "Derived current-view diagnostics naturally change with owned prefixes. Compare via exact four-state table first; exclude only these derived fields from baseline fact comparison, or explicitly restore saved baseline diagnostics in private comparison object. Never remove arbitrary reasons or force READY."
+      }
+    ],
+    "all_other_fields_must_equal_baseline": [
+      "position_id",
+      "trade_plan_id",
+      "strategy_id",
+      "strategy_version",
+      "risk_decision",
+      "approved_trade_plan",
+      "raw_position_observations",
+      "position_actions",
+      "order_requests",
+      "order_result_observations",
+      "current_order_results",
+      "fills",
+      "funding_evidence"
+    ],
+    "source_model": "src/storage/runtime_models.py:42-70",
+    "not_owned_effects": "Original stop CANCELED/latest result and all historical results were already in baseline, so MUST NOT be stripped. Canonical funding was already in baseline, so MUST NOT be stripped or silently expanded."
+  },
+  "writer_and_anchor_subtleties": [
+    "persist_position_projection inserts lifecycle projection + updates current index, not RAW_POSITION. Exact replay existing ID/same bytes returns idempotently even if current index has advanced; therefore replay must independently refuse any unrelated later current projection instead of relying solely on writer success. Ref src/storage/_paper_runtime.py:251-269,456-493.",
+    "Binding writer requires projection already durable, validates shape/linkage and immutable one-binding-per-projection. It does not repair or overwrite old binding. Current snapshot freshness is checked by recover, so final all-effects recovery must actually match. Ref src/storage/_lifecycle_execution_binding.py:345-423,627-642.",
+    "Execution snapshot recomputes ALL position-linked result observations sorted by observed_at/hash plus fills, not merely current_order_results or observations before original flat clock. Later CANCELED may be included while broker flat anchor remains unchanged. Ref src/storage/_lifecycle_execution_binding.py:248-342.",
+    "Raw latest anchor newer than current projection yields E5_REATTESTATION_REQUIRED independently of execution reinterpretation; that is an additional fact change, not an owned finalization effect. Do not normalize it away. Ref src/storage/_paper_runtime.py:993-1014.",
+    "E5 closed builder requires actual TradeResultBuildOutcome authorizing POSITION_CLOSED/CLOSED, exact zero CONSISTENT raw source, result closed_at/flat_position_observed_at==raw broker anchor, nonregression and identical broker facts at equal time. A later local lifecycle_interpreted_at is not a new raw observation. Ref src/position/lifecycle_projection.py:573-648.",
+    "TradeResult facade validates actual reference graph before writer; durable funding interval/status/cost checks apply. Reference-remediation can produce CONFLICT/INCOMPLETE for actual invalid graph. These reasons are not permitted own-prefix noise. Ref src/storage/runtime.py:191-204; _traderesult_reference_remediation.py:120-173; _paper_runtime.py:801-829."
+  ],
+  "unknowns": [
+    "No actual native/source execution occurred here. The four exact status/reason tuples are static consequences under stated clean baseline assumptions, not observed results.",
+    "No classification for arbitrary intermediate graphs, newer raw observations, conflicting/replaced IDs, extra funding/results or concurrently added claims is proposed. Such states require rejection/explicit reconciliation, not broader status allowlists."
+  ],
+  "source_hashes": [
+    {
+      "ref": "src/storage/_paper_runtime.py",
+      "sha256": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff"
+    },
+    {
+      "ref": "src/storage/_lifecycle_execution_binding.py",
+      "sha256": "6ed82cb1158a7c1a880d39d469cbe8e1434640d8eceb675030177636788f2891"
+    },
+    {
+      "ref": "src/storage/_traderesult_reference_remediation.py",
+      "sha256": "f4edd8dbaa930fcf48649e15f58c0370d464bb5a4315d1dd49868f75e04a8707"
+    },
+    {
+      "ref": "src/storage/runtime.py",
+      "sha256": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593"
+    },
+    {
+      "ref": "src/storage/runtime_models.py",
+      "sha256": "bae0eee3a7f7d80efe5e0ce41b6e79884d4a2299c93baae9b1096ae0ca883607"
+    },
+    {
+      "ref": "src/position/lifecycle_projection.py",
+      "sha256": "cecf09d582662df0d43f66c8692fc11bcb5141b37147d1a2c2e61dfcc9c1f242"
+    }
+  ],
+  "verification": {
+    "tests": [],
+    "git": [],
+    "db_reads": 0,
+    "native_processes": [],
+    "network_calls": 0,
+    "tracked_changes": [],
+    "active_evidence_reads": 0
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "apply_layout": {
+    "cases": [
+      "tests/product/test_trading_finalization_recovery_projection_v02.py",
+      "tests/product/test_trading_finalization_recovery_binding_v02.py",
+      "tests/product/test_trading_finalization_recovery_result_v02.py"
+    ],
+    "helper": "tests/product/trading_finalization_recovery_fixtures.py"
+  },
+  "scope": "Non-TestCase helper and exactly one TestCase method per module; no imported global TestCase class or full-suite inheritance duplication. Existing source member budget900s respected by isolation, not measured here.",
+  "genuine_fixture": "FinalizationRecoveryDraftFixture inherits existing non-TestCase FinalizationFixture. Normal settled/final_reads commit genuine original full entry/protected close/flat, canonical fixture funding before terminal target, exact one cleanup cancel, canonical original stop CANCELED, fresh terminal/zero/empty inventory. No terminal DB injection.",
+  "faults": [
+    "Class-level PaperRuntimeJournal.persist_position_projection autospec wrapper calls saved actual descriptor and raises OSError AFTER stored CLOSED returns -> actual prefix1.",
+    "Class-level persist_lifecycle_execution_binding same actual descriptor then raise -> actual prefix2.",
+    "Class-level persist_trade_result actual reference facade+writer then raise -> actual prefix3, no final receipt."
+  ],
+  "assertions": [
+    "Staged typed finalization outbox exists before writer fault, exact effects kinds/order and payload equals actual stored object; receipt absent/pending only original batch.",
+    "Each partial recovery classified by actual prefix map; original raw/actions/requests/all observations/fills/funding unchanged; only exact owned CLOSED/newbinding/TR appear.",
+    "Create NEW actual RuntimeAdmission with coherent _input/_authority, capability owner/translator, empty FakeProductProvider, independent dispatch/canonical journal handles and synthetic new process_instance; bind real E6 generation2 with unchanged accepted E7 release generation1.",
+    "Read actual stable semantic claim_snapshot across new connection equals batch source; never treat PRAGMA data_version,total_changes tuple as persisted authority. Old lease actual require_process fails.",
+    "Normal successor.recover_publications only; no old issued read/proof/preparation passes to successor, no GET/POST/ledger/cancel effects, provider.calls empty.",
+    "Exact original source/effects JSON+hashes/staged_at unchanged; recovered READY/CLOSED/TR/new completebinding, original closed_at/flatclock/interpreted_at/IDs and revision+1. Receipt hashes/time exact, exactly one publication row via future readonly SQL assertion; repeated normal drain returns exact graph/receipt."
+  ],
+  "known_assumptions": [
+    "Current actual existing FinalizationFixture and helpers remain as statically read; parent reports genuine positivePASS but this worker did not execute or read active run evidence.",
+    "Source actual finalization dispatcher must retain stable semantic history hash across own outbox/receipt/process generations and permit only its own exact prefixes, as intended new implementation. These tests should expose a defect, not patch around it.",
+    "Source map prefix1 expects CLOSED projection with missing result+binding; prefix2 missing result only; prefix3 READY before receipt. Binding history append order follows supplied source map.",
+    "Journal connections remain separate idle files; fault patch is scoped only around normal initial finalize, fully restored before successor replay. __slots__ prohibits per-instance monkeypatch; class descriptor/autospec is intentional.",
+    "Draft future tests open normal local fixture journals and use assertion-only SELECT COUNT; drafting performed no DB/process/import/test/Git/provider/network activity.",
+    "No bound runtime proof/maxload/LIVE/provider authority claim. Synthetic fixture roles retained; accepted E7 runtime generation does not become2 merely because E6 dispatch generation advances."
+  ],
+  "draft_hashes": [
+    {
+      "path": "trading_finalization_recovery_fixtures.py.unapplied",
+      "sha256": "84fd22f1bed063873b28808597ab7f28d46691dd28861197f5c4ee93833eaa1d"
+    },
+    {
+      "path": "test_trading_finalization_recovery_projection_v02.py.unapplied",
+      "sha256": "21e793a30636eb3665bfdb7ca98b23c6f02586bf94fb3be953d24bd1392d7f4f"
+    },
+    {
+      "path": "test_trading_finalization_recovery_binding_v02.py.unapplied",
+      "sha256": "695a7cbf41c5ca6484b2b0388c0d8ea9ac762fe67a3785819b47b744c7ceee51"
+    },
+    {
+      "path": "test_trading_finalization_recovery_result_v02.py.unapplied",
+      "sha256": "447fe9c3a1249f3d74c753e9fbea8c80dafb5932405f4a633ace18ce215e98d8"
+    }
+  ],
+  "verification": {
+    "Git_commands": [],
+    "DB_reads": 0,
+    "imports_run": [],
+    "tests_run": [],
+    "native_runs": [],
+    "tracked_changes": [],
+    "network_calls": 0
+  }
+}

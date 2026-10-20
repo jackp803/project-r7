@@ -1,0 +1,30 @@
+{
+  "status": "PLANNED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "Existing strategy version list/detail truth, no new feature inferred",
+  "sources_inspected": [
+    "tests/product/test_api_owner_services.py::APIOwnerServicesTests.setUp/scan/enqueue/test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage",
+    "tests/validation/robustness_fixtures.py::subject",
+    "tests/application/cloud_fixtures.py::package",
+    "src/application/control_api/owner_services.py::OwnerControlServices._strategy/view(strategies)",
+    "ui/src/App.tsx::Strategies",
+    "ui/qa/control-center.spec.ts",
+    "ui/qa/serve_fixture.py",
+    "ui/playwright.config.ts"
+  ],
+  "existing_behavior": "Owner list uses e6.list_strategies, detail uses exact StrategyIdentity. UI renders one row per strategy/version and requests detail by exact identity, with independent selected state and immutable hash.",
+  "proposed_minimal_actual_flow": [
+    "Use existing APIOwnerServicesTests normal actual owner/intake fixture. Its first package remains untouched.",
+    "Build second actual immutable definition from subject(), explicitly different strategy_version, recompute content_hash with actual strategy.compute_content_hash. Use package(...version=0.2,submission=fixture-product-v2) and actual capability snapshot hash, distinct author hypothesis.",
+    "Normal scan accepts both packages. Existing enqueue()/queue.claim_next()/queue.step() performs actual real test-owner research only for original fixture-product. Preserve same-command scan replay behavior. First becomes CANDIDATE under explicit engineering FIXTURE selections; second remains DRAFT.",
+    "Assert list has both exact identities/content hashes, total2, bounded pagination, distinct lifecycle/revision and exact version detail/verified submission metadata. Repeated GET cannot mutate either original record.",
+    "Add one proposed browser fixture profile versions through actual APIOwnerServicesTests plus same helper. Register in existing serve_fixture profile choices and Playwright server list/origin, not a separate web framework.",
+    "Browser logs into explicit FIXTURE local server, sees both immutable rows and hashes, selects each actual version independently, verifies exact title/lifecycle/hash/submission/author hypothesis, then selects first again to prove no merged state. No request routing mocks, external requests or Paper start.",
+    "Capture actual API source test and browser screenshots/results only after current clean158 checkpoint ends and code changes can be made. UI production code need not change unless an actual failure is observed."
+  ],
+  "restrictions": [
+    "No hand-written lifecycle events, patched research PASS or strategy-state DB updates.",
+    "No inherited test-class duplication; insert one focused API test or use shared non-TestCase helper.",
+    "Test policy/author values remain explicit FIXTURE engineering inputs; no ordinary commissioning or GPT strategy claim.",
+    "Existing 7d software qualification remains tied to 7d; these future tests have no current execution credit."
+  ]
+}

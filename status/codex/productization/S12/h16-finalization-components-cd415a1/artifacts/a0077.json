@@ -1,0 +1,111 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "Existing I04/J03 two immutable versions owner+actual browser coverage only; no production UI behavior change",
+  "drafts": [
+    {
+      "file": "two_version_fixtures.py.unapplied",
+      "apply_to": "tests/product/two_version_fixtures.py",
+      "insert": "New non-TestCase helper prepare_two_version_context. Leaves original package untouched; adds distinct version0.2.1/hash/submission/hypothesis, normal scan+enqueue original only, actual queue claim/step -> first CANDIDATE second DRAFT."
+    },
+    {
+      "file": "test_api_two_versions_v02.py.unapplied",
+      "apply_to": "tests/product/test_api_two_versions_v02.py",
+      "insert": "New one-case module with module-alias APIOwnerServicesTests, no inherited full suite/global imported TestCase. Real list/detail/pagination0/1/2/author metadata/revision/readonly repeat/same scan command replay."
+    },
+    {
+      "file": "i04-j03-serve_fixture.py.unapplied",
+      "apply_to": "ui/qa/serve_fixture.py",
+      "insert": "Full source copy with only versions added to argparse choices and existing research-profile branch, prepare_two_version_context immediately after actual APIOwnerServicesTests setup; existing auth app+same-origin port retained."
+    },
+    {
+      "file": "i04-j03-playwright.config.ts.unapplied",
+      "apply_to": "ui/playwright.config.ts",
+      "insert": "Full source copy with only versions appended to existing webServer profile list, mapping to8777. No changed browser/timeouts/financial settings."
+    },
+    {
+      "file": "i04-j03-control-center.spec.ts.unapplied",
+      "apply_to": "ui/qa/control-center.spec.ts",
+      "insert": "Full source copy: add versions origin8777 then one test atEOF. Existing actual login helper; real backend GETs, select candidate/draft/candidate by exact distinct hash row, exact detail heading/metadata/immutable hash/state and3screenshots; no HTTP routing mocks or response injection."
+    }
+  ],
+  "verified_existing_seams": [
+    "APIOwnerServicesTests.setUp/scan/enqueue/test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage",
+    "tests.validation.robustness_fixtures.subject; strategy.compute_content_hash; tests.application.cloud_fixtures.package(version=0.2,definition=...)",
+    "OwnerControlServices.view(strategies) -> e6.list_strategies(limit,offset), exact detail StrategyIdentity and intake.find_strategy_submission(id,version,hash)",
+    "ui/src/App.tsx::Strategies renders key by strategy+version, exact selected identity request and independent author detail; no missing UI feature demonstrated"
+  ],
+  "assertion_scope": "Exactly two versions same strategyID, different immutable versions/hashes/submissions/hypotheses; actual original research executes under existing engineering FIXTURE policies and only original becomes CANDIDATE. Second never enqueued and remains DRAFT. No PaperStart/promotion/newoperator policies.",
+  "known_assumptions": [
+    "Second definition chosen0.2.1 differs from current subject0.2.0; helper asserts difference/hash difference and normal intake must accept. No overwrite of original strategy/content/version.",
+    "Current actual selected fixture research reaches CANDIDATE as existing named API regression. This is real test-owner research, no patched PASS or threshold lowering. Actual timing not measured; server startup90s/test25s unchanged. If too slow after execution root should diagnose scheduling/build cost rather than claim success.",
+    "Source copies include existing unrelated tests verbatim. Root should apply only listed minimal deltas against frozen target, not overwrite later edits; hashes pin inspected source.",
+    "Current list/UI supports50-item pagination; API test proves limit1 offsets0/1/2 withtwo versions; browser independently selects actual rows and verifies both API one-row pages. No invented UI page-size control.",
+    "No native/real cloud/provider/LIVE/real OOS/forward qualification credit from future fixture/browser probes. Artifacts preserve old root plan/evidence."
+  ],
+  "source_hashes": [
+    {
+      "path": "tests/product/test_api_owner_services.py",
+      "sha256": "0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25"
+    },
+    {
+      "path": "tests/validation/robustness_fixtures.py",
+      "sha256": "ebed9b2d62b2c51390be2aea901883d83c53fcf36c274ca58a290ee69b2d42bc"
+    },
+    {
+      "path": "tests/application/cloud_fixtures.py",
+      "sha256": "65ee4a26165d167704f751d9e546a9a899202deb7a29d2e6b289c1f4da7cbe1c"
+    },
+    {
+      "path": "ui/qa/serve_fixture.py",
+      "sha256": "9d9d09f7f72b23ed65a970ba8499a0dedfad2b6623bb1d1e77145056287b4162"
+    },
+    {
+      "path": "ui/qa/control-center.spec.ts",
+      "sha256": "f0fdf7a94cea0d70e28216c3583f7c51513b7ac23d7398331421f2dc9d4b6214"
+    },
+    {
+      "path": "ui/playwright.config.ts",
+      "sha256": "f56141689fed5104fdb6a78fa46aa5f7c4b1583dd572e35975b03c0a3940e79b"
+    },
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "sha256": "2b42e9927b80d75f6213bff8002db52977332964e953207d9a09ee918fdec056"
+    },
+    {
+      "path": "ui/src/App.tsx",
+      "sha256": "f3c4a2b1461b695096c205b97acb9201dc4430868106895d471273ebe731740a"
+    }
+  ],
+  "draft_hashes": [
+    {
+      "path": "two_version_fixtures.py.unapplied",
+      "sha256": "a1b7044a9be8f9bfb81f9638a9d3575ca3ad6b6f92f18f53dce65b1194f9f38f"
+    },
+    {
+      "path": "test_api_two_versions_v02.py.unapplied",
+      "sha256": "1cfa99fce0b75969e05c1e9ee5196934a31edb41f702f1d9bd39747c449b0c2e"
+    },
+    {
+      "path": "i04-j03-serve_fixture.py.unapplied",
+      "sha256": "0f2f5e082343e90d0f8bad93e22b76c735bda84625887ced4f7c70f617928b3d"
+    },
+    {
+      "path": "i04-j03-playwright.config.ts.unapplied",
+      "sha256": "2eb7bfa010a0b7f42df0c6e04aa94848634715bcf0b3f0fb766a911c5a966f6d"
+    },
+    {
+      "path": "i04-j03-control-center.spec.ts.unapplied",
+      "sha256": "b7999c04e28a3254af7afe94d79eff744ac693cdcbb67de944733d9071c338ae"
+    }
+  ],
+  "verification": {
+    "native_runs": [],
+    "imports_run": [],
+    "tracked_changes": [],
+    "tests_run": [],
+    "Git_commands": [],
+    "DB_reads": 0,
+    "browser_runs": [],
+    "network_calls": 0
+  }
+}

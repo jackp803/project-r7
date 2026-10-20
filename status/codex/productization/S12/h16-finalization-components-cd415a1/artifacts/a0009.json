@@ -1,0 +1,41 @@
+{
+  "recorded_at": "2026-10-20T12:55:31.692282+00:00",
+  "status": "HOST_SUSPEND_OVERLAPS_DEVELOPMENT_RUN_NO_QUALIFICATION_CREDIT",
+  "events": [
+    {
+      "event_id": 107,
+      "provider": "Microsoft-Windows-Kernel-Power",
+      "time_created_utc": "2026-10-20T10:28:17.0471009Z",
+      "data": {
+        "EffectiveState": "5",
+        "TargetState": "5"
+      }
+    },
+    {
+      "event_id": 42,
+      "provider": "Microsoft-Windows-Kernel-Power",
+      "time_created_utc": "2026-10-20T10:28:14.6379938Z",
+      "data": {
+        "TargetState": "5",
+        "Flags": "0",
+        "EffectiveState": "5",
+        "Reason": "6"
+      }
+    },
+    {
+      "event_id": 1,
+      "provider": "Microsoft-Windows-Power-Troubleshooter",
+      "time_created_utc": "2026-10-20T12:52:42.6652411Z",
+      "data": {
+        "TargetState": "5",
+        "WakeTime": "2026-10-20T12:52:40.2116379Z",
+        "SleepTime": "2026-10-20T10:28:05.0516825Z",
+        "EffectiveState": "5"
+      }
+    }
+  ],
+  "run": "h16-finalization-clock-and-recovery-green01",
+  "functional_output": "4 cases OK, 9894.949 seconds; unchanged/reaped; development only",
+  "host_settings_changed": false,
+  "requires_fresh_short_per_module_run": true
+}

@@ -1,0 +1,36 @@
+"""Genuine finalization positive; UNAPPLIED / NOT_EXECUTED."""
+import unittest
+from copy import deepcopy
+from tests.product.trading_finalization_fixtures import FinalizationFixture
+
+
+class TradingFinalizationV02Tests(FinalizationFixture,unittest.TestCase):
+    def test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once(self):
+        self.settled()
+        reads = self.final_reads()
+        self.assertEqual('CANCELED', reads[0].status)
+        self.assertEqual((), reads[2].objects)
+        calls = deepcopy(self.provider.calls)
+        receipt = self.finalize(reads)
+        recovered = self.flow.assert_binding()  # Complete actual graph recomputation.
+        closed = recovered.current_position_projection.payload
+        result = recovered.trade_result.payload
+        self.assertEqual('CLOSED', closed['lifecycle_state'])
+        self.assertEqual(self.flat['lifecycle_revision']+1, closed['lifecycle_revision'])
+        self.assertEqual(self.flat['lifecycle_projection_id'], closed['previous_lifecycle_projection_id'])
+        self.assertEqual(self.flat['broker_state_observed_at'], closed['broker_state_observed_at'])
+        self.assertEqual(self.flat['broker_state_observed_at'], result['closed_at'])
+        self.assertEqual(result['closed_at'], result['flat_position_observed_at'])
+        self.assertEqual(self.funding_object.canonical_id, result['funding_evidence_id'])
+        evidence = next(item for item in recovered.current_lifecycle_execution_binding.payload['order_evidence']
+                        if item['order_request_id'] == self.stop_id)
+        observed = [row for row in recovered.order_result_observations
+                    if row.payload['order_request_id'] == self.stop_id]
+        self.assertEqual(len(observed), evidence['order_result_observation_count'])
+        self.assertGreaterEqual(len(observed), 3)  # Real pending/open/canceled, not only current result.
+        self.assertEqual(0, evidence['fill_count'])
+        self.assertEqual(receipt, self.finalize(reads))
+        self.assertEqual(recovered, self.flow.recover())
+        self.assertEqual(calls, self.provider.calls)
+        self.assertEqual(1, len(self.cleanup.cancel_calls()))
+        self.assertFalse(self.provider._responses)

@@ -1,0 +1,236 @@
+{
+  "status": "STATIC_ONLY",
+  "execution": "NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "implementation": "UNAPPLIED",
+  "task": "SAME_MASTER",
+  "scope": "H01/M9/TRADE-01 smallest actual E2-driven production application composition, credential-free FakeProductProvider only",
+  "authority": {
+    "master": "docs/product/R7_CODEX_MASTER_EXECUTION_PLAN_V0_1.md:555-583",
+    "master_contract": "Deliver TradingOrchestrator plus current runtime-preflight, E4 adapters, capability, reconciliation, protection/degrade/lock and fake provider verification without real credentials/private calls/capital.",
+    "v02": "docs/product/v0_2/06_EXECUTION_PLAN.md:174-184",
+    "v02_contract": "Compose existing E1-E6 typed owners; actual production request/readback/translation code with fake HTTP/provider contract execution, preserve LF/FP, zero real private/provider calls; no stub completion.",
+    "acceptance": [
+      "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md:134 H01 static+integration",
+      "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#TRADE-01 source_review_and_fake_provider_execution"
+    ],
+    "authorization": "Existing Master authorizes bounded fake-contract production-code integration. No new financial policy, real runtime activation, account/credential access or operator authority needed for that code/test scope."
+  },
+  "current_gap": {
+    "present": "TradingService actual runtime admission/guard/translator/provider claim/readback/canonical publication exists; TradingCoordinator coordinates only dispatch and publication replay. Ordinary PaperEngine already composes real E2/E5/E4/PaperBroker owners.",
+    "absent": "No E2 entry-evaluation method found on current TradingService/TradingCoordinator. test_trading_dispatch_v02.setUp supplies risk_fixtures.approved(...) risk+plan directly; that is valid dispatch support but not E2-driven orchestration proof.",
+    "naming": "Adding a class name alone does not close H01. Keep TradingCoordinator responsibility and add a thin actual TradingOrchestrator composition, or document equivalent real composition with exact joined assertions.",
+    "ordinary_paper": "Do not route ordinary Paper through production/FakeProductProvider or replace PaperEngine. Reuse its composition sequence as source guidance, not its simulated healthy context, balance/PnL arithmetic or PaperZero funding for provider semantics."
+  },
+  "existing_interfaces": [
+    {
+      "ref": "src/strategy/runtime.py:704",
+      "signature": "StrategyRuntime.evaluate(strategy, candles, evaluated_at) -> Signal mapping",
+      "contract": "strategy is actual parse_strategy_definition(E6.get_strategy(identity).definition_json) with exact current content hash. v0.2 requires AsOfBundle.boundary==evaluated_at; no authored Signal/PASS."
+    },
+    {
+      "ref": "src/strategy/v02/temporal.py:41",
+      "signature": "build_asof_bundle(candles_by_timeframe, boundary, information_cutoff, *, availability_model=recorded_received_at) -> AsOfBundle",
+      "contract": "Actual finalized timestamped E1 candles, finite supported frames, explicit cutoff. Current registry/package/validity capability bindings checked; no historical-close assumption on operational fake flow unless explicitly labelled offline-only."
+    },
+    {
+      "ref": "src/strategy/v02/exits.py:67; src/position/exit_requests.py:54",
+      "signature": "build_exit_request(strategy,bundle) -> ExitRequest; resolve_exit_constraints(request) -> ExitConstraints",
+      "contract": "E2 actual entry signal and explicit bound stop/target/hold geometry; build_exit_request evaluates the same E2 strategy/bundle. It requires LONG/SHORT. NO_TRADE causes no E5/provider call."
+    },
+    {
+      "ref": "src/strategy/trade_intent.py:223",
+      "signature": "build_trade_intent(signal, *, entry_profile_version=None, entry_order_type=None, generated_at=None, entry_style=None, entry_reference_price=None, strategy_stop_level=None, strategy_target_level=None, max_hold_seconds=None, **extra_fields)",
+      "contract": "Explicit supported entry-v0.1/MARKET plus actual E2 exit constraints. Stable generated_at boundary; no advisory legacy field upgraded to executable semantics."
+    },
+    {
+      "ref": "src/risk/engine.py:362,520",
+      "signature": "evaluate_trade_intent(intent, context:RiskContext, proposal:RiskProposal|None, policy:RiskPolicy, *, decided_at) -> RiskDecision; build_approved_trade_plan(intent,risk_decision,policy,*,created_at) -> ApprovedTradePlan",
+      "contract": "Only existing E5 calculates decision/plan. Explicit proposed quantity/notional/margin/leverage/loss/cost/reward constraints plus actual current account/market/order/position/kill/loss context. No guessed sizing/healthy/flat defaults; no second risk engine."
+    },
+    {
+      "ref": "src/application/trading/admission.py:69,99; src/registry/operational_authority.py:71; src/risk/product_policy.py:22",
+      "signature": "RuntimeAdmission.issue(identity,*,expected_revision,permission,execution); current_authority(permit,*,identity,permission,execution) -> CurrentRuntimeAuthority(permission,risk_policy_json,envelope_json); parse_product_risk_policy(value,*,namespace) -> SelectedRiskPolicy",
+      "contract": "Reuse actual current owner-selected risk JSON and release risk_policy_hash/risk_generation, exact namespace/revision/content/config/process/capability/envelope gates. Persisted permission/JSON cannot renew transient issuer-local permits."
+    },
+    {
+      "ref": "src/brokers/okx_product.py:80; src/application/trading/service.py:142",
+      "signature": "OKXProductTranslator.prepare_entry(*,plan,metadata,prerequisites,proof,now,prerequisites_proof=None); TradingService.execute(prepared,*,expected_revision) -> TradingOutcome",
+      "contract": "E4 requires original actual metadata/account ENTRY proof and converged no-pending/flat native prerequisites. execute requires canonical risk+plan, claims before POST, rechecks real guard immediately before provider; replay reconciles same original operation and never blindly resubmits."
+    },
+    {
+      "ref": "src/application/trading/service.py:173,76-127",
+      "signature": "reconcile(operation_id,*,expected_revision); read_position(...); project_entry_position(...); read_algo_inventory(...); project_protection(...); prepare_fixture_close(...); project_close_position(...); read/publish_fixture_funding_ledger(...); finalize_fixture_trade(...)",
+      "contract": "Delegate ACK/fill/partial, current position, protection, close-to-flat and finalization to actual existing owners. H16 finalizer is currently being developed/tested; no completion claim made here."
+    },
+    {
+      "ref": "src/position/exit_requests.py:119,145,190",
+      "signature": "anchor_exit_request(request,position,plan) -> ExitAnchor; CurrentExitAuthority(position,parent_plan,anchor,market_snapshot,market_freshness_classification,now,action_expires_at); interpret_exit_request(request,current_e5_authority) -> ExitOutcome",
+      "contract": "Anchor to actual first fill/average size, exact approved constraints, independent management clock. Only E5 decides HOLD/BLOCKED/protection or actual authorized exit; do not re-evaluate a later signal to reset original exit anchors."
+    }
+  ],
+  "minimal_root_owned_design": {
+    "class": "Proposed TradingOrchestrator in application/trading/orchestrator.py, holding an actual TradingService; preserve existing TradingCoordinator. First executable composition explicitly FIXTURE+FakeProductProvider; real/private runner unavailable until separately composed and authorized.",
+    "public_shape": "Proposed evaluate_entry(candles_by_timeframe, *, boundary, information_cutoff, market_snapshot, current_risk_context, risk_proposal, metadata, prerequisites, capability_proof, prerequisites_proof, expected_revision) -> immutable decision/TradingOutcome; resume()/manage_existing(...) delegate existing owners. These are trusted application methods, not new HTTP/CLI payloads.",
+    "input_authority": [
+      "Load strategy by service.identity from admission actual same-namespace E6 owner factory, never accept caller definition/signal/riskdecision/plan/PositionAction as authorization. Compare definition/content/version against current owner permission and release.",
+      "Read selected risk via actual current_authority permit and parse_product_risk_policy; enforce exact policy hash/generation. Read explicit risk proposal/context from trusted issuer-bound fake observation/setup composition; arbitrary dataclass fields are not authority. Existing E4/provider guard must recheck account/process/position state before actual fake effect.",
+      "The simulated test may supply bounded scripted native observations through FakeProductProvider and actual E4 parsers/proofs. It must not copy PaperEngine hardcoded HEALTHY/KNOWN/FLAT context or derive available balance from fabricated provider PnL. A named fixture observer may build RiskContext from exact finite synthetic actual owner facts; keep source/provenance binding explicit.",
+      "No new financial thresholds, default quantity/leverage/cost/expiry or policy fallback. UTC evaluation/decision times chosen once, finite finalized E1 input; tactical validity blocks new entry while management remains independent."
+    ],
+    "sequence": [
+      "Acquire/validate current actual FIXTURE owner and dispatch lease; drain all pending canonical publication/close-intent/funding/finalization work before a new decision.",
+      "Build finite actual as-of bundle, evaluate registered strategy with StrategyRuntime. NO_TRADE is durable non-effect outcome, no new plan/order/provider call. Resolve actual E2 exit constraints then deterministic executable TradeIntent.",
+      "Evaluate existing E5 RiskDecision with explicit selected policy and actual scoped context/proposal. Retain rejection and input commitments; rejection creates no ApprovedTradePlan/order/provider effect. Only APPROVE calls build_approved_trade_plan.",
+      "Durably preserve immutable E2 signal/intent/exit request, input commitments, policy/release/process lineage and exact E5 output batch before any provider-facing entry. Publish RISK_DECISION then APPROVED_TRADE_PLAN through existing canonical writers; no Signal/TradeIntent shared canonical kind exists, so keep those E6-local audit only.",
+      "After actual canonical plan exists, obtain/recheck current E4 original metadata/capability/prerequisite proofs; prepare_entry then service.execute. Record/return existing canonical request ID and ACK_PENDING/ambiguity disposition. Service canonical current-subject/guard remains final effect boundary.",
+      "Subsequent steps reconcile original request/fills/position, use current actual E5 projection and E2 original exit request for protection/exit; delegate stop/funding/finalizer after actual flat. Never infer fill from ACK, flat from empty response, or stop terminal from cancel ACK."
+    ],
+    "durable_retry": [
+      "Existing dispatch.prepare cannot represent pre-entry E2/E5 decision: it accepts translated order intent keyed by requestID and service.execute needs durable plan first. Existing canonical publication commits risk/plan separately. Therefore one narrowly typed E6-local entry-decision record/outbox is the genuine remaining replay seam if process restart must not recompute against changed context.",
+      "Prefer existing ProductDispatchJournal connection, live lease and fixed bounded typed record/receipt pattern; no generic callback/effects command store. UNIQUE logical key is run+strategy identity/version/content+closed boundary (input/proposal/context hashes are immutable payload commitments, NOT alternative key suffixes). Save first decided_at/created_at, selected-policy/release/current context/proposal hashes, E2 signal/intent/exit request JSON and exact E5 risk/plan canonical effects. Same boundary with changed material must conflict, not create another decision.",
+      "Persist/replay original risk/plan bytes via existing writers before new entry. Reuse saved requestID if already claimed; actual service.execute routes existing claim to readback, not another POST. Plan expired or current owner changed denies exposure even if original decision replays; saved decision cannot renew approval/process/capability or plan expiry.",
+      "NO_TRADE/REJECT/HOLD require exact durable decision outcome to avoid reevaluating same immutable boundary with different current balance/risk context. Ensure owned observations/proposal source refs are frozen, but do not turn them into long-lived provider permission."
+    ],
+    "exit_authority_gap": "Current prepare_close/prepare_fixture_close calls authorize_close_position_action internally for caller-selected EXIT/EMERGENCY_EXIT with a new30s action (close_owner.py:97). It is actual E5 close authority but not yet wired to original E2 ExitRequest trigger. Smallest strategy-driven management composition recomputes interpret_exit_request on exact original persisted request+anchor/current actual E5 state+fresh market, then only delegates a matching authorized result through the existing close owner. If preserving exact E5 action/reasons requires an internal typed close preparation overload, compute/validate E5 outcome inside trusted owner; never accept arbitrary PositionAction mapping or caller AUTHORIZED/PASS. Keep manual trusted close capability distinct."
+  },
+  "bounded_tdd_cases": [
+    {
+      "case": "actual_registered_e2_signal_drives_one_e5_approved_plan_and_guarded_fake_entry",
+      "setup": "Reuse LiveAdmissionV02Tests owner fixture and actual FakeProductProvider/capability metadata helpers, but remove risk_fixtures.approved from runner path; register actual engineered strategy/candles and use actual current selected risk policy.",
+      "assert": "Exact parsed strategy/content/as-of signal->TradeIntent->E5 risk/plan lineage; canonical risk/plan durable before provider POST; single original request/claim; ACK_PENDING and no manufactured fill. Complete protection/exit/flat via H16 owners only after their real observations."
+    },
+    {
+      "case": "no_signal_or_unfinalized_missing_warmup_future_asof_never_dispatches",
+      "assert": "Actual evaluator/temporal error or NO_TRADE; no approved plan/order/fill/provider POST. Same exact boundary returns same saved non-effect outcome."
+    },
+    {
+      "case": "actual_e5_reject_records_decision_without_plan_or_fake_provider_effect",
+      "assert": "Real risk policy/context yields actual REJECT (not patched E5 output); canonical RiskDecision exact reasons/lineage, no plan/order/dispatch claim; provider.calls remains empty."
+    },
+    {
+      "case": "same_boundary_mutation_stale_owner_policy_process_or_capability_denies",
+      "assert": "Same exact input replay preserves IDs; changed input/policy at same logical decision conflicts. Wrong/stale revision/content/release/permit/lease/prerequisites denied by actual owner guards before fake effect."
+    },
+    {
+      "case": "crash_between_decision_risk_plan_claim_ack_replays_original_without_new_exposure",
+      "assert": "Failure at each actual boundary, reopen successor actual process lease; drain exact typed saved effects then reconcile same original claim. No E2/E5 recomputation after committed decision, no duplicate plan/request/canonical effect; lost ACK never resubmits."
+    },
+    {
+      "case": "original_e2_exit_anchor_uses_actual_partial_fill_and_independent_management",
+      "assert": "Anchor actual first fill/actual protection; later entry signal/duplicate boundary does not reset stop/hold. Fresh real parsed market triggers existing E5 exit; expiry/pause blocks new entry but preserves protection management. Reject stale market, wrong position/request/hash and widened stop; no raw CLOSED or funding injection."
+    }
+  ],
+  "proposed_file_ownership_for_root": [
+    "src/application/trading/orchestrator.py: add thin formal E2 orchestration; retain TradingCoordinator existing role",
+    "src/application/trading/service.py: only minimal delegate if required, preserve final existing effect guards",
+    "src/storage/product_dispatch.py + proposed narrow src/storage/product_entry_decision.py + next migration: fixed typed entry-decision/outbox/receipt only if durable evaluate boundary is implemented",
+    "src/application/trading/close_owner.py: only bounded internal exact E2/E5-triggered close composition if needed; no shared financial schema changes",
+    "new tests/product/test_trading_orchestrator_v02.py: actual owner/evaluator/risk/provider joined assertions; split bounded files under existing qualification inventory if timing requires",
+    "reuse tests/product/test_live_admission_v02.py and existing broker/dispatch fixture modules as normal helpers; do not change assertions or fake completed E6 states"
+  ],
+  "limits": [
+    "This is implementation design, not a source/native or TRADE-01/H01 PASS. No tests run; active source state/evidence untouched.",
+    "No ordinary Paper rewiring, provider network/vault access, background worker/CLI/LIVE enablement, new risk engine, generic event framework or arbitrary JSON PASS/import authority.",
+    "Future production risk-context reader/issuer and cross-component currentness must be explicitly implemented/tested rather than relabeling fixture context production-ready. Existing Master authorizes this fake contract code; real activation remains separately gated."
+  ],
+  "source_hashes": [
+    {
+      "ref": "src/application/trading/orchestrator.py",
+      "sha256": "188c6a30840222148392f0d93e7e814de8d83ee1e2e688ed76478f8ccf103248"
+    },
+    {
+      "ref": "src/application/trading/service.py",
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6"
+    },
+    {
+      "ref": "src/application/trading/admission.py",
+      "sha256": "b5890c1d040c1ca7521f22deb3100be987a7b878a80b6e6be612dce60d9e14d2"
+    },
+    {
+      "ref": "src/application/trading/guards.py",
+      "sha256": "b217b2d23e145ff3ba578fba769cf19f69f26f91411d29e6c7f20e9f27776629"
+    },
+    {
+      "ref": "src/application/trading/provider.py",
+      "sha256": "3104db3badae3ad51e559f8cfd88054455094e2e1ce39fb4f4e0bb0e1f6c7f0b"
+    },
+    {
+      "ref": "src/application/trading/close_owner.py",
+      "sha256": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7"
+    },
+    {
+      "ref": "src/application/trading/close_intent.py",
+      "sha256": "d6655e5d6957520d1ecb86d4817d7acd90f84f14c284647b9cef97d7715cf3a4"
+    },
+    {
+      "ref": "src/application/paper/engine.py",
+      "sha256": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6"
+    },
+    {
+      "ref": "src/application/paper/service.py",
+      "sha256": "cfc7749f987759ff6b01aab5a4b577f7a10cf5bb86033d6e9d9d3b5beb536cb3"
+    },
+    {
+      "ref": "src/strategy/runtime.py",
+      "sha256": "9791587218b01deebb099f3649aca6ebc32b8e538d410b011ee56e3f8822e62e"
+    },
+    {
+      "ref": "src/strategy/trade_intent.py",
+      "sha256": "8308499542565eb523ee670b56284397b67325f87b7e3bb64d0a2adcfcda2a38"
+    },
+    {
+      "ref": "src/strategy/v02/temporal.py",
+      "sha256": "0bdfd3dc719c8ffa2eb6c50d40b610eda1dcf18857c4ac289cc8ef38401fa02b"
+    },
+    {
+      "ref": "src/strategy/v02/exits.py",
+      "sha256": "259b248553eb44228ab2e05b056d41abecb033f549becfdb5e8cd3532c4e7264"
+    },
+    {
+      "ref": "src/risk/engine.py",
+      "sha256": "3e39dfb1a2aec8121283f4603201af7d222bd2ad8947af979cf2c9dabdb507a1"
+    },
+    {
+      "ref": "src/risk/product_policy.py",
+      "sha256": "ecae712fb3a2f611d84d62bf92207571f967853cf1090991dc73c031bfe84cae"
+    },
+    {
+      "ref": "src/position/exit_requests.py",
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc"
+    },
+    {
+      "ref": "src/position/close.py",
+      "sha256": "ed8efdfb13c9aaf42d4b6ee7b36f49f8db5dcbd6200a39da038cdbd7cc105154"
+    },
+    {
+      "ref": "src/brokers/okx_product.py",
+      "sha256": "3d5cda09463e72819d05421046deeaaac8620755aa856ec5aaeb1c2c14aab7aa"
+    },
+    {
+      "ref": "src/storage/product_dispatch.py",
+      "sha256": "efb215df9fa13009a7957050384d4f6d6a1f7e1cd629128e4448365e0c659dac"
+    },
+    {
+      "ref": "src/storage/canonical_publication.py",
+      "sha256": "cb540771f20ed41812df146d2760618e02b56e91750122925bb28e3e39a1da73"
+    },
+    {
+      "ref": "src/registry/operational_authority.py",
+      "sha256": "495c47a92c93f8a28c4acd0f817c7934a9672a779d85d899fa714e53740d0565"
+    },
+    {
+      "ref": "tests/product/test_trading_dispatch_v02.py",
+      "sha256": "76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490"
+    }
+  ],
+  "verification": {
+    "tests": [],
+    "git": [],
+    "db_reads": 0,
+    "native_processes": [],
+    "network_calls": 0,
+    "private_reads": 0,
+    "tracked_changes": []
+  }
+}

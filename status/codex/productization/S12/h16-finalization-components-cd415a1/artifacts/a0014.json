@@ -1,0 +1,104 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "review_mode": "STATIC_ONLY",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 1,
+  "implementation_hashes": {
+    "src/application/trading/finalization.py": "7f581035f52337970df1b088a2cabacd8c1d2100bcd0fc045af77f80d17a7e39",
+    "src/storage/product_finalization.py": "52253a15995ddd3ce6fb48f46cd5015c1607d415650bcc13a559f18bf616e949",
+    "src/storage/product_finalization_facts.py": "49eaeb08075542607a43132a8dba200e68c9208617e1fcdaa780b898fcbaa4eb",
+    "src/storage/migrations/0022_product_trade_finalization.sql": "176572e8b5c8d6482635a9486dfe6af21b253c8d22ab67c2bbe1141e3ab9cccc",
+    "src/application/trading/service.py": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+    "src/application/trading/orchestrator.py": "188c6a30840222148392f0d93e7e814de8d83ee1e2e688ed76478f8ccf103248",
+    "src/storage/product_dispatch.py": "efb215df9fa13009a7957050384d4f6d6a1f7e1cd629128e4448365e0c659dac"
+  },
+  "test_fixture_hashes": {
+    "tests/product/test_trading_finalization_expiry_v02.py": "a27d5ae0fed99447c70de076deaecf014fde7ee2c4a712b51d0b31c726c44fcd",
+    "tests/product/test_trading_finalization_issuer_v02.py": "1afc7ba1ebbb507d8d7408a0e44b8b4aae8add0a0e7c16a3e2bcc695b3eba853",
+    "tests/product/test_trading_finalization_missing_funding_v02.py": "ece032df2d76ca39af38f9bc6ba41a8379811d934e93fe24e08cc4957dcb0c77",
+    "tests/product/test_trading_finalization_positive_v02.py": "5263c7bd6871c6bc07ed21d888c8aa4368e508a539bbda9ee81d21f72b91d9b7",
+    "tests/product/test_trading_finalization_recovery_binding_v02.py": "3d42cea44b236995c40451f481ac5d21c136439b661c8b2a5f611c6cc5eaf15f",
+    "tests/product/test_trading_finalization_recovery_projection_v02.py": "54b3d5fcb3869e22b41ee927dd3582d44fff5ab8287d07781a3d8efb2b85e469",
+    "tests/product/test_trading_finalization_recovery_result_v02.py": "085a5fdf15c67e7b61ffae321fd65b297be6092f868a266629f23fdeb0ad895c",
+    "tests/product/test_trading_finalization_target_kind_v02.py": "7f3ab6efc6be07b4d03b888ffe5e21de34c539fe4320f26b22afd29671a799d2",
+    "tests/product/test_trading_finalization_terminal_hash_v02.py": "0a2d43748836702488eeab87f2859b98620f5707dd128ec8fc4c979d6b644a2b",
+    "tests/product/test_trading_finalization_unknown_inventory_v02.py": "19e63ae32a32999de1966282da1abe1c509f10363a1c1086d25be04e9670e7b5",
+    "tests/product/trading_finalization_fixtures.py": "f1d38aead5cb3ce5fa8cb7203d5bb6058f14fe5088545088110870e76756b406",
+    "tests/product/trading_finalization_recovery_fixtures.py": "967e11f1d1f13fcd45c285ce157a3a64d81bbac35dee4b019e40e309034346d6"
+  },
+  "supporting_material_codec_hash": {
+    "path": "src/storage/product_position.py",
+    "sha256": "d306db09a91073daa98d379accb202d6b08dfd1fe11b475586441f1e87e0960b"
+  },
+  "initial_review_preserved": {
+    "path": "h16-finalization-implementation-review-initial-20261020.json",
+    "sha256": "661f9022b4b2d0e605174f5fafb656d31b1fcc8f08972e868222b00ec463325b"
+  },
+  "resolved_findings": [
+    {
+      "id": "FINALIZATION-STAGE-FINAL-FRESHNESS",
+      "status": "RESOLVED",
+      "path": "src/storage/product_finalization.py",
+      "lines": [
+        180,
+        211
+      ],
+      "reason": "Trusted clock callback replaces captured now. Original windows are sampled again under the dispatch lock after semantic/canonical scans, and original lease is checked before INSERT; application passes its own service.clock."
+    },
+    {
+      "id": "FINALIZATION-TERMINAL-HASH-UNBOUND",
+      "status": "RESOLVED",
+      "path": "src/storage/product_finalization.py",
+      "lines": [
+        92,
+        104
+      ],
+      "reason": "Reparsed terminal source_hash must equal the retained original terminal commitment. Normalized material that cannot reproduce the full row hash now fails conservatively."
+    },
+    {
+      "id": "MISSING-FUNDING-INDEX",
+      "status": "RESOLVED",
+      "path": "src/storage/product_finalization.py",
+      "line": 105,
+      "reason": "Exactly one funding evidence row is required before indexing; the genuine missing-funding path denies instead of indexing an empty list."
+    }
+  ],
+  "findings": [
+    {
+      "id": "FINALIZATION-ORIGINAL-CLOCK-ORDER",
+      "severity": "Important",
+      "path": "src/storage/product_finalization.py",
+      "lines": [
+        92,
+        104,
+        190,
+        208
+      ],
+      "description": "The retained source is not checked for strict UTC field types and relative receive/interpret ordering. For example, change only terminal_confirmation.received_at to a future UTC time in an otherwise genuine owner-produced source and reserialize: row/hash reparse still succeeds, E5 effects/original_refs are unchanged, and staging only bounds the unchanged request_started_at. Impossible future-observed provenance can be staged/published.",
+      "same_class_fields": [
+        "terminal_confirmation.request_started_at <= terminal_confirmation.received_at <= source.interpreted_at",
+        "inventory_confirmation.request_started_at <= inventory_confirmation.received_at <= source.interpreted_at",
+        "native_confirmation.request_started_at <= native_confirmation.received_at <= source.interpreted_at",
+        "native_confirmation.provider_updated_at <= native_confirmation.received_at",
+        "metadata_observed_at <= source.interpreted_at; all listed source timestamps, interpreted_at and stored stage timestamps strictly UTC typed"
+      ],
+      "minimal_fix": "Validate fixed original source clock relationships during source/batch validation used by stage and replay, including already-complete receipt paths. Keep stage-time freshness as the separate final clock check. Do not compare an aged durable batch with current read freshness or renew its times.",
+      "minimal_regression": "Intercept actual owner-produced serialized source and alter only each affected receive/provider/metadata time or UTC type, preserving original row/hash where applicable and recomputing only serialization hashes. Require refusal without new outbox or canonical prefix; successor replay must preserve valid original aged timestamps."
+    }
+  ],
+  "static_conclusions": [
+    "Seven implementation/migration subjects retain distinct existing database identity/idle checks and single dispatch transaction/private receipt path. No new provider call or permission builder is introduced.",
+    "Stable account claim history is replayable across actual E6 generation changes; current lease and source/claim material are validated under the dispatch write lock. No persistent PRAGMA tuple authority is used.",
+    "Exact ordered canonical prefix diagnostics/current pointers are validated before comparison normalization; only exact own CLOSED/binding/TradeResult objects are removed, and all other baseline fields remain equal.",
+    "Twelve inspected test/fixture files use non-TestCase mixins and module fixture imports. They reuse real source owner entry/protection/close/funding/cancel/reconcile producers, not hand-written CLOSED/TradeResult facts.",
+    "Three successor recipes create fresh admission/capability/translator/provider/journal objects, obtain actual E6 lease generation2, reject the old lease, interrupt only after a real canonical commit, check exact durable prefix, retain original batch bytes and confirm one receipt/no HTTP. Their preflight is explicitly controlled source FIXTURE evidence, not real OS/native runtime proof.",
+    "Broker-read clocks, original first-flat funding interval and complete execution history remain separate; post-flat fresh zero confirmation does not rewrite the canonical first-flat anchor."
+  ],
+  "limits": [
+    "No tests/imports/DB/native/process/Git/network/provider or tracked edits by reviewer. Only this new authorized outside-Git review JSON was written; initial review remains intact.",
+    "Current development/negative/recovery execution outcomes were not inspected or inferred. Headers retaining UNAPPLIED/NOT_EXECUTED are treated as conservative comments, not acceptance evidence.",
+    "This source-only review gives no H16/K05/full qualification/native/LIVE or whole-Master acceptance credit."
+  ]
+}

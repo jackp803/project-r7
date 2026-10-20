@@ -1,0 +1,18 @@
+test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once (tests.product.test_trading_finalization_positive_v02.TradingFinalizationV02Tests.test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once) ... ERROR
+
+======================================================================
+ERROR: test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once (tests.product.test_trading_finalization_positive_v02.TradingFinalizationV02Tests.test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_finalization_positive_v02.py", line 14, in test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once
+    receipt = self.finalize(reads)
+              ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\trading_finalization_fixtures.py", line 92, in finalize
+    return self.service.finalize_fixture_trade(self.close_id, target, native, inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'finalize_fixture_trade'
+
+----------------------------------------------------------------------
+Ran 1 test in 90.268s
+
+FAILED (errors=1)

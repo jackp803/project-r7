@@ -1,0 +1,28 @@
+test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once (tests.product.test_trading_finalization_positive_v02.TradingFinalizationV02Tests.test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once) ... ERROR
+
+======================================================================
+ERROR: test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once (tests.product.test_trading_finalization_positive_v02.TradingFinalizationV02Tests.test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_finalization_positive_v02.py", line 14, in test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once
+    receipt = self.finalize(reads)
+              ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\trading_finalization_fixtures.py", line 92, in finalize
+    return self.service.finalize_fixture_trade(self.close_id, target, native, inventory,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 117, in finalize_fixture_trade
+    return finalize_fixture_trade(self,operation_id,target,native,inventory,metadata=metadata,proof=proof,expected_revision=expected_revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\finalization.py", line 55, in finalize_fixture_trade
+    effects=build_effects(source)
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_finalization_facts.py", line 64, in build_effects
+    fail('FINALIZATION_SETTLED_FULL_ENTRY_SINGLE_EXIT_UNUSED_STOP_REQUIRED')
+  File "<SOURCE_ROOT>\src\storage\product_finalization_facts.py", line 23, in fail
+    raise ProductDispatchError(code)
+storage.product_dispatch.ProductDispatchError: FINALIZATION_SETTLED_FULL_ENTRY_SINGLE_EXIT_UNUSED_STOP_REQUIRED
+
+----------------------------------------------------------------------
+Ran 1 test in 116.032s
+
+FAILED (errors=1)

@@ -1,0 +1,173 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "32d846d968c45c41471f1ca23cb9f2a87d33d36a",
+  "scope": "INTAKE_DELIVERY_VISIBILITY_SOURCE_AND_LOCAL_COPY_BROWSER_ONLY",
+  "source_cases": 35,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "clean_source_unchanged": true,
+  "owned_tree_reaped": true,
+  "browser_cases": 4,
+  "browser_scope": "DEVELOPMENT_EXACT_RECORDED_FILE_HASHES",
+  "browser_red": {
+    "cases": 1,
+    "failures": 1,
+    "trigger": "LOCAL_STAGED lacked visible explanation/hash"
+  },
+  "api_first_error": "Fixture treated actual dict row as dataclass; corrected, original failure retained",
+  "actual_flow": "Actual authenticated intake; Publisher stages3receipts; RcloneCloudTransport/RcloneBridge local fake byte-readback ACK1; corrupt readback yields actual CONFLICT1; LOCAL_STAGED1 remains",
+  "UI": "Raw persisted state and available bundle hash plus Traditional Chinese meaning; explicit FIXTURE local-copy disclosure; no invented ACK clock",
+  "independent_review": "0_CRITICAL_0_IMPORTANT_EXECUTION_NONE",
+  "visual_inspection": "ACTUAL_SCREENSHOT_INSPECTED",
+  "real_cloud": "NOT_RUN",
+  "report_outbox_delivery_visibility": "NOT_IMPLEMENTED_BY_THIS_SLICE",
+  "native_full": "NOT_RUN_FOR_THIS_SOURCE",
+  "frozen_inventory": "STALE_PENDING_NEXT_FINAL_CANDIDATE",
+  "shipped_example_manifests": "REGENERATE_FOR_FINAL_CAPABILITY_SNAPSHOT",
+  "preserved_qualified_windows": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "master": "IN_PROGRESS",
+  "public_requests_cumulative": 8,
+  "public_responses_cumulative": 8,
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "cloud08-source-32d846d/checkpoint.json",
+      "original_hash": "sha256:9fa1cfabcbe47ef91ddb93ba6a1951e68db63c5916a37e462f4a5654396204e5",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:9fa1cfabcbe47ef91ddb93ba6a1951e68db63c5916a37e462f4a5654396204e5",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-source-32d846d/source.log",
+      "original_hash": "sha256:f349fbc82f99e30fa5e811bac6ff44c0c274773c321660043bda249b487ed1b1",
+      "retained_ref": "artifacts/a0002.log",
+      "retained_hash": "sha256:f349fbc82f99e30fa5e811bac6ff44c0c274773c321660043bda249b487ed1b1",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_cloud08_source.py",
+      "original_hash": "sha256:5c3841d7effc289eb799fff1463390c6bb2e1bf5b4089aaffecf4cbdc4f1810e",
+      "retained_ref": "artifacts/a0003.py",
+      "retained_hash": "sha256:5c3841d7effc289eb799fff1463390c6bb2e1bf5b4089aaffecf4cbdc4f1810e",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-api-delivery-development.log",
+      "original_hash": "sha256:a1e27092f62349880f23e13cbd815049a66501a910c878503e380c31c43b9d08",
+      "retained_ref": "artifacts/a0004.log",
+      "retained_hash": "sha256:c4ea8529bdb8007f36ded3d3c6e299fbf76764a3233f6165d1f2f99294c09d4d",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-api-delivery-development-retry01.log",
+      "original_hash": "sha256:5c205ec08653444e40de09bac46572575f46ecc75dd4414527653e90a4203b2c",
+      "retained_ref": "artifacts/a0005.log",
+      "retained_hash": "sha256:5fabc49ed963f848c475d4a9f6a8e6de7fc6aa23debc9acc04be10d9a8b032a1",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-api-bridge-development-green.log",
+      "original_hash": "sha256:97fb282b89f46badf1f7ba385c9c177bad1fbbe3d8ac52a657b788b8cd7c0a52",
+      "retained_ref": "artifacts/a0006.log",
+      "retained_hash": "sha256:105db26885f515b4c84c529ed804e9fe27655ad8eb09718022bac1e1acc28289",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-ui-typecheck.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a0007.log",
+      "retained_hash": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-ui-build.log",
+      "original_hash": "sha256:ff7ef75c1b9706bcb0a03794ffd29c1c059493a0578af3967bb4859e6fae6192",
+      "retained_ref": "artifacts/a0008.log",
+      "retained_hash": "sha256:2ff0fbbd39cb47b48af14f8cbca60b2968a88308247f71fbdd1c1f68dfe514ed",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-visible-delivery-final-review.json",
+      "original_hash": "sha256:5070faa58c359869ef8f01201b3ea3908963556a6004100ab82fb913d433317a",
+      "retained_ref": "artifacts/a0009.json",
+      "retained_hash": "sha256:5070faa58c359869ef8f01201b3ea3908963556a6004100ab82fb913d433317a",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_cloud08_browser_red.py",
+      "original_hash": "sha256:cda286b2fae5f246528b9c2080f94c787b8d5d8c52d53c062b77e041e1ff9095",
+      "retained_ref": "artifacts/a0010.py",
+      "retained_hash": "sha256:cda286b2fae5f246528b9c2080f94c787b8d5d8c52d53c062b77e041e1ff9095",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-red/checkpoint.json",
+      "original_hash": "sha256:88e2a111a3fe9cae5ab6db8d1f5b4a7475c66fbd542d274b3dbd1ee6be1c8ebf",
+      "retained_ref": "artifacts/a0011.json",
+      "retained_hash": "sha256:88e2a111a3fe9cae5ab6db8d1f5b4a7475c66fbd542d274b3dbd1ee6be1c8ebf",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-red/browser.log",
+      "original_hash": "sha256:c0c5fb5ced57cbe9f29e74e51f7751d1be0bdb4c6b508b510308f23672d7efc3",
+      "retained_ref": "artifacts/a0012.log",
+      "retained_hash": "sha256:2f8ecf00016949195f5adf6752f2e2740d4f3e13681670002c5d9f1482fe81bc",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-red/browser/results.json",
+      "original_hash": "sha256:2a33e5d73a2213e770a4c47a09091d8302dab3f8bd01ef0a071178241a699356",
+      "retained_ref": "artifacts/a0013.json",
+      "retained_hash": "sha256:5051e7982b19f8083b72f30ca7e02e3a849f062a5ece01b6167d63c5e846d69e",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_cloud08_browser_green.py",
+      "original_hash": "sha256:9ae4dacbef65dbb980622075ce9d2632bcdb1ad05ccd0fc78819bb3051ca07b3",
+      "retained_ref": "artifacts/a0014.py",
+      "retained_hash": "sha256:9ae4dacbef65dbb980622075ce9d2632bcdb1ad05ccd0fc78819bb3051ca07b3",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-green/checkpoint.json",
+      "original_hash": "sha256:e58029fd77b46f91076c6aaa1df98e0d0651af0986aa9471e46f0472f1d86b02",
+      "retained_ref": "artifacts/a0015.json",
+      "retained_hash": "sha256:e58029fd77b46f91076c6aaa1df98e0d0651af0986aa9471e46f0472f1d86b02",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-green/browser.log",
+      "original_hash": "sha256:7427597997454c95f8e6c4fd9cb2175133ffec7d4a343fb6d28b597263708352",
+      "retained_ref": "artifacts/a0016.log",
+      "retained_hash": "sha256:7427597997454c95f8e6c4fd9cb2175133ffec7d4a343fb6d28b597263708352",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-green/browser/results.json",
+      "original_hash": "sha256:6db3269991b383873f576c40b580f9570b70750d4cf9b618156e1428139e7020",
+      "retained_ref": "artifacts/a0017.json",
+      "retained_hash": "sha256:c56e8520cb4b9b8ece5df0ef3b25899be476fbac6bb1df8c51b2b72f64063c09",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-browser-green/browser/cloud-delivery-states.png",
+      "original_hash": "sha256:e593fdb42152779359f642a8ac8b9ae4a000e58549e5252f4e7ce47ca9081345",
+      "retained_ref": "artifacts/a0018.png",
+      "retained_hash": "sha256:e593fdb42152779359f642a8ac8b9ae4a000e58549e5252f4e7ce47ca9081345",
+      "normalization": "NONE_BINARY"
+    },
+    {
+      "original_ref": "retain_cloud08_source.py",
+      "original_hash": "sha256:b768d02769df8a166f208b12b5ec4f1a882caeb561bcadc79d6f29cb18e91bb4",
+      "retained_ref": "artifacts/a0019.py",
+      "retained_hash": "sha256:b768d02769df8a166f208b12b5ec4f1a882caeb561bcadc79d6f29cb18e91bb4",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    }
+  ]
+}

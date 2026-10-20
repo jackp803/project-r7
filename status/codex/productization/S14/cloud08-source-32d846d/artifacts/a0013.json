@@ -1,0 +1,151 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "<SOURCE_ROOT>\\ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--grep",
+      "delivery"
+    ],
+    "configFile": "<SOURCE_ROOT>\\ui\\playwright.config.ts",
+    "rootDir": "<SOURCE_ROOT>/ui/qa",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "<USER_HOME>/Desktop/交易機器人主體/artifacts/current-windows-20261019/cloud08-browser-red/browser/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "<SOURCE_ROOT>/ui/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\cloud08-browser-red\\browser\\results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "control-center.spec.ts",
+      "file": "control-center.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "delivery separates local staging from actual byte-verified fixture-copy acknowledgment",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4660,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('row').filter({ hasText: 'fixture-delivery-1' })\nExpected substring: \u001b[32m\"僅暫存在本機，尚未取得目的端確認\"\u001b[39m\nReceived string:    \u001b[31m\"fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交\"\u001b[39m\nTimeout: 4000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('row').filter({ hasText: 'fixture-delivery-1' }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'fixture-delivery-1' })\u001b[22m\n\u001b[2m    12 × locator resolved to <tr>…</tr>\u001b[22m\n\u001b[2m       - unexpected value \"fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('row').filter({ hasText: 'fixture-delivery-1' })\nExpected substring: \u001b[32m\"僅暫存在本機，尚未取得目的端確認\"\u001b[39m\nReceived string:    \u001b[31m\"fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交\"\u001b[39m\nTimeout: 4000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('row').filter({ hasText: 'fixture-delivery-1' }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'fixture-delivery-1' })\u001b[22m\n\u001b[2m    12 × locator resolved to <tr>…</tr>\u001b[22m\n\u001b[2m       - unexpected value \"fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交\"\u001b[22m\n\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:96:32",
+                    "location": {
+                      "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                      "column": 32,
+                      "line": 96
+                    },
+                    "snippet": "  94 |   expect(items).toHaveLength(3);expect(staged).toBeTruthy();expect(acknowledged).toBeTruthy();expect(denied).toBeTruthy();\n  95 |   const rowFor=(item:any)=>page.getByRole('row').filter({hasText:item.submission_id});\n> 96 |   await expect(rowFor(staged)).toContainText('僅暫存在本機，尚未取得目的端確認');\n     |                                ^\n  97 |   await expect(rowFor(staged)).toContainText(staged.publication.artifact_hash);\n  98 |   await expect(rowFor(acknowledged)).toContainText('目的端位元組讀回已確認');\n  99 |   await expect(rowFor(acknowledged)).toContainText(acknowledged.publication.artifact_hash);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                        "column": 32,
+                        "line": 96
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('row').filter({ hasText: 'fixture-delivery-1' })\nExpected substring: \u001b[32m\"僅暫存在本機，尚未取得目的端確認\"\u001b[39m\nReceived string:    \u001b[31m\"fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交\"\u001b[39m\nTimeout: 4000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('row').filter({ hasText: 'fixture-delivery-1' }) with timeout 4000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('row').filter({ hasText: 'fixture-delivery-1' })\u001b[22m\n\u001b[2m    12 × locator resolved to <tr>…</tr>\u001b[22m\n\u001b[2m       - unexpected value \"fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交\"\u001b[22m\n\n\n  94 |   expect(items).toHaveLength(3);expect(staged).toBeTruthy();expect(acknowledged).toBeTruthy();expect(denied).toBeTruthy();\n  95 |   const rowFor=(item:any)=>page.getByRole('row').filter({hasText:item.submission_id});\n> 96 |   await expect(rowFor(staged)).toContainText('僅暫存在本機，尚未取得目的端確認');\n     |                                ^\n  97 |   await expect(rowFor(staged)).toContainText(staged.publication.artifact_hash);\n  98 |   await expect(rowFor(acknowledged)).toContainText('目的端位元組讀回已確認');\n  99 |   await expect(rowFor(acknowledged)).toContainText(acknowledged.publication.artifact_hash);\n    at <SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts:96:32"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T01:57:54.268Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\cloud08-browser-red\\browser\\results\\control-center-delivery-se-b8847-fixture-copy-acknowledgment\\error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "<SOURCE_ROOT>\\ui\\qa\\control-center.spec.ts",
+                    "column": 32,
+                    "line": 96
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-985c61f69037bab92060",
+          "file": "control-center.spec.ts",
+          "line": 87,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-20T01:57:25.767Z",
+    "duration": 37771.089,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

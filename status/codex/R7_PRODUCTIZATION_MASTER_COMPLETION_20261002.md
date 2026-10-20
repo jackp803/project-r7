@@ -1,3 +1,19 @@
+# Actual intake delivery visibility source checkpoint — 2026-10-20
+
+Source `32d846d968c45c41471f1ca23cb9f2a87d33d36a` exact-clean35cases PASS, unchanged/reaped. Actual local-copy
+browser4/4 PASS after retained missing-label RED1; typecheck/build PASS and
+static review0C/I. Actual Publisher/bridge produced stage, byte-verified ACK,
+and wrong-readback CONFLICT; UI preserves states/hash and FIXTURE disclosure.
+Evidence: `status/codex/productization/S14/cloud08-source-32d846d/disposition.json`.
+This proves intake-delivery source/UI only. Realcloud NOT_RUN; report-outbox
+visibility remains unfinished. Source candidate needs regenerated inventory,
+current-capability example manifests and later full/native qualification.
+Qualified Windows ZIP remains7d821f2. Same task/branch; Master IN_PROGRESS.
+Next: H16 native close owner, cross-role duplicate-claim final guard,
+native flat/funding/TradeResult/stop cleanup, K05 readonly reporting and final
+clause review. Public cumulative8/responses8; additional0/private0/credentialsNONE/
+capitalNONE/LIVENOT_STARTED/GitHubNOT_USED. No active guarded run.
+
 # R7 Master partial completion record
 
 **IN_PROGRESS — current Windows checkpoint completed; Master is not complete.**

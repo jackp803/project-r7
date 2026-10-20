@@ -1,0 +1,54 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "CLOUD08 intake delivery visibility: actual local-copy fixture, source API, UI Publication component and delivery browser profile only",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "reviewed_files": [
+    {
+      "path": "tests/application/cloud_delivery_fixtures.py",
+      "sha256": "622cb45107976766d1d7edc21e08232ddeb36858c790b37b26a6392a06af4548"
+    },
+    {
+      "path": "tests/product/test_api_owner_services.py",
+      "sha256": "0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25"
+    },
+    {
+      "path": "ui/src/App.tsx",
+      "sha256": "bafd5676e6b8ec815aeb2e2fcac8d22932e32bfc67b55653bb60eb5fffb50ab2"
+    },
+    {
+      "path": "ui/qa/serve_fixture.py",
+      "sha256": "e641edd7bb5518d497aa293b7091ff479628d4865bd103c3b987ed02eff40553"
+    },
+    {
+      "path": "ui/qa/control-center.spec.ts",
+      "sha256": "8697d5589896e71c73906c07ebe0ebe8be6df79083801219d65ef5252080daa6"
+    },
+    {
+      "path": "ui/playwright.config.ts",
+      "sha256": "44f9ce7be7cce81aeef6b1dcfb140246a54389f089beedced2eee1d628f3b7b7"
+    }
+  ],
+  "static_assessment": [
+    "prepare_delivery uses the actual intake scan and Publisher with SyncedFolderCloudTransport to create three local-stage receipts. RcloneCloudTransport/RcloneBridge use the existing LocalFakeRclone local filesystem runner, not a real cloud process/provider.",
+    "One real bridge byte-readback acknowledgment is required, corrupt destination readback is then required not to acknowledge, and the acknowledged bundle is compared byte-for-byte to its actual local fake destination. No acknowledgment row/state is hand-written.",
+    "The source API test compares the returned publication objects with the actual ledger views, retains the original staged artifact commitment for the acknowledged submission, and distinguishes one remaining staged row and one unconfirmed/conflict row.",
+    "Publication renders the raw state and actual artifact hash plus separate Chinese explanations. The FIXTURE view explicitly limits destination confirmation to isolated copy verification; it does not invent a timestamp or real-cloud provenance.",
+    "The new delivery browser profile composes this same fixture without mocked HTTP delivery responses; browser assertions verify each displayed state/hash and the FIXTURE-only explanation. The profile is separately named and uses its own loopback port."
+  ],
+  "limits": [
+    "Static source reads and raw-byte hashes only. No test, browser, native/product, Git, database/auth/config/provider/network execution or access; no tracked edits.",
+    "Root-reported source/browser results are not reviewer-executed validation.",
+    "This slice covers intake receipt publication visibility only. Research/Paper/report outbox visibility is not completed by these changes.",
+    "No real-cloud, native, full-product, financial or whole-Master qualification/acceptance credit."
+  ],
+  "context_read": [
+    "tests/application/test_cloud_bridge.py::LocalFakeRclone/CloudBridgeTests.setUp/bridge",
+    "tests/product/test_api_owner_services.py::setUp/scan",
+    "src/application/cloud/publisher.py::Publisher.flush"
+  ]
+}

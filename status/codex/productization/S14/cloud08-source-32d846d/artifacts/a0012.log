@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+(node:79036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] qa\control-center.spec.ts:87:1 › delivery separates local staging from actual byte-verified fixture-copy acknowledgment
+  1) qa\control-center.spec.ts:87:1 › delivery separates local staging from actual byte-verified fixture-copy acknowledgment
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('row').filter({ hasText: 'fixture-delivery-1' })
+    Expected substring: "僅暫存在本機，尚未取得目的端確認"
+    Received string:    "fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交"
+    Timeout: 4000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('row').filter({ hasText: 'fixture-delivery-1' }) with timeout 4000ms
+      - waiting for getByRole('row').filter({ hasText: 'fixture-delivery-1' })
+        12 × locator resolved to <tr>…</tr>
+           - unexpected value "fixture-delivery-1INTAKE_ACCEPTEDLOCAL_STAGED1查看提交"
+
+
+      94 |   expect(items).toHaveLength(3);expect(staged).toBeTruthy();expect(acknowledged).toBeTruthy();expect(denied).toBeTruthy();
+      95 |   const rowFor=(item:any)=>page.getByRole('row').filter({hasText:item.submission_id});
+    > 96 |   await expect(rowFor(staged)).toContainText('僅暫存在本機，尚未取得目的端確認');
+         |                                ^
+      97 |   await expect(rowFor(staged)).toContainText(staged.publication.artifact_hash);
+      98 |   await expect(rowFor(acknowledged)).toContainText('目的端位元組讀回已確認');
+      99 |   await expect(rowFor(acknowledged)).toContainText(acknowledged.publication.artifact_hash);
+        at <SOURCE_ROOT>\ui\qa\control-center.spec.ts:96:32
+
+    Error Context: ..\..\..\artifacts\current-windows-20261019\cloud08-browser-red\browser\results\control-center-delivery-se-b8847-fixture-copy-acknowledgment\error-context.md
+
+
+  1 failed
+    qa\control-center.spec.ts:87:1 › delivery separates local staging from actual byte-verified fixture-copy acknowledgment

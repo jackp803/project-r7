@@ -1,0 +1,18 @@
+test_actual_staged_and_byte_verified_copy_ack_have_distinct_api_delivery_states (tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_staged_and_byte_verified_copy_ack_have_distinct_api_delivery_states) ... ERROR
+
+======================================================================
+ERROR: test_actual_staged_and_byte_verified_copy_ack_have_distinct_api_delivery_states (tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_staged_and_byte_verified_copy_ack_have_distinct_api_delivery_states)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_api_owner_services.py", line 28, in test_actual_staged_and_byte_verified_copy_ack_have_distinct_api_delivery_states
+    actual=prepare_delivery(self)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\cloud_delivery_fixtures.py", line 38, in prepare_delivery
+    views=[ledger.submission_view(row.submission_id) for row in ledger.list_submissions(limit=10,offset=0)]
+                                  ^^^^^^^^^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'submission_id'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.816s
+
+FAILED (errors=1)

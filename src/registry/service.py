@@ -335,6 +335,22 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
         return self._store.run_lifecycle_once(command_id,request,
             lambda:self._transition(strategy,new_state,actor=actor,reason_codes=tuple(reason_codes),primary_evidence_id=None))
 
+    def validation_evidence_reference(self,evidence_id,*,identity):
+        import hashlib
+        from registry.models import EvidenceGateError
+        if type(evidence_id) is not str or not 1<=len(evidence_id)<=256 or '\x00' in evidence_id:
+            raise EvidenceGateError('Bounded canonical evidence reference required')
+        strategy=self._require_strategy(identity)
+        record=self._store.get_validation_evidence(evidence_id)
+        if (record is None or record.identity!=identity or record.strategy_content_hash!=strategy.content_hash
+                or record.evidence_type not in ('BACKTEST_RESULT','VALIDATION_DECISION')):
+            raise EvidenceGateError('Exact canonical validation reference required')
+        return dict(evidence_id=record.evidence_id,evidence_type=record.evidence_type,
+            payload_hash='sha256:'+hashlib.sha256(record.payload_json.encode('utf-8')).hexdigest(),
+            parent_evidence_id=record.parent_evidence_id,result_ref=record.result_ref,
+            verification_status=record.verification_status,verification_kind=record.verification_kind,
+            source_revision=record.source_revision)
+
     def product_assessment(self,run_id):
         return self._store.get_product_assessment(run_id)
 

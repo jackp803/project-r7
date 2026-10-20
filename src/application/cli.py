@@ -139,6 +139,10 @@ def main(argv=None):
     feedback.add_argument('--run-id', required=True)
     feedback.add_argument('--namespace', choices=('LOCAL_RESEARCH','FIXTURE'), default='LOCAL_RESEARCH')
     feedback.add_argument('--performance-opt-in', action='store_true')
+    candidate_index = commands.add_parser('queue-candidate-index', help='Queue the actual completed candidate evidence index; no financial authority')
+    candidate_index.add_argument('--config', type=Path, required=True)
+    candidate_index.add_argument('--run-id', required=True)
+    candidate_index.add_argument('--namespace', choices=('LOCAL_RESEARCH','FIXTURE'), default='LOCAL_RESEARCH')
     for name, description in (
         ('cloud-pull', 'Copy a bounded author-input batch from the explicitly selected R7 root'),
         ('cloud-import-dataset', 'Seal downloaded dataset bytes locally without decoding sealed OOS prices'),
@@ -246,7 +250,7 @@ def main(argv=None):
         write_immutable(destination.parent,destination.name,snapshot.canonical_json.encode('utf-8'))
         print(json.dumps(dict(status='CAPABILITIES_EXPORTED',snapshot_hash=snapshot.snapshot_hash,execution_evidence='NOT_RUN')))
         return 0
-    if args.command == 'queue-research-feedback':
+    if args.command in ('queue-research-feedback','queue-candidate-index'):
         from application.config import load_config
         from application.cloud.feedback import queue_feedback
         from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
@@ -257,8 +261,13 @@ def main(argv=None):
         with ProcessScopeLock('research:'+config.product_instance_id,lock_root=operational_lock_root(config)):
             with ResearchService(local_root=config.local_data_root,database_path=config.local_data_root/'research.sqlite',
                                  registry_path=config.database_path,namespace=args.namespace,owner_id='feedback-'+config.product_instance_id) as service:
-                operation=queue_feedback(service,args.run_id,performance_opt_in=args.performance_opt_in)
-        print(json.dumps(dict(status='FEEDBACK_QUEUED',operation_id=operation,cloud='NOT_CONTACTED')))
+                if args.command=='queue-candidate-index':
+                    from application.cloud.candidate_index import queue_candidate_index
+                    operation=queue_candidate_index(service,args.run_id)
+                else:
+                    operation=queue_feedback(service,args.run_id,performance_opt_in=args.performance_opt_in)
+        print(json.dumps(dict(status='CANDIDATE_INDEX_QUEUED' if args.command=='queue-candidate-index' else 'FEEDBACK_QUEUED',
+            operation_id=operation,cloud='NOT_CONTACTED')))
         return 0
     if args.command in ('cloud-pull', 'cloud-import-dataset', 'cloud-publish-outbox'):
         from dataclasses import asdict
@@ -296,6 +305,11 @@ def main(argv=None):
                             if remaining:
                                 second=flush_feedback(journal,RcloneCloudTransport(bridge),limit=remaining)
                                 summary=PublishSummary(**{name:value+getattr(second,name) for name,value in asdict(summary).items()})
+                            remaining=args.limit-summary.attempted
+                            if remaining:
+                                from application.cloud.candidate_index import flush_candidate_indexes
+                                candidates=flush_candidate_indexes(journal,RcloneCloudTransport(bridge),limit=remaining)
+                                summary=PublishSummary(**{name:value+getattr(candidates,name) for name,value in asdict(summary).items()})
                     remaining=args.limit-summary.attempted
                     if remaining and config.database_path.is_file():
                         from application.platform.supervision import _local_path

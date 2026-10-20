@@ -60,7 +60,7 @@ def _command_id(profile_hash,operation,subject,revision):
 def schedule_once(owners,services,operations,*,submission_offset=0,report_offset=0):
     """Only scan/enqueue/report; never approval, candidate promotion or PaperStart."""
     selected=validate_operations(operations);commitment=digest(canonical(selected).encode())
-    result=dict(scan='NOT_SELECTED',enqueued=0,reports_queued=0,refusals=[],paper='NOT_COMMANDED',provider_requests=0,
+    result=dict(scan='NOT_SELECTED',enqueued=0,reports_queued=0,candidate_indexes_queued=0,refusals=[],paper='NOT_COMMANDED',provider_requests=0,
                 next_submission_offset=0,next_report_offset=0)
     if selected['scan_inbox']:
         revision=services.revision('INBOX_SCAN','inbox',{})
@@ -83,12 +83,23 @@ def schedule_once(owners,services,operations,*,submission_offset=0,report_offset
                     if len(result['refusals'])<32:result['refusals'].append(dict(submission_id=submission['submission_id'],policy_id=policy,reason_code=type(error).__name__))
     if selected['queue_reports'] and owners.queue is not None:
         from application.cloud.feedback import queue_feedback
+        from application.cloud.candidate_index import queue_candidate_index
         jobs=owners.queue.list(limit=32,offset=report_offset)
         result['next_report_offset']=report_offset+32 if len(jobs)==32 else 0
         for job in jobs:
             if job['state']!='COMPLETE' or job['owner_run_id'] is None:continue
             with owners.queue.service_factory() as research:
                 queue_feedback(research,job['owner_run_id'],performance_opt_in=False)
+                report=research.report(job['owner_run_id'])
+                if report['candidate_gate']['status']=='PASS' and report['candidate_gate']['strategy_lifecycle']=='CANDIDATE':
+                    try:
+                        queue_candidate_index(research,job['owner_run_id'])
+                    except Exception as error:
+                        if len(result['refusals'])<32:
+                            result['refusals'].append(dict(run_id=job['owner_run_id'],operation='QUEUE_CANDIDATE_INDEX',
+                                reason_code=type(error).__name__))
+                    else:
+                        result['candidate_indexes_queued']+=1
             result['reports_queued']+=1
     result['publication']='LOCAL_DURABLE_OUTBOX_ONLY;REMOTE_NOT_CONFIGURED'
     return result

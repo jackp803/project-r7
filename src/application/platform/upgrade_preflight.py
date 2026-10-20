@@ -54,6 +54,7 @@ def _application_models(end):
         return (root/name).read_text(encoding='utf-8')
     intake=script('0001_intake_outbox.sql');queue=script('0005_research_queue.sql')
     journal=(script('0002_research_attempts.sql'),script('0007_research_feedback_outbox.sql'))
+    candidate_index=script('0010_candidate_index_outbox.sql')
     trial=script('0003_research_trial_ledger.sql')
     legacy=script('0006_process_supervision.sql')
     runtime=script('0008_runtime_process_supervision.sql')
@@ -61,7 +62,8 @@ def _application_models(end):
     models={
         'intake':(_model((intake,),end),),
         'queue':(_model((queue,),end),),
-        'research':(_model(journal,end),_model((trial,),end),_model((*journal,trial),end)),
+        'research':(_model(journal,end),_model((trial,),end),_model((*journal,trial),end),
+            _model((*journal,candidate_index),end),_model((*journal,candidate_index,trial),end)),
         'control':(_model((script('0004_control_commands.sql'),),end),),
         'auth':(_model((LOCAL_AUTH_SCHEMA_SQL,),end),),
         'settings':(_model((CONTROL_SETTINGS_SCHEMA_SQL,),end),

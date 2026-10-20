@@ -157,6 +157,13 @@ class RcloneBridge:
             raise CloudError('BLOCKED', 'BRIDGE_AUTHOR_NAMESPACE_READ_ONLY')
         if not payloads or len(payloads) > 32:
             raise CloudError('BLOCKED', 'BRIDGE_RESULT_MANIFEST_INVALID')
+        candidate=logical_path.startswith('candidates/')
+        if candidate:
+            from application.cloud.candidate_index import validate_candidate_index_publication
+            try:
+                validate_candidate_index_publication(logical_path,payloads)
+            except (ValueError,TypeError,KeyError):
+                raise CloudError('BLOCKED','BRIDGE_CANDIDATE_INDEX_BUNDLE_INVALID') from None
         folded = set()
         for relative, raw in payloads.items():
             safe_relative(relative)
@@ -166,6 +173,10 @@ class RcloneBridge:
             if not isinstance(raw, bytes) or len(raw) > 256*1024:
                 raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_PAYLOAD_LIMIT')
             if logical_path.startswith('reports/feedback/'):
+                continue
+            if candidate and relative=='report.html':
+                # Exact owner format/escaped rendering was checked above.
+                # JSON payloads still pass the existing privacy inspection.
                 continue
             if not relative.endswith('.json'):
                 raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_MEDIA_NOT_IMPLEMENTED')

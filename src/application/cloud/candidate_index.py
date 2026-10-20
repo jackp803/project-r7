@@ -1,0 +1,217 @@
+"""Closed nonfinancial candidate reference artifact produced by actual owners.
+No feedback-contract change; publication is historical data, never a permit.
+"""
+from dataclasses import dataclass,field
+import html
+import json
+import re
+
+from application.cloud.manifest import HASH,byte_hash,canonical_bytes,load_json,safe_component,utc
+from application.cloud.protocol import ArtifactBundle,CloudError
+from application.research.service import ResearchService
+
+SCHEMA='r7-candidate-evidence-index-v0.2'
+TOP={'schema_version','run_id','namespace','strategy','source','dataset','input_hash',
+    'split_policy_hash','policy_hashes','created_at','holdout_observed','financial_authority','evidence'}
+ROLES=('development_backtest','sealed_backtest','oos_validation','product_assessment')
+REFERENCE={'role','evidence_id','payload_hash','parent_evidence_id','result_ref'}
+_OWNER=object()
+
+
+class CandidateIndexError(ValueError):pass
+
+
+def _fail(code):raise CandidateIndexError(code)
+
+
+def _exact(value,keys):
+    if type(value) is not dict or set(value)!=set(keys):_fail('CANDIDATE_INDEX_FIELDS_INVALID')
+
+
+def _hash(value):
+    if not isinstance(value,str) or not HASH.fullmatch(value):_fail('CANDIDATE_INDEX_HASH_INVALID')
+
+
+def validate_candidate_index(value):
+    _exact(value,TOP)
+    if (value['schema_version']!=SCHEMA or value['namespace'] not in ('FIXTURE','LOCAL_RESEARCH')
+            or value['financial_authority']!='NONE' or value['holdout_observed'] is not True):
+        _fail('CANDIDATE_INDEX_SCHEMA_INVALID')
+    safe_component(value['run_id']);utc(value['created_at'])
+    _exact(value['strategy'],('strategy_id','strategy_version','content_hash','runtime_family','runtime_version'))
+    for key in ('strategy_id','strategy_version','runtime_family','runtime_version'):safe_component(value['strategy'][key])
+    _hash(value['strategy']['content_hash']);_hash(value['input_hash']);_hash(value['split_policy_hash'])
+    _exact(value['source'],('executable_revision','implementation_hash','execution','worktree'))
+    revision=value['source']['executable_revision']
+    if revision is not None and (type(revision) is not str or not re.fullmatch('[0-9a-f]{40}',revision)):
+        _fail('CANDIDATE_INDEX_SOURCE_INVALID')
+    _hash(value['source']['implementation_hash'])
+    if value['source']['execution']!='LOCAL' or value['source']['worktree'] not in ('CLEAN','DIRTY','UNAVAILABLE'):
+        _fail('CANDIDATE_INDEX_SOURCE_INVALID')
+    _exact(value['dataset'],('dataset_id','dataset_version','manifest_hash'))
+    safe_component(value['dataset']['dataset_id']);safe_component(value['dataset']['dataset_version'])
+    _hash(value['dataset']['manifest_hash'])
+    _exact(value['policy_hashes'],('cost','research','robustness','risk'))
+    for commitment in value['policy_hashes'].values():_hash(commitment)
+    evidence=value['evidence']
+    if type(evidence) is not list or len(evidence)!=4:_fail('CANDIDATE_INDEX_EXACT_REFERENCES_REQUIRED')
+    expected_refs=('development_replay','sealed_oos','sealed_oos','product_assessment')
+    for item,role,stage in zip(evidence,ROLES,expected_refs):
+        _exact(item,REFERENCE);safe_component(item['evidence_id']);_hash(item['payload_hash'])
+        if item['role']!=role or item['result_ref']!='research:'+value['run_id']+'/'+stage:
+            _fail('CANDIDATE_INDEX_REFERENCE_INVALID')
+        if item['parent_evidence_id'] is not None:safe_component(item['parent_evidence_id'])
+    if (len({item['evidence_id'] for item in evidence})!=4 or
+            evidence[0]['parent_evidence_id'] is not None or evidence[1]['parent_evidence_id'] is not None or
+            evidence[2]['parent_evidence_id']!=evidence[1]['evidence_id'] or
+            evidence[3]['parent_evidence_id']!=evidence[2]['evidence_id']):
+        _fail('CANDIDATE_INDEX_PARENT_INVALID')
+    if len(canonical_bytes(value))>256*1024:_fail('CANDIDATE_INDEX_SIZE_LIMIT')
+    return value
+
+
+def _manifest(value):
+    return dict(schema_version='r7-candidate-artifact-manifest-v0.2',run_id=value['run_id'],
+        namespace=value['namespace'],strategy=value['strategy'],source=value['source'],
+        index_hash=byte_hash(canonical_bytes(value)),financial_authority='NONE')
+
+
+def _render(value):
+    # Fixed source HTML only; every variable appears as escaped text. No URLs,
+    # scripts, CSS callbacks or raw report/private canonical payloads.
+    body=html.escape(json.dumps(value,ensure_ascii=False,sort_keys=True,indent=2))
+    return ('<!doctype html><html lang="zh-Hant"><meta charset="utf-8">'
+        '<title>候選策略證據索引</title><h1>候選策略證據索引</h1>'
+        '<p>歷史本機證據參照；不授予交易權限。</p><pre>'+body+'</pre></html>').encode('utf-8')
+
+
+def candidate_index_bundle(value):
+    validate_candidate_index(value);raw=canonical_bytes(value);identity=value['strategy']
+    logical='candidates/'+identity['strategy_id']+'/'+identity['strategy_version']+'/'+byte_hash(raw)[7:]
+    return ArtifactBundle(logical,{'candidate_manifest.json':canonical_bytes(_manifest(value)),
+        'evidence_index.json':raw,'report.html':_render(value)})
+
+
+def validate_candidate_index_publication(logical_path,payloads):
+    if type(payloads) is not dict or set(payloads)!={'candidate_manifest.json','evidence_index.json','report.html'}:
+        _fail('CANDIDATE_INDEX_EXACT_BUNDLE_REQUIRED')
+    if any(type(raw) is not bytes or len(raw)>256*1024 for raw in payloads.values()):
+        _fail('CANDIDATE_INDEX_SIZE_LIMIT')
+    value=load_json(payloads['evidence_index.json'],256*1024)
+    expected=candidate_index_bundle(value)
+    if expected.logical_path!=logical_path or dict(expected.payloads)!=payloads:
+        _fail('CANDIDATE_INDEX_EXACT_BUNDLE_REQUIRED')
+    return value
+
+
+def require_candidate_index_subject(value,run):
+    # Pure durable run binding check: safe for outbox validation/RO readers.
+    if run is None or byte_hash(run['input_json'].encode())!=run['input_hash']:
+        _fail('CANDIDATE_INDEX_ACTUAL_RUN_REQUIRED')
+    inputs=json.loads(run['input_json']);strategy=inputs['strategy']
+    if (value['run_id']!=run['run_id'] or value['input_hash']!=run['input_hash'] or
+            value['namespace']!=inputs['namespace'] or
+            value['strategy']!={**{key:strategy[key] for key in ('strategy_id','strategy_version','content_hash')},**strategy['runtime_compatibility']} or
+            value['dataset']!={**{key:inputs['dataset'][key] for key in ('dataset_id','dataset_version')},'manifest_hash':inputs['dataset_manifest_hash']} or
+            value['split_policy_hash']!=inputs['split_policy_hash'] or
+            value['source']!={key:inputs['provenance'][key] for key in ('executable_revision','implementation_hash','execution','worktree')} or
+            value['created_at']!=run['created_at']):_fail('CANDIDATE_INDEX_OWNER_LINEAGE_MISMATCH')
+    expected=dict(cost=inputs['cost_policy_hash'],research=byte_hash(canonical_bytes(inputs['research_policy'])),
+        robustness=byte_hash(canonical_bytes(inputs['robustness_policy'])),risk=byte_hash(canonical_bytes(inputs['risk_policy'])))
+    if value['policy_hashes']!=expected:_fail('CANDIDATE_INDEX_POLICY_MISMATCH')
+    return inputs
+
+
+def build_candidate_index(service,run_id):
+    if type(service) is not ResearchService:_fail('ACTUAL_CANDIDATE_RESEARCH_OWNER_REQUIRED')
+    safe_component(run_id);report=service.report(run_id);inputs,input_hash=service.ledger._run(run_id)
+    row=service.journal._db.execute('SELECT * FROM research_runs WHERE run_id=?',(run_id,)).fetchone()
+    if (row is None or row['input_hash']!=input_hash or report['run_id']!=run_id or report['inputs']!=inputs or report['namespace']!=service.namespace
+            or inputs['namespace']!=service.namespace or report['candidate_gate']['status']!='PASS'
+            or report['candidate_gate']['strategy_lifecycle']!='CANDIDATE' or report['sealed_oos']!='PASS'):
+        _fail('CANDIDATE_INDEX_ACTUAL_CANDIDATE_REQUIRED')
+    from registry import StrategyIdentity
+    from registry.product_assessment import require_product_candidate
+    from storage.platform import open_sqlite_platform
+    identity=StrategyIdentity(inputs['strategy']['strategy_id'],inputs['strategy']['strategy_version'])
+    with open_sqlite_platform(service.registry_path,research_namespace=service.namespace) as e6:
+        strategy=e6.get_strategy(identity);record=e6.product_assessment(run_id)
+        if record is None or record!=e6.candidate_product_assessment(identity):_fail('CANDIDATE_INDEX_CURRENT_RECORD_REQUIRED')
+        if require_product_candidate(e6._store,strategy,record.validation_evidence_id,
+                implementation_hash=inputs['implementation_hash'])!=record:
+            _fail('CANDIDATE_INDEX_CANONICAL_BINDING_REQUIRED')
+        if (record.assessment_id!=report['candidate_gate']['assessment_id'] or
+                record.strategy_content_hash!=inputs['strategy']['content_hash'] or
+                json.loads(record.payload_json)!=report['product_assessment'] or
+                json.loads(record.risk_policy_json)!=inputs['risk_policy']):
+            _fail('CANDIDATE_INDEX_CANONICAL_BINDING_REQUIRED')
+        development=e6.validation_evidence_reference(report['backtest_e6_evidence_id'],identity=identity)
+        validation=e6.validation_evidence_reference(record.validation_evidence_id,identity=identity)
+        sealed=e6.validation_evidence_reference(validation['parent_evidence_id'],identity=identity)
+        for reference,kind in ((development,'BACKTEST_RESULT'),(sealed,'BACKTEST_RESULT'),(validation,'VALIDATION_DECISION')):
+            if (reference['evidence_type']!=kind or reference['verification_status']!='PASS'
+                    or reference['verification_kind']!='LOCAL_EXECUTION'
+                    or reference['source_revision']!=record.implementation_hash):
+                _fail('CANDIDATE_INDEX_ACTUAL_E3_REFERENCE_REQUIRED')
+    def ref(role,item):
+        return dict(role=role,**{key:item[key] for key in ('evidence_id','payload_hash','parent_evidence_id','result_ref')})
+    value=dict(schema_version=SCHEMA,run_id=run_id,namespace=service.namespace,
+        strategy={**{key:inputs['strategy'][key] for key in ('strategy_id','strategy_version','content_hash')},**inputs['strategy']['runtime_compatibility']},
+        source={key:inputs['provenance'][key] for key in ('executable_revision','implementation_hash','execution','worktree')},
+        dataset={**{key:inputs['dataset'][key] for key in ('dataset_id','dataset_version')},'manifest_hash':inputs['dataset_manifest_hash']},
+        input_hash=input_hash,split_policy_hash=inputs['split_policy_hash'],
+        policy_hashes=dict(cost=inputs['cost_policy_hash'],research=byte_hash(canonical_bytes(inputs['research_policy'])),
+            robustness=byte_hash(canonical_bytes(inputs['robustness_policy'])),risk=record.risk_policy_hash),
+        created_at=row['created_at'],holdout_observed=True,financial_authority='NONE',
+        evidence=[ref('development_backtest',development),ref('sealed_backtest',sealed),ref('oos_validation',validation),
+            dict(role='product_assessment',evidence_id=record.assessment_id,payload_hash=record.payload_hash,
+                parent_evidence_id=record.validation_evidence_id,result_ref=record.result_ref)])
+    validate_candidate_index(value);require_candidate_index_subject(value,row)
+    # Same existing holdout-publication policy as feedback, but a distinct
+    # idempotent exposure keyed to these exact candidate index bytes.
+    from application.research.holdout import FrozenFinalist
+    frozen_row=service.ledger._db.execute('SELECT * FROM research_finalists WHERE run_id=?',(run_id,)).fetchone()
+    if frozen_row is None:_fail('CANDIDATE_INDEX_FINALIST_REQUIRED')
+    frozen=FrozenFinalist(frozen_row['finalist_id'],frozen_row['frozen_json'],frozen_row['frozen_hash'])
+    actual=service.ledger.verify_finalist(frozen);result=service.ledger.result(frozen)
+    if (actual!=report['frozen_finalist'] or actual['run_input_hash']!=input_hash or result is None
+            or result.as_dict()!=report['product_assessment']):_fail('CANDIDATE_INDEX_OOS_BINDING_REQUIRED')
+    period=actual['policies']['split']['sealed_oos']
+    service.ledger.observe_holdout(actual['family_id'],period['start'],period['end'],
+        kind='CHAT_OBSERVATION',reference_hash=byte_hash(canonical_bytes(value)))
+    return value
+
+
+@dataclass(frozen=True)
+class _OwnedCandidateIndex:
+    index_json:bytes
+    capability:object=field(repr=False,compare=False)
+    def __post_init__(self):
+        if self.capability is not _OWNER:_fail('CANDIDATE_INDEX_OWNER_BUILD_REQUIRED')
+
+
+def queue_candidate_index(service,run_id):
+    from application.research.evidence import now_utc
+    value=build_candidate_index(service,run_id)  # Exposure durable BEFORE disclosure/outbox.
+    return service.journal._enqueue_candidate_index(_OwnedCandidateIndex(canonical_bytes(value),_OWNER),now_utc())
+
+
+def flush_candidate_indexes(journal,transport,*,limit,include_local_staged=True):
+    from application.research.evidence import ResearchJournal
+    from application.cloud.publisher import PublishSummary
+    if type(journal) is not ResearchJournal:_fail('ACTUAL_CANDIDATE_RESEARCH_JOURNAL_REQUIRED')
+    items=journal.pending_candidate_index_publications(limit,include_local_staged=include_local_staged)
+    counts=dict(local_staged=0,cloud_acknowledged=0,unavailable=0,conflicts=0)
+    for operation,bundle,expected in items:
+        try:
+            receipt=transport.publish(bundle,operation)
+            if (receipt.operation_id!=operation or receipt.artifact_hash!=expected
+                    or receipt.status not in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED')):
+                raise CloudError('UNAVAILABLE','CANDIDATE_INDEX_TRANSPORT_RECEIPT_INVALID')
+            journal.record_candidate_index_publication(operation,receipt.status,artifact_hash=receipt.artifact_hash)
+            counts['local_staged' if receipt.status=='LOCAL_STAGED' else 'cloud_acknowledged']+=1
+        except CloudError as error:
+            status='CONFLICT' if error.code=='CONFLICT' else 'UNAVAILABLE'
+            journal.record_candidate_index_publication(operation,status)
+            counts['conflicts' if status=='CONFLICT' else 'unavailable']+=1
+    return PublishSummary(len(items),**counts)

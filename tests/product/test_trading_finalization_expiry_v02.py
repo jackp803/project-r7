@@ -1,0 +1,26 @@
+"""Regression: sources expiring during the actual under-lock staging scan."""
+from datetime import timedelta
+from copy import deepcopy
+import unittest
+from unittest.mock import patch
+from tests.product.trading_finalization_fixtures import FinalizationFixture
+
+
+class TradingFinalizationExpiryV02Tests(FinalizationFixture,unittest.TestCase):
+    def test_expiry_during_real_locked_scan_denies_new_outbox_and_all_canonical_effects(self):
+        import storage.product_finalization as persistence
+        self.settled();reads=self.final_reads()
+        self.fixture.clock[0]+=timedelta(seconds=4.9)
+        before=self.flow.recover();calls=deepcopy(self.provider.calls);advanced=[]
+        original=persistence.recover_snapshot
+        def real_scan_then_expire(*args,**kwargs):
+            value=original(*args,**kwargs)
+            if self.service.dispatch._db.in_transaction and not advanced:
+                self.fixture.clock[0]+=timedelta(seconds=0.2);advanced.append(True)
+            return value
+        with patch.object(persistence,'recover_snapshot',side_effect=real_scan_then_expire):
+            with self.assertRaises(ValueError):self.finalize(reads)
+        self.assertTrue(advanced)
+        self.assertIsNone(self.service.dispatch.finalization_batch(self.service.run_id,self.close_id))
+        self.assertEqual(before,self.flow.recover())
+        self.assertEqual(calls,self.provider.calls)

@@ -112,6 +112,10 @@ class TradingService:
         from application.trading.terminal_stop import read_fixture_terminal_stop
         return read_fixture_terminal_stop(self,operation_id,expected_revision=expected_revision)
 
+    def finalize_fixture_trade(self,operation_id,target,native,inventory,*,metadata,proof,expected_revision):
+        from application.trading.finalization import finalize_fixture_trade
+        return finalize_fixture_trade(self,operation_id,target,native,inventory,metadata=metadata,proof=proof,expected_revision=expected_revision)
+
     def prepare_fixture_stop_cleanup(self,operation_id,target,native,inventory,*,metadata,proof,expected_revision):
         from application.trading.stop_cleanup import prepare_fixture_stop_cleanup
         return prepare_fixture_stop_cleanup(self,operation_id,target,native,inventory,metadata=metadata,proof=proof,expected_revision=expected_revision)

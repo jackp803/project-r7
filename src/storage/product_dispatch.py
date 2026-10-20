@@ -431,6 +431,27 @@ class ProductDispatchJournal:
         try:return self._db.execute('PRAGMA data_version').fetchone()[0],self._db.total_changes
         except sqlite3.Error:raise ProductDispatchError('DISPATCH_CLAIM_INVENTORY_UNAVAILABLE') from None
 
+    def stage_finalization(self,canonical,run_id,operation_id,observation,*,lease,clock,claim_inventory_generation):
+        from storage.product_finalization import stage_finalization
+        return stage_finalization(self,canonical,run_id,operation_id,observation,lease=lease,clock=clock,
+            claim_inventory_generation=claim_inventory_generation)
+
+    def finalization_batch(self,run_id,operation_id):
+        from storage.product_finalization import finalization_batch
+        return finalization_batch(self,run_id,operation_id)
+
+    def finalization_receipt(self,batch):
+        from storage.product_finalization import finalization_receipt
+        return finalization_receipt(self,batch)
+
+    def pending_finalizations(self,run_id):
+        from storage.product_finalization import pending_finalizations
+        return pending_finalizations(self,run_id)
+
+    def publish_finalization(self,canonical,batch,*,lease,clock):
+        from storage.product_finalization import publish_finalization
+        return publish_finalization(self,canonical,batch,lease=lease,clock=clock)
+
     def require_claim_inventory_generation(self, original):
         if (type(original) is not tuple or len(original)!=2 or any(type(item) is not int for item in original) or
             original!=self.claim_inventory_generation()):

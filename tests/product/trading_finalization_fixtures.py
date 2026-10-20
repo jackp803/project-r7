@@ -1,0 +1,104 @@
+"""Genuine finalization helpers; no discoverable TestCase."""
+from copy import deepcopy
+from dataclasses import replace
+from datetime import timedelta
+from decimal import Decimal
+import unittest
+import tests.product.test_trading_stop_cleanup_v02 as cleanup_fixtures
+import tests.product.test_trading_funding_v02 as funding_fixtures
+import tests.product.test_trading_inventory_v02 as inventory_fixtures
+
+
+class FinalizationFixture:
+    def setUp(self):
+        self.cleanup = cleanup_fixtures.TradingStopCleanupV02Tests(methodName='runTest')
+        self.cleanup.setUp()
+        self.addCleanup(self.cleanup.doCleanups)
+        self.flow = self.cleanup.flow
+        self.fixture = self.cleanup.fixture
+        self.service = self.cleanup.service
+        self.provider = self.cleanup.provider
+        self.stop_id = self.flow.stop.canonical_request.order_request_id
+        # Reuse actual source page builder, without its separate unprotected
+        # context setup. The bound genuine flow already exposes position.recover.
+        self.funding = funding_fixtures.TradingFundingV02Tests(methodName='runTest')
+        self.funding.flow = self.flow
+        self.funding.fixture = self.fixture
+        self.context = (self.service, self.provider)
+
+    def settled(self, *, with_funding=True, terminal=True):
+        self.cleanup.flat()  # Actual close creation, partial -> original-posId zero.
+        self.close_id = self.flow.close.canonical_request.order_request_id
+        current = self.flow.assert_binding()
+        self.flat = deepcopy(current.current_position_projection.payload)
+        self.assertEqual('EXIT_REQUESTED', self.flat['lifecycle_state'])
+        self.assertEqual(Decimal('0'), Decimal(self.flat['actual_quantity']))
+        self.funding_object = None
+        if with_funding:
+            self.funding.script(self.context, paginated=True)
+            read = self.funding.read(self.context)
+            self.funding_object = self.funding.publish(self.context, read)
+            self.assertEqual((self.funding_object,), self.flow.recover().funding_evidence)
+        # FUNDING MUST BE DURABLE BEFORE terminal stop changes the execution
+        # snapshot. Never call funding _context with rewritten READY afterwards.
+        preparation = self.cleanup.prepare(self.cleanup.reads())
+        self.flow.append(dict(code='0', data=[dict(algoId='2345', sCode='0')]))
+        self.cleanup.execute(preparation)
+        self.assertEqual(1, len(self.cleanup.cancel_calls()))
+        self.claim = self.service.dispatch.stop_cleanup_claim(self.service.run_id, self.stop_id)
+        self.assertIsNotNone(self.claim)
+        if terminal:
+            self.fixture.clock[0] += timedelta(seconds=1)
+            self.flow.append(dict(code='0', data=[self.cleanup.algo(state='canceled')]))
+            result = self.service.reconcile(self.stop_id, expected_revision=self.fixture.revision)
+            self.assertEqual('ALGO_OBSERVED', result.status)
+            recovered = self.flow.recover()
+            stop = next(row.payload for row in recovered.current_order_results
+                        if row.payload['order_request_id'] == self.stop_id)
+            self.assertEqual('CANCELED', stop['order_status'])
+            self.assertEqual(self.flat, recovered.current_position_projection.payload)
+            self.assertIsNone(recovered.trade_result)
+        return self
+
+    def final_reads(self, *, terminal=True, unknown_active=False):
+        # Active cleanup target is used only for the wrong-kind negative.
+        self.flow.append(dict(code='0', data=[self.cleanup.algo(state='canceled' if terminal else 'live')]),
+                         self.flow.position.response(pos='0', posId='5678', avgPx='0'))
+        if terminal:
+            target = self.service.read_fixture_terminal_stop(self.stop_id,
+                expected_revision=self.fixture.revision)
+        else:
+            target = self.service.read_fixture_cleanup_stop(self.stop_id,
+                expected_revision=self.fixture.revision)
+        metadata, proof = self.flow.fresh()
+        native = self.service.read_position(metadata=metadata, proof=proof,
+            expected_revision=self.fixture.revision, expected_provider_position_id='5678')
+        rows = []
+        if unknown_active:
+            rows = [self.cleanup.algo(algoId='9999', algoClOrdId='UNOWNEDSTOP')]
+        self.flow.append(*inventory_fixtures.TradingInventoryV02Tests(methodName='runTest').scans(rows))
+        inventory = self.service.read_algo_inventory(metadata=metadata, proof=proof,
+                                                    expected_revision=self.fixture.revision)
+        self.assertEqual('5678', native.provider_position_id)
+        self.assertEqual(0, native.canonical_net_quantity)
+        # No project_close_position call: this fresh confirmation cannot rebase
+        # original flat interval and invalidate already committed funding.
+        return target, native, inventory, metadata, proof
+
+    def finalize(self, reads):
+        target, native, inventory, metadata, proof = reads
+        return self.service.finalize_fixture_trade(self.close_id, target, native, inventory,
+            metadata=metadata, proof=proof, expected_revision=self.fixture.revision)
+
+    def assert_denied_without_final_effect(self, reads):
+        before = self.flow.recover()
+        calls = deepcopy(self.provider.calls)
+        with self.assertRaises(ValueError):
+            self.finalize(reads)
+        after = self.flow.recover()
+        self.assertEqual(before.lifecycle_history, after.lifecycle_history)
+        self.assertEqual(before.funding_evidence, after.funding_evidence)
+        self.assertIsNone(after.trade_result)
+        self.assertEqual('EXIT_REQUESTED', after.current_position_projection.payload['lifecycle_state'])
+        self.assertEqual(calls, self.provider.calls)
+        self.assertIsNone(self.service.dispatch.finalization_batch(self.service.run_id,self.close_id))

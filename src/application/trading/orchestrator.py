@@ -26,7 +26,8 @@ class TradingCoordinator:
             batches=self.dispatch.pending_publications(self.run_id)
             positions=self.dispatch.pending_position_publications(self.run_id)
             funding=self.dispatch.pending_funding_publications(self.run_id)
-            if not batches and not positions and not funding: return
+            finalizations=self.dispatch.pending_finalizations(self.run_id)
+            if not batches and not positions and not funding and not finalizations: return
             for batch in batches:
                 self.dispatch.require_process(self.lease, now=self.clock())
                 self.canonical.publish_canonical_effects(batch.effects)
@@ -39,6 +40,8 @@ class TradingCoordinator:
                 self.dispatch.require_process(self.lease,now=self.clock())
                 self.canonical.publish_canonical_effects(batch.effects)
                 self.dispatch.mark_funding_publication(batch,lease=self.lease,now=self.clock())
+            for batch in finalizations:
+                self.dispatch.publish_finalization(self.canonical,batch,lease=self.lease,clock=self.clock)
         raise ProductDispatchError('TRADING_CANONICAL_PUBLICATION_BACKLOG')
 
     def observe(self, operation_id, observation, effects):

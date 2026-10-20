@@ -13,14 +13,18 @@ from brokers.okx_product_state import restore_product_readback
 
 
 class _TradingEffectGuard:
-    def __init__(self, service, permit, purpose, *, snapshot=None, preparation=None):
+    def __init__(self, service, permit, purpose, *, snapshot=None, preparation=None,cleanup=None):
         if (type(service.admission) is not RuntimeAdmission or type(service.translator) is not OKXProductTranslator or
             type(service.dispatch) is not ProductDispatchJournal or type(service.canonical) is not PaperRuntimeJournal or
             type(service.lease) is not ProductProcessLease or
             (preparation is not None and type(snapshot) is not CurrentExecutionSubject)):
             raise RuntimeAdmissionError('ACTUAL_TRADING_OWNER_COMPOSITION_REQUIRED')
+        if cleanup is not None:
+            from application.trading.stop_cleanup import _StopCleanupPreparation
+            if type(cleanup) is not _StopCleanupPreparation or preparation is not None:
+                raise RuntimeAdmissionError('ACTUAL_STOP_CLEANUP_OWNER_COMPOSITION_REQUIRED')
         self.service=service; self.permit=permit; self.purpose=purpose
-        self.snapshot=snapshot; self.preparation=preparation; self.execution=service.execution
+        self.snapshot=snapshot; self.preparation=preparation; self.execution=service.execution;self.cleanup=cleanup
 
     def require(self):
         service = self.service; now = service.clock()
@@ -82,6 +86,9 @@ class _TradingEffectGuard:
                     if (operation.run_id,operation.operation_id)!=(service.run_id,prepared.canonical_request.order_request_id):
                         raise RuntimeAdmissionError('PRIOR_ACCOUNT_CLOSE_RECONCILIATION_REQUIRED')
                 service.dispatch.require_claim_inventory_generation(close_inventory_generation)
+        if self.cleanup is not None:
+            from application.trading.stop_cleanup import require_cleanup_preparation
+            require_cleanup_preparation(service,self.cleanup)
         # Lifetime may expire while owners/SQLite are read. Use the effect clock
         # after all work, rather than the timestamp captured at guard entry.
         service.dispatch.require_process(service.lease, now=service.clock())
@@ -89,4 +96,7 @@ class _TradingEffectGuard:
             service.translator.require(self.preparation, now=service.clock())
         service.admission.require_fresh(self.permit, identity=service.identity,
                                         permission=self.purpose, execution=self.execution)
+        if self.cleanup is not None:
+            from application.trading.stop_cleanup import require_cleanup_final_freshness
+            require_cleanup_final_freshness(service,self.cleanup,permit=self.permit)
         return current.permission

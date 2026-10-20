@@ -389,6 +389,15 @@ class ProductDispatchJournal:
         return observe_funding(self,run_id,operation_id,observation,lease=lease,now=now,
             claim_inventory_generation=claim_inventory_generation)
 
+    def claim_stop_cleanup(self,run_id,stop_operation_id,close_operation_id,native_algo_id,flat_publication_hash,source,*,lease,now,claim_inventory_generation):
+        from storage.product_stop_cleanup import claim_stop_cleanup
+        return claim_stop_cleanup(self,run_id,stop_operation_id,close_operation_id,native_algo_id,flat_publication_hash,source,
+            lease=lease,now=now,claim_inventory_generation=claim_inventory_generation)
+
+    def stop_cleanup_claim(self,run_id,stop_operation_id):
+        from storage.product_stop_cleanup import stop_cleanup_claim
+        return stop_cleanup_claim(self,run_id,stop_operation_id)
+
     def funding_publication(self,run_id,operation_id,received_at):
         from storage.product_funding import funding_publication
         return funding_publication(self,run_id,operation_id,received_at)

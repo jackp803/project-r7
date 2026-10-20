@@ -38,6 +38,7 @@ class TradingService:
         self.admission=admission; self.translator=translator; self.dispatch=dispatch; self.canonical=canonical
         self.provider=provider; self.identity=identity; self.run_id=run_id; self.clock=clock; self.lease=None
         self._position_reads={};self._algo_inventories={};self._close_preparations={};self._funding_reads={}
+        self._cleanup_stop_reads={};self._stop_cleanup_preparations={}
         self.execution='FAKE_PROVIDER_VERIFICATION' if type(provider) is FakeProductProvider else 'PRODUCTION'
 
     def bind_process(self, *, expected_revision, expected_generation):
@@ -102,6 +103,18 @@ class TradingService:
     def publish_fixture_funding_ledger(self,observation,*,expected_revision):
         from application.trading.funding_owner import publish_fixture_funding_ledger
         return publish_fixture_funding_ledger(self,observation,expected_revision=expected_revision)
+
+    def read_fixture_cleanup_stop(self,operation_id,*,expected_revision):
+        from application.trading.stop_cleanup import read_fixture_cleanup_stop
+        return read_fixture_cleanup_stop(self,operation_id,expected_revision=expected_revision)
+
+    def prepare_fixture_stop_cleanup(self,operation_id,target,native,inventory,*,metadata,proof,expected_revision):
+        from application.trading.stop_cleanup import prepare_fixture_stop_cleanup
+        return prepare_fixture_stop_cleanup(self,operation_id,target,native,inventory,metadata=metadata,proof=proof,expected_revision=expected_revision)
+
+    def execute_fixture_stop_cleanup(self,preparation,*,expected_revision):
+        from application.trading.stop_cleanup import execute_fixture_stop_cleanup
+        return execute_fixture_stop_cleanup(self,preparation,expected_revision=expected_revision)
 
     def project_protection(self, operation_id, position_observation, inventory, *, metadata, proof, expected_revision):
         from application.trading.protection_monitor import project_protection

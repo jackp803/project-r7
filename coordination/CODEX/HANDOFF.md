@@ -1,3 +1,31 @@
+# F04/I04/J03 actual owner and browser checkpoint — 2026-10-20
+
+Source 41ade60cea0ebb49a19b256be5a3808fcc07e163: actual ordinary Paper E5 balance rejection/zero effects and actual
+two immutable-version owner/API flows PASS; frontend build and one real browser
+candidate/draft/candidate flow PASS. Source frozen and all children reaped.
+Evidence: status/codex/productization/S12/f04-i04-j03-flows-41ade60/disposition.json. Default/current policies unchanged; no mocked PASS or
+canonical financial injection. Source2/API cases and browser1 are separate
+workflow proof, not full source/native/Master acceptance. Engineering FIXTURE
+research CANDIDATE never grants ordinary Paper/financial/forward authority.
+
+First0.2.0 actually researched, second0.2.1 remainsDRAFT; exact hashes/author/
+version/revision/pagination and selection remain independent. Actual E5
+INSUFFICIENT_BALANCE writes one canonical risk, no plan/request/broker submit/
+position; identical operation retry creates no second effect. Static0C0I reviewer
+executionNONE. Root visually inspected actual development candidate/draft
+screenshots; exact source screenshot equality is recorded, no invented review.
+
+cd415 affected26 runs in frozen project-contained checkout, prior genuine
+funded finalization/recovery/K05 source15 already retained. Current core source
+hash unchanged; no native qualification transfer to this source revision.
+H01 entry retry design corrected before implementation: claimed original request
+requires fresh management/direct reconcile, no E4 retranslation/new-entry gate;
+unclaimed persisted preparation cannot silently renew original bytes/clocks.
+Actual entry and original E2 management remain pending. Portable/audits/S16 and
+final full/native remain. Windows7d qualified package preserved; Master active.
+Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
+GitHubNOT_USED. Original task/branch, no main merge; external items unaccepted.
+
 # H16 funded finalization/recovery and genuine K05 checkpoint — 2026-10-20
 
 Source cd415a11a97b4b04f490112f6d5ef319ad267395: disjoint13modules/15cases PASS, unchanged/reaped; each module<=900s.

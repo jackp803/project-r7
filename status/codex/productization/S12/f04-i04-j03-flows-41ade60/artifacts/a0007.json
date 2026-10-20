@@ -1,0 +1,37 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "F04 actual Paper risk rejection and I04/J03 immutable two-version owner/API/browser coverage; QA inspection limited to added versions profile/test/8777 mapping",
+  "review_mode": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "critical": 0,
+  "important": 0,
+  "subject_hashes": {
+    "tests/product/test_paper_risk_rejection_v02.py": "0a50d2370119a330db97ac2dc7ee12f8160fbd8a487d5441226304de28aa466f",
+    "tests/product/two_version_fixtures.py": "8a8bff748fc6cd9056d8bc5236fc2b677bd6e2c26afa1f55ae330a99d0b169ef",
+    "tests/product/test_api_two_versions_v02.py": "c9aafd6e0cba0955930c6e7f26c67d28bb0c32bebd1835251ebe23a3041487f4",
+    "ui/qa/serve_fixture.py": "0f2f5e082343e90d0f8bad93e22b76c735bda84625887ced4f7c70f617928b3d",
+    "ui/qa/control-center.spec.ts": "b7999c04e28a3254af7afe94d79eff744ac693cdcbb67de944733d9071c338ae",
+    "ui/playwright.config.ts": "2eb7bfa010a0b7f42df0c6e04aa94848634715bcf0b3f0fb766a911c5a966f6d"
+  },
+  "supporting_fixture_hashes": {
+    "tests/application/cloud_fixtures.py": "65ee4a26165d167704f751d9e546a9a899202deb7a29d2e6b289c1f4da7cbe1c",
+    "tests/product/test_api_owner_services.py": "0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25",
+    "tests/product/test_paper_runtime_v02.py": "152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e"
+  },
+  "findings": [],
+  "supported_static_conclusions": [
+    "F04 changes only an explicit synthetic account initial balance to1, leaving selected risk policy unchanged. Existing actual PaperEngine constructs a real TradeIntent/RiskProposal and calls E5 evaluate_trade_intent; the test asserts actual INSUFFICIENT_BALANCE rejection, exact canonical RiskDecision, no plan/request/position or broker submission.",
+    "Risk writer and submit instrumentation forwards the original owner/broker methods. Exact market-operation replay must preserve published operation/state/revision and invoke neither a second canonical risk publication nor any submit call. No caller-provided REJECT/PASS or financial row is installed.",
+    "Two-version fixture writes only normal authored package/manifest input for a distinct0.2.1 definition with recomputed content hash. Actual authenticated scan/intake handles both; only original submission is enqueued, claimed and run through actual selected research. Assertions bind resulting CANDIDATE and untouched DRAFT states to exact immutable definitions/hashes and original author metadata.",
+    "API coverage checks total/pages including empty third page, exact per-version detail/revision/author lineage, repeated reads and replay of the original completed scan command without duplicate version/job. It does not claim a fresh-command scan test.",
+    "Added versions browser profile reuses that actual owner setup and the real authenticated API/app/assets. Browser test reads both actual identities/hashes, selects candidate/draft/candidate via real UI GET responses, checks selected detail/author/state and absence of the other heading, fixture banner, disabled Paper start, unchanged listing and screenshots. No route mock or owner-result override is introduced.",
+    "Profiles and port mappings agree: versions is twelfth at8766+11=8777. Helper module is not TestCase and imports functions/module aliases; new test modules expose only their own one-case TestCase classes, without imported TestCase discovery duplicates."
+  ],
+  "limits": [
+    "No reviewer imports/tests/browser/native/process, DB/auth/private files, Git/network/provider or tracked changes. Only this new authorized outside-Git review JSON was written.",
+    "QA inspection covered the newly added versions branch/origin/test/config blocks and immediately required control flow, not unrelated QA cases. No Git command/base-object comparison was performed; commit893600 and reported development/API/browser results are lead-supplied context, not reviewer-executed proof.",
+    "No independent screenshot inspection or full source/native/H01/F04/I04/J03/Master acceptance is inferred. Controlled synthetic Paper account, FIXTURE research and disabled policy/approval remain distinct from real provider/financial authority."
+  ]
+}

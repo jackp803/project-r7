@@ -1,0 +1,123 @@
+{
+  "config": {
+    "argv": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "<SOURCE_ROOT>\\ui\\node_modules\\@playwright\\test\\cli.js",
+      "test",
+      "--config",
+      "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\i04-j03-two-version-browser-source-41ade60\\two-version.config.mts",
+      "--grep",
+      "two actual immutable versions"
+    ],
+    "configFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\i04-j03-two-version-browser-source-41ade60\\two-version.config.mts",
+    "rootDir": "<SOURCE_ROOT>/ui/qa",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "<USER_HOME>/Desktop/交易機器人主體/artifacts/current-windows-20261019/i04-j03-two-version-browser-source-41ade60/browser-artifacts/results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "<SOURCE_ROOT>/ui/qa",
+        "testIgnore": [],
+        "testMatch": [
+          "*.spec.ts"
+        ],
+        "timeout": 25000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "line",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\i04-j03-two-version-browser-source-41ade60\\browser-artifacts\\results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "control-center.spec.ts",
+      "file": "control-center.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "two actual immutable versions remain independent in list and selected detail",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 25000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1016,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-20T14:41:35.780Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "c6c20d9feef810fbbe6a-2f470cdeb292e307631a",
+          "file": "control-center.spec.ts",
+          "line": 277,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-20T14:41:29.498Z",
+    "duration": 8700.362000000001,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

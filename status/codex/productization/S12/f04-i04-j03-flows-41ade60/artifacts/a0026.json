@@ -1,0 +1,71 @@
+{
+  "schema_version": "r7-bounded-static-design-review-v1",
+  "status": "STATIC_ONLY",
+  "proposal": "UNAPPLIED",
+  "reviewer_execution": "NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "critical": 0,
+  "important": 1,
+  "artifact_hashes": {
+    "h01-entry-root-design-20261020.json": "155dfa4967545092cb9bf0fcd35f7478d7b010798d6fd843888f215cf3e02668",
+    "h01-e2-trading-runner-seam-plan-20261020.json": "f263b7eab9de3aa555a09673353b24f90f028132379a19cce5efe7c4bb0e218b",
+    "h01-e2-entry-test-draft-interface-20261020.json": "e9cd3717c50e59f61ee4989257388e370193b903a92c99c11191918fdde43da5",
+    "h01_entry_fixture.py.unapplied": "f9c9f8fac2d694ae7facd9ce29451cb2fc35d8ee82dca096396b0ff4cb54b952",
+    "test_trading_orchestrator_v02.py.unapplied": "2291d6a277670ff82a296b3b062f94fcc75a1fb9733c8f291bb847612220440c"
+  },
+  "source_reference_hashes": {
+    "src/strategy/v02/temporal.py": "0bdfd3dc719c8ffa2eb6c50d40b610eda1dcf18857c4ac289cc8ef38401fa02b",
+    "src/application/paper/engine.py": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6",
+    "src/risk/engine.py": "3e39dfb1a2aec8121283f4603201af7d222bd2ad8947af979cf2c9dabdb507a1",
+    "src/brokers/okx_product_state.py": "e0fa30a6b4c288d3a3ad91fb6209e94c900b2add9bc5c7a6def8531821051946",
+    "tests/product/test_live_admission_v02.py": "343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba",
+    "src/strategy/runtime.py": "9791587218b01deebb099f3649aca6ebc32b8e538d410b011ee56e3f8822e62e",
+    "src/strategy/trade_intent.py": "8308499542565eb523ee670b56284397b67325f87b7e3bb64d0a2adcfcda2a38",
+    "src/strategy/v02/exits.py": "259b248553eb44228ab2e05b056d41abecb033f549becfdb5e8cd3532c4e7264",
+    "src/brokers/okx_product.py": "3d5cda09463e72819d05421046deeaaac8620755aa856ec5aaeb1c2c14aab7aa",
+    "src/risk/product_policy.py": "ecae712fb3a2f611d84d62bf92207571f967853cf1090991dc73c031bfe84cae",
+    "src/strategy/v02/evaluation.py": "fca4050fca28ce977a1d80a9df0283b4581a79de6d949cf846bf1f972155e5f2",
+    "tests/registry/test_operational_lifecycle_v02.py": "6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+    "tests/application/test_product_assessment_binding.py": "c4e6dd38f2d2094554a2e0dbbd530a21efd6a51c1358dee90bcb6804b2e09738",
+    "tests/validation/robustness_fixtures.py": "ebed9b2d62b2c51390be2aea901883d83c53fcf36c274ca58a290ee69b2d42bc",
+    "tests/brokers/test_okx_demo_adapter.py": "ad8806c8fc268b5755e54876679b4b9bb73e057dd964660cd3c095445c38c91a",
+    "src/application/trading/service.py": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+    "src/application/trading/admission.py": "b5890c1d040c1ca7521f22deb3100be987a7b878a80b6e6be612dce60d9e14d2",
+    "src/application/trading/guards.py": "b217b2d23e145ff3ba578fba769cf19f69f26f91411d29e6c7f20e9f27776629",
+    "src/storage/product_dispatch.py": "efb215df9fa13009a7957050384d4f6d6a1f7e1cd629128e4448365e0c659dac",
+    "src/execution/gateway.py": "1727864d6b825feb306de99df66e55ec1a223cb0fbde9b446fd74647054b0090"
+  },
+  "findings": [
+    {
+      "id": "H01-ENTRY-RETRY-REQUEST-CLOCK",
+      "severity": "Important",
+      "references": [
+        "test_trading_orchestrator_v02.py.unapplied:73-80",
+        "src/execution/gateway.py:191-216",
+        "src/application/trading/service.py:142-152",
+        "src/storage/product_dispatch.py:238-284"
+      ],
+      "description": "The draft demands a second claim_dispatch call after a+1s retry. A fresh prepare_entry/execute retry creates a stable request ID but a new OrderRequest.created_at=now; durable_product_intent then differs and prepare raises DISPATCH_INTENT_CONFLICT before the second claim. After plan/proof expiry, execute fails its fresh preparation/plan checks even earlier. Existing-claim reconciliation cannot depend on retranslation/new-entry eligibility.",
+      "minimal_correction": [
+        "Explicitly branch saved decision plus actual READBACK_REQUIRED operation to fresh MANAGE_EXISTING authority and service.reconcile(original operation), with no new E2/E5, translator preparation or claim/POST. Keep original request/decision clocks and immutable bytes.",
+        "For CURRENT_ADMISSION_REQUIRED unclaimed prepared intent, preserve its original durable request and require an explicitly issuer-owned fresh preparation preserving that request, or fail closed without POST. Do not treat restore_product_readback as submit authority or blindly claim the old intent.",
+        "Relax the draft spy assertion from exactly two claim calls to one actual original claim, stable request ID and one POST. Direct original reconciliation is the safe expected replay route.",
+        "Add actual+1s retry and aged/lost-ACK claimed retry; verify original request.created_at/plan/decision bytes, fresh appropriate current permission, GET/readback only. Add a failure between durable prepare and claim to exercise the separate CURRENT_ADMISSION_REQUIRED branch."
+      ]
+    }
+  ],
+  "supported_design": [
+    "Thin E2/E5 composition is technically compatible with existing owners: actual parsed registered v0.2 strategy plus explicit recorded_received_at AsOfBundle; E2 signal/ExitRequest/constraints; executable TradeIntent; actual selected E5 evaluate/build; existing E4 guard/claim/readback. No new strategy/risk engine or lifecycle shortcut is needed.",
+    "Existing AsOfBundle/E2 already excludes future/unfinalized/unavailable bars, binds consumed symbol/timeframes and uses a matching finalized evaluation boundary. Root must additionally enforce operational recorded_received_at and boundary/cutoff<=fresh owner time, not accept historical_close_assumption for this entry path.",
+    "Input commitments may stream all actually consumed canonical E1 material, including availability/source fields, rather than duplicate unbounded history. Include deterministic frame/order/length boundaries and exact strategy/policy/context/proposal commitments. Do not lower indicator warmup/history support.",
+    "First immutable decision must capture real current decided_at immediately before the original E5 call after E2/input validation, preserve generated_at at original bundle boundary and preserve first plan/decision clocks on every retry. Never backdate risk to boundary/method-entry time or refresh an old saved approval.",
+    "Immutable decision/outbox before separate canonical risk/plan writers is the narrow replay seam. NO_TRADE stores no effect, actual REJECT stores only RiskDecision, APPROVE uses unchanged canonical risk+plan before guarded effect. Save actual E2 ExitRequest separately for future E5 anchoring; entry-only does not close H01.",
+    "Require exact actual selected canonical risk JSON/hash/generation from current authority. A supplied SelectedRiskPolicy dataclass or self-declared hash is not independent authority. Keep this first runner explicitly FIXTURE+exact FakeProductProvider while RiskContext/proposal are controlled synthetic vectors; real context acquisition/issuer remains separate.",
+    "The draft fixture is non-TestCase, imports fixture modules by alias, performs actual existing E6 research/lifecycle mechanics, and computes independent E2/E5/E4 expected outputs without persisting or passing those oracle results to the runner. Quantity0.001/notional60/margin60/leverage1/loss0.01/reward0.02 are within the actual explicit fixture risk/envelope bounds and native contract sizing. Signal/intent/ExitRequest outputs are JSON-compatible under the inspected interfaces."
+  ],
+  "limits": [
+    "Source/artifact text/hash review only; no imports/tests/AST compilation, DB/process/native/Git/network/provider or tracked edits. Only this new authorized outside-Git review JSON was written.",
+    "This is a proposed source FIXTURE entry slice, not complete E2 management wiring, actual runtime/financial activation, native execution or H01/TRADE-01/Master acceptance. No new human approval gate is inferred for the already-authorized bounded integration.",
+    "Original H16 and prior qualified Paper scopes remain separate; these drafts have not executed."
+  ]
+}

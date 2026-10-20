@@ -1,0 +1,2 @@
+import base from "file:///<USER_HOME>/Desktop/%E4%BA%A4%E6%98%93%E6%A9%9F%E5%99%A8%E4%BA%BA%E4%B8%BB%E9%AB%94/workspaces/project-r7-productization-master-20261002/ui/playwright.config.ts";
+export default {...base,testDir:"<USER_HOME>/Desktop/\u4ea4\u6613\u6a5f\u5668\u4eba\u4e3b\u9ad4/workspaces/project-r7-productization-master-20261002/ui/qa",webServer:base.webServer.filter(s=>s.command.includes("--profile versions ")).map(s=>({...s,cwd:"<USER_HOME>/Desktop/\u4ea4\u6613\u6a5f\u5668\u4eba\u4e3b\u9ad4/workspaces/project-r7-productization-master-20261002/ui"}))};

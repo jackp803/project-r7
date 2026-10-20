@@ -37,7 +37,7 @@ class TradingService:
             raise RuntimeAdmissionError('FIXTURE_PRODUCTION_COMPOSITION_FORBIDDEN')
         self.admission=admission; self.translator=translator; self.dispatch=dispatch; self.canonical=canonical
         self.provider=provider; self.identity=identity; self.run_id=run_id; self.clock=clock; self.lease=None
-        self._position_reads={};self._algo_inventories={};self._close_preparations={}
+        self._position_reads={};self._algo_inventories={};self._close_preparations={};self._funding_reads={}
         self.execution='FAKE_PROVIDER_VERIFICATION' if type(provider) is FakeProductProvider else 'PRODUCTION'
 
     def bind_process(self, *, expected_revision, expected_generation):
@@ -94,6 +94,14 @@ class TradingService:
         from application.trading.close_observation import project_close_position
         return project_close_position(self,operation_id,observation,metadata=metadata,proof=proof,
                                       expected_revision=expected_revision)
+
+    def read_fixture_funding_ledger(self,trade_plan_id,position_id,*,expected_revision):
+        from application.trading.funding_owner import read_fixture_funding_ledger
+        return read_fixture_funding_ledger(self,trade_plan_id,position_id,expected_revision=expected_revision)
+
+    def publish_fixture_funding_ledger(self,observation,*,expected_revision):
+        from application.trading.funding_owner import publish_fixture_funding_ledger
+        return publish_fixture_funding_ledger(self,observation,expected_revision=expected_revision)
 
     def project_protection(self, operation_id, position_observation, inventory, *, metadata, proof, expected_revision):
         from application.trading.protection_monitor import project_protection

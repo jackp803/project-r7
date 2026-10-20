@@ -384,6 +384,23 @@ class ProductDispatchJournal:
         return observe_position(self, run_id, operation_id, observation, effects, lease=lease, now=now,
                                 claim_inventory_generation=claim_inventory_generation)
 
+    def observe_funding(self,run_id,operation_id,observation,*,lease,now,claim_inventory_generation):
+        from storage.product_funding import observe_funding
+        return observe_funding(self,run_id,operation_id,observation,lease=lease,now=now,
+            claim_inventory_generation=claim_inventory_generation)
+
+    def funding_publication(self,run_id,operation_id,received_at):
+        from storage.product_funding import funding_publication
+        return funding_publication(self,run_id,operation_id,received_at)
+
+    def pending_funding_publications(self,run_id):
+        from storage.product_funding import pending_funding_publications
+        return pending_funding_publications(self,run_id)
+
+    def mark_funding_publication(self,batch,*,lease,now):
+        from storage.product_funding import mark_funding_publication
+        return mark_funding_publication(self,batch,lease=lease,now=now)
+
     def position_publication(self, run_id, operation_id, received_at):
         from storage.product_position import position_publication
         return position_publication(self, run_id, operation_id, received_at)

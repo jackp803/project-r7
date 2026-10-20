@@ -1,0 +1,513 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "status": "ORIGINAL_E2_EXIT_AND_MIGRATION_WRITER_SCOPED_SOURCE_PASS",
+  "executable_revision": "84f0eccf76167af11b9b4e67fc69af880ebe44ae",
+  "supplemental_test_revision": "8e81fa2d2996f8c18d06534408c9c3170c62bfee",
+  "implementation_hash": "sha256:99680742c0efe9572d3eaf4a5bd9118df6e373711aaa5c472e6612daad4073a0",
+  "exact_main_cases": 112,
+  "exact_main_modules": 29,
+  "exact_supplemental_cases": 1,
+  "unique_supporting_cases": 113,
+  "count_limit": "113 distinct supporting cases across two separate exact-clean revisions; supplement is test-only append, same implementation. Not113 at oneSHA or wholePQR/native acceptance.",
+  "source_and_tests_unchanged": true,
+  "children_reaped": true,
+  "per_module_limit_seconds": 900,
+  "independent_reviews": "TWO_STATIC0C0I_EXECUTION_NONE",
+  "review_bindings": [
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "src/application/trading/exit_owner.py",
+      "review_sha256": "638e1565c5cbc06459415014d5a14a2cc0a438fb0f3cea3da7902c78c5f8f7ad",
+      "qualified_raw_sha256": "cd6f6aef5e81ea2a45e0a6e69bb7190e07943cfffb3dde8484d0482216636f15",
+      "lf_canonical_sha256": "638e1565c5cbc06459415014d5a14a2cc0a438fb0f3cea3da7902c78c5f8f7ad"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "src/application/trading/close_owner.py",
+      "review_sha256": "4cfc672a2aa37199d957378062fda8d92f6188a0e7e7cc1964702e829d14d85d",
+      "qualified_raw_sha256": "3482b646af64eb077cd309eeaa4b108718e28912066a649af8c685719df62ac3",
+      "lf_canonical_sha256": "4cfc672a2aa37199d957378062fda8d92f6188a0e7e7cc1964702e829d14d85d"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "src/application/trading/orchestrator.py",
+      "review_sha256": "653cf74463fa299bbd8491acbbb6564f388a642a4d2e510a821d128066b2cc9d",
+      "qualified_raw_sha256": "a332c938c2638896cd6ae473591e9055151984295922e569d28b42e2e5054bf7",
+      "lf_canonical_sha256": "653cf74463fa299bbd8491acbbb6564f388a642a4d2e510a821d128066b2cc9d"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "src/storage/product_exit_decision.py",
+      "review_sha256": "1f75684c9b21adde679d59f36e2b011eb51ab2fbc58dca60e223103a2c38f4b6",
+      "qualified_raw_sha256": "57fb0ba453fb4f33d2f6febd3461096985f9fe03fcf07333de1a236f475691e8",
+      "lf_canonical_sha256": "1f75684c9b21adde679d59f36e2b011eb51ab2fbc58dca60e223103a2c38f4b6"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "src/storage/product_dispatch.py",
+      "review_sha256": "0418315a54002cae56f25115d7618c28249a9450a376ee5a5a3c23df5c479c8f",
+      "qualified_raw_sha256": "27d4788e2c9d7b01c8409b7fa18b811735fc49d7bc28cd11b38dd3fd9679a9b4",
+      "lf_canonical_sha256": "0418315a54002cae56f25115d7618c28249a9450a376ee5a5a3c23df5c479c8f"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "tests/product/test_trading_original_exit_v02.py",
+      "review_sha256": "6f0544951f7ddb9209f198619a43ea7ab36ec95f45af1018b6d070c9d4d2a0ad",
+      "qualified_raw_sha256": "2185a6bbe924cba9e73ada59cd62b9db852f490ff4ccb3a687c0e84fda3ced91",
+      "lf_canonical_sha256": "6f0544951f7ddb9209f198619a43ea7ab36ec95f45af1018b6d070c9d4d2a0ad"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "tests/product/h01_original_exit_fixture.py",
+      "review_sha256": "9e0581fc5736097d9bf43f53a969ed96433ae72e4678089e85d5db9289bbc32e",
+      "qualified_raw_sha256": "0113e9dfb01cf440510d3eac41962d1da7f58cd6a0157850003af61041970da9",
+      "lf_canonical_sha256": "9e0581fc5736097d9bf43f53a969ed96433ae72e4678089e85d5db9289bbc32e"
+    },
+    {
+      "review_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "path": "src/storage/migrations/0024_product_original_exit.sql",
+      "review_sha256": "0953023f3d975d99bfe85c48c243d79ce399e5e6d56727ecf0f00df683d17653",
+      "qualified_raw_sha256": "35fb73e7d9824328cd6c034fc3e6570eb70ef47bcf77f2afc432df11041a5aae",
+      "lf_canonical_sha256": "0953023f3d975d99bfe85c48c243d79ce399e5e6d56727ecf0f00df683d17653"
+    },
+    {
+      "review_ref": "plat08-writer-guard-review-20261020.json",
+      "path": "src/storage/_sqlite_registry.py",
+      "review_sha256": "b5656fa76a02799e34acd130532ce0cb6634735c300bc74cc84add6ad0ca21d6",
+      "qualified_raw_sha256": "b5656fa76a02799e34acd130532ce0cb6634735c300bc74cc84add6ad0ca21d6",
+      "lf_canonical_sha256": "327f49baafeb2dfc46f44c4520344688c9d95de2a4b87fd555064a6b85b66343"
+    },
+    {
+      "review_ref": "plat08-writer-guard-review-20261020.json",
+      "path": "tests/storage/test_migration_compatibility_v02.py",
+      "review_sha256": "623d6f49dae210032212930e632793a13461a11820a507d0168a2eaf89c23966",
+      "qualified_raw_sha256": "00af378e72f57c415c67584efbcae4de55f9242938ef04562b80c6138a81c8dc",
+      "lf_canonical_sha256": "623d6f49dae210032212930e632793a13461a11820a507d0168a2eaf89c23966"
+    }
+  ],
+  "flows": [
+    "Genuine E2 entry/full native fill/active original stop -> OPEN_PROTECTED; original earliest-fill E5 anchor HOLD -> original max-hold E5 EXIT with exact reason/action -> one guarded close -> partial -> sameposId zero EXIT_REQUESTED. Expired original proof/action and duplicate retries only GET, no renewed clocks or secondPOST.",
+    "Current/copied/expired/mismatched native-read denials, actual PREPARED-before-claim interruption and cold-cache refusal, actual canonical EXIT action commits then exception, genuinely new owners/handles/provider[]/process2 drain unchanged original action and receipt without HTTP, originalE7release1 and stale owner fenced.",
+    "Nine exact immutable anchor/decision/receipt UPDATE/DELETE/REPLACE attacks denied with recursiveOFF/FKON and full table snapshots unchanged; separate UNIQUE-only collision coverage unclaimed. Actual altered reason/time/genuine earlier binding denied before new decision/action/provider effect.",
+    "Actual canonical writer refuses unknown future/gapped/unversioned databases before writes; exact source bytes/directory unchanged. Bounded read-only prefix/schema facts; malformed/view/null/extra/generated/duplicate/empty-populated cases and existing real SQLite migration-fault/rollback paths pass. No historical migration checksum or whole-profile compatibility claim."
+  ],
+  "actual_red": "Original exit missing-entrypoint1ERROR only after genuine protected actual entry graph; migration writer1owncase/3real failures. All originals retained; new source joins/guard then scoped regressions pass.",
+  "scope": "FIXTURE/FAKE_PROVIDER_VERIFICATION EXIT-only source components, not wholeH01/LIVE-code-complete, fullPQR, native or ordinary software qualification transfer.",
+  "current_continuation": "Main source has subsequent unqualified prefix-model/preflight CLI/restore work in progress; excluded from84f0ecc/8e81fa2 proof. Verified backup must pass whole8role target-schema check before restore target creation; implementation underway.",
+  "awake": "Validation-process-only system request explicitly released; no permanent power/display/awaymode settings changed.",
+  "preserved_qualified_windows": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "native": "NOT_RUN_FOR_THIS_SOURCE",
+  "master": "IN_PROGRESS",
+  "public_requests_cumulative": 8,
+  "public_responses_cumulative": 8,
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/checkpoint.json",
+      "original_hash": "sha256:f783dfbdaf5af57fb480babb483b2b7491c487df543afdb73dd7bb9a38fc16f5",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:f783dfbdaf5af57fb480babb483b2b7491c487df543afdb73dd7bb9a38fc16f5"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-corruption-8e81fa2/checkpoint.json",
+      "original_hash": "sha256:4d6c6ae9a8c5de3489a9e8d809d82671fe3098bfd1e2f938df95db989134045c",
+      "retained_ref": "artifacts/a0002.json",
+      "retained_hash": "sha256:4d6c6ae9a8c5de3489a9e8d809d82671fe3098bfd1e2f938df95db989134045c"
+    },
+    {
+      "original_ref": "run_h01_exit_exact_isolated.py",
+      "original_hash": "sha256:6ef175012ef00c0e35c6d07304476c88f600665ebe018da5adda7b39a8cb067c",
+      "retained_ref": "artifacts/a0003.py",
+      "retained_hash": "sha256:6ef175012ef00c0e35c6d07304476c88f600665ebe018da5adda7b39a8cb067c"
+    },
+    {
+      "original_ref": "run_finalization_exact_source.py",
+      "original_hash": "sha256:2f523349cc811854187817aa66e2c3f233c50c56a79dc856b1c5926d30ee256f",
+      "retained_ref": "artifacts/a0004.py",
+      "retained_hash": "sha256:2f523349cc811854187817aa66e2c3f233c50c56a79dc856b1c5926d30ee256f"
+    },
+    {
+      "original_ref": "run_owner_development_v03.py",
+      "original_hash": "sha256:faaff3485f7db52e29adb74c60444b81fb3dab8fa16197e8845d9e31763a7683",
+      "retained_ref": "artifacts/a0005.py",
+      "retained_hash": "sha256:faaff3485f7db52e29adb74c60444b81fb3dab8fa16197e8845d9e31763a7683"
+    },
+    {
+      "original_ref": "keep_awake_for_validation.py",
+      "original_hash": "sha256:06cf3c57bbccf1636d2885802e07ff2d75aa02c9d898d1d721c8e062bbc02cd0",
+      "retained_ref": "artifacts/a0006.py",
+      "retained_hash": "sha256:06cf3c57bbccf1636d2885802e07ff2d75aa02c9d898d1d721c8e062bbc02cd0"
+    },
+    {
+      "original_ref": "h01-exit-exact-temporary-awake-84f0ecc.json",
+      "original_hash": "sha256:d8968da14cfc319437e1ad9f1d10544fd19be43e4c50a4c46d130a1fb9264b91",
+      "retained_ref": "artifacts/a0007.json",
+      "retained_hash": "sha256:d8968da14cfc319437e1ad9f1d10544fd19be43e4c50a4c46d130a1fb9264b91"
+    },
+    {
+      "original_ref": "h01-exit-development-temporary-awake01.json",
+      "original_hash": "sha256:bbd0277b450c23e85dab785daff51388f53b5008245edb1dd7947f1a646c56e6",
+      "retained_ref": "artifacts/a0008.json",
+      "retained_hash": "sha256:bbd0277b450c23e85dab785daff51388f53b5008245edb1dd7947f1a646c56e6"
+    },
+    {
+      "original_ref": "h01-exit-recovery-development-awake01.json",
+      "original_hash": "sha256:c2c78a031e904503e9c63f3f57ee4ea4b690d787e0f1fcc6df5aa7fd6c3c6e15",
+      "retained_ref": "artifacts/a0009.json",
+      "retained_hash": "sha256:c2c78a031e904503e9c63f3f57ee4ea4b690d787e0f1fcc6df5aa7fd6c3c6e15"
+    },
+    {
+      "original_ref": "h01-original-exit-management-join-design-20261020.json",
+      "original_hash": "sha256:ab79050e03c4a2e019e61d896dfb5efe06a582db7dd76a9a6c76724e866f2a85",
+      "retained_ref": "artifacts/a0010.json",
+      "retained_hash": "sha256:ab79050e03c4a2e019e61d896dfb5efe06a582db7dd76a9a6c76724e866f2a85"
+    },
+    {
+      "original_ref": "h01-original-exit-management-join-design-review-20261020.json",
+      "original_hash": "sha256:bcfa0c53f57724595b5dbbcd6f1fb24f20282154c02130eadd1962a166256c92",
+      "retained_ref": "artifacts/a0011.json",
+      "retained_hash": "sha256:bcfa0c53f57724595b5dbbcd6f1fb24f20282154c02130eadd1962a166256c92"
+    },
+    {
+      "original_ref": "h01-original-exit-positive-draft-recipe-20261020.json",
+      "original_hash": "sha256:1b3eb382c8a69cf11565315ae527ad5036e2b8b200aab58e06c8d7f94b712b59",
+      "retained_ref": "artifacts/a0012.json",
+      "retained_hash": "sha256:1b3eb382c8a69cf11565315ae527ad5036e2b8b200aab58e06c8d7f94b712b59"
+    },
+    {
+      "original_ref": "h01-original-exit-storage-draft-assumptions-20261020.json",
+      "original_hash": "sha256:e08dad0e84d14a0f6a94e87f3e6b212def7173b91917f86482d2434449142116",
+      "retained_ref": "artifacts/a0013.json",
+      "retained_hash": "sha256:72756ec594958abf6a54460758c8be64328b3ffebbc0ce616b4480f8b51c1d64"
+    },
+    {
+      "original_ref": "h01-original-exit-schema-test-draft-20261020.json",
+      "original_hash": "sha256:febabc7e0f63993833f182721c2c2100e328749b8a404d623fd1dbd91c3487bd",
+      "retained_ref": "artifacts/a0014.json",
+      "retained_hash": "sha256:a003e6bcfd2322bc31e33330208c5673f871c9f43703e7beaf7740893cae6066"
+    },
+    {
+      "original_ref": "h01-exit-negative-recovery-drafts-recipe-20261020.json",
+      "original_hash": "sha256:2511c7a51aa639a9532de993579b27bd2aedb33d06761d193d1d002622c6e952",
+      "retained_ref": "artifacts/a0015.json",
+      "retained_hash": "sha256:2511c7a51aa639a9532de993579b27bd2aedb33d06761d193d1d002622c6e952"
+    },
+    {
+      "original_ref": "h01-exit-decision-corruption-draft-recipe-20261020.json",
+      "original_hash": "sha256:55a78667c3e43e96385e0806e4b7928282cac4babe328438109245833104a481",
+      "retained_ref": "artifacts/a0016.json",
+      "retained_hash": "sha256:55a78667c3e43e96385e0806e4b7928282cac4babe328438109245833104a481"
+    },
+    {
+      "original_ref": "plat08-schema-preflight-minimal-gap-plan-20261020.json",
+      "original_hash": "sha256:5e2f70f68adfb37b471c24d85d27ae72516cbceca539508dff9668f53a291c2e",
+      "retained_ref": "artifacts/a0017.json",
+      "retained_hash": "sha256:4ec7b29418d43d464b1ced30a51c25672bf5983a7e72f32ad138d45463502151"
+    },
+    {
+      "original_ref": "plat08-migration-writer-draft-assumptions-20261020.json",
+      "original_hash": "sha256:ea332f5f9e6fb50f43f356f962b5a12497382f457b53436e13b306d3424de757",
+      "retained_ref": "artifacts/a0018.json",
+      "retained_hash": "sha256:6a7da2b9cc6aed42cb037933b71bde4e37ca108a0342c4f6dda1dc4b2674d288"
+    },
+    {
+      "original_ref": "apply_h01_exit_positive.py",
+      "original_hash": "sha256:11d7ae4c9187b58f7ec5a00cfd00a5f664ec23dbb729e84129b989717621d982",
+      "retained_ref": "artifacts/a0019.py",
+      "retained_hash": "sha256:11d7ae4c9187b58f7ec5a00cfd00a5f664ec23dbb729e84129b989717621d982"
+    },
+    {
+      "original_ref": "apply_h01_exit_storage.py",
+      "original_hash": "sha256:af93eee6e59a8233bacdaef85ee768d4f6df930f8d8a26f9699863f499e26119",
+      "retained_ref": "artifacts/a0020.py",
+      "retained_hash": "sha256:af93eee6e59a8233bacdaef85ee768d4f6df930f8d8a26f9699863f499e26119"
+    },
+    {
+      "original_ref": "retain_h01_original_exit.py",
+      "original_hash": "sha256:b4c9222fc120252e8a02610e4e83887c254affe1cf7c752d2941a139bff5aca3",
+      "retained_ref": "artifacts/a0021.py",
+      "retained_hash": "sha256:b4c9222fc120252e8a02610e4e83887c254affe1cf7c752d2941a139bff5aca3"
+    },
+    {
+      "original_ref": "h01-original-exit-implementation-review-initial-20261020.json",
+      "original_hash": "sha256:1ff8651fa0cb993db1f3545360975463ad1528b00a24d7d515ee09dc38fb2f69",
+      "retained_ref": "artifacts/a0022.json",
+      "retained_hash": "sha256:1ff8651fa0cb993db1f3545360975463ad1528b00a24d7d515ee09dc38fb2f69"
+    },
+    {
+      "original_ref": "plat08-writer-guard-review-20261020.json",
+      "original_hash": "sha256:aa442001b6a2a85a4fa135715598868f4e7085bf6c8b944a29ddda59c9a5168d",
+      "retained_ref": "artifacts/a0023.json",
+      "retained_hash": "sha256:aa442001b6a2a85a4fa135715598868f4e7085bf6c8b944a29ddda59c9a5168d"
+    },
+    {
+      "original_ref": "h01-original-exit-red/checkpoint.json",
+      "original_hash": "sha256:ba49112df3ca22c028fabb3f87f333c3192c4fe525ddca8b511a2d849be9cc86",
+      "retained_ref": "artifacts/a0024.json",
+      "retained_hash": "sha256:ba49112df3ca22c028fabb3f87f333c3192c4fe525ddca8b511a2d849be9cc86"
+    },
+    {
+      "original_ref": "h01-original-exit-red/source.log",
+      "original_hash": "sha256:fe28b65c98b3bdc92429a4d0d7128d3283a694dceb4674d9fa3ff8b4156e02e0",
+      "retained_ref": "artifacts/a0025.log",
+      "retained_hash": "sha256:fe28b65c98b3bdc92429a4d0d7128d3283a694dceb4674d9fa3ff8b4156e02e0"
+    },
+    {
+      "original_ref": "h01-original-exit-green01/checkpoint.json",
+      "original_hash": "sha256:79ad743af3a2780de7f1b6b3613def0f928036e5b8734298b615bab1b5085574",
+      "retained_ref": "artifacts/a0026.json",
+      "retained_hash": "sha256:79ad743af3a2780de7f1b6b3613def0f928036e5b8734298b615bab1b5085574"
+    },
+    {
+      "original_ref": "h01-original-exit-green01/source.log",
+      "original_hash": "sha256:a55cd19de7e5c33a01fd0b828774fca896a8d8d85bb1bcf82041e954b26783c8",
+      "retained_ref": "artifacts/a0027.log",
+      "retained_hash": "sha256:a55cd19de7e5c33a01fd0b828774fca896a8d8d85bb1bcf82041e954b26783c8"
+    },
+    {
+      "original_ref": "h01-original-exit-schema-development01/checkpoint.json",
+      "original_hash": "sha256:fa5c5b94c5f41c0d2aa0a633f58d1a5e3d95193d17502b0f69f449bb394c2763",
+      "retained_ref": "artifacts/a0028.json",
+      "retained_hash": "sha256:fa5c5b94c5f41c0d2aa0a633f58d1a5e3d95193d17502b0f69f449bb394c2763"
+    },
+    {
+      "original_ref": "h01-original-exit-schema-development01/source.log",
+      "original_hash": "sha256:060163625c3b6d53a189ac610a6ac269d09b17f3d2c1fad4502c50c266d7c245",
+      "retained_ref": "artifacts/a0029.log",
+      "retained_hash": "sha256:060163625c3b6d53a189ac610a6ac269d09b17f3d2c1fad4502c50c266d7c245"
+    },
+    {
+      "original_ref": "h01-exit-negative-recovery-development01/checkpoint.json",
+      "original_hash": "sha256:bae1058ebfe82d853f7319c76e8ee786759d809d736447164bac61df41569bd8",
+      "retained_ref": "artifacts/a0030.json",
+      "retained_hash": "sha256:bae1058ebfe82d853f7319c76e8ee786759d809d736447164bac61df41569bd8"
+    },
+    {
+      "original_ref": "h01-exit-negative-recovery-development01/source.log",
+      "original_hash": "sha256:fee940e6bba2a1b125ade34c554940b4840be26f4cfef449c19d078fdf2d9085",
+      "retained_ref": "artifacts/a0031.log",
+      "retained_hash": "sha256:fee940e6bba2a1b125ade34c554940b4840be26f4cfef449c19d078fdf2d9085"
+    },
+    {
+      "original_ref": "h01-exit-decision-corruption-development01/checkpoint.json",
+      "original_hash": "sha256:aa357b8c6ae3da07dff5aff81bd7d3a6a99fcce925588568a3a8659ab2d04cc7",
+      "retained_ref": "artifacts/a0032.json",
+      "retained_hash": "sha256:aa357b8c6ae3da07dff5aff81bd7d3a6a99fcce925588568a3a8659ab2d04cc7"
+    },
+    {
+      "original_ref": "h01-exit-decision-corruption-development01/source.log",
+      "original_hash": "sha256:f8a415d241ed497c8005c334e7ab08f424422b2c48b190bde7f3ee99f3bd48e2",
+      "retained_ref": "artifacts/a0033.log",
+      "retained_hash": "sha256:f8a415d241ed497c8005c334e7ab08f424422b2c48b190bde7f3ee99f3bd48e2"
+    },
+    {
+      "original_ref": "plat08-migration-writer-red/checkpoint.json",
+      "original_hash": "sha256:a747a0540522ba280dac80958fcc8835468cc9f1427661cf12e112b3c08fbe09",
+      "retained_ref": "artifacts/a0034.json",
+      "retained_hash": "sha256:a747a0540522ba280dac80958fcc8835468cc9f1427661cf12e112b3c08fbe09"
+    },
+    {
+      "original_ref": "plat08-migration-writer-red/source.log",
+      "original_hash": "sha256:c9cb5eb05d10503474888e8c161349d37cf883b1fcb1650b03addfdc1a9ef247",
+      "retained_ref": "artifacts/a0035.log",
+      "retained_hash": "sha256:8c14b131512816780e4db6cd70713cf0dd60a260926777bd8ae36c00bcd43ee0"
+    },
+    {
+      "original_ref": "plat08-migration-writer-green01/checkpoint.json",
+      "original_hash": "sha256:ef19f307b28dd8f5867a1e22772e493337e8d09b049f788d833867b84e963fdc",
+      "retained_ref": "artifacts/a0036.json",
+      "retained_hash": "sha256:ef19f307b28dd8f5867a1e22772e493337e8d09b049f788d833867b84e963fdc"
+    },
+    {
+      "original_ref": "plat08-migration-writer-green01/source.log",
+      "original_hash": "sha256:28b2863e5ef976ad44b9dc91acc22ec2c26f89cd2c90936fc3e8be1e7c8d4ff6",
+      "retained_ref": "artifacts/a0037.log",
+      "retained_hash": "sha256:28b2863e5ef976ad44b9dc91acc22ec2c26f89cd2c90936fc3e8be1e7c8d4ff6"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/001.log",
+      "original_hash": "sha256:1f75ceed93463826493d0e860dc958a7c9763115036f33e56f42c6ceb42251d9",
+      "retained_ref": "artifacts/a0038.log",
+      "retained_hash": "sha256:1f75ceed93463826493d0e860dc958a7c9763115036f33e56f42c6ceb42251d9"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/002.log",
+      "original_hash": "sha256:932d7692d3ef6f7a38ff6ec519e06f9fda1dc08c731d692849fb29d410ba58c1",
+      "retained_ref": "artifacts/a0039.log",
+      "retained_hash": "sha256:932d7692d3ef6f7a38ff6ec519e06f9fda1dc08c731d692849fb29d410ba58c1"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/003.log",
+      "original_hash": "sha256:7f125a960dc3e41d6e4ccf68aaf90ae2026000e918360d647a3ba3df08176ac4",
+      "retained_ref": "artifacts/a0040.log",
+      "retained_hash": "sha256:7f125a960dc3e41d6e4ccf68aaf90ae2026000e918360d647a3ba3df08176ac4"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/004.log",
+      "original_hash": "sha256:0fea96d6454c7d17398d1497ae930ec6b4256d084226a6d4f8fd57db79790653",
+      "retained_ref": "artifacts/a0041.log",
+      "retained_hash": "sha256:0fea96d6454c7d17398d1497ae930ec6b4256d084226a6d4f8fd57db79790653"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/005.log",
+      "original_hash": "sha256:c3d9e5e7ea901a4d46e089c6c8b9903b26bf5ae63f563c9ad61a1fd0e185aae7",
+      "retained_ref": "artifacts/a0042.log",
+      "retained_hash": "sha256:c3d9e5e7ea901a4d46e089c6c8b9903b26bf5ae63f563c9ad61a1fd0e185aae7"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/006.log",
+      "original_hash": "sha256:ef4d5f5f432287e7791bbf83b1a692e527cfc50c016c82e3317fa4ee26009946",
+      "retained_ref": "artifacts/a0043.log",
+      "retained_hash": "sha256:ef4d5f5f432287e7791bbf83b1a692e527cfc50c016c82e3317fa4ee26009946"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/007.log",
+      "original_hash": "sha256:2b315fb500984f5ca46e5242c36fea179f194dfc73f502f301871e3d8f60afe5",
+      "retained_ref": "artifacts/a0044.log",
+      "retained_hash": "sha256:2b315fb500984f5ca46e5242c36fea179f194dfc73f502f301871e3d8f60afe5"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/008.log",
+      "original_hash": "sha256:99b53e6713b0081b0fd2ff97f51b6f787e17290056e6ee8fefa1fe1b72cbd351",
+      "retained_ref": "artifacts/a0045.log",
+      "retained_hash": "sha256:99b53e6713b0081b0fd2ff97f51b6f787e17290056e6ee8fefa1fe1b72cbd351"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/009.log",
+      "original_hash": "sha256:daceac63de83d85471f080b3c31b871487fa1857dc77300e7e8f1d2a0eb82379",
+      "retained_ref": "artifacts/a0046.log",
+      "retained_hash": "sha256:daceac63de83d85471f080b3c31b871487fa1857dc77300e7e8f1d2a0eb82379"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/010.log",
+      "original_hash": "sha256:2c42c89ed1c9ea9703b240a212acc53a19fc75d959412c58a127c92ba9d3053d",
+      "retained_ref": "artifacts/a0047.log",
+      "retained_hash": "sha256:2c42c89ed1c9ea9703b240a212acc53a19fc75d959412c58a127c92ba9d3053d"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/011.log",
+      "original_hash": "sha256:fc826c130d4e105922daf560f6f7ee94c7ed250beed8570d923804a21a1215bd",
+      "retained_ref": "artifacts/a0048.log",
+      "retained_hash": "sha256:fc826c130d4e105922daf560f6f7ee94c7ed250beed8570d923804a21a1215bd"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/012.log",
+      "original_hash": "sha256:bf45bcec5a3986166d8c73ccebb97a51097a793386d856b9b519d92bf0013bb9",
+      "retained_ref": "artifacts/a0049.log",
+      "retained_hash": "sha256:bf45bcec5a3986166d8c73ccebb97a51097a793386d856b9b519d92bf0013bb9"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/013.log",
+      "original_hash": "sha256:37058d22b9416b1bcd8d61fc7d2f9424cd01b2a4c3e007fea964345519004be3",
+      "retained_ref": "artifacts/a0050.log",
+      "retained_hash": "sha256:37058d22b9416b1bcd8d61fc7d2f9424cd01b2a4c3e007fea964345519004be3"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/014.log",
+      "original_hash": "sha256:f95449c7224577eb1f259a37dbf571772c2d81fe189fd3c9e9fea8fc75f49c40",
+      "retained_ref": "artifacts/a0051.log",
+      "retained_hash": "sha256:f95449c7224577eb1f259a37dbf571772c2d81fe189fd3c9e9fea8fc75f49c40"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/015.log",
+      "original_hash": "sha256:a2d05bdab60e43904c3a78fa4e0ad59e2be2e042c4bf21250586f30ebcc2661d",
+      "retained_ref": "artifacts/a0052.log",
+      "retained_hash": "sha256:a2d05bdab60e43904c3a78fa4e0ad59e2be2e042c4bf21250586f30ebcc2661d"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/016.log",
+      "original_hash": "sha256:86c8d3d9ac9660e9cdd9d65d77a8fed970c959cdfa1193eb3ed721e1c162a3b1",
+      "retained_ref": "artifacts/a0053.log",
+      "retained_hash": "sha256:86c8d3d9ac9660e9cdd9d65d77a8fed970c959cdfa1193eb3ed721e1c162a3b1"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/017.log",
+      "original_hash": "sha256:b9aaa178caca7253a08b7e043c8d3639b7b2766d8233634c75fcba0194ef1225",
+      "retained_ref": "artifacts/a0054.log",
+      "retained_hash": "sha256:b9aaa178caca7253a08b7e043c8d3639b7b2766d8233634c75fcba0194ef1225"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/018.log",
+      "original_hash": "sha256:718f8a7450aa8d0beaf61b197aea9863e67575b790ea49f8b69829a32a12c9af",
+      "retained_ref": "artifacts/a0055.log",
+      "retained_hash": "sha256:718f8a7450aa8d0beaf61b197aea9863e67575b790ea49f8b69829a32a12c9af"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/019.log",
+      "original_hash": "sha256:7b5852a013f18d6fbf5c5bc191afb54a48906523600080e8735e210bbd011263",
+      "retained_ref": "artifacts/a0056.log",
+      "retained_hash": "sha256:7b5852a013f18d6fbf5c5bc191afb54a48906523600080e8735e210bbd011263"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/020.log",
+      "original_hash": "sha256:c6a98c6d9ef5391df9c701a8d0b8edf333a0e834aea4cb102cdc9929ba247212",
+      "retained_ref": "artifacts/a0057.log",
+      "retained_hash": "sha256:c6a98c6d9ef5391df9c701a8d0b8edf333a0e834aea4cb102cdc9929ba247212"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/021.log",
+      "original_hash": "sha256:541bf53b42c688d994a47807e444451054527753afeaf90bb4fc678689e289fb",
+      "retained_ref": "artifacts/a0058.log",
+      "retained_hash": "sha256:541bf53b42c688d994a47807e444451054527753afeaf90bb4fc678689e289fb"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/022.log",
+      "original_hash": "sha256:4074136a038d96b1e70e5a71d186d4b5aa42784bc915eef08bb0c88d779b400b",
+      "retained_ref": "artifacts/a0059.log",
+      "retained_hash": "sha256:4074136a038d96b1e70e5a71d186d4b5aa42784bc915eef08bb0c88d779b400b"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/023.log",
+      "original_hash": "sha256:2fa2e75533c61c0b230ff36f5f87654bae3b856d2442a2faf9b5f4ff9d787db2",
+      "retained_ref": "artifacts/a0060.log",
+      "retained_hash": "sha256:2fa2e75533c61c0b230ff36f5f87654bae3b856d2442a2faf9b5f4ff9d787db2"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/024.log",
+      "original_hash": "sha256:fff8ba6a00cd46845e828263c5ff28658cb79f3e981dcc8b2838d266fdec1fe9",
+      "retained_ref": "artifacts/a0061.log",
+      "retained_hash": "sha256:fff8ba6a00cd46845e828263c5ff28658cb79f3e981dcc8b2838d266fdec1fe9"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/025.log",
+      "original_hash": "sha256:4e2d9b6adcd12fa9568e176dcc6b210ad430a7fe07d7cc721143a33fbd9bbb17",
+      "retained_ref": "artifacts/a0062.log",
+      "retained_hash": "sha256:4e2d9b6adcd12fa9568e176dcc6b210ad430a7fe07d7cc721143a33fbd9bbb17"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/026.log",
+      "original_hash": "sha256:58200d05b42ee1bdabcacb90a55ea47bbec532953f15f0fc3aae2e2ad4112dae",
+      "retained_ref": "artifacts/a0063.log",
+      "retained_hash": "sha256:58200d05b42ee1bdabcacb90a55ea47bbec532953f15f0fc3aae2e2ad4112dae"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/027.log",
+      "original_hash": "sha256:fd18efd5dacba3d762596605ae523c3f2ef883b6312a3caa6d956d6081045516",
+      "retained_ref": "artifacts/a0064.log",
+      "retained_hash": "sha256:fd18efd5dacba3d762596605ae523c3f2ef883b6312a3caa6d956d6081045516"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/028.log",
+      "original_hash": "sha256:89c3b85d3e8152bc3f40a3c2d57885b5fa24a787451d52ba0f03e170b5815542",
+      "retained_ref": "artifacts/a0065.log",
+      "retained_hash": "sha256:89c3b85d3e8152bc3f40a3c2d57885b5fa24a787451d52ba0f03e170b5815542"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-affected-84f0ecc/029.log",
+      "original_hash": "sha256:58cc017aa2d677fb89f9bf028171581c5b3d44ee837714858323062e6cea11e2",
+      "retained_ref": "artifacts/a0066.log",
+      "retained_hash": "sha256:58cc017aa2d677fb89f9bf028171581c5b3d44ee837714858323062e6cea11e2"
+    },
+    {
+      "original_ref": "h16-finalization-h01exit-corruption-8e81fa2/001.log",
+      "original_hash": "sha256:a31f32338d974a623fc030a42abe7696f652599290097f060dfc8a7f0efdc6ed",
+      "retained_ref": "artifacts/a0067.log",
+      "retained_hash": "sha256:a31f32338d974a623fc030a42abe7696f652599290097f060dfc8a7f0efdc6ed"
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-20",
+  "scope": "One genuine controlled FIXTURE original max-hold EXIT positive, not MODIFY/production support, funding/cleanup/finalization or H01 completion",
+  "drafts": [
+    {
+      "sha256": "96eccd0bbfe4d2b5f1f6378dc4c74235aaf2f17604abb5e8432b73ddd22fb4a4",
+      "path": "h01_original_exit_fixture.py.unapplied"
+    },
+    {
+      "sha256": "7e9e298aebb5322ed9dedb85c06cfb34f0ad857001ae048949c0d65a5bbe7100",
+      "path": "test_trading_original_exit_v02.py.unapplied"
+    }
+  ],
+  "source_hashes": [
+    {
+      "sha256": "1fe3b05441b63a3fe14f2fcd723553e63fe3dc3e200143eae427eb096ebef059",
+      "path": "tests/product/h01_entry_fixture.py"
+    },
+    {
+      "sha256": "32a4e713ba2e353d866ea4c36251e2e5aad12180f0d1ad71ea70f78bf02efa14",
+      "path": "tests/product/test_trading_protected_close_v02.py"
+    },
+    {
+      "sha256": "456148928214fcb91c08647464e92827221925cb2e79c794029a550fefad985d",
+      "path": "tests/product/test_trading_inventory_v02.py"
+    },
+    {
+      "sha256": "ff7a55a20590a06b127be640d71ae9ff18349a12ebb6e9024e8d82bbdfe82c10",
+      "path": "tests/product/test_trading_position_v02.py"
+    },
+    {
+      "sha256": "7420a146b1e3f036ab9eaaae00ad6556373a61587ab04f412b0f2f0836cb7b4c",
+      "path": "tests/execution/test_protection_registry_evidence.py"
+    },
+    {
+      "sha256": "c4e6dd38f2d2094554a2e0dbbd530a21efd6a51c1358dee90bcb6804b2e09738",
+      "path": "tests/application/test_product_assessment_binding.py"
+    },
+    {
+      "sha256": "d210e0b6c2b42623705c9ca5abea8ea58304e940a7da8ae6e4bb04b3d6987908",
+      "path": "src/application/trading/orchestrator.py"
+    },
+    {
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+      "path": "src/application/trading/service.py"
+    },
+    {
+      "sha256": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7",
+      "path": "src/application/trading/close_owner.py"
+    },
+    {
+      "sha256": "7aa634b6d46ef89f17537ab5b9c6431fe2a5b94845c69f9de26f59775ab27dca",
+      "path": "src/application/trading/protection_monitor.py"
+    },
+    {
+      "sha256": "e0fa30a6b4c288d3a3ad91fb6209e94c900b2add9bc5c7a6def8531821051946",
+      "path": "src/brokers/okx_product_state.py"
+    },
+    {
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc",
+      "path": "src/position/exit_requests.py"
+    },
+    {
+      "sha256": "1cfb7c5c15d819092f1d6e69289d54a2d83750dcec75361dfc420ddd37129d87",
+      "path": "src/position/exit_state.py"
+    },
+    {
+      "sha256": "56a4d86b31d5f67383982f2e16edacf535d77e840d9a81cb8dee7a2cc675bce8",
+      "path": "src/execution/close.py"
+    }
+  ],
+  "apply": [
+    "Root reviews interface assumptions below, then copies h01_original_exit_fixture.py.unapplied -> tests/product/h01_original_exit_fixture.py and test_trading_original_exit_v02.py.unapplied -> tests/product/test_trading_original_exit_v02.py after source freeze.",
+    "Helper is NOT TestCase. Test module has exactly ONE own TestCase method and imports helper as module alias; no imported discoverable TestCase globals.",
+    "No implementation assumed present: current TradingOrchestrator lacks evaluate_original_exit and journal lacks exit_anchor/exit_decision. No import/compile/tests/DB/native/Git/provider/network execution performed by drafting worker."
+  ],
+  "named_case": "TradingOriginalExitV02Tests.test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry",
+  "genuine_setup": [
+    "Actual H01EntryFixture normal E2/E5 entry -> same actual H01 service/provider/translator. Consume original scripted live-zero read/fills rather than replacing provider or clearing its script. Append independently bounded actual full FILLED entry/fill/native-positive rows with original ord1234/nativepos5678 and normal reconcile/read/project owners.",
+    "Reuse only procedural protection builders from GenuineProtectedCloseContext.protect on this SAME original H01 plan/service. Existing registry fixture helper is instantiated solely for its canonical evidence builder methods, not another trading service. Original PROTECT action/trigger/registry/capability -> actual stop POST -> actual targeted ACTIVE read + issuer native positive +16 complete two-scan inventory GETs -> normal project_protection OPEN_PROTECTED. No auto-generic-close tail.",
+    "Derive expected original anchor with actual anchor_exit_request(original persisted E2 request, earliest actual positive full-fill projection, original approved plan). First new owner call requires HOLD and persists that exact first-fill anchor/source; no EXIT action/POST.",
+    "Advance SYNTHETIC fixture clock exactly to actual anchor.hold_deadline. Existing owner risk fixture max_hold_seconds3600 and registered request3600 yield one synthetic hour; no sleep or threshold change. Refresh actual stop GET/native/inventory+normal E5 source projections and all genuine mechanical/E7 proofs. Expected real interpret_exit_request must yield AUTHORIZED/E5_MAX_HOLD_REACHED. Explicit action expiry+30sec/market60000 are FIXTURE test vectors, not production defaults.",
+    "New owner must durably publish exact actual E5 action BEFORE actual close claim. A forwarding claim spy checks real exit_decision.effects and canonical action then invokes original claim, no result override. Expected E4 oracle request is used only to construct matching scripted ACK, never supplied as accepted request/preparation.",
+    "Same expired original exit arguments are reused after+60 synthetic sec; actual new owner must route original claimed close through normal MANAGE_EXISTING GET/fills before stale native/proof/action gates. Actual partial4 contracts -> native6; exact duplicate GET stable. Then remaining6 fill -> explicit same-posId zero through normal project_close_position; final same-clock duplicate GET stable. Original first-fill/anchor/request/action/decision unchanged; three total POSTs = entry+stop+one close."
+  ],
+  "proposed_api_assumptions": [
+    {
+      "call": "TradingOrchestrator.evaluate_original_exit(entry_boundary,*,native_position,metadata,read_proof,close_proof,market_snapshot,market_freshness_classification,action_expires_at,expected_revision)",
+      "expected": "Returns ProductExitEvaluationOutcome with optional decision_id, status HOLD/BLOCKED/DISPATCHED, reason_codes, typed ExitAnchor anchor, optional operation_id/dispatch_outcome. First HOLD requires no close operation; first exit DISPATCHED wraps actual ACK_PENDING, retries wrap ORDER_OBSERVED."
+    },
+    {
+      "call": "ProductDispatchJournal.exit_anchor(run_id,entry_decision_id)",
+      "expected": "Returns immutable record .anchor typed ExitAnchor, .evidence parsed JSON. Proposed minimally asserted evidence keys: entry_decision_id,entry_evidence_hash,source_projection_id,source_binding_id,first_fill_at. source IDs identify EARLIEST actual positive full-entry projection+complete binding, not newest protected refresh. Root may rename keys to implementation schema while preserving exact semantic values; no weakening to substring/category-only assertions."
+    },
+    {
+      "call": "ProductDispatchJournal.exit_decision(run_id,entry_decision_id)",
+      "expected": "None before AUTHORIZED exit; afterwards immutable record .decision_id/.evidence/.effects. Proposed exact effects list is [POSITION_ACTION actual interpret_exit_request action]; canonical publisher handles that effect before claim. If design stores historical anchor/interpretation material elsewhere, keep exact original source/action assertions."
+    }
+  ],
+  "known_limits": [
+    "Draft NOT_EXECUTED: syntax/import/helper and proposed-owner behavior remain unverified. Root owns all real source/tests and execution.",
+    "One target service/provider throughout; independently constructed E4 oracle preparation is never handed to actual owner. Restored durable entry/close contexts are readback data only and never grants submit authority.",
+    "Existing source fixture explicitly expects materialized10contracts and uses controlled partial4+remaining6. It fails visibly on recipe changes; not a sizing default or real account assumption.",
+    "Earliest actual fill time is first FILLED entry row at entry clock+1sec. Native/provider received and interpretation clocks are independent and preserved; min(original entry fills) stays first-fill deadline even after later native refreshes.",
+    "No source edits, raw SQL/terminal state, fabricated final Position, hand-assembled canonical terminal result, PaperBroker/PaperZero, patched risk/signal/PASS, policy authority alteration or provider/private/network calls.",
+    "Current stop remains actual ACTIVE original protection. Flat remains EXIT_REQUESTED; original stop cleanup/funding/TradeResult/CLOSED remain separate. No automatic cancel or MODIFY support.",
+    "Positive only. Follow-on root tests still needed for foreign/changed original E2 request/source, missing first positive graph, expired-unclaimed close, independent genuine successor recovery, missing current MANAGE_EXISTING and non-executable trailing outputs."
+  ]
+}

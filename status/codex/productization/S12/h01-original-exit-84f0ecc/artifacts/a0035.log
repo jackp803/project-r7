@@ -1,0 +1,36 @@
+test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) ...
+  test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) (vector='unknown') ... FAIL
+  test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) (vector='gapped') ... FAIL
+  test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) (vector='unversioned') ... FAIL
+
+======================================================================
+FAIL: test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) (vector='unknown')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_migration_compatibility_v02.py", line 34, in test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged
+    with self.assertRaisesRegex(EvidenceGateError,'MIGRATION_COMPATIBILITY'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: EvidenceGateError not raised
+
+======================================================================
+FAIL: test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) (vector='gapped')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_migration_compatibility_v02.py", line 34, in test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged
+    with self.assertRaisesRegex(EvidenceGateError,'MIGRATION_COMPATIBILITY'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: EvidenceGateError not raised
+
+======================================================================
+FAIL: test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged (tests.storage.test_migration_compatibility_v02.MigrationCompatibilityV02Tests.test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged) (vector='unversioned')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_migration_compatibility_v02.py", line 34, in test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged
+    with self.assertRaisesRegex(EvidenceGateError,'MIGRATION_COMPATIBILITY'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: EvidenceGateError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.825s
+
+FAILED (failures=3)

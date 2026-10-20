@@ -1,0 +1,57 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "Minimum canonical writer guard only. Root applies after source freeze. No CLI/restore implementation, source edits/imports/compile/tests/DB/network/Git actions.",
+  "source_hashes": [
+    {
+      "sha256": "5c79c3c81695a3aa1820f20a1a79d01c7f90c2d26d276ba78d93195208eca918",
+      "path": "src/storage/_sqlite_registry.py"
+    },
+    {
+      "sha256": "69c00d4dc821776b6ceb520b6dacc74b8b034450ebab64411d24fbffb46a287d",
+      "path": "tests/storage/test_migration_compatibility_v02.py"
+    },
+    {
+      "sha256": "e3b24228fb7ecefd9decf5f780f954aa6b9140a3838bb2e8912eea5b59252688",
+      "path": "tests/storage/test_canonical_registry_upgrade_v02.py"
+    },
+    {
+      "sha256": "cd9fc4dde961b6095d42175f98caaa8b993b773cd0141576c4d292ad2facac12",
+      "path": "tests/storage/test_paper_runtime_conflict_and_time_ordering.py"
+    }
+  ],
+  "draft_hashes": [
+    {
+      "sha256": "2ccdfaed5fc959344625baedad58dca78018867464516b720eeef2070924815e",
+      "path": "plat08-migration-writer-guard.patch.unapplied"
+    },
+    {
+      "sha256": "11242582580b4b41cc126267b2c314d8e77cd26fc8f09dd3be2ca2a392c62301",
+      "path": "plat08-migration-compatibility-positive-malformed-tests.py.unapplied"
+    }
+  ],
+  "change": "check_migration_compatibility(connection) performs bounded read-only main-schema queries against full _MIGRATIONS_DIR packaged filenames and returns applied/pending/fresh/ledger_present facts. _apply_migrations calls it before CREATE TABLE and uses returned applied names. Explicit migrations_dir remains trusted controlled script selection/fault injection only.",
+  "refusal_cases": [
+    "Unknown future or greater-than-packaged-count records; non-prefix/gapped ledger; duplicates/missing PK; malformed table/view/columns/hidden generated columns; null or malformed record; populated database without ledger; empty ledger with other user schema. All EvidenceGateError codes begin MIGRATION_COMPATIBILITY.",
+    "No ledger plus no user objects is fresh. An empty correctly-shaped ledger alone is also fresh. SQLite internal sqlite_* objects are excluded with literal-underscore GLOB, not SQL LIKE wildcard underscore."
+  ],
+  "bounds": "Existence LIMIT2, ledger metadata fetchmany3, application-object existence LIMIT1, migration records SQL LIMIT knowncount+1; valid ledger PK supports name ordering. Packaged inventory is trusted finite target-release data; no arbitrary caller migration directory is identity.",
+  "rollback_preservation": {
+    "reason": "Existing prefix receipts are assessed against real full package. A broken directory containing only next real filename therefore reaches original SQLite execution and raises actual sqlite3.DatabaseError. No guard around actual script execution or exception recategorization; existing rollback/FK checks unchanged.",
+    "positive_subset": "test_populated_legacy_registry_upgrade_retains_all_identity_and_evidence_rows uses <0008 prefix then full upgrade. tests/storage/test_paper_runtime_conflict_and_time_ordering.py:253 test_true_additive_migration_from_registry_only_database uses only0001 then actual runtime factory. Both prefix layouts remain supported.",
+    "ref": "tests/storage/test_canonical_registry_upgrade_v02.py::test_interrupted_product_migrations_rollback_all_schema_objects_and_receipts; test_rebuild_fault_rolls_back_schema_data_and_migration_receipt_then_restores_fk"
+  },
+  "proposed_tests": [
+    "Fresh no-writes; actual first-only packaged prefix returns exact pending suffix under query_only; full actual migration/idempotency; genuine mode=ro reader.",
+    "Malformed/duplicate/view/column/hidden generated/null/empty-populated and sqliteX user object byte/directory preservation; direct shared checker and actual _open_authorized_store denial.",
+    "Retain root actual writer RED unknown/gapped/unversioned test unchanged; run existing real migration fault/upgrade tests, not a mock substitute."
+  ],
+  "review_limits": [
+    "Static drafts only. Parent actual RED1/three failures is parent-reported evidence, not executed by this agent. Source tests still need actual execution after apply.",
+    "Name-prefix ledger cannot prove historical migration script hashes, target application schema equivalence or semantic consistency of a forged otherwise valid ledger. No full-profile or financial compatibility claim.",
+    "No CLI, restore integration, maintenance lock/deadline profile or crossversion native acceptance is implemented here. Packaged known filenames are read from actual fixed source inventory; future public preflight must supply ordinary protected read-only connection/deadline.",
+    "Unapplied patch is a minimal contextual patch draft; test artifact supplies class-body additions and specified local imports, not a separate collected TestCase module. Root reviews placement before applying.",
+    "Old7d sealed binary remains unchanged and has no new refusal guarantee; safe rollback stays untouched old data or verified old backup. New candidate refusal must be proven on its own exact subject."
+  ]
+}

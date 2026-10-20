@@ -1,0 +1,84 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "Storage-only draft and dispatch facade snippets. Root owns all tracked edits/tests/integration. No imports/compilation/tests/DB/provider/network/Git execution.",
+  "source_hashes": [
+    {
+      "path": "src/storage/product_entry_decision.py",
+      "sha256": "8a0c80d21db4d13f09d4d712c81168bacddf076be8ae5c17236d13b27cb42de2"
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "92005366e6513faea2de6291ac34250bd87ae710f16c8915d61e4c6a38ce512d"
+    },
+    {
+      "path": "src/storage/migrations/0023_product_entry_decision.sql",
+      "sha256": "d5c040b1a5f892ff11b18d22e88d39a4ad4956444fb68181573d6820027d0507"
+    },
+    {
+      "path": "src/position/exit_requests.py",
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc"
+    },
+    {
+      "path": "src/position/exit_state.py",
+      "sha256": "1cfb7c5c15d819092f1d6e69289d54a2d83750dcec75361dfc420ddd37129d87"
+    },
+    {
+      "path": "src/position/lifecycle_execution_binding.py",
+      "sha256": "cc8b3fe7d3369a827ebdd24dfcfd71888bdcbe52a226c613ce6846924b1a13c4"
+    },
+    {
+      "path": "src/market_data/current.py",
+      "sha256": "b3a7faacf3cae0a51d948c2b35ab9d1c2c0ec123e1ef6c6eb49108e998e531d0"
+    },
+    {
+      "path": "docs/plans/2026-10-20-original-e2-exit-join.md",
+      "sha256": "52af57b83cdfd74d1331902c4b790ed100926c263d3624012fa421fa7311e0bc"
+    }
+  ],
+  "draft_hashes": [
+    {
+      "path": "product_exit_decision.py.unapplied",
+      "sha256": "7cc509bcc472299b5b580d5edb9efa6024807e525155385bbcc2a82228c70359"
+    },
+    {
+      "path": "0024_product_original_exit.sql.unapplied",
+      "sha256": "5e32fc230abc095b29c75e5a4b04cabc5c707a80fa8d79a3ffd91d8bc6e5054b"
+    },
+    {
+      "path": "product_dispatch_exit_facade.py.unapplied",
+      "sha256": "74c7e7cfaba17591d3d3674b0217c14822fe75687a4078b68e6367bed5b3b64c"
+    }
+  ],
+  "interfaces": [
+    "ProductExitAnchor(run_id,entry_decision_id,evidence_json,evidence_hash): .evidence validates exact retained first source/binding, .anchor restores typed existing ExitAnchor codec.",
+    "ProductExitDecision(run_id,entry_decision_id,decision_id,evidence_json,evidence_hash,effects_hash): .evidence replays existing actual E5 interpreter at ORIGINAL retained time/source/market/expiry; .effects exactly one POSITION_ACTION.",
+    "exit_anchor/stage_exit_anchor; exit_decision/stage_exit_decision; pending_exit_publications limit1000; mark_exit_publication. Same dispatch connection/process leases; no nested canonical writer."
+  ],
+  "evidence_shape": {
+    "decision": "Same original entry/plan/request and initial anchor, anchor_evidence_hash, exact actual source/binding at decision, explicit exact-field market input, freshness classification, original interpretation time/action expiry, exact original E5 EXIT action and derived stable close operation. First authorized EXIT only. HOLD/BLOCKED/PROTECT/MODIFY cannot become decision rows.",
+    "anchor": "Exact _COMMON fields in draft: original immutable entry evidence hash and operation, original ExitRequest and approved plan, earliest actual positive canonical source projection with complete matching lifecycle execution binding, existing encoded initial anchor. Source/binding whole bytes are covered by evidence_hash."
+  },
+  "required_owner_gates": [
+    "Before any dispatch write transaction, use actual canonical recovery to select earliest actual positive original entry position and complete matching binding, verify original actual fill set and min(filled_at)==opened_at. Retained shape/hash plus claimed dispatch does NOT prove these facts. Storage has no canonical connection and deliberately cannot invent actualness or earliestness.",
+    "Validate first-source and decision-source existence/payload equality against actual canonical recovery and original plan/fills; require canonical graph readiness/current projection and current E6/E7 management for new interpretation/translation. Current authority is not re-required merely to deserialize historical output.",
+    "Publication is canonical persist_position_action through existing journal outside dispatch._write(), then mark receipt only after actual success or exact idempotent publication readback. Receipt itself issues no capability.",
+    "Recovery must load prior original decision/operation before fresh input/expiry gates, claimed request direct normal GET-only reconciliation. Never call stage with a fresh clock/action to renew an existing decision; no-cached PREPARED fails closed.",
+    "Common mechanical close consumer must preserve exact E5 action/reasons/bytes, not call generic authorize_close_position_action again. Existing ownership/E4 applicability/final guard remain unchanged."
+  ],
+  "schema": {
+    "tables": 3,
+    "marker": "Transaction marker is first line. Filename0024 is proposed; root verifies reservation/order before applying.",
+    "fks": "Migration adds unique index on existing entry(run_id,decision_id) for actual original-entry composite FK; anchor/decision/receipt reference actual generation; decision references exact anchor evidence hash; receipt references exact decision ID/evidence/effect hashes.",
+    "key": "All immutable keyed (run_id,entry_decision_id); decisions and receipts decision_id UNIQUE; BEFORE INSERT OR guards cover both primary-key and decision-id collisions even recursive_triggers=OFF."
+  },
+  "known_limits": [
+    "Draft is not compiled/imported or test executed. Root must perform genuine red-green owner/schema/recovery tests and independent review before use.",
+    "Storage intrinsic binding validator proves self-contained shape/projection match, not canonical execution closure completeness. Exact actual recovery comparisons remain required owner gates, not optional.",
+    "Freshness classification is explicit retained caller input interpreted by existing E5; codec does not synthesize health/time/freshness or fetch data. MarketSnapshot codec preserves exact microsecond UTC/Decimal/null values; existing E4-only codec unchanged.",
+    "Initial immutable anchor supports current no-trailing join. Advancing trailing state is deliberately absent; no new MODIFY_PROTECTION profile.",
+    "New migration affects dispatch journal migration inventory; root must freeze source/profile only after implementation settles. No qualification/financial/real-provider claim."
+  ],
+  "plat08_followup_correction": "Preserve previous plan as historical draft. Old sealed7d has no new guard and cannot be claimed to refuse newer schema. New candidate can prove its own unknown/future-schema refusal; actual rollback uses untouched old data/verified old backup. No old7d downgrade PASS."
+}

@@ -1,0 +1,161 @@
+{
+  "status": "STATIC_DESIGN_ONLY_NOT_IMPLEMENTED_NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-20",
+  "scope": "Minimum genuine H01 original E2 exit join for existing controlled FIXTURE close-v0.1, using immutable entry decision and actual canonical/native graph. No implementation/test draft or production support claim.",
+  "source_hashes": [
+    {
+      "path": "src/storage/product_entry_decision.py",
+      "sha256": "8a0c80d21db4d13f09d4d712c81168bacddf076be8ae5c17236d13b27cb42de2"
+    },
+    {
+      "path": "src/application/trading/entry_owner.py",
+      "sha256": "c1de8253067a8824acaad044d21b130b85221609de74d25df7a6ffdc2b09bbd0"
+    },
+    {
+      "path": "src/application/trading/orchestrator.py",
+      "sha256": "d210e0b6c2b42623705c9ca5abea8ea58304e940a7da8ae6e4bb04b3d6987908"
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6"
+    },
+    {
+      "path": "src/application/trading/position_observation.py",
+      "sha256": "ff1dedc6e84ed05fae1d9759a7951274ad5656cdecd7c52b3d8347df8be2c138"
+    },
+    {
+      "path": "src/application/trading/close_owner.py",
+      "sha256": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7"
+    },
+    {
+      "path": "src/application/trading/guards.py",
+      "sha256": "b217b2d23e145ff3ba578fba769cf19f69f26f91411d29e6c7f20e9f27776629"
+    },
+    {
+      "path": "src/application/trading/close_intent.py",
+      "sha256": "d6655e5d6957520d1ecb86d4817d7acd90f84f14c284647b9cef97d7715cf3a4"
+    },
+    {
+      "path": "src/application/trading/close_observation.py",
+      "sha256": "fdc43a544f961505f507ea7620351a56b953202be39de7ca580f3aacdc280142"
+    },
+    {
+      "path": "src/position/exit_requests.py",
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc"
+    },
+    {
+      "path": "src/position/exit_state.py",
+      "sha256": "1cfb7c5c15d819092f1d6e69289d54a2d83750dcec75361dfc420ddd37129d87"
+    },
+    {
+      "path": "src/position/entry_observation.py",
+      "sha256": "ae5811984f4d4bd864181a82b939bb9c060e6c11a0a5a7bd4e0bda130d460491"
+    },
+    {
+      "path": "src/position/close.py",
+      "sha256": "ed8efdfb13c9aaf42d4b6ee7b36f49f8db5dcbd6200a39da038cdbd7cc105154"
+    },
+    {
+      "path": "src/execution/close.py",
+      "sha256": "56a4d86b31d5f67383982f2e16edacf535d77e840d9a81cb8dee7a2cc675bce8"
+    },
+    {
+      "path": "src/application/paper/engine.py",
+      "sha256": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6"
+    },
+    {
+      "path": "tests/product/h01_entry_fixture.py",
+      "sha256": "1fe3b05441b63a3fe14f2fcd723553e63fe3dc3e200143eae427eb096ebef059"
+    },
+    {
+      "path": "tests/product/test_trading_protected_close_v02.py",
+      "sha256": "32a4e713ba2e353d866ea4c36251e2e5aad12180f0d1ad71ea70f78bf02efa14"
+    },
+    {
+      "path": "tests/product/test_trading_close_v02.py",
+      "sha256": "af82ff3d1fb3c77e789b4e83839ff5d3b596c62f03be8353ab9e7983a8b694c2"
+    },
+    {
+      "path": "tests/position/test_exit_anchor_recovery.py",
+      "sha256": "64f18000d2b994c7eb66695e737983a66251a7037def1b04967d513891f8f9d3"
+    },
+    {
+      "path": "tests/backtest/test_v02_owner_binding.py",
+      "sha256": "bb9f7263aae328c4fa35c8ce51e135363b9638c7172a7687d6d6249eef5d4d7f"
+    },
+    {
+      "path": "tests/strategy/v02_fixtures.py",
+      "sha256": "3056762366f7af1e65cd32ac875ebc04fa73ea96e7998c721ad1aa35dccef989"
+    }
+  ],
+  "existing_ports": [
+    {
+      "ref": "src/storage/product_entry_decision.py:ProductEntryDecision.exit_request/evidence/effects; entry_decision(journal,run_id,identity,boundary)",
+      "fact": "Original E2 exit JSON is durably bound to strategy content/market boundary/reference, original TradeIntent and original E5 plan/risk; status APPROVE yields original entry operation_id. No fresh strategy evaluation is needed."
+    },
+    {
+      "ref": "src/position/exit_requests.py:anchor_exit_request(request,position,plan); CurrentExitAuthority(position,parent_plan,anchor,market_snapshot,market_freshness_classification,now,action_expires_at); interpret_exit_request(request,current_e5_authority)",
+      "fact": "Real E5 validates original plan/request/side/quantity/stop/target. Hold deadline derives first_fill_at plus min(original request hold, approved plan hold). Real outputs: AUTHORIZED/HOLD/BLOCKED/NON_EXECUTABLE_PROFILE. AUTHORIZED EXIT contains real canonical close action and EXIT_REQUESTED intent, never CLOSED."
+    },
+    {
+      "ref": "src/position/exit_state.py:encode_exit_anchor(anchor); restore_exit_anchor(value,*,request,position,plan)",
+      "fact": "Existing exact bounded8192-byte typed codec preserves original request_hash/plan_hash/first-fill/hold/extrema and validates restored binding. Reuse without a new anchor schema or resetting first fill from newest observation."
+    },
+    {
+      "ref": "src/application/trading/position_observation.py:require_position_read/project_entry_position; src/position/entry_observation.py:build_product_entry_projection",
+      "fact": "Issuer/provider/lease-bound native reads expire after5s; product entry projection uses complete actual canonical fills, min(entry fill filled_at) as opened_at, and rejects a changed opened_at on entry refresh. Canonical complete lifecycle binding is already published by owner."
+    },
+    {
+      "ref": "src/application/trading/close_owner.py:original_entry; prepare_fixture_close; prepare_close; require_close_preparation",
+      "fact": "Existing close path requires original positive native entry binding/same provider posId, genuine fresh read, restart-authoritative current positive E5 position+complete binding, exact parent plan, no prior close claim, FP04 ownership, real close-role capability and independently explicit close applicability. FIXTURE wrapper is conspicuously fixture-only."
+    },
+    {
+      "ref": "src/application/trading/service.py:execute/reconcile/recover_publications; src/application/trading/close_intent.py:recover_close_intents",
+      "fact": "Existing one durable claim before POST, final current owner/mechanical/source guard, claimed-operation GET-only reconciliation, and crash-recovered exact original EXIT_REQUESTED projection/binding already exist. Close intent recovery reconstructs request at ORIGINAL request.created_at, not a fresh clock."
+    }
+  ],
+  "demonstrated_missing_seams": [
+    "TradingOrchestrator currently exposes entry only; no product owner loads persisted original ExitRequest and joins its E5 interpretation to canonical/native current position.",
+    "close_owner.prepare_close unconditionally builds a NEW generic authorize_close_position_action(...created_at=now,expires_at=now+30s) with default reasons. Passing only action=EXIT discards original interpret_exit_request reason/action ID/expiry/bytes. Calling interpret and then existing prepare_fixture_close is therefore NOT a genuine preservation of the E2->E5 result.",
+    "Product entry decision is immutable and was recorded before fills, so cannot contain later actual first-fill anchor. Product owner has no durable exit anchor/authorized-action binding yet. Existing exit_state codec exists but only Paper engine currently retains it in its own runtime state; do not borrow PaperBroker or its funding/authority."
+  ],
+  "minimum_additive_interface": [
+    {
+      "responsibility": "Thin local-import wrapper to one trusted application/trading/exit_owner.py owner. No caller ExitRequest/anchor/plan/action/PASS/risk-policy argument. Load entry_decision for actual service.run_id/identity/boundary and require original APPROVE, actual claimed ENTRY, source plan equality, canonical original position/complete binding and same original positive provider position. Use actual MANAGE_EXISTING admission and normal service read owner.",
+      "name": "TradingOrchestrator.evaluate_original_exit(entry_boundary,*,native_position,metadata,read_proof,close_proof,market_snapshot,market_freshness_classification,action_expires_at,expected_revision)"
+    },
+    {
+      "responsibility": "Refactor existing prepare_close mechanical assembly AFTER its generic producer into a private common consumer. Existing public prepare_close keeps its behavior. New exit owner supplies ONLY its actual internally produced interpret_exit_request.position_action. Existing E5 validate_close_position_action/execution.close.validate_close_authority, FP04/sizing/applicability, original native source, inventory generation and final guard remain unchanged. Persist/publish exact E5 action; never rebuild generic action or allow public arbitrary action dictionaries.",
+      "name": "Private close_owner._prepare_close_from_e5_action(..., close_action, exact_current_subject, ...) internal common consumer"
+    },
+    {
+      "responsibility": "Use same existing dispatcher DB, process lease and bounded generic canonical publish/mark pattern. Minimum records: immutable first-fill anchor keyed original entry_decision_id+canonical position_id, then immutable first authorized EXIT decision for that subject, containing entry evidence/request/plan hashes, anchor codec hash, exact source projection/binding refs+hashes, explicit market input commitment or max-hold no-market classification, actual interpretation clock, exact E5 action, stable close operation_id. Stage action decision BEFORE canonical PositionAction/E4 prepare/claim/POST; publish existing POSITION_ACTION through canonical facade then separate receipt. Never nest canonical writer under dispatch writer. No general job framework or new financial math.",
+      "name": "Narrow ProductDispatchJournal entry-exit anchor + authorized-decision read/stage/publication methods"
+    }
+  ],
+  "original_clock_and_retry_rules": [
+    "Anchor from earliest actual positive canonical OPEN_UNPROTECTED/OPEN_PROTECTED projection with complete matching entry execution binding, not PENDING_ENTRY or latest partial-fill observation. Verify its opened_at against min original-entry actual canonical fills. Preserve original first-fill average/reference and original approved levels. Then restore_exit_anchor against current actual positive position+same original plan.",
+    "Current E5 now comes from service.clock immediately before actual interpretation after source checks; explicit action_expires_at is supplied as an existing engineering management input and validated UTC/future. No invented health/balance/size/TTL defaults. Old entry plan expiry does not revoke existing management; original parent plan/risk binding still must match actual owner policy.",
+    "Before fresh native requirements/E2 interpretation/close preparation/action expiry gates, load prior exact authorized exit decision and its actual operation. If CLAIMED/READBACK_REQUIRED, obtain normal current MANAGE_EXISTING via service.reconcile(original_operation_id) directly. Never reinterpret/rebuild old action, translate old request, renew clocks/IDs or POST again.",
+    "PREPARED but unclaimed original close requires still-current ORIGINAL local preparation through require_close_preparation+translator.require; missing/cold successor preparation fails closed. Saved exit decision with no durable request may first translate unchanged unexpired original action under genuine current mechanical proofs and exact current original source; changed source/action expiry blocks, never silently reauthorizes same ID.",
+    "Stable close ID derives existing stable_position_action_client_order_id(action_id,POSITION_EXIT) then stable_order_request_id; prepare_close_order sets request.created_at=now, so original durable request must never be retranslated on retry. Existing single-close claim inventory plus final guard must remain active before POST.",
+    "HOLD/BLOCKED with no action cannot dispatch. Current fixture has trailing=None; first join may retain one immutable anchor plus first authorized decision. If later extending monotonic trailing observation persistence, use existing exit_state snapshot semantics; NON_EXECUTABLE_PROFILE remains non-executable and grants no MODIFY_PROTECTION. No inference that active standing stop has triggered/disappeared from price or flatness."
+  ],
+  "one_genuine_test_recipe": [
+    "Start actual tests/product/h01_entry_fixture.py H01EntryFixture; runner.evaluate_entry actual registered E2 LONG/E5 APPROVE, retain exact original ProductEntryDecision and its ExitRequest; keep SAME actual service/translator/FakeProductProvider. Do not instantiate GenuineProtectedCloseContext because its constructor creates a different plan/service and protect() automatically prepares a generic close.",
+    "Consume existing scripted live-zero GET/fills normally if retained, then append bounded genuine fake FILLED entry/order/fill observations using original order IDs and full materialized contract quantity. Normal service.reconcile, issued read_position(expected_provider_position_id=5678), project_entry_position create actual full-filled OPEN_UNPROTECTED + complete binding. Preserve first actual fill time from real parsed fill facts.",
+    "Reuse the procedural source builders in GenuineProtectedCloseContext.protect(), but on H01 service and original plan: real E5 PROTECT/trigger/registry builders and translator.prepare_protection; normal service.execute one actual stop POST; targeted stop readback ACTIVE/no child plus actual complete inventory and issued positive native read; normal project_entry_position/project_protection produce OPEN_PROTECTED with complete binding. Do not call the helper tail that auto-prepares generic close.",
+    "First proposed evaluate_original_exit with explicit fresh healthy fixture MarketSnapshot(last_price=original60000), original saved request and current actual native source derives/persists anchor and real E5 HOLD; no close operation or POST. Assert original request_hash/plan_hash/first_fill_at/hold_deadline and first actual average are preserved.",
+    "Advance actual fixture owner clock to stored anchor.hold_deadline (derive from actual plan/request, no magic duration). Issue actual fresh E7 observation/metadata/read/close proofs, script same-posId positive native observation and complete still-ACTIVE original-stop inventory; normal owner projections reattest actual current source without changing opened_at. Supply explicit action_expires_at=now+30s as labeled fixture vector, not installed default. Real interpret_exit_request at this clock must yield AUTHORIZED/E5_MAX_HOLD_REACHED, even though entry plan/proof expiry elapsed.",
+    "Normal new exit owner persists exact actual E5 action/anchor/source decision before canonical action and E4 close prepare. Actual fixture close-role applicability and existing FP04/native/final guard produce exact original action hash in prepared subject. Script actual ACK and service.execute; assert one reduce-only close POST, exact original entry/stop/close links and EXIT_REQUESTED, no generic default reason sequence substituted.",
+    "Advance beyond original close action/technical proof expiry; retry proposed owner method follows original claimed close via direct MANAGE_EXISTING GET/fills (no interpretation/translation/POST). Actual partial close fill and original same-posId positive residual project through project_close_position, then genuine remaining fill+explicit same-posId zero produce actual flat EXIT_REQUESTED with complete original graph. Assert original anchor/E2 request/E5 action/decision/request bytes and clocks unchanged, exactly one close claim/POST. No CLOSED/TradeResult/funding/stop-cleanup claim in this test."
+  ],
+  "conflicts_and_limits": [
+    "No demonstrated new financial authority conflict: original E2 constraints are advisory input to existing E5 canonical action; actual E6/E7 MANAGE_EXISTING, current native ownership, E4 close applicability and final guard remain mandatory.",
+    "Actual production close-role metadata applicability remains independently supplied; fixture_close_profile is explicitly FIXTURE_ONLY. This design does not establish any real provider metadata/API support or production LIVE permission.",
+    "Existing stop-trigger/native child reconciliation remains its actual owner path. The proposed single max-hold test deliberately retains an ACTIVE owned stop and does not infer a trigger from price; later actual stop cleanup/finalization remains separate existing H16 workflow.",
+    "Small implementation ordering choice for root: persist anchor when first management call sees canonical first-fill projection, or immediately after actual entry projection. Either must use original first-positive graph and never derive a fresh first-fill anchor from latest/current position alone.",
+    "No tests/source/Git/DB/process/provider/network work executed. Source hashes are static base references only. No H01 completion or acceptance claim."
+  ]
+}

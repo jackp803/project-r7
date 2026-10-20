@@ -1,0 +1,101 @@
+{
+  "schema": "r7-bounded-independent-design-review-v1",
+  "date": "2026-10-20",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Minimum original persisted E2 ExitRequest to E5 EXIT-only management join; design only, not implementation or complete H01.",
+  "design": {
+    "path": "h01-original-exit-management-join-design-20261020.json",
+    "sha256": "ab79050e03c4a2e019e61d896dfb5efe06a582db7dd76a9a6c76724e866f2a85",
+    "status": "UNIMPLEMENTED_DESIGN"
+  },
+  "source_hashes": {
+    "src/position/exit_requests.py": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc",
+    "src/position/exit_state.py": "1cfb7c5c15d819092f1d6e69289d54a2d83750dcec75361dfc420ddd37129d87",
+    "src/application/trading/close_owner.py": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7",
+    "src/application/trading/entry_owner.py": "c1de8253067a8824acaad044d21b130b85221609de74d25df7a6ffdc2b09bbd0",
+    "src/application/trading/service.py": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+    "src/application/trading/position_observation.py": "ff1dedc6e84ed05fae1d9759a7951274ad5656cdecd7c52b3d8347df8be2c138",
+    "src/execution/close.py": "56a4d86b31d5f67383982f2e16edacf535d77e840d9a81cb8dee7a2cc675bce8",
+    "src/position/close.py": "ed8efdfb13c9aaf42d4b6ee7b36f49f8db5dcbd6200a39da038cdbd7cc105154"
+  },
+  "reviewed_refinement": {
+    "source": "Root message in this review task; supplements unchanged captured design file.",
+    "anchor": "Persist original entry decision commitment, earliest authentic positive canonical projection with matching lifecycle binding and actual earliest original-entry fill clock; use existing anchor codec.",
+    "decision": "Persist exact current source/binding, original plan/request/anchor, explicit market input and original interpreter/action clocks. Pure interpreter replay only validates historical bytes, without renewing authority.",
+    "consumer": "Private common consumer receives exact journal-loaded decision/type and durable-row equality; preserves public generic prepare_close behavior and current E4/E6/E7 gates."
+  },
+  "findings": [],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "supported_conclusions": [
+    {
+      "refs": [
+        "src/position/exit_requests.py:119",
+        "src/position/exit_requests.py:171",
+        "src/position/exit_state.py:78"
+      ],
+      "conclusion": "Existing anchor construction/codec support original request/plan/first-fill/hold binding. Selecting the earliest actual positive projection is necessary because initial reference uses that projection average; choosing a later partial/full average would change the original anchor."
+    },
+    {
+      "refs": [
+        "src/application/trading/close_owner.py:77",
+        "src/application/trading/close_owner.py:99",
+        "src/position/close.py:369",
+        "src/execution/close.py:273"
+      ],
+      "conclusion": "A private consumer of the exact E5 action is the required narrow seam: existing prepare_close otherwise generates a new generic action. Existing canonical E5 and E4 close validators can retain exact source/lineage/quantity/reasons and original action expiry."
+    },
+    {
+      "refs": [
+        "src/application/trading/entry_owner.py:128",
+        "src/application/trading/service.py:142",
+        "src/application/trading/service.py:173",
+        "src/execution/close.py:411"
+      ],
+      "conclusion": "Direct claimed-operation reconciliation is required before current interpretation/translation/expiry gates. execute requires a live translated preparation, and prepare_close_order stamps a new request clock; neither belongs on the original claimed retry path."
+    }
+  ],
+  "implementation_constraints": [
+    {
+      "constraint": "Accept only status AUTHORIZED with exact action EXIT and lifecycle_intent EXIT_REQUESTED. Do not treat every AUTHORIZED outcome as an EXIT: current interpreter also produces PROTECT for an unprotected position.",
+      "refs": [
+        "src/position/exit_requests.py:196",
+        "src/position/exit_requests.py:219"
+      ]
+    },
+    {
+      "constraint": "Keep the new owner and fixture applicability creation explicitly FIXTURE/FAKE-provider scoped. A journal row or successful historical pure replay grants no current permission; normal MANAGE_EXISTING, actual current source, native read/metadata/proofs and final operation guard remain required before a new claim/POST.",
+      "refs": [
+        "src/application/trading/close_owner.py:69",
+        "src/application/trading/close_owner.py:103",
+        "src/application/trading/service.py:148"
+      ]
+    },
+    {
+      "constraint": "Pure historical replay must use retained original source/anchor/market/now/action expiry and compare exact outcome/action; it must not replace original clocks with current time, allocate a permit, or run before direct reconciliation of a claimed close.",
+      "refs": [
+        "src/position/exit_requests.py:190",
+        "src/application/trading/service.py:173"
+      ]
+    },
+    {
+      "constraint": "Saved but unclaimed decisions remain fail-closed on changed source, expired action or lost original preparation. Do not call generic prepare_close on such a retry or silently create a renewed action/request under the same stable operation.",
+      "refs": [
+        "src/application/trading/close_owner.py:100",
+        "src/application/trading/close_owner.py:141",
+        "src/execution/close.py:403",
+        "src/execution/close.py:445"
+      ]
+    }
+  ],
+  "limits": [
+    "No source/test/Git changes or tests, compilation, imports, DB, process, native, network or provider operations performed. Only this new outside-Git review artifact is written.",
+    "No implementation correctness, execution result, native support, real provider applicability, financial activation, H01 completion, PQR or Master acceptance is established.",
+    "The refinement is reviewed as the stated intended implementation; no code implementing it existed in this review scope."
+  ]
+}

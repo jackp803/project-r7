@@ -1,0 +1,34 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "source_hashes": [
+    {
+      "sha256": "9e0581fc5736097d9bf43f53a969ed96433ae72e4678089e85d5db9289bbc32e",
+      "path": "tests/product/h01_original_exit_fixture.py"
+    },
+    {
+      "sha256": "6f0544951f7ddb9209f198619a43ea7ab36ec95f45af1018b6d070c9d4d2a0ad",
+      "path": "tests/product/test_trading_original_exit_v02.py"
+    },
+    {
+      "sha256": "0953023f3d975d99bfe85c48c243d79ce399e5e6d56727ecf0f00df683d17653",
+      "path": "src/storage/migrations/0024_product_original_exit.sql"
+    }
+  ],
+  "draft": {
+    "sha256": "d6b2eaff17ff6871219f5a91fec5030d8e68ec3a91c8a9db59ba2c738159656b",
+    "case": "TradingOriginalExitSchemaV02Tests.test_actual_exit_anchor_decision_and_publication_reject_update_delete_replace_recursive_off",
+    "path": "test_trading_original_exit_schema_v02.py.unapplied",
+    "proposed_target": "tests/product/test_trading_original_exit_schema_v02.py"
+  },
+  "prerequisite": "Actual H01OriginalExitFixture enters genuine E2 entry/full-fill native projection/actual active protection. Normal evaluate_original_exit HOLD persists anchor. Derive actual stored hold_deadline, refresh_protected normally, actual E5 interpreter/E4 independent oracle obtains ACK identity only, append one close ACK, normal evaluate_original_exit persists/publishes actual decision and dispatches once. No injected accepted anchor/action/terminal rows.",
+  "assertion_boundary": "Only after actual owner population, inspect owner dispatch _db. Require exactly one actual row in each of three tables and actual empty pending outbox. FKON/recursiveOFF asserted before and after each attack. Nine attacks: UPDATE evidence_hash, DELETE actual row, INSERT OR REPLACE SELECT exact existing row for each table. Each requires exact sqlite3.IntegrityError trigger message (not generic FK/UNIQUE credit), finally rollback, whole three-table snapshot plus FK integrity unchanged. Actual provider calls unchanged through attacks.",
+  "unique_collision_limit": "Exact same-row replacements prove primary-key replacement guards with all original FKs valid. They do NOT independently prove decision_id UNIQUE OR branch against an alternative valid owner-created entry key. One genuine exit fixture has only one entry/anchor/decision; no artificial alternative FK or positive SQL row is manufactured. Separate UNIQUE-only collision coverage is explicitly NOT_COVERED by this one case.",
+  "limits": [
+    "No test/compile/module imports/DB/native/provider/network/Git execution by drafting agent. Root applies and observes actual test outcome after freeze.",
+    "Current fixture exposes proposed owner API now implemented in root source; source hashes bind static basis only, not qualifying receipt.",
+    "No final CLOSED/funding/TradeResult claim; actual ACK enters EXIT_REQUESTED, not completion.",
+    "Only one TestCase method; _snapshot is a non-TestCase fixed-name helper."
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-20",
+  "scope": "Three genuine original EXIT fault/source regressions, one case per module plus non-TestCase helper. Existing positive and actual H01 service/provider retained; no production edits.",
+  "drafts": [
+    {
+      "path": "h01_exit_failure_fixtures.py.unapplied",
+      "sha256": "1ca8db743c0a378f5e067ed5c86ff7c408da9cfeef0bee96b84d84c3d7baaeed"
+    },
+    {
+      "path": "test_trading_exit_input_denials_v02.py.unapplied",
+      "sha256": "64e72f84f3dda5be37d3782c9216a64b3ee1b1cace28663c6716ecb0e15d3fd2"
+    },
+    {
+      "path": "test_trading_exit_prepared_recovery_v02.py.unapplied",
+      "sha256": "c00ebdc12335d8fabe77c2a3b76696734978bb8e4b6e224db91fbea3e69569cc"
+    },
+    {
+      "path": "test_trading_exit_publication_recovery_v02.py.unapplied",
+      "sha256": "8820af128d208bcda2b6f59bf7fa6b5c35f28a61b538e2d557d7bb3060078716"
+    }
+  ],
+  "source_hashes": [
+    {
+      "path": "tests/product/h01_original_exit_fixture.py",
+      "sha256": "9e0581fc5736097d9bf43f53a969ed96433ae72e4678089e85d5db9289bbc32e"
+    },
+    {
+      "path": "tests/product/test_trading_original_exit_v02.py",
+      "sha256": "6f0544951f7ddb9209f198619a43ea7ab36ec95f45af1018b6d070c9d4d2a0ad"
+    },
+    {
+      "path": "tests/product/h01_entry_recovery_fixture.py",
+      "sha256": "bf974468eb6c5904c1e7aa90be5e80df4dd391ab11332ee94223566c183b2a61"
+    },
+    {
+      "path": "src/application/trading/exit_owner.py",
+      "sha256": "638e1565c5cbc06459415014d5a14a2cc0a438fb0f3cea3da7902c78c5f8f7ad"
+    },
+    {
+      "path": "src/application/trading/orchestrator.py",
+      "sha256": "653cf74463fa299bbd8491acbbb6564f388a642a4d2e510a821d128066b2cc9d"
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6"
+    },
+    {
+      "path": "src/application/trading/position_observation.py",
+      "sha256": "ff1dedc6e84ed05fae1d9759a7951274ad5656cdecd7c52b3d8347df8be2c138"
+    },
+    {
+      "path": "src/application/trading/close_owner.py",
+      "sha256": "4cfc672a2aa37199d957378062fda8d92f6188a0e7e7cc1964702e829d14d85d"
+    },
+    {
+      "path": "src/storage/product_exit_decision.py",
+      "sha256": "1f75684c9b21adde679d59f36e2b011eb51ab2fbc58dca60e223103a2c38f4b6"
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "0418315a54002cae56f25115d7618c28249a9450a376ee5a5a3c23df5c479c8f"
+    },
+    {
+      "path": "src/storage/migrations/0024_product_original_exit.sql",
+      "sha256": "0953023f3d975d99bfe85c48c243d79ce399e5e6d56727ecf0f00df683d17653"
+    },
+    {
+      "path": "src/storage/runtime.py",
+      "sha256": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593"
+    },
+    {
+      "path": "src/brokers/okx_product_position.py",
+      "sha256": "ae1ffa307dd612d5710f04a25fe300c27230e252bfed0136ddb2fa09a2da9068"
+    }
+  ],
+  "apply": [
+    "Root reviews then copies four .unapplied files to tests/product with the same names minus .unapplied after source freeze. No existing fixture/positive/production change proposed.",
+    "Each test module has exactly one own TestCase method. Helpers and test fixture classes are imported via module aliases; shared helper is non-TestCase. No imported TestCase discovery duplication.",
+    "Current actual exit record schema is used: whole source_position/source_binding and typed ExitAnchor. Earlier proposed alias source-ID evidence keys are not assumed.",
+    "Root alone executes tests. Draft preparation did not import, compile, run tests/DB/process/native/Git/provider/network or inspect active runtime evidence."
+  ],
+  "cases": [
+    {
+      "setup": "Existing actual H01OriginalExitFixture full entry/native/verified active stop/OPEN_PROTECTED; normal actual original EXIT HOLD baseline persists anchor.",
+      "module": "test_trading_exit_input_denials_v02.py",
+      "assertions": "Exact current RuntimeAdmissionError reasons CURRENT_ISSUER_NATIVE_POSITION_READ_REQUIRED for copy/expiry and EXIT_ORIGINAL_CURRENT_NATIVE_SOURCE_REQUIRED for valid-issued mismatch. Anchor/entry/canonical protected graph unchanged, exit_decision absent, only the one explicitly requested native GET occurs, exactly original entry+stop POSTs, no EXIT action.",
+      "fault": "First dataclasses.replace exact native read creates an unissued copy; then existing original read expires at+6s. Finally same original service issues a real new controlled native GET(pos6, originalposId5678) with fresh metadata/read proof; its quantity disagrees with full canonical pos10, without projecting the mismatched observation.",
+      "case": "TradingExitInputDenialsV02Tests.test_copied_expired_and_genuinely_issued_mismatched_native_reads_cannot_create_exit"
+    },
+    {
+      "setup": "Normal HOLD then actual first-fill-derived deadline; genuine stop/native/inventory reattestation and current mechanical proofs.",
+      "module": "test_trading_exit_prepared_recovery_v02.py",
+      "assertions": "Actual exit decision/action/receipt exist, actual close request is PREPARED and unclaimed, original provider sees no close request. New TradingOrchestrator on same actual service has empty local cache; after+60s old action/read/proof expired, exact BLOCKED/ORIGINAL_LOCAL_PREPARATION_REQUIRED with no dispatch_outcome. Original decision/whole exit rows/request bytes/clocks/canonical action unchanged, no close POST.",
+      "fault": "Forwarding boundary replacement of claim_dispatch inspects actual durable operation already committed by normal TradingCoordinator.prepare: role POSITION_EXIT/status PREPARED/CURRENT_ADMISSION_REQUIRED, then raises OSError BEFORE real claim commit. It does not call real claim or simulate an outcome; no ACK response script is appended.",
+      "case": "TradingExitPreparedRecoveryV02Tests.test_durable_prepared_close_without_original_local_preparation_cannot_be_adopted_after_expiry"
+    },
+    {
+      "setup": "Normal HOLD then actual first-fill-derived max-hold deadline and genuine current native/protection source.",
+      "module": "test_trading_exit_publication_recovery_v02.py",
+      "assertions": "After action/proofs expire+60s, reuse H01RecoveryFixture.successor with explicit fixture=c.f and ExitStack (do not call its __enter__/create another H01). Actual new RuntimeAdmission/capabilityowner/translator/provider[]/same DB new handles process generation2 with accepted E7 release generation1. Normal recover_publications replays exact original action/persisted_at/hash/decision/anchor/clocks and marks exactly one receipt generation2, zero HTTP/provider calls and no prepared operation. Repeat drain stable; old lease require_process and old service recover_publications fail exact DISPATCH_CURRENT_PROCESS_GENERATION_REQUIRED.",
+      "fault": "Patch CLASS PaperRuntimeJournal.persist_position_action with autospec because journal __slots__; call original class descriptor first, then raise OSError only for actual EXIT action on original canonical journal. Real immutable EXIT decision outbox already committed and actual canonical E5 PositionAction is durable; publication receipt absent, no E4 request/claim/POST.",
+      "case": "TradingExitPublicationRecoveryV02Tests.test_actual_exit_action_commit_before_error_replays_exactly_on_genuine_successor_without_http"
+    }
+  ],
+  "static_contracts": [
+    "OriginalExitOwner._original_graph validates actual issuer read before E5 interpretation; currently raised error tuples match draft. No signal/risk/PASS result is patched.",
+    "OriginalExitOwner PREPARED/no-cache branch currently returns BLOCKED before native/proof/expiry checks; this is a safe historical denial, not a permission grant. New wrapper construction reuses same bound service/provider without rebinding process.",
+    "Existing H01RecoveryFixture.successor directly supports an explicit fixture and ExitStack via its used attributes; it reconstructs actual E7 preflight with new process instance, E6lease2 and original release.runtime_generation1, and fresh separate journal handles to exact same files. No old issued native/metadata/proof object is handed to recovery.",
+    "Read-only helper queries only fixed product_exit_anchors/product_exit_decisions/product_exit_publications and actual canonical PositionAction owner row. No SQL writes or raw terminal/financial state construction.",
+    "Canonical publication recovery is a history-only E5 fact replay, not renewal of expiry/interpretation/source or a new preparation. Expired historical action remains exact original bytes; stored rows grant no provider authority."
+  ],
+  "limitations": [
+    "UNAPPLIED/NOT_EXECUTED: all code is static draft; no syntax/import/source/native PASS claim. Root currently running separate GREEN01; worker makes no inference about its result.",
+    "One genuine protected fixture per case may be comparatively expensive; each module contains only one own case for existing per-member900s constraint. No threshold/deadline increase proposed.",
+    "No provider/production LIVE capability, default account/policy/health/balance, MODIFY, cleanup/funding/finalization or H01 completion claim.",
+    "No actual current guard source changes, including independently unapplied _sqlite_registry work. Hashes record inspected current exit/source base only."
+  ]
+}

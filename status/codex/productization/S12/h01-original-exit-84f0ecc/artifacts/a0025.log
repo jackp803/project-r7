@@ -1,0 +1,15 @@
+test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry (tests.product.test_trading_original_exit_v02.TradingOriginalExitV02Tests.test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry) ... ERROR
+
+======================================================================
+ERROR: test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry (tests.product.test_trading_original_exit_v02.TradingOriginalExitV02Tests.test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_original_exit_v02.py", line 37, in test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry
+    held=c.runner.evaluate_original_exit(f.bundle.boundary,**hold_arguments)  # Proposed actual owner.
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingOrchestrator' object has no attribute 'evaluate_original_exit'
+
+----------------------------------------------------------------------
+Ran 1 test in 23.532s
+
+FAILED (errors=1)

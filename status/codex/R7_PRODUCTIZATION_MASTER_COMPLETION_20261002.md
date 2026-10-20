@@ -1,3 +1,29 @@
+# Original E2 EXIT and migration-writer source checkpoint — 2026-10-20
+
+Exact frozen source 84f0eccf76167af11b9b4e67fc69af880ebe44ae:29modules/112cases PASS; separate test-only append
+8e81fa2d2996f8c18d06534408c9c3170c62bfee:1corruption case PASS, same implementation sha256:99680742c0efe9572d3eaf4a5bd9118df6e373711aaa5c472e6612daad4073a0.
+Evidence: status/codex/productization/S12/h01-original-exit-84f0ecc/disposition.json. All unchanged/reaped, original per-module900s.
+Two independent static0C0I reviews; executionNONE. Separate113 supporting cases
+are not113 at oneSHA or full PQR/native qualification. LF-canonical source and
+actual checked-out raw hashes retained. Temporary system-awake request released.
+
+Actual original E2 entry/fill/stop/protection -> first-fill HOLD/max-hold E5 EXIT
+retains exact action/reason/time, one close -> partial -> sameposId flat, still
+EXIT_REQUESTED. Claimed stale/duplicate retries GET only. Copied/expired/mismatched
+native inputs and lost unclaimed preparation deny; actual committed-action error
+recovers with genuinely new owner/handles/process2 and zero HTTP. OriginalE7release1,
+stale owner fencing and immutable3table attacks preserved. Existing close/intent/
+projection/protected-close/funded-finalization/E5/dispatch/admission regressions pass.
+
+Migration writer rejects future/gapped/malformed/unversioned schemas before writes;
+no whole-profile/downgrade/native claim. New main prefix-model/preflight CLI/restore
+work is still unqualified and excluded from this evidence. Whole8role normal
+preflight/restore/crossversion, audits/S16 and final settled full/native remain.
+Controlled source EXIT-only is not wholeH01 or LIVE-code-complete. Qualified
+Windows7d package remains separate; Master active, same task/branch, no main merge.
+Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
+GitHubNOT_USED. OldPC/Ubuntu/cloud/formal policies/real-forward remain unaccepted.
+
 # Genuine H01 entry first-slice source checkpoint — 2026-10-20
 
 Source 35ba76d5773b1382222b0743ea7db672f834ca3e, implementation sha256:21b326419f7ffd57ed5721edbbc887085f436225ba202ef805c3534f586abf17: exact13modules/42cases PASS,

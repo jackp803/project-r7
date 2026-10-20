@@ -1,0 +1,62 @@
+{
+  "schema": "r7-bounded-independent-source-review-v1",
+  "date": "2026-10-20",
+  "review_kind": "PLAT08_CANONICAL_WRITER_MIGRATION_LEDGER_GUARD",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Only check_migration_compatibility, its ordering in _apply_migrations/_open_authorized_store, and the new compatibility regression module.",
+  "subject_hashes": {
+    "src/storage/_sqlite_registry.py": "b5656fa76a02799e34acd130532ce0cb6634735c300bc74cc84add6ad0ca21d6",
+    "tests/storage/test_migration_compatibility_v02.py": "623d6f49dae210032212930e632793a13461a11820a507d0168a2eaf89c23966"
+  },
+  "findings": [],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "static_evidence": [
+    {
+      "refs": [
+        "src/storage/_sqlite_registry.py:47",
+        "src/storage/_sqlite_registry.py:54",
+        "src/storage/_sqlite_registry.py:71",
+        "src/storage/_sqlite_registry.py:77"
+      ],
+      "conclusion": "Compatibility target is always the packaged _MIGRATIONS_DIR inventory. Exact main ledger shape and bounded rows are checked; names must form the exact sorted packaged prefix, with bounded non-null text metadata. Unknown/future, gaps, duplicates and malformed ledger shapes fail closed."
+    },
+    {
+      "refs": [
+        "src/storage/_sqlite_registry.py:62",
+        "src/storage/_sqlite_registry.py:90"
+      ],
+      "conclusion": "An unversioned empty database is distinguished from populated unclassified data; the literal sqlite_ GLOB excludes only SQLite-internal names, so sqliteX user objects are not silently treated as internal."
+    },
+    {
+      "refs": [
+        "src/storage/_sqlite_registry.py:102",
+        "src/storage/_sqlite_registry.py:106",
+        "src/storage/_sqlite_registry.py:108",
+        "src/storage/_sqlite_registry.py:134",
+        "src/storage/_sqlite_registry.py:771"
+      ],
+      "conclusion": "Admission runs before CREATE TABLE or migration script execution in the canonical writer factory. Only read-check SQLite errors are translated; injected migration-body failures keep their original rollback/exception path and failed construction closes the connection."
+    },
+    {
+      "refs": [
+        "tests/storage/test_migration_compatibility_v02.py:14",
+        "tests/storage/test_migration_compatibility_v02.py:40",
+        "tests/storage/test_migration_compatibility_v02.py:72",
+        "tests/storage/test_migration_compatibility_v02.py:88"
+      ],
+      "conclusion": "Tests exercise actual writer refusals for unknown/gapped/unversioned stores with byte and directory preservation; fresh/prefix/complete packaged-ledger facts; normal read-only URI without migration; malformed/duplicate/empty-populated ledgers. Custom script directory is used only to form an actual packaged first-migration prefix."
+    }
+  ],
+  "limits": [
+    "No tests, compilation, imports, DB, Git, process, native, provider or network operations performed by reviewer; only this new outside-Git artifact is written.",
+    "Root-reported RED/GREEN execution is not independently executed or given qualification credit here.",
+    "This is a migration-name ledger compatibility check, not historical SQL checksum/schema attestation, cross-store profile compatibility, serialized multi-version upgrade proof, CLI/restore behavior, old-7d downgrade proof or financial authority.",
+    "No full profile, native, PLAT08 requirement, H01 or Master acceptance/completion claim."
+  ]
+}

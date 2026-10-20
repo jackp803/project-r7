@@ -1,0 +1,70 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-20",
+  "draft": {
+    "sha256": "a23b020b424ec859aabdf7b95c0de2f8801748173b530e841628108f6fc20da4",
+    "path": "test_trading_exit_decision_corruption_v02.py.unapplied"
+  },
+  "source_hashes": [
+    {
+      "sha256": "1f75684c9b21adde679d59f36e2b011eb51ab2fbc58dca60e223103a2c38f4b6",
+      "path": "src/storage/product_exit_decision.py"
+    },
+    {
+      "sha256": "0418315a54002cae56f25115d7618c28249a9450a376ee5a5a3c23df5c479c8f",
+      "path": "src/storage/product_dispatch.py"
+    },
+    {
+      "sha256": "638e1565c5cbc06459415014d5a14a2cc0a438fb0f3cea3da7902c78c5f8f7ad",
+      "path": "src/application/trading/exit_owner.py"
+    },
+    {
+      "sha256": "cc8b3fe7d3369a827ebdd24dfcfd71888bdcbe52a226c613ce6846924b1a13c4",
+      "path": "src/position/lifecycle_execution_binding.py"
+    },
+    {
+      "sha256": "ed8efdfb13c9aaf42d4b6ee7b36f49f8db5dcbd6200a39da038cdbd7cc105154",
+      "path": "src/position/close.py"
+    },
+    {
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc",
+      "path": "src/position/exit_requests.py"
+    },
+    {
+      "sha256": "9e0581fc5736097d9bf43f53a969ed96433ae72e4678089e85d5db9289bbc32e",
+      "path": "tests/product/h01_original_exit_fixture.py"
+    },
+    {
+      "sha256": "c30790c2f7dc94d350c2e5e0d2d98f15a77c52a8ec182c7bc51470a4abf8f919",
+      "path": "tests/product/h01_exit_failure_fixtures.py"
+    }
+  ],
+  "apply": "Root reviews then copies draft to tests/product/test_trading_exit_decision_corruption_v02.py after source freeze. Exactly one own TestCase method; existing helpers imported as module aliases; no helper/production changes.",
+  "named_case": "TradingExitDecisionCorruptionV02Tests.test_real_stage_rejects_changed_reason_clock_and_genuine_foreign_projection_binding_without_effect",
+  "setup": "Actual H01OriginalExitFixture full E2/E5 entry/native/active protection/OPEN_PROTECTED; at_original_deadline establishes real HOLD anchor, advances original first-fill deadline and refreshes actual native/protection source/proofs. No accepted exit before mutations.",
+  "injection": "Intercept instance stage_exit_decision only; parse actual trusted owner JSON, deep-copy, mutate exactly one requested component, forward real bound stage writer. Real writer canonicalizes/recomputes evidence/effect hashes and runs actual E5/lineage validation; no return value/PASS mock, DB write, fake outcome or changed canonical source.",
+  "vectors": [
+    {
+      "exception": "ProductDispatchError(ValueError), .code=EXIT_ORIGINAL_AUTHORIZED_ACTION_REQUIRED",
+      "mutation": "Only position_action.reason_codes -> list(DEFAULT_EXIT_REASON_CODES), existing valid E5_EXIT_REQUESTED reason; original position_action_id unchanged.",
+      "source": "product_exit_decision.ProductExitDecision.evidence actual E5 reinterpretation differs from mutated action before canonical/action persistence."
+    },
+    {
+      "exception": "ProductDispatchError(ValueError), .code=EXIT_ORIGINAL_AUTHORIZED_ACTION_REQUIRED",
+      "mutation": "Only interpreted_at +1second, canonical UTC microseconds; actual original action/time/ID unchanged.",
+      "source": "stage_exit_decision invokes obj.effects/evidence BEFORE its later EXIT_FUTURE_INTERPRETATION_REQUIRED test. Actual reinterpretation at+1 creates different action.created_at/ID, so exact original E5 action comparison is the first concrete denial. Draft deliberately does not assert the later future-clock code."
+    },
+    {
+      "exception": "LifecycleExecutionBindingError(ValueError), .code=BINDING_PROJECTION_ID_MISMATCH",
+      "mutation": "Only source_binding -> genuine c.first_binding.payload, actual current protected source_position unchanged.",
+      "source": "ProductExitDecision.evidence->_base->validate_position_lifecycle_execution_evidence_binding. Same position identity passes; earlier valid binding lifecycle_projection_id differs from current protected projection, before revision/time checks. Typed domain error propagates unchanged; _write is not entered."
+    }
+  ],
+  "assertions": "Per vector prove real stage called once; exact typed error/code; no durable exit_decision/pendingpublication/prepared operation/canonical EXITaction/provider call. Whole original anchor/outbox rows/canonical protected execution graph/original entry unchanged. Two original POSTs only; fake script exhausted. No accepted mutation between vectors.",
+  "limitations": [
+    "Static only: no imports, compile, test, DB/Git/process/native/provider/network execution; no PASS/acceptance/H01-complete claim.",
+    "Existing pure E5/anchor codec generic hash tests not duplicated. This case targets only intrinsic genuine owner-output corruption at its actual persistence boundary.",
+    "Source hashes identify current inspected exit base. Root owns tracked edits and validation; reconcile any further source changes before applying."
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema": "r7-bounded-independent-source-review-v1",
+  "date": "2026-10-20",
+  "review_kind": "H01_ORIGINAL_EXIT_INITIAL_IMPLEMENTATION",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Initial original persisted E2 ExitRequest to controlled FIXTURE E5 EXIT implementation, common close consumer, immutable outbox and genuine-owner source test; eight specified files only.",
+  "subject_hashes": {
+    "src/application/trading/exit_owner.py": "638e1565c5cbc06459415014d5a14a2cc0a438fb0f3cea3da7902c78c5f8f7ad",
+    "src/application/trading/close_owner.py": "4cfc672a2aa37199d957378062fda8d92f6188a0e7e7cc1964702e829d14d85d",
+    "src/application/trading/orchestrator.py": "653cf74463fa299bbd8491acbbb6564f388a642a4d2e510a821d128066b2cc9d",
+    "src/storage/product_exit_decision.py": "1f75684c9b21adde679d59f36e2b011eb51ab2fbc58dca60e223103a2c38f4b6",
+    "src/storage/product_dispatch.py": "0418315a54002cae56f25115d7618c28249a9450a376ee5a5a3c23df5c479c8f",
+    "tests/product/test_trading_original_exit_v02.py": "6f0544951f7ddb9209f198619a43ea7ab36ec95f45af1018b6d070c9d4d2a0ad",
+    "tests/product/h01_original_exit_fixture.py": "9e0581fc5736097d9bf43f53a969ed96433ae72e4678089e85d5db9289bbc32e",
+    "src/storage/migrations/0024_product_original_exit.sql": "0953023f3d975d99bfe85c48c243d79ce399e5e6d56727ecf0f00df683d17653"
+  },
+  "design_reference": {
+    "path": "h01-original-exit-management-join-design-20261020.json",
+    "sha256": "ab79050e03c4a2e019e61d896dfb5efe06a582db7dd76a9a6c76724e866f2a85"
+  },
+  "findings": [],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "static_evidence": [
+    {
+      "refs": [
+        "src/application/trading/exit_owner.py:47",
+        "src/application/trading/exit_owner.py:74"
+      ],
+      "conclusion": "Current entry plan/risk, native same-position quantity/average and earliest original entry-fill clock are joined to restart-authoritative canonical history. First anchor uses earliest positive lifecycle revision plus its validated matching binding; retained anchor must remain present in actual canonical history."
+    },
+    {
+      "refs": [
+        "src/application/trading/exit_owner.py:133",
+        "src/storage/product_exit_decision.py:121",
+        "src/application/trading/close_owner.py:85",
+        "src/application/trading/close_owner.py:120"
+      ],
+      "conclusion": "Only actual AUTHORIZED EXIT/EXIT_REQUESTED is staged. Stored interpretation replays original retained E5 inputs and clocks and compares the exact action/operation. Private close consumer requires the actual durable decision, same current source/binding and original plan, then keeps existing mechanical/current-permission checks rather than rebuilding a generic action."
+    },
+    {
+      "refs": [
+        "src/application/trading/exit_owner.py:109",
+        "src/application/trading/exit_owner.py:121",
+        "src/application/trading/exit_owner.py:160"
+      ],
+      "conclusion": "Claimed operation direct reconciliation precedes current market/native/interpretation/expiry gates. Unclaimed durable operations cannot be adopted by a cold owner without its original local preparation. Saved decision without a durable request can translate only its unchanged original action under current original-source/mechanical gates."
+    },
+    {
+      "refs": [
+        "src/storage/product_exit_decision.py:224",
+        "src/storage/product_exit_decision.py:241",
+        "src/storage/product_exit_decision.py:259",
+        "src/application/trading/orchestrator.py:21",
+        "src/storage/migrations/0024_product_original_exit.sql:1"
+      ],
+      "conclusion": "Anchor, decision and publication rows use existing dispatch transaction/lease boundaries and immutable insert/update/delete guards, including unique decision replacement. Canonical action publication occurs after the decision transaction and before a separately committed receipt; no canonical writer is enclosed by the new dispatch writer."
+    },
+    {
+      "refs": [
+        "tests/product/h01_original_exit_fixture.py:41",
+        "tests/product/h01_original_exit_fixture.py:124",
+        "tests/product/test_trading_original_exit_v02.py:22"
+      ],
+      "conclusion": "The inspected test setup uses the same actual H01 entry service/provider, actual parsed fill/protection/native observations and canonical projection builders. Assertions compare the original E5 max-hold action to durable action/request bytes, require GET-only expired-argument retries, one close claim/POST, partial then explicit same-position flat EXIT_REQUESTED, and no TradeResult."
+    }
+  ],
+  "recommended_execution_coverage": [
+    {
+      "case": "Partial entry first-anchor lineage",
+      "method": "Use genuine first partial entry projection, then a later fill at a different price; first management after the later fill must retain the first positive projection average, earliest fill clock and corresponding original binding."
+    },
+    {
+      "case": "Publication prefix and successor replay",
+      "method": "Raise after the real canonical POSITION_ACTION commit and before publication receipt. Reopen real journal/canonical/service handles under a new valid lease; recover exact action once with no provider POST. A separately durable unclaimed PREPARED close must refuse cold adoption; a claimed close must perform original GET-only reconciliation."
+    },
+    {
+      "case": "Intrinsic row and immutability refusals",
+      "method": "Apply bounded owner-stage mutations of original entry/request/anchor/source/action/time/hash links, and valid-FK INSERT OR REPLACE probes for both primary and alternate unique keys; require refusal before dispatch/canonical effects, preserving genuine original rows."
+    },
+    {
+      "case": "Current-boundary mutations",
+      "method": "Replace provider/lease or append an actual foreign entry/close claim between the genuine interpretation/source scan and the final provider boundary; existing current gates must still deny before POST."
+    }
+  ],
+  "limits": [
+    "Static-only review. No tests, compilation, imports, DB, Git, process, native, provider or network operations performed; no tracked files changed.",
+    "Root-reported RED and active GREEN are context only, not reviewer execution or proof admitted by this artifact.",
+    "No proof of successor recovery, publication interruption, corruption/replace refusal or partial-entry scenario execution is claimed from reading the one current positive test.",
+    "No production provider activation, full H01/E2 management, native, PQR, H16 or Master completion/acceptance claim. Unrelated migration compatibility work is outside this review."
+  ]
+}

@@ -70,4 +70,3 @@ class H01EntryCommittedRecoveryTests(unittest.TestCase):
             with self.assertRaises(ProductDispatchError):
                 f.service.recover_publications()
             self.assertEqual(stable,recovery_fixtures.entry_storage_snapshot(successor.dispatch))
-

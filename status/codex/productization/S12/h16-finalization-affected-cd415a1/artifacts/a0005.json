@@ -1,0 +1,85 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "review_mode": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "critical": 0,
+  "important": 0,
+  "production_hashes": {
+    "src/application/trading/finalization.py": "7f581035f52337970df1b088a2cabacd8c1d2100bcd0fc045af77f80d17a7e39",
+    "src/storage/product_finalization.py": "ad5207104f60e8940665d75360a125b9d643a6530cb18f1e06ca197183410082",
+    "src/storage/product_finalization_facts.py": "49eaeb08075542607a43132a8dba200e68c9208617e1fcdaa780b898fcbaa4eb",
+    "src/storage/migrations/0022_product_trade_finalization.sql": "176572e8b5c8d6482635a9486dfe6af21b253c8d22ab67c2bbe1141e3ab9cccc",
+    "src/application/trading/service.py": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+    "src/application/trading/orchestrator.py": "188c6a30840222148392f0d93e7e814de8d83ee1e2e688ed76478f8ccf103248",
+    "src/storage/product_dispatch.py": "efb215df9fa13009a7957050384d4f6d6a1f7e1cd629128e4448365e0c659dac"
+  },
+  "test_fixture_hashes": {
+    "tests/product/test_trading_finalization_clock_order_v02.py": "3829b364adc646cf4879ddace51dc5472dae413c07640889420b7855406388a2",
+    "tests/product/test_trading_finalization_expiry_v02.py": "6fd561e8784977879cb556342b378791d5a81d7f15cce9b3f6d20646fc7ed964",
+    "tests/product/test_trading_finalization_issuer_v02.py": "1afc7ba1ebbb507d8d7408a0e44b8b4aae8add0a0e7c16a3e2bcc695b3eba853",
+    "tests/product/test_trading_finalization_missing_funding_v02.py": "ece032df2d76ca39af38f9bc6ba41a8379811d934e93fe24e08cc4957dcb0c77",
+    "tests/product/test_trading_finalization_positive_v02.py": "bd588ebe1ccbad26599537aec9d9a301ac806099009c0c07555d9993d595137b",
+    "tests/product/test_trading_finalization_recovery_binding_v02.py": "5886631c614dfa9e42cbd7be7ef2dc8e7717feac3e65fb2958091936e733f5a1",
+    "tests/product/test_trading_finalization_recovery_projection_v02.py": "dd09ea0a7222254dc6b26f172782bba1398f6713391d6e43b04673b3b48b02be",
+    "tests/product/test_trading_finalization_recovery_result_v02.py": "5b0994f47ba8fd49b812a89d455eb6c3e4db3172c635892ade8d5bc2d4fe2b02",
+    "tests/product/test_trading_finalization_target_kind_v02.py": "7f3ab6efc6be07b4d03b888ffe5e21de34c539fe4320f26b22afd29671a799d2",
+    "tests/product/test_trading_finalization_terminal_hash_v02.py": "1a46ad048899cb1e2a9a7a5468355697cbe163dbbf912d6d2184da9d08be83b7",
+    "tests/product/test_trading_finalization_unknown_inventory_v02.py": "19e63ae32a32999de1966282da1abe1c509f10363a1c1086d25be04e9670e7b5",
+    "tests/product/trading_finalization_fixtures.py": "f1d38aead5cb3ce5fa8cb7203d5bb6058f14fe5088545088110870e76756b406",
+    "tests/product/trading_finalization_recovery_fixtures.py": "967e11f1d1f13fcd45c285ce157a3a64d81bbac35dee4b019e40e309034346d6"
+  },
+  "preserved_reviews": [
+    {
+      "path": "h16-finalization-implementation-review-initial-20261020.json",
+      "sha256": "661f9022b4b2d0e605174f5fafb656d31b1fcc8f08972e868222b00ec463325b"
+    },
+    {
+      "path": "h16-finalization-implementation-review-revised-20261020.json",
+      "sha256": "c1403222a3b5187fede563c033c784bd033146362def3c7019821b894e068975"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "FINALIZATION-STAGE-FINAL-FRESHNESS",
+      "status": "RESOLVED",
+      "reason": "Trusted service clock is sampled again after under-lock scans, with original windows and lease checked before outbox INSERT. No source time is renewed."
+    },
+    {
+      "id": "FINALIZATION-TERMINAL-HASH-UNBOUND",
+      "status": "RESOLVED",
+      "reason": "Reparsed terminal row hash must equal retained original source_hash; unsupported normalized/full-wire differences fail closed."
+    },
+    {
+      "id": "MISSING-FUNDING-INDEX",
+      "status": "RESOLVED",
+      "reason": "Exactly one funding evidence row is required before indexing."
+    },
+    {
+      "id": "FINALIZATION-ORIGINAL-CLOCK-ORDER",
+      "status": "RESOLVED",
+      "path": "src/storage/product_finalization.py",
+      "lines": [
+        22,
+        41,
+        71,
+        72
+      ],
+      "reason": "Exact string/UTC decoder and require_original_clocks enforce terminal/native/inventory request<=receive<=original interpreted_at, native provider_updated<=receive and metadata_observed<=interpreted. original_refs invokes the validator during staging and pending publication/replay. These are fixed original relationships; aged durable batches are not subjected to renewed current read freshness."
+    }
+  ],
+  "findings": [],
+  "static_supported_conclusions": [
+    "The only production delta from the revised captured review is product_finalization.py original-clock decoding/validation. The remaining six implementation/migration subjects are unchanged.",
+    "Distinct idle physical journal guard, independently committed immutable stage, one dispatch write lock, ordinary separate canonical writers and private exact receipt insertion remain. No nested guard/recovery/public mark calls, provider effects or new permission constructor were added.",
+    "Replay retains exact0/1/2/3 canonical prefixes, validates real recovery diagnostics/current pointers, and permits comparison normalization only for the exact own three payload commitments. Stable account operation commitments remain distinct from ephemeral PRAGMA fences.",
+    "Concrete successor recipes remain unchanged: real canonical commit before injected failure; fresh source admission/capability/translator/provider/journal handles; actual dispatch lease generation2; old lease denial; original batch bytes preserved; one receipt; zero successor HTTP and no reuse of old issued read objects. This is controlled source FIXTURE evidence, not actual OS-process/native verification.",
+    "New seven-case clock corruption method preserves genuine row/hash/source setup and alters only specified clock values before actual storage staging. It asserts no outbox, canonical mutation or provider calls. Existing expiry/hash/missing-funding/issuer/target-kind/unknown-inventory tests and non-TestCase helper discovery layout remain bounded."
+  ],
+  "limits": [
+    "No reviewer imports/tests/DB/process/native/Git/network/provider or tracked edits. Only this authorized outside-Git review JSON was written; earlier reviews remain preserved.",
+    "Current development clock/recovery runs were not read or executed by reviewer; no test outcome, immutable receipt runtime proof or final source/native qualification is inferred from this static result.",
+    "0 Critical/0 Important is bounded to inspected files/contracts and these repaired findings. It is not an exhaustive corruption audit or an H16/PQR/K05/LIVE/ordinary-production/Master acceptance disposition."
+  ]
+}

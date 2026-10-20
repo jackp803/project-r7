@@ -1,3 +1,23 @@
+# H16 exact affected-owner source checkpoint — 2026-10-20
+
+Source cd415a11a97b4b04f490112f6d5ef319ad267395: affected26modules/177cases PASS, unchanged/reaped, each<=original900s.
+Together with separately retained disjoint component13modules/15cases, scoped
+source union39modules/192cases. Evidence: status/codex/productization/S12/h16-finalization-affected-cd415a1/disposition.json.
+Actual cleanup11 cases, original terminal readback, protection/close/funding,
+dispatch/position and K05 owners passed; no new thresholds or skipped cases.
+Frozen checkout remained under the project while main implementation advanced.
+Temporary system-awake request explicitly released after validation exit;
+no permanent power/display/away-mode settings changed.
+
+This is affected source mechanics, not full PQR/native or later H01 credit.
+H01 first real E2 entry development positive passed; independent review found
+caller geometry and intrinsic retained E2 lineage defects. Actual red faults
+preserved; minimal fixes and further genuine recovery/negative checks underway.
+Original E2 exit management remains pending. Preserved Windows7d qualified
+package unchanged. Master active; original task/branch, no main merge.
+Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
+GitHubNOT_USED. OldPC/Ubuntu/cloud/policies/real-forward remain unaccepted.
+
 # F04/I04/J03 actual owner and browser checkpoint — 2026-10-20
 
 Source 41ade60cea0ebb49a19b256be5a3808fcc07e163: actual ordinary Paper E5 balance rejection/zero effects and actual

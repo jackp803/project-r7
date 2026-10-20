@@ -1,0 +1,68 @@
+"""SQL attacks only on test-owned E6-local rows.
+No SQL financial-state writes or inserted positive/terminal facts.
+"""
+from datetime import timedelta
+import sqlite3
+import unittest
+
+from tests.product import h01_entry_recovery_fixture as recovery_fixtures
+from application.trading.orchestrator import TradingOrchestrator
+from storage.product_dispatch import _stamp
+
+
+class H01EntrySchemaTests(unittest.TestCase):
+    def test_owner_created_outbox_and_receipt_refuse_update_delete_and_replace_recursive_off(self):
+        with recovery_fixtures.H01RecoveryFixture() as h:
+            f = h.fixture
+            TradingOrchestrator(f.service).evaluate_entry(f.bundle,**f.arguments)
+            db = f.dispatch._db
+            self.assertFalse(db.in_transaction)
+            self.assertEqual(1,db.execute('PRAGMA foreign_keys').fetchone()[0])
+            recursive = db.execute('PRAGMA recursive_triggers').fetchone()[0]
+            db.execute('PRAGMA recursive_triggers=OFF')
+            self.assertEqual(0,db.execute('PRAGMA recursive_triggers').fetchone()[0])
+            original = recovery_fixtures.entry_storage_snapshot(f.dispatch)
+            decision = db.execute('SELECT * FROM product_entry_decisions WHERE run_id=? AND boundary=?',
+                (f.service.run_id,_stamp(f.bundle.boundary))).fetchone()
+            receipt = db.execute('SELECT * FROM product_entry_publications WHERE run_id=? AND boundary=?',
+                (f.service.run_id,_stamp(f.bundle.boundary))).fetchone()
+            self.assertIsNotNone(decision); self.assertIsNotNone(receipt)
+            self.assertIsNotNone(db.execute('SELECT 1 FROM product_dispatch_runs WHERE run_id=?',
+                (decision['run_id'],)).fetchone())
+            self.assertIsNotNone(db.execute('SELECT 1 FROM product_dispatch_generations WHERE run_id=? AND generation=?',
+                (decision['run_id'],decision['generation'])).fetchone())
+            attacks = []
+            for table,row in (('product_entry_decisions',decision),('product_entry_publications',receipt)):
+                keys = tuple(row.keys())
+                attacks.extend([
+                    (table+' update','UPDATE '+table+' SET effects_hash=? WHERE run_id=? AND boundary=?',
+                        ('sha256:'+'f'*64,row['run_id'],row['boundary']),'Entry decision is immutable' if table.endswith('decisions') else 'Entry publication is immutable'),
+                    (table+' delete','DELETE FROM '+table+' WHERE run_id=? AND boundary=?',
+                        (row['run_id'],row['boundary']),'Entry decision is immutable' if table.endswith('decisions') else 'Entry publication is immutable'),
+                    (table+' replace','INSERT OR REPLACE INTO '+table+' ('+','.join(keys)+') VALUES ('+','.join('?' for _ in keys)+')',
+                        tuple(row),'Entry decision replacement is forbidden' if table.endswith('decisions') else 'Entry publication replacement is forbidden'),
+                ])
+            # Same existing run/generation: BOTH actual parent FKs valid. Only
+            # boundary differs; SAME decision_id tests UNIQUE/OR replacement guard.
+            alternative = dict(decision)
+            alternative['boundary'] = _stamp(f.bundle.boundary+timedelta(hours=1))
+            keys = tuple(decision.keys())
+            attacks.append(('same decision_id alternative boundary',
+                'INSERT OR REPLACE INTO product_entry_decisions ('+','.join(keys)+') VALUES ('+','.join('?' for _ in keys)+')',
+                tuple(alternative[key] for key in keys),'Entry decision replacement is forbidden'))
+            try:
+                for label,sql,parameters,message in attacks:
+                    with self.subTest(attack=label):
+                        self.assertFalse(db.in_transaction)
+                        db.execute('BEGIN IMMEDIATE')
+                        try:
+                            with self.assertRaises(sqlite3.IntegrityError) as denied:
+                                db.execute(sql,parameters)
+                            self.assertEqual(message,str(denied.exception))
+                        finally:
+                            db.rollback()  # Every denied attempt, including assertion failure.
+                        self.assertEqual(original,recovery_fixtures.entry_storage_snapshot(f.dispatch))
+            finally:
+                if db.in_transaction: db.rollback()
+                db.execute('PRAGMA recursive_triggers='+str(recursive))
+            self.assertEqual(original,recovery_fixtures.entry_storage_snapshot(f.dispatch))

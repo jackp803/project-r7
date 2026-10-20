@@ -1,0 +1,76 @@
+"""Actual E5 REJECT, original risk effect only.
+
+Explicit FIXTURE balance input is not an installed capital policy/default.
+"""
+import json
+import unittest
+from dataclasses import replace
+from datetime import timedelta
+from decimal import Decimal
+
+from application.trading.orchestrator import TradingOrchestrator
+from risk.engine import evaluate_trade_intent
+from tests.product import h01_entry_fixture as fixtures
+
+
+def _canonical_rows(f):
+    # Assertion-only SELECT. No canonical financial rows are inserted by tests.
+    return tuple(dict(row) for row in f.canonical._store._connection.execute(
+        'SELECT object_kind,canonical_id,payload_json,payload_hash,persisted_at '
+        'FROM paper_runtime_objects ORDER BY object_kind,canonical_id').fetchall())
+
+
+class TradingOrchestratorRiskRejectV02Tests(unittest.TestCase):
+    def test_actual_insufficient_balance_reject_publishes_only_original_risk_and_exact_retry(self):
+        with fixtures.H01EntryFixture() as f:
+            context=replace(f.context,available_balance=Decimal('1'))
+            self.assertEqual('LONG',f.signal['direction'])
+            self.assertGreater(f.proposal.margin,context.available_balance)
+            self.assertEqual(f.current.risk_policy_json,f.selected.canonical_json)
+            actual_risk=evaluate_trade_intent(f.intent,context,f.proposal,
+                f.selected.risk_policy,decided_at=f.now)
+            self.assertEqual('REJECT',actual_risk['decision'])
+            self.assertIn('INSUFFICIENT_BALANCE',actual_risk['reason_codes'])
+            arguments=dict(f.arguments,risk_context=context)
+            runner=TradingOrchestrator(f.service)
+            self.assertEqual((),_canonical_rows(f))
+            first=runner.evaluate_entry(f.bundle,**arguments)
+            self.assertEqual('BLOCKED',first.status)
+            self.assertEqual(tuple(actual_risk['reason_codes']),first.reason_codes)
+            self.assertIsNone(first.operation_id)
+            self.assertIsNone(first.dispatch_outcome)
+            saved=f.dispatch.entry_decision(f.service.run_id,f.authority.identity,f.bundle.boundary)
+            self.assertEqual(first.decision_id,saved.decision_id)
+            self.assertEqual('REJECT',saved.evidence['status'])
+            self.assertEqual(f.signal,saved.signal)
+            self.assertEqual(f.intent,saved.trade_intent)
+            self.assertEqual(f.exit_request.as_dict(),saved.exit_request)
+            self.assertEqual([dict(kind='RISK_DECISION',payload=actual_risk)],saved.effects)
+            self.assertIsNone(saved.evidence['operation_id'])
+            self.assertEqual((),f.dispatch.pending_entry_publications(f.service.run_id))
+            rows=_canonical_rows(f)
+            self.assertEqual(1,len(rows))
+            self.assertEqual('RISK_DECISION',rows[0]['object_kind'])
+            self.assertEqual(actual_risk['risk_decision_id'],rows[0]['canonical_id'])
+            self.assertEqual(actual_risk,json.loads(rows[0]['payload_json']))
+            recovery=f.canonical.recover(trade_plan_id=f.plan['trade_plan_id'])
+            self.assertIsNone(recovery.approved_trade_plan)
+            self.assertIsNone(recovery.current_position_projection)
+            self.assertEqual((),recovery.order_requests)
+            self.assertEqual((),recovery.order_result_observations)
+            self.assertEqual((),recovery.fills)
+            self.assertEqual((),recovery.raw_position_observations)
+            self.assertIsNone(recovery.trade_result)
+            dispatch=f.dispatch.recover(f.service.run_id)
+            self.assertEqual((),dispatch.prepared_operations)
+            self.assertEqual((),dispatch.ambiguous_operations)
+            self.assertEqual([],f.provider.calls)
+
+            # Actual owner clocks advance; original risk/decision bytes and
+            # persisted_at must not be renewed by the repeated boundary.
+            f.authority.clock[0]+=timedelta(seconds=1)
+            repeated=runner.evaluate_entry(f.bundle,**arguments)
+            self.assertEqual(first,repeated)
+            self.assertEqual(saved,f.dispatch.entry_decision(f.service.run_id,f.authority.identity,f.bundle.boundary))
+            self.assertEqual(rows,_canonical_rows(f))
+            self.assertEqual([],f.provider.calls)

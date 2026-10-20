@@ -551,6 +551,22 @@ class ProductDispatchJournal:
     def claimed_protections_for_account(self, run_id):
         return tuple(self.iter_claimed_protections_for_account(run_id))
 
+    def entry_decision(self,run_id,identity,boundary):
+        from storage.product_entry_decision import entry_decision
+        return entry_decision(self,run_id,identity,boundary)
+
+    def stage_entry_decision(self,run_id,identity,boundary,observation,*,lease,now):
+        from storage.product_entry_decision import stage_entry_decision
+        return stage_entry_decision(self,run_id,identity,boundary,observation,lease=lease,now=now)
+
+    def pending_entry_publications(self,run_id):
+        from storage.product_entry_decision import pending_entry_publications
+        return pending_entry_publications(self,run_id)
+
+    def mark_entry_publication(self,batch,*,lease,now):
+        from storage.product_entry_decision import mark_entry_publication
+        return mark_entry_publication(self,batch,lease=lease,now=now)
+
     def recover(self, run_id):
         self._run(run_id)
         operations = [self.operation(run_id, row[0]) for row in self._db.execute('SELECT operation_id FROM product_dispatch_intents WHERE run_id=? ORDER BY prepared_at,operation_id', (run_id,))]

@@ -174,3 +174,32 @@ No full/native qualification transfers to this source; the complete Windows
 portable candidate remains7d821f2. Public requests/responses remain8/8, this
 continuation adds0; private requests0, credentialsNONE, capitalNONE, LIVE
 NOT_STARTED and GitHubcomputeNOT_USED. Master remains IN_PROGRESS.
+
+## Committed close intent source checkpoint — 2026-10-20
+
+Source `fcd909367373cf5a5362a179e0c8b7cc6eb4143b` passed exact-clean
+nine affected modules /86cases, zero failures/errors/skips, unchanged source and
+reaped process tree. Actual ACK/uncertainty and claim-only process loss now
+retain the original close request plus durable local EXIT_REQUESTED intent.
+Original positive E5 source stays unchanged through the final provider guard.
+Claim time, original broker clock and local interpretation remain separate.
+No provider submission, reply, fill, flatness or funding is invented on recovery.
+Actual partial/flat observations chain from the intent; successor lease replay
+performs no HTTP. Equal-time replacement refuses and a genuine later read works.
+
+The original17-case integration attempt contained one invalid fixture clock
+scenario, rejected by DISPATCH_EQUAL_TIME_OBSERVATION_CONFLICT before the
+intended position-outbox collision. The corrected actual POST/lost-observation
+case and two selector regressions passed; production checks were unchanged.
+These failures, final0C/I static reviews and13sanitized artifacts are retained at
+`status/codex/productization/S12/h16-close-intent-source-fcd9093/`.
+
+H16 still needs exact owned-stop cleanup, source-owned BROKER_LEDGER funding
+and canonical TradeResult integration. The actual OKX funding retrieval,
+completeness and position allocation mapping remains unsupported; no endpoint
+or source-finality claim is guessed. Independent E4 source-port work is allowed
+by ADR-0006. Continue report delivery history and K05 local work in parallel
+with those remaining engineering obligations. No new full/native qualification
+or changed-source portable release is claimed. Qualified Windows remains7d821f2;
+Master remains IN_PROGRESS, public8/responses8/additional0/private0/credentialsNONE/
+capitalNONE/LIVENOT_STARTED/GitHubcomputeNOT_USED.

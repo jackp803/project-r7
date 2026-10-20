@@ -1,0 +1,150 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "executable_revision": "fcd909367373cf5a5362a179e0c8b7cc6eb4143b",
+  "implementation_hash": "sha256:d20579910967d039f4f9d8db7091bcc0eab031c8d64b301cfad0906d5eab8cf3",
+  "scope": "CLOSE_INTENT_AND_NATIVE_CLOSE_SOURCE_ONLY",
+  "source_cases": 86,
+  "source_modules": 9,
+  "source_commands": 1,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "source_unchanged": true,
+  "tree_reaped": true,
+  "initial_red": {
+    "cases": 2,
+    "failures": 2
+  },
+  "first_development": {
+    "cases": 5,
+    "failures": 0,
+    "errors": 0
+  },
+  "original_integration": {
+    "cases": 17,
+    "errors": 1,
+    "reason": "FIXTURE_DIFFERENT_DISPATCH_OBSERVATIONS_AT_EQUAL_IMMUTABLE_CLOCK",
+    "product_change_for_fixture_error": "NONE",
+    "corrected": "Actual guarded POST then process loss before observation commit",
+    "selected_corrected_and_new_selector_cases": 3,
+    "selected_failures": 0,
+    "selected_errors": 0
+  },
+  "static_review": "0_CRITICAL_0_IMPORTANT_FINAL;EXECUTION_NONE",
+  "supported": [
+    "Original positive source unchanged through final provider guard",
+    "Actual ACK/uncertainty/claim-only recovery records exact original request and local EXIT_REQUESTED intent",
+    "Immutable claim, original broker and local interpretation clocks remain separate",
+    "No invented ACK/fill/flatness; successor-process outbox replay without HTTP",
+    "Exact intent predecessor to actual native partial/flat, equal-time refusal and actual later observation",
+    "Bounded own-run selector and real second-connection generation fences"
+  ],
+  "whole_H16": "INCOMPLETE_STOP_CLEANUP_BROKER_LEDGER_FUNDING_TRADE_RESULT",
+  "native_full": "NOT_RUN_FOR_THIS_SOURCE",
+  "frozen_inventory": "STALE_UNTIL_NEXT_FINAL_CANDIDATE",
+  "qualified_windows_executable": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "master": "IN_PROGRESS",
+  "plans": "DESIGN_ONLY_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "real_data_cumulative_public_requests": 8,
+  "real_data_cumulative_public_responses": 8,
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "h16-close-intent-source-fcd9093/checkpoint.json",
+      "original_hash": "sha256:5dfd7d0fbc307c016e4ca469c9e99ecf782777cb4dfe0b46c41472116c070d79",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:5dfd7d0fbc307c016e4ca469c9e99ecf782777cb4dfe0b46c41472116c070d79",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-source-fcd9093/source.log",
+      "original_hash": "sha256:7ba62f2e6cc093b98dd385a307027b03aff1f3d45e557ccaf8cc7b607c2335fb",
+      "retained_ref": "artifacts/a0002.log",
+      "retained_hash": "sha256:7ba62f2e6cc093b98dd385a307027b03aff1f3d45e557ccaf8cc7b607c2335fb",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_h16_close_intent_source.py",
+      "original_hash": "sha256:802c51c75404d0c31e2574ba140117cab025302b4c77d24723596a03d1772dab",
+      "retained_ref": "artifacts/a0003.py",
+      "retained_hash": "sha256:802c51c75404d0c31e2574ba140117cab025302b4c77d24723596a03d1772dab",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "retain_h16_close_intent_source.py",
+      "original_hash": "sha256:08c4a8ba86cd1608a84fc0da166355af215efdf410cb65b7f906cf2762c4bbd9",
+      "retained_ref": "artifacts/a0004.py",
+      "retained_hash": "sha256:08c4a8ba86cd1608a84fc0da166355af215efdf410cb65b7f906cf2762c4bbd9",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-red.log",
+      "original_hash": "sha256:8d7606e8bb66398f3e1ed189663074e9a59d6a728f13d1e816bf1bc75a1fbaca",
+      "retained_ref": "artifacts/a0005.log",
+      "retained_hash": "sha256:ef4aebebf58ab493c5f5181ac1bf169fb0f563e42b7e53ad976f76bf94e39797",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-development-first.log",
+      "original_hash": "sha256:77e11c17b427f3f76dec9c22eac467effd40174ec476ceb0bcf345948a3bef24",
+      "retained_ref": "artifacts/a0006.log",
+      "retained_hash": "sha256:e719312e2d60c97c428ca2b9c295d74047af2dc933512e8ae58da721e997e063",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-projection-development.log",
+      "original_hash": "sha256:a81e2102eac9d4acecfa842003b6539a8db31badac38c37983eb00431449999d",
+      "retained_ref": "artifacts/a0007.log",
+      "retained_hash": "sha256:c661bf076243c4e31facae504a0edc9335995338d749755cf4c2b94144c573a2",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-clock-and-inventory-retry01.log",
+      "original_hash": "sha256:010cc015eaf7eb7663dbaf4aa691996b84fd5e18398a7d69b384945964bcb3a1",
+      "retained_ref": "artifacts/a0008.log",
+      "retained_hash": "sha256:1766a083fc9c2a8885fce2350499a2353940d11fe29710e9ea692f7db7ecb284",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-source-review.json",
+      "original_hash": "sha256:42ce171d8359acdfb99484ce2a07833775eca305e821c93df8cad83e3a37982e",
+      "retained_ref": "artifacts/a0009.json",
+      "retained_hash": "sha256:42ce171d8359acdfb99484ce2a07833775eca305e821c93df8cad83e3a37982e",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-source-final-review.json",
+      "original_hash": "sha256:294ac352de60d41bad9bb11bd80c13eef03cffbb4abd4dd05605e1b6474fc353",
+      "retained_ref": "artifacts/a0010.json",
+      "retained_hash": "sha256:294ac352de60d41bad9bb11bd80c13eef03cffbb4abd4dd05605e1b6474fc353",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-close-intent-outbox-plan-9c4a741.json",
+      "original_hash": "sha256:26a28351a0b1e5fd3535db22eaee8d0ba5f4ab6e3c6512a70757b3a2bdb728ae",
+      "retained_ref": "artifacts/a0011.json",
+      "retained_hash": "sha256:c733722f9cc0ce1bcadf201c3e49d8f767f46ab20407819f92b4894d8a3779af",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "h16-broker-ledger-source-plan-20261020.json",
+      "original_hash": "sha256:dedc30cdc415fed3e2b277900116ab3484c6da257031642153b19c7afa65fd8e",
+      "retained_ref": "artifacts/a0012.json",
+      "retained_hash": "sha256:55c5362f166040ba49dcba1fae15fea4e84ae994a5e550454108ea7091041c38",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-readonly-design-20261020.json",
+      "original_hash": "sha256:c322552c287a0d7461970d32d5a4d66f8ff94965b6e107ff8f763752c312187a",
+      "retained_ref": "artifacts/a0013.json",
+      "retained_hash": "sha256:dd3d9e84a43fe8019a8f7e44071cd9ee42a99bc9cb70d00af29df0e7f97ab3c2",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_LINE_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    }
+  ]
+}

@@ -1,3 +1,26 @@
+# H16 committed close intent source checkpoint — 2026-10-20
+
+Source `fcd909367373cf5a5362a179e0c8b7cc6eb4143b` exact-clean9modules/86cases PASS, source unchanged/tree reaped.
+Evidence: `status/codex/productization/S12/h16-close-intent-source-fcd9093/disposition.json`.
+Actual guarded POST keeps original positive E5 source through the final effect
+guard. ACK/uncertainty and claim-only crash now record immutable local intent;
+the original request is legitimate, no ACK/fill/provider submission is invented.
+Claim time, original broker clock and local interpretation stay distinct.
+Actual native partial/zero chains from intent; equal-time replacement refuses,
+then a genuine later read succeeds. Successor lease replay performs no HTTP.
+Final static review0C/I, execution NONE; original fixture clock error preserved.
+H16 still needs exact owned-stop cleanup, BROKER_LEDGER source and TradeResult.
+No guessed OKX funding fields/completeness/position attribution are authorized.
+ADR-0006 permits independent provider-neutral producer and controlled fixture
+source work; source plan is retained as DESIGN_ONLY, not executed acceptance.
+Continue readonly research/Paper report-delivery history and K05 independently.
+Final frozen PQR/examples and full/native qualification remain pending for
+changed source. Fully qualified Windows portable candidate remains7d821f2.
+All source must stay frozen throughout every next verification run.
+Master IN_PROGRESS; targetPC/Ubuntu/cloud/policies/real-forward remain external
+or unselected. Public8/responses8, additional0/private0/credentialsNONE/capitalNONE,
+LIVENOT_STARTED/GitHubNOT_USED. Preserve same task/branch and every prior failure.
+
 # H16 native close owner source checkpoint — 2026-10-20
 
 Source `9c4a74108d4c1960d6213357f9fc32e4785fce25` exact-clean8modules/76cases PASS, source unchanged/tree reaped.

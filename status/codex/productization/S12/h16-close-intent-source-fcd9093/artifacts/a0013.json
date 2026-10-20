@@ -1,0 +1,40 @@
+{
+  "schema_version": "r7-cloud08-report-history-readonly-design-v1",
+  "execution": "NONE",
+  "status": "DESIGN_ONLY;NOT_EXECUTED;NO_ACCEPTANCE_CREDIT",
+  "scope": "Research/Paper report delivery only. Intake32d846d visibility remains separate valid work; no repetition of its completed scope is required.",
+  "current_contract": [
+    "Research reports are queued by application.cloud.feedback.queue_feedback -> ResearchJournal.enqueue_feedback in research_feedback_publications. Queue job ID and owning research run ID differ: use the persisted queue owner_run_id, never infer from job ID.",
+    "PaperFeedbackOutbox.queue binds actual historical run/checkpoint/process generation in paper_feedback_publications. pending/pending_feedback_publications omit acknowledged and conflicted rows. PaperFeedbackOutbox.publications includes metadata but does not validate stored report bytes/lineage; it is insufficient as the trusted UI source alone.",
+    "Persisted ACK enum is CLOUD_ACKNOWLEDGED. REMOTE_ACKED is not an existing DB value. Preserve CLOUD_ACKNOWLEDGED consistently with current Publication UI, or explicitly document a read-only display alias plus stored_state; never rewrite owner state. Include UNAVAILABLE as well as PENDING/LOCAL_STAGED/ACK/CONFLICT.",
+    "Current Publication component in ui/src/App.tsx57 already distinguishes states and hashes for intake. Existing ResearchQueue.evidence_view and PaperReadControlPort.view omit report publication history and invoke writer-opening factories; do not add a delivery read by borrowing those factories."
+  ],
+  "minimal_reader_design": [
+    "Proposed ResearchPublicationReadPort(queue_path,research_path,namespace).history(job_id,limit=20,offset=0): trusted composition supplies exact existing paths. Protected RO queue snapshot validates schema/namespace/job and reads owner_run_id. RO research snapshot validates input_json/input_hash/namespace, exact owner run and immutable feedback lineage. Recheck immutable job-to-owner binding before return; no resolver/service_factory/ResearchJournal constructor or report generation.",
+    "Proposed PaperPublicationReadPort(process_path,namespace).history(run_id,limit=20,offset=0): exact schema/namespace/run binding plus bounded publication rows. Reuse/extract PaperFeedbackOutbox._check_record's pure checks: report/payload/aggregate hashes, strict publication validator, original binding/checkpoint hash and original generation/instance hash. Historical reports remain readable after a later valid process generation; do not require/allocate a current owner.",
+    "Reuse the new ResearchQueue.failed_alert_page protected reader pattern: local ancestor/reparse checks, regular single-link DB/present WAL-SHM, Windows-safe readonly URI, query_onlyON/trusted_schemaOFF/live-WAL awareness, read transaction, finite busy/query budget, SQL length limits and file-identity recheck. Build expected schema only in memory from owned migrations. Never execute migrations/PRAGMA journal_mode on disk or open any RW factory.",
+    "Share existing pure row/bundle validation with writer paths instead of a second financial/report engine. Research checks reuse validate_feedback_publication and enqueue_feedback's actual run/strategy/dataset/split hash binding; Paper checks reuse validate_paper_feedback_publication and _check_record. Include all durable states, filter exact run before ordered LIMIT/OFFSET and bounded COUNT, and never decode an unbounded payload.",
+    "Return only PageView-compatible metadata: operation_id,run_id,state,artifact_hash,feedback_hash,attempts,queued_at=created_at, plus Paper run_revision/process_generation. No report HTML/JSON/private raw IDs/path/alias/provider/account/credential text. Missing configured store/schema/hash/lineage=>sanitized unavailable, not empty success. Valid owner/no report=>AVAILABLE empty; no owner_run_id yet=>NOT_RUN/REPORT_NOT_READY, never generated report."
+  ],
+  "api_ui_wiring": [
+    "Smallest strictly RO entry is two read-only leaf subroutes, proposed GET /api/v1/research/runs/{job_id}/publications and /api/v1/paper/runs/{run_id}/publications, with existing session checks and PageView envelope; OwnerControlServices delegates only to new RO ports. This avoids executing current detail-route RW factories solely for delivery. If embedding in existing detail instead, the new projection must still call only these path-bound readers and must not describe existing writer factories as read-only.",
+    "Use existing Publication renderer for each bounded history row in the selected Research/Paper detail with operation/hash and queued time. No publish/retry/ACK button or new command. Preserve read metadata time versus queued time; existing records have no ACK timestamp or transport provenance, so add neither fabricated ack_at nor real-cloud status.",
+    "FIXTURE/local-copy evidence remains conspicuously LOCAL_COPY_FIXTURE_ONLY and real cloud NOT_RUN in fixture/browser observations. Stored ACK means trusted byte-readback receipt, not proof of current remote reachability or commissioned real cloud. A later remote outage does not erase authentic historical ACK; current connectivity remains separate."
+  ],
+  "narrow_future_tests": [
+    "Research fixture: FeedbackTests.service/execute with configured input, actual queue_feedback; Paper fixture: PaperFeedbackOutboxTests actual case.start and owner market events, then queue. Queue generation/report writes happen in explicit setup only. Read PENDING using new real RO port while RW constructors/resolver/worker/report/flush methods are forbidden; assert before/after records/generations/files unchanged and missing path uncreated.",
+    "Reuse tests.application.cloud_delivery_fixtures.prepare_delivery transport setup, CloudBridgeTests fake local filesystem and RcloneCloudTransport. Adapt only publication producers: real SyncedFolder staging yields LOCAL_STAGED; actual every-byte local-copy readback yields CLOUD_ACKNOWLEDGED; wrong readback/immutable destination conflict yields UNAVAILABLE/CONFLICT and cannot ACK. Retry retains exact operation and hashes; completed replay creates no duplicate.",
+    "Cover acknowledged/conflicted history inclusion, per-run paging before limits, namespace/wrong owner_run_id/run checkpoint rejection, bounded corrupt JSON/changed aggregate hash rejection, empty versus missing, original historical Paper generation after legitimate replacement, and no leaked report payload. Corruption negatives remain source fixtures; no manufactured native terminal states.",
+    "Browser: fresh actual owner-generated research/Paper reports, stage and byte-readback through existing formal local fixture bridge, then read new API and visible Publication rows. Assert exact same operation/hash across stages, negative unavailable/conflict text, original queued timestamp and explicit local-copy provenance. No route fulfillment/cached ACK/result factory override. Native proof requires actual helper/formal BridgeProfile; existing source fake transport alone provides no native credit."
+  ],
+  "source_hashes": {
+    "src/application/research/queue.py": "sha256:b2d507dc447518e6316abab416841cea87e37b9ace1068edb6ed51b3ccf68f66",
+    "src/application/research/evidence.py": "sha256:551a67f9ac17de6047cd1a30c28950b5f5c9524e32cc08e271ff73c6d2ade1fd",
+    "src/storage/paper_feedback.py": "sha256:cc708125b6800960fde293e345308ecf4f411f7dd2a35cdd8028005356d7afd1",
+    "ui/src/App.tsx": "sha256:bafd5676e6b8ec815aeb2e2fcac8d22932e32bfc67b55653bb60eb5fffb50ab2"
+  },
+  "source_changes": false,
+  "active_evidence_reads": false,
+  "tests_native_git_db_network_secret_activity": 0,
+  "acceptance_claims_created": 0
+}

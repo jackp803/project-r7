@@ -1,0 +1,90 @@
+{
+  "status": "STATIC_UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "basis": "Parent reports source9c4a74108d4c1960d6213357f9fc32e4785fce25; no Git command executed",
+  "scope": "Durable local close intent only; neither broker observation, flatness, funding nor closure",
+  "current_seams": [
+    "TradingService.execute preserves positive prepared source until guard.require and provider.request final guard; _observe -> TradingCoordinator.observe commits dispatch observation/effects and drains outboxes.",
+    "TradingService.recover_publications currently delegates only TradingCoordinator.recover_publications; it cannot yet synthesize claim-only intent.",
+    "ProductCloseObservation and product_position._effects/observe_position require actual native read, fresh received_at, monotonic close facts and original positive source hash. Do not reuse that profile for intent.",
+    "ProductDispatchOperation lacks claimed_at; ProductDispatchJournal.recover returns operation IDs, while claim dispatched_at exists only in protected dispatch row. Add small typed readonly accessor/iterator for actual claimed close record with immutable request+claimed_at; do not use caller-now as claim timestamp."
+  ],
+  "proposed_wrapper": "ProductCloseIntent(entry_operation_id, source_position_json, previous_lifecycle_projection_id, claimed_at). received_at returns actual stored local claimed_at solely for existing outbox key interface. Fixed profile=product-close-intent-v0.2; material explicitly kind=LOCAL_COMMITTED_CLOSE_INTENT, not native observation/currentness. No provider Position/current read supplied or renewed.",
+  "producer_api": "application.trading.close_intent.recover_close_intents(service) -> count; storage product_position extends existing typed observation validation, not new table. Enumerate bounded claimed close operations for exact own run; require exact restored POSITION_EXIT/EMERGENCY_EXIT preparation and original entry/source/action/plan hashes. Existing E6 source history/action immutable records supply facts; no admission/provider/translator issuance on recovery.",
+  "ordering": [
+    "Normal first execute: do not publish intent after prepare_and_claim but before POST finalguard. Keep canonical positive original projection unchanged through both actual guard checks. After dispatch observation commit, drain actual ORDER_REQUEST/ACK/FILL outboxes first, then stage/publish intent.",
+    "Service.recover_publications: phase1 coordinator drain existing dispatch+position outboxes; phase2 synthesize missing claimed close intent; phase3 coordinator drain newly staged intent; bounded passes, no recursive call to service.recover_publications from intent producer. No POST/GET/credential/metadata refresh.",
+    "Crash after claim before any observation: immutable committed request proves local requested close intent only. Canonical request may be absent; intent bundle must include exact ORDER_REQUEST=encode_fact(restored prepared.canonical_request), then E5 projection+binding. Never synthesize ACK/OrderResult/fill or claim POST was sent. Same request persistence is idempotent if already drained.",
+    "If process restarts, bind new actual lease then recover; outbox publication uses successor lease. The original claim/source data are history, not new effect permission; do not require expired original translator/preparation/current native read to replay local intent."
+  ],
+  "e5_effects": "Use original positive source _broker_fact_payload with original broker_state_observed_at unchanged. Existing build_position_lifecycle_transition(... EXIT_REQUESTED, lifecycle_interpreted_at=actual local intent-staging owner clock, persisted in immutable effects) plus complete build_position_lifecycle_execution_evidence_binding over all actual canonical requests/results/fills, adding only original committed ORDER_REQUEST if absent. No new broker RAW_POSITION observation is necessary: source facts already exist. Prefer exact intent-only supported effects [ORDER_REQUEST, POSITION_PROJECTION, LIFECYCLE_EXECUTION_BINDING], validating canonical source hash and unchanged broker facts. If retaining RAW_POSITION for uniform writer shape, it must be exact historical source facts with original source clock, never claim-time broker clock; validate this explicitly in intent branch.",
+  "writer_checks": [
+    "Extend observation_material/_effects/observe_position with explicit ProductCloseIntent branch: exact claim exists and claimed_at matches DB; bound prepared role and source_plan/action/position hashes; source typed canonical history; exact entry source binding; generation fence under BEGIN IMMEDIATE. No native quantity/received_at checks apply to intent; do not weaken existing ProductCloseObservation checks.",
+    "Exact prepared action must already be canonical. Source positive projection hash must equal prepared.source_position_hash, and original trade/position/role refs must agree. Compare actual complete canonical recovery graph before commit; new E6/action/source conflict denies.",
+    "Stored outbox at claim timestamp and exact profile/material/effects replays identically. Existing position outbox key=(run_id,operation_id,observed_at); future native observation with equal timestamp has different semantics and must fail explicit collision, not overwrite or invent timestamp epsilon. Real native read in tests must actually advance clock.",
+    "Current native ProductCloseObservation latest-lineage logic assumes prior profile is native close. Teach it to accept exactly one valid intent predecessor only as historical source+projection anchor; first later native observation must bind intent projection ID, actual original source and received_at>intent key. Keep subsequent actual-native monotonic quantity/provider clocks unchanged."
+  ],
+  "idempotency_and_errors": [
+    "Already stored intent: return original immutable batch/receipt before reconstructing against changed complete history. Existing outbox replay must finish partial canonical writes then mark publication; do not mint a new intent or use current time.",
+    "If current canonical projection already descends from original valid EXIT_REQUESTED or genuine native close projection, skip new transition; verify lineage instead of replaying EXIT_REQUESTED event from EXIT_REQUESTED or inserting behind newer projection. Missing intent evidence versus existing newer projection requires explicit reconcile/deny, never retroactive alternate history.",
+    "ACK_REJECTED/ambiguous/lost-ACK remain local requested intent; do not infer flat or CLOSED. A later failure/emergency event belongs to separate actual owner interpretation. Claim-only intent may represent a crash before POST, and evidence must say so.",
+    "Write failure retains staged outbox/claim and surfaces failure. Claim inventory/canonical graph mutation fails closed. Finite claimed-operation/backlog limit blocks overflow with retained data. Finalguard rejection after claim also leaves local committed intent recoverable; no claim disposal/retry POST."
+  ],
+  "targeted_tests": [
+    "tests/product/test_trading_close_v02.py: positive original prepared projection stays OPEN_PROTECTED through final provider guard; after ACK/LOST_ACK local EXIT_REQUESTED appears with unchanged source observation clock and quantity, no flat/result.",
+    "Claim-only crash: actual prepare_and_claim then new real process lease + recover_publications; original ORDER_REQUEST canonical, intent projection and complete binding exactly once, zero provider calls; no invented OrderResult.",
+    "Failure after individual canonical intent effect/mark-publication; new lease drains identical saved bundle with no POST/GET/no duplicate lifecycle history.",
+    "Actual later partial then same-posId-zero observations chain from intent projection; first native predecessor profile accepted only when exact intent; zero remains EXIT_REQUESTED.",
+    "Missing/unclaimed/foreign role/action/source, changed claim timestamp, concurrent claim/source mutation, same-time intent/native collision and stale original source deny without replacement. Repeated recovery after native progression never inserts an old intent."
+  ],
+  "source_hashes": [
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "11b7f1e3232f329dcd99236873281d1553d5cfcd8202e52931378475e07c2800"
+    },
+    {
+      "path": "src/application/trading/orchestrator.py",
+      "sha256": "f5d3b34378e95394d007f693a34d2139f036337f174e95e998e8dea60e8a2de4"
+    },
+    {
+      "path": "src/application/trading/close_owner.py",
+      "sha256": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7"
+    },
+    {
+      "path": "src/application/trading/close_observation.py",
+      "sha256": "fdc43a544f961505f507ea7620351a56b953202be39de7ca580f3aacdc280142"
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "9a008d19ba005b0b0ea878e06aad82bb66a38971d950a722fb753b5e384d5af0"
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "23f025b5e11094424891f14c3be4a9fe88a5bc482b8d6cd7cea13086283833b5"
+    },
+    {
+      "path": "src/position/lifecycle_projection.py",
+      "sha256": "cecf09d582662df0d43f66c8692fc11bcb5141b37147d1a2c2e61dfcc9c1f242"
+    },
+    {
+      "path": "src/position/lifecycle_execution_binding.py",
+      "sha256": "cc8b3fe7d3369a827ebdd24dfcfd71888bdcbe52a226c613ce6846924b1a13c4"
+    },
+    {
+      "path": "tests/product/test_trading_close_v02.py",
+      "sha256": "af82ff3d1fb3c77e789b4e83839ff5d3b596c62f03be8353ab9e7983a8b694c2"
+    },
+    {
+      "path": "tests/product/test_trading_close_projection_v02.py",
+      "sha256": "85185680050a145f3d3e00384b0ee5a10164076f90ec436cdb34d889327e4e5f"
+    }
+  ],
+  "verification": {
+    "Git_commands": [],
+    "DB_reads": 0,
+    "tests_run": [],
+    "tracked_changes": [],
+    "native_run": [],
+    "network_calls": 0
+  },
+  "clock_separation": "Three clocks must remain separate: (1) immutable dispatched_at=local committed claim time, stable intent outbox key only; (2) original source broker_state_observed_at remains unchanged; (3) actual local staging interpretation time after draining actual known canonical facts, used for lifecycle_interpreted_at and persisted in immutable effects. Do not set interpretation to old claim timestamp if drained ACK/results are later. No claim of native fresh observation or renewed provider currentness. On replay use saved projection/effects time, never current clock to regenerate identity."
+}

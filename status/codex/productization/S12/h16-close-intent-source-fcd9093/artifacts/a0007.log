@@ -1,0 +1,43 @@
+test_actual_ack_stages_e5_intent_after_final_effect_without_renewing_broker_clock (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_actual_ack_stages_e5_intent_after_final_effect_without_renewing_broker_clock) ... ok
+test_actual_ambiguous_provider_outcome_keeps_uncertain_intent_without_flat_or_result (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_actual_ambiguous_provider_outcome_keeps_uncertain_intent_without_flat_or_result) ... ok
+test_actual_foreign_claim_at_intent_writer_boundary_does_not_publish_a_stale_bundle (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_actual_foreign_claim_at_intent_writer_boundary_does_not_publish_a_stale_bundle) ... ok
+test_actual_writer_rejects_a_changed_immutable_claim_clock (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_actual_writer_rejects_a_changed_immutable_claim_clock) ... ok
+test_claim_only_crash_recovers_actual_request_and_intent_without_fabricated_reply_or_http (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_claim_only_crash_recovers_actual_request_and_intent_without_fabricated_reply_or_http) ... ok
+test_intent_outbox_failure_replays_original_bundle_with_successor_lease_without_http (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_intent_outbox_failure_replays_original_bundle_with_successor_lease_without_http) ... ok
+test_same_clock_native_observation_cannot_replace_intent_or_invent_a_time_increment (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_same_clock_native_observation_cannot_replace_intent_or_invent_a_time_increment) ... ERROR
+test_unclaimed_preparation_alone_does_not_publish_a_lifecycle_intent (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_unclaimed_preparation_alone_does_not_publish_a_lifecycle_intent) ... ok
+test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes) ... ok
+test_actual_second_connection_claim_at_writer_boundary_blocks_close_publication (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_actual_second_connection_claim_at_writer_boundary_blocks_close_publication) ... ok
+test_copied_or_stale_read_cannot_renew_close_exposure (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_copied_or_stale_read_cannot_renew_close_exposure) ... ok
+test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation) ... ok
+test_durable_close_bundle_replays_after_successor_process_without_http_or_resubmit (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_durable_close_bundle_replays_after_successor_process_without_http_or_resubmit) ... ok
+test_later_actual_entry_readback_preserves_original_source_and_full_close_history (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_later_actual_entry_readback_preserves_original_source_and_full_close_history) ... ok
+test_native_residual_disagreement_cannot_create_a_position_publication (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_native_residual_disagreement_cannot_create_a_position_publication) ... ok
+test_native_update_before_actual_exit_fill_does_not_prove_residual (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_native_update_before_actual_exit_fill_does_not_prove_residual) ... ok
+test_other_issued_native_position_cannot_adopt_original_close_lineage (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_other_issued_native_position_cannot_adopt_original_close_lineage) ... ok
+
+======================================================================
+ERROR: test_same_clock_native_observation_cannot_replace_intent_or_invent_a_time_increment (tests.product.test_trading_close_intent_v02.TradingCloseIntentV02Tests.test_same_clock_native_observation_cannot_replace_intent_or_invent_a_time_increment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_intent_v02.py", line 119, in test_same_clock_native_observation_cannot_replace_intent_or_invent_a_time_increment
+    read=helper.readback(context,prepared,advance_seconds=0,first_fill_offset_seconds=0)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_projection_v02.py", line 39, in readback
+    result=service.reconcile(prepared.canonical_request.order_request_id,expected_revision=self.fixture.revision)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 173, in reconcile
+    return self._observe(operation_id, 'ORDER_OBSERVED', result.broker_order_id, 'EXACT_PROVIDER_ORDER_AND_FILL_TRUTH', effects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 109, in _observe
+    self._coordinator().observe(operation_id, observation, effects)
+  File "<SOURCE_ROOT>\src\application\trading\orchestrator.py", line 40, in observe
+    self.dispatch.observe(self.run_id, operation_id, observation, lease=self.lease,
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 342, in observe
+    raise ProductDispatchError('DISPATCH_EQUAL_TIME_OBSERVATION_CONFLICT')
+storage.product_dispatch.ProductDispatchError: DISPATCH_EQUAL_TIME_OBSERVATION_CONFLICT
+
+----------------------------------------------------------------------
+Ran 17 tests in 216.005s
+
+FAILED (errors=1)

@@ -1,0 +1,56 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 local committed close-intent staging/recovery, service hooks, bounded claim selector and explicit storage intent/native-predecessor branches only",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/trading/close_intent.py",
+      "sha256": "d6655e5d6957520d1ecb86d4817d7acd90f84f14c284647b9cef97d7715cf3a4",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "698e41b730d54e78557bf6f5120563aee1fcb99096164673ad20b2544e83f8f0",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "c8602717827ce3bff3db0df01ed3d3d261f244d5fd9ee69f65b82a0c09bc6369",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "d306db09a91073daa98d379accb202d6b08dfd1fe11b475586441f1e87e0960b",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "tests/product/test_trading_close_intent_v02.py",
+      "sha256": "3196f7a0051e4268b00117be517bbff67aea64e694c57c25a09a01bf6446c74a",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "tests/product/test_trading_close_projection_v02.py",
+      "sha256": "b8d14bd54122adc25fb4e425c8e1c09c3bd77085527534e051d15133ac7c67d4",
+      "unchanged_since_capture": true
+    }
+  ],
+  "findings": [],
+  "static_assessment": [
+    "Normal execute retains the original source through the final provider guard. The new hook stages intent only after the durable outcome path; claim-only recovery separately represents LOCAL_COMMITTED_CLOSE_INTENT and does not assert that POST occurred.",
+    "The stage requires the exact current original positive E5 source hash and approved plan hash, exact stored action/request reconstruction at original request time, one real owned entry request/claim, and the complete canonical graph. It adds only the original durable ORDER_REQUEST when absent; it manufactures no acknowledgment or fill.",
+    "Claim clock, local interpretation time and original broker observation clock remain distinct. The storage writer binds the immutable key to the actual claim dispatched_at, validates action/source/entry lineage and unchanged broker facts, and permits only EXIT_REQUESTED projection plus its execution binding; no RAW_POSITION is fabricated.",
+    "The bounded own-run pending selector excludes every close claim already having any position bundle, so recovery cannot retrospectively insert an intent before an existing native residual/flat publication. Draining the durable bundle before staging and after every commit preserves idempotent successor-lease replay.",
+    "The final dispatch transaction rechecks the claim generation. Native residual/flat observations following an intent must name the exact intent projection predecessor, retain the original source, and preserve their real observation timestamps. Same-clock key conflict is refused rather than repaired with an invented timestamp.",
+    "Source tests cover actual scripted acknowledgment/ambiguous paths, unclaimed refusal, claim-only recovery after action expiry without HTTP or fabricated reply, outbox replay with a successor lease, claim-clock mutation, second-connection writer drift and same-clock observation refusal. These are source component fixtures."
+  ],
+  "limits": [
+    "Static source reads and raw-byte hashes only; no test/native/product execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "Root-reported development passes and the active eight-intent/nine-projection run are not reviewer execution or final qualification results.",
+    "A local durable claim/intent is not proof of provider submission, acknowledgment, fill or financial permission. Recovery does not issue a new permit or renew permission.",
+    "Funding, protection-stop cleanup, TradeResult/CLOSED, full H16 and installed-native/whole-product qualification remain outside this slice."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 close-intent corrected process-loss/same-clock test and two added bounded own-run selector regressions; unchanged production identity confirmation",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/trading/close_intent.py",
+      "sha256": "d6655e5d6957520d1ecb86d4817d7acd90f84f14c284647b9cef97d7715cf3a4",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "698e41b730d54e78557bf6f5120563aee1fcb99096164673ad20b2544e83f8f0",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "c8602717827ce3bff3db0df01ed3d3d261f244d5fd9ee69f65b82a0c09bc6369",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "d306db09a91073daa98d379accb202d6b08dfd1fe11b475586441f1e87e0960b",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "tests/product/test_trading_close_intent_v02.py",
+      "sha256": "933ff3bcab94a79b5b258d9991378196e7a2e300ebab1e0c799365a682f992fe",
+      "identical_to_prior_review": false
+    },
+    {
+      "path": "tests/product/test_trading_close_projection_v02.py",
+      "sha256": "b8d14bd54122adc25fb4e425c8e1c09c3bd77085527534e051d15133ac7c67d4",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "tests/storage/test_product_dispatch_v02.py",
+      "sha256": "5e43c90b3ecd1aab8ce812145ccc3523b5a72259f493ba806d8eb5ec0e55c38c",
+      "scope": "Two new selector/page/fence tests; existing storage tests previously reviewed"
+    }
+  ],
+  "findings": [],
+  "static_assessment": [
+    "All four production files are byte-identical to the prior 0C/0I bounded intent review. The projection test file is also unchanged.",
+    "The corrected same-clock scenario performs the actual guarded scripted POST/ACK, injects loss before _observe commit, and recovers only the actual claim intent. The subsequent first partial reconciliation therefore does not attempt to replace a different dispatch observation at the same immutable timestamp.",
+    "The test requires same-clock native partial publication to fail without replacing the intent receipt; it then advances the actual controlled clock and obtains a genuinely later issued position read before successful partial publication. No timestamp is incremented by product code or stored result invented.",
+    "The two new storage tests use real claims to check own-run and role filtering, original claim timestamps, strict page bounds excluding bool, read-only total_changes, and a real second-connection append while materializing selected operations. They exercise storage ownership/page/fence behavior without asserting native execution."
+  ],
+  "prior_review": "artifacts/current-windows-20261019/h16-close-intent-source-review.json",
+  "limits": [
+    "Static reads and exact raw-byte hashing only; no tests, native/product execution, Git, DB/auth/config/provider/network access or tracked writes.",
+    "The original integration fixture error and root-reported selected three-case passes remain development history, not reviewer execution or complete affected-suite/native qualification.",
+    "No funding, protection-stop cleanup, TradeResult/CLOSED or whole H16/full-product completion credit."
+  ]
+}

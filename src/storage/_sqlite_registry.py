@@ -44,10 +44,66 @@ def _connect(path: str | Path, *, require_existing: bool = False) -> sqlite3.Con
     return connection
 
 
+def check_migration_compatibility(connection: sqlite3.Connection) -> dict:
+    """Read-only canonical ledger facts against this packaged migration set.
+
+    This does not attest historical SQL checksums, other app stores, migration
+    success, current financial authority or whole-profile compatibility.
+    Explicit _apply_migrations script subsets are test inputs, not this target.
+    """
+    known = tuple(sorted(path.name for path in _MIGRATIONS_DIR.glob('*.sql')))
+    if not known or len(set(known)) != len(known):
+        raise EvidenceGateError('MIGRATION_COMPATIBILITY_PACKAGED_INVENTORY_REQUIRED')
+    try:
+        # Exact static main-schema reads; no CREATE/PRAGMA mutation/commit.
+        ledger = connection.execute(
+            "SELECT type FROM main.sqlite_schema WHERE name='schema_migrations' LIMIT 2"
+        ).fetchall()
+        if not ledger:
+            populated = connection.execute(
+                "SELECT 1 FROM main.sqlite_schema WHERE name NOT GLOB 'sqlite_*' LIMIT 1"
+            ).fetchone() is not None
+            if populated:
+                raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+            return dict(applied=(),pending=known,fresh=True,ledger_present=False)
+        if len(ledger) != 1 or ledger[0][0] != 'table':
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_MALFORMED_LEDGER')
+        columns = connection.execute("PRAGMA main.table_xinfo('schema_migrations')").fetchmany(3)
+        if (len(columns) != 2 or
+                [(row[1],row[2].upper(),row[5]) for row in columns] !=
+                [('migration_name','TEXT',1),('applied_at','TEXT',0)] or
+                columns[1][3] != 1 or any(row[6] != 0 for row in columns)):
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_MALFORMED_LEDGER')
+        rows = connection.execute(
+            'SELECT migration_name,applied_at FROM main.schema_migrations '
+            'ORDER BY migration_name LIMIT ?', (len(known)+1,)
+        ).fetchall()
+        if len(rows) > len(known):
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_LEDGER_BOUND_EXCEEDED')
+        if any(type(row[0]) is not str or row[0] not in known or
+               type(row[1]) is not str or not row[1] or len(row[1]) > 128 or '\x00' in row[1]
+               for row in rows):
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNKNOWN_OR_MALFORMED_RECORD')
+        applied = tuple(row[0] for row in rows)
+        if len(set(applied)) != len(applied) or applied != known[:len(applied)]:
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_NON_PREFIX_LEDGER')
+        if not applied and connection.execute(
+                "SELECT 1 FROM main.sqlite_schema WHERE name NOT GLOB 'sqlite_*' "
+                "AND name!='schema_migrations' LIMIT 1").fetchone() is not None:
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_UNVERSIONED_POPULATED')
+        return dict(applied=applied,pending=known[len(applied):],
+                    fresh=not applied,ledger_present=True)
+    except sqlite3.DatabaseError as exc:
+        # Scope only this read-only check. Actual injected migration SQLite
+        # failures below remain their original sqlite3 exception/rollback path.
+        raise EvidenceGateError('MIGRATION_COMPATIBILITY_LEDGER_READ_FAILED') from exc
+
+
 def _apply_migrations(
     connection: sqlite3.Connection,
     migrations_dir: str | Path | None = None,
 ) -> None:
+    facts = check_migration_compatibility(connection)
     directory = Path(migrations_dir) if migrations_dir is not None else _MIGRATIONS_DIR
     connection.execute(
         """
@@ -57,10 +113,7 @@ def _apply_migrations(
         )
         """
     )
-    applied = {
-        row["migration_name"]
-        for row in connection.execute("SELECT migration_name FROM schema_migrations")
-    }
+    applied = set(facts['applied'])
     for migration in sorted(directory.glob("*.sql")):
         if migration.name in applied:
             continue

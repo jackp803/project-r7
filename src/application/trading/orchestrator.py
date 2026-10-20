@@ -24,17 +24,22 @@ class TradingCoordinator:
         for _ in range(100):
             self.dispatch.require_process(self.lease, now=self.clock())
             entries=self.dispatch.pending_entry_publications(self.run_id)
+            exits=self.dispatch.pending_exit_publications(self.run_id)
             batches=self.dispatch.pending_publications(self.run_id)
             positions=self.dispatch.pending_position_publications(self.run_id)
             funding=self.dispatch.pending_funding_publications(self.run_id)
             finalizations=self.dispatch.pending_finalizations(self.run_id)
-            if not entries and not batches and not positions and not funding and not finalizations: return
+            if not entries and not exits and not batches and not positions and not funding and not finalizations: return
             for batch in entries:
                 self.dispatch.require_process(self.lease,now=self.clock())
                 # Canonical owners commit idempotently before the separate E6
                 # receipt. Neither SQLite writer encloses the other writer.
                 self.canonical.publish_canonical_effects(batch.effects)
                 self.dispatch.mark_entry_publication(batch,lease=self.lease,now=self.clock())
+            for batch in exits:
+                self.dispatch.require_process(self.lease,now=self.clock())
+                self.canonical.publish_canonical_effects(batch.effects)
+                self.dispatch.mark_exit_publication(batch,lease=self.lease,now=self.clock())
             for batch in batches:
                 self.dispatch.require_process(self.lease, now=self.clock())
                 self.canonical.publish_canonical_effects(batch.effects)
@@ -57,11 +62,22 @@ class TradingCoordinator:
         self.recover_publications()
 
 class TradingOrchestrator:
-    """First controlled H01 FIXTURE entry slice; no E2 exit management yet."""
+    """Controlled original E2 entry and EXIT join; no production activation."""
     def __init__(self, service):
         # TradingService imports this module; defer service-related imports.
         from application.trading.entry_owner import EntryOwner
         self._entry_owner=EntryOwner(service)
+        self._exit_owner=None
+
+    def evaluate_original_exit(self,entry_boundary,*,native_position,metadata,read_proof,close_proof,
+                               market_snapshot,market_freshness_classification,action_expires_at,expected_revision):
+        if self._exit_owner is None:
+            from application.trading.exit_owner import OriginalExitOwner
+            self._exit_owner=OriginalExitOwner(self._entry_owner.service)
+        return self._exit_owner.evaluate(entry_boundary,native_position=native_position,metadata=metadata,
+            read_proof=read_proof,close_proof=close_proof,market_snapshot=market_snapshot,
+            market_freshness_classification=market_freshness_classification,
+            action_expires_at=action_expires_at,expected_revision=expected_revision)
 
     def evaluate_entry(self,bundle,*,selected_risk,risk_context,risk_proposal,metadata,
                        prerequisites,capability_proof,prerequisites_proof,expected_revision):

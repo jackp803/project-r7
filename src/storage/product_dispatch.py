@@ -567,6 +567,30 @@ class ProductDispatchJournal:
         from storage.product_entry_decision import mark_entry_publication
         return mark_entry_publication(self,batch,lease=lease,now=now)
 
+    def exit_anchor(self,run_id,entry_decision_id):
+        from storage.product_exit_decision import exit_anchor
+        return exit_anchor(self,run_id,entry_decision_id)
+
+    def stage_exit_anchor(self,run_id,entry_decision_id,evidence_json,*,lease,now):
+        from storage.product_exit_decision import stage_exit_anchor
+        return stage_exit_anchor(self,run_id,entry_decision_id,evidence_json,lease=lease,now=now)
+
+    def exit_decision(self,run_id,entry_decision_id):
+        from storage.product_exit_decision import exit_decision
+        return exit_decision(self,run_id,entry_decision_id)
+
+    def stage_exit_decision(self,run_id,entry_decision_id,evidence_json,*,lease,now):
+        from storage.product_exit_decision import stage_exit_decision
+        return stage_exit_decision(self,run_id,entry_decision_id,evidence_json,lease=lease,now=now)
+
+    def pending_exit_publications(self,run_id):
+        from storage.product_exit_decision import pending_exit_publications
+        return pending_exit_publications(self,run_id)
+
+    def mark_exit_publication(self,batch,*,lease,now):
+        from storage.product_exit_decision import mark_exit_publication
+        return mark_exit_publication(self,batch,lease=lease,now=now)
+
     def recover(self, run_id):
         self._run(run_id)
         operations = [self.operation(run_id, row[0]) for row in self._db.execute('SELECT operation_id FROM product_dispatch_intents WHERE run_id=? ORDER BY prepared_at,operation_id', (run_id,))]

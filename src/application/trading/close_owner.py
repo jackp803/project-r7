@@ -19,6 +19,7 @@ from brokers.okx_close_sizing_binding import OKXCloseMetadataBindingEvidence
 from execution.external_close_evidence import (OwnershipEvaluationContext,ProviderObjectObservation,
     build_external_provider_ownership_evidence,canonical_evidence_hash)
 from position import authorize_close_position_action
+from position.close import validate_close_position_action
 from position.entry_observation import product_entry_position_id
 from storage.product_position import observation_material
 
@@ -76,6 +77,25 @@ def prepare_fixture_close(service,trade_plan_id,position,*,metadata,read_proof,c
 
 def prepare_close(service,trade_plan_id,position,*,metadata,read_proof,close_proof,expected_revision,
                   metadata_applicability,metadata_binding,action='EXIT'):
+    return _prepare_close(service,trade_plan_id,position,metadata=metadata,read_proof=read_proof,
+        close_proof=close_proof,expected_revision=expected_revision,metadata_applicability=metadata_applicability,
+        metadata_binding=metadata_binding,action=action,exit_decision=None)
+
+
+def _prepare_original_exit_close(service,decision,position,*,metadata,read_proof,close_proof,expected_revision):
+    from storage.product_exit_decision import ProductExitDecision
+    if (service.execution!='FAKE_PROVIDER_VERIFICATION' or type(service.provider) is not FakeProductProvider or
+            service.admission.namespace!='FIXTURE' or type(decision) is not ProductExitDecision or
+            decision!=service.dispatch.exit_decision(service.run_id,decision.entry_decision_id)):
+        raise RuntimeAdmissionError('ORIGINAL_FIXTURE_E5_EXIT_DECISION_REQUIRED')
+    applicability,binding=fixture_close_profile(metadata,'POSITION_EXIT')
+    return _prepare_close(service,decision.evidence['original_plan']['trade_plan_id'],position,
+        metadata=metadata,read_proof=read_proof,close_proof=close_proof,expected_revision=expected_revision,
+        metadata_applicability=applicability,metadata_binding=binding,action='EXIT',exit_decision=decision)
+
+
+def _prepare_close(service,trade_plan_id,position,*,metadata,read_proof,close_proof,expected_revision,
+                   metadata_applicability,metadata_binding,action,exit_decision):
     # Trusted E4 composition supplies the independently established close-role
     # applicability and its exact binding. No HTTP body/PASS/default supplies it.
     if type(metadata_applicability) is not OKXCloseMetadataApplicabilityEvidence or type(metadata_binding) is not OKXCloseMetadataBindingEvidence:
@@ -97,7 +117,16 @@ def prepare_close(service,trade_plan_id,position,*,metadata,read_proof,close_pro
     if any(service.dispatch.iter_claimed_closes_for_position(service.run_id,source['position_id'])):
         raise RuntimeAdmissionError('PRIOR_ACCOUNT_CLOSE_RECONCILIATION_REQUIRED')
     subject=service.canonical.current_execution_subject(service.identity,trade_plan_id);plan=subject.approved_trade_plan.payload
-    close=authorize_close_position_action(source,plan,action=action,created_at=now,expires_at=now+timedelta(seconds=30)).position_action
+    if exit_decision is None:
+        close=authorize_close_position_action(source,plan,action=action,created_at=now,expires_at=now+timedelta(seconds=30)).position_action
+    else:
+        value=exit_decision.evidence
+        if (value['source_position']!=source or value['original_plan']!=plan or
+                value['source_binding']!=recovered.current_lifecycle_execution_binding.payload or
+                exit_decision!=service.dispatch.exit_decision(service.run_id,exit_decision.entry_decision_id)):
+            raise RuntimeAdmissionError('ORIGINAL_E5_EXIT_SOURCE_CHANGED')
+        close=value['position_action']
+        validate_close_position_action(close,source,plan,now=now)
     role='POSITION_EXIT' if action=='EXIT' else 'EMERGENCY_EXIT'
     capability=service.translator.capabilities.close_capability(close_proof,metadata,now=now)
     if capability.action_role!=role:raise RuntimeAdmissionError('EXACT_NATIVE_CLOSE_ROLE_PROOF_REQUIRED')

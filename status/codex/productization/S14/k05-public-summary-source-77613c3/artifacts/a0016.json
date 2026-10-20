@@ -1,0 +1,50 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "review_scope": "K05 additive public trading summary v0.3 consumer/privacy boundary only",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "subject_hashes": {
+    "src/application/cloud/trading_feedback.py": "4e0e5d3d4c5b789e3f6d177bda7fffd3f341f577408e061c9e5d11b992530222",
+    "src/application/cloud/public_feedback.py": "7455853dab20f3a2548f435f547affcc7d2ec48e75d2e097b0182ebb288df5ee",
+    "contracts/trading_feedback_v0_3.schema.json": "37f987022281c338aa2fd6174562a11e1eef9275c6b1d8eacc7c45e4e17b96af",
+    "tests/product/test_k05_feedback_privacy.py": "a79e69519ccf2dc1b0fbaee213d05da5292dcacc4442549340383505d859b6d9",
+    "tests/product/test_k05_readonly_history.py": "f408f8e7ff552513b6e8832019f9bcf5194d0bef2d8828dd1fd474f021d20f69"
+  },
+  "inspected": [
+    {
+      "path": "src/application/cloud/trading_feedback.py",
+      "scope": "Protected read-port constructor; private explicitly labeled Paper consumer snapshot; canonical closed_at/funding lineage; strict allowlist, exact-bool opt-in, HTML/bundle determinism; current typed provenance guard"
+    },
+    {
+      "path": "src/application/cloud/public_feedback.py",
+      "scope": "Strict additive schema dispatch and existing v0.2 preservation"
+    },
+    {
+      "path": "contracts/trading_feedback_v0_3.schema.json",
+      "scope": "Allowed provenance combinations, closed/unavailable states, nonmonetary opt-out, fixed authority and nested field restrictions"
+    },
+    {
+      "path": "tests/product/test_k05_feedback_privacy.py",
+      "scope": "Actual Paper owner-produced graph used only as a labeled in-memory consumer fixture; privacy, opt-in, unavailable, version, canonical clock and malformed-provenance assertions"
+    },
+    {
+      "path": "tests/product/test_k05_readonly_history.py",
+      "scope": "New protected public constructor case only; actual open ACK remains UNAVAILABLE with null amounts/closed_at and actual_live NOT_RUN; prior read-port review not repeated"
+    }
+  ],
+  "static_conclusions": [
+    "Public construction requires the actual protected read-port type; no caller PASS or financial authorization argument is introduced.",
+    "AVAILABLE dispatch summaries require BROKER_LEDGER; the private Paper consumer fixture remains PAPER_OWNER_SOURCE_FIXTURE with PaperZero provenance and actual_live NOT_RUN.",
+    "Default OPT_OUT retains null performance. Opt-in copies exactly gross_pnl, net_pnl, total_fees and the referenced canonical funding_cost; no new financial metrics or creation clock is invented.",
+    "The current source checks provenance value types before hash-set membership, preserving typed denial for list/object provenance.",
+    "Final reviewed source/test/schema bytes were re-read and matched the captured hashes before this review was saved."
+  ],
+  "limitations": [
+    "Static review only: no tests, DB/auth/config/private data, product/native/process/provider/network or Git operations were executed.",
+    "The private Paper consumer positive is not an H16 ProductDispatch lifecycle proof. The genuine funded closed-dispatch positive remains pending.",
+    "The LOCAL_RESEARCH historical ACTUAL_OWNER branch was not executed or accepted by this review. It grants no commissioning, trading permission or actual LIVE qualification.",
+    "No K05, H16, native, full-source or whole-Master completion/acceptance is issued. Existing Windows qualification scope remains separate."
+  ]
+}

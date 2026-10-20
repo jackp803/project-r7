@@ -1,0 +1,77 @@
+{
+  "document_kind": "UNAPPLIED_SOURCE_TEST_DESIGN",
+  "status": "NOT_EXECUTED",
+  "qualification_credit": "NONE",
+  "authority_analysis": "Reuse artifacts/current-windows-20261019/k05-authority-and-local-plan.json; no new authority analysis or PM wait introduced",
+  "authority_plan_raw_sha256": "sha256:2c4010b04b70ccc3dfbec15576a85f90bb521ac21e910867053866ee9162801b",
+  "location": "New outside-Git sibling of ART; no guarded repository changes",
+  "proposed_internal_interfaces": {
+    "reader": "storage.trading_feedback.open_trading_feedback_reader(canonical_path, dispatch_path, *, namespace), a context manager; reader.snapshot(run_id, trade_plan_id) returns an immutable typed snapshot",
+    "snapshot_fields_used_by_drafts": "namespace, execution, observed_process_generation, original_binding_json, canonical (existing PaperRuntimeRecovery); availability is derived, not an input PASS flag. observed_process_generation is a private read fence, never automatically the original financial-result producer",
+    "private_source_fixture_model": "application.cloud.trading_feedback._TradingFeedbackSnapshot(namespace, provenance_kind, execution, original_run_id, original_process_generation, original_binding_json, original_binding_hash, canonical, canonical_graph_hash, dispatch_binding_json=None). This proposed internal formatter model is constructed directly only in the explicitly labeled source-consumer tests. Hashes commit the exact captured immutable consumer data, not qualification or financial authority. It is not a read receipt, admission proof or public import API",
+    "private_projector": "application.cloud.trading_feedback._project_feedback_snapshot(snapshot, *, performance_opt_in=False)",
+    "owner_constructor": "application.cloud.trading_feedback.build_trading_feedback(reader, run_id, trade_plan_id, *, performance_opt_in=False); it resolves its own snapshot through the readonly port and accepts no caller assessment/PASS/document",
+    "bundle": "validate_trading_feedback(document), trading_feedback_bundle(document), validate_trading_feedback_publication(logical_path, payloads)",
+    "naming_note": "Names and the minimal consumer-document fields are proposals, not existing APIs. Root may rename before applying. Preserve the stated oracles rather than mistaking a draft signature mismatch for a product defect"
+  },
+  "immediate_fixture_setup": {
+    "fake_provider_open_history": "Reuse TradingDispatchV02Tests fixture, re-open its real canonical and dispatch owners on its already owner-created admission.sqlite, persist the existing risk-owner-produced approved objects, then execute one real FakeProductProvider ACK through TradingService. No SQL financial row construction. The existing immutable registry namespace is FIXTURE; real dispatch ensure_run binds SIMULATED_MECHANICS",
+    "closed_consumer_graph": "Reuse PaperRuntimeV02Tests.start and actual market events 0/1/2/3, assert ACKNOWLEDGED/PROTECTED/EXIT_REQUESTED/CLOSED, canonical READY+CLOSED, two fills, exact TradeResult equality and actual matching funding. This is genuine PaperBroker/E5/E6 closure, but only a PAPER_OWNER_SOURCE_FIXTURE consumer input for projection",
+    "do_not_reuse": "Storage test helpers that directly construct CLOSED projections or TradeResult mappings are useful existing codec tests, but are deliberately not the positive lifecycle fixture in this draft",
+    "exact_clean_dependency": "Existing research/owner fixture setup can require genuine CLEAN source provenance. A dirty-source denial is setup evidence, not a K05 defect. Do not patch that gate"
+  },
+  "immediate_tests": [
+    "Missing canonical or dispatch file raises typed unavailable error without creating the missing path or migrations",
+    "Existing empty/legacy-shaped SQLite is rejected and its complete SQL dump remains unchanged; no schema upgrade",
+    "FIXTURE ledger cannot be read as LOCAL_RESEARCH",
+    "Real readonly connections use URI mode=ro and query_only; all actual schema/namespace reads complete without any attempted persistent write",
+    "Actual ACK/pending history never becomes a closed summary or zero performance",
+    "Wrong run/plan and canonical plan with no same-run dispatch claim are rejected before projection",
+    "Repeated historical reads leave real dispatch generation, operation inventory, canonical recovery and provider call inventory unchanged; snapshots are immutable scalar/serialized objects",
+    "Private source-consumer projection defaults to OPT_OUT/null monetary values, always actual_live NOT_RUN, and retains explicit PAPER_MODEL provenance",
+    "Opt-in copies existing TradeResult gross/net/fees strings and the exactly referenced FundingEvidence funding_cost; it does not recompute PnL or infer funding",
+    "Unknown/private/provider/account/balance/path/identity aliases are rejected regardless of opt-in; deterministic exact JSON/HTML bundle rejects changed HTML and unknown schema dispatch",
+    "Synthetic mutations of captured in-memory graph/binding data with unchanged captured commitments are refused by the private projector; these are consumer-integrity negatives, not a substitute for actual persisted hash-consistent reference/funding validation in the reader",
+    "Existing Paper/research feedback v0.2 LIVE placeholders remain unchanged and cannot be populated or relabeled by the new version"
+  ],
+  "h16_dependency": {
+    "requirement": "H16 successful full fake-provider lifecycle",
+    "concrete_current_limit": "The inspected TradingService and TradingDispatch/Position/ProtectionMonitor fixtures exercise actual admission, ACK/fills, position/protection publication and durable replay. They do not currently supply a full fake-provider exit -> authoritative flat -> exact funded TradeResult fixture. PaperRuntime closure has PaperProcess lineage rather than a ProductDispatch binding and cannot fill that gap by relabeling",
+    "minimum_fixture_needed": "An actual same-namespace TradingService/ProductDispatch/E4/E5/E6 fixture that reaches canonical CLOSED using real owner producers, exact final exposure/exit evidence, settled funding evidence and a TradeResult computed by the canonical owner; it returns the existing DB paths/run/plan and expected owner records. No direct financial SQL, manually written CLOSED/TradeResult or caller PASS",
+    "tests_to_enable_after_that_fixture": [
+      "The public readonly constructor produces an available FAKE_PROVIDER_VERIFICATION summary with exact original dispatch release/source/config/strategy/policy binding and actual_live NOT_RUN",
+      "Read after worker stop, approval revocation, configuration change and later process generation still returns the original historical graph without refreshing permission or allocating a generation",
+      "Actual reader revalidates hash-consistent but invalid reference/funding graph in isolated corrupted copies; never silently returns zero or a populated actual-LIVE field",
+      "For genuinely separate stores, deterministic owner write interleaving returns one coherent captured/rechecked tuple or typed SNAPSHOT_CHANGED, never a mixed generation/binding/graph. Same-file production stores should share one SQLite read transaction"
+    ],
+    "not_a_PM_block": "This is a concrete missing owner fixture/integration dependency; root may implement it under the existing approved credential-free fake-provider scope. Independent read/privacy tests can proceed first"
+  },
+  "oracle_cautions": [
+    "TradeResult has gross_pnl, net_pnl and total_fees; funding_cost is read from its exact funding_evidence_id, not guessed as a TradeResult field",
+    "Paper zero funding is explicit source_kind PAPER_MODEL/source_version paper-zero-funding-v0.1 and is never actual provider settlement",
+    "Do not add max drawdown, expectancy, mark-to-market, account balances or arbitrary aggregates to this one-trade K05 slice; no canonical aggregation oracle was selected",
+    "Projection documents in the consumer tests are not observations of a full fake-provider lifecycle or LIVE availability",
+    "Counter equality and SQL logical dumps prove no writer side effects; ordinary SQLite read locks/WAL bookkeeping are not financial generations. A later observed dispatch generation is not the original TradeResult producer; omit that public field unless an actual immutable owner link proves it",
+    "No SQL is used to manufacture financial histories; isolated empty malformed schemas are read-boundary fixtures only"
+  ],
+  "source_references_raw_sha256": {
+    "tests/product/test_paper_runtime_v02.py": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+    "tests/product/test_trading_dispatch_v02.py": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+    "tests/product/test_trading_position_v02.py": "sha256:ff7a55a20590a06b127be640d71ae9ff18349a12ebb6e9024e8d82bbdfe82c10",
+    "tests/product/test_paper_feedback_projection.py": "sha256:b94d5c2e474fe5ab9bc9ee062674084dcd369d7973ab951ed34189099f67ad12",
+    "src/storage/runtime.py": "sha256:5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593",
+    "src/storage/product_dispatch.py": "sha256:962f2bad9eeda38569af9b95d5688acd292e14816b4301e5a6ec4d71685d2db7",
+    "src/application/paper/engine.py": "sha256:7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6",
+    "src/application/cloud/paper_feedback.py": "sha256:26b22c4bab4f21e61f0e1ab0c8104c89fc08f9baeca822891dec63668fbafd61",
+    "src/application/cloud/public_feedback.py": "sha256:55ea41b3d0d9577ca90749ac8f34044bc6cc1e9a6dd2d2922f1caee014876ae1"
+  },
+  "verification": {
+    "source_changes": [],
+    "Git_changes": [],
+    "tests_run": [],
+    "native_commands_run": [],
+    "private_data_reads": 0,
+    "network_calls": 0,
+    "qualification_or_requirement_PASS": "NOT_CLAIMED"
+  }
+}

@@ -1,0 +1,88 @@
+test_bundle_is_self_contained_deterministic_and_dispatch_is_strictly_additive (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_bundle_is_self_contained_deterministic_and_dispatch_is_strictly_additive) ... ERROR
+test_default_opt_out_is_nonmonetary_and_never_claims_actual_live (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_default_opt_out_is_nonmonetary_and_never_claims_actual_live) ... ERROR
+test_fixture_actual_live_and_unperformed_metrics_cannot_be_forged_in_public_document (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_fixture_actual_live_and_unperformed_metrics_cannot_be_forged_in_public_document) ... ERROR
+test_missing_result_or_exact_funding_is_unavailable_not_zero_or_live (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_missing_result_or_exact_funding_is_unavailable_not_zero_or_live) ... ok
+test_opt_in_copies_exact_canonical_amounts_and_referenced_funding (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_opt_in_copies_exact_canonical_amounts_and_referenced_funding) ... ERROR
+test_opt_in_flag_requires_exact_bool_and_does_not_take_caller_pass (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_opt_in_flag_requires_exact_bool_and_does_not_take_caller_pass) ... ok
+test_source_consumer_mutations_cannot_relabel_closure_or_original_binding (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_source_consumer_mutations_cannot_relabel_closure_or_original_binding) ... ok
+test_unconditional_private_and_freeform_exclusions_for_both_policies (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unconditional_private_and_freeform_exclusions_for_both_policies) ... ERROR
+
+======================================================================
+ERROR: test_bundle_is_self_contained_deterministic_and_dispatch_is_strictly_additive (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_bundle_is_self_contained_deterministic_and_dispatch_is_strictly_additive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 153, in test_bundle_is_self_contained_deterministic_and_dispatch_is_strictly_additive
+    value=self.project(performance_opt_in=True);bundle=self.api.trading_feedback_bundle(value)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 51, in project
+    return self.api._project_feedback_snapshot(self.snapshot,**options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 155, in _project_feedback_snapshot
+    created_at=result['calculated_at']
+               ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'calculated_at'
+
+======================================================================
+ERROR: test_default_opt_out_is_nonmonetary_and_never_claims_actual_live (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_default_opt_out_is_nonmonetary_and_never_claims_actual_live)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 55, in test_default_opt_out_is_nonmonetary_and_never_claims_actual_live
+    value=self.project()
+          ^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 51, in project
+    return self.api._project_feedback_snapshot(self.snapshot,**options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 155, in _project_feedback_snapshot
+    created_at=result['calculated_at']
+               ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'calculated_at'
+
+======================================================================
+ERROR: test_fixture_actual_live_and_unperformed_metrics_cannot_be_forged_in_public_document (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_fixture_actual_live_and_unperformed_metrics_cannot_be_forged_in_public_document)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 139, in test_fixture_actual_live_and_unperformed_metrics_cannot_be_forged_in_public_document
+    value=self.project(performance_opt_in=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 51, in project
+    return self.api._project_feedback_snapshot(self.snapshot,**options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 155, in _project_feedback_snapshot
+    created_at=result['calculated_at']
+               ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'calculated_at'
+
+======================================================================
+ERROR: test_opt_in_copies_exact_canonical_amounts_and_referenced_funding (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_opt_in_copies_exact_canonical_amounts_and_referenced_funding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 66, in test_opt_in_copies_exact_canonical_amounts_and_referenced_funding
+    value=self.project(performance_opt_in=True);result=self.graph.trade_result.payload
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 51, in project
+    return self.api._project_feedback_snapshot(self.snapshot,**options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 155, in _project_feedback_snapshot
+    created_at=result['calculated_at']
+               ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'calculated_at'
+
+======================================================================
+ERROR: test_unconditional_private_and_freeform_exclusions_for_both_policies (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unconditional_private_and_freeform_exclusions_for_both_policies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 122, in test_unconditional_private_and_freeform_exclusions_for_both_policies
+    value=self.project(performance_opt_in=opt_in)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 51, in project
+    return self.api._project_feedback_snapshot(self.snapshot,**options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 155, in _project_feedback_snapshot
+    created_at=result['calculated_at']
+               ~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'calculated_at'
+
+----------------------------------------------------------------------
+Ran 8 tests in 24.896s
+
+FAILED (errors=5)

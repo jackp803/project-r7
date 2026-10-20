@@ -1,0 +1,26 @@
+test_paper_zero_version_cannot_be_relabelled_as_broker_ledger (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_paper_zero_version_cannot_be_relabelled_as_broker_ledger) ...
+  test_paper_zero_version_cannot_be_relabelled_as_broker_ledger (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_paper_zero_version_cannot_be_relabelled_as_broker_ledger) (validator='constructor-validator') ... FAIL
+  test_paper_zero_version_cannot_be_relabelled_as_broker_ledger (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_paper_zero_version_cannot_be_relabelled_as_broker_ledger) (validator='json-schema') ... FAIL
+
+======================================================================
+FAIL: test_paper_zero_version_cannot_be_relabelled_as_broker_ledger (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_paper_zero_version_cannot_be_relabelled_as_broker_ledger) (validator='constructor-validator')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 204, in test_paper_zero_version_cannot_be_relabelled_as_broker_ledger
+    with self.subTest(validator=name),self.assertRaises(error):validate(value)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_paper_zero_version_cannot_be_relabelled_as_broker_ledger (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_paper_zero_version_cannot_be_relabelled_as_broker_ledger) (validator='json-schema')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 204, in test_paper_zero_version_cannot_be_relabelled_as_broker_ledger
+    with self.subTest(validator=name),self.assertRaises(error):validate(value)
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValidationError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 2.666s
+
+FAILED (failures=2)

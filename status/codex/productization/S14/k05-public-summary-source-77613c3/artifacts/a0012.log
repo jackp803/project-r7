@@ -1,0 +1,45 @@
+test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) ...
+  test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) (target=None, key='namespace') ... ERROR
+  test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) (target='provenance', key='kind') ... ERROR
+  test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) (target='provenance', key='execution') ... ERROR
+
+======================================================================
+ERROR: test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) (target=None, key='namespace')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 192, in test_unhashable_provenance_values_are_typed_rejections
+    with self.subTest(target=target,key=key),self.assertRaises(ValueError):self.api.validate_trading_feedback(value)
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 55, in validate_trading_feedback
+    if (value['namespace'],p['kind'],p['execution']) not in KINDS:raise FeedbackError('TRADING_FEEDBACK_PROVENANCE_INVALID')
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) (target='provenance', key='kind')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 192, in test_unhashable_provenance_values_are_typed_rejections
+    with self.subTest(target=target,key=key),self.assertRaises(ValueError):self.api.validate_trading_feedback(value)
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 55, in validate_trading_feedback
+    if (value['namespace'],p['kind'],p['execution']) not in KINDS:raise FeedbackError('TRADING_FEEDBACK_PROVENANCE_INVALID')
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'list'
+
+======================================================================
+ERROR: test_unhashable_provenance_values_are_typed_rejections (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unhashable_provenance_values_are_typed_rejections) (target='provenance', key='execution')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 192, in test_unhashable_provenance_values_are_typed_rejections
+    with self.subTest(target=target,key=key),self.assertRaises(ValueError):self.api.validate_trading_feedback(value)
+                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\trading_feedback.py", line 55, in validate_trading_feedback
+    if (value['namespace'],p['kind'],p['execution']) not in KINDS:raise FeedbackError('TRADING_FEEDBACK_PROVENANCE_INVALID')
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: unhashable type: 'dict'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.671s
+
+FAILED (errors=3)

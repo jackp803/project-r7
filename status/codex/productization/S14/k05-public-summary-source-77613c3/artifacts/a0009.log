@@ -1,0 +1,21 @@
+test_committed_additive_schema_preserves_privacy_and_fixture_provenance (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_committed_additive_schema_preserves_privacy_and_fixture_provenance) ... ERROR
+
+======================================================================
+ERROR: test_committed_additive_schema_preserves_privacy_and_fixture_provenance (tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_committed_additive_schema_preserves_privacy_and_fixture_provenance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_feedback_privacy.py", line 176, in test_committed_additive_schema_preserves_privacy_and_fixture_provenance
+    schema=json.loads((Path(__file__).resolve().parents[2]/'contracts/trading_feedback_v0_3.schema.json').read_bytes())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<SOURCE_ROOT>\\contracts\\trading_feedback_v0_3.schema.json'
+
+----------------------------------------------------------------------
+Ran 1 test in 2.546s
+
+FAILED (errors=1)

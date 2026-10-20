@@ -1,3 +1,26 @@
+# K05 sanitized historical summary source checkpoint — 2026-10-20
+
+Source `77613c3e91460ba1fe364457aadfac7118e636cd` exact-clean7modules/60cases PASS, unchanged/reaped.
+Evidence: `status/codex/productization/S14/k05-public-summary-source-77613c3/disposition.json`.
+Additive strict v0.3 JSON/schema/escaped HTML consumes original canonical
+amounts and closed_at; default OPT_OUT exports no amounts. Protected actual
+open dispatch returns UNAVAILABLE/null, not zero. Paper owner source fixture
+consumer is separately labeled and does not supply actual broker funding.
+Actual-LIVE HISTORICAL_CANONICAL_RECORDS branch remains unexecuted/unaccepted;
+all exported financial authority NONE. Existing reports/bridge remain compatible.
+Prior candidate6d74 passed59, then a concrete PaperZero relabel counterexample
+failed both validators; exact reserved version now rejected, focused3 and
+final60 passed. Earlier0C/I review predates that finding; fresh repair review
+0C/I inspects exact final hashes (reviewer execution NONE). Every failure saved.
+Genuine funded/closed ProductDispatch positive and H16 stop cleanup/funding/TR
+remain unfinished; K05/H16/native/full acceptance is not claimed.
+Continue E4 observed-ledger source/fixture-only acquisition and actual owner
+integration under existing ADR, no real-provider mapping invented. Then final
+inventory/examples/full/native qualification. Windows ZIP7d821f2 remains the
+qualified release. Master IN_PROGRESS on original task/branch. Public8/responses8,
+additional0/private0/credentialsNONE/capitalNONE/LIVENOT_STARTED/GitHubNOT_USED.
+TargetPC/Ubuntu/cloud/policies/forward remain external or unselected.
+
 # K05 readonly history foundation source checkpoint — 2026-10-20
 
 Source `cb0724c0d292a0058435b07e76eec96d56356373` exact-clean2modules/27cases PASS (14RO+13dispatch),

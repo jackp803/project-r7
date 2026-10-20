@@ -1,0 +1,41 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Reserved PaperZero model-version relabel repair only",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "subject_hashes": {
+    "src/application/cloud/trading_feedback.py": "fa26800f60539d3f72face427bf4bb31ccb7a5bd60123816ffc2f902dff8e32b",
+    "contracts/trading_feedback_v0_3.schema.json": "30c114c39785a29537d832794e20f7c31494fe64361f5c56833e2337d5f427f1",
+    "tests/product/test_k05_feedback_privacy.py": "8eda8629f513c2ed52e8f2ad8013c7b10ee89f0cd53d71fb332e382774a0b049",
+    "docs/product/v0_2/TRADING_FEEDBACK_IMPLEMENTATION.md": "a145bff63dc4489e42e567aa2ba89ace5028b9ce875987736786aeb23ba96fd1"
+  },
+  "resolved_findings": [
+    {
+      "severity": "Important",
+      "status": "RESOLVED_STATICALLY",
+      "description": "BROKER_LEDGER could previously retain reserved paper-zero-funding-v0.1 while claiming dispatch provenance.",
+      "source": "src/application/cloud/trading_feedback.py:85-86",
+      "contract": "contracts/trading_feedback_v0_3.schema.json:69-70",
+      "resolution": "Python rejects the exact BROKER_LEDGER/reserved-version pair. The dispatch AVAILABLE JSON Schema branch excludes that exact reserved version."
+    }
+  ],
+  "regression_review": {
+    "path": "tests/product/test_k05_feedback_privacy.py:194-204",
+    "description": "Starts from an actual Paper-owner consumer projection, supplies actual fixture release public fields, changes only reporting provenance/funding kind while preserving the reserved version, and requires both runtime and JSON Schema validators to reject.",
+    "execution": "NOT_EXECUTED_BY_REVIEWER"
+  },
+  "preservation_checks": [
+    "PAPER_OWNER_SOURCE_FIXTURE with PAPER_MODEL/paper-zero-funding-v0.1 remains the existing valid consumer combination.",
+    "UNAVAILABLE documents keep all funding fields null; the new rule does not change that branch.",
+    "Non-reserved BROKER_LEDGER versions remain permitted by the existing dispatch branch; no new closed-dispatch positive is inferred.",
+    "The implementation document retains explicit consumer-only, H16-pending, actual-LIVE-unproven and no-authority limits."
+  ],
+  "source_bytes_unchanged_on_final_read": true,
+  "limitations": [
+    "Static source/schema/test/document inspection only; no test, process, native, DB, auth/config, provider, network or Git operation was executed.",
+    "This resolves export semantic relabeling only. It does not prove a funded closed dispatch lifecycle, K05/H16 acceptance, actual LIVE commissioning, native qualification or whole-Master completion.",
+    "The earlier K05 0/0 review predates the identified relabel counterexample; this fresh result applies to the exact four hashes above."
+  ]
+}

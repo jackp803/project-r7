@@ -1,0 +1,198 @@
+"""Strict additive K05 consumer-boundary source tests, no native/LIVE credit.
+
+The canonical graph below is genuinely produced by PaperService/PaperBroker/E5/E6.
+The private formatter input is an explicit PAPER_OWNER_SOURCE_FIXTURE consumer
+fixture, NOT a ProductDispatch read receipt, H16 lifecycle or actual LIVE history.
+Proposed internal names/document fields are explained in K05-test-design.json.
+No SQL financial row, CLOSED projection or TradeResult is hand-written here.
+"""
+import copy
+from dataclasses import asdict,replace
+import importlib
+import json
+from pathlib import Path
+import unittest
+
+from application.cloud.manifest import canonical_bytes,byte_hash
+from tests.product import test_paper_runtime_v02 as paper_fixtures
+
+
+class K05FixtureConsumerPrivacyTests(unittest.TestCase):
+    def setUp(self):
+        self.api=importlib.import_module('application.cloud.trading_feedback')  # PROPOSED
+        self.h=paper_fixtures.PaperRuntimeV02Tests(methodName='runTest')
+        self.addCleanup(lambda:self.assertTrue(self.h.doCleanups(),'Actual Paper fixture cleanup failed'))
+        self.h.setUp();self.runtime=self.h.start()
+        for seconds,price,bars,status in ((0,'60000',True,'ACKNOWLEDGED'),
+                                          (1,'60000',False,'PROTECTED'),
+                                          (2,'60020',False,'EXIT_REQUESTED'),
+                                          (3,'60020',False,'CLOSED')):
+            self.assertEqual(status,self.runtime.on_market_event(self.h.event(seconds,price,bars=bars)).status)
+        self.process=self.h.process.recover(self.runtime.run_id)
+        result=self.process.state['runtime']['closed_trades'][0]
+        self.graph=self.h.canonical.recover(trade_plan_id=result['trade_plan_id'],position_id=result['position_id'])
+        self.assertEqual('READY',self.graph.status)
+        self.assertEqual('CLOSED',self.graph.current_position_projection.payload['lifecycle_state'])
+        self.assertEqual(2,len(self.graph.fills));self.assertEqual(result,self.graph.trade_result.payload)
+        matches=[row for row in self.graph.funding_evidence
+                 if row.canonical_id==result['funding_evidence_id']]
+        self.assertEqual(1,len(matches));self.funding=matches[0]
+        self.assertEqual('PAPER_MODEL',self.funding.payload['source_kind'])
+        self.assertEqual('paper-zero-funding-v0.1',self.funding.payload['source_version'])
+        self.snapshot=self.api._TradingFeedbackSnapshot(
+            namespace='FIXTURE',provenance_kind='PAPER_OWNER_SOURCE_FIXTURE',
+            execution='SIMULATED_MECHANICS',original_run_id=self.runtime.run_id,
+            original_process_generation=self.process.process_generation,
+            original_binding_json=self.process.binding_json,
+            original_binding_hash=byte_hash(self.process.binding_json.encode('utf-8')),
+            canonical=self.graph,canonical_graph_hash=byte_hash(canonical_bytes(asdict(self.graph))),
+            dispatch_binding_json=None)
+
+    def project(self,**options):
+        return self.api._project_feedback_snapshot(self.snapshot,**options)
+
+    def test_default_opt_out_is_nonmonetary_and_never_claims_actual_live(self):
+        before=self.h.process.recover(self.runtime.run_id)
+        value=self.project()
+        self.assertEqual('r7-trading-summary-feedback-v0.3',value['schema_version'])
+        self.assertEqual('OPT_OUT',value['performance_policy']);self.assertIsNone(value['performance'])
+        self.assertEqual('PAPER_OWNER_SOURCE_FIXTURE',value['provenance']['kind'])
+        self.assertEqual('SIMULATED_MECHANICS',value['provenance']['execution'])
+        self.assertEqual({'status':'NOT_RUN','performance':None},value['actual_live'])
+        self.assertEqual('NONE',value['financial_authority'])
+        self.assertEqual('PAPER_MODEL',value['funding']['source_kind'])
+        self.assertEqual(before,self.h.process.recover(self.runtime.run_id))
+
+    def test_opt_in_copies_exact_canonical_amounts_and_referenced_funding(self):
+        value=self.project(performance_opt_in=True);result=self.graph.trade_result.payload
+        self.assertEqual('OPT_IN',value['performance_policy'])
+        self.assertEqual({key:result[key] for key in ('gross_pnl','net_pnl','total_fees')}
+                         | {'funding_cost':self.funding.payload['funding_cost']},value['performance'])
+        self.assertTrue(all(type(number) is str for number in value['performance'].values()))
+        self.assertEqual({'status':'NOT_RUN','performance':None},value['actual_live'])
+        self.assertNotIn('max_drawdown',value['performance'])
+        self.assertNotIn('expectancy',value['performance'])
+        # Do not silently treat PaperZero as observed actual-provider settlement.
+        self.assertEqual('paper-zero-funding-v0.1',value['funding']['source_version'])
+
+    def test_opt_in_flag_requires_exact_bool_and_does_not_take_caller_pass(self):
+        for bad in (0,1,'OPT_IN',None,{'passed':True}):
+            with self.subTest(bad=bad),self.assertRaises(ValueError):
+                self.project(performance_opt_in=bad)
+        with self.assertRaises(TypeError):
+            self.api._project_feedback_snapshot(self.snapshot,passed=True)
+        with self.assertRaises((TypeError,ValueError)):
+            self.api.build_trading_feedback({'passed':True},self.runtime.run_id,
+                                           self.graph.trade_plan_id,performance_opt_in=True)
+
+    def test_missing_result_or_exact_funding_is_unavailable_not_zero_or_live(self):
+        no_result=replace(self.graph,trade_result=None)
+        absent=replace(self.snapshot,canonical=no_result,
+                       canonical_graph_hash=byte_hash(canonical_bytes(asdict(no_result))))
+        value=self.api._project_feedback_snapshot(absent,performance_opt_in=True)
+        self.assertEqual('UNAVAILABLE',value['availability']);self.assertIsNone(value['performance'])
+        self.assertEqual({'status':'NOT_RUN','performance':None},value['actual_live'])
+        for graph in (replace(self.graph,funding_evidence=()),
+                      replace(self.graph,funding_evidence=(replace(self.funding,canonical_id='WRONG_FUNDING_REFERENCE'),))):
+            with self.subTest(funding=graph.funding_evidence),self.assertRaises(ValueError):
+                self.api._project_feedback_snapshot(replace(self.snapshot,canonical=graph),performance_opt_in=True)
+
+    def test_source_consumer_mutations_cannot_relabel_closure_or_original_binding(self):
+        # These are in-memory captured-commitment mismatches, never stored owner
+        # facts. Persisted hash-consistent reference corruption belongs to the
+        # H16-dependent actual reader tests, not a second formatter financial engine.
+        open_payload=dict(self.graph.current_position_projection.payload,lifecycle_state='OPEN_PROTECTED')
+        raw=canonical_bytes(open_payload).decode('utf-8')
+        changed_projection=replace(self.graph.current_position_projection,
+            payload_json=raw,payload_hash=byte_hash(raw.encode('utf-8')))
+        bad_binding=json.loads(self.process.binding_json);bad_binding['strategy_content_hash']='sha256:'+'f'*64
+        cases=(replace(self.snapshot,namespace='LOCAL_RESEARCH'),
+               replace(self.snapshot,execution='ACTUAL_OWNER'),
+               replace(self.snapshot,canonical=replace(self.graph,current_position_projection=changed_projection)),
+               replace(self.snapshot,canonical=replace(self.graph,fills=self.graph.fills[:1])),
+               replace(self.snapshot,original_binding_json=canonical_bytes(bad_binding).decode('utf-8')))
+        for snapshot in cases:
+            with self.subTest(snapshot=snapshot),self.assertRaises(ValueError):
+                self.api._project_feedback_snapshot(snapshot,performance_opt_in=True)
+
+    def test_unconditional_private_and_freeform_exclusions_for_both_policies(self):
+        aliases=('provider_order_id','broker_order_id','provider_account_id','account_ref',
+                 'account_balance','balance','equity','api_key','credentials','access_token',
+                 'raw_provider_payload','raw_response','local_path','human_identity','unknown_note')
+        for opt_in in (False,True):
+            value=self.project(performance_opt_in=opt_in)
+            raw=canonical_bytes(value).decode('utf-8')
+            self.assertNotIn(str(self.h.root),raw)
+            self.assertNotIn(self.runtime.run_id,raw)  # public hashed local reference only
+            for field in aliases:
+                with self.subTest(policy=opt_in,field=field):
+                    for target in (None,'strategy','provenance','funding'):
+                        tampered=copy.deepcopy(value)
+                        if target is None:tampered[field]='SYNTHETIC_PRIVATE_CANARY'
+                        else:tampered[target][field]='SYNTHETIC_PRIVATE_CANARY'
+                        with self.assertRaises(ValueError):self.api.validate_trading_feedback(tampered)
+            monetary=copy.deepcopy(value)
+            if not opt_in:
+                monetary['performance']={'net_pnl':'1'}
+                with self.assertRaises(ValueError):self.api.validate_trading_feedback(monetary)
+
+    def test_fixture_actual_live_and_unperformed_metrics_cannot_be_forged_in_public_document(self):
+        value=self.project(performance_opt_in=True)
+        for replacement in ({'status':'PASS','performance':value['performance']},
+                             {'status':'EXECUTED','performance':value['performance']},
+                             {'status':'NOT_RUN','performance':value['performance']}):
+            tampered=copy.deepcopy(value);tampered['actual_live']=replacement
+            with self.subTest(replacement=replacement),self.assertRaises(ValueError):
+                self.api.validate_trading_feedback(tampered)
+        for bad in (0.1,float('inf'),'NaN','Infinity',True,{'value':'1'}):
+            tampered=copy.deepcopy(value);tampered['performance']['net_pnl']=bad
+            with self.subTest(bad=bad),self.assertRaises(ValueError):self.api.validate_trading_feedback(tampered)
+
+    def test_bundle_is_self_contained_deterministic_and_dispatch_is_strictly_additive(self):
+        from application.cloud.public_feedback import validate_public_feedback_publication
+        from application.cloud.paper_feedback import build_paper_feedback,validate_paper_feedback,paper_feedback_bundle
+        value=self.project(performance_opt_in=True);bundle=self.api.trading_feedback_bundle(value)
+        self.assertEqual(bundle,self.api.trading_feedback_bundle(value))
+        self.assertEqual({'feedback.json','report.html'},set(bundle.payloads))
+        validate_public_feedback_publication(bundle.logical_path,dict(bundle.payloads))
+        text=bundle.payloads['report.html'].decode('utf-8')
+        self.assertIn('PAPER_OWNER_SOURCE_FIXTURE',text);self.assertIn('NOT_RUN',text)
+        self.assertIn('default-src',text);self.assertNotIn('<script',text)
+        changed=dict(bundle.payloads);changed['report.html']+=b'<script>SYNTHETIC</script>'
+        with self.assertRaises(ValueError):validate_public_feedback_publication(bundle.logical_path,changed)
+        unknown=copy.deepcopy(value);unknown['schema_version']='r7-trading-summary-feedback-v999'
+        unknown_payloads=dict(bundle.payloads,**{'feedback.json':canonical_bytes(unknown)})
+        with self.assertRaises(ValueError):validate_public_feedback_publication(bundle.logical_path,unknown_payloads)
+        # Existing Paper v0.2 constructor/validator/bundle keep their LIVE placeholder.
+        old=build_paper_feedback(self.runtime)
+        self.assertEqual({'status':'NOT_RUN','performance':None},old['live'])
+        validate_paper_feedback(old);old_bundle=paper_feedback_bundle(old)
+        validate_public_feedback_publication(old_bundle.logical_path,dict(old_bundle.payloads))
+        forged=copy.deepcopy(old);forged['live']={'status':'PASS','performance':{'net_pnl':'1'}}
+        with self.assertRaises(ValueError):validate_paper_feedback(forged)
+
+    def test_committed_additive_schema_preserves_privacy_and_fixture_provenance(self):
+        from jsonschema import Draft202012Validator,ValidationError
+        schema=json.loads((Path(__file__).resolve().parents[2]/'contracts/trading_feedback_v0_3.schema.json').read_bytes())
+        validator=Draft202012Validator(schema);validator.check_schema(schema)
+        for opt_in in (False,True):
+            value=self.project(performance_opt_in=opt_in);validator.validate(value)
+            self.assertEqual(value['closed_at'],self.graph.trade_result.payload['closed_at'])
+            for target,field in ((None,'raw_provider_payload'),('provenance','account_ref'),('funding','balance')):
+                invalid=copy.deepcopy(value)
+                (invalid if target is None else invalid[target])[field]='PRIVATE_CANARY'
+                with self.assertRaises(ValidationError):validator.validate(invalid)
+            invalid=copy.deepcopy(value);invalid['actual_live']={'status':'HISTORICAL_CANONICAL_RECORDS','performance':value['performance']}
+            with self.assertRaises(ValidationError):validator.validate(invalid)
+
+    def test_unhashable_provenance_values_are_typed_rejections(self):
+        for target,key,malformed in ((None,'namespace',[]),('provenance','kind',[]),('provenance','execution',{})):
+            value=self.project()
+            (value if target is None else value[target])[key]=malformed
+            with self.subTest(target=target,key=key),self.assertRaises(ValueError):self.api.validate_trading_feedback(value)
+
+
+# No H16/actual-LIVE positive is hidden here. The public constructor's complete
+# dispatch+canonical positive and persisted-corruption/race tests depend on the
+# actual H16 fixture listed in the design. Do not replace it with this consumer
+# formatter fixture, SQL rows or a stored/caller 'passed=True'.

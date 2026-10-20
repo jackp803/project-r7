@@ -8,5 +8,8 @@ def validate_public_feedback_publication(logical_path,payloads):
     if isinstance(document,dict) and document.get('schema_version')=='r7-paper-feedback-v0.2':
         from application.cloud.paper_feedback import validate_paper_feedback_publication
         validate_paper_feedback_publication(logical_path,payloads)
+    elif isinstance(document,dict) and document.get('schema_version')=='r7-trading-summary-feedback-v0.3':
+        from application.cloud.trading_feedback import validate_trading_feedback_publication
+        validate_trading_feedback_publication(logical_path,payloads)
     else:
         validate_feedback_publication(logical_path,payloads)

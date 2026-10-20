@@ -9,6 +9,7 @@ from contextlib import ExitStack, closing,contextmanager
 from dataclasses import FrozenInstanceError
 from datetime import timedelta
 import importlib
+import json
 from pathlib import Path
 import sqlite3
 from tempfile import TemporaryDirectory
@@ -260,6 +261,18 @@ class K05ActualOpenOwnerHistoryTests(unittest.TestCase):
         for malformed in ('[]','null'):
             with self.subTest(shape=malformed),self.corrupt_text('strategy_versions','definition_json',malformed,'strategy_versions_immutable_content'):
                 with self.assertRaises(self.api.TradingFeedbackReadError):self.read()
+
+    def test_public_constructor_uses_actual_read_port_and_keeps_ack_performance_unavailable(self):
+        from application.cloud.trading_feedback import build_trading_feedback,validate_trading_feedback
+        before=self.baseline()
+        with self.api.open_trading_feedback_reader(self.path,self.path,namespace='FIXTURE') as reader:
+            value=build_trading_feedback(reader,self.run_id,self.plan_id,performance_opt_in=True)
+        validate_trading_feedback(value)
+        self.assertEqual(value['provenance']['kind'],'FAKE_PROVIDER_VERIFICATION')
+        self.assertEqual(value['availability'],'UNAVAILABLE');self.assertIsNone(value['performance'])
+        self.assertEqual(value['actual_live'],{'status':'NOT_RUN','performance':None})
+        self.assertIsNone(value['closed_at']);self.assertNotIn('observed_process_generation',json.dumps(value))
+        self.assertEqual(before,self.baseline())
 
 
 # H16-dependent tests are specified in the design, not implemented as skipped

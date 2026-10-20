@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "R7 sanitized historical trading summary v0.3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "namespace", "strategy", "provenance", "binding", "references", "closed_at", "availability", "sample_count", "funding", "performance_policy", "performance", "actual_live", "financial_authority", "uncertainty"],
+  "properties": {
+    "schema_version": {"const": "r7-trading-summary-feedback-v0.3"},
+    "namespace": {"enum": ["FIXTURE", "LOCAL_RESEARCH"]},
+    "strategy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["strategy_id", "strategy_version", "content_hash"],
+      "properties": {"strategy_id": {"$ref": "#/$defs/component"}, "strategy_version": {"$ref": "#/$defs/component"}, "content_hash": {"$ref": "#/$defs/hash"}}
+    },
+    "provenance": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "execution"],
+      "properties": {"kind": {"enum": ["PAPER_OWNER_SOURCE_FIXTURE", "FAKE_PROVIDER_VERIFICATION", "HISTORICAL_TRADING_OWNER"]}, "execution": {"enum": ["SIMULATED_MECHANICS", "ACTUAL_OWNER"]}}
+    },
+    "binding": {"oneOf": [{"$ref": "#/$defs/paper_binding"}, {"$ref": "#/$defs/dispatch_binding"}]},
+    "references": {
+      "type": "object", "additionalProperties": false,
+      "required": ["run_hash", "trade_plan_hash", "position_hash", "trade_result_hash", "original_binding_hash"],
+      "properties": {"run_hash": {"$ref": "#/$defs/hash"}, "trade_plan_hash": {"$ref": "#/$defs/hash"}, "position_hash": {"$ref": "#/$defs/nullable_hash"}, "trade_result_hash": {"$ref": "#/$defs/nullable_hash"}, "original_binding_hash": {"$ref": "#/$defs/hash"}}
+    },
+    "closed_at": {"anyOf": [{"$ref": "#/$defs/utc"}, {"type": "null"}]},
+    "availability": {"enum": ["AVAILABLE", "UNAVAILABLE"]},
+    "sample_count": {"type": "integer", "minimum": 0, "maximum": 1},
+    "funding": {
+      "type": "object", "additionalProperties": false, "required": ["source_kind", "source_version", "evidence_hash"],
+      "properties": {"source_kind": {"enum": ["PAPER_MODEL", "BROKER_LEDGER", null]}, "source_version": {"anyOf": [{"$ref": "#/$defs/component"}, {"type": "null"}]}, "evidence_hash": {"$ref": "#/$defs/nullable_hash"}}
+    },
+    "performance_policy": {"enum": ["OPT_OUT", "OPT_IN"]},
+    "performance": {"anyOf": [{"$ref": "#/$defs/performance"}, {"type": "null"}]},
+    "actual_live": {
+      "type": "object", "additionalProperties": false, "required": ["status", "performance"],
+      "properties": {"status": {"enum": ["NOT_RUN", "HISTORICAL_CANONICAL_RECORDS"]}, "performance": {"anyOf": [{"$ref": "#/$defs/performance"}, {"type": "null"}]}}
+    },
+    "financial_authority": {"const": "NONE"},
+    "uncertainty": {"const": [
+      "Historical canonical records are not current trading permission or a guarantee of future performance.",
+      "Paper and fake-provider source fixtures do not establish actual LIVE performance.",
+      "One closed trade is not an independent research or forward qualification sample."
+    ]}
+  },
+  "allOf": [
+    {"oneOf": [
+      {"properties": {"namespace": {"const": "FIXTURE"}, "provenance": {"properties": {"kind": {"const": "PAPER_OWNER_SOURCE_FIXTURE"}, "execution": {"const": "SIMULATED_MECHANICS"}}}, "binding": {"$ref": "#/$defs/paper_binding"}}},
+      {"properties": {"namespace": {"const": "FIXTURE"}, "provenance": {"properties": {"kind": {"const": "FAKE_PROVIDER_VERIFICATION"}, "execution": {"const": "SIMULATED_MECHANICS"}}}, "binding": {"$ref": "#/$defs/dispatch_binding"}}},
+      {"properties": {"namespace": {"const": "LOCAL_RESEARCH"}, "provenance": {"properties": {"kind": {"const": "HISTORICAL_TRADING_OWNER"}, "execution": {"const": "ACTUAL_OWNER"}}}, "binding": {"$ref": "#/$defs/dispatch_binding"}}}
+    ]},
+    {
+      "if": {"properties": {"availability": {"const": "AVAILABLE"}}},
+      "then": {"properties": {"sample_count": {"const": 1}, "closed_at": {"$ref": "#/$defs/utc"}, "references": {"properties": {"position_hash": {"$ref": "#/$defs/hash"}, "trade_result_hash": {"$ref": "#/$defs/hash"}}}, "funding": {"properties": {"source_kind": {"enum": ["PAPER_MODEL", "BROKER_LEDGER"]}, "source_version": {"$ref": "#/$defs/component"}, "evidence_hash": {"$ref": "#/$defs/hash"}}}}},
+      "else": {"properties": {"sample_count": {"const": 0}, "closed_at": {"const": null}, "funding": {"const": {"source_kind": null, "source_version": null, "evidence_hash": null}}, "performance": {"const": null}}}
+    },
+    {
+      "if": {"properties": {"performance_policy": {"const": "OPT_OUT"}}},
+      "then": {"properties": {"performance": {"const": null}, "actual_live": {"properties": {"performance": {"const": null}}}}}
+    },
+    {
+      "if": {"properties": {"performance_policy": {"const": "OPT_IN"}, "availability": {"const": "AVAILABLE"}}},
+      "then": {"properties": {"performance": {"$ref": "#/$defs/performance"}}}
+    },
+    {
+      "if": {"properties": {"availability": {"const": "AVAILABLE"}, "provenance": {"properties": {"kind": {"const": "PAPER_OWNER_SOURCE_FIXTURE"}}}}},
+      "then": {"properties": {"funding": {"properties": {"source_kind": {"const": "PAPER_MODEL"}, "source_version": {"const": "paper-zero-funding-v0.1"}}}}}
+    },
+    {
+      "if": {"properties": {"availability": {"const": "AVAILABLE"}, "provenance": {"properties": {"kind": {"enum": ["FAKE_PROVIDER_VERIFICATION", "HISTORICAL_TRADING_OWNER"]}}}}},
+      "then": {"properties": {"funding": {"properties": {"source_kind": {"const": "BROKER_LEDGER"}}}}}
+    },
+    {
+      "if": {"properties": {"availability": {"const": "AVAILABLE"}, "provenance": {"properties": {"kind": {"const": "HISTORICAL_TRADING_OWNER"}}}}},
+      "then": {"properties": {"actual_live": {"properties": {"status": {"const": "HISTORICAL_CANONICAL_RECORDS"}}}}},
+      "else": {"properties": {"actual_live": {"const": {"status": "NOT_RUN", "performance": null}}}}
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "nullable_hash": {"anyOf": [{"$ref": "#/$defs/hash"}, {"type": "null"}]},
+    "component": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,95}$"},
+    "utc": {"type": "string", "format": "date-time", "pattern": "Z$"},
+    "generation": {"type": "integer", "minimum": 1, "maximum": 2147483647},
+    "amount": {"type": "string", "maxLength": 128, "pattern": "^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[Ee][+-]?[0-9]+)?$"},
+    "performance": {"type": "object", "additionalProperties": false, "required": ["gross_pnl", "net_pnl", "total_fees", "funding_cost"], "properties": {"gross_pnl": {"$ref": "#/$defs/amount"}, "net_pnl": {"$ref": "#/$defs/amount"}, "total_fees": {"$ref": "#/$defs/amount"}, "funding_cost": {"$ref": "#/$defs/amount"}}},
+    "paper_binding": {
+      "type": "object", "additionalProperties": false, "required": ["implementation_hash", "config_hash", "risk_policy_hash", "paper_policy_hash"],
+      "properties": {"implementation_hash": {"$ref": "#/$defs/hash"}, "config_hash": {"$ref": "#/$defs/hash"}, "risk_policy_hash": {"$ref": "#/$defs/hash"}, "paper_policy_hash": {"$ref": "#/$defs/hash"}}
+    },
+    "dispatch_binding": {
+      "type": "object", "additionalProperties": false, "required": ["implementation_hash", "config_hash", "risk_policy_hash", "build_hash", "capability_hash", "provider_profile_hash", "executable_revision", "config_generation", "risk_generation", "runtime_generation"],
+      "properties": {"implementation_hash": {"$ref": "#/$defs/hash"}, "config_hash": {"$ref": "#/$defs/hash"}, "risk_policy_hash": {"$ref": "#/$defs/hash"}, "build_hash": {"$ref": "#/$defs/hash"}, "capability_hash": {"$ref": "#/$defs/hash"}, "provider_profile_hash": {"$ref": "#/$defs/hash"}, "executable_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}, "config_generation": {"$ref": "#/$defs/generation"}, "risk_generation": {"$ref": "#/$defs/generation"}, "runtime_generation": {"$ref": "#/$defs/generation"}}
+    }
+  }
+}

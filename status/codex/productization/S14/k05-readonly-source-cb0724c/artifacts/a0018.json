@@ -1,0 +1,61 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "K05 RO foundation I1/I2 repairs and independent race/hash/revocation source regressions",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 1
+  },
+  "reviewed_files": [
+    {
+      "path": "src/storage/trading_feedback.py",
+      "sha256": "1b44a6b0934cd8f3bd7642e6c46f63a86557dee459588dd1b8e2e9666baf2d69"
+    },
+    {
+      "path": "tests/product/test_k05_readonly_history.py",
+      "sha256": "9984b8f2964f1fc61cfde8d05c9bc779c58d0e06c695c8875f249a4f980b7ae7"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "K05-RO-I1",
+      "status": "RESOLVED",
+      "evidence": "Both owned schema/namespace checks run inside every actual snapshot transaction."
+    },
+    {
+      "id": "K05-RO-I2",
+      "status": "BINDING_AND_CLAIM_BLOB_PATH_RESOLVED",
+      "evidence": "_dispatch_document requires raw text and a text commitment before the existing exact canonical/hash validator. Source tests preserve original valid JSON bytes as BLOB, so the intended type guard is reached while SQLite JSON indexes and exact triggers/schema remain valid."
+    }
+  ],
+  "findings": [
+    {
+      "id": "K05-RO-I3",
+      "severity": "Important",
+      "file": "src/storage/trading_feedback.py",
+      "lines": [
+        132,
+        133
+      ],
+      "related": [
+        "src/strategy/runtime.py:134-136"
+      ],
+      "issue": "Decoded strategy definition shape can still escape typed malformed-data refusal.",
+      "evidence": "definition_json is required to be text but json.loads output is passed directly to compute_content_hash. That existing helper immediately calls definition.get. A genuine strategy version row corrupted to text []/null, retaining its original content_hash and exact owned schema, passes the stored content_hash comparison then raises AttributeError outside the reader translation boundary.",
+      "minimal_fix": "Require a decoded mapping/object before calling the unchanged content-hash helper. Preserve the original stored strategy content commitment and do not broaden exception masking or change strategy semantics.",
+      "minimal_regression": "Corrupt the genuine immutable strategy_versions.definition_json to [] and null while restoring each original row and exact trigger/schema. Require TradingFeedbackReadError, no reader writes or changed generations, and no caller-constructed financial outcome."
+    }
+  ],
+  "static_test_assessment": [
+    "The new split-store test uses two real backup copies in WAL mode and a real successor dispatch append during canonical recovery, then requires TRADING_HISTORY_SNAPSHOT_CHANGED and unchanged original stores.",
+    "Canonical payload/hash corruption uses genuine owner rows and restores each row plus exact immutable schema. It asserts typed refusal rather than a fabricated zero/closed summary.",
+    "Actual E6 approval revocation is checked to deny current runtime permission while the historical read remains unchanged and never calls admission.evaluate. This correctly separates historical facts from current authority.",
+    "The source plan is bound through prepared.source_plan_hash and actual immutable E6 strategy version/content, not an invented ApprovedTradePlan field or composite authority_hash equality."
+  ],
+  "prior_review": "artifacts/current-windows-20261019/k05-readonly-history-source-review.json",
+  "limits": [
+    "Static public source reads and raw-byte hashing only; no tests/native/product/process execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "Root-reported REDs and active 13+13 source run are not reviewer execution or final qualification.",
+    "Public feedback formatter, genuine owner-complete closed H16 fixture, K05 requirement PASS, installed-native/LIVE/real-provider and full-product acceptance remain unimplemented/unasserted."
+  ]
+}

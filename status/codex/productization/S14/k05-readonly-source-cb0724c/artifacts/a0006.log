@@ -1,0 +1,74 @@
+test_actual_ack_and_pending_order_are_not_closed_performance (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_actual_ack_and_pending_order_are_not_closed_performance) ... ERROR
+test_namespace_mismatch_refused_without_owner_effect (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_namespace_mismatch_refused_without_owner_effect) ... ok
+test_new_real_owner_generation_does_not_turn_the_old_snapshot_into_current_authority (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_new_real_owner_generation_does_not_turn_the_old_snapshot_into_current_authority) ... ERROR
+test_reader_uses_real_readonly_query_only_connections_and_no_writer_factory (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_reader_uses_real_readonly_query_only_connections_and_no_writer_factory) ... ERROR
+test_repeated_snapshots_do_not_allocate_generation_or_mutate_canonical_history (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_repeated_snapshots_do_not_allocate_generation_or_mutate_canonical_history) ... ERROR
+test_unknown_run_or_unassociated_plan_is_not_selected_by_latest_row (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_unknown_run_or_unassociated_plan_is_not_selected_by_latest_row) ... ok
+test_missing_store_does_not_create_replacement_or_migration (tests.product.test_k05_readonly_history.K05ReadBoundaryTests.test_missing_store_does_not_create_replacement_or_migration) ... ok
+test_unknown_or_incomplete_schema_is_refused_without_migration (tests.product.test_k05_readonly_history.K05ReadBoundaryTests.test_unknown_or_incomplete_schema_is_refused_without_migration) ... ok
+
+======================================================================
+ERROR: test_actual_ack_and_pending_order_are_not_closed_performance (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_actual_ack_and_pending_order_are_not_closed_performance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 101, in test_actual_ack_and_pending_order_are_not_closed_performance
+    before=self.baseline();snapshot=self.read()
+                                    ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 91, in read
+    with self.api.open_trading_feedback_reader(self.path,self.path,namespace=namespace) as reader:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 192, in open_trading_feedback_reader
+    raise TradingFeedbackReadError() from None
+storage.trading_feedback.TradingFeedbackReadError: TRADING_HISTORY_UNAVAILABLE
+
+======================================================================
+ERROR: test_new_real_owner_generation_does_not_turn_the_old_snapshot_into_current_authority (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_new_real_owner_generation_does_not_turn_the_old_snapshot_into_current_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 174, in test_new_real_owner_generation_does_not_turn_the_old_snapshot_into_current_authority
+    old=self.read();graph=self.h.canonical.recover(trade_plan_id=self.plan_id)
+        ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 91, in read
+    with self.api.open_trading_feedback_reader(self.path,self.path,namespace=namespace) as reader:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 192, in open_trading_feedback_reader
+    raise TradingFeedbackReadError() from None
+storage.trading_feedback.TradingFeedbackReadError: TRADING_HISTORY_UNAVAILABLE
+
+======================================================================
+ERROR: test_reader_uses_real_readonly_query_only_connections_and_no_writer_factory (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_reader_uses_real_readonly_query_only_connections_and_no_writer_factory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 154, in test_reader_uses_real_readonly_query_only_connections_and_no_writer_factory
+    with self.api.open_trading_feedback_reader(self.path,self.path,namespace='FIXTURE') as reader:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 192, in open_trading_feedback_reader
+    raise TradingFeedbackReadError() from None
+storage.trading_feedback.TradingFeedbackReadError: TRADING_HISTORY_UNAVAILABLE
+
+======================================================================
+ERROR: test_repeated_snapshots_do_not_allocate_generation_or_mutate_canonical_history (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_repeated_snapshots_do_not_allocate_generation_or_mutate_canonical_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 162, in test_repeated_snapshots_do_not_allocate_generation_or_mutate_canonical_history
+    before=self.baseline();first=self.read();second=self.read()
+                                 ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 91, in read
+    with self.api.open_trading_feedback_reader(self.path,self.path,namespace=namespace) as reader:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 192, in open_trading_feedback_reader
+    raise TradingFeedbackReadError() from None
+storage.trading_feedback.TradingFeedbackReadError: TRADING_HISTORY_UNAVAILABLE
+
+----------------------------------------------------------------------
+Ran 8 tests in 20.328s
+
+FAILED (errors=4)

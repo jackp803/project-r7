@@ -1,3 +1,27 @@
+# K05 readonly history foundation source checkpoint — 2026-10-20
+
+Source `cb0724c0d292a0058435b07e76eec96d56356373` exact-clean2modules/27cases PASS (14RO+13dispatch),
+unchanged/reaped; static review0C/I (execution NONE).
+Evidence: `status/codex/productization/S14/k05-readonly-source-cb0724c/disposition.json`.
+Actual original E6 strategy/plan/claimed request history uses protected RO
+connections and existing E6 recovery only. Schema/namespace recheck occurs in
+each snapshot transaction; one same-file transaction or split-store version
+fence. Real successor generation/revocation leaves original history unchanged;
+actual split-store append refuses. No owner/writer/admission/provider in GET.
+Open ACK/pending history has no closed performance, not invented zero.
+Missing-module8errors and implementation/shape/fixture failures preserved.
+Actual diagnostics corrected absent plan content-hash field and composite
+authority_hash versus source_plan_hash; schema/BLOB/object guards stay strict.
+The public summary/formatter/schema is not yet implemented. K05 and full H16
+are NOT accepted. Genuine funded/closed ProductDispatch fixture remains missing.
+Continue strict additive sanitized K05 summary; H16 owned-stop cleanup,
+BROKER_LEDGER source/producer and TradeResult. Later final inventory/examples/
+full/native qualification required. Preserve valid CLOUD08 source6cd and
+fully qualified Windows ZIP7d821f2, original task/branch, Master IN_PROGRESS.
+Public8/responses8, additional0/private0/credentialsNONE/capitalNONE/
+LIVENOT_STARTED/GitHubNOT_USED. TargetPC/Ubuntu/cloud/policies/forward remain
+external or unselected; do not wait for them to finish independent local work.
+
 # Research/Paper report delivery history source checkpoint — 2026-10-20
 
 Source `6cd74d59952c160bfb1d91fb49c966d3df92b0b7` exact-clean5modules/53cases PASS, unchanged/reaped.

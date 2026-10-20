@@ -1,0 +1,30 @@
+READER_EXCEPTION 51 FileNotFoundError NO_CODE
+READER_EXCEPTION 51 FileNotFoundError NO_CODE
+READER_EXCEPTION 51 FileNotFoundError NO_CODE
+READER_EXCEPTION 51 FileNotFoundError NO_CODE
+READER_EXCEPTION 131 TradingFeedbackReadError TRADING_HISTORY_UNAVAILABLE
+READER_EXCEPTION 155 TradingFeedbackReadError TRADING_HISTORY_UNAVAILABLE
+READER_EXCEPTION 190 TradingFeedbackReadError TRADING_HISTORY_UNAVAILABLE
+READER_EXCEPTION 192 TradingFeedbackReadError TRADING_HISTORY_UNAVAILABLE
+test_actual_ack_and_pending_order_are_not_closed_performance (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_actual_ack_and_pending_order_are_not_closed_performance) ... ERROR
+
+======================================================================
+ERROR: test_actual_ack_and_pending_order_are_not_closed_performance (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_actual_ack_and_pending_order_are_not_closed_performance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 101, in test_actual_ack_and_pending_order_are_not_closed_performance
+    before=self.baseline();snapshot=self.read()
+                                    ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 91, in read
+    with self.api.open_trading_feedback_reader(self.path,self.path,namespace=namespace) as reader:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 192, in open_trading_feedback_reader
+    raise TradingFeedbackReadError() from None
+storage.trading_feedback.TradingFeedbackReadError: TRADING_HISTORY_UNAVAILABLE
+
+----------------------------------------------------------------------
+Ran 1 test in 4.218s
+
+FAILED (errors=1)

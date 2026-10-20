@@ -1,0 +1,50 @@
+test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored) ...
+  test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored) (table='product_dispatch_runs') ... ERROR
+  test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored) (table='product_dispatch_intents') ... ERROR
+
+======================================================================
+ERROR: test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored) (table='product_dispatch_runs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 221, in test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored
+    with self.assertRaises(self.api.TradingFeedbackReadError):self.read()
+                                                              ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 92, in read
+    return reader.snapshot(self.run_id if run_id is None else run_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 110, in snapshot
+    binding=_read(row['binding_json'],row['binding_hash'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 69, in _read
+    if digest(raw) != expected:
+       ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\registry\product_assessment.py", line 21, in digest
+    return 'sha256:'+hashlib.sha256(raw.encode('utf-8')).hexdigest()
+                                    ^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'encode'. Did you mean: 'decode'?
+
+======================================================================
+ERROR: test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored (tests.product.test_k05_readonly_history.K05ActualOpenOwnerHistoryTests.test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored) (table='product_dispatch_intents')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 221, in test_blob_binding_and_claim_are_typed_denials_with_owned_schema_restored
+    with self.assertRaises(self.api.TradingFeedbackReadError):self.read()
+                                                              ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_k05_readonly_history.py", line 92, in read
+    return reader.snapshot(self.run_id if run_id is None else run_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\trading_feedback.py", line 133, in snapshot
+    request=_read(claim['request_json'],claim['request_hash'])
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\storage\product_dispatch.py", line 69, in _read
+    if digest(raw) != expected:
+       ^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\registry\product_assessment.py", line 21, in digest
+    return 'sha256:'+hashlib.sha256(raw.encode('utf-8')).hexdigest()
+                                    ^^^^^^^^^^
+AttributeError: 'bytes' object has no attribute 'encode'. Did you mean: 'decode'?
+
+----------------------------------------------------------------------
+Ran 1 test in 3.715s
+
+FAILED (errors=2)

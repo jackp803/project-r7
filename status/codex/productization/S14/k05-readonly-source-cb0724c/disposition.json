@@ -1,0 +1,202 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "cb0724c0d292a0058435b07e76eec96d56356373",
+  "implementation_hash": "sha256:74126a30cebfc6808029a1ab5b2ef217cc1a8f1e674bf3ccd395b26a46e53790",
+  "scope": "K05_READONLY_FOUNDATION_SOURCE_ONLY",
+  "source_cases": 27,
+  "readonly_cases": 14,
+  "dispatch_regression_cases": 13,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "clean_source_unchanged": true,
+  "owned_tree_reaped": true,
+  "independent_review": "0_CRITICAL_0_IMPORTANT_EXECUTION_NONE",
+  "RED": {
+    "missing_reader": "8_CASES_8_ERRORS",
+    "malformed_blob_retry": "1_METHOD_2_REAL_ATTRIBUTE_ERRORS",
+    "malformed_strategy_object": "1_METHOD_2_REAL_ATTRIBUTE_ERRORS"
+  },
+  "implementation_corrections": [
+    "Original ApprovedTradePlan has no strategy_content_hash; actual KeyError diagnosed and replaced with immutable E6 strategy version binding.",
+    "Composite authority_hash is not plan hash; actual valid history refusal diagnosed and corrected to durable source_plan_hash with original E4 hash helper.",
+    "Owned schema/namespace rechecked inside each snapshot transaction, not only context open; actual second-connection trigger removal refuses repeated reads.",
+    "Exact-schema BLOB binding/request and nonobject definition refuse typed before string/mapping helpers; no broad AttributeError masking."
+  ],
+  "fixture_correction": "First BLOB intent used invalid non-JSON bytes rejected by existing expression index before reader; retained. Retry uses exact original valid JSON bytes as BLOB. Current corruption helper restores every original row individually and exact triggers.",
+  "diagnostic_limit": "First trace helper path separator filter missed locations; retained. Second trace proves missing field, third proves composite/plan commitment mismatch. No provider/DB payload was dumped.",
+  "actual_flow": "Actual owner-created dispatch ACK and canonical pending history; RO URI/query_only with write authorizer; actual process successor and approval revocation preserve history; actual WAL-backed split-store successor append causes SNAPSHOT_CHANGED; no writer/admission/provider in normal read.",
+  "available_performance": "NONE_FROM_OPEN_ACK_HISTORY;NOT_ZERO",
+  "public_summary": "NOT_IMPLEMENTED",
+  "K05_acceptance": "NOT_CLAIMED",
+  "H16_complete": "NOT_CLAIMED",
+  "real_cloud": "NOT_RUN",
+  "native_full": "NOT_RUN_FOR_THIS_SOURCE",
+  "frozen_inventory": "STALE_PENDING_FINAL_CANDIDATE",
+  "preserved_qualified_windows": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "master": "IN_PROGRESS",
+  "public_requests_cumulative": 8,
+  "public_responses_cumulative": 8,
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "k05-readonly-source-cb0724c/checkpoint.json",
+      "original_hash": "sha256:a16407a7bfab766442cdd3037186f82c0ef32cab2da6a6e5fe8ebd972a8a042d",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:a16407a7bfab766442cdd3037186f82c0ef32cab2da6a6e5fe8ebd972a8a042d",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-source-cb0724c/source.log",
+      "original_hash": "sha256:f7d8c7b79ebd766e23ddaf962815c9a72b3cd0e98868ddf9468233a7478f7633",
+      "retained_ref": "artifacts/a0002.log",
+      "retained_hash": "sha256:f7d8c7b79ebd766e23ddaf962815c9a72b3cd0e98868ddf9468233a7478f7633",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_k05_readonly_source.py",
+      "original_hash": "sha256:394d19eac5873b0d50fd9bb6600042ded946a24c960ecd746d46517754c4f094",
+      "retained_ref": "artifacts/a0003.py",
+      "retained_hash": "sha256:394d19eac5873b0d50fd9bb6600042ded946a24c960ecd746d46517754c4f094",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-red.log",
+      "original_hash": "sha256:446de046f7bf7bcea1b1167dd28fecef2a6b421693a92ecc494b2cfd48c36abd",
+      "retained_ref": "artifacts/a0004.log",
+      "retained_hash": "sha256:501f742feabcb3a5b50b1ff02592d854a562a3ddbbb410dbf8206db13b4822e6",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-green01.log",
+      "original_hash": "sha256:e2a06f2cec02c5026344dbf14d61f5f7496f026f2354030bb24387acfedd8873",
+      "retained_ref": "artifacts/a0005.log",
+      "retained_hash": "sha256:aa034cef6cb22eef3ad9dc515f421beacb54035b11120ca6b007dcd0fa45d046",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-green02.log",
+      "original_hash": "sha256:a3ed3d048fed547199eba80a66cea89ec2dd3ade85bf4b1c73a00a1b3c7a51a6",
+      "retained_ref": "artifacts/a0006.log",
+      "retained_hash": "sha256:aeef24d599cb001db778942b7a1e0b6d868c69f76d018695457801060e0b46ae",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "diagnose_k05_readonly.py",
+      "original_hash": "sha256:f25dbc8cfc06e2cd03d1d236c33d7dea491226b3ef7858a9c576cb741e9d8ae8",
+      "retained_ref": "artifacts/a0007.py",
+      "retained_hash": "sha256:f25dbc8cfc06e2cd03d1d236c33d7dea491226b3ef7858a9c576cb741e9d8ae8",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-diagnostic01.log",
+      "original_hash": "sha256:88f5fa7be0be9a0ed6adc3772ac9214afae09aeb4c8eb7e2dd61d1b4aa535fbf",
+      "retained_ref": "artifacts/a0008.log",
+      "retained_hash": "sha256:b098d4047934f24332bdcfe932cd00b6be42ed1c76f6eea05355112b03bf6b28",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-diagnostic02.log",
+      "original_hash": "sha256:6d7bdca618d677ffb687907982e88f3604fd8a93347f37cb745710c98181c3f6",
+      "retained_ref": "artifacts/a0009.log",
+      "retained_hash": "sha256:a5ad822730a9f444e6d5da4451226a9a892e446f95b05361855f475f169cfc4f",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-diagnostic03.log",
+      "original_hash": "sha256:3577280a1e10c76728e50f14259e7d7cc8cfe83a06bb163a2c55bf5809cbd65a",
+      "retained_ref": "artifacts/a0010.log",
+      "retained_hash": "sha256:06e86ae487c1f55b2eae02ce4c4af805677dd07a12eccff2ee1b893d2df107a8",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-green03.log",
+      "original_hash": "sha256:a1215a9d8612d28d5f82ecdee30a9d1c149ad5835c42628651863d7d041099ce",
+      "retained_ref": "artifacts/a0011.log",
+      "retained_hash": "sha256:3bad8319f4374c228f5a891e159b1bad6c2ac033712d42179972de7b332f2346",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-review-red.log",
+      "original_hash": "sha256:086981c4c5761835b0510361dc96e5fcfe164d7ebcd26f5bdf9f72f7984a54b6",
+      "retained_ref": "artifacts/a0012.log",
+      "retained_hash": "sha256:184f655fbff933d3e0794e00ba0a1d9e16ec883aae83a36412e0a1bb5d989ef1",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-review-red-retry01.log",
+      "original_hash": "sha256:c0347a6e66d364dd90f361826fcea43077ba0a1ce60ee81be644ef9d9c118887",
+      "retained_ref": "artifacts/a0013.log",
+      "retained_hash": "sha256:17b049f85c617f69471875d566d571d7fd4cc8fc93aa3558352bd2bd0c7fd7d5",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-green04.log",
+      "original_hash": "sha256:eea6ad18703bac930f8b2f6f05d9aba3ac8fccc3c8cac79f989ea87579a701e8",
+      "retained_ref": "artifacts/a0014.log",
+      "retained_hash": "sha256:382ed9f94beb84d8815cf8260ada14844f2e39ee203f283ef23879d082a3af53",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-strategy-shape-red.log",
+      "original_hash": "sha256:12f68d96ba18da37bf61eb174d74174cf5264ee3ee08aa6eaa9e8495602406be",
+      "retained_ref": "artifacts/a0015.log",
+      "retained_hash": "sha256:54ad2321db68929d903760eb144ec8e5e8c082d3b9c9bf35f96e1763ab9b3d10",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-strategy-shape-green.log",
+      "original_hash": "sha256:079e00db7dd7fe067363c2d87c695f5f3b3031871f5a34e24370ac62f9839e38",
+      "retained_ref": "artifacts/a0016.log",
+      "retained_hash": "sha256:7a40c2bf2cccc0dada2463f757b3575515066486a53450fb50d86e9c17fa8c05",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-source-review.json",
+      "original_hash": "sha256:981e6e36db722bef1fda463129869925ac9367a01369455a1b62a56e7a2207d1",
+      "retained_ref": "artifacts/a0017.json",
+      "retained_hash": "sha256:981e6e36db722bef1fda463129869925ac9367a01369455a1b62a56e7a2207d1",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-source-repair-review.json",
+      "original_hash": "sha256:333c69c6c546634a38a7b8bcd82d872b511ad4e1f632d5afe22dfc0cc5f60509",
+      "retained_ref": "artifacts/a0018.json",
+      "retained_hash": "sha256:333c69c6c546634a38a7b8bcd82d872b511ad4e1f632d5afe22dfc0cc5f60509",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-readonly-history-source-final-review.json",
+      "original_hash": "sha256:6fe1fceb547dea7389bd8fa121e715afc2ebded99ae922357b92cb677db2919a",
+      "retained_ref": "artifacts/a0019.json",
+      "retained_hash": "sha256:6fe1fceb547dea7389bd8fa121e715afc2ebded99ae922357b92cb677db2919a",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "k05-authority-and-local-plan.json",
+      "original_hash": "sha256:2c4010b04b70ccc3dfbec15576a85f90bb521ac21e910867053866ee9162801b",
+      "retained_ref": "artifacts/a0020.json",
+      "retained_hash": "sha256:20ebe3e3fce0d13b3923b0ef5812545da06d4b40167bd16b604ec524d6697262",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "../k05-source-test-drafts-20261020/K05-test-design.json",
+      "original_hash": "sha256:68b13a9cc72c48a18960c40fcf73f05a70837936a3a4640a3d1f733a4a1a5884",
+      "retained_ref": "artifacts/a0021.json",
+      "retained_hash": "sha256:68b13a9cc72c48a18960c40fcf73f05a70837936a3a4640a3d1f733a4a1a5884",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "retain_k05_readonly_source.py",
+      "original_hash": "sha256:131178c7912921394d178ef47a29e6c1968ddf8766c691fe3c81404b4b25931c",
+      "retained_ref": "artifacts/a0022.py",
+      "retained_hash": "sha256:131178c7912921394d178ef47a29e6c1968ddf8766c691fe3c81404b4b25931c",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    }
+  ]
+}

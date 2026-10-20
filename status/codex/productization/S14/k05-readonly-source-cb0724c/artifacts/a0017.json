@@ -1,0 +1,63 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "K05 read-only trading history foundation and genuine open/ACK source fixtures; no formatter or owner-complete closed H16 fixture",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 1
+  },
+  "reviewed_files": [
+    {
+      "path": "src/storage/trading_feedback.py",
+      "sha256": "f71c9e51977b81894cb4ff0e40fb85d8f55ad24374d7568680c3a15bfd5e19c0"
+    },
+    {
+      "path": "tests/product/test_k05_readonly_history.py",
+      "sha256": "7a00b8933319af715611cc40f41609f3427082819de1b543c2d93c67f1f33d31"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "K05-RO-I1",
+      "status": "RESOLVED_IN_CURRENT_BYTES",
+      "evidence": "_require_subject_store now rechecks both exact owned schema signatures and namespace rows inside each snapshot BEGIN transaction, so a schema change before a later snapshot cannot become an accepted data_version baseline. The new real second-connection trigger-removal/repeated-denial/restoration test covers context reuse."
+    }
+  ],
+  "findings": [
+    {
+      "id": "K05-RO-I2",
+      "severity": "Important",
+      "file": "src/storage/trading_feedback.py",
+      "lines": [
+        108,
+        110
+      ],
+      "related": [
+        "src/storage/trading_feedback.py:132-134",
+        "src/storage/product_dispatch.py:68-70",
+        "src/registry/product_assessment.py:20-21"
+      ],
+      "issue": "Malformed persisted BLOB binding/request JSON escapes the typed read-error boundary.",
+      "evidence": "The reader passes binding_json/request_json directly to _read. SQLite TEXT affinity permits BLOB values; _read calls digest(raw), which calls raw.encode and raises AttributeError for bytes before hash validation. Neither reader exception translation includes AttributeError. This produces an untyped corruption failure instead of TradingFeedbackReadError.",
+      "minimal_fix": "Require expected serialized text/hash types locally before _read, preferably using bounded SQL type/length predicates before transfer. Preserve exact canonical/hash validation and do not broadly suppress programming failures.",
+      "minimal_regression": "Corrupt a genuine owned run binding or claimed request JSON to SQLite BLOB while restoring the exact original immutable trigger/schema. Require TradingFeedbackReadError, unchanged generations/history and no reader write attempt."
+    }
+  ],
+  "static_assessment": [
+    "The module opens protected existing paths mode=ro, live-WAL-aware, query_onlyON/trusted_schemaOFF. Expected schema construction/migration occurs only in memory.",
+    "Same-file canonical/dispatch paths use one connection/transaction; separate connections capture data_version before and after the read snapshots. File identity, elapsed deadline, per-value SQLite length and aggregate row/byte budgets provide conservative refusal rather than truncation.",
+    "Existing PaperRuntimeJournal recovery receives only the real read-only connection through non-opening wrappers; no writer factory, current permission evaluation, provider request, report generation or owner attachment is added.",
+    "The actual immutable strategy_versions ID/version/content/definition hash is the correct source for strategy content. Canonical ApprovedTradePlan has no strategy_content_hash field. The revised prepared.source_plan_hash comparison correctly uses the existing plan commitment; composite dispatch authority_hash is not plan bytes.",
+    "Snapshot generation is explicitly observed coherence metadata and frozen fields retain original binding/canonical history. ACK/no-fill fixtures are correctly not closed performance and are not native Productfake/LIVE evidence."
+  ],
+  "recommended_independent_source_cases": [
+    "A real other-connection commit during a separate-store read must trip the post-read data_version fence without leaking a partial snapshot.",
+    "Exact-schema canonical payload/hash corruption must produce typed denial, not an empty/zero financial summary.",
+    "Revoking current runtime authority must not relabel, renew or allocate a historical producer/generation; reading history remains non-authoritative and performs no writes."
+  ],
+  "limits": [
+    "Static public source reads and raw-byte hashing only; no tests/native/product/process execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "Current nine-case run and prior development counts are root-owned observations, not reviewer execution. The BLOB regression/fix is still pending at this source identity.",
+    "No public feedback formatter, owner-complete H16 closed fixture, K05 requirement PASS, installed-native/LIVE/real-provider/whole-product qualification or financial authority is asserted."
+  ]
+}

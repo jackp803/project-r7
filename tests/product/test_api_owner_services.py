@@ -23,6 +23,25 @@ from tests.product.test_api_authority import APIFixture
 
 
 class APIOwnerServicesTests(APIFixture, unittest.TestCase):
+    def test_actual_staged_and_byte_verified_copy_ack_have_distinct_api_delivery_states(self):
+        from tests.application.cloud_delivery_fixtures import prepare_delivery
+        actual=prepare_delivery(self)
+        before={row['submission_id']:row['publication'] for row in actual['views']}
+        response=self.client.get('/api/v1/submissions')
+        self.assertEqual(response.status_code,200,response.text)
+        rows=response.json()['data']['items']
+        self.assertEqual({row['submission_id']:row['publication'] for row in rows},before)
+        states=[row['publication']['state'] for row in rows]
+        self.assertEqual(states.count('CLOUD_ACKNOWLEDGED'),1)
+        self.assertEqual(states.count('LOCAL_STAGED'),1)
+        self.assertEqual(sum(state in ('UNAVAILABLE','CONFLICT') for state in states),1)
+        staged={row['submission_id']:row['publication'] for row in actual['staged_views']}
+        acknowledged=next(row for row in rows if row['publication']['state']=='CLOUD_ACKNOWLEDGED')
+        self.assertEqual(staged[acknowledged['submission_id']]['state'],'LOCAL_STAGED')
+        self.assertEqual(staged[acknowledged['submission_id']]['artifact_hash'],acknowledged['publication']['artifact_hash'])
+        self.assertEqual(actual['source'],'LOCAL_COPY_FIXTURE_ONLY')
+        self.assertEqual(actual['real_cloud'],'NOT_RUN')
+
     def test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure(self):
         from unittest.mock import patch
         from application.research.queue import ResearchQueueError

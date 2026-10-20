@@ -22,7 +22,7 @@ import unittest
 import uvicorn
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed'],required=True)
+    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed','delivery'],required=True)
     parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
     scratch=Path(os.environ['R7_BROWSER_ARTIFACT_ROOT'])/args.profile if 'R7_BROWSER_ARTIFACT_ROOT' in os.environ else ROOT.parent.parent/'artifacts/S11-browser'/args.profile
     scratch.mkdir(parents=True,exist_ok=True)
@@ -37,8 +37,11 @@ def main():
         from tests.product.test_api_deployment_controls import APIDeploymentControlTests
         helper=APIDeploymentControlTests(methodName='runTest');helper.setUp();helper.control()
         fixture=helper.fixture;owners=fixture.app.state.owners
-    elif args.profile in ('research','temporal','failed'):
+    elif args.profile in ('research','temporal','failed','delivery'):
         fixture=APIOwnerServicesTests(); fixture.setUp(); owners=fixture.owners
+        if args.profile=='delivery':
+            from tests.application.cloud_delivery_fixtures import prepare_delivery
+            prepare_delivery(fixture)
         if args.profile=='failed':
             from unittest.mock import patch
             fixture.enqueue()

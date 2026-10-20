@@ -2,7 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 import {startPaperViaUI} from '../../tools/paper_start_browser.mjs';
 
-const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773'};
+const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773',delivery:'http://127.0.0.1:8774'};
 const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser');
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
@@ -82,6 +82,25 @@ test('health distinguishes actual supervised control from an available queue wit
   expect(actual.research).toBe('QUEUE_AVAILABLE_WORKER_NOT_STARTED');
   expect(actual.live_authorized).toBe(false);
   await page.screenshot({path:path.join(artifacts,'supervised-health.png'),fullPage:true});
+});
+
+test('delivery separates local staging from actual byte-verified fixture-copy acknowledgment',async({page})=>{
+  await login(page,'delivery');await page.getByRole('link',{name:'研究',exact:true}).click();
+  const response=await page.request.get(origins.delivery+'/api/v1/submissions');expect(response.status()).toBe(200);
+  const items=(await response.json()).data.items;
+  const staged=items.find((row:any)=>row.publication.state==='LOCAL_STAGED');
+  const acknowledged=items.find((row:any)=>row.publication.state==='CLOUD_ACKNOWLEDGED');
+  const denied=items.find((row:any)=>['UNAVAILABLE','CONFLICT'].includes(row.publication.state));
+  expect(items).toHaveLength(3);expect(staged).toBeTruthy();expect(acknowledged).toBeTruthy();expect(denied).toBeTruthy();
+  const rowFor=(item:any)=>page.getByRole('row').filter({hasText:item.submission_id});
+  await expect(rowFor(staged)).toContainText('僅暫存在本機，尚未取得目的端確認');
+  await expect(rowFor(staged)).toContainText(staged.publication.artifact_hash);
+  await expect(rowFor(acknowledged)).toContainText('目的端位元組讀回已確認');
+  await expect(rowFor(acknowledged)).toContainText(acknowledged.publication.artifact_hash);
+  await expect(rowFor(denied)).toContainText(denied.publication.state);
+  await expect(rowFor(denied)).not.toContainText('目的端位元組讀回已確認');
+  await expect(page.getByText('FIXTURE 的目的端確認僅為隔離複製驗證；真實雲端連線另行驗收。',{exact:true})).toBeVisible();
+  await page.screenshot({path:path.join(artifacts,'cloud-delivery-states.png'),fullPage:true});
 });
 
 test('actual candidate PAPER start and pause retain run identity and show unavailable metrics',async({page})=>{

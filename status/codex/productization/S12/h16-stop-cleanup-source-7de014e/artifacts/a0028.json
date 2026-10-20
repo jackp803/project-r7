@@ -1,0 +1,338 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "candidate_revision_supplied_by_lead": "7de014eeedf2791c8e186a9608c589454c792f4c",
+  "candidate_git_state_independently_executed": false,
+  "reviewer_execution": "NONE",
+  "scope": [
+    "H01 actual E2/E5/E4 orchestration and formal production construction",
+    "J10 browser UI API-only versus direct DB boundary",
+    "L03 declarative strategy parsing/evaluation including cloud intake"
+  ],
+  "critical": 0,
+  "important": 1,
+  "findings": [
+    {
+      "id": "H01-FORMAL-TRADING-COMPOSITION",
+      "severity": "Important",
+      "classification": "INCOMPLETE_MASTER_INTEGRATION",
+      "path": "src/application/trading/service.py",
+      "symbols": [
+        "TradingService",
+        "TradingService._coordinator",
+        "TradingService.execute"
+      ],
+      "lines": [
+        29,
+        125,
+        134
+      ],
+      "description": "The real typed TradingService/TradingCoordinator library composes E5-bound canonical plans, E4 preparations/provider effects and E6 claims/recovery, but no formal production construction/caller or E2-driven TradingService runner was found in the enumerated src/tools Python scope. The explicit normal E2-to-E5-to-submit loop is PaperEngine using PaperBroker; it cannot by itself demonstrate the LIVE-capable TradingService orchestration required by inherited H01.",
+      "evidence": [
+        "TradingService.execute:134-163 consumes an already-issued E4 preparation, validates the current canonical subject, commits the claim and sends through the guarded provider. It does not invoke StrategyRuntime.",
+        "TradingCoordinator:7-46 is substantive journal/outbox coordination, not an E2 strategy driver. Its only production construction found is TradingService._coordinator:124-125.",
+        "LocalOwners.control_services:93-117 composes Paper ports; PaperOwnerComposition:167-170 constructs PaperService. No TradingService constructor/import appeared outside its own package in the targeted namespace follow-up.",
+        "PaperEngine._evaluate:315-367 directly invokes StrategyRuntime, actual risk evaluation/approved-plan construction and ExecutionGateway/PaperBroker.",
+        "ShadowComposition:283-321,432-481 also uses E2/E5 with read-only E4, but expressly has no submit gateway or authoritative trading outputs. Research/backtest E2 consumers are separate."
+      ],
+      "minimal_followup": "Complete the formal trusted E2-driven trading runner/composition using the existing actual E2 runtime, E5 risk/plan/action owners, E4 translator and TradingService with current issuer/runtime gates. Add a formal-entry credential-free fake-provider integration proving the exact signal→E5 approval→issued E4 preparation→durable claim→readback chain and denials. No real-provider activation or new financial permission is required to implement/test that glue.",
+      "authority_interpretation": "Ordinary implementation/integration work under the existing plan, not a new PM/financial-authority blocker. Existing normal Paper qualification and source-owner tests remain distinct and are not invalidated or transferred."
+    }
+  ],
+  "clause_evidence": {
+    "H01": {
+      "requirement": "TradingOrchestrator exists and uses E2/E5/E4",
+      "required_kind": "static+integration",
+      "disposition": "INCOMPLETE_FORMAL_INTEGRATION; NO_CLAUSE_PASS",
+      "supported_static": [
+        "TradingService and TradingCoordinator implement actual typed effect admission, durable claim-before-effect, ambiguous-result recovery and canonical publication.",
+        "guards.py:39-53 parses the current risk policy and invokes require_approved_trade_plan_binding; source plan/action/position hashes must match the current E6 subject.",
+        "OKXProductTranslator.prepare_entry:80-95 calls the existing ExecutionGateway, sizing/materialization and owner-issued capability/preparation validation.",
+        "PaperEngine:329-357 is a separate concrete E2→E5→E4 Paper loop; it is not treated as a name-equivalent production TradingService runner."
+      ],
+      "remaining": [
+        "Formal production E2-driven TradingService construction and caller.",
+        "Actual matching-subject integration evidence; static imports/class existence/test counts alone are insufficient."
+      ]
+    },
+    "J10": {
+      "requirement": "UI does not directly edit DB",
+      "required_kind": "architecture audit",
+      "disposition": "BOUNDED_STATIC_ARCHITECTURE_SUPPORT; NO_WHOLE_CLAUSE_ACCEPTANCE",
+      "supported_static": [
+        "Inspected browser entrypoints main.tsx/App.tsx/api.ts/model.ts use React and the local HTTP ControlAPI; no direct SQLite/filesystem/native DB client or write path was found in those modules.",
+        "api.ts:10-29 confines requests to local /api/v1 paths with same-origin credentials, redirect refusal, CSRF for commands, timeout and bounded response handling.",
+        "App.tsx sends typed command IDs/expected revisions through api.command and retains the original command for uncertain retries; UI state does not become an E6 write.",
+        "control_api/app.py:73-101 authenticates and dispatches fixed operations through the command ledger and trusted owner services. Backend persistence is separate from the browser boundary."
+      ],
+      "remaining": [
+        "Bind this source audit to the actual built/served UI subject and applicable run references.",
+        "This is not an audit of every third-party dependency, desktop integration or all repository/history code."
+      ]
+    },
+    "L03": {
+      "requirement": "strategy cannot execute arbitrary Python/shell",
+      "required_kind": "parser/security",
+      "disposition": "BOUNDED_STATIC_PARSER_SECURITY_SUPPORT; EXECUTION_BINDING_PENDING",
+      "supported_static": [
+        "runtime.py:275-319 loads bounded JSON with duplicate-key and nesting rejection, then selects fixed DSL profiles rather than importing strategy code. Legacy expressions use fixed SMA/GT/LT/AND dispatch.",
+        "v02/parser.py:89-130 requires exact fields/runtime/DSL/behavior versions, bounded parameters/timeframes and matching semantic hash.",
+        "v02/ast.py:16-18,77-217 builds typed expression objects through explicit primitive/operator/kind allowlists, cycle/depth/node/window/arity/unit checks. AstBuilder.compile is an internal data compiler, not Python compile/eval/exec.",
+        "v02/evaluation.py and operators.py dispatch fixed arithmetic/feature operations; no strategy-provided Python callable/module or shell command is selected on the inspected paths.",
+        "cloud/manifest.py:134-202 permits only strategy JSON plus optional markdown notes; validate_package:227-252 verifies sealed bytes and E2 identity, then calls the same parser. intake/service.py:56-82 binds the verified manifest before passing only verified definition bytes to E6.",
+        "research/worker.py:17-22 constructs fixed executable/application _research-job argv with data IDs. Public research_worker:108-121 explicitly passes no executable override; its fixture-only test seam is not exposed by cloud/DSL input."
+      ],
+      "source_assertions_inspected_not_executed": [
+        "tests.strategy.test_v02_parser.V02ParserTests.test_unknown_keys_operator_arity_and_indicator_version (64-74): Python field and EXEC operator rejection.",
+        "V02ParserTests.test_cycle_and_unknown_feature_reference (76-84); test_ast_depth_is_bounded_before_recursive_evaluation (108-113); test_duplicate_json_key_is_rejected_and_float_is_not_financial_input (122-133).",
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo (65-80); exact discovered class name is not asserted by this review."
+      ],
+      "remaining": [
+        "Root must bind actual executed named-case instances and subjects; no tests were run by this reviewer.",
+        "No claim of a general hostile-Python sandbox, whole-repository absence of shell utilities or protection from arbitrary trusted-code execution."
+      ]
+    }
+  },
+  "targeted_search": {
+    "roots": [
+      "src/",
+      "tools/"
+    ],
+    "file_filter": ".py regular files",
+    "files_read": 265,
+    "exclusions": [
+      "tests/ and qa/ directories",
+      "__pycache__/ directories",
+      "src/application/paper/_fixed_inventory.py (generated frozen inventory; deliberately not read)"
+    ],
+    "patterns": [
+      "TradingService",
+      "TradingCoordinator",
+      "application.trading service/orchestrator imports",
+      "from .trading imports",
+      "StrategyRuntime",
+      "follow-up trading namespace tokens outside src/application/trading"
+    ],
+    "method": "Read-only lexical source search followed by direct inspection of constructor/entrypoint and actual runtime hits. No Python modules were imported/executed.",
+    "inventory_sha256": "0a33dcc048fe91e14a38029025fd8d5982b5d0b32d0344b512cb4b3cc9d61d8f",
+    "inventory_hash_encoding": "SHA256(UTF8(JSON.stringify(sorted [repository-relative path, raw SHA256] pairs)))",
+    "runtime_hits": [
+      {
+        "path": "src/application/paper/engine.py",
+        "lines": [
+          {
+            "line": 31,
+            "text": "from strategy import StrategyRuntime, parse_strategy_definition, build_trade_intent"
+          },
+          {
+            "line": 330,
+            "text": "        signal=StrategyRuntime().evaluate(self.strategy,bundle,boundary)"
+          }
+        ]
+      },
+      {
+        "path": "src/application/research/compatibility.py",
+        "lines": [
+          {
+            "line": 8,
+            "text": "from strategy import StrategyRuntime,parse_strategy_definition"
+          },
+          {
+            "line": 22,
+            "text": "    signal=StrategyRuntime().evaluate(parsed,bundle,boundary)"
+          },
+          {
+            "line": 29,
+            "text": "                checked_at=z(now_utc()),command='E2 StrategyRuntime.evaluate/explicit-v0.2/as-of-training',"
+          }
+        ]
+      },
+      {
+        "path": "src/application/trading/close_observation.py",
+        "lines": [
+          {
+            "line": 25,
+            "text": "    from application.trading.service import TradingOutcome"
+          }
+        ]
+      },
+      {
+        "path": "src/application/trading/orchestrator.py",
+        "lines": [
+          {
+            "line": 7,
+            "text": "class TradingCoordinator:"
+          }
+        ]
+      },
+      {
+        "path": "src/application/trading/position_observation.py",
+        "lines": [
+          {
+            "line": 62,
+            "text": "    from application.trading.service import TradingOutcome"
+          }
+        ]
+      },
+      {
+        "path": "src/application/trading/protection_monitor.py",
+        "lines": [
+          {
+            "line": 127,
+            "text": "    from application.trading.service import TradingOutcome"
+          }
+        ]
+      },
+      {
+        "path": "src/application/trading/service.py",
+        "lines": [
+          {
+            "line": 11,
+            "text": "from application.trading.orchestrator import TradingCoordinator"
+          },
+          {
+            "line": 29,
+            "text": "class TradingService:"
+          },
+          {
+            "line": 125,
+            "text": "        return TradingCoordinator(self.dispatch, self.canonical, self.run_id, self.lease, clock=self.clock)"
+          }
+        ]
+      },
+      {
+        "path": "src/application/trading/stop_cleanup.py",
+        "lines": [
+          {
+            "line": 186,
+            "text": "    from application.trading.service import TradingOutcome"
+          }
+        ]
+      },
+      {
+        "path": "src/backtest/e2_runtime.py",
+        "lines": [
+          {
+            "line": 5,
+            "text": "and StrategyRuntime evaluation path."
+          },
+          {
+            "line": 25,
+            "text": "        from strategy import StrategyRuntime, parse_strategy_definition"
+          },
+          {
+            "line": 27,
+            "text": "        runtime = StrategyRuntime()"
+          },
+          {
+            "line": 36,
+            "text": "        from strategy import RUNTIME_VERSION, StrategyRuntime, parse_strategy_definition"
+          },
+          {
+            "line": 40,
+            "text": "            \"requires the repository's authoritative E2 StrategyRuntime package.\""
+          },
+          {
+            "line": 43,
+            "text": "    runtime = StrategyRuntime()"
+          }
+        ]
+      },
+      {
+        "path": "src/integration/shadow_composition.py",
+        "lines": [
+          {
+            "line": 18,
+            "text": "    StrategyRuntime,"
+          },
+          {
+            "line": 310,
+            "text": "        strategy_runtime: StrategyRuntime | None = None,"
+          },
+          {
+            "line": 315,
+            "text": "        runtime = StrategyRuntime() if strategy_runtime is None else strategy_runtime"
+          },
+          {
+            "line": 316,
+            "text": "        if type(runtime) is not StrategyRuntime:"
+          }
+        ]
+      },
+      {
+        "path": "src/strategy/__init__.py",
+        "lines": [
+          {
+            "line": 6,
+            "text": "    StrategyRuntime,"
+          },
+          {
+            "line": 25,
+            "text": "    \"StrategyRuntime\","
+          }
+        ]
+      },
+      {
+        "path": "src/strategy/runtime.py",
+        "lines": [
+          {
+            "line": 698,
+            "text": "class StrategyRuntime:"
+          },
+          {
+            "line": 720,
+            "text": "                \"StrategyRuntime requires parse_strategy_definition output\","
+          }
+        ]
+      }
+    ],
+    "limitations": "Conclusions are bounded to this enumerated Python source scope and inspected formal entrypoints; not a blanket absence claim across other languages, generated inventory, plugins, tests, private data or history."
+  },
+  "subject_hashes": {
+    "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f",
+    "docs/product/v0_2/06_EXECUTION_PLAN.md": "899ccccb6bcd2b0ffa3c25a59f5a8a18ee8cf08b95e272fc49549f0a34a61009",
+    "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md": "c6588fb1fc9e13114314e84ce133b59178f1ebdae23b524836cfccd7d9e3955d",
+    "src/application/trading/service.py": "aa40f7c95d8a30cde3efc411eaf2fe5106a4ba3823cd3440cded6ccba188b8ff",
+    "src/application/trading/orchestrator.py": "4a93d6f0cbd3d6cc29097e756e702407ce09b5caeb9ea6087c9c0ad10faeccfa",
+    "src/application/paper/engine.py": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6",
+    "src/application/paper/service.py": "cfc7749f987759ff6b01aab5a4b577f7a10cf5bb86033d6e9d9d3b5beb536cb3",
+    "ui/src/api.ts": "83be0daafab9ec7d608ca6810364a9307a3127b9768a703171354965be5bed7e",
+    "ui/src/App.tsx": "f3c4a2b1461b695096c205b97acb9201dc4430868106895d471273ebe731740a",
+    "ui/src/main.tsx": "0e5e955222571c20b28e73c09d0bc7ee9ee9bfc0c44ff509191cbe4f5512dd37",
+    "ui/src/model.ts": "61419d6aaf2af01d412e83505c63d14dcc6bd0e360b42a8ddfcf146f0cce33e2",
+    "src/application/control_api/app.py": "6c93f8cb80d9a2332d9cdf2d52c9b39fe1da07fb4b1113efc9998cf751cab6ae",
+    "src/strategy/__init__.py": "f8ac6ee763b170b41fb68039b6b1bd187bbee013889d4131e3bc665e1cc94d39",
+    "src/strategy/runtime.py": "9791587218b01deebb099f3649aca6ebc32b8e538d410b011ee56e3f8822e62e",
+    "src/strategy/v02/parser.py": "2ee9927d8933e2608e0eb0dae37fcd2c9b17e61007052a1756c2ec8e08d5b6a7",
+    "src/strategy/v02/evaluation.py": "fca4050fca28ce977a1d80a9df0283b4581a79de6d949cf846bf1f972155e5f2",
+    "src/application/intake/service.py": "71b514c3466eb58e25acf0fd809dc6a66cdd8eec963576335160b529c0af2666",
+    "src/application/cloud/manifest.py": "a63fb5c28d800cc6c8fc3467e583bb314d51c3867d7f241e70e62590cf8f6b5c",
+    "src/strategy/v02/ast.py": "d50ba7c8e5c386c641e8635390f8240567f70b21828c33ebd7812e6bce1f0b0f",
+    "src/strategy/v02/operators.py": "2b06f45f2d92a9310c91f63e8b20f74926c824844d9253c2f9a7dd0fb53e48f5",
+    "tests/strategy/test_v02_parser.py": "c47a9cf863651a6ce3db075de974b42f5bcbf2523a3e48359237fc3e1c0d6764",
+    "tests/application/test_cloud_intake.py": "422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+    "src/application/research/compatibility.py": "a01188026410b0ddfc8b2b9c98287a5ea802f4a2bd700db35c97ec871c91aa91",
+    "src/application/trading/close_observation.py": "fdc43a544f961505f507ea7620351a56b953202be39de7ca580f3aacdc280142",
+    "src/application/trading/position_observation.py": "ff1dedc6e84ed05fae1d9759a7951274ad5656cdecd7c52b3d8347df8be2c138",
+    "src/application/trading/protection_monitor.py": "7aa634b6d46ef89f17537ab5b9c6431fe2a5b94845c69f9de26f59775ab27dca",
+    "src/application/trading/stop_cleanup.py": "bc3a81d70aa2df3ec0f68ec3f67095d0738ddab6e43df3e0bb7aecdd741a95e9",
+    "src/backtest/e2_runtime.py": "f266c22c17f63c5ad13613ec1b9c3dd37d02828cc5ab467fcff0613c6460b5de",
+    "src/integration/shadow_composition.py": "a1064f18495c7b8774ceaf59c5a3cbb51facf58acd95af0cc7aeab8df9c8a66b",
+    "src/application/local_owners.py": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b",
+    "src/application/paper/owners.py": "f1eed33ee5e02565e692b9777308f16de1fa4addbfa7d42ea87dc3dac202284e",
+    "src/application/entrypoints.py": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91",
+    "src/application/control_api/services.py": "d8c7a1857c411b61d8490782e44f3aa6b55afc4f643347b525de977a7d5b15e1",
+    "src/application/trading/guards.py": "b217b2d23e145ff3ba578fba769cf19f69f26f91411d29e6c7f20e9f27776629",
+    "src/brokers/okx_product.py": "3d5cda09463e72819d05421046deeaaac8620755aa856ec5aaeb1c2c14aab7aa",
+    "src/application/research/worker.py": "47785e99b05f7a15878680c3f19fd01a8df2f9fb71948bc26c645a2d1ca3c730"
+  },
+  "stability": {
+    "referenced_files_unchanged_on_final_read": true,
+    "all_265_search_file_hashes_unchanged_on_final_read": true
+  },
+  "limits": [
+    "No tests, builds/native/product/process, Git, DB/auth/config/private/evidence, secrets/.env, network/provider or Antigravity operations were executed. Only public source/spec/test text was read and this outside-Git review artifact was written.",
+    "The current owning qualification was active; no active evidence was opened and no PASS/current closure is inferred.",
+    "Candidate revision/clean status are lead-supplied. Exact referenced raw source hashes and search inventory commitment are captured for later evidence binding.",
+    "No H01/J10/L03 whole-clause PASS, new profile/authority, native/Ubuntu/real-provider or whole-Master acceptance is issued."
+  ]
+}

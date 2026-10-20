@@ -1,0 +1,52 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Exact unused-stop FIXTURE owner cleanup; final freshness repair and source successor recovery",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "subject_hashes": {
+    "src/application/trading/stop_cleanup.py": "bc3a81d70aa2df3ec0f68ec3f67095d0738ddab6e43df3e0bb7aecdd741a95e9",
+    "src/application/trading/guards.py": "b217b2d23e145ff3ba578fba769cf19f69f26f91411d29e6c7f20e9f27776629",
+    "src/application/trading/service.py": "aa40f7c95d8a30cde3efc411eaf2fe5106a4ba3823cd3440cded6ccba188b8ff",
+    "src/storage/product_stop_cleanup.py": "651285f9061a2837ac23c172a042d7674c251e5e54277dce779ba40840946734",
+    "src/storage/product_dispatch.py": "800204fe319c523863ac4012a0bb972c1bde113c676a45cfdcec58d20d2e296a",
+    "src/storage/migrations/0021_product_stop_cleanup_claim.sql": "8b0c6cff41b7bf6bd01b3af07172b2e84c0c6e9c8954fc375400c46a12414b4a",
+    "docs/product/v0_2/FIXTURE_OWNED_STOP_CLEANUP.md": "4c36f51ea526304bc95925ba031cfeb41956bd3359962508176e7371e11e54c6",
+    "tests/product/test_trading_stop_cleanup_v02.py": "6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c",
+    "tests/product/test_trading_protected_close_v02.py": "ff6b8607c1c7514a278090876d22588fd86959ed90ab9a641c270fb4ced2ddf2"
+  },
+  "prior_review": {
+    "path": "h16-stop-cleanup-owner-review-initial.json",
+    "sha256": "9ae543362a575cf1dad72a51ddf451c4da5961f89c4946d2c9fd2977ecd6cbcf",
+    "critical": 0,
+    "important": 1,
+    "preserved": true
+  },
+  "resolved_findings": [
+    {
+      "id": "STOP-CLEANUP-FINAL-FRESHNESS",
+      "status": "RESOLVED_STATICALLY",
+      "paths": [
+        "src/application/trading/stop_cleanup.py:154-182",
+        "src/application/trading/guards.py:97-101"
+      ],
+      "resolution": "After semantic/SQLite work and final lease/admission checks, the cleanup-only helper validates original preparation and issued read cache identity/hash/provider/lease, exact metadata/account/target subjects, the final permit and current unchanged five-second windows. It uses native received_at and target/inventory request_started_at. The existing capability owner then checks exact issued proof generation, metadata freshness and scheduled changes at that final clock without recursive guards, new observations or permits."
+    }
+  ],
+  "static_checks": [
+    "The existing exact original full graph, native zero, verified active owned stop, same native creation identity/account scope and complete single-object inventory checks remain in the semantic path.",
+    "The cleanup phase remains a separate immutable one-cancel claim committed before the provider boundary, with original-generation transactional insertion and a fresh semantic scan/fence after its own commit.",
+    "Duplicate preparation/retry and lost ACK do not authorize another cancel or imply terminality. Existing targeted reconciliation alone supplies a CANCELED observation; complete postcancel inventory/zero/finalization remain separate.",
+    "The new source regression crosses 4.9 to 5.1 seconds during _context inside the actual FakeProductProvider POST guard and asserts zero cancel calls plus retention of the unresolved claim. It does not replace a production result.",
+    "The successor source regression creates fresh admission/capability/provider/service/journal objects and an E6 lease generation two while retaining E7 release generation one; targeted GET-only recovery preserves the original claim and rejects the old lease. Its preflight is an explicitly controlled source fixture, not an OS/native runtime measurement.",
+    "Migration replacement guards, lost-ACK/duplicate behavior and canonical first-flat history are unchanged from the initial review; no finalizer or new financial permission is introduced."
+  ],
+  "source_bytes_unchanged_on_final_read": true,
+  "limitations": [
+    "Static reads and hashing only; no tests, processes, native, DB/auth/config/private material, provider/network or Git operations were executed.",
+    "The focused tests were reported active by root. This review does not assume or claim their PASS outcome.",
+    "Controlled source-clock and source-generation tests do not prove a native hard deadline, native successor process or actual-LIVE authority.",
+    "No H16/finalizer/K05/native/full-source/whole-Master completion or financial authority credit is issued."
+  ]
+}

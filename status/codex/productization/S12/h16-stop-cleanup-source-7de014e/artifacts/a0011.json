@@ -1,0 +1,50 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Exact unused-stop cleanup FIXTURE owner slice first-pass static review",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 1,
+  "subject_hashes": {
+    "src/application/trading/stop_cleanup.py": "fda50623e2d0b6e0350b83d3ee7dcbfd6525982540ddf2d107e35a4c80b8f43d",
+    "src/application/trading/guards.py": "9f7f5c8d3130b902a1fdc916021e30ca80c1a908cae4dd78e1599b7ce34f148b",
+    "src/application/trading/service.py": "aa40f7c95d8a30cde3efc411eaf2fe5106a4ba3823cd3440cded6ccba188b8ff",
+    "src/storage/product_stop_cleanup.py": "651285f9061a2837ac23c172a042d7674c251e5e54277dce779ba40840946734",
+    "src/storage/product_dispatch.py": "800204fe319c523863ac4012a0bb972c1bde113c676a45cfdcec58d20d2e296a",
+    "src/storage/migrations/0021_product_stop_cleanup_claim.sql": "8b0c6cff41b7bf6bd01b3af07172b2e84c0c6e9c8954fc375400c46a12414b4a",
+    "docs/product/v0_2/FIXTURE_OWNED_STOP_CLEANUP.md": "d6c42485f1de5ba2c2fb5e26125870fe3b9db2ccbcb6d7f823dfed5cf2fea0ba",
+    "tests/product/test_trading_stop_cleanup_v02.py": "8c0d29d0e95b024c7249c49273f14acb8fcdf3d90fcfcb0b519c306f0ab354ba",
+    "tests/product/test_trading_protected_close_v02.py": "ff6b8607c1c7514a278090876d22588fd86959ed90ab9a641c270fb4ced2ddf2"
+  },
+  "findings": [
+    {
+      "id": "STOP-CLEANUP-FINAL-FRESHNESS",
+      "severity": "Important",
+      "path": "src/application/trading/stop_cleanup.py",
+      "lines": [
+        141,
+        151
+      ],
+      "related_paths": [
+        "src/application/trading/stop_cleanup.py:79-126",
+        "src/application/trading/guards.py:89-98",
+        "src/application/trading/provider.py:37-40"
+      ],
+      "description": "The preparation/target/native-position/inventory freshness gates run before the complete owner/canonical/claim scans. require_cleanup_preparation returns without a post-scan clock/evidence fence. Time consumed inside the provider request final guard can therefore make the reads stale before the cancel POST, while its separately issued one-second runtime permit is still fresh.",
+      "concrete_scenario": "Start the actual POST-boundary guard with source reads aged 4.9 seconds; actual canonical/context work advances the trusted fixture clock by 0.2 seconds. The initial five-second checks pass, no read-window check follows that work, and the permit issued less than one second earlier remains valid at 5.1 seconds.",
+      "minimal_fix": "After all semantic/source scans and before the effect returns from its final guard, recheck exact issuer/lease/provider/metadata and proof currentness plus target request-start, native received-at, inventory request-start and preparation-created windows. A lightweight final fence should not issue a new permit or renew observations.",
+      "regression": "With a real owned cleanup claim, advance the fixture clock across the five-second evidence boundary only during canonical work in the actual cancel POST guard. Require zero cancel POSTs and preserve the committed unresolved cleanup claim."
+    }
+  ],
+  "other_static_checks": [
+    "FIXTURE-only composition and source-issued exact object/provider/lease binding are enforced. Targeted active row and complete single-object inventory agree on the native target/source hash/original creation time/account scope.",
+    "Original full graph, same native zero, single entry/close/stop claims, no stop fills and terminal entry/close results are required before cleanup. The first canonical flat anchor is not rewritten.",
+    "One immutable phase claim commits before a cancel effect. Duplicate or lost-ACK invocations return READBACK_REQUIRED without a second POST; standard exact target reconciliation supplies terminal evidence separately.",
+    "The new SQL table rejects update, delete and INSERT OR REPLACE through duplicate guards covering both primary and provider/account/native-target uniqueness.",
+    "No caller PASS/complete flag or cancel ACK becomes canonical terminality, CLOSED, TradeResult or new financial permission."
+  ],
+  "limitations": [
+    "Static source/test/SQL/document reads and hashing only; no tests, processes, native, DB/auth/config/private material, provider/network or Git operations executed.",
+    "This artifact preserves the captured initial bytes. It does not approve later repairs or independently execute root-reported fixtures.",
+    "This slice has no finalizer and establishes no H16/K05/native/actual-LIVE/whole-Master completion."
+  ]
+}

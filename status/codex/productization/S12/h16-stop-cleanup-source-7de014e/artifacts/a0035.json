@@ -1,0 +1,50 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Unapplied one-off cleanup test partition utility and plan",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 2,
+  "production_defect_observed": false,
+  "artifact_hashes": {
+    "partition_h16_cleanup_tests.py": "bb456676208885728544149bb9906c4aefc8e0609d5ff64294bb5871f0f75c87",
+    "h16-cleanup-partition-plan-20261020.json": "8fb69b512051235a9fccd6fc482881846d86f0dbd2ccb4d849904e611926dfb6"
+  },
+  "findings": [
+    {
+      "id": "PARTITION-OPTIMIZED-ASSERT-GATES",
+      "severity": "Important",
+      "path": "partition_h16_cleanup_tests.py",
+      "lines": [
+        13,
+        19
+      ],
+      "description": "The unfinished-run/result/source/hash/output/preservation gates use assert. Python -O or PYTHONOPTIMIZE=1 removes them; a clean HEAD can still belong to an active frozen run, so revision_fact alone does not preserve the unfinished-run guard.",
+      "minimal_fix": "Reject sys.flags.optimize with an ordinary raise at the first line of main, or replace the safety asserts with ordinary explicit checked raises. Do this before reading admission metadata or performing any mutation."
+    },
+    {
+      "id": "PARTITION-UNANCHORED-REVIEW-PATHS",
+      "severity": "Important",
+      "path": "partition_h16_cleanup_tests.py",
+      "lines": [
+        17,
+        19
+      ],
+      "description": "The utility parses an unanchored review JSON and iterates whatever subject_hashes it contains. Empty/subset maps bypass the promised exact nine-input check, altered values can admit unreviewed test bodies, and arbitrary keys can dereference an outside/private ROOT/name path before any scope rejection.",
+      "minimal_fix": "Capture the fixed original retry01 review bytes, verify raw SHA256 c00e4267598d2d9a9a0284d39116d5af7379c0a0d255cc973799b3bc2fcb9ba7 before parsing or iterating references, then validate/compare the known nine commitments. The pinned current receipt fixes both names and hashes."
+    }
+  ],
+  "current_input_static_checks": [
+    "The current qualified cleanup class has exactly 11 uniquely named test methods and eight non-test helper methods; no decorators occur on class methods. ast node.lineno/end_lineno slicing therefore preserves the current method bodies, apart from the explicit valid-FK strengthening.",
+    "The current module has one single-line docstring followed only by imports before the class. lines[1:owner.lineno-1] captures those imports for this exact input; this is not a generic decorated/multiline-prelude preservation claim.",
+    "All 11 tests are assigned once to six classes/files with declared test-method counts 2/2/2/2/2/1. Shared helpers move into StopCleanupFixture with no TestCase base or test_ methods. Imported fixtures are module objects, not global imported TestCase classes, so the planned layout does not duplicate discovery.",
+    "The core module/class name is retained and inherits its setup/helper methods, preserving its source-fixture runTest use.",
+    "The corrected replacement uses the actual existing claimed entry operation, asserts its READBACK_REQUIRED disposition and confirms an unused cleanup PK, preserving the same native target and original identity/source audit bytes.",
+    "All generated contents are compiled before the apply branch writes files. Hardcoded outputs target only the seven test/helper files, not production source; _revision is checked before/after. No compilation or script execution was performed by this reviewer.",
+    "The plan preserves existing deadlines and explicitly requires actual post-relocation execution/timing. It grants no future partition/runtime/qualification PASS."
+  ],
+  "limits": [
+    "Static text/source-contract inspection only. No script, compile/AST execution, tests, native/product/process, DB/auth/config/private data, Git, provider/network or tracked mutation occurred.",
+    "This preserves the initial two findings before root repairs; it is not an approval of later utility bytes or active-run completion.",
+    "No new runner framework, changed PQR deadline or production defect is inferred. Existing active candidate/results remain untouched."
+  ]
+}

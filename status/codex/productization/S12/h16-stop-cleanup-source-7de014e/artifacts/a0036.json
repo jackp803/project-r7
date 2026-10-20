@@ -1,0 +1,52 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Repair-only static review of unapplied one-off cleanup test partition utility and unchanged plan",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "production_defect_observed": false,
+  "artifact_hashes": {
+    "partition_h16_cleanup_tests.py": "ba18f70645f42c7b35372f8362cdcf192b0d5361b991cb4f011ae849b89d4ec7",
+    "h16-cleanup-partition-plan-20261020.json": "8fb69b512051235a9fccd6fc482881846d86f0dbd2ccb4d849904e611926dfb6"
+  },
+  "initial_review": {
+    "path": "h16-cleanup-partition-script-review-initial-20261020.json",
+    "sha256": "7c1b2c27eb311796f2c49835768f8e5297b32a55be5439cbecc6645025feae1e",
+    "initial_artifact_hashes": {
+      "partition_h16_cleanup_tests.py": "bb456676208885728544149bb9906c4aefc8e0609d5ff64294bb5871f0f75c87",
+      "h16-cleanup-partition-plan-20261020.json": "8fb69b512051235a9fccd6fc482881846d86f0dbd2ccb4d849904e611926dfb6"
+    },
+    "provenance": "Initial artifact hashes were checked against retained in-memory pre-repair byte snapshots, not substituted with repaired-file hashes."
+  },
+  "resolved_findings": [
+    {
+      "id": "PARTITION-OPTIMIZED-ASSERT-GATES",
+      "status": "RESOLVED",
+      "path": "partition_h16_cleanup_tests.py",
+      "line": 11,
+      "reason": "The ordinary if not __debug__ raise is the first statement of main; optimized Python cannot proceed to admission metadata or mutations. Under admitted nonoptimized execution, the existing assert gates remain enabled."
+    },
+    {
+      "id": "PARTITION-UNANCHORED-REVIEW-PATHS",
+      "status": "RESOLVED",
+      "path": "partition_h16_cleanup_tests.py",
+      "lines": [
+        18,
+        23
+      ],
+      "reason": "Captures the fixed retry01 review once, verifies raw SHA256 before JSON parsing/path iteration, then checks the nine fixed subject commitments. The captured referenced review hash was independently confirmed and contains exactly the previously reviewed nine paths.",
+      "pinned_review_sha256": "c00e4267598d2d9a9a0284d39116d5af7379c0a0d255cc973799b3bc2fcb9ba7"
+    }
+  ],
+  "findings": [],
+  "static_checks": [
+    "Exact comparison to the retained initial utility bytes confirms only the ordinary optimized-mode rejection and pinned same-byte review admission block changed. The plan bytes are identical to the initial captured plan.",
+    "Previously inspected current-input AST slicing, eleven-case one-to-one mapping, non-TestCase helper mixin, retained core class, valid existing ENTRY FK oracle correction and compile-before-apply ordering are unaffected by this delta. No utility, AST or compile execution was performed.",
+    "All declared fixed deadlines remain unchanged, and the plan explicitly requires actual post-partition execution and timing."
+  ],
+  "limits": [
+    "No active run checkpoint or completion state was inspected or asserted; future utility apply remains conditional on its original completed/passed/reaped/unchanged-source and exact-clean checks.",
+    "No tests, script/product/native/process, Git, DB/auth/config/private data or network/provider operations were performed, and no tracked files were changed. Only this new authorized outside-Git review JSON was written.",
+    "Static review is bounded to the repaired utility and unchanged plan. It grants no partition execution, deadline, H16, source/native qualification, financial authority or whole-product acceptance credit."
+  ]
+}

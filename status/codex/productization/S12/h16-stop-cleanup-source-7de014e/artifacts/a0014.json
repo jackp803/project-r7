@@ -1,0 +1,10 @@
+{
+  "scope": "Source candidate precommit whitespace check, not a test result",
+  "original_command": "git -c core.autocrlf=false -c core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol diff --cached --check",
+  "original_exit_code": 2,
+  "original_output": "tests/product/test_trading_protected_close_v02.py:224: new blank line at EOF.",
+  "repair": "Removed only the trailing empty EOF lines: three trailing LF bytes became one final LF byte. Re-staged that file; code bytes unchanged.",
+  "retry_exit_code": 0,
+  "test_credit": "NONE",
+  "prior_static_review": "PRESERVED; refreshed hash review separately captured"
+}

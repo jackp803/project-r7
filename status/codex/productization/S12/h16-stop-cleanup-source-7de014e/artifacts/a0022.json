@@ -1,0 +1,74 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "draft": "test_trading_finalization_v02.py.unapplied",
+  "scope": "One joined positive and four negative tests, reusing actual genuine protectedclose/cleanup and actual funding source page builder. No finalizer implementation/source edits.",
+  "recipe": [
+    "Construct TradingStopCleanupV02Tests helper normally -> genuine full entry, original stop, complete inventory, OPEN_PROTECTED and original close ACK. Existing helper performs actual owner calls; no raw terminal state injection.",
+    "cleanup.flat -> actual partial then first same-posId zero, binding READY; save exact flat projection/broker clock. Bind existing TradingFundingV02Tests.script to genuine flow without separate setUp, then actual paginated allocated ledger GET/read/publish. Funding object durable BEFORE canonical target CANCELED.",
+    "Normal exact cleanup preparation/claim/one cancel POST; ACK leaves stop OPEN. Actual targeted original stop reconcile CANCELED updates canonical OrderResult and makes old binding reinterpretation-only. Preserve original flat projection and funding.",
+    "Proposed read_fixture_terminal_stop(original_stop_operation_id,expected_revision=...) issues extra targeted CANCELED GET after canonical CANCELED. Then normal fresh same-posId-zero read and complete empty pending inventory. No project_close_position/reattestation to move first-flat interval.",
+    "Proposed finalize_fixture_trade(close_operation_id,target,native,inventory,metadata=...,proof=...,expected_revision=...) consumes actual new issuer reads and immutable first-flat/funding/cleanup chain. Positive asserts CLOSED revision+1, exact predecessor/flat clock/funding ID, terminal stop full history binding, stable repeated receipt and unchanged provider calls."
+  ],
+  "proposed_terminal_reader": {
+    "signature": "TradingService.read_fixture_terminal_stop(original_stop_operation_id, *, expected_revision) -> private immutable issuer-bound ProductTerminalStopRead",
+    "minimum": "Exact original claimed PROTECTION_STOP and cleanup claim/native ID/plan/action/source binding; canonical original latest result already actual CANCELED from reconcile, HEALTHY, zero filled, no stop Fill/child. Fixed actual GET order-algo to original native ID; parse_product_algo(response,original_prepared,expected_provider_id=original_native). Require status CANCELED, no child IDs, native actualSz0 and exact original request role/side/quantity/trigger references. Never parse canceled row as ProductAlgoInventoryObject.",
+    "clock_material": "Bounded exact single response row; retain canonical row JSON/hash/native ID with original operation/ref/hash, received/request clocks and actual native cTime/uTime. Normalize existing numeric millisecond clock shape; cTime<=uTime<=received_at and no future values; preserve source clocks and compare immutable original creation/observed lineage where available. Do not invent native last-update=current local time or rewrite broker flat clock. Owner actual request<=received and five-second issuer/process/provider TTL checks mirror existing readers.",
+    "api_boundary": "No HTTP imported target/PASS; target returned only by issuing service registry. Terminal reader cannot itself publish OrderResult or repair missing canonical reconciliation. Read-only repeated calls do not renew financial authority. Active inventory parser live-only unchanged."
+  },
+  "negative_cases": [
+    "Missing canonical funding despite actual terminal stop+zero+empty inventory denies with no result/revision/provider changes.",
+    "ACK-only canonical stop plus active target and empty scan cannot replace terminal target; dedicated terminal reader must also deny canonical missing-terminal result even if scripted target response says canceled.",
+    "Unknown active object despite exact original canceled target denies.",
+    "Copied target/native/inventory and exact issued reads expired after6seconds deny; no monkeypatch guard/interpreter PASS."
+  ],
+  "replay_test_outline": [
+    {
+      "name": "test_actual_closed_projection_commit_failure_replays_exact_saved_batch_after_successor",
+      "fault": "Wrap actual PaperRuntimeJournal.persist_position_projection: call original writer with true E5 payload, then raise OSError once. This leaves actual CLOSED committed, binding/result missing; not a fake CLOSED row."
+    },
+    {
+      "name": "test_actual_complete_closed_binding_commit_failure_replays_exact_saved_batch_after_successor",
+      "fault": "Wrap actual persist_lifecycle_execution_binding: call original writer then raise OSError once. CLOSED+actual complete binding committed, TradeResult missing."
+    },
+    {
+      "name": "test_actual_trade_result_commit_before_receipt_failure_replays_without_new_trade",
+      "fault": "Wrap actual persist_trade_result: call original writer then raise OSError once. All three real canonical effects committed, finalization receipt missing; saved outbox must still be marked once."
+    }
+  ],
+  "replay_shared_steps": [
+    "Each separate fresh genuine context funds before terminal; normal finalize must durably stage fixed outbox BEFORE first writer. Fault applies only scoped canonical writer after actual original commits, no patch to source proof or PASS. Capture saved typed finalization batch effects/hash/interpreted_at via proposed readonly outbox accessor, not raw SQL.",
+    "Restore writer; construct new actual RuntimeAdmission+capability owner+translator+FakeProductProvider([])+new journal connections; fresh coherent synthetic E7 process_instance/heartbeat with accepted runtime-generation unchanged; bind_process(expected_generation=1) -> actual E6 dispatch generation2 using existing successor recipe. No old issued reads/permits/preparations passed to successor.",
+    "Normal successor.recover_publications drains saved finalization outbox. Must accept only exact own partial canonical states and immutable original source commitments; no new source clock/effect rebuild. Assert provider.calls=[] and no ledger/cancel/order GET/POST, exact first interpreted_at/IDs/hash, one CLOSED revision and one TradeResult; receipt once.",
+    "Repeat recover_publications returns same graph. If user-facing repeated finalizer needs current inputs, original stale/foreign read must not grant authority; retrieve saved completion receipt via exact operation lookup before considering mutable input to avoid requiring another network call. Final accessor names remain root implementation choice; do not invent active API as existing."
+  ],
+  "concrete_gaps": [
+    "finalize_fixture_trade and dedicated terminal target reader are proposed, not implemented by this draft. Current read_fixture_cleanup_stop wrongly shares live inventory normalizer for terminal use; do not loosen parse_product_algo_page.",
+    "Existing script builder appends bounded FakeProductProvider pages as input, but active service/provider instance remains unchanged. Binding helper without setUp deliberately avoids second store/provider; root should inspect helper coupling before applying.",
+    "No full PQR/native/provider/LIVE/production funding claim. Role labels in fixture remain synthetic existing E7/E6 graph; no real funds, secrets or provider calls."
+  ],
+  "verification": {
+    "network_calls": 0,
+    "DB_reads": 0,
+    "Git_commands": [],
+    "native_run": [],
+    "tracked_changes": [],
+    "tests_run": [],
+    "imports_run": []
+  },
+  "draft_sha256": "b542d55217caddf1a5bf0d6d185ab999d1538d5a284432fb794032b0c24dc385",
+  "root_caught_static_corrections": {
+    "status": "CORRECTED_IN_UNAPPLIED_DRAFT_ONLY_NOT_EXECUTED",
+    "initial_draft": "test_trading_finalization_v02.py.initial.unapplied",
+    "initial_sha256": "4cf95ce65d3be88a80f2a1c226161354c18c29ac4a468e330291fbdd10b148d4",
+    "issues": [
+      "Original setUp dereferenced flow.close too early for deferred genuine close creation. close_id now set only in settled immediately after actual cleanup.flat().",
+      "Original first-flat zero assertion compared literal string0. Now compares Decimal(actual_quantity)==Decimal0, accepting canonical0.0000 without relaxing numeric meaning."
+    ],
+    "contract_keys_checked": {
+      "order_result_observation_count": "Confirmed same builder order_evidence entry key; unchanged",
+      "previous_lifecycle_projection_id": "Confirmed lifecycle_projection.py::_projection_payload field; unchanged",
+      "order_evidence": "Confirmed lifecycle_execution_binding.py::build_position_lifecycle_execution_evidence_binding field; unchanged"
+    },
+    "additional_key_mismatches": "None demonstrated among requested positive lifecycle/binding keys. No speculative renaming."
+  }
+}

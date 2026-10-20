@@ -1,3 +1,28 @@
+# H16 cleanup checkpoint — 2026-10-20
+
+Exact `7de014eeedf2791c8e186a9608c589454c792f4c` source158/16modules FAILED:66pass,92errors,0failures/skip;
+all92errors are actual RESEARCH_MEMORY_PRESSURE; source unchanged/tree reaped.
+All11cleanup scenarios passed. No joined-regression/PQR/native PASS credit.
+Evidence: `status/codex/productization/S12/h16-stop-cleanup-source-7de014e/disposition.json`.
+
+Actual original entry/protection/close/flat and exact owned-stop cleanup,
+durable claim, lostACK/successor no-repeat and current-read fences passed.
+Prior expiry RED/focused2PASS retained; existing5second window unchanged.
+Later static finding: alternatePK native-unique fixture has missing-FK mask;
+strengthen with real claimedENTRY and isolated mutation oracle. No SQL defect
+observed. Original9cases1864.525s exceed existing900s perfile limit; partition
+all11 into6files/non-TestCase helper without raising deadline or losing cases.
+H16/K05 funded CLOSED/TradeResult/replay positive remain unfinished.
+H01 static0C1I: formal E2-driven TradingService runner absent; originalM9/
+TRADE01 require it. Normal Paper separate and supported. Continue local work
+during memory pressure. No repeat full run until actual resources adequate.
+Preserve qualified Windows7d821f2; final inventory/examples/full/native still
+required for settled source. F04/I04/J03/portable/audits/clause binding pending.
+OldPC/Ubuntu/cloud/policies/realforward external or unselected; no wait for
+independent local work. Master IN_PROGRESS; original task/branch preserved.
+Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE
+notstarted/GitHub compute notused.
+
 # H16 controlled allocated-ledger owner source checkpoint — 2026-10-20
 
 Source `53358976b1f5c3aa66b5948d8aa068860a6330eb` exact-clean14modules/146cases PASS, unchanged/reaped.

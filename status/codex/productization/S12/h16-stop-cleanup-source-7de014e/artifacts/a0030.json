@@ -1,0 +1,32 @@
+{
+  "status": "PLANNED_NOT_APPLIED_NOT_EXECUTED",
+  "active_source_frozen": "7de014eeedf2791c8e186a9608c589454c792f4c; expected158 source run session85025 still active",
+  "observed": "Original development9 cleanup cases took1864.525s. Separate focused expiry/successor2 took442.619s. Full11-module elapsed not yet established; no PQR timeout has been executed/claimed.",
+  "existing_fixed_limits": {
+    "UNITTEST_member_seconds": 900,
+    "native_PQR05_seconds": 1800,
+    "other_native_seconds": 1200,
+    "generic_source_default_seconds": 600,
+    "external_full_owning_wrapper_seconds": 10800
+  },
+  "existing_mechanism": "Fixed producer discovers one complete file per command, with frozen test_cases as expected result identities (not selectors). Existing application/product suite_patterns already partitions by file. Method-selecting PQR is unsupported; no new runner framework or raised deadline.",
+  "references": [
+    "tools/freeze_paper_inventory.py:48",
+    "tools/freeze_paper_inventory.py:57",
+    "src/application/qualification.py:95",
+    "src/application/qualification.py:165",
+    "src/application/paper/producer.py:169",
+    "artifacts/current-windows-20261019/run_owning_with_memory.py:43"
+  ],
+  "proposed_after_active_run": [
+    "Retain current exact source result with explicit open FK-mask coverage finding and prospective per-file timing issue. No wholePQR/native acceptance.",
+    "Move shared setup/helpers only into non-TestCase StopCleanupFixture mixin at tests/product/trading_stop_cleanup_fixtures.py. It contains NO test methods and cannot duplicate unittest discovery.",
+    "Keep core original test module/class with ACK duplicate and before-flat tests (2). Proposed expiry file has copied/stale plus finalPOST-expiry (2); inventory file has empty/competing and provider/execution replacement (2); race file has before/after claim append (2); recovery file has lostACK and successor (2); immutability file has corrected validFK SQL replacement test (1). Preserve all11 method bodies/identities except necessary module/class relocation and explicit FK-oracle correction.",
+    "Each test class mixes shared helper with unittest.TestCase. Import helper modules/mixins, not global imported TestCase classes with tests. Original core class remains usable by joined finalization helper via runTest setup only.",
+    "Produce explicit old-to-new test identity mapping and source hashes; total original scenario count stays11. Actual two-case timings suggest bounded partition, but every partition still needs actual900s execution confirmation.",
+    "Strengthen alternate replacement to real self.flow.entry_operation FK and assert real committed entry/no existing cleanup PK. Bounded isolated mutation removing only native-unique trigger condition should make new oracle fail; normal unchanged production trigger must deny and preserve original row.",
+    "Regenerate final fixed inventory only after source settles, commit exact candidate, retain all cases/hashes and run actual owning gates. Production/PQR limits stay unchanged."
+  ],
+  "qualification": "NONE_FOR_FUTURE_PARTITIONS",
+  "production_defect_observed": false
+}

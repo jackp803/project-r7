@@ -1,0 +1,119 @@
+{
+  "status": "STATIC_UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "Remaining H16 exact-owned stop cleanup and E5 finalization only; production funding unsupported, explicit fixture funding profile retained",
+  "reusable_source": [
+    {
+      "ref": "application/trading/algo_inventory.py::read_algo_inventory/require_algo_inventory",
+      "fact": "Two bounded convergent native pending scans across supported algo types, exact issuer/provider/lease/account/metadata, five-second issuance TTL. Inventory grants no cleanup permission; empty alone is not a terminal targeted readback."
+    },
+    {
+      "ref": "application/trading/protection_monitor.py::_registry/project_protection",
+      "fact": "Actual original protection claim/native ID, current canonical request/action/source bindings, full account claim inventory FP04/FP11 and protected lifecycle evidence. Reuse exact-owned identification, not flat-as-cancel authority. FP11 policy deliberately emits no cleanup target; flat+active protection remains contradiction/dependency."
+    },
+    {
+      "ref": "application/trading/service.py::_reconcile_stop; brokers/okx_product_readback.py::parse_product_algo",
+      "fact": "Targeted original order-algo read parses ACTIVE/CANCELED/triggered-child uncertainty. CANCELED requires exact original native algo, no children and actualSz0; publishes actual canonical original stop OrderResult.CANCELED through existing dispatch outbox. Triggered child requires actual child order/fill reconciliation; no canceled shortcut."
+    },
+    {
+      "ref": "brokers/okx_production_transport.py::_body",
+      "fact": "Existing exact cancel-algos transport body is one-item list with only instId=BTC-USDT-SWAP and numeric algoId. Transport support is not owned cleanup authorization or a durable one-cancel claim. No TradingService cancellation owner/API or cancellation ACK parser demonstrated."
+    },
+    {
+      "ref": "position/trade_result.py::build_trade_result; position/lifecycle_projection.py::build_position_lifecycle_closed_transition",
+      "fact": "Existing single actual exit request, exact authority quantity, all real entry/exit fills/fees and canonical funding consumer yields TradeResultBuildOutcome. Dedicated closed transition alone authorizes CLOSED and exact original flat clock. No weakening for multiple requests/capped quantity."
+    },
+    {
+      "ref": "storage/canonical_publication.py; storage/_paper_runtime.py::persist_trade_result",
+      "fact": "Existing canonical writers include TRADE_RESULT, POSITION_PROJECTION and LIFECYCLE_EXECUTION_BINDING. TradeResult requires durable exact funding first; recover detects half-published CLOSED/result graphs, so final effects need durable replay before any next admission."
+    }
+  ],
+  "minimal_missing_cleanup": {
+    "proposal": "Trusted internal cleanup_owned_stop(stop_operation_id, *, flat_close_operation_id, metadata, proof, expected_revision), FIXTURE-first actual FakeProductProvider owner composition",
+    "preconditions": "Exact actual flat close publication same original native posId, zero EXIT_REQUESTED canonical position, original plan/action/full exit fill truth. Original PROTECTION_STOP durable claim plus exact native algoId and original materialized algoClOrdId/action/position binding. Current issuer inventory and targeted read show that exact stop ACTIVE; all account claims complete/current, no competing ownership/unknown duplicate or triggered child. Final current guard fences process/provider/account/canonical flat/source/claim inventory again immediately before one specific cancel.",
+    "durability_gap": "ProductDispatchJournal.prepare currently accepts only entry/protection/position-exit/emergency-exit prepared order intents; operation_id is original canonical order request ID. Reusing original stop claim would reconcile and not send cancel; inventing CANCEL OrderRequest would change shared contract. Add a narrowly typed E6-local cleanup phase/claim keyed by original stop operation/native ID+actual flat evidence, on existing dispatch connection/outbox. It must be independently durable before POST and replay read-only after ambiguity/crash. No blind second cancel/new ID; no general cancellation framework.",
+    "effect": "Use only already-supported exact one-target cancel-algos body. Do not claim ACK proves cancellation. Response/lost-ACK/error leaves cleanup pending; always query original stop through existing reconcile and then fresh complete inventory to require exact terminal canceled/no triggered child and target absent. No extra POST during retry/recovery; preserve exact handle/claim even failure.",
+    "policy": "Existing FP11 cleanup_target_ref=None is no cancellation authority. New small internal decision must explicitly establish unused exact-owned stop cleanup after proven original flat, preserving original-stop protection until flat. This is authorized local owner implementation work, not permission to clean unknown/external objects or cancel all."
+  },
+  "finalization_seam": {
+    "proposal": "TradingService.finalize_trade(close_operation_id, *, cleanup_receipt_ref, expected_revision) -> immutable owner receipt",
+    "gates": "Drain actual publication backlog. Require current exact flat EXIT_REQUESTED, original entry/close/stop claim chain, single-close consumer compatibility, every entry/order remainder and protection order terminal with targeted evidence plus fresh complete inventory. Funding owner actual canonical receipt matches original flat interval/plan/position and explicit fixture source. No source dictionaries/PASS/terminal flags supplied by API.",
+    "e5": "Recover actual original entry requests/fills, exact exit request/fills and E5 action; call build_trade_result(... final_position=actual current canonical flat, funding_evidence=actual persisted canonical funding). Call closed_transition with exact returned outcome. Build complete lifecycle execution binding including terminal stop and all actual order observations. Original broker flat timestamp stays unchanged; final local interpreted_at may be later, no fake fresh native observation.",
+    "publication": "Narrow typed finalization wrapper/outbox on existing E6 replay pattern, with exact flat publication hash, funding evidence ref/hash, cleanup terminal+inventory commitment, original source/action/plan and canonical graph. Effects contain real E5 closed projection/binding and TRADE_RESULT; durable funding already exists. Recheck complete graph/process/claim generation under writer boundary. Replay saved immutable effects after crash without provider calls or rebuilding different IDs/times. Partial publication blocks admission until recovered; do not raw-write CLOSED or insert a result directly."
+  },
+  "test_first_flows": [
+    "Current TradingFundingV02Tests.flat uses full entry->close but no genuine active protection. Existing TradingProtectionMonitorV02Tests.context reaches protection using partial entry with remainder pending. Do not splice them and ignore remainder: create joined helper using actual fully FILLED entry quantity, actual E5 protection builder/preparation/execute/readback/inventory->OPEN_PROTECTED, then actual explicit close/partial/flat and funding. This avoids new entry-remainder cancellation semantics for first H16 sample.",
+    "Before flat, cleanup must deny without POST and original protection remains actual ACTIVE. At actual flat, exact owned active stop may receive one single-target cancel; ACK-only or empty inventory does not finalize. Targeted CANCELED readback plus complete postcancel inventory allows terminal cleanup proof.",
+    "Wrong/external algo ID, duplicate/unknown account claim, copied/stale inventory, original source mutation or second-connection claim at final boundary -> no cancel. Triggered child path invokes existing reconciliation and denies single-close finalization if added exit fills/requests violate consumer.",
+    "Lost cancel ACK/crash after committed cleanup claim -> successor real lease recovery only original GET/readback, no second cancel POST; terminal outbox publication failure replay exact effects, no invented terminal state.",
+    "Actual canonical funding + terminal stop + zero current position -> real build_trade_result/closed_transition produces one canonical TradeResult/CLOSED with original flat clock and full binding; repeated call returns same receipt and no new lifecycle revision/provider effect.",
+    "No funding/incomplete source, active stop, stale targeted evidence, unsettled entry remainder, foreign interval, unsupported fees, changed allocation or multiple exit requests must retain EXIT_REQUESTED/no result. Fail after each final effect and recover identical saved batch."
+  ],
+  "constraints": "No shared canonical schema change, no generic financial defaults, no Paper zero substitute, no flat=>stop-gone inference. Ordinary Windows Paper and its existing PaperBroker-only cleanup path remain untouched. No actual provider/production ledger verification claim.",
+  "source_hashes": [
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "e6361d3afbbb9724a180cfa7b9e31a9b59a7f5ce2975d751b7cadf4181e64536"
+    },
+    {
+      "path": "src/application/trading/protection_monitor.py",
+      "sha256": "7aa634b6d46ef89f17537ab5b9c6431fe2a5b94845c69f9de26f59775ab27dca"
+    },
+    {
+      "path": "src/application/trading/algo_inventory.py",
+      "sha256": "9643676023ed62e1a5e613149b41cec0469f9360ae24852060f8db01bc1e9a6b"
+    },
+    {
+      "path": "src/application/trading/funding_owner.py",
+      "sha256": "4a9e8f5bb90fa658ef7ca1351e091f234021ab0d344bdeb00d59a56b0be7e927"
+    },
+    {
+      "path": "src/brokers/okx_product_readback.py",
+      "sha256": "dc6d3bd81b27050d1b65019ca28c3bf0c7d6ae9892c51347e6d54b8b03e2aa11"
+    },
+    {
+      "path": "src/brokers/okx_production_transport.py",
+      "sha256": "bd9b172c63e9e51c78109709506fa70a6d9bd06e55b1913c68ddd4e49b81f7ce"
+    },
+    {
+      "path": "src/position/protection_registry_policy.py",
+      "sha256": "f8dff9b111da962584b3fd1dea8f086931cad9ecb45fbad54f64a67859a4ba78"
+    },
+    {
+      "path": "src/position/trade_result.py",
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b"
+    },
+    {
+      "path": "src/position/lifecycle_projection.py",
+      "sha256": "cecf09d582662df0d43f66c8692fc11bcb5141b37147d1a2c2e61dfcc9c1f242"
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "47658263a2dfc0c8655c86f45feeac2e924818855fbbcb38d302eeb9a9a190dc"
+    },
+    {
+      "path": "src/storage/canonical_publication.py",
+      "sha256": "cb540771f20ed41812df146d2760618e02b56e91750122925bb28e3e39a1da73"
+    },
+    {
+      "path": "tests/product/test_trading_funding_v02.py",
+      "sha256": "69996d3a858878c1d23cbc4daf6189ddace179f9726e2066faa17028890ef1e7"
+    },
+    {
+      "path": "tests/product/test_trading_protection_monitor_v02.py",
+      "sha256": "0a87460c67b997d007d1cae387f46988c66a864246b783e86580271da301a1d4"
+    },
+    {
+      "path": "tests/product/test_trading_close_v02.py",
+      "sha256": "af82ff3d1fb3c77e789b4e83839ff5d3b596c62f03be8353ab9e7983a8b694c2"
+    }
+  ],
+  "verification": {
+    "Git_commands": [],
+    "tests_run": [],
+    "DB_reads": 0,
+    "tracked_changes": [],
+    "native_run": [],
+    "network_calls": 0,
+    "private_reads": 0
+  }
+}

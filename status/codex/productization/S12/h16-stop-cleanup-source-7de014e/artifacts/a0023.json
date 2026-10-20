@@ -1,0 +1,2501 @@
+{
+  "document_kind": "STATIC_S16_CURRENT_LOCAL_GAP_RECONCILIATION",
+  "status": "NOT_RUN",
+  "execution": "NONE",
+  "prepared_date": "2026-10-20",
+  "task": "SAME_MASTER",
+  "active_subject": {
+    "revision": "7de014e",
+    "source_run": "ROOT_REPORTED_EXACT158_16_MODULES_ACTIVE",
+    "evidence_read": false,
+    "outcome": "NOT_INFERRED"
+  },
+  "canonical_records": {
+    "v02_count": 66,
+    "v02_definition": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+    "legacy_count": 150,
+    "legacy_definition": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md",
+    "binder": "bind_current_acceptance_records.py:91-145",
+    "last_record_subject": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "last_record_status_counts": {
+      "v02_NOT_RUN": 65,
+      "v02_scoped_E2E03_PASS": 1,
+      "legacy_NOT_RUN": 150
+    },
+    "rule": "Exact identity/text/source-and-unique-symbol/typed-receipt/index closure binds supporting executions only; whole rows remain NOT_RUN pending mandatory clause/environment review. PASS/FAIL/BLOCKED/NOT_RUN/N_A only; no PARTIAL acceptance status."
+  },
+  "preserved_proof": {
+    "revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "receipt": "qualification-5a4a842d11cde1ccb042b25558bc988ba5a03c0c7101cdfbe98ae65428c6ae80",
+    "ref": "status/codex/productization/S12/current-windows-7d821f2/disposition.json",
+    "scope": "CURRENT_WINDOWS_SOFTWARE_FIXED_7_GROUPS;PORTABLE_FIRST_RUN;HEADLESS_DIAGNOSTIC;AUTOMATIC_DIAGNOSTIC_BLOCKED_RESEARCH;ORDINARY_IDLE_WORKFLOW_FALSE;INHIBITED_BACKUP_RESTORE",
+    "zip_hash": "sha256:8ef3e058da61d613bc7cd3488b390252190c224750abc90c1356ca1b8bd7b0a9",
+    "financial_authority": "NONE",
+    "public_requests_cumulative": 8,
+    "public_responses_cumulative": 8,
+    "new_public_requests": 0,
+    "private_requests": 0,
+    "real_data_origin": "ENGINEERING_BASELINE_NOT_GPT",
+    "ordinary_paper": "NOT_STARTED",
+    "real_forward": "NOT_STARTED"
+  },
+  "known_main_path_not_repeated": [
+    "H16 exact original stop terminal -> canonical funding/TradeResult/CLOSED finalizer; prior h16-finalizer-exact-seam-plan-20261020.json",
+    "K05 genuine closed product history positive summary after H16; cb0724c readonly foundation and 77613c3 source summary remain valid scoped evidence",
+    "refresh final capability/authoring examples and frozen inventory; final full native exact-subject qualification after changes"
+  ],
+  "gap_manifest": [
+    {
+      "priority": 1,
+      "clause_ids": [
+        "PLAT-08"
+      ],
+      "status": "NOT_RUN",
+      "classification": "INDEPENDENT_CURRENT_PC_ACTUAL_FLOW",
+      "exact_clauses": [
+        {
+          "id": "PLAT-08",
+          "text": "Native build provenance, dependency locks/licenses/checksums and safe upgrade/uninstall preserving user data",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=PLAT-08]"
+        }
+      ],
+      "gap": "Actual safe upgrade/uninstall preserving external user data remains expressly unproved by PQR-02 startup/provenance/tamper assertions.",
+      "current_source_or_mapping_refs": [
+        "acceptance-disposition-advisory.json#requirements[PLAT-08]",
+        "acceptance-v02-draft.json#PLAT-08",
+        "packaging/windows/",
+        "tools/verify_native_product.py::verify",
+        "docs/product/v0_2/06_EXECUTION_PLAN.md:188"
+      ],
+      "next_required_work": "Review current portable delivery upgrade/uninstall contract; use two disposable authorized installation subjects with a fresh synthetic external data root. Demonstrate package replacement/removal preserves exact data hashes, no live owner permissions inherited, and old/new installation identity truth. First bind any already retained actual matching flow; add only uncovered assertions. Do not operate on operator installation.",
+      "proof_boundary": "7d PQR-02 validates exact package/resources/tamper, not upgrade/uninstall. Ubuntu branch remains external; no new installer requirement inferred for portable distribution.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "PLAT-08",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#PLAT-08",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_native_build_inputs.NativeBuildInputTests.test_exact_source_requires_clean_full_revision",
+              "instance": "PQR-01-059:0001",
+              "source_ref": "tests/application/test_native_build_inputs.py",
+              "source_hash": "sha256:da41fcb27255ecd68ad6bb00efee680d6dc43858c8a8e58c15bac152ce608646",
+              "log_ref": "PQR-01-059.log",
+              "log_hash": "sha256:9098780a1c1d455e4cbfeaa35ee53beb957a5901aa9f564aa23afa5ca16a3b66",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 2,
+      "clause_ids": [
+        "F04"
+      ],
+      "status": "NOT_RUN",
+      "classification": "INDEPENDENT_LOCAL_JOINED_ASSERTION",
+      "exact_clauses": [
+        {
+          "id": "F04",
+          "text": "Risk REJECT blocks execution",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F04"
+        }
+      ],
+      "gap": "Existing accepted-record mapping stops at RiskEngine rejected decision cannot create plan. It does not bind the actual Paper engine reject branch to zero broker request/effect.",
+      "current_source_or_mapping_refs": [
+        "legacy-150-draft.json#F04",
+        "tests/risk/test_risk_engine.py::test_rejected_decision_cannot_create_plan",
+        "src/application/paper/engine.py:353",
+        "tests/product/test_paper_runtime_v02.py",
+        "tests/application/test_paper_effect_recovery.py"
+      ],
+      "next_required_work": "Use existing normal Paper fixture/service and real risk evaluation to obtain REJECT; assert durable RISK_DECISION reason/identity, BLOCKED result, no ApprovedTradePlan/order request/fill/submission, no exposure, and exact retry idempotency. Bind existing actual named case if found before adding a focused test. No patched risk PASS/REJECT or provider call.",
+      "proof_boundary": "Source branch exists (risk decision check before submit); this is a joined assertion/evidence gap, not an observed product failure. Source fixtures do not authorize ordinary financial flow.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "F04",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#F04",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.risk.test_risk_engine.RiskEngineTests.test_rejected_decision_cannot_create_plan",
+              "instance": "PQR-01-024:0025",
+              "source_ref": "tests/risk/test_risk_engine.py",
+              "source_hash": "sha256:c019dc3f5b593a841e0dfa2c3df419d214a2f59aebd936eceecbd214305c8168",
+              "log_ref": "PQR-01-024.log",
+              "log_hash": "sha256:3b09466a17b86ac545f3a0854caaba5c1d5affd9dc8fab632d985e55db4e6018",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 3,
+      "clause_ids": [
+        "I04",
+        "J03"
+      ],
+      "status": "NOT_RUN",
+      "classification": "INDEPENDENT_LOCAL_POPULATED_HISTORY_ASSERTION",
+      "exact_clauses": [
+        {
+          "id": "I04",
+          "text": "strategy lifecycle endpoint truthful",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I04"
+        },
+        {
+          "id": "J03",
+          "text": "Strategies/version history renders",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#J03"
+        }
+      ],
+      "gap": "Current code lists stored strategy versions, but earlier map binds one current-version author/declaration detail; exact multiple-version lifecycle/history API and visible selection is not bound.",
+      "current_source_or_mapping_refs": [
+        "legacy-150-draft.json#I04/J03",
+        "src/application/control_api/owner_services.py:74",
+        "ui/src/App.tsx::Strategies",
+        "tests/product/test_api_owner_services.py::test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest",
+        "ui/qa/control-center.spec.ts"
+      ],
+      "next_required_work": "Register two actual immutable versions through normal intake/E6 owners, with differing hashes/lifecycle facts. Verify bounded list/detail identities and independently selected history remain truthful; display both versions/lineage without merging their states. Bind original actual source/API/browser evidence first; then add only a missing populated case.",
+      "proof_boundary": "Feature absence is not established: list_strategies and UI immutable-version list exist. No permission to manufacture lifecycle terminal records.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "I04",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#I04",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_api_owner_services.APIOwnerServicesTests.test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest",
+              "instance": "PQR-01-129:0007",
+              "source_ref": "tests/product/test_api_owner_services.py",
+              "source_hash": "sha256:8c6363ecd06719647fc7607838ca98d9c3e37fdc0b06cba7a94d945507465c3d",
+              "log_ref": "PQR-01-129.log",
+              "log_hash": "sha256:85619745246e1703a49a2d2491bb0a995a2af06559b2a2567b13a6cd66dfd80e",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "J03",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#J03",
+          "actual_supporting_instances": []
+        }
+      ]
+    },
+    {
+      "priority": 4,
+      "clause_ids": [
+        "OPS-01"
+      ],
+      "status": "NOT_RUN",
+      "classification": "LOCAL_FAULT_SUBCLAUSES_AND_EXTERNAL_POWER_BOUNDARY",
+      "exact_clauses": [
+        {
+          "id": "OPS-01",
+          "text": "Power/process/cloud/network/disk failures produce explicit states and verified recovery",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=OPS-01]"
+        }
+      ],
+      "gap": "Existing PQR-05 covers owned process crashes, timeout isolation and consistent inhibited restore. Broad explicit disk/network/power recovery remains wider than those assertions.",
+      "current_source_or_mapping_refs": [
+        "acceptance-disposition-advisory.json#OPS-01",
+        "acceptance-v02-draft.json#OPS-01",
+        "tools/verify_paper_faults.py",
+        "tools/verify_paper_isolation.py",
+        "tools/verify_paper_publication.py"
+      ],
+      "next_required_work": "Map bounded local copy unavailable/readback/hash-conflict and actual write-failure cases already retained; for any literal still-uncovered disk/network branch use only a private finite fixture filesystem/transport fault with actual owner recovery and unchanged original bytes. Keep physical power loss and real remote/network commissioning separate; do not disrupt host/network or exhaust disk.",
+      "proof_boundary": "No new fault campaign is mandated by this advisory. Verify exact existing assertions before implementation; all PQR groups cannot silently become comprehensive power/network/disk proof.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "OPS-01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#OPS-01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_native_research_worker.NativeResearchWorkerTests.test_controlled_timeout_reaps_child_and_records_failed_owned_job",
+              "instance": "PQR-01-066:0003",
+              "source_ref": "tests/application/test_native_research_worker.py",
+              "source_hash": "sha256:062bc1f74331ca15aef50d34509bb8a3cfb579ddca489b478a03c1c3dfe1391e",
+              "log_ref": "PQR-01-066.log",
+              "log_hash": "sha256:4be284903f3a469a70b145833df8cd7159cac06041d377552de29838b46f935a",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 5,
+      "clause_ids": [
+        "OPS-02",
+        "J10",
+        "L01",
+        "L03",
+        "L05",
+        "L06",
+        "H01"
+      ],
+      "status": "NOT_RUN",
+      "classification": "INDEPENDENT_LOCAL_REQUIRED_REVIEW_EVIDENCE",
+      "exact_clauses": [
+        {
+          "id": "OPS-02",
+          "text": "Code/build/config/evidence/platform identities separated; no real secrets in Git or reports",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=OPS-02]"
+        },
+        {
+          "id": "J10",
+          "text": "UI does not directly edit DB",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#J10"
+        },
+        {
+          "id": "L01",
+          "text": "no real secret in Git",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#L01"
+        },
+        {
+          "id": "L03",
+          "text": "strategy cannot execute arbitrary Python/shell",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#L03"
+        },
+        {
+          "id": "L05",
+          "text": "no GitHub workflow compute added",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#L05"
+        },
+        {
+          "id": "L06",
+          "text": "no paid LLM API runtime dependency",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#L06"
+        },
+        {
+          "id": "H01",
+          "text": "TradingOrchestrator exists and uses E2/E5/E4",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H01"
+        }
+      ],
+      "gap": "Required architecture/security/contract evidence kinds remain distinct from redaction or source test counts. H01 names an orchestrator while implementation uses TradingService plus TradingCoordinator; equivalence requires documented review, not renaming.",
+      "current_source_or_mapping_refs": [
+        "docs/product/v0_2/06_EXECUTION_PLAN.md:222",
+        "final-acceptance-record-plan.json#current_source_route_advisory",
+        "legacy-150-draft.json#J10/L01/L03/L05/L06/H01",
+        "src/application/trading/service.py::TradingService",
+        "src/application/trading/orchestrator.py::TradingCoordinator"
+      ],
+      "next_required_work": "After source freeze, perform bounded independent whole-branch architecture/authority/contract review; record UI API-only/storage boundary, declarative parser/operator allowlists, runtime dependency/import/network boundaries, workflow-tree policy and redacted Git secret-scan disposition without exposing secrets. Resolve material findings with focused regressions; keep review finding IDs and exact scope/commit.",
+      "proof_boundary": "This task performed no Git scan/history audit or dependency/network audit. A representative error-redaction/provider-negative test is not proof of repository-wide absence. No new authority or private inspection authorized here.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "OPS-02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#OPS-02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_native_assessment_provenance.NativeAssessmentProvenanceTests.test_actual_sealed_frozen_identity_is_accepted_without_relabelling_git_clean",
+              "instance": "PQR-01-058:0001",
+              "source_ref": "tests/application/test_native_assessment_provenance.py",
+              "source_hash": "sha256:a39433da336b47df33de1e95d334779ed377c7de40643530155e88d1e88d8ca5",
+              "log_ref": "PQR-01-058.log",
+              "log_hash": "sha256:816d49c0785eb446b542a394f1ba3cf3f070d5ea7c5bcc724271f2f92c537bbf",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "J10",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#J10",
+          "actual_supporting_instances": []
+        },
+        {
+          "clause_id": "L01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#L01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_errors_never_echo_passwords_paths_or_stack_traces",
+              "instance": "PQR-01-126:0002",
+              "source_ref": "tests/product/test_api_authority.py",
+              "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+              "log_ref": "PQR-01-126.log",
+              "log_hash": "sha256:299132b02b35126915c890fdbb5fb8943997fe8d3cf846e174f4da48ecfc398c",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "L03",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#L03",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+              "instance": "PQR-01-036:0001",
+              "source_ref": "tests/application/test_cloud_intake.py",
+              "source_hash": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+              "log_ref": "PQR-01-036.log",
+              "log_hash": "sha256:187ef9c0816a27872acb01e54b199b580dc01c0390b17506853b92c6eb4822af",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "L05",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#L05",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+              "instance": "PQR-01-150:0006",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "L06",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#L06",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live",
+              "instance": "PQR-01-126:0006",
+              "source_ref": "tests/product/test_api_authority.py",
+              "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+              "log_ref": "PQR-01-126.log",
+              "log_hash": "sha256:299132b02b35126915c890fdbb5fb8943997fe8d3cf846e174f4da48ecfc398c",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "H01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#H01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.execution.test_gateway.ExecutionGatewayTests.test_strategy_trade_intent_cannot_cross_authority_boundary",
+              "instance": "PQR-01-022:0066",
+              "source_ref": "tests/execution/test_gateway.py",
+              "source_hash": "sha256:aed0085ae911b91135a7e4a092ba256c0d0d09431764828527ee7c322da2cc63",
+              "log_ref": "PQR-01-022.log",
+              "log_hash": "sha256:204097d23c6d916ca47a45c0bb2d6b1a532c84325490184d5b32f888abe588f0",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+              "instance": "PQR-01-150:0001",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 6,
+      "clause_ids": [
+        "B01",
+        "B03",
+        "CLOUD-02",
+        "M04"
+      ],
+      "status": "NOT_RUN",
+      "classification": "BIND_EXISTING_FIRST_THEN_ONLY_MISSING_JOINED_FLOW",
+      "exact_clauses": [
+        {
+          "id": "B01",
+          "text": "synced-folder transport initializes root",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#B01"
+        },
+        {
+          "id": "B03",
+          "text": "manifest written last is recognized",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#B03"
+        },
+        {
+          "id": "CLOUD-02",
+          "text": "Manifest-before-payload/truncation/hash mismatch yields retryable INCOMPLETE_SYNC",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=CLOUD-02]"
+        },
+        {
+          "id": "M04",
+          "text": "partial sync -> later single successful processing",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#M04"
+        }
+      ],
+      "gap": "Old mapping uses missing-root negative, transfer staging and separate atomic registration. It has not reconciled positive explicit initialization, literal truncation and same submission partial-to-complete single logical processing against retained native04.",
+      "current_source_or_mapping_refs": [
+        "legacy-150-draft.json#B01/B03/M04",
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-02",
+        "tests/application/test_cloud_bridge.py:165",
+        "tests/application/test_cloud_bridge.py::test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+        "tools/verify_paper_product.py::NativeExpiryFlow.intake_faults"
+      ],
+      "next_required_work": "First bind retained 7d PQR-04 partial retry assertions and source snapshot/validate_package assertions. They may already satisfy clauses. Only if missing, one actual same-ID partial payload then complete/manifest-last flow must reach exactly one E6 registration and original immutable intake receipt. Positive root creation must be explicit setup; missing marker must still deny replacement.",
+      "proof_boundary": "The bridge test already snapshots and validates the staged package, so do not report manifest recognition wholly absent. No duplicate tests solely to improve counts; no real cloud call needed for local mechanics.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "B01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#B01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_missing_root_marker_does_not_initialize_replacement_cloud",
+              "instance": "PQR-01-036:0004",
+              "source_ref": "tests/application/test_cloud_intake.py",
+              "source_hash": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+              "log_ref": "PQR-01-036.log",
+              "log_hash": "sha256:187ef9c0816a27872acb01e54b199b580dc01c0390b17506853b92c6eb4822af",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "B03",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#B03",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results",
+              "instance": "PQR-01-034:0020",
+              "source_ref": "tests/application/test_cloud_bridge.py",
+              "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+              "log_ref": "PQR-01-034.log",
+              "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "CLOUD-02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#CLOUD-02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_incomplete_sync_backoff_is_durable_bounded_and_stalls_after_one_day",
+              "instance": "PQR-01-032:0003",
+              "source_ref": "tests/application/test_claim_recovery.py",
+              "source_hash": "sha256:5cafab1582edf257fa5339c58c592406b652bbdaf23540df367744f2ea9bbb13",
+              "log_ref": "PQR-01-032.log",
+              "log_hash": "sha256:328f138a25dc7ed6632737c071ba1b0cec7e30393cc6989f418da8ce140b7453",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+              "instance": "PQR-01-034:0013",
+              "source_ref": "tests/application/test_cloud_bridge.py",
+              "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+              "log_ref": "PQR-01-034.log",
+              "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_missing_and_mismatched_payload_are_incomplete_not_statistical_failure",
+              "instance": "PQR-01-036:0003",
+              "source_ref": "tests/application/test_cloud_intake.py",
+              "source_hash": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+              "log_ref": "PQR-01-036.log",
+              "log_hash": "sha256:187ef9c0816a27872acb01e54b199b580dc01c0390b17506853b92c6eb4822af",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "M04",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#M04",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+              "instance": "PQR-01-034:0013",
+              "source_ref": "tests/application/test_cloud_bridge.py",
+              "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+              "log_ref": "PQR-01-034.log",
+              "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.registry.test_atomic_intake.AtomicIntakeTests.test_operation_replay_has_same_receipt_and_retains_draft_without_compatibility_pass",
+              "instance": "PQR-01-154:0002",
+              "source_ref": "tests/registry/test_atomic_intake.py",
+              "source_hash": "sha256:0853f7ca0be05db59316f7f6dc39c820a3b7d8b001405bbda831570b0d70529d",
+              "log_ref": "PQR-01-154.log",
+              "log_hash": "sha256:f6358a97a64948f71b97ced3de981e8027c7ba78466cb1f023c6ed3c327e3721",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 7,
+      "clause_ids": [
+        "F01",
+        "F11",
+        "F12",
+        "K01",
+        "K03",
+        "I02",
+        "G02",
+        "L09"
+      ],
+      "status": "NOT_RUN",
+      "classification": "CLAUSE_SPECIFIC_BINDING_REVIEW_NOT_CONFIRMED_NEW_BEHAVIOR",
+      "exact_clauses": [
+        {
+          "id": "F01",
+          "text": "scheduler evaluates only closed boundary",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F01"
+        },
+        {
+          "id": "F11",
+          "text": "funding/cost persisted",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F11"
+        },
+        {
+          "id": "F12",
+          "text": "restart flat safe",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F12"
+        },
+        {
+          "id": "K01",
+          "text": "research manifest published",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#K01"
+        },
+        {
+          "id": "K03",
+          "text": "candidate evidence index published",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#K03"
+        },
+        {
+          "id": "I02",
+          "text": "overview endpoint truthful",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I02"
+        },
+        {
+          "id": "G02",
+          "text": "approval is immutable",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G02"
+        },
+        {
+          "id": "L09",
+          "text": "Control API localhost default",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#L09"
+        }
+      ],
+      "gap": "Representative mappings are weaker than literal clauses; retained owner/native evidence may already close them. Do not convert these review items into asserted product gaps.",
+      "current_source_or_mapping_refs": [
+        "acceptance-records-7d821f2.json#inherited_legacy_results",
+        "legacy-150-draft.json",
+        "tools/verify_paper_faults.py:252",
+        "tools/verify_paper_publication.py::NativePublicationFlow",
+        "tests/product/test_paper_runtime_v02.py:221",
+        "tests/product/test_paper_runtime_v02.py:273"
+      ],
+      "next_required_work": "Match actual scheduler boundary; canonical persisted funding/fees; exact flat crash/restart; owner-generated manifest/candidate evidence-index closure; overview unknown/lineage; canonical approval append-only guard; actual localhost bind to each clause. F12 first reuse 7d actual_idle_flat_crash rather than rerun. If a required assertion truly remains absent, add only its exact focused case and keep approval/flat/health distinctions.",
+      "proof_boundary": "Mapped restart-history source case restarts after fill, then closes; however retained 7d PQR-05 explicitly includes actual flat crash. Existing native07 closure and native02 bind may resolve other rows. No acceptance granted by this static cross-reference.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "F01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#F01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.backtest.test_replay.ReplayTests.test_signal_evaluated_at_must_equal_replay_boundary",
+              "instance": "PQR-01-020:0020",
+              "source_ref": "tests/backtest/test_replay.py",
+              "source_hash": "sha256:3467abff72e76efbeaba0bf3034b297e30762235a23281a992fdabae2abbee7e",
+              "log_ref": "PQR-01-020.log",
+              "log_hash": "sha256:b42364440c183152ba8ba5ff3ef4f6861b62539e2780b87e9d2ea480a710cac9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unfinalized_event_rejected_without_poisoning_durable_operation_queue",
+              "instance": "PQR-01-145:0027",
+              "source_ref": "tests/product/test_paper_runtime_v02.py",
+              "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+              "log_ref": "PQR-01-145.log",
+              "log_hash": "sha256:bc2dc2f1a4d7d30ce97d427de8d74e930b973610cd01b8c2e1d8e8c297d81646",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "F11",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#F11",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.backtest.test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+              "instance": "PQR-01-020:0013",
+              "source_ref": "tests/backtest/test_replay.py",
+              "source_hash": "sha256:3467abff72e76efbeaba0bf3034b297e30762235a23281a992fdabae2abbee7e",
+              "log_ref": "PQR-01-020.log",
+              "log_hash": "sha256:b42364440c183152ba8ba5ff3ef4f6861b62539e2780b87e9d2ea480a710cac9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs",
+              "instance": "PQR-01-130:0004",
+              "source_ref": "tests/product/test_api_paper_services.py",
+              "source_hash": "sha256:404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007",
+              "log_ref": "PQR-01-130.log",
+              "log_hash": "sha256:14d9bbf1c48e8567484dca60df327e663554a513381e5a30f6c22b7d65798f57",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "F12",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#F12",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance",
+              "instance": "PQR-01-145:0021",
+              "source_ref": "tests/product/test_paper_runtime_v02.py",
+              "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+              "log_ref": "PQR-01-145.log",
+              "log_hash": "sha256:bc2dc2f1a4d7d30ce97d427de8d74e930b973610cd01b8c2e1d8e8c297d81646",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "K01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#K01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_feedback_redaction.FeedbackTests.test_queue_cli_records_owner_result_without_cloud_connection_or_performance_opt_in",
+              "instance": "PQR-01-044:0004",
+              "source_ref": "tests/application/test_feedback_redaction.py",
+              "source_hash": "sha256:eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2",
+              "log_ref": "PQR-01-044.log",
+              "log_hash": "sha256:376a6c02b0639db892d3766a401f78016c004fd901b436f1f63376fb3e0b16ab",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "K03",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#K03",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+              "instance": "PQR-01-044:0002",
+              "source_ref": "tests/application/test_feedback_redaction.py",
+              "source_hash": "sha256:eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2",
+              "log_ref": "PQR-01-044.log",
+              "log_hash": "sha256:376a6c02b0639db892d3766a401f78016c004fd901b436f1f63376fb3e0b16ab",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "I02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#I02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live",
+              "instance": "PQR-01-126:0006",
+              "source_ref": "tests/product/test_api_authority.py",
+              "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+              "log_ref": "PQR-01-126.log",
+              "log_hash": "sha256:299132b02b35126915c890fdbb5fb8943997fe8d3cf846e174f4da48ecfc398c",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "G02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#G02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_identical_completed_approval_command_returns_original_receipt",
+              "instance": "PQR-01-154:0025",
+              "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+              "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+              "log_ref": "PQR-01-154.log",
+              "log_hash": "sha256:f6358a97a64948f71b97ced3de981e8027c7ba78466cb1f023c6ed3c327e3721",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "L09",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#L09",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_native_entrypoints.NativeEntrypointTests.test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority",
+              "instance": "PQR-01-061:0003",
+              "source_ref": "tests/application/test_native_entrypoints.py",
+              "source_hash": "sha256:70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3",
+              "log_ref": "PQR-01-061.log",
+              "log_hash": "sha256:2c0e120e7f360656679bb89480c8aa33a44bc6e51417fb352e459dccee42c328",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 8,
+      "clause_ids": [
+        "J07"
+      ],
+      "status": "NOT_RUN",
+      "classification": "APPLICABILITY_OR_INTERFACE_DISPOSITION",
+      "exact_clauses": [
+        {
+          "id": "J07",
+          "text": "settings usable for local/cloud roots",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#J07"
+        }
+      ],
+      "gap": "Legacy smoke asks settings usable for local/cloud roots; current formal stopped-owner CLI sets roots and UI displays roots while editing nonsecret timezone/scan interval. The required interface interpretation is unresolved.",
+      "current_source_or_mapping_refs": [
+        "legacy-150-draft.json#J07",
+        "tests/application/test_research_setup_flow.py::test_first_run_cloud_root_is_explicit_disjoint_and_never_connected",
+        "ui/qa/control-center.spec.ts::stale settings show real backend conflict and keyboard form remains usable"
+      ],
+      "next_required_work": "Review original clause against documented v0.2 first-setup contract and retained CLI/UI flow. Record explicit applicability/supersession rationale or implement only a confirmed required UI root action. Do not invent live root mutation or silently assign N_A.",
+      "proof_boundary": "Metadata/decision work, not a demonstrated root configuration defect.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "J07",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#J07",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_first_run_cloud_root_is_explicit_disjoint_and_never_connected",
+              "instance": "PQR-01-106:0010",
+              "source_ref": "tests/application/test_research_setup_flow.py",
+              "source_hash": "sha256:9b588d87430ef2d23cfaf35e7fa9b2123ff26281ff46ebf9a40b247c29eca9a4",
+              "log_ref": "PQR-01-106.log",
+              "log_hash": "sha256:f9b9dfd9343308d3d1d19152cfc47726fa61411b6f09eb8841c4465b62f5c2eb",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "priority": 9,
+      "clause_ids": [
+        "CLOUD-08",
+        "M08",
+        "J06"
+      ],
+      "status": "NOT_RUN",
+      "classification": "SOURCE_BROWSER_SUPPORTED_UNACCEPTED_NATIVE_USER_FLOW",
+      "exact_clauses": [
+        {
+          "id": "CLOUD-08",
+          "text": "Local staged versus actual remote acknowledgment shown separately",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=CLOUD-08]"
+        },
+        {
+          "id": "M08",
+          "text": "cloud results round-trip visible in UI",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#M08"
+        },
+        {
+          "id": "J06",
+          "text": "alerts visible",
+          "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#J06"
+        }
+      ],
+      "gap": "Historical implementation gap is repaired at source/API/browser scope; automatic promotion to current installed/native or real-cloud roundtrip is invalid.",
+      "current_source_or_mapping_refs": [
+        "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/disposition.json",
+        "status/codex/productization/S14/cloud08-report-source-6cd74d5/disposition.json",
+        "src/application/cloud/publication_history.py",
+        "ui/qa/control-center.spec.ts"
+      ],
+      "next_required_work": "Preserve exact c7 J06 worker-derived populated alerts and 6cd Paper/research delivery state screenshots/tests. In final matching installed flow show actual owner-generated PENDING/LOCAL_STAGED/byte-verified ACK/CONFLICT with exact immutable lineage and honest local-copy label. Reuse valid original evidence rather than recreate proof solely to fill records.",
+      "proof_boundary": "Real cloud NOT_RUN; source-browser evidence is not native evidence. No new cloud system required. This is final evidence binding/installed flow already on known completion path.",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "CLOUD-08",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#CLOUD-08",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback",
+              "instance": "PQR-01-034:0001",
+              "source_ref": "tests/application/test_cloud_bridge.py",
+              "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+              "log_ref": "PQR-01-034.log",
+              "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage",
+              "instance": "PQR-01-034:0022",
+              "source_ref": "tests/application/test_cloud_bridge.py",
+              "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+              "log_ref": "PQR-01-034.log",
+              "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_outbox.OutboxTests.test_local_copy_never_claims_remote_ack_and_retries_are_content_idempotent",
+              "instance": "PQR-01-074:0002",
+              "source_ref": "tests/application/test_outbox.py",
+              "source_hash": "sha256:f5703a6e01085dede51c2c44f75ea6a51ddbb0ba0a4bfec0ba0763c9e722b1ef",
+              "log_ref": "PQR-01-074.log",
+              "log_hash": "sha256:0cbd675e262824cd91ce7fe325d45d339583d644ff7447699e04f69b349fb4ec",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "M08",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#M08",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.product.test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only",
+              "instance": "PQR-01-138:0001",
+              "source_ref": "tests/product/test_paper_feedback_bridge.py",
+              "source_hash": "sha256:757d2b92f07fd43096821f1641c2153bd967557417aba84f7dfc8ac9454617f7",
+              "log_ref": "PQR-01-138.log",
+              "log_hash": "sha256:c539966f30b6f6d8ed28886c94f5faa5c7932c4d927993e847051fb089ccde97",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "J06",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#J06",
+          "actual_supporting_instances": []
+        }
+      ]
+    },
+    {
+      "priority": 10,
+      "clause_ids": [
+        "CLOUD-05",
+        "TRADE-02",
+        "CLOUD-10",
+        "STR-03",
+        "STR-06",
+        "STR-07",
+        "STR-08",
+        "STR-11",
+        "STR-13",
+        "DATA-02",
+        "RES-01",
+        "RES-03",
+        "RES-04",
+        "RES-05",
+        "LIFE-02"
+      ],
+      "status": "NOT_RUN",
+      "classification": "OLD_DRAFT_GAPS_HAVE_RETAINED_SOURCE_EXECUTION_RECONCILE_MAPS",
+      "exact_clauses": [
+        {
+          "id": "CLOUD-05",
+          "text": "Crash after E6 registration and stale lease owner cannot duplicate or overwrite canonical state",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=CLOUD-05]"
+        },
+        {
+          "id": "TRADE-02",
+          "text": "Signal/credential/cloud approval cannot bypass E5/runtime/provider authority",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=TRADE-02]"
+        },
+        {
+          "id": "CLOUD-10",
+          "text": "Authoring helper emits schema-valid actual JSON packages and computed hashes for legacy4h/MTF/expiry/gap examples",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=CLOUD-10]"
+        },
+        {
+          "id": "STR-03",
+          "text": "SMA and EMA golden vectors, seeds, warmup and incremental parity",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=STR-03]"
+        },
+        {
+          "id": "STR-06",
+          "text": "MACD per-output readiness, Bollinger population variance and Donchian lag exclusion",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=STR-06]"
+        },
+        {
+          "id": "STR-07",
+          "text": "All operators, crossover previous-bar conditions and invalid/missing-value propagation",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=STR-07]"
+        },
+        {
+          "id": "STR-08",
+          "text": "4h single-timeframe and4h/15m as-of alignment; unfinished/future4h bars never used",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=STR-08]"
+        },
+        {
+          "id": "STR-11",
+          "text": "Fixed/ATR/target/trailing/time exits remain E5-authorized, actual-fill based and non-widening",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=STR-11]"
+        },
+        {
+          "id": "STR-13",
+          "text": "Capability registry advertises only implemented verified profiles and returns typed missing-feature receipts",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=STR-13]"
+        },
+        {
+          "id": "DATA-02",
+          "text": "Chronological split/warmup/purge/embargo and threshold units bound before computation",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=DATA-02]"
+        },
+        {
+          "id": "RES-01",
+          "text": "Actual E1/E2/E3/E6 replay pipeline with durable stage and execution provenance",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=RES-01]"
+        },
+        {
+          "id": "RES-03",
+          "text": "Trial ledger retains failures/Chat revisions and marks previously exposed holdout as observed",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=RES-03]"
+        },
+        {
+          "id": "RES-04",
+          "text": "Finite parameter neighborhood retains invalid/unfavorable variants",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=RES-04]"
+        },
+        {
+          "id": "RES-05",
+          "text": "Walk-forward purges overlap and does not double-count evaluation intervals",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=RES-05]"
+        },
+        {
+          "id": "LIFE-02",
+          "text": "CANDIDATE requires full product assessment including robustness and independent OOS",
+          "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#requirements[id=LIFE-02]"
+        }
+      ],
+      "gap": "Old final plan/checklist still describes drafts/missing cases that c7e4f8d actually executed. Do not re-open them based on stale prose or transfer their scope to later source.",
+      "current_source_or_mapping_refs": [
+        "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/disposition.json",
+        "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/artifacts/a0004.log",
+        "tests/application/test_claim_recovery.py:106",
+        "tests/product/test_trading_dispatch_v02.py:161",
+        "tests/application/test_authoring_roundtrip.py:56",
+        "acceptance-str-expanded-map.json",
+        "acceptance-research-expanded-map.json",
+        "acceptance-cloud-trade-expanded-map.json"
+      ],
+      "next_required_work": "Amend static maps with actual named c7 case/assertion coordinates and retained hashes: stale takeover/E6 winner; cloud-proposal revoked authority zero fake effect; EMA oracle/CROSS/exits/capabilities; split/horizon/ledger/canonical candidate negatives; authored examples/typed gaps. Preserve source-only scope. New final native/authoring subject remains independently required.",
+      "proof_boundary": "146-case count is only a checkpoint locator. Per-clause source assertions and exact executed instances, not totals, determine support. CLOUD-10 has no extra market-data-gap example requirement (clarification preserved).",
+      "original_supporting_bindings": [
+        {
+          "clause_id": "CLOUD-05",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#CLOUD-05",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_expired_lease_changes_generation_and_stale_worker_cannot_commit",
+              "instance": "PQR-01-032:0002",
+              "source_ref": "tests/application/test_claim_recovery.py",
+              "source_hash": "sha256:5cafab1582edf257fa5339c58c592406b652bbdaf23540df367744f2ea9bbb13",
+              "log_ref": "PQR-01-032.log",
+              "log_hash": "sha256:328f138a25dc7ed6632737c071ba1b0cec7e30393cc6989f418da8ce140b7453",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+              "instance": "PQR-01-032:0004",
+              "source_ref": "tests/application/test_claim_recovery.py",
+              "source_hash": "sha256:5cafab1582edf257fa5339c58c592406b652bbdaf23540df367744f2ea9bbb13",
+              "log_ref": "PQR-01-032.log",
+              "log_hash": "sha256:328f138a25dc7ed6632737c071ba1b0cec7e30393cc6989f418da8ce140b7453",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_two_local_workers_acquire_only_one_claim",
+              "instance": "PQR-01-032:0005",
+              "source_ref": "tests/application/test_claim_recovery.py",
+              "source_hash": "sha256:5cafab1582edf257fa5339c58c592406b652bbdaf23540df367744f2ea9bbb13",
+              "log_ref": "PQR-01-032.log",
+              "log_hash": "sha256:328f138a25dc7ed6632737c071ba1b0cec7e30393cc6989f418da8ce140b7453",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "TRADE-02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#TRADE-02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+              "instance": "PQR-01-036:0001",
+              "source_ref": "tests/application/test_cloud_intake.py",
+              "source_hash": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+              "log_ref": "PQR-01-036.log",
+              "log_hash": "sha256:187ef9c0816a27872acb01e54b199b580dc01c0390b17506853b92c6eb4822af",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_requires_current_issuer_bound_position_and_pending_order_observations",
+              "instance": "PQR-01-023:0115",
+              "source_ref": "tests/brokers/test_okx_product_translation_v02.py",
+              "source_hash": "sha256:a351b7097d077984e73159af30f408b08e20ee3ad352e8a0e94620cc73b241a7",
+              "log_ref": "PQR-01-023.log",
+              "log_hash": "sha256:04d743c9d8c7c7dd39f8182a70c2f6245120ff6c91333cd4e1414e3588df9ed5",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_existing_exposure_pending_orders_and_non_e5_plan_block_entry",
+              "instance": "PQR-01-023:0117",
+              "source_ref": "tests/brokers/test_okx_product_translation_v02.py",
+              "source_hash": "sha256:a351b7097d077984e73159af30f408b08e20ee3ad352e8a0e94620cc73b241a7",
+              "log_ref": "PQR-01-023.log",
+              "log_hash": "sha256:04d743c9d8c7c7dd39f8182a70c2f6245120ff6c91333cd4e1414e3588df9ed5",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback",
+              "instance": "PQR-01-023:0118",
+              "source_ref": "tests/brokers/test_okx_production_transport.py",
+              "source_hash": "sha256:a0a8f58341ef1e5de8bdb047b8b15684b265583ee1b2017bf322906b4088ed38",
+              "log_ref": "PQR-01-023.log",
+              "log_hash": "sha256:04d743c9d8c7c7dd39f8182a70c2f6245120ff6c91333cd4e1414e3588df9ed5",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+              "instance": "PQR-01-126:0005",
+              "source_ref": "tests/product/test_api_authority.py",
+              "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+              "log_ref": "PQR-01-126.log",
+              "log_hash": "sha256:299132b02b35126915c890fdbb5fb8943997fe8d3cf846e174f4da48ecfc398c",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners",
+              "instance": "PQR-01-134:0003",
+              "source_ref": "tests/product/test_live_admission_v02.py",
+              "source_hash": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba",
+              "log_ref": "PQR-01-134.log",
+              "log_hash": "sha256:5f3b2a461a9132f7b2950f8a78b58433864a619f3834a22831fa1ef4820db6c4",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority",
+              "instance": "PQR-01-134:0006",
+              "source_ref": "tests/product/test_live_admission_v02.py",
+              "source_hash": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba",
+              "log_ref": "PQR-01-134.log",
+              "log_hash": "sha256:5f3b2a461a9132f7b2950f8a78b58433864a619f3834a22831fa1ef4820db6c4",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+              "instance": "PQR-01-150:0001",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_current_consent_is_rechecked_after_durable_claim_before_provider_effect",
+              "instance": "PQR-01-150:0003",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+              "instance": "PQR-01-150:0006",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_permit_expiring_inside_final_provider_guard_cannot_reach_post",
+              "instance": "PQR-01-150:0010",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch",
+              "instance": "PQR-01-150:0012",
+              "source_ref": "tests/product/test_trading_dispatch_v02.py",
+              "source_hash": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724",
+              "log_ref": "PQR-01-150.log",
+              "log_hash": "sha256:836fecb5c4194f2d00c62755c3ef0b4e9c29c0f9fc00402de67a11eb0d25763b",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "CLOUD-10",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#CLOUD-10",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+              "instance": "PQR-01-031:0001",
+              "source_ref": "tests/application/test_authoring_roundtrip.py",
+              "source_hash": "sha256:6382db14665da62c20af34f8764d14366c8e53763db1c17a51cf7e9851de55b9",
+              "log_ref": "PQR-01-031.log",
+              "log_hash": "sha256:4c57a937df042462e897851100929df7684ca9ece1b2da311383f7bdfeca13a8",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_cli_creates_actual_json_artifacts_and_capability_snapshot",
+              "instance": "PQR-01-031:0002",
+              "source_ref": "tests/application/test_authoring_roundtrip.py",
+              "source_hash": "sha256:6382db14665da62c20af34f8764d14366c8e53763db1c17a51cf7e9851de55b9",
+              "log_ref": "PQR-01-031.log",
+              "log_hash": "sha256:4c57a937df042462e897851100929df7684ca9ece1b2da311383f7bdfeca13a8",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_missing_capability_secret_notes_and_existing_output_are_refused_without_overwrite",
+              "instance": "PQR-01-031:0003",
+              "source_ref": "tests/application/test_authoring_roundtrip.py",
+              "source_hash": "sha256:6382db14665da62c20af34f8764d14366c8e53763db1c17a51cf7e9851de55b9",
+              "log_ref": "PQR-01-031.log",
+              "log_hash": "sha256:4c57a937df042462e897851100929df7684ca9ece1b2da311383f7bdfeca13a8",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "STR-03",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#STR-03",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_all_families_flat_gap_and_insufficient_prefix",
+              "instance": "PQR-01-018:0006",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_bad_identity_alignment_and_binary_float_source_are_unhealthy",
+              "instance": "PQR-01-018:0009",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_derived_numeric_series_preserves_declared_units_in_value_and_snapshot_identity",
+              "instance": "PQR-01-018:0011",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_ema_seeds_mean_then_uses_declared_alpha",
+              "instance": "PQR-01-018:0013",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_gap_and_unfinalized_input_are_invalid_instead_of_forward_filled",
+              "instance": "PQR-01-018:0014",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_sma_exact_signed_mean_and_no_partial_window",
+              "instance": "PQR-01-018:0019",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_window_one_is_explicit_for_each_family",
+              "instance": "PQR-01-018:0020",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_window_upper_bound_is_valid_but_not_ready_prematurely",
+              "instance": "PQR-01-018:0021",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs",
+              "instance": "PQR-01-018:0022",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_changed_feature_parameters_cannot_reuse_smoothing_state",
+              "instance": "PQR-01-018:0023",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_incremental_state_retains_bounded_window_not_entire_history",
+              "instance": "PQR-01-018:0024",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_invalid_source_never_turns_into_zero_or_false",
+              "instance": "PQR-01-018:0025",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_modified_or_wrong_prefix_snapshot_is_recomputed",
+              "instance": "PQR-01-018:0026",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_restart_snapshot_replay_binds_prefix_parameters_and_arithmetic",
+              "instance": "PQR-01-018:0027",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "STR-06",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#STR-06",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_all_families_flat_gap_and_insufficient_prefix",
+              "instance": "PQR-01-018:0006",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_bollinger_population_variance_signed_bands",
+              "instance": "PQR-01-018:0010",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_donchian_default_lag_excludes_decision_bar",
+              "instance": "PQR-01-018:0012",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_macd_line_signal_histogram_have_independent_warmup",
+              "instance": "PQR-01-018:0016",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_window_one_is_explicit_for_each_family",
+              "instance": "PQR-01-018:0020",
+              "source_ref": "tests/indicators/test_v02_golden.py",
+              "source_hash": "sha256:f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs",
+              "instance": "PQR-01-018:0022",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_restart_snapshot_replay_binds_prefix_parameters_and_arithmetic",
+              "instance": "PQR-01-018:0027",
+              "source_ref": "tests/indicators/test_v02_incremental.py",
+              "source_hash": "sha256:82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459",
+              "log_ref": "PQR-01-018.log",
+              "log_hash": "sha256:dc38975cc50627c54d20aa60fa75b65a803dcc9029f7074f7f02edcc503da0fc",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "STR-07",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#STR-07",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_1145_uses_0400_0800_bar_not_unfinished_0800_1200",
+              "instance": "PQR-01-019:0036",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_1200_requires_finality_and_actual_receipt",
+              "instance": "PQR-01-019:0037",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_real_v02_nested_indicator_warmup_conflict_and_bad_data",
+              "instance": "PQR-01-019:0042",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_operators.OperatorTests.test_arithmetic_and_comparisons_have_decimal_results",
+              "instance": "PQR-01-019:0045",
+              "source_ref": "tests/strategy/test_v02_operators.py",
+              "source_hash": "sha256:e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_operators.OperatorTests.test_boolean_missing_required_operand_is_not_short_circuited_to_false",
+              "instance": "PQR-01-019:0046",
+              "source_ref": "tests/strategy/test_v02_operators.py",
+              "source_hash": "sha256:e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_operators.OperatorTests.test_cross_requires_immediately_previous_valid_pair_with_equality_allowed",
+              "instance": "PQR-01-019:0047",
+              "source_ref": "tests/strategy/test_v02_operators.py",
+              "source_hash": "sha256:e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_operators.OperatorTests.test_division_by_zero_is_invalid_observation",
+              "instance": "PQR-01-019:0048",
+              "source_ref": "tests/strategy/test_v02_operators.py",
+              "source_hash": "sha256:e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_operators.OperatorTests.test_explicit_lag_and_rolling_exclude_current_when_requested",
+              "instance": "PQR-01-019:0049",
+              "source_ref": "tests/strategy/test_v02_operators.py",
+              "source_hash": "sha256:e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_operators.OperatorTests.test_operator_context_input_bounds_and_arity",
+              "instance": "PQR-01-019:0050",
+              "source_ref": "tests/strategy/test_v02_operators.py",
+              "source_hash": "sha256:e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_price_and_volume_units_cannot_be_compared_or_added",
+              "instance": "PQR-01-019:0058",
+              "source_ref": "tests/strategy/test_v02_parser.py",
+              "source_hash": "sha256:c47a9cf863651a6ce3db075de974b42f5bcbf2523a3e48359237fc3e1c0d6764",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "STR-08",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#STR-08",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_1145_uses_0400_0800_bar_not_unfinished_0800_1200",
+              "instance": "PQR-01-019:0036",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_1200_requires_finality_and_actual_receipt",
+              "instance": "PQR-01-019:0037",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_aggregation_requires_every_finalized_constituent",
+              "instance": "PQR-01-019:0038",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_all_future_bars_and_receipts_cannot_change_earlier_signal_or_boundary_hash",
+              "instance": "PQR-01-019:0039",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_direct_bundle_cannot_bypass_finality_availability_or_immutability",
+              "instance": "PQR-01-019:0040",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_missing_receipt_requires_explicit_historical_assumption",
+              "instance": "PQR-01-019:0041",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_real_v02_nested_indicator_warmup_conflict_and_bad_data",
+              "instance": "PQR-01-019:0042",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_visible_gap_and_duplicate_are_rejected_without_stitching",
+              "instance": "PQR-01-019:0043",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_visible_out_of_profile_financial_input_returns_structured_boundary_error",
+              "instance": "PQR-01-019:0044",
+              "source_ref": "tests/strategy/test_v02_multitimeframe.py",
+              "source_hash": "sha256:79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "STR-11",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#STR-11",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_first_fill_deadline_survives_later_partial_fill_clock",
+              "instance": "PQR-01-025:0022",
+              "source_ref": "tests/position/test_exit_anchor_recovery.py",
+              "source_hash": "sha256:64f18000d2b994c7eb66695e737983a66251a7037def1b04967d513891f8f9d3",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_trailing_extremes_cannot_widen_after_restart",
+              "instance": "PQR-01-025:0023",
+              "source_ref": "tests/position/test_exit_anchor_recovery.py",
+              "source_hash": "sha256:64f18000d2b994c7eb66695e737983a66251a7037def1b04967d513891f8f9d3",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected",
+              "instance": "PQR-01-025:0024",
+              "source_ref": "tests/position/test_exit_anchor_recovery.py",
+              "source_hash": "sha256:64f18000d2b994c7eb66695e737983a66251a7037def1b04967d513891f8f9d3",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_atr_uses_exact_bound_e2_observation",
+              "instance": "PQR-01-025:0161",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_changed_approved_target_or_policy_cannot_reuse_first_fill_binding",
+              "instance": "PQR-01-025:0162",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_exit_request_rejects_unknown_authority_fields_and_mutually_mixed_shapes",
+              "instance": "PQR-01-025:0163",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_fixed_distance_and_reward_risk_resolve_both_sides_without_sizing",
+              "instance": "PQR-01-025:0164",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_initial_protection_uses_actual_partial_exposure_and_real_fp03_evidence",
+              "instance": "PQR-01-025:0165",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_mismatched_plan_stop_and_changed_request_cannot_reuse_anchor",
+              "instance": "PQR-01-025:0166",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_partial_fill_never_resets_first_fill_holding_deadline_or_authorizes_new_entry",
+              "instance": "PQR-01-025:0167",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_shared_trailing_geometry_tightens_both_sides_and_rejects_widened_loss_bound",
+              "instance": "PQR-01-025:0168",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_stop_and_target_close_both_sides_through_existing_e5_authority",
+              "instance": "PQR-01-025:0169",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_time_exit_does_not_wait_for_market_or_entry_candle",
+              "instance": "PQR-01-025:0170",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_trailing_proposal_is_monotonic_without_claiming_provider_execution",
+              "instance": "PQR-01-025:0171",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_wrong_stop_geometry_and_equal_target_are_rejected",
+              "instance": "PQR-01-025:0172",
+              "source_ref": "tests/position/test_v02_exit_requests.py",
+              "source_hash": "sha256:e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+              "log_ref": "PQR-01-025.log",
+              "log_hash": "sha256:093b579fef1514afec02270c024d47852305dd4cf849ebcd0b6605420536ddb7",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "STR-13",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#STR-13",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_changed_snapshot_hash_does_not_transfer_compatibility",
+              "instance": "PQR-01-019:0024",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_checkout_line_endings_do_not_create_different_implementation_identity",
+              "instance": "PQR-01-019:0025",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding",
+              "instance": "PQR-01-019:0026",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_missing_actual_handler_is_never_advertised_as_implemented",
+              "instance": "PQR-01-019:0027",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_numerical_implementation_change_invalidates_exact_capability_identity",
+              "instance": "PQR-01-019:0028",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_recognized_indicator_does_not_claim_verified_execution_or_provider",
+              "instance": "PQR-01-019:0029",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_snapshot_hash_is_deterministic_and_snapshot_cannot_be_mutated",
+              "instance": "PQR-01-019:0031",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_unknown_version_gap_names_exact_source_and_available_version",
+              "instance": "PQR-01-019:0034",
+              "source_ref": "tests/strategy/test_v02_capabilities.py",
+              "source_hash": "sha256:9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+              "log_ref": "PQR-01-019.log",
+              "log_hash": "sha256:1b64c2e3841680c009a9965568343d6f796022606c8ed436aa2fb3f19bb61719",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "DATA-02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#DATA-02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_overlap_unbounded_horizon_and_unspecified_embargo_block_protocol",
+              "instance": "PQR-01-042:0007",
+              "source_ref": "tests/application/test_dataset_binding.py",
+              "source_hash": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+              "log_ref": "PQR-01-042.log",
+              "log_hash": "sha256:a0670dc49304bd836d4b4856f1b598d687d71db8af871b0a31802123af29fca4",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup",
+              "instance": "PQR-01-042:0010",
+              "source_ref": "tests/application/test_dataset_binding.py",
+              "source_hash": "sha256:de5cfb030c1aa3c31486842796839357b037407af0fd0d0ed39f9874849bd79b",
+              "log_ref": "PQR-01-042.log",
+              "log_hash": "sha256:a0670dc49304bd836d4b4856f1b598d687d71db8af871b0a31802123af29fca4",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_immutable_risk_adapter_reuses_e5_and_rejects_wrong_namespace_or_units",
+              "instance": "PQR-01-095:0003",
+              "source_ref": "tests/application/test_product_assessment_binding.py",
+              "source_hash": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+              "log_ref": "PQR-01-095.log",
+              "log_hash": "sha256:ad096265da03615bf6b3139b1efec8ec556a843debabed771d8afe10b5132a7d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_cost_file_change_after_freeze_cannot_change_actual_replay_assumptions",
+              "instance": "PQR-01-104:0003",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_wrong_fee_units_and_nonfinite_costs_block_before_replay",
+              "instance": "PQR-01-104:0011",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_declared_budget_is_admitted_before_any_e2_runtime_execution",
+              "instance": "PQR-01-021:0035",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_legacy_validation_policy_receives_drawdown_amount_with_explicit_equity",
+              "instance": "PQR-01-021:0037",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_public_versioned_policy_schemas_are_strict_and_match_runtime_profiles",
+              "instance": "PQR-01-021:0039",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "RES-01",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#RES-01",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record",
+              "instance": "PQR-01-103:0001",
+              "source_ref": "tests/application/test_research_e6_recovery.py",
+              "source_hash": "sha256:8482a2fce1350fbdd9a4583b82b478b6e34cc84626824d179f1f426cebf18801",
+              "log_ref": "PQR-01-103.log",
+              "log_hash": "sha256:60fdbc9df690262bb1ec01e42c68cdb3f7cb0d72c8e2e070b8a78b9e345a9c7a",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+              "instance": "PQR-01-104:0001",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_division_by_zero_runtime_result_cannot_pass_compatibility",
+              "instance": "PQR-01-104:0004",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_expired_worker_cannot_finish_new_generation_and_attempt_is_retained",
+              "instance": "PQR-01-104:0005",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_failed_dataset_resolution_is_a_retained_stage_attempt",
+              "instance": "PQR-01-104:0006",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_invalid_split_and_exhausted_budget_preserve_failed_attempts",
+              "instance": "PQR-01-104:0007",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_memory_pressure_prevents_parquet_decode_and_is_recorded",
+              "instance": "PQR-01-104:0008",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_resume_returns_same_durable_outputs_and_does_not_repeat_replay",
+              "instance": "PQR-01-104:0010",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "RES-03",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#RES-03",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_amended_policy_generation_cannot_reset_observed_holdout",
+              "instance": "PQR-01-105:0002",
+              "source_ref": "tests/application/test_research_robustness.py",
+              "source_hash": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+              "log_ref": "PQR-01-105.log",
+              "log_hash": "sha256:4787634ed6d621809e7dca1da41fcbc68df62996dcbbb7779a05bd1d107447a9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_interrupted_adaptive_trial_is_retained_before_stage_result_exists",
+              "instance": "PQR-01-105:0005",
+              "source_ref": "tests/application/test_research_robustness.py",
+              "source_hash": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+              "log_ref": "PQR-01-105.log",
+              "log_hash": "sha256:4787634ed6d621809e7dca1da41fcbc68df62996dcbbb7779a05bd1d107447a9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_append_only_trials_keep_invalid_failed_and_aborted_after_restart",
+              "instance": "PQR-01-021:0002",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_changed_source_or_policy_after_freeze_never_becomes_oos_pass",
+              "instance": "PQR-01-021:0003",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+              "instance": "PQR-01-021:0004",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version",
+              "instance": "PQR-01-021:0006",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_upstream_result_with_a_different_input_commitment_cannot_freeze_finalist",
+              "instance": "PQR-01-021:0008",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "RES-04",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#RES-04",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_selected_execution_requires_both_frozen_profiles_explicit_family_and_seed",
+              "instance": "PQR-01-105:0007",
+              "source_ref": "tests/application/test_research_robustness.py",
+              "source_hash": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+              "log_ref": "PQR-01-105.log",
+              "log_hash": "sha256:4787634ed6d621809e7dca1da41fcbc68df62996dcbbb7779a05bd1d107447a9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant",
+              "instance": "PQR-01-021:0033",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_declared_budget_is_admitted_before_any_e2_runtime_execution",
+              "instance": "PQR-01-021:0035",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_frozen_outputs_and_decimal_profile_cannot_be_changed_by_caller",
+              "instance": "PQR-01-021:0036",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_stress_replays_keep_unfavorable_cost_outcomes_and_fail_selected_criterion",
+              "instance": "PQR-01-021:0040",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_robustness_v02.RobustnessTests.test_unknown_and_over_budget_profiles_do_not_begin_replay",
+              "instance": "PQR-01-021:0041",
+              "source_ref": "tests/validation/test_robustness_v02.py",
+              "source_hash": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "RES-05",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#RES-05",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_actual_training_selection_and_each_disjoint_scored_interval_once",
+              "instance": "PQR-01-021:0042",
+              "source_ref": "tests/validation/test_walk_forward.py",
+              "source_hash": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_later_evaluation_values_cannot_change_earlier_training_choice",
+              "instance": "PQR-01-021:0043",
+              "source_ref": "tests/validation/test_walk_forward.py",
+              "source_hash": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_overlap_misalignment_and_sealed_access_rejected",
+              "instance": "PQR-01-021:0044",
+              "source_ref": "tests/validation/test_walk_forward.py",
+              "source_hash": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_walk_forward.WalkForwardTests.test_stitched_loss_streak_is_checked_even_when_each_window_meets_its_limit",
+              "instance": "PQR-01-021:0045",
+              "source_ref": "tests/validation/test_walk_forward.py",
+              "source_hash": "sha256:9a79fb3ac94db3d6b09b685033c18c162d625e2ffea25a1c451f6e8c566a88ae",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        },
+        {
+          "clause_id": "LIFE-02",
+          "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+          "row_status": "NOT_RUN",
+          "record_ref": "acceptance-records-7d821f2.json#LIFE-02",
+          "actual_supporting_instances": [
+            {
+              "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy",
+              "instance": "PQR-01-095:0001",
+              "source_ref": "tests/application/test_product_assessment_binding.py",
+              "source_hash": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+              "log_ref": "PQR-01-095.log",
+              "log_hash": "sha256:ad096265da03615bf6b3139b1efec8ec556a843debabed771d8afe10b5132a7d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_e6_product_record_requires_configured_actual_producer_not_caller_pass",
+              "instance": "PQR-01-095:0002",
+              "source_ref": "tests/application/test_product_assessment_binding.py",
+              "source_hash": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+              "log_ref": "PQR-01-095.log",
+              "log_hash": "sha256:ad096265da03615bf6b3139b1efec8ec556a843debabed771d8afe10b5132a7d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_missing_risk_preserves_diagnostic_pass_without_candidate_authority",
+              "instance": "PQR-01-095:0004",
+              "source_ref": "tests/application/test_product_assessment_binding.py",
+              "source_hash": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+              "log_ref": "PQR-01-095.log",
+              "log_hash": "sha256:ad096265da03615bf6b3139b1efec8ec556a843debabed771d8afe10b5132a7d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting",
+              "instance": "PQR-01-095:0005",
+              "source_ref": "tests/application/test_product_assessment_binding.py",
+              "source_hash": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+              "log_ref": "PQR-01-095.log",
+              "log_hash": "sha256:ad096265da03615bf6b3139b1efec8ec556a843debabed771d8afe10b5132a7d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_wrong_subject_stale_source_and_direct_writer_do_not_create_product_authority",
+              "instance": "PQR-01-095:0006",
+              "source_ref": "tests/application/test_product_assessment_binding.py",
+              "source_hash": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416",
+              "log_ref": "PQR-01-095.log",
+              "log_hash": "sha256:ad096265da03615bf6b3139b1efec8ec556a843debabed771d8afe10b5132a7d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+              "instance": "PQR-01-104:0001",
+              "source_ref": "tests/application/test_research_pipeline.py",
+              "source_hash": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4",
+              "log_ref": "PQR-01-104.log",
+              "log_hash": "sha256:d64a0f1ad4f5847881a07f0a7c37f36da550cedc73e305bbba3dd59ae59a6097",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_amended_policy_generation_cannot_reset_observed_holdout",
+              "instance": "PQR-01-105:0002",
+              "source_ref": "tests/application/test_research_robustness.py",
+              "source_hash": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+              "log_ref": "PQR-01-105.log",
+              "log_hash": "sha256:4787634ed6d621809e7dca1da41fcbc68df62996dcbbb7779a05bd1d107447a9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+              "instance": "PQR-01-105:0006",
+              "source_ref": "tests/application/test_research_robustness.py",
+              "source_hash": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835",
+              "log_ref": "PQR-01-105.log",
+              "log_hash": "sha256:4787634ed6d621809e7dca1da41fcbc68df62996dcbbb7779a05bd1d107447a9",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+              "instance": "PQR-01-154:0028",
+              "source_ref": "tests/registry/test_product_lifecycle_v02.py",
+              "source_hash": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+              "log_ref": "PQR-01-154.log",
+              "log_hash": "sha256:f6358a97a64948f71b97ced3de981e8027c7ba78466cb1f023c6ed3c327e3721",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_product_namespace_cannot_promote_using_legacy_pass_metadata",
+              "instance": "PQR-01-154:0029",
+              "source_ref": "tests/registry/test_product_lifecycle_v02.py",
+              "source_hash": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+              "log_ref": "PQR-01-154.log",
+              "log_hash": "sha256:f6358a97a64948f71b97ced3de981e8027c7ba78466cb1f023c6ed3c327e3721",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_v02_subject_cannot_escape_product_gates_in_unclassified_legacy_registry",
+              "instance": "PQR-01-154:0030",
+              "source_ref": "tests/registry/test_product_lifecycle_v02.py",
+              "source_hash": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c",
+              "log_ref": "PQR-01-154.log",
+              "log_hash": "sha256:f6358a97a64948f71b97ced3de981e8027c7ba78466cb1f023c6ed3c327e3721",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_actual_finalist_is_frozen_before_oos_read_and_replay_is_once",
+              "instance": "PQR-01-021:0001",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+              "instance": "PQR-01-021:0004",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version",
+              "instance": "PQR-01-021:0006",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            },
+            {
+              "test_id": "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_freeze_requires_actual_completed_robustness_and_exact_immutable_inputs",
+              "instance": "PQR-01-021:0007",
+              "source_ref": "tests/validation/test_holdout_ledger.py",
+              "source_hash": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e",
+              "log_ref": "PQR-01-021.log",
+              "log_hash": "sha256:9afd116d3de9b66d940ff79ad4a54f592a44beaaf442f1e6b26b67f96971b82d",
+              "scope": "ORIGINAL_WINDOWS_SOURCE_SUPPORT_ONLY;NOT_WHOLE_CLAUSE_PASS"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "external_or_operator": {
+    "status": "NOT_RUN",
+    "items": [
+      "PLAT-01/02/03/05/08, STR-14, CLOUD-07: actual Ubuntu24.04/26.04 target execution; Windows/source does not substitute.",
+      "PLAT-04: actual named hardware/24GB benchmark and old target are distinct; preserve original current-Windows measured resource proof. Do not request unavailable old PC to perform local work.",
+      "LIFE-03 and ordinary E04/E05/M05: formal operator promotion/risk/Paper/workflow policy choices and genuine forward evidence; engineering diagnostic selection does not authorize financial promotion.",
+      "COM real cloud / M08 external leg: separately authorized account/remote byte ACK and user-visible lineage; local-copy proof stays local.",
+      "Private provider/actual LIVE/capital/real elapsed forward remain separately authorized external commissioning; keyless public8/8 capture does not authorize them.",
+      "Physical power cut, host startup/sleep/security changes are not authorized by this static plan."
+    ],
+    "no_automatic_N_A": "N_A requires explicit canonical applicability decision; unavailable execution is NOT_RUN/BLOCKED with reason, not erased."
+  },
+  "next_order": [
+    "Reconcile retained clause evidence first, especially c7/32d/6cd repairs and 7d native facts; no rerun merely for metadata.",
+    "After active guard ends, address only confirmed independent local semantic cases: F04 joined no-effect and I04/J03 populated multi-version; inspect existing coverage before adding.",
+    "Plan bounded actual portable upgrade/uninstall data-preservation and still-uncovered local fault subclauses; scope to fresh synthetic paths, no operator settings or host disruption.",
+    "Complete required independent S16 architecture/security/contract review and explicit legacy interface/applicability decisions.",
+    "Bind final actual per-case executions and exact native/owner/UI artifacts to216 records; preserve every external/unselected limitation."
+  ],
+  "input_hashes": [
+    {
+      "path": "acceptance-v02-draft.json",
+      "sha256": "12ef52b4835a7cf7e80dfbd99cd9ffbaa64764eb4920d062598d1e9afb087177"
+    },
+    {
+      "path": "legacy-150-draft.json",
+      "sha256": "7935b24bb6a9c7bb07a50d584714a2fff44f37658c012cf95e6006f72546162a"
+    },
+    {
+      "path": "acceptance-str-expanded-map.json",
+      "sha256": "167e5a726ced44bedbf2d6dd962b6c41f5575278bfe5101898c703835a97ab89"
+    },
+    {
+      "path": "acceptance-research-expanded-map.json",
+      "sha256": "ddb12e0e90625cd5ed8d836f796440db611f68599678880661150b2992ffee3b"
+    },
+    {
+      "path": "acceptance-cloud-trade-expanded-map.json",
+      "sha256": "3faa87248b2cc73941a1b0b628c48e7b0e64d42841986d4946c707b9ce116a48"
+    },
+    {
+      "path": "acceptance-disposition-advisory.json",
+      "sha256": "c4b6c005186beb38ba29ad3f59959eee6dd8a863153a5ed7f0f1773a994e57be"
+    },
+    {
+      "path": "final-acceptance-record-plan.json",
+      "sha256": "421f3945208744f0a1e65d9a27ab530eefe05bc39c0e0da025def41e1b320167"
+    },
+    {
+      "path": "bind_current_acceptance_records.py",
+      "sha256": "acefeca871be58b1c990d0e8305a835ccf4b0cdd7e1b9c106e58ecee296fa263"
+    },
+    {
+      "path": "acceptance-records-7d821f2.json",
+      "sha256": "a829b98fe52845dbf2f155e90b2fe57e9642b8366fd46c5b6bb3ca86086deba8"
+    },
+    {
+      "path": "POSTCHECKPOINT_LOCAL_MASTER_CHECKLIST.json",
+      "sha256": "ea9e9023aeb0d1c73fafce9bc8179ae4768cc3e1141a59bc7d4957f72b6d1c6e"
+    },
+    {
+      "path": "POSTCHECKPOINT_SOURCE_WORK_QUEUE.json",
+      "sha256": "6e20b144172d32dcd2b724d4814c726c6aba8faa8e249e8dc304de4036f594ab"
+    },
+    {
+      "path": "cloud10-authoritative-clause-clarification.json",
+      "sha256": "4568de2219298a8a5d1ac928588c12c2e04d3f5e5ded5ccfaa46297b405757fa"
+    }
+  ],
+  "verification": {
+    "tests": [],
+    "native": [],
+    "git": [],
+    "network_calls": 0,
+    "db_reads": 0,
+    "active_evidence_reads": 0,
+    "tracked_changes": [],
+    "private_reads": 0,
+    "new_acceptance_claims": 0
+  },
+  "required_review_registration": {
+    "authority": "docs/product/v0_2/06_EXECUTION_PLAN.md:220-226",
+    "canonical_21_field_format": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json::per_result_required_fields",
+    "existing_record_binder": "artifacts/current-windows-20261019/bind_current_acceptance_records.py::record; require_exact_rows; run",
+    "existing_exact_execution_index": "artifacts/current-windows-20261019/index_current_qualification.py::run(revision,emit=False)",
+    "registrar_paths": [
+      "coordination/CODEX/PROGRESS.json",
+      "coordination/CODEX/HANDOFF.md",
+      "status/codex/R7_PRODUCTIZATION_MASTER_COMPLETION_20261002.md"
+    ],
+    "required_evidence_kinds": {
+      "J10": "architecture audit",
+      "L01": "repository scan (sanitized results, no secret contents)",
+      "L03": "parser/security review and actual bounded denial assertions",
+      "L05": "tree audit",
+      "L06": "import/network audit",
+      "H01": "static + integration composition equivalence",
+      "OPS02": "separated identity ledger + security/contract review",
+      "E2E04": "machine report and review"
+    },
+    "method": "Use existing acceptance record evidence/artifact_refs+hashes+limitations and named review disposition refs. Preserve reviewer execution NONE for static-only work. No new certification framework or acceptance gate."
+  },
+  "c7_specific_repaired_source_bindings": [
+    {
+      "clause_ids": [
+        "CLOUD-05"
+      ],
+      "original_revision": "c7e4f8df3fd5324d9a25071cf61cf76b1e82fafe",
+      "test_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_stale_takeover_cannot_replace_real_e6_effect_or_winner_receipt",
+      "log_ref": "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/artifacts/a0004.log:132",
+      "scope": "ACTUAL_AFFECTED_SOURCE_EXECUTION_ONLY",
+      "log_sha256": "e8e30f61abccef9964e7865c517ee6ad9736121d07f287e6d7636ed8128202e3"
+    },
+    {
+      "clause_ids": [
+        "TRADE-02"
+      ],
+      "original_revision": "c7e4f8df3fd5324d9a25071cf61cf76b1e82fafe",
+      "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_malicious_cloud_proposal_cannot_restore_revoked_authority_or_reach_fake_provider",
+      "log_ref": "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/artifacts/a0004.log:142",
+      "scope": "ACTUAL_AFFECTED_SOURCE_EXECUTION_ONLY",
+      "log_sha256": "e8e30f61abccef9964e7865c517ee6ad9736121d07f287e6d7636ed8128202e3"
+    },
+    {
+      "clause_ids": [
+        "CLOUD-10"
+      ],
+      "original_revision": "c7e4f8df3fd5324d9a25071cf61cf76b1e82fafe",
+      "test_ids": [
+        "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_shipped_engineering_examples_execute_both_sides_with_asof_and_atr_binding",
+        "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_shipped_four_hour_example_has_ema_adx_atr_and_roundtrips_actual_authoring",
+        "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_shipped_multitimeframe_example_has_four_hour_direction_and_fifteen_minute_donchian",
+        "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_shipped_unsupported_feature_example_retains_actual_typed_gap_receipt"
+      ],
+      "log_ref": "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/artifacts/a0004.log:123-126",
+      "scope": "ACTUAL_SOURCE_OWNER_BEHAVIOR;ENGINEERING_EXAMPLES_NOT_GPT_RESEARCH",
+      "log_sha256": "e8e30f61abccef9964e7865c517ee6ad9736121d07f287e6d7636ed8128202e3"
+    },
+    {
+      "clause_ids": [
+        "J06"
+      ],
+      "original_revision": "c7e4f8df3fd5324d9a25071cf61cf76b1e82fafe",
+      "test_id": "tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_failed_research_is_a_stable_alert_with_original_failure_time",
+      "log_ref": "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/artifacts/a0004.log:112",
+      "browser_result_ref": "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/artifacts/a0024.json",
+      "scope": "ACTUAL_SOURCE_API_PLUS_DEVELOPMENT_BROWSER_WITH_RECORDED_FILE_HASHES",
+      "log_sha256": "e8e30f61abccef9964e7865c517ee6ad9736121d07f287e6d7636ed8128202e3"
+    }
+  ],
+  "f12_preserve_existing_first": {
+    "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "record_ref": "acceptance-records-7d821f2.json#OPS-01",
+    "exact_assertion": "PQR-05/CRASH_FLAT_PROTECTED_UNPROTECTED_RECONCILIATION",
+    "source_ref": "tools/verify_paper_faults.py:252",
+    "field": "actual_idle_flat_crash",
+    "next": "Review actual retained native assertion closure first; do not require a new closed-position variant or rerun absent a distinct literal clause."
+  },
+  "canonical_input_hashes": [
+    {
+      "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    },
+    {
+      "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md",
+      "sha256": "c6588fb1fc9e13114314e84ce133b59178f1ebdae23b524836cfccd7d9e3955d"
+    },
+    {
+      "path": "docs/product/v0_2/06_EXECUTION_PLAN.md",
+      "sha256": "899ccccb6bcd2b0ffa3c25a59f5a8a18ee8cf08b95e272fc49549f0a34a61009"
+    },
+    {
+      "path": "coordination/CODEX/PROGRESS.json",
+      "sha256": "2ba59b9fc1abe1d6f31e34623abbd11b0f439afad2498b71051e6c47a23b4984"
+    },
+    {
+      "path": "status/codex/productization/S16/remaining-local-c7e4f8d-retry01/disposition.json",
+      "sha256": "2a5ac94c7b81f9f86106b3c840e1c266ea651114429346a84fbf2a5a04d039a0"
+    },
+    {
+      "path": "status/codex/productization/S14/cloud08-report-source-6cd74d5/disposition.json",
+      "sha256": "fa2cac925d04923a6efd158060eec4cc90c7a0d848ca07b4ebcf5904f0722b96"
+    }
+  ]
+}

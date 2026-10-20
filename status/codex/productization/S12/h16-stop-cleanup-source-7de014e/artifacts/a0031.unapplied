@@ -1,0 +1,81 @@
+"""UNAPPLIED / NOT_EXECUTED / NO ACCEPTANCE CREDIT.
+
+Proposed single missing joined assertion for F04. Actual E5 evaluator, normal
+FIXTURE strategy/risk policies and Paper engine; no risk-result patch or policy
+permission fabricated. Small explicit simulated account balance is test input.
+"""
+from copy import deepcopy
+from decimal import Decimal
+import unittest
+from unittest.mock import patch
+
+from brokers.paper import PaperBroker
+from storage.runtime import PaperRuntimeJournal
+from tests.product.test_paper_runtime_v02 import PaperRuntimeV02Tests, simulation_fixture
+
+
+class PaperRiskRejectJoinedDraftTests(unittest.TestCase):
+    def test_actual_insufficient_balance_risk_reject_is_canonical_and_has_zero_paper_effect_on_exact_retry(self):
+        fixture = PaperRuntimeV02Tests(methodName='runTest')
+        fixture.setUp()
+        self.addCleanup(fixture.doCleanups)
+        simulation = simulation_fixture()
+        simulation['initial_balance_usdt'] = '1'  # Explicit FIXTURE-only test account.
+        # Existing selected policy remains unchanged: actual request margin60,
+        # max_margin100/notional100, but available equity1. Normal risk evaluator
+        # must reject actual proposal; this is not a pre-risk admission denial.
+        fixture.service = fixture.make_service(simulation)
+        fixture.boundary._resolve = fixture.service.resolve_owner_evidence
+        runtime = fixture.start()
+        event = fixture.event(0, bars=True)
+        initial = fixture.process.recover(runtime.run_id)
+        published = []
+        actual_risk_writer = PaperRuntimeJournal.persist_risk_decision
+        actual_submit = PaperBroker.submit_order
+
+        def record_actual_canonical_risk(journal, payload):
+            stored = actual_risk_writer(journal, payload)  # Real owner write.
+            published.append(stored)
+            return stored
+
+        # Instrument genuine owner methods only. If submit is mistakenly called,
+        # the real broker method still executes and zero-effect assertions fail.
+        with patch.object(PaperRuntimeJournal, 'persist_risk_decision', autospec=True,
+                          side_effect=record_actual_canonical_risk), \
+             patch.object(PaperBroker, 'submit_order', autospec=True,
+                          side_effect=actual_submit) as submit:
+            first = runtime.on_market_event(event)
+            after = fixture.process.recover(runtime.run_id)
+            operation = fixture.process.operation(runtime.run_id, first.operation_id)
+            state = after.state['runtime']
+            risk = state['risk_decision']
+            self.assertEqual('FRESH', state['market_status'])
+            self.assertIsNotNone(state['last_intent'])
+            self.assertNotEqual('NO_TRADE', state['last_signal']['direction'])
+            self.assertEqual('REJECT', risk['decision'])
+            self.assertIn('INSUFFICIENT_BALANCE', risk['reason_codes'])
+            self.assertEqual('BLOCKED', first.status)
+            self.assertEqual(tuple(risk['reason_codes']), first.reason_codes)
+            self.assertEqual('PUBLISHED', operation.status)
+            self.assertEqual(['RISK_DECISION'], [item['kind'] for item in operation.outcome['effects']])
+            self.assertEqual(risk, operation.outcome['effects'][0]['payload'])
+            self.assertEqual(1, len(published))
+            self.assertEqual(risk, published[0].payload)
+            self.assertEqual(risk['risk_decision_id'], published[0].canonical_id)
+            for field in ('plan', 'entry_request', 'position', 'protection_request', 'exit_request'):
+                self.assertIsNone(state[field], field)
+            self.assertEqual([], state['closed_trades'])
+            self.assertEqual([], after.state['broker']['payload']['submissions'])
+            self.assertEqual(Decimal('0'), PaperBroker.from_state(after.state['broker']).query_position('BTC_USDT_PERP').net_quantity)
+            self.assertEqual(initial.revision+1, after.revision)
+            self.assertEqual((), after.pending_operations)
+            first_state = deepcopy(after.state)
+            # Exact identical finalized market operation, original command ID.
+            second = runtime.on_market_event(event)
+            retried = fixture.process.recover(runtime.run_id)
+            self.assertEqual(first, second)
+            self.assertEqual(after.revision, retried.revision)
+            self.assertEqual(first_state, retried.state)
+            self.assertEqual(operation, fixture.process.operation(runtime.run_id, first.operation_id))
+            self.assertEqual(1, len(published), 'No repeated canonical risk publication')
+            submit.assert_not_called()

@@ -1,0 +1,18 @@
+test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends (tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends) ... ERROR
+
+======================================================================
+ERROR: test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends (tests.product.test_trading_stop_cleanup_v02.TradingStopCleanupV02Tests.test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_stop_cleanup_v02.py", line 53, in test_one_exact_target_cancel_ack_leaves_original_stop_unsettled_and_duplicate_never_resends
+    self.flat();reads=self.reads();before=self.flow.recover();prepared=self.prepare(reads)
+                      ^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_stop_cleanup_v02.py", line 31, in reads
+    stop=self.service.read_fixture_cleanup_stop(self.flow.stop.canonical_request.order_request_id,
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_fixture_cleanup_stop'
+
+----------------------------------------------------------------------
+Ran 1 test in 39.166s
+
+FAILED (errors=1)

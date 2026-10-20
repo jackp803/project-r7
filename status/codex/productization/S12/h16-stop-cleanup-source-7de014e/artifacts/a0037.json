@@ -1,0 +1,33 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 1,
+  "subject_hashes": {
+    "partition_h16_cleanup_tests.py": "8660595499a602d445f665fd82f21074200d206b1f6ca3b17acb09dce76e3ccf",
+    "h16-stop-cleanup-source-7de014e/checkpoint.json": "342763ac9b99bb94124bb72bb40eac7a1e49ed5c3189ad278ae43a23a2a09b1c",
+    "h16-stop-cleanup-source-7de014e/source.log": "c6be7807600527ca1a2db41fbc67422c18532d3211783c8c85b69cc3d0145737"
+  },
+  "findings": [
+    {
+      "id": "PARTITION-MEMORY-ATTEMPT-UNANCHORED",
+      "severity": "Important",
+      "path": "partition_h16_cleanup_tests.py",
+      "lines": [
+        13,
+        31
+      ],
+      "description": "The fixed checkpoint/log paths are not anchored to the retained attempt. Setting passed=true and exit_code=0 in a replacement checkpoint skips all failure/cleanup checks even when log_hash still binds the actual 92-error log; the utility can then record original_run_status PASS. This does not enforce only the reviewed failed attempt.",
+      "minimal_fix": "Pin both captured raw checkpoint/log SHA256 commitments before parsing/admission, or strictly require this typed failed subject and its fixed raw log commitment. Preserve the failed status."
+    }
+  ],
+  "static_observations": [
+    "Actual captured report is passed=false, exit1, failure_type=null, tests158, source_unchanged/tree_reaped true. Its source.log hash matches.",
+    "Captured LF log contains one Ran158 summary and FAILED(errors=92), 92 error blocks ending in ResearchResourceError RESEARCH_MEMORY_PRESSURE, no FAIL headers, and all eleven cleanup successes.",
+    "Import re and ordinary first-statement optimized-mode rejection are present. Pinned nine-file review, exact-clean/source checks, output inventory and compile-before-write ordering remain."
+  ],
+  "limits": [
+    "Static reads/hash inspection only; no utility/tests/native/process/Git/DB/network or tracked mutations. Review concerns the captured utility revision, not future repaired bytes.",
+    "The original attempt remains FAILED; no partition timing, qualification, native or H16 completion credit."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Cleanup native-unique replacement regression fixture masking only",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 1,
+  "production_defect_observed": false,
+  "subject_hashes": {
+    "src/storage/migrations/0021_product_stop_cleanup_claim.sql": "8b0c6cff41b7bf6bd01b3af07172b2e84c0c6e9c8954fc375400c46a12414b4a",
+    "tests/product/test_trading_stop_cleanup_v02.py": "6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c",
+    "tests/product/test_trading_protected_close_v02.py": "32a4e713ba2e353d866ea4c36251e2e5aad12180f0d1ad71ea70f78bf02efa14",
+    "tests/product/test_trading_close_v02.py": "af82ff3d1fb3c77e789b4e83839ff5d3b596c62f03be8353ab9e7983a8b694c2",
+    "src/storage/_sqlite_registry.py": "5c79c3c81695a3aa1820f20a1a79d01c7f90c2d26d276ba78d93195208eca918"
+  },
+  "findings": [
+    {
+      "id": "STOP-CLEANUP-NATIVE-UNIQUE-FK-MASK",
+      "severity": "Important",
+      "classification": "TEST_COVERAGE_ONLY",
+      "path": "tests/product/test_trading_stop_cleanup_v02.py",
+      "line": 134,
+      "description": "The alternate-primary-key INSERT OR REPLACE subcase uses stop_operation_id=replacement, which is not a real dispatch claim. Migration 0021:9 requires that key to exist in product_dispatch_claims, and the real connection enables foreign_keys. If only the native-unique replacement guard were removed, the invalid FK could still raise sqlite3.IntegrityError and make this subcase appear to prove that guard.",
+      "production_assessment": "The current migration explicitly guards both the original primary key and provider/account/native target uniqueness. This finding does not demonstrate a production replacement defect or invalidate the static guard implementation; it identifies a masked regression oracle.",
+      "minimal_strengthening": "After the active frozen run, change only the alternate stop_operation_id to self.flow.entry_operation. It is a genuine claimed ENTRY from the same run, unused as a cleanup primary key. Keep original provider_ref/account_ref/native_algo_id, close_operation_id, generation, identity/source JSON and their audit hashes unchanged. Assert the entry claim exists and no cleanup row has that alternate key before attempting replacement.",
+      "why_alternative_is_valid": "GenuineProtectedCloseContext:45-50 obtains entry_operation from the actual entered helper. TradingCloseV02Tests.entered:21-25 calls the real service.execute then reconcile, so the dispatch claim is committed. The migration does not add a role CHECK or identity-JSON/column CHECK; therefore this controlled SQL test alternative satisfies the relevant FKs without inventing an owner financial state. With recursive_triggers OFF, removal of the native-unique BEFORE INSERT guard would then permit the unique-key replacement instead of failing on the unrelated missing FK.",
+      "desired_oracle": "Current production trigger rejects and original row remains unchanged; a bounded isolated mutation removing only the native-unique condition should make the rejection assertion fail, with rollback/cleanup restoring the owned fixture."
+    }
+  ],
+  "active_run_policy": "No source or candidate mutation now. Preserve current run/results and prior review artifacts; strengthen and execute the regression only afterward under root ownership.",
+  "limits": [
+    "No tests, DB connections/queries, processes, native/product, Git, secrets/auth/config/private data, provider/network or tracked writes were executed. Only public source text was inspected and this outside-Git review artifact written.",
+    "No current test PASS, replacement execution, full-qualification or H16/K05/native/LIVE acceptance claim is made."
+  ]
+}

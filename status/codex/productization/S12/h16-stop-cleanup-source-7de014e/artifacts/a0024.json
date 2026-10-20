@@ -1,0 +1,388 @@
+{
+  "document_kind": "BOUNDED_PLAT08_PORTABLE_UPGRADE_REMOVAL_PLAN",
+  "status": "NOT_RUN",
+  "execution": "NONE",
+  "implementation": "UNAPPLIED",
+  "task": "SAME_MASTER",
+  "clause": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#PLAT-08",
+  "no_new_certification_framework": true,
+  "documented_contract": [
+    {
+      "ref": "docs/product/v0_2/01_PLATFORM_DEPLOYMENT.md:64",
+      "contract": "Windows deliverable may be versioned ZIP OR installer; actual build emits versioned ZIP, R7.exe/_internal/static UI/licenses/migrations/distribution.json. Normal use needs no installed Python/Node/PYTHONPATH; data remains outside installation."
+    },
+    {
+      "ref": "packaging/windows/FIRST_RUN.md:7-9,49-64,73-79",
+      "contract": "Extract entire folder into fresh directory; external local configuration/data; stop coordinator and independently verify all owner roles stopped; private complete backup->verify->fresh restore. Restoration stays inhibited and disconnected. No instruction authorizes deleting data/backups."
+    },
+    {
+      "ref": "docs/product/v0_2/01_PLATFORM_DEPLOYMENT.md:80-84",
+      "contract": "No auto-upgrade with open position. Maintenance/no new entries/correct management handoff/consistent backup/migration preflight/startup reconciliation; refuse unverified schema downgrade; installation/rollback preserve data/versioned backup manifest."
+    }
+  ],
+  "actual_entrypoints": {
+    "launcher": "packaging/entrypoint.py -> application.cli.run; frozen run at src/application/cli.py:476 verifies actual distribution inventory before each command",
+    "integrity": "src/application/platform/distribution.py:148::verify_distribution (all files/source commitment); identity is not signed release/financial permission",
+    "package": "tools/build_product.py:177-187 seals package and creates r7-product-0.2.0-windows-<rev7>.zip + build-result.json",
+    "native_commands": [
+      "R7.exe doctor --hardware --data-root <external-data> --json",
+      "R7.exe init-profile --config <external-config> --data-root <external-data>",
+      "R7.exe serve --config <external-config>",
+      "R7.exe product-status --config <external-config>",
+      "R7.exe stop-product --config <external-config> --role coordinator",
+      "R7.exe backup-product-data --config <external-config> --destination <fresh-backup>",
+      "R7.exe verify-product-backup --config <external-config> --destination <fresh-backup>",
+      "R7.exe restore-product-data --config <external-config> --backup <fresh-backup> --destination <fresh-restored-root>"
+    ],
+    "windows_upgrade_or_uninstall_command": "NONE_FOUND; install-services/uninstall-services are native Ubuntu service-file operations, not Windows portable folder management",
+    "migration_preflight_command": "NONE_FOUND; restore verifies source backup schemas/hashes, but this alone is not cross-version migration or downgrade certification"
+  },
+  "already_valid_7d": {
+    "revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "identity": {
+      "executable_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+      "implementation_hash": "sha256:e3e79dc1b293a2cb26dbe64df22bf79f815c5810ccf473da76e9f568cf446fc1",
+      "build_hash": "sha256:0edb13bb6df357fb251b23618ba50b25c2ad1fbfe69aa7940486a83da8b4c3f4",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2"
+    },
+    "receipt": "qualification-5a4a842d11cde1ccb042b25558bc988ba5a03c0c7101cdfbe98ae65428c6ae80",
+    "portable": {
+      "ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0076.json",
+      "zip_hash": "sha256:8ef3e058da61d613bc7cd3488b390252190c224750abc90c1356ca1b8bd7b0a9",
+      "files": 1107,
+      "uncompressed_bytes": 123288513,
+      "complete_bytes_identical": true,
+      "configuration_copied": false,
+      "auth_copied": false,
+      "scope": "ACTUAL_FRESH_ZIP_INSTALL_ONLY;NOT_TWO_INSTALLATION_UPGRADE_OR_REMOVAL"
+    },
+    "first_run": {
+      "ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0088.json",
+      "path": "EMPTY",
+      "pythonpath": "UNSET",
+      "auth": "FRESH_NOT_CONFIGURED",
+      "runtime": "NOT_STARTED",
+      "paper": "NOT_STARTED",
+      "actual_named_scenarios": [
+        "NATIVE_HARDWARE_WITH_EMPTY_PATH",
+        "CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION",
+        "SECOND_NATIVE_CONTROL_PROCESS_DENIED",
+        "ACTUAL_NATIVE_E6_MIGRATIONS",
+        "CONTROL_RESTART_AUTH_AND_LOOPBACK_DENIAL",
+        "NATIVE_CONFIG_DRIFT_STOPS_CONTROL",
+        "NATIVE_UNSELECTED_WORKER_TRUTHFUL",
+        "TAMPERED_MIGRATION_DENIED_BEFORE_START"
+      ],
+      "migrations": 19,
+      "all_command_trees_reaped": true
+    },
+    "backup": {
+      "ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0099.json",
+      "same_original_qualified_config": true,
+      "four_way_equal_files": 545,
+      "public_capture_files": 28,
+      "qualification_files": 508,
+      "declared_qualification_artifacts": 506,
+      "actual_receipt_equal_across_four_stores": true,
+      "actual_runtime_selection_equal_across_four_stores": true,
+      "source_diagnostic_histories_unchanged": true,
+      "restored_software_admission": "DENIED",
+      "restoration": "RESTORED_INHIBITED",
+      "runtime_new_exposure": "INHIBITED",
+      "cloud": "DISCONNECTED",
+      "financial_authority": "NONE",
+      "all_owned_tree_reaped": true,
+      "scope": "ACTUAL_SAME_QUALIFIED_STORE_BACKUP_RESTORE_REBACKUP;NOT_BINARY_UPGRADE"
+    },
+    "actual_public_requests_cumulative": 8,
+    "actual_public_responses_cumulative": 8,
+    "new_calls": 0,
+    "private_calls": 0,
+    "original_installation": "installations/windows-7d821f2-clean;PRESERVE_DO_NOT_USE_AS_REMOVAL_TARGET",
+    "retained_bindings": [
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/build-7d821f2/build-result.json",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0014.json",
+        "original_hash": "sha256:e71163433a171a5942f50224e5b13bae7f6603e9e8214fe719ca120040337b1d",
+        "retained_hash": "sha256:e71163433a171a5942f50224e5b13bae7f6603e9e8214fe719ca120040337b1d"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/portable-7d821f2-first/checkpoint.json",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0076.json",
+        "original_hash": "sha256:384fd5c4fa35fcfdebbb9db5736e24e7c02c8219dfc02e5b47f2f59ece146ffd",
+        "retained_hash": "sha256:384fd5c4fa35fcfdebbb9db5736e24e7c02c8219dfc02e5b47f2f59ece146ffd"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/portable-7d821f2-first/first-run-smoke/01-doctor.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0079.log",
+        "original_hash": "sha256:3faa80e0564a3d2a94c2f41e8301aa78e6471eabd180c5aa54c67b4902241a9c",
+        "retained_hash": "sha256:55f9beb0c4e609a65488825cbb5a0987f099cd35f69595c898fa2237ac5345a8"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/portable-7d821f2-first/first-run-smoke/02-init-profile.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0080.log",
+        "original_hash": "sha256:ec4242cd2956552d280b9a59fbc4286b60e012f526b9b5c159aff19dc1fcfb2a",
+        "retained_hash": "sha256:d48452b9d3323fee2822164204a70bc7aef4078b96c156ef0e97009ec5e3ec92"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/portable-7d821f2-first/first-run-smoke/03-preserve-profile.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0081.log",
+        "original_hash": "sha256:9ba40469357e192dc51f0d1e08ae9dff6c6aede90ee45ff599111e8d635126b2",
+        "retained_hash": "sha256:2fba91a74963e2c5304a4790ccbbf07f629889cd135d8c7cdb8038bd7fae3d30"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/portable-7d821f2-first/first-run-smoke/native-smoke.json",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0088.json",
+        "original_hash": "sha256:7175bc56d2cc81274c0878c076c9620ee7480af9f11f52452d671c736e82f2bc",
+        "retained_hash": "sha256:7175bc56d2cc81274c0878c076c9620ee7480af9f11f52452d671c736e82f2bc"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/qualified-backup-7d821f2-retry01/backup-owning-store.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0097.log",
+        "original_hash": "sha256:208bcf1434cec6a8e7424fb89a8358da0e9462aee7f70bad603a034a610f4e56",
+        "retained_hash": "sha256:208bcf1434cec6a8e7424fb89a8358da0e9462aee7f70bad603a034a610f4e56"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/qualified-backup-7d821f2-retry01/checkpoint.json",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0099.json",
+        "original_hash": "sha256:76e0d933b0870ae7b20f41e9cdbf183d6adaa2cbed7e02e3def41593cc6133e8",
+        "retained_hash": "sha256:76e0d933b0870ae7b20f41e9cdbf183d6adaa2cbed7e02e3def41593cc6133e8"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/qualified-backup-7d821f2-retry01/restore-owning-store.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0102.log",
+        "original_hash": "sha256:d6b1ee6835d65a1e2d81ef01009287222320c36a0a8ec68cd73b27b083920f82",
+        "retained_hash": "sha256:d6b1ee6835d65a1e2d81ef01009287222320c36a0a8ec68cd73b27b083920f82"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/qualified-backup-7d821f2-retry01/restored-software-denied.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0103.log",
+        "original_hash": "sha256:d456ed92a884a8913b466c9d1ec85cee40eca31e2b68a9be27f108be052b6416",
+        "retained_hash": "sha256:d456ed92a884a8913b466c9d1ec85cee40eca31e2b68a9be27f108be052b6416"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/qualified-backup-7d821f2-retry01/verify-owning-backup.log",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0104.log",
+        "original_hash": "sha256:208bcf1434cec6a8e7424fb89a8358da0e9462aee7f70bad603a034a610f4e56",
+        "retained_hash": "sha256:208bcf1434cec6a8e7424fb89a8358da0e9462aee7f70bad603a034a610f4e56"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0143.py",
+        "original_hash": "sha256:3b82548ac7bf3b41bb3cd08b15277c57ca04d4bc790ec59ae1c583c17f4a90b6",
+        "retained_hash": "sha256:3b82548ac7bf3b41bb3cd08b15277c57ca04d4bc790ec59ae1c583c17f4a90b6"
+      },
+      {
+        "original_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+        "original_ref": "artifacts/current-windows-20261019/verify_qualified_backup_checkpoint.py",
+        "retained_ref": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0144.py",
+        "original_hash": "sha256:c7ee11773bb71be1dbe99d4a2f473250ad159f5d8ab8787acac3375325bf4659",
+        "retained_hash": "sha256:c7ee11773bb71be1dbe99d4a2f473250ad159f5d8ab8787acac3375325bf4659"
+      }
+    ]
+  },
+  "fresh_arrangement": {
+    "scope": "<fresh-private-absolute-ART>/plat08-portable-<unique>",
+    "installation1": "<scope>/installation-1/R7",
+    "installation2": "<scope>/installation-2/R7",
+    "external_config": "<scope>/external/config/product.json",
+    "external_data": "<scope>/external/data",
+    "operations": "<scope>/external/operations.json (only if needed; no runtime/Paper/cloud/workflow authority)",
+    "backup": "<scope>/external/backups/backup-1",
+    "restored": "<scope>/external/restored-1",
+    "rebackup": "<scope>/external/backups/rebackup-1",
+    "observations": "<scope>/observations.json and finite sanitized logs",
+    "constraints": [
+      "Fresh private scope and every destination absent; absolute local paths; every ancestor nonlinked/non-reparse; pairwise disjoint installation/data/config/backup roots; no source/retained/original installation containment.",
+      "Extract only sealed ZIP members using existing verify_portable_checkpoint.archive_subject/finite safe ZIP extraction recipe; 4096-member/512MiB existing bounds; no copying operator config/auth or unknown files. Record same archive SHA256, complete file equality and verify_distribution identity for each extraction.",
+      "Use only actual normal native initialization/serve to create synthetic local user-data stores; no DB writes/terminal-state injection by helper. No account enrollment/real credential/network/Paper/research selection required for the minimal portable preservation slice.",
+      "Hash immutable source/config/profile/dataset/artifact bytes at stopped boundaries. Do NOT demand byte-identical SQLite after legitimate control/backup journal activity; compare consistent-backup manifest/schema facts and exact canonical immutable rows/receipt commitments through safe readonly helpers where an actual receipt exists. No private row contents in report."
+    ]
+  },
+  "proposed_future_flow": [
+    {
+      "step": 1,
+      "action": "After current source guard ends and root selects exact package subject, privately extract the chosen sealed ZIP into fresh installation1 and installation2. Verify identities/all files; keep original 7d package/install/backup untouched.",
+      "commands": [
+        "<I1>/R7.exe doctor --hardware --data-root <data> --json",
+        "<I1>/R7.exe init-profile --config <config> --data-root <data>"
+      ],
+      "assertions": [
+        "Both installed identities match the pinned ZIP/build metadata; no environment Python/Node/PYTHONPATH needed.",
+        "Profile LOCAL_RESEARCH diagnostic_only=true, paper_runtime_enabled=false, cloud_root=null; repeated init-profile rejects while original bytes unchanged. No copied auth/config."
+      ],
+      "credit": "Same-revision two-copy test proves relocation/removal only, not version upgrade."
+    },
+    {
+      "step": 2,
+      "action": "Use normal I1 serve in an owned bounded child only to initialize actual supported data and show diagnostic loopback first-run; graceful managed stop and reap before backup. Use product-status and exact owning handles to establish no coordinator/control/research/runtime/cloud remains. Never infer flat merely from stop.",
+      "commands": [
+        "<I1>/R7.exe serve --config <config>",
+        "<I1>/R7.exe product-status --config <config>"
+      ],
+      "assertions": [
+        "No Paper/trading owner ever started; no positions or financial policies introduced.",
+        "Record actual control incarnation/cleanup and unchanged host startup/sleep/security. Do not blindly stop external owners or kill by name."
+      ],
+      "credit": "Fresh minimal diagnostic no-exposure scope only; existing 7d separate owning proof stays original."
+    },
+    {
+      "step": 3,
+      "action": "Create/verify actual stopped-owner private complete backup before changing/removing any installation. Retain source profile hash, supported file inventory/schema and actual immutable owner facts.",
+      "commands": [
+        "<I1>/R7.exe backup-product-data --config <config> --destination <backup>",
+        "<I1>/R7.exe verify-product-backup --config <config> --destination <backup>"
+      ],
+      "assertions": [
+        "Creation/verification successful with matching backup_id/manifest/hash/coverage; no source mutations except documented operation records.",
+        "Data, config, backup and logs are outside both installation roots and remain untouched by package replacement."
+      ],
+      "credit": "No new qualifying receipt is created by backup."
+    },
+    {
+      "step": 4,
+      "action": "Root/operator removes ONLY the verified disposable installation1 folder after exact stopped/reaped proof. This is an explicitly bounded filesystem operation, not an R7 uninstall command. Before any recursive deletion, re-resolve the exact absolute target; prove it is installation1 under this fresh scope and disjoint from I2/data/config/backups/original7d/repo. Use one native PowerShell Remove-Item -LiteralPath operation; never shell-built enumeration or external path joins.",
+      "commands": [
+        "PROPOSED_ONLY: Remove-Item -LiteralPath <exact-verified-fresh-installation1> -Recurse"
+      ],
+      "assertions": [
+        "Installation1 absent; installation2 complete inventory unchanged; external profile/data/backup hashes/manifest commitments unchanged at stopped boundary.",
+        "No registry/MSI/service/autorun/host settings modified; no original program, backup, report or user data removed."
+      ],
+      "credit": "Actual portable folder removal data-preservation scope; execution NOT_RUN here."
+    },
+    {
+      "step": 5,
+      "action": "Invoke the existing I2 native executable against the unchanged external profile for doctor/backup verification, then normal owned diagnostic serve/startup reconciliation and stop/reap. Do not reinitialize profile or transfer financial authority.",
+      "commands": [
+        "<I2>/R7.exe doctor --hardware --data-root <data> --json",
+        "<I2>/R7.exe verify-product-backup --config <config> --destination <backup>",
+        "<I2>/R7.exe serve --config <config>",
+        "<I2>/R7.exe product-status --config <config>"
+      ],
+      "assertions": [
+        "Native distribution/hash identity still pinned; actual diagnostic stores and versioned profile preserved and readable; no duplicate owner accepted.",
+        "No automatic runtime/Paper/cloud/forward start and no financial authority gained. Final all owned tree reaped."
+      ],
+      "credit": "Same7d ZIP in I1/I2 remains same-version relocation, not cross-version semantic upgrade."
+    },
+    {
+      "step": 6,
+      "action": "Exercise formal fresh restore from preserved backup using I2 and retain its result/fence and rebackup. Never overwrite original external data. Existing retained qualified7d denial may bind stronger receipt behavior; do not import its receipt into a fresh empty synthetic store.",
+      "commands": [
+        "<I2>/R7.exe restore-product-data --config <config> --backup <backup> --destination <restored>",
+        "<I2>/R7.exe backup-product-data --config <restored>/restored-product.json --destination <rebackup>",
+        "<I2>/R7.exe verify-product-backup --config <restored>/restored-product.json --destination <rebackup>"
+      ],
+      "assertions": [
+        "restore status PRODUCT_DATA_RESTORE_STAGED; exact returned generation and restored-product.json; persisted fence RESTORED_INHIBITED/reconciliation REQUIRED/reauthorization REQUIRED/runtime_new_exposure INHIBITED/cloud DISCONNECTED/financial_authority NONE.",
+        "Normal owner APIs append copied process generations; no saved activation/session/cloud connection becomes authority. Source stays unchanged.",
+        "If this synthetic store has no actual owning qualification receipt, do not claim software-admission denial based on a missing/copied receipt. Existing a0099 actual-qualified denial remains separate valid evidence."
+      ],
+      "credit": "Backup/restore inhibition; not ordinary financial runtime acceptance."
+    }
+  ],
+  "cross_version_boundary": {
+    "missing": "Actual version1-to-version2 maintenance/migration/startup reconciliation and unverified downgrade refusal are not proven by two identical7d copies or retained fresh-migration smoke.",
+    "minimal_extension": "Once a second exact clean native candidate is independently qualified, I1 may be disposable7d and I2 the chosen candidate. Work only on a fresh verified restored clone of the synthetic version1 backup; preserve the original. Run supported current schema validation and normal startup under I2, record actual appended migrations and unchanged canonical immutable identities. If schema compatibility cannot be validated, fail safely with old package/data retained.",
+    "no_preflight_cli": "No dedicated schema migration/downgrade preflight CLI found. src/storage/_sqlite_registry.py:47 _apply_migrations skips known names and applies packaged SQL; it does not itself reject unknown applied migration names. Do not label generic startup or backup verification a proven downgrade guard. A bounded explicit compatibility check/refusal may be a genuine source gap to review separately, without changing financial semantics.",
+    "rollback": "Safest supported rollback uses preserved version1 package plus its untouched version1 data/verified backup in a fresh inhibited restore. Never point old executable at a potentially migrated newer store and claim rollback safety.",
+    "open_position": "Current diagnostic no-exposure sample cannot prove upgrade during open exposure. That broader maintenance/handoff behavior remains unexecuted; do not auto-upgrade or create exposure for this proof."
+  },
+  "unsupported_or_external": {
+    "windows_msi_registry": "No Windows MSI/registry/OS-uninstaller integration identified; do not invent requirements or claim it implemented. Actual chosen deliverable is portable ZIP. Clarify only portable folder removal contract in documentation/evidence.",
+    "ubuntu": "Ubuntu service install/uninstall/native parity remains NOT_RUN and uses its own explicit operators/service files.",
+    "old_pc": "Not needed for this current-PC portable preservation flow. Preserve original hardware/Windows scope; do not ask for unavailable oldPC.",
+    "realcloud_provider": "NOT_RUN; no credentials, account, remote network, trades or new public calls."
+  },
+  "minimal_doc_gap": "FIRST_RUN documents extraction/external roots and backup/restore, but does not contain an explicit Windows portable replacement/removal/rollback procedure. Add only the concrete tested stopped-owner fresh-directory/manual-folder instructions after actual flow; no new installer/UI.",
+  "source_hashes": [
+    {
+      "ref": "packaging/windows/FIRST_RUN.md",
+      "sha256": "fe5d8c6d804e52b718f5fc5d2fb394ce387d7ee603d5640ddcc56af76f0253ad"
+    },
+    {
+      "ref": "packaging/entrypoint.py",
+      "sha256": "dc1c78348adad16ac451e6c76708a19176906d7960a7ee25c87e3eaca1291c83"
+    },
+    {
+      "ref": "docs/product/v0_2/01_PLATFORM_DEPLOYMENT.md",
+      "sha256": "edb3c4ba7c5c0cb5e1b1579493a1eb90a2cc0f2c2508eac02a3187aab011da75"
+    },
+    {
+      "ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    },
+    {
+      "ref": "src/application/cli.py",
+      "sha256": "34242992483bc50f0182797c4ff88d56052a9a32fddd23b79442c930094cca62"
+    },
+    {
+      "ref": "src/application/entrypoints.py",
+      "sha256": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91"
+    },
+    {
+      "ref": "src/application/platform/distribution.py",
+      "sha256": "ba1c415f680c8aedeeeca34b66b06d76017953bd7b7988ff68282926764c646d"
+    },
+    {
+      "ref": "src/application/platform/product_backup.py",
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+    },
+    {
+      "ref": "src/application/platform/database_restore.py",
+      "sha256": "7a4862953568a0bfcf764dcc09da9d1a896b2eba02f3ff8fe15aa707e27a04f8"
+    },
+    {
+      "ref": "src/application/platform/restoration.py",
+      "sha256": "6a595fc0ebe7077bd11a25d377a102e5b46d7068962c74bad9e7218a39e78596"
+    },
+    {
+      "ref": "src/storage/_sqlite_registry.py",
+      "sha256": "5c79c3c81695a3aa1820f20a1a79d01c7f90c2d26d276ba78d93195208eca918"
+    },
+    {
+      "ref": "tools/build_product.py",
+      "sha256": "f1d0173c711bc0dbc5a60d55821bc56233ad34fd1d2cdda3b51f21922fffb5a6"
+    },
+    {
+      "ref": "tools/verify_native_product.py",
+      "sha256": "5e520285f1b904cbb38b11f60a8f51bcc48cfc37d7cf812b93cc34258097b44e"
+    }
+  ],
+  "external_helper_hashes": [
+    {
+      "ref": "verify_portable_checkpoint.py",
+      "sha256": "3b82548ac7bf3b41bb3cd08b15277c57ca04d4bc790ec59ae1c583c17f4a90b6"
+    },
+    {
+      "ref": "verify_qualified_backup_checkpoint.py",
+      "sha256": "c7ee11773bb71be1dbe99d4a2f473250ad159f5d8ab8787acac3375325bf4659"
+    }
+  ],
+  "verification": {
+    "tests_run": [],
+    "git_commands": [],
+    "db_reads": 0,
+    "native_processes": [],
+    "network_calls": 0,
+    "removal_or_move_operations": [],
+    "tracked_changes": [],
+    "private_data_reads": 0,
+    "acceptance_claims_created": 0
+  }
+}

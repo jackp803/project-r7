@@ -1,0 +1,50 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "draft": "f04-paper-risk-reject-test.py.unapplied",
+  "finding": "No already-named complete joined RiskREJECT->zeroPaperBroker case found in inspected test_paper_runtime_v02.py or focused related Paper tests. Existing stale-market BLOCKED and broker protection submit REJECT cases are different boundaries.",
+  "existing_named_coverage": [
+    "PaperRuntimeV02Tests.test_stale_market_admits_no_order_and_reports_observed_reason: pre-risk MARKET_STALE, not actual risk decision",
+    "PaperRuntimeV02Tests.test_rejected_initial_protection_enters_emergency_and_management_closes: broker stop submission fault after entry, not E5 REJECT",
+    "PaperRuntimeV02Tests.test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry: approved submission retry",
+    "PaperRuntimeV02Tests.test_full_fill_checkpoint_recovers_publication_without_replaying_fill: actual applied fill outbox recovery"
+  ],
+  "joined_recipe": "Reuse normal existing selected FIXTURE risk/strategy/promotion fixture; change explicit simulation initial_balance_usdt from1000 to1 only. Default quantity0.001 at60000 requests margin60 under max_margin100/notional100; actual evaluate_trade_intent receives available_balance1 and adds INSUFFICIENT_BALANCE. Fresh market/real intent prove risk reached. Engine records one real canonical RISK_DECISION then returns before build_approved_trade_plan/ExecutionGateway/PaperBroker.submit_order.",
+  "assertions": [
+    "Actual REJECT and reason retained in runtime/outcome/canonical risk writer, actual immutable operation PUBLISHED with only RISK_DECISION effect",
+    "No runtime plan/order/position, no broker submissions/fills/exposure; genuine broker submit method instrumented with original side effect and must be uncalled",
+    "Exact retry same actual market operation ID returns identical receipt/hash/checkpoint/revision/state; canonical risk writer called once, no repeated evaluator-to-publication effect"
+  ],
+  "source_refs": [
+    "src/application/paper/engine.py::_evaluate lines315-365",
+    "src/risk/engine.py::evaluate_trade_intent INSUFFICIENT_BALANCE clause",
+    "src/application/paper/orchestrator.py::PaperCoordinator._finish/_publish/execute",
+    "src/storage/paper_process.py::operation/recover",
+    "src/storage/runtime.py::persist_risk_decision",
+    "tests/product/test_paper_runtime_v02.py::make_service/start/event/simulation_fixture",
+    "tests/application/test_product_assessment_binding.py::risk_fixture"
+  ],
+  "constraints": [
+    "No risk evaluator/decision monkeypatch, no PASS injection, SQL or handcrafted terminal/ApprovedTradePlan/fills",
+    "Only observation wrappers delegate unchanged to actual canonical risk writer and actual broker submit; source test would perform normal local owner writes if later applied/run, never run by worker",
+    "Explicit engineering FIXTURE account1 is test input, not default operator/financial policy. Existing selected risk policy and accepted fixture authorization retained",
+    "NOT_EXECUTED: expected actual reason/API behavior statically mapped only; root inspects/applies/executes after clean freeze. No edits to finalizer draft."
+  ],
+  "verification": {
+    "Git_commands": [],
+    "network_calls": 0,
+    "tests_run": [],
+    "tracked_changes": [],
+    "imports_run": [],
+    "native_run": [],
+    "DB_reads": 0
+  },
+  "draft_sha256": "b9946e5ed29b0db2cf3100f3e4ff8a5c89a2bc7ac2693ed930742cdc08d6f1d5",
+  "root_caught_static_fixture_correction": {
+    "status": "CORRECTED_UNAPPLIED_ONLY_NOT_EXECUTED",
+    "initial_draft": "f04-paper-risk-reject-test.py.initial.unapplied",
+    "initial_sha256": "978c40d7a35a91d3b7fcf04e2974138b339572e479a2e18105da8a7cd8aae556",
+    "issue": "Module-global imported PaperRuntimeV02Tests is itself a unittest.TestCase class; loadTestsFromModule discovers it and duplicates its full suite.",
+    "change": "Import test module as runtime_fixtures; qualify PaperRuntimeV02Tests and simulation_fixture so only draft TestCase is exposed as a global class. Behavior/prod code unchanged.",
+    "eof": "UTF8 without BOM; CRLF normalized to LF; exactly one trailing LF. No import/test/discovery/diff execution performed."
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Exact nine-file hash refresh after protected-close test EOF-only whitespace removal",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "subject_hashes": {
+    "src/application/trading/stop_cleanup.py": "bc3a81d70aa2df3ec0f68ec3f67095d0738ddab6e43df3e0bb7aecdd741a95e9",
+    "src/application/trading/guards.py": "b217b2d23e145ff3ba578fba769cf19f69f26f91411d29e6c7f20e9f27776629",
+    "src/application/trading/service.py": "aa40f7c95d8a30cde3efc411eaf2fe5106a4ba3823cd3440cded6ccba188b8ff",
+    "src/storage/product_stop_cleanup.py": "651285f9061a2837ac23c172a042d7674c251e5e54277dce779ba40840946734",
+    "src/storage/product_dispatch.py": "800204fe319c523863ac4012a0bb972c1bde113c676a45cfdcec58d20d2e296a",
+    "src/storage/migrations/0021_product_stop_cleanup_claim.sql": "8b0c6cff41b7bf6bd01b3af07172b2e84c0c6e9c8954fc375400c46a12414b4a",
+    "docs/product/v0_2/FIXTURE_OWNED_STOP_CLEANUP.md": "4c36f51ea526304bc95925ba031cfeb41956bd3359962508176e7371e11e54c6",
+    "tests/product/test_trading_stop_cleanup_v02.py": "6e278ed5f81b9e124b76a312c0852fa3f0a7369fa7878b88555730eaf814814c",
+    "tests/product/test_trading_protected_close_v02.py": "32a4e713ba2e353d866ea4c36251e2e5aad12180f0d1ad71ea70f78bf02efa14"
+  },
+  "prior_review": {
+    "path": "h16-stop-cleanup-owner-review-final.json",
+    "sha256": "d4a5b7688281c71957f802d948d60df5e642d8e689e6a44b2c887807f21fe668",
+    "byte_preserved": true
+  },
+  "verified_delta": {
+    "path": "tests/product/test_trading_protected_close_v02.py",
+    "prior_sha256": "ff6b8607c1c7514a278090876d22588fd86959ed90ab9a641c270fb4ced2ddf2",
+    "current_sha256": "32a4e713ba2e353d866ea4c36251e2e5aad12180f0d1ad71ea70f78bf02efa14",
+    "prior_bytes": 15033,
+    "current_bytes": 15031,
+    "removed_suffix_hex": "0a0a",
+    "description": "Exactly two trailing LF bytes were removed. The old file ended with three consecutive LF bytes after the final code line; the current file ends with one. Every preceding byte is identical; no newline-convention conversion or code/test assertion change occurred.",
+    "other_eight_files_byte_identical": true
+  },
+  "conclusion": "Prior bounded static 0 Critical/0 Important disposition remains applicable to these refreshed bytes. The EOF-only suffix removal introduces no concrete C/I.",
+  "source_bytes_unchanged_on_final_read": true,
+  "limitations": [
+    "No tests, processes, native, DB/auth/config/private material, network/provider or Git operations executed.",
+    "Root-reported focused execution was not independently executed or requalified by this review.",
+    "No H16/finalizer/K05/native/LIVE/full-source/whole-Master completion or financial authority is issued."
+  ]
+}

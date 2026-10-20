@@ -1,0 +1,175 @@
+{
+  "status": "UNAPPLIED",
+  "execution": "NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "scope": "H16 existing actual original entry + single close + terminal unused stop; no shared contract or financial semantics change",
+  "recipe": [
+    {
+      "step": 1,
+      "ref": "src/application/trading/orchestrator.py:21; src/application/trading/funding_owner.py:41",
+      "action": "Drain dispatch/position/funding outboxes first. Persist actual canonical funding before terminal stop reconcile while current EXIT_REQUESTED binding remains READY. Funding _context requires restart_authoritative, so cannot simply be called after terminal stop changes execution snapshot. If funding absent after stop, deny finalization; do not synthesize Paper zero or weaken funding owner."
+    },
+    {
+      "step": 2,
+      "ref": "src/storage/product_funding.py:78; src/storage/product_position.py:218",
+      "action": "Resolve original same-run claimed ENTRY, exactly one original POSITION_EXIT/EMERGENCY_EXIT, exactly one original PROTECTION_STOP and immutable cleanup claim. Bind entry/close/stop prepared plan/action/source hashes and original native position/account/provider. Resolve exact saved close publication referenced by funding close_publication_hash and cleanup flat_publication_hash, not a later observation selected by latest(). Its RAW_POSITION and EXIT_REQUESTED projection must be CONSISTENT zero at the first proven flat broker clock; funding interval ends at this exact clock. Reject a later incompatible current projection/raw anchor rather than rebasing the close clock."
+    },
+    {
+      "step": 3,
+      "ref": "src/storage/runtime_models.py:42; src/storage/_lifecycle_execution_binding.py:597",
+      "action": "Recover canonical immutable objects. Check exactly known entry/close/stop requests, all latest results terminal, exact stop CANCELED from targeted original reconcile (cancel ACK is insufficient), no stop fills/triggered child, all entry quantity fully filled and exact close fill quantity; fresh complete claim/inventory evidence must establish no remaining owned/unknown active order. Only expected old-binding REINTERPRETATION_REQUIRED/E5_EXECUTION_REINTERPRETATION_REQUIRED may enter new finalization preparation. Conflict, unknown/degraded result, missing facts, new raw anchor, unrelated mutation or additional close denies."
+    },
+    {
+      "step": 4,
+      "ref": "src/position/trade_result.py:734",
+      "action": "Call build_trade_result(parent_plan, current_lifecycle_state=EXIT_REQUESTED, exit_authority=exact recovered close PositionAction, entry_order_requests=[original canonical entry request], entry_fills=actual canonical entry fills, exit_order_request=exact original close request, exit_fills=actual canonical close fills, final_position=saved first-flat RAW_POSITION, funding_evidence=exact durable canonical funding payload). Decode OrderRequest/Fill facts with existing encode/decode adapters where required, not provider dictionaries. Consumer enforces entry quantity=exit quantity=close request=action quantity, chronological fills, fees and funding interval/identity. Do not concatenate additional close requests or include stop as exit authority."
+    },
+    {
+      "step": 5,
+      "ref": "src/position/lifecycle_projection.py:573; src/position/lifecycle_execution_binding.py:596",
+      "action": "Pass returned actual TradeResultBuildOutcome unchanged to build_position_lifecycle_closed_transition(saved_first_flat_raw, saved_flat_EXIT_REQUESTED_projection, trade_result_outcome=outcome, lifecycle_interpreted_at=one saved local finalization timestamp). Exact flat clock remains unchanged. Build binding for NEW CLOSED projection with all recovered order_requests, ALL order_result_observations and fills. Include original stop OPEN and terminal CANCELED observations, not only current_order_results. Entry facts are supplied but clean entry is excluded from position-linked snapshot by canonical builder. Never attach a replacement binding to immutable old projection."
+    },
+    {
+      "step": 6,
+      "ref": "src/storage/canonical_publication.py; src/storage/runtime.py:191; src/storage/_paper_runtime.py:755",
+      "action": "Commit a typed E6-local finalization outbox BEFORE canonical publication. Exact ordered effects: POSITION_PROJECTION(CLOSED), LIFECYCLE_EXECUTION_BINDING(new complete binding), TRADE_RESULT(outcome.trade_result). Funding already durable; raw flat/action/requests/results/fills already durable, so no extra or invented effects. Use publish_canonical_effects normal writers. Binding requires projection durable; TradeResult facade validates actual referenced plan/actions/requests/fills and funding persistence validates interval/status/cost. Canonical writes commit individually, so receipt only after all three and final recover READY/CLOSED with exact result/funding/binding IDs."
+    }
+  ],
+  "authority_boundary": {
+    "refs": [
+      "src/storage/current_execution.py:41",
+      "src/storage/current_execution.py:68",
+      "src/storage/current_execution.py:78",
+      "src/storage/_lifecycle_execution_binding.py:635"
+    ],
+    "rules": [
+      "Position-scoped current_execution_subject requires restart_authoritative and fails after terminal stop invalidates old binding. require_current_execution_subject also fails for a stale previously captured snapshot. Do not bypass it for any provider action or relax ordinary execution admission.",
+      "A plan-only immutable risk/plan snapshot is already used by funding owner; it is not sufficient finalization authority. A narrow canonical-only finalizer must independently validate original saved E6 chain, lease/process/runtime revision, claim generation and explicit recover reason allowlist. Do not reuse funding _context unchanged or fabricate READY.",
+      "First preparation can permit only the precise expected reinterpretation state with complete settled source facts; saved-batch replay must permit its own partial publication states without granting provider capability. No generic recovery status exception.",
+      "Do not reattest the old flat projection merely to gain authority unless deliberately designed: direct CLOSED transition already consumes the exact previous flat state and creates the required fresh binding. Intermediate reattestation would add an unnecessary lifecycle revision and alter the saved recipe."
+    ]
+  },
+  "outbox_proposal": {
+    "type": "Proposed frozen ProductTradeFinalizationObservation / ProductTradeFinalizationPublication local types, NOT implemented",
+    "key": "UNIQUE(run_id, close_operation_id), preserving first interpreted_at and immutable effects on repeated calls",
+    "columns": [
+      "run_id",
+      "close_operation_id",
+      "observation_json",
+      "observation_hash",
+      "effects_json",
+      "effects_hash",
+      "lease_generation"
+    ],
+    "observation_closed_fields": [
+      "profile fixed product-trade-finalization-v0.2",
+      "entry_operation_id",
+      "stop_operation_id",
+      "cleanup_claim_identity_hash and immutable terminal stop observation ID/hash",
+      "flat publication key + observation_hash + first-flat raw/projection ID/hash",
+      "funding publication key + funding_evidence_id/payload_hash",
+      "approved plan/risk/close action payload hashes",
+      "ordered complete canonical request/result-observation/fill ID/hash commitments",
+      "claim_inventory_generation + current complete inventory commitment",
+      "interpreted_at"
+    ],
+    "validation": [
+      "Follow ProductFunding _batch/effects pattern: fixed exact keys/types, bounded JSON/hash verification, no provider-native fields in canonical effects, exact three ordered kinds; canonical validators for result/projection/binding and recomputation from referenced actual source facts before initial commit. Keep native evidence only E6 local.",
+      "Under journal._write use existing live lease/process/revision checks and require_claim_inventory_generation. Resolve original rows by exact immutable keys/hashes and require same FIXTURE namespace/profile. Enforce interpreted_at valid once, no future timestamps, immutable ID collision rejection. Use append-only outbox + separate publication receipt with INSERT OR REPLACE/update/delete denial as existing product outboxes.",
+      "Replay validates saved batch and exact referenced immutable source rows before any write, compares complete canonical commitments allowing only its own exact effects already present. No re-clock/rebuild IDs, ledger read, cancel or submit. Receipt requires exact stored effects_hash and final graph equality; same repeat returns original receipt without lifecycle revision/provider effects."
+    ]
+  },
+  "replay_states": [
+    "Before first effect: expected REINTERPRETATION_REQUIRED only; publish saved CLOSED.",
+    "After CLOSED only: INCOMPLETE with CLOSED_POSITION_TRADE_RESULT_MISSING plus LIFECYCLE_EXECUTION_BINDING_MISSING; replay same CLOSED then binding.",
+    "After CLOSED+binding: INCOMPLETE with CLOSED_POSITION_TRADE_RESULT_MISSING; replay same first two then TradeResult.",
+    "After all effects before receipt: READY/CLOSED exact expected graph; mark original receipt.",
+    "Any unrelated mutation, wrong source hash, current projection successor/new order/fill or conflict: deny; do not swallow all INCOMPLETE states."
+  ],
+  "narrow_regressions": [
+    "Extend actual tests/product/test_trading_stop_cleanup_v02.py context: full actual entry/protection/close/flat + actual funding BEFORE terminal stop, then original targeted stop CANCELED. Assert expected reinterpretation reason and position-scoped current_execution_subject denial before finalization.",
+    "Joined positive: finalizer uses real builders; assert exactly one result, CLOSED revision=flat revision+1, predecessor exact flat ID, flat broker clock and TradeResult.closed_at unchanged, funding ID exact, binding terminal stop observation count/hash included, recovered READY. Repeat identical receipt/IDs and zero extra provider calls.",
+    "Inject failure at each of three canonical writer boundaries, reopen/successor lease and drain normal saved outbox; assert exact original effects/clock/IDs and no provider/ledger calls; final receipt once.",
+    "Missing funding, ACK-only stop, unknown/degraded/triggered child, partial entry remainder, extra close, changed source/hash/claim generation, new raw observation, mutation during final writer fence each deny without result/new canonical revision.",
+    "Retain existing test_actual_partial_is_refused_then_flat_paginated_ledger_publishes_without_closing; test_canonical_write_failure_replays_after_successor_without_ledger_or_order_request; test_lost_cancel_ack_keeps_claim_then_native_terminal_is_reconciled_without_another_cancel as prerequisite coverage, not executed here."
+  ],
+  "source_hashes": [
+    {
+      "path": "src/position/trade_result.py",
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b"
+    },
+    {
+      "path": "src/position/lifecycle_projection.py",
+      "sha256": "cecf09d582662df0d43f66c8692fc11bcb5141b37147d1a2c2e61dfcc9c1f242"
+    },
+    {
+      "path": "src/position/lifecycle_execution_binding.py",
+      "sha256": "cc8b3fe7d3369a827ebdd24dfcfd71888bdcbe52a226c613ce6846924b1a13c4"
+    },
+    {
+      "path": "src/application/paper/engine.py",
+      "sha256": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6"
+    },
+    {
+      "path": "src/storage/current_execution.py",
+      "sha256": "ddbd26dca70f14a088a9c7230bc512c3a93a11278898f7d6a5b09a1709b44cd7"
+    },
+    {
+      "path": "src/storage/product_funding.py",
+      "sha256": "15bac56c7aa7f7cdfea837788bad48903822840e10c88ac82ef60fd06af458a5"
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "d306db09a91073daa98d379accb202d6b08dfd1fe11b475586441f1e87e0960b"
+    },
+    {
+      "path": "src/storage/product_stop_cleanup.py",
+      "sha256": "651285f9061a2837ac23c172a042d7674c251e5e54277dce779ba40840946734"
+    },
+    {
+      "path": "src/storage/canonical_publication.py",
+      "sha256": "cb540771f20ed41812df146d2760618e02b56e91750122925bb28e3e39a1da73"
+    },
+    {
+      "path": "src/storage/runtime.py",
+      "sha256": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593"
+    },
+    {
+      "path": "src/storage/runtime_models.py",
+      "sha256": "bae0eee3a7f7d80efe5e0ce41b6e79884d4a2299c93baae9b1096ae0ca883607"
+    },
+    {
+      "path": "src/storage/_paper_runtime.py",
+      "sha256": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff"
+    },
+    {
+      "path": "src/storage/_lifecycle_execution_binding.py",
+      "sha256": "6ed82cb1158a7c1a880d39d469cbe8e1434640d8eceb675030177636788f2891"
+    },
+    {
+      "path": "src/storage/_traderesult_reference_remediation.py",
+      "sha256": "f4edd8dbaa930fcf48649e15f58c0370d464bb5a4315d1dd49868f75e04a8707"
+    },
+    {
+      "path": "src/application/trading/funding_owner.py",
+      "sha256": "dce60f0442d384c1485dc3bdd7bad8fa45d2e4504d4de18b38be23633795788d"
+    },
+    {
+      "path": "src/application/trading/stop_cleanup.py",
+      "sha256": "fda50623e2d0b6e0350b83d3ee7dcbfd6525982540ddf2d107e35a4c80b8f43d"
+    },
+    {
+      "path": "src/application/trading/orchestrator.py",
+      "sha256": "4a93d6f0cbd3d6cc29097e756e702407ce09b5caeb9ea6087c9c0ad10faeccfa"
+    }
+  ],
+  "verification": {
+    "tests_run": [],
+    "native_runs": [],
+    "network_calls": 0,
+    "db_reads": 0,
+    "tracked_changes": [],
+    "git_commands": [],
+    "private_reads": 0
+  }
+}

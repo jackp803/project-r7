@@ -1,0 +1,29 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Pure exact canceled-stop normalization, its broker tests, and fixture/API plausibility of one unrun intended owner test",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "subject_hashes": {
+    "src/brokers/okx_terminal_stop.py": "e553d7cd5122edc2a0c90e29c985d08421fd6102826311750d0bc96e651ad58c",
+    "tests/brokers/test_okx_terminal_stop_v02.py": "340a02ed31265d26291f4df71336e3cf2aa0a7f5e953a82ba2d64f231df07305",
+    "tests/product/test_trading_terminal_stop_v02.py": "0990284db25c1bd2e44f6a205cd26181d497330013168763697d3659ca6e1d20"
+  },
+  "supporting_context_hashes": {
+    "src/brokers/okx_product_readback.py": "dc6d3bd81b27050d1b65019ca28c3bf0c7d6ae9892c51347e6d54b8b03e2aa11",
+    "src/brokers/okx_product_inventory.py": "629e727abb0bcdeb2f1441840f3c3679324b27819ba6d94818f2cdace25d7897",
+    "tests/brokers/test_okx_product_readback_v02.py": "5ec4ccb3a6bc032e3866933f2a9cb7a62607b0a131a491799099f1f399a4ad6b"
+  },
+  "findings": [],
+  "static_conclusions": [
+    "Terminal parser reuses actual prepared PROTECTION_STOP binding and exact native ID checks. It requires one successful exact CANCELED target, no ordinary child IDs, actualSz zero and no failCode; ACK, absence, live, triggered or filled responses cannot substitute.",
+    "Both provider clocks use the bounded millisecond-string codec and must satisfy created<=updated<=received_at. Complete raw row is canonicalized, bounded to65536 ASCII characters and hashed; normalized documented fields are copied into an immutable observation. The live-only inventory parser is unchanged.",
+    "Broker tests assert exact clocks/full-row digest/detachment, live-inventory refusal and malformed/wrong-target/child/fill/failure/material/clock negatives. These are static coverage observations, not reviewer-executed results.",
+    "Unrun owner test reuses the retained core cleanup fixture, obtains actual original entry/close/cleanup through existing source owner functions, supplies a terminal target GET and checks no canonical projection/TradeResult mutation or second cancel. Its intended read_fixture_terminal_stop/require_terminal_stop_read API is explicitly future implementation, not a passing integration. No concrete fixture-contract mistake identified."
+  ],
+  "limits": [
+    "No tests, imports, native/product/process, DB, Git/network/provider or tracked edits by reviewer. Only this authorized outside-Git review artifact was written.",
+    "Pure parser facts do not themselves prove currentness, cleanup ownership or finalization authority; future owner integration must retain issued-object identity, original binding and freshness fences.",
+    "Root-reported source results remain separate; the new owner test is NOT_RUN. No owner/native, CLOSED/TradeResult, H16 or whole-product acceptance credit."
+  ]
+}

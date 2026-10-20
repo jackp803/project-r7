@@ -1,0 +1,235 @@
+test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) ...
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': []}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '51000', 'data': []}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'algoId': '2345', 'sCode': '0'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'live', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'effective', 'ordIdList': ['3456'], 'ordId': '3456', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '1', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': ['3456'], 'ordId': '3456', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '51000', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '9999', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+  test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'mark', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]}) ... ERROR
+test_exact_canceled_original_target_preserves_broker_clocks_and_full_row_hash (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_exact_canceled_original_target_preserves_broker_clocks_and_full_row_hash) ... ERROR
+test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) ...
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime') ... ERROR
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='cTime') ... ERROR
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime') ... ERROR
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime') ... ERROR
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='cTime') ... ERROR
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime') ... ERROR
+  test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='unrecognized') ... ERROR
+test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) ... ERROR
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '51000', 'data': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'algoId': '2345', 'sCode': '0'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'live', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'effective', 'ordIdList': ['3456'], 'ordId': '3456', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '1', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': ['3456'], 'ordId': '3456', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '51000', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'last', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '9999', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal) (response={'code': '0', 'data': [{'instId': 'BTC-USDT-SWAP', 'tdMode': 'isolated', 'posSide': 'net', 'side': 'sell', 'ordType': 'conditional', 'sz': '12', 'algoClOrdId': 'R7028aed215cdb52eda5717afb14eb36', 'slTriggerPx': '59400.00', 'slOrdPx': '-1', 'slTriggerPxType': 'mark', 'reduceOnly': 'true', 'instType': 'SWAP', 'algoId': '2345', 'state': 'canceled', 'ordIdList': [], 'ordId': '', 'actualSz': '0', 'actualPx': '', 'failCode': '', 'cTime': '1787998220000', 'uTime': '1787998221000'}]})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 48, in test_ack_absence_live_triggered_failed_or_filled_stop_never_proves_clean_terminal
+    with self.subTest(response=response),self.assertRaises(ValueError):self.parse(response)
+                                                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_exact_canceled_original_target_preserves_broker_clocks_and_full_row_hash (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_exact_canceled_original_target_preserves_broker_clocks_and_full_row_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 25, in test_exact_canceled_original_target_preserves_broker_clocks_and_full_row_hash
+    response=self.response();value=self.parse(response)
+                                   ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='cTime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='cTime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='uTime')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected) (change='unrecognized')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 57, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.subTest(change=next(iter(change))),self.assertRaises(ValueError):self.parse(response)
+                                                                               ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+======================================================================
+ERROR: test_missing_future_inverted_or_unbounded_material_is_rejected (tests.brokers.test_okx_terminal_stop_v02.OKXTerminalStopV02Tests.test_missing_future_inverted_or_unbounded_material_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 59, in test_missing_future_inverted_or_unbounded_material_is_rejected
+    with self.assertRaises(ValueError):self.parse(response)
+                                       ^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\brokers\test_okx_terminal_stop_v02.py", line 21, in parse
+    from brokers.okx_terminal_stop import parse_product_terminal_stop
+ModuleNotFoundError: No module named 'brokers.okx_terminal_stop'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.013s
+
+FAILED (errors=19)

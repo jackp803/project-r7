@@ -1,0 +1,43 @@
+"""Genuine original cleanup then terminal GET; no finalization credit."""
+from dataclasses import replace
+from datetime import timedelta
+import json
+import unittest
+
+import tests.product.test_trading_stop_cleanup_v02 as cleanup_fixtures
+
+
+class TradingTerminalStopV02Tests(unittest.TestCase):
+    def test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact(self):
+        h=cleanup_fixtures.TradingStopCleanupV02Tests(methodName='runTest')
+        h.setUp();self.addCleanup(h.doCleanups)
+        h.flat();preparation=h.prepare(h.reads())
+        h.flow.append(dict(code='0',data=[dict(algoId='2345',sCode='0')]))
+        h.execute(preparation)
+        stop_id=h.flow.stop.canonical_request.order_request_id
+        h.fixture.clock[0]+=timedelta(seconds=1)
+        row=h.algo(state='canceled')
+        h.flow.append(dict(code='0',data=[row]))
+        self.assertEqual('ALGO_OBSERVED',h.service.reconcile(stop_id,expected_revision=h.fixture.revision).status)
+        before=h.flow.recover();before_calls=len(h.provider.calls)
+        self.assertIsNone(before.trade_result)
+        self.assertEqual('EXIT_REQUESTED',before.current_position_projection.payload['lifecycle_state'])
+        h.flow.append(dict(code='0',data=[row]))
+        value=h.service.read_fixture_terminal_stop(stop_id,expected_revision=h.fixture.revision)
+        self.assertEqual('CANCELED',value.status)
+        self.assertEqual(stop_id,value.operation_id)
+        self.assertEqual(h.flow.close.canonical_request.order_request_id,value.close_operation_id)
+        self.assertEqual('2345',value.observation.provider_algo_id)
+        self.assertEqual(row,json.loads(value.observation.row_json))
+        self.assertEqual(before,h.flow.recover())
+        self.assertEqual(1,len(h.cancel_calls()))
+        calls=h.provider.calls[before_calls:]
+        self.assertEqual([('GET','/api/v5/trade/order-algo',dict(algoId='2345'))],
+                         [(x['method'],x['path'],x['query']) for x in calls])
+        from application.trading.terminal_stop import require_terminal_stop_read
+        require_terminal_stop_read(h.service,value,stop_id)
+        with self.assertRaises(ValueError):require_terminal_stop_read(h.service,replace(value),stop_id)
+        h.fixture.clock[0]+=timedelta(seconds=6)
+        with self.assertRaises(ValueError):require_terminal_stop_read(h.service,value,stop_id)
+        self.assertEqual(before,h.flow.recover())
+        self.assertFalse(h.provider._responses)

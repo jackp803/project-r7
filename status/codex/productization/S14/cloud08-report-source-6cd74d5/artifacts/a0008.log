@@ -1,0 +1,74 @@
+test_malformed_payload_mapping_is_sanitized_with_exact_owned_schema (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_malformed_payload_mapping_is_sanitized_with_exact_owned_schema) ... ERROR
+test_different_actual_owner_family_and_seed_cannot_replace_the_job_report (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_different_actual_owner_family_and_seed_cannot_replace_the_job_report) ... FAIL
+test_oversized_metadata_is_refused_before_report_materialization (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_oversized_metadata_is_refused_before_report_materialization) ... FAIL
+test_malformed_payload_mapping_is_typed_unavailable (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_malformed_payload_mapping_is_typed_unavailable) ... ERROR
+
+======================================================================
+ERROR: test_malformed_payload_mapping_is_sanitized_with_exact_owned_schema (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_malformed_payload_mapping_is_sanitized_with_exact_owned_schema)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 138, in test_malformed_payload_mapping_is_sanitized_with_exact_owned_schema
+    with self.assertRaises(module.PublicationHistoryError):self.reader().history(self.job['run_id'])
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\publication_history.py", line 155, in history
+    for row in rows:checked_feedback_record(row,run)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\evidence.py", line 72, in checked_feedback_record
+    payloads={name:value.encode('utf-8') for name,value in json.loads(encoded).items()}
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'items'
+
+======================================================================
+ERROR: test_malformed_payload_mapping_is_typed_unavailable (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_malformed_payload_mapping_is_typed_unavailable)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 237, in test_malformed_payload_mapping_is_typed_unavailable
+    with self.assertRaises(module.PublicationHistoryError):self.reader().history(self.runtime.run_id)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\publication_history.py", line 187, in history
+    checked_paper_feedback_record(row,run,checkpoint,generation)
+  File "<SOURCE_ROOT>\src\storage\paper_feedback.py", line 27, in checked_paper_feedback_record
+    payloads={name:value.encode('utf-8') for name,value in json.loads(encoded).items()}
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'items'
+
+======================================================================
+FAIL: test_different_actual_owner_family_and_seed_cannot_replace_the_job_report (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_different_actual_owner_family_and_seed_cannot_replace_the_job_report)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 155, in test_different_actual_owner_family_and_seed_cannot_replace_the_job_report
+    with self.assertRaises(module.PublicationHistoryError):self.reader().history(self.job['run_id'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PublicationHistoryError not raised
+
+======================================================================
+FAIL: test_oversized_metadata_is_refused_before_report_materialization (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_oversized_metadata_is_refused_before_report_materialization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 231, in test_oversized_metadata_is_refused_before_report_materialization
+    with self.assertRaises(module.PublicationHistoryError):self.reader().history(self.runtime.run_id,limit=100)
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\publication_history.py", line 178, in history
+    total,rows=_rows(db,'paper_feedback_publications',run_id,limit,offset)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cloud\publication_history.py", line 114, in _rows
+    rows=[_bounded_row(db,table,'run_id=? AND operation_id=?',(run_id,row['operation_id']),
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 228, in forbid_report
+    if table=='paper_feedback_publications':raise AssertionError('Corrupt metadata fetched before SQL preflight')
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Corrupt metadata fetched before SQL preflight
+
+----------------------------------------------------------------------
+Ran 4 tests in 9.175s
+
+FAILED (failures=2, errors=2)

@@ -1,0 +1,113 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "CLOUD08 final frozen report-history source, authenticated paging contract, UI and isolated local-copy browser fixtures",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "reviewed_files": [
+    {
+      "path": "src/application/control_api/app.py",
+      "sha256": "6c93f8cb80d9a2332d9cdf2d52c9b39fe1da07fb4b1113efc9998cf751cab6ae"
+    },
+    {
+      "path": "ui/src/App.tsx",
+      "sha256": "f3c4a2b1461b695096c205b97acb9201dc4430868106895d471273ebe731740a"
+    },
+    {
+      "path": "ui/qa/serve_fixture.py",
+      "sha256": "9d9d09f7f72b23ed65a970ba8499a0dedfad2b6623bb1d1e77145056287b4162"
+    },
+    {
+      "path": "ui/qa/control-center.spec.ts",
+      "sha256": "f0fdf7a94cea0d70e28216c3583f7c51513b7ac23d7398331421f2dc9d4b6214"
+    },
+    {
+      "path": "ui/playwright.config.ts",
+      "sha256": "f56141689fed5104fdb6a78fa46aa5f7c4b1583dd572e35975b03c0a3940e79b"
+    },
+    {
+      "path": "src/application/control_api/dto.py",
+      "sha256": "a094ed06a3525e85cc69c515c24a9706b8309e735edec06d579310921f0d0ea8"
+    },
+    {
+      "path": "tests/application/report_delivery_fixtures.py",
+      "sha256": "42622f846fc5a90230f5c0f46fbd6fbfa2fa8b170682e3b99665373c66089fd3"
+    },
+    {
+      "path": "src/application/cloud/publication_history.py",
+      "sha256": "12276993638c3327939ab428455c991a0779689704fb32c0a747c253c0b448b6"
+    },
+    {
+      "path": "src/application/research/evidence.py",
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98"
+    },
+    {
+      "path": "src/storage/paper_feedback.py",
+      "sha256": "b8f72b6ba5a97b70462648368e5f5c480d9b7724533f37316bb7cd1756747713"
+    },
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "sha256": "2b42e9927b80d75f6213bff8002db52977332964e953207d9a09ee918fdec056"
+    },
+    {
+      "path": "src/application/local_owners.py",
+      "sha256": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b"
+    },
+    {
+      "path": "tests/product/test_report_publication_history.py",
+      "sha256": "81028fd5e5add4be0fe8064959f3b7d933ed91b74a93a5bb82ff229cb534017b"
+    },
+    {
+      "path": "contracts/control_api_v0_2.openapi.json",
+      "sha256": "7e52f079263f28e319d8f35d7f647c7cd38462b14d41885b994ff42dadbb738b"
+    },
+    {
+      "path": "ui/src/api.generated.ts",
+      "sha256": "065553bf180d08b93499ac324f00790fea81c05bcceaf98f186f4d759993f11b"
+    }
+  ],
+  "prior_review": "artifacts/current-windows-20261019/cloud08-report-history-source-final-review.json",
+  "prior_reader_identity": [
+    {
+      "path": "src/application/cloud/publication_history.py",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/application/research/evidence.py",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/storage/paper_feedback.py",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/application/local_owners.py",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "tests/product/test_report_publication_history.py",
+      "identical_to_prior_review": true
+    }
+  ],
+  "static_assessment": [
+    "PublicationPageQuery inherits strict unknown-key handling and offset bounds, sets default20/max100 for the two report-history leaves, and leaves generic PageQuery default50/max200 unchanged. The retained OpenAPI and generated TypeScript contain both authenticated GET routes with the same publication query bounds.",
+    "The previously reviewed reader/validator/OwnerControlServices/LocalOwners source and report-history source tests are byte-identical to the prior 0C/0I repair review. Its explicit historical policy-path reconstruction limit remains.",
+    "ReportHistory reads only the new leaf with limit20 and per-subject pagination, is keyed by selected job/Paper run, and renders actual stored state, operation/run identities, bundle/report hashes, attempts, original queued time and Paper checkpoint/producer generation. It adds no publish/retry/ACK command.",
+    "The UI states queued time is not destination acknowledgment time and historical ACK does not prove current cloud reachability. FIXTURE prominently states LOCAL_COPY_FIXTURE_ONLY and real cloud NOT_RUN. Error/last-known rendering uses the existing Frame disclosure.",
+    "Research/Paper delivery fixtures run actual source owners and queue original reports, then use SyncedFolderCloudTransport and RcloneCloudTransport with the existing local fake byte-copy/readback bridge. They require actual LOCAL_STAGED, one byte-readback ACK and actual corrupt-readback CONFLICT, with no stored status/result fabrication.",
+    "New browser assertions select real source jobs/Paper run through the UI and compare displayed metadata to actual authenticated leaf responses. The separate profile/port wiring is explicit and preserves ordinary product/transport guards. The scratch-root environment override affects fixture placement only."
+  ],
+  "limits": [
+    "Static source/contract reads and raw-byte hashes only; no tests/browser/native/product/process execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "Root-reported affected53 source passes, selected2 browser passes, reaping and screenshot inspection are implementer development observations; this review does not independently execute or inspect them.",
+    "The earlier browser startup failure is preserved. Long-path attribution is an inference because the underlying bridge error was not logged; this review establishes no proven root cause. The separate external short-scratch runner was not reviewed here.",
+    "Existing Windows7d qualification remains on its original subject and scope. These changes receive no real-cloud, installed-native, financial, full-product or Master acceptance credit."
+  ]
+}

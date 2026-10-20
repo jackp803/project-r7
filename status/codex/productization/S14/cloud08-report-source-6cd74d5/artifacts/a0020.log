@@ -1,0 +1,41 @@
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<SOURCE_ROOT>\ui\qa\serve_fixture.py", line 104, in <module>
+
+[WebServer]     if __name__=='__main__': main()
+[WebServer]                              ^^^^^^
+[WebServer]   File "<SOURCE_ROOT>\ui\qa\serve_fixture.py", line 44, in main
+[WebServer]     prepare_research_reports(fixture)
+[WebServer]   File "<SOURCE_ROOT>\tests\application\report_delivery_fixtures.py", line 49, in prepare_research_reports
+[WebServer]     _deliver(lambda transport:flush_feedback(owner.journal,transport,limit=1),bridge,state)
+[WebServer]   File "<SOURCE_ROOT>\tests\application\report_delivery_fixtures.py", line 27, in _deliver
+[WebServer]     if stage=='CLOUD_ACKNOWLEDGED' and result.cloud_acknowledged!=1:raise AssertionError('Actual byte readback ACK required')
+[WebServer]                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer] AssertionError: Actual byte readback ACK required
+
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\weakref.py", line 666, in _exitfunc
+
+[WebServer]     f()
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\weakref.py", line 590, in __call__
+
+[WebServer]     return info.func(*info.args, **(info.kwargs or {}))
+
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 939, in _cleanup
+
+[WebServer]     cls._rmtree(name, ignore_errors=ignore_errors)
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\tempfile.py", line 934, in _rmtree
+
+[WebServer]     _shutil.rmtree(name, onexc=onexc)
+
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 781, in rmtree
+
+[WebServer]     return _rmtree_unsafe(path, onexc)
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 629, in _rmtree_unsafe
+[WebServer]     onexc(os.rmdir, fullname, err)
+[WebServer]   File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\shutil.py", line 627, in _rmtree_unsafe
+[WebServer]     os.rmdir(fullname)
+[WebServer] OSError: [WinError 145] 目錄不是空的。: '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\cloud08-report-browser-dev01\\browser\\report-research\\R7 橋接 模擬 7hzlrmg2\\本機 雲端 暫存\\reports\\feedback\\fixture-v02-trend\\0.2.0\\b03c2922effec04b14be344f33f5dfd46ee91e6b9d42b4c92d8388e347cc3383'
+
+Error: Process from config.webServer was not able to start. Exit code: 1

@@ -1,0 +1,31 @@
+test_authenticated_leaf_does_not_use_queue_or_registry_writer (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_authenticated_leaf_does_not_use_queue_or_registry_writer) ... ERROR
+test_authenticated_leaf_returns_only_original_report_metadata (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_authenticated_leaf_returns_only_original_report_metadata) ... ERROR
+
+======================================================================
+ERROR: test_authenticated_leaf_does_not_use_queue_or_registry_writer (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_authenticated_leaf_does_not_use_queue_or_registry_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 118, in test_authenticated_leaf_does_not_use_queue_or_registry_writer
+    helper,client=history_http(self,research_publications=self.reader())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 54, in history_http
+    owners=OwnerControlServices(helper.config,namespace='FIXTURE',clock=lambda:helper.clock[0],registry_factory=forbidden,**ports)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: OwnerControlServices.__init__() got an unexpected keyword argument 'research_publications'
+
+======================================================================
+ERROR: test_authenticated_leaf_returns_only_original_report_metadata (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_authenticated_leaf_returns_only_original_report_metadata)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 184, in test_authenticated_leaf_returns_only_original_report_metadata
+    helper,client=history_http(self,paper_publications=self.reader())
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 54, in history_http
+    owners=OwnerControlServices(helper.config,namespace='FIXTURE',clock=lambda:helper.clock[0],registry_factory=forbidden,**ports)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: OwnerControlServices.__init__() got an unexpected keyword argument 'paper_publications'
+
+----------------------------------------------------------------------
+Ran 2 tests in 5.085s
+
+FAILED (errors=2)

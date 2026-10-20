@@ -1,0 +1,265 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "6cd74d59952c160bfb1d91fb49c966d3df92b0b7",
+  "implementation_hash": "sha256:e895b404caa8ae5a303a15c7702381646a6b2f1e21b30a544f48d7e17e6f9b85",
+  "scope": "CLOUD08_REPORT_HISTORY_SOURCE_API_AND_LOCAL_COPY_BROWSER_ONLY",
+  "source_cases": 53,
+  "failures": 0,
+  "errors": 0,
+  "skips": 0,
+  "clean_source_unchanged": true,
+  "owned_tree_reaped": true,
+  "browser_cases": 2,
+  "browser_scope": "DEVELOPMENT_EXACT_RECORDED_FILE_HASHES_IDENTICAL_TO_EXECUTABLE_COMMIT",
+  "RED": {
+    "reader_missing_module": "2_ERRORS",
+    "api_missing_ports": "2_ERRORS",
+    "review_counterexamples": "4_CASES_2_FAILURES_2_ERRORS"
+  },
+  "browser_first_failure": {
+    "stage": "FIXTURE_SERVER_STARTUP_BEFORE_BROWSER_CASES",
+    "passed": false,
+    "tree_reaped": true,
+    "observed_path_characters": [
+      263,
+      265
+    ],
+    "actual_failure": "ACTUAL_BYTE_READBACK_ACK_REQUIRED",
+    "root_cause": "LONG_SCRATCH_PATH_ATTRIBUTION_INFERRED_NOT_PROVEN;ORIGINAL_INNER_BRIDGE_ERROR_NOT_CAPTURED",
+    "repair": "EXPLICIT_FRESH_SHORT_FIXTURE_SCRATCH_INSIDE_PROJECT;NO_PRODUCT_GUARD_CHANGE"
+  },
+  "actual_flow": "Authenticated real research queue/owner and Paper runtime checkpoints produce reports. Actual SyncedFolder staging and RcloneCloudTransport/RcloneBridge LocalFakeRclone byte-copy produce ACK/CONFLICT/LOCAL_STAGED. Outage source tests produce UNAVAILABLE. No handcrafted ACK or terminal owner rows for positive credit.",
+  "readonly": "Live-WAL mode=ro; exact owned schema/namespace/row and bundle hashes/lineage; no RW factory, migrations on disk, worker, report regeneration, lease attachment or transport in GET. SQL metadata preflight, bounded pages and lazy reports.",
+  "historical_limits": "Queue owner pointer/outcome/available frozen subject-family-seed verified; historical policy path-to-content mapping cannot independently be reconstructed from retained inputs. No current files/resolver read, policy requalification or authority grant.",
+  "UI": "Historical states, operation/report/artifact hashes, original queued time and Paper checkpoint/producer; historical ACK distinct from current cloud connectivity; explicit FIXTURE/local-copy label.",
+  "ui_tests": 18,
+  "typecheck": "PASS",
+  "build": "PASS",
+  "independent_review": "0_CRITICAL_0_IMPORTANT_EXECUTION_NONE",
+  "visual_inspection": "ACTUAL_PAPER_THREE_STATE_AND_RESEARCH_ACK_SCREENSHOTS_INSPECTED",
+  "real_cloud": "NOT_RUN",
+  "native_full": "NOT_RUN_FOR_THIS_SOURCE",
+  "frozen_inventory": "STALE_PENDING_FINAL_CANDIDATE",
+  "preserved_qualified_windows": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+  "master": "IN_PROGRESS",
+  "public_requests_cumulative": 8,
+  "public_responses_cumulative": 8,
+  "additional_public_requests": 0,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "live": "NOT_STARTED",
+  "github_compute": "NOT_USED",
+  "artifacts": [
+    {
+      "original_ref": "cloud08-report-source-6cd74d5/checkpoint.json",
+      "original_hash": "sha256:f95e23a545f14534691a8e344418251b2ab8ec49d2aca3b65de3c1e277da6552",
+      "retained_ref": "artifacts/a0001.json",
+      "retained_hash": "sha256:f95e23a545f14534691a8e344418251b2ab8ec49d2aca3b65de3c1e277da6552",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-source-6cd74d5/source.log",
+      "original_hash": "sha256:bcee249ef90e833615cb4dbeb476200cd3672ff9db9797bcc288d7d961e01b4e",
+      "retained_ref": "artifacts/a0002.log",
+      "retained_hash": "sha256:bcee249ef90e833615cb4dbeb476200cd3672ff9db9797bcc288d7d961e01b4e",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_report_history_source.py",
+      "original_hash": "sha256:4ffacaea937c95858b21d7ef7a4f4517eb9487e8295bdba25fa13d56f73a6f7d",
+      "retained_ref": "artifacts/a0003.py",
+      "retained_hash": "sha256:4ffacaea937c95858b21d7ef7a4f4517eb9487e8295bdba25fa13d56f73a6f7d",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-reader-red.log",
+      "original_hash": "sha256:6addddfde62fcb6fc0013a87ec5699780a9794e7796ce5aa0487665d0d9363d6",
+      "retained_ref": "artifacts/a0004.log",
+      "retained_hash": "sha256:3cb1c7ae779fe7fe2aa885f42e6c64ec67e989ff29edfcea5fdf3cc4d42027c2",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-reader-green01.log",
+      "original_hash": "sha256:c0956340d78aff9363cda68ac25612c7daea3500c7bf75c71dce4c80164de393",
+      "retained_ref": "artifacts/a0005.log",
+      "retained_hash": "sha256:4e9d5db8c2b9514db3264ce313213edff0b86d9e7ccebbc04470b830f93c8a67",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-api-red.log",
+      "original_hash": "sha256:21f192b8df7fbdd2a3f970a8ea185a3c74f5b97d31f3a826b374c6f87f11863c",
+      "retained_ref": "artifacts/a0006.log",
+      "retained_hash": "sha256:aa274bedd5537caaf7a85dd12770b8db8ae0f01d11d28862511f8fd34910f691",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-green02.log",
+      "original_hash": "sha256:929ea177c7378c5bd919d162239cfa63404e5d8b872cfda142761d0f6435a7fc",
+      "retained_ref": "artifacts/a0007.log",
+      "retained_hash": "sha256:d9405e2755d94d4f285218eb4ff7f6f168cf5340349dd8ab919293564b099da6",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-review-red.log",
+      "original_hash": "sha256:5ab2390f38425151d9008fbc70054f6b3c01d063c2916a570c096c872067f9c7",
+      "retained_ref": "artifacts/a0008.log",
+      "retained_hash": "sha256:2204d56e3d140afb120d39646322813c8efe608ba0ce631d96751873cb30eb0b",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-green03.log",
+      "original_hash": "sha256:cb5041c286d80b6f5cb300cb4ba5f7b4ed69badd2c5250ba974e9759bda54462",
+      "retained_ref": "artifacts/a0009.log",
+      "retained_hash": "sha256:a6bffffde21af30b55ed9249e6932ddcf848099d12f73df2c34cecb9509231c9",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-readonly-design-20261020.json",
+      "original_hash": "sha256:c322552c287a0d7461970d32d5a4d66f8ff94965b6e107ff8f763752c312187a",
+      "retained_ref": "artifacts/a0010.json",
+      "retained_hash": "sha256:dd3d9e84a43fe8019a8f7e44071cd9ee42a99bc9cb70d00af29df0e7f97ab3c2",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-source-review.json",
+      "original_hash": "sha256:82f5d47917cd3710f83db3b87e59a914d9e72bf334fd8be36d8cc48d4b2876da",
+      "retained_ref": "artifacts/a0011.json",
+      "retained_hash": "sha256:82f5d47917cd3710f83db3b87e59a914d9e72bf334fd8be36d8cc48d4b2876da",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-source-final-review.json",
+      "original_hash": "sha256:6d5505956dd48adf7fe93677c11e21f4e003b268c106a3de8c3676baaffa46c1",
+      "retained_ref": "artifacts/a0012.json",
+      "retained_hash": "sha256:6d5505956dd48adf7fe93677c11e21f4e003b268c106a3de8c3676baaffa46c1",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-history-source-ui-final-review.json",
+      "original_hash": "sha256:caf82527430f8b683e445f9e9668221e823248bd900fd2368eb77df3512eea9f",
+      "retained_ref": "artifacts/a0013.json",
+      "retained_hash": "sha256:caf82527430f8b683e445f9e9668221e823248bd900fd2368eb77df3512eea9f",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-ui-contract.log",
+      "original_hash": "sha256:906ee45856c788d826f7a7f2a2b16fc603fba5632d13bcddc1c3d3100aec946a",
+      "retained_ref": "artifacts/a0014.log",
+      "retained_hash": "sha256:ce856aeb957f49aa8a4c8f38c9108652c5993f3064bbc1f33d4f92f0347f26a5",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-ui-typecheck.log",
+      "original_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained_ref": "artifacts/a0015.log",
+      "retained_hash": "sha256:01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-ui-build.log",
+      "original_hash": "sha256:ce3bc8fd94b613a4135220f8ec37e5e9a47b6faec1ce4c0f5ff5b14cad92cca6",
+      "retained_ref": "artifacts/a0016.log",
+      "retained_hash": "sha256:1955b594bbaaa03fdb92cfdef333b6a3251ff75359259a89b6c17b87f141a0ae",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-ui-tests.log",
+      "original_hash": "sha256:375d9432a917293679569c7635bbaf6c465887d3523028f7e7919c974df47f71",
+      "retained_ref": "artifacts/a0017.log",
+      "retained_hash": "sha256:52fe54a688616d029af758e44e9ab9841e4595c0462b334de0d022f9ca1d1d86",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "run_report_history_browser.py",
+      "original_hash": "sha256:3b2fb49473899a74d07cc438985f3463af63032b4d0b3c019acbb551118e2316",
+      "retained_ref": "artifacts/a0018.py",
+      "retained_hash": "sha256:3b2fb49473899a74d07cc438985f3463af63032b4d0b3c019acbb551118e2316",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev01/checkpoint.json",
+      "original_hash": "sha256:0bb42c2b08ddda67f7ea4bd6da96da65198dddecc4eadb95e688fa701b13978f",
+      "retained_ref": "artifacts/a0019.json",
+      "retained_hash": "sha256:0bb42c2b08ddda67f7ea4bd6da96da65198dddecc4eadb95e688fa701b13978f",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev01/browser.log",
+      "original_hash": "sha256:3f471378b8f8c0ad84d225605d2d5e0a35aee30cb6bead1a0f768cfaf5d81ea8",
+      "retained_ref": "artifacts/a0020.log",
+      "retained_hash": "sha256:28800f2ae79044e1fca29aa38c59fbdf36ee4e96961482290585d7970bc40fb9",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev01/report.config.mjs",
+      "original_hash": "sha256:a179c9694f7037fbcbb94fd4bc7f783c152900e2d58e5f1be7dc45578c0c651a",
+      "retained_ref": "artifacts/a0021.mjs",
+      "retained_hash": "sha256:0a44b49f482401e0df69972924ec836d4dd24c47d3c2181ef6e5763a8b146bc8",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/checkpoint.json",
+      "original_hash": "sha256:8875083be744e0406b6fb3e225ae3f29ef8a506659134657221e8e9521fcbd00",
+      "retained_ref": "artifacts/a0022.json",
+      "retained_hash": "sha256:8875083be744e0406b6fb3e225ae3f29ef8a506659134657221e8e9521fcbd00",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/browser.log",
+      "original_hash": "sha256:2326900461255cad1276bd03b377056b56d81f58acf442829706e075aa649d18",
+      "retained_ref": "artifacts/a0023.log",
+      "retained_hash": "sha256:2326900461255cad1276bd03b377056b56d81f58acf442829706e075aa649d18",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/results.json",
+      "original_hash": "sha256:c9f6e5c4c3f63d2184e68768796152f29a052db5bea7eb1b3da6436bcaa3cc24",
+      "retained_ref": "artifacts/a0024.json",
+      "retained_hash": "sha256:ed04414a3e75e790de262394c960de904fe05b9ecf3f7686353c6ce33d2cef87",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/report.config.mjs",
+      "original_hash": "sha256:680f9016b57aeeff7361f6a3142ece8855cd4ea1a4b2c0ab3062d8aab5593d56",
+      "retained_ref": "artifacts/a0025.mjs",
+      "retained_hash": "sha256:a4a28bf58cee9f4eb865c020857c5cff55fa05795b359e08a5c0ba0da3f546cd",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/browser/paper-report-history.png",
+      "original_hash": "sha256:d5583a5bd63f9656f1e4cbce42e423a7160558f517eb612b677fcc83121fc4e7",
+      "retained_ref": "artifacts/a0026.png",
+      "retained_hash": "sha256:d5583a5bd63f9656f1e4cbce42e423a7160558f517eb612b677fcc83121fc4e7",
+      "normalization": "NONE_BINARY"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/browser/research-report-CLOUD_ACKNOWLEDGED.png",
+      "original_hash": "sha256:729ec5c3dbcafe3e4fe265e8a724ca2390a8c280ea968184632fae56a26668ae",
+      "retained_ref": "artifacts/a0027.png",
+      "retained_hash": "sha256:729ec5c3dbcafe3e4fe265e8a724ca2390a8c280ea968184632fae56a26668ae",
+      "normalization": "NONE_BINARY"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/browser/research-report-CONFLICT.png",
+      "original_hash": "sha256:65de5e5251c165532635c574cb93dcf0c0af4bcfd206705c702683d03469104d",
+      "retained_ref": "artifacts/a0028.png",
+      "retained_hash": "sha256:65de5e5251c165532635c574cb93dcf0c0af4bcfd206705c702683d03469104d",
+      "normalization": "NONE_BINARY"
+    },
+    {
+      "original_ref": "cloud08-report-browser-dev02/browser/research-report-LOCAL_STAGED.png",
+      "original_hash": "sha256:4ed3e4f56ef9ac8254b5aae5fb0a066985a916e52a3fc0c9947b644dcf735095",
+      "retained_ref": "artifacts/a0029.png",
+      "retained_hash": "sha256:4ed3e4f56ef9ac8254b5aae5fb0a066985a916e52a3fc0c9947b644dcf735095",
+      "normalization": "NONE_BINARY"
+    },
+    {
+      "original_ref": "retain_report_history_source.py",
+      "original_hash": "sha256:170efd0901da9226b444035057398dada63e02c25414f743c852f1b764132b0c",
+      "retained_ref": "artifacts/a0030.py",
+      "retained_hash": "sha256:170efd0901da9226b444035057398dada63e02c25414f743c852f1b764132b0c",
+      "normalization": "SANITIZED_ROOTS_LF_TRAILING_WHITESPACE_SINGLE_FINAL_NEWLINE"
+    }
+  ]
+}

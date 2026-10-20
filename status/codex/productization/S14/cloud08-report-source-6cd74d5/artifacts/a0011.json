@@ -1,0 +1,106 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "CLOUD08 research/Paper report-history WIP: path-bound RO ports, extracted pure validators and authenticated leaf/LocalOwners composition",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 3
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/cloud/publication_history.py",
+      "sha256": "00d2cfe6a850f178a59488803bb23680463dc0deca45c428dbea689760783ccb",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/research/evidence.py",
+      "sha256": "8a6060689698ea15e6f9e457b0943532ab7890c9198f0702ad4999c5effdb1b0",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/storage/paper_feedback.py",
+      "sha256": "407838b1134539b5fbf32e2a57e317c5d01fb0622e68637d8308db1b147c4076",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "sha256": "2b42e9927b80d75f6213bff8002db52977332964e953207d9a09ee918fdec056",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/control_api/app.py",
+      "sha256": "33e220b56906a7f5cc62c221a930cc24d0d35827681a81f95c24b7e193cdc78b",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/local_owners.py",
+      "sha256": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "tests/product/test_report_publication_history.py",
+      "sha256": "ad7cac5fe1097dc02b0200184f8c3a855517006269a91357ababcfd21da92e23",
+      "unchanged_since_capture": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "CLOUD08-HISTORY-I1",
+      "severity": "Important",
+      "file": "src/application/cloud/publication_history.py",
+      "lines": [
+        35,
+        36
+      ],
+      "related": [
+        "src/application/research/evidence.py:69-78",
+        "src/storage/paper_feedback.py:24-40"
+      ],
+      "issue": "Malformed persisted JSON/types can escape the sanitized history error boundary as HTTP500.",
+      "evidence": "Both shared validators call json.loads(payloads_json).items() without first requiring an object/string values. A bounded []/null/string raises AttributeError, which is not translated by _ERRORS. Similarly non-text stored values can reach .encode before a strict type check. A genuine queued report corrupted while retaining the exact schema can therefore bypass the advertised sanitized unavailable behavior.",
+      "minimal_fix": "Explicitly validate expected persisted field and decoded payload-map types in the shared pure validators/read boundary, translating malformed stored data to the existing typed conflict/history denial. Do not mask arbitrary programming failures broadly.",
+      "minimal_regression": "Corrupt a genuine queued report payload map to []/null or a non-string value, restore the original immutable trigger/schema, then assert reader PublicationHistoryError and authenticated API503 with no payload leak or file/state writes. The current hash-corruption test drops an owned trigger without restoring it, so it is rejected at schema validation before testing row hash validation."
+    },
+    {
+      "id": "CLOUD08-HISTORY-I2",
+      "severity": "Important",
+      "file": "src/application/cloud/publication_history.py",
+      "lines": [
+        69,
+        69
+      ],
+      "related": [
+        "src/application/cloud/publication_history.py:109-115",
+        "src/application/cloud/publication_history.py:90-95"
+      ],
+      "issue": "The 32MiB Paper checkpoint limit also permits oversized identity/metadata pages to be transferred into Python.",
+      "evidence": "_rows first fetches up to100 operation_id strings without length/type guards, then SELECT * bounds only feedback_json/payloads_json/logical_path. The exact owned schema has no text length constraints on operation_id/hash/time fields. Schema-preserving corruption can therefore materialize roughly100x32MiB of page identities/metadata before a validator rejects it. The SQLite VM time budget is not a Python allocation bound.",
+      "minimal_fix": "Validate fixed metadata types/byte lengths before transferring their values, fail rather than silently omit malformed rows, and restrict the large state limit to the individual checkpoint read or otherwise enforce independent per-field/query bounds. Preserve full per-run counts/paging semantics.",
+      "minimal_regression": "Use genuine report rows with schema-preserving oversized metadata corruption and assert refusal before text/page materialization, using a bounded reader/row-transfer trap if necessary; avoid a regression that itself allocates gigabytes."
+    },
+    {
+      "id": "CLOUD08-HISTORY-I3",
+      "severity": "Important",
+      "file": "src/application/cloud/publication_history.py",
+      "lines": [
+        145,
+        153
+      ],
+      "issue": "Research report lineage does not bind directly available frozen job arguments to the owning run.",
+      "evidence": "The reader compares a claimed owner run to its job only by namespace, submission_id, implementation_hash and parsed strategy. A second genuine run of that same submission/strategy/implementation but a different family_id/seed can be substituted into owner_run_id; both independent run hashes and feedback validators remain valid, so the wrong job receives authentic but unrelated delivery history.",
+      "minimal_fix": "Bind all reproducible immutable queue arguments to owner-run inputs, including family_id and seed/random_seed. Explicitly identify any policy commitment that cannot be proven from the retained data instead of implying an exact link. Keep GET free of resolver/writer/current-input-file reads.",
+      "minimal_regression": "Produce two real source owner runs for the same submission and strategy with distinct family/seed, queue their reports, then alter only the first job owner reference to the second run while keeping schema intact. Require sanitized history denial and unchanged report generations/bytes."
+    }
+  ],
+  "positive_static_observations": [
+    "The intended reader uses mode=ro/query_only/trusted_schemaOFF and a live WAL-aware transaction, protected main/WAL/SHM file identities, in-memory expected schema construction, finite query/busy/page bounds and a post-read identity check. It does not instantiate the report owner/outbox writers.",
+    "Research uses the persisted job owner_run_id rather than deriving it from job identity, and rechecks that queue binding after inspecting the report store. Paper checks original run binding/checkpoint hash and recorded generation/instance rather than attaching a new owner.",
+    "Both new GET leaves invoke the existing authenticated view path and return metadata only. No new publish/retry action, report regeneration, lease allocation or fabricated ACK timestamp is added."
+  ],
+  "limits": [
+    "Static source/SQL reads and exact raw-byte hashing only; no tests/native/product processes, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "Current WIP is not qualified. Existing Windows7d qualification remains its original subject/scope and is not transferred to these changes.",
+    "No real-cloud connectivity, installed-native, financial, full-product or Master acceptance claim."
+  ],
+  "design_reference": "artifacts/current-windows-20261019/cloud08-report-history-readonly-design-20261020.json"
+}

@@ -1,0 +1,75 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "CLOUD08 report-history three-finding repairs, malformed-data handling, metadata preflight and historical job/owner linkage",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/cloud/publication_history.py",
+      "sha256": "12276993638c3327939ab428455c991a0779689704fb32c0a747c253c0b448b6"
+    },
+    {
+      "path": "src/application/research/evidence.py",
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98"
+    },
+    {
+      "path": "src/storage/paper_feedback.py",
+      "sha256": "b8f72b6ba5a97b70462648368e5f5c480d9b7724533f37316bb7cd1756747713"
+    },
+    {
+      "path": "tests/product/test_report_publication_history.py",
+      "sha256": "81028fd5e5add4be0fe8064959f3b7d933ed91b74a93a5bb82ff229cb534017b"
+    }
+  ],
+  "unchanged_wiring": [
+    {
+      "path": "src/application/control_api/owner_services.py",
+      "sha256": "2b42e9927b80d75f6213bff8002db52977332964e953207d9a09ee918fdec056",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/application/control_api/app.py",
+      "sha256": "33e220b56906a7f5cc62c221a930cc24d0d35827681a81f95c24b7e193cdc78b",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/application/local_owners.py",
+      "sha256": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b",
+      "identical_to_prior_review": true
+    }
+  ],
+  "findings": [],
+  "resolved_findings": [
+    {
+      "id": "CLOUD08-HISTORY-I1",
+      "status": "RESOLVED",
+      "evidence": "Both pure record validators require text report/payload columns and a decoded dictionary with string values before encoding/iteration. The Paper producer-instance guard checks nonempty bounded text before .encode, and the final SQL retrieval also restricts typeof/byte length before transferring that producer identity. Expected malformed persisted values reach typed sanitized denial."
+    },
+    {
+      "id": "CLOUD08-HISTORY-I2",
+      "status": "RESOLVED",
+      "evidence": "A SQL preflight checks fixed metadata types/byte lengths and integer fields before operation identities are fetched. Report rows are decoded lazily one at a time with per-field predicates, so the larger single-checkpoint allowance no longer permits an oversized metadata page. Invalid rows fail rather than disappear from counts/paging."
+    },
+    {
+      "id": "CLOUD08-HISTORY-I3",
+      "status": "RESOLVED_FOR_AVAILABLE_PERSISTED_BINDINGS",
+      "evidence": "The reader compares family_id and seed/random_seed in addition to namespace/submission/implementation/strategy, and checks completed outcome.run_id against persisted owner_run_id. It rechecks the job owner binding after the report snapshot. The updated genuine second-owner test first exercises the completed outcome check, then aligns that outcome and independently requires rejection of differing family/seed."
+    }
+  ],
+  "static_test_assessment": [
+    "Schema-preserving payload and aggregate-hash corruption tests restore the exact original owned trigger, avoiding premature schema-only rejection.",
+    "The oversized metadata test traps attempted report-row materialization and requires failure at the SQL preflight.",
+    "The historical producer BLOB regression corrupts a genuine generation while restoring its exact immutable trigger/schema and requires typed history denial.",
+    "Actual separate owner, queue-binding change and no-writer/no-regeneration tests remain source component fixtures; no tests were run by this reviewer."
+  ],
+  "policy_mapping_limit": "Policy refs are opaque historical paths and selection_hash is resolver-specific. This read-only route verifies persisted owner binding and directly available arguments; without a retained selection snapshot it does not independently reconstruct each path-to-historical-policy mapping. No current-file/resolver read is added and no financial/eligibility authority follows from this delivery metadata.",
+  "prior_review": "artifacts/current-windows-20261019/cloud08-report-history-source-review.json",
+  "limits": [
+    "Static source reads and raw-byte hashing only; no tests/native/product/process execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "Root-reported fail-first/pass observations are development evidence, not reviewer execution.",
+    "Existing Windows7d qualification stays on its original subject/scope. These WIP source changes receive no installed-native, real-cloud, financial, whole-product or Master acceptance credit."
+  ]
+}

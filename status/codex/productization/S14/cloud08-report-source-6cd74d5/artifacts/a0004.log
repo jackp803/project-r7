@@ -1,0 +1,37 @@
+test_real_paper_report_keeps_original_checkpoint_without_owner_attachment_or_writer (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_real_paper_report_keeps_original_checkpoint_without_owner_attachment_or_writer) ... ERROR
+test_real_research_report_is_read_through_job_owner_binding_without_writer_or_regeneration (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_real_research_report_is_read_through_job_owner_binding_without_writer_or_regeneration) ... ERROR
+
+======================================================================
+ERROR: test_real_paper_report_keeps_original_checkpoint_without_owner_attachment_or_writer (tests.product.test_report_publication_history.PaperPublicationHistoryTests.test_real_paper_report_keeps_original_checkpoint_without_owner_attachment_or_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 54, in test_real_paper_report_keeps_original_checkpoint_without_owner_attachment_or_writer
+    module=importlib.import_module('application.cloud.publication_history')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.cloud.publication_history'
+
+======================================================================
+ERROR: test_real_research_report_is_read_through_job_owner_binding_without_writer_or_regeneration (tests.product.test_report_publication_history.ResearchPublicationHistoryTests.test_real_research_report_is_read_through_job_owner_binding_without_writer_or_regeneration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_report_publication_history.py", line 23, in test_real_research_report_is_read_through_job_owner_binding_without_writer_or_regeneration
+    module=importlib.import_module('application.cloud.publication_history')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\importlib\__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'application.cloud.publication_history'
+
+----------------------------------------------------------------------
+Ran 2 tests in 4.601s
+
+FAILED (errors=2)

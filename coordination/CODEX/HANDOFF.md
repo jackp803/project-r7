@@ -1,3 +1,26 @@
+# Research/Paper report delivery history source checkpoint — 2026-10-20
+
+Source `6cd74d59952c160bfb1d91fb49c966d3df92b0b7` exact-clean5modules/53cases PASS, unchanged/reaped.
+Actual localhost browser2/2 PASS with identical recorded source hashes;
+UI18tests/typecheck/build PASS, final static review0C/I (execution NONE).
+Evidence: `status/codex/productization/S14/cloud08-report-source-6cd74d5/disposition.json`.
+Authenticated leaf GETs use protected live-WAL RO stores and original report/
+bundle/owner/checkpoint/producer bindings, no owner/writer/worker/transport.
+Actual owner reports and local-copy byte-readback bridge produce visible
+LOCAL_STAGED/CLOUD_ACKNOWLEDGED/CONFLICT; outage tests preserve UNAVAILABLE.
+Queued time is not ACK time, historical ACK is not current cloud health.
+Review counterexamples4=2fail/2error fixed; initial reader/API REDs retained.
+First browser startup ACK failed with263/265char paths; short PROJECT scratch
+retry passed; longpath causality inferred, inner bridge error not captured.
+Historical policy-path reconstruction remains unproven; no authority upgrade.
+This is source/API/local-copy browser proof, no real cloud/native/full credit.
+Qualified Windows ZIP remains7d821f2. Master IN_PROGRESS, original task/branch.
+Next: K05 readonly history/privacy; H16 exact stop cleanup, BROKER_LEDGER source
+and TradeResult; then regenerate final inventory/examples/full/native checks.
+Public cumulative8/responses8; additional0/private0/credentialsNONE/capitalNONE/
+LIVENOT_STARTED/GitHubNOT_USED. TargetPC/Ubuntu/cloud/policies/forward still
+external or unselected. Preserve every prior result and failed run.
+
 # H16 committed close intent source checkpoint — 2026-10-20
 
 Source `fcd909367373cf5a5362a179e0c8b7cc6eb4143b` exact-clean9modules/86cases PASS, source unchanged/tree reaped.

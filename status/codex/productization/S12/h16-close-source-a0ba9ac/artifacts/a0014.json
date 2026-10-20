@@ -1,0 +1,50 @@
+{
+  "schema_version": "r7-cloud08-visible-delivery-plan-v1",
+  "execution": "NONE",
+  "requirement_id": "CLOUD-08",
+  "authoritative_requirement": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:50: Local staged versus actual remote acknowledgment shown separately; positive_negative_execution.",
+  "finding": "Intake publication visibility is already partly implemented; the concrete existing gap is populated API/browser evidence and clear delivery/provenance presentation. Research and Paper report delivery are currently absent from their read/UI payloads. Do not turn all-report delivery expansion into a new CLOUD08 gate if exact existing intake visibility satisfies the required clause.",
+  "current_surfaces": [
+    {"api":"GET /api/v1/submissions[/{submission_id}]","owner":"IntakeLedger.submission_view/list_submissions -> OwnerControlServices.view('submissions')","fields":"publication={state,artifact_hash}; accepted_receipt validates stored payload hash/subject","ui":"ui/src/App.tsx:98 Research table already renders publication.state under 雲端發布; detail retains original publication object","limit":"Raw state only; no positive populated staged/ACK browser assertion or explicit copy/real-cloud provenance."},
+    {"api":"GET /api/v1/research/runs/{job_id}","owner":"ResearchQueue.evidence_view -> ResearchService.report/journal","fields":"Actual diagnostic report/evidence but no research_feedback_publications delivery state","limit":"pending_feedback_publications excludes ACK and CONFLICT, so cannot be reused as a complete history read."},
+    {"api":"GET /api/v1/paper/runs/{run_id}","owner":"PaperReadControlPort.view","fields":"Canonical closed metrics/forward/report facts; no paper_feedback_publications delivery state","limit":"PaperFeedbackOutbox.publications returns bounded metadata including ACK but does not run _check_record; positive UI claims must not trust unchecked hash/lineage metadata alone."}
+  ],
+  "minimal_ordered_change": [
+    "First bind the existing intake UI/API through actual Publisher+SyncedFolderCloudTransport staging and existing RcloneBridge verified readback fixtures. Add human-readable state text and bundle hash detail/provenance to the existing publication column if necessary; no new route/DB/cloud daemon/report generation is needed to prove the basic CLOUD08 distinction.",
+    "For report delivery presentation, add one narrow bounded per-run owner read, including all states, to existing research journal/Paper outbox read surfaces. Use existing owner record validation: research feedback hash+payload/schema+bundle hash/run/operation binding; Paper _check_record report/checkpoint/generation/namespace lineage. Extract pure validation if needed, never queue a report or attach runtime on GET. Use protected mode=ro/query_only against existing stores rather than invoking writer-opening constructors merely to read.",
+    "Project only allowlisted response metadata into existing research detail evidence and Paper detail payload. Keep existing intake publication fields compatible. No request DTO, command, new route or public publication importer is required.",
+    "Render one shared small read-only delivery row in the current Research/Paper detail where exposed: PENDING待發布, LOCAL_STAGED已暫存本機／尚未收到目的端確認, CLOUD_ACKNOWLEDGED目的端位元組讀回已確認, UNAVAILABLE發布確認未完成, CONFLICT內容雜湊衝突. Show exact state/hash/source and unavailable/last-known distinctions, without inferring successful research/trading or financial approval."
+  ],
+  "proposed_additive_response_shape": {
+    "field": "delivery (research evidence/Paper detail; optional extension, not a new request)",
+    "shape": "{status:'AVAILABLE'|'NOT_CONFIGURED'|'UNAVAILABLE',items:[{operation_id,artifact_hash,feedback_hash|null,state,attempts,queued_at|null,run_revision|null,process_generation|null,source,namespace,ack_scope}],total:int|null,limit:int,offset:int,reason_codes:[]}",
+    "bounds": "Use existing batch/history bound1..100 or existing page1..200 consistently, finite query/payload validation budgets and exact per-run predicates before LIMIT. Include ACK/CONFLICT rather than using pending-only APIs. Public IDs/hash references only; exclude payload HTML/JSON, file paths, remote aliases/root IDs, credentials/provider/account IDs and arbitrary error text.",
+    "ack_scope": "BYTE_READBACK_RECEIPT for validated stored ACK; FIXTURE presentation explicitly SIMULATED/LOCAL_COPY_VERIFICATION and real_cloud_commissioning NOT_ESTABLISHED. Do not infer real endpoint provenance from state, namespaceLOCAL_RESEARCH, a current profile, or an executable filename. If distinguishing actual destination types becomes required, capture a narrowly typed trusted publication-time scope/hash in the existing owning receipt record through additive schema, not UI guessing.",
+    "time": "Existing records store created_at/attempts/state, not acknowledgment timestamp. queued_at may expose created_at as queued time only. GET metadata.observed_at is read time; do not fabricate ack_at or call creation time acknowledgment time.",
+    "empty_unavailable": "Configured valid no publications => AVAILABLE/items[]; owner absent => NOT_CONFIGURED; missing/corrupt/changed namespace/hash source => unavailable or sanitized503, never empty success or verifiedACK. A historical validACK does not regress merely because a current bridge is offline; current connectivity is separate."
+  },
+  "exact_source_case_plan": [
+    "Extend tests/product/test_api_owner_services.py with actual accepted intake + Publisher.flush over real SyncedFolder staging; GETsubmissions must show LOCAL_STAGED, correct expected bundle hash and never acknowledged label. Reuse tests/application/test_outbox.py::test_local_copy_never_claims_remote_ack_and_retries_are_content_idempotent/test_wrong_transport_ack_hash_is_not_accepted.",
+    "Use tests/application/test_cloud_bridge.py::test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback, test_remote_outage_and_wrong_readback_never_acknowledge_local_stage and test_different_existing_remote_bytes_are_preserved_as_conflict as real filesystem/readback seams; bind resulting persisted state to the actual API DTO. Wrong hash cannot produceACK; unavailable/conflict stays visibly negative; replay preserves operation/hash and does not duplicate.",
+    "If adding research/Paper delivery fields, reuse tests/product/test_paper_feedback_outbox.py::test_local_stage_is_not_remote_acknowledgement_and_wrong_hash_is_not_accepted, test_network_ack_failure_retains_one_item_and_later_ack_does_not_republish and corresponding real ResearchJournal feedback cases. Test ACK history inclusion, per-run namespace/hash/lineage rejection, absent vs empty, unchanged owner/generation on GET and no report/private-field export. Mutations used to test corruption remain source-only fixtures, not native evidence.",
+    "Add a model/presentation test that the five stored delivery states remain distinct, missing/corrupt data never maps toACK and fixture copyACK never says real cloud commissioned. Do not use process-current bridge availability to invalidate authentic historical receipt state."
+  ],
+  "actual_browser_plan": [
+    "Use a fresh real local fixture profile/actual accepted submission, actual Publisher staged receipt and real API. In ui/qa/control-center.spec.ts assert visible LOCAL_STAGED plus 尚未收到目的端確認; initial local bytes alone cannot show ACK. No page.route fulfillment or injected publication result supplies this evidence.",
+    "Publish through existing bounded local fixture-copy bridge using actual filesystem bytes/readback, then refresh the same UI subject: operation/hash remains the same, visible acknowledgment changes only after actual receipt, and FIXTURE/local-copy label remains explicit. Source QA may use existing fake endpoint filesystem harness; any native claim must use the actual compiled helper/formal BridgeProfile path already used by NativePublicationFlow.",
+    "Actual bounded missing-marker/wrong-readback/content-conflict scenario must show unavailable/conflict and never promote staging. Retry with restored real bytes yields the proper original receipt; repeated completed flush creates no duplicate. Keep worker/backend owner report lineage and source guards; no raw DB terminal-state writes/factory result overrides/native network calls.",
+    "Retain screenshot/API response/request/log and bundle hashes for the exact new candidate only. Existing software PQR07 evidence need not be repeated just to populate a mapping, but cannot establish a future changed UI without its actual display evidence."
+  ],
+  "real_cloud_boundary": "RcloneBridge.push_bundle returns CLOUD_ACKNOWLEDGED only after immutable copy/readback of every payload+manifest, original-local-generation recheck and duplicate-name recheck. The existing local helper can truthfully prove that software receipt via local filesystem bytes, not a commissioned real cloud account. Existing outbox schemas and PublishReceipt currently persist no remote-provider/transport provenance or ack timestamp. Keep real connected-cloud commissioning NOT_RUN unless its separately authorized actual roundtrip is retained; no remote calls are authorized/performed here.",
+  "source_hashes": {
+    "src/application/control_api/owner_services.py":"sha256:0cf9a9a975bae96775decbb7dcd9d026992b8cfae71d6154a5730d0dbf58ab7c",
+    "src/application/control_api/paper_ports.py":"sha256:e393cd45fe7d0fbaca90bb42f77515a58bb5d310014d60904997fff92c0b9cbd",
+    "src/application/intake/ledger.py":"sha256:7d28c77348c2929fd3f4470074d18a274e32a03bba68708149e9ca5d4dd1682a",
+    "src/application/research/evidence.py":"sha256:551a67f9ac17de6047cd1a30c28950b5f5c9524e32cc08e271ff73c6d2ade1fd",
+    "src/storage/paper_feedback.py":"sha256:cc708125b6800960fde293e345308ecf4f411f7dd2a35cdd8028005356d7afd1",
+    "ui/src/App.tsx":"sha256:d2b9ebc9d03f50d81ef74a65d3160936993b47e85ed4efe8fc9a559f8140fe98"
+  },
+  "source_changes": false,
+  "tests_native_build_git_db_auth_provider_network_activity": 0,
+  "acceptance_claims_created": 0
+}

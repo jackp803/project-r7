@@ -1,0 +1,57 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 first pure one-entry/one-explicit-close projection slice only",
+  "reviewer_execution": "NONE",
+  "reviewed_files": [
+    {
+      "path": "src/position/close_observation.py",
+      "sha256": "bdb9bc7b6003fb9a6f91d9eec44e0e6c446320f610a78637972ad2e614900d54",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "tests/position/test_product_close_observation.py",
+      "sha256": "78f02697ae928f1ab84b6ec01c309d4707c616564608eacf8b3181d6b00b61a6",
+      "unchanged_since_capture": true
+    }
+  ],
+  "counts": {
+    "Critical": 0,
+    "Important": 1
+  },
+  "findings": [
+    {
+      "id": "H16-I1",
+      "severity": "Important",
+      "file": "src/position/close_observation.py",
+      "lines": [
+        63,
+        65
+      ],
+      "symbol": "build_product_close_projection",
+      "issue": "A close request and actual fill can predate the creation of their E5 PositionAction and still be accepted as an authorized close projection.",
+      "evidence": "The request is reconstructed at exit_request.created_at. The existing validate_close_authority checks action.created_at >= its source observation and now < expires_at, but has no now >= action.created_at check. The new fill window begins at max(exit_request.created_at, last entry fill), so it also does not reject this causal inversion. With the source observed at T, an action created at T+1, and its otherwise exact request/result/fill at T, the current branches permit EXIT_REQUESTED exposure projection at T+2.",
+      "minimal_fix": "Require the executed close request timestamp to be at or after the original action creation timestamp, while retaining validation at original execution time so a later observation does not retrospectively expire an already executed action. This can be local to the new adapter or added to the shared close-authority validator with compatibility review.",
+      "minimal_regression": "Use the existing actual PaperBroker/E4/E5 fixture: create the action at NOW+1, prepare/submit/fill the exact close at NOW against the source observed at NOW, and require projection rejection. Keep the existing later-observation-after-expiry positive case."
+    }
+  ],
+  "verified_static_invariants": [
+    "Original positive entry basis is recomputed with the existing entry builder and compared to the original canonical source broker facts.",
+    "Exit request is reconstructed from original action/source; fill order, plan, symbol, side, action, position and role references are checked; duplicate/cross-set fills, nonfinite amounts, mismatched result totals/average and overclose are rejected.",
+    "Signed residual must match the typed snapshot, cannot increase versus previous projection, and existing lifecycle builders enforce observation/history clocks.",
+    "Unknown fees do not become zero, and partial/full observations produce EXIT_REQUESTED only. No funding, TradeResult or CLOSED is created.",
+    "Tests use actual source PaperBroker/E4/E5 producers. This is not evidence of native Productfake execution."
+  ],
+  "limits": [
+    "Static source reads and raw-byte hashing only; no tests, product/native processes, Git operations, database/config/auth/provider/network reads or tracked writes.",
+    "Owner-side native identity, same-position zero attestation, complete journal selection and durable publication are outside this pure slice.",
+    "Root-reported development results are not independently executed validation or full/native/Master qualification credit."
+  ],
+  "context_read": [
+    "artifacts/current-windows-20261019/h16-close-projection-builder-plan.json",
+    "src/execution/close.py::validate_close_authority/prepare_close_order",
+    "src/position/entry_observation.py::_build_entry_projection",
+    "src/position/lifecycle_projection.py::_validate_source_and_previous",
+    "src/position/lifecycle_execution_binding.py",
+    "src/position/state_machine.py"
+  ]
+}

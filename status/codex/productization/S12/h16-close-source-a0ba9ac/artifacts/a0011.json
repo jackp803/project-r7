@@ -1,0 +1,51 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 pure close projection causal-clock repair and adjacent source tests only",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "reviewed_files": [
+    {
+      "path": "src/execution/close.py",
+      "sha256": "56a4d86b31d5f67383982f2e16edacf535d77e840d9a81cb8dee7a2cc675bce8"
+    },
+    {
+      "path": "src/position/close_observation.py",
+      "sha256": "bdb9bc7b6003fb9a6f91d9eec44e0e6c446320f610a78637972ad2e614900d54"
+    },
+    {
+      "path": "tests/execution/test_close.py",
+      "sha256": "60e74e596f9f6a32c8293861881eb590f730e0d74b1abbe79a6e4baf97340ea7"
+    },
+    {
+      "path": "tests/position/test_product_close_observation.py",
+      "sha256": "4f12dc1a8588c4ec59d56c3a68865d6952bcce12e496af7c4a1386316ee0715d"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "H16-I1",
+      "status": "RESOLVED",
+      "file": "src/execution/close.py",
+      "lines": [
+        394,
+        406
+      ],
+      "evidence": "validate_close_authority now rejects now_utc < action.created_at with POSITION_ACTION_NOT_YET_VALID. The original inclusive creation boundary and exclusive expiry boundary remain. build_product_close_projection still reconstructs at exit_request.created_at, so the shared guard rejects the previously accepted historical causal inversion without applying action expiry to a later observation."
+    }
+  ],
+  "static_test_assessment": [
+    "tests/execution/test_close.py adds ordinary EXIT and EMERGENCY_EXIT checks at creation minus one microsecond and the exact inclusive creation boundary, using the original consumer. Existing expiry coverage remains.",
+    "tests/position/test_product_close_observation.py adds a deliberately corrupted historical request/fill clock derived from actual source owner facts; this avoids requiring the repaired E4 consumer to create an invalid request. The existing later-read-after-expiry positive case remains.",
+    "The pure close module is byte-identical to its prior reviewed source. The prior exposure, lineage, boundedness, monotonic history and EXIT_REQUESTED-only scope assessment remains applicable."
+  ],
+  "findings": [],
+  "limits": [
+    "Static reads and raw-byte hashing only; no tests, native/product execution, DB/auth/config/provider/network access or Git/tracked writes.",
+    "The reported eight-module 88-case result is root-reported development evidence, not reviewer execution.",
+    "No native qualification, full-product or H16 completion credit. Native identity/same-position zero evidence, journal completeness and owner publication remain outside this pure slice."
+  ],
+  "prior_review": "artifacts/current-windows-20261019/h16-pure-close-projection-review.json"
+}

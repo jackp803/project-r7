@@ -1,0 +1,26 @@
+test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive (tests.execution.test_close.CloseV01ConsumerTests.test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive) ...
+  test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive (tests.execution.test_close.CloseV01ConsumerTests.test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive) (emergency=False) ... FAIL
+  test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive (tests.execution.test_close.CloseV01ConsumerTests.test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive) (emergency=True) ... FAIL
+
+======================================================================
+FAIL: test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive (tests.execution.test_close.CloseV01ConsumerTests.test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive) (emergency=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\execution\test_close.py", line 21, in test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive
+    with self.assertRaises(CloseAuthorityError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloseAuthorityError not raised
+
+======================================================================
+FAIL: test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive (tests.execution.test_close.CloseV01ConsumerTests.test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive) (emergency=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\execution\test_close.py", line 21, in test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive
+    with self.assertRaises(CloseAuthorityError) as caught:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CloseAuthorityError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=2)

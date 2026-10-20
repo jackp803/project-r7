@@ -1,0 +1,15 @@
+test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact (tests.product.test_trading_terminal_stop_v02.TradingTerminalStopV02Tests.test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact) ... ERROR
+
+======================================================================
+ERROR: test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact (tests.product.test_trading_terminal_stop_v02.TradingTerminalStopV02Tests.test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_terminal_stop_v02.py", line 26, in test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact
+    value=h.service.read_fixture_terminal_stop(stop_id,expected_revision=h.fixture.revision)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'read_fixture_terminal_stop'. Did you mean: 'read_fixture_cleanup_stop'?
+
+----------------------------------------------------------------------
+Ran 1 test in 63.884s
+
+FAILED (errors=1)

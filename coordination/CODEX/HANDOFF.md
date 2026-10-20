@@ -1,3 +1,34 @@
+# H16 terminal-stop owner checkpoint — 2026-10-20
+
+Source `cadaa96933a21e235e8e3a13ba533530dd074800` exact-clean6modules/20cases PASS, unchanged/tree reaped.
+Evidence: `status/codex/productization/S12/h16-terminal-owner-cadaa96/disposition.json`.
+Actual guarded original entry/protection/close/flat/cleanup/CANCELED reconcile
+then exact target GET issues a local fact only; no canonical change/new cancel.
+Original graph/plan/claim/firstflat/protection/native clocks, actual account
+claims/process/generation/provider and local issuer/hash/original5s all fenced.
+Actual unknownENTRY append after real GET denies issuance; post-source provider,
+lease/cache and real independent claim changes deny consumption. Static0C1I
+then actualRED1FAIL ValueError notraised74.791s exposed final issuer gap; fixed
+final local/generation/process fence, static0C0I executionNONE. Earlier fault
+injection ERROR due instance read-only slot retained; class-descriptor correction
+calls actual original source method. No defect credit for instrumentation error.
+Genuine alternatePK immutability test now passes with real claimedENTRY validFK,
+alongside exact schema guard test. Earlier isolated mutation oracle retained.
+Original7de158FAILED92memoryerrors/66PASS inclcleanup11 remains failed. Product
+floor/deadlines/TTL/OS settings unchanged. This20 is source component proof,
+not PQR/native/all cleanup partition timing or H16/K05 acceptance.
+
+Next apply bounded one-case genuine funded finalization positive/helpers and
+observe missingfinalizer RED. Funding durable whileREADY BEFORE terminal stop;
+exact firstflat unchanged; real existing E5 TradeResult/CLOSED/full binding plus
+immutable outbox replay and genuine K05positive. Fournegative drafts preserved;
+all11cleanup partitions/final settled inventory/examples/full/native pending.
+H01 formalE2trading runner, F04/I04/J03/portable/audits/clause binder remain local.
+Windows7d qualified package/evidence preserved; Master IN_PROGRESS. Original
+task/branch, no merge. Public8/responses8/additional0/private0; credentialsNONE/
+capitalNONE/LIVE notstarted/GitHubnotused. External oldPC/Ubuntu/cloud/policies/
+realforward not accepted; independent local work continues.
+
 # H16 pure terminal-stop checkpoint — 2026-10-20
 
 Executable source `cfb16998a8156287e697e68be5f01bbdb5715930` exact-clean3modules/16cases PASS,

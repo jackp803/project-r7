@@ -1,0 +1,39 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "New FIXTURE terminal target read issuance and consumption fences; service integration; expanded two-case owner test source",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 1,
+  "subject_hashes": {
+    "src/application/trading/terminal_stop.py": "d702af19d7b183edc4eedd715a7997e94b01563ef112c27f9d09b24afa2180d5",
+    "src/application/trading/service.py": "8ef7523fa208cf234b3444e3283e74f357f766d59863f4db02c0f21bc5582d9b",
+    "tests/product/test_trading_terminal_stop_v02.py": "a7ae16d96ca58519cbdb696bb89a686590eed11923b3e35c51df69e57ed65146"
+  },
+  "prior_one_case_test_sha256": "0990284db25c1bd2e44f6a205cd26181d497330013168763697d3659ca6e1d20",
+  "findings": [
+    {
+      "id": "TERMINAL-POST-SCAN-OWNER-FENCE",
+      "severity": "Important",
+      "path": "src/application/trading/terminal_stop.py",
+      "lines": [
+        135,
+        143
+      ],
+      "description": "require_terminal_stop_read validates cache record identity/content, provider object and lease before _source performs admission/recovery/SQLite scans. After those calls it checks only returned source equality and time. A provider/lease or cache replacement during the scan can therefore be accepted at return, despite no longer matching the issued context.",
+      "minimal_fix": "After the full source scan, recheck exact cache record/value hash/provider identity/lease and captured inventory generation, then the unchanged five-second interval immediately before returning; do not renew observations or permits.",
+      "minimal_regression": "Issue the genuine valid read. Wrap the real final require_current_execution_subject dependency to call its original implementation then replace service.provider. require_terminal_stop_read must deny without HTTP or canonical effects. Existing pre-call provider replacement coverage does not exercise this boundary."
+    }
+  ],
+  "static_supported": [
+    "Issuance is FIXTURE/exact FakeProductProvider only. It requires original immutable cleanup/stop/close claims, single original stop/close, original positive entry and actual current canonical CANCELED zero-fill stop.",
+    "It binds original approved E5 plan hashes, verified original protection and exact native provider-created clock, original same-position native-flat publication/current EXIT_REQUESTED zero projection, and cleanup flat-publication commitment.",
+    "The actual target GET is guarded; before/after source equality, provider/lease equality, dispatch inventory-generation fences and unchanged five-second read interval protect issuance. Cache is identity-based, immutable-value hashed, limited128 and pruned by the same five-second lifetime.",
+    "No new canonical effect, lifecycle, TradeResult, funding or permission builder is added by terminal_stop.py. Existing recover_publications may replay already durable publications; this is not new terminal evidence fabrication.",
+    "Expanded test source adds missing-claim refusal before GET and actual other-connection unknown ENTRY after target GET. It also checks copied values, pre-call provider replacement, expiry, no extra cancel and canonical-history equality."
+  ],
+  "limits": [
+    "Source snapshots are the exact captured review subjects; root may repair after this initial finding. No reviewer tests/imports/DB/process/native/Git/network/provider or tracked edits occurred.",
+    "Root reported the prior single positive test PASS; that execution was not independently inspected. Expanded two-case tests are pending at review time.",
+    "No terminal-owner native/full qualification, finalizer, CLOSED/TradeResult, H16 or whole-product acceptance is granted."
+  ]
+}

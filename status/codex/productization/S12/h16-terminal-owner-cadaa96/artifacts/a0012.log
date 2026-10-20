@@ -1,0 +1,27 @@
+test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact (tests.product.test_trading_terminal_stop_v02.TradingTerminalStopV02Tests.test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact) ... ERROR
+
+======================================================================
+ERROR: test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact (tests.product.test_trading_terminal_stop_v02.TradingTerminalStopV02Tests.test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1581, in __enter__
+    setattr(self.target, self.attribute, new_attr)
+AttributeError: 'PaperRuntimeJournal' object attribute 'require_current_execution_subject' is read-only
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_terminal_stop_v02.py", line 61, in test_original_canonical_cancel_and_current_target_issue_only_detached_terminal_fact
+    with patch.object(h.service.canonical,'require_current_execution_subject',side_effect=source_then_replace):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1594, in __enter__
+    if not self.__exit__(*sys.exc_info()):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1605, in __exit__
+    delattr(self.target, self.attribute)
+AttributeError: 'PaperRuntimeJournal' object attribute 'require_current_execution_subject' is read-only
+
+----------------------------------------------------------------------
+Ran 1 test in 65.816s
+
+FAILED (errors=1)

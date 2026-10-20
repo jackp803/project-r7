@@ -1,0 +1,40 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "scope": "Only post-source issued terminal-read currentness repair and expanded genuine owner regression source",
+  "reviewer_execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "subject_hashes": {
+    "src/application/trading/terminal_stop.py": "7ba344bf7cd966d87a6734ea8b96a9c409b06884578b31c2c8836fec9932af98",
+    "src/application/trading/service.py": "8ef7523fa208cf234b3444e3283e74f357f766d59863f4db02c0f21bc5582d9b",
+    "tests/product/test_trading_terminal_stop_v02.py": "a52e4cf2db1472ba2bd100d40e74be81b1b1b868b33c681e1b3b28d1ac6b68ff"
+  },
+  "initial_review": {
+    "path": "h16-terminal-owner-review-initial-20261020.json",
+    "sha256": "06ea2a42f84f2be9f0c52498d44eb7537d4f4f83a69998330787cbdbf1f37d7b",
+    "preserved": true
+  },
+  "resolved_findings": [
+    {
+      "id": "TERMINAL-POST-SCAN-OWNER-FENCE",
+      "status": "RESOLVED",
+      "path": "src/application/trading/terminal_stop.py",
+      "lines": [
+        135,
+        154
+      ],
+      "reason": "The same _issued helper validates exact issued object/hash/provider/lease/original five-second interval both before and after the complete semantic source scan. Final comparison requires the identical original cache tuple. After source equality, actual dispatch inventory generation and original process lease are also required; no observation or interval is renewed."
+    }
+  ],
+  "static_checks": [
+    "All module text preceding the lifted _issued helper is identical to the initial inspected module; service.py is byte-identical. Thus issuance/original source/flat/protection/parser guards are unchanged by this repair.",
+    "The expanded positive source test calls the original class-descriptor method before each post-source mutation: provider replacement, changed lease instance, equal-but-distinct cache tuple, then actual independent ENTRY claim. Each must be denied. The mutation list proves each hook ran; state restoration is explicit for the first three and the real claim remains conservatively present.",
+    "The second source case still obtains the real target GET then appends the independent unknown ENTRY and asserts no issued cache, no second cancel and no canonical change. Existing copied/pre-call-provider/expiry negatives remain."
+  ],
+  "findings": [],
+  "limits": [
+    "No reviewer execution/imports/tests/native/product/process, DB/Git/network/provider or tracked edits. Only this new authorized outside-Git review JSON was written; the initial finding artifact remains intact.",
+    "Root-reported fail-first execution is context, not independently inspected proof. Current expanded test outcomes and complete source/native qualification are not inferred.",
+    "No finalizer, CLOSED/TradeResult, H16, K05, LIVE or whole-product acceptance credit."
+  ]
+}

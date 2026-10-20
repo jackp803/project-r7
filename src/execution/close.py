@@ -400,6 +400,8 @@ def validate_close_authority(
         )
     if expires_at <= created_at:
         raise CloseAuthorityError("INVALID_ACTION_EXPIRY", "PositionAction.expires_at must be after created_at")
+    if now_utc < created_at:
+        raise CloseAuthorityError("POSITION_ACTION_NOT_YET_VALID", "PositionAction cannot execute before its creation")
     if now_utc >= expires_at:
         raise CloseAuthorityError("POSITION_ACTION_EXPIRED", "PositionAction is expired")
 

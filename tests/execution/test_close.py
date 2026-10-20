@@ -13,6 +13,16 @@ from execution.models import Side
 
 
 class CloseV01ConsumerTests(unittest.TestCase):
+    def test_close_cannot_execute_before_action_creation_and_boundary_is_inclusive(self):
+        for emergency in (False,True):
+            position=self._position(lifecycle_state='EMERGENCY' if emergency else 'OPEN_PROTECTED')
+            action=self._action(action='EMERGENCY_EXIT' if emergency else 'EXIT',source_lifecycle_state=position['lifecycle_state'])
+            with self.subTest(emergency=emergency):
+                with self.assertRaises(CloseAuthorityError) as caught:
+                    self._prepare(action=action,position=position,now=self.now-timedelta(microseconds=1))
+                self.assertEqual(caught.exception.code,'POSITION_ACTION_NOT_YET_VALID')
+                self.assertTrue(self._prepare(action=action,position=position,now=self.now).reduce_only)
+
     def setUp(self):
         self.position_observed_at = datetime(2026, 8, 24, 5, 10, 20, tzinfo=timezone.utc)
         self.now = datetime(2026, 8, 24, 5, 10, 30, tzinfo=timezone.utc)

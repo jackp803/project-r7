@@ -1,0 +1,15 @@
+test_unknown_entry_appended_after_close_claim_blocks_final_provider_effect (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_unknown_entry_appended_after_close_claim_blocks_final_provider_effect) ... FAIL
+
+======================================================================
+FAIL: test_unknown_entry_appended_after_close_claim_blocks_final_provider_effect (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_unknown_entry_appended_after_close_claim_blocks_final_provider_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 146, in test_unknown_entry_appended_after_close_claim_blocks_final_provider_effect
+    with self.assertRaises(RuntimeAdmissionError):service.execute(prepared,expected_revision=self.fixture.revision)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeAdmissionError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 11.544s
+
+FAILED (failures=1)

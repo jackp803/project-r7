@@ -1,0 +1,65 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 close preparation final account-entry ownership repair and common dispatch-inventory fence; downstream close projection excluded",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/trading/close_owner.py",
+      "sha256": "6075fd76918b0ea55a4052f4e1fd29ae165b9cc5726bb1d6f463ceaa9c45dbf7"
+    },
+    {
+      "path": "src/application/trading/guards.py",
+      "sha256": "75e3110ca760b8a6936e201bfddb3a4f647e7da74a9048a8f1bd007183561da7"
+    },
+    {
+      "path": "tests/product/test_trading_close_v02.py",
+      "sha256": "af82ff3d1fb3c77e789b4e83839ff5d3b596c62f03be8353ab9e7983a8b694c2"
+    }
+  ],
+  "unchanged_prior_review_files": [
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "7ab9d984d912d9e4bddec1d0f929a8d571cdec34c19312191197cb53b44e0e10",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "23f025b5e11094424891f14c3be4a9fe88a5bc482b8d6cd7cea13086283833b5",
+      "identical_to_prior_review": true
+    },
+    {
+      "path": "tests/storage/test_product_dispatch_v02.py",
+      "sha256": "a92aca7a4ec7135767872adddaae749cb10d2947f03e8e9ecee3b9baeead56b9",
+      "identical_to_prior_review": true
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "H16-PREP-I1",
+      "status": "RESOLVED",
+      "evidence": "close_owner.require_close_preparation now reruns original_entry against the live account-entry inventory and verifies the original published native position ID against the cached issuer-owned observation. Unknown/unrestorable entry requests become a typed ownership denial. The final close branch captures one outer dispatch inventory generation before this scan and verifies it after both close-role scans, rejecting changes between the two inventories.",
+      "locations": [
+        "src/application/trading/close_owner.py:29-54",
+        "src/application/trading/close_owner.py:141-150",
+        "src/application/trading/guards.py:77-84"
+      ]
+    }
+  ],
+  "static_assessment": [
+    "The account-entry check is now repeated in the actual guard used after the current close claim and again by the provider boundary; the earlier preparation-only ownership gap is closed.",
+    "The outer generation fence surrounds require_close_preparation and the POSITION_EXIT/EMERGENCY_EXIT inventory scan. Existing nested scans retain their connection/local-write fences. Unknown historical claims are refused rather than granted an exception.",
+    "The added source tests append real same-account unknown ENTRY and cross-role close claims through a second dispatch connection immediately after the actual current close claim, then assert no additional provider effect and retain READBACK_REQUIRED.",
+    "The stricter closed-entry exemption also requires actual terminal current order results; generic-vs-FIXTURE profile separation and the original provider/lease/read cache checks remain intact."
+  ],
+  "findings": [],
+  "prior_review": "artifacts/current-windows-20261019/h16-close-preparation-guard-review.json",
+  "limits": [
+    "Static source reads and raw-byte hashing only; no tests, native/product processes, Git, DB/auth/config/provider/network access or tracked writes.",
+    "The reported source race-regression passes are not reviewer execution or installed-native evidence.",
+    "No lifecycle-intent, residual/flat publication, funding, TradeResult, protection-stop cleanup or whole H16/full-product completion claim."
+  ]
+}

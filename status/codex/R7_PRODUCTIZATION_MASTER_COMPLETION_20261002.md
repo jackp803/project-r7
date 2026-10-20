@@ -146,3 +146,31 @@ Continue remaining authorized local Master work while preserving this exact
 qualified executable. Later source changes need their own release qualification.
 Runtime LLM calls0, private requests0, provider mutation0, credentialsNONE,
 capitalNONE, GitHubcomputeNOT_USED. No main merge or actual trading activation.
+
+## Native close owner source checkpoint — 2026-10-20
+
+Source `9c4a74108d4c1960d6213357f9fc32e4785fce25` passed the exact-clean
+eight affected modules /76cases, zero failures/errors/skips, unchanged source
+hash and reaped process tree. This adds actual issuer-bound close preparation,
+account-entry/cross-role final claim guards, and scripted-native partial close
+through explicit same-posId zero. E5 preserves original entry basis and remains
+EXIT_REQUESTED; no funding, protection removal or TradeResult is inferred.
+Original source REDs, historical-entry-result and delayed-outbox regressions,
+static final reviews0C/I and33sanitized artifacts are retained under
+`status/codex/productization/S12/h16-native-close-source-9c4a741/`.
+
+The original52-case development attempt failed one owner-authority check; its
+inner exception was not captured. A source file was created during its final
+case, and the actual owner hashes all executable source afresh. Source drift is
+the inferred cause, not a proven original exception diagnosis. Both that failure
+and its isolated passing replay are preserved. Subsequent verification froze
+all source; the new exact-clean76-case result is separate evidence.
+
+H16 remains INCOMPLETE: post-claim ACK/uncertainty intent, owned-stop cleanup,
+BROKER_LEDGER funding and canonical TradeResult owner integration still remain.
+K05 history, report delivery visibility and final semantic review continue.
+Frozen PQR inventory/examples need regeneration for the next final candidate.
+No full/native qualification transfers to this source; the complete Windows
+portable candidate remains7d821f2. Public requests/responses remain8/8, this
+continuation adds0; private requests0, credentialsNONE, capitalNONE, LIVE
+NOT_STARTED and GitHubcomputeNOT_USED. Master remains IN_PROGRESS.

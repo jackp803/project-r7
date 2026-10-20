@@ -1,0 +1,15 @@
+test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation) ... FAIL
+
+======================================================================
+FAIL: test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_projection_v02.py", line 161, in test_delayed_actual_bundle_cannot_be_inserted_behind_a_newer_flat_observation
+    with self.assertRaises(ValueError):service.dispatch.observe_position(*args,**kwargs)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 17.136s
+
+FAILED (failures=1)

@@ -1,0 +1,18 @@
+test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes) ... ERROR
+
+======================================================================
+ERROR: test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_projection_v02.py", line 52, in test_actual_partial_then_explicit_same_position_zero_preserves_basis_and_never_finalizes
+    partial=self.readback(context,prepared);outcome=self.project(context,prepared,partial)
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_projection_v02.py", line 47, in project
+    return context[0].project_close_position(prepared.canonical_request.order_request_id,native,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'project_close_position'. Did you mean: 'project_entry_position'?
+
+----------------------------------------------------------------------
+Ran 1 test in 12.995s
+
+FAILED (errors=1)

@@ -1,0 +1,25 @@
+test_close_inventory_spans_both_roles_and_runs_and_ignores_unclaimed_or_other_accounts (tests.storage.test_product_dispatch_v02.ProductDispatchV02Tests.test_close_inventory_spans_both_roles_and_runs_and_ignores_unclaimed_or_other_accounts) ... ERROR
+test_close_inventory_fences_a_real_other_connection_append_between_role_scans (tests.storage.test_product_dispatch_v02.ProductDispatchV02Tests.test_close_inventory_fences_a_real_other_connection_append_between_role_scans) ... ERROR
+
+======================================================================
+ERROR: test_close_inventory_spans_both_roles_and_runs_and_ignores_unclaimed_or_other_accounts (tests.storage.test_product_dispatch_v02.ProductDispatchV02Tests.test_close_inventory_spans_both_roles_and_runs_and_ignores_unclaimed_or_other_accounts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 36, in test_close_inventory_spans_both_roles_and_runs_and_ignores_unclaimed_or_other_accounts
+    actual=journal.iter_claimed_closes_for_position('run','original-position')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProductDispatchJournal' object has no attribute 'iter_claimed_closes_for_position'
+
+======================================================================
+ERROR: test_close_inventory_fences_a_real_other_connection_append_between_role_scans (tests.storage.test_product_dispatch_v02.ProductDispatchV02Tests.test_close_inventory_fences_a_real_other_connection_append_between_role_scans)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\storage\test_product_dispatch_v02.py", line 53, in test_close_inventory_fences_a_real_other_connection_append_between_role_scans
+    tuple(journal.iter_claimed_closes_for_position('run','original-position'))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProductDispatchJournal' object has no attribute 'iter_claimed_closes_for_position'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.703s
+
+FAILED (errors=2)

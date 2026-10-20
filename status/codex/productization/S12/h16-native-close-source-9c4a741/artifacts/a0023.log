@@ -1,0 +1,31 @@
+test_later_actual_entry_readback_preserves_original_source_and_full_close_history (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_later_actual_entry_readback_preserves_original_source_and_full_close_history) ... ERROR
+
+======================================================================
+ERROR: test_later_actual_entry_readback_preserves_original_source_and_full_close_history (tests.product.test_trading_close_projection_v02.TradingCloseProjectionV02Tests.test_later_actual_entry_readback_preserves_original_source_and_full_close_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_projection_v02.py", line 93, in test_later_actual_entry_readback_preserves_original_source_and_full_close_history
+    self.project(context,prepared,self.readback(context,prepared))
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_projection_v02.py", line 47, in project
+    return context[0].project_close_position(prepared.canonical_request.order_request_id,native,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\service.py", line 93, in project_close_position
+    return project_close_position(self,operation_id,observation,metadata=metadata,proof=proof,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\trading\close_observation.py", line 82, in project_close_position
+    composed=build_product_close_projection(subject.approved_trade_plan.payload,actions[0],
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\position\close_observation.py", line 59, in build_product_close_projection
+    original=build_product_entry_projection(plan,entry_request,entry_result,entries,original_exposure,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\position\entry_observation.py", line 52, in build_product_entry_projection
+    outcome = _build_entry_projection(plan, request, result, fills, position_snapshot,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\position\entry_observation.py", line 99, in _build_entry_projection
+    raise ValueError('Actual entry fills/order/net position cannot be reconciled')
+ValueError: Actual entry fills/order/net position cannot be reconciled
+
+----------------------------------------------------------------------
+Ran 1 test in 14.007s
+
+FAILED (errors=1)

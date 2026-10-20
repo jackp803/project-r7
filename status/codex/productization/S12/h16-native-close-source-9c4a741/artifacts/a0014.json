@@ -1,0 +1,75 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 original-entry native close preparation, issuer cache, final effect guards and cross-role dispatch inventory only",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 1
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/trading/close_owner.py",
+      "sha256": "8a1e04e8b64f5e49c5672a2d636ae58f76648a5f3577a7232b32811775ce03f5",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "7ab9d984d912d9e4bddec1d0f929a8d571cdec34c19312191197cb53b44e0e10",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/application/trading/guards.py",
+      "sha256": "ac563e48263176890e23fed9a75f492f551386ec9731448025d7baa5f074e130",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "23f025b5e11094424891f14c3be4a9fe88a5bc482b8d6cd7cea13086283833b5",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "tests/product/test_trading_close_v02.py",
+      "sha256": "461c9054ef63b56bf7da700d045bab751affbe5193621cc4c049fb941339e8e0",
+      "unchanged_since_capture": true
+    },
+    {
+      "path": "tests/storage/test_product_dispatch_v02.py",
+      "sha256": "a92aca7a4ec7135767872adddaae749cb10d2947f03e8e9ecee3b9baeead56b9",
+      "unchanged_since_capture": true
+    }
+  ],
+  "findings": [
+    {
+      "id": "H16-PREP-I1",
+      "severity": "Important",
+      "file": "src/application/trading/guards.py",
+      "lines": [
+        77,
+        82
+      ],
+      "symbol": "_TradingEffectGuard.require close-role branch",
+      "issue": "Final close effects do not revalidate the account-wide original-entry ownership condition checked during preparation.",
+      "evidence": "close_owner.prepare_close calls original_entry before building ownership/sizing (lines80–82). original_entry scans all claimed entries for the account and rejects foreign unresolved positions. After preparation, the final guard checks the issued native read/proofs and only POSITION_EXIT/EMERGENCY_EXIT claims. require_position_read does not bind/recheck a dispatch inventory generation, and a foreign dispatch ENTRY claim does not change the canonical snapshot. A same-account unknown/ambiguous ENTRY claim appended after preparation or the current close claim can therefore coexist with an otherwise fresh cached observation and pass the final close guard.",
+      "minimal_fix": "Revalidate original-entry/account reconciliation at the final close effect boundary, with coherent inventory fencing covering the relevant account-entry and both close-role scans. Preserve the exact original entry/position binding and existing conservative unknown-claim refusal.",
+      "minimal_regression": "Mirror test_cross_role_claim_appended_after_actual_claim_blocks_final_provider_effect, but append a claimed same-account unknown ENTRY through the second real dispatch connection after the current close claim. Assert refusal before another provider call and retain the current close claim as READBACK_REQUIRED."
+    }
+  ],
+  "static_assessment": [
+    "Generic prepare_close requires exact typed close-role applicability and metadata binding; it has no default real profile or HTTP route. The finite fixture wrapper requires exact FakeProductProvider plus FIXTURE namespace and labels its close constraints separately from entry min/max metadata.",
+    "The preparation requires an actual issuer-owned, immutable, current native read and revalidates it after composition. The cache retains exact prepared/read/proof/provider/lease references; final close guards require that original issuance and current capability proof. Production provider additionally binds the selected account before credentials/HTTP.",
+    "The new close iterator spans POSITION_EXIT and EMERGENCY_EXIT in the same account/position, conservatively intersects unknown legacy position identities, and fences inter-role/connection changes. Existing tests exercise real second-connection append and provider replacement.",
+    "Preparation persists an actual E5 PositionAction after checks, but does not publish lifecycle intent, flat observation, funding, TradeResult or CLOSED. The tested close ACK remains pending and is not closure evidence."
+  ],
+  "limits": [
+    "Static source reads and raw-byte hashing only; no test/native/product execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "The source native-script/fake-provider tests are component fixtures, not executed installed-native Productfake qualification. Root-reported passing counts are not reviewer execution.",
+    "H16 owner lifecycle intent, reduction/flat publication, funding, TradeResult, protection-stop cleanup and complete H16/native/full-product acceptance remain outside this slice."
+  ],
+  "narrow_context_read": [
+    "src/application/trading/position_observation.py::read_position/require_position_read",
+    "src/brokers/okx_product.py::prepare_close/require",
+    "src/brokers/okx_product_capability.py::issue/require/close_capability/evaluate_close",
+    "src/application/trading/admission.py::evaluate/current_authority",
+    "src/application/trading/provider.py::ProductionProductProvider.request"
+  ]
+}

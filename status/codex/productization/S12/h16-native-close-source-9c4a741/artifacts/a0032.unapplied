@@ -1,0 +1,82 @@
+"""UNAPPLIED design draft. No execution or acceptance credit."""
+from datetime import timedelta
+from unittest.mock import patch
+import unittest
+import json
+import tests.product.test_trading_close_v02 as close_fixtures
+
+
+class TradingCloseIntentV02Tests(unittest.TestCase):
+    def setUp(self):
+        self.owner=close_fixtures.TradingCloseV02Tests(methodName='runTest');self.owner.setUp()
+        self.addCleanup(self.owner.doCleanups);self.fixture=self.owner.fixture;self.position=self.owner.position
+
+    def prepared(self):
+        context=self.owner.entered();return context,self.owner.prepare(context)
+
+    def test_actual_ack_stages_e5_intent_after_final_effect_without_renewing_broker_clock(self):
+        context,prepared=self.prepared();service,provider,*_=context;source=self.position.recover().current_position_projection.payload
+        self.owner.append_ack(provider,prepared);actual=provider.request;at_post=[]
+        def inspect_before_effect(method,*args,**kwargs):
+            if method=='POST':at_post.append(self.position.recover().current_position_projection.payload)
+            return actual(method,*args,**kwargs)
+        with patch.object(provider,'request',side_effect=inspect_before_effect):
+            outcome=service.execute(prepared,expected_revision=self.fixture.revision)
+        self.assertEqual(outcome.status,'ACK_PENDING');self.assertEqual(at_post,[source])
+        recovered=self.position.recover();current=recovered.current_position_projection.payload
+        self.assertEqual(current['lifecycle_state'],'EXIT_REQUESTED')
+        self.assertEqual(current['actual_quantity'],source['actual_quantity'])
+        self.assertEqual(current['broker_state_observed_at'],source['broker_state_observed_at'])
+        self.assertIsNone(recovered.trade_result)
+        receipt=service.dispatch.latest_position_publication('fixture-run',prepared.canonical_request.order_request_id)
+        self.assertEqual(json.loads(receipt.observation_json)['profile'],'product-close-intent-v0.2')
+        self.assertEqual(len(provider.calls),5)
+
+    def test_claim_only_crash_recovers_actual_request_and_intent_without_fabricated_reply_or_http(self):
+        context,prepared=self.prepared();service,provider,*_=context
+        source=self.position.recover().current_position_projection.payload
+        self.assertTrue(service._coordinator().prepare_and_claim(prepared))
+        self.fixture.clock[0]+=timedelta(seconds=40)
+        service.lease=service.dispatch.begin_process('fixture-run','intent-recovery:2',expected_generation=1,now=self.fixture.clock[0])
+        calls=list(provider.calls);service.recover_publications()
+        recovered=self.position.recover();request_id=prepared.canonical_request.order_request_id
+        self.assertEqual(recovered.current_position_projection.payload['lifecycle_state'],'EXIT_REQUESTED')
+        self.assertEqual(recovered.current_position_projection.payload['broker_state_observed_at'],source['broker_state_observed_at'])
+        self.assertTrue(any(row.canonical_id==request_id for row in recovered.order_requests))
+        self.assertFalse(any(row.payload['order_request_id']==request_id for row in recovered.order_result_observations))
+        self.assertFalse(any(row.payload['client_order_id']==prepared.canonical_request.client_order_id for row in recovered.fills))
+        receipt=service.dispatch.latest_position_publication('fixture-run',request_id);history=recovered.lifecycle_history
+        self.fixture.clock[0]+=timedelta(seconds=2);service.recover_publications()
+        self.assertEqual(service.dispatch.latest_position_publication('fixture-run',request_id),receipt)
+        self.assertEqual(self.position.recover().lifecycle_history,history);self.assertEqual(provider.calls,calls)
+
+    def test_actual_ambiguous_provider_outcome_keeps_uncertain_intent_without_flat_or_result(self):
+        context,prepared=self.prepared();service,provider,*_=context
+        outcome=service.execute(prepared,expected_revision=self.fixture.revision)
+        self.assertEqual(outcome.status,'RECONCILIATION_REQUIRED')
+        recovered=self.position.recover()
+        self.assertEqual(recovered.current_position_projection.payload['lifecycle_state'],'EXIT_REQUESTED')
+        self.assertEqual(recovered.current_position_projection.payload['actual_quantity'],'0.0010')
+        self.assertIsNone(recovered.trade_result)
+
+    def test_intent_outbox_failure_replays_original_bundle_with_successor_lease_without_http(self):
+        context,prepared=self.prepared();service,provider,*_=context;self.owner.append_ack(provider,prepared)
+        canonical=self.owner.helper.canonical
+        with patch.object(type(canonical),'persist_lifecycle_execution_binding',side_effect=OSError('fixture intent publication failure')):
+            with self.assertRaises(OSError):service.execute(prepared,expected_revision=self.fixture.revision)
+        pending=service.dispatch.pending_position_publications('fixture-run');self.assertEqual(len(pending),1)
+        calls=list(provider.calls)
+        service.lease=service.dispatch.begin_process('fixture-run','intent-outbox:2',expected_generation=1,now=self.fixture.clock[0])
+        service.recover_publications()
+        self.assertEqual(service.dispatch.pending_position_publications('fixture-run'),())
+        self.assertEqual(service.dispatch.latest_position_publication('fixture-run',prepared.canonical_request.order_request_id),pending[0])
+        self.assertEqual(provider.calls,calls)
+
+    def test_unclaimed_preparation_alone_does_not_publish_a_lifecycle_intent(self):
+        context,prepared=self.prepared();service=context[0];before=self.position.recover()
+        service.recover_publications()
+        self.assertEqual(self.position.recover().lifecycle_history,before.lifecycle_history)
+        self.assertIsNone(service.dispatch.latest_position_publication('fixture-run',prepared.canonical_request.order_request_id))
+
+
+if __name__=='__main__':unittest.main()

@@ -1,0 +1,58 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 native residual/explicit same-position-zero observation source and durable outbox slice only",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 1
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/trading/close_observation.py",
+      "sha256": "952107bdc355fe3578a358822bc8a1bafd49a32a9e9a255e279824acb28393af"
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "6131034bf4c3fc576e92c96fa761a7387ae4e60369d8b1c623f095d5804df91d"
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "11b7f1e3232f329dcd99236873281d1553d5cfcd8202e52931378475e07c2800"
+    },
+    {
+      "path": "tests/product/test_trading_close_projection_v02.py",
+      "sha256": "bdf0d97c388a4f4bca7f508db67e650ae7782bd36db92f40cde37f1528ccf3e9"
+    }
+  ],
+  "findings": [
+    {
+      "id": "H16-OBS-I1",
+      "severity": "Important",
+      "file": "src/application/trading/close_observation.py",
+      "lines": [
+        78,
+        84
+      ],
+      "symbol": "project_close_position",
+      "issue": "Latest entry-result selection prevents valid close projection after a later unchanged reconciliation of the original entry.",
+      "evidence": "The adapter selects the ENTRY result from recovered.current_order_results, then calls the pure close builder with the original positive source. That builder reconstructs entry basis at source_position.broker_state_observed_at; entry_observation._build_entry_projection rejects result.observed_at > that original anchor (line97). A real later reconciliation of an already-filled entry changes only its observation timestamp/current result while preserving original request/fills/quantity/average. It then blocks partial/flat close projection even though an authentic earlier entry result and complete history remain available.",
+      "minimal_fix": "Use the actual historical entry result bound to or consistent with the original positive source/execution basis for its reconstruction. Retain every later actual order observation in the complete final execution binding. Do not rewrite a timestamp, ignore extra fills, substitute a manufactured result or weaken original-source clock validation.",
+      "minimal_regression": "After actual entry publication and original close preparation/claim, reconcile the same entry again at a later clock using the same original native fill identities/times and quantity. Assert the original E5 source/action remains intact and partial then explicit same-position-zero close observations still publish/recover EXIT_REQUESTED successfully."
+    }
+  ],
+  "static_assessment": [
+    "The adapter requires an issued current native read, exact original positive entry/native position ID, claimed original close role, prepared plan/action/source hashes and a complete decoded canonical graph. Unrelated exit requests/fills and residual disagreement are refused.",
+    "Partial/flat effects remain EXIT_REQUESTED, retain original first-fill/average/position identity and include every actual canonical request/result/fill in the execution binding; no provider position ID is added to the canonical projection.",
+    "The additive ProductCloseObservation audit material retains original source and predecessor projection identity. The dispatch transaction rechecks the common claim inventory generation under BEGIN IMMEDIATE, validates native/source/entry binding and monotonic newer observations, then commits one immutable bundle.",
+    "The recovery test injects failure after durable outbox commit and uses a successor dispatch lease to publish the same bundle without another HTTP request or resubmit; this is source component coverage, not installed-native evidence."
+  ],
+  "limits": [
+    "Static source reads and raw-byte hashing only; no tests/native/product processes, Git, database/auth/config/provider/network access or tracked writes.",
+    "Root-reported development passes are not independently executed validation. The separate prior protection denial is retained history; this review establishes no proven cause for it.",
+    "ACK intent, funding, protection-stop cleanup, TradeResult/CLOSED and complete H16/native/full-product qualification remain outside scope."
+  ],
+  "narrow_context_read": [
+    "src/position/entry_observation.py::_build_entry_projection (original result clock constraint)",
+    "Prior reviewed src/position/close_observation.py (original positive basis reconstruction)"
+  ]
+}

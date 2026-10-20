@@ -1,0 +1,123 @@
+{
+  "status": "STATIC_UNAPPLIED_NOT_EXECUTED_NO_ACCEPTANCE_CREDIT",
+  "scope": "H16 FIXTURE genuine TradingService close owner only; ordinary Windows Paper unchanged",
+  "governing_rules": [
+    {
+      "ref": "docs/execution/OKX_SWAP_CLOSE_RESIDUAL_SIZING_V0_1.md sections3,4 layers4-5 (lines121-137,199-231)",
+      "rule": "ENTRY minSz/maxMktSz do not prove close applicability. Required unknown role-specific applicability remains METADATA_STALE_OR_UNKNOWN. Exact current role metadata/constraint proof required."
+    },
+    {
+      "ref": "docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md lines61-66,190-230,413",
+      "rule": "REPO_EVIDENCED means named bounded repository mapping, never provider verification or mutation permission. Original matrix close rows were unresolved; current v0.2 mechanical owner supplies additive bounded mapping but not real-provider verification."
+    }
+  ],
+  "exact_existing_sources": [
+    {
+      "ref": "brokers/okx_product_capability.py::OKXProductCapabilityOwner.issue/close_capability/evaluate_close",
+      "fact": "Actual owner-issued _ProductMechanicalProof binds account/metadata/role/generation/lifetime. close_capability emits typed current POSITION_EXIT/EMERGENCY_EXIT capability; evaluate_close requires exact generated capability and exact now, then validates metadata binding. It does not issue close min/max applicability from entry metadata."
+    },
+    {
+      "ref": "brokers/okx_close_sizing.py::OKXCloseMetadataApplicabilityEvidence/_metadata_status",
+      "fact": "Trusted typed applicability carries role, CLOSE_ROLE_SCOPE, proof ref/generation, metadata generation, conversion, step/min/max applicability and actual values. Conversion REQUIRED_FOR_CLOSE and step APPLICABLE_CONSTRAINT mandatory; min/max each APPLICABLE_CONSTRAINT with value or explicitly NOT_APPLICABLE_TO_CLOSE with None. Missing/unresolved is denial, not unbounded."
+    },
+    {
+      "ref": "brokers/okx_close_sizing_binding.py::OKXCloseMetadataBindingEvidence/validate_okx_close_metadata_binding",
+      "fact": "Exact metadata ref/hash/generation and applicability ref/hash/generation comparison only. Constructing matching hashes proves binding, not factual authority/source of close constraints."
+    },
+    {
+      "ref": "tests/brokers/test_okx_close_sizing.py::applicability; test_okx_product_close_v02.py::prepared",
+      "fact": "Existing explicit test-only fixture close constraints and real mechanical proof can model repository semantics. Values are deliberately synthetic; no production observation/accepted external provider metadata producer is demonstrated."
+    },
+    {
+      "ref": "application/trading/position_observation.py::read_position/require_position_read; storage/product_position.py::observation_material",
+      "fact": "Current native position observation is issuer/provider/lease/metadata bound, TTL5s; original posId and native observation facts retained privately in dispatch position publication observation_json. Canonical Position never gains native fields."
+    },
+    {
+      "ref": "application/trading/protection_monitor.py::_registry",
+      "fact": "Existing concrete pattern derives provider/account identity from current admission release, runtime generations from preflight binding, native observation generation from actual inventory hash, exact owned dispatch claim lineage plus canonical E5 projection/binding hashes; builds ProviderObjectObservation/OwnershipEvaluationContext through build_external_provider_ownership_evidence. Reuse pattern for POSITION_EXPOSURE, not PROTECTION_ORDER evidence verbatim."
+    }
+  ],
+  "smallest_proposed_adapters": [
+    {
+      "signature": "TradingService.require_close_mechanical_inputs(position_read, *, metadata, role_proof, expected_revision) -> private issuer-bound CloseMechanicalInputs",
+      "behavior": "Require current actual position read, exact current canonical projection/binding/plan and original dispatch entry/native position binding; current process/admission. Recover original private posId from actual retained position observation/publication and require current read same id. Build OKXProviderExposureObservation using actual contract quantity, normalized canonical quantity, exact snapshot/ref/hash, generation and request/receive clocks. Build POSITION_EXPOSURE FP04 lineage from actual current protected canonical execution registry and dispatch lease/account; call existing ownership builder. Never copy static test fp04 dictionary/OWNED label or protection algo FP04 as position ownership."
+    },
+    {
+      "signature": "FIXTURE-only trusted close applicability composition: issue_fixture_close_applicability(metadata, *, role, fixture_profile, mechanical_proof, now) -> private registered pair(applicability, metadata_binding)",
+      "behavior": "Explicitly declared synthetic close profile, namespace FIXTURE plus exact FakeProductProvider only, fixed source/version and exact role. Record its close conversion/step/min/max semantics as software fixture input separately from entry metadata; bind to exact current metadata/profile generations/hash and issuer lifetime. Reuse existing typed evidence/binding shapes; reject caller clones/unregistered pairs at service boundary. Current service must not create applicability by copying entry lotSz/minSz/maxMktSz or by setting unknown max to NOT_APPLICABLE. No public profile or ProductionProductProvider fallback."
+    }
+  ],
+  "unresolved_mapping": [
+    "There is no demonstrated accepted production close-limit source/producer in inspected code. Existing trusted typed fixture evidence is legitimate for conspicuous controlled-fake software tests only. A general real-provider prepare_close_owner cannot claim CURRENT close applicability from the mechanical proof alone. This is specific missing source mapping, not a generic block on H16 local code.",
+    "Root must choose explicit fixture close profile values/semantics for exactly representable one-close sample. Existing tests use explicit close_step=1, close_min=1, close_max=None default, but these are examples, not approved actual operator/provider defaults. Any NOT_APPLICABLE maximum must be an affirmative property of the fixture model, not missing metadata.",
+    "Original native-position ownership assembly must bind actual provider/account/run/native posId to product_entry_position_id, canonical plan/current projection and lifecycle execution binding; protections registry alone does not prove native POSITION_EXPOSURE ownership. Reject missing original position publication/binding instead of inventing lineage generation/ref."
+  ],
+  "single_close_claim_race": {
+    "existing_gap": "ProductDispatchJournal has account-scoped entry and PROTECTION_STOP claim streams; _TradingEffectGuard checks ENTRY and initial protection duplication only. No current POSITION_EXIT/EMERGENCY_EXIT duplication guard demonstrated. Distinct action IDs can therefore each reach generic nonentry execute unless added guard.",
+    "minimal_api": "iter_claimed_closes_for_position(run_id,position_id), covering BOTH POSITION_EXIT and EMERGENCY_EXIT across provider_ref/account_ref and all run_ids, using existing bounded keyset _iter_claim_inventory plus one shared outer generation fence; do not scan only own run or only selected close role.",
+    "fence": "Capture claim_inventory_generation before both-role scan; require unchanged during/after complete inventory. Existing generation=(PRAGMA data_version,total_changes) fences other connections and own connection. Missing/null scope conservatively denies. Revalidate original read/canonical subject/current process and exact lease.",
+    "effect_boundary": "Check during preparation/admission and again _TradingEffectGuard.require after durable prepare_and_claim, including provider.request final guard. Exclude exactly current (run_id,operation_id); any other close claim for original same position denies first-slice second close even if new action/revision. Same original operation follows reconcile, never another POST. Do not allow opposite emergency role to bypass ordinary pending claim.",
+    "terminal_policy": "First bounded implementation may deny every other historical close claim for this original position, avoiding invented settlement permissions. Later residual retries require fresh E5 action/current native residual and explicit proven prior terminal settlement; pending/ambiguous/not-found cannot be treated as absent.",
+    "meaningful_regressions": [
+      "Two different close action IDs same position; POSITION_EXIT vs EMERGENCY_EXIT; cross-run same account scope; late injected competing claim between initial check and final provider guard -> no second POST",
+      "Inventory mutation between role pages/roles and same-connection total_changes -> fail closed; same original operation duplicate -> reconcile only",
+      "Forged/copy/mutated/stale applicability pair, entry-only min/max, unknown max/min, changed metadata generation, foreign native posId/account/runtime binding -> deny before POST; explicit FIXTURE profile retains provider_requests0/network0"
+    ]
+  },
+  "authority_conclusion": "No concrete new financial authority is needed for internal controlled-fake close semantics/tests. Production close applicability remains unproven unless separately commissioned; do not relabel FIXTURE proof as actual provider evidence. Ordinary Paper runtime/registered Paper funding/currentness remains outside this design.",
+  "reviewed_hashes": [
+    {
+      "path": "docs/execution/OKX_SWAP_CLOSE_RESIDUAL_SIZING_V0_1.md",
+      "sha256": "b6e3aa26b7f9f730e72407de793e29613e5a3984c5aaaa2c98c2f21b86ac2226"
+    },
+    {
+      "path": "docs/execution/OKX_SWAP_ACTION_ROLE_CAPABILITY_MATRIX_V0_1.md",
+      "sha256": "482b4361aaffe873d0aa463e9b3b6ae3a1a61304d213175d8251ce8b1cfd9c89"
+    },
+    {
+      "path": "src/brokers/okx_product_capability.py",
+      "sha256": "dce00c3b9ac4d920ea3dccb0b8483c7068643a9b0c936ff349b3dcb305e71b8f"
+    },
+    {
+      "path": "src/brokers/okx_close_sizing.py",
+      "sha256": "111d431c6455994fc981fda7281b478fe700b2b0c8fc87d664109b49d1048687"
+    },
+    {
+      "path": "src/brokers/okx_close_sizing_binding.py",
+      "sha256": "a8bc9f6d9889ffe4b53ce1c98a67402e7b72a23a802c267be3aaa69b1a1b443b"
+    },
+    {
+      "path": "src/application/trading/protection_monitor.py",
+      "sha256": "7aa634b6d46ef89f17537ab5b9c6431fe2a5b94845c69f9de26f59775ab27dca"
+    },
+    {
+      "path": "src/application/trading/guards.py",
+      "sha256": "5219df0119a75df44c2a9c61a02f37ff018fab280cd30256d0785635b597d8d0"
+    },
+    {
+      "path": "src/storage/product_dispatch.py",
+      "sha256": "962f2bad9eeda38569af9b95d5688acd292e14816b4301e5a6ec4d71685d2db7"
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "e08fc81d9e689dcca82de23d0e8fd76709fcaffbefda06b13f4e7750e2fb3e81"
+    },
+    {
+      "path": "tests/brokers/test_okx_close_sizing.py",
+      "sha256": "a6877de159feb9e7bba63ae48cb1200440fd598dfa44a2b477db776b866a5169"
+    },
+    {
+      "path": "tests/brokers/test_okx_product_close_v02.py",
+      "sha256": "95d30ecbd36e94a0931ddd3d42ff3e05f347338287daa96f9f4532d130be9512"
+    }
+  ],
+  "verification": {
+    "DB_reads": 0,
+    "private_reads": 0,
+    "provider_calls": 0,
+    "Git_commands": [],
+    "native_run": [],
+    "tests_run": [],
+    "tracked_changes": []
+  }
+}

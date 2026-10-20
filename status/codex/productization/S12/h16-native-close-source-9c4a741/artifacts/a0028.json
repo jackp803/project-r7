@@ -1,0 +1,45 @@
+{
+  "schema": "bounded-static-code-review-v1",
+  "scope": "H16 native close observation historical-entry selection and transactional older-bundle/claim-fence repairs only",
+  "reviewer_execution": "NONE",
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "reviewed_files": [
+    {
+      "path": "src/application/trading/close_observation.py",
+      "sha256": "fdc43a544f961505f507ea7620351a56b953202be39de7ca580f3aacdc280142"
+    },
+    {
+      "path": "src/storage/product_position.py",
+      "sha256": "9a008d19ba005b0b0ea878e06aad82bb66a38971d950a722fb753b5e384d5af0"
+    },
+    {
+      "path": "tests/product/test_trading_close_projection_v02.py",
+      "sha256": "85185680050a145f3d3e00384b0ee5a10164076f90ec436cdb34d889327e4e5f"
+    }
+  ],
+  "resolved_findings": [
+    {
+      "id": "H16-OBS-I1",
+      "status": "RESOLVED",
+      "evidence": "The adapter now selects the latest authentic entry OrderResult observed at or before the original positive source anchor. It preserves original timestamps, still validates all actual entry fills against that basis, and includes every historical/later order result in the complete final execution binding.",
+      "location": "src/application/trading/close_observation.py:79-99"
+    }
+  ],
+  "static_assessment": [
+    "The new source regression performs actual scripted entry reconciliation at a later clock with the original native fill identity/time, checks the original projection stays unchanged, then projects partial and explicit same-position-zero close observations. It also checks all three actual entry observations remain retained.",
+    "observe_position now rejects an observation older than the latest close publication inside the same dispatch write transaction, before effects validation/insertion. A fresh inventory generation cannot authorize a delayed obsolete bundle. Equal-time exact/conflicting behavior and newer monotonic checks remain.",
+    "The delayed-writer regression intercepts the actual owner-produced partial bundle, publishes a newer actual flat observation, then retries the untouched old bundle with a fresh inventory fence and requires refusal. It does not manufacture a CLOSED state or final result.",
+    "The second-connection writer-boundary regression appends a real foreign ENTRY claim before the outbox write, then requires the transaction-level claim-generation fence to deny publication with unchanged lifecycle history and no pending position bundle.",
+    "The prior issued-read, original native position ID/source/action/plan hashes, complete graph and EXIT_REQUESTED-only scope remain intact."
+  ],
+  "findings": [],
+  "prior_review": "artifacts/current-windows-20261019/h16-native-close-observation-source-review.json",
+  "limits": [
+    "Static source reads and raw-byte hashing only; no test/native/product execution, Git changes, DB/auth/config/provider/network access or tracked writes.",
+    "The nine-case suite is root-owned running development verification; no result or execution credit is asserted by this review.",
+    "ACK intent, funding, protection-stop cleanup, TradeResult/CLOSED and full H16/native/whole-product completion remain outside scope."
+  ]
+}

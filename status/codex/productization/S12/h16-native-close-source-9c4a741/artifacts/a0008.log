@@ -1,0 +1,56 @@
+test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority) ...
+  test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority) (candidate='5678') ... ERROR
+  test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority) (candidate='9999') ... ERROR
+test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority) ... ERROR
+test_preparation_uses_original_native_binding_and_real_e5_action_without_post_or_state_change (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_preparation_uses_original_native_binding_and_real_e5_action_without_post_or_state_change) ... ERROR
+
+======================================================================
+ERROR: test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority) (candidate='5678')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 58, in test_copied_mutated_or_stale_position_read_cannot_create_close_authority
+    self.prepare(context,candidate)
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 36, in prepare
+    return service.prepare_fixture_close(self.helper.plan['trade_plan_id'],native if observed is None else observed,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'prepare_fixture_close'
+
+======================================================================
+ERROR: test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority) (candidate='9999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 58, in test_copied_mutated_or_stale_position_read_cannot_create_close_authority
+    self.prepare(context,candidate)
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 36, in prepare
+    return service.prepare_fixture_close(self.helper.plan['trade_plan_id'],native if observed is None else observed,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'prepare_fixture_close'
+
+======================================================================
+ERROR: test_copied_mutated_or_stale_position_read_cannot_create_close_authority (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_copied_mutated_or_stale_position_read_cannot_create_close_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 60, in test_copied_mutated_or_stale_position_read_cannot_create_close_authority
+    with self.assertRaises(ValueError):self.prepare(context)
+                                       ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 36, in prepare
+    return service.prepare_fixture_close(self.helper.plan['trade_plan_id'],native if observed is None else observed,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'prepare_fixture_close'
+
+======================================================================
+ERROR: test_preparation_uses_original_native_binding_and_real_e5_action_without_post_or_state_change (tests.product.test_trading_close_v02.TradingCloseV02Tests.test_preparation_uses_original_native_binding_and_real_e5_action_without_post_or_state_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 41, in test_preparation_uses_original_native_binding_and_real_e5_action_without_post_or_state_change
+    prepared=self.prepare(context);after=self.position.recover()
+             ^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\product\test_trading_close_v02.py", line 36, in prepare
+    return service.prepare_fixture_close(self.helper.plan['trade_plan_id'],native if observed is None else observed,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TradingService' object has no attribute 'prepare_fixture_close'
+
+----------------------------------------------------------------------
+Ran 2 tests in 15.138s
+
+FAILED (errors=4)

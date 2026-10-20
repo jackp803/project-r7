@@ -22,7 +22,7 @@ import unittest
 import uvicorn
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed','delivery','report-research','report-paper'],required=True)
+    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed','delivery','report-research','report-paper','versions'],required=True)
     parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
     scratch_base=Path(os.environ.get('R7_BROWSER_SCRATCH_ROOT',os.environ.get('R7_BROWSER_ARTIFACT_ROOT',str(ROOT.parent.parent/'artifacts/S11-browser'))))
     scratch=scratch_base/args.profile
@@ -38,8 +38,11 @@ def main():
         from tests.product.test_api_deployment_controls import APIDeploymentControlTests
         helper=APIDeploymentControlTests(methodName='runTest');helper.setUp();helper.control()
         fixture=helper.fixture;owners=fixture.app.state.owners
-    elif args.profile in ('research','temporal','failed','delivery','report-research'):
+    elif args.profile in ('research','temporal','failed','delivery','report-research','versions'):
         fixture=APIOwnerServicesTests(); fixture.setUp(); owners=fixture.owners
+        if args.profile=='versions':
+            from tests.product.two_version_fixtures import prepare_two_version_context
+            prepare_two_version_context(fixture)
         if args.profile=='report-research':
             from tests.application.report_delivery_fixtures import prepare_research_reports
             prepare_research_reports(fixture)

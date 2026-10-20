@@ -1,0 +1,57 @@
+"""Actual owner two-version regression. One actual owner case."""
+from copy import deepcopy
+import unittest
+from urllib.parse import quote
+import tests.product.test_api_owner_services as owner_fixtures
+import tests.product.two_version_fixtures as version_fixtures
+
+
+class APITwoImmutableVersionsTests(unittest.TestCase):
+    def test_actual_candidate_and_draft_versions_keep_exact_hash_lineage_pagination_and_author(self):
+        fixture = owner_fixtures.APIOwnerServicesTests(methodName='runTest')
+        fixture.setUp(); self.addCleanup(fixture.doCleanups)
+        values = version_fixtures.prepare_two_version_context(fixture)
+        response = fixture.client.get('/api/v1/strategies?limit=50&offset=0')
+        self.assertEqual(200,response.status_code,response.text)
+        listing = response.json()['data']
+        self.assertEqual(2,listing['total']); self.assertEqual(2,len(listing['items']))
+        expected = {(values[key]['strategy_id'],values[key]['strategy_version']):
+                    (values[key]['content_hash'],state) for key,state in (('first','CANDIDATE'),('second','DRAFT'))}
+        actual = {(row['identity']['strategy_id'],row['identity']['strategy_version']):
+                  (row['content_hash'],row['current_lifecycle_state']) for row in listing['items']}
+        self.assertEqual(expected,actual)
+        pages = []
+        for offset in (0,1,2):
+            page = fixture.client.get('/api/v1/strategies?limit=1&offset='+str(offset)).json()['data']
+            self.assertEqual((1,offset,2),(page['limit'],page['offset'],page['total']))
+            self.assertEqual(1 if offset<2 else 0,len(page['items']))
+            pages.extend(page['items'])
+        self.assertEqual(actual,{(row['identity']['strategy_id'],row['identity']['strategy_version']):
+                                 (row['content_hash'],row['current_lifecycle_state']) for row in pages})
+        captured = {}
+        for key,state in (('first','CANDIDATE'),('second','DRAFT')):
+            definition = values[key]
+            route = '/api/v1/strategies/'+quote(definition['strategy_id'],safe='')+'/'+quote(definition['strategy_version'],safe='')
+            response = fixture.client.get(route); self.assertEqual(200,response.status_code,response.text)
+            detail = response.json()['data']; record = detail['payload']
+            self.assertEqual(definition,record['definition'])
+            self.assertEqual(definition['content_hash'],record['content_hash'])
+            self.assertEqual(state,record['current_lifecycle_state'])
+            self.assertEqual(values[key+'_submission'],record['author_metadata']['submission_id'])
+            self.assertEqual(values[key+'_hypothesis'],record['author_metadata']['manifest']['research_hypothesis'])
+            self.assertEqual(definition['content_hash'],record['author_metadata']['manifest']['strategy_content_hash'])
+            self.assertEqual(definition['strategy_version'],record['author_metadata']['manifest']['strategy_version'])
+            with fixture.registry_factory() as registry:
+                from registry import StrategyIdentity
+                owner = registry.get_strategy(StrategyIdentity(definition['strategy_id'],definition['strategy_version']))
+                self.assertEqual(owner.registry_revision,detail['revision'])
+            captured[route] = deepcopy(detail)
+        self.assertNotEqual(*[detail['revision'] for detail in captured.values()])
+        for route,detail in captured.items():
+            self.assertEqual(detail,fixture.client.get(route).json()['data'])
+        self.assertEqual(listing,fixture.client.get('/api/v1/strategies?limit=50&offset=0').json()['data'])
+        self.assertEqual({'CANDIDATE':1,'DRAFT':1},fixture.client.get('/api/v1/overview').json()['data']['lifecycle_counts'])
+        # Existing same scan command replay must not add another version/job.
+        self.assertEqual(200,fixture.scan().status_code)
+        self.assertEqual(2,fixture.client.get('/api/v1/strategies').json()['data']['total'])
+        self.assertEqual(1,fixture.client.get('/api/v1/research/runs').json()['data']['total'])

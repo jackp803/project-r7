@@ -2,7 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 import {startPaperViaUI} from '../../tools/paper_start_browser.mjs';
 
-const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773',delivery:'http://127.0.0.1:8774','report-research':'http://127.0.0.1:8775','report-paper':'http://127.0.0.1:8776'};
+const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773',delivery:'http://127.0.0.1:8774','report-research':'http://127.0.0.1:8775','report-paper':'http://127.0.0.1:8776',versions:'http://127.0.0.1:8777'};
 const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser');
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
@@ -272,4 +272,58 @@ test('actual four-hour declaration, tactical validity, holding clock and author 
   await expect(page.getByText('7200 秒',{exact:true})).toBeVisible();
   await expect(page.getByText('2026-10-03T00:00:00Z → 2026-10-03T04:00:00Z',{exact:true})).toBeVisible();
   await expect(page.getByRole('button',{name:'開始 PAPER',exact:true})).toBeDisabled();
+});
+
+test('two actual immutable versions remain independent in list and selected detail',async({page})=>{
+  const origin=origins.versions;const remote:string[]=[];
+  page.on('request',request=>{if(!request.url().startsWith(origin))remote.push(request.url());});
+  await login(page,'versions');await page.getByRole('link',{name:'策略',exact:true}).click();
+  const response=await page.request.get(origin+'/api/v1/strategies?limit=50&offset=0');
+  expect(response.status()).toBe(200);const listing=(await response.json()).data;
+  expect(listing.total).toBe(2);expect(listing.items).toHaveLength(2);
+  const candidate=listing.items.find((row:any)=>row.current_lifecycle_state==='CANDIDATE');
+  const draft=listing.items.find((row:any)=>row.current_lifecycle_state==='DRAFT');
+  expect(candidate).toBeTruthy();expect(draft).toBeTruthy();
+  expect(candidate.identity.strategy_id).toBe(draft.identity.strategy_id);
+  expect(candidate.identity.strategy_version).not.toBe(draft.identity.strategy_version);
+  expect(candidate.content_hash).not.toBe(draft.content_hash);
+  await expect(page.getByTestId('fixture-banner')).toBeVisible();
+  for(const item of [candidate,draft]){
+    const row=page.getByRole('row').filter({hasText:item.content_hash});
+    await expect(row).toHaveCount(1);
+    await expect(row).toContainText(item.identity.strategy_id);
+    await expect(row).toContainText(item.identity.strategy_version);
+    await expect(row).toContainText(item.current_lifecycle_state);
+  }
+  const firstPage=await (await page.request.get(origin+'/api/v1/strategies?limit=1&offset=0')).json();
+  const secondPage=await (await page.request.get(origin+'/api/v1/strategies?limit=1&offset=1')).json();
+  expect(firstPage.data.total).toBe(2);expect(secondPage.data.total).toBe(2);
+  expect(firstPage.data.items).toHaveLength(1);expect(secondPage.data.items).toHaveLength(1);
+  expect(firstPage.data.items[0].identity).not.toEqual(secondPage.data.items[0].identity);
+  const captured=new Map<string,unknown>();
+  for(const [index,item] of [candidate,draft,candidate].entries()){
+    const identity=item.identity;
+    const route='/api/v1/strategies/'+encodeURIComponent(identity.strategy_id)+'/'+encodeURIComponent(identity.strategy_version);
+    const actual=await page.request.get(origin+route);expect(actual.status()).toBe(200);
+    const detail=(await actual.json()).data;const record=detail.payload;
+    expect(record.content_hash).toBe(item.content_hash);
+    expect(record.current_lifecycle_state).toBe(item.current_lifecycle_state);
+    const observed=page.waitForResponse(r=>r.url()===origin+route&&r.request().method()==='GET');
+    await page.getByRole('row').filter({hasText:item.content_hash}).getByRole('button',{name:'查看策略',exact:true}).click();
+    expect((await observed).status()).toBe(200);
+    const title='策略 '+identity.strategy_id+' / '+identity.strategy_version;
+    const heading=page.getByRole('heading',{name:title,exact:true});await expect(heading).toBeVisible();
+    const panel=page.locator('section.panel').filter({has:heading});
+    for(const value of [item.content_hash,item.current_lifecycle_state,
+                        record.author_metadata.submission_id,record.author_metadata.manifest.research_hypothesis]){
+      await expect(panel).toContainText(value);
+    }
+    const other=item===candidate?draft:candidate;
+    await expect(page.getByRole('heading',{name:'策略 '+other.identity.strategy_id+' / '+other.identity.strategy_version,exact:true})).toHaveCount(0);
+    await expect(page.getByRole('button',{name:'開始 PAPER',exact:true})).toBeDisabled();
+    if(captured.has(route))expect(detail).toEqual(captured.get(route));else captured.set(route,detail);
+    await page.screenshot({path:path.join(artifacts,'two-versions-selected-'+index+'-'+identity.strategy_version+'.png'),fullPage:true});
+  }
+  const after=await (await page.request.get(origin+'/api/v1/strategies?limit=50&offset=0')).json();
+  expect(after.data).toEqual(listing);expect(remote).toEqual([]);
 });

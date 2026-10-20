@@ -27,6 +27,42 @@ def multi_definition():
 
 
 class AsOfTests(unittest.TestCase):
+    def test_parsed_cross_uses_immediately_previous_finalized_pair(self):
+        value=definition_v02()
+        value['rules']['features']={}
+        value['rules']['long']=operator('CROSS_ABOVE',field(),{'kind':'decimal','value':'10'})
+        value['rules']['short']=operator('CROSS_BELOW',field(),{'kind':'decimal','value':'10'})
+        value['content_hash']=compute_content_hash(value)
+        parsed=parse_strategy_definition(value)
+        api=self.api()
+        for prices,direction in (([9,11,12],'LONG'),([11,9,8],'SHORT')):
+            rows=received(bars(prices,timeframe='4h'))
+            with self.subTest(prices=prices):
+                early=StrategyRuntime().evaluate(parsed,api.build_asof_bundle({'4h':rows},utc(4),utc(4)),utc(4))
+                self.assertEqual((early['direction'],early['reason_codes']),('NO_TRADE',['INSUFFICIENT_HISTORY']))
+                middle=StrategyRuntime().evaluate(parsed,api.build_asof_bundle({'4h':rows},utc(8),utc(8)),utc(8))
+                self.assertEqual((middle['direction'],middle['reason_codes']),(direction,[direction+'_RULE_MATCHED']))
+                final=StrategyRuntime().evaluate(parsed,api.build_asof_bundle({'4h':rows},utc(12),utc(12)),utc(12))
+                self.assertEqual((final['direction'],final['reason_codes']),('NO_TRADE',['NO_RULE_MATCHED']))
+                changed=(*rows[:-1],replace(rows[-1],open=Decimal('100'),high=Decimal('100'),low=Decimal('100'),close=Decimal('100')))
+                unchanged=StrategyRuntime().evaluate(parsed,api.build_asof_bundle({'4h':changed},utc(8),utc(8)),utc(8))
+                self.assertEqual(middle,unchanged)
+
+    def test_parsed_cross_cannot_replace_unavailable_predecessor_with_older_bar(self):
+        value=definition_v02()
+        value['rules']['features']={}
+        value['rules']['long']=operator('CROSS_ABOVE',field(),{'kind':'decimal','value':'10'})
+        value['rules']['short']=operator('CROSS_BELOW',field(),{'kind':'decimal','value':'10'})
+        value['content_hash']=compute_content_hash(value)
+        parsed=parse_strategy_definition(value)
+        api=self.api()
+        for prices in ([9,11,12],[11,9,8]):
+            with self.subTest(prices=prices):
+                rows=list(received(bars(prices,timeframe='4h')))
+                rows[1]=replace(rows[1],received_at=utc(8)+timedelta(seconds=5))
+                signal=StrategyRuntime().evaluate(parsed,api.build_asof_bundle({'4h':tuple(rows)},utc(12),utc(12)),utc(12))
+                self.assertEqual((signal['direction'],signal['reason_codes']),('NO_TRADE',['INSUFFICIENT_HISTORY']))
+
     def test_visible_out_of_profile_financial_input_returns_structured_boundary_error(self):
         api=self.api()
         from strategy.runtime import MarketBoundaryError

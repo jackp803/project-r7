@@ -1,0 +1,157 @@
+"""Native index producer + stopped readonly local-copy audit, outside fixed receipt."""
+from contextlib import ExitStack,closing
+from datetime import datetime,timezone
+import hashlib,importlib.util,json,sqlite3,sys,time
+from pathlib import Path
+BASE=Path(__file__).resolve().parent;PROJECT=BASE.parents[1]
+ROOT=PROJECT/'workspaces/project-r7-productization-master-20261002'
+sys.path[:0]=[str(ROOT),str(ROOT/'src'),str(ROOT/'tools'),str(BASE.parent)]
+from application.config import load_config
+from application.paper.producer import _guard
+from application.paper.inventory import current_target,fixed_profile
+from application.platform.distribution import verify_distribution
+from application.platform.private_files import create_private_directory,write_private_new
+from application.platform.processes import terminate_owned
+from application.platform.scope_lock import ProcessScopeLock,operational_lock_root
+from application.platform.supervision import PROCESS_ROLES,process_health,config_hash
+from application.cloud.candidate_index import validate_candidate_index_publication
+from application.cloud.synced_folder import SyncedFolderCloudTransport
+from application.cloud.manifest import canonical_bytes,byte_hash
+from application.research.evidence import ResearchJournal
+from verify_paper_product import NativeExpiryFlow
+from local_windows_qualification_awake import awake_request
+
+REV='aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd'
+IMPL='sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce'
+BUILD='sha256:d7ed64f17d08ec1fdd373f085ff422ca3ff0f376cd54646993fb7cc1ea8d9fb4'
+package=BASE/'build-aa2d00a/dist/R7';build=BASE/'build-aa2d00a/build-result.json'
+SUPPORT='e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a'
+def sha(path):return 'sha256:'+hashlib.sha256(path.read_bytes()).hexdigest()
+def require(value,message):
+    if not value:raise ValueError(message)
+support_path=BASE/'verify_plat08_crossversion_native.py'
+require(hashlib.sha256(support_path.read_bytes()).hexdigest()==SUPPORT,'Reviewed native handle support changed')
+spec=importlib.util.spec_from_file_location('k03_native_handle_support',support_path)
+support=importlib.util.module_from_spec(spec);spec.loader.exec_module(support)
+facts=verify_distribution(package)
+require((facts['executable_revision'],facts['implementation_hash'],facts['build_hash'])==(REV,IMPL,BUILD),'Exact native identity required')
+metadata=json.loads(build.read_bytes());require(metadata['identity']==facts and metadata['source']['worktree']=='CLEAN','Exact clean native build required')
+initial=(sha(build),sha(package/'distribution.json'),sha(package/'R7.exe'))
+def guard():
+    _guard(ROOT,REV,package,facts,fixed_profile(current_target()))
+    require(initial==(sha(build),sha(package/'distribution.json'),sha(package/'R7.exe')),'Native package changed')
+guard()
+output=BASE/'k03-native-aa2d00a-first';create_private_directory(output)
+report=dict(revision=REV,identity=facts,scope='ACTUAL_NATIVE_CANDIDATE_INDEX_QUEUE_AND_STOPPED_SOURCE_RO_COPY_AUDIT',
+    started_at_utc=datetime.now(timezone.utc).isoformat(),passed=False,errors=[],cleanup_errors=[],
+    owning_receipt_membership='NONE',new_paper='NOT_STARTED',provider_requests=0,credentials='NONE',capital='NONE',
+    publication_scope='LOCAL_COPY_ONLY;NATIVE_OUTBOX_ACK_REMAINS_PENDING;REAL_CLOUD_NOT_RUN')
+
+class Flow(NativeExpiryFlow):
+    _spawn=support.LocalDiagnosticControl._spawn
+    command=support.LocalDiagnosticControl.command
+    def __init__(self):
+        super().__init__(package,output/'normal-entry','intake-faults',expected_identity=facts)
+        self.owned=[];self.observation.pop('passed',None)
+        self.observation['result_scope']='OBSERVATIONS_ONLY;OUTER_RESULT_DECIDES'
+    def start_control(self,label):
+        try:return super().start_control(label)
+        finally:
+            if self.control is not None and all(self.control is not owned for owned in self.owned):
+                require(len(self.owned)<32,'Finite handle registry required');self.owned.append(self.control)
+
+def snapshot(config,run_id):
+    """Quiescent source reads only; no ResearchJournal constructor or migration."""
+    path=config.local_data_root/'research.sqlite'
+    with ExitStack() as stack:
+        for role in PROCESS_ROLES:
+            stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+            health=process_health(config,role)
+            require(health.get('status') in ('NOT_STARTED','STOPPED','FAILED') and health.get('state')!='RUNNING','Actual role must be stopped')
+        require(path.is_file() and path.stat().st_nlink==1 and not path.is_symlink(),'Local single-link research source required')
+        require(not any(Path(str(path)+suffix).exists() for suffix in ('-wal','-shm','-journal')),'Preserve active sidecars; readonly audit requires quiescence')
+        before=sha(path)
+        end=time.monotonic()+15
+        with closing(sqlite3.connect(path.as_uri()+'?mode=ro&immutable=1',uri=True,timeout=1)) as db:
+            db.row_factory=sqlite3.Row;db.execute('PRAGMA query_only=ON');db.execute('PRAGMA trusted_schema=OFF')
+            db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH,2*1024*1024)
+            db.set_progress_handler(lambda:int(time.monotonic()>=end),1000)
+            owner=object.__new__(ResearchJournal);owner._db=db
+            rows=owner.pending_candidate_index_publications(2)
+            require(len(rows)<=1,'One actual candidate index expected')
+            states=db.execute('SELECT state,attempts FROM research_candidate_index_publications LIMIT 3').fetchall()
+            require(len(states)==len(rows) and all(tuple(row)==('PENDING',0) for row in states),'Native outbox acknowledgment must remain actually pending')
+            observed={row['observation_id']:dict(row) for row in db.execute('SELECT * FROM research_holdout_observations ORDER BY observation_id LIMIT 101')}
+            require(len(observed)<=100,'Finite holdout audit required')
+            report_row=owner.result(run_id,'diagnostic_report')
+            require(report_row is not None and report_row['candidate_gate']['status']=='PASS','Actual diagnostic report candidate required')
+        require(sha(path)==before and time.monotonic()<end,'Readonly source changed or deadline exceeded')
+        return rows,observed,before
+
+flow=None
+try:
+    with awake_request() as awake:
+        report['awake']=awake
+        try:
+            flow=Flow();flow.setup()
+            require(flow.scan()[2]['accepted']==1,'Normal native intake required')
+            _,_,job_id=flow.enqueue();worker=flow.research()
+            job=flow.view('research/runs/'+job_id)['payload']
+            require(job['state']=='COMPLETE' and job['outcome']['strategy_lifecycle']=='CANDIDATE','Actual native candidate required')
+            run_id=job['owner_run_id'];flow.stop_control();config=load_config(flow.config)
+            rows,before,_=snapshot(config,run_id);require(not rows,'Fresh index outbox required')
+            first=flow.command('queue-owner-index',['queue-candidate-index','--config',flow.config,'--run-id',run_id,'--namespace','FIXTURE'])
+            require(first['status']=='CANDIDATE_INDEX_QUEUED' and first['cloud']=='NOT_CONTACTED','Actual native index queue required')
+            rows,exposed,_=snapshot(config,run_id);require(len(rows)==1,'One actual native outbox row required')
+            operation,bundle,artifact=rows[0];require(operation==first['operation_id'],'Native receipt/outbox operation differs')
+            index=validate_candidate_index_publication(bundle.logical_path,dict(bundle.payloads))
+            require(index['run_id']==run_id and index['source']['executable_revision']==REV and index['source']['implementation_hash']==IMPL,'Actual native index lineage differs')
+            added=[row for key,row in exposed.items() if key not in before]
+            require(all(exposed.get(key)==row for key,row in before.items()),'Native index rewrote prior holdout observations')
+            require(len(added)==1 and added[0]['kind']=='CHAT_OBSERVATION' and added[0]['reference_hash']==byte_hash(bundle.payloads['evidence_index.json']),'Native exact-index disclosure required')
+            for number in (1,2):
+                repeated=flow.command('queue-new-owner-retry-'+str(number),['queue-candidate-index','--config',flow.config,'--run-id',run_id,'--namespace','FIXTURE'])
+                require(repeated==first,'New native owner retry changed receipt')
+            stable,after,source_hash=snapshot(config,run_id)
+            require(after==exposed and stable[0][0]==operation and dict(stable[0][1].payloads)==dict(bundle.payloads),'Native retry changed disclosure or immutable bytes')
+            stage=output/'local-copy';create_private_directory(stage)
+            write_private_new(stage/'.r7-root.json',canonical_bytes(dict(root_id='k03-native-audit')))
+            transport=SyncedFolderCloudTransport(stage,expected_root_id='k03-native-audit')
+            receipt=transport.publish(bundle,operation)
+            require(receipt.status=='LOCAL_STAGED' and receipt.artifact_hash==artifact,'Actual local copied artifact differs')
+            copied={name:sha(stage/bundle.logical_path/name) for name in bundle.payloads}
+            require(copied=={name:byte_hash(raw) for name,raw in bundle.payloads.items()},'Copied payload readback differs')
+            require(transport.publish(bundle,operation)==receipt,'Local copy retry changed receipt')
+            final,final_observed,final_hash=snapshot(config,run_id)
+            require(final_hash==source_hash and final_observed==exposed and final[0][0]==operation,'Local copy audit mutated native outbox source')
+            report.update(assertions_completed=True,job_id=job_id,owner_run_id=run_id,operation_id=operation,
+                artifact_hash=artifact,index_hash=byte_hash(bundle.payloads['evidence_index.json']),
+                native_worker_reaped=worker['tree_reaped'],native_new_owner_command_count=3,
+                exact_three_payloads=sorted(bundle.payloads),local_copy_payload_hashes=copied,
+                index=index,config_hash=config_hash(config),original_report_status=job['outcome']['status'],
+                native_outbox_state='PENDING',new_disclosure_observations=1,repeated_disclosure_observations=0,
+                local_copy_receipt=dict(operation_id=receipt.operation_id,status=receipt.status,artifact_hash=receipt.artifact_hash))
+        except Exception as error:report['errors'].append(type(error).__name__)
+        finally:
+            if flow is not None:
+                try:flow.stop_control()
+                except Exception as error:report['cleanup_errors'].append(type(error).__name__)
+                report['owned_cleanup']=[]
+                for owned in flow.owned:
+                    try:
+                        reaped=terminate_owned(owned,deadline_seconds=5).reaped
+                        report['owned_cleanup'].append(dict(pid=owned.process.pid,reaped=reaped))
+                        require(reaped,'Actual child not reaped')
+                    except Exception as error:report['cleanup_errors'].append(type(error).__name__)
+                try:
+                    if flow.control_stream is not None:flow.control_stream.close();flow.control_stream=None
+                    flow.persist()
+                except Exception as error:report['cleanup_errors'].append(type(error).__name__)
+            try:guard();report['source_package_unchanged']=True
+            except Exception as error:report['errors'].append('FINAL_GUARD:'+type(error).__name__)
+finally:
+    report['finished_at_utc']=datetime.now(timezone.utc).isoformat()
+    report['passed']=bool(report.get('assertions_completed')) and not report['errors'] and not report['cleanup_errors'] and report.get('awake',{}).get('restored') is True
+    write_private_new(output/'native-k03-observations.json',(json.dumps(report,indent=2)+'\n').encode())
+print(json.dumps(dict(passed=report['passed'],errors=report['errors'],cleanup_errors=report['cleanup_errors'])),flush=True)
+raise SystemExit(0 if report['passed'] else 2)

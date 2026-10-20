@@ -1,0 +1,129 @@
+{
+  "status": "STATIC_DESIGN_AND_UNAPPLIED_RED_TEST_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "source_hashes": [
+    {
+      "sha256": "c6588fb1fc9e13114314e84ce133b59178f1ebdae23b524836cfccd7d9e3955d",
+      "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md"
+    },
+    {
+      "sha256": "12f95b338c323e6f6a776adb9f1a7ee3803545a760bf4b393ccf04e616d7f30f",
+      "path": "docs/product/R7_MASTER_PRODUCT_ARCHITECTURE_V0_1.md"
+    },
+    {
+      "sha256": "d25a773965b802bad44e2ca9f06d641c6327cc61dc805141f28835ad3b172c36",
+      "path": "docs/product/R7_CODEX_MASTER_EXECUTION_PLAN_V0_1.md"
+    },
+    {
+      "sha256": "7a35f595e01f6f53fad47073c6bd86e482583963c5c2ee776172cf2ca30438e7",
+      "path": "contracts/chat_feedback_v0_2.schema.json"
+    },
+    {
+      "sha256": "4e062579355f7e99986c7a50a0579a1328abad49d90fe6ba7ef9b1b0cb716bdd",
+      "path": "src/application/cloud/feedback.py"
+    },
+    {
+      "sha256": "7455853dab20f3a2548f435f547affcc7d2ec48e75d2e097b0182ebb288df5ee",
+      "path": "src/application/cloud/public_feedback.py"
+    },
+    {
+      "sha256": "0bbd32d91cabf4adb16ff0d6e2002654cda5c75ff04a84dad5c73bd9360cd92d",
+      "path": "src/application/cloud/protocol.py"
+    },
+    {
+      "sha256": "7bba1250779afb01ba650aec045b5a89195a782aaf4091464be4f5b66d548ffa",
+      "path": "src/application/cloud/rclone_bridge.py"
+    },
+    {
+      "sha256": "442dfbf9d10dfde22e2ba1e77673ff3b3897cdbd99027044544761b76d46e6e8",
+      "path": "src/application/cloud/synced_folder.py"
+    },
+    {
+      "sha256": "b12faf95dd0eed6e7a902641dd1783696893f5126c8fe120cdb4e5db81b6c093",
+      "path": "src/application/research/service.py"
+    },
+    {
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98",
+      "path": "src/application/research/evidence.py"
+    },
+    {
+      "sha256": "2a519b501722a464b2499f1e92fa079cb3d0e2ad17b4c3a98f6d5b9b789d524f",
+      "path": "src/application/research/holdout.py"
+    },
+    {
+      "sha256": "8ca9a2a40bc9e8354eacc14f8a127902018d5741977c90f8fc6f8d26dcecaf7d",
+      "path": "src/application/coordinator.py"
+    },
+    {
+      "sha256": "776a47c901d83a8766f27e733ad92adf84cef902687823b653bf84e6c6a367d8",
+      "path": "src/application/migrations/0007_research_feedback_outbox.sql"
+    },
+    {
+      "sha256": "75371656b607aa27e588518bda7d86c8532988cd3f0e37ec6e13726c53722fab",
+      "path": "src/registry/service.py"
+    },
+    {
+      "sha256": "dc07a7018c6f18aa9521e67d5f9fff2276c62ce6f34bf1e992928101010ffe53",
+      "path": "src/registry/service_base.py"
+    },
+    {
+      "sha256": "67c3e638da388575d5d980475fce1b6b29a3c884f72e299cc18049481cfd2b92",
+      "path": "src/registry/product_assessment.py"
+    },
+    {
+      "sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+      "path": "src/application/platform/upgrade_preflight.py"
+    },
+    {
+      "sha256": "c4e6dd38f2d2094554a2e0dbbd530a21efd6a51c1358dee90bcb6804b2e09738",
+      "path": "tests/application/test_product_assessment_binding.py"
+    }
+  ],
+  "required_clause": {
+    "text": "K03 | candidate evidence index published | round-trip",
+    "ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md:189",
+    "master": "docs/product/R7_CODEX_MASTER_EXECUTION_PLAN_V0_1.md:607-625 M10 deliver includes candidate evidence index, HTML and compact Chat summary.",
+    "architecture": "docs/product/R7_MASTER_PRODUCT_ARCHITECTURE_V0_1.md:983-990 describes candidates/<strategy_id>/<strategy_version> with candidate_manifest.json,evidence_index.json,report.html"
+  },
+  "existing_search_result": "No owner-published candidate_manifest/evidence_index implementation or test found in scoped src/tests search. Only candidates/ RESULT_PREFIXES allowances in synced_folder.py:153 and rclone_bridge.py:30 exist. Generic namespace permission is not an actual owner artifact/roundtrip.",
+  "feedback_boundary": "feedback.validate_feedback:95 requires artifact_links==[]; contracts/chat_feedback_v0_2.schema.json:871 maxItems0. feedback_bundle:174 and validate_feedback_publication:181-185 exact feedback.json+report.html; public_feedback validator exact2. Existing research_feedback_publications validators/FKs store only that closed feedback. Do not append links/file or put index in uncertainty/freeform/feedback_json.",
+  "actual_fact_ports": [
+    "ResearchService.service.py:113-126 freezes complete original inputs/runID/provenance/dataset manifest/split/cost/selectedpolicy commitments. :214-221 actual development E3 result -> record_backtest_result actual evidence ID -> immutable journal stage.",
+    "service.py:247-267 actual record_product_assessment -> candidate_gate assessment_id; diagnostic_report persisted through real orchestrator. report(run_id):268 verifies journal stored result hash and adds attempts. No re-running sealed OOS needed to export.",
+    "registry.service.record_product_assessment:353-391 resolves actual ExecutedProductAssessmentBoundary, records sealed E3 backtest+canonical OOS validation, ProductAssessmentRecord payload/risk hashes and validation parentID; marks candidate only through existing authority. ProductAssessmentRecord fields in registry/product_assessment.py:24-40.",
+    "Existing e6.product_assessment(run_id), e6.candidate_product_assessment(identity) validate actual source/namespace/current product record. Development and sealed validation/backtest records have actual immutable ValidationEvidenceRecord.payload_json and metadata; existing _store.get_validation_evidence is internal read seam. If public facade needed add narrow readonly owner getter, not second registry/writer.",
+    "ResearchJournal.result/ledger._run verify original output/input hashes. Use actual research_runs.created_at/diagnostic_report COMPLETE output_hash for stable export time/reference; never now-generated timestamp per retry or raw attempts/private fields."
+  ],
+  "minimal_artifact": {
+    "owner": "New application.cloud.candidate_index.build_candidate_index(service,run_id) requires exact actual ResearchService, real report/ledger equality, immutable actual E6 record IDs/strategy content/source, genuine candidate gate. No caller evidence/index/assessment payload argument. Candidate status remains existing E6 decision, artifact financial_authority NONE.",
+    "bundle": "Exactly3 owner-generated payloads: candidate_manifest.json (closed subject/run/index hash), evidence_index.json, escaped deterministic report.html. Generic transport adds its own separate manifest.json. Content-addressed logical path candidates/<id>/<version>/<index_hash> preserves immutable per-run artifacts under existing candidate namespace without overwrite/second registry; document this child-layout refinement.",
+    "evidence_integrity": "Hash exact stored payload_json bytes for development/sealed/OOS validation; require parent validation->sealed backtest and same strategy/content/implementation and actual product_assessment validation_id/hash/risk hash. Index hashes/refs are audit locators, not public copies of financial payloads or a new permit. Do not manufacture links to remote artifacts that are not actually published.",
+    "holdout": "Reuse already produced independent sealed OOS result and existing canonical candidate validation. Export never runs holdout, marks observations or changes finalist/strategy/canonical evidence. Local unselected diagnostic BLOCKED report cannot produce candidate index; preserve existing feedback for it.",
+    "schema": "Separate closed application artifact r7-candidate-evidence-index-v0.2: run_id,namespace,strategy identity/content,runtime; input_hash; source revision/implementation/execution/worktree; dataset ID/version/manifest_hash; split_policy_hash; cost/research/robustness/risk policy hashes (null only explicitly absent, true candidate requires actual selected risk); stable created_at; preserved holdout_observed flag; exact typed evidence array of development_backtest/sealed_backtest/oos_validation/product_assessment actual IDs,payload hashes,existing typed research result refs. No local paths/provider/account IDs/free URLs/metrics/trades/raw assessment payloads or invented remote links."
+  },
+  "durable_publication": {
+    "normal_flow": "After actual completed candidate report, coordinator queue_reports may call this owner separately alongside unchanged queue_feedback; noncandidate reports remain feedback-only. Existing publish-outbox CLI must include new bounded outbox and preserve aggregate limit/status semantics. Optional formal queue-candidate-index config+runID command takes no caller artifactJSON, useful deterministic public source/native workflow.",
+    "api": "queue_candidate_index(service,run_id); journal pending_candidate_index_publications(limit), record_candidate_index_publication exact original op/artifact; flush_candidate_indexes(journal,transport,limit). Existing ArtifactBundle/PublishReceipt/PublishSummary, copy-only transports and retry boundaries, no new cloud system.",
+    "store": "Add narrow research_candidate_index_publications table on same ResearchJournal connection via new application-owned migration (next free number root reserves). FK actual research_runs; immutable index/payload/subject/hash/operation/created fields, bounded outbox same1000items/16MiB patterns; separate PENDING/LOCAL_STAGED/CLOUD_ACKNOWLEDGED/UNAVAILABLE/CONFLICT. Exact same input -> same content-addressed operation. Never reuse research_feedback_publications feedback_json validators.",
+    "transport_gap": "SyncedFolder supports generic3file payloads and candidates/ prefix already; bridge currently allows HTML only reports/feedback. Add strict candidate publication dispatcher/validator BEFORE stage/upload, exact3 expected bytes and safe canonical render; no broad candidates HTML/private-content bypass. Validate local/bridge same logical path/payload closure and retain actual LOCAL_STAGED vs byte-readback ACK distinction."
+  },
+  "source_ownership_plan": [
+    "Root owns new application/cloud/candidate_index.py, narrow new application migration/ResearchJournal outbox methods, coordinator+CLI bounded integration and strict bridge candidate validator. Existing feedback.py/schema/public_feedback stay behavior unchanged.",
+    "Root owns upgrade_preflight application research schema models update for actual legacy+new known DDL recipes; new research outbox is otherwise an unrecognized role schema. Preserve old source/native proof scopes and do not whitelist arbitrary extra tables.",
+    "Root source tests: actual candidate local roundtrip REDdraft; noncandidate refusal, canonical subject/hash/parent/policy drift, stablequeue restart/idempotency, actual local unavailable/conflict/retry, immutable outbox replacement guards, bridge exact3HTML/metadata/privacy refusal. No remote ACK claim from local staged proof."
+  ],
+  "red_test": {
+    "case": "CandidateIndexRoundtripV02Tests.test_actual_candidate_index_publishes_exact_owner_refs_without_feedback_contract_or_oos_change",
+    "path": "test_candidate_index_roundtrip_v02.py.unapplied",
+    "target": "tests/application/test_candidate_index_roundtrip_v02.py",
+    "sha256": "59e4c2d7c928a78f8a144ae5714b89a7a953532f7780db3e3fac3e677c70d2a3",
+    "boundary": "Real existing selected+riskfixture ProductAssessmentBindingTests service/execute produces actual candidate and canonical IDs before missing-module import. New index stage/local filesystem roundtrip compares payload hashes/manifest, original canonical records and holdout rows unchanged; feedback still exact2 andlinks[]; duplicatequeue stable; no public metrics, no remoteACK. API/indexfield shapes proposed for root review."
+  },
+  "authority_review": "No identified financial/shared-contract authority conflict with separate additive application artifact: legacy Master explicitly requires candidate evidence index; candidates namespace is existing result output. Existing feedback closedlinks is a real incompatibility with adding it there, so separate schema/outbox is necessary. Index must never be consumed as CANDIDATE/PAPER/LIVE authority, replace E6 record validation, expose policy-authority mutation or alter sealed OOS. Actual real-cloud publication/Chat connector retrieval remains external future evidence; local-copy roundtrip proves software artifact mechanism only.",
+  "limits": [
+    "Source exploratory searches and file hashes only; no tests/imports/compile/DB/process/Git/network or tracked changes. Parent frozen3ae qualifier unaffected; no source work until root ends checkpoint guard.",
+    "No K03 implementation/PASS or broad acceptance inference. Current existing native reports/feedback do not count as candidate index merely because they mention candidate state.",
+    "Unapplied one-case draft uses actual private read seams in test for canonical evidence/holdout comparisons; production interface can use narrow readonly facade, not exposed raw DB."
+  ]
+}

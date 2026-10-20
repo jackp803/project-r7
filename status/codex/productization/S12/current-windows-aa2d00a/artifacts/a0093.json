@@ -1,0 +1,212 @@
+{
+  "revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+  "identity": {
+    "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+    "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+    "build_hash": "sha256:d7ed64f17d08ec1fdd373f085ff422ca3ff0f376cd54646993fb7cc1ea8d9fb4",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "passed": true,
+  "commands": [
+    {
+      "command": "original-software-before",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "original-software-before.log",
+      "log_hash": "sha256:3b9e7ef79c1c195b578c448e730609df689f357764ae0f77a1a19929de5c8e5d"
+    },
+    {
+      "command": "backup-owning-store",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "backup-owning-store.log",
+      "log_hash": "sha256:99a653c8552d2b99438633ece9d35f436401ba8859742ec949262862e5797242"
+    },
+    {
+      "command": "verify-owning-backup",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "verify-owning-backup.log",
+      "log_hash": "sha256:99a653c8552d2b99438633ece9d35f436401ba8859742ec949262862e5797242"
+    },
+    {
+      "command": "restore-owning-store",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "restore-owning-store.log",
+      "log_hash": "sha256:59062651d098953ffecbbdfc077fb76d09638ca2e411fa3f80426459f9fde8e4"
+    },
+    {
+      "command": "restored-software-denied",
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "tree_reaped": true,
+      "log_ref": "restored-software-denied.log",
+      "log_hash": "sha256:5f8d376714335968c4b77b56a2b754496475210a33deb8ca66a31e8c677e4fe1"
+    },
+    {
+      "command": "backup-restored-store",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "backup-restored-store.log",
+      "log_hash": "sha256:67dadcee5db858853b9d2f9187ebdbbf441ea803f817d8462260cf925938a9f1"
+    },
+    {
+      "command": "verify-restored-rebackup",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "verify-restored-rebackup.log",
+      "log_hash": "sha256:67dadcee5db858853b9d2f9187ebdbbf441ea803f817d8462260cf925938a9f1"
+    },
+    {
+      "command": "original-software-after",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "tree_reaped": true,
+      "log_ref": "original-software-after.log",
+      "log_hash": "sha256:3b9e7ef79c1c195b578c448e730609df689f357764ae0f77a1a19929de5c8e5d"
+    }
+  ],
+  "started_at": "2026-10-20T20:55:41.482534+00:00",
+  "scope": "ACTUAL_NATIVE_SAME_QUALIFIED_ORDINARY_AND_DIAGNOSTIC_STORE_BACKUP_RESTORE",
+  "receipt_ref": "qualification-aac16283263c982dc21c3cc82fea3aab7cf3a780a7b0aca7e0ff2db50239d469",
+  "helper_hash": "sha256:c7ee11773bb71be1dbe99d4a2f473250ad159f5d8ab8787acac3375325bf4659",
+  "qualification_attempt": "first",
+  "backup_attempt": "first",
+  "additional_provider_requests": 0,
+  "owning_profile": {
+    "config_ref": "artifacts/current-windows-20261019/qualify-aa2d00a-first/product.json",
+    "data_root_ref": "artifacts/q-aa2d00a-first",
+    "canonical_ref": "artifacts/q-aa2d00a-first/canonical.sqlite3",
+    "product_instance_id": "owning-current-aa2d00a",
+    "config_hash": "sha256:676136ba78296e77d939d78215734189992603d6b5ffc3940b1b9d18a01bc527"
+  },
+  "credentials": "NONE",
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "master": "IN_PROGRESS",
+  "backup": {
+    "status": "PRODUCT_DATA_BACKUP_VERIFIED",
+    "schema_version": "r7-private-product-data-backup-v0.2",
+    "backup_id": "c9c8c37d-d53b-42a1-8bfd-cc663eca18f9",
+    "database_count": 8,
+    "file_count": 596,
+    "coverage": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+    "excluded_transient_roots": [
+      "managed-stop-requests",
+      "paper-release-observations",
+      "worker-logs"
+    ],
+    "data_class": "PRIVATE_LOCAL",
+    "cloud_publication": "FORBIDDEN",
+    "financial_authority": "NONE",
+    "restore": "NOT_PERFORMED"
+  },
+  "restore": {
+    "status": "PRODUCT_DATA_RESTORE_STAGED",
+    "restore_generation_id": "61a2e53a-38bc-4ea8-8cc5-23d79fa41a12",
+    "database_count": 8,
+    "scope": "PRODUCT_DATA",
+    "user_data_restore": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+    "reconciliation": "REQUIRED",
+    "reauthorization": "REQUIRED",
+    "runtime_new_exposure": "INHIBITED",
+    "financial_authority": "NONE",
+    "cloud": "DISCONNECTED"
+  },
+  "restoration_fence": {
+    "status": "RESTORED_INHIBITED",
+    "restore_generation_id": "61a2e53a-38bc-4ea8-8cc5-23d79fa41a12",
+    "scope": "PRODUCT_DATA",
+    "user_data_restore": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+    "reconciliation": "REQUIRED",
+    "reauthorization": "REQUIRED",
+    "runtime_new_exposure": "INHIBITED",
+    "cloud": "DISCONNECTED",
+    "financial_authority": "NONE",
+    "reason_codes": [
+      "RESTORE_RECONCILIATION_AND_REAUTHORIZATION_REQUIRED"
+    ]
+  },
+  "rebackup": {
+    "status": "PRODUCT_DATA_BACKUP_VERIFIED",
+    "schema_version": "r7-private-product-data-backup-v0.2",
+    "backup_id": "fe6f3d13-11a3-421f-81dd-2cffeb6e6349",
+    "database_count": 8,
+    "file_count": 596,
+    "coverage": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+    "excluded_transient_roots": [],
+    "data_class": "PRIVATE_LOCAL",
+    "cloud_publication": "FORBIDDEN",
+    "financial_authority": "NONE",
+    "restore": "NOT_PERFORMED"
+  },
+  "four_way_equal_files": 596,
+  "public_capture_files": 28,
+  "qualification_files": 559,
+  "actual_receipt_equal_across_four_stores": true,
+  "source_diagnostic_histories_unchanged": true,
+  "restored_native_software_admission": "DENIED",
+  "actual_runtime_selection_equal_across_four_stores": true,
+  "original_runtime_selection": {
+    "generation": 1,
+    "config_hash": "sha256:5a86cdfcece10c993f75a13ee815184fe22014becfcdd498d32acc065222497c",
+    "canonical_hash": "sha256:14f015adba7c39ec51f455d84ccbb07b17faaeb25575438c5ed20c2076e714ec",
+    "workflow_authorized": false
+  },
+  "actual_qualification_declared_artifacts": 557,
+  "capture_manifest_hash": "sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18",
+  "capture_actual_public_requests": 8,
+  "capture_actual_public_responses": 8,
+  "restored_history_authority": "NONE",
+  "ordinary_paper_selection": "ACTUAL_FOUR_STORE_TYPED_SELECTION_EQUALITY;RESTORED_INHIBITED",
+  "paper": "NOT_COMMANDED_BY_BACKUP_HELPER",
+  "forward": "NO_OBSERVATION_PERFORMED_BY_BACKUP_HELPER",
+  "owned_cleanup": [
+    {
+      "command": "original-software-before",
+      "reaped": true
+    },
+    {
+      "command": "backup-owning-store",
+      "reaped": true
+    },
+    {
+      "command": "verify-owning-backup",
+      "reaped": true
+    },
+    {
+      "command": "restore-owning-store",
+      "reaped": true
+    },
+    {
+      "command": "restored-software-denied",
+      "reaped": true
+    },
+    {
+      "command": "backup-restored-store",
+      "reaped": true
+    },
+    {
+      "command": "verify-restored-rebackup",
+      "reaped": true
+    },
+    {
+      "command": "original-software-after",
+      "reaped": true
+    }
+  ],
+  "all_owned_tree_reaped": true,
+  "source_and_package_unchanged": true,
+  "finished_at": "2026-10-20T20:57:21.113831+00:00"
+}

@@ -1,0 +1,281 @@
+diff --git a/src/application/cli.py b/src/application/cli.py
+index 26f35a71..db5c6a50 100644
+--- a/src/application/cli.py
++++ b/src/application/cli.py
+@@ -139,6 +139,10 @@ def main(argv=None):
+     feedback.add_argument('--run-id', required=True)
+     feedback.add_argument('--namespace', choices=('LOCAL_RESEARCH','FIXTURE'), default='LOCAL_RESEARCH')
+     feedback.add_argument('--performance-opt-in', action='store_true')
++    candidate_index = commands.add_parser('queue-candidate-index', help='Queue the actual completed candidate evidence index; no financial authority')
++    candidate_index.add_argument('--config', type=Path, required=True)
++    candidate_index.add_argument('--run-id', required=True)
++    candidate_index.add_argument('--namespace', choices=('LOCAL_RESEARCH','FIXTURE'), default='LOCAL_RESEARCH')
+     for name, description in (
+         ('cloud-pull', 'Copy a bounded author-input batch from the explicitly selected R7 root'),
+         ('cloud-import-dataset', 'Seal downloaded dataset bytes locally without decoding sealed OOS prices'),
+@@ -246,7 +250,7 @@ def main(argv=None):
+         write_immutable(destination.parent,destination.name,snapshot.canonical_json.encode('utf-8'))
+         print(json.dumps(dict(status='CAPABILITIES_EXPORTED',snapshot_hash=snapshot.snapshot_hash,execution_evidence='NOT_RUN')))
+         return 0
+-    if args.command == 'queue-research-feedback':
++    if args.command in ('queue-research-feedback','queue-candidate-index'):
+         from application.config import load_config
+         from application.cloud.feedback import queue_feedback
+         from application.platform.scope_lock import ProcessScopeLock, operational_lock_root
+@@ -257,8 +261,13 @@ def main(argv=None):
+         with ProcessScopeLock('research:'+config.product_instance_id,lock_root=operational_lock_root(config)):
+             with ResearchService(local_root=config.local_data_root,database_path=config.local_data_root/'research.sqlite',
+                                  registry_path=config.database_path,namespace=args.namespace,owner_id='feedback-'+config.product_instance_id) as service:
+-                operation=queue_feedback(service,args.run_id,performance_opt_in=args.performance_opt_in)
+-        print(json.dumps(dict(status='FEEDBACK_QUEUED',operation_id=operation,cloud='NOT_CONTACTED')))
++                if args.command=='queue-candidate-index':
++                    from application.cloud.candidate_index import queue_candidate_index
++                    operation=queue_candidate_index(service,args.run_id)
++                else:
++                    operation=queue_feedback(service,args.run_id,performance_opt_in=args.performance_opt_in)
++        print(json.dumps(dict(status='CANDIDATE_INDEX_QUEUED' if args.command=='queue-candidate-index' else 'FEEDBACK_QUEUED',
++            operation_id=operation,cloud='NOT_CONTACTED')))
+         return 0
+     if args.command in ('cloud-pull', 'cloud-import-dataset', 'cloud-publish-outbox'):
+         from dataclasses import asdict
+@@ -296,6 +305,11 @@ def main(argv=None):
+                             if remaining:
+                                 second=flush_feedback(journal,RcloneCloudTransport(bridge),limit=remaining)
+                                 summary=PublishSummary(**{name:value+getattr(second,name) for name,value in asdict(summary).items()})
++                            remaining=args.limit-summary.attempted
++                            if remaining:
++                                from application.cloud.candidate_index import flush_candidate_indexes
++                                candidates=flush_candidate_indexes(journal,RcloneCloudTransport(bridge),limit=remaining)
++                                summary=PublishSummary(**{name:value+getattr(candidates,name) for name,value in asdict(summary).items()})
+                     remaining=args.limit-summary.attempted
+                     if remaining and config.database_path.is_file():
+                         from application.platform.supervision import _local_path
+diff --git a/src/application/cloud/rclone_bridge.py b/src/application/cloud/rclone_bridge.py
+index 2af4c4c9..292ddae6 100644
+--- a/src/application/cloud/rclone_bridge.py
++++ b/src/application/cloud/rclone_bridge.py
+@@ -157,6 +157,13 @@ class RcloneBridge:
+             raise CloudError('BLOCKED', 'BRIDGE_AUTHOR_NAMESPACE_READ_ONLY')
+         if not payloads or len(payloads) > 32:
+             raise CloudError('BLOCKED', 'BRIDGE_RESULT_MANIFEST_INVALID')
++        candidate=logical_path.startswith('candidates/')
++        if candidate:
++            from application.cloud.candidate_index import validate_candidate_index_publication
++            try:
++                validate_candidate_index_publication(logical_path,payloads)
++            except (ValueError,TypeError,KeyError):
++                raise CloudError('BLOCKED','BRIDGE_CANDIDATE_INDEX_BUNDLE_INVALID') from None
+         folded = set()
+         for relative, raw in payloads.items():
+             safe_relative(relative)
+@@ -167,6 +174,10 @@ class RcloneBridge:
+                 raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_PAYLOAD_LIMIT')
+             if logical_path.startswith('reports/feedback/'):
+                 continue
++            if candidate and relative=='report.html':
++                # Exact owner format/escaped rendering was checked above.
++                # JSON payloads still pass the existing privacy inspection.
++                continue
+             if not relative.endswith('.json'):
+                 raise CloudError('BLOCKED', 'BRIDGE_PUBLICATION_MEDIA_NOT_IMPLEMENTED')
+             stack = [load_json(raw, 256*1024)]
+diff --git a/src/application/coordinator.py b/src/application/coordinator.py
+index b3a46973..3d837603 100644
+--- a/src/application/coordinator.py
++++ b/src/application/coordinator.py
+@@ -60,7 +60,7 @@ def _command_id(profile_hash,operation,subject,revision):
+ def schedule_once(owners,services,operations,*,submission_offset=0,report_offset=0):
+     """Only scan/enqueue/report; never approval, candidate promotion or PaperStart."""
+     selected=validate_operations(operations);commitment=digest(canonical(selected).encode())
+-    result=dict(scan='NOT_SELECTED',enqueued=0,reports_queued=0,refusals=[],paper='NOT_COMMANDED',provider_requests=0,
++    result=dict(scan='NOT_SELECTED',enqueued=0,reports_queued=0,candidate_indexes_queued=0,refusals=[],paper='NOT_COMMANDED',provider_requests=0,
+                 next_submission_offset=0,next_report_offset=0)
+     if selected['scan_inbox']:
+         revision=services.revision('INBOX_SCAN','inbox',{})
+@@ -83,12 +83,23 @@ def schedule_once(owners,services,operations,*,submission_offset=0,report_offset
+                     if len(result['refusals'])<32:result['refusals'].append(dict(submission_id=submission['submission_id'],policy_id=policy,reason_code=type(error).__name__))
+     if selected['queue_reports'] and owners.queue is not None:
+         from application.cloud.feedback import queue_feedback
++        from application.cloud.candidate_index import queue_candidate_index
+         jobs=owners.queue.list(limit=32,offset=report_offset)
+         result['next_report_offset']=report_offset+32 if len(jobs)==32 else 0
+         for job in jobs:
+             if job['state']!='COMPLETE' or job['owner_run_id'] is None:continue
+             with owners.queue.service_factory() as research:
+                 queue_feedback(research,job['owner_run_id'],performance_opt_in=False)
++                report=research.report(job['owner_run_id'])
++                if report['candidate_gate']['status']=='PASS' and report['candidate_gate']['strategy_lifecycle']=='CANDIDATE':
++                    try:
++                        queue_candidate_index(research,job['owner_run_id'])
++                    except Exception as error:
++                        if len(result['refusals'])<32:
++                            result['refusals'].append(dict(run_id=job['owner_run_id'],operation='QUEUE_CANDIDATE_INDEX',
++                                reason_code=type(error).__name__))
++                    else:
++                        result['candidate_indexes_queued']+=1
+             result['reports_queued']+=1
+     result['publication']='LOCAL_DURABLE_OUTBOX_ONLY;REMOTE_NOT_CONFIGURED'
+     return result
+diff --git a/src/application/platform/upgrade_preflight.py b/src/application/platform/upgrade_preflight.py
+index 86d26e3c..d1453f6b 100644
+--- a/src/application/platform/upgrade_preflight.py
++++ b/src/application/platform/upgrade_preflight.py
+@@ -54,6 +54,7 @@ def _application_models(end):
+         return (root/name).read_text(encoding='utf-8')
+     intake=script('0001_intake_outbox.sql');queue=script('0005_research_queue.sql')
+     journal=(script('0002_research_attempts.sql'),script('0007_research_feedback_outbox.sql'))
++    candidate_index=script('0010_candidate_index_outbox.sql')
+     trial=script('0003_research_trial_ledger.sql')
+     legacy=script('0006_process_supervision.sql')
+     runtime=script('0008_runtime_process_supervision.sql')
+@@ -61,7 +62,8 @@ def _application_models(end):
+     models={
+         'intake':(_model((intake,),end),),
+         'queue':(_model((queue,),end),),
+-        'research':(_model(journal,end),_model((trial,),end),_model((*journal,trial),end)),
++        'research':(_model(journal,end),_model((trial,),end),_model((*journal,trial),end),
++            _model((*journal,candidate_index),end),_model((*journal,candidate_index,trial),end)),
+         'control':(_model((script('0004_control_commands.sql'),),end),),
+         'auth':(_model((LOCAL_AUTH_SCHEMA_SQL,),end),),
+         'settings':(_model((CONTROL_SETTINGS_SCHEMA_SQL,),end),
+diff --git a/src/application/research/evidence.py b/src/application/research/evidence.py
+index 1f2622d5..ea0f78eb 100644
+--- a/src/application/research/evidence.py
++++ b/src/application/research/evidence.py
+@@ -83,6 +83,33 @@ def checked_feedback_record(row,run):
+     require_feedback_subject(json.loads(raw),run)
+     return ArtifactBundle(row['logical_path'],payloads)
+
++
++def _checked_candidate_index(journal,row):
++    from application.cloud.candidate_index import validate_candidate_index_publication,require_candidate_index_subject
++    from application.cloud.manifest import canonical_bytes,byte_hash,load_json
++    from application.cloud.protocol import ArtifactBundle
++    if (any(type(row[key]) is not str for key in ('index_json','payloads_json')) or
++            len(row['index_json'].encode())>256*1024 or len(row['payloads_json'].encode())>1024*1024):
++        raise ResearchEvidenceConflict('Bounded candidate index text required')
++    raw=row['index_json'].encode('utf-8')
++    if byte_hash(raw)!=row['index_hash']:raise ResearchEvidenceConflict('Candidate index hash mismatch')
++    encoded=load_json(row['payloads_json'].encode(),1024*1024)
++    if type(encoded) is not dict or any(type(text) is not str for text in encoded.values()):
++        raise ResearchEvidenceConflict('Candidate index payload mapping required')
++    payloads={name:text.encode('utf-8') for name,text in encoded.items()}
++    value=validate_candidate_index_publication(row['logical_path'],payloads)
++    if (payloads['evidence_index.json']!=raw or row['operation_id']!='r7-candidate-index-'+row['index_hash'][7:]
++            or byte_hash(canonical_bytes({name:byte_hash(blob) for name,blob in payloads.items()}))!=row['artifact_hash']):
++        raise ResearchEvidenceConflict('Candidate index bundle commitment mismatch')
++    run=journal._db.execute('SELECT * FROM research_runs WHERE run_id=?',(row['run_id'],)).fetchone()
++    require_candidate_index_subject(value,run)
++    report=journal.result(row['run_id'],'diagnostic_report')
++    if (report is None or report['candidate_gate']['status']!='PASS'
++            or report['candidate_gate']['assessment_id']!=value['evidence'][3]['evidence_id']
++            or report['backtest_e6_evidence_id']!=value['evidence'][0]['evidence_id']):
++        raise ResearchEvidenceConflict('Actual completed candidate report required')
++    return ArtifactBundle(row['logical_path'],payloads)
++
+ class ResearchJournal:
+     def __init__(self,path):
+         path=Path(path).absolute(); require_local_database_volume(path)
+@@ -95,6 +122,7 @@ class ResearchJournal:
+         self._db.executescript(migration.read_text(encoding='utf-8'))
+         feedback_migration=migration.parent/'0007_research_feedback_outbox.sql'
+         self._db.executescript(feedback_migration.read_text(encoding='utf-8'))
++        self._db.executescript((migration.parent/'0010_candidate_index_outbox.sql').read_text(encoding='utf-8'))
+     def register_run(self,run_id,inputs,now):
+         text(run_id); raw=canonical(inputs); h=digest(raw.encode())
+         if len(raw.encode())>1024*1024: raise ValueError('Research input size limit')
+@@ -196,3 +224,68 @@ class ResearchJournal:
+     def close(self): self._db.close()
+     def __enter__(self): return self
+     def __exit__(self,*_): self.close()
++
++    def _enqueue_candidate_index(self,owned,now):
++        from application.cloud.candidate_index import (_OwnedCandidateIndex,_OWNER,
++            candidate_index_bundle,require_candidate_index_subject)
++        from application.cloud.manifest import canonical_bytes,byte_hash,load_json
++        if type(owned) is not _OwnedCandidateIndex or owned.capability is not _OWNER:
++            raise ResearchEvidenceConflict('Actual candidate index producer required')
++        value=load_json(owned.index_json,256*1024);bundle=candidate_index_bundle(value)
++        raw=bundle.payloads['evidence_index.json'];commitment=byte_hash(raw)
++        operation='r7-candidate-index-'+commitment[7:]
++        payloads=canonical({name:blob.decode('utf-8') for name,blob in bundle.payloads.items()})
++        artifact=byte_hash(canonical_bytes({name:byte_hash(blob) for name,blob in bundle.payloads.items()}))
++        if len(payloads.encode())>1024*1024:raise ResearchEvidenceConflict('Candidate index bundle limit')
++        # Exposure was already reserved by actual builder, outside this writer.
++        with self._db:
++            self._db.execute('BEGIN IMMEDIATE')
++            run=self._db.execute('SELECT * FROM research_runs WHERE run_id=?',(value['run_id'],)).fetchone()
++            require_candidate_index_subject(value,run)
++            report=self.result(value['run_id'],'diagnostic_report')
++            if (report is None or report['candidate_gate']['status']!='PASS'
++                    or report['candidate_gate']['assessment_id']!=value['evidence'][3]['evidence_id']
++                    or report['backtest_e6_evidence_id']!=value['evidence'][0]['evidence_id']):
++                raise ResearchEvidenceConflict('Actual completed candidate report required')
++            existing=self._db.execute('SELECT * FROM research_candidate_index_publications WHERE run_id=?',
++                (value['run_id'],)).fetchone()
++            if existing is not None:
++                if (existing['operation_id'],existing['index_json'],existing['index_hash'],existing['payloads_json'],
++                        existing['artifact_hash'])!=(operation,raw.decode(),commitment,payloads,artifact):
++                    raise ResearchEvidenceConflict('Immutable candidate index conflict')
++                _checked_candidate_index(self,existing)
++                return operation
++            count,size=self._db.execute("SELECT count(*),coalesce(sum(length(CAST(payloads_json AS BLOB))),0) "
++                "FROM research_candidate_index_publications WHERE state!='CLOUD_ACKNOWLEDGED'").fetchone()
++            if count>=1000 or size+len(payloads.encode())>16*1024**2:
++                raise ResearchEvidenceConflict('Candidate index outbox capacity reached')
++            self._db.execute('INSERT INTO research_candidate_index_publications VALUES(?,?,?,?,?,?,?,?,?,?)',
++                (operation,value['run_id'],raw.decode(),commitment,bundle.logical_path,payloads,artifact,'PENDING',0,stamp(now)))
++        return operation
++
++    def pending_candidate_index_publications(self,limit,*,include_local_staged=True):
++        if type(limit) is not int or not 1<=limit<=100 or type(include_local_staged) is not bool:
++            raise ValueError('Bounded candidate index batch required')
++        result=[]
++        for row in self._db.execute("SELECT * FROM research_candidate_index_publications "
++                "WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') AND (state!='LOCAL_STAGED' OR ?) "
++                "ORDER BY operation_id LIMIT ?",(include_local_staged,limit)).fetchall():
++            result.append((row['operation_id'],_checked_candidate_index(self,row),row['artifact_hash']))
++        return tuple(result)
++
++    def record_candidate_index_publication(self,operation_id,status,*,artifact_hash=None):
++        if status not in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED','UNAVAILABLE','CONFLICT'):
++            raise ValueError('Exact candidate publication state required')
++        with self._db:
++            self._db.execute('BEGIN IMMEDIATE')
++            row=self._db.execute('SELECT * FROM research_candidate_index_publications WHERE operation_id=?',
++                (operation_id,)).fetchone()
++            if row is None:raise ResearchEvidenceConflict('Original candidate publication required')
++            _checked_candidate_index(self,row)
++            if status in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED') and artifact_hash!=row['artifact_hash']:
++                raise ResearchEvidenceConflict('Candidate acknowledgment identity mismatch')
++            if row['state']=='CLOUD_ACKNOWLEDGED':
++                if status!='CLOUD_ACKNOWLEDGED':raise ResearchEvidenceConflict('Acknowledged candidate cannot regress')
++                return
++            self._db.execute('UPDATE research_candidate_index_publications SET state=?,attempts=attempts+1 WHERE operation_id=?',
++                (status,operation_id))
+diff --git a/src/registry/service.py b/src/registry/service.py
+index 1d3f37d6..d6b6a20a 100644
+--- a/src/registry/service.py
++++ b/src/registry/service.py
+@@ -335,6 +335,22 @@ class StrategyPlatformService(_StrategyPlatformServiceBase):
+         return self._store.run_lifecycle_once(command_id,request,
+             lambda:self._transition(strategy,new_state,actor=actor,reason_codes=tuple(reason_codes),primary_evidence_id=None))
+
++    def validation_evidence_reference(self,evidence_id,*,identity):
++        import hashlib
++        from registry.models import EvidenceGateError
++        if type(evidence_id) is not str or not 1<=len(evidence_id)<=256 or '\x00' in evidence_id:
++            raise EvidenceGateError('Bounded canonical evidence reference required')
++        strategy=self._require_strategy(identity)
++        record=self._store.get_validation_evidence(evidence_id)
++        if (record is None or record.identity!=identity or record.strategy_content_hash!=strategy.content_hash
++                or record.evidence_type not in ('BACKTEST_RESULT','VALIDATION_DECISION')):
++            raise EvidenceGateError('Exact canonical validation reference required')
++        return dict(evidence_id=record.evidence_id,evidence_type=record.evidence_type,
++            payload_hash='sha256:'+hashlib.sha256(record.payload_json.encode('utf-8')).hexdigest(),
++            parent_evidence_id=record.parent_evidence_id,result_ref=record.result_ref,
++            verification_status=record.verification_status,verification_kind=record.verification_kind,
++            source_revision=record.source_revision)
++
+     def product_assessment(self,run_id):
+         return self._store.get_product_assessment(run_id)

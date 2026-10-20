@@ -1,0 +1,135 @@
+test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) ...
+  test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='components') ... FAIL
+  test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='risk') ... FAIL
+  test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='execution') ... FAIL
+  test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='preflight') ... FAIL
+  test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='external_consumer') ... FAIL
+test_observation_time_advances_without_changing_stored_configuration_commitment (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_observation_time_advances_without_changing_stored_configuration_commitment) ... ok
+test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) ...
+  test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='strategy_subjects') ... FAIL
+  test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='research_stage_counts') ... FAIL
+  test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='resource_limits') ... FAIL
+  test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='alerts') ... FAIL
+test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) ...
+  test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='resource_limits') ... FAIL
+  test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='clock_health') ... FAIL
+  test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='backup') ... FAIL
+  test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='transport_test') ... FAIL
+  test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='credential_presence') ... FAIL
+
+======================================================================
+FAIL: test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='components')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 32, in test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp
+    self.assertIn(key,body,'Required Health observation is absent')
+AssertionError: 'components' not found in {'control': 'ONLINE', 'research': 'NOT_CONFIGURED', 'runtime': 'NOT_CONFIGURED', 'storage': 'CONTROL_STORE_AVAILABLE', 'cloud': 'NOT_CONNECTED', 'market': 'NOT_CONNECTED', 'provider': 'NOT_CONFIGURED', 'live_authorized': False, 'provider_requests': 0, 'runtime_llm_calls': 0, 'restoration': {'status': 'NOT_RESTORED', 'financial_authority': 'NONE', 'restore_generation_id': None, 'scope': None, 'user_data_restore': None, 'reconciliation': None, 'reauthorization': None, 'runtime_new_exposure': None, 'cloud': None, 'reason_codes': []}, 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Health observation is absent
+
+======================================================================
+FAIL: test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='risk')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 32, in test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp
+    self.assertIn(key,body,'Required Health observation is absent')
+AssertionError: 'risk' not found in {'control': 'ONLINE', 'research': 'NOT_CONFIGURED', 'runtime': 'NOT_CONFIGURED', 'storage': 'CONTROL_STORE_AVAILABLE', 'cloud': 'NOT_CONNECTED', 'market': 'NOT_CONNECTED', 'provider': 'NOT_CONFIGURED', 'live_authorized': False, 'provider_requests': 0, 'runtime_llm_calls': 0, 'restoration': {'status': 'NOT_RESTORED', 'financial_authority': 'NONE', 'restore_generation_id': None, 'scope': None, 'user_data_restore': None, 'reconciliation': None, 'reauthorization': None, 'runtime_new_exposure': None, 'cloud': None, 'reason_codes': []}, 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Health observation is absent
+
+======================================================================
+FAIL: test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='execution')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 32, in test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp
+    self.assertIn(key,body,'Required Health observation is absent')
+AssertionError: 'execution' not found in {'control': 'ONLINE', 'research': 'NOT_CONFIGURED', 'runtime': 'NOT_CONFIGURED', 'storage': 'CONTROL_STORE_AVAILABLE', 'cloud': 'NOT_CONNECTED', 'market': 'NOT_CONNECTED', 'provider': 'NOT_CONFIGURED', 'live_authorized': False, 'provider_requests': 0, 'runtime_llm_calls': 0, 'restoration': {'status': 'NOT_RESTORED', 'financial_authority': 'NONE', 'restore_generation_id': None, 'scope': None, 'user_data_restore': None, 'reconciliation': None, 'reauthorization': None, 'runtime_new_exposure': None, 'cloud': None, 'reason_codes': []}, 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Health observation is absent
+
+======================================================================
+FAIL: test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='preflight')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 32, in test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp
+    self.assertIn(key,body,'Required Health observation is absent')
+AssertionError: 'preflight' not found in {'control': 'ONLINE', 'research': 'NOT_CONFIGURED', 'runtime': 'NOT_CONFIGURED', 'storage': 'CONTROL_STORE_AVAILABLE', 'cloud': 'NOT_CONNECTED', 'market': 'NOT_CONNECTED', 'provider': 'NOT_CONFIGURED', 'live_authorized': False, 'provider_requests': 0, 'runtime_llm_calls': 0, 'restoration': {'status': 'NOT_RESTORED', 'financial_authority': 'NONE', 'restore_generation_id': None, 'scope': None, 'user_data_restore': None, 'reconciliation': None, 'reauthorization': None, 'runtime_new_exposure': None, 'cloud': None, 'reason_codes': []}, 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Health observation is absent
+
+======================================================================
+FAIL: test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp) (field='external_consumer')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 32, in test_health_distinguishes_component_observation_times_from_unobserved_risk_execution_preflight_and_fp
+    self.assertIn(key,body,'Required Health observation is absent')
+AssertionError: 'external_consumer' not found in {'control': 'ONLINE', 'research': 'NOT_CONFIGURED', 'runtime': 'NOT_CONFIGURED', 'storage': 'CONTROL_STORE_AVAILABLE', 'cloud': 'NOT_CONNECTED', 'market': 'NOT_CONNECTED', 'provider': 'NOT_CONFIGURED', 'live_authorized': False, 'provider_requests': 0, 'runtime_llm_calls': 0, 'restoration': {'status': 'NOT_RESTORED', 'financial_authority': 'NONE', 'restore_generation_id': None, 'scope': None, 'user_data_restore': None, 'reconciliation': None, 'reauthorization': None, 'runtime_new_exposure': None, 'cloud': None, 'reason_codes': []}, 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Health observation is absent
+
+======================================================================
+FAIL: test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='strategy_subjects')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 25, in test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy
+    self.assertIn(key,body,'Required Overview fact has no actual projection')
+AssertionError: 'strategy_subjects' not found in {'mode': 'RESEARCH', 'live_authorized': False, 'queued_jobs': None, 'running_jobs': None, 'scan_revision': None, 'lifecycle_counts': None, 'exposure_quantity': None, 'realized_pnl_usdt': None, 'unrealized_pnl_usdt': None, 'runtime_status': 'NOT_CONFIGURED', 'cloud_status': 'NOT_CONNECTED', 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Overview fact has no actual projection
+
+======================================================================
+FAIL: test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='research_stage_counts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 25, in test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy
+    self.assertIn(key,body,'Required Overview fact has no actual projection')
+AssertionError: 'research_stage_counts' not found in {'mode': 'RESEARCH', 'live_authorized': False, 'queued_jobs': None, 'running_jobs': None, 'scan_revision': None, 'lifecycle_counts': None, 'exposure_quantity': None, 'realized_pnl_usdt': None, 'unrealized_pnl_usdt': None, 'runtime_status': 'NOT_CONFIGURED', 'cloud_status': 'NOT_CONNECTED', 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Overview fact has no actual projection
+
+======================================================================
+FAIL: test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='resource_limits')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 25, in test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy
+    self.assertIn(key,body,'Required Overview fact has no actual projection')
+AssertionError: 'resource_limits' not found in {'mode': 'RESEARCH', 'live_authorized': False, 'queued_jobs': None, 'running_jobs': None, 'scan_revision': None, 'lifecycle_counts': None, 'exposure_quantity': None, 'realized_pnl_usdt': None, 'unrealized_pnl_usdt': None, 'runtime_status': 'NOT_CONFIGURED', 'cloud_status': 'NOT_CONNECTED', 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Overview fact has no actual projection
+
+======================================================================
+FAIL: test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy) (field='alerts')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 25, in test_overview_exposes_subject_stage_resource_and_alert_observations_without_selecting_newest_strategy
+    self.assertIn(key,body,'Required Overview fact has no actual projection')
+AssertionError: 'alerts' not found in {'mode': 'RESEARCH', 'live_authorized': False, 'queued_jobs': None, 'running_jobs': None, 'scan_revision': None, 'lifecycle_counts': None, 'exposure_quantity': None, 'realized_pnl_usdt': None, 'unrealized_pnl_usdt': None, 'runtime_status': 'NOT_CONFIGURED', 'cloud_status': 'NOT_CONNECTED', 'reason_codes': ['OPERATIONAL_OWNERS_NOT_CONFIGURED']} : Required Overview fact has no actual projection
+
+======================================================================
+FAIL: test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='resource_limits')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 41, in test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence
+    self.assertIn(key,body,'Required Settings observation is absent')
+AssertionError: 'resource_limits' not found in {'revision': 0, 'config_generation': 1, 'display_timezone': 'Asia/Taipei', 'scan_interval': 30, 'local_data_root': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4', 'cloud_root': None, 'database_path': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4\\canonical.sqlite', 'control_api_host': '127.0.0.1', 'control_api_port': 8765, 'diagnostic_only': True, 'paper_runtime_enabled': False} : Required Settings observation is absent
+
+======================================================================
+FAIL: test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='clock_health')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 41, in test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence
+    self.assertIn(key,body,'Required Settings observation is absent')
+AssertionError: 'clock_health' not found in {'revision': 0, 'config_generation': 1, 'display_timezone': 'Asia/Taipei', 'scan_interval': 30, 'local_data_root': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4', 'cloud_root': None, 'database_path': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4\\canonical.sqlite', 'control_api_host': '127.0.0.1', 'control_api_port': 8765, 'diagnostic_only': True, 'paper_runtime_enabled': False} : Required Settings observation is absent
+
+======================================================================
+FAIL: test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='backup')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 41, in test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence
+    self.assertIn(key,body,'Required Settings observation is absent')
+AssertionError: 'backup' not found in {'revision': 0, 'config_generation': 1, 'display_timezone': 'Asia/Taipei', 'scan_interval': 30, 'local_data_root': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4', 'cloud_root': None, 'database_path': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4\\canonical.sqlite', 'control_api_host': '127.0.0.1', 'control_api_port': 8765, 'diagnostic_only': True, 'paper_runtime_enabled': False} : Required Settings observation is absent
+
+======================================================================
+FAIL: test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='transport_test')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 41, in test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence
+    self.assertIn(key,body,'Required Settings observation is absent')
+AssertionError: 'transport_test' not found in {'revision': 0, 'config_generation': 1, 'display_timezone': 'Asia/Taipei', 'scan_interval': 30, 'local_data_root': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4', 'cloud_root': None, 'database_path': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4\\canonical.sqlite', 'control_api_host': '127.0.0.1', 'control_api_port': 8765, 'diagnostic_only': True, 'paper_runtime_enabled': False} : Required Settings observation is absent
+
+======================================================================
+FAIL: test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence (test_ui01_observation_contract_aa2d00a_red.UI01ObservationContractTests.test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence) (field='credential_presence')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_ui01_observation_contract_aa2d00a_red.py", line 41, in test_settings_reports_configured_budget_and_unobserved_clock_backup_transport_and_credential_presence
+    self.assertIn(key,body,'Required Settings observation is absent')
+AssertionError: 'credential_presence' not found in {'revision': 0, 'config_generation': 1, 'display_timezone': 'Asia/Taipei', 'scan_interval': 30, 'local_data_root': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4', 'cloud_root': None, 'database_path': '<USER_HOME>\\AppData\\Local\\Temp\\tmphdk0wcu4\\canonical.sqlite', 'control_api_host': '127.0.0.1', 'control_api_port': 8765, 'diagnostic_only': True, 'paper_runtime_enabled': False} : Required Settings observation is absent
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.452s
+
+FAILED (failures=14)

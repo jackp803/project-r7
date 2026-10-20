@@ -1,0 +1,67 @@
+            # Read the exact CLOSED history above; no second financial fixture.
+            graph=c.assert_binding()
+            result=graph.trade_result.payload
+            funding=next(row for row in graph.funding_evidence if row.canonical_id==result['funding_evidence_id'])
+            self.assertEqual('BROKER_LEDGER',funding.payload['source_kind'])
+            expected_amounts={key:result[key] for key in ('gross_pnl','net_pnl','total_fees')}
+            expected_amounts['funding_cost']=funding.payload['funding_cost']
+            before_calls=deepcopy(c.provider.calls)
+            before_dispatch=f.dispatch.recover(service.run_id)
+            before_batch=f.dispatch.finalization_batch(service.run_id,close_id)
+            before_receipt=f.dispatch.finalization_receipt(before_batch)
+            self.assertEqual(receipt,before_receipt)
+            with open_trading_feedback_reader(f.authority.root/'h01-canonical.sqlite',
+                    f.authority.root/'h01-dispatch.sqlite',namespace='FIXTURE') as reader:
+                private=reader.snapshot(service.run_id,graph.trade_plan_id)
+                self.assertTrue(private.available)
+                self.assertEqual(graph,private.canonical)
+                self.assertEqual(service.lease.generation,private.observed_process_generation)
+                binding=json.loads(private.original_binding_json)
+                self.assertEqual(f.record.content_hash,binding['strategy_content_hash'])
+                self.assertEqual(dict(strategy_id=f.authority.identity.strategy_id,
+                    strategy_version=f.authority.identity.strategy_version),binding['identity'])
+                self.assertEqual('FIXTURE',binding['namespace'])
+                self.assertEqual('SIMULATED_MECHANICS',binding['execution'])
+                default=summaries.build_trading_feedback(reader,service.run_id,graph.trade_plan_id)
+                opted=summaries.build_trading_feedback(reader,service.run_id,graph.trade_plan_id,performance_opt_in=True)
+                self.assertEqual('OPT_OUT',default['performance_policy'])
+                self.assertIsNone(default['performance'])
+                self.assertEqual('OPT_IN',opted['performance_policy'])
+                self.assertEqual(expected_amounts,opted['performance'])
+                for value in (default,opted):
+                    self.assertEqual(value,summaries.validate_trading_feedback(value))
+                    self.assertEqual('AVAILABLE',value['availability'])
+                    self.assertEqual(1,value['sample_count'])
+                    self.assertEqual('FIXTURE',value['namespace'])
+                    self.assertEqual(dict(kind='FAKE_PROVIDER_VERIFICATION',execution='SIMULATED_MECHANICS'),value['provenance'])
+                    self.assertEqual(dict(status='NOT_RUN',performance=None),value['actual_live'])
+                    self.assertEqual('NONE',value['financial_authority'])
+                    self.assertEqual(dict(source_kind='BROKER_LEDGER',source_version=funding.payload['source_version'],
+                        evidence_hash=funding.payload_hash),value['funding'])
+                    self.assertEqual(result['closed_at'],value['closed_at'])
+                    self.assertEqual(byte_hash(private.original_binding_json.encode()),value['references']['original_binding_hash'])
+                    bundle=summaries.trading_feedback_bundle(value)
+                    self.assertEqual(bundle,summaries.trading_feedback_bundle(value))
+                    validate_public_feedback_publication(bundle.logical_path,dict(bundle.payloads))
+                    self.assertEqual({'feedback.json','report.html'},set(bundle.payloads))
+                    self.assertEqual(value,json.loads(bundle.payloads['feedback.json']))
+                    html=bundle.payloads['report.html'].decode()
+                    self.assertIn('FAKE_PROVIDER_VERIFICATION',html)
+                    self.assertIn('NOT_RUN',html)
+                    self.assertNotIn('<script',html)
+                    raw=canonical_bytes(value).decode()
+                    self.assertNotIn(str(f.authority.root),raw)
+                    self.assertNotIn(service.run_id,raw)
+                    for key in ('account_ref','account_balance','api_key','credentials','raw_provider_payload',
+                            'provider_position_id','broker_order_id','human_identity'):
+                        self.assertNotIn('"'+key+'"',raw)
+                for key in expected_amounts:
+                    self.assertNotIn('"'+key+'"',canonical_bytes(default).decode())
+                for invalid in (0,1,'OPT_IN',None):
+                    with self.subTest(opt_in=invalid),self.assertRaises(ValueError):
+                        summaries.build_trading_feedback(reader,service.run_id,graph.trade_plan_id,performance_opt_in=invalid)
+            self.assertEqual(graph,c.recover())
+            self.assertEqual(before_dispatch,f.dispatch.recover(service.run_id))
+            self.assertEqual(before_batch,f.dispatch.finalization_batch(service.run_id,close_id))
+            self.assertEqual(before_receipt,f.dispatch.finalization_receipt(before_batch))
+            self.assertEqual(before_calls,c.provider.calls)

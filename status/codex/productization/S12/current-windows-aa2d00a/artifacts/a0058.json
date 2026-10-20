@@ -1,0 +1,39 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "External ordinary idle coordinator helper; narrowly read inherited command, health, session cleanup and ordinary setup contracts for call compatibility. No active/private/runtime evidence was read.",
+  "subject": {
+    "path": "artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py",
+    "sha256": "b986ad59b6adf2f8be602c54af857d7a4a735de674225ad514e2ee02d47d8756"
+  },
+  "critical": 0,
+  "important": 2,
+  "findings": [
+    {
+      "severity": "Important",
+      "file": "artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py",
+      "line": 56,
+      "symbol": "run: unbound NativeHeadlessFlow initialization",
+      "problem": "view.password is the empty string. The inherited PublicFixture.command unconditionally performs text.replace(self.password, '<SYNTHETIC_TEST_INPUT>') before json.loads. Empty-string replacement inserts the marker between every output character, so the first successful public init-profile response cannot be parsed as JSON.",
+      "contract_reference": "tools/verify_paper_product.py:94-107, particularly 101 and 107",
+      "minimal_fix": "Use a nonempty explicitly unused redaction sentinel that is never enrolled or passed as a credential, or conditionally skip password replacement for an empty value while preserving all real-password redaction.",
+      "minimal_regression": "Exercise the actual inherited command implementation with a controlled successful JSON output and the helper's no-auth initialization; require exact decoded JSON and unchanged sanitized output rather than only testing replacement in a mirror helper."
+    },
+    {
+      "severity": "Important",
+      "file": "artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py",
+      "line": 145,
+      "symbol": "run: ordinary-duplicate-denied",
+      "problem": "The duplicate case requires exit 2 and unchanged original role tokens, but never checks the actual refusal diagnostic. A second coordinator that bypasses its singleton lock and later exits because a child role is busy, or another startup validation fails, can satisfy these assertions without demonstrating coordinator-scope denial.",
+      "contract_reference": "tools/verify_headless_product.py:202-212 already requires schema_version r7-startup-diagnostic-v0.2 and error_kind OWNER_SCOPE_BUSY for this native boundary.",
+      "minimal_fix": "Parse the bounded captured ordinary-duplicate-denied log and require the exact startup schema and OWNER_SCOPE_BUSY diagnostic, retaining the current original-token equality check.",
+      "minimal_regression": "Run the actual helper decision with a controlled exit-2 result and wrong startup error_kind; it must fail. A correct OWNER_SCOPE_BUSY response with unchanged original tokens should pass."
+    }
+  ],
+  "bounded_positive_observations": [
+    "The protected Paper selection explicitly has workflow_authorized false and the helper checks that no Paper run or engineering lifecycle transition appears. The operations workflow flag selects service supervision and does not replace the Paper selection's financial gate.",
+    "Actual health checks compare native identity and config generation to a process in the coordinator-owned job. Runtime termination uses the existing same-kernel-handle owned-membership check. Independent mutable ctypes ABI buffers are not introduced here.",
+    "Session cleanup keeps ownership handles until the inherited cleanup confirms reaping; cleanup errors and unclosed sessions force passed false. This does not establish actual successful cleanup without execution."
+  ],
+  "limits": "Static readiness review only. No tests, native process, database/auth/config content, active evidence, provider or network was executed or accessed. No ordinary Paper lifecycle, full qualification, Ubuntu, release-authority or Master acceptance is issued. The inspected hash is the reviewed pre-repair snapshot; any repaired bytes need a bounded recheck."
+}

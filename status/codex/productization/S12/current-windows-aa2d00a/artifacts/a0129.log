@@ -1,0 +1,14 @@
+test_actual_four_hour_owner_manages_before_next_entry_boundary (test_str12_four_hour_owner_aa2d00a.FourHourOwnerDeadlineTests.test_actual_four_hour_owner_manages_before_next_entry_boundary) ... FAIL
+
+======================================================================
+FAIL: test_actual_four_hour_owner_manages_before_next_entry_boundary (test_str12_four_hour_owner_aa2d00a.FourHourOwnerDeadlineTests.test_actual_four_hour_owner_manages_before_next_entry_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_str12_four_hour_owner_aa2d00a.py", line 185, in test_actual_four_hour_owner_manages_before_next_entry_boundary
+    self.assertEqual(1,sum(row['request']['order_role']=='ENTRY' for row in final.state['broker']['payload']['submissions']))
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 1 test in 2.553s
+
+FAILED (failures=1)

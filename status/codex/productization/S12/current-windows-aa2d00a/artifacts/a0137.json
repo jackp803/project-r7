@@ -1,0 +1,141 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "branch": "codex/r7-productization-master-20261002",
+  "baseline_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+  "recorded_at": "2026-10-20T20:02:37.885839+00:00",
+  "status": "PLANNED_UNAPPLIED;CURRENT_FULL_QUALIFICATION_FROZEN",
+  "demonstrated_red": {
+    "ref": "ui01-observation-contract-aa2d00a-red01/checkpoint.json",
+    "test_ref": "test_ui01_observation_contract_aa2d00a_red.py",
+    "test_hash": "ebfdb2bdfdbb727a04b115bd8f7ba5f616e1e401e8c096f2a7b927afaf356b1f",
+    "tests": 4,
+    "subtest_failures": 14,
+    "errors": 0,
+    "root_cause": "Missing actual Overview/Health/Settings projection fields; static config commitment test already passes"
+  },
+  "scope": [
+    "Existing four GET views; additive closed typed observations and UI presentation only",
+    "Overview explicit selected strategy/version, persisted last-stage/state counts, actual configured worker count, original-time historical alerts",
+    "Health five existing supervision-role observations; current risk/execution/preflight/FP explicitly unavailable where no protected owner observation exists",
+    "Settings configured worker count plus honest clock/backup/transport/credential-presence observation status",
+    "Separate current-page research job filter including CANCELED/CANCEL_REQUESTED; preserve submission disposition filter",
+    "Focused actual-owner browser assertions for source facts, UTC/Taipei conversion, strategy lineage and Trading ACK/fills/costs"
+  ],
+  "observation_contract": {
+    "fields": [
+      "status",
+      "source",
+      "as_of",
+      "checked_at",
+      "reason_codes",
+      "facts",
+      "financial_authority"
+    ],
+    "status": [
+      "AVAILABLE",
+      "NOT_CONFIGURED",
+      "NOT_RUN",
+      "UNAVAILABLE"
+    ],
+    "facts": "Closed StrictDTO payload types; no arbitrary raw config/session/envelope",
+    "financial_authority": "NONE",
+    "as_of": "Actual source time or null; never GET time substituted for historic fact",
+    "checked_at": "Actual read time"
+  },
+  "identity_rule": "Rename original settings() body to _static_settings(); new settings() merges diagnostics; metadata() and settings revision use _static_settings(). Keep original hash construction/static values unchanged; dynamic read observations never churn config_hash.",
+  "supervision_correction": "Existing supervision._db(writable=False) already uses mode=ro; process_health does not initialize schema/WAL. Reuse actual classification and closed fields, no new generic reader or financial authority refactor.",
+  "process_fields": [
+    "role",
+    "status",
+    "recorded_state",
+    "generation",
+    "process_generation_id",
+    "started_at",
+    "heartbeat_at",
+    "heartbeat_sequence",
+    "config_hash"
+  ],
+  "unknowns": {
+    "clock_health": "UNAVAILABLE;CLOCK_HEALTH_NOT_OBSERVED",
+    "credential_presence": "UNAVAILABLE;CREDENTIAL_PRESENCE_NOT_OBSERVED;NO_CREDENTIAL_ACCESS",
+    "backup": "NOT_CONFIGURED;NO_DEFAULT_DESTINATION_INVENTED",
+    "transport_test": "NOT_RUN;NO_GET_TRIGGERED_PROBE",
+    "risk": "UNAVAILABLE",
+    "execution": "UNAVAILABLE",
+    "preflight": "UNAVAILABLE",
+    "external_consumer": "UNAVAILABLE"
+  },
+  "queue_summary": {
+    "method": "state_stage_counts",
+    "reader": "Reuse failed_alert_page protected path/schema/namespace/WAL-aware RO snapshot/2s deadline/64KiB value and serialized output limits",
+    "algorithm": "Stream only state/stage/updated_at in128row batches, validate EVERY canonical timestamp, max256groups; no input/outcome decoding, writable_factory, research/evidence execution",
+    "result": "{items:[{state,stage,count,last_observed_at}],total_jobs,as_of}; successful empty0/null differs from missing/corrupt/unavailable",
+    "errors": "Safe RESEARCH_QUEUE_COUNTS_UNAVAILABLE; include ResearchQueueError remapping to avoid leaking unrelated alert-reader reason"
+  },
+  "constraints": [
+    "Do not apply tracked changes before current qualifier and all same-candidate guarded ancillary executions finish",
+    "Preserve current exact qualified Windows package/evidence, then same-branch minimal UI fix with source/browser regressions, inventory/capability refresh and a new clean candidate as required",
+    "No new commands/stores/provider calls/credential reads/transport probes/preflight minting/hardware probes/policy defaults/financial permission or threshold changes",
+    "No test deletion/threshold weakening; no current PASS transferred to later source",
+    "No arbitrary latest registry version called current; selected relationship and runtime observation remain distinct"
+  ],
+  "tests": [
+    "Metadata stable across checked_at/heartbeat changes but changes for actual stored settings/ProductConfig change",
+    "Actual owner empty queue versus unconfigured versus unavailable; WAL state/stage counts; bytes/rows unchanged, no constructors/migrations/owner execution",
+    "Runtime heartbeat visible independently of Paper selection; malformed supervision unavailable; no global safety/authority inference",
+    "Browser consumed-response facts matched exactly; original timestamps and explicit unknowns; no new remote requests",
+    "Actual enqueue/cancel job filter inclusion/exclusion and current-page caption; no financial SQL or response mocks"
+  ],
+  "source_before": [
+    {
+      "ref": "src/application/control_api/dto.py",
+      "sha256": "a094ed06a3525e85cc69c515c24a9706b8309e735edec06d579310921f0d0ea8"
+    },
+    {
+      "ref": "src/application/control_api/services.py",
+      "sha256": "7db38c19536e1ccdf3e12541e75f67d2b335d0e155d06e1a2fe64460f057761a"
+    },
+    {
+      "ref": "src/application/control_api/owner_services.py",
+      "sha256": "afa591aa84c0dc0b07518a756eaf28e9cca938a9cf8894daa55844f794219749"
+    },
+    {
+      "ref": "src/application/research/queue.py",
+      "sha256": "b2d507dc447518e6316abab416841cea87e37b9ace1068edb6ed51b3ccf68f66"
+    },
+    {
+      "ref": "src/application/local_owners.py",
+      "sha256": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b"
+    },
+    {
+      "ref": "src/application/platform/supervision.py",
+      "sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde"
+    },
+    {
+      "ref": "ui/src/App.tsx",
+      "sha256": "f3c4a2b1461b695096c205b97acb9201dc4430868106895d471273ebe731740a"
+    },
+    {
+      "ref": "ui/src/model.ts",
+      "sha256": "61419d6aaf2af01d412e83505c63d14dcc6bd0e360b42a8ddfcf146f0cce33e2"
+    },
+    {
+      "ref": "ui/qa/control-center.spec.ts",
+      "sha256": "b7999c04e28a3254af7afe94d79eff744ac693cdcbb67de944733d9071c338ae"
+    }
+  ],
+  "static_advisories": {
+    "backend": "pqr_inventory_map",
+    "queue": "paper_adapter_map",
+    "frontend": "qualification_review",
+    "execution": "NONE",
+    "authority": "READ_ONLY_ADVISORY;ROOT_WRITES_AND_VALIDATES"
+  },
+  "master": "IN_PROGRESS",
+  "additional_public_requests": 0,
+  "cumulative_public_requests": 8,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

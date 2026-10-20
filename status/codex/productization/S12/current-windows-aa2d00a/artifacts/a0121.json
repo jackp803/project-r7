@@ -1,0 +1,250 @@
+{
+  "schema": "r7-strategy-coverage-completion-design-v1",
+  "document_kind": "POSTCHECKPOINT_SOURCE_TEST_DESIGN_NOT_EXECUTION_OR_ACCEPTANCE",
+  "reviewer_execution": "NONE",
+  "ownership": "Root is sole source writer. Reviewer writes this outside-Git design only.",
+  "timing": "Implement only after the current frozen f6f9fb4 checkpoint. Do not alter an active qualification subject or transfer its execution credit to changed test/source inventories.",
+  "inputs": [
+    {
+      "ref": "artifacts/current-windows-20261019/acceptance-str-expanded-map.json",
+      "sha256": "167e5a726ced44bedbf2d6dd962b6c41f5575278bfe5101898c703835a97ab89"
+    },
+    {
+      "ref": "docs/product/v0_2/02_STRATEGY_SEMANTICS.md",
+      "sha256": "7c63828fa836447110f2ff486ad7ada60820bd5946d525e574146865faefab82"
+    },
+    {
+      "ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    }
+  ],
+  "inspected_implementation": [
+    {
+      "ref": "src/strategy/v02/evaluation.py",
+      "sha256": "ac3e14e7f2473023850425ec185e6849069e25f480bc0c05e9bb67ad16b7e64d",
+      "lines": [
+        16,
+        120
+      ]
+    },
+    {
+      "ref": "src/strategy/v02/ast.py",
+      "sha256": "d50ba7c8e5c386c641e8635390f8240567f70b21828c33ebd7812e6bce1f0b0f",
+      "lines": [
+        90,
+        217
+      ]
+    },
+    {
+      "ref": "src/strategy/v02/exits.py",
+      "sha256": "259b248553eb44228ab2e05b056d41abecb033f549becfdb5e8cd3532c4e7264",
+      "lines": [
+        17,
+        89
+      ]
+    },
+    {
+      "ref": "src/position/exit_requests.py",
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc",
+      "lines": [
+        [
+          54,
+          141
+        ],
+        [
+          190,
+          240
+        ]
+      ]
+    },
+    {
+      "ref": "src/strategy/v02/capabilities.py",
+      "sha256": "3afe1d0dae8cadd9c6870e9c4492bb5e0b9f794e420772f0088da95d3adcd326",
+      "lines": [
+        80,
+        160
+      ]
+    }
+  ],
+  "minimal_file_ownership": [
+    {
+      "ref": "tests/indicators/test_v02_golden.py",
+      "sha256_before": "f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3",
+      "planned_required_methods": 1
+    },
+    {
+      "ref": "tests/position/test_v02_exit_requests.py",
+      "sha256_before": "e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4",
+      "planned_required_methods": 3
+    },
+    {
+      "ref": "tests/strategy/test_v02_multitimeframe.py",
+      "sha256_before": "79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b",
+      "planned_required_methods": 2
+    },
+    {
+      "ref": "tests/strategy/test_v02_capabilities.py",
+      "sha256_before": "9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44",
+      "planned_required_methods": 1
+    }
+  ],
+  "required_designs": [
+    {
+      "id": "EMA-NONLINEAR-ORACLE",
+      "requirement_ids": [
+        "STR-03"
+      ],
+      "classification": "REQUIRED_CONTRACT_COVERAGE",
+      "contract": "Semantics line54: seed SMA(n), then alpha=2/(n+1) recursive update; matrix STR-03 exact golden/seed/warmup/parity.",
+      "target": "tests/indicators/test_v02_golden.py::GoldenIndicatorTests.test_ema_nonlinear_update_has_exact_recursive_alpha",
+      "existing_fixture": "self.observation('EMA',prices,window=3) -> actual FeatureSpec/CandlePrefix/evaluate_feature; Decimal exact values.",
+      "oracle": [
+        "prices[1,2] => not ready, valueNone.",
+        "prices[1,2,3] => exact Decimal('2') seed.",
+        "prices[1,2,3,10] => exact Decimal('6'): alpha=.5 and previous EMA2; rolling SMA would be5.",
+        "prices[1,2,3,10,2] => exact Decimal('4'): verifies the recursive previous EMA6 rather than just seed."
+      ],
+      "assertion_scope": "Add one parameterized source method. Keep existing actual nonlinear batch/incremental and restore-prefix cases; they cover the streaming path but are not independent arithmetic oracles.",
+      "optional_extension": "Run the exact same new vector through actual incremental update in this method to expose the same expected6/4 directly. This duplicates some integration coverage but is useful and small.",
+      "no_authority_effect": true
+    },
+    {
+      "id": "ATR-TARGET-POSITIVE",
+      "requirement_ids": [
+        "STR-11"
+      ],
+      "classification": "REQUIRED_NAMED_CONTRACT_FORM",
+      "contract": "Semantics line94 requires ATR-multiple stop AND target with exact bound feature observation; line96 retains approved E5/first-fill authority.",
+      "target": "tests/position/test_v02_exit_requests.py::ExitRequestTests.test_atr_target_uses_bound_e2_observation_and_existing_e5_authority",
+      "existing_fixture": "self.request(side=side,atr=True,target={'kind':'atr_multiple','feature':'atr','multiple':'6'}); then self.facts(request,side=side). Existing helper supplies one actual4h ATR(n1)=200 at reference60000 and original stop distance600.",
+      "oracle": [
+        "LONG resolves stop59400/ATR target61200; SHORT resolves stop60600/ATR target58800.",
+        "Request feature_anchors['atr'].value == '200'; semantic version r7-atr-wilder-v1, exact market_boundary_ref and original observed_at.",
+        "Use existing actual E5 anchor_exit_request with the matching fixture parent plan; do not rewrite a stored owner or bypass plan validation.",
+        "Set the current fixture position OPEN_PROTECTED as existing E5 component tests do; actual interpret_exit_request with LONG market61300 or SHORT58700 returns AUTHORIZED EXIT with E5_TARGET_REACHED and exact current actual_quantity.",
+        "Original first_fill_at/hold_deadline and original current position/plan inputs remain unchanged; no new-entry or provider action is asserted."
+      ],
+      "note": "This is an E2/E5 source component fixture. It is not a native broker fill, software qualification receipt or financial approval.",
+      "no_policy_change": true
+    },
+    {
+      "id": "ATR-TARGET-BINDING-NEGATIVES",
+      "requirement_ids": [
+        "STR-11"
+      ],
+      "classification": "REQUIRED_BOUND_OBSERVATION_COVERAGE",
+      "target": "tests/position/test_v02_exit_requests.py::ExitRequestTests.test_atr_target_rejects_missing_foreign_future_or_changed_anchor",
+      "existing_fixture": "Start with the actual E2-built ATR-target request above. For malformed source fixtures instantiate existing ExitRequest from mutated canonical dict; never patch the resolver or E5 verifier.",
+      "oracle": [
+        "Missing referenced feature anchor: existing resolve_exit_constraints must raise ExitRequestError ATR_ANCHOR_BINDING_MISMATCH.",
+        "Foreign anchor market_boundary_ref: actual ExitRequest decoding must reject EXIT_FEATURE_BINDING_MISMATCH.",
+        "Feature observed_at later than request observed_at: actual ExitRequest decoding must reject FUTURE_EXIT_FEATURE_ANCHOR.",
+        "Changed positive ATR value201 with valid source clock/ref changes LONG target61206 (SHORT58794); matching original parent plan target61200/58800 must fail anchor_exit_request with APPROVED_TARGET_CONSTRAINT_MISMATCH."
+      ],
+      "exception_contract": "Use the actual existing typed StrategyValidationError/ExitRequestError code at the boundary that rejects the case; do not mask arbitrary exceptions as success.",
+      "optional_extension": "Also change semantic version to an unsupported ATR version; existing schema check already shares the foreign-anchor guard.",
+      "no_persisted_mutation": true
+    },
+    {
+      "id": "PARSED-CROSS-IMMEDIATE-PAIR",
+      "requirement_ids": [
+        "STR-07",
+        "STR-08"
+      ],
+      "classification": "REQUIRED_RUNTIME_COMPOSITION_COVERAGE",
+      "contract": "Semantics line64 requires immediately previous finalized valid pair; line70 requires actual recorded receipt. Matrix STR-07 includes prior-bar crossover and invalid propagation.",
+      "target": "tests/strategy/test_v02_multitimeframe.py::AsOfTests.test_parsed_cross_uses_immediately_previous_finalized_pair",
+      "fixture_setup": [
+        "Use definition_v02(), replace features with{}, retain actual4h profile/timeframe.",
+        "Set long=operator('CROSS_ABOVE',field('close','4h'),{'kind':'decimal','value':'10'}) and short=CROSS_BELOW with same operands.",
+        "Recompute compute_content_hash and parse through real parse_strategy_definition.",
+        "Use existing received(bars(prices,timeframe='4h')) with actual BTC_USDT_PERP identity, real AsOfBundle and StrategyRuntime.evaluate; no evaluator/operator mocks."
+      ],
+      "oracle": [
+        "Closes9@04:00,11@08:00,12@12:00: boundary04:00 => NO_TRADE/INSUFFICIENT_HISTORY; boundary08:00 => LONG/LONG_RULE_MATCHED; boundary12:00 => NO_TRADE/NO_RULE_MATCHED because immediate predecessor11 is already above10.",
+        "Mirrored closes11,9,8: boundary08:00 => SHORT/SHORT_RULE_MATCHED; boundary12:00 => NO_TRADE/NO_RULE_MATCHED.",
+        "These12:00 negatives distinguish immediate predecessor from an older crossing pair (9 or11), not merely true-positive operator execution."
+      ],
+      "optional_extension": "At08:00 mutate/add a future12:00 candle and receipt; assert full earlier signal remains identical. Existing general prefix-invariance tests cover this pattern, so this extra CROSS-specific vector is confidence coverage."
+    },
+    {
+      "id": "PARSED-CROSS-LATE-PREDECESSOR",
+      "requirement_ids": [
+        "STR-07",
+        "STR-08"
+      ],
+      "classification": "REQUIRED_FAIL_CLOSED_BOUNDARY_RED_CANDIDATE",
+      "target": "tests/strategy/test_v02_multitimeframe.py::AsOfTests.test_parsed_cross_cannot_replace_unavailable_predecessor_with_older_bar",
+      "fixture_setup": "Same parsed threshold10 strategy. Closes9@04:00,11@08:00 received08:00:05,12@12:00 received12:00. Evaluate real bundle at12:00/cutoff12:00.",
+      "static_risk": "evaluation.py75-77 reevaluates prior boundary08:00 at cutoff08:00. field path35-37 currently returns the last visible older04:00 row without checking that it is the required08:00 predecessor. That can feed9 instead of11 into CROSS and fabricate LONG.",
+      "required_oracle": [
+        "The predecessor must not silently become the older04:00 observation. No LONG or SHORT may be emitted from that substitution.",
+        "Use the existing fail-closed invalid-history path: NO_TRADE/INSUFFICIENT_HISTORY when the immediate predecessor observation was unavailable at its own recorded information boundary.",
+        "Do not fix by relaxing cutoff to current12:00, using future receipt at08:00, dropping the prior-bar condition or weakening finality."
+      ],
+      "evidence_state": "STATIC_UNEXECUTED_RED_CANDIDATE;NOT_AN_OBSERVED_PRODUCT_FAILURE",
+      "minimal_fix_direction_if_red": "Keep the current prior cutoff/finality rules; the CROSS predecessor evaluation must verify an observation at its required prior boundary or return existing typed unavailable history. Root owns precise implementation after reproduction."
+    },
+    {
+      "id": "FIXED-PRICE-POSITIVE",
+      "requirement_ids": [
+        "STR-11"
+      ],
+      "classification": "REQUIRED_NAMED_CONTRACT_FORM",
+      "contract": "Semantics line94 explicitly includes fixed protective stop price and fixed target price; current selected fixed_price examples are only invalid geometry.",
+      "target": "tests/position/test_v02_exit_requests.py::ExitRequestTests.test_fixed_price_stop_and_target_resolve_and_close_under_e5",
+      "fixture_setup": "Parameterize LONG stop59400/target61200 and SHORT stop60600/target58800 through actual self.request(stop={'kind':'fixed_price',...},target={'kind':'fixed_price',...},side=side), preserving existing fixture parent plans.",
+      "oracle": [
+        "resolve_exit_constraints gives exactly the declared valid stop and target and unchanged max_hold60.",
+        "Actual anchor_exit_request succeeds against the same exact approved parent plan and current partial exposure.",
+        "Actual E5 target interpretation returns EXIT/E5_TARGET_REACHED at existing target-crossing market fixture; retain original anchor/quantity. Existing equality/wrong-side negatives remain."
+      ],
+      "optional_extension": "A second fixed-price stop-hit interpretation duplicates existing stop/target E5 branches and is useful but not necessary to prove these new positive request forms."
+    },
+    {
+      "id": "ALL-ENTRY-CAPABILITY-CONTRACT",
+      "requirement_ids": [
+        "STR-13"
+      ],
+      "classification": "REQUIRED_FOR_ALL_PROFILE_CLAIM;OPTIONAL_IF_ROW_REMAINS_EXPLICITLY_EMA_SCOPED_NOT_RUN",
+      "contract": "Semantics line7 lists every registry entry's parameters/outputs/units/timeframes/history/missing-data/arithmetic/implementation/verification metadata; matrix STR-13 forbids unsupported verified-profile advertisement.",
+      "target": "tests/strategy/test_v02_capabilities.py::CapabilityTests.test_every_registry_entry_has_declared_metadata_without_fabricated_verification",
+      "fixture_setup": "Call actual build_capability_snapshot().as_dict(); no qualification receipt, capability flag injection or fabricated verification reference. Compare to a finite spec-derived expected inventory, not a second copy of implementation code.",
+      "oracle": [
+        "Exactly one grammar:0.2 and eight indicator IDs SMA,EMA,RSI,ATR,ADX,MACD,BOLLINGER,DONCHIAN; unique capability_id/semantic_version pairs and actual declared runtime profiles.",
+        "For all entries, require declared field types/nonempty values: parameters, output_type, units, supported_timeframes, minimum_history, missing_data_behavior, arithmetic_profile, implementation_revision, validator_available, IMPLEMENTED, VERIFIED_REFERENCE, PAPER_AVAILABLE, LIVE_PROVIDER_AVAILABLE, verification_refs.",
+        "Check spec-derived indicator outputs/versions and readiness descriptions: SMA/EMA n; RSI n+1; ATR n; ADX DI:n+1/value:2n; MACD line slow/signal+hist slow+signal_window-1; Bollinger n; Donchian n+lag.",
+        "Arithmetic profile r7-decimal34-v1, exact current implementation identity; supported timeframes1m/15m/1h/4h. Snapshot dict mutation must not mutate the original (existing case may be reused).",
+        "Standalone unqualified snapshot remains VERIFIED_REFERENCE/PAPER_AVAILABLE/LIVE_PROVIDER_AVAILABLE false with no invented verification refs. IMPLEMENTED means actual executable availability only, not a release grant."
+      ],
+      "optional_extensions": [
+        "Generalize the existing missing-handler regression across all eight actual INDICATOR_HANDLERS: patch only the selected handler toNone, build actual snapshot and require that row IMPLEMENTED false. No fake positive.",
+        "Unknown-version/source-pointer gap machinery is already covered by actual EMA case; per-family repetition is confidence coverage unless different branches are discovered.",
+        "A formal JSON schema for every entry is optional implementation choice; adding a test does not authorize a new canonical capability schema or changing availability semantics."
+      ]
+    }
+  ],
+  "validation_sequence_for_root": [
+    "Preserve current frozen checkpoint and original evidence first.",
+    "Add these tests without changing source behavior, run bounded actual owning modules with before/after source/test bindings, and retain genuine red outcomes only when reproduced.",
+    "Fix only deterministic behavior exposed by required contract tests; keep E2/E5/public authority and financial thresholds unchanged.",
+    "Run affected numerical/operator/MTF/exit/capability/owner regressions and then freeze a new exact subject/inventory for required complete qualification. Do not splice new tests into the previous candidate's PASS.",
+    "Rebind source execution case instances into acceptance-str-expanded-map.json successor and retain limitations/NOT_RUN for unexecuted native/Ubuntu/commissioning scopes."
+  ],
+  "optional_or_excluded": [
+    "Do not add actual provider trailing execution: current E5 proposal is explicitly NON_EXECUTABLE_PROFILE and this test plan grants no provider authority.",
+    "STR-14 needs actual Windows and both Ubuntu goldens; no mock platform test closes it.",
+    "STR-05 n1 one-bar ADX unreadiness is a separate already-recorded requirement gap, outside these nine SOURCE_SUPPORTED rows.",
+    "Exhaustive fuzzing, every operator truth-table permutation and repeated per-family generic gap cases are optional confidence work, not a new authority gate.",
+    "No actual provider requests, credentials, production approval, runtime/financial threshold changes or stored qualification PASS are needed for these source tests."
+  ],
+  "counts": {
+    "required_new_methods_planned": 7,
+    "existing_test_files": 4,
+    "tests_executed": 0,
+    "native_commands": 0,
+    "network_calls": 0,
+    "source_changes": 0,
+    "acceptance_pass_claims": 0
+  }
+}

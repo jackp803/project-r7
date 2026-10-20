@@ -1,0 +1,1067 @@
+{
+  "status": "ROOT_RESOLVED_SCOPED_COMMITTED_TREE_PATTERN_AUDIT",
+  "review": "ROOT_SELF_REVIEW",
+  "subject": {
+    "head": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+    "origin_main": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
+    "merge_base": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812"
+  },
+  "scan_sha256": "f9c2cff2309af062e14db03a71dadad899174a6edabb531b211bf17ed64d59a0",
+  "scanner_tree_owned": "committed-tree-owned-aa2d00a-first/checkpoint.json",
+  "scanned_tree_paths": 12499,
+  "inventory_status_counts": {
+    "SCANNED_UTF8_TEXT": 12240,
+    "EXCLUDED_BINARY_NUL": 259
+  },
+  "raw_blob_bytes_read": 168604095,
+  "source_snapshot": "COMMITTED_HEAD_ONLY",
+  "secret_format_matches": {
+    "PRIVATE_KEY_PEM": 0,
+    "GITHUB_TOKEN_STYLE": 0,
+    "OPENAI_KEY_STYLE": 0,
+    "GOOGLE_API_KEY_STYLE": 0,
+    "AWS_ACCESS_KEY_ID_STYLE": 0
+  },
+  "quoted_assignment_matches": 2614,
+  "noncredential_marker_occurrences": 2517,
+  "manual_review_occurrences": 97,
+  "manual_review_distinct_literals": 43,
+  "unresolved_after_root_review": 0,
+  "confirmed_real_secrets": 0,
+  "hosted_configuration_paths": [],
+  "hosted_runner_or_trigger_findings": 0,
+  "l05_scope": "Current committed tree and origin/main merge-base branch diff; declarations/absence only, not historical spend proof",
+  "decisions": [
+    {
+      "value_sha256": "7a01d1996d8edfc5041415975bb3620d23bad1c348cf44e18955ccb98ccf11ee",
+      "category": "NONCREDENTIAL_SSH_PLAN_STATUS",
+      "basis": "plan_ssh_tunnel result status NOT_READ, no credential input/read",
+      "occurrences": 21,
+      "reviewed_primary_ref": "src/application/platform/ssh_access.py",
+      "reviewed_line": 41,
+      "reviewed_source_sha256": "4544b492ecb44be2aab56cc240d0056f4e1cfaf7bba3cbda87d3c98f41cd9032",
+      "owner_symbols": [
+        "plan_ssh_tunnel"
+      ],
+      "all_refs": [
+        {
+          "path": "src/application/platform/ssh_access.py",
+          "line": 41
+        },
+        {
+          "path": "status/codex/productization/S12/supervisor-e293a94-py312/native-ssh/native-ssh-access.json",
+          "line": 48
+        },
+        {
+          "path": "status/codex/productization/S12/supervisor-e293a94-py312/native-ssh/native-ssh-access.json",
+          "line": 91
+        },
+        {
+          "path": "status/codex/productization/S12/supervisor-e293a94-py312/native-ssh/plan-hostname.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S12/supervisor-e293a94-py312/native-ssh/plan-ipv6.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S13/installer-fa3b786-py312/native-ssh-access/native-ssh-access.json",
+          "line": 48
+        },
+        {
+          "path": "status/codex/productization/S13/installer-fa3b786-py312/native-ssh-access/native-ssh-access.json",
+          "line": 91
+        },
+        {
+          "path": "status/codex/productization/S13/installer-fa3b786-py312/native-ssh-access/plan-hostname.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S13/installer-fa3b786-py312/native-ssh-access/plan-ipv6.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S13/ssh-9245c3c-py312/native-ssh-access/native-ssh-access.json",
+          "line": 48
+        },
+        {
+          "path": "status/codex/productization/S13/ssh-9245c3c-py312/native-ssh-access/native-ssh-access.json",
+          "line": 91
+        },
+        {
+          "path": "status/codex/productization/S13/ssh-9245c3c-py312/native-ssh-access/plan-hostname.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S13/ssh-9245c3c-py312/native-ssh-access/plan-ipv6.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S14/cli-publisher-fec8af0-py312/native-ssh/native-ssh-access.json",
+          "line": 48
+        },
+        {
+          "path": "status/codex/productization/S14/cli-publisher-fec8af0-py312/native-ssh/native-ssh-access.json",
+          "line": 91
+        },
+        {
+          "path": "status/codex/productization/S14/cli-publisher-fec8af0-py312/native-ssh/plan-hostname.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S14/cli-publisher-fec8af0-py312/native-ssh/plan-ipv6.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S14/paper-feedback-82a6b9e-py312/native-ssh/native-ssh-access.json",
+          "line": 48
+        },
+        {
+          "path": "status/codex/productization/S14/paper-feedback-82a6b9e-py312/native-ssh/native-ssh-access.json",
+          "line": 91
+        },
+        {
+          "path": "status/codex/productization/S14/paper-feedback-82a6b9e-py312/native-ssh/plan-hostname.log",
+          "line": 1
+        },
+        {
+          "path": "status/codex/productization/S14/paper-feedback-82a6b9e-py312/native-ssh/plan-ipv6.log",
+          "line": 1
+        }
+      ]
+    },
+    {
+      "value_sha256": "fdcfbebdebd124945bb33e406e5cfec24541f7d3941d43e2c7f4dc77c2db419d",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 7,
+      "reviewed_primary_ref": "status/codex/productization/S09/local-control-qualified-41fa2fe-py312/tools/s09_local_paper_control_native_http.py",
+      "reviewed_line": 67,
+      "reviewed_source_sha256": "4cf8ae8a9837a6280a6c6a07640d65a5ad3c7449516dd0d545c810540f9ec718",
+      "owner_symbols": [
+        "main"
+      ],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S09/local-control-qualified-41fa2fe-py312/tools/s09_local_paper_control_native_http.py",
+          "line": 67
+        },
+        {
+          "path": "status/codex/productization/S12/storage-qualified-083fd10-py312/tools/s09_local_paper_control_native_http.py",
+          "line": 67
+        },
+        {
+          "path": "status/codex/productization/S09/normal-fixture-qualified-d3d8496-py312/closures/native/7a75b370/s12_storage_native_paper_reader.py",
+          "line": 75
+        },
+        {
+          "path": "status/codex/productization/S09/paper-owner-composition-qualified-ac0b889-py312/tools/s12_storage_native_paper_reader.py",
+          "line": 75
+        },
+        {
+          "path": "status/codex/productization/S09/public-research-setup-qualified-af01b45-py312/tools/s12_storage_native_paper_reader.py",
+          "line": 75
+        },
+        {
+          "path": "status/codex/productization/S12/runtime-identity-sharing-fixed-qualified-a21f264-py312/tools/s12_storage_native_paper_reader.py",
+          "line": 75
+        },
+        {
+          "path": "status/codex/productization/S12/storage-qualified-083fd10-py312/tools/s12_storage_native_paper_reader.py",
+          "line": 75
+        }
+      ]
+    },
+    {
+      "value_sha256": "715dc8493c36579a5b116995100f635e3572fdf8703e708ef1a08d943b36774e",
+      "category": "REJECTION_TEST_TAINT_LITERAL",
+      "basis": "test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected constructs rejected payload",
+      "occurrences": 5,
+      "reviewed_primary_ref": "tests/storage/test_product_publication_v02.py",
+      "reviewed_line": 75,
+      "reviewed_source_sha256": "a1b1f272eb7da14edd26f6ecdbeafeab6bee0f4568d9c824fbbeddea8a297933",
+      "owner_symbols": [
+        "ProductPublicationV02Tests",
+        "test_bundle_mutation_private_payload_and_old_process_receipt_are_rejected"
+      ],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/application-passed-7b6901d-py312/development/S12-publication-red.log",
+          "line": 3
+        },
+        {
+          "path": "status/codex/productization/S12/application-passed-7b6901d-py312/development/S12-publication-red.log",
+          "line": 20
+        },
+        {
+          "path": "status/codex/productization/S12/control-passed-9391421-py312/development/S12-publication-red.log",
+          "line": 3
+        },
+        {
+          "path": "status/codex/productization/S12/control-passed-9391421-py312/development/S12-publication-red.log",
+          "line": 20
+        },
+        {
+          "path": "tests/storage/test_product_publication_v02.py",
+          "line": 75
+        }
+      ]
+    },
+    {
+      "value_sha256": "385c1160638fe0161d4417e25eddc39aa4b6635fd39a586d943301d6567b5bba",
+      "category": "UNUSED_UNIT_HELPER_REDACTION_MARKER",
+      "basis": "Root inspected AST: HelperLifecycleTests.flow assigns only the command-log redaction input; only direct Python JSON/sleep children are used, no enrollment/login/HTTP/credentials access; original test_plat08_helper_lifecycle.py exact filehash b20b3abd988e40e82a1abcd4e49f9d2cacb3af1441e03676e3cf7e6866097fbe",
+      "occurrences": 1,
+      "reviewed_primary_ref": "status/codex/productization/S12/current-windows-3ae6460/artifacts/a0241.py",
+      "reviewed_line": 13,
+      "reviewed_source_sha256": "b20b3abd988e40e82a1abcd4e49f9d2cacb3af1441e03676e3cf7e6866097fbe",
+      "owner_symbols": [
+        "HelperLifecycleTests",
+        "flow"
+      ],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/current-windows-3ae6460/artifacts/a0241.py",
+          "line": 13
+        }
+      ]
+    },
+    {
+      "value_sha256": "e6a06fe10b1cb81130be203ae48714a75b4920651f3e3b1161487b5bdf282634",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 2,
+      "reviewed_primary_ref": "status/codex/productization/S12/current-windows-3ae6460/artifacts/a0286.py",
+      "reviewed_line": 39,
+      "reviewed_source_sha256": "d1fadfb5806993be33008cab19ca1c174891d241d441a78c37f4779e7bc318cf",
+      "owner_symbols": [
+        "make_idle_view"
+      ],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/current-windows-3ae6460/artifacts/a0286.py",
+          "line": 39
+        },
+        {
+          "path": "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0142.py",
+          "line": 39
+        }
+      ]
+    },
+    {
+      "value_sha256": "f4981e0f77fdee072eb4fd2f9b79384dadb78d60cac0e78ecb90526b5b5449e6",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 2,
+      "reviewed_primary_ref": "tests/product/test_trading_dispatch_v02.py",
+      "reviewed_line": 199,
+      "reviewed_source_sha256": "76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+      "owner_symbols": [
+        "TradingDispatchV02Tests",
+        "test_malicious_cloud_proposal_cannot_restore_revoked_authority_or_reach_fake_provider"
+      ],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/current-windows-7d821f2-supplement/artifacts/a0020.patch",
+          "line": 43
+        },
+        {
+          "path": "tests/product/test_trading_dispatch_v02.py",
+          "line": 199
+        }
+      ]
+    },
+    {
+      "value_sha256": "9c51189896dd4f3f5b2a3bfca9814b3e6616f46009e2403910a8973dd0547b7c",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 8,
+      "reviewed_primary_ref": "tests/product/test_api_approval_binding.py",
+      "reviewed_line": 22,
+      "reviewed_source_sha256": "6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+      "owner_symbols": [
+        "APIApprovalBindingTests",
+        "setUp"
+      ],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/current-windows-7d821f2-supplement/artifacts/a0020.patch",
+          "line": 60
+        },
+        {
+          "path": "status/codex/productization/S12/h16-finalization-components-cd415a1/artifacts/a0072.unapplied",
+          "line": 7
+        },
+        {
+          "path": "ui/qa/control-center.spec.ts",
+          "line": 7
+        },
+        {
+          "path": "tests/product/test_api_approval_binding.py",
+          "line": 22
+        },
+        {
+          "path": "tests/product/test_api_authority.py",
+          "line": 24
+        },
+        {
+          "path": "tests/product/test_api_paper_services.py",
+          "line": 31
+        },
+        {
+          "path": "tests/product/test_local_auth.py",
+          "line": 22
+        },
+        {
+          "path": "tests/product/test_trading_dispatch_v02.py",
+          "line": 216
+        }
+      ]
+    },
+    {
+      "value_sha256": "d7fa509a154f4d5c68bec0ca83afacda5832bccd40da1c6d4eef538e1d93ea08",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "status/codex/productization/S12/h16-finalization-components-cd415a1/artifacts/a0070.json",
+      "reviewed_line": 17,
+      "reviewed_source_sha256": "58c0f21ec16989947e7ac7519cbc2d6db3d10ea0ac798cae8819cbd62f8fc5dd",
+      "owner_symbols": [],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/h16-finalization-components-cd415a1/artifacts/a0070.json",
+          "line": 17
+        }
+      ]
+    },
+    {
+      "value_sha256": "3fc069775d9567a44bd090971fc39ef6da026c441717210cbd0f10239ac68dde",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 8,
+      "reviewed_primary_ref": "status/codex/productization/S12/supervisor-e293a94-py312/harness/s13_native_recovery_probe.py",
+      "reviewed_line": 240,
+      "reviewed_source_sha256": "8cec9d2447b3f1a7e90e16460b8da215a126db043248c12bfbca98a405557709",
+      "owner_symbols": [],
+      "all_refs": [
+        {
+          "path": "status/codex/productization/S12/supervisor-e293a94-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S13/installer-fa3b786-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S13/recovery-86643c4-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S13/service-14aeb99-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S13/ssh-9245c3c-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S13/unaccepted-recovery-30915c6/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S14/cli-publisher-fec8af0-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        },
+        {
+          "path": "status/codex/productization/S14/paper-feedback-82a6b9e-py312/harness/s13_native_recovery_probe.py",
+          "line": 240
+        }
+      ]
+    },
+    {
+      "value_sha256": "13605183c72f1a933466ea060e84f6897e932a5f2f8830470403353de26fab91",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_cloud_intake.py",
+      "reviewed_line": 70,
+      "reviewed_source_sha256": "422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a",
+      "owner_symbols": [
+        "CloudIntakeTests",
+        "test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_cloud_intake.py",
+          "line": 70
+        }
+      ]
+    },
+    {
+      "value_sha256": "35e0d0360a0af6d115f9df30e1b00b5b544ebf4bb93272aa02cd5d64b064a64b",
+      "category": "REJECTION_TEST_MANIFEST_FIELD",
+      "basis": "test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected mutates synthetic manifest and expects BackupError",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_database_backup.py",
+      "reviewed_line": 136,
+      "reviewed_source_sha256": "24ccf253ba50e8a81a58a10d59706f403488125113cd43a725f54ed5a4d9ff78",
+      "owner_symbols": [
+        "DatabaseBackupTests",
+        "test_manifest_traversal_unknown_schema_and_duplicate_subjects_are_rejected"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_database_backup.py",
+          "line": 136
+        }
+      ]
+    },
+    {
+      "value_sha256": "dbdf39ef633424b471131d6003960dfabf03cd6a388a6215e0792484cb8582d0",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_database_restore.py",
+      "reviewed_line": 315,
+      "reviewed_source_sha256": "e7b0059c07d61cec763aa34e3402c81ae9e5c1e7b1b13b99f9d74f6baf09d931",
+      "owner_symbols": [
+        "DatabaseRestoreTests",
+        "test_authenticated_restored_health_surfaces_fence_and_refuses_copied_session"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_database_restore.py",
+          "line": 315
+        }
+      ]
+    },
+    {
+      "value_sha256": "70348bad35054023e62ddb955dd476b44e61fc681617c84fcded2759b9e49cea",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_expired_research_api_replay.py",
+      "reviewed_line": 22,
+      "reviewed_source_sha256": "4dd85272d19013cda4a62a49c16b5b3e94c693227c71e0a99c7c31fb11585aae",
+      "owner_symbols": [
+        "ExpiredResearchAPIReplayTests",
+        "test_same_completed_command_replays_after_expiry_without_new_owner_work"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_expired_research_api_replay.py",
+          "line": 22
+        }
+      ]
+    },
+    {
+      "value_sha256": "2202e402768c1dfc55af2261a53d2580a357900b440fdbfd5b7f11ab844a9d69",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_feedback_redaction.py",
+      "reviewed_line": 97,
+      "reviewed_source_sha256": "eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2",
+      "owner_symbols": [
+        "FeedbackTests",
+        "test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected",
+        "contaminated"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_feedback_redaction.py",
+          "line": 97
+        }
+      ]
+    },
+    {
+      "value_sha256": "b916b60d8bbbc57e28d2b0450fe8a91d99d0c6a59dd8453b51045cce8ecaa011",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_fixture_product_mode.py",
+      "reviewed_line": 71,
+      "reviewed_source_sha256": "7df97182dbcb36cb7e5b552df8d347de0c33cbc36364ee35ab8dcb2b800cb7a0",
+      "owner_symbols": [
+        "FixtureProductModeTests",
+        "test_public_enrollment_cannot_relabel_existing_authentication_store"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_fixture_product_mode.py",
+          "line": 71
+        }
+      ]
+    },
+    {
+      "value_sha256": "578c3b32c08f274c6ff542c042148f5f4cb0ae69471fe6352f431a7db652b722",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 3,
+      "reviewed_primary_ref": "tests/application/test_fixture_recipe_flow.py",
+      "reviewed_line": 39,
+      "reviewed_source_sha256": "ff771a8bd2c4fa5407007751530a0e2b43355ca8fd541ddd28356f5fe4d24b68",
+      "owner_symbols": [
+        "FixtureRecipeFlowTests",
+        "flow"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_fixture_recipe_flow.py",
+          "line": 39
+        },
+        {
+          "path": "tests/application/test_normal_fixture_paper.py",
+          "line": 70
+        },
+        {
+          "path": "tests/application/test_normal_fixture_worker.py",
+          "line": 51
+        }
+      ]
+    },
+    {
+      "value_sha256": "1fb258c4477358f43f6ecc5f16419b1309fdad4eb29f0d740c33f122fe43c817",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 2,
+      "reviewed_primary_ref": "tests/application/test_local_fixture_copy.py",
+      "reviewed_line": 181,
+      "reviewed_source_sha256": "7cb526de2b8c8109c2f31359a87a55e6af75e594e14349a83c830436107c98ed",
+      "owner_symbols": [
+        "LocalFixtureCopyTests",
+        "test_config_schema_root_overlap_escape_and_identity_flags_are_denied"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_local_fixture_copy.py",
+          "line": 181
+        },
+        {
+          "path": "tests/application/test_platform.py",
+          "line": 61
+        }
+      ]
+    },
+    {
+      "value_sha256": "f7c3efe5e2a7b032fe3646c303c9b1228adf77056c1bf3c3e34c31177ece3f8b",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_native_entrypoints.py",
+      "reviewed_line": 79,
+      "reviewed_source_sha256": "70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3",
+      "owner_symbols": [
+        "NativeEntrypointTests",
+        "test_actual_e6_migrations_and_authenticated_api_are_composed"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_native_entrypoints.py",
+          "line": 79
+        }
+      ]
+    },
+    {
+      "value_sha256": "36f149f55be10cbcf22dafd16d7474dec5df9a0eb605cf56c8a029768e8ba22d",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_native_entrypoints.py",
+      "reviewed_line": 99,
+      "reviewed_source_sha256": "70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3",
+      "owner_symbols": [
+        "NativeEntrypointTests",
+        "test_owner_enrollment_uses_hidden_interactive_input_and_never_prints_password"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_native_entrypoints.py",
+          "line": 99
+        }
+      ]
+    },
+    {
+      "value_sha256": "43ed5c457b799abe72e15e5ce574960937404f72402c5c15837044c1fc1a3a4a",
+      "category": "REJECTED_PROVIDER_PARAMETER_LITERAL",
+      "basis": "Controlled public transport tests add an explicitly forbidden parameter and require ValueError before network attempts; related test uses share same rejection literal",
+      "occurrences": 5,
+      "reviewed_primary_ref": "tests/application/test_okx_public_dataset.py",
+      "reviewed_line": 144,
+      "reviewed_source_sha256": "0ccb3516313c3a15ff84ccfc020092e35719886df26b70c27637d657c7bbeacf",
+      "owner_symbols": [
+        "PublicDatasetTests",
+        "test_different_contract_and_caller_auth_parameters_rejected_before_network"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_okx_public_dataset.py",
+          "line": 144
+        },
+        {
+          "path": "tests/application/test_paper_security_driver.py",
+          "line": 73
+        },
+        {
+          "path": "tests/application/test_public_paper_market.py",
+          "line": 25
+        },
+        {
+          "path": "tests/brokers/test_paper_checkpoint.py",
+          "line": 102
+        },
+        {
+          "path": "tests/storage/test_paper_process_journal.py",
+          "line": 116
+        }
+      ]
+    },
+    {
+      "value_sha256": "cfe667952f0ff40f1d6311af9fd9f7f313233d31706f3f599c36b10135157a84",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_paper_native_driver.py",
+      "reviewed_line": 182,
+      "reviewed_source_sha256": "799d0d59e1699e9b5f0808f4c1982afe2ef28319afc42ee7065ef0c756b801d0",
+      "owner_symbols": [
+        "PaperNativeDriverTests",
+        "test_native_fault_unconfirmed_cleanup_retains_handle_and_closed_capture"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_paper_native_driver.py",
+          "line": 182
+        }
+      ]
+    },
+    {
+      "value_sha256": "bdf2320984309a176a448b6f2949f4eacaf854724c25c4489e2e40b48bc29093",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_paper_native_driver.py",
+      "reviewed_line": 240,
+      "reviewed_source_sha256": "799d0d59e1699e9b5f0808f4c1982afe2ef28319afc42ee7065ef0c756b801d0",
+      "owner_symbols": [
+        "PaperNativeDriverTests",
+        "test_owner_exit_before_login_prevents_sending_synthetic_password"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_paper_native_driver.py",
+          "line": 240
+        }
+      ]
+    },
+    {
+      "value_sha256": "d66e91659a3efd0884fc9d53f9d0619f7ebff24e416b3588dd138606313693e9",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_paper_publication_driver.py",
+      "reviewed_line": 37,
+      "reviewed_source_sha256": "d257931b829ebe42a0ef9c04655fa14b770013d8cf9a866318510fb970c43de3",
+      "owner_symbols": [
+        "PaperPublicationDriverTests",
+        "setUp"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_paper_publication_driver.py",
+          "line": 37
+        }
+      ]
+    },
+    {
+      "value_sha256": "b98df9051510f52dc6acb9d7a4658ce158aa925995ac1f1220249cb1d74d5c9e",
+      "category": "UNSENT_TEST_DRIVER_INPUT",
+      "basis": "test_setup_uses_positive_fixture_without_temporal_expiry_or_early_login assigns only fake driver object input",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_paper_security_driver.py",
+      "reviewed_line": 122,
+      "reviewed_source_sha256": "a488da1a9dcb6a019934f4c8bd7e3f2edc2d714979c9ed01409f90c67cbcb0e3",
+      "owner_symbols": [
+        "PaperSecurityDriverTests",
+        "test_setup_uses_positive_fixture_without_temporal_expiry_or_early_login"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_paper_security_driver.py",
+          "line": 122
+        }
+      ]
+    },
+    {
+      "value_sha256": "e6d72ea8d2cbce581418e39bbbcd3d6e0d299bb683858dc6fa33cb44e6ead2f2",
+      "category": "REJECTION_TEST_EXTRA_PRIVATE_FIELD",
+      "basis": "test_unknown_files_and_private_endpoint_or_extra_secret_field_remain_rejected adds invalid synthetic capture field",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_public_acquisition_backup.py",
+      "reviewed_line": 121,
+      "reviewed_source_sha256": "d2b0af4db7225d70a37371829db45008f7941c8c7205af83f65e6612540fcfd7",
+      "owner_symbols": [
+        "PublicAcquisitionBackupTests",
+        "test_unknown_files_and_private_endpoint_or_extra_secret_field_remain_rejected"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_public_acquisition_backup.py",
+          "line": 121
+        }
+      ]
+    },
+    {
+      "value_sha256": "f3b6f1db040346c2d24b509d3b309a26367e5ca72b6e58d96952ceb935cc4aa9",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_research_setup_flow.py",
+      "reviewed_line": 166,
+      "reviewed_source_sha256": "9b588d87430ef2d23cfaf35e7fa9b2123ff26281ff46ebf9a40b247c29eca9a4",
+      "owner_symbols": [
+        "ResearchSetupFlowTests",
+        "flow"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_research_setup_flow.py",
+          "line": 166
+        }
+      ]
+    },
+    {
+      "value_sha256": "83aaae26be52087d57a7fdf0b6b7fdc5eadc9d4b92a556cc85188ff45cb5963c",
+      "category": "NONCREDENTIAL_NEGATIVE_STATUS",
+      "basis": "test_identity_types_software_commitments_and_authority_are_validated passes invalid credentials PRESENT status",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/application/test_runtime_identity_read.py",
+      "reviewed_line": 157,
+      "reviewed_source_sha256": "1322cb12210822e6a1e042eee99734f97f746d253e151c250f31965e62579b13",
+      "owner_symbols": [
+        "RuntimeIdentityReadTests",
+        "test_identity_types_software_commitments_and_authority_are_validated"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/application/test_runtime_identity_read.py",
+          "line": 157
+        }
+      ]
+    },
+    {
+      "value_sha256": "2ee8f42267a3635138b7b04501b6a854349d168cdc4e2db23bf05b64e65371f7",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_production_transport.py",
+      "reviewed_line": 86,
+      "reviewed_source_sha256": "a0a8f58341ef1e5de8bdb047b8b15684b265583ee1b2017bf322906b4088ed38",
+      "owner_symbols": [
+        "OKXProductionTransportTests",
+        "test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback",
+        "read"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_production_transport.py",
+          "line": 86
+        }
+      ]
+    },
+    {
+      "value_sha256": "82eed8f791b244ae23dce9d9435cadb39eb98e1f9bd921db09305e7ed61ca961",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_production_transport.py",
+      "reviewed_line": 86,
+      "reviewed_source_sha256": "a0a8f58341ef1e5de8bdb047b8b15684b265583ee1b2017bf322906b4088ed38",
+      "owner_symbols": [
+        "OKXProductionTransportTests",
+        "test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback",
+        "read"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_production_transport.py",
+          "line": 86
+        }
+      ]
+    },
+    {
+      "value_sha256": "62fdb657e34f3cbdb448e24b18157b61d2af643f6a95415553a59b0149adc33f",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_shadow.py",
+      "reviewed_line": 316,
+      "reviewed_source_sha256": "e53140610a66fa9aaeebbf67081d0eee896314f9fb1e10fdc59d18c3e6b88c27",
+      "owner_symbols": [
+        "OKXShadowReaderTests",
+        "test_different_valid_credentials_do_not_change_reachable_public_capabilities"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_shadow.py",
+          "line": 316
+        }
+      ]
+    },
+    {
+      "value_sha256": "ecdef1371b0820317728cfc900a1db7afab9f56dbcf01f510ba1ac007f4e1315",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_shadow.py",
+      "reviewed_line": 317,
+      "reviewed_source_sha256": "e53140610a66fa9aaeebbf67081d0eee896314f9fb1e10fdc59d18c3e6b88c27",
+      "owner_symbols": [
+        "OKXShadowReaderTests",
+        "test_different_valid_credentials_do_not_change_reachable_public_capabilities"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_shadow.py",
+          "line": 317
+        }
+      ]
+    },
+    {
+      "value_sha256": "e67dd75c6cfa5b912cae067ea7d1a08ef1c7f6693d87f4bad9aaddc621cef7e7",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_shadow.py",
+      "reviewed_line": 318,
+      "reviewed_source_sha256": "e53140610a66fa9aaeebbf67081d0eee896314f9fb1e10fdc59d18c3e6b88c27",
+      "owner_symbols": [
+        "OKXShadowReaderTests",
+        "test_different_valid_credentials_do_not_change_reachable_public_capabilities"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_shadow.py",
+          "line": 318
+        }
+      ]
+    },
+    {
+      "value_sha256": "df96ad9dc350e4e9238b28b87bf49b37e58a70db12b64f89ffadb7c1ef98f770",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_submit_integrity.py",
+      "reviewed_line": 121,
+      "reviewed_source_sha256": "5d8c985c23f7f14b51b6e3df1fcf40cdd028f1fba7e244991cd2fc815503e470",
+      "owner_symbols": [
+        "_adapter"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_submit_integrity.py",
+          "line": 121
+        }
+      ]
+    },
+    {
+      "value_sha256": "a2676b05472f55318ae75ca2af0cb368c68be879ef8aa8cbfdacb546f479c126",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/brokers/test_okx_submit_integrity.py",
+      "reviewed_line": 123,
+      "reviewed_source_sha256": "5d8c985c23f7f14b51b6e3df1fcf40cdd028f1fba7e244991cd2fc815503e470",
+      "owner_symbols": [
+        "_adapter"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/brokers/test_okx_submit_integrity.py",
+          "line": 123
+        }
+      ]
+    },
+    {
+      "value_sha256": "7728d7c34ea12edf936f5a843263aeb70e6b42e3e3f7f6b9d062e6d0ba40b189",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/position/test_lifecycle_projection.py",
+      "reviewed_line": 436,
+      "reviewed_source_sha256": "862391aae2a5e4c793a5a36ce9a89d81d3467fbcd14dcf8881edf4c26896caf5",
+      "owner_symbols": [
+        "PositionLifecycleProjectionV01Tests",
+        "test_no_storage_arrival_order_provider_or_caller_id_revision_authority"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/position/test_lifecycle_projection.py",
+          "line": 436
+        }
+      ]
+    },
+    {
+      "value_sha256": "10ce09f38e221342d27ffc1abd6333977ad26650fae62a1364898be2fa47b2e2",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 2,
+      "reviewed_primary_ref": "tests/product/test_api_authority.py",
+      "reviewed_line": 153,
+      "reviewed_source_sha256": "228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+      "owner_symbols": [
+        "APIAuthorityTests",
+        "test_errors_never_echo_passwords_paths_or_stack_traces"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/product/test_api_authority.py",
+          "line": 153
+        },
+        {
+          "path": "ui/src/api.test.ts",
+          "line": 32
+        }
+      ]
+    },
+    {
+      "value_sha256": "2c2d04a88cfab3b620e791b34c6252bc714003ca96c340c401b7bacbaad7d748",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/product/test_api_authority.py",
+      "reviewed_line": 154,
+      "reviewed_source_sha256": "228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+      "owner_symbols": [
+        "APIAuthorityTests",
+        "test_errors_never_echo_passwords_paths_or_stack_traces"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/product/test_api_authority.py",
+          "line": 154
+        }
+      ]
+    },
+    {
+      "value_sha256": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/product/test_control_commands.py",
+      "reviewed_line": 75,
+      "reviewed_source_sha256": "ec287e13fc89138f09d13a5e2d942140fb46c31028bcbf5e2dac1522997b02e2",
+      "owner_symbols": [
+        "ControlCommandTests",
+        "test_secret_fields_and_unbounded_payload_never_enter_command_store"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/product/test_control_commands.py",
+          "line": 75
+        }
+      ]
+    },
+    {
+      "value_sha256": "c1a7a9d45f654b3bd70346417a7d0371a1aef69c87d841d7b62f2d3b7e82629f",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/storage/test_paper_runtime_durability.py",
+      "reviewed_line": 750,
+      "reviewed_source_sha256": "a0a80a1743b4c96b506ad1e5121d85090c99d3239699af1623f8eb965c1bd35d",
+      "owner_symbols": [
+        "PaperRuntimeDurabilityDefinitions",
+        "test_secret_like_fields_and_release_authority_are_not_persisted"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/storage/test_paper_runtime_durability.py",
+          "line": 750
+        }
+      ]
+    },
+    {
+      "value_sha256": "2051feaf98d362900fae4de6aa70108f2c5ff8cf73484f4a30bc1ad81dba208d",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/storage/test_product_dispatch_v02.py",
+      "reviewed_line": 186,
+      "reviewed_source_sha256": "5e43c90b3ecd1aab8ce812145ccc3523b5a72259f493ba806d8eb5ec0e55c38c",
+      "owner_symbols": [
+        "ProductDispatchV02Tests",
+        "test_changed_request_historical_client_reuse_and_secret_payload_fail_closed"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/storage/test_product_dispatch_v02.py",
+          "line": 186
+        }
+      ]
+    },
+    {
+      "value_sha256": "b5d54c39e66671c9731b9f471e585d8262cd4f54963f0c93082d8dcf334d4c78",
+      "category": "SYNTHETIC_TEST_INPUT_OR_ARCHIVED_HARNESS_NARRATIVE",
+      "basis": "Root-reviewed test/harness/review context and explicit synthetic/fake/test/redaction literal; no external credential validation performed",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tests/storage/test_product_dispatch_v02.py",
+      "reviewed_line": 223,
+      "reviewed_source_sha256": "5e43c90b3ecd1aab8ce812145ccc3523b5a72259f493ba806d8eb5ec0e55c38c",
+      "owner_symbols": [
+        "ProductDispatchV02Tests",
+        "test_malformed_body_roles_and_credential_headers_never_reach_claim"
+      ],
+      "all_refs": [
+        {
+          "path": "tests/storage/test_product_dispatch_v02.py",
+          "line": 223
+        }
+      ]
+    },
+    {
+      "value_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+      "category": "UNPERSISTED_GENERATOR_FRAGMENT",
+      "basis": "PublicFixture password starts with one repeated character then runtime secrets.token_hex; artifact contains generator fragment only",
+      "occurrences": 1,
+      "reviewed_primary_ref": "tools/verify_paper_product.py",
+      "reviewed_line": 72,
+      "reviewed_source_sha256": "52a3efea7e6489bf72fa93947f8b02be49611fdcac491d65440a377be0ec5ffb",
+      "owner_symbols": [
+        "PublicFixture",
+        "__init__"
+      ],
+      "all_refs": [
+        {
+          "path": "tools/verify_paper_product.py",
+          "line": 72
+        }
+      ]
+    },
+    {
+      "value_sha256": "636646ce0490d0cbf958ebfa35139da0b1748819e05b14e86f275d7e7b9876c9",
+      "category": "FETCH_PROTOCOL_ENUM",
+      "basis": "ControlAPI uses browser credentials same-origin mode, not an account credential",
+      "occurrences": 1,
+      "reviewed_primary_ref": "ui/src/api.ts",
+      "reviewed_line": 19,
+      "reviewed_source_sha256": "83be0daafab9ec7d608ca6810364a9307a3127b9768a703171354965be5bed7e",
+      "owner_symbols": [],
+      "all_refs": [
+        {
+          "path": "ui/src/api.ts",
+          "line": 19
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No full ancestral history, working-tree, ignored/untracked, binary/image, submodule or symlink-target secret audit",
+    "UTF-8 text pattern scan cannot prove absence of encoded, split, dynamic or unfamiliar credential forms",
+    "Hosted wiring/claims are source observations, not invocation/spend evidence"
+  ],
+  "no_whole_ancestral_history_or_binary_secret_absence_claim": true,
+  "provider_requests": 0,
+  "credentials_access": "NONE",
+  "github_compute": "NOT_USED"
+}

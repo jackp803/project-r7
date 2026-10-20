@@ -1,0 +1,17 @@
+test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer (tests.application.test_candidate_index_recovery_v02.CandidateIndexRecoveryV02Tests.test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer) ... FAIL
+
+======================================================================
+FAIL: test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer (tests.application.test_candidate_index_recovery_v02.CandidateIndexRecoveryV02Tests.test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_recovery_v02.py", line 155, in test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer
+    self.assertEqual('CLOUD_ACKNOWLEDGED',row['state'],outcomes)
+AssertionError: 'CLOUD_ACKNOWLEDGED' != 'UNAVAILABLE'
+- CLOUD_ACKNOWLEDGED
++ UNAVAILABLE
+ : ['ACK_COMMITTED_WHILE_FIRST_WRITER_PAUSED']
+
+----------------------------------------------------------------------
+Ran 1 test in 1.690s
+
+FAILED (failures=1)

@@ -1,0 +1,26 @@
+test_four_store_selection_equality_preserves_original_false_workflow_and_generation (__main__.QualifiedBackupHelperFileChecks.test_four_store_selection_equality_preserves_original_false_workflow_and_generation) ... ERROR
+test_idle_backup_binding_requires_actual_same_stopped_store_and_receipt (__main__.QualifiedBackupHelperFileChecks.test_idle_backup_binding_requires_actual_same_stopped_store_and_receipt) ... ERROR
+test_valid_sealed_snapshot_copies_match_and_one_changed_seal_denies (__main__.QualifiedBackupHelperFileChecks.test_valid_sealed_snapshot_copies_match_and_one_changed_seal_denies) ... ok
+
+======================================================================
+ERROR: test_four_store_selection_equality_preserves_original_false_workflow_and_generation (__main__.QualifiedBackupHelperFileChecks.test_four_store_selection_equality_preserves_original_false_workflow_and_generation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_qualified_backup_checkpoint_helper.py", line 35, in test_four_store_selection_equality_preserves_original_false_workflow_and_generation
+    helper.require_runtime_selection_equal(original,(original,original,original))
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_qualified_backup_checkpoint' has no attribute 'require_runtime_selection_equal'
+
+======================================================================
+ERROR: test_idle_backup_binding_requires_actual_same_stopped_store_and_receipt (__main__.QualifiedBackupHelperFileChecks.test_idle_backup_binding_requires_actual_same_stopped_store_and_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_qualified_backup_checkpoint_helper.py", line 22, in test_idle_backup_binding_requires_actual_same_stopped_store_and_receipt
+    helper.require_idle_backup_binding(value,revision,facts,owning,'actual-receipt')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'verify_qualified_backup_checkpoint' has no attribute 'require_idle_backup_binding'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.085s
+
+FAILED (errors=2)

@@ -1,0 +1,217 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+  "identity": {
+    "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+    "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+    "build_hash": "sha256:d7ed64f17d08ec1fdd373f085ff422ca3ff0f376cd54646993fb7cc1ea8d9fb4",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "scope": "SUPPLEMENTAL_ACTUAL_NATIVE_SOURCE_AND_STATIC_EVIDENCE_OUTSIDE_FIXED_RECEIPT",
+  "master": "IN_PROGRESS",
+  "recorded_at": "2026-10-20T20:15:58.975369+00:00",
+  "qualification_membership": "NONE",
+  "development_probes": [
+    {
+      "ref": "str12-four-hour-owner-aa2d00a-first",
+      "exit_code": 1,
+      "source_case_executions": 1,
+      "qualification_membership": "NONE"
+    },
+    {
+      "ref": "str12-four-hour-owner-aa2d00a-retry01",
+      "exit_code": 0,
+      "source_case_executions": 1,
+      "qualification_membership": "NONE"
+    },
+    {
+      "ref": "ui01-observation-contract-aa2d00a-red01",
+      "exit_code": 1,
+      "source_case_executions": 4,
+      "qualification_membership": "NONE"
+    }
+  ],
+  "str12": {
+    "status": "GENUINE_4H_RESEARCH_TO_SAME_REGISTRY_PAPER_RECOVERY_AND_MAX_HOLD_SOURCE_SUPPLEMENT_PASS",
+    "dataset": "192_HOURLY_E1_TO_48_COMPLETE_FOUR_HOUR_BARS",
+    "lineage": "ACTUAL_RESEARCH_CANDIDATE_REOPEN_SAME_REGISTRY_NORMAL_RESOLVER_TO_PAPER",
+    "lifecycle": "ONE_ENTRY_ACK_FILL_PROTECTION_NO_BAR_SCHEDULER_NEW_GENERATION_RECOVERY_EXIT_CLOSED",
+    "initial_failure": "TEST_ONLY_ORDER_ROLE_ASSUMPTION_AFTER_GENUINE_CLOSED;CANONICAL_GATEWAY_ROLE_IS_NULL",
+    "repair": "EXACT_ORIGINAL_NONREDUCING_REQUEST_EQUALITY_WITHOUT_ORDER_ROLE_ASSUMPTION",
+    "real_forward_seconds": 0,
+    "ordinary_operator_paper": "NOT_STARTED",
+    "native_credit": "NONE"
+  },
+  "ui01": {
+    "status": "REAL_MISSING_PROJECTIONS_DEMONSTRATED_RED;REPAIR_PLANNED_UNAPPLIED",
+    "cases": 4,
+    "subtest_failures": 14,
+    "errors": 0,
+    "missing_fields": [
+      "overview.strategy_subjects",
+      "overview.research_stage_counts",
+      "overview.resource_limits",
+      "overview.alerts",
+      "health.components",
+      "health.risk",
+      "health.execution",
+      "health.preflight",
+      "health.external_consumer",
+      "settings.resource_limits",
+      "settings.clock_health",
+      "settings.backup",
+      "settings.transport_test",
+      "settings.credential_presence"
+    ],
+    "identity_regression": "OBSERVATION_CLOCK_ADVANCED_WITHOUT_STATIC_CONFIG_COMMITMENT_CHANGE_PASS",
+    "plan_ref": "ui01-projection-plan-aa2d00a/plan.json",
+    "ordinary_deterministic_remediation": "CONTINUE_AFTER_CURRENT_EXACT_CANDIDATE_EVIDENCE_PERSISTED"
+  },
+  "selected_static_reviews": [
+    {
+      "reviewer": "paper_adapter_map",
+      "subject": "final_str12_test_e10d8ec",
+      "critical": 0,
+      "important": 0,
+      "execution": "NONE"
+    },
+    {
+      "reviewer": "pqr_inventory_map",
+      "subject": "prepare_aa2d_supplements_d02defb",
+      "critical": 0,
+      "important": 0,
+      "execution": "NONE"
+    },
+    {
+      "reviewer": "qualification_review",
+      "subject": "unapplied_UI_App_0748741",
+      "critical": 0,
+      "important": 0,
+      "execution": "NONE"
+    }
+  ],
+  "retained_files": [
+    {
+      "original_ref": "artifacts/current-windows-20261019/prepare_aa2d_late_supplements.py",
+      "original_hash": "sha256:d52dd4a275be90941609a8487c831f562592a7828fde1833e5f3c956c707c7a5",
+      "retained_ref": "a0001.py",
+      "retained_hash": "sha256:d52dd4a275be90941609a8487c831f562592a7828fde1833e5f3c956c707c7a5",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/prepare_aa2d_supplements.py",
+      "original_hash": "sha256:d02defb2be0a3595373ce159c14519616661f196c6d286f0cc54161e16ad1b72",
+      "retained_ref": "a0002.py",
+      "retained_hash": "sha256:d02defb2be0a3595373ce159c14519616661f196c6d286f0cc54161e16ad1b72",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/prepare_ui01_frontend_patch.py",
+      "original_hash": "sha256:5da374c135eea194ca8033ce17097339ce1d247b802e2174cc28dc3601b26bfd",
+      "retained_ref": "a0003.py",
+      "retained_hash": "sha256:5da374c135eea194ca8033ce17097339ce1d247b802e2174cc28dc3601b26bfd",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/prepare_ui01_projection_patch.py",
+      "original_hash": "sha256:011c00b419c27ebcc152bb776d730a43aaf6870ecd0a80a17ce591e381ea5cb6",
+      "retained_ref": "a0004.py",
+      "retained_hash": "sha256:011c00b419c27ebcc152bb776d730a43aaf6870ecd0a80a17ce591e381ea5cb6",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/record_power_interval_aa2d00a.ps1",
+      "original_hash": "sha256:947fdefc159fa7986e869dbebceb571de3c0ac62e4d55b9fb537d6f4957daf6a",
+      "retained_ref": "a0005.txt",
+      "retained_hash": "sha256:947fdefc159fa7986e869dbebceb571de3c0ac62e4d55b9fb537d6f4957daf6a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/retain_current_checkpoint_aa2d00a.py",
+      "original_hash": "sha256:5331d1a3d20c4dc29a48d3767f4bfbbf86f8c07063aa6ecf64faf4b8a416301e",
+      "retained_ref": "a0006.py",
+      "retained_hash": "sha256:5331d1a3d20c4dc29a48d3767f4bfbbf86f8c07063aa6ecf64faf4b8a416301e",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/str12-four-hour-owner-aa2d00a-first/checkpoint.json",
+      "original_hash": "sha256:38a9d6aad489d9bb5a80bb2c7c2e53cadf7254d28fb42a90998863bcf7df3bb7",
+      "retained_ref": "a0007.json",
+      "retained_hash": "sha256:38a9d6aad489d9bb5a80bb2c7c2e53cadf7254d28fb42a90998863bcf7df3bb7",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/str12-four-hour-owner-aa2d00a-first/source.log",
+      "original_hash": "sha256:338069d6c0f29557c4ce4b4f8b889db954bde08a66dce5933883cb09d92a722b",
+      "retained_ref": "a0008.log",
+      "retained_hash": "sha256:338069d6c0f29557c4ce4b4f8b889db954bde08a66dce5933883cb09d92a722b",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/str12-four-hour-owner-aa2d00a-retry01/checkpoint.json",
+      "original_hash": "sha256:5adaab56512a457e976c2571e28b8e84f1431ecda216355e08043e0c53886e43",
+      "retained_ref": "a0009.json",
+      "retained_hash": "sha256:5adaab56512a457e976c2571e28b8e84f1431ecda216355e08043e0c53886e43",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/str12-four-hour-owner-aa2d00a-retry01/source.log",
+      "original_hash": "sha256:0691dfd0d28512daea8d1f86e44540cf176188658544c3639de37410063abc33",
+      "retained_ref": "a0010.log",
+      "retained_hash": "sha256:0691dfd0d28512daea8d1f86e44540cf176188658544c3639de37410063abc33",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_str12_four_hour_owner_aa2d00a.py",
+      "original_hash": "sha256:e10d8ec9eccafbc65c46a506618978f1f49fac96d3afa3aaba11dab1a47b9d57",
+      "retained_ref": "a0011.py",
+      "retained_hash": "sha256:e10d8ec9eccafbc65c46a506618978f1f49fac96d3afa3aaba11dab1a47b9d57",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_str12_four_hour_owner_aa2d00a_before_entry_role_repair.py.unapplied",
+      "original_hash": "sha256:d65c06ac0e661e3cc9d2db973e4a7c1ec25f11b1190124f036d7c3fe270e2147",
+      "retained_ref": "a0012.unapplied",
+      "retained_hash": "sha256:d65c06ac0e661e3cc9d2db973e4a7c1ec25f11b1190124f036d7c3fe270e2147",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_ui01_observation_contract_aa2d00a_red.py",
+      "original_hash": "sha256:ebfdb2bdfdbb727a04b115bd8f7ba5f616e1e401e8c096f2a7b927afaf356b1f",
+      "retained_ref": "a0013.py",
+      "retained_hash": "sha256:ebfdb2bdfdbb727a04b115bd8f7ba5f616e1e401e8c096f2a7b927afaf356b1f",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/ui01-observation-contract-aa2d00a-red01/checkpoint.json",
+      "original_hash": "sha256:cae9651ab20965724efdc506de5546df3eb02326c20a1f09431b9068dbea60b3",
+      "retained_ref": "a0014.json",
+      "retained_hash": "sha256:cae9651ab20965724efdc506de5546df3eb02326c20a1f09431b9068dbea60b3",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/ui01-observation-contract-aa2d00a-red01/source.log",
+      "original_hash": "sha256:50f57fb11e3710b8b3bbb160a604dd29f141befd659c9a58963fe2f4730e249c",
+      "retained_ref": "a0015.log",
+      "retained_hash": "sha256:7eb2ef568f3766fffea744958a76f9b4ad4f1e150673ff3fdc9f6b964b9b4f92",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/ui01-projection-plan-aa2d00a/plan.json",
+      "original_hash": "sha256:af32ba932a9bf7b5fec79a418731392e542501db515fff02b0c73b20077cb078",
+      "retained_ref": "a0016.json",
+      "retained_hash": "sha256:af32ba932a9bf7b5fec79a418731392e542501db515fff02b0c73b20077cb078",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    }
+  ],
+  "additional_public_requests": 0,
+  "cumulative_public_requests": 8,
+  "cumulative_public_responses": 8,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

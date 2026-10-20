@@ -1,0 +1,29 @@
+test_one_index_refusal_does_not_pin_a_full_page_or_block_other_genuine_reports (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_one_index_refusal_does_not_pin_a_full_page_or_block_other_genuine_reports) ... ERROR
+
+======================================================================
+ERROR: test_one_index_refusal_does_not_pin_a_full_page_or_block_other_genuine_reports (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_one_index_refusal_does_not_pin_a_full_page_or_block_other_genuine_reports)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 173, in test_one_index_refusal_does_not_pin_a_full_page_or_block_other_genuine_reports
+    first=schedule_once(owners,owners.control_services(),selection(queue_reports=True))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\coordinator.py", line 95, in schedule_once
+    queue_candidate_index(research,job['owner_run_id'])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1204, in _execute_mock_call
+    result = effect(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 170, in unavailable
+    if run_id==refused:raise candidate_index.CandidateIndexError('SYNTHETIC_INDEX_ONLY_REFUSAL')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.cloud.candidate_index.CandidateIndexError: SYNTHETIC_INDEX_ONLY_REFUSAL
+
+----------------------------------------------------------------------
+Ran 1 test in 38.333s
+
+FAILED (errors=1)

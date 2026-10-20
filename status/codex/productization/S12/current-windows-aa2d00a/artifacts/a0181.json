@@ -1,0 +1,163 @@
+{
+  "revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+  "identity": {
+    "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+    "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+    "build_hash": "sha256:d7ed64f17d08ec1fdd373f085ff422ca3ff0f376cd54646993fb7cc1ea8d9fb4",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "scope": "ACTUAL_NATIVE_CANDIDATE_INDEX_QUEUE_AND_STOPPED_SOURCE_RO_COPY_AUDIT",
+  "started_at_utc": "2026-10-20T19:12:45.059754+00:00",
+  "passed": true,
+  "errors": [],
+  "cleanup_errors": [],
+  "owning_receipt_membership": "NONE",
+  "new_paper": "NOT_STARTED",
+  "provider_requests": 0,
+  "credentials": "NONE",
+  "capital": "NONE",
+  "publication_scope": "LOCAL_COPY_ONLY;NATIVE_OUTBOX_ACK_REMAINS_PENDING;REAL_CLOUD_NOT_RUN",
+  "awake": {
+    "scope": "CURRENT_THREAD_ACTIVE_QUALIFICATION_ONLY;NO_PERSISTENT_POWER_POLICY_CHANGE",
+    "requested": true,
+    "request_flags": "ES_CONTINUOUS|ES_SYSTEM_REQUIRED",
+    "previous_state": 2147483648,
+    "restored": true,
+    "explicit_user_sleep": "NOT_PREVENTED",
+    "display_or_away_mode_request": "NONE"
+  },
+  "assertions_completed": true,
+  "job_id": "job-29c13260c64cd12c39d705d1e7a7dac7f18931db02ede4072f47853fdee2d64d",
+  "owner_run_id": "run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a",
+  "operation_id": "r7-candidate-index-3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86",
+  "artifact_hash": "sha256:cdd2392dcf25d84be1da566bbf7c520aa10e885acf5c67c05236498b9f401927",
+  "index_hash": "sha256:3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86",
+  "native_worker_reaped": true,
+  "native_new_owner_command_count": 3,
+  "exact_three_payloads": [
+    "candidate_manifest.json",
+    "evidence_index.json",
+    "report.html"
+  ],
+  "local_copy_payload_hashes": {
+    "candidate_manifest.json": "sha256:445b0522ef2b3f867ee8c5a94a251edb3518350df4a622c90a5feb85480db3c9",
+    "evidence_index.json": "sha256:3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86",
+    "report.html": "sha256:b84435b58fc0e77763ad15fd2717cded80b25449cc96c4103d6f45db90583426"
+  },
+  "index": {
+    "created_at": "2026-10-20T19:13:05.005579Z",
+    "dataset": {
+      "dataset_id": "r7-synthetic-fixture-dataset",
+      "dataset_version": "1",
+      "manifest_hash": "sha256:1bb171ce745cfaab012d9893e791a3ce768f7267ccc474250a8f52400aed6b3f"
+    },
+    "evidence": [
+      {
+        "evidence_id": "evidence-ed52f1a1-898f-4b80-b0e9-8e523787e780",
+        "parent_evidence_id": null,
+        "payload_hash": "sha256:8f4b442850fc762b7827c64f8f1f739ae4cb1862ba4408dd582d63fe25c2c55f",
+        "result_ref": "research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/development_replay",
+        "role": "development_backtest"
+      },
+      {
+        "evidence_id": "evidence-7ebc412e-9f87-4d55-9bc6-b8cb5d2d46f6",
+        "parent_evidence_id": null,
+        "payload_hash": "sha256:18eebdff781be2b974591c080f02a475e6c66615f54eae39f7a1796a13b9e9f7",
+        "result_ref": "research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/sealed_oos",
+        "role": "sealed_backtest"
+      },
+      {
+        "evidence_id": "evidence-d5c907d1-52eb-45f6-a0f4-cfa9de2629f9",
+        "parent_evidence_id": "evidence-7ebc412e-9f87-4d55-9bc6-b8cb5d2d46f6",
+        "payload_hash": "sha256:11fbc3ce56181943ec42fb91d94e264a3d746c570244a0fcd97af9cf7c70b6a6",
+        "result_ref": "research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/sealed_oos",
+        "role": "oos_validation"
+      },
+      {
+        "evidence_id": "product-867d193ce2452dcbf74098fdac84c88d6109f4f7f20d56bf733a1752e6c589d7",
+        "parent_evidence_id": "evidence-d5c907d1-52eb-45f6-a0f4-cfa9de2629f9",
+        "payload_hash": "sha256:9635ea83a092d5f53c76e79cd69475dcef620562b2ecba5bae101e63db178908",
+        "result_ref": "research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/product_assessment",
+        "role": "product_assessment"
+      }
+    ],
+    "financial_authority": "NONE",
+    "holdout_observed": true,
+    "input_hash": "sha256:470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a",
+    "namespace": "FIXTURE",
+    "policy_hashes": {
+      "cost": "sha256:fa6de0c3c92d7173d5b74f9a30c07ac944b2a6ef18cd68c83371acfcd2b783b2",
+      "research": "sha256:01c66179ab969806530db113e05698a1c22d724d7051c7baeb95570a6cdb1655",
+      "risk": "sha256:35c63dff34eef024ce6452f0438be2bdc914015b411d6671fc8fecac47b5cbdc",
+      "robustness": "sha256:2de8dbbaa9a35da6143b2454ea346352fa89f174716cfc6e1436fc3fc18391df"
+    },
+    "run_id": "run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a",
+    "schema_version": "r7-candidate-evidence-index-v0.2",
+    "source": {
+      "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+      "execution": "LOCAL",
+      "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+      "worktree": "UNAVAILABLE"
+    },
+    "split_policy_hash": "sha256:882773a47da3839b51a4f16e641c343c305ab720e97eafa53bfe778422792208",
+    "strategy": {
+      "content_hash": "sha256:ddc7cb395f83b7ad3837b26c56b9fd55074fa23fb207beb87b6bc12a3c824769",
+      "runtime_family": "project-r7-e2-strategy-runtime",
+      "runtime_version": "0.2.0",
+      "strategy_id": "r7-synthetic-trend",
+      "strategy_version": "0.2.0"
+    }
+  },
+  "config_hash": "sha256:f8abccec3b02ca622199538ee959ec02a8c8563796c08a4c787af308dbfc7b6f",
+  "original_report_status": "PASS",
+  "native_outbox_state": "PENDING",
+  "new_disclosure_observations": 1,
+  "repeated_disclosure_observations": 0,
+  "local_copy_receipt": {
+    "operation_id": "r7-candidate-index-3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86",
+    "status": "LOCAL_STAGED",
+    "artifact_hash": "sha256:cdd2392dcf25d84be1da566bbf7c520aa10e885acf5c67c05236498b9f401927"
+  },
+  "owned_cleanup": [
+    {
+      "pid": 23024,
+      "reaped": true
+    },
+    {
+      "pid": 66940,
+      "reaped": true
+    },
+    {
+      "pid": 37668,
+      "reaped": true
+    },
+    {
+      "pid": 13184,
+      "reaped": true
+    },
+    {
+      "pid": 63632,
+      "reaped": true
+    },
+    {
+      "pid": 86644,
+      "reaped": true
+    },
+    {
+      "pid": 84544,
+      "reaped": true
+    },
+    {
+      "pid": 84636,
+      "reaped": true
+    },
+    {
+      "pid": 89868,
+      "reaped": true
+    }
+  ],
+  "source_package_unchanged": true,
+  "finished_at_utc": "2026-10-20T19:13:25.196875+00:00"
+}

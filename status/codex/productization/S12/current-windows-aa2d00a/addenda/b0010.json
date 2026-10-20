@@ -1,0 +1,13 @@
+{
+  "status": "ACTUAL_ORIGINAL_QUERY_INTERVAL_ASSERTION_FAILED",
+  "outside_event_count": 3,
+  "actual_window_start": "2026-10-20T19:03:03.938899+00:00",
+  "actual_window_end": "2026-10-20T20:52:59.388091+00:00",
+  "original_file_sha256": "9b46f923620d9bf2d2bb34d362c1a9f4250c30538cd949fd891cc38805707130",
+  "root_causes": [
+    "FilterHashtable DateTime UTC values interpreted as local query clock",
+    "ConvertFrom-Json default DateTime then implicit Parse loses microseconds",
+    "OrderedDictionary pipeline Select-Object returns null display projection"
+  ],
+  "qualification_credit": "NONE;OBSERVATIONAL_SUPPORT_ONLY"
+}

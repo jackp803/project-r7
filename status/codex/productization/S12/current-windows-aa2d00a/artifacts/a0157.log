@@ -1,0 +1,21 @@
+test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer (tests.application.test_candidate_index_recovery_v02.CandidateIndexRecoveryV02Tests.test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer) ... FAIL
+
+======================================================================
+FAIL: test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer (tests.application.test_candidate_index_recovery_v02.CandidateIndexRecoveryV02Tests.test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_recovery_v02.py", line 153, in test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer
+    self.assertEqual(['SECOND_WRITER_SERIALIZED'],outcomes)
+AssertionError: Lists differ: ['SECOND_WRITER_SERIALIZED'] != ['ACK_COMMITTED_WHILE_FIRST_WRITER_PAUSED']
+
+First differing element 0:
+'SECOND_WRITER_SERIALIZED'
+'ACK_COMMITTED_WHILE_FIRST_WRITER_PAUSED'
+
+- ['SECOND_WRITER_SERIALIZED']
++ ['ACK_COMMITTED_WHILE_FIRST_WRITER_PAUSED']
+
+----------------------------------------------------------------------
+Ran 1 test in 1.680s
+
+FAILED (failures=1)

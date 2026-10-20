@@ -1,0 +1,85 @@
+{
+  "schema": "r7-l01-l05-local-audit-rules-v4",
+  "status": "DRAFT_NOT_EXECUTED_REQUIRES_ESTABLISHED_OUTER_OWNER",
+  "date": "2026-10-21",
+  "scope": {
+    "head": "Exact caller-supplied 40-hex HEAD with fixed aa2d00a prefix; committed HEAD tree only",
+    "branch_diff": "Local refs/remotes/origin/main merge-base to the exact HEAD; no fetch",
+    "excluded": "Working tree, ignored/untracked files, full ancestral history, submodule contents, symlink targets, decoded/obfuscated content and image/binary secrets"
+  },
+  "limits": {
+    "per_blob_bytes": 16777216,
+    "total_blob_read_bytes": 536870912,
+    "batch_bytes": 33554432,
+    "batch_objects": 4096,
+    "max_paths": 50000,
+    "metadata_bytes": 33554432,
+    "max_findings": 10000,
+    "git_call_seconds": 120,
+    "whole_audit_seconds": 180,
+    "git_stderr_bytes": 65536,
+    "outer_owned_scanner_deadline_seconds": "Root chooses 180 or 300 using established ResourceLimits; no internal process framework",
+    "memory_enforcement": "NONE: ResourceLimits is SOFT_LIMIT_ONLY; no hard memory/RSS cap or guarantee",
+    "batch_capture": "32MiB expected raw blob batch plus fixed Git framing; cap checked only after subprocess.run capture",
+    "total_budget": "512MiB selected committed blob bytes across batches; static read selection budget, not a runtime memory limit"
+  },
+  "l01_rules": [
+    "PRIVATE_KEY_PEM",
+    "GITHUB_TOKEN_STYLE",
+    "OPENAI_KEY_STYLE",
+    "GOOGLE_API_KEY_STYLE",
+    "AWS_ACCESS_KEY_ID_STYLE",
+    "QUOTED_SECRET_ASSIGNMENT"
+  ],
+  "l05_rules": [
+    "HOSTED_CONFIG_PATH",
+    "GITHUB_RUNNER_DECLARATION",
+    "ACTION_USES_DECLARATION",
+    "HOSTED_RUN_TRIGGER"
+  ],
+  "classification": {
+    "high_confidence_tokens": "Always potential/unresolved and STOP_ROOT_REVIEW, even in test/docs context; never labeled confirmed actual credentials",
+    "quoted_assignments": "Only a closed exact noncredential-marker digest allowlist and one documented AWS example digest may be classified resolved; everything else requires root review",
+    "synthetic_context": "Path/literal context is an explicit hint, not a clearance or evidence of a genuine owner lifecycle",
+    "l05": "Genuine config/runner/uses/trigger declarations remain review findings; assertion-key occurrences are aggregated non-proof metadata only. Neither is hosted execution/spend evidence."
+  },
+  "output": {
+    "findings": "Only path, line, rule, matched-value SHA256 and finite categories/review flag; no value, excerpt, stderr or traceback",
+    "inventory": "Every HEAD path with mode/type/Git object commitment and scan/exclusion reason; SHA256 only for bytes actually captured",
+    "failure": "Finite code/type and sanitized Git call metadata only; raw stderr/stdout never printed or persisted",
+    "publication": "Fresh exclusive direct-child JSON under the approved ART root, verified readback; no tracked writes"
+  },
+  "process_assumptions": [
+    "REQUIRED: root launches exactly one scanner child through application.platform.processes.spawn_owned with actual ResourceLimits 180/300 and keeps the outer owned scope through final child/Git descendant reaping",
+    "Scanner deliberately does not implement or attest OS containment; root retains actual outer ownership/cleanup evidence separately",
+    "Inside that outer scope, only fixed local Git builtins use subprocess.run with timeout<=120, known-size bounded blob batches and captured-only stdout/stderr",
+    "Expected stdout caps are post-capture checks only. The established outer owner supplies timeout and process-tree containment only; ResourceLimits SOFT_LIMIT_ONLY does not enforce hard memory/RSS",
+    "Replacement objects, filters/textconv, pager, optional locks, inherited GIT_* and lazy fetch are disabled; no hooks/network/credential commands are requested",
+    "Caller passes a trusted actual local git executable and confirms GIT_NO_LAZY_FETCH support; missing objects fail, never fetch",
+    "No GitHub/provider API, fetch/push, checkout or repository mutation is requested",
+    "The 32MiB expected batch and 512MiB total selected-blob budget bound intended input/capture size, not peak memory; Python, Git, decompression and serialization may allocate additional memory"
+  ],
+  "root_validation_before_use": [
+    "Compile/check this v4 draft outside Git; author executed nothing; preserved earlier drafts are not rerun",
+    "Exercise refusal/sanitization with synthetic local repositories through the actual established owned scanner wrapper",
+    "Confirm aa2d00a full HEAD and local origin/main ref are the intended subject; no network refresh occurs",
+    "Retain actual outer owned child/tree closure; a direct unwrapped invocation provides no reviewed containment contract",
+    "Review every unresolved result and all exclusions; no complete history/no-secret/hosted-spend proof is claimed"
+  ],
+  "author_execution": "NONE",
+  "compile_check": "NOT_RUN",
+  "git_invocations_by_author": 0,
+  "provider_calls_by_author": 0,
+  "l05_reference_metadata": {
+    "rule": "HOSTED_COMPUTE_ASSERTION",
+    "aggregation": "Only non-proof reference counts by committed path and total; no per-key finding or root-review trigger",
+    "meaning": "References to assertions/configuration keys are not hosted invocation/spend evidence",
+    "unchanged_findings": "Hosted config paths, runner declarations, action uses and trigger references still require review"
+  },
+  "trusted_tool_hardlink_policy": {
+    "scope": "ONLY the caller-selected trusted read-only local Git executable byte capture",
+    "allow": "Regular Git binary may have link count >=1, including installed hardlinked Git binaries",
+    "unchanged": "All ancestor/file symlink and reparse checks; opened/current dev+inode+size+mtime and complete captured bytes/hash before/after",
+    "forbidden": "No tool copy/write/mutation; helper, rule manifest and output readers remain regular SINGLE_LINK; no product backup/source policies changed"
+  }
+}

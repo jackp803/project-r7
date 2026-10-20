@@ -1,0 +1,1878 @@
+{
+  "schema": "r7-str-source-expanded-mapping-advisory-v1",
+  "document_kind": "STATIC_CASE_TO_CLAUSE_MAPPING_NOT_EXECUTION_RESULTS",
+  "reviewer_execution": "NONE",
+  "current_qualification": {
+    "subject_shorthand": "f6f9fb4",
+    "state": "IN_PROGRESS",
+    "evidence_read": false,
+    "pass_claims": 0
+  },
+  "scope": {
+    "requirements": [
+      "STR-01",
+      "STR-02",
+      "STR-03",
+      "STR-04",
+      "STR-06",
+      "STR-07",
+      "STR-08",
+      "STR-11",
+      "STR-13"
+    ],
+    "reason": "Only the nine SOURCE_SUPPORTED STR rows in acceptance-v02-draft.json; selected actual test bodies read. No change to draft/source and no execution.",
+    "exclusions": [
+      "STR-05 remains separately partial, including n1 one-bar ADX unreadiness.",
+      "STR-09/10/12 product-owner/native evidence not remapped here.",
+      "STR-14 Windows+bothUbuntu canonical signal parity remains NOT_RUN."
+    ]
+  },
+  "inputs": {
+    "draft_sha256": "12ef52b4835a7cf7e80dfbd99cd9ffbaa64764eb4920d062598d1e9afb087177",
+    "matrix": {
+      "ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    },
+    "semantics": {
+      "ref": "docs/product/v0_2/02_STRATEGY_SEMANTICS.md",
+      "sha256": "7c63828fa836447110f2ff486ad7ada60820bd5946d525e574146865faefab82",
+      "relevant_lines": [
+        3,
+        7,
+        33,
+        35,
+        41,
+        45,
+        53,
+        54,
+        55,
+        56,
+        58,
+        59,
+        60,
+        64,
+        70,
+        72,
+        74,
+        94,
+        96,
+        100
+      ]
+    }
+  },
+  "binding_policy": [
+    "Root must bind each logical case to an actual current owning execution instance, exact command/log hash and all21 acceptance result fields after complete qualification.",
+    "Execution_instance_ids stay empty; definition presence and this mapping are not PASS.",
+    "Repeated focused/full executions and subTests must not be counted as additional distinct logical cases.",
+    "Source hashes are raw bytes; current implementation/profile/config commitments come from the actual owning qualification, not these static test IDs.",
+    "SOURCE_ONLY_WINDOWS is a scope label, never an extra matrix status; no other OS or real commissioning inference."
+  ],
+  "source_inventory": [
+    {
+      "source": "tests/strategy/test_legacy_compatibility.py",
+      "sha256": "bdf129087cae8fc67adb6f5d878bed2a268937e2e4a6d3d9e3c56abfddbb009f"
+    },
+    {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "sha256": "d54345b7b10048054f1a42b61fafbfea9934c4278c6e961ad2e544bb79b8ac55"
+    },
+    {
+      "source": "tests/strategy/test_v02_parser.py",
+      "sha256": "c47a9cf863651a6ce3db075de974b42f5bcbf2523a3e48359237fc3e1c0d6764"
+    },
+    {
+      "source": "tests/indicators/test_v02_golden.py",
+      "sha256": "f70b5733dbd84245c5c8411db08dbbd1c91cd9c98f7009972c53fdb6ccddc8a3"
+    },
+    {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "sha256": "82c4824df4439cbbb08c230564bee52fb4ea5a65544649a031e7ec4f48aee459"
+    },
+    {
+      "source": "tests/strategy/test_v02_operators.py",
+      "sha256": "e6a051b08818c2988ac577e667519f60039beca3605a64ea0042b87d059e5b24"
+    },
+    {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "sha256": "79c5199afe061f250ec00fce1e158d9332b0af2eb9e6361a0b1cfb314f659d1b"
+    },
+    {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "sha256": "e09510afb368119065c5e2db4b84842c2ae8403fc7933527839ba3f71d5592d4"
+    },
+    {
+      "source": "tests/position/test_exit_anchor_recovery.py",
+      "sha256": "64f18000d2b994c7eb66695e737983a66251a7037def1b04967d513891f8f9d3"
+    },
+    {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "sha256": "9586f93eefa2cec5c89177bc677f6166ab1887a6bebf781d0dec85110bb8cb44"
+    }
+  ],
+  "supporting_public_inputs": [
+    {
+      "source": "tests/strategy/fixtures/legacy_runtime_golden.json",
+      "sha256": "84430fe8409209662584ee44006ec3e57b1cb9b3536d1a8afa58e18e7650e54c",
+      "inspected": "Metadata and the four named cases; exact full-signal assertions are in legacy.golden."
+    },
+    {
+      "source": "tests/strategy/v02_fixtures.py",
+      "sha256": "3056762366f7af1e65cd32ac875ebc04fa73ea96e7998c721ad1aa35dccef989",
+      "inspected": "Actual closed source fixture definition and source/runtime/EMA/exit profile."
+    },
+    {
+      "source": "tests/indicators/v02_fixtures.py",
+      "sha256": "bcafcb0232811db230c92106ea89c260800c5a19ac54e06e63bbd5dad285320f",
+      "inspected": "Actual finite UTC Candle generator and explicit indicator semantic versions."
+    }
+  ],
+  "required_case_catalog": {
+    "legacy.golden": {
+      "source": "tests/strategy/test_legacy_compatibility.py",
+      "class": "LegacyCompatibilityTests",
+      "method": "test_preserved_actual_signal_goldens_from_pre_v02_executable",
+      "definition_line": 9,
+      "assertion_lines": [
+        10,
+        17
+      ],
+      "logical_test_id": "tests.strategy.test_legacy_compatibility.LegacyCompatibilityTests.test_preserved_actual_signal_goldens_from_pre_v02_executable",
+      "unittest_source_id": "test_legacy_compatibility.LegacyCompatibilityTests.test_preserved_actual_signal_goldens_from_pre_v02_executable",
+      "asserted_behavior": "Validates stored definition content hash; actual legacy runtime signal dict exactly equals retained long/short/flat/warmup cases.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "legacy.repeat": {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "class": "StrategyRuntimeTests",
+      "method": "test_same_definition_boundary_and_runtime_produce_identical_signal",
+      "definition_line": 122,
+      "assertion_lines": [
+        123,
+        129
+      ],
+      "logical_test_id": "tests.strategy.test_slice1_runtime.StrategyRuntimeTests.test_same_definition_boundary_and_runtime_produce_identical_signal",
+      "unittest_source_id": "test_slice1_runtime.StrategyRuntimeTests.test_same_definition_boundary_and_runtime_produce_identical_signal",
+      "asserted_behavior": "Same definition and copied candles give identical complete signal; contracts-v0.1, LONG and LONG_RULE_MATCHED.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "legacy.short": {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "class": "StrategyRuntimeTests",
+      "method": "test_short_path",
+      "definition_line": 140,
+      "assertion_lines": [
+        141,
+        144
+      ],
+      "logical_test_id": "tests.strategy.test_slice1_runtime.StrategyRuntimeTests.test_short_path",
+      "unittest_source_id": "test_slice1_runtime.StrategyRuntimeTests.test_short_path",
+      "asserted_behavior": "Descending actual legacy candles give SHORT and SHORT_RULE_MATCHED.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "legacy.flat": {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "class": "StrategyRuntimeTests",
+      "method": "test_no_trade_path",
+      "definition_line": 146,
+      "assertion_lines": [
+        147,
+        150
+      ],
+      "logical_test_id": "tests.strategy.test_slice1_runtime.StrategyRuntimeTests.test_no_trade_path",
+      "unittest_source_id": "test_slice1_runtime.StrategyRuntimeTests.test_no_trade_path",
+      "asserted_behavior": "Flat actual legacy candles give NO_TRADE and NO_RULE_MATCHED.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "legacy.warm": {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "class": "StrategyRuntimeTests",
+      "method": "test_insufficient_history_is_no_trade",
+      "definition_line": 152,
+      "assertion_lines": [
+        153,
+        156
+      ],
+      "logical_test_id": "tests.strategy.test_slice1_runtime.StrategyRuntimeTests.test_insufficient_history_is_no_trade",
+      "unittest_source_id": "test_slice1_runtime.StrategyRuntimeTests.test_insufficient_history_is_no_trade",
+      "asserted_behavior": "Two bars give NO_TRADE/INSUFFICIENT_HISTORY.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "legacy.future": {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "class": "StrategyRuntimeTests",
+      "method": "test_future_candle_cannot_change_signal",
+      "definition_line": 158,
+      "assertion_lines": [
+        159,
+        165
+      ],
+      "logical_test_id": "tests.strategy.test_slice1_runtime.StrategyRuntimeTests.test_future_candle_cannot_change_signal",
+      "unittest_source_id": "test_slice1_runtime.StrategyRuntimeTests.test_future_candle_cannot_change_signal",
+      "asserted_behavior": "Adding one future candle leaves complete prior signal unchanged.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "legacy.pending": {
+      "source": "tests/strategy/test_slice1_runtime.py",
+      "class": "StrategyRuntimeTests",
+      "method": "test_unclosed_candle_cannot_change_signal",
+      "definition_line": 167,
+      "assertion_lines": [
+        168,
+        174
+      ],
+      "logical_test_id": "tests.strategy.test_slice1_runtime.StrategyRuntimeTests.test_unclosed_candle_cannot_change_signal",
+      "unittest_source_id": "test_slice1_runtime.StrategyRuntimeTests.test_unclosed_candle_cannot_change_signal",
+      "asserted_behavior": "Adding unclosed candle leaves complete prior signal unchanged.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.bounds": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_oversized_or_deep_json_is_structured_before_parsing",
+      "definition_line": 10,
+      "assertion_lines": [
+        11,
+        17
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_oversized_or_deep_json_is_structured_before_parsing",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_oversized_or_deep_json_is_structured_before_parsing",
+      "asserted_behavior": "262145-byte payload, 1500-level JSON nesting and invalid UTF-8 produce exact typed size/JSON codes.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.nodes": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_ast_node_limit_includes_all_declared_features",
+      "definition_line": 19,
+      "assertion_lines": [
+        20,
+        26
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_ast_node_limit_includes_all_declared_features",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_ast_node_limit_includes_all_declared_features",
+      "asserted_behavior": "128 declared nested features exceed the aggregate AST-node budget and yield AST_NODE_LIMIT.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.parameter": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_malformed_parameter_reference_returns_typed_error",
+      "definition_line": 28,
+      "assertion_lines": [
+        29,
+        31
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_malformed_parameter_reference_returns_typed_error",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_malformed_parameter_reference_returns_typed_error",
+      "asserted_behavior": "Malformed parameter name list produces INVALID_IDENTIFIER.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.decimal": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_python_decimal_notation_and_nonfinite_values_are_forbidden",
+      "definition_line": 33,
+      "assertion_lines": [
+        34,
+        40
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_python_decimal_notation_and_nonfinite_values_are_forbidden",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_python_decimal_notation_and_nonfinite_values_are_forbidden",
+      "asserted_behavior": "Underscore, NaN, Infinity, overlong and huge-exponent financial decimals produce INVALID_DECIMAL.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.route": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_v02_routes_to_distinct_profile_without_changing_legacy_export",
+      "definition_line": 48,
+      "assertion_lines": [
+        49,
+        54
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_v02_routes_to_distinct_profile_without_changing_legacy_export",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_v02_routes_to_distinct_profile_without_changing_legacy_export",
+      "asserted_behavior": "Actual parsed v0.2 has runtime0.2.0/4h/decimal34 while legacy exported runtime remains0.1.0.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.version": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_unknown_version_and_mixed_runtime_profile_are_rejected",
+      "definition_line": 56,
+      "assertion_lines": [
+        57,
+        62
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_unknown_version_and_mixed_runtime_profile_are_rejected",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_unknown_version_and_mixed_runtime_profile_are_rejected",
+      "asserted_behavior": "Unknown DSL0.3 and DSL0.2 with runtime0.1.0 produce distinct typed version/profile errors.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.fields": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_unknown_keys_operator_arity_and_indicator_version",
+      "definition_line": 64,
+      "assertion_lines": [
+        65,
+        74
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_unknown_keys_operator_arity_and_indicator_version",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_unknown_keys_operator_arity_and_indicator_version",
+      "asserted_behavior": "Python field, wrong arity, unknown indicator semantic version and EXEC operator each produce exact structured refusal.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.graph": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_cycle_and_unknown_feature_reference",
+      "definition_line": 76,
+      "assertion_lines": [
+        77,
+        84
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_cycle_and_unknown_feature_reference",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_cycle_and_unknown_feature_reference",
+      "asserted_behavior": "Mutually cyclic features and missing reference produce FEATURE_CYCLE/UNKNOWN_FEATURE.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.units": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_price_and_volume_units_cannot_be_compared_or_added",
+      "definition_line": 86,
+      "assertion_lines": [
+        87,
+        93
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_price_and_volume_units_cannot_be_compared_or_added",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_price_and_volume_units_cannot_be_compared_or_added",
+      "asserted_behavior": "GT and ADD on price/volume mixed dimensions produce INVALID_UNITS.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.limits": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_window_lag_and_feature_count_security_limits",
+      "definition_line": 95,
+      "assertion_lines": [
+        96,
+        106
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_window_lag_and_feature_count_security_limits",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_window_lag_and_feature_count_security_limits",
+      "asserted_behavior": "Zero/10001/bool windows, negative lag and129 features produce exact bounded-grammar errors.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.depth": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_ast_depth_is_bounded_before_recursive_evaluation",
+      "definition_line": 108,
+      "assertion_lines": [
+        109,
+        113
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_ast_depth_is_bounded_before_recursive_evaluation",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_ast_depth_is_bounded_before_recursive_evaluation",
+      "asserted_behavior": "34 nested ABS features produce AST_DEPTH_LIMIT.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.canonical": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_decimal_serialization_is_canonical_under_new_profile_only",
+      "definition_line": 115,
+      "assertion_lines": [
+        116,
+        120
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_decimal_serialization_is_canonical_under_new_profile_only",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_decimal_serialization_is_canonical_under_new_profile_only",
+      "asserted_behavior": "New-profile financial values10.00 and10 yield identical content hashes.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "parser.duplicate": {
+      "source": "tests/strategy/test_v02_parser.py",
+      "class": "V02ParserTests",
+      "method": "test_duplicate_json_key_is_rejected_and_float_is_not_financial_input",
+      "definition_line": 122,
+      "assertion_lines": [
+        123,
+        133
+      ],
+      "logical_test_id": "tests.strategy.test_v02_parser.V02ParserTests.test_duplicate_json_key_is_rejected_and_float_is_not_financial_input",
+      "unittest_source_id": "test_v02_parser.V02ParserTests.test_duplicate_json_key_is_rejected_and_float_is_not_financial_input",
+      "asserted_behavior": "Duplicate DSL JSON key and binary float stop input are separately rejected with exact codes.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.units": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_derived_numeric_series_preserves_declared_units_in_value_and_snapshot_identity",
+      "definition_line": 8,
+      "assertion_lines": [
+        9,
+        17
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_derived_numeric_series_preserves_declared_units_in_value_and_snapshot_identity",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_derived_numeric_series_preserves_declared_units_in_value_and_snapshot_identity",
+      "asserted_behavior": "Scalar EMA source seed10,12 gives11/dimensionless; changed declared dimensions change feature spec hash.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.flat": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_all_families_flat_gap_and_insufficient_prefix",
+      "definition_line": 19,
+      "assertion_lines": [
+        20,
+        37
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_all_families_flat_gap_and_insufficient_prefix",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_all_families_flat_gap_and_insufficient_prefix",
+      "asserted_behavior": "Explicit outputs of every required indicator family match flat constants; empty/one-bar inputs not ready, removed interior bar gives GAP_IN_HISTORY.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.sma": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_sma_exact_signed_mean_and_no_partial_window",
+      "definition_line": 43,
+      "assertion_lines": [
+        44,
+        48
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_sma_exact_signed_mean_and_no_partial_window",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_sma_exact_signed_mean_and_no_partial_window",
+      "asserted_behavior": "SMA[-3,-1] n2=-2; one bar not ready, valueNone and INSUFFICIENT_HISTORY.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.ema": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_ema_seeds_mean_then_uses_declared_alpha",
+      "definition_line": 50,
+      "assertion_lines": [
+        51,
+        54
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_ema_seeds_mean_then_uses_declared_alpha",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_ema_seeds_mean_then_uses_declared_alpha",
+      "asserted_behavior": "n3 prefixes[1,2,3],[1,2,3,4],[1,2,3,4,5] yield2,3,4; two bars not ready. These linear vectors also match SMA and do not independently distinguish recursive alpha.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.rsi": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_rsi_wilder_seed_update_and_flat_extremes",
+      "definition_line": 56,
+      "assertion_lines": [
+        57,
+        62
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_rsi_wilder_seed_update_and_flat_extremes",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_rsi_wilder_seed_update_and_flat_extremes",
+      "asserted_behavior": "n2 mixed prices assert exact repeating Decimal seed/update; flat=50/rising=100/falling=0; two bars not ready.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.atr": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_atr_first_range_gap_true_range_seed_and_wilder",
+      "definition_line": 64,
+      "assertion_lines": [
+        65,
+        69
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_atr_first_range_gap_true_range_seed_and_wilder",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_atr_first_range_gap_true_range_seed_and_wilder",
+      "asserted_behavior": "n2 OHLC ranges assert exact2.5 seed,3.25 then5.125 update including prior-close gap; one bar not ready.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.macd": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_macd_line_signal_histogram_have_independent_warmup",
+      "definition_line": 87,
+      "assertion_lines": [
+        88,
+        94
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_macd_line_signal_histogram_have_independent_warmup",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_macd_line_signal_histogram_have_independent_warmup",
+      "asserted_behavior": "fast2/slow3: line.5 ready at3 while signal/histogram unavailable; at4 signal.5/histogram0; descending signed line-.5.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.bollinger": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_bollinger_population_variance_signed_bands",
+      "definition_line": 96,
+      "assertion_lines": [
+        97,
+        101
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_bollinger_population_variance_signed_bands",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_bollinger_population_variance_signed_bands",
+      "asserted_behavior": "[-1,1] gives middle0/std1/upper2/lower-2; flat std0; n3 std exact Decimal sqrt(2/3).",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.donchian": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_donchian_default_lag_excludes_decision_bar",
+      "definition_line": 103,
+      "assertion_lines": [
+        104,
+        109
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_donchian_default_lag_excludes_decision_bar",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_donchian_default_lag_excludes_decision_bar",
+      "asserted_behavior": "Default lag1 excludes extreme current high/low for upper12/lower8/mid10; n bars insufficient; explicit lag0 includes high100.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.one": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_window_one_is_explicit_for_each_family",
+      "definition_line": 111,
+      "assertion_lines": [
+        112,
+        120
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_window_one_is_explicit_for_each_family",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_window_one_is_explicit_for_each_family",
+      "asserted_behavior": "Enumerated n1 outputs for all families, including EMA final4, RSI100, ATR4, ADX100 at two bars and MACD hist0.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.context": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_ambient_decimal_context_does_not_change_numeric_facts",
+      "definition_line": 122,
+      "assertion_lines": [
+        123,
+        126
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_ambient_decimal_context_does_not_change_numeric_facts",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_ambient_decimal_context_does_not_change_numeric_facts",
+      "asserted_behavior": "RSI exact34-digit update unchanged under caller Decimal precision4; assertion is RSI-specific.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.gap": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_gap_and_unfinalized_input_are_invalid_instead_of_forward_filled",
+      "definition_line": 128,
+      "assertion_lines": [
+        129,
+        136
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_gap_and_unfinalized_input_are_invalid_instead_of_forward_filled",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_gap_and_unfinalized_input_are_invalid_instead_of_forward_filled",
+      "asserted_behavior": "EMA rejects removed interior candle and unfinished candle with exact GAP_IN_HISTORY/UNFINALIZED_INPUT.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.profile": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_invalid_primitive_profile_and_parameters_cannot_be_approximated",
+      "definition_line": 138,
+      "assertion_lines": [
+        139,
+        146
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_invalid_primitive_profile_and_parameters_cannot_be_approximated",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_invalid_primitive_profile_and_parameters_cannot_be_approximated",
+      "asserted_behavior": "FeatureSpec rejects unknown EMA version, invalid/bool window, MACD fast>=slow, Bollinger k0 and unknown SMA parameter.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.field": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_malformed_timeframe_and_candle_source_field_are_rejected",
+      "definition_line": 148,
+      "assertion_lines": [
+        149,
+        153
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_malformed_timeframe_and_candle_source_field_are_rejected",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_malformed_timeframe_and_candle_source_field_are_rejected",
+      "asserted_behavior": "FeatureSpec rejects non-string timeframe and __dict__ candle field.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.upper": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_window_upper_bound_is_valid_but_not_ready_prematurely",
+      "definition_line": 155,
+      "assertion_lines": [
+        156,
+        159
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_window_upper_bound_is_valid_but_not_ready_prematurely",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_window_upper_bound_is_valid_but_not_ready_prematurely",
+      "asserted_behavior": "EMA n10000 accepted but unready with one candle; n10001 rejected.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "gold.invalid": {
+      "source": "tests/indicators/test_v02_golden.py",
+      "class": "GoldenIndicatorTests",
+      "method": "test_bad_identity_alignment_and_binary_float_source_are_unhealthy",
+      "definition_line": 161,
+      "assertion_lines": [
+        162,
+        177
+      ],
+      "logical_test_id": "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_bad_identity_alignment_and_binary_float_source_are_unhealthy",
+      "unittest_source_id": "test_v02_golden.GoldenIndicatorTests.test_bad_identity_alignment_and_binary_float_source_are_unhealthy",
+      "asserted_behavior": "Actual incremental EMA rejects symbol change, duplicate/gap, misaligned interval and float source with exact reasons.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "inc.parity": {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "class": "IncrementalIndicatorTests",
+      "method": "test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs",
+      "definition_line": 20,
+      "assertion_lines": [
+        21,
+        31
+      ],
+      "logical_test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs",
+      "unittest_source_id": "test_v02_incremental.IncrementalIndicatorTests.test_batch_and_actual_incremental_updates_match_each_prefix_all_outputs",
+      "asserted_behavior": "Actual incremental update equals batch observation at every12-bar nonlinear prefix for all required families/outputs; asserts count and source boundary. Same-implementation parity is not an independent arithmetic oracle.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "inc.restart": {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "class": "IncrementalIndicatorTests",
+      "method": "test_restart_snapshot_replay_binds_prefix_parameters_and_arithmetic",
+      "definition_line": 33,
+      "assertion_lines": [
+        34,
+        44
+      ],
+      "logical_test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_restart_snapshot_replay_binds_prefix_parameters_and_arithmetic",
+      "unittest_source_id": "test_v02_incremental.IncrementalIndicatorTests.test_restart_snapshot_replay_binds_prefix_parameters_and_arithmetic",
+      "asserted_behavior": "All families/outputs snapshot at7 bars, restore as VALIDATED_REPLAY and remaining incremental observations equal uninterrupted state.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "inc.tamper": {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "class": "IncrementalIndicatorTests",
+      "method": "test_modified_or_wrong_prefix_snapshot_is_recomputed",
+      "definition_line": 46,
+      "assertion_lines": [
+        47,
+        63
+      ],
+      "logical_test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_modified_or_wrong_prefix_snapshot_is_recomputed",
+      "unittest_source_id": "test_v02_incremental.IncrementalIndicatorTests.test_modified_or_wrong_prefix_snapshot_is_recomputed",
+      "asserted_behavior": "EMA prefix hash/arithmetic/state tamper and changed candle source force RECOMPUTED_SNAPSHOT_MISMATCH; continued value remains4.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "inc.params": {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "class": "IncrementalIndicatorTests",
+      "method": "test_changed_feature_parameters_cannot_reuse_smoothing_state",
+      "definition_line": 65,
+      "assertion_lines": [
+        66,
+        73
+      ],
+      "logical_test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_changed_feature_parameters_cannot_reuse_smoothing_state",
+      "unittest_source_id": "test_v02_incremental.IncrementalIndicatorTests.test_changed_feature_parameters_cannot_reuse_smoothing_state",
+      "asserted_behavior": "EMA n2 snapshot under n3 is recomputed and yields3.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "inc.missing": {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "class": "IncrementalIndicatorTests",
+      "method": "test_invalid_source_never_turns_into_zero_or_false",
+      "definition_line": 75,
+      "assertion_lines": [
+        76,
+        84
+      ],
+      "logical_test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_invalid_source_never_turns_into_zero_or_false",
+      "unittest_source_id": "test_v02_incremental.IncrementalIndicatorTests.test_invalid_source_never_turns_into_zero_or_false",
+      "asserted_behavior": "EMA sourceNone is unready/valueNone/MISSING_SOURCE_VALUE; next update remains unready.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "inc.bound": {
+      "source": "tests/indicators/test_v02_incremental.py",
+      "class": "IncrementalIndicatorTests",
+      "method": "test_incremental_state_retains_bounded_window_not_entire_history",
+      "definition_line": 86,
+      "assertion_lines": [
+        87,
+        93
+      ],
+      "logical_test_id": "tests.indicators.test_v02_incremental.IncrementalIndicatorTests.test_incremental_state_retains_bounded_window_not_entire_history",
+      "unittest_source_id": "test_v02_incremental.IncrementalIndicatorTests.test_incremental_state_retains_bounded_window_not_entire_history",
+      "asserted_behavior": "After1000 EMA updates snapshot serializes below8192bytes and count1000.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "op.numeric": {
+      "source": "tests/strategy/test_v02_operators.py",
+      "class": "OperatorTests",
+      "method": "test_arithmetic_and_comparisons_have_decimal_results",
+      "definition_line": 12,
+      "assertion_lines": [
+        13,
+        22
+      ],
+      "logical_test_id": "tests.strategy.test_v02_operators.OperatorTests.test_arithmetic_and_comparisons_have_decimal_results",
+      "unittest_source_id": "test_v02_operators.OperatorTests.test_arithmetic_and_comparisons_have_decimal_results",
+      "asserted_behavior": "ADD/SUB/MUL/DIV/ABS/MIN/MAX assert signed exact values; GT/GTE/LT/LTE/EQ assert equality boundary.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "op.boolean": {
+      "source": "tests/strategy/test_v02_operators.py",
+      "class": "OperatorTests",
+      "method": "test_boolean_missing_required_operand_is_not_short_circuited_to_false",
+      "definition_line": 24,
+      "assertion_lines": [
+        25,
+        32
+      ],
+      "logical_test_id": "tests.strategy.test_v02_operators.OperatorTests.test_boolean_missing_required_operand_is_not_short_circuited_to_false",
+      "unittest_source_id": "test_v02_operators.OperatorTests.test_boolean_missing_required_operand_is_not_short_circuited_to_false",
+      "asserted_behavior": "AND/OR/NOT Boolean values and AND(False,None) not ready/valueNone/INSUFFICIENT_HISTORY.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "op.zero": {
+      "source": "tests/strategy/test_v02_operators.py",
+      "class": "OperatorTests",
+      "method": "test_division_by_zero_is_invalid_observation",
+      "definition_line": 34,
+      "assertion_lines": [
+        35,
+        38
+      ],
+      "logical_test_id": "tests.strategy.test_v02_operators.OperatorTests.test_division_by_zero_is_invalid_observation",
+      "unittest_source_id": "test_v02_operators.OperatorTests.test_division_by_zero_is_invalid_observation",
+      "asserted_behavior": "DIV1/0 gives unready/valueNone/DIVISION_BY_ZERO.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "op.cross": {
+      "source": "tests/strategy/test_v02_operators.py",
+      "class": "OperatorTests",
+      "method": "test_cross_requires_immediately_previous_valid_pair_with_equality_allowed",
+      "definition_line": 40,
+      "assertion_lines": [
+        41,
+        52
+      ],
+      "logical_test_id": "tests.strategy.test_v02_operators.OperatorTests.test_cross_requires_immediately_previous_valid_pair_with_equality_allowed",
+      "unittest_source_id": "test_v02_operators.OperatorTests.test_cross_requires_immediately_previous_valid_pair_with_equality_allowed",
+      "asserted_behavior": "CROSS_ABOVE/BELOW true from previous equality; already-above false; missing previous value unready. Previous pair is supplied directly by test.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "op.series": {
+      "source": "tests/strategy/test_v02_operators.py",
+      "class": "OperatorTests",
+      "method": "test_explicit_lag_and_rolling_exclude_current_when_requested",
+      "definition_line": 54,
+      "assertion_lines": [
+        55,
+        61
+      ],
+      "logical_test_id": "tests.strategy.test_v02_operators.OperatorTests.test_explicit_lag_and_rolling_exclude_current_when_requested",
+      "unittest_source_id": "test_v02_operators.OperatorTests.test_explicit_lag_and_rolling_exclude_current_when_requested",
+      "asserted_behavior": "LAG/ROLLING_MAX/MIN lag1 exclude current100; missing rolling operand and insufficient lag history unready.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "op.input": {
+      "source": "tests/strategy/test_v02_operators.py",
+      "class": "OperatorTests",
+      "method": "test_operator_context_input_bounds_and_arity",
+      "definition_line": 63,
+      "assertion_lines": [
+        64,
+        73
+      ],
+      "logical_test_id": "tests.strategy.test_v02_operators.OperatorTests.test_operator_context_input_bounds_and_arity",
+      "unittest_source_id": "test_v02_operators.OperatorTests.test_operator_context_input_bounds_and_arity",
+      "asserted_behavior": "DIV1/3 uses exact34 digits despite precision3; wrong arity/type/float give INVALID_OPERATOR_INPUT; negative lag raises.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.input": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_visible_out_of_profile_financial_input_returns_structured_boundary_error",
+      "definition_line": 30,
+      "assertion_lines": [
+        31,
+        38
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_visible_out_of_profile_financial_input_returns_structured_boundary_error",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_visible_out_of_profile_financial_input_returns_structured_boundary_error",
+      "asserted_behavior": "Oversized financial Decimal in visible OHLC gives typed INVALID_DECIMAL_INPUT.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.bundle": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_direct_bundle_cannot_bypass_finality_availability_or_immutability",
+      "definition_line": 40,
+      "assertion_lines": [
+        41,
+        49
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_direct_bundle_cannot_bypass_finality_availability_or_immutability",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_direct_bundle_cannot_bypass_finality_availability_or_immutability",
+      "asserted_behavior": "Direct AsOfBundle filters unfinished bar and copies input mapping; recorded-receipt mode rejects absent receipt.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.single": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_real_v02_nested_indicator_warmup_conflict_and_bad_data",
+      "definition_line": 51,
+      "assertion_lines": [
+        52,
+        67
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_real_v02_nested_indicator_warmup_conflict_and_bad_data",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_real_v02_nested_indicator_warmup_conflict_and_bad_data",
+      "asserted_behavior": "Actual4h nested SMA→EMA E2: two bars insufficient, three produce LONG, identical entry rules yield NO_TRADE/CONFLICTING_ENTRY_RULES. No additional bad-data assertion despite method name.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.1145": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_1145_uses_0400_0800_bar_not_unfinished_0800_1200",
+      "definition_line": 78,
+      "assertion_lines": [
+        79,
+        84
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_1145_uses_0400_0800_bar_not_unfinished_0800_1200",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_1145_uses_0400_0800_bar_not_unfinished_0800_1200",
+      "asserted_behavior": "Actual15m/4h bundle at11:45 selects last4h close08:00, E2 LONG/refprice100.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.receipt": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_1200_requires_finality_and_actual_receipt",
+      "definition_line": 86,
+      "assertion_lines": [
+        87,
+        99
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_1200_requires_finality_and_actual_receipt",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_1200_requires_finality_and_actual_receipt",
+      "asserted_behavior": "12:00 late receipt excludes latest4h until recorded+5s, E2 direction changes LONG→SHORT; unfinished candle remains excluded.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.future": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_all_future_bars_and_receipts_cannot_change_earlier_signal_or_boundary_hash",
+      "definition_line": 101,
+      "assertion_lines": [
+        102,
+        110
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_all_future_bars_and_receipts_cannot_change_earlier_signal_or_boundary_hash",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_all_future_bars_and_receipts_cannot_change_earlier_signal_or_boundary_hash",
+      "asserted_behavior": "Change all later candle OHLC and receipt clocks; full earlier E2 result remains exactly equal.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.history": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_missing_receipt_requires_explicit_historical_assumption",
+      "definition_line": 112,
+      "assertion_lines": [
+        113,
+        117
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_missing_receipt_requires_explicit_historical_assumption",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_missing_receipt_requires_explicit_historical_assumption",
+      "asserted_behavior": "Absent receipt denied by default; explicit historical_close_assumption labeled in bundle.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.gap": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_visible_gap_and_duplicate_are_rejected_without_stitching",
+      "definition_line": 119,
+      "assertion_lines": [
+        120,
+        124
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_visible_gap_and_duplicate_are_rejected_without_stitching",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_visible_gap_and_duplicate_are_rejected_without_stitching",
+      "asserted_behavior": "Missing interior/duplicate visible intervals are rejected by actual bundle builder.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "mtf.aggregate": {
+      "source": "tests/strategy/test_v02_multitimeframe.py",
+      "class": "AsOfTests",
+      "method": "test_aggregation_requires_every_finalized_constituent",
+      "definition_line": 126,
+      "assertion_lines": [
+        127,
+        138
+      ],
+      "logical_test_id": "tests.strategy.test_v02_multitimeframe.AsOfTests.test_aggregation_requires_every_finalized_constituent",
+      "unittest_source_id": "test_v02_multitimeframe.AsOfTests.test_aggregation_requires_every_finalized_constituent",
+      "asserted_behavior": "Actual16x15m→4h result volume1600/open0/close15/receipt04:00; incomplete/gapped/unfinalized constituent sets denied.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.authority": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_exit_request_rejects_unknown_authority_fields_and_mutually_mixed_shapes",
+      "definition_line": 19,
+      "assertion_lines": [
+        20,
+        28
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_exit_request_rejects_unknown_authority_fields_and_mutually_mixed_shapes",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_exit_request_rejects_unknown_authority_fields_and_mutually_mixed_shapes",
+      "asserted_behavior": "ExitRequest rejects caller risk_budget and stop python field; not an executed provider operation.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.stop": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_stop_and_target_close_both_sides_through_existing_e5_authority",
+      "definition_line": 30,
+      "assertion_lines": [
+        31,
+        42
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_stop_and_target_close_both_sides_through_existing_e5_authority",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_stop_and_target_close_both_sides_through_existing_e5_authority",
+      "asserted_behavior": "E5 interprets LONG/SHORT fixture current positions and approved plans into EXIT with exact STOP/TARGET reasons.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.time": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_time_exit_does_not_wait_for_market_or_entry_candle",
+      "definition_line": 44,
+      "assertion_lines": [
+        45,
+        54
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_time_exit_does_not_wait_for_market_or_entry_candle",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_time_exit_does_not_wait_for_market_or_entry_candle",
+      "asserted_behavior": "At first-fill hold deadline E5 emits EXIT/E5_MAX_HOLD_REACHED even with no market/UNKNOWN.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.binding": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_changed_approved_target_or_policy_cannot_reuse_first_fill_binding",
+      "definition_line": 56,
+      "assertion_lines": [
+        57,
+        63
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_changed_approved_target_or_policy_cannot_reuse_first_fill_binding",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_changed_approved_target_or_policy_cannot_reuse_first_fill_binding",
+      "asserted_behavior": "Changed approved target rejects interpretation under original first-fill anchor.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.fixed": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_fixed_distance_and_reward_risk_resolve_both_sides_without_sizing",
+      "definition_line": 102,
+      "assertion_lines": [
+        103,
+        108
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_fixed_distance_and_reward_risk_resolve_both_sides_without_sizing",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_fixed_distance_and_reward_risk_resolve_both_sides_without_sizing",
+      "asserted_behavior": "LONG/SHORT fixed-distance stops and reward/risk targets resolve exact levels and max-hold60; no sizing granted.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.atr": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_atr_uses_exact_bound_e2_observation",
+      "definition_line": 110,
+      "assertion_lines": [
+        111,
+        115
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_atr_uses_exact_bound_e2_observation",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_atr_uses_exact_bound_e2_observation",
+      "asserted_behavior": "Actual E2 ATR observation200 and matching market_boundary_ref resolve an ATR-multiple STOP59400; no ATR-target invocation.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.geometry": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_wrong_stop_geometry_and_equal_target_are_rejected",
+      "definition_line": 117,
+      "assertion_lines": [
+        118,
+        122
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_wrong_stop_geometry_and_equal_target_are_rejected",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_wrong_stop_geometry_and_equal_target_are_rejected",
+      "asserted_behavior": "Equal/wrong-side fixed stop and equal fixed target fail E5 geometry.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.partial": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_initial_protection_uses_actual_partial_exposure_and_real_fp03_evidence",
+      "definition_line": 124,
+      "assertion_lines": [
+        125,
+        133
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_initial_protection_uses_actual_partial_exposure_and_real_fp03_evidence",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_initial_protection_uses_actual_partial_exposure_and_real_fp03_evidence",
+      "asserted_behavior": "E5 PROTECT quantity0.0012 uses fixture current partial exposure and actionable typed validity.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.hold": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_partial_fill_never_resets_first_fill_holding_deadline_or_authorizes_new_entry",
+      "definition_line": 135,
+      "assertion_lines": [
+        136,
+        149
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_partial_fill_never_resets_first_fill_holding_deadline_or_authorizes_new_entry",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_partial_fill_never_resets_first_fill_holding_deadline_or_authorizes_new_entry",
+      "asserted_behavior": "Later partial fill/open clock retains original hold/first-fill anchor; deadline EXIT quantity0.002, EXIT_REQUESTED.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.trailgeometry": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_shared_trailing_geometry_tightens_both_sides_and_rejects_widened_loss_bound",
+      "definition_line": 151,
+      "assertion_lines": [
+        152,
+        156
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_shared_trailing_geometry_tightens_both_sides_and_rejects_widened_loss_bound",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_shared_trailing_geometry_tightens_both_sides_and_rejects_widened_loss_bound",
+      "asserted_behavior": "Shared E5 geometry yields LONG103/SHORT97; inverted approved loss bound rejected.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.trail": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_trailing_proposal_is_monotonic_without_claiming_provider_execution",
+      "definition_line": 158,
+      "assertion_lines": [
+        159,
+        173
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_trailing_proposal_is_monotonic_without_claiming_provider_execution",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_trailing_proposal_is_monotonic_without_claiming_provider_execution",
+      "asserted_behavior": "Actual E5 trailing request proposes59800, MODIFY_PROTECTION/NON_EXECUTABLE_PROFILE, later adverse price cannot lower proposed stop.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "exit.changed": {
+      "source": "tests/position/test_v02_exit_requests.py",
+      "class": "ExitRequestTests",
+      "method": "test_mismatched_plan_stop_and_changed_request_cannot_reuse_anchor",
+      "definition_line": 175,
+      "assertion_lines": [
+        176,
+        184
+      ],
+      "logical_test_id": "tests.position.test_v02_exit_requests.ExitRequestTests.test_mismatched_plan_stop_and_changed_request_cannot_reuse_anchor",
+      "unittest_source_id": "test_v02_exit_requests.ExitRequestTests.test_mismatched_plan_stop_and_changed_request_cannot_reuse_anchor",
+      "asserted_behavior": "Changed approved stop rejects anchor; changed hold request rejects reuse.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "recover.fill": {
+      "source": "tests/position/test_exit_anchor_recovery.py",
+      "class": "ExitAnchorRecoveryTests",
+      "method": "test_recovered_first_fill_deadline_survives_later_partial_fill_clock",
+      "definition_line": 32,
+      "assertion_lines": [
+        33,
+        46
+      ],
+      "logical_test_id": "tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_first_fill_deadline_survives_later_partial_fill_clock",
+      "unittest_source_id": "test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_first_fill_deadline_survives_later_partial_fill_clock",
+      "asserted_behavior": "Encoded/restored anchor retains first-fill+2s/hold+62s despite later opened_at and emits E5 max-hold EXIT.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "recover.trail": {
+      "source": "tests/position/test_exit_anchor_recovery.py",
+      "class": "ExitAnchorRecoveryTests",
+      "method": "test_recovered_trailing_extremes_cannot_widen_after_restart",
+      "definition_line": 48,
+      "assertion_lines": [
+        49,
+        62
+      ],
+      "logical_test_id": "tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_trailing_extremes_cannot_widen_after_restart",
+      "unittest_source_id": "test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_recovered_trailing_extremes_cannot_widen_after_restart",
+      "asserted_behavior": "Encoded/restored high-water60500 gives proposedstop59900 after adverse price; remains NON_EXECUTABLE_PROFILE.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "recover.tamper": {
+      "source": "tests/position/test_exit_anchor_recovery.py",
+      "class": "ExitAnchorRecoveryTests",
+      "method": "test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected",
+      "definition_line": 64,
+      "assertion_lines": [
+        65,
+        74
+      ],
+      "logical_test_id": "tests.position.test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected",
+      "unittest_source_id": "test_exit_anchor_recovery.ExitAnchorRecoveryTests.test_rehashed_extended_deadline_wrong_plan_and_widened_stop_rejected",
+      "asserted_behavior": "Even rehashed changed hold deadline/plan/nonfinite reference/widened stop/target cannot restore anchor.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.owner": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding",
+      "definition_line": 86,
+      "assertion_lines": [
+        87,
+        101
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_e1_aggregation_or_e5_exit_semantics_change_requires_fresh_capability_binding",
+      "asserted_behavior": "Controlled bytes of actual E1 aggregation/E5 exit source change capability snapshot hash.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.lines": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_checkout_line_endings_do_not_create_different_implementation_identity",
+      "definition_line": 103,
+      "assertion_lines": [
+        104,
+        113
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_checkout_line_endings_do_not_create_different_implementation_identity",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_checkout_line_endings_do_not_create_different_implementation_identity",
+      "asserted_behavior": "Controlled LF→CRLF reads preserve capability identity.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.numeric": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_numerical_implementation_change_invalidates_exact_capability_identity",
+      "definition_line": 115,
+      "assertion_lines": [
+        116,
+        128
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_numerical_implementation_change_invalidates_exact_capability_identity",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_numerical_implementation_change_invalidates_exact_capability_identity",
+      "asserted_behavior": "Controlled numerical bands source change invalidates snapshot hash.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.flags": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_recognized_indicator_does_not_claim_verified_execution_or_provider",
+      "definition_line": 136,
+      "assertion_lines": [
+        137,
+        146
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_recognized_indicator_does_not_claim_verified_execution_or_provider",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_recognized_indicator_does_not_claim_verified_execution_or_provider",
+      "asserted_behavior": "EMA validator/IMPLEMENTED true while VERIFIED_REFERENCE/PAPER/LIVE flags false; compatibility BLOCKED/EXECUTION_NOT_QUALIFIED.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.handler": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_missing_actual_handler_is_never_advertised_as_implemented",
+      "definition_line": 148,
+      "assertion_lines": [
+        149,
+        157
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_missing_actual_handler_is_never_advertised_as_implemented",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_missing_actual_handler_is_never_advertised_as_implemented",
+      "asserted_behavior": "Actual EMA handler removed in controlled registry: IMPLEMENTED false, typed NOT_IMPLEMENTED gap.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.immutable": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_snapshot_hash_is_deterministic_and_snapshot_cannot_be_mutated",
+      "definition_line": 159,
+      "assertion_lines": [
+        160,
+        166
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_snapshot_hash_is_deterministic_and_snapshot_cannot_be_mutated",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_snapshot_hash_is_deterministic_and_snapshot_cannot_be_mutated",
+      "asserted_behavior": "Snapshot hash deterministic SHA256; mutating returned dict does not mutate snapshot.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.version": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_unknown_version_gap_names_exact_source_and_available_version",
+      "definition_line": 168,
+      "assertion_lines": [
+        169,
+        177
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_unknown_version_gap_names_exact_source_and_available_version",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_unknown_version_gap_names_exact_source_and_available_version",
+      "asserted_behavior": "Unknown EMA version returns exact requested/available version/source pointer and reevaluation conditions.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    },
+    "cap.mismatch": {
+      "source": "tests/strategy/test_v02_capabilities.py",
+      "class": "CapabilityTests",
+      "method": "test_changed_snapshot_hash_does_not_transfer_compatibility",
+      "definition_line": 179,
+      "assertion_lines": [
+        180,
+        184
+      ],
+      "logical_test_id": "tests.strategy.test_v02_capabilities.CapabilityTests.test_changed_snapshot_hash_does_not_transfer_compatibility",
+      "unittest_source_id": "test_v02_capabilities.CapabilityTests.test_changed_snapshot_hash_does_not_transfer_compatibility",
+      "asserted_behavior": "Wrong required snapshot hash yields BLOCKED/CAPABILITY_SNAPSHOT_MISMATCH.",
+      "execution_instance_ids": [],
+      "execution_status": "NOT_BOUND_NOT_RUN"
+    }
+  },
+  "requirements": [
+    {
+      "requirement_id": "STR-01",
+      "requirement": "Legacy DSL0.1 and Runtime0.1.0 outputs remain unchanged",
+      "case_keys": [
+        "legacy.golden",
+        "parser.route",
+        "legacy.repeat",
+        "legacy.short",
+        "legacy.flat",
+        "legacy.warm",
+        "legacy.future",
+        "legacy.pending"
+      ],
+      "clauses": [
+        [
+          "Preserved pre-v0.2 full signal goldens",
+          [
+            "legacy.golden"
+          ]
+        ],
+        [
+          "Separate new routing and unchanged legacy runtime export",
+          [
+            "parser.route"
+          ]
+        ],
+        [
+          "Current actual legacy deterministic directions/history/finality",
+          [
+            "legacy.repeat",
+            "legacy.short",
+            "legacy.flat",
+            "legacy.warm",
+            "legacy.future",
+            "legacy.pending"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "The retained golden corpus contains exactly long/short/flat/warmup for one retained definition. This is a finite backward-compatibility regression, not a proof over every possible historical strategy.",
+        "Bind the golden fixture bytes as well as executable test/source bytes."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-02",
+      "requirement": "DSL0.2 strict bounded grammar rejects unknown versions, cycles, invalid units, duplicate keys and arbitrary code",
+      "case_keys": [
+        "parser.bounds",
+        "parser.nodes",
+        "parser.parameter",
+        "parser.decimal",
+        "parser.route",
+        "parser.version",
+        "parser.fields",
+        "parser.graph",
+        "parser.units",
+        "parser.limits",
+        "parser.depth",
+        "parser.canonical",
+        "parser.duplicate",
+        "gold.profile",
+        "gold.field",
+        "gold.upper",
+        "gold.units"
+      ],
+      "clauses": [
+        [
+          "Actual positive parsed v0.2 and separate runtime",
+          [
+            "parser.route"
+          ]
+        ],
+        [
+          "Bounded wire and AST/feature/window/lag structure",
+          [
+            "parser.bounds",
+            "parser.nodes",
+            "parser.parameter",
+            "parser.limits",
+            "parser.depth",
+            "gold.upper"
+          ]
+        ],
+        [
+          "Closed names/version/fields/code and acyclic reference graph",
+          [
+            "parser.version",
+            "parser.fields",
+            "parser.graph",
+            "gold.profile",
+            "gold.field"
+          ]
+        ],
+        [
+          "Financial Decimal/canonical form and dimensional units",
+          [
+            "parser.decimal",
+            "parser.duplicate",
+            "parser.canonical",
+            "parser.units",
+            "gold.units"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "Closed-shape negative vectors are finite; no claim of executing submitted code or formal proof against every malicious string.",
+        "All structured refusal assertions must pass; method names alone do not establish them."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-03",
+      "requirement": "SMA and EMA golden vectors, seeds, warmup and incremental parity",
+      "case_keys": [
+        "gold.sma",
+        "gold.ema",
+        "gold.flat",
+        "gold.one",
+        "gold.units",
+        "gold.gap",
+        "gold.upper",
+        "gold.invalid",
+        "inc.parity",
+        "inc.restart",
+        "inc.tamper",
+        "inc.params",
+        "inc.missing",
+        "inc.bound"
+      ],
+      "clauses": [
+        [
+          "SMA signed mean and exact readiness; declared source units",
+          [
+            "gold.sma",
+            "gold.units"
+          ]
+        ],
+        [
+          "EMA seed and warmup with finite linear updates",
+          [
+            "gold.ema",
+            "gold.one",
+            "gold.flat"
+          ]
+        ],
+        [
+          "Actual batch/incremental observations and validated replay",
+          [
+            "inc.parity",
+            "inc.restart"
+          ]
+        ],
+        [
+          "Prefix/profile/parameter and invalid-data recovery fences",
+          [
+            "inc.tamper",
+            "inc.params",
+            "inc.missing",
+            "inc.bound",
+            "gold.gap",
+            "gold.upper",
+            "gold.invalid"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "NONLINEAR_EMA_ORACLE_MISSING: current n3 update prices1,2,3,4,5 yield2,3,4 for both EMA and rolling SMA; same-implementation batch/incremental parity does not distinguish them.",
+        "Existing tests therefore do not completely establish the declared recursive alpha update."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-04",
+      "requirement": "RSI and ATR Wilder arithmetic, flat cases and exact warmup",
+      "case_keys": [
+        "gold.rsi",
+        "gold.atr",
+        "gold.flat",
+        "gold.one",
+        "gold.context",
+        "inc.parity",
+        "inc.restart"
+      ],
+      "clauses": [
+        [
+          "RSI Wilder seed/update, flat and one-sided extremes, n+1 warmup",
+          [
+            "gold.rsi",
+            "gold.flat",
+            "gold.one"
+          ]
+        ],
+        [
+          "ATR first TR, prior-close gaps, seed/update and n warmup",
+          [
+            "gold.atr",
+            "gold.flat",
+            "gold.one"
+          ]
+        ],
+        [
+          "Decimal identity and actual incremental/replay parity",
+          [
+            "gold.context",
+            "inc.parity",
+            "inc.restart"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "Explicit finite n1/n2/n3 vectors; RSI ambient-context test is not independently an every-family ambient-context oracle.",
+        "No native/Ubuntu parity or real market-data claim."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-06",
+      "requirement": "MACD per-output readiness, Bollinger population variance and Donchian lag exclusion",
+      "case_keys": [
+        "gold.macd",
+        "gold.bollinger",
+        "gold.donchian",
+        "gold.flat",
+        "gold.one",
+        "inc.parity",
+        "inc.restart"
+      ],
+      "clauses": [
+        [
+          "MACD line/signal/histogram independent readiness and signed value",
+          [
+            "gold.macd",
+            "gold.one"
+          ]
+        ],
+        [
+          "Bollinger exact population standard deviation and signed bands",
+          [
+            "gold.bollinger",
+            "gold.flat",
+            "gold.one"
+          ]
+        ],
+        [
+          "Donchian default prior-window exclusion versus explicit lag0",
+          [
+            "gold.donchian",
+            "gold.one"
+          ]
+        ],
+        [
+          "All outputs actual batch/incremental and restored replay",
+          [
+            "inc.parity",
+            "inc.restart",
+            "gold.flat"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "The shared EMA recurrence gap in STR-03 limits any broad claim that all EMA-derived arithmetic has an independent nonlinear oracle; these tests directly establish the stated readiness/population-variance/lag clauses.",
+        "No native/Ubuntu signal parity."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-07",
+      "requirement": "All operators, crossover previous-bar conditions and invalid/missing-value propagation",
+      "case_keys": [
+        "op.numeric",
+        "op.boolean",
+        "op.zero",
+        "op.cross",
+        "op.series",
+        "op.input",
+        "parser.units",
+        "mtf.single",
+        "mtf.1145",
+        "mtf.receipt"
+      ],
+      "clauses": [
+        [
+          "Every enumerated scalar arithmetic/comparison/Boolean operator",
+          [
+            "op.numeric",
+            "op.boolean",
+            "op.input"
+          ]
+        ],
+        [
+          "Typed division/missing data and dimensional invalidity",
+          [
+            "op.boolean",
+            "op.zero",
+            "op.series",
+            "op.input",
+            "parser.units"
+          ]
+        ],
+        [
+          "Crossover previous-pair/equality and lagged rolling windows",
+          [
+            "op.cross",
+            "op.series"
+          ]
+        ],
+        [
+          "Actual E2 GT/LT direction/conflict integration",
+          [
+            "mtf.single",
+            "mtf.1145",
+            "mtf.receipt"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "CROSS tests supply previous_values directly. They do not assert a parsed CROSS strategy in StrategyRuntime selects the immediately previous finalized pair from a time series.",
+        "Equality-bound comparison vectors and finite Boolean vectors are not an exhaustive truth-table/fuzz proof."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-08",
+      "requirement": "4h single-timeframe and4h/15m as-of alignment; unfinished/future4h bars never used",
+      "case_keys": [
+        "mtf.single",
+        "mtf.bundle",
+        "mtf.1145",
+        "mtf.receipt",
+        "mtf.future",
+        "mtf.history",
+        "mtf.gap",
+        "mtf.aggregate",
+        "mtf.input"
+      ],
+      "clauses": [
+        [
+          "Actual nested4h E2 warmup/direction/conflict",
+          [
+            "mtf.single"
+          ]
+        ],
+        [
+          "Actual15m/4h exact11:45 and12:00 receipt/finality boundaries",
+          [
+            "mtf.1145",
+            "mtf.receipt",
+            "mtf.bundle"
+          ]
+        ],
+        [
+          "Future-prefix invariance of complete signal and boundary hash",
+          [
+            "mtf.future"
+          ]
+        ],
+        [
+          "Explicit history assumptions and complete constituent/data validity",
+          [
+            "mtf.history",
+            "mtf.gap",
+            "mtf.aggregate",
+            "mtf.input"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "Synthetic recorded_received_at/history fixtures establish as-of semantics, not real network latency or cross-platform parity.",
+        "The word bad_data in one method name is not credited; its actual assertions are warmup, LONG and conflicting rules."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-11",
+      "requirement": "Fixed/ATR/target/trailing/time exits remain E5-authorized, actual-fill based and non-widening",
+      "case_keys": [
+        "exit.authority",
+        "exit.fixed",
+        "exit.atr",
+        "exit.geometry",
+        "exit.stop",
+        "exit.time",
+        "exit.binding",
+        "exit.partial",
+        "exit.hold",
+        "exit.trailgeometry",
+        "exit.trail",
+        "exit.changed",
+        "recover.fill",
+        "recover.trail",
+        "recover.tamper"
+      ],
+      "clauses": [
+        [
+          "Closed declarative request and fixed-distance/reward-risk resolution",
+          [
+            "exit.authority",
+            "exit.fixed",
+            "exit.geometry"
+          ]
+        ],
+        [
+          "Bound actual E2 ATR stop observation and original plan/request identity",
+          [
+            "exit.atr",
+            "exit.binding",
+            "exit.changed"
+          ]
+        ],
+        [
+          "Actual E5 interpretation of constructed current fill/exposure/protection facts",
+          [
+            "exit.partial",
+            "exit.stop",
+            "exit.time",
+            "exit.hold"
+          ]
+        ],
+        [
+          "Non-widening trailing proposal and persisted first-fill/restart identity",
+          [
+            "exit.trailgeometry",
+            "exit.trail",
+            "recover.fill",
+            "recover.trail",
+            "recover.tamper"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "ATR_TARGET_MISSING: only atr_multiple STOP is invoked at exit_requests.py110-115; required ATR target form is not positively asserted in the inspected strategy/position/product tests.",
+        "Positive fixed-price stop and fixed-price target forms are not independently invoked by these mapped cases; fixed-price inputs here appear only as negative geometry cases.",
+        "Fixture current positions/plans are constructed test inputs, not fresh native broker fills. Trailing is explicitly NON_EXECUTABLE_PROFILE and is not credited as provider execution."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    },
+    {
+      "requirement_id": "STR-13",
+      "requirement": "Capability registry advertises only implemented verified profiles and returns typed missing-feature receipts",
+      "case_keys": [
+        "cap.flags",
+        "cap.handler",
+        "cap.immutable",
+        "cap.version",
+        "cap.mismatch",
+        "cap.owner",
+        "cap.lines",
+        "cap.numeric"
+      ],
+      "clauses": [
+        [
+          "Implemented handler separated from reference/Paper/provider qualification",
+          [
+            "cap.flags",
+            "cap.handler"
+          ]
+        ],
+        [
+          "Immutable deterministic exact source/numeric/owner semantic snapshot",
+          [
+            "cap.immutable",
+            "cap.owner",
+            "cap.lines",
+            "cap.numeric"
+          ]
+        ],
+        [
+          "Exact requested/available/source/reevaluation gap and bound snapshot refusal",
+          [
+            "cap.version",
+            "cap.mismatch"
+          ]
+        ]
+      ],
+      "coverage_limits": [
+        "Availability and missing-handler tests explicitly inspect EMA; they are not an exhaustive independent verification-ref audit for every registry entry/profile.",
+        "Specification02 line7 also describes entry metadata/verified inventory. These mapped assertions do not enumerate every entry's parameters, units, history, timeframes and verification refs.",
+        "No implementation string or registry flag grants a software/PAPER/LIVE qualification."
+      ],
+      "status": "NOT_RUN",
+      "execution_bound": false
+    }
+  ],
+  "concrete_postcheckpoint_local_work": [
+    {
+      "id": "STR03-NONLINEAR-EMA",
+      "requirement_id": "STR-03",
+      "source": "tests/indicators/test_v02_golden.py",
+      "lines": [
+        50,
+        54
+      ],
+      "clause": "02_STRATEGY_SEMANTICS.md:54 EMA alpha=2/(n+1) recursive update; matrix STR-03 golden seeds/warmup/parity.",
+      "gap": "Existing exact EMA update goldens are linear and also match SMA. Same-implementation parity is insufficient as an arithmetic oracle.",
+      "minimal_regression": "For n3 actual EMA on1,2,3,10 must seed2 then update6, differing from rolling SMA5; retain exact Decimal readiness/value assertions.",
+      "timing": "AFTER_CURRENT_FROZEN_CHECKPOINT;NO_SOURCE_CHANGE_REQUESTED_DURING_GUARD"
+    },
+    {
+      "id": "STR11-ATR-TARGET",
+      "requirement_id": "STR-11",
+      "source": "tests/position/test_v02_exit_requests.py",
+      "lines": [
+        110,
+        115
+      ],
+      "clause": "02_STRATEGY_SEMANTICS.md:94 requires ATR-multiple stop/target with bound feature observation.",
+      "gap": "Only ATR stop is exercised. No positive ATR target invocation found in inspected position/strategy/product test files.",
+      "minimal_regression": "Use actual parsed E2 ATR target and exact E5 plan binding on both directions; assert target level and refusal of missing/changed observation/anchor. Preserve existing risk/sizing/approval rules.",
+      "timing": "AFTER_CURRENT_FROZEN_CHECKPOINT;NO_SOURCE_CHANGE_REQUESTED_DURING_GUARD"
+    }
+  ],
+  "additional_mapping_gaps": [
+    {
+      "requirement_id": "STR-07",
+      "gap": "No parsed StrategyRuntime CROSS case demonstrates selecting the immediately prior finalized pair; direct operator API tests supply that pair.",
+      "follow_up": "Add or locate a concrete E2 CROSS source test before claiming that integrated clause."
+    },
+    {
+      "requirement_id": "STR-11",
+      "gap": "Positive fixed-price exit forms are absent from this exact selected set.",
+      "follow_up": "Locate current positive cases or add bounded E2/E5 cases; negative equality/geometry alone is not positive execution."
+    },
+    {
+      "requirement_id": "STR-13",
+      "gap": "EMA flags/handler are representative; all-profile metadata/verification-ref completeness is not directly asserted by these mapped bodies.",
+      "follow_up": "Locate an exact all-entry inventory/contract assertion or retain this explicit scope limit."
+    }
+  ],
+  "counts": {
+    "requirements": 9,
+    "distinct_logical_source_cases": 80,
+    "source_test_files": 10,
+    "tests_executed_by_reviewer": 0,
+    "native_executions": 0,
+    "network_calls": 0,
+    "acceptance_pass_claims": 0
+  }
+}

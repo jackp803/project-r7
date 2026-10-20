@@ -1,3 +1,57 @@
+# Immediate follow-up after preserved aa2d software checkpoint
+
+Current fixed Windows qualification and same-version delivery/backup PASS. Exact
+software subject aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd remains preserved.
+UI01 has a genuine separate RED:4cases/14missing diagnostic fields; canceled-job
+filter also missing. Eight-file minimal patch is reviewed and UNAPPLIED; apply
+only after this evidence commit, then actual backend/browser tests and new clean
+candidate qualification. Do not transfer aa2d qualification to later source.
+K03 native producer/stopped-source local-copy and same-lineage H01-H16-K05/STR12
+source supplements are complete only within their recorded scope. Native K03
+outbox remains PENDING; no real cloud ACK/ordinary operator Paper/real-forward.
+Power observer's first query was invalid for this interval (three old events);
+exact UTC XML requery is retained separately, with no power-continuity claim.
+See current-windows-aa2d00a/semantic-review.json; Master remains IN_PROGRESS.
+
+---
+
+# Current Windows checkpoint completed; Master continues - 2026-10-20T20:58:51.262162+00:00
+
+Same task/branch, source candidate aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd.
+Actual complete fixed owning PQR PASS7/7, 211commands,
+2644source-case executions, failures/errors/skips0. Exact native
+software readback passed; receiptqualification-aac16283263c982dc21c3cc82fea3aab7cf3a780a7b0aca7e0ff2db50239d469.
+All owned trees reaped. This is fixed software qualification, not full Master
+acceptance or selection of operator financial policies.
+
+Actual new ZIP install PASS1142files/8scenarios9commands;
+no copied auth/config, PATHempty/PYTHONPATHunset/Nodeunavailable. Native one-entry
+coordinator start/duplicate/stop/child+coordinator crash/recovery PASS. Same actual
+qualified ordinary diagnostic profile automatically took engineering package
+through intake/research/BLOCKED and durable report without manual enqueue/worker
+or report commands. Formal policy absent; no candidate/ordinary operator Paper/
+real-forward promotion. Ordinary control/research/runtime idle bootstrap, duplicate,
+runtime crash recovery and all-role stop/restart also PASS with workflow=false,
+no run, no market acquisition and no new financial permission.
+Private complete owning-store backup/verify/restore/
+rebackup and four-way original/captured/restored/reback file+receipt equality
+PASS. The actual protected runtime selection also matches across all four stores,
+with its original generation/config commitment and workflow=false preserved;
+restored native admission denied/RESTORED_INHIBITED.
+
+Evidencestatus/codex/productization/S12/current-windows-aa2d00a/disposition.json; actual launch guidedeliveries/current-windows-aa2d00a/README.md.
+Archiveartifacts/current-windows-20261019/build-aa2d00a/r7-product-0.2.0-windows-aa2d00a.zip; hashsha256:4112cd9a8dc07c6023c908b26386f785f972e043031978602e1fdbfaf44f89a3.
+Exact66+150 case/command/source bindings retained separately; review actual
+per-clause dispositions, never turn supporting counts into blanket PASS.
+Continue remaining local Master gaps listed in PROGRESS. Preserve this qualified
+executable when subsequent code changes; do not transfer qualification to them.
+Old target/Ubuntu24.04+26.04/cloud/selected formal policies/real-forward samples
+remain distinct. Cumulative public8/8, additional0, private0, credentialsNONE,
+mutation0/capitalNONE/GitHubcomputeNOT_USED. No OS configuration or main merge.
+Historical records preserved below.
+
+---
+
 
 Current semantic review: `status/codex/productization/S12/current-windows-3ae6460/semantic-review.json`.
 Actual native clone19to24 upgrade/two program removals/current future-schema refusal PASS;

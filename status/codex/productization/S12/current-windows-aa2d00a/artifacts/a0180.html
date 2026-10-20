@@ -1,0 +1,64 @@
+<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><title>候選策略證據索引</title><h1>候選策略證據索引</h1><p>歷史本機證據參照；不授予交易權限。</p><pre>{
+  &quot;created_at&quot;: &quot;2026-10-20T19:13:05.005579Z&quot;,
+  &quot;dataset&quot;: {
+    &quot;dataset_id&quot;: &quot;r7-synthetic-fixture-dataset&quot;,
+    &quot;dataset_version&quot;: &quot;1&quot;,
+    &quot;manifest_hash&quot;: &quot;sha256:1bb171ce745cfaab012d9893e791a3ce768f7267ccc474250a8f52400aed6b3f&quot;
+  },
+  &quot;evidence&quot;: [
+    {
+      &quot;evidence_id&quot;: &quot;evidence-ed52f1a1-898f-4b80-b0e9-8e523787e780&quot;,
+      &quot;parent_evidence_id&quot;: null,
+      &quot;payload_hash&quot;: &quot;sha256:8f4b442850fc762b7827c64f8f1f739ae4cb1862ba4408dd582d63fe25c2c55f&quot;,
+      &quot;result_ref&quot;: &quot;research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/development_replay&quot;,
+      &quot;role&quot;: &quot;development_backtest&quot;
+    },
+    {
+      &quot;evidence_id&quot;: &quot;evidence-7ebc412e-9f87-4d55-9bc6-b8cb5d2d46f6&quot;,
+      &quot;parent_evidence_id&quot;: null,
+      &quot;payload_hash&quot;: &quot;sha256:18eebdff781be2b974591c080f02a475e6c66615f54eae39f7a1796a13b9e9f7&quot;,
+      &quot;result_ref&quot;: &quot;research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/sealed_oos&quot;,
+      &quot;role&quot;: &quot;sealed_backtest&quot;
+    },
+    {
+      &quot;evidence_id&quot;: &quot;evidence-d5c907d1-52eb-45f6-a0f4-cfa9de2629f9&quot;,
+      &quot;parent_evidence_id&quot;: &quot;evidence-7ebc412e-9f87-4d55-9bc6-b8cb5d2d46f6&quot;,
+      &quot;payload_hash&quot;: &quot;sha256:11fbc3ce56181943ec42fb91d94e264a3d746c570244a0fcd97af9cf7c70b6a6&quot;,
+      &quot;result_ref&quot;: &quot;research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/sealed_oos&quot;,
+      &quot;role&quot;: &quot;oos_validation&quot;
+    },
+    {
+      &quot;evidence_id&quot;: &quot;product-867d193ce2452dcbf74098fdac84c88d6109f4f7f20d56bf733a1752e6c589d7&quot;,
+      &quot;parent_evidence_id&quot;: &quot;evidence-d5c907d1-52eb-45f6-a0f4-cfa9de2629f9&quot;,
+      &quot;payload_hash&quot;: &quot;sha256:9635ea83a092d5f53c76e79cd69475dcef620562b2ecba5bae101e63db178908&quot;,
+      &quot;result_ref&quot;: &quot;research:run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a/product_assessment&quot;,
+      &quot;role&quot;: &quot;product_assessment&quot;
+    }
+  ],
+  &quot;financial_authority&quot;: &quot;NONE&quot;,
+  &quot;holdout_observed&quot;: true,
+  &quot;input_hash&quot;: &quot;sha256:470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a&quot;,
+  &quot;namespace&quot;: &quot;FIXTURE&quot;,
+  &quot;policy_hashes&quot;: {
+    &quot;cost&quot;: &quot;sha256:fa6de0c3c92d7173d5b74f9a30c07ac944b2a6ef18cd68c83371acfcd2b783b2&quot;,
+    &quot;research&quot;: &quot;sha256:01c66179ab969806530db113e05698a1c22d724d7051c7baeb95570a6cdb1655&quot;,
+    &quot;risk&quot;: &quot;sha256:35c63dff34eef024ce6452f0438be2bdc914015b411d6671fc8fecac47b5cbdc&quot;,
+    &quot;robustness&quot;: &quot;sha256:2de8dbbaa9a35da6143b2454ea346352fa89f174716cfc6e1436fc3fc18391df&quot;
+  },
+  &quot;run_id&quot;: &quot;run-470d5596461cea5e20adbef1e3513708d8c4c44ce644d63c32224b859808bf7a&quot;,
+  &quot;schema_version&quot;: &quot;r7-candidate-evidence-index-v0.2&quot;,
+  &quot;source&quot;: {
+    &quot;executable_revision&quot;: &quot;aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd&quot;,
+    &quot;execution&quot;: &quot;LOCAL&quot;,
+    &quot;implementation_hash&quot;: &quot;sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce&quot;,
+    &quot;worktree&quot;: &quot;UNAVAILABLE&quot;
+  },
+  &quot;split_policy_hash&quot;: &quot;sha256:882773a47da3839b51a4f16e641c343c305ab720e97eafa53bfe778422792208&quot;,
+  &quot;strategy&quot;: {
+    &quot;content_hash&quot;: &quot;sha256:ddc7cb395f83b7ad3837b26c56b9fd55074fa23fb207beb87b6bc12a3c824769&quot;,
+    &quot;runtime_family&quot;: &quot;project-r7-e2-strategy-runtime&quot;,
+    &quot;runtime_version&quot;: &quot;0.2.0&quot;,
+    &quot;strategy_id&quot;: &quot;r7-synthetic-trend&quot;,
+    &quot;strategy_version&quot;: &quot;0.2.0&quot;
+  }
+}</pre></html>

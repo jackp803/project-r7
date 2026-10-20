@@ -1,0 +1,864 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+  "identity": {
+    "executable_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+    "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+    "build_hash": "sha256:d7ed64f17d08ec1fdd373f085ff422ca3ff0f376cd54646993fb7cc1ea8d9fb4",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "scope": "SUPPLEMENTAL_ACTUAL_NATIVE_SOURCE_AND_STATIC_EVIDENCE_OUTSIDE_FIXED_RECEIPT",
+  "master": "IN_PROGRESS",
+  "recorded_at": "2026-10-20T19:31:53.915941+00:00",
+  "qualification_membership": "NONE",
+  "development_probes": [
+    {
+      "ref": "k03-missing-owner-red-3ae6460-first",
+      "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+      "exit_code": 1,
+      "status": "EXPECTED_RED",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-missing-owner-red-v2-3ae6460-first",
+      "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+      "exit_code": 1,
+      "status": "EXPECTED_RED",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-source-owner-red-250ed2d-first",
+      "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+      "exit_code": 1,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-source-owner-green01",
+      "implementation_hash": "sha256:55f769a902b4eeaf0615a15d4eaa543b7360feb34789bb1b74ef97779021e613",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-integration-red01",
+      "implementation_hash": "sha256:55f769a902b4eeaf0615a15d4eaa543b7360feb34789bb1b74ef97779021e613",
+      "exit_code": 1,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 5,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-integration-red02",
+      "implementation_hash": "sha256:55f769a902b4eeaf0615a15d4eaa543b7360feb34789bb1b74ef97779021e613",
+      "exit_code": 1,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 5,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-integration-green01",
+      "implementation_hash": "sha256:bd1cb9961c4b3120f38a5a0562a9679264e13631e2161506c8da71d6decf847a",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 6,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-recovery-green01",
+      "implementation_hash": "sha256:bd1cb9961c4b3120f38a5a0562a9679264e13631e2161506c8da71d6decf847a",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 8,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-related-regression-green01",
+      "implementation_hash": "sha256:bd1cb9961c4b3120f38a5a0562a9679264e13631e2161506c8da71d6decf847a",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 72,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-ack-concurrency-red01",
+      "implementation_hash": "sha256:bd1cb9961c4b3120f38a5a0562a9679264e13631e2161506c8da71d6decf847a",
+      "exit_code": 1,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-ack-concurrency-red02",
+      "implementation_hash": "sha256:bd1cb9961c4b3120f38a5a0562a9679264e13631e2161506c8da71d6decf847a",
+      "exit_code": 1,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-ack-concurrency-green01",
+      "implementation_hash": "sha256:76bb9fdfba51778c44bcc966628e913cbd445e8c81174106a85727ad8f6ac4df",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-pagination-refusal-red01",
+      "implementation_hash": "sha256:76bb9fdfba51778c44bcc966628e913cbd445e8c81174106a85727ad8f6ac4df",
+      "exit_code": 1,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-pagination-refusal-green01",
+      "implementation_hash": "sha256:b3383337e04626f92bf6d248931de70bd965d981ad56b343c32736c2c5e4653c",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-related-regression-green02",
+      "implementation_hash": "sha256:b3383337e04626f92bf6d248931de70bd965d981ad56b343c32736c2c5e4653c",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 74,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "k03-inventory-authoring-green01",
+      "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 23,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "h01-joined-close-aa2d00a-first",
+      "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    },
+    {
+      "ref": "h01-joined-k05-aa2d00a-first",
+      "implementation_hash": "sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce",
+      "exit_code": 0,
+      "status": "EXECUTED_DEVELOPMENT_PROBE",
+      "source_case_executions": 1,
+      "acceptance_credit": "NONE;HISTORICAL_DEVELOPMENT_OR_EXACT_SOURCE_SUPPLEMENT_ONLY"
+    }
+  ],
+  "native_k03": "NATIVE_PRODUCER_QUEUE_RETRY_AND_STOPPED_SOURCE_READONLY_LOCAL_COPY_PASS;NATIVE_OUTBOX_PENDING",
+  "native_k03_cloud_ack": "NOT_RUN;LOCAL_STAGED_SOURCE_TRANSPORT_AUDIT_ONLY",
+  "h01_h16": "SAME_ORIGINAL_E2_ENTRY_EXIT_FUNDING_STOP_CLEANUP_CLOSED_FINALIZATION_SOURCE_SUPPLEMENT_PASS",
+  "k05": "SAME_FINANCIAL_LINEAGE_READONLY_PRIVATE_SNAPSHOT_PUBLIC_OPT_POLICY_REDACTION_BUNDLE_SOURCE_SUPPLEMENT_PASS",
+  "financial_scope": "CONTROLLED_FAKE_PROVIDER_WIRE_ONLY;NO_REAL_HTTP_OR_OPERATOR_PAPER",
+  "root_static_audit": {
+    "status": "ROOT_RESOLVED_SCOPED_COMMITTED_TREE_PATTERN_AUDIT",
+    "review": "ROOT_SELF_REVIEW",
+    "original_scan_status": "STOP_ROOT_REVIEW",
+    "original_scan_hash": "sha256:f9c2cff2309af062e14db03a71dadad899174a6edabb531b211bf17ed64d59a0",
+    "sanitized_scan_hash": "sha256:f9c2cff2309af062e14db03a71dadad899174a6edabb531b211bf17ed64d59a0",
+    "encoding": "HEX_OF_SANITIZED_UTF8_TEXT_CHUNKS",
+    "reconstruction": "Decode text_hex in part order; concatenate and check sanitized_scan_hash.",
+    "parts": [
+      {
+        "ref": "audit-part-001.json",
+        "hash": "sha256:ea80c472bebe45b765cf4299a09376798bcadec2a5b2176b61ef9c07e34e6490"
+      },
+      {
+        "ref": "audit-part-002.json",
+        "hash": "sha256:e6fd09241c87706be8001874dd1ae1f0234e73228517239028db3b0571ea44d7"
+      },
+      {
+        "ref": "audit-part-003.json",
+        "hash": "sha256:dfa7d901878c180396ef899042e0fdfdda81e92fce405c242c1d438f15c70da5"
+      },
+      {
+        "ref": "audit-part-004.json",
+        "hash": "sha256:ba56eacdd0a26f51a5126416dcc85a333b3afef976d0b6db916729615af3cb6b"
+      },
+      {
+        "ref": "audit-part-005.json",
+        "hash": "sha256:34704bfdacddd825d9e3952d0a6af548a63c79d9678f4ee1ae02fd320e949b75"
+      },
+      {
+        "ref": "audit-part-006.json",
+        "hash": "sha256:f5b306c31694142ac9aa85a4d13a5ec7de05d791f1b9424dc804473195e9732b"
+      },
+      {
+        "ref": "audit-part-007.json",
+        "hash": "sha256:359ac7244dd6150c91e4663fd9f28609988fba1bc1d21d0e5ddbc2794184cfe6"
+      },
+      {
+        "ref": "audit-part-008.json",
+        "hash": "sha256:e8347288e79a6009dd16724ba31433a0bd1005dc283d293134fcc82e9f1e8108"
+      },
+      {
+        "ref": "audit-part-009.json",
+        "hash": "sha256:549c0c60d8d3a912307feca20bdd54c0d8509fd7dfc70f668d49d6cdad5fcdaa"
+      },
+      {
+        "ref": "audit-part-010.json",
+        "hash": "sha256:e07434d7f728d21dca249a5085c48fb2fa6acb6b5d63921a0c4129a8cf0da675"
+      },
+      {
+        "ref": "audit-part-011.json",
+        "hash": "sha256:087cb9f078b0be7c7f7f7118594433cf7b5a28e82003064e8a443c37f0dfe75e"
+      },
+      {
+        "ref": "audit-part-012.json",
+        "hash": "sha256:8e52d3f84412261bfb4e7774e3cfa8cabb7de8c2301d571f52e6196a7f357b8a"
+      },
+      {
+        "ref": "audit-part-013.json",
+        "hash": "sha256:205f63ba50611a72153604f9f8b6e62d0869b9f75df44e538ae6ce940adf0850"
+      },
+      {
+        "ref": "audit-part-014.json",
+        "hash": "sha256:0c6465010785a9e2db6d7a957df06475eec46ad0998715ce04856283bcd81003"
+      },
+      {
+        "ref": "audit-part-015.json",
+        "hash": "sha256:3f5213d5ca310793c63f7f66b592231e6b92c6f129f90488bf094e15f04ba86c"
+      },
+      {
+        "ref": "audit-part-016.json",
+        "hash": "sha256:c39f7941b6cda9c74c64f60daf7b7593e551637ec548a5932f16f22fd66b2bbb"
+      },
+      {
+        "ref": "audit-part-017.json",
+        "hash": "sha256:63bf9e6d1af0559ffb5cdb6c4508452936ea5262327563b591d09eaee91e0d28"
+      },
+      {
+        "ref": "audit-part-018.json",
+        "hash": "sha256:b2cf58a20cc4811265f0afb9b58b6d415c89b617b9624da7245e24c4ed939066"
+      },
+      {
+        "ref": "audit-part-019.json",
+        "hash": "sha256:033284b151145447a133d69295dda51538f3d01826780bace33b159b4f9d0f47"
+      },
+      {
+        "ref": "audit-part-020.json",
+        "hash": "sha256:5ca92365c627a3630fa7c46f5d17454f0f48b96a1ad4e6c7512ba4de8da00c1a"
+      },
+      {
+        "ref": "audit-part-021.json",
+        "hash": "sha256:ef223e3a8695464e20d3d7f166c1a8edf49de8c108693f90860776fe1dfcaad3"
+      },
+      {
+        "ref": "audit-part-022.json",
+        "hash": "sha256:58e6683a7591c962f649274f5d27854529c83f77c5c9f24e7d0a6792e4a41d67"
+      },
+      {
+        "ref": "audit-part-023.json",
+        "hash": "sha256:78e7466b097883d052eafd1bc6c5ae638ba02e58592f41ed1447d0f61b59babe"
+      },
+      {
+        "ref": "audit-part-024.json",
+        "hash": "sha256:a438f6926031b9d4bc42c6802a05e9f31d13f071adc4bd019ce547f86aed6ebf"
+      },
+      {
+        "ref": "audit-part-025.json",
+        "hash": "sha256:1149d11cbf52f0b0e6c8ddb3ee9f03c6e814607c5a51e6f983f7d7c6c360d8af"
+      },
+      {
+        "ref": "audit-part-026.json",
+        "hash": "sha256:7a03d73a32f7cb128cf9602dbeb318a8dd2eda2eac6a4098c1b029be03c21934"
+      }
+    ],
+    "limits": [
+      "No full ancestral history, working-tree, ignored/untracked, binary/image, submodule or symlink-target secret audit",
+      "UTF-8 text pattern scan cannot prove absence of encoded, split, dynamic or unfamiliar credential forms",
+      "Hosted wiring/claims are source observations, not invocation/spend evidence"
+    ]
+  },
+  "retained_files": [
+    {
+      "original_ref": "artifacts/current-windows-20261019/aa2d00a-independent-review-records.json",
+      "original_hash": "sha256:166690288ca4ae68d408003a83477062188a14b8b92fe53dd44ce7a1c6a99eaf",
+      "retained_ref": "a0001.json",
+      "retained_hash": "sha256:166690288ca4ae68d408003a83477062188a14b8b92fe53dd44ce7a1c6a99eaf",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/audit_l01_l05_committed_tree_aa2d00a.py",
+      "original_hash": "sha256:71cf4640edacc9d608e9dfe72b106e9f6c4b1ca93432f13b15dc60962b4a4903",
+      "retained_ref": "a0002.py",
+      "retained_hash": "sha256:931e972af3516bc9191ac9edc56816f4bd0bc5ae20d9421a171b1ea2fbd8d38c",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/committed-tree-owned-aa2d00a-first/checkpoint.json",
+      "original_hash": "sha256:a7107273f1ebe8ce493c343cd71818b78e7eb923d3610a4cf6dfd32c015c55fb",
+      "retained_ref": "a0003.json",
+      "retained_hash": "sha256:a7107273f1ebe8ce493c343cd71818b78e7eb923d3610a4cf6dfd32c015c55fb",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/committed-tree-owned-aa2d00a-first/stdout.log",
+      "original_hash": "sha256:c04f093849cc2d717efb2958cbff1eade702d4e01de040b001e5a3f0db2837ae",
+      "retained_ref": "a0004.log",
+      "retained_hash": "sha256:c04f093849cc2d717efb2958cbff1eade702d4e01de040b001e5a3f0db2837ae",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/committed-tree-owned-aa2d00a-refusal-retry01/checkpoint.json",
+      "original_hash": "sha256:0b71b8f99d172b1446f88970600e1eb356d22837ef5de4cec590eaf9c104937c",
+      "retained_ref": "a0005.json",
+      "retained_hash": "sha256:0b71b8f99d172b1446f88970600e1eb356d22837ef5de4cec590eaf9c104937c",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/committed-tree-owned-aa2d00a-refusal-retry01/stdout.log",
+      "original_hash": "sha256:eb149df6221fd9dce32b0cdda8ff793bc315ad0fc1d87e11b0c2bd9172d53aa2",
+      "retained_ref": "a0006.log",
+      "retained_hash": "sha256:eb149df6221fd9dce32b0cdda8ff793bc315ad0fc1d87e11b0c2bd9172d53aa2",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/finish_k03_whitespace_bindings.py",
+      "original_hash": "sha256:63979428a68994d36b7c0e2f29e994e5e6724b784d32aeaea2fefc0e4666dbac",
+      "retained_ref": "a0007.py",
+      "retained_hash": "sha256:63979428a68994d36b7c0e2f29e994e5e6724b784d32aeaea2fefc0e4666dbac",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/freeze_k03_inventory_awake.py",
+      "original_hash": "sha256:78444f287910a8488f8facc540c64f782468ba849203911b54ca6d80ae83c75e",
+      "retained_ref": "a0008.py",
+      "retained_hash": "sha256:78444f287910a8488f8facc540c64f782468ba849203911b54ca6d80ae83c75e",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/h01-joined-close-aa2d00a-first/checkpoint.json",
+      "original_hash": "sha256:eec5d93c3125115150b280d6c548a7c7d79eb4e44d14088de09e886756428db0",
+      "retained_ref": "a0009.json",
+      "retained_hash": "sha256:eec5d93c3125115150b280d6c548a7c7d79eb4e44d14088de09e886756428db0",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/h01-joined-close-aa2d00a-first/source.log",
+      "original_hash": "sha256:39faf4fba970d57c06bdb1c33f4049bf8ba5d6679c2dda638ad6d31066979e6b",
+      "retained_ref": "a0010.log",
+      "retained_hash": "sha256:39faf4fba970d57c06bdb1c33f4049bf8ba5d6679c2dda638ad6d31066979e6b",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/h01-joined-k05-aa2d00a-first/checkpoint.json",
+      "original_hash": "sha256:098bf313e0251e7ded573554d05db3583dee98dfa6d2754a097a4552b94e38fa",
+      "retained_ref": "a0011.json",
+      "retained_hash": "sha256:098bf313e0251e7ded573554d05db3583dee98dfa6d2754a097a4552b94e38fa",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/h01-joined-k05-aa2d00a-first/source.log",
+      "original_hash": "sha256:48313848dbca9bc4fab8e5a9b04c3cff5075ffacf9abbe7119fcfdf38835c7d8",
+      "retained_ref": "a0012.log",
+      "retained_hash": "sha256:48313848dbca9bc4fab8e5a9b04c3cff5075ffacf9abbe7119fcfdf38835c7d8",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/h01_joined_close_extension.py.unapplied",
+      "original_hash": "sha256:74efe5e0ae8109e32520e273a9f65e9069ea74e2a995507cc08dcf73fca3bf15",
+      "retained_ref": "a0013.unapplied",
+      "retained_hash": "sha256:74efe5e0ae8109e32520e273a9f65e9069ea74e2a995507cc08dcf73fca3bf15",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/h01_joined_k05_extension.py.unapplied",
+      "original_hash": "sha256:d887583e1fcc3b16c30a3ff93c20d6bef19ef261ea61bf70f7d82a0eb1315008",
+      "retained_ref": "a0014.unapplied",
+      "retained_hash": "sha256:d887583e1fcc3b16c30a3ff93c20d6bef19ef261ea61bf70f7d82a0eb1315008",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-ack-concurrency-green01/checkpoint.json",
+      "original_hash": "sha256:be4a6433f26b3f25823338d3aeb481e7d37aa1e587ca5395e9df6979047c8c38",
+      "retained_ref": "a0015.json",
+      "retained_hash": "sha256:be4a6433f26b3f25823338d3aeb481e7d37aa1e587ca5395e9df6979047c8c38",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-ack-concurrency-green01/source.log",
+      "original_hash": "sha256:9752efc2187d9448590bdea20eebd7723950646973be854b69fd2d530f1d7a2a",
+      "retained_ref": "a0016.log",
+      "retained_hash": "sha256:9752efc2187d9448590bdea20eebd7723950646973be854b69fd2d530f1d7a2a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-ack-concurrency-red01/checkpoint.json",
+      "original_hash": "sha256:746898a5bf00b5297b7a7013d73de1164fdb503373fafae430da8b455eb97bb7",
+      "retained_ref": "a0017.json",
+      "retained_hash": "sha256:746898a5bf00b5297b7a7013d73de1164fdb503373fafae430da8b455eb97bb7",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-ack-concurrency-red01/source.log",
+      "original_hash": "sha256:008d0be5abb4698040947cfea2f9beb2e80c6ad54d861acba6835420fdf1134b",
+      "retained_ref": "a0018.log",
+      "retained_hash": "sha256:008d0be5abb4698040947cfea2f9beb2e80c6ad54d861acba6835420fdf1134b",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-ack-concurrency-red02/checkpoint.json",
+      "original_hash": "sha256:ebff539bce4a17b8fe22e7eb04cb653b2633945de9f75d78bdac6164a02aed37",
+      "retained_ref": "a0019.json",
+      "retained_hash": "sha256:ebff539bce4a17b8fe22e7eb04cb653b2633945de9f75d78bdac6164a02aed37",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-ack-concurrency-red02/source.log",
+      "original_hash": "sha256:9009e1c725a6bd864e11646a3c9c8ac352d669b6825290787527b96e548c6ed5",
+      "retained_ref": "a0020.log",
+      "retained_hash": "sha256:9009e1c725a6bd864e11646a3c9c8ac352d669b6825290787527b96e548c6ed5",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-actual-review-pins-20261021.json",
+      "original_hash": "sha256:2263e9c1ee99847974646ceae6b6b77ef22e3f5ee9e57d7dd00006cfabfdfe0a",
+      "retained_ref": "a0021.json",
+      "retained_hash": "sha256:2263e9c1ee99847974646ceae6b6b77ef22e3f5ee9e57d7dd00006cfabfdfe0a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-actual-review-pins-retry01-20261021.json",
+      "original_hash": "sha256:8ec1bea7f30dbf189af1933eae32b0949343f09d75bc5a2f0fd911bfcb1b62dd",
+      "retained_ref": "a0022.json",
+      "retained_hash": "sha256:8ec1bea7f30dbf189af1933eae32b0949343f09d75bc5a2f0fd911bfcb1b62dd",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-candidate-evidence-index-owner-plan-20261021.json",
+      "original_hash": "sha256:45c2a3cbbe0aa3dc1d46bfe2c0342ef9c17e87fa3d6dab8ea05419b1ff7fac4d",
+      "retained_ref": "a0023.json",
+      "retained_hash": "sha256:ead82399db0f03810bf82e64b61b0063759011fef6e461885caaedf9ea567248",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-integration-green01/checkpoint.json",
+      "original_hash": "sha256:8843c9b983e9181d4a0fc7abe2ffabeb2be3434dbbb543eb6177fd3e3d6fa1a6",
+      "retained_ref": "a0024.json",
+      "retained_hash": "sha256:8843c9b983e9181d4a0fc7abe2ffabeb2be3434dbbb543eb6177fd3e3d6fa1a6",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-integration-green01/source.log",
+      "original_hash": "sha256:998b7acc65ae84abb8aef1b6b36a9190618192c74d58c7b1cba3dfab238c4838",
+      "retained_ref": "a0025.log",
+      "retained_hash": "sha256:998b7acc65ae84abb8aef1b6b36a9190618192c74d58c7b1cba3dfab238c4838",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-integration-red01/checkpoint.json",
+      "original_hash": "sha256:f7175c117fa933f00ffc51d7e3c46090373e3fa58fba1349fb5c0e6f8ff8e65a",
+      "retained_ref": "a0026.json",
+      "retained_hash": "sha256:f7175c117fa933f00ffc51d7e3c46090373e3fa58fba1349fb5c0e6f8ff8e65a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-integration-red01/source.log",
+      "original_hash": "sha256:936bba99f5c73dace93cadfdda7b80138349b121b5fc1b925914e0ab34a0d187",
+      "retained_ref": "a0027.log",
+      "retained_hash": "sha256:63681adc3235c4ac712462a3686bba6c026432ee6a420b0edbc51f4c48ad2e7c",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-integration-red02/checkpoint.json",
+      "original_hash": "sha256:14ab972341c08992c407c67811a2a4fe90cb51b0ce90d2eda9ed3e3601dda02f",
+      "retained_ref": "a0028.json",
+      "retained_hash": "sha256:14ab972341c08992c407c67811a2a4fe90cb51b0ce90d2eda9ed3e3601dda02f",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-integration-red02/source.log",
+      "original_hash": "sha256:5e868b1092772252a8c433e8d0a157d4a28398a5fa4630fc9436ff25c4ea0a21",
+      "retained_ref": "a0029.log",
+      "retained_hash": "sha256:f85a71a8d77b9c5b24fec3dc65d2cec3a0dae64c365bc3fb82170510b9daca53",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-inventory-authoring-green01/checkpoint.json",
+      "original_hash": "sha256:cedf5011ff1b18cf7cf832a6ae78278870d5994b95b12705ec45b91f996cb892",
+      "retained_ref": "a0030.json",
+      "retained_hash": "sha256:cedf5011ff1b18cf7cf832a6ae78278870d5994b95b12705ec45b91f996cb892",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-inventory-authoring-green01/source.log",
+      "original_hash": "sha256:996e5652544cbdb57709407780bdbf55c8a64debf1265ff5f79aa9ca8180e608",
+      "retained_ref": "a0031.log",
+      "retained_hash": "sha256:996e5652544cbdb57709407780bdbf55c8a64debf1265ff5f79aa9ca8180e608",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-inventory-freeze-first/checkpoint.json",
+      "original_hash": "sha256:73186b0ae48d7f874de4bbe7c1a5afc309561ea3634ce9b24b8da158506d0937",
+      "retained_ref": "a0032.json",
+      "retained_hash": "sha256:73186b0ae48d7f874de4bbe7c1a5afc309561ea3634ce9b24b8da158506d0937",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-inventory-freeze-first/previous-inventory.py.unapplied",
+      "original_hash": "sha256:d22c20be8b1be2fbc46445c17281298b15022de69f31cf1fc64cf1ecba4d27d4",
+      "retained_ref": "a0033.unapplied",
+      "retained_hash": "sha256:d22c20be8b1be2fbc46445c17281298b15022de69f31cf1fc64cf1ecba4d27d4",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-missing-owner-red-3ae6460-first/checkpoint.json",
+      "original_hash": "sha256:5763eb7a7fe62d373e3d2c46e27fbcf190c504f2497f8b33676409a96c0bd719",
+      "retained_ref": "a0034.json",
+      "retained_hash": "sha256:5763eb7a7fe62d373e3d2c46e27fbcf190c504f2497f8b33676409a96c0bd719",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-missing-owner-red-3ae6460-first/execution.log",
+      "original_hash": "sha256:b24f1b305c8bc1b2525f3c91df2a098f924e57ae1559dc068e5bdc9652f34f6e",
+      "retained_ref": "a0035.log",
+      "retained_hash": "sha256:b24f1b305c8bc1b2525f3c91df2a098f924e57ae1559dc068e5bdc9652f34f6e",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-missing-owner-red-v2-3ae6460-first/checkpoint.json",
+      "original_hash": "sha256:c0645c2f0ef12a1ade17364dd732c94ddb4405140ae1ae4a8c0e541f2d5b7997",
+      "retained_ref": "a0036.json",
+      "retained_hash": "sha256:c0645c2f0ef12a1ade17364dd732c94ddb4405140ae1ae4a8c0e541f2d5b7997",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-missing-owner-red-v2-3ae6460-first/execution.log",
+      "original_hash": "sha256:2f0e49cc776ce5649f396dad7775c04c6b5d9fb8acb165ba7ba793532da9ffa6",
+      "retained_ref": "a0037.log",
+      "retained_hash": "sha256:2f0e49cc776ce5649f396dad7775c04c6b5d9fb8acb165ba7ba793532da9ffa6",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-native-aa2d00a-first/local-copy/candidates/r7-synthetic-trend/0.2.0/3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86/candidate_manifest.json",
+      "original_hash": "sha256:445b0522ef2b3f867ee8c5a94a251edb3518350df4a622c90a5feb85480db3c9",
+      "retained_ref": "a0038.json",
+      "retained_hash": "sha256:99c3b2da35ce8ff3de57d2a81c65847273a014c87760e5fba5cdf0c13a179014",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-native-aa2d00a-first/local-copy/candidates/r7-synthetic-trend/0.2.0/3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86/evidence_index.json",
+      "original_hash": "sha256:3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86",
+      "retained_ref": "a0039.json",
+      "retained_hash": "sha256:0a4e3fdf6410edb69d396e1dff6e4d32e7a5e66fd54be68c6a9e76b9cdffc2f6",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-native-aa2d00a-first/local-copy/candidates/r7-synthetic-trend/0.2.0/3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86/manifest.json",
+      "original_hash": "sha256:7a2e1b4640c40a855b2a96966577ab05cf38edbfba60dc2539907198ef337f2f",
+      "retained_ref": "a0040.json",
+      "retained_hash": "sha256:97bf150eea126f10cb9ea0612ad06c8656c9cdfe5516d98a16ea096d85d4ab3c",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-native-aa2d00a-first/local-copy/candidates/r7-synthetic-trend/0.2.0/3cc5968b3719faad563aba458ef03c90513ad452135a1c39e4eb3c862b39ed86/report.html",
+      "original_hash": "sha256:b84435b58fc0e77763ad15fd2717cded80b25449cc96c4103d6f45db90583426",
+      "retained_ref": "a0041.html",
+      "retained_hash": "sha256:1a5b5bf883534ff5ac4cc79581f63b72a29ecdf70e732b16a9bf5a274a766579",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-native-aa2d00a-first/native-k03-observations.json",
+      "original_hash": "sha256:711aaec16416be09eb258a3effa207fde00e428ce0c26cbf6695b033a9ed1a01",
+      "retained_ref": "a0042.json",
+      "retained_hash": "sha256:711aaec16416be09eb258a3effa207fde00e428ce0c26cbf6695b033a9ed1a01",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-owner-outbox-implementation-draft-assumptions-20261021.json",
+      "original_hash": "sha256:5939de0bf2952b0135cef65a8f0ebad1f717075db0ce672cee1ebaa6f10d9883",
+      "retained_ref": "a0043.json",
+      "retained_hash": "sha256:4e788efafd4dc9adbd22512c898b2078fe4612d1c1eddb870584c3b1ca86f864",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-owner-outbox-independent-static-review-20261021.json",
+      "original_hash": "sha256:f4aaebb19a11ba6d59dd33a986f518f7b0b7b006ef097b7bb4d2b24045c9d843",
+      "retained_ref": "a0044.json",
+      "retained_hash": "sha256:4e757ba0ef1e4553fd2a11320cf8a3675e0fb3e03edfdc9010a4f1a5845f518e",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-pagination-refusal-green01/checkpoint.json",
+      "original_hash": "sha256:06f8a9df519977ba96105fa5bbc00a9a1212f4330d1cf4179a95cc122ef2c3a3",
+      "retained_ref": "a0045.json",
+      "retained_hash": "sha256:06f8a9df519977ba96105fa5bbc00a9a1212f4330d1cf4179a95cc122ef2c3a3",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-pagination-refusal-green01/source.log",
+      "original_hash": "sha256:6f7eae13ea19f07badea807f6303d2b52d5acd2eab6613f4a9d4294403b9a3ef",
+      "retained_ref": "a0046.log",
+      "retained_hash": "sha256:6f7eae13ea19f07badea807f6303d2b52d5acd2eab6613f4a9d4294403b9a3ef",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-pagination-refusal-red01/checkpoint.json",
+      "original_hash": "sha256:1621b7ecc2cdf3f9a8428b4430086b7f1d6ba251c5dc359616c0117a69bd3583",
+      "retained_ref": "a0047.json",
+      "retained_hash": "sha256:1621b7ecc2cdf3f9a8428b4430086b7f1d6ba251c5dc359616c0117a69bd3583",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-pagination-refusal-red01/source.log",
+      "original_hash": "sha256:780aff110d10e25f57972a3c017a2eccd47f3cc0270f06ecaebc982b9ac1ec43",
+      "retained_ref": "a0048.log",
+      "retained_hash": "sha256:780aff110d10e25f57972a3c017a2eccd47f3cc0270f06ecaebc982b9ac1ec43",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-recovery-green01/checkpoint.json",
+      "original_hash": "sha256:0d3a66c265b4a690e33f70b7403a837a0033d623e1cbbb0b11c0ac39aaf5f537",
+      "retained_ref": "a0049.json",
+      "retained_hash": "sha256:0d3a66c265b4a690e33f70b7403a837a0033d623e1cbbb0b11c0ac39aaf5f537",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-recovery-green01/source.log",
+      "original_hash": "sha256:9494f9c2fd88ad2ccf8282e460e5a9fe4f4de2cf96aaa20737cafe0329ebf2f2",
+      "retained_ref": "a0050.log",
+      "retained_hash": "sha256:9494f9c2fd88ad2ccf8282e460e5a9fe4f4de2cf96aaa20737cafe0329ebf2f2",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-related-regression-green01/checkpoint.json",
+      "original_hash": "sha256:ead8f76e329f7357c37c2bd7146d7cddce44b16997650a8fd6cd8e001e14ac14",
+      "retained_ref": "a0051.json",
+      "retained_hash": "sha256:ead8f76e329f7357c37c2bd7146d7cddce44b16997650a8fd6cd8e001e14ac14",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-related-regression-green01/source.log",
+      "original_hash": "sha256:a24715f44be8f33f1cc55292d6056ac7458dfa70608e82a3d8ba2b64ea35dac7",
+      "retained_ref": "a0052.log",
+      "retained_hash": "sha256:a24715f44be8f33f1cc55292d6056ac7458dfa70608e82a3d8ba2b64ea35dac7",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-related-regression-green02/checkpoint.json",
+      "original_hash": "sha256:ae8121b8b1d73a35327d8243e2744bcb082d8e23ba0692cfe6b6c045be1cb130",
+      "retained_ref": "a0053.json",
+      "retained_hash": "sha256:ae8121b8b1d73a35327d8243e2744bcb082d8e23ba0692cfe6b6c045be1cb130",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-related-regression-green02/source.log",
+      "original_hash": "sha256:b84b99fe34915fdb1e37a78af7b1747168ffd9095b7627fab97bf42d6a4e1a80",
+      "retained_ref": "a0054.log",
+      "retained_hash": "sha256:b84b99fe34915fdb1e37a78af7b1747168ffd9095b7627fab97bf42d6a4e1a80",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-source-owner-green01/checkpoint.json",
+      "original_hash": "sha256:2eea11982b6aa02e3a8696cfbcc74365390dd0b0f757db04b539079c14467c19",
+      "retained_ref": "a0055.json",
+      "retained_hash": "sha256:2eea11982b6aa02e3a8696cfbcc74365390dd0b0f757db04b539079c14467c19",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-source-owner-green01/source.log",
+      "original_hash": "sha256:3bbc9421c3ca756f7d109cbe7c6473915677e3ac8dc8c148b18d74aed9a30258",
+      "retained_ref": "a0056.log",
+      "retained_hash": "sha256:3bbc9421c3ca756f7d109cbe7c6473915677e3ac8dc8c148b18d74aed9a30258",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-source-owner-red-250ed2d-first/checkpoint.json",
+      "original_hash": "sha256:7722f09f6cc8a221f021e356809c6b91db0f794330863d9cd9e42bda4307cc6a",
+      "retained_ref": "a0057.json",
+      "retained_hash": "sha256:7722f09f6cc8a221f021e356809c6b91db0f794330863d9cd9e42bda4307cc6a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-source-owner-red-250ed2d-first/source.log",
+      "original_hash": "sha256:391ec72872225a993456ce175d46d62a63988461b7dda5063311a3e5ab5632e8",
+      "retained_ref": "a0058.log",
+      "retained_hash": "sha256:391ec72872225a993456ce175d46d62a63988461b7dda5063311a3e5ab5632e8",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-tracked-diff-250ed2d-review-retry01.patch",
+      "original_hash": "sha256:3054e1c83cc0bb7a4660d35394fbf6b142e9447c289aa1d7722ecad915c0e394",
+      "retained_ref": "a0059.patch",
+      "retained_hash": "sha256:af9d12cbbc9684629be21770590a88de4646f0d878b431aa51c54ff4509f6474",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-tracked-diff-250ed2d-review.patch",
+      "original_hash": "sha256:e7d16009b5b522454c6269a47730d3d2b21015a559aa4637565fde7bd5c6a40b",
+      "retained_ref": "a0060.patch",
+      "retained_hash": "sha256:9e3fa394bf9d900c4aa1f9d3aa7fbbbc14c03b5400c3af1105118a35708f27c8",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-whitespace-final-bindings/0.before.py",
+      "original_hash": "sha256:6f0749753f7a7b0b29b63e0e20ebd4cc2c2d6e4c77d154163370df9200e8cf0e",
+      "retained_ref": "a0061.py",
+      "retained_hash": "sha256:0200ac3737927e96fc582d11b1509896bde87f656a0cc827a237e157173a91e4",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-whitespace-final-bindings/1.before.py",
+      "original_hash": "sha256:e1d04e5bb4f0d1923c0259c234317d5355699f891e1e7512333944f7824453b3",
+      "retained_ref": "a0062.py",
+      "retained_hash": "sha256:37046a9d6e6b2bd4d99f8658c37ca9f684e607cb7952d8b48326aa76cf5f6a99",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-whitespace-final-bindings/checkpoint.json",
+      "original_hash": "sha256:2a4490e67a4ff626c828621257fbbb3189937a31fe62bf395025bf93c89b01a6",
+      "retained_ref": "a0063.json",
+      "retained_hash": "sha256:2a4490e67a4ff626c828621257fbbb3189937a31fe62bf395025bf93c89b01a6",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/k03-whitespace-final-bindings/inventory-before.py.unapplied",
+      "original_hash": "sha256:42207a739e96f8ced56c686f9236166d89a90529a8a82c7d738b02752d29061c",
+      "retained_ref": "a0064.unapplied",
+      "retained_hash": "sha256:42207a739e96f8ced56c686f9236166d89a90529a8a82c7d738b02752d29061c",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/l01-l05-audit-aa2d00a-refusal-retry01.json",
+      "original_hash": "sha256:66589a4a6e80c72da61b03971d1e8ed1545bd17db439994698f6a25b9a539548",
+      "retained_ref": "a0065.json",
+      "retained_hash": "sha256:66589a4a6e80c72da61b03971d1e8ed1545bd17db439994698f6a25b9a539548",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/l01-l05-local-audit-rules-aa2d00a.json",
+      "original_hash": "sha256:66da69b0834dabef460981916d655613a7ade826d406879a963a8a70fe23eacd",
+      "retained_ref": "a0066.json",
+      "retained_hash": "sha256:66da69b0834dabef460981916d655613a7ade826d406879a963a8a70fe23eacd",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/l01-l05-root-triage-aa2d00a-20261021.json",
+      "original_hash": "sha256:6eadd742e0b18ee79a7cb35839ca36232b5d6706b7a0061c70051b9a1dd3467e",
+      "retained_ref": "a0067.json",
+      "retained_hash": "sha256:6eadd742e0b18ee79a7cb35839ca36232b5d6706b7a0061c70051b9a1dd3467e",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/materialize_current_delivery_aa2d00a.py",
+      "original_hash": "sha256:a520829171c96421c87d7d245aa74df2a3a968c8276a916d208de1fcffa2f521",
+      "retained_ref": "a0068.py",
+      "retained_hash": "sha256:a520829171c96421c87d7d245aa74df2a3a968c8276a916d208de1fcffa2f521",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/review-record-private-archive-aa2d00a/aa2d00a-independent-review-records.json",
+      "original_hash": "sha256:166690288ca4ae68d408003a83477062188a14b8b92fe53dd44ce7a1c6a99eaf",
+      "retained_ref": "a0069.json",
+      "retained_hash": "sha256:166690288ca4ae68d408003a83477062188a14b8b92fe53dd44ce7a1c6a99eaf",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/review-record-private-archive-aa2d00a/recovery.json",
+      "original_hash": "sha256:959d68a86692ad710b031d83d828a704d63eb6e333089aa2b78c32b8bda35699",
+      "retained_ref": "a0070.json",
+      "retained_hash": "sha256:959d68a86692ad710b031d83d828a704d63eb6e333089aa2b78c32b8bda35699",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/run_committed_tree_audit_aa2d00a.py",
+      "original_hash": "sha256:dd493c907e2abe56fd60b772e5d217712e920caa9691dd311a978a8367a1e40f",
+      "retained_ref": "a0071.py",
+      "retained_hash": "sha256:dd493c907e2abe56fd60b772e5d217712e920caa9691dd311a978a8367a1e40f",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/run_k03_missing_seam_red.py",
+      "original_hash": "sha256:fdba45142bb5c811b336b34919f3643e51ddea6bc091978e6ef896323b6ab804",
+      "retained_ref": "a0072.py",
+      "retained_hash": "sha256:fdba45142bb5c811b336b34919f3643e51ddea6bc091978e6ef896323b6ab804",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/run_k03_missing_seam_red_v2.py",
+      "original_hash": "sha256:a0b069065591f98fb3cfe8ef3f2ce344f18a63f950f2e53ebdb912a077ff1aff",
+      "retained_ref": "a0073.py",
+      "retained_hash": "sha256:a0b069065591f98fb3cfe8ef3f2ce344f18a63f950f2e53ebdb912a077ff1aff",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/run_owner_development_v03.py",
+      "original_hash": "sha256:faaff3485f7db52e29adb74c60444b81fb3dab8fa16197e8845d9e31763a7683",
+      "retained_ref": "a0074.py",
+      "retained_hash": "sha256:faaff3485f7db52e29adb74c60444b81fb3dab8fa16197e8845d9e31763a7683",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/supplements-aa2d00a-prepared/failure.json",
+      "original_hash": "sha256:625d9294abda55803d6d5f727de76be2c8b70d2d93ac92d3ba8ee12714a94c3e",
+      "retained_ref": "a0075.json",
+      "retained_hash": "sha256:625d9294abda55803d6d5f727de76be2c8b70d2d93ac92d3ba8ee12714a94c3e",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/supplements-aa2d00a-prepared/helper-before-transport-manifest-repair.py",
+      "original_hash": "sha256:0390ecc089b2ccf8af0bce4b642d3c2b2613f6b0a798d660ceaf44be9d283f4a",
+      "retained_ref": "a0076.py",
+      "retained_hash": "sha256:0390ecc089b2ccf8af0bce4b642d3c2b2613f6b0a798d660ceaf44be9d283f4a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_h01_joined_close_aa2d00a.py",
+      "original_hash": "sha256:2b75f211c808d2e0cef1cb03a07545fc7b3dca004891952aa79b19e2af2c9890",
+      "retained_ref": "a0077.py",
+      "retained_hash": "sha256:2b75f211c808d2e0cef1cb03a07545fc7b3dca004891952aa79b19e2af2c9890",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/test_h01_joined_k05_aa2d00a.py",
+      "original_hash": "sha256:65b20dd47dcfcf317d48e801f59be93e654383c2eb5a9f8943182126f894969d",
+      "retained_ref": "a0078.py",
+      "retained_hash": "sha256:65b20dd47dcfcf317d48e801f59be93e654383c2eb5a9f8943182126f894969d",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/triage_committed_scan_aa2d00a.py",
+      "original_hash": "sha256:b0c6fd1aa7c1280a535a6c066249e18bbb6f97709ec2eabe53f41b232c5ada3a",
+      "retained_ref": "a0079.py",
+      "retained_hash": "sha256:b0c6fd1aa7c1280a535a6c066249e18bbb6f97709ec2eabe53f41b232c5ada3a",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/verify_k03_native_aa2d00a.py",
+      "original_hash": "sha256:8f25f81578c3d7947d15ea577f7cb309c1d80f11040c02846c8ec616aadc0a5f",
+      "retained_ref": "a0080.py",
+      "retained_hash": "sha256:8f25f81578c3d7947d15ea577f7cb309c1d80f11040c02846c8ec616aadc0a5f",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    },
+    {
+      "original_ref": "artifacts/current-windows-20261019/verify_k03_native_aa2d00a_before_health_assertion.py.unapplied",
+      "original_hash": "sha256:232eb72b40daef608a0008b865f104b15f71a3b77b6aec5d094f0bf7e8f9d802",
+      "retained_ref": "a0081.unapplied",
+      "retained_hash": "sha256:232eb72b40daef608a0008b865f104b15f71a3b77b6aec5d094f0bf7e8f9d802",
+      "normalization": "PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY"
+    }
+  ],
+  "additional_public_requests": 0,
+  "cumulative_public_requests": 8,
+  "cumulative_public_responses": 8,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

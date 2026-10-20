@@ -1,0 +1,91 @@
+{
+  "schema_version": "r7-unattended-helper-static-review-v1",
+  "status": "REMAINING_ASSERTION_AND_FAILURE_RETENTION_CHANGES_RECOMMENDED",
+  "helper_ref": "artifacts/current-windows-20261019/verify_unattended_checkpoint.py",
+  "reviewed_helper_sha256": "sha256:472f707d937289b92ed66b317c0d1cabf3a126d44a8ad50b076192f9858cb451",
+  "counts": {
+    "resolved_deterministic_blockers": 2,
+    "remaining_P1": 1,
+    "remaining_P2": 3
+  },
+  "resolved": [
+    {
+      "id": "UHR-01",
+      "status": "ROOT_FIXED_STATICALLY_CONFIRMED",
+      "problem": "Original copier.output==data rejected top-level engineering policy parent==output in _mkdir.",
+      "fix": "Private copy_directory wrapper admits exactly data after require_private(data,directory=True), delegates descendants to original _mkdir; _copy_inputs disjoint-source guard remains.",
+      "line": 96
+    },
+    {
+      "id": "UHR-02",
+      "status": "ROOT_FIXED_STATICALLY_CONFIRMED",
+      "problem": "Original destination basename differed from manifest submission ID, causing SUBMISSION_IDENTITY_MISMATCH.",
+      "fix": "One submission variable now feeds destination basename and --submission-id.",
+      "line": 106
+    }
+  ],
+  "findings": [
+    {
+      "id": "UHR-03",
+      "priority": "P1",
+      "helper_line": 156,
+      "title": "Cleanup exceptions can bypass retained failure checkpoint",
+      "problem": "finally can raise in terminate_owned, stream/log closure/sanitization, approved-source rehash or final guard; checkpoint.json is written only afterward. This can skip subsequent cleanup and the retained failure result. Confirmed actual exception path, not an assertion that cleanup has failed in a real run.",
+      "minimal_fix": "Independent bounded cleanup try/finally blocks, record sanitized cleanup/guard failure, passed=false, independently close stream, and attempt private checkpoint persistence from outermost finally. Never count an attempted/unconfirmed reap as success."
+    },
+    {
+      "id": "UHR-04",
+      "priority": "P2",
+      "helper_line": 70,
+      "title": "Expected authored subject is not fully joined to outcome/report",
+      "problem": "One COMPLETE job plus matching row.run_id/owner_run_id does not check expected submission_id/policy_id, actual author strategy content hash, outcome.run_id, or feedback.run_id. Actual automatic input-to-report provenance claim is under-asserted.",
+      "minimal_fix": "Read exact submission/policy/input/implementation fields for the single expected job; require outcome.run_id==owner_run_id==feedback.run_id, expected authored strategy_content_hash and actual intake manifest_hash. Preserve normal actual records; no writes or result overrides.",
+      "contract_refs": [
+        "src/application/research/service.py:52 ResearchOutcome",
+        "src/application/research/queue.py:134 _view; step stores asdict(result)",
+        "src/application/coordinator.py:60 schedule_once"
+      ]
+    },
+    {
+      "id": "UHR-05",
+      "priority": "P2",
+      "helper_line": 138,
+      "title": "Owned native process status and exact stop identity are recorded but not asserted",
+      "problem": "product-status response is merely retained; final result does not require exact roles control/research, and stop-product receipt is not matched to observed coordinator token. Claim of the single coordinator owning the required actual services needs these assertions.",
+      "minimal_fix": "Require actual coordinator/control/research RECENT_HEARTBEAT, expected subject/config, actual owns_pid membership, runtime NOT_STARTED. Match stop receipt process_generation_id to coordinator token. Require exact final role set and each STOPPED/exit0/forced_stopfalse/tree_reapedtrue.",
+      "contract_refs": [
+        "tools/verify_paper_product.py PublicFixture.health and owns_pid",
+        "src/application/coordinator.py run_product child ownership",
+        "src/application/cli.py product-status/stop-product"
+      ]
+    },
+    {
+      "id": "UHR-06",
+      "priority": "P2",
+      "helper_line": 77,
+      "title": "Stored aggregate outbox artifact commitment is not verified",
+      "problem": "validate_feedback_publication validates actual feedback/report bytes and logical path, and feedback_hash is checked. row.artifact_hash is retained but never compared to the actual aggregate payload closure.",
+      "minimal_fix": "Compute SHA256 of canonical {payload_name:SHA256(payload_bytes)} and compare row.artifact_hash before export and after repeated observation.",
+      "contract_refs": [
+        "src/application/research/evidence.py:116 enqueue_feedback",
+        "src/application/cloud/feedback.py:181 validate_feedback_publication"
+      ]
+    }
+  ],
+  "confirmed_correct": [
+    "ResearchOutcome fields are run_id,status,reason_codes,compatibility_status,strategy_lifecycle; ResearchQueue.step persists asdict(result). Current nested outcome.status/strategy_lifecycle/reason_codes assertions are correct. Worker stdout JOB_FINISHED/job_state is a separate outer schema; do not substitute it.",
+    "Queue COMPLETE plus diagnostic outcome BLOCKED is correct finished workflow without strategy promotion. Expected engineering diagnostic compatibility PASS implies BACKTESTING, actual missing policy reason retained.",
+    "Feedback source has executable_revision/implementation_hash/execution/worktree, no build_hash; helper checks existing fields correctly.",
+    "OPT_OUT with null financial metrics, development EXECUTED when actual replay exists, robustness/sealed_oos/Paper/LIVE NOT_RUN and holdout_observedfalse match the normal diagnostic projection.",
+    "Closed ops scan_inbox/research_policy_ids/queue_reports fields correct. No manual scan/enqueue/queue-feedback fallback needed.",
+    "Coordinator queues actual feedback.json/report.html bytes into durable outbox; no automatic Publisher/flush exists. PENDING/attempts0/publicationNOT_RUN and readonly-export labels correctly avoid stage/ACK overclaim.",
+    "Helper explicitly requires full owning checkpoint passed AND portable checkpoint passed before proceeding, loads qualifier product.json, and performs actual software-before/software-after. This review read no checkpoint/evidence and certifies neither prerequisite. Bind their exact subject/config/build/implementation refs when real outcomes are available.",
+    "Profile LOCAL_RESEARCH diagnostic_onlytrue/paper_runtime_enabledfalse; no formal financial policy, Paper or forward permission invented. Prior public8/8 capture and additional0HTTP remain separate."
+  ],
+  "scope": "Static advisory source review only; no helper/source edits, tests/native/build/network/DB/auth/evidence reads. Root is sole writer. Later helper revisions need a fresh hash-bound delta check.",
+  "limits": [
+    "Partial copied inputs from a future failed setup must be preserved; copy O_EXCL forbids silently reusing overwritten source targets.",
+    "Do not weaken expected actual diagnostic fields to make a run pass; diagnose real differing outcome.",
+    "No current owning/portable/native commissioning PASS inferred by this review."
+  ]
+}

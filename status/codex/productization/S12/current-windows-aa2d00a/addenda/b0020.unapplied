@@ -1,0 +1,113 @@
+"""Explicit local browser fixture server; no remote provider or real authority."""
+import argparse
+from contextlib import contextmanager, nullcontext
+from dataclasses import replace
+from datetime import timedelta
+import sys
+import os
+import tempfile
+from pathlib import Path
+
+ROOT=Path(__file__).resolve().parents[2]
+sys.path[:0]=[str(ROOT/'src'),str(ROOT)]
+from application.control_api.app import create_app
+from application.control_api.assets import mount_control_center
+from tests.product.test_api_authority import APIFixture
+from tests.product.test_api_owner_services import APIOwnerServicesTests
+from tests.product.test_api_paper_services import APIPaperServicesTests
+from application.control_api.owner_services import OwnerControlServices
+from application.platform.supervision import ProcessSupervisor
+from storage.platform import open_sqlite_platform
+import unittest
+import uvicorn
+
+def main():
+    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed','delivery','report-research','report-paper','versions'],required=True)
+    parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
+    scratch_base=Path(os.environ.get('R7_BROWSER_SCRATCH_ROOT',os.environ.get('R7_BROWSER_ARTIFACT_ROOT',str(ROOT.parent.parent/'artifacts/S11-browser'))))
+    scratch=scratch_base/args.profile
+    scratch.mkdir(parents=True,exist_ok=True)
+    tempfile.tempdir=str(scratch)
+    if args.profile=='empty':
+        class Empty(APIFixture,unittest.TestCase): pass
+        fixture=Empty(); fixture.setUp(); owners=None
+    elif args.profile=='approval':
+        from tests.product.test_api_approval_preview import APIApprovalPreviewTests
+        fixture=APIApprovalPreviewTests(methodName='runTest');fixture.setUp();owners=fixture.app.state.owners
+    elif args.profile=='deployment':
+        from tests.product.test_api_deployment_controls import APIDeploymentControlTests
+        helper=APIDeploymentControlTests(methodName='runTest');helper.setUp();helper.control()
+        fixture=helper.fixture;owners=fixture.app.state.owners
+    elif args.profile in ('research','temporal','failed','delivery','report-research','versions'):
+        fixture=APIOwnerServicesTests(); fixture.setUp(); owners=fixture.owners
+        if args.profile=='versions':
+            from tests.product.two_version_fixtures import prepare_two_version_context
+            prepare_two_version_context(fixture)
+        if args.profile=='report-research':
+            from tests.application.report_delivery_fixtures import prepare_research_reports
+            prepare_research_reports(fixture)
+        if args.profile=='delivery':
+            from tests.application.cloud_delivery_fixtures import prepare_delivery
+            prepare_delivery(fixture)
+        if args.profile=='failed':
+            from unittest.mock import patch
+            fixture.enqueue()
+            original_factory=fixture.queue.service_factory
+            @contextmanager
+            def failing_owner():
+                with original_factory() as owner, patch.object(owner,'run',side_effect=RuntimeError('SOURCE_ONLY_PRIVATE_BROWSER_CANARY')):
+                    yield owner
+            fixture.queue.service_factory=failing_owner
+            claim=fixture.queue.claim_next()
+            failed=fixture.queue.step(claim.run_id,claim.generation)
+            if failed['state']!='FAILED':raise RuntimeError('Actual failed queue owner required')
+            fixture.queue.service_factory=original_factory
+            fixture.clock[0]+=timedelta(seconds=10)
+        if args.profile=='temporal':
+            from tests.strategy.v02_fixtures import definition_v02
+            from tests.application.cloud_fixtures import package
+            from tests.application.dataset_fixtures import encoded
+            from strategy import compute_content_hash
+            from strategy.v02.capabilities import build_capability_snapshot
+            value=definition_v02(); value['strategy_id']='fixture-v02-4h-tactical'
+            value['rules']['exit_policy']['max_hold_seconds']=7200; value['content_hash']=compute_content_hash(value)
+            folder,manifest,_=package(fixture.cloud,submission='fixture-temporal',version='0.2',definition=value)
+            manifest.update(capability_snapshot_hash=build_capability_snapshot().snapshot_hash,research_hypothesis='明確的四小時策略測試',
+                intent_class='TACTICAL_STRATEGY',validity={'from':fixture.clock[0].isoformat().replace('+00:00','Z'),
+                    'until':(fixture.clock[0]+timedelta(hours=4)).isoformat().replace('+00:00','Z')})
+            (folder/'manifest.json').write_bytes(encoded(manifest))
+    else:
+        fixture=APIPaperServicesTests(); fixture.setUp()
+        if args.profile=='report-paper':
+            from tests.application.report_delivery_fixtures import prepare_paper_reports
+            prepare_paper_reports(fixture)
+        if args.profile=='protected':
+            _,_,run_id=fixture.api_start(); runtime=fixture.h.service.runtime(run_id)
+            runtime.on_market_event(fixture.h.event(0,bars=True)); runtime.on_market_event(fixture.h.event(1))
+        # Explicitly select the actual registered subject through the same
+        # bounded public port constructor used by normal local composition.
+        from application.control_api.paper_ports import PaperStartControlPort
+        fixture.start_port=PaperStartControlPort(namespace='FIXTURE',service_factory=fixture.paper_factory,
+            strategy_identity=fixture.h.identity)
+        owners=OwnerControlServices(fixture.config,namespace='FIXTURE',clock=lambda:fixture.h.clock[0],
+            registry_factory=lambda:open_sqlite_platform(fixture.path,research_namespace='FIXTURE'),
+            paper_reader=fixture.reader,paper_start=fixture.start_port)
+        from application.cloud.publication_history import PaperPublicationReadPort
+        owners.paper_publications=PaperPublicationReadPort(process_path=fixture.h.root/'runtime.sqlite',namespace='FIXTURE')
+    fixture.client.close()
+    config=replace(fixture.config,control_api_port=args.port)
+    if owners is not None: owners.config=config
+    # Always construct a new app with the actual same-origin port; no disabled
+    # security middleware, mocked response or financial approval override.
+    from application.control_api.commands import CommandLedger
+    commands=CommandLedger(config.local_data_root/'browser-commands.sqlite',namespace='FIXTURE',clock=fixture.auth.clock)
+    app=create_app(config,auth=fixture.auth,commands=commands,services=owners)
+    if (ROOT/'ui/dist/index.html').exists(): mount_control_center(app,ROOT/'ui/dist')
+    # Actual process/PID/heartbeat observations with the explicitly synthetic
+    # fixture clock; this does not qualify real-time forward observation.
+    supervised=ProcessSupervisor(config,'control',clock=owners.clock) if args.profile=='research' else nullcontext()
+    try:
+        with supervised:uvicorn.run(app,host='127.0.0.1',port=args.port,proxy_headers=False,access_log=False,log_level='warning')
+    finally: fixture.doCleanups()
+
+if __name__=='__main__': main()

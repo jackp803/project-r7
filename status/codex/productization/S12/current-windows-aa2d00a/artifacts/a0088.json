@@ -1,0 +1,64 @@
+{
+  "schema_version": "r7-bounded-portable-helper-review-v1",
+  "review_date": "2026-10-19",
+  "reviewer_execution": "NONE",
+  "scope": "Prepared external portable ZIP clean-install and offline authoring helper, compared to actual native first-run verifier and CLI/authoring contracts",
+  "reviewed_helper": {
+    "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+    "sha256": "sha256:644cc3e57add0c097aab1ae99b8847756a1b5c795d6956cce87f9342cf0cf885"
+  },
+  "adjacent_contracts": {
+    "artifacts/current-windows-20261019/run_current_checkpoint.py": "sha256:d5e9a052c5da72f7eccf360d600079f42974173756360165e85b82b0c58c114d",
+    "tools/verify_native_product.py": "sha256:5e520285f1b904cbb38b11f60a8f51bcc48cfc37d7cf812b93cc34258097b44e",
+    "src/application/cli.py": "sha256:34242992483bc50f0182797c4ff88d56052a9a32fddd23b79442c930094cca62",
+    "src/application/cloud/authoring.py": "sha256:b4ef2eadda4cb957815893e743bb1215304d8044c4fdeb25ccaaa3b806abc7cb"
+  },
+  "counts": {"Critical": 0, "Important": 3},
+  "findings": [
+    {
+      "id": "PORTABLE-I1",
+      "severity": "Important",
+      "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+      "line": 52,
+      "title": "Extraction follows unchecked installation-parent aliases",
+      "evidence": "The helper checks only whether the fresh leaf exists, then uses ordinary mkdir/open for PROJECT/installations/... without validating existing parent components or resolved project containment. A preexisting installations junction/symlink redirects extraction and subsequent native execution outside the intended project while the recorded logical installation_ref still appears project-local. ZIP member validation does not protect this existing filesystem ancestry.",
+      "minimal_fix": "Validate original logical ancestors with the existing link/reparse-safe path guard before directory creation, enforce resolved containment in the intended installations root, and reject any preexisting leaf including broken aliases. Preserve fresh exclusive extraction.",
+      "minimal_regression": "Controlled owned temporary installation-parent alias or Windows junction to a separate owned target: deny before creating or modifying any target bytes; no native launch."
+    },
+    {
+      "id": "PORTABLE-I2",
+      "severity": "Important",
+      "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+      "line": 36,
+      "title": "Archive reference and final delivered checksum are not fully bound",
+      "evidence": "build-result['archive'] is joined and read without first enforcing the fixed expected basename and local build-root containment, allowing absolute or escaping references to be dereferenced. The ZIP is hashed once and then reopened for extraction; final guards verify installed/source package bytes but do not recheck captured build-result bytes or the referenced archive. Replacing the archive after capture, even with a ZIP yielding identical installed bytes, leaves the reported archive checksum disconnected from the final delivered archive.",
+      "minimal_fix": "Admit the exact canonical archive basename/root before any reference read, validate build identity/revision against the measured subject, capture build-result bytes once, and enforce unchanged captured build-result plus original archive digest immediately before PASS.",
+      "minimal_regressions": [
+        "Absolute/escaping/unexpected archive references reject before a mocked referenced-file read.",
+        "Replace build metadata or archive after extraction/smoke using controlled public fixture bytes; final closure rejects even when installed payload bytes are unchanged."
+      ]
+    },
+    {
+      "id": "PORTABLE-I3",
+      "severity": "Important",
+      "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+      "line": 73,
+      "title": "Delivered author kit is inventoried without validating emitted commitments",
+      "evidence": "The helper records JSON from export-capabilities and author-package, then hashes whichever kit files are present. It does not require the actual response statuses, verify exported snapshot bytes against snapshot_hash/current profile, or validate the emitted manifest/payload bytes against the native authoring response. A modified emitted strategy/manifest can therefore be included in version.json while the helper still declares PASS and retains the earlier successful command response.",
+      "minimal_fix": "Validate exact native response contracts and captured emitted capability/package bytes using the existing snapshot/manifest/payload validators and commitments. Recheck that captured author-kit closure at final PASS instead of merely accepting a newly computed inventory.",
+      "minimal_regression": "Controlled post-command mutation/deletion of the exported capability file or authored manifest/payload, while leaving the captured native JSON response unchanged, must deny completion."
+    }
+  ],
+  "additional_observations": [
+    "The helper selects the actual builder's archive basename shape correctly in ordinary successful output, and native verifier report fields product_path/pythonpath/scenario_count match the current contract.",
+    "The three source documentation/example paths used for kit creation exist. The engineering example is explicitly identified as not a verified GPT strategy and does not receive research or financial qualification.",
+    "The existing first-run verifier performs concrete native hardware, defaults/preservation, owned control/restart, migration, loopback-denial and tamper assertions; its internals were read only as the invoked contract, not independently requalified."
+  ],
+  "limitations": [
+    "No helper, test, product/native, build, extraction or network command executed. Only public source/contracts and existence of the three tracked documentation inputs were inspected.",
+    "No archive/executable bytes, private DB/auth/config/profile or generated native output directories were read.",
+    "This is prepared-tool readiness review with unresolved Important findings, not portable installation evidence or a PASS result.",
+    "No PQR, ordinary financial workflow, real cloud/forward, Ubuntu or whole-Master acceptance is issued."
+  ],
+  "disposition": "THREE_IMPORTANT_HELPER_REPAIRS_REQUIRED_BEFORE_CREDIT"
+}

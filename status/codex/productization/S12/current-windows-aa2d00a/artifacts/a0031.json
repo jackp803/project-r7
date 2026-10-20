@@ -1,0 +1,51 @@
+{
+  "document_kind": "STATIC_EXTERNAL_HELPER_BINDING_PLAN_NOT_EXECUTED",
+  "status": "EXACT_EXISTING_SEAMS_IDENTIFIED",
+  "checkpoint_binding": {
+    "load_at": "verify_qualified_backup_checkpoint.py::run after qualified/q/portable/automatic and before output creation or native commands",
+    "path": "BASE/(ordinary-idle-+revision[:7]+-+idle_attempt)/checkpoint.json; use explicit validated first|retryNN idle_attempt parameter/default first, rather than choose newest directory",
+    "checks": [
+      "idle.passed is True; idle.revision == revision; idle.identity == facts; idle.qualification_attempt == qualification_attempt; idle.idle_attempt == selected idle_attempt",
+      "idle.all_owned_trees_reaped is True; idle.cleanup_errors == []; idle.source_and_package_unchanged is True; idle.helper_unchanged is True",
+      "idle.owning_profile.original_config_hash == owning_profile.config_hash; idle.owning_profile.same_original_receipt_ref == receipt_ref; idle.owning_profile.same_original_data_root is True; idle.workflow_authorized is False; idle.owning_profile.workflow_authorized is False",
+      "idle.selection_generation is exact positive int; compare against actual selection.generation; selected envelope product_config_hash equals idle.owning_profile.idle_config_hash; selected owner workflow_authorized is False; source_subject.qualification_receipt_ref == receipt_ref"
+    ],
+    "existing_variable_order": "receipt_ref is currently assigned after output creation. Derive q[result][receipt_ref] earlier for prerequisite validation or perform binding immediately after that assignment but before original-software-before command.",
+    "direct_store_identity_gap": "Current idle owning_profile has original_config_hash/idle_config_hash, same_original_data_root boolean and same_original_receipt_ref only. It does not independently name original config/data/canonical/instance. For literal same-store comparison add only external-helper report fields from existing original_path/data/original.database_path/original.product_instance_id, using same PROJECT-relative refs as backup owning_profile.",
+    "minimal_additive_idle_report_fields": {
+      "original_config_ref": "original_path.relative_to(PROJECT).as_posix()",
+      "product_instance_id": "original.product_instance_id",
+      "data_root_ref": "data.relative_to(PROJECT).as_posix()",
+      "canonical_ref": "original.database_path.relative_to(PROJECT).as_posix()"
+    },
+    "backup_compare": "Compare those four directly with owning_profile config_ref/data_root_ref/canonical_ref/product_instance_id. Do not replace original diagnostic config_hash with idle config_hash; they intentionally differ."
+  },
+  "typed_selection": {
+    "import": "from storage.paper_selection import open_paper_selections",
+    "helper": "def selection(path, immutable=False): with open_paper_selections(path, immutable=immutable) as reader: return reader.current()",
+    "signature": "open_paper_selections(path, *, immutable=False) returns context-manager readonly reader; current() -> OperationalSelection | None; reads validate namespace/schema/contiguous generations/hash/canonical record, never allocate generation",
+    "equality": "OperationalSelection is frozen dataclass(generation, config_hash, canonical_json); direct == compares all three. as_dict() only for selected false workflow/source receipt/envelope config assertions; retain canonical equality rather than comparing selected subset.",
+    "paths": {
+      "REBACKUP": "captured(rebackup), immutable=True after verify-restored-rebackup succeeds",
+      "ORIGINAL": "config.database_path, immutable=False",
+      "RESTORED": "restored_config.database_path, immutable=False after restore result and fence validation",
+      "CAPTURED": "captured(backup), immutable=True after verify-owning-backup returns verified"
+    },
+    "insertion_points": [
+      "Immediately after original=receipt(config.database_path), assign original_selection=selection(config.database_path), require non-None and bind generation/idle config/receipt/workflow to idle checkpoint.",
+      "Beside existing receipt(captured(backup),True)!=original require selection(captured(backup),True)==original_selection.",
+      "Beside restored receipt/state comparison require selection(restored_config.database_path)==original_selection.",
+      "Beside repeated/verified_again and rebackup receipt comparison require selection(captured(rebackup),True)==original_selection.",
+      "Final original-software-after/history/config unchanged guard also require selection(config.database_path)==original_selection. Record explicit actual_current_protected_selection_equal_across_four_stores only after all checks succeed."
+    ],
+    "privacy": "Evidence needs only generation/config_hash/canonical-json hash, workflow=false and receipt ref; do not emit complete owner/policy/account bodies."
+  },
+  "whole_file_scope": {
+    "fact": "Existing four-way require_same_captured_file compares product manifest files only. Canonical databases live separately under bundle/databases and are not those files. Database snapshots are separately verified and restored databases intentionally receive restore/auth/process fences; equal whole SQLite bytes across all four stores are neither currently asserted nor appropriate.",
+    "consequence": "Full captured DB verification covers integrity of its protected rows but does not substitute for explicit source/captured/restored/rebackup selection semantic equality. The proposed typed comparison supplies exact row identity without changing restoration fences."
+  },
+  "limitations": [
+    "External helper changes only; no production contract/framework changes necessary.",
+    "Read-only mapping only; no checkpoint/runtime/DB/auth reads, no tests/native/network execution, no acceptance claim."
+  ]
+}

@@ -1,0 +1,80 @@
+            # Same original entry/exit lineage; fake-wire owner calls only.
+            service=c.service;revision=c.revision
+            stop_id=c.stop.canonical_request.order_request_id
+            close_id=first.operation_id
+            first_flat=deepcopy(flat.current_position_projection.payload)
+            funding=funding_fixtures.TradingFundingV02Tests(methodName='runTest')
+            funding.fixture=f.authority
+            funding.flow=SimpleNamespace(position=SimpleNamespace(recover=c.recover))
+            context=(service,c.provider)
+            c.clock[0]+=timedelta(seconds=1)
+            funding.script(context,paginated=True)
+            funding_read=funding.read(context)
+            funding_object=funding.publish(context,funding_read)
+            self.assertEqual((funding_object,),c.recover().funding_evidence)
+            self.assertEqual('0.1',funding_object.payload['funding_cost'])
+            self.assertEqual(first_flat['broker_state_observed_at'],funding_object.payload['interval_end'])
+
+            live_stop=dict(c.algo,uTime=str(int(c.clock[0].timestamp()*1000)))
+            c.append(dict(code='0',data=[live_stop]),c.position_response('0',average='0'))
+            target=service.read_fixture_cleanup_stop(stop_id,expected_revision=revision)
+            metadata,proof=c.fresh()
+            native=service.read_position(metadata=metadata,proof=proof,expected_revision=revision,
+                expected_provider_position_id='5678')
+            scans=inventory_fixtures.TradingInventoryV02Tests(methodName='runTest')
+            c.append(*scans.scans([live_stop]))
+            inventory=service.read_algo_inventory(metadata=metadata,proof=proof,expected_revision=revision)
+            prepared_cleanup=service.prepare_fixture_stop_cleanup(stop_id,target,native,inventory,
+                metadata=metadata,proof=proof,expected_revision=revision)
+            c.append(dict(code='0',data=[dict(algoId='2345',sCode='0')]))
+            service.execute_fixture_stop_cleanup(prepared_cleanup,expected_revision=revision)
+
+            # ACK is not terminal evidence; require the real terminal readback.
+            c.clock[0]+=timedelta(seconds=1)
+            canceled=dict(c.algo,state='canceled',uTime=str(int(c.clock[0].timestamp()*1000)))
+            c.append(dict(code='0',data=[canceled]))
+            self.assertEqual('ALGO_OBSERVED',service.reconcile(stop_id,expected_revision=revision).status)
+            terminal_graph=c.recover()
+            self.assertEqual(first_flat,terminal_graph.current_position_projection.payload)
+            self.assertIsNone(terminal_graph.trade_result)
+            self.assertEqual('REINTERPRETATION_REQUIRED',terminal_graph.status)
+            self.assertEqual(('E5_EXECUTION_REINTERPRETATION_REQUIRED',),terminal_graph.reason_codes)
+
+            c.append(dict(code='0',data=[canceled]),c.position_response('0',average='0'))
+            terminal=service.read_fixture_terminal_stop(stop_id,expected_revision=revision)
+            metadata,proof=c.fresh()
+            native=service.read_position(metadata=metadata,proof=proof,expected_revision=revision,
+                expected_provider_position_id='5678')
+            c.append(*scans.scans([]))
+            inventory=service.read_algo_inventory(metadata=metadata,proof=proof,expected_revision=revision)
+            self.assertEqual('CANCELED',terminal.status)
+            self.assertEqual((),inventory.objects)
+            calls=deepcopy(c.provider.calls)
+            def finalize():
+                return service.finalize_fixture_trade(close_id,terminal,native,inventory,
+                    metadata=metadata,proof=proof,expected_revision=revision)
+            receipt=finalize()
+            closed=c.assert_binding()
+            position=closed.current_position_projection.payload
+            result=closed.trade_result.payload
+            self.assertEqual('READY',closed.status)
+            self.assertEqual('CLOSED',position['lifecycle_state'])
+            self.assertEqual(first_flat['lifecycle_projection_id'],position['previous_lifecycle_projection_id'])
+            self.assertEqual(first_flat['lifecycle_revision']+1,position['lifecycle_revision'])
+            self.assertEqual(first_flat['broker_state_observed_at'],result['closed_at'])
+            self.assertEqual(result['closed_at'],result['flat_position_observed_at'])
+            self.assertEqual(funding_object.canonical_id,result['funding_evidence_id'])
+            batch=f.dispatch.finalization_batch(service.run_id,close_id)
+            self.assertIsNotNone(batch)
+            self.assertEqual(receipt,f.dispatch.finalization_receipt(batch))
+            self.assertEqual(receipt,finalize())
+            self.assertEqual(closed,c.recover())
+            self.assertEqual(calls,c.provider.calls)
+            self.assertEqual(original_entry,f.dispatch.entry_decision(service.run_id,f.authority.identity,f.bundle.boundary))
+            self.assertEqual(anchor_record,f.dispatch.exit_anchor(service.run_id,original_entry.decision_id))
+            self.assertEqual(exit_decision,f.dispatch.exit_decision(service.run_id,original_entry.decision_id))
+            self.assertEqual(original_operation.request_json,f.dispatch.operation(service.run_id,close_id).request_json)
+            self.assertEqual(1,len([row for row in c.provider.calls if row['path']=='/api/v5/trade/cancel-algos']))
+            self.assertEqual(4,len([row for row in c.provider.calls if row['method']=='POST']))
+            self.assertFalse(c.provider._responses)
+            self.assertEqual(c.provider_identity,id(service.provider))

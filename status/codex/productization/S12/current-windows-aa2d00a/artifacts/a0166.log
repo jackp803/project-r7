@@ -1,0 +1,136 @@
+test_actual_new_research_owner_backup_is_supported_without_losing_legacy_models (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_actual_new_research_owner_backup_is_supported_without_losing_legacy_models) ... ERROR
+test_actual_three_file_index_reaches_verified_fake_copy_and_tampered_html_never_stages (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_actual_three_file_index_reaches_verified_fake_copy_and_tampered_html_never_stages) ... FAIL
+test_explicit_cli_queues_actual_owner_index_and_retry_keeps_original_operation (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_explicit_cli_queues_actual_owner_index_and_retry_keeps_original_operation) ... usage: r7 [-h]
+          {doctor,plan-ssh-tunnel,probe-control-access,init-profile,prepare-fixture,configure-research,configure-market-data,acquire-public-data,configure-paper,paper-worker,publish-fixture-outbox,enroll-owner,serve,research-worker,run-product,product-status,_product-service,_paper-market-acquire,_paper-native-boundary-check,_paper-native-stale-check,stop-product,plan-services,guarded-service,install-services,uninstall-services,author-package,export-capabilities,queue-research-feedback,cloud-pull,cloud-import-dataset,cloud-publish-outbox,backup-databases,verify-database-backup,restore-databases,backup-product-data,verify-product-backup,restore-product-data,preflight-product-upgrade,_research-job,_paper-release-observe}
+          ...
+r7: error: argument command: invalid choice: 'queue-candidate-index' (choose from doctor, plan-ssh-tunnel, probe-control-access, init-profile, prepare-fixture, configure-research, configure-market-data, acquire-public-data, configure-paper, paper-worker, publish-fixture-outbox, enroll-owner, serve, research-worker, run-product, product-status, _product-service, _paper-market-acquire, _paper-native-boundary-check, _paper-native-stale-check, stop-product, plan-services, guarded-service, install-services, uninstall-services, author-package, export-capabilities, queue-research-feedback, cloud-pull, cloud-import-dataset, cloud-publish-outbox, backup-databases, verify-database-backup, restore-databases, backup-product-data, verify-product-backup, restore-product-data, preflight-product-upgrade, _research-job, _paper-release-observe)
+ERROR
+test_normal_coordinator_queues_index_only_for_actual_completed_candidate (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_normal_coordinator_queues_index_only_for_actual_completed_candidate) ...
+  test_normal_coordinator_queues_index_only_for_actual_completed_candidate (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_normal_coordinator_queues_index_only_for_actual_completed_candidate) (risk=True) ... ERROR
+  test_normal_coordinator_queues_index_only_for_actual_completed_candidate (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_normal_coordinator_queues_index_only_for_actual_completed_candidate) (risk=False) ... ERROR
+test_publish_cli_shares_one_requested_limit_across_feedback_and_candidate_outboxes (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_publish_cli_shares_one_requested_limit_across_feedback_and_candidate_outboxes) ... FAIL
+
+======================================================================
+ERROR: test_actual_new_research_owner_backup_is_supported_without_losing_legacy_models (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_actual_new_research_owner_backup_is_supported_without_losing_legacy_models)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 133, in test_actual_new_research_owner_backup_is_supported_without_losing_legacy_models
+    observed=preflight_product_upgrade(c.config,c.backup,config_path=c.config_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\upgrade_preflight.py", line 168, in preflight_product_upgrade
+    result=_preflight_verified_databases(config,Path(backup)/'databases',sealed[3],end,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\upgrade_preflight.py", line 141, in _preflight_verified_databases
+    if actual not in models[role]: _fail('UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\upgrade_preflight.py", line 24, in _fail
+    def _fail(code): raise UpgradePreflightError(code)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.platform.upgrade_preflight.UpgradePreflightError: UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED
+
+======================================================================
+ERROR: test_explicit_cli_queues_actual_owner_index_and_retry_keeps_original_operation (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_explicit_cli_queues_actual_owner_index_and_retry_keeps_original_operation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1943, in _parse_known_args2
+    namespace, args = self._parse_known_args(args, namespace, intermixed)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2165, in _parse_known_args
+    positionals_end_index = consume_positionals(start_index)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2141, in consume_positionals
+    take_action(action, args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2003, in take_action
+    argument_values = self._get_values(action, argument_strings)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2523, in _get_values
+    self._check_value(action, value[0])
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2573, in _check_value
+    raise ArgumentError(action, msg % args)
+argparse.ArgumentError: argument command: invalid choice: 'queue-candidate-index' (choose from doctor, plan-ssh-tunnel, probe-control-access, init-profile, prepare-fixture, configure-research, configure-market-data, acquire-public-data, configure-paper, paper-worker, publish-fixture-outbox, enroll-owner, serve, research-worker, run-product, product-status, _product-service, _paper-market-acquire, _paper-native-boundary-check, _paper-native-stale-check, stop-product, plan-services, guarded-service, install-services, uninstall-services, author-package, export-capabilities, queue-research-feedback, cloud-pull, cloud-import-dataset, cloud-publish-outbox, backup-databases, verify-database-backup, restore-databases, backup-product-data, verify-product-backup, restore-product-data, preflight-product-upgrade, _research-job, _paper-release-observe)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 42, in test_explicit_cli_queues_actual_owner_index_and_retry_keeps_original_operation
+    with redirect_stdout(output):self.assertEqual(0,main(args))
+                                                    ^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\cli.py", line 187, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1904, in parse_args
+    args, argv = self.parse_known_args(args, namespace)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1914, in parse_known_args
+    return self._parse_known_args2(args, namespace, intermixed=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 1945, in _parse_known_args2
+    self.error(str(err))
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2650, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\argparse.py", line 2637, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+======================================================================
+ERROR: test_normal_coordinator_queues_index_only_for_actual_completed_candidate (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_normal_coordinator_queues_index_only_for_actual_completed_candidate) (risk=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 99, in test_normal_coordinator_queues_index_only_for_actual_completed_candidate
+    self.assertEqual(int(risk),scheduled['candidate_indexes_queued'])
+                               ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'candidate_indexes_queued'
+
+======================================================================
+ERROR: test_normal_coordinator_queues_index_only_for_actual_completed_candidate (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_normal_coordinator_queues_index_only_for_actual_completed_candidate) (risk=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 88, in test_normal_coordinator_queues_index_only_for_actual_completed_candidate
+    fixture.selection.write_bytes(encoded(settings));owners=fixture.compose()
+                                                            ^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\tests\application\test_local_owner_composition.py", line 32, in compose
+    return module.LocalOwners(self.config, namespace='FIXTURE', clock=self.clock, worker_id='fixture-worker')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 53, in __init__
+    selected=validate_owner_selections(selected)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\local_owners.py", line 33, in validate_owner_selections
+    research_policies=validate_research_selections(value['research_policies']))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\research\selection.py", line 28, in validate_research_selections
+    if set(selected)!=required and not is_diagnostic: raise ValueError('Complete explicit local research selection required')
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Complete explicit local research selection required
+
+======================================================================
+FAIL: test_actual_three_file_index_reaches_verified_fake_copy_and_tampered_html_never_stages (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_actual_three_file_index_reaches_verified_fake_copy_and_tampered_html_never_stages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 64, in test_actual_three_file_index_reaches_verified_fake_copy_and_tampered_html_never_stages
+    self.assertEqual((1,0,1),(result.attempted,result.local_staged,result.cloud_acknowledged))
+AssertionError: Tuples differ: (1, 0, 1) != (1, 0, 0)
+
+First differing element 2:
+1
+0
+
+- (1, 0, 1)
+?        ^
+
++ (1, 0, 0)
+?        ^
+
+
+======================================================================
+FAIL: test_publish_cli_shares_one_requested_limit_across_feedback_and_candidate_outboxes (tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_publish_cli_shares_one_requested_limit_across_feedback_and_candidate_outboxes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\application\test_candidate_index_integration_v02.py", line 121, in test_publish_cli_shares_one_requested_limit_across_feedback_and_candidate_outboxes
+    with redirect_stdout(output):self.assertEqual(0,main(args))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 5 tests in 11.722s
+
+FAILED (failures=2, errors=4)

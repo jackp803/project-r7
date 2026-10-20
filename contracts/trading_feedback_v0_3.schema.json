@@ -67,7 +67,7 @@
     },
     {
       "if": {"properties": {"availability": {"const": "AVAILABLE"}, "provenance": {"properties": {"kind": {"enum": ["FAKE_PROVIDER_VERIFICATION", "HISTORICAL_TRADING_OWNER"]}}}}},
-      "then": {"properties": {"funding": {"properties": {"source_kind": {"const": "BROKER_LEDGER"}}}}}
+      "then": {"properties": {"funding": {"properties": {"source_kind": {"const": "BROKER_LEDGER"}, "source_version": {"not": {"const": "paper-zero-funding-v0.1"}}}}}}
     },
     {
       "if": {"properties": {"availability": {"const": "AVAILABLE"}, "provenance": {"properties": {"kind": {"const": "HISTORICAL_TRADING_OWNER"}}}}},

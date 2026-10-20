@@ -82,6 +82,8 @@ def validate_trading_feedback(value):
         if paper and (f['source_kind'],f['source_version'])!=('PAPER_MODEL','paper-zero-funding-v0.1'):
             raise FeedbackError('TRADING_FEEDBACK_PAPER_SOURCE_INVALID')
         if not paper and f['source_kind']!='BROKER_LEDGER':raise FeedbackError('TRADING_FEEDBACK_DISPATCH_LEDGER_REQUIRED')
+        if f['source_kind']=='BROKER_LEDGER' and f['source_version']=='paper-zero-funding-v0.1':
+            raise FeedbackError('TRADING_FEEDBACK_PAPER_MODEL_RELABEL_FORBIDDEN')
     elif f!=dict(source_kind=None,source_version=None,evidence_hash=None) or value['closed_at'] is not None:
         raise FeedbackError('TRADING_FEEDBACK_UNAVAILABLE_FUNDING_FORBIDDEN')
     if value['performance_policy'] not in ('OPT_IN','OPT_OUT'):raise FeedbackError('TRADING_FEEDBACK_POLICY_INVALID')

@@ -191,6 +191,18 @@ class K05FixtureConsumerPrivacyTests(unittest.TestCase):
             (value if target is None else value[target])[key]=malformed
             with self.subTest(target=target,key=key),self.assertRaises(ValueError):self.api.validate_trading_feedback(value)
 
+    def test_paper_zero_version_cannot_be_relabelled_as_broker_ledger(self):
+        from jsonschema import Draft202012Validator,ValidationError
+        value=self.project(performance_opt_in=True)
+        value['provenance']['kind']='FAKE_PROVIDER_VERIFICATION'
+        release=asdict(self.h.release[0]);value['binding']={key:release[key] for key in self.api.DISPATCH_BINDING}
+        value['funding']['source_kind']='BROKER_LEDGER'
+        self.assertEqual(value['funding']['source_version'],'paper-zero-funding-v0.1')
+        schema=json.loads((Path(__file__).resolve().parents[2]/'contracts/trading_feedback_v0_3.schema.json').read_bytes())
+        for name,validate,error in (('constructor-validator',self.api.validate_trading_feedback,ValueError),
+                ('json-schema',Draft202012Validator(schema).validate,ValidationError)):
+            with self.subTest(validator=name),self.assertRaises(error):validate(value)
+
 
 # No H16/actual-LIVE positive is hidden here. The public constructor's complete
 # dispatch+canonical positive and persisted-corruption/race tests depend on the

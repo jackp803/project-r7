@@ -57,7 +57,8 @@ runtime permission. Its financial authority is always NONE.
 consumer fixture with its registered PaperZero provenance. A fake-provider
 dispatch summary is separately labeled `FAKE_PROVIDER_VERIFICATION`; an
 available dispatch result requires BROKER_LEDGER funding and cannot borrow
-PaperZero. Both keep actual LIVE NOT_RUN/null. Only an available protected
+PaperZero; both validators reject its reserved model version even if its kind
+is relabeled BROKER_LEDGER. Both keep actual LIVE NOT_RUN/null. Only an available protected
 LOCAL_RESEARCH/ACTUAL_OWNER historical canonical result can select the
 HISTORICAL_CANONICAL_RECORDS branch; this is no claim of a running runtime or
 current permission. Observed process generations are not exported as original

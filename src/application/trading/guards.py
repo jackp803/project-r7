@@ -74,6 +74,14 @@ class _TradingEffectGuard:
                         # replacement/second submit. An empty pending snapshot
                         # cannot erase a committed ambiguous historical claim.
                         raise RuntimeAdmissionError('PRIOR_ACCOUNT_PROTECTION_RECONCILIATION_REQUIRED')
+            elif prepared.role in ('POSITION_EXIT','EMERGENCY_EXIT'):
+                from application.trading.close_owner import require_close_preparation
+                close_inventory_generation=service.dispatch.claim_inventory_generation()
+                require_close_preparation(service,prepared)
+                for operation in service.dispatch.iter_claimed_closes_for_position(service.run_id,prepared.canonical_request.position_id):
+                    if (operation.run_id,operation.operation_id)!=(service.run_id,prepared.canonical_request.order_request_id):
+                        raise RuntimeAdmissionError('PRIOR_ACCOUNT_CLOSE_RECONCILIATION_REQUIRED')
+                service.dispatch.require_claim_inventory_generation(close_inventory_generation)
         # Lifetime may expire while owners/SQLite are read. Use the effect clock
         # after all work, rather than the timestamp captured at guard entry.
         service.dispatch.require_process(service.lease, now=service.clock())

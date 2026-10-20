@@ -11,6 +11,50 @@ from registry.operational_authority import CurrentRuntimePermission, ReleaseBind
 
 
 class ProductDispatchV02Tests(unittest.TestCase):
+    def close_request(self,client,role):
+        # Legacy metadata-only uncertain claims have no canonical position ID;
+        # they must conservatively block either close role for this account.
+        request=self.request(client);request['role']=role
+        request['body']=dict(request['body'],side='sell',reduceOnly=True)
+        return request
+
+    def test_close_inventory_spans_both_roles_and_runs_and_ignores_unclaimed_or_other_accounts(self):
+        journal,lease=self.initialized()
+        journal.prepare('run','not-claimed',self.close_request('notclaimed','POSITION_EXIT'),lease=lease,now=self.now)
+        expected=[]
+        for number,role in enumerate(('POSITION_EXIT','EMERGENCY_EXIT')):
+            run='close-run-'+str(number);operation='claimed-'+str(number)
+            journal.ensure_run(run,self.owner,now=self.now)
+            other=journal.begin_process(run,'close-owner:'+str(number),expected_generation=0,now=self.now)
+            journal.prepare(run,operation,self.close_request('closeclient'+str(number),role),lease=other,now=self.now)
+            journal.claim_dispatch(run,operation,lease=other,now=self.now);expected.append((run,operation))
+        another=replace(self.owner,release=replace(self.owner.release,account_ref='different-account'))
+        journal.ensure_run('another',another,now=self.now)
+        other=journal.begin_process('another','another-owner',expected_generation=0,now=self.now)
+        journal.prepare('another','other-account',self.close_request('otherclient','EMERGENCY_EXIT'),lease=other,now=self.now)
+        journal.claim_dispatch('another','other-account',lease=other,now=self.now)
+        actual=journal.iter_claimed_closes_for_position('run','original-position')
+        self.assertEqual([(item.run_id,item.operation_id) for item in actual],expected)
+
+    def test_close_inventory_fences_a_real_other_connection_append_between_role_scans(self):
+        from unittest.mock import patch
+        from storage.product_dispatch import ProductDispatchError
+        journal,lease=self.initialized();original=journal._iter_claim_inventory
+        appended=[]
+        def actual_scan(run,role,position_id=None):
+            yield from original(run,role,position_id)
+            if role=='POSITION_EXIT' and not appended:
+                with self.open(self.path) as writer:
+                    writer.prepare('run','concurrent',self.close_request('concurrent','EMERGENCY_EXIT'),lease=lease,now=self.now)
+                    writer.claim_dispatch('run','concurrent',lease=lease,now=self.now)
+                appended.append(True)
+        with patch.object(journal,'_iter_claim_inventory',side_effect=actual_scan):
+            with self.assertRaises(ProductDispatchError) as caught:
+                tuple(journal.iter_claimed_closes_for_position('run','original-position'))
+        self.assertEqual(caught.exception.code,'DISPATCH_CLAIM_INVENTORY_CHANGED')
+        self.assertTrue(appended)
+        self.assertEqual('READBACK_REQUIRED',journal.operation('run','concurrent').recovery_disposition)
+
     def setUp(self):
         from storage.product_dispatch import open_product_dispatch_journal
         self.open = open_product_dispatch_journal

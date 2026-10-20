@@ -37,7 +37,7 @@ class TradingService:
             raise RuntimeAdmissionError('FIXTURE_PRODUCTION_COMPOSITION_FORBIDDEN')
         self.admission=admission; self.translator=translator; self.dispatch=dispatch; self.canonical=canonical
         self.provider=provider; self.identity=identity; self.run_id=run_id; self.clock=clock; self.lease=None
-        self._position_reads={};self._algo_inventories={}
+        self._position_reads={};self._algo_inventories={};self._close_preparations={}
         self.execution='FAKE_PROVIDER_VERIFICATION' if type(provider) is FakeProductProvider else 'PRODUCTION'
 
     def bind_process(self, *, expected_revision, expected_generation):
@@ -58,6 +58,18 @@ class TradingService:
     def recover_publications(self):
         self._coordinator().recover_publications()
 
+    def prepare_fixture_close(self,trade_plan_id,observation,*,metadata,read_proof,close_proof,expected_revision,action='EXIT'):
+        from application.trading.close_owner import prepare_fixture_close
+        return prepare_fixture_close(self,trade_plan_id,observation,metadata=metadata,read_proof=read_proof,
+            close_proof=close_proof,expected_revision=expected_revision,action=action)
+
+    def prepare_close(self,trade_plan_id,observation,*,metadata,read_proof,close_proof,expected_revision,
+                      metadata_applicability,metadata_binding,action='EXIT'):
+        from application.trading.close_owner import prepare_close
+        return prepare_close(self,trade_plan_id,observation,metadata=metadata,read_proof=read_proof,
+            close_proof=close_proof,expected_revision=expected_revision,metadata_applicability=metadata_applicability,
+            metadata_binding=metadata_binding,action=action)
+
     def read_position(self, *, metadata, proof, expected_revision, expected_provider_position_id=None):
         from application.trading.position_observation import read_position
         return read_position(self, metadata=metadata, proof=proof, expected_revision=expected_revision,
@@ -74,6 +86,11 @@ class TradingService:
     def project_entry_position(self, operation_id, observation, *, metadata, proof, expected_revision):
         from application.trading.position_observation import project_entry_position
         return project_entry_position(self, operation_id, observation, metadata=metadata, proof=proof,
+                                      expected_revision=expected_revision)
+
+    def project_close_position(self, operation_id, observation, *, metadata, proof, expected_revision):
+        from application.trading.close_observation import project_close_position
+        return project_close_position(self,operation_id,observation,metadata=metadata,proof=proof,
                                       expected_revision=expected_revision)
 
     def project_protection(self, operation_id, position_observation, inventory, *, metadata, proof, expected_revision):

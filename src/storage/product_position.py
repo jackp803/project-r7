@@ -37,6 +37,17 @@ class ProductProtectionObservation:
     def received_at(self):return self.inventory.received_at
 
 
+@dataclass(frozen=True)
+class ProductCloseObservation:
+    position:ProductPositionObservation
+    entry_operation_id:str
+    source_position_json:str
+    previous_lifecycle_projection_id:str
+
+    @property
+    def received_at(self):return self.position.received_at
+
+
 def inventory_material(value):
     Error,_,_,stamp=_ports()
     if type(value) is not ProductAlgoInventoryObservation:raise Error('POSITION_ACTUAL_NATIVE_INVENTORY_REQUIRED')
@@ -51,6 +62,15 @@ def inventory_material(value):
 
 def observation_material(value):
     Error,_,_,stamp=_ports()
+    if type(value) is ProductCloseObservation:
+        from storage.product_dispatch import _text
+        _text(value.entry_operation_id);_text(value.previous_lifecycle_projection_id)
+        if not isinstance(value.source_position_json,str) or len(value.source_position_json)>65536:
+            raise Error('POSITION_EXACT_CLOSE_SOURCE_REQUIRED')
+        source=json.loads(value.source_position_json);validate_position_lifecycle_projection(source)
+        return dict(profile='product-close-native-observation-v0.2',position=observation_material(value.position),
+            entry_operation_id=value.entry_operation_id,source_position=source,
+            previous_lifecycle_projection_id=value.previous_lifecycle_projection_id)
     if type(value) is ProductProtectionObservation:
         from position.external_close_policy import validate_external_provider_ownership_evidence
         from execution.protection_registry_evidence import validate_protection_registry_multiplicity_evidence
@@ -86,7 +106,8 @@ class ProductPositionPublication:
 def _effects(value,request,observation):
     Error,encode,_,stamp=_ports()
     managing=type(observation) is ProductProtectionObservation
-    native=observation.position if managing else observation
+    closing=type(observation) is ProductCloseObservation
+    native=observation.position if managing or closing else observation
     expected=product_entry_position_id(request.trade_plan_id)
     if (not isinstance(value,list) or not 3<=len(value)<=101 or len(value)%2!=1 or
         any(not isinstance(item,dict) or set(item)!={'kind','payload'} or not isinstance(item['payload'],dict) for item in value)):
@@ -96,11 +117,19 @@ def _effects(value,request,observation):
     validate_raw_position(raw)
     quantity=Decimal(raw['actual_quantity'])
     observed=stamp(datetime.fromisoformat(raw['broker_state_observed_at'].replace('Z','+00:00')))
-    expected_side=(('SHORT' if request.side.value=='BUY' else 'LONG') if managing else
+    expected_side=(('SHORT' if request.side.value=='BUY' else 'LONG') if managing or closing else
                    ('LONG' if request.side.value=='BUY' else 'SHORT'))
     if raw['position_id']!=expected or raw['symbol']!=request.symbol or raw['side']!=expected_side:
         raise Error('POSITION_EXACT_ENTRY_OBSERVATION_REQUIRED')
-    if (quantity!=abs(native.canonical_net_quantity) or quantity<=0 or not managing and quantity>request.quantity or
+    if closing:
+        source=json.loads(observation.source_position_json)
+        if (quantity!=abs(native.canonical_net_quantity) or quantity<0 or quantity>Decimal(source['actual_quantity']) or
+            native.canonical_net_quantity!=(quantity if raw['side']=='LONG' else -quantity) or observed!=stamp(native.received_at) or
+            any(raw[key]!=source[key] for key in ('position_id','symbol','side','opened_at','average_entry_price',
+                'quantity_profile_version','quantity_unit','quantity_asset')) or
+            quantity>0 and Decimal(raw['average_entry_price'])!=native.average_entry_price):
+            raise Error('POSITION_EXACT_CLOSE_OBSERVATION_REQUIRED')
+    elif (quantity!=abs(native.canonical_net_quantity) or quantity<=0 or not managing and quantity>request.quantity or
         native.canonical_net_quantity!=(quantity if raw['side']=='LONG' else -quantity) or
         observed!=stamp(native.received_at) or Decimal(raw['average_entry_price'])!=native.average_entry_price):
         raise Error('POSITION_EXACT_ENTRY_OBSERVATION_REQUIRED')
@@ -115,6 +144,10 @@ def _effects(value,request,observation):
         if managing and (projection['payload']['previous_lifecycle_projection_id']!=observation.source_lifecycle_projection_id or
                          projection['payload']['lifecycle_state']=='CLOSED'):
             raise Error('POSITION_EXACT_PROTECTION_PROJECTION_REQUIRED')
+        if closing and (len(value)!=3 or
+            projection['payload']['previous_lifecycle_projection_id']!=observation.previous_lifecycle_projection_id or
+            projection['payload']['lifecycle_state']!='EXIT_REQUESTED'):
+            raise Error('POSITION_EXACT_CLOSE_PROJECTION_REQUIRED')
     for item in value:_reject_provider_native_fields(item['payload'])
     return encode(value)
 
@@ -142,11 +175,11 @@ def latest_position_publication(journal,run_id,operation_id):
 
 def observe_position(journal,run_id,operation_id,observation,effects,*,lease,now,claim_inventory_generation=None):
     Error,encode,_,stamp=_ports()
-    if type(observation) not in (ProductPositionObservation,ProductProtectionObservation):raise Error('POSITION_ACTUAL_NATIVE_READBACK_REQUIRED')
+    if type(observation) not in (ProductPositionObservation,ProductProtectionObservation,ProductCloseObservation):raise Error('POSITION_ACTUAL_NATIVE_READBACK_REQUIRED')
     at=stamp(now);observed=stamp(observation.received_at)
     material=observation_material(observation);raw=encode(material)
     with journal._write():
-        if type(observation) is ProductProtectionObservation:
+        if type(observation) in (ProductProtectionObservation,ProductCloseObservation):
             # BEGIN IMMEDIATE prevents another claim append between this final
             # fence and the immutable protection outbox commit.
             journal.require_claim_inventory_generation(claim_inventory_generation)
@@ -154,8 +187,34 @@ def observe_position(journal,run_id,operation_id,observation,effects,*,lease,now
         operation=journal.operation(run_id,operation_id)
         if operation is None or operation.recovery_disposition!='READBACK_REQUIRED':raise Error('POSITION_PRIOR_DISPATCH_CLAIM_REQUIRED')
         prepared=restore_product_readback(operation.request)
-        role='PROTECTION_STOP' if type(observation) is ProductProtectionObservation else 'ENTRY'
-        if prepared.role!=role or observed>at:raise Error('POSITION_ORIGINAL_ENTRY_REQUIRED')
+        roles=(('POSITION_EXIT','EMERGENCY_EXIT') if type(observation) is ProductCloseObservation else
+               ('PROTECTION_STOP',) if type(observation) is ProductProtectionObservation else ('ENTRY',))
+        if prepared.role not in roles or observed>at:raise Error('POSITION_ORIGINAL_ENTRY_REQUIRED')
+        if type(observation) is ProductCloseObservation:
+            from brokers.okx_close_sizing import canonical_okx_close_sizing_hash
+            entry=journal.operation(run_id,observation.entry_operation_id)
+            if entry is None or entry.recovery_disposition!='READBACK_REQUIRED':raise Error('POSITION_ORIGINAL_ENTRY_REQUIRED')
+            entry_prepared=restore_product_readback(entry.request)
+            published=latest_position_publication(journal,run_id,observation.entry_operation_id)
+            original={} if published is None else json.loads(published.observation_json)
+            if (entry_prepared.role!='ENTRY' or entry_prepared.canonical_request.trade_plan_id!=prepared.canonical_request.trade_plan_id or
+                original.get('profile')!='okx-product-position-readback-v0.2' or
+                Decimal(original['canonical_net_quantity'])==0 or
+                original['provider_position_id']!=observation.position.provider_position_id or
+                canonical_okx_close_sizing_hash(material['source_position'])!=prepared.source_position_hash or
+                material['source_position']['position_id']!=prepared.canonical_request.position_id):
+                raise Error('POSITION_ORIGINAL_NATIVE_CLOSE_BINDING_REQUIRED')
+            latest=latest_position_publication(journal,run_id,operation_id)
+            if latest is not None and observed<latest.observed_at:
+                raise Error('POSITION_MONOTONIC_CLOSE_LINEAGE_REQUIRED')
+            if latest is not None and observed>latest.observed_at:
+                prior=json.loads(latest.observation_json)
+                if (prior.get('profile')!='product-close-native-observation-v0.2' or
+                    prior['source_position']!=material['source_position'] or
+                    material['position']['provider_updated_at']<prior['position']['provider_updated_at'] or
+                    abs(observation.position.canonical_net_quantity)>abs(Decimal(prior['position']['canonical_net_quantity'])) or
+                    observation.previous_lifecycle_projection_id!=latest.effects[-2]['payload']['lifecycle_projection_id']):
+                    raise Error('POSITION_MONOTONIC_CLOSE_LINEAGE_REQUIRED')
         claim=journal._db.execute('SELECT dispatched_at FROM product_dispatch_claims WHERE run_id=? AND operation_id=?',
             (run_id,operation_id)).fetchone()
         if observed<claim['dispatched_at']:raise Error('POSITION_READBACK_BEFORE_DISPATCH')

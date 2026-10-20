@@ -451,6 +451,21 @@ class ProductDispatchJournal:
     def iter_claimed_entries_for_account(self, run_id):
         return self._iter_claim_inventory(run_id,'ENTRY')
 
+    def iter_claimed_closes_for_position(self,run_id,position_id):
+        """Both close roles share one account/position inventory read fence.
+
+        Unknown legacy position identities remain conservative intersections.
+        Data returned here never grants another send or retires a prior claim.
+        """
+        _text(position_id)
+        original=self.claim_inventory_generation()
+        for role in ('POSITION_EXIT','EMERGENCY_EXIT'):
+            self.require_claim_inventory_generation(original)
+            for operation in self._iter_claim_inventory(run_id,role,position_id):
+                self.require_claim_inventory_generation(original)
+                yield operation
+            self.require_claim_inventory_generation(original)
+
     def claimed_entries_for_account(self, run_id):
         """Compatibility materialization; effect guards use the bounded stream."""
         return tuple(self.iter_claimed_entries_for_account(run_id))

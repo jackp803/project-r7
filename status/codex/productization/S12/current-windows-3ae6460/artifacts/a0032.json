@@ -1,0 +1,23 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Only the external idle-checkpoint to qualified-backup to retention binding delta; no product source, active run, store or generated evidence reads.",
+  "inspected_sources": {
+    "artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py": "d1fadfb5806993be33008cab19ca1c174891d241d441a78c37f4779e7bc318cf",
+    "artifacts/current-windows-20261019/verify_qualified_backup_checkpoint.py": "463b96bfa1ee0bf23a433acb3a6959f007dc5ae976ed2aa78a90ddd0c4559add",
+    "artifacts/current-windows-20261019/retain_current_checkpoint.py": "29b3c1b50fcac0051eb15ea7baa0b7201df4c3af0ae2d63913cbb2310922ccf8"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "static_checks": [
+    "The idle checkpoint derives original config/data/canonical references and product instance ID directly from the actual qualified config, alongside its original config hash, original receipt and the separately measured enabled idle config hash. These fields are not supplied by the policy serialization fixtures.",
+    "The shared require_idle_backup_binding guard requires exact revision/native identity, PASS, stopped/reaped ownership, source/package and helper guards, false workflow authority, positive integer selection generation and all original profile commitments before backup output creation. The retainer calls that same guard.",
+    "The current protected OperationalSelection is read from the original canonical store through the existing typed read-only port. Its generation is compared to the actual idle generation and its payload product_config_hash is compared to the idle profile's idle_config_hash, rather than to the diagnostic original profile hash.",
+    "Original and restored live-store readers retain immutable=False. Only captured canonical databases from already verified backup and verified rebackup use immutable=True. Three copies must equal the original complete OperationalSelection, with LOCAL_RESEARCH namespace and workflow_authorized exactly false.",
+    "Existing restored-inhibition checks, disconnected cloud, diagnostic restored profile, disabled runtime and actual software-admission denial remain. Four-store equality preserves original selection history; it does not activate restored authority or claim a positive Paper run.",
+    "PASS is assigned after four-store equality and original-source receipt/history/config/selection rechecks. Cleanup failures or the final source/package guard force failure before checkpoint publication. The retainer additionally requires the backup's four-store selection proof flag and preserves its final source/package guard before tracked retention writes.",
+    "The retainer's fixed evidence inventory includes the integration guard tests, corrected RED/GREEN logs, plan, preceding review and this final review. No current execution credit is inferred from those source-only guard results."
+  ],
+  "limits": "Bounded static integration review only. No tests, helper/publication, native process, qualification, database/auth/config contents, active evidence, provider or network were executed or accessed. The active exact-subject owning run and later ancillary native/backup results remain pending evidence. This is not a full retainer audit, financial authorization, restored reauthorization, Ubuntu verification or whole-product acceptance."
+}

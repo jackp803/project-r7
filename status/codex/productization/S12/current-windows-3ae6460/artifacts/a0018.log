@@ -1,0 +1,158 @@
+test_direct_launch_keeps_whole_run_peaks_unknown_and_actual_slice_separate (__main__.DirectObservationTests.test_direct_launch_keeps_whole_run_peaks_unknown_and_actual_slice_separate) ... ERROR
+test_missing_host_samples_stay_unknown_without_retrospective_process_attribution (__main__.DirectObservationTests.test_missing_host_samples_stay_unknown_without_retrospective_process_attribution) ... ERROR
+test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) ...
+  test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='identity') ... ERROR
+  test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='samples') ... ERROR
+  test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='peaks') ... ERROR
+  test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='pid') ... ERROR
+  test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='flag') ... ERROR
+test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) ...
+  test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='revision') ... ERROR
+  test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='attempt') ... ERROR
+  test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='passed') ... ERROR
+  test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='stage') ... ERROR
+test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) ... ERROR
+
+======================================================================
+ERROR: test_direct_launch_keeps_whole_run_peaks_unknown_and_actual_slice_separate (__main__.DirectObservationTests.test_direct_launch_keeps_whole_run_peaks_unknown_and_actual_slice_separate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 35, in test_direct_launch_keeps_whole_run_peaks_unknown_and_actual_slice_separate
+    observed=self.observe()
+             ^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_missing_host_samples_stay_unknown_without_retrospective_process_attribution (__main__.DirectObservationTests.test_missing_host_samples_stay_unknown_without_retrospective_process_attribution)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 57, in test_missing_host_samples_stay_unknown_without_retrospective_process_attribution
+    observed=self.observe(lambda stage,unused:stage.update(host_samples=[dict(error_type='SampleError')]))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='identity')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 54, in test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse
+    with self.subTest(changed=changed),self.assertRaises(ValueError):self.observe(alter)
+                                                                     ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='samples')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 54, in test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse
+    with self.subTest(changed=changed),self.assertRaises(ValueError):self.observe(alter)
+                                                                     ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='peaks')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 54, in test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse
+    with self.subTest(changed=changed),self.assertRaises(ValueError):self.observe(alter)
+                                                                     ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='pid')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 54, in test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse
+    with self.subTest(changed=changed),self.assertRaises(ValueError):self.observe(alter)
+                                                                     ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse (__main__.DirectObservationTests.test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse) (changed='flag')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 54, in test_stale_identity_missing_actual_samples_or_inconsistent_slice_totals_refuse
+    with self.subTest(changed=changed),self.assertRaises(ValueError):self.observe(alter)
+                                                                     ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='revision')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 64, in test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse
+    self.observe(lambda stage,unused:stage.update({field:value}))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='attempt')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 64, in test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse
+    self.observe(lambda stage,unused:stage.update({field:value}))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='passed')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 64, in test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse
+    self.observe(lambda stage,unused:stage.update({field:value}))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse) (field='stage')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 64, in test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse
+    self.observe(lambda stage,unused:stage.update({field:value}))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+======================================================================
+ERROR: test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse (__main__.DirectObservationTests.test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 66, in test_wrong_stage_attempt_and_out_of_interval_host_samples_refuse
+    self.observe(lambda stage,unused:stage['host_samples'][0].update(observed_at='2026-10-21T00:00:00+00:00'))
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_direct_qualification_resource_retention.py", line 32, in observe
+    return helper.host_and_pqr05_observation(helper.CapturedEvidence(root),stage,root,members,facts,revision,'first')[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'retain_current_checkpoint' has no attribute 'host_and_pqr05_observation'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.114s
+
+FAILED (errors=12)

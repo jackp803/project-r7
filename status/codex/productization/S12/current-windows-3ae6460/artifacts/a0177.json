@@ -1,0 +1,49 @@
+{
+  "status": "NO_REMAINING_CRITICAL_OR_IMPORTANT_IN_BOUNDED_HELPER_REVIEW",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "critical": 0,
+  "important": 0,
+  "reviewed_date": "2026-10-21",
+  "reviewed_helper": {
+    "path": "ART/verify_plat08_crossversion_native.py",
+    "sha256": "676e962d0a35f1c45f23cfab5b3120ff4ecdac3fed9d2b81454f34eaa8768bc2"
+  },
+  "plan": {
+    "path": "ART/plat08-native-crossversion-draft-plan-20261021.json",
+    "sha256": "e8ad3d17f6b8f725ba8cff0ba14f1f074f3a6889fa70a74ae523d0632c26b4ed"
+  },
+  "prior_review": "ART/plat08-crossversion-native-helper-review-20261021.json (initial8e15b2be helper findings, retained unchanged)",
+  "repairs": [
+    {
+      "id": "PLAT08-HELPER-01",
+      "resolution": "LocalDiagnosticControl.__init__ removes inherited passed and labels OBSERVATIONS_ONLY;OUTER_RESULT_DECIDES. No child passed=True is published. The outer report alone computes passed after cleanup, final subject guards and helper hash. This avoids contradictory child PASS if outer completion fails."
+    },
+    {
+      "id": "PLAT08-HELPER-02",
+      "resolution": "LocalDiagnosticControl._spawn retains each successfully returned OwnedProcess before any wait/readiness, bounded32 per flow. Both command and start_control use it. New command finally bounded-terminates and records actual cleanup even on failure; outer finally iterates all flow.owned handles and bounded-terminates/reports each. Failed reap remains retained and report failure; inherited stop_control clearing self.control no longer loses the only handle."
+    }
+  ],
+  "bindings_confirmed": [
+    "Explicit build-result/manifest/exe hashes plus clean exact verify_distribution identity; old pinned7d implementation/build; fresh exact code/resource copies with512MiB/4096file cap.",
+    "Preflight target_provenance exact new identity subset, actual old source_config_hash and raw backup manifest SHA/UUID; source/backup/config hashes rechecked. Frozen provenance has identity plus environment fields, so subset comparison is appropriate.",
+    "Actual old native unconfigured LOCAL_RESEARCH diagnostic profile with no auth enrollment, no Paper/cloud selection. New native starts only fresh restored clone, exact19->24 ledger and RESTORED_INHIBITED remain. No old future-schema refusal or financial claim.",
+    "Actual control health requires owned PID/config/native identity, normal stop-product/STOPPED and owned-tree reap. ResourceLimits remain finite. Diagnostic loopback requests use existing proxy-free/redirect-denying opener.",
+    "Removal validates exact fresh old/new leaf targets below PROJECT/installations/plat08-attempt, ancestor/reparse/local paths, protected original windows-7d821f2-clean exclusion and external-root disjointness; exact closure before leaf unlink and empty-dir removal, external data/backups/config rehashed after each. No recursive shell deletion."
+  ],
+  "limits": [
+    "Static source/helper text only. No imports/compile/tests/Git/process/native/provider/network/DB/private config/auth reads. No native or qualification PASS claim; root reports build3ae43s complete only.",
+    "Review subject is external helper676e962d plus narrow repairs; not a whole branch review or future changed helper. Source auditfc0d and newbuild3ae remain separately identified.",
+    "Expected exact19 migrations/suffix20..24 and no real-cloud/provider/ordinary financial policy authority remain fixed. Actual root run must truthfully fail on an unexpected ledger, timeout, hash mutation or failed reap; no bound increase inferred.",
+    "OS resource limit scope is existing process ownership/deadline support; this does not certify hard RAM/CPU, hostile-code sandbox or host-wide zero-network trace."
+  ],
+  "verification": {
+    "tracked_writes": [],
+    "private_reads": 0,
+    "tests": [],
+    "new_acceptance_claims": 0,
+    "db_reads": 0,
+    "network_calls": 0,
+    "git": []
+  }
+}

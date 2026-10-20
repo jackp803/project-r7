@@ -1,0 +1,248 @@
+{
+  "passed": true,
+  "scope": "CURRENT_WINDOWS_PORTABLE_UPGRADE_SOFTWARE_ONLY",
+  "started_at": "2026-10-20T16:31:37.510091+00:00",
+  "native_schema_refusal": "NOT_RUN_SOURCE_REGRESSIONS_SEPARATE",
+  "execution": "ACTUAL_ONLY_WHEN_ROOT_RUNS",
+  "old_identity": {
+    "executable_revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "implementation_hash": "sha256:e3e79dc1b293a2cb26dbe64df22bf79f815c5810ccf473da76e9f568cf446fc1",
+    "build_hash": "sha256:0edb13bb6df357fb251b23618ba50b25c2ad1fbfe69aa7940486a83da8b4c3f4",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "new_identity": {
+    "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+    "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+    "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "provider_requests": 0,
+  "private_requests": 0,
+  "financial_authority": "NONE",
+  "namespace": "LOCAL_RESEARCH",
+  "paper": "NOT_STARTED",
+  "real_forward": "NOT_RUN",
+  "old7d_future_schema_refusal": "NOT_IMPLEMENTED_NOT_CLAIMED",
+  "errors": [],
+  "cleanup_errors": [],
+  "removed": [
+    "old",
+    "new"
+  ],
+  "helper_hash": "sha256:e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a",
+  "sealed_old_input_hashes": {
+    "source": {
+      "canonical.sqlite3": "sha256:49cfa0ce440b05b357817ce5e22118acf804f5dda314f72dbb7ff78949c9728a",
+      "control-commands.sqlite": "sha256:b8e0e0d7a99c6a7fd611604f55c70df8010b96fd721c5c58f1d8fc9e3ffb8003",
+      "control-settings.sqlite": "sha256:ea3d33eaa0dd324e6659faa2ba1517e8e361b95478587555108c84d2682820a7",
+      "local-auth.sqlite": "sha256:ac9da0fd4b56c73f96c6d58eaded3f14ef9e0fcbfc9e8fde27a5f7c705417420",
+      "managed-stop-requests/2c39b1a5-bea6-4f0e-9cf1-89a0920d8bc4.json": "sha256:557c552b0a44046464d2fd18738228b3b5a5cba76512cc0dfcde1da5fb857c0d",
+      "process-supervision.sqlite": "sha256:b65fe0d28f75bcf57dca315c45fa373e441df79f04d4ac6090c0fe8e8961c08c"
+    },
+    "backup": {
+      "databases/auth.sqlite": "sha256:28fdf07f5ecde32e646533aebec88971d7f32072d8be13dfbcaa105322fa08fe",
+      "databases/canonical.sqlite": "sha256:860d81727f73a159d7bd6483f320d9ab385cfb1f48917a2142bf6a014a32417e",
+      "databases/control.sqlite": "sha256:77253bb0a6f950ca06f65da22fa139169bff67e0bb85f10a4189bb35dc923be0",
+      "databases/manifest.json": "sha256:fef666932b8db870d632560d3c98c548943298138f72d922caed60d7eca2764e",
+      "databases/settings.sqlite": "sha256:d283e805f1f7622f5fd5fb956e8a4e00b6e55b8f0e48222e69fee9d2e037761b",
+      "databases/supervision.sqlite": "sha256:e7dcad22f28ace8aa46968e3d4fe0ae20efa7b5194036766dc196c2f9fe610d1",
+      "manifest.json": "sha256:ad1e0f7a2d776134f2d497a976d699ab322e15d41c3fe65a5f051f2b495951ad"
+    },
+    "config": "sha256:5e09188ee632b25862983c6896d3b50f59ad368fd0f5cbee5b34ffcd605bd9e8"
+  },
+  "new_rebackup_hashes": {
+    "databases/auth.sqlite": "sha256:28fdf07f5ecde32e646533aebec88971d7f32072d8be13dfbcaa105322fa08fe",
+    "databases/canonical.sqlite": "sha256:8558330c6a60925e6da721b226a933b81edee635928b70d119976f59d9c092f4",
+    "databases/control.sqlite": "sha256:77253bb0a6f950ca06f65da22fa139169bff67e0bb85f10a4189bb35dc923be0",
+    "databases/manifest.json": "sha256:5de74297ed351b9fb9fa89670252bcc2d2a0f4f49e7e6c3709231b19f8695210",
+    "databases/settings.sqlite": "sha256:d283e805f1f7622f5fd5fb956e8a4e00b6e55b8f0e48222e69fee9d2e037761b",
+    "databases/supervision.sqlite": "sha256:fba841a946da0a1ccb438483dcf2070e552035df384e7d22bc5544051127378c",
+    "manifest.json": "sha256:f9c7b92625dd65d4492bc9a3b4f897e36972dcbe1b3f5fdb356f6e58f763a057"
+  },
+  "new_restored_config_hash": "sha256:3f4120186ff3c45ed9c6d33b223ee7ca7c26d3e113d946bdfc974823dee5948e",
+  "preflight": {
+    "status": "COMPATIBLE_FOR_INHIBITED_CLONE",
+    "roles": {
+      "auth": {
+        "status": "COMPATIBLE"
+      },
+      "canonical": {
+        "status": "COMPATIBLE",
+        "applied": [
+          "0001_strategy_registry.sql",
+          "0002_paper_runtime_durability.sql",
+          "0003_lifecycle_execution_binding.sql",
+          "0004_operational_mode_shadow.sql",
+          "0005_external_close_currentness.sql",
+          "0006_protection_registry_currentness.sql",
+          "0007_atomic_intake_operations.sql",
+          "0008_canonical_strategy_lifecycle.sql",
+          "0009_product_assessment_evidence.sql",
+          "0010_product_lifecycle_authority.sql",
+          "0011_paper_process_checkpoints.sql",
+          "0012_paper_entry_pause_requests.sql",
+          "0013_product_provider_dispatch.sql",
+          "0014_product_provider_publication.sql",
+          "0015_product_position_publication.sql",
+          "0016_product_claim_inventory_index.sql",
+          "0017_paper_feedback_outbox.sql",
+          "0018_product_qualification_receipts.sql",
+          "0019_paper_operational_selections.sql"
+        ],
+        "pending": [
+          "0020_product_funding_publication.sql",
+          "0021_product_stop_cleanup_claim.sql",
+          "0022_product_trade_finalization.sql",
+          "0023_product_entry_decision.sql",
+          "0024_product_original_exit.sql"
+        ]
+      },
+      "control": {
+        "status": "COMPATIBLE"
+      },
+      "intake": {
+        "status": "ABSENT"
+      },
+      "queue": {
+        "status": "ABSENT"
+      },
+      "research": {
+        "status": "ABSENT"
+      },
+      "settings": {
+        "status": "COMPATIBLE"
+      },
+      "supervision": {
+        "status": "COMPATIBLE"
+      }
+    },
+    "financial_authority": "NONE",
+    "database_mutations": 0,
+    "owner_starts": 0,
+    "schema_version": "r7-product-upgrade-preflight-v0.2",
+    "target_provenance": {
+      "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+      "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+      "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+      "worktree": "UNAVAILABLE",
+      "financial_authority": "NONE",
+      "distribution_profile": "r7-native-distribution-v0.2",
+      "os": "Windows",
+      "os_version": "10.0.26200",
+      "architecture": "AMD64",
+      "python": "3.12.10",
+      "execution": "LOCAL",
+      "provider_requests": 0,
+      "credentials": "NONE",
+      "capital": "NONE",
+      "github_compute": "NOT_USED"
+    },
+    "source_config_hash": "sha256:474272609cc1066e78aeae9fbc1687d3c49909dbf3be82a0f621e25159d10a54",
+    "backup_id": "aa5f2d72-21f9-40d5-b390-dd11e83bdbd3",
+    "backup_manifest_sha256": "sha256:ad1e0f7a2d776134f2d497a976d699ab322e15d41c3fe65a5f051f2b495951ad"
+  },
+  "old_migrations": [
+    "0001_strategy_registry.sql",
+    "0002_paper_runtime_durability.sql",
+    "0003_lifecycle_execution_binding.sql",
+    "0004_operational_mode_shadow.sql",
+    "0005_external_close_currentness.sql",
+    "0006_protection_registry_currentness.sql",
+    "0007_atomic_intake_operations.sql",
+    "0008_canonical_strategy_lifecycle.sql",
+    "0009_product_assessment_evidence.sql",
+    "0010_product_lifecycle_authority.sql",
+    "0011_paper_process_checkpoints.sql",
+    "0012_paper_entry_pause_requests.sql",
+    "0013_product_provider_dispatch.sql",
+    "0014_product_provider_publication.sql",
+    "0015_product_position_publication.sql",
+    "0016_product_claim_inventory_index.sql",
+    "0017_paper_feedback_outbox.sql",
+    "0018_product_qualification_receipts.sql",
+    "0019_paper_operational_selections.sql"
+  ],
+  "new_migrations": [
+    "0001_strategy_registry.sql",
+    "0002_paper_runtime_durability.sql",
+    "0003_lifecycle_execution_binding.sql",
+    "0004_operational_mode_shadow.sql",
+    "0005_external_close_currentness.sql",
+    "0006_protection_registry_currentness.sql",
+    "0007_atomic_intake_operations.sql",
+    "0008_canonical_strategy_lifecycle.sql",
+    "0009_product_assessment_evidence.sql",
+    "0010_product_lifecycle_authority.sql",
+    "0011_paper_process_checkpoints.sql",
+    "0012_paper_entry_pause_requests.sql",
+    "0013_product_provider_dispatch.sql",
+    "0014_product_provider_publication.sql",
+    "0015_product_position_publication.sql",
+    "0016_product_claim_inventory_index.sql",
+    "0017_paper_feedback_outbox.sql",
+    "0018_product_qualification_receipts.sql",
+    "0019_paper_operational_selections.sql",
+    "0020_product_funding_publication.sql",
+    "0021_product_stop_cleanup_claim.sql",
+    "0022_product_trade_finalization.sql",
+    "0023_product_entry_decision.sql",
+    "0024_product_original_exit.sql"
+  ],
+  "original_source_unchanged": true,
+  "original_backup_unchanged": true,
+  "portable_removed": [
+    "old",
+    "new"
+  ],
+  "owned_cleanup": [
+    {
+      "pid": 82544,
+      "reaped": true
+    },
+    {
+      "pid": 40868,
+      "reaped": true
+    },
+    {
+      "pid": 66296,
+      "reaped": true
+    },
+    {
+      "pid": 83052,
+      "reaped": true
+    },
+    {
+      "pid": 25812,
+      "reaped": true
+    },
+    {
+      "pid": 93152,
+      "reaped": true
+    },
+    {
+      "pid": 13488,
+      "reaped": true
+    },
+    {
+      "pid": 72152,
+      "reaped": true
+    },
+    {
+      "pid": 25608,
+      "reaped": true
+    },
+    {
+      "pid": 74376,
+      "reaped": true
+    },
+    {
+      "pid": 71888,
+      "reaped": true
+    }
+  ],
+  "finished_at": "2026-10-20T16:32:51.125209+00:00"
+}

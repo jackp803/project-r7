@@ -1,0 +1,82 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "Current new Windows native future-schema negative only; old7d explicitly excluded",
+  "source_hashes": [
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "sha256": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6"
+    },
+    {
+      "path": "src/application/platform/product_backup.py",
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+    },
+    {
+      "path": "src/application/platform/paper_backup_history.py",
+      "sha256": "f8a9f3f170e78076e23c5ab891177dc55d74694111dc56173a147c0e4e9fd84b"
+    },
+    {
+      "path": "src/storage/qualification.py",
+      "sha256": "268f9cadd14f226bed523a5bf9e4c85b74b51916686b0a62e3d71671cae37501"
+    },
+    {
+      "path": "src/storage/paper_selection.py",
+      "sha256": "caf08dd99405ffbe897bb311c570f72498dba6631dfea7b137c168c92ed885ea"
+    },
+    {
+      "path": "src/application/platform/upgrade_preflight.py",
+      "sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6"
+    },
+    {
+      "path": "src/application/platform/database_restore.py",
+      "sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811"
+    },
+    {
+      "path": "src/application/entrypoints.py",
+      "sha256": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91"
+    },
+    {
+      "path": "src/application/cli.py",
+      "sha256": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b"
+    }
+  ],
+  "draft": {
+    "path": "verify_plat08_current_future_refusal.py.unapplied",
+    "sha256": "f81d73e39e4ae02942a799793c24895f9d98e2dfc8b8a8ac861de4402a120585"
+  },
+  "support_helper": {
+    "change": "NONE; hash-pinned import/reuse of existing root-reviewed command/owned-process/readonly ledger helpers",
+    "path": "verify_plat08_crossversion_native.py",
+    "sha256": "e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a"
+  },
+  "soundness": "Current _apply_migrations checks actual existing ledger against full target first, then permits explicitly trusted migrations_dir scripts and owner-inserts each script receipt. One hardcoded atomic CREATE TABLE empty schema-probe script in disposable test-only private directory creates genuine future ledger record through that owner. No manually inserted ledger, financial/terminal/authority rows, arbitrary user SQL, factory override or modified native resources.",
+  "backup_feasibility": "paper_backup_history.ordinary_history_inventory selects only known selection/qualification receipts; readers validate their own schema/namespace subsets and use readonly connections. They do not call canonical writer guard on backup source. Existing normal backup verification still validates bytes, quick_check/FKs/namespace/schema facts and referenced closures. Thus future schema should remain genuinely archivable; actual backup/verify must succeed before any negative credit. If not, fail and preserve attempt, do not bypass verification or repair data.",
+  "arguments": [
+    "--attempt <fresh bounded lowercase>",
+    "--revision <exact current new40commit;7d disallowed>",
+    "--package <absolute sealed current package>",
+    "--build-result <absolute current clean build metadata>",
+    "--build-sha256 sha256:<actual metadata>",
+    "--manifest-sha256 sha256:<actual distribution.json>",
+    "--exe-sha256 sha256:<actual executable>",
+    "--support-helper-sha256 sha256:<pinned successful external helper>"
+  ],
+  "sequence": [
+    "Exact clean build/package/hash subject check; source implementation hash must equal sealed target so test input producer cannot silently use a different source owner. Fresh private ART/plat08-future-attempt scope; original package/data/validcrossversionhelper untouched.",
+    "Normal current R7 init-profile LOCAL_RESEARCH diagnostic cloudNone/Paperfalse; normal current serve creates actual current schema/settings/empty unenrolledauth/control; verify actual owned identity/heartbeat/unenrolled auth status; normal cooperative stop/reap.",
+    "Under all actual role locks, actual _connect(require_existing=True)+_apply_migrations(migrations_dir=one-private-static-inputdir) executes atomic empty r7_disposable_future_schema_probe CREATE TABLE and automatically persists 9999_future_schema_guard_fixture.sql receipt. Readonly ledger must equal original+future. Schema fault is controlled synthetic negative input, never financial-result injection.",
+    "Normal CURRENT native backup-product-data then verify-product-backup must return PRODUCT_DATA_BACKUP_VERIFIED genuinely; freeze source full relative file hashes, canonical/config hash and sealed bundle closure.",
+    "Normal CURRENT native preflight-product-upgrade exits2 with exact BLOCKED/reason UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED/NONE/0mutations/0starts. Normal complete restore-product-data exits2; target absent; all source and backup/config bytes unchanged.",
+    "Normal CURRENT native serve against same source exits2 and owned tree reaped; canonical hash and ledger unchanged, sealed backup/config unchanged, target remainsabsent. Actual generic sanitized diagnostic log retained, no fictitious reason-code claim. Record actual source file differences (supervision may legitimately record start/failure), not overall zero mutation.",
+    "Final package/helper/source commitments and canonical/backup/config bytes rechecked after owned cleanup; retain all failed attempts/logs/private syntheticsource/futureinput/bundle. No deletion of source/evidence or originaloperatorinstallation."
+  ],
+  "native_attribution_limit": "CLI _startup_diagnostic currently filters exception text, so native serve reports generic LOCAL_STARTUP_VALIDATION_FAILED, not a typed MIGRATION_COMPATIBILITY reason. The flow establishes a controlled single-delta refusal after prior same-package startup success plus unchanged canonical bytes, typed preflight rejection, genuine future receipt and unchanged code/config. Do not label its public startup output as typed exactguard reason. Existing actual source guard tests remain separate direct reason-code proof.",
+  "root_review_points": [
+    "Root must syntax/static-review draft and supply actual exact hashes before any execution; this agent performed no imports/compile/tests/process/native/DB/network/Git actions.",
+    "Source custom-script hook is explicitly trusted test setup, not a new product CLI or ordinary user workflow and not production authority. No E5/risk/plan/result financial rows are introduced.",
+    "No auth enrollment/login/private credential input or auth-row export; normal fresh owner may initialize empty auth namespace/schema. Only artifact hashes retained.",
+    "Preserve passing prior crossversion/removal helper and result as separate scope; do not rerun old7d future refusal.",
+    "Parent current full qualification3ae remains in flight and no PASS inferred here. Native negative is NOT_RUN until root actually executes and reviews."
+  ]
+}

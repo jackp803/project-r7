@@ -1,0 +1,123 @@
+{
+  "passed": true,
+  "scope": "CURRENT_WINDOWS_NATIVE_FUTURE_SCHEMA_NEGATIVE_ONLY",
+  "identity": {
+    "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+    "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+    "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "provider_requests": 0,
+  "financial_authority": "NONE",
+  "paper": "NOT_STARTED",
+  "old7d_guard": "NOT_CLAIMED",
+  "schema_input": "ACTUAL_TRUSTED_TEST_MIGRATION_OWNER",
+  "startup_overall_zero_database_mutation": "NOT_CLAIMED_SUPERVISION_MAY_RECORD_FAILURE",
+  "errors": [],
+  "cleanup_errors": [],
+  "helper_hash": "sha256:ebc3fd80575df730cc06bec2ba7db69d8715798be739e5ef4592283fe08d28ac",
+  "support_helper_hash": "sha256:e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a",
+  "fixture_producer": {
+    "module": "storage._sqlite_registry._apply_migrations",
+    "script": "9999_future_schema_guard_fixture.sql",
+    "script_hash": "sha256:3979b0c5579e6c5f049deb7ef7740636e653a19fa45896444b800ab1cd7cc1c1",
+    "original_ledger": [
+      "0001_strategy_registry.sql",
+      "0002_paper_runtime_durability.sql",
+      "0003_lifecycle_execution_binding.sql",
+      "0004_operational_mode_shadow.sql",
+      "0005_external_close_currentness.sql",
+      "0006_protection_registry_currentness.sql",
+      "0007_atomic_intake_operations.sql",
+      "0008_canonical_strategy_lifecycle.sql",
+      "0009_product_assessment_evidence.sql",
+      "0010_product_lifecycle_authority.sql",
+      "0011_paper_process_checkpoints.sql",
+      "0012_paper_entry_pause_requests.sql",
+      "0013_product_provider_dispatch.sql",
+      "0014_product_provider_publication.sql",
+      "0015_product_position_publication.sql",
+      "0016_product_claim_inventory_index.sql",
+      "0017_paper_feedback_outbox.sql",
+      "0018_product_qualification_receipts.sql",
+      "0019_paper_operational_selections.sql",
+      "0020_product_funding_publication.sql",
+      "0021_product_stop_cleanup_claim.sql",
+      "0022_product_trade_finalization.sql",
+      "0023_product_entry_decision.sql",
+      "0024_product_original_exit.sql"
+    ],
+    "future_ledger": [
+      "0001_strategy_registry.sql",
+      "0002_paper_runtime_durability.sql",
+      "0003_lifecycle_execution_binding.sql",
+      "0004_operational_mode_shadow.sql",
+      "0005_external_close_currentness.sql",
+      "0006_protection_registry_currentness.sql",
+      "0007_atomic_intake_operations.sql",
+      "0008_canonical_strategy_lifecycle.sql",
+      "0009_product_assessment_evidence.sql",
+      "0010_product_lifecycle_authority.sql",
+      "0011_paper_process_checkpoints.sql",
+      "0012_paper_entry_pause_requests.sql",
+      "0013_product_provider_dispatch.sql",
+      "0014_product_provider_publication.sql",
+      "0015_product_position_publication.sql",
+      "0016_product_claim_inventory_index.sql",
+      "0017_paper_feedback_outbox.sql",
+      "0018_product_qualification_receipts.sql",
+      "0019_paper_operational_selections.sql",
+      "0020_product_funding_publication.sql",
+      "0021_product_stop_cleanup_claim.sql",
+      "0022_product_trade_finalization.sql",
+      "0023_product_entry_decision.sql",
+      "0024_product_original_exit.sql",
+      "9999_future_schema_guard_fixture.sql"
+    ],
+    "source_implementation": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b"
+  },
+  "preflight": {
+    "status": "BLOCKED",
+    "reason_codes": [
+      "UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED"
+    ],
+    "financial_authority": "NONE",
+    "database_mutations": 0,
+    "owner_starts": 0
+  },
+  "source_hashes_before_start": {
+    "canonical.sqlite3": "sha256:3254e82c85f4a0a84dacdcabbc9917ebd0d54c8895faf93d5f5268bfb45b2f26",
+    "control-commands.sqlite": "sha256:b8e0e0d7a99c6a7fd611604f55c70df8010b96fd721c5c58f1d8fc9e3ffb8003",
+    "control-settings.sqlite": "sha256:ea3d33eaa0dd324e6659faa2ba1517e8e361b95478587555108c84d2682820a7",
+    "local-auth.sqlite": "sha256:ac9da0fd4b56c73f96c6d58eaded3f14ef9e0fcbfc9e8fde27a5f7c705417420",
+    "managed-stop-requests/bc15dcf4-3f4c-4815-a445-1c0e97cda080.json": "sha256:47a1395dc0fa7dbe733dd83b1b7169e30eb2e8ee5a49063d6d25e0eb43b771fb",
+    "process-supervision.sqlite": "sha256:45ff4d4a07109294120e4544114c12fd307920f8283de35d2b8e071064736e91"
+  },
+  "source_hashes_after_start": {
+    "canonical.sqlite3": "sha256:3254e82c85f4a0a84dacdcabbc9917ebd0d54c8895faf93d5f5268bfb45b2f26",
+    "control-commands.sqlite": "sha256:b8e0e0d7a99c6a7fd611604f55c70df8010b96fd721c5c58f1d8fc9e3ffb8003",
+    "control-settings.sqlite": "sha256:ea3d33eaa0dd324e6659faa2ba1517e8e361b95478587555108c84d2682820a7",
+    "local-auth.sqlite": "sha256:ac9da0fd4b56c73f96c6d58eaded3f14ef9e0fcbfc9e8fde27a5f7c705417420",
+    "managed-stop-requests/bc15dcf4-3f4c-4815-a445-1c0e97cda080.json": "sha256:47a1395dc0fa7dbe733dd83b1b7169e30eb2e8ee5a49063d6d25e0eb43b771fb",
+    "process-supervision.sqlite": "sha256:41afabec157755ebc7339cfc2ff4a3a9655a4e4994bf577e892c8af081f037d8"
+  },
+  "sealed_backup_hashes": {
+    "databases/auth.sqlite": "sha256:28fdf07f5ecde32e646533aebec88971d7f32072d8be13dfbcaa105322fa08fe",
+    "databases/canonical.sqlite": "sha256:3dc7adb5d8c74c5725e2121a38a7632774cc30d1942c2e9b91a5afe3c4cdf75b",
+    "databases/control.sqlite": "sha256:77253bb0a6f950ca06f65da22fa139169bff67e0bb85f10a4189bb35dc923be0",
+    "databases/manifest.json": "sha256:5dcbc6b854324b392338a662e9ebd660147cbf2b0cb6a826c6e24ca6ae967fb9",
+    "databases/settings.sqlite": "sha256:d283e805f1f7622f5fd5fb956e8a4e00b6e55b8f0e48222e69fee9d2e037761b",
+    "databases/supervision.sqlite": "sha256:dcd186491e71af72e240e31899c16d9d660316098b0f411fc72eba7b76bee5e8",
+    "manifest.json": "sha256:6b0de0e849d54ac63a4f70b9b324bca145042fed09605e68f10278df0bcb8b68"
+  },
+  "canonical_hash_before_and_after": "sha256:3254e82c85f4a0a84dacdcabbc9917ebd0d54c8895faf93d5f5268bfb45b2f26",
+  "config_hash": "sha256:14b134d5cff7b1ec040d32f9e2e180151da6e73d602f516ae76418ab3906ad0c",
+  "preflight_restore_all_source_unchanged": true,
+  "startup_canonical_unchanged": true,
+  "startup_diagnostic": "GENERIC_SANITIZED_EXIT2_LOG_RETAINED_NO_TYPED_MIGRATION_CODE",
+  "source_files_changed_during_startup": [
+    "process-supervision.sqlite"
+  ]
+}

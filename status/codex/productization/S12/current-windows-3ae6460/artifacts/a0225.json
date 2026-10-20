@@ -1,0 +1,52 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "review_mode": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "Recorder resource projection and next-step metadata delta only",
+  "subjects": {
+    "record_current_windows_checkpoint.py": "f759a653ce858d7b982921934880b67ae4f08b5c422df5fef5d6014d936ce6d8",
+    "record_current_windows_checkpoint_before_direct_resource.py": "d30eb8b7fa17e8320abfa2739405804c770799f48c20633a70743828990c90e2",
+    "retain_current_checkpoint.py": "c8a2230787c2f8de6b94c372c0bdff0f00f7ab24ac193580cb6b987cd5a8fdcc"
+  },
+  "preserved_baseline_matches_prior_review": true,
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "supported_conclusions": [
+    {
+      "file": "record_current_windows_checkpoint.py",
+      "lines": [
+        26,
+        46
+      ],
+      "conclusion": "The recorder reads the resource observation from the retained disposition; it no longer requires an absent owning-memory observer file. It accepts only the two explicit resource modes. Direct mode requires null aggregate full-run RSS/private peaks and an explicit UNKNOWN complete-owning process-memory status."
+    },
+    {
+      "file": "record_current_windows_checkpoint.py",
+      "lines": [
+        33,
+        46,
+        56,
+        162
+      ],
+      "conclusion": "The full nested resource object is preserved in checkpoint/PROGRESS metadata. Direct-mode prose labels finite PQR05 slice peaks separately and denies full-run aggregate measurement, continuous coverage and maximum capacity. Complete-observer prose is restricted to that separate mode."
+    },
+    {
+      "file": "record_current_windows_checkpoint.py",
+      "lines": [
+        63,
+        65
+      ],
+      "conclusion": "The next-step metadata remains IN_PROGRESS and names semantic/supplemental closure plus the K03 evidence-index seam. It preserves separation of the qualified executable from subsequent source work and does not activate formal policies, real forward or external commissioning."
+    }
+  ],
+  "dependency_assumption": "The retained disposition is produced by the separately reviewed c8a223... retainer and its existing typed receipt/subject/stage/cleanup capture guards; this review did not repeat those guards or independently inspect any actual runtime evidence.",
+  "limitations": [
+    "Only static public helper text, exact hashes and line/string comparison were used. No AST parse, import, tests, product/native process, DB, Git, network or private data access.",
+    "The preserved recorder bytes exactly match the d30eb8... recorder captured in the preceding resource-retention review.",
+    "No source qualification result, native/runtime acceptance, current full-PQR outcome or whole-Master clause PASS is asserted by this projection review."
+  ]
+}

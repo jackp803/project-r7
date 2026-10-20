@@ -1,0 +1,47 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "reviewed_subject": {
+    "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+    "sha256": "fc2fcde751deebd2e0629ea2b89c4dfa5efc3794cbf30cac73fd94cd1aa35c16"
+  },
+  "scope": "Static repair review of extraction containment, captured ZIP/build binding, and actual emitted author-kit validation. No helper, product, test, native, build, qualification, or network execution; no private database, authentication, configuration, archive or executable inspection.",
+  "resolved_findings": [
+    {
+      "id": "PORTABLE-EXTRACTION-CONTAINMENT",
+      "status": "RESOLVED",
+      "evidence": "Lines 82-85 apply the existing local ancestor/reparse guard and resolved project containment before exclusive fresh installation creation; line 101 checks each extraction target."
+    },
+    {
+      "id": "PORTABLE-ARCHIVE-SUBJECT-BINDING",
+      "status": "RESOLVED",
+      "evidence": "Lines 25-37 admit the fixed canonical archive name and exact build/source identity, hash one protected captured byte snapshot, and use that snapshot for ZipFile(BytesIO). Lines 140-142 recheck the metadata and archive commitments."
+    },
+    {
+      "id": "PORTABLE-AUTHORING-PAYLOAD-BINDING",
+      "status": "RESOLVED_FOR_CAPABILITIES_MANIFEST_AND_PAYLOADS",
+      "evidence": "Lines 39-63 verify the actual current canonical capability bytes, response statuses, canonical parsed manifest, exact payload lengths/hashes, actual E2 parsing and complete emitted payload inventory. Lines 137-138 recheck these previously captured kit commitments. Generated version metadata has the residual finding below."
+    }
+  ],
+  "counts": {
+    "critical": 0,
+    "important": 1
+  },
+  "findings": [
+    {
+      "id": "PORTABLE-VERSION-METADATA-SELF-COMPARISON",
+      "severity": "Important",
+      "path": "artifacts/current-windows-20261019/verify_portable_checkpoint.py",
+      "line": 136,
+      "end_line": 138,
+      "finding": "The generated version.json is excluded from kit_closure and its final digest is compared only against another fresh read of the same current file. A version-only replacement after line 136 can change identity, archive_hash, financial_authority or the files inventory while both final closure comparisons still succeed and execution reaches passed=True.",
+      "minimal_fix": "Capture the exact intended serialized version bytes before writing. Require a protected final read of version.json to equal that captured snapshot and include its captured digest in the expected kit closure.",
+      "minimal_regression": "Replace only version.json after its exclusive write while leaving all capability, manifest and payload bytes unchanged; require refusal before passed=True."
+    }
+  ],
+  "limitations": [
+    "Review readiness only; no executed portable install, authoring, source, native or complete PQR result is asserted.",
+    "Parent-reported source-only helper regressions were not executed or credited by the reviewer.",
+    "No ordinary PAPER release, financial authority, full requirement or whole-Master acceptance is issued."
+  ]
+}

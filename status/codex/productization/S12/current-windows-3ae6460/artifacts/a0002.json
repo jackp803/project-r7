@@ -1,0 +1,743 @@
+{
+  "schema": "r7-acceptance-disposition-advisory-v1",
+  "reviewer_execution": "NONE",
+  "document_kind": "CONDITIONAL_ADVISORY_NOT_ACCEPTANCE_RESULTS",
+  "source_qualification": {
+    "subject_shorthand": "f6f9fb4",
+    "state": "IN_PROGRESS",
+    "passed": false,
+    "active_evidence_read": false,
+    "qualification_credit_issued": false
+  },
+  "inputs": {
+    "draft": {
+      "ref": "artifacts/current-windows-20261019/acceptance-v02-draft.json",
+      "sha256": "12ef52b4835a7cf7e80dfbd99cd9ffbaa64764eb4920d062598d1e9afb087177"
+    },
+    "matrix": {
+      "ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    }
+  },
+  "original_draft_counts": {
+    "source_supported": 31,
+    "native_pending": 24,
+    "partial": 8,
+    "external": 3,
+    "total": 66
+  },
+  "conclusions": [
+    "All 66 current requirement results remain NOT_RUN. No in-flight or historical result is promoted.",
+    "SOURCE_ONLY_WINDOWS is a scope/environment/limitations label, not an additional acceptance status. The matrix allows only PASS/FAIL/BLOCKED/NOT_RUN/NOT_APPLICABLE. Keep aggregate mandatory-platform status separate from a bounded Windows result.",
+    "Every draft row currently has exactly one mapped_source_cases anchor. Passing that anchor is not sufficient where the requirement has additional clauses. Expand exact executed case inventories from assertion bodies and join actual current execution instances before scoped acceptance.",
+    "The 31 SOURCE_SUPPORTED rows are candidate source-evidence routes, not 31 currently complete mappings. Some also have useful native assertions; native fixture success cannot replace unmapped semantic clauses.",
+    "E2E-03 can gain a SOURCE_ONLY_WINDOWS result from the actual complete exact-clean source execution independently of native success. API and core clock/security negatives can also have bounded source subresults; this does not remove the draft's packaged product demonstration gates.",
+    "The draft still names f86ee89/fec8af0 and several old pending implementation statements. Root must replace stale subject/implementation/profile-state statements with verified current facts; historical hashes remain historical.",
+    "All seven native groups / all 130 PQR commands passing would not itself establish every matrix requirement, required OS, real commissioning item, complete legacy applicability decision or independent audit."
+  ],
+  "source_only_windows_candidates": [
+    "STR-01",
+    "STR-02",
+    "STR-03",
+    "STR-04",
+    "STR-06",
+    "STR-07",
+    "STR-08",
+    "STR-11",
+    "STR-13",
+    "CLOUD-01",
+    "CLOUD-02",
+    "CLOUD-03",
+    "CLOUD-04",
+    "CLOUD-05",
+    "CLOUD-06",
+    "CLOUD-08",
+    "CLOUD-09",
+    "CLOUD-10",
+    "DATA-01",
+    "DATA-02",
+    "RES-01",
+    "RES-02",
+    "RES-03",
+    "RES-04",
+    "RES-05",
+    "RES-06",
+    "RES-07",
+    "LIFE-01",
+    "LIFE-02",
+    "TRADE-01",
+    "TRADE-02"
+  ],
+  "current_anchor_alone_is_blanket_acceptance": false,
+  "strict_complete_requirement_not_run_even_if_current_windows_pqr_passes": [
+    "PLAT-01",
+    "PLAT-02",
+    "PLAT-03",
+    "PLAT-05",
+    "PLAT-06",
+    "PLAT-07",
+    "PLAT-08",
+    "STR-05",
+    "STR-14",
+    "CLOUD-03",
+    "CLOUD-07",
+    "RES-08",
+    "LIFE-03",
+    "TRADE-03",
+    "TRADE-04",
+    "API-03",
+    "OPS-01",
+    "OPS-02",
+    "E2E-04"
+  ],
+  "strict_list_interpretation": "These full rows retain explicit missing mandatory-platform, semantic-mapping, operational campaign or independent-review evidence in this draft. Source/Windows subresults may be retained separately. This is not a claim that they can never be satisfied.",
+  "requirements": [
+    {
+      "requirement_id": "PLAT-01",
+      "status": "NOT_RUN",
+      "conditional_route": "WINDOWS_NATIVE_AND_OTHER_OS",
+      "native_groups": [
+        "PQR-02"
+      ],
+      "acceptance_criteria": "Fresh installed executable/no Python or Node/PYTHONPATH; Windows scope only.",
+      "remaining_limitation_or_gap": "Both Ubuntu native startup records."
+    },
+    {
+      "requirement_id": "PLAT-02",
+      "status": "NOT_RUN",
+      "conditional_route": "PLATFORM_GAP",
+      "native_groups": [],
+      "acceptance_criteria": "Chinese/spaced UTF-8 plus actual case-sensitive imports and UTC behavior.",
+      "remaining_limitation_or_gap": "Current anchor omits import/UTC clauses; both Ubuntu executions."
+    },
+    {
+      "requirement_id": "PLAT-03",
+      "status": "NOT_RUN",
+      "conditional_route": "PLATFORM_GAP",
+      "native_groups": [
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Actual timeout and cancel each reap owned descendants while unrelated PID survives.",
+      "remaining_limitation_or_gap": "Explicit tree termination plus a separate single-child timeout does not cover timeout of a grandchild; Ubuntu."
+    },
+    {
+      "requirement_id": "PLAT-04",
+      "status": "NOT_RUN",
+      "conditional_route": "WINDOWS_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Identified real hardware and bounded measured research CPU/memory workload; no GPU requirement.",
+      "remaining_limitation_or_gap": "Accept only measured finite workload/host; no 24-GiB host, hard cap or maximum-capacity inference."
+    },
+    {
+      "requirement_id": "PLAT-05",
+      "status": "NOT_RUN",
+      "conditional_route": "EXTERNAL_REQUIRED",
+      "native_groups": [],
+      "acceptance_criteria": "Actual unprivileged Ubuntu systemd install/start/backoff/stop/generation recovery.",
+      "remaining_limitation_or_gap": "Both Ubuntu systemd executions remain NOT_RUN."
+    },
+    {
+      "requirement_id": "PLAT-06",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [],
+      "acceptance_criteria": "Actual selected cloud-root loss must deny without replacement-root creation.",
+      "remaining_limitation_or_gap": "Marker-loss anchor is scoped source support; map actual mount/root identity loss and recovery; no named native assertion in draft."
+    },
+    {
+      "requirement_id": "PLAT-07",
+      "status": "NOT_RUN",
+      "conditional_route": "WINDOWS_NATIVE_AND_OTHER_OS",
+      "native_groups": [
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Consistent captured SQLite and restored stale-permission denial on exact native subject.",
+      "remaining_limitation_or_gap": "Windows result cannot replace Ubuntu backup/restore."
+    },
+    {
+      "requirement_id": "PLAT-08",
+      "status": "NOT_RUN",
+      "conditional_route": "PLATFORM_GAP",
+      "native_groups": [
+        "PQR-02"
+      ],
+      "acceptance_criteria": "Actual dependency/license/checksum/provenance plus safe upgrade/uninstall preserving user data.",
+      "remaining_limitation_or_gap": "PQR-02 smoke/tamper does not establish upgrade/uninstall; Ubuntu."
+    },
+    {
+      "requirement_id": "STR-01",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Actual retained legacy DSL/runtime golden corpus unchanged.",
+      "remaining_limitation_or_gap": "Finite vectors; not all possible legacy strategies; STR-14 separate."
+    },
+    {
+      "requirement_id": "STR-02",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Complete grammar positive/negative boundaries, including version/cycle/unit/duplicate/code and bounds.",
+      "remaining_limitation_or_gap": "Size/depth anchor alone is insufficient."
+    },
+    {
+      "requirement_id": "STR-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "SMA and EMA seeds/warmup/golden arithmetic plus batch/incremental/restart parity.",
+      "remaining_limitation_or_gap": "SMA-only anchor omits EMA/parity."
+    },
+    {
+      "requirement_id": "STR-04",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Both RSI and ATR Wilder seed/update/flat/exact warmup plus parity.",
+      "remaining_limitation_or_gap": "RSI-only anchor omits ATR and other required cases."
+    },
+    {
+      "requirement_id": "STR-05",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [],
+      "acceptance_criteria": "ADX ties/zero-denominator and exact 2n readiness, including edge window n=1.",
+      "remaining_limitation_or_gap": "Current selection does not assert n=1 one-bar unreadiness; expand exact vectors."
+    },
+    {
+      "requirement_id": "STR-06",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "MACD per-output readiness, Bollinger population variance, Donchian decision-bar exclusion.",
+      "remaining_limitation_or_gap": "MACD-only anchor omits other indicator assertions."
+    },
+    {
+      "requirement_id": "STR-07",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Every supported operator, prior-bar crossover/equality and invalid/missing propagation.",
+      "remaining_limitation_or_gap": "Arithmetic-only anchor omits Boolean/cross/lag/rolling/error behavior."
+    },
+    {
+      "requirement_id": "STR-08",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Actual 4h and 4h/15m finalized/received as-of prefix invariance and constituent gaps.",
+      "remaining_limitation_or_gap": "Direct-bundle rejection anchor alone is not the whole alignment proof."
+    },
+    {
+      "requirement_id": "STR-09",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Independent timeframe/absolute validity/entry-deadline/first-fill hold clocks.",
+      "remaining_limitation_or_gap": "Core evergreen/tactical classification alone is insufficient; require actual boundary observations."
+    },
+    {
+      "requirement_id": "STR-10",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Joined expiry at intake/research/pre-entry and management of original open exposure; no shortcuts.",
+      "remaining_limitation_or_gap": "Map full source temporal-owner cases plus native cases; no renewal/approval inference."
+    },
+    {
+      "requirement_id": "STR-11",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "E5-authorized fixed/ATR/reward-risk/trailing/time requests on actual fill with non-widening anchor.",
+      "remaining_limitation_or_gap": "Fixed-distance anchor alone omits ATR/trailing/time/first-fill cases; unsupported provider modification stays non-executable."
+    },
+    {
+      "requirement_id": "STR-12",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Protection/reconciliation/time deadlines advance independently of entry candle and research.",
+      "remaining_limitation_or_gap": "One E5 time-exit anchor is insufficient for independent worker/process composition."
+    },
+    {
+      "requirement_id": "STR-13",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Capability advertises only actual implemented verified profiles and typed version/missing-handler gaps.",
+      "remaining_limitation_or_gap": "One recognized-indicator case is insufficient for full registry contract; no qualification from registry strings."
+    },
+    {
+      "requirement_id": "STR-14",
+      "status": "NOT_RUN",
+      "conditional_route": "EXTERNAL_REQUIRED",
+      "native_groups": [],
+      "acceptance_criteria": "Identical canonical signals from same as-of data on Windows and both Ubuntu targets.",
+      "remaining_limitation_or_gap": "Cross-platform golden receipts cannot be inferred from any Windows PQR."
+    },
+    {
+      "requirement_id": "CLOUD-01",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-03"
+      ],
+      "acceptance_criteria": "Actual manifest/payload E2 parse and durable E6 DRAFT, no fabricated compatibility.",
+      "remaining_limitation_or_gap": "Synthetic local transport is valid domain integration; not real-cloud commissioning."
+    },
+    {
+      "requirement_id": "CLOUD-02",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Manifest-first/missing/truncated/hash-mismatched bytes yield retryable INCOMPLETE_SYNC.",
+      "remaining_limitation_or_gap": "Map every separate fault assertion; current single case is not an exhaustive fault inventory."
+    },
+    {
+      "requirement_id": "CLOUD-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE_WITH_OTHER_OS",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Actual traversal/absolute/reserved/case collisions and real Windows symlink/reparse denial.",
+      "remaining_limitation_or_gap": "Bad-path JSON anchor omits actual link/collision cases; per-platform Ubuntu security remains NOT_RUN."
+    },
+    {
+      "requirement_id": "CLOUD-04",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Repeated scans/restart/accepted-ID mutation preserve one durable effect and conflict.",
+      "remaining_limitation_or_gap": "Map restart/commit boundary cases explicitly; no remote-service inference."
+    },
+    {
+      "requirement_id": "CLOUD-05",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Crash after canonical registration, stale-generation fencing and no duplicate/overwrite.",
+      "remaining_limitation_or_gap": "Two-worker acquisition anchor alone omits crash-after-E6 and stale-owner completion."
+    },
+    {
+      "requirement_id": "CLOUD-06",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Commit/upload/ack failure/restart and immutable idempotent publication.",
+      "remaining_limitation_or_gap": "Upload-before-ack anchor alone omits all failure edges."
+    },
+    {
+      "requirement_id": "CLOUD-07",
+      "status": "NOT_RUN",
+      "conditional_route": "EXTERNAL_REQUIRED",
+      "native_groups": [],
+      "acceptance_criteria": "Ubuntu actual copy-only trusted argv and forbidden delete/sync/bisync/package-command refusal.",
+      "remaining_limitation_or_gap": "Windows fake transport does not satisfy explicitly Ubuntu execution."
+    },
+    {
+      "requirement_id": "CLOUD-08",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Separate LOCAL_STAGED and actual byte-verified remote acknowledgment; retry idempotent.",
+      "remaining_limitation_or_gap": "Local peer may establish protocol mechanics, never actual cloud commissioning."
+    },
+    {
+      "requirement_id": "CLOUD-09",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Adversarial artifact/private-field scan and exact financial opt-in/out.",
+      "remaining_limitation_or_gap": "Default financial opt-out alone omits hostile private-field/artifact tests; OPS-02 audit separate."
+    },
+    {
+      "requirement_id": "CLOUD-10",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Actual emitted legacy/4h/MTF/expiry/gap packages/schema/computed hashes through E2/E6.",
+      "remaining_limitation_or_gap": "Verify actual named examples/assertions; example documentation alone is insufficient."
+    },
+    {
+      "requirement_id": "DATA-01",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Logical candle and Parquet byte identity checked; no invented gap/funding events.",
+      "remaining_limitation_or_gap": "Encoding-identity anchor alone omits tamper/gap/funding negatives."
+    },
+    {
+      "requirement_id": "DATA-02",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Chronological split/feature-only warmup/purge/embargo and units frozen before replay.",
+      "remaining_limitation_or_gap": "Map distinct leakage, interval and threshold-unit assertions."
+    },
+    {
+      "requirement_id": "RES-01",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-03"
+      ],
+      "acceptance_criteria": "Actual E1/E2/E3/E6 replay, durable stages and executed provenance.",
+      "remaining_limitation_or_gap": "Diagnostic execution must remain non-promotable; no real-data profitability inference."
+    },
+    {
+      "requirement_id": "RES-02",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Development-only adaptation, frozen finalist before independent sealed OOS.",
+      "remaining_limitation_or_gap": "No-sealed-rows anchor alone omits freeze/reopen/requery assertions."
+    },
+    {
+      "requirement_id": "RES-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Durable append-only failed/aborted/invalid trials and revisions; exposed holdout marked observed.",
+      "remaining_limitation_or_gap": "Append-only anchor alone omits revision/exposure marking."
+    },
+    {
+      "requirement_id": "RES-04",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Actual finite-neighborhood replay retains invalid/unfavorable variants and deterministic policy binding.",
+      "remaining_limitation_or_gap": "Full finite inventory, not a count or favorable representative."
+    },
+    {
+      "requirement_id": "RES-05",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Actual selection and purge/overlap rules score every disjoint interval once.",
+      "remaining_limitation_or_gap": "Map negative overlap/purge/window cases, not only positive execution."
+    },
+    {
+      "requirement_id": "RES-06",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Seeded permutation and block bootstrap deterministic; interpretations distinct.",
+      "remaining_limitation_or_gap": "Permutation anchor alone omits block-bootstrap and parameter errors."
+    },
+    {
+      "requirement_id": "RES-07",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Missing stages, low samples/blocks and empty inputs cannot become favorable zero-risk PASS.",
+      "remaining_limitation_or_gap": "Monte-Carlo anchor alone omits other missing-stage/sample gates."
+    },
+    {
+      "requirement_id": "RES-08",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [],
+      "acceptance_criteria": "Separate fee, slippage and funding stresses with frozen policy/profile and no final-OOS tuning.",
+      "remaining_limitation_or_gap": "Selected fee/funding test does not separately assert slippage variants."
+    },
+    {
+      "requirement_id": "LIFE-01",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Actual named methods traverse every legal edge; illegal skips/generic bypass denied.",
+      "remaining_limitation_or_gap": "Counting nineteen edges/ten states alone is not edge execution."
+    },
+    {
+      "requirement_id": "LIFE-02",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-03"
+      ],
+      "acceptance_criteria": "Actual positive complete assessment and every missing/failed robustness/OOS gate.",
+      "remaining_limitation_or_gap": "Positive candidate case alone does not establish denial gates."
+    },
+    {
+      "requirement_id": "LIFE-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [
+        "PQR-06"
+      ],
+      "acceptance_criteria": "Actual authenticated-session security mechanics, exact release/policy/envelope and immutable approval.",
+      "remaining_limitation_or_gap": "Fixture human labels do not issue real approval; require complete binding/revocation/mutation test map, not a newly invented live activation test."
+    },
+    {
+      "requirement_id": "LIFE-04",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-03",
+        "PQR-04"
+      ],
+      "acceptance_criteria": "Pause/retirement/restart retain actual original exposure/protection and never auto-resume LIVE.",
+      "remaining_limitation_or_gap": "Separate lifecycle labels do not substitute for joined owner recovery."
+    },
+    {
+      "requirement_id": "PAPER-01",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-03"
+      ],
+      "acceptance_criteria": "Continuous independent owner ACK/fill/protection/exit/flat canonical TradeResult.",
+      "remaining_limitation_or_gap": "Source engine cycle alone does not demonstrate normal packaged composition."
+    },
+    {
+      "requirement_id": "PAPER-02",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-04",
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Duplicate boundary, partial fill, stale/missing input/protection and restart all preserve E5/E6 truth.",
+      "remaining_limitation_or_gap": "Duplicate-only source anchor omits full finite fault matrix."
+    },
+    {
+      "requirement_id": "PAPER-03",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Accelerated simulated clocks never satisfy real elapsed/sample qualification; exact disclosure.",
+      "remaining_limitation_or_gap": "Actual source negative can support SOURCE_ONLY_WINDOWS; packaged report/UI disclosure requires native observation."
+    },
+    {
+      "requirement_id": "PAPER-04",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Actual owned research resource failure/timeout and separate advancing protected Paper process.",
+      "remaining_limitation_or_gap": "Synthetic MemoryError is not physical RAM exhaustion; record measured finite native isolation scope."
+    },
+    {
+      "requirement_id": "TRADE-01",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [],
+      "acceptance_criteria": "Actual production adapter source review plus complete fake-transport request/mapping/readback negatives.",
+      "remaining_limitation_or_gap": "Signed-body anchor alone is insufficient; private-provider verification is separate COM-05, not required to execute actual trades."
+    },
+    {
+      "requirement_id": "TRADE-02",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_CANDIDATE",
+      "native_groups": [
+        "PQR-06"
+      ],
+      "acceptance_criteria": "Complete caller/signal/credential/cloud/runtime/E5 authority bypass negatives before fake effect.",
+      "remaining_limitation_or_gap": "Constructor namespace denial alone omits all dispatch authority gates; no real credentials needed."
+    },
+    {
+      "requirement_id": "TRADE-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [],
+      "acceptance_criteria": "Full named LF/FP fake-provider matrix for ambiguity/partial/orphan/duplicate/residual/flat truth.",
+      "remaining_limitation_or_gap": "One pending-ACK dispatch case and aggregate source success do not supply full legacy applicability map."
+    },
+    {
+      "requirement_id": "TRADE-04",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [
+        "PQR-06"
+      ],
+      "acceptance_criteria": "Joined exact current subject/config/heartbeat plus kill-switch/drawdown/consecutive-loss lock denies exposure.",
+      "remaining_limitation_or_gap": "Separate preflight and E5 tests omit whole linkage/consecutive-loss selection; PQR-06 alone does not close it."
+    },
+    {
+      "requirement_id": "API-01",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-06"
+      ],
+      "acceptance_criteria": "Typed/idempotent/revision-checked commands; hostile actor/PASS/SQL/code and replay/conflict all denied.",
+      "remaining_limitation_or_gap": "Source ASGI tests can support source-only scope; exact complete API assertions must be mapped."
+    },
+    {
+      "requirement_id": "API-02",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-06"
+      ],
+      "acceptance_criteria": "Actual loopback/Host/Origin/session/CSRF and authenticated actor boundary.",
+      "remaining_limitation_or_gap": "DNS-rebinding anchor alone omits CSRF/session/logout/actor cases; source security scope is possible."
+    },
+    {
+      "requirement_id": "API-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SEMANTIC_MAPPING_GAP",
+      "native_groups": [],
+      "acceptance_criteria": "Actual SSH tunnel remote view with loopback and direct-LAN refusal under configured security.",
+      "remaining_limitation_or_gap": "Planner argv/probe is not an executed tunnel; no PQR assertion currently supplies it."
+    },
+    {
+      "requirement_id": "UI-01",
+      "status": "NOT_RUN",
+      "conditional_route": "BROWSER_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-03"
+      ],
+      "acceptance_criteria": "All required Traditional-Chinese screens use actual API data; empty/unknown/fixture truthful.",
+      "remaining_limitation_or_gap": "Python command success cannot prove browser assertions; exact browser cases/screens required."
+    },
+    {
+      "requirement_id": "UI-02",
+      "status": "NOT_RUN",
+      "conditional_route": "BROWSER_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-03"
+      ],
+      "acceptance_criteria": "Actual UI research/Paper commands and stale conflict; no fabricated progress/profit.",
+      "remaining_limitation_or_gap": "Need actual browser/backend joined observations, not model or driver tests alone."
+    },
+    {
+      "requirement_id": "UI-03",
+      "status": "NOT_RUN",
+      "conditional_route": "BROWSER_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-03",
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Rendered timeframe/validity/holding/mode/authority/ACK-versus-fill/elapsed distinctions.",
+      "remaining_limitation_or_gap": "Native script assertion must prove each display clause; source temporal model alone is insufficient."
+    },
+    {
+      "requirement_id": "OPS-01",
+      "status": "NOT_RUN",
+      "conditional_route": "NATIVE_FAULT_GAP",
+      "native_groups": [
+        "PQR-05"
+      ],
+      "acceptance_criteria": "Explicit fault states and verified power/process/cloud/network/disk recovery.",
+      "remaining_limitation_or_gap": "PQR process crash/resource/backup subset does not cover power-cut, network and disk-full campaign."
+    },
+    {
+      "requirement_id": "OPS-02",
+      "status": "NOT_RUN",
+      "conditional_route": "REVIEW_REQUIRED",
+      "native_groups": [
+        "PQR-02",
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Exact separated code/build/config/evidence/platform ledger plus bounded whole-branch secret/report audit.",
+      "remaining_limitation_or_gap": "Individual provenance/redaction tests and all PQR groups do not replace S16 audit."
+    },
+    {
+      "requirement_id": "E2E-01",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-03",
+        "PQR-07"
+      ],
+      "acceptance_criteria": "Joined fixture intake/compatibility/research/robustness/sealed OOS/outcome/Paper/UI/report on same subject.",
+      "remaining_limitation_or_gap": "Not real cloud, real profitability or real-forward commissioning."
+    },
+    {
+      "requirement_id": "E2E-02",
+      "status": "NOT_RUN",
+      "conditional_route": "PRODUCT_NATIVE_CONDITIONAL",
+      "native_groups": [
+        "PQR-04"
+      ],
+      "acceptance_criteria": "All fixed malformed/incomplete/conflicting/unsupported/expired inputs produce exact non-trading disposition.",
+      "remaining_limitation_or_gap": "OOS-loss anchor is not any of these five input faults; bind full actual native/source scenario list."
+    },
+    {
+      "requirement_id": "E2E-03",
+      "status": "NOT_RUN",
+      "conditional_route": "SOURCE_EXECUTION_CONDITIONAL",
+      "native_groups": [],
+      "acceptance_criteria": "Complete exact-clean credential-free inventory, all commands/cases, no failures/errors/critical skips/expected failures.",
+      "remaining_limitation_or_gap": "Can gain source-only result after actual full completion; runner-enumeration unit test alone is not qualification."
+    },
+    {
+      "requirement_id": "E2E-04",
+      "status": "NOT_RUN",
+      "conditional_route": "REVIEW_REQUIRED",
+      "native_groups": [],
+      "acceptance_criteria": "All 66 rows and 150 legacy applicability/results mapped with 21 required fields and final review.",
+      "remaining_limitation_or_gap": "PQR completeness is software evidence, not acceptance of every requirement; mandatory missing targets must remain visible."
+    }
+  ],
+  "separate_commissioning": [
+    {
+      "requirement_id": "COM-01",
+      "status": "NOT_RUN",
+      "inferred_from_source_or_fixture": false
+    },
+    {
+      "requirement_id": "COM-02",
+      "status": "NOT_RUN",
+      "inferred_from_source_or_fixture": false
+    },
+    {
+      "requirement_id": "COM-03",
+      "status": "NOT_RUN",
+      "inferred_from_source_or_fixture": false
+    },
+    {
+      "requirement_id": "COM-04",
+      "status": "NOT_RUN",
+      "inferred_from_source_or_fixture": false
+    },
+    {
+      "requirement_id": "COM-05",
+      "status": "NOT_RUN",
+      "inferred_from_source_or_fixture": false
+    },
+    {
+      "requirement_id": "COM-06",
+      "status": "NOT_RUN",
+      "inferred_from_source_or_fixture": false
+    }
+  ],
+  "evidence_admission": [
+    "Exact full source/spec/build/config identity and compatibility where relevant",
+    "Complete named case-to-clause mapping with actual outcomes, command/log/artifact hashes and no skipped critical behavior",
+    "All 21 matrix per-result fields; source/native/browser observations distinguish environment and exact subject",
+    "Protected captured log/artifact bytes and final commitments; counts alone or representative test names are insufficient"
+  ],
+  "unresolved_decisions": "No new financial or qualification authority decision is proposed. Remaining issues here are evidence completeness, execution environment, semantic assertion coverage and review.",
+  "source_changes": [],
+  "tests_run": 0,
+  "native_commands_run": 0,
+  "network_calls": 0,
+  "acceptance_pass_claims": 0
+}

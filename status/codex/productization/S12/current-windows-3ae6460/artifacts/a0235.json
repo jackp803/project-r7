@@ -1,0 +1,552 @@
+{
+  "kind": "UNAPPLIED_S16_FINAL11_SEMANTIC_REVIEW_AND_FINAL_CURRENT_BINDING_RECIPE",
+  "status": "STATIC_REVIEW_ONLY",
+  "execution": "NONE",
+  "acceptance_credit": "NONE;NO_RECORD_STATUSES_CHANGED",
+  "final_current_subject": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+  "full_current_qualification": "IN_FLIGHT_NOT_ASSUMED_COMPLETE",
+  "decisions": [
+    {
+      "id": "F12",
+      "original_windows_clause": "FULLY_SUPPORTED_ORIGINAL_WINDOWS_FIXTURE_SCOPE",
+      "whole_clause_status_proposal": "READY_FOR_ROOT_SCOPED_ACCEPTANCE",
+      "basis": "Actual hold-for-recovery observes idle flat crash, native successor recovery, unchanged original first-fill/binding, stale generation denial and final quantity zero. Literal restart-flat-safe E2E is met by actual idle-flat crash; no requirement to invent an additional CLOSED-flat crash.",
+      "missing": "No demonstrated original Windows assertion gap. Binding metadata must retain actual child config and owning interval scope, not fabricate case timestamps.",
+      "requirement_text": "restart flat safe",
+      "exact_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance",
+        "CRASH_FLAT_PROTECTED_UNPROTECTED_RECONCILIATION"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-145:0021",
+          "member_id": "PQR-01-145",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance",
+          "reported_test_id": "test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 221,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-145.log",
+          "log_hash": "sha256:bc2dc2f1a4d7d30ce97d427de8d74e930b973610cd01b8c2e1d8e8c297d81646",
+          "log_start_line": 21,
+          "log_completion_line": 21
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0490.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0598.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0459.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0461.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0465.log"
+      ]
+    },
+    {
+      "id": "B03",
+      "original_windows_clause": "NOT_FULLY_SUPPORTED",
+      "whole_clause_status_proposal": "NOT_RUN",
+      "basis": "Bound source integration completes a staged payload+manifest snapshot; native intake-faults repairs missing payload while manifest already exists. Neither inspected assertion observes payload-only before publication followed by actual last manifest write and single accepted discovery.",
+      "missing": "Temporal manifest-last recognition assertion, not just final complete bytes. Minimal test: normal author output held outside inbox, publish payload first, scan yields no accepted item, publish original manifest last, scan accepts once, replay same receipt. Existing source test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results can be extended with actual transition assertions; current result cannot be renamed.",
+      "requirement_text": "manifest written last is recognized",
+      "exact_test_ids": [
+        "tests.application.test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results",
+        "NATIVE_MALFORMED_UNSUPPORTED_CONFLICT_PARTIAL_RETRY",
+        "NATIVE_COMPLETED_SAME_ID_IDEMPOTENCY"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-034:0020",
+          "member_id": "PQR-01-034",
+          "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results",
+          "reported_test_id": "test_cloud_bridge.CloudBridgeTests.test_pull_stages_author_payload_before_manifest_and_ignores_runtime_results",
+          "status": "PASS",
+          "source_ref": "tests/application/test_cloud_bridge.py",
+          "definition_line": 165,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+          "log_ref": "PQR-01-034.log",
+          "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+          "log_start_line": 20,
+          "log_completion_line": 20
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0397.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0401.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0437.log"
+      ]
+    },
+    {
+      "id": "M04",
+      "original_windows_clause": "PARTIAL_INTAKE_E2E_ONLY",
+      "whole_clause_status_proposal": "NOT_RUN",
+      "basis": "Native scan sequence proves INCOMPLETE_SYNC/SYNC_RETRY_WAIT -> INTAKE_ACCEPTED -> IDEMPOTENT with original immutable receipt. Separate publication candidate belongs to a distinct flow; it cannot establish full downstream processing of this repaired submission.",
+      "missing": "Same repaired submission identity joined through normal queue/research to terminal result/report with one durable job/outcome and replay no additional execution. Do not splice unrelated candidate/receipt identities.",
+      "requirement_text": "partial sync -> later single successful processing",
+      "exact_test_ids": [
+        "tests.application.test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+        "tests.registry.test_atomic_intake.AtomicIntakeTests.test_operation_replay_has_same_receipt_and_retains_draft_without_compatibility_pass",
+        "NATIVE_MALFORMED_UNSUPPORTED_CONFLICT_PARTIAL_RETRY",
+        "NATIVE_COMPLETED_SAME_ID_IDEMPOTENCY"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-034:0013",
+          "member_id": "PQR-01-034",
+          "test_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+          "reported_test_id": "test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+          "status": "PASS",
+          "source_ref": "tests/application/test_cloud_bridge.py",
+          "definition_line": 180,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+          "log_ref": "PQR-01-034.log",
+          "log_hash": "sha256:ac7878a139b31117af5698aca111ddbef279edd0be345c3dd4e45af892424617",
+          "log_start_line": 13,
+          "log_completion_line": 13
+        },
+        {
+          "execution_instance_id": "PQR-01-154:0002",
+          "member_id": "PQR-01-154",
+          "test_id": "tests.registry.test_atomic_intake.AtomicIntakeTests.test_operation_replay_has_same_receipt_and_retains_draft_without_compatibility_pass",
+          "reported_test_id": "test_atomic_intake.AtomicIntakeTests.test_operation_replay_has_same_receipt_and_retains_draft_without_compatibility_pass",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_atomic_intake.py",
+          "definition_line": 30,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:0853f7ca0be05db59316f7f6dc39c820a3b7d8b001405bbda831570b0d70529d",
+          "log_ref": "PQR-01-154.log",
+          "log_hash": "sha256:f6358a97a64948f71b97ced3de981e8027c7ba78466cb1f023c6ed3c327e3721",
+          "log_start_line": 2,
+          "log_completion_line": 2
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0397.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0401.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0437.log"
+      ]
+    },
+    {
+      "id": "K01",
+      "original_windows_clause": "FULLY_SUPPORTED_LOCAL_FIXTURE_ROUND_TRIP",
+      "whole_clause_status_proposal": "READY_FOR_ROOT_SCOPED_ACCEPTANCE",
+      "basis": "Actual research owner publication has run identity, feedback JSON/report HTML/manifest hashes, validated staged payload closure, failed publication remains unacknowledged, verified destination copy ACK and idempotent repeat. Literal research manifest round-trip is met for controlled local transport.",
+      "missing": "No original local Windows clause assertion gap. COM-01 real-cloud round-trip stays NOT_RUN; do not relabel LOCAL_FIXTURE_VERIFIED_COPY_ACK.",
+      "requirement_text": "research manifest published",
+      "exact_test_ids": [
+        "tests.application.test_feedback_redaction.FeedbackTests.test_queue_cli_records_owner_result_without_cloud_connection_or_performance_opt_in",
+        "ACTUAL_OWNER_REPORTS_DURABLE_OUTBOX",
+        "STAGED_REMOTE_ACK_SEPARATION_FAILED_PUBLICATION_RETRY_IDEMPOTENCY"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-044:0004",
+          "member_id": "PQR-01-044",
+          "test_id": "tests.application.test_feedback_redaction.FeedbackTests.test_queue_cli_records_owner_result_without_cloud_connection_or_performance_opt_in",
+          "reported_test_id": "test_feedback_redaction.FeedbackTests.test_queue_cli_records_owner_result_without_cloud_connection_or_performance_opt_in",
+          "status": "PASS",
+          "source_ref": "tests/application/test_feedback_redaction.py",
+          "definition_line": 108,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2",
+          "log_ref": "PQR-01-044.log",
+          "log_hash": "sha256:376a6c02b0639db892d3766a401f78016c004fd901b436f1f63376fb3e0b16ab",
+          "log_start_line": 4,
+          "log_completion_line": 4
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0619.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0633.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0653.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0641.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0646.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0628.log"
+      ]
+    },
+    {
+      "id": "K03",
+      "original_windows_clause": "NOT_FULLY_SUPPORTED",
+      "whole_clause_status_proposal": "NOT_RUN",
+      "basis": "Actual CANDIDATE and sealed OOS status plus feedback manifest publication do not expose canonical candidate evidence index. Current application.cloud.feedback.validate_feedback rejects nonempty artifact_links and build_research_feedback emits []. tools/verify_paper_publication._publications validates strategy/dataset/split/source but not canonical evidence IDs/content hashes.",
+      "missing": "A bounded owner-built index and actual published/readback assertions joining exact candidate strategy/content/run, canonical backtest/product-assessment evidence IDs and immutable evidence content hashes, dataset/split/policy and source commitments. Do not forge links in test observations. Existing ResearchService.report and persist_backtest/record_product_assessment outputs are legitimate source facts; exporter needs an explicitly validated serialization seam or a separate existing owner artifact demonstrated. This inspected exporter cannot prove it today.",
+      "requirement_text": "candidate evidence index published",
+      "exact_test_ids": [
+        "tests.application.test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+        "ACTUAL_OWNER_REPORTS_DURABLE_OUTBOX"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-044:0002",
+          "member_id": "PQR-01-044",
+          "test_id": "tests.application.test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+          "reported_test_id": "test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+          "status": "PASS",
+          "source_ref": "tests/application/test_feedback_redaction.py",
+          "definition_line": 27,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2",
+          "log_ref": "PQR-01-044.log",
+          "log_hash": "sha256:376a6c02b0639db892d3766a401f78016c004fd901b436f1f63376fb3e0b16ab",
+          "log_start_line": 2,
+          "log_completion_line": 2
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0357.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0619.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0633.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0653.log"
+      ]
+    },
+    {
+      "id": "F11",
+      "original_windows_clause": "NOT_FULLY_SUPPORTED_BY_RETAINED_NATIVE_FIELDS",
+      "whole_clause_status_proposal": "NOT_RUN",
+      "basis": "Native closed-trade count/state hash and API net_pnl equality do not assert exact persisted fee/funding values. test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs compares net PnL and total_slippage_cost only. Backtest test is math evidence, not durable native Paper field persistence.",
+      "missing": "Actual persisted canonical TradeResult.total_fees, funding_evidence_id/status and applicable funding_cost plus canonical funding evidence cost/interval/identity; recover through normal journal and compare actual fill fees and canonical allocation, not a report fabricated to match. storage._paper_runtime.PaperRuntimeJournal.persist_trade_result/recover and paper_funding_evidence are existing locations. For ZERO_CONFIRMED, funding_cost may be omitted from TradeResult by position.trade_result.build_trade_result; inspect real evidence rather than demand an invented field. New H16 joined owner finalization source proof is separate and cannot retrofit old native facts.",
+      "requirement_text": "funding/cost persisted",
+      "exact_test_ids": [
+        "tests.backtest.test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+        "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs",
+        "INDEPENDENT_NATIVE_PAPER_ACK_FILL_PROTECT_PAUSE_RESTART_EXIT_FLAT",
+        "ACTUAL_OWNER_REPORTS_DURABLE_OUTBOX"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-020:0013",
+          "member_id": "PQR-01-020",
+          "test_id": "tests.backtest.test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+          "reported_test_id": "test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+          "status": "PASS",
+          "source_ref": "tests/backtest/test_replay.py",
+          "definition_line": 256,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:3467abff72e76efbeaba0bf3034b297e30762235a23281a992fdabae2abbee7e",
+          "log_ref": "PQR-01-020.log",
+          "log_hash": "sha256:b42364440c183152ba8ba5ff3ef4f6861b62539e2780b87e9d2ea480a710cac9",
+          "log_start_line": 13,
+          "log_completion_line": 13
+        },
+        {
+          "execution_instance_id": "PQR-01-130:0004",
+          "member_id": "PQR-01-130",
+          "test_id": "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs",
+          "reported_test_id": "test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_paper_services.py",
+          "definition_line": 126,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007",
+          "log_ref": "PQR-01-130.log",
+          "log_hash": "sha256:14d9bbf1c48e8567484dca60df327e663554a513381e5a30f6c22b7d65798f57",
+          "log_start_line": 4,
+          "log_completion_line": 4
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0357.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0633.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0371.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0653.log"
+      ]
+    },
+    {
+      "id": "A01",
+      "original_windows_clause": "FULLY_SUPPORTED_ORIGINAL_WINDOWS_PACKAGED_LAUNCH",
+      "whole_clause_status_proposal": "READY_FOR_ROOT_SCOPED_ACCEPTANCE",
+      "basis": "Actual byte-identical packaged installation/native empty-PATH first-run smoke starts control with fresh profile and actual native identity, no copied configuration/auth and no runtime/Paper start.",
+      "missing": "No original Windows assertion gap; old installation identity/archive is old-only, not final3ae PASS.",
+      "requirement_text": "Windows product starts from packaged launcher",
+      "exact_test_ids": [
+        "NATIVE_HARDWARE_WITH_EMPTY_PATH",
+        "CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION",
+        "ACTUAL_NATIVE_E6_MIGRATIONS",
+        "TAMPERED_MIGRATION_DENIED_BEFORE_START"
+      ],
+      "old_actual_source_instances": [],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0014.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0076.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0088.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0079.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0080.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0081.log"
+      ]
+    },
+    {
+      "id": "A02",
+      "original_windows_clause": "FULLY_SUPPORTED_ORIGINAL_WINDOWS_NO_PYTHONPATH",
+      "whole_clause_status_proposal": "READY_FOR_ROOT_SCOPED_ACCEPTANCE",
+      "basis": "Actual installed native first-run explicitly records PYTHONPATH UNSET, PATH EMPTY and Node unavailable on PATH while normal control/migrations succeed.",
+      "missing": "No original Windows assertion gap. Keep toolchain environment scope literal; do not infer universal host independence.",
+      "requirement_text": "no manual PYTHONPATH needed",
+      "exact_test_ids": [
+        "NATIVE_HARDWARE_WITH_EMPTY_PATH",
+        "CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION",
+        "ACTUAL_NATIVE_E6_MIGRATIONS",
+        "TAMPERED_MIGRATION_DENIED_BEFORE_START"
+      ],
+      "old_actual_source_instances": [],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0014.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0076.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0088.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0079.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0080.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0081.log"
+      ]
+    },
+    {
+      "id": "A05",
+      "original_windows_clause": "FULLY_SUPPORTED_ORIGINAL_WINDOWS_FRESH_PROFILE",
+      "whole_clause_status_proposal": "READY_FOR_ROOT_SCOPED_ACCEPTANCE",
+      "basis": "Actual fresh-profile installed startup records ACTUAL_NATIVE_E6_MIGRATIONS with19 original migrations. Current crossversion clone independently advances19 to24; old fact remains19.",
+      "missing": "No original Windows assertion gap; future source/native current profile should bind actual24 separately.",
+      "requirement_text": "DB initialized/migrated automatically",
+      "exact_test_ids": [
+        "tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed",
+        "NATIVE_HARDWARE_WITH_EMPTY_PATH",
+        "CHINESE_PROFILE_DEFAULTS_AND_PRESERVATION",
+        "ACTUAL_NATIVE_E6_MIGRATIONS",
+        "TAMPERED_MIGRATION_DENIED_BEFORE_START"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-061:0001",
+          "member_id": "PQR-01-061",
+          "test_id": "tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed",
+          "reported_test_id": "test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed",
+          "status": "PASS",
+          "source_ref": "tests/application/test_native_entrypoints.py",
+          "definition_line": 66,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3",
+          "log_ref": "PQR-01-061.log",
+          "log_hash": "sha256:2c0e120e7f360656679bb89480c8aa33a44bc6e51417fb352e459dccee42c328",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0014.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0076.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0088.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0079.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0080.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0081.log"
+      ]
+    },
+    {
+      "id": "K04",
+      "original_windows_clause": "FULLY_SUPPORTED_LOCAL_FIXTURE_ROUND_TRIP",
+      "whole_clause_status_proposal": "READY_FOR_ROOT_SCOPED_ACCEPTANCE",
+      "basis": "Actual Paper owner run/generation/revision/binding commitments, final closed-trade report, exact feedback/report/manifest byte closure, verified copy ACK and idempotent repeat satisfy local Paper report round-trip.",
+      "missing": "No local original Windows assertion gap. Public financial metrics opt-out and real-forward NOT_RUN remain; COM-01 real cloud is not inferred.",
+      "requirement_text": "PAPER report published",
+      "exact_test_ids": [
+        "tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts",
+        "tests.product.test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only",
+        "ACTUAL_OWNER_REPORTS_DURABLE_OUTBOX",
+        "SIMULATED_REAL_ELAPSED_DISCLOSURE_REDACTION",
+        "STAGED_REMOTE_ACK_SEPARATION_FAILED_PUBLICATION_RETRY_IDEMPOTENCY"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-068:0003",
+          "member_id": "PQR-01-068",
+          "test_id": "tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts",
+          "reported_test_id": "test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts",
+          "status": "PASS",
+          "source_ref": "tests/application/test_normal_fixture_worker.py",
+          "definition_line": 191,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:1a790c87bd180fda9a36c7317430e1ad2038722c9e835a5160b69d1aafb1d9d3",
+          "log_ref": "PQR-01-068.log",
+          "log_hash": "sha256:2a0e474f90610f2088c17dac7aa559e67c165d4df412e6dfc52cfecd7025d1f0",
+          "log_start_line": 3,
+          "log_completion_line": 3
+        },
+        {
+          "execution_instance_id": "PQR-01-138:0001",
+          "member_id": "PQR-01-138",
+          "test_id": "tests.product.test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only",
+          "reported_test_id": "test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_feedback_bridge.py",
+          "definition_line": 18,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:757d2b92f07fd43096821f1641c2153bd967557417aba84f7dfc8ac9454617f7",
+          "log_ref": "PQR-01-138.log",
+          "log_hash": "sha256:c539966f30b6f6d8ed28886c94f5faa5c7932c4d927993e847051fb089ccde97",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0619.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0633.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0653.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0628.log"
+      ]
+    },
+    {
+      "id": "PLAT-07",
+      "original_windows_clause": "FULLY_SUPPORTED_WINDOWS_BRANCH",
+      "whole_clause_status_proposal": "NOT_RUN_REQUIRED_UBUNTU_BRANCHES",
+      "basis": "Original same-qualified store capture/verify/restore/rebackup compares receipts and selection across four stores, preserves diagnostic histories, returns RESTORED_INHIBITED and denies restored software admission.",
+      "missing": "Mandatory Ubuntu24.04/26.04 native execution. Windows scoped result may be accepted separately; overall v0.2 row remains NOT_RUN. New crossversion additionally verifies inhibited clone migration, not Ubuntu.",
+      "requirement_text": "Consistent SQLite backup/restore; restored generation invalidates stale runtime permission",
+      "exact_test_ids": [
+        "tests.application.test_database_backup.DatabaseBackupTests.test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal",
+        "PRIVATE_CONSISTENT_BACKUP_RESTORED_INHIBITION"
+      ],
+      "old_actual_source_instances": [
+        {
+          "execution_instance_id": "PQR-01-040:0007",
+          "member_id": "PQR-01-040",
+          "test_id": "tests.application.test_database_backup.DatabaseBackupTests.test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal",
+          "reported_test_id": "test_database_backup.DatabaseBackupTests.test_committed_wal_and_separate_databases_are_backed_up_without_copying_wal",
+          "status": "PASS",
+          "source_ref": "tests/application/test_database_backup.py",
+          "definition_line": 46,
+          "definition_resolution": "EXACT_CURRENT_AST",
+          "source_hash": "sha256:24ccf253ba50e8a81a58a10d59706f403488125113cd43a725f54ed5a4d9ff78",
+          "log_ref": "PQR-01-040.log",
+          "log_hash": "sha256:10cb6fc858117fb5e711b647c148798c399d4ddb858291de20ef4d508d5b477c",
+          "log_start_line": 7,
+          "log_completion_line": 7
+        }
+      ],
+      "retained_original_refs": [
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0099.json",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0097.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0102.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0103.log",
+        "status/codex/productization/S12/current-windows-7d821f2/artifacts/a0104.log"
+      ]
+    }
+  ],
+  "plat08_current_supplement": {
+    "not_one_of_original_final11": true,
+    "scope": "Actual Windows software upgrade/removal and current future-schema refusal; no full3ae qualification inference",
+    "crossversion": "plat08-native-3ae6460-retry01/plat08-native-result.json",
+    "crossversion_actual_fields": [
+      "passed=true",
+      "old_identity=7d821f2;new_identity=3ae6460",
+      "preflight.roles.canonical.applied19/pending0020..0024",
+      "old_migrations19/new_migrations24",
+      "original_source_unchanged=true",
+      "original_backup_unchanged=true",
+      "removed/portable_removed=[old,new]",
+      "owned_cleanup actual11 PID entries all reaped",
+      "provider_requests=0;private_requests=0;financial_authority=NONE",
+      "started_at/finished_at actual offset timestamps",
+      "preflight.target_provenance and source_config_hash/backup_manifest_sha256",
+      "new_restored_config_hash"
+    ],
+    "future": "plat08-future-3ae6460-first/native-future-refusal-result.json",
+    "future_actual_fields": [
+      "passed=true;identity=3ae6460",
+      "preflight BLOCKED/UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED/NONE/0mutations/0starts",
+      "preflight_restore_all_source_unchanged=true",
+      "startup_canonical_unchanged=true",
+      "startup_diagnostic generic sanitized exit2, no typed reason claim",
+      "source_files_changed_during_startup=[process-supervision.sqlite]",
+      "config_hash;sealed_backup_hashes;canonical_hash_before_and_after",
+      "fixture_producer actual trusted empty future schema migration"
+    ],
+    "scope_from_reviewed_driver": "Fresh LOCAL_RESEARCH diagnostic, no auth enrollment, runtime NOT_STARTED, restored clone only; no Paper/LIVE/provider/capital authority. Where these do not appear at outer result, bind exact child observation/log assertion and hash, not imagined result keys.",
+    "binding_gap": "Future outer result lacks started_at/finished_at and own OS/toolchain metadata. Use actual retained enclosing root execution metadata only if it genuinely bounds this run and label whole-wrapper time. Otherwise UNKNOWN; file mtime, crossversion interval, old qualification and current in-flight PQR interval cannot invent it.",
+    "remaining_scope": "Required Ubuntu branches and full current exact owning PQR completion remain separate; old7d has no future guard and is not relabeled. Dependency locks/licenses/provenance native assertions must also bind actual final current index; two external helpers alone are not whole PLAT-08."
+  },
+  "binder_recipe": [
+    "After actual final3ae owning checkpoint passed, run existing bind_current_acceptance_records.py::run against exact3ae current profile/index/receipt/package; keep its _guard, freshly rebuilt index equality, committed executed closure and receipt validation. No old7d receipt copying and no guard bypass.",
+    "Use bind_names on exact fully-qualified test_id and (group_id,assertion_id) for native assertions; resolve legacy source path plus unique executed symbol. Old PQR-01-145/member ordinals are references only: final208-command profile allocates its own actual member_id/execution_instance_id/logref/hash. Preserve every repeated real execution. Missing/renamed IDs require explicit source/assertion review, not fuzzy match or count substitute.",
+    "Generate full canonical66+150 with require_exact_rows; IDs/text exactly authoritative spec. required21fields must be present. Existing record() initially leaves whole clauses NOT_RUN; apply only separately reviewed semantic decisions, not blanket native/PASS or count mapping.",
+    "Populate actual source/spec revision, environment, runtime versions, config hash, owning start/end, exit/outcome and every artifact hash from new actual sources. Qualifier parent config and native child config remain separately labeled. No fabricated per-case times or native argv traces. Exit124 intentional crash is an assertion input, not a successful normal command.",
+    "Attach current external PLAT08 result hashes, command observation/log refs, exact helper hashes, identities and actual wrapper intervals as supplemental native assertions; they are outside the owning fixed PQR and must not appear as committed receipt check IDs unless actually present. Verify their passed/cleanup/subject fields independently without upgrading PQR status.",
+    "Retain original7d immutable support in old-only records or supplemental subject-labeled evidence. Do not assign old revision/config/receipt/log fields to current rows. Fresh old qualification is unnecessary for immutable original evidence; current changed executable still needs its own completed qualification.",
+    "Preserve NOT_RUN or explicit partial clauses for B03/M04/K03/F11 and mandatory external environments unless actual new assertions close them. Keep COM01..06, real OOS/forward/private-provider/LIVE/capital restrictions explicit. No new authoring count is semantic closure."
+  ],
+  "verification": {
+    "tests": [],
+    "imports": [],
+    "Git": [],
+    "DB_reads": 0,
+    "native": [],
+    "network": [],
+    "tracked_changes": [],
+    "record_status_changes": []
+  },
+  "input_hashes": [
+    {
+      "sha256": "099985844e3aeb7c17abe284135dfdb6a0c694ffcbfbe2ee28de7eca36a10225",
+      "path": "windows7d-user-flow-acceptance-candidates.unapplied.json"
+    },
+    {
+      "sha256": "2af16fbe9cf692720010caa9ac5c362ea3ce9b01e132ecfbe78365a6c2167455",
+      "path": "windows7d-user-flow-binding-source-map-assumptions.json"
+    },
+    {
+      "sha256": "525c8db6a621fc5124d79b116cdaf29534b2d10c7f39aa8d905a400d04a3c610",
+      "path": "execution-index-7d821f2.json"
+    },
+    {
+      "sha256": "acefeca871be58b1c990d0e8305a835ccf4b0cdd7e1b9c106e58ecee296fa263",
+      "path": "bind_current_acceptance_records.py"
+    },
+    {
+      "sha256": "886986794ef8c96dd7789d23c9c3e1f8e68fef4443246a03873292ea6a627b5f",
+      "path": "plat08-native-3ae6460-retry01/plat08-native-result.json"
+    },
+    {
+      "sha256": "a5e2b949e10f1c883dda1e4529fa2bd7824db67edf580de48bb343136e5849bb",
+      "path": "plat08-future-3ae6460-first/native-future-refusal-result.json"
+    }
+  ],
+  "source_hashes": [
+    {
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f",
+      "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json"
+    },
+    {
+      "sha256": "c6588fb1fc9e13114314e84ce133b59178f1ebdae23b524836cfccd7d9e3955d",
+      "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md"
+    },
+    {
+      "sha256": "4e062579355f7e99986c7a50a0579a1328abad49d90fe6ba7ef9b1b0cb716bdd",
+      "path": "src/application/cloud/feedback.py"
+    },
+    {
+      "sha256": "b12faf95dd0eed6e7a902641dd1783696893f5126c8fe120cdb4e5db81b6c093",
+      "path": "src/application/research/service.py"
+    },
+    {
+      "sha256": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff",
+      "path": "src/storage/_paper_runtime.py"
+    },
+    {
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b",
+      "path": "src/position/trade_result.py"
+    },
+    {
+      "sha256": "404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007",
+      "path": "tests/product/test_api_paper_services.py"
+    },
+    {
+      "sha256": "84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47",
+      "path": "tests/application/test_cloud_bridge.py"
+    },
+    {
+      "sha256": "bd588ebe1ccbad26599537aec9d9a301ac806099009c0c07555d9993d595137b",
+      "path": "tests/product/test_trading_finalization_positive_v02.py"
+    },
+    {
+      "sha256": "5aed52787a9ba10e80cac42b096fa838451b50f1047e2d0ab57f9bd855c100b7",
+      "path": "tools/verify_paper_publication.py"
+    }
+  ]
+}

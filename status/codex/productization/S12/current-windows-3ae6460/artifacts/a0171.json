@@ -1,0 +1,48 @@
+{
+  "schema": "r7-l01-l05-committed-audit-v1",
+  "draft_tool": true,
+  "required_outer_owner": "application.platform.processes.spawn_owned ResourceLimits180/300",
+  "outer_containment_verified_by_scanner": false,
+  "memory_enforcement": "NONE_SOFT_LIMIT_ONLY_NO_HARD_MEMORY_GUARANTEE",
+  "expected_batch_bytes": 33554432,
+  "selected_blob_read_budget_bytes": 536870912,
+  "requested_head": "3ae6460000000000000000000000000000000000",
+  "status": "STOP_AUDIT_FAILED",
+  "scope": "HEAD_TREE_AND_LOCAL_ORIGIN_MAIN_MERGE_BASE_DIFF_ONLY",
+  "execution_credit": "LOCAL_STATIC_PATTERN_SCAN_ONLY_NO_REQUIREMENT_PASS",
+  "limits": [
+    "No full ancestral history, working-tree, ignored/untracked, binary/image, submodule or symlink-target secret audit",
+    "UTF-8 text pattern scan cannot prove absence of encoded, split, dynamic or unfamiliar credential forms",
+    "Hosted wiring/claims are source observations, not invocation/spend evidence"
+  ],
+  "git_processes": [
+    {
+      "label": "head",
+      "exit_code": 0,
+      "operation_complete": true,
+      "direct_child_reaped": true,
+      "containment": "REQUIRED_EXTERNAL_ESTABLISHED_OWNER_NOT_ATTESTED_HERE",
+      "stdout_bytes": 41,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 0.015
+    },
+    {
+      "label": "origin-main",
+      "exit_code": 0,
+      "operation_complete": true,
+      "direct_child_reaped": true,
+      "containment": "REQUIRED_EXTERNAL_ESTABLISHED_OWNER_NOT_ATTESTED_HERE",
+      "stdout_bytes": 41,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "elapsed_seconds": 0.016
+    }
+  ],
+  "helper_sha256": "fae54906ac495d42a19df84c3b66a07b131fce7d790835f0df23c191f1d5872c",
+  "rules_sha256": "fccd2daaccfb3939e23a534c4f0523d975e31fde9370998bdc273a57b03fb752",
+  "git_executable_sha256": "1a0043555d254618f2d56c936c3d9a1fbfb878bc878416a133c346bc7835eda9",
+  "error_code": "HEAD_SUBJECT_MISMATCH",
+  "error_type": "AuditError",
+  "all_direct_git_children_reaped": true
+}

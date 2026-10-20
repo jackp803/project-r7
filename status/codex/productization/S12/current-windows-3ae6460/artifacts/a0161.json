@@ -1,0 +1,104 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "scope": "Explicit direct-owning resource retention delta versus preserved retainer, associated source-only guard tests, and recorder consumer advisory",
+  "review_mode": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "acceptance_credit": "NONE",
+  "reviewed_subjects": {
+    "record_current_windows_checkpoint.py": "d30eb8b7fa17e8320abfa2739405804c770799f48c20633a70743828990c90e2",
+    "retain_current_checkpoint.py": "c8a2230787c2f8de6b94c372c0bdff0f00f7ab24ac193580cb6b987cd5a8fdcc",
+    "retain_current_checkpoint_before_direct_resource.py": "7b1353616c1dbb32b81dc349c470456b7de70bd7fde6b20562b1b213486f7fa6",
+    "test_direct_qualification_resource_retention.py": "f73eb515396d3b358902c93e00a87b08223fdbe61605d7d3b8fa2be5396fc3da",
+    "test_retain_current_checkpoint.py": "c2566247c81ce4b3f5f46aaebe8e005e22ae4757df088b3c10d9d794b4387cd9"
+  },
+  "supporting_public_source_contracts": {
+    "run_current_checkpoint.py": "90d47258b9da85de31c30607799bf871f79fd9ebcc577d57c14bb4ae40642243",
+    "tools/verify_paper_isolation.py": "f2d89cdc57b6465e259a3678172e1890a4d091155dfb47519d96e10e055ae988"
+  },
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "supported_conclusions": [
+    {
+      "lines": [
+        179,
+        226,
+        242
+      ],
+      "file": "retain_current_checkpoint.py",
+      "conclusion": "The fourth run argument explicitly chooses one of two closed modes. COMPLETE_OWNING_TREE_OBSERVER remains the default and retains its existing strict observer admission. HOST_AND_PQR05_ONLY refuses an existing observer directory rather than falling back from a present invalid observer."
+    },
+    {
+      "lines": [
+        109,
+        176,
+        243,
+        245
+      ],
+      "file": "retain_current_checkpoint.py",
+      "conclusion": "The direct mode requires the exact successful source stage/revision/attempt and selects the exact PQR-05-native member and fixed primary observation from the actual typed receipt. It hashes and parses the same protected raw capture, then the normal receipt-artifact loop captures the complete declared closure."
+    },
+    {
+      "lines": [
+        119,
+        172
+      ],
+      "file": "retain_current_checkpoint.py",
+      "conclusion": "Actual valid host samples, error rows, host minimum and observed valid-sample gaps are kept separately. Missing host measurements stay null. Intended two-second cadence is not represented as proven continuous coverage; monitor_stopped remains NOT_RECORDED."
+    },
+    {
+      "lines": [
+        145,
+        176
+      ],
+      "file": "retain_current_checkpoint.py",
+      "conclusion": "The finite isolation window enforces the three measured process scopes and unique positive PIDs; each observed peak is the maximum of per-sample PID-counter sums. Those recomputed peaks must equal the actual case scalars. No hard memory cap, maximum-load or 24GB-target qualification is asserted."
+    },
+    {
+      "lines": [
+        164,
+        166,
+        198,
+        200,
+        378
+      ],
+      "file": "retain_current_checkpoint.py",
+      "conclusion": "Full-owning RSS/private peaks remain null with an explicit UNKNOWN status in direct mode. Existing complete seven-group typed receipt and actual subject/identity/cleanup gates remain required; resource retention adds no new software or financial authority."
+    }
+  ],
+  "recorder_advisory": {
+    "file": "record_current_windows_checkpoint.py",
+    "status": "REQUIRED_BEFORE_CURRENT_DIRECT_MODE_RECORDING;NO_CODE_CHANGED_BY_REVIEWER",
+    "changes": [
+      {
+        "lines": [
+          26,
+          27
+        ],
+        "change": "Replace the unconditional absent owning-memory checkpoint read with memory=d['owning_resource_observation']. Validate its closed retention_mode. For COMPLETE_OWNING_TREE_OBSERVER require the expected nonnegative measured scalars and positive sample count; for HOST_AND_PQR05_ONLY require explicit UNKNOWN complete-owning process status and null full-run peaks plus the separately bounded host/PQR05 observations. Do not auto-fallback from a malformed mode."
+      },
+      {
+        "lines": [
+          37
+        ],
+        "change": "Preserve the retained resource object (including mode, UNKNOWN status, host sampling limitations and separately scoped PQR05 slice) in checkpoint metadata instead of reducing it to three scalar values. Retain null as null; never borrow peaks from a prior subject."
+      },
+      {
+        "lines": [
+          142,
+          145
+        ],
+        "change": "Use mode-specific prose. Direct mode must say that full-run owned RSS/private memory was not observed, show actual host minimum only if present, and label any PQR05 RSS/private peaks as the finite isolation window. The complete-observer prose may claim full-run observed peaks only for that mode."
+      }
+    ],
+    "argument_change": "No new recorder resource-mode argument is necessary if the recorder derives its mode solely from the exact retained disposition already selected by revision. Existing revision, attempt, receipt and stage guards should remain."
+  },
+  "limits": [
+    "Reviewer performed only public static source reads, hashes and this outside-Git review write; no tests/imports/compile/native/Git/DB/network activity.",
+    "Root-reported ten guard passes were not independently executed or adopted as reviewer execution.",
+    "No active qualification results, actual private profiles or actual memory sample corpus were read. Derived values in any future publication still require the actual complete captured proof.",
+    "This review grants no current full PQR, native, requirement or whole-Master acceptance."
+  ]
+}

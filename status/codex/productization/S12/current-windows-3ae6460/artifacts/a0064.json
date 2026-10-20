@@ -1,0 +1,125 @@
+{
+  "schema": "r7-bounded-retention-advisory-v1",
+  "date": "2026-10-21",
+  "subject_prefix": "3ae6460",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "External current retainer resource-observation admission and existing qualifying host/PQR05 measurement boundaries only; no evidence data or active run read.",
+  "source_hashes": {
+    "ART/retain_current_checkpoint.py": "7b1353616c1dbb32b81dc349c470456b7de70bd7fde6b20562b1b213486f7fa6",
+    "ART/run_current_checkpoint.py": "90d47258b9da85de31c30607799bf871f79fd9ebcc577d57c14bb4ae40642243",
+    "ART/run_owning_with_memory.py": "8a2694577ba0c89263ed081bbff2bc9faae9a67b07e7445dc8a31c919c4f909c",
+    "tools/verify_paper_isolation.py": "f2d89cdc57b6465e259a3678172e1890a4d091155dfb47519d96e10e055ae988",
+    "src/application/paper/producer.py": "a89d656695e8e543a1ff7f533249de8debb48c88642cfc8b552692ef23a9183c",
+    "tools/verify_paper_product.py": "52a3efea7e6489bf72fa93947f8b02be49611fdcac491d65440a377be0ec5ffb"
+  },
+  "root_reported_context_not_independently_read": {
+    "launch": "run_current_checkpoint.py qualify directly; run_owning_with_memory.py was not used",
+    "host_samples": "Stage checkpoint has actual host_samples from intended two-second sampler",
+    "aggregate_owned_process_observer": "No same-attempt owning-memory observer exists",
+    "current_full_qualification_status": "ACTIVE/NOT_ADMITTED_AS_PASS_BY_THIS_REVIEW"
+  },
+  "concrete_mismatch": {
+    "file": "ART/retain_current_checkpoint.py",
+    "lines": [
+      155,
+      156,
+      157,
+      161,
+      295
+    ],
+    "finding": "Unconditionally requiring owning-memory/<subject>/<attempt> checkpoint and extracting full-run owned RSS/private peaks rejects a legitimate directly launched execution for missing optional ancillary instrumentation. That observer cannot be retroactively reconstructed from host samples or PQR05 slice counters."
+  },
+  "minimal_retention_recommendation": [
+    {
+      "step": 1,
+      "change": "Preserve every existing typed receipt/profile/identity/source/package/all-seven-group/cleanup admission guard and same-byte captured-artifact retention. Do not change any product/profile/test/resource threshold or issue PASS before actual complete qualification."
+    },
+    {
+      "step": 2,
+      "change": "Replace only the unconditional full-tree-memory requirement with an explicit closed retention observation mode for this actual launch, such as HOST_AND_PQR05_ONLY. Do not infer a successful full-tree observer merely because a file exists, and do not silently accept an invalid present observer. Existing COMPLETE_OWNING_TREE_OBSERVER mode may keep its prior exact same-attempt validations for executions that actually used it."
+    },
+    {
+      "step": 3,
+      "change": "HOST_AND_PQR05_ONLY retains the actual qualify checkpoint including all raw host_samples and source/helper/awake facts through CapturedEvidence. Summarize valid available/physical-memory samples and error rows separately. Derive minimum_host_available_bytes only from actually present valid samples; use null/UNKNOWN when unavailable. State intended cadence2s separately from actual timestamp gaps; do not invent monitor_stopped or complete continuous coverage, since current launcher does not record that field."
+    },
+    {
+      "step": 4,
+      "change": "Set aggregate full-run peak_owned_rss_bytes and peak_owned_private_bytes to null with explicit status UNKNOWN_NOT_OBSERVED_FOR_THIS_ATTEMPT and scope COMPLETE_OWNING_RUN. No zero, estimate, attribution from host availability, prefix maximum, or inherited prior-subject peak."
+    },
+    {
+      "step": 5,
+      "change": "Retain existing PQR05 artifacts via the already validated receipt member artifact map. For resource summary, select the unique hash-bound PQR-05-native-artifacts/native-observations.json from the exact PQR-05 member, validate group/identity/passed, then select exactly case=research-isolation with passed/research_fault_protection_isolation/host_bounded_capacity_measured true. Keep actual raw process_samples/protected_observations and their declared child result/log closure."
+    },
+    {
+      "step": 6,
+      "change": "Copy or recompute PQR05 sampled peaks only within that exact finite process_samples window: each sample sums its recorded unique owned PIDs, then the maximum is taken across samples. Label scope ACTUAL_WINDOWS_FINITE_CONCURRENCY_SLICE / ONE_PAPER_OWNER_ONE_RESEARCH_JOB_AND_CONTROL, memory_enforcement SOFT_LIMIT_ONLY, maximum_load_qualification and target_24gb_qualification NOT_ESTABLISHED. Never label those as whole-run peaks."
+    },
+    {
+      "step": 7,
+      "change": "Retain run_owning_with_memory.py and prior review as tool/history if already part of the fixed public corpus, but do not require, fabricate or relabel absent current observer runtime files. Older7d measured peaks remain prior-version historical evidence with their original subject, not current3ae measurements."
+    }
+  ],
+  "suggested_truthful_resource_projection": {
+    "complete_owning_run": {
+      "process_memory_status": "UNKNOWN_NOT_OBSERVED_FOR_THIS_ATTEMPT",
+      "peak_owned_rss_bytes": null,
+      "peak_owned_private_bytes": null,
+      "reason": "NO_ACTUAL_SAME_ATTEMPT_FULL_TREE_RSS_OBSERVER"
+    },
+    "host_memory": {
+      "status": "DERIVE_ONLY_FROM_ACTUAL_QUALIFY_CHECKPOINT_HOST_SAMPLES",
+      "sample_scope": "WHOLE_LAUNCHER_INTERVAL_HOST_AVAILABILITY;NOT_OWNED_PROCESS_ATTRIBUTION",
+      "intended_sampling_interval_seconds": 2,
+      "actual_sample_count": "DERIVED_FROM_RETAINED_BYTES",
+      "minimum_host_available_bytes": "DERIVED_OR_NULL"
+    },
+    "pqr05_isolation": {
+      "status": "ONLY_IF_EXACT_HASH_BOUND_OWNING_MEMBER_ACTUALLY_PASSES",
+      "scope": "ONE_PAPER_OWNER_ONE_RESEARCH_JOB_AND_CONTROL_FINITE_WINDOW",
+      "sampled_peak_total_rss_bytes": "COPY/RECOMPUTE_FROM_ACTUAL_SLICE_ONLY",
+      "sampled_peak_total_private_bytes": "COPY/RECOMPUTE_FROM_ACTUAL_SLICE_ONLY",
+      "memory_enforcement": "SOFT_LIMIT_ONLY",
+      "maximum_load_qualification": "NOT_ESTABLISHED",
+      "target_24gb_qualification": "NOT_ESTABLISHED"
+    },
+    "prior7d": {
+      "scope": "HISTORICAL_DIFFERENT_SUBJECT_NO_CURRENT_CREDIT"
+    }
+  },
+  "source_references": [
+    {
+      "ref": "ART/run_current_checkpoint.py:56-65,108-112",
+      "fact": "Only host available/physical byte samples and errors are recorded; no parent/descendant RSS/private counters, and no explicit monitor_stopped field."
+    },
+    {
+      "ref": "ART/run_owning_with_memory.py:19-29,70-82",
+      "fact": "Separate wrapper actually samples the complete owned process tree and is the sole source of its distinct full-run peak fields. It was not used for the reported direct launch."
+    },
+    {
+      "ref": "tools/verify_paper_isolation.py:373-381,406-421,451-459",
+      "fact": "Real PID counters and max-of-per-sample sums cover one finite concurrent research-fault/Paper/control slice, with explicit soft-limit/max-load/24GB disclaimers."
+    },
+    {
+      "ref": "tools/verify_paper_product.py:545-569",
+      "fact": "PQR05 already requires actual isolation and host-bounded measurement flags alongside all fixed fault cases; no profile assertion should be relaxed for ancillary retention."
+    },
+    {
+      "ref": "ART/retain_current_checkpoint.py:163-165",
+      "fact": "Every exact receipt-declared member artifact is already captured with its committed hash, so PQR05 actual resource evidence can be retained without inventing a new qualification execution."
+    }
+  ],
+  "bounded_refusal_regression_suggestions": [
+    "An otherwise authentic direct-launch checkpoint with real host samples and no observer runtime files retains under explicit HOST_AND_PQR05_ONLY with full-run peaks null/UNKNOWN.",
+    "PQR05 finite-window scalar peaks must never populate complete-owning-run fields; changed identity/member/ref/hash or absent actual sample window refuses the slice summary.",
+    "If COMPLETE_OWNING_TREE_OBSERVER is selected, preserve original strict same-revision/attempt/reaping/wrapper/source/error checks. Invalid observer input never silently falls back.",
+    "Host-sample error rows, missing valid samples and actual timestamp gaps remain explicit; no fabricated zero or retrospective RSS. Use isolated public fixtures only."
+  ],
+  "limits": [
+    "No retainer/source/profile edits, tests, imports, compilation, Git, process, native, provider or network operations performed. Only this new ART advisory is written.",
+    "No active/private evidence, runtime DB/config/auth or actual host sample values were read. Root-reported execution route is recorded as context; advice is derived from helper/source contracts.",
+    "No rerun of full qualification is proposed solely to manufacture ancillary resource metadata. No actual peak/sample value, full receipt PASS, current resource acceptance, old target or Ubuntu qualification is invented."
+  ]
+}

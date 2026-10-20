@@ -1,0 +1,49 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "scope": "Final two-line captured-pin metadata correction; prior bounded supplement repair findings preserved separately",
+  "reviewer_execution": "NONE",
+  "review_mode": "STATIC_ONLY",
+  "acceptance_credit": "NONE",
+  "reviewed_subjects": {
+    "verify_b03_m04_f11_supplement.py": "ef460fbf36d9aa9cdd16cffb69682b49a19b4489bb1ad7e167920f1206213995",
+    "test_b03_supplement_reference_guards.py": "c066998d1f7742849c28a3faa9079cfe316a6bc6bc2738773f7bfeca3b19bf99"
+  },
+  "previous_reviews": [
+    "b03-m04-f11-supplement-static-review-20261021.json",
+    "b03-m04-f11-supplement-final-review-20261021.json"
+  ],
+  "verified_delta": {
+    "changed_lines": [
+      90,
+      258
+    ],
+    "description": "Both report.pins_hash and the pins artifact reference now hash the exact admitted pins_raw capture. Final protected equality remains unchanged. Guard test source is byte-for-byte unchanged."
+  },
+  "resolved_findings": [
+    {
+      "id": "SUPPLEMENT-PINS-BEFORE-REFERENCE",
+      "status": "RESOLVED",
+      "evidence": "Fixed pin path, expected protected capture SHA256 and exact 17 relative-source inventory precede referenced source reads."
+    },
+    {
+      "id": "SUPPLEMENT-PROOF-SAME-CAPTURE",
+      "status": "RESOLVED",
+      "evidence": "Original public proof hash, parsing and emitted reference use the same protected raw capture; final protected equality checks remain."
+    },
+    {
+      "id": "SUPPLEMENT-PIN-REFERENCE-SAME-CAPTURE",
+      "status": "RESOLVED",
+      "evidence": "The two remaining pin metadata fields now derive from pins_raw instead of rereading its path."
+    }
+  ],
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "limitations": [
+    "Static review only of the bounded supplement repairs and the four guard-test source cases.",
+    "Root-reported final guard run of four passes was not executed or independently observed by this reviewer.",
+    "No native supplement result, owning receipt membership, complete requirement acceptance or whole-product qualification is inferred."
+  ]
+}

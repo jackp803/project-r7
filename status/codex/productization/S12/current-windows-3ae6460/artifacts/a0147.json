@@ -1,0 +1,48 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "scope": "B03/M04/F11 supplement admission and same-captured-byte repair only",
+  "reviewer_execution": "NONE",
+  "review_mode": "STATIC_ONLY",
+  "acceptance_credit": "NONE",
+  "execution_limit": "No helper/tests/native/Git/DB/network execution; root-reported test outcomes not independently executed.",
+  "reviewed_subjects": {
+    "verify_b03_m04_f11_supplement.py": "b007bf7fb23c9927dffd381c2368ed9495d6b69fb548233c49b94643c44039fe",
+    "test_b03_supplement_reference_guards.py": "c066998d1f7742849c28a3faa9079cfe316a6bc6bc2738773f7bfeca3b19bf99"
+  },
+  "prior_review": "b03-m04-f11-supplement-static-review-20261021.json",
+  "resolved": [
+    {
+      "id": "SUPPLEMENT-PINS-BEFORE-REFERENCE",
+      "disposition": "RESOLVED_FOR_ADMISSION",
+      "evidence": "Fixed pins path and protected raw commitment are required before JSON parsing; exact 17 relative source references are checked before traversal."
+    },
+    {
+      "id": "SUPPLEMENT-PROOF-SAME-CAPTURE",
+      "disposition": "RESOLVED",
+      "evidence": "capture_native_proof validates the filename and protected captured bytes, then hashes and parses that same capture; final proof reference hashes proof_raw and protected final equality is required."
+    }
+  ],
+  "counts": {
+    "Critical": 0,
+    "Important": 1
+  },
+  "findings": [
+    {
+      "id": "SUPPLEMENT-PIN-REFERENCE-SAME-CAPTURE",
+      "severity": "Important",
+      "file": "verify_b03_m04_f11_supplement.py",
+      "lines": [
+        90,
+        246,
+        258
+      ],
+      "scenario": "The fixed pins bytes are admitted from pins_raw, but report.pins_hash and the emitted pins artifact reference are separately hashed through ordinary Path.open. A replacement after the final protected equality check at line 246 can therefore publish PASS with a pins reference that does not commit the bytes used for admission.",
+      "minimal_fix": "Derive both report.pins_hash and the pins artifact reference from sha256(pins_raw); retain the final protected equality check.",
+      "minimal_regression": "Use only public fixture bytes: replace or trap the later pins path read after successful protected admission/final guard, and assert emitted pin commitments remain exactly the captured approved bytes with no later path read."
+    }
+  ],
+  "limits": [
+    "Review is limited to the two repaired admission/capture areas and their four no-DB/no-native guard tests.",
+    "No B03/M04/F11 runtime acceptance or full owning qualification result is inferred."
+  ]
+}

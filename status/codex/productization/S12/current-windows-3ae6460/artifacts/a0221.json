@@ -1,0 +1,69 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "review_mode": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "Single public scan archive size repair: fixed larger read, sanitization, bounded chunk encoding and reconstruction metadata",
+  "subjects": {
+    "prepare_current_supplement_archive.py": "93469b466a79e71c59bc69115fde7a17679e7bb820ad82207370f9ff36aca058",
+    "test_public_scan_archive_chunks.py": "662b5b146a90df8e165425b4e8af49e42257b0aa3a73dee7e3de3bb86f39cea2",
+    "prepare_current_supplement_archive_before_scan_chunks.py": "518c7bfdfb6055282875206e45e8f0f0b23458bd2820fac9017ae85e80e293e7"
+  },
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "supported_conclusions": [
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        28,
+        34,
+        105,
+        110
+      ],
+      "conclusion": "The explicit 16MiB protected read is hard-coded to the one known public scan filename and requires the pinned SHA256 before parsing. The same raw capture supplies the parsed report, triage hash comparison and original commitment. It does not change any product/default artifact reader limit."
+    },
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        21,
+        25,
+        37,
+        49
+      ],
+      "conclusion": "Known-root redaction and ordinary public text normalization run before slicing. Each part is at most 500000 Unicode characters, UTF8-encoded then hex-encoded inside fixed JSON metadata; every emitted JSON is additionally checked below the unchanged 8MiB artifact limit. Hex does not carry unsanitized original bytes."
+    },
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        39,
+        46,
+        143,
+        152,
+        160
+      ],
+      "conclusion": "The complete sanitized UTF8 hash, original raw hash, part index/count, encoding and ordered retained-part filenames are explicit. The predicted part filenames match the subsequent flat archive numbering and .json suffix. Repeated original_ref/hash rows identify each chunk as a retained representation of the same original public scan, while each retained_hash commits its individual chunk bytes."
+    },
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        105,
+        145
+      ],
+      "conclusion": "The oversized raw scan is omitted from the ordinary CapturedEvidence refs set and represented completely by the generated bounded JSON parts plus reconstruction metadata. It is not later reread through the default-sized archive capture."
+    },
+    {
+      "file": "test_public_scan_archive_chunks.py",
+      "conclusion": "The two source tests check default-cap refusal, fixed read filename/bound and wrong-hash refusal; the actual-public-scan test reconstructs sanitized bytes in part order and checks complete hash, per-artifact bounds, index sequence and second-sanitizer idempotence. Reviewer did not execute either test."
+    }
+  ],
+  "historical_binding_note": "The preserved before-scan-chunks source is 518c7b... and already contains the separately added literal history references. It is not the earlier 18cc27... preparer. This review compares the chunk repair against the preserved immediate baseline and does not reassign earlier review coverage to later history-reference additions.",
+  "limits": [
+    "Only public helper/test source reads, static line comparison, hashes and this ART-only review write were performed. No tests/imports/compile/native/product/Git/DB/network activity.",
+    "The actual 9,448,878-byte scan and running evidence were not opened. Root-reported RED/GREEN outcomes are not reviewer execution.",
+    "No claim is made that encoding/sanitization proves absence of arbitrary secrets; input remains the explicitly pinned previously scoped public scan.",
+    "No source/native/full owning qualification, requirement or whole-Master acceptance credit is granted."
+  ]
+}

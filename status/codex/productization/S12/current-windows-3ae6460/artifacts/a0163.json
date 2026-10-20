@@ -1,0 +1,405 @@
+{
+  "schema_version": "r7-bounded-static-authority-audit-v1",
+  "task": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "reviewed_date": "2026-10-21",
+  "reviewer": "Codex bounded source reviewer",
+  "reviewer_execution": "NONE",
+  "source_revision": "fc0d01a3ae54bb777238acacbfc9cad5a4b5317b",
+  "revision_basis": "Root supplied current clean/frozen source. Reviewer did not run Git; exact inspected working-file hashes attached. Root must verify same source binding before acceptance registration.",
+  "clauses": [
+    "J10",
+    "L03",
+    "L06"
+  ],
+  "disposition": "NO_CONCRETE_CRITICAL_OR_IMPORTANT_FINDING_IN_REVIEWED_NORMAL_CLOSURE",
+  "critical": 0,
+  "important": 0,
+  "acceptance": "STATIC_REVIEW_ARTIFACT_ONLY;NO_TEST_NATIVE_WHOLE_CLAUSE_OR_FINAL_CANDIDATE_PASS",
+  "method": "Public source reads and literal/import/route/sink/dependency searches only, followed through named normal owner ports. No project code imported/evaluated/compiled, no tests/Git/subprocess/product/native/DB/network/provider/credential calls. PowerShell/rg used solely for source text and file hashes.",
+  "path_hashes": [
+    {
+      "sha256": "dc1c78348adad16ac451e6c76708a19176906d7960a7ee25c87e3eaca1291c83",
+      "path": "packaging/entrypoint.py"
+    },
+    {
+      "sha256": "f4b38c5c9975790df2814d472cb9c752b48288b9b2df6bc677be4d9309a47d88",
+      "path": "packaging/linux/requirements-build-py312.lock"
+    },
+    {
+      "sha256": "b6dcd443ee9b539d8ec25273aa6e82c398c3f23f1d668c19ccd5b1e910ba5c6a",
+      "path": "packaging/windows/requirements-build-py312.lock"
+    },
+    {
+      "sha256": "dbf11a70c705e1592ce25b34419351662164d65d4bba400f90945dda09c4f106",
+      "path": "pyproject.toml"
+    },
+    {
+      "sha256": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b",
+      "path": "src/application/cli.py"
+    },
+    {
+      "sha256": "b4ef2eadda4cb957815893e743bb1215304d8044c4fdeb25ccaaa3b806abc7cb",
+      "path": "src/application/cloud/authoring.py"
+    },
+    {
+      "sha256": "e0d1d92ce0c7ff02d7e61df846fc77b34eca414d69bfcc402425bf512a762d16",
+      "path": "src/application/cloud/bridge_transport.py"
+    },
+    {
+      "sha256": "2dd1119e8521743f0c67d185271c83c7ee6185de49b1dc74a8fd50559bb2d14d",
+      "path": "src/application/cloud/command_runner.py"
+    },
+    {
+      "sha256": "a63fb5c28d800cc6c8fc3467e583bb314d51c3867d7f241e70e62590cf8f6b5c",
+      "path": "src/application/cloud/manifest.py"
+    },
+    {
+      "sha256": "7bba1250779afb01ba650aec045b5a89195a782aaf4091464be4f5b66d548ffa",
+      "path": "src/application/cloud/rclone_bridge.py"
+    },
+    {
+      "sha256": "6c93f8cb80d9a2332d9cdf2d52c9b39fe1da07fb4b1113efc9998cf751cab6ae",
+      "path": "src/application/control_api/app.py"
+    },
+    {
+      "sha256": "0ba1cb748d50ed4dc92d548efeb93b8b8c0b91f6faf48e8ad7f2b1f39616aad2",
+      "path": "src/application/control_api/approval_port.py"
+    },
+    {
+      "sha256": "b769e33a1364607100626bfaf385cc9bc5505e28f8d6b0f697636b4f0ac123f4",
+      "path": "src/application/control_api/commands.py"
+    },
+    {
+      "sha256": "dd8021f639966d0c4ecce2c9d0c2178d64f754b42f329befb9f6884f92fd344d",
+      "path": "src/application/control_api/deployment_port.py"
+    },
+    {
+      "sha256": "a094ed06a3525e85cc69c515c24a9706b8309e735edec06d579310921f0d0ea8",
+      "path": "src/application/control_api/dto.py"
+    },
+    {
+      "sha256": "afa591aa84c0dc0b07518a756eaf28e9cca938a9cf8894daa55844f794219749",
+      "path": "src/application/control_api/owner_services.py"
+    },
+    {
+      "sha256": "e393cd45fe7d0fbaca90bb42f77515a58bb5d310014d60904997fff92c0b9cbd",
+      "path": "src/application/control_api/paper_ports.py"
+    },
+    {
+      "sha256": "7854b3e1db5358b19656ede928df61b80960b3f9f27d356f0bf66f40144cd538",
+      "path": "src/application/control_api/security.py"
+    },
+    {
+      "sha256": "7db38c19536e1ccdf3e12541e75f67d2b335d0e155d06e1a2fe64460f057761a",
+      "path": "src/application/control_api/services.py"
+    },
+    {
+      "sha256": "8ca9a2a40bc9e8354eacc14f8a127902018d5741977c90f8fc6f8d26dcecaf7d",
+      "path": "src/application/coordinator.py"
+    },
+    {
+      "sha256": "2bae268f5897e5273d0697d2bdc3583d13cee9702a31ca3b5c738fe43a0f3717",
+      "path": "src/application/datasets/okx_public.py"
+    },
+    {
+      "sha256": "9f593636e749050d2c6878a60050cc20748ccdcd8c7bbe345f5c9964c73d6c91",
+      "path": "src/application/entrypoints.py"
+    },
+    {
+      "sha256": "71b514c3466eb58e25acf0fd809dc6a66cdd8eec963576335160b529c0af2666",
+      "path": "src/application/intake/service.py"
+    },
+    {
+      "sha256": "a52c857959d460a5413abe38a3aaa14bed3529dd8b7e87a25eab2122fdeb357b",
+      "path": "src/application/local_owners.py"
+    },
+    {
+      "sha256": "9c5344bd4e184bde1d9949a5b01e9bdc15aadfc9e88f0a7180591484478dbf9a",
+      "path": "src/application/paper/public_feed.py"
+    },
+    {
+      "sha256": "92db969294c651608c79307c4dee2b97c80566abeb2c4286daadc690f8927c4f",
+      "path": "src/application/paper/release_observation.py"
+    },
+    {
+      "sha256": "294eaceb4ce4e9801b37aa409b723de1ab3c1e8bc9d06525b77ae5319d4fdb1e",
+      "path": "src/application/platform/_loopback_probe.py"
+    },
+    {
+      "sha256": "981f42e47f91047ed638b361bf3d13f4f80d4a30c64bfd719306a59cd431b9a2",
+      "path": "src/application/platform/_process_bootstrap.py"
+    },
+    {
+      "sha256": "161baa59d1fc898ede493271cfcbc4f52d0a854c66b714897463fc0c3e78876d",
+      "path": "src/application/platform/processes.py"
+    },
+    {
+      "sha256": "4544b492ecb44be2aab56cc240d0056f4e1cfaf7bba3cbda87d3c98f41cd9032",
+      "path": "src/application/platform/ssh_access.py"
+    },
+    {
+      "sha256": "a01188026410b0ddfc8b2b9c98287a5ea802f4a2bd700db35c97ec871c91aa91",
+      "path": "src/application/research/compatibility.py"
+    },
+    {
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98",
+      "path": "src/application/research/evidence.py"
+    },
+    {
+      "sha256": "67c45ab36a2e51124e2c984888e813b7885db75e48d2999b748c34e27f579a37",
+      "path": "src/application/research/selection.py"
+    },
+    {
+      "sha256": "b12faf95dd0eed6e7a902641dd1783696893f5126c8fe120cdb4e5db81b6c093",
+      "path": "src/application/research/service.py"
+    },
+    {
+      "sha256": "47785e99b05f7a15878680c3f19fd01a8df2f9fb71948bc26c645a2d1ca3c730",
+      "path": "src/application/research/worker.py"
+    },
+    {
+      "sha256": "3104db3badae3ad51e559f8cfd88054455094e2e1ce39fb4f4e0bb0e1f6c7f0b",
+      "path": "src/application/trading/provider.py"
+    },
+    {
+      "sha256": "f266c22c17f63c5ad13613ec1b9c3dd37d02828cc5ab467fcff0613c6460b5de",
+      "path": "src/backtest/e2_runtime.py"
+    },
+    {
+      "sha256": "10c64b86d8565c7877fbac6a1658ebbf7dc400f41ff9c585f7553367c2966542",
+      "path": "src/brokers/okx_demo.py"
+    },
+    {
+      "sha256": "bd9b172c63e9e51c78109709506fa70a6d9bd06e55b1913c68ddd4e49b81f7ce",
+      "path": "src/brokers/okx_production_transport.py"
+    },
+    {
+      "sha256": "71dc5959613cab54d8e26dedb9ad357dde3cb29f6517244755347244e14887cf",
+      "path": "src/indicators/v02/features.py"
+    },
+    {
+      "sha256": "b3a7faacf3cae0a51d948c2b35ab9d1c2c0ec123e1ef6c6eb49108e998e531d0",
+      "path": "src/market_data/current.py"
+    },
+    {
+      "sha256": "bb9112e7c79819ad4f8ca21f7cd6415cb1490c90acb8c4378c3183d58d422825",
+      "path": "src/market_data/okx.py"
+    },
+    {
+      "sha256": "9791587218b01deebb099f3649aca6ebc32b8e538d410b011ee56e3f8822e62e",
+      "path": "src/strategy/runtime.py"
+    },
+    {
+      "sha256": "d50ba7c8e5c386c641e8635390f8240567f70b21828c33ebd7812e6bce1f0b0f",
+      "path": "src/strategy/v02/ast.py"
+    },
+    {
+      "sha256": "fca4050fca28ce977a1d80a9df0283b4581a79de6d949cf846bf1f972155e5f2",
+      "path": "src/strategy/v02/evaluation.py"
+    },
+    {
+      "sha256": "2ee9927d8933e2608e0eb0dae37fcd2c9b17e61007052a1756c2ec8e08d5b6a7",
+      "path": "src/strategy/v02/parser.py"
+    },
+    {
+      "sha256": "70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3",
+      "path": "tests/application/test_native_entrypoints.py"
+    },
+    {
+      "sha256": "062bc1f74331ca15aef50d34509bb8a3cfb579ddca489b478a03c1c3dfe1391e",
+      "path": "tests/application/test_native_research_worker.py"
+    },
+    {
+      "sha256": "228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+      "path": "tests/product/test_api_authority.py"
+    },
+    {
+      "sha256": "0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25",
+      "path": "tests/product/test_api_owner_services.py"
+    },
+    {
+      "sha256": "ec287e13fc89138f09d13a5e2d942140fb46c31028bcbf5e2dac1522997b02e2",
+      "path": "tests/product/test_control_commands.py"
+    },
+    {
+      "sha256": "a4feabae886c8cecc76e5053701ec00153228adac228dbd9a8ca294283999ef9",
+      "path": "tests/registry/test_strategy_inbox.py"
+    },
+    {
+      "sha256": "d54345b7b10048054f1a42b61fafbfea9934c4278c6e961ad2e544bb79b8ac55",
+      "path": "tests/strategy/test_slice1_runtime.py"
+    },
+    {
+      "sha256": "c47a9cf863651a6ce3db075de974b42f5bcbf2523a3e48359237fc3e1c0d6764",
+      "path": "tests/strategy/test_v02_parser.py"
+    },
+    {
+      "sha256": "12cc97506d5dfd1d589eedfcece8aae55f9175af2abf31e6c68c9dec508f2dd5",
+      "path": "ui/package-lock.json"
+    },
+    {
+      "sha256": "cd876e7f83fa8bec403f0c3750c985fdfc800574d5e2f5a4a94162f24654f111",
+      "path": "ui/package.json"
+    },
+    {
+      "sha256": "065553bf180d08b93499ac324f00790fea81c05bcceaf98f186f4d759993f11b",
+      "path": "ui/src/api.generated.ts"
+    },
+    {
+      "sha256": "82e901bbc7011bfd21641783705cbc3708c172828fa4ff6bc23aa6a99227cdcd",
+      "path": "ui/src/api.test.ts"
+    },
+    {
+      "sha256": "83be0daafab9ec7d608ca6810364a9307a3127b9768a703171354965be5bed7e",
+      "path": "ui/src/api.ts"
+    },
+    {
+      "sha256": "f3c4a2b1461b695096c205b97acb9201dc4430868106895d471273ebe731740a",
+      "path": "ui/src/App.tsx"
+    },
+    {
+      "sha256": "0e5e955222571c20b28e73c09d0bc7ee9ee9bfc0c44ff509191cbe4f5512dd37",
+      "path": "ui/src/main.tsx"
+    },
+    {
+      "sha256": "7ed4d9398ffb987bfa148d44c3d3e7b1a85a9aad9a98a8c59b21a8bda280357f",
+      "path": "ui/src/model.test.ts"
+    },
+    {
+      "sha256": "61419d6aaf2af01d412e83505c63d14dcc6bd0e360b42a8ddfcf146f0cce33e2",
+      "path": "ui/src/model.ts"
+    },
+    {
+      "sha256": "f4b347c6813095e6c1ee247eca5b7da4e2f687623f3d922f2f65dd9150794fdf",
+      "path": "ui/src/style.css"
+    }
+  ],
+  "ui_import_closure": {
+    "observed_sinks": "Single production fetch in api.ts::ControlAPI.request restricts /api/v1 relative path, credentials same-origin, no redirects/cache,15s abort, bounded JSON response. No SQLite/Node filesystem/child_process/indexedDB/dynamic eval/Function/dangerouslySetInnerHTML sink found in reviewed UI src. This is own-source review, not browser/vendor vulnerability certification.",
+    "test_only": [
+      "api.test.ts -> vitest + ./api",
+      "model.test.ts -> vitest + ./model"
+    ],
+    "files": [
+      "ui/src/api.generated.ts",
+      "ui/src/api.test.ts",
+      "ui/src/api.ts",
+      "ui/src/App.tsx",
+      "ui/src/main.tsx",
+      "ui/src/model.test.ts",
+      "ui/src/model.ts",
+      "ui/src/style.css"
+    ],
+    "runtime": [
+      "main.tsx -> react-dom/client + ./App + style.css",
+      "App.tsx -> react + ./api + ./model",
+      "api.ts -> type-only ./api.generated + ./model",
+      "model.ts -> no imports; pure formatting/eligibility display helpers",
+      "api.generated.ts -> interface/type declarations only; no runtime imports/executable request path",
+      "style.css -> no @import/url external executable path found"
+    ]
+  },
+  "j10": {
+    "requirement": "UI does not directly edit DB",
+    "evidence_kind": "architecture audit",
+    "closure": [
+      "packaging/entrypoint.py -> application.cli.run; pyproject r7 -> application.cli.main. Normal serve -> application.entrypoints.serve/create_local_app, validates packaged UI and composes LocalOwners, server LocalAuth/CommandLedger and owner services.",
+      "App views/commands -> api.ts -> FastAPI authenticated routes. app.py::view authenticates session then calls owners.view. dispatch calls write_session/CSRF, server-derived actor, strict typed DTO, completed-history or revision/claim ledger, then owners.execute. Financial routes use server reauthentication and reject FIXTURE financial authority.",
+      "OwnerControlServices: scan -> normal inbox.scan_once plus owner-managed control_scan_receipts; enqueue/cancel -> ResearchQueue; start -> PaperStartControlPort; pause -> PaperReadControlPort.request_entry_pause; approval/deployment -> typed E6 owner ports. Settings -> ControlServices.execute CAS update limited to display_timezone/scan_interval.",
+      "LocalOwners.control_services supplies registry/intake/queue/Paper factory handles. Paper ports call actual PaperService or process journal; approval/deployment require actual same-namespace StrategyPlatformService/authenticator. Financial adapters require trusted injection; absence remains typed unavailable and ordinary LocalOwners does not choose them from a request body. Backend owner storage initialization/migrations/transactions are owner effects, not direct browser DB access. No request supplies SQL or a DB handle."
+    ],
+    "command_route_coverage": [
+      "/auth/login,/auth/reauthenticate,/auth/logout -> LocalAuth server owner",
+      "POST /research/scan -> INBOX_SCAN",
+      "POST /research/runs -> RESEARCH_ENQUEUE",
+      "POST /research/runs/{id}/cancel -> RESEARCH_CANCEL",
+      "POST /paper/runs -> PAPER_START",
+      "POST /paper/runs/{id}/pause -> PAPER_PAUSE",
+      "PUT /settings/non-secret -> SETTINGS_UPDATE",
+      "POST /approvals -> APPROVAL + financial gate",
+      "POST /deployments/{id}/activate -> DEPLOYMENT_ACTIVATE + financial gate",
+      "POST /deployments/{id}/pause -> DEPLOYMENT_PAUSE"
+    ],
+    "static_conclusion": "Reviewed normal UI source has no direct DB write interface. Its mutations cross authenticated command DTO/owner boundaries and fixed owner storage operations. No material boundary bypass found in this closure.",
+    "existing_denial_ids": [
+      "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+      "tests.product.test_api_authority.APIAuthorityTests.test_every_product_view_requires_actual_session",
+      "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+      "tests.product.test_api_authority.APIAuthorityTests.test_openapi_has_all_required_routes_and_strict_command_schemas",
+      "tests.product.test_control_commands.ControlCommandTests.test_stale_revision_is_rejected_without_reserving_command",
+      "tests.product.test_control_commands.ControlCommandTests.test_changed_request_actor_subject_or_expected_revision_conflicts_under_same_id"
+    ],
+    "qualification_limit": "Reviewer did not execute these IDs or open authentication stores. Root must bind actual qualified source/API/browser executions at their true subjects; static architecture review does not assert every GET has zero backend bookkeeping or every owner is authorized for finance."
+  },
+  "l03": {
+    "requirement": "strategy cannot execute arbitrary Python/shell",
+    "evidence_kind": "parser/security review",
+    "closure": [
+      "cloud.authoring.emit_package parses StrategyDefinition before emission. cloud.manifest load_json/safe paths/untrusted fields plus verified snapshot -> intake.service -> actual E6 intake of definition_bytes. ResearchRequestResolver selects locally configured policy IDs, re-verifies accepted package/capability/validity, and passes json.loads(package.strategy.canonical_json), not code/argv.",
+      "strategy.runtime._load_definition parses bounded UTF8 JSON with depth/duplicate checks. parse_strategy_definition dispatches only explicit legacy or DSL0.2 profile; legacy fixed AST/SMA evaluator and v02 strict fields/AstBuilder operator/primitive allowlists have no text-to-Python/shell hook.",
+      "v02 evaluation and indicators.v02.features interpret parsed Expression/FeatureSpec using fixed arithmetic/indicator implementations; backtest E2 binding/ResearchService use real StrategyRuntime and HistoricalReplayEngine. The method AstBuilder.compile builds typed Expression nodes; it is not Python built-in compile.",
+      "Public research-worker validates integer timeout1..900, forces job_argv_factory=None and fixed _research-job argv with run_id/generation/config hash. _research-job reconstructs LocalOwners and queue.step. worker_once override is restricted to explicitly FIXTURE trusted test composition. Process bootstrap uses shell=False, not command-string interpretation."
+    ],
+    "sink_search": "Static text search over own src/*.py excluding generated _fixed_inventory.py for standalone eval/exec/compile/__import__, importlib/runpy and pickle/yaml execution surfaces returned only the declarative AstBuilder.compile method for the selected expression. Relevant native subprocess callsites were separately traced to trusted argv producers. This is not an exhaustive third-party binary/dynamic-obfuscation proof.",
+    "static_conclusion": "No authored definition/package field reaches an executable module name, Python source compiler/eval, shell string or worker executable override in the reviewed normal closure. Arbitrary python/EXEC syntax is rejected by existing strict grammar. No material data-to-code defect found.",
+    "existing_denial_ids": [
+      "tests.strategy.test_v02_parser.V02ParserTests.test_unknown_keys_operator_arity_and_indicator_version",
+      "tests.strategy.test_v02_parser.V02ParserTests.test_unknown_version_and_mixed_runtime_profile_are_rejected",
+      "tests.strategy.test_v02_parser.V02ParserTests.test_cycle_and_unknown_feature_reference",
+      "tests.strategy.test_v02_parser.V02ParserTests.test_duplicate_json_key_is_rejected_and_float_is_not_financial_input",
+      "tests.strategy.test_slice1_runtime.StrategyParserTests.test_unsupported_primitive_is_structured",
+      "tests.application.test_native_research_worker.NativeResearchWorkerTests.test_production_namespace_refuses_fixture_executable_override",
+      "tests.application.test_native_entrypoints.NativeEntrypointTests.test_source_cli_cannot_borrow_private_frozen_bootstrap_mode"
+    ],
+    "qualification_limit": "Owned child controls lifecycle/deadlines and does not constitute a hostile-code OS filesystem/network sandbox. The security boundary is that untrusted authored data never selects such code. Trusted local operator/test code may supply executables; that is outside a strategy package permission. No runtime child or provider request was executed by reviewer."
+  },
+  "l06": {
+    "requirement": "no paid LLM API runtime dependency",
+    "evidence_kind": "import/network/dependency audit",
+    "declared_dependencies": "Reviewed pyproject runtime/qualification dependencies, both hashed native Python build locks and UI package/package-lock. No OpenAI/Anthropic/Gemini/Vertex/Bedrock/LiteLLM/LangChain runtime SDK dependency found in these own declarations/locks. UI runtime imports only React and local code.",
+    "native_roles": [
+      "coordinator role allowlist control/research/runtime -> fixed _product-service and fixed serve/research_worker/paper_worker functions; config hashes checked",
+      "research -> fixed _research-job; Paper public feed -> fixed _paper-market-acquire; currentness -> fixed _paper-release-observe; local health -> fixed _auth-status-probe",
+      "processes._spawn_owned and _process_bootstrap use argv lists/shell=False with OS ownership before GO; arbitrary private bootstrap is a trusted local host facility, not a package/UI entrypoint",
+      "qualification producer launches sealed local test/native argv, evidence capture launches bounded git provenance; these are local tooling, not paid model inference"
+    ],
+    "http_and_remote_closure": [
+      "UI fetch is same-origin /api/v1; Control server binds configured loopback and rejects non-loopback Host/Origin/CSRF violations. Optional webbrowser opens only local Control URL.",
+      "market_data.okx/current and application.datasets.okx_public use explicit OKX market-data REST implementations; actual acquisition is separate opt-in/keyless scope. No LLM endpoint routed from authored strategy.",
+      "Trading ProductionProductProvider requires actual guarded owner/profile/vault composition; transport fixes operator-confirmed https://www.okx.com with bounded endpoint/body profile. Legacy demo transport uses OKX demo profile. Merely importing these source modules is not authority or a private API call.",
+      "Optional rclone bridge is locally selected/hash-pinned executable/config, fixed copy-only lsjson/cat/copyto/copy operations through run_bounded with sanitized environment, shell=False, owned timeout. SSH API builds operator command plan only; public health probe is fixed127.0.0.1. Neither is a paid model dependency."
+    ],
+    "static_conclusion": "No automatic paid LLM SDK/import/endpoint/subprocess dependency found in reviewed normal product source closure and declared native/UI locks. runtime_llm_calls=0 telemetry was NOT used as evidence. No material L06 dependency violation found.",
+    "existing_denial_ids": [
+      "tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_rejects_before_owner_side_effects",
+      "tests.application.test_native_research_worker.NativeResearchWorkerTests.test_public_research_timeout_reaches_fixed_owned_job_limits",
+      "tests.application.test_native_entrypoints.NativeEntrypointTests.test_frozen_owned_bootstrap_dispatches_argv_without_reserved_marker"
+    ],
+    "qualification_limit": "No network trace, wheel/binary reverse engineering or installed rclone identity/profile read performed. This does not certify third-party package internals, prohibit an operator from independently running paid tools, validate real cloud/provider endpoints, or replace final native distribution/license/provenance qualification. Root-owned PLAT08 and final source/build inventory work remain separate."
+  },
+  "findings": [
+    {
+      "id": "STATIC-INFO-01",
+      "severity": "INFORMATIONAL",
+      "disposition": "REFERENCE_CORRECTION_ONLY",
+      "detail": "Actual normal installed app composition is src/application/entrypoints.py, not nonexistent src/application/platform/entrypoints.py in earlier advisory. Use attached actual path/hash for evidence binding; no production change required."
+    }
+  ],
+  "root_binding_actions": [
+    "Attach this static audit kind to J10/L03/L06 with sourcefc0d01 and exact path hashes; reviewer executionNONE. Do not call it a test/native PASS or final-future-candidate audit.",
+    "Verify exact class/symbol names and actual named-case executions/log hashes from final qualified index; rebind any newly changed closure after final source/authoring/inventory settles. Existing tests are references only in this review.",
+    "L01 Git/secret-pattern scan and L05 hosted-workflow/tree audit remain root-owned and were not performed here. OPS02/S16 identity ledger and whole216-row reconciliation remain separate.",
+    "No source fix proposed absent a demonstrated finding. No new runtime framework, tests, provider call, policy choice or credential data is required by this review."
+  ],
+  "verification": {
+    "git": [],
+    "project_code_execution": [],
+    "private_config_reads": 0,
+    "db_reads": 0,
+    "acceptance_claims": 0,
+    "network_calls": 0,
+    "artifact": "ART/j10-l03-l06-static-audit-fc0d01a-20261021.json",
+    "tests": [],
+    "tracked_writes": []
+  }
+}

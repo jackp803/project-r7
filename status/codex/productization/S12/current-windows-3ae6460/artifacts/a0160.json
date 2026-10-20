@@ -1,0 +1,72 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "review_mode": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "acceptance_credit": "NONE",
+  "scope": "New selected public supplement archive preparer plus retainer ingestion delta versus c8a223 direct-resource version",
+  "subjects": {
+    "prepare_current_supplement_archive.py": "18cc27496efcca9c20c38eb430925115cc77c52dc802603ff3ad12e3393f1f36",
+    "retain_current_checkpoint.py": "009dad24173320d6799fdc803761a699088685dc537dc42f4cf6bfd3851ad493"
+  },
+  "retainer_baseline_sha256": "c8a2230787c2f8de6b94c372c0bdff0f00f7ab24ac193580cb6b987cd5a8fdcc",
+  "supporting_public_contract_hashes": {
+    "verify_plat08_crossversion_native.py": "e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a",
+    "verify_plat08_current_future_refusal.py": "ebc3fd80575df730cc06bec2ba7db69d8715798be739e5ef4592283fe08d28ac",
+    "src/application/paper/producer.py": "a89d656695e8e543a1ff7f533249de8debb48c88642cfc8b552692ef23a9183c"
+  },
+  "counts": {
+    "Critical": 0,
+    "Important": 0
+  },
+  "findings": [],
+  "supported_conclusions": [
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        19,
+        28,
+        112,
+        137
+      ],
+      "conclusion": "Preparation is tied to the fixed 3ae6460 source/package and waits for the successful full owning checkpoint plus successful referenced supplemental outcomes. Source/package clean guards execute before collection and around ART-only publication; the preparer performs no tracked writes or native/product execution."
+    },
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        29,
+        71
+      ],
+      "conclusion": "Public child logs use direct label-matching filenames, expected result/reaping checks and producer log commitments. Dynamic supplement references are constrained to the named supplemental output family, exact public native-observations filenames under the owning qualification root, or the fixed source-pins file. CapturedEvidence rejects parent/unsafe components and redirects/hardlinks before byte capture; selected product.json and database/auth file types are excluded."
+    },
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        82,
+        118
+      ],
+      "conclusion": "Other selected inputs are fixed public helper/review/log/draft filenames. Original raw commitments and sanitized retained commitments remain distinct. Text is normalized and known source/project/home paths redacted; the archive publishes flat exclusive private files and declares their exact hashes."
+    },
+    {
+      "file": "prepare_current_supplement_archive.py",
+      "lines": [
+        119,
+        136
+      ],
+      "conclusion": "The prepared manifest and disposition bind the exact executable identity. The scope is supplemental evidence outside the fixed receipt with Master IN_PROGRESS; K03 remains unapplied/not accepted, future-wrapper times/toolchain facts remain UNKNOWN rather than borrowed, and external or financial acceptance is excluded."
+    },
+    {
+      "file": "retain_current_checkpoint.py",
+      "lines": [
+        243,
+        265,
+        402
+      ],
+      "conclusion": "Only explicit direct-resource mode for the exact 3ae6460 subject ingests this prepared bundle. The manifest identity/scope and maximum 256 flat public ref declarations are checked before native_artifacts performs referenced reads. Native artifact hashes and CapturedEvidence same-byte consistency are enforced; disposition identity is checked, and all bundle files/manifest join the existing final guarded tracked-retention operation. Existing complete owning receipt/resource gates are otherwise unchanged."
+    }
+  ],
+  "limitations": [
+    "Static public-source review only; no tests, imports, compile, native/product execution, Git changes, DB/private profiles, credentials, runtime reports or active qualification evidence were accessed.",
+    "This review checks bounded archive safety and declared scope, not an independent re-audit of the underlying existing crossversion, future-schema, B03/M04/F11, scan or K03 execution facts. Their actual outcomes still must exist and pass the cited guards before preparation.",
+    "No current full qualification outcome, supplemental requirement PASS, actual cloud/Ubuntu/old-target evidence, financial authorization or whole-Master acceptance is granted by this review."
+  ]
+}

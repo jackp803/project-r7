@@ -1,0 +1,99 @@
+"""UNAPPLIED / NOT_EXECUTED snippets for existing research/evidence.py.
+Constructor after0002+0007 applies actual new application0010 DDL; root owns
+transaction/layout review. Existing feedback table/validator unchanged.
+Module-level helpers below; indent methods inside actual ResearchJournal.
+"""
+
+
+def _checked_candidate_index(journal,row):
+    from application.cloud.candidate_index import validate_candidate_index_publication,require_candidate_index_subject
+    from application.cloud.manifest import canonical_bytes,byte_hash,load_json
+    from application.cloud.protocol import ArtifactBundle
+    if (any(type(row[key]) is not str for key in ('index_json','payloads_json')) or
+            len(row['index_json'].encode())>256*1024 or len(row['payloads_json'].encode())>1024*1024):
+        raise ResearchEvidenceConflict('Bounded candidate index text required')
+    raw=row['index_json'].encode('utf-8')
+    if byte_hash(raw)!=row['index_hash']:raise ResearchEvidenceConflict('Candidate index hash mismatch')
+    encoded=load_json(row['payloads_json'].encode(),1024*1024)
+    if type(encoded) is not dict or any(type(text) is not str for text in encoded.values()):
+        raise ResearchEvidenceConflict('Candidate index payload mapping required')
+    payloads={name:text.encode('utf-8') for name,text in encoded.items()}
+    value=validate_candidate_index_publication(row['logical_path'],payloads)
+    if (payloads['evidence_index.json']!=raw or row['operation_id']!='r7-candidate-index-'+row['index_hash'][7:]
+            or byte_hash(canonical_bytes({name:byte_hash(blob) for name,blob in payloads.items()}))!=row['artifact_hash']):
+        raise ResearchEvidenceConflict('Candidate index bundle commitment mismatch')
+    run=journal._db.execute('SELECT * FROM research_runs WHERE run_id=?',(row['run_id'],)).fetchone()
+    require_candidate_index_subject(value,run)
+    report=journal.result(row['run_id'],'diagnostic_report')
+    if (report is None or report['candidate_gate']['status']!='PASS'
+            or report['candidate_gate']['assessment_id']!=value['evidence'][3]['evidence_id']
+            or report['backtest_e6_evidence_id']!=value['evidence'][0]['evidence_id']):
+        raise ResearchEvidenceConflict('Actual completed candidate report required')
+    return ArtifactBundle(row['logical_path'],payloads)
+
+
+# METHODS BELOW belong INSIDE actual ResearchJournal; placeholder is unapplied only.
+class ResearchJournalCandidateMethodsDraft:
+    def _enqueue_candidate_index(self,owned,now):
+        from application.cloud.candidate_index import (_OwnedCandidateIndex,_OWNER,
+            candidate_index_bundle,require_candidate_index_subject)
+        from application.cloud.manifest import canonical_bytes,byte_hash,load_json
+        if type(owned) is not _OwnedCandidateIndex or owned.capability is not _OWNER:
+            raise ResearchEvidenceConflict('Actual candidate index producer required')
+        value=load_json(owned.index_json,256*1024);bundle=candidate_index_bundle(value)
+        raw=bundle.payloads['evidence_index.json'];commitment=byte_hash(raw)
+        operation='r7-candidate-index-'+commitment[7:]
+        payloads=canonical({name:blob.decode('utf-8') for name,blob in bundle.payloads.items()})
+        artifact=byte_hash(canonical_bytes({name:byte_hash(blob) for name,blob in bundle.payloads.items()}))
+        if len(payloads.encode())>1024*1024:raise ResearchEvidenceConflict('Candidate index bundle limit')
+        # Exposure was already reserved by actual builder, outside this writer.
+        with self._db:
+            self._db.execute('BEGIN IMMEDIATE')
+            run=self._db.execute('SELECT * FROM research_runs WHERE run_id=?',(value['run_id'],)).fetchone()
+            require_candidate_index_subject(value,run)
+            report=self.result(value['run_id'],'diagnostic_report')
+            if (report is None or report['candidate_gate']['status']!='PASS'
+                    or report['candidate_gate']['assessment_id']!=value['evidence'][3]['evidence_id']
+                    or report['backtest_e6_evidence_id']!=value['evidence'][0]['evidence_id']):
+                raise ResearchEvidenceConflict('Actual completed candidate report required')
+            existing=self._db.execute('SELECT * FROM research_candidate_index_publications WHERE run_id=?',
+                (value['run_id'],)).fetchone()
+            if existing is not None:
+                if (existing['operation_id'],existing['index_json'],existing['index_hash'],existing['payloads_json'],
+                        existing['artifact_hash'])!=(operation,raw.decode(),commitment,payloads,artifact):
+                    raise ResearchEvidenceConflict('Immutable candidate index conflict')
+                _checked_candidate_index(self,existing)
+                return operation
+            count,size=self._db.execute("SELECT count(*),coalesce(sum(length(CAST(payloads_json AS BLOB))),0) "
+                "FROM research_candidate_index_publications WHERE state!='CLOUD_ACKNOWLEDGED'").fetchone()
+            if count>=1000 or size+len(payloads.encode())>16*1024**2:
+                raise ResearchEvidenceConflict('Candidate index outbox capacity reached')
+            self._db.execute('INSERT INTO research_candidate_index_publications VALUES(?,?,?,?,?,?,?,?,?,?)',
+                (operation,value['run_id'],raw.decode(),commitment,bundle.logical_path,payloads,artifact,'PENDING',0,stamp(now)))
+        return operation
+
+    def pending_candidate_index_publications(self,limit,*,include_local_staged=True):
+        if type(limit) is not int or not 1<=limit<=100 or type(include_local_staged) is not bool:
+            raise ValueError('Bounded candidate index batch required')
+        result=[]
+        for row in self._db.execute("SELECT * FROM research_candidate_index_publications "
+                "WHERE state IN ('PENDING','LOCAL_STAGED','UNAVAILABLE') AND (state!='LOCAL_STAGED' OR ?) "
+                "ORDER BY operation_id LIMIT ?",(include_local_staged,limit)).fetchall():
+            result.append((row['operation_id'],_checked_candidate_index(self,row),row['artifact_hash']))
+        return tuple(result)
+
+    def record_candidate_index_publication(self,operation_id,status,*,artifact_hash=None):
+        if status not in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED','UNAVAILABLE','CONFLICT'):
+            raise ValueError('Exact candidate publication state required')
+        with self._db:
+            row=self._db.execute('SELECT * FROM research_candidate_index_publications WHERE operation_id=?',
+                (operation_id,)).fetchone()
+            if row is None:raise ResearchEvidenceConflict('Original candidate publication required')
+            _checked_candidate_index(self,row)
+            if status in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED') and artifact_hash!=row['artifact_hash']:
+                raise ResearchEvidenceConflict('Candidate acknowledgment identity mismatch')
+            if row['state']=='CLOUD_ACKNOWLEDGED':
+                if status!='CLOUD_ACKNOWLEDGED':raise ResearchEvidenceConflict('Acknowledged candidate cannot regress')
+                return
+            self._db.execute('UPDATE research_candidate_index_publications SET state=?,attempts=attempts+1 WHERE operation_id=?',
+                (status,operation_id))

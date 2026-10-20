@@ -1,0 +1,101 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "date": "2026-10-21",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Unapplied B03/M04/F11 helper and apply recipe, with directly needed current native/API and typed recovery source contracts only.",
+  "subject_hashes": {
+    "verify_b03_m04_f11_supplement.py.unapplied": "cdd68f6919626fdd8a24db4e1f636627ced69516eae5c259a701e5856747189d",
+    "b03-m04-f11-supplement-apply-recipe-20261021.json": "8ca3878d6df527c6df65e9afeb33874af8ad65d668d904abdbd25f0c0ebe6574"
+  },
+  "pins_document": {
+    "path": "b03-m04-f11-supplement-source-pins.unapplied.json",
+    "sha256": "23fcbbf875a250e9e3460293f977e91bc261515c09c49d5212b4bce9208a3d5d",
+    "read_only_document_inspection": true
+  },
+  "context_hashes": {
+    "ART/verify_plat08_crossversion_native.py": "e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a",
+    "tools/verify_paper_product.py": "52a3efea7e6489bf72fa93947f8b02be49611fdcac491d65440a377be0ec5ffb",
+    "src/storage/paper_process.py": "17bc52dcafa49b809188aab863708b2b21cc324daee282159cebe2c1d3cf427c",
+    "src/position/trade_result.py": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b",
+    "src/storage/runtime.py": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593",
+    "src/storage/_paper_runtime.py": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff",
+    "src/execution/models.py": "3bd34278aaa2405afbe569379e8f20104863ed536e871949334196ed0aa9c019",
+    "src/application/paper/engine.py": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6",
+    "src/application/control_api/owner_services.py": "afa591aa84c0dc0b07518a756eaf28e9cca938a9cf8894daa55844f794219749",
+    "src/application/control_api/app.py": "6c93f8cb80d9a2332d9cdf2d52c9b39fe1da07fb4b1113efc9998cf751cab6ae",
+    "src/storage/runtime_models.py": "bae0eee3a7f7d80efe5e0ce41b6e79884d4a2299c93baae9b1096ae0ca883607",
+    "src/execution/funding.py": "63a9b76325b60c7e94abb9496ddec4dbecbafd69f71ab3bac957ab512cbad56f"
+  },
+  "counts": {
+    "critical": 0,
+    "important": 2
+  },
+  "findings": [
+    {
+      "id": "SUPPLEMENT-PINS-BEFORE-REFERENCE",
+      "severity": "Important",
+      "file": "verify_b03_m04_f11_supplement.py.unapplied",
+      "line": 39,
+      "related_lines": [
+        38,
+        42,
+        43
+      ],
+      "finding": "The helper accepts any ART-descendant pins JSON, parses it and hashes arbitrary ROOT/row[path] references without verifying the fixed recipe pins filename/raw SHA or exact expected source-path inventory first. Absolute paths override ROOT and parent components can escape it, so a substituted public pins document can induce prohibited private-file reads before any source refusal.",
+      "minimal_fix": "Require the exact fixed pin filename/path and expected raw SHA256 23fcbbf875a250e9e3460293f977e91bc261515c09c49d5212b4bce9208a3d5d. Capture it once with bounded protected bytes and parse those same bytes. Validate exact reviewed path inventory, schema, unique normalized relative paths and digest forms before dereferencing any row; reject absolute/parent/unknown refs before reading.",
+      "minimal_regression": "Use isolated public mock pin documents naming an absolute/parent/private-looking sentinel and a trap reader; demonstrate refusal before the trap is called. Also reject omitted/extra/duplicate source names and changed pin bytes without reading any real private file."
+    },
+    {
+      "id": "SUPPLEMENT-PROOF-SAME-CAPTURE",
+      "severity": "Important",
+      "file": "verify_b03_m04_f11_supplement.py.unapplied",
+      "line": 153,
+      "related_lines": [
+        199,
+        201,
+        231
+      ],
+      "finding": "The checked digest and parsed proof_raw come from separate path reads. A replacement/read/restore seam can supply uncommitted parsed identity/run facts while initial/final path digests match the expected original. Later refs hash the restored path, so reported proof identity and retained proof commitment need not describe the bytes actually used.",
+      "minimal_fix": "Capture the fixed selected public proof once with a bounded protected reader, compare SHA256 of that exact raw capture to paper_proof_sha256, and parse it. Bind facts and artifact refs to that capture; final protected reread must equal captured bytes. Avoid hash-then-independent-read admission.",
+      "minimal_regression": "Use two isolated public proof byte strings and a swap/restore reader seam. A different parse capture must fail even if path digests before/after match the expected file. Valid same-capture input must retain exactly its expected commitment; no DB/native execution needed."
+    }
+  ],
+  "supported_static_checks": [
+    {
+      "refs": [
+        "tools/verify_paper_product.py:269",
+        "tools/verify_paper_product.py:308",
+        "tools/verify_paper_product.py:321",
+        "tools/verify_paper_product.py:327",
+        "src/application/cli.py:249"
+      ],
+      "conclusion": "Scan/submission/enqueue/research method return shapes, queue-feedback FEEDBACK_QUEUED status and authenticated publication route used by B03/M04 match current source interfaces. This does not establish actual scenario success."
+    },
+    {
+      "refs": [
+        "verify_b03_m04_f11_supplement.py.unapplied:161",
+        "verify_b03_m04_f11_supplement.py.unapplied:169",
+        "src/storage/paper_process.py:154",
+        "src/storage/_paper_runtime.py:37",
+        "src/storage/runtime_models.py:44"
+      ],
+      "conclusion": "F11 checks canonical sidecar absence before immutable mode=ro/query_only/trusted_schema-off access; direct typed journal constructors do not run migrations. READY/funding_evidence DTO field and canonical Paper funding zero/interval field names match the source contracts. Actual stopped state, sidecar absence, canonical equations and preservation still require the intended owning execution."
+    },
+    {
+      "refs": [
+        "ART/verify_plat08_crossversion_native.py:117",
+        "verify_b03_m04_f11_supplement.py.unapplied:81",
+        "verify_b03_m04_f11_supplement.py.unapplied:206"
+      ],
+      "conclusion": "Reviewed e9bae support hash matches the captured support bytes. Direct command and control handles are retained for bounded final cleanup retries and cleanup errors prevent PASS. Native console enrollment remains its separate established owning facade, as explicitly stated in the recipe."
+    }
+  ],
+  "limits": [
+    "No tests, imports, compilation, Git, DB, process, native, provider, credential or network operations performed. Only this new ART review artifact is written.",
+    "No active qualification/private evidence or existing DB/config/auth data read. Pin references were inspected as public JSON strings and were not followed by the reviewer.",
+    "Draft remains UNAPPLIED/NOT_EXECUTED; no B03/M04/F11, fixed receipt, PQR, full current native or Master acceptance is granted."
+  ]
+}

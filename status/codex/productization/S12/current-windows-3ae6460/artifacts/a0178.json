@@ -1,0 +1,101 @@
+{
+  "status": "STATIC_REVIEW_REPAIRS_REQUIRED_BEFORE_NATIVE_EXECUTION",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "review_date": "2026-10-21",
+  "subject": "External bounded helper only, not whole branch or qualifying new build",
+  "new_build_requested": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+  "build_status_basis": "Root reports native build43s complete, not qualification; reviewer did not execute/inspect active build evidence.",
+  "reviewed_helper": {
+    "path": "ART/verify_plat08_crossversion_native.py",
+    "current_observed_sha256": "676e962d0a35f1c45f23cfab5b3120ff4ecdac3fed9d2b81454f34eaa8768bc2",
+    "sha256": "8e15b2be08e062da1fe081f16ab8765bcee06092f789b7cb8ee4c5df56687208"
+  },
+  "reviewed_original_draft": {
+    "sha256": "29af89046a553fe5348a8e6c753c52c555838ed461fcb89c62bd2a14724f049d",
+    "path": "ART/verify_plat08_crossversion_native.py.unapplied"
+  },
+  "reviewed_plan": {
+    "sha256": "e8ad3d17f6b8f725ba8cff0ba14f1f074f3a6889fa70a74ae523d0632c26b4ed",
+    "path": "ART/plat08-native-crossversion-draft-plan-20261021.json"
+  },
+  "supporting_source_hashes": [
+    {
+      "sha256": "52a3efea7e6489bf72fa93947f8b02be49611fdcac491d65440a377be0ec5ffb",
+      "path": "tools/verify_paper_product.py"
+    },
+    {
+      "sha256": "161baa59d1fc898ede493271cfcbc4f52d0a854c66b714897463fc0c3e78876d",
+      "path": "src/application/platform/processes.py"
+    },
+    {
+      "sha256": "f8f3733192d45bb29328658ea406d235cd208b51c85971d5ddbebfd50a377bde",
+      "path": "src/application/platform/supervision.py"
+    },
+    {
+      "sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+      "path": "src/application/platform/upgrade_preflight.py"
+    },
+    {
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e",
+      "path": "src/application/platform/product_backup.py"
+    },
+    {
+      "sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811",
+      "path": "src/application/platform/database_restore.py"
+    },
+    {
+      "sha256": "6a595fc0ebe7077bd11a25d377a102e5b46d7068962c74bad9e7218a39e78596",
+      "path": "src/application/platform/restoration.py"
+    },
+    {
+      "sha256": "8952bc6d218ef5e19d82df08844c0a6fdff375d0302c52ba05f08817361e5f98",
+      "path": "src/application/research/evidence.py"
+    }
+  ],
+  "critical": 0,
+  "important": 2,
+  "findings": [
+    {
+      "id": "PLAT08-HELPER-01",
+      "severity": "IMPORTANT",
+      "ref": "ART/verify_plat08_crossversion_native.py:success/flow.observation.update before outer finally",
+      "minimum_repair": "Keep child observations provisional false through all outer cleanup/identity/helper checks. Publish child success only from computed successful outer result, and ensure any persistence failure invalidates/re-persists already written children or makes their success explicitly conditional on the final outer result reference. No new acceptance framework required.",
+      "fact": "Applied helper sets each child passed=True and persists inside main try, before success=True and before outer cleanup/final guards/helper hash. Any later cleanup error, FINAL_GUARD error or helper-change failure leaves passed child observations even though final result.passed=False. This does not implement the intended outer-success-dependent child PASS."
+    },
+    {
+      "id": "PLAT08-HELPER-02",
+      "severity": "IMPORTANT",
+      "ref": "tools/verify_paper_product.py::PublicFixture.stop_control/command, inherited by LocalDiagnosticControl; helper outer cleanup",
+      "minimum_repair": "External helper subclass keeps every successfully returned control/command OwnedProcess in an outer registry before waiting or readiness. Finally bounded-reap all retained handles, preserving handles on failed reap and marking cleanup failure. Keep existing resource/time limits and actual graceful stop assertion; do not infer ownership/reap from an absent PID or command count.",
+      "fact": "stop_control finally clears self.control after terminate_owned even when cleanup.reaped=False, then raises. terminate_owned cancels watchdog timer and intentionally retains Windows job handle on failed reap. Outer helper sees control=None and only a false command row; it cannot retry or retain the actual handle. command() likewise retains its OwnedProcess only in a local variable and records it only after wait/sanitization; an exceptional wait/cleanup path is absent from the outer handle inventory."
+    }
+  ],
+  "checked_safe_paths": [
+    "Old/new subjects pin explicit build-result/distribution manifest/exe SHA, clean build-result identity and verify_distribution equality; old revision/implementation/build constants fixed. Copies are fresh private exact child installations; no original qualifying data/profile/auth is copied into them.",
+    "Old normal native profile uses LOCAL_RESEARCH diagnostic_only, paper_runtime_enabledFalse, no cloud or enrollment. Readiness verifies actual owned supervisor identity/config/process and unenrolled auth/status; runtime NOT_STARTED. No browser/login/provider path is invoked. Existing loopback opener disables proxies/redirects.",
+    "Current target preflight has internal finite schema/model deadline and requires no DB mutations/owner starts. Only the restored clone is started by new binary; exact old19 then pending20..24 ledger plus restoration fence is observed. No old7d downgrade/future-schema-refusal claim is made.",
+    "Disposable removal validates exact absolute scope parent PROJECT/installations, _local_path ancestors/reparse rejection, resolve equality, original windows-7d821f2-clean exclusion, disjoint external roots, complete known byte closure before leaf unlink/rmdir. It never recursively shells deletes or traverses into original data; rehashes external source/clone/backups after each removal. No concrete destructive-containment defect found in this fresh single-owner flow.",
+    "Normal successful stop path uses native stop-product, wait/reap and supervisor STOPPED. Failed reap handle retention needs finding02 repair before relying on outer cleanup."
+  ],
+  "root_added_binding_deltas": [
+    "Applied target_provenance subset equality to actual subjects.new is correct: frozen capture_provenance includes distribution identity plus OS/runtime extras, so subset comparison preserves exact build identity without falsely requiring identical metadata shapes.",
+    "Applied source_config_hash==config_hash(actual old profile) and backup_id/backup_manifest_sha256 from actual raw backup/manifest.json are appropriate exact input bindings. Source/backup/config closure rechecks preserve original old-native store.",
+    "UTC start/end metadata is suitable whole-helper timing; not individual scenario deadline qualification. Child success delta is appropriate in intent but currently too early as described in finding01."
+  ],
+  "limitations": [
+    "No project code import, compile, tests, subprocess/native/Git/provider/network or private profile/DB/auth reads executed by reviewer. Only public helper/source text and file hashes inspected.",
+    "No test/native PASS or acceptance credit. Current build3ae and prior auditfc0d remain separate identities. Exact pending suffix, fresh19-ledger old profile,512MiB/4096file closure limits may truthfully reject an unexpected actual input; do not silently broaden them.",
+    "Report provider_requests0 follows the diagnostic/unconfigured path, not an independent host-wide network trace. Windows software-only portable preservation is not Ubuntu, real operator policies, ordinary financial Paper, real forward or old7d schema-refusal evidence.",
+    "If root changes helper hash after this review, repaired sections require a narrow reread/new disposition before claiming reviewed hash."
+  ],
+  "verification": {
+    "git": [],
+    "new_native_claims": 0,
+    "tests": [],
+    "tracked_changes": [],
+    "private_config_reads": 0,
+    "db_reads": 0,
+    "network_calls": 0
+  }
+}

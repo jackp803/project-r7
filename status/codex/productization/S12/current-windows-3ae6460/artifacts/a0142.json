@@ -1,0 +1,534 @@
+{
+  "status": "PASS",
+  "passed": true,
+  "execution": "SUPPLEMENTAL_NATIVE_AND_READONLY_AUDIT_OUTSIDE_FIXED_RECEIPT",
+  "revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+  "identity": {
+    "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+    "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+    "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "started_at_utc": "2026-10-20T18:26:38.274360Z",
+  "finished_at_utc": "2026-10-20T18:27:39.091276Z",
+  "records": [
+    {
+      "requirement_id": "B03",
+      "status": "PASS",
+      "test_ids": [
+        "SUPPLEMENTAL_B03_ACTUAL_PAYLOAD_ONLY_THEN_ORIGINAL_MANIFEST_LAST_SINGLE_INTAKE"
+      ],
+      "command": [
+        {
+          "command": "init",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "init.log",
+          "log_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+        },
+        {
+          "command": "prepare",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "prepare.log",
+          "log_hash": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743"
+        },
+        {
+          "command": "research-selection",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "research-selection.log",
+          "log_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+        },
+        {
+          "command": "stop-control-research",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "stop-control-research.log",
+          "log_hash": "sha256:339a9e5cf5a090d15c38fbbf36a90568aefa70c47b692bfd1034220cd7475252"
+        },
+        {
+          "command": "control-research",
+          "tree_reaped": true,
+          "managed_stop": true,
+          "forced_cleanup": false,
+          "log": "control-research.log",
+          "log_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "source_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+      "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
+      "environment_class": "CURRENT_WINDOWS_SUPPLEMENTAL_FIXTURE_NATIVE",
+      "os_version": "10.0.26200",
+      "architecture": "AMD64",
+      "runtime_versions": {
+        "wrapper_python": {
+          "version": "3.12.10",
+          "sha256": "sha256:4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+          "scope": "LOCAL_EXECUTION_TOOL_ONLY"
+        },
+        "native_product": {
+          "identity": {
+            "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+            "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+            "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+            "worktree": "UNAVAILABLE",
+            "financial_authority": "NONE",
+            "distribution_profile": "r7-native-distribution-v0.2"
+          },
+          "scope": "ACTUAL_FIXED_NATIVE_COMMANDS"
+        }
+      },
+      "config_hash": "sha256:20e890dc837270ff20ef9238523fe3ca3c43e187ace3bbec9c73340ef727dd5e",
+      "started_at_utc": "2026-10-20T18:26:38.274360Z",
+      "finished_at_utc": "2026-10-20T18:26:54.922788Z",
+      "exit_code": 0,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "artifact_refs": [
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/init.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/observations.json",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/prepare.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/research-selection.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/stop-control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/init.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/observations.json",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/prepare.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/queue-same-owner-report.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-no-second-job.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-selection.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-worker.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/stop-control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-supplement-source-pins.unapplied.json",
+        "artifacts/q-3ae6460-first/qualification/pqr-c27a741eca774f9c94f17f69020d07a1/PQR-03-native-artifacts/native-observations.json"
+      ],
+      "artifact_hashes": {
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/observations.json": "sha256:15d57aba10d78340e554e555c56b9246d674a1d024270e3771a2a7d4caf71205",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/control-research.log": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/init.log": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/prepare.log": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/research-selection.log": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/stop-control-research.log": "sha256:339a9e5cf5a090d15c38fbbf36a90568aefa70c47b692bfd1034220cd7475252",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/observations.json": "sha256:fad26ad28d19b64c374a3736001b677c2291355c3d11323e61fee87888e423d6",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/control-research.log": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/init.log": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/prepare.log": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/queue-same-owner-report.log": "sha256:12f7b18e1110550af3e98c56187d13952e232817fdda80d746ca5f3dbb609367",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-no-second-job.log": "sha256:26bf595874a228f082d2113e8ab9d49e453a9f07a023f2d03715aec0fb85bf45",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-selection.log": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-worker.log": "sha256:93cfd386701b077749cd96e3f81f9e798d908f6b81a0d65e77e91bcf7b136cab",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/stop-control-research.log": "sha256:227a25454705f654a433a93bfc1d9d7803bc3f51e8b9e5c44e895658651baf04",
+        "artifacts/q-3ae6460-first/qualification/pqr-c27a741eca774f9c94f17f69020d07a1/PQR-03-native-artifacts/native-observations.json": "sha256:c9086122bba06a0746d3c42ac4996ca186debc20c8ae66946aa4ceeb997782a2",
+        "artifacts/current-windows-20261019/b03-m04-f11-supplement-source-pins.unapplied.json": "sha256:23fcbbf875a250e9e3460293f977e91bc261515c09c49d5212b4bce9208a3d5d"
+      },
+      "limitations": [
+        "Outside fixed owning receipt; no full current PQR or Ubuntu/cloud/provider/LIVE/real-forward credit.",
+        "Actual helper interval; no per-child OS argv trace. Fresh disposable local test enrollment only for intake cases.",
+        "F11 reads existing stopped actual native producer facts; wrapper itself is not a second native execution."
+      ],
+      "facts": {
+        "payload_only_summary": {
+          "accepted": 0,
+          "blocked": 0,
+          "busy": 0,
+          "conflicts": 0,
+          "discovered": 0,
+          "idempotent": 0,
+          "incomplete": 0,
+          "results": []
+        },
+        "manifest_last_summary": {
+          "accepted": 1,
+          "blocked": 0,
+          "busy": 0,
+          "conflicts": 0,
+          "discovered": 1,
+          "idempotent": 0,
+          "incomplete": 0,
+          "results": [
+            {
+              "reason_codes": [],
+              "state": "INTAKE_ACCEPTED",
+              "submission_id": "r7-synthetic-fixture-input"
+            }
+          ]
+        },
+        "immutable_receipt": {
+          "compatibility_status": "NOT_RUN",
+          "intake_id": "intake-045e9547-4fb7-4674-8eb3-d6d965714e65",
+          "manifest_hash": "sha256:c5a95e71ee4c1cc590e5048052670eeb51c8ca315b41ef57176e89b814f2bd35",
+          "parser_status": "VALID",
+          "received_at": "2026-10-20T18:26:52.096066Z",
+          "schema_version": "r7-intake-receipt-v0.2",
+          "state": "INTAKE_ACCEPTED",
+          "strategy_content_hash": "sha256:ddc7cb395f83b7ad3837b26c56b9fd55074fa23fb207beb87b6bc12a3c824769",
+          "strategy_id": "r7-synthetic-trend",
+          "strategy_lifecycle": "DRAFT",
+          "strategy_version": "0.2.0",
+          "submission_id": "r7-synthetic-fixture-input",
+          "verification_kind": "NOT_RUN"
+        },
+        "replay_summary": {
+          "accepted": 0,
+          "blocked": 0,
+          "busy": 0,
+          "conflicts": 0,
+          "discovered": 1,
+          "idempotent": 1,
+          "incomplete": 0,
+          "results": [
+            {
+              "reason_codes": [],
+              "state": "IDEMPOTENT",
+              "submission_id": "r7-synthetic-fixture-input"
+            }
+          ]
+        },
+        "manifest_sha256": "sha256:c5a95e71ee4c1cc590e5048052670eeb51c8ca315b41ef57176e89b814f2bd35"
+      }
+    },
+    {
+      "requirement_id": "M04",
+      "status": "PASS",
+      "test_ids": [
+        "SUPPLEMENTAL_M04_SAME_PARTIAL_SUBMISSION_ACTUAL_TERMINAL_RESEARCH_REPORT_SINGLE_REPLAY"
+      ],
+      "command": [
+        {
+          "command": "init",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "init.log",
+          "log_hash": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb"
+        },
+        {
+          "command": "prepare",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "prepare.log",
+          "log_hash": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743"
+        },
+        {
+          "command": "research-selection",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "research-selection.log",
+          "log_hash": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673"
+        },
+        {
+          "command": "research-worker",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "research-worker.log",
+          "log_hash": "sha256:93cfd386701b077749cd96e3f81f9e798d908f6b81a0d65e77e91bcf7b136cab"
+        },
+        {
+          "command": "queue-same-owner-report",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "queue-same-owner-report.log",
+          "log_hash": "sha256:12f7b18e1110550af3e98c56187d13952e232817fdda80d746ca5f3dbb609367"
+        },
+        {
+          "command": "research-no-second-job",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "research-no-second-job.log",
+          "log_hash": "sha256:26bf595874a228f082d2113e8ab9d49e453a9f07a023f2d03715aec0fb85bf45"
+        },
+        {
+          "command": "stop-control-research",
+          "exit_code": 0,
+          "expected_exit_code": 0,
+          "tree_reaped": true,
+          "log": "stop-control-research.log",
+          "log_hash": "sha256:227a25454705f654a433a93bfc1d9d7803bc3f51e8b9e5c44e895658651baf04"
+        },
+        {
+          "command": "control-research",
+          "tree_reaped": true,
+          "managed_stop": true,
+          "forced_cleanup": false,
+          "log": "control-research.log",
+          "log_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "source_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+      "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
+      "environment_class": "CURRENT_WINDOWS_SUPPLEMENTAL_FIXTURE_NATIVE",
+      "os_version": "10.0.26200",
+      "architecture": "AMD64",
+      "runtime_versions": {
+        "wrapper_python": {
+          "version": "3.12.10",
+          "sha256": "sha256:4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+          "scope": "LOCAL_EXECUTION_TOOL_ONLY"
+        },
+        "native_product": {
+          "identity": {
+            "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+            "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+            "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+            "worktree": "UNAVAILABLE",
+            "financial_authority": "NONE",
+            "distribution_profile": "r7-native-distribution-v0.2"
+          },
+          "scope": "ACTUAL_FIXED_NATIVE_COMMANDS"
+        }
+      },
+      "config_hash": "sha256:d6520e7188cec8fbbfda95e33892173cbd6adc68aa603f86e1f58d8609124b9e",
+      "started_at_utc": "2026-10-20T18:26:55.695615Z",
+      "finished_at_utc": "2026-10-20T18:27:37.599884Z",
+      "exit_code": 0,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "artifact_refs": [
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/init.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/observations.json",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/prepare.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/research-selection.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/stop-control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/init.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/observations.json",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/prepare.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/queue-same-owner-report.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-no-second-job.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-selection.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-worker.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/stop-control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-supplement-source-pins.unapplied.json",
+        "artifacts/q-3ae6460-first/qualification/pqr-c27a741eca774f9c94f17f69020d07a1/PQR-03-native-artifacts/native-observations.json"
+      ],
+      "artifact_hashes": {
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/observations.json": "sha256:15d57aba10d78340e554e555c56b9246d674a1d024270e3771a2a7d4caf71205",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/control-research.log": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/init.log": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/prepare.log": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/research-selection.log": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/stop-control-research.log": "sha256:339a9e5cf5a090d15c38fbbf36a90568aefa70c47b692bfd1034220cd7475252",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/observations.json": "sha256:fad26ad28d19b64c374a3736001b677c2291355c3d11323e61fee87888e423d6",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/control-research.log": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/init.log": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/prepare.log": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/queue-same-owner-report.log": "sha256:12f7b18e1110550af3e98c56187d13952e232817fdda80d746ca5f3dbb609367",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-no-second-job.log": "sha256:26bf595874a228f082d2113e8ab9d49e453a9f07a023f2d03715aec0fb85bf45",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-selection.log": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-worker.log": "sha256:93cfd386701b077749cd96e3f81f9e798d908f6b81a0d65e77e91bcf7b136cab",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/stop-control-research.log": "sha256:227a25454705f654a433a93bfc1d9d7803bc3f51e8b9e5c44e895658651baf04",
+        "artifacts/q-3ae6460-first/qualification/pqr-c27a741eca774f9c94f17f69020d07a1/PQR-03-native-artifacts/native-observations.json": "sha256:c9086122bba06a0746d3c42ac4996ca186debc20c8ae66946aa4ceeb997782a2",
+        "artifacts/current-windows-20261019/b03-m04-f11-supplement-source-pins.unapplied.json": "sha256:23fcbbf875a250e9e3460293f977e91bc261515c09c49d5212b4bce9208a3d5d"
+      },
+      "limitations": [
+        "Outside fixed owning receipt; no full current PQR or Ubuntu/cloud/provider/LIVE/real-forward credit.",
+        "Actual helper interval; no per-child OS argv trace. Fresh disposable local test enrollment only for intake cases.",
+        "F11 reads existing stopped actual native producer facts; wrapper itself is not a second native execution."
+      ],
+      "facts": {
+        "submission_id": "r7-synthetic-fixture-input",
+        "incomplete": {
+          "accepted": 0,
+          "blocked": 0,
+          "busy": 0,
+          "conflicts": 0,
+          "discovered": 1,
+          "idempotent": 0,
+          "incomplete": 1,
+          "results": [
+            {
+              "reason_codes": [
+                "ARTIFACT_MISSING"
+              ],
+              "state": "INCOMPLETE_SYNC",
+              "submission_id": "r7-synthetic-fixture-input"
+            }
+          ]
+        },
+        "accepted_receipt": {
+          "compatibility_status": "NOT_RUN",
+          "intake_id": "intake-4ccb9946-5904-4391-bc9d-9a252013e38a",
+          "manifest_hash": "sha256:c5a95e71ee4c1cc590e5048052670eeb51c8ca315b41ef57176e89b814f2bd35",
+          "parser_status": "VALID",
+          "received_at": "2026-10-20T18:27:14.756839Z",
+          "schema_version": "r7-intake-receipt-v0.2",
+          "state": "INTAKE_ACCEPTED",
+          "strategy_content_hash": "sha256:ddc7cb395f83b7ad3837b26c56b9fd55074fa23fb207beb87b6bc12a3c824769",
+          "strategy_id": "r7-synthetic-trend",
+          "strategy_lifecycle": "DRAFT",
+          "strategy_version": "0.2.0",
+          "submission_id": "r7-synthetic-fixture-input",
+          "verification_kind": "NOT_RUN"
+        },
+        "job_id": "job-a5550e974feb097ae18218093f4d3cf5ce6abee880fbe6817d801f10abebeec8",
+        "owner_run_id": "run-5efb41473a7833622dba6afd588342b669ba60d07536d8b738e275bb765e7d6f",
+        "terminal_state": "COMPLETE",
+        "outcome": {
+          "compatibility_status": "PASS",
+          "reason_codes": [],
+          "run_id": "run-5efb41473a7833622dba6afd588342b669ba60d07536d8b738e275bb765e7d6f",
+          "status": "PASS",
+          "strategy_lifecycle": "CANDIDATE"
+        },
+        "actual_native_child_reaped": true,
+        "report_publications": {
+          "items": [
+            {
+              "operation_id": "r7-feedback-c0d22c9eaa57a4bf62418d52333fbf4be1593a1b3f57427bf3265abfa098208b",
+              "run_id": "run-5efb41473a7833622dba6afd588342b669ba60d07536d8b738e275bb765e7d6f",
+              "state": "PENDING",
+              "feedback_hash": "sha256:c0d22c9eaa57a4bf62418d52333fbf4be1593a1b3f57427bf3265abfa098208b",
+              "artifact_hash": "sha256:d5bc8dfff682bf912e0cf3a63218a2927589997aa30100fd4a7000df0c4ea6c9",
+              "attempts": 0,
+              "queued_at": "2026-10-20T18:27:30.666220Z"
+            }
+          ],
+          "limit": 20,
+          "offset": 0,
+          "total": 1,
+          "status": "AVAILABLE",
+          "reason_codes": []
+        },
+        "exact_replay_stable": true,
+        "second_worker_status": "IDLE"
+      }
+    },
+    {
+      "requirement_id": "F11",
+      "status": "PASS",
+      "test_ids": [
+        "SUPPLEMENTAL_F11_EXISTING_STOPPED_NATIVE_CANONICAL_FEES_FUNDING_ALLOCATION_AUDIT"
+      ],
+      "command": [
+        {
+          "command": "QUERY_ONLY_TYPED_OWNER_RECOVERY",
+          "native_command": false
+        }
+      ],
+      "source_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+      "spec_revision": "7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812",
+      "environment_class": "CURRENT_WINDOWS_SUPPLEMENTAL_FIXTURE_NATIVE",
+      "os_version": "10.0.26200",
+      "architecture": "AMD64",
+      "runtime_versions": {
+        "wrapper_python": {
+          "version": "3.12.10",
+          "sha256": "sha256:4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+          "scope": "LOCAL_EXECUTION_TOOL_ONLY"
+        },
+        "native_product": {
+          "identity": {
+            "executable_revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+            "implementation_hash": "sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b",
+            "build_hash": "sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d",
+            "worktree": "UNAVAILABLE",
+            "financial_authority": "NONE",
+            "distribution_profile": "r7-native-distribution-v0.2"
+          },
+          "scope": "STOPPED_NATIVE_PRODUCED_STORE_READONLY_AUDIT"
+        }
+      },
+      "config_hash": "sha256:22f2955b0ef537c5cb7706f55a6250c0516bbc1760b2a1f318bbacc28e8f493b",
+      "started_at_utc": "2026-10-20T18:27:38.322722Z",
+      "finished_at_utc": "2026-10-20T18:27:38.363527Z",
+      "exit_code": 0,
+      "passed": 1,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "artifact_refs": [
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/init.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/observations.json",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/prepare.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/research-selection.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/stop-control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/init.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/observations.json",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/prepare.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/queue-same-owner-report.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-no-second-job.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-selection.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-worker.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/stop-control-research.log",
+        "artifacts/current-windows-20261019/b03-m04-f11-supplement-source-pins.unapplied.json",
+        "artifacts/q-3ae6460-first/qualification/pqr-c27a741eca774f9c94f17f69020d07a1/PQR-03-native-artifacts/native-observations.json"
+      ],
+      "artifact_hashes": {
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/observations.json": "sha256:15d57aba10d78340e554e555c56b9246d674a1d024270e3771a2a7d4caf71205",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/control-research.log": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/init.log": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/prepare.log": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/research-selection.log": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/b03-manifest-last/stop-control-research.log": "sha256:339a9e5cf5a090d15c38fbbf36a90568aefa70c47b692bfd1034220cd7475252",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/observations.json": "sha256:fad26ad28d19b64c374a3736001b677c2291355c3d11323e61fee87888e423d6",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/control-research.log": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/init.log": "sha256:1a84b912c7772aaa852f79881a2a7b5fd39b5de620d855480d915cd3e32034fb",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/prepare.log": "sha256:2b3b09c94db0bac7be495b97fb2f802982db09444e9f601a1849ba1e3cda6743",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/queue-same-owner-report.log": "sha256:12f7b18e1110550af3e98c56187d13952e232817fdda80d746ca5f3dbb609367",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-no-second-job.log": "sha256:26bf595874a228f082d2113e8ab9d49e453a9f07a023f2d03715aec0fb85bf45",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-selection.log": "sha256:91f134d4bbfd9d92089a196ead126f66530aeb20a8a07ebece1686a364084673",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/research-worker.log": "sha256:93cfd386701b077749cd96e3f81f9e798d908f6b81a0d65e77e91bcf7b136cab",
+        "artifacts/current-windows-20261019/b03-m04-f11-3ae6460-first/m04-partial-single-processing/stop-control-research.log": "sha256:227a25454705f654a433a93bfc1d9d7803bc3f51e8b9e5c44e895658651baf04",
+        "artifacts/q-3ae6460-first/qualification/pqr-c27a741eca774f9c94f17f69020d07a1/PQR-03-native-artifacts/native-observations.json": "sha256:c9086122bba06a0746d3c42ac4996ca186debc20c8ae66946aa4ceeb997782a2",
+        "artifacts/current-windows-20261019/b03-m04-f11-supplement-source-pins.unapplied.json": "sha256:23fcbbf875a250e9e3460293f977e91bc261515c09c49d5212b4bce9208a3d5d"
+      },
+      "limitations": [
+        "Outside fixed owning receipt; no full current PQR or Ubuntu/cloud/provider/LIVE/real-forward credit.",
+        "Actual helper interval; no per-child OS argv trace. Fresh disposable local test enrollment only for intake cases.",
+        "F11 reads existing stopped actual native producer facts; wrapper itself is not a second native execution."
+      ],
+      "facts": {
+        "run_id": "paper_aada6ba17233e1d5dedaeae76065de3c83720ade16eb9a4e959f6398b9555863",
+        "position_id": "paperpos_47fd8156fa29421520a708bea21b45b2ec5a715d52048269e2396f6e486511d5",
+        "trade_result_id": "traderes_08ea23baf29aafaef5d929f6afb052ade564e2d17546844070f51a24b371ebdf",
+        "trade_result_payload_hash": "sha256:61ba0a3282747ad6930caa9a814e14b8dd0547528ff95ad3be30f81819146bf7",
+        "total_fees": "0.00600100",
+        "actual_fill_fee_sum": "0.00600100",
+        "fill_ids": [
+          "fill_72eefe5a305ec1d4efb8be49c0edc8d9",
+          "fill_15d8f59038ec614e0fe64b733e783680"
+        ],
+        "funding_evidence_id": "fundev_513ecc5b7794301d85c179b346248da129b00a0825a72a72548df7f6f50428bc",
+        "funding_payload_hash": "sha256:45296dcb27663b4c69172c28b7d5bacf8e907caeee159751f558adc7b67517f6",
+        "funding_status": "ZERO_CONFIRMED",
+        "funding_cost": "0",
+        "source_kind": "PAPER_MODEL",
+        "interval_start": "2026-10-20T18:00:01Z",
+        "interval_end": "2026-10-20T18:00:03Z",
+        "source_record_count": 0,
+        "no_broker_ledger_claim": true,
+        "original_proof_hash": "sha256:c9086122bba06a0746d3c42ac4996ca186debc20c8ae66946aa4ceeb997782a2"
+      }
+    }
+  ],
+  "errors": [],
+  "cleanup_errors": [],
+  "provider_requests": 0,
+  "private_requests": 0,
+  "financial_authority": "NONE",
+  "paper": "NO_NEW_PAPER_RUN",
+  "owning_receipt_membership": "NONE",
+  "helper_hash": "sha256:ef460fbf36d9aa9cdd16cffb69682b49a19b4489bb1ad7e167920f1206213995",
+  "pins_hash": "sha256:23fcbbf875a250e9e3460293f977e91bc261515c09c49d5212b4bce9208a3d5d",
+  "completed_assertions": true
+}

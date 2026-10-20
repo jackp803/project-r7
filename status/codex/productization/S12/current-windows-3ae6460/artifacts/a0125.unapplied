@@ -1,0 +1,20 @@
+-- UNAPPLIED / NOT_EXECUTED; application-owned migration, root reserves number.
+CREATE TABLE IF NOT EXISTS research_candidate_index_publications (
+ operation_id TEXT PRIMARY KEY,
+ run_id TEXT NOT NULL UNIQUE REFERENCES research_runs(run_id),
+ index_json TEXT NOT NULL,index_hash TEXT NOT NULL,
+ logical_path TEXT NOT NULL UNIQUE,payloads_json TEXT NOT NULL,artifact_hash TEXT NOT NULL,
+ state TEXT NOT NULL CHECK(state IN ('PENDING','LOCAL_STAGED','CLOUD_ACKNOWLEDGED','UNAVAILABLE','CONFLICT')),
+ attempts INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL
+);
+CREATE TRIGGER IF NOT EXISTS research_candidate_index_content_immutable
+BEFORE UPDATE OF operation_id,run_id,index_json,index_hash,logical_path,payloads_json,artifact_hash,created_at
+ON research_candidate_index_publications
+BEGIN SELECT RAISE(ABORT,'candidate index publication content is immutable'); END;
+CREATE TRIGGER IF NOT EXISTS research_candidate_index_no_delete BEFORE DELETE ON research_candidate_index_publications
+BEGIN SELECT RAISE(ABORT,'candidate index publication evidence cannot be deleted'); END;
+CREATE TRIGGER IF NOT EXISTS research_candidate_index_no_replace BEFORE INSERT ON research_candidate_index_publications
+WHEN EXISTS(SELECT 1 FROM research_candidate_index_publications WHERE operation_id=NEW.operation_id)
+ OR EXISTS(SELECT 1 FROM research_candidate_index_publications WHERE run_id=NEW.run_id)
+ OR EXISTS(SELECT 1 FROM research_candidate_index_publications WHERE logical_path=NEW.logical_path)
+BEGIN SELECT RAISE(ABORT,'candidate index publication replacement is forbidden'); END;

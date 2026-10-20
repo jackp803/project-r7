@@ -1,0 +1,49 @@
+test_actual_started_child_wait_exception_retains_handle_and_reaps_before_propagation (__main__.HelperLifecycleTests.test_actual_started_child_wait_exception_retains_handle_and_reaps_before_propagation) ... ERROR
+test_real_child_is_registered_reaped_and_json_command_observed (__main__.HelperLifecycleTests.test_real_child_is_registered_reaped_and_json_command_observed) ... ERROR
+
+======================================================================
+ERROR: test_actual_started_child_wait_exception_retains_handle_and_reaps_before_propagation (__main__.HelperLifecycleTests.test_actual_started_child_wait_exception_retains_handle_and_reaps_before_propagation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\verify_plat08_crossversion_native.py", line 137, in command
+    code=owned.wait()
+         ^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_plat08_helper_lifecycle.py", line 34, in interrupted_wait
+    def interrupted_wait(*args,**kwargs):raise subprocess.TimeoutExpired('actual-owned-wait',0)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+subprocess.TimeoutExpired: Command 'actual-owned-wait' timed out after 0 seconds
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_plat08_helper_lifecycle.py", line 39, in test_actual_started_child_wait_exception_retains_handle_and_reaps_before_propagation
+    flow.command('actual-wait-failure',[],argv=[sys.executable,'-c','import time;time.sleep(30)'],timeout=60)
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\verify_plat08_crossversion_native.py", line 144, in command
+    write_private_new(log,text.encode('utf-8'));raw_path.unlink()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 137, in write_private_new
+    require_private(path)
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 101, in require_private
+    raise ValueError('Owner-private permissions required')
+ValueError: Owner-private permissions required
+
+======================================================================
+ERROR: test_real_child_is_registered_reaped_and_json_command_observed (__main__.HelperLifecycleTests.test_real_child_is_registered_reaped_and_json_command_observed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_plat08_helper_lifecycle.py", line 23, in test_real_child_is_registered_reaped_and_json_command_observed
+    result=flow.command('actual-json',[],argv=[sys.executable,'-c','print("{\\\"actual\\\":true}")'])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\verify_plat08_crossversion_native.py", line 144, in command
+    write_private_new(log,text.encode('utf-8'));raw_path.unlink()
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 137, in write_private_new
+    require_private(path)
+  File "<SOURCE_ROOT>\src\application\platform\private_files.py", line 101, in require_private
+    raise ValueError('Owner-private permissions required')
+ValueError: Owner-private permissions required
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.118s
+
+FAILED (errors=2)

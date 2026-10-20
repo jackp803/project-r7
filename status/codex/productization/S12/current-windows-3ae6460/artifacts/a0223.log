@@ -1,0 +1,30 @@
+test_known_public_scan_exceeds_default_but_bounded_chunks_reconstruct (__main__.ScanChunkTests.test_known_public_scan_exceeds_default_but_bounded_chunks_reconstruct) ... ERROR
+test_larger_read_is_only_for_fixed_public_scan_and_exact_commitment (__main__.ScanChunkTests.test_larger_read_is_only_for_fixed_public_scan_and_exact_commitment) ... ERROR
+
+======================================================================
+ERROR: test_known_public_scan_exceeds_default_but_bounded_chunks_reconstruct (__main__.ScanChunkTests.test_known_public_scan_exceeds_default_but_bounded_chunks_reconstruct)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_public_scan_archive_chunks.py", line 10, in test_known_public_scan_exceeds_default_but_bounded_chunks_reconstruct
+    raw,document=helper.large_scan_document()
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'prepare_current_supplement_archive' has no attribute 'large_scan_document'
+
+======================================================================
+ERROR: test_larger_read_is_only_for_fixed_public_scan_and_exact_commitment (__main__.ScanChunkTests.test_larger_read_is_only_for_fixed_public_scan_and_exact_commitment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_public_scan_archive_chunks.py", line 22, in test_larger_read_is_only_for_fixed_public_scan_and_exact_commitment
+    with patch('prepare_current_supplement_archive.artifact_bytes',return_value=b'{}') as reader:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1467, in __enter__
+    original, local = self.get_original()
+                      ^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1437, in get_original
+    raise AttributeError(
+AttributeError: <module 'prepare_current_supplement_archive' from '<USER_HOME>\\Desktop\\交易機器人主體\\artifacts\\current-windows-20261019\\prepare_current_supplement_archive.py'> does not have the attribute 'artifact_bytes'
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.009s
+
+FAILED (errors=2)

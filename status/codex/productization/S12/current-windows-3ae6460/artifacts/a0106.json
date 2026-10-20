@@ -1,0 +1,319 @@
+{
+  "schema_version": "r7-research-coverage-completion-design-v1",
+  "status": "POSTCHECKPOINT_SOURCE_TEST_DESIGN_ONLY;NOT_IMPLEMENTED_OR_EXECUTED",
+  "input_map_ref": "artifacts/current-windows-20261019/acceptance-research-expanded-map.json",
+  "input_map_sha256": "sha256:ddb12e0e90625cd5ed8d836f796440db611f68599678880661150b2992ffee3b",
+  "root_guard": "Current qualification/source guard must finish before root edits/freezes/runs anything. Root sole writer; no source changes or execution in this task.",
+  "summary": {
+    "test_locations": 5,
+    "unconditional_required_additions": 4,
+    "required_existing_case_augmentation": 1,
+    "conditional_failure_classification_addition": 1,
+    "optional_extensions": 3,
+    "acceptance_pass_claims": 0
+  },
+  "minimal_changes": [
+    {
+      "id": "RCC-01",
+      "classification": "REQUIRED_ASSERTION_COMPLETION_FOR_DATA02_PURGE_CONTRACT",
+      "requirement_ids": [
+        "DATA-02"
+      ],
+      "location": "tests/application/test_dataset_binding.py::DatasetBindingTests",
+      "proposed_test": "test_purge_uses_larger_holding_or_label_horizon_without_changing_embargo",
+      "reuse": [
+        "dataset(root)",
+        "split_policy()",
+        "DatasetResolver(DatasetCatalog(root)).resolve",
+        "resolve_split"
+      ],
+      "input": "Fresh existing12hour synthetic dataset. Two subtests use explicit (max_holding_seconds,label_horizon_seconds)=(7200,3600) and (3600,7200); keep warmup_bars2,embargo_seconds3600 and existing partition clocks. This changes only finite test inputs, no production/default/promotion thresholds.",
+      "assertions": [
+        "For BOTH subtests training entry_start=START,entry_end=START+2h; development start4h,end8h,warmup_start2h,entry_start5h,entry_end6h; sealed OOS start8h,end12h,warmup_start6h,entry_start9h,entry_end10h.",
+        "Both subtests yield identical derived partition clocks despite opposite dominant operand; original selected policy JSON/hash must record the different explicit inputs and therefore policy_hash differs.",
+        "Existing equal3600 fixture expected development entry_end7h remains covered by original test; do not duplicate that test."
+      ],
+      "purpose": "Kills implementation that purges by only holding horizon or only label horizon, without changing any actual calculation policy."
+    },
+    {
+      "id": "RCC-02",
+      "classification": "REQUIRED_ASSERTION_COMPLETION_FOR_RES05_WALK_FORWARD_PURGE",
+      "requirement_ids": [
+        "DATA-02",
+        "RES-05"
+      ],
+      "location": "tests/validation/test_walk_forward.py::WalkForwardTests",
+      "proposed_test": "test_walk_forward_entry_bounds_use_maximum_horizon_and_exact_embargo",
+      "reuse": [
+        "robustness_fixtures.inputs(root)",
+        "split_policy canonical body",
+        "resolve_split",
+        "DevelopmentBinding.from_dataset",
+        "robustness_policy(split,cost)",
+        "research_policy(split,cost)",
+        "evaluate_robustness"
+      ],
+      "input": "Same48hour fixture, existing walk-forward windows training0..8/evaluation8..12 and training4..12/evaluation12..16. Re-resolve split after each (hold,label) pair from RCC-01; rebuild explicit research/robustness policy hashes from the new split. Keep all review thresholds unchanged.",
+      "assertions": [
+        "First evaluation window actual binding clocks: start8h,end12h,warmup_start6h,entry_start9h,entry_end10h. Second: start12h,end16h,warmup_start10h,entry_start13h,entry_end14h.",
+        "Actual evaluator emitted windows have purge_seconds7200,embargo_seconds3600 and exact evaluation_entry_start/end pairs9..10h and13..14h.",
+        "Any actual scored trade must open within these exact half-open intervals and close by actual evaluation end. Do not demand a numerical PASS or invent trades if this shorter window is insufficient."
+      ],
+      "purpose": "Pins the intended numerical embargo/purge contract through actual binding/evaluator, rather than relying on positive labels alone."
+    },
+    {
+      "id": "RCC-03",
+      "classification": "REQUIRED_ASSERTION_COMPLETION_FOR_DURABLE_SINGLE_EFFECT_RECOVERY",
+      "requirement_ids": [
+        "RES-01"
+      ],
+      "location": "tests/application/test_research_e6_recovery.py::ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record",
+      "proposed_change": "Augment existing meaningful crash case; no new redundant success-path test.",
+      "reuse": [
+        "Existing real ResearchService pipeline and journal.finish fault",
+        "Existing accelerated job-lease clock for recovery",
+        "Controlled temporary canonical SQLite read-only query only"
+      ],
+      "input": "Inside existing finish wrapper, when claim.stage==e6_backtest_persistence and AFTER real E6 save but BEFORE injected RuntimeError, use mode=ro to capture the actual BACKTEST_RESULT evidence row for that actual strategy/version. Read only; do not synthesize evidence or write SQL.",
+      "assertions": [
+        "Exactly1 matching canonical BACKTEST_RESULT row exists before crash; save its actual evidence_id/upstream_object_id/payload_json/recorded_at/verification/source fields.",
+        "After existing recovery, report.backtest_e6_evidence_id equals captured actual pre-crash evidence_id, and the exact selected canonical row tuple is unchanged.",
+        "Exactly1 matching upstream canonical row remains; original per-stage attempts remain ABORTED then COMPLETE.",
+        "Reopen fresh ResearchService once more and verify the same outcome/evidence ID/row count without extra replay attempts. Existing general reopen test already covers this path; omit last step if it adds no new crash-binding assertion."
+      ],
+      "purpose": "Directly establishes same canonical effect across the actual tested transaction gap, not just nonempty evidence plus recovered attempts."
+    },
+    {
+      "id": "RCC-04",
+      "classification": "REQUIRED_ASSERTION_COMPLETION_FOR_UNFAVORABLE_NEIGHBOR_AND_TRIAL_RETENTION",
+      "requirement_ids": [
+        "RES-03",
+        "RES-04"
+      ],
+      "location": "tests/application/test_research_robustness.py::ResearchRobustnessTests",
+      "proposed_test": "test_quantitatively_failing_neighbors_remain_in_actual_report_and_trial_ledger",
+      "reuse": [
+        "selected(root)",
+        "existing real ResearchService.execute path",
+        "existing neighborhood fast_window values[1,2,3,0]",
+        "Existing explicit adverse1000bps fixture convention from robustness stress test"
+      ],
+      "input": "Before running actual service, change only finite synthetic cost scenario taker_bps to1000 in cost.json (no review thresholds changed). Rebuild research.json/robustness.json explicit cost_policy_hash using actual updated cost and existing split. Run the real selected service; do not patch replay return values, variants, statuses or journal writers.",
+      "assertions": [
+        "Neighborhood still contains exactly4 variants with parameter values1,2,3,0 and4distinct semantic hashes. Expected statuses BLOCKED,FAIL,FAIL,INVALID: valid window2/3 trades incur actual adverse recorded costs; fast_window1 remains insufficient and window0 remains INVALID_WINDOW.",
+        "For both valid FAIL variants, actual backtest net_pnl<0, total_fees>0, assessment statusFAIL and actual MIN_NET_PNL_NOT_MET retained. No precomputed numeric PnL is invented.",
+        "Neighborhood pass_fraction=\"0\" with denominator ALL_DECLARED_VARIANTS_INCLUDING_INVALID. Both failing variants remain present with actual raw-result hashes.",
+        "For each actual failed variant hash, actual ledger TRIAL events contain corresponding terminal FAIL with exact trial_id/run_id/result_hash. Reopen service and compare the same durable failed events and report variants; no OOS is claimed."
+      ],
+      "expected_overall": "Expected quantitative FAIL/REJECTED for this adverse selected fixture; primary contract assertions are the actual retained per-variant FAIL outputs and events, not a generic favorable top-level outcome.",
+      "implementation_note": "If1000bps violates current typed cost bounds or another legitimate source condition changes this fixture, retain the red diagnosis and choose a finite admitted adverse input from existing cost contract. Never weaken review thresholds/status assertions merely to obtain the expected branch. This is design-only; values were not executed here."
+    },
+    {
+      "id": "RCC-05",
+      "classification": "REQUIRED_IF_RETAINING_RES03_AUTOMATIC_COMPUTATION_FAILURE_RETENTION_CLAIM",
+      "requirement_ids": [
+        "RES-03"
+      ],
+      "location": "tests/application/test_research_robustness.py::ResearchRobustnessTests",
+      "proposed_test": "test_actual_trial_failure_is_recorded_by_owner_before_stage_exception_and_survives_reopen",
+      "reuse": [
+        "selected(root)",
+        "real ResearchService and record_trial callback",
+        "Existing source-only exception injection pattern; evaluator._replay original callable"
+      ],
+      "input": "Wrap evaluator._replay in this source regression only. Delegate to original actual replay; after original returns on the first neighborhood replay (call2 after development replay), inject one bounded RuntimeError. Do not replace any replay result/status or call record_event manually. Existing owner recorder must write STARTED then catch/record FAILED before stage/run failure propagates.",
+      "assertions": [
+        "Assert actual original replay was invoked for development and the target neighborhood replay before exception; expected RuntimeError propagates.",
+        "Actual target trial_id has ordered STARTED then FAILED events, same run_id/variant_hash/stage, FAILED reason_codes includes RuntimeError and actual result_hash present.",
+        "Actual robustness attempt is FAILED with durable output_hash; no completed robustness report/finalist/sealed OOS exists. RUN_FAILED event exists for same run.",
+        "Close/reopen and compare event IDs/payload hashes/statuses exactly; no fabricated terminal event or SQL write is used by the test."
+      ],
+      "authority_limit": "Source fault-injection mechanics only, not actual OS crash/native proof. If current map is narrowed to explicitly authored ledger states plus quantitative failures, this extension is optional; it is required before claiming automatic replay-exception classification coverage."
+    },
+    {
+      "id": "RCC-06",
+      "classification": "REQUIRED_ASSERTION_COMPLETION_FOR_CANONICAL_CANDIDATE_INDEPENDENCE_GATE",
+      "requirement_ids": [
+        "LIFE-02"
+      ],
+      "location": "tests/application/test_product_assessment_binding.py::ProductAssessmentBindingTests",
+      "proposed_test": "test_canonical_candidate_validator_rejects_nonindependent_or_unverified_actual_product_evidence",
+      "reuse": [
+        "selected(root)+risk_fixture()",
+        "self.service/self.execute actual owner pipeline",
+        "open_sqlite_platform actual FIXTURE canonical store",
+        "registry.product_assessment.require_product_candidate",
+        "dataclasses.replace of actual immutable ProductAssessmentRecord for adversarial read-boundary input only"
+      ],
+      "positive_setup": "Produce a real actual full assessment via existing service with explicit risk fixture. Reopen E6 and obtain actual product_assessment(run_id), actual strategy and validation_evidence_id. Baseline require_product_candidate(e6._store,strategy,record.validation_evidence_id) returns the same actual owner record. No hand-authored/generic PASS record, no raw DB edits and no owner-writer capability override.",
+      "adversarial_inputs": [
+        "SubtestA: deep-copy actual record.payload_json, change only independent_oos=false.",
+        "SubtestB: start from original actual payload, change only sealed_dataset_verification.scope from FULL_LOGICAL_VERIFIED to DEVELOPMENT_VERIFIED_SEALED_LOGICAL_PENDING."
+      ],
+      "validator_path": "For each subtest canonicalize the altered payload and recompute only payload_hash (so test reaches the independence predicate rather than stopping at a content-hash guard). dataclasses.replace the actual record fields payload_json/payload_hash. Temporarily wrap/patch only actual store.product_assessment_for_decision read method to return this tampered derivative for the actual decision ID; all namespace/source/strategy methods delegate to the real store. Call the unchanged actual canonical require_product_candidate function. This is hostile read-boundary input to the real validator, never a persisted record or new authority.",
+      "assertions": [
+        "Each subtest raises EvidenceGateError with exact message Complete independent final OOS required.",
+        "Actual original canonical product assessment remains byte/field-identical before/after, same validation decision ID/risk hash/status/strategy lifecycle; direct stored record still passes baseline validator after patch removal.",
+        "No invocation of _save_product_assessment or lifecycle append/mark_candidate is made by test during the tampered-input phase; validator only denies, never issues a release or new approval."
+      ],
+      "why_not_generic_fake_pass": "All binding fields and original positive state originate from actual E1/E2/E3/E6 owner execution. Only the named rejected independence/verification field is adversarially altered at read boundary; no fabricated unbound PASS is used. Calling generic hash/manifest helpers or a fake function that always rejects would not satisfy this case."
+    }
+  ],
+  "optional_or_out_of_scope": [
+    {
+      "id": "OPT-01",
+      "requirement_ids": [
+        "RES-03"
+      ],
+      "proposal": "Do not add automatic ABORTED/RUN_ABORTED expectation for KeyboardInterrupt/OS process death in this bounded pass. Current run catches Exception and evaluator catches Exception; BaseException paths do not specify automatic terminal classification. Existing STARTED plus RUN_FAILED and explicit append-only authored ABORTED storage are truthful scopes. New OS-death classification is a separate product behavior decision, not needed to close existing storage assertions."
+    },
+    {
+      "id": "OPT-02",
+      "requirement_ids": [
+        "RES-05"
+      ],
+      "proposal": "Do not add invented evaluation interval IDs to test zero-trade windows. Existing requirement concerns no double-counted evaluation/trades; actual unique trade IDs plus two explicit window geometry cases suffice. Exact zero-trade coverage/interval inventory would be a diagnostic extension and needs an existing documented output field."
+    },
+    {
+      "id": "OPT-03",
+      "requirement_ids": [
+        "RES-06"
+      ],
+      "proposal": "No new statistical threshold/seed matrix or generic framework. Existing pinned seed, changed seed, moving-block adjacency, ambient Decimal and unit/quantile cases already map stated contract."
+    }
+  ],
+  "apply_order": [
+    "RCC-01/RCC-02 share exact derived-clock table but keep tests in existing domain files; no new framework.",
+    "RCC-03 augment existing crash case rather than duplicate setup.",
+    "RCC-04 can close both unfavorable-neighborhood and actual quantitative TRIAL failure retention.",
+    "RCC-06 invokes actual canonical validator from owner-produced positive baseline.",
+    "RCC-05 only if retaining the broader automatic replay-exception classification claim.",
+    "After root-owned changes: intended red, focused affected regression and current-subject clean qualification as existing policy requires. No result is inferred by this design."
+  ],
+  "unchanged_contracts": [
+    "No production or default review/promotion/risk policy threshold changes. All changed fees/horizons are explicit synthetic test inputs.",
+    "No DB result/lifecycle edits, writer capability bypass, PASS import, native factory override or fake financial/OOS authority.",
+    "Any source exception injection/read-boundary tampering is explicitly labelled unit fault/hostile-input simulation, never actual native execution evidence.",
+    "Use strong exact branch/identity/derived-boundary assertions; do not relax expected states or merely assert any exception."
+  ],
+  "implementation_refs": [
+    {
+      "path": "src/application/datasets/split_plan.py",
+      "symbol": "_resolve_split",
+      "line": 44,
+      "end_line": 68
+    },
+    {
+      "path": "src/validation/robustness/evaluator.py",
+      "symbol": "window",
+      "line": 58,
+      "end_line": 66
+    },
+    {
+      "path": "src/validation/robustness/evaluator.py",
+      "symbol": "_variants",
+      "line": 108,
+      "end_line": 133
+    },
+    {
+      "path": "src/validation/robustness/evaluator.py",
+      "symbol": "_evaluate_variant",
+      "line": 135,
+      "end_line": 147
+    },
+    {
+      "path": "src/validation/robustness/evaluator.py",
+      "symbol": "evaluate_robustness",
+      "line": 188,
+      "end_line": 250
+    },
+    {
+      "path": "src/application/research/service.py",
+      "symbol": "run",
+      "line": 82,
+      "end_line": 92
+    },
+    {
+      "path": "src/application/research/service.py",
+      "symbol": "_run",
+      "line": 93,
+      "end_line": 265
+    },
+    {
+      "path": "src/application/research/holdout.py",
+      "symbol": "record_event",
+      "line": 47,
+      "end_line": 53
+    },
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "symbol": "save_validation_evidence",
+      "line": 561,
+      "end_line": 579
+    },
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "symbol": "product_assessment_for_decision",
+      "line": 176,
+      "end_line": 178
+    },
+    {
+      "path": "src/registry/product_assessment.py",
+      "symbol": "require_product_candidate",
+      "line": 65,
+      "end_line": 76
+    },
+    {
+      "path": "src/registry/product_assessment.py",
+      "symbol": "require_product_record",
+      "line": 46,
+      "end_line": 62
+    }
+  ],
+  "static_source_commitments": [
+    {
+      "path": "src/application/datasets/split_plan.py",
+      "sha256": "sha256:68642b70cd67374305f42a8046900e5b3dc0be4741cac84bc29a0f467eb48927"
+    },
+    {
+      "path": "src/application/research/holdout.py",
+      "sha256": "sha256:2a519b501722a464b2499f1e92fa079cb3d0e2ad17b4c3a98f6d5b9b789d524f"
+    },
+    {
+      "path": "src/application/research/service.py",
+      "sha256": "sha256:b12faf95dd0eed6e7a902641dd1783696893f5126c8fe120cdb4e5db81b6c093"
+    },
+    {
+      "path": "src/registry/product_assessment.py",
+      "sha256": "sha256:67c3e638da388575d5d980475fce1b6b29a3c884f72e299cc18049481cfd2b92"
+    },
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "sha256": "sha256:5c79c3c81695a3aa1820f20a1a79d01c7f90c2d26d276ba78d93195208eca918"
+    },
+    {
+      "path": "src/validation/robustness/evaluator.py",
+      "sha256": "sha256:199a0bffda8c974356891210ab12736c7b806f94a761cd4a4aa3901bceecaeeb"
+    },
+    {
+      "path": "tests/application/dataset_fixtures.py",
+      "sha256": "sha256:1b6d504b8443e74550f99f2e278dcd58d85598570732f7df70a186dbce8d6c29"
+    },
+    {
+      "path": "tests/application/test_product_assessment_binding.py",
+      "sha256": "sha256:5f07d5a7bf9891f009f421b5dc867e53ad1b0eb44670ac78b453a665aa4c4416"
+    },
+    {
+      "path": "tests/application/test_research_e6_recovery.py",
+      "sha256": "sha256:8482a2fce1350fbdd9a4583b82b478b6e34cc84626824d179f1f426cebf18801"
+    },
+    {
+      "path": "tests/application/test_research_robustness.py",
+      "sha256": "sha256:8e66f87b2f914e3e6c472a02d0358cbdb89c308f099839d53eba71372a406835"
+    },
+    {
+      "path": "tests/validation/robustness_fixtures.py",
+      "sha256": "sha256:ebed9b2d62b2c51390be2aea901883d83c53fcf36c274ca58a290ee69b2d42bc"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "schema_version": "r7-current-launch-guide-static-review-v1",
+  "helper_ref": "artifacts/current-windows-20261019/write_current_launch_guide.py",
+  "helper_sha256": "sha256:f02179be6730d4128101862353acd2e9187bbd843551a05c2df2ae6990a8a524",
+  "execution": "NONE",
+  "status": "IMPORTANT_CORRECTIONS_RECOMMENDED_BEFORE_DELIVERY",
+  "counts": {
+    "critical": 0,
+    "important": 2,
+    "minor": 1
+  },
+  "findings": [
+    {
+      "id": "CLG-01",
+      "severity": "Important",
+      "line": 62,
+      "title": "Control Center endpoint is hardcoded instead of bound to selected actual configuration",
+      "observation": "Guide emits http://127.0.0.1:8765, but helper only obtains config_ref and never loads or verifies its selected control_api_host/control_api_port. A completed native flow can validly select another loopback port. The launch commands use actual config while the documented endpoint can diverge.",
+      "fix": "Load the exact referenced non-secret ProductConfig through normal config loader, require loopback host/expected diagnostic namespace and emit its actual host/port. Do not read auth/runtime DB or expose unrelated profile fields. If endpoint intentionally fixed8765, explicitly verify that actual config value before claiming the URL."
+    },
+    {
+      "id": "CLG-02",
+      "severity": "Important",
+      "line": 19,
+      "title": "Delivery ZIP is not cross-bound to passed installed/portable subject",
+      "observation": "Installed distribution facts are verified/guarded and stage revisions checked. ZIP is independently loaded from build-result.json and hashed only against that same metadata. The code does not require this archive hash/build identity to equal the archive actually consumed by passed portable stage or the installed executable/build identity. The guide therefore has no checked bridge from qualified installed subject to ZIP labelled current.",
+      "fix": "Use actual existing portable-stage archive/source build commitments and build-result identity to require full revision/build/implementation agreement with verified installed facts plus exact archive SHA256 used by the passed install. Reject mismatches; do not infer identity from seven-character directory name. This is validation of actual retained outputs, not rerunning build/native or inventing a new receipt."
+    },
+    {
+      "id": "CLG-03",
+      "severity": "Minor",
+      "line": 66,
+      "title": "Document asynchronous cooperative-stop completion before restart/backup",
+      "observation": "stop-product requests cooperative shutdown; its successful return is not immediate confirmation all selected children have stopped. Current guide supplies status then stop but no completion wait. Native backup locks should still refuse active owners, so this is an operational clarity issue rather than an authority bypass.",
+      "fix": "Add product-status polling after stop until actual coordinator/control/research are STOPPED (or explicitly report failed/unavailable). Only then restart or run backup. Do not claim flat exposure from process stop."
+    }
+  ],
+  "confirmed_safe_scope": [
+    "Writes only a fresh local delivery guide/checksum/version folder; no actual Start-Process, enrollment, OS installation, network/provider/private account operation executed by the writer.",
+    "Requires passed qualify/portable/headless/unattended/qualified-backup checkpoint flags and matching full revision before guide generation, then guards actual installed package/source. This review did not read or certify any such runtime evidence.",
+    "Guide keeps Master IN_PROGRESS, software qualification separate from strategy/risk/workflow, ordinary Paper/real-forward not started, engineering origin not GPT/profitability, cloud ACK/publication not configured and restore inhibited.",
+    "PowerShell Start-Process uses WindowStyle Hidden and invokes normal run-product with explicit config/operations. No OS startup/sleep/security changes are performed or assumed authorized.",
+    "Portable instructions carry complete ZIP/checksum and new target-native validation requirement; no cross-platform/old-PC/current-machine authorization transfer is claimed.",
+    "Enrollment is a normal user terminal command with hidden password input, no default secret printed; helper does not read credentials.",
+    "Prior real public8/8 capture versus zero additional workflow calls is explicitly separated; private/trade/transfer0 and no capital are scoped statements dependent on retained actual outputs, not certifications by this review."
+  ],
+  "limits": [
+    "Reviewed ONLY this helper source; no source/Git/helper edits, tests/native/build/network/DB/auth/runtime evidence reads.",
+    "Subsequent helper corrections require a new hash-bound delta review; no executable acceptance or qualification issued here.",
+    "Do not copy a native software qualification into financial permission, waive target-specific execution or use a generic failure status as evidence."
+  ]
+}

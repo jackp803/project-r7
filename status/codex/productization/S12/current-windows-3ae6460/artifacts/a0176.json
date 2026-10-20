@@ -1,0 +1,81 @@
+{
+  "status": "STATIC_REVIEW_COMPLETE",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "review_scope": "Exact final crossversion live-source ACL delta plus current native future-schema negative draft and plan; no runtime/evidence reads",
+  "findings_counts": {
+    "Important": 0,
+    "Critical": 0
+  },
+  "findings": [],
+  "reviewed_artifacts": [
+    {
+      "path": "verify_plat08_crossversion_native.py",
+      "sha256": "e9bae453af1e9dd694b198f1c3edabaec39846228d555755de69ab9475f1e54a"
+    },
+    {
+      "path": "verify_plat08_current_future_refusal.py.unapplied",
+      "sha256": "f81d73e39e4ae02942a799793c24895f9d98e2dfc8b8a8ac861de4402a120585"
+    },
+    {
+      "path": "plat08-current-native-future-refusal-plan-20261021.json",
+      "sha256": "8edebe91c759ad7080cc9b8380c8bd5fa8fbc245e7cd6513cb3a394039bbfe31"
+    }
+  ],
+  "source_hashes": [
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "sha256": "14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6"
+    },
+    {
+      "path": "src/application/platform/upgrade_preflight.py",
+      "sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6"
+    },
+    {
+      "path": "src/application/platform/database_restore.py",
+      "sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811"
+    },
+    {
+      "path": "src/application/platform/product_backup.py",
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+    },
+    {
+      "path": "src/application/cli.py",
+      "sha256": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b"
+    }
+  ],
+  "conclusions": [
+    {
+      "detail": "ledger() lines173-183 now validates local path, regular single-link file and finite names-only SELECT through mode=ro, query_only=ON, trusted_schema=OFF. Exact backup-private ACL is not required by live owner source contract. product_backup._walk/_opened_source validates live local regular single-link source; _verified_manifest and restored copies separately retain require_private. No product privacy enforcement changed.",
+      "id": "ACL_DELTA",
+      "disposition": "No contract conflict found"
+    },
+    {
+      "detail": "Actual _connect(require_existing=True) and _apply_migrations(migrations_dir=one private static script directory) are used under all role locks after normal current startup/stop. Existing current ledger is checked first, atomic CREATE TABLE creates only an empty disposable schema probe, and the real migration owner records its receipt. No manual ledger INSERT, financial data/result row, policy or authority fabrication. Source implementation commitment must match native subject.",
+      "id": "FUTURE_INPUT",
+      "disposition": "Bounded legitimate controlled schema-negative setup"
+    },
+    {
+      "detail": "CLI preflight UpgradePreflightError maps to exit2/BLOCKED/reason_codes/NONE/zero mutations/zero owner starts. upgrade_preflight._preflight_verified_databases maps unsupported canonical ledger to UPGRADE_PREFLIGHT_SCHEMA_UNSUPPORTED. database_restore._restore_backup performs this preflight before create_private_directory(target), supporting absent-target assertion. Genuine normal backup/verify must first pass or the attempt fails.",
+      "id": "REFUSAL_ORDERING",
+      "disposition": "Assertions match existing contracts"
+    },
+    {
+      "detail": "Draft checks actual generic serve exit2 and reaped child, exact canonical/config/backup bytes and ledger preservation, while recording changed source files rather than forbidding legitimate supervision metadata. cli._startup_diagnostic provides generic LOCAL_STARTUP_VALIDATION_FAILED; draft explicitly does not attribute a public typed migration code. Controlled single schema delta and existing source guard tests remain distinct evidence.",
+      "id": "FAILED_START",
+      "disposition": "No typed-reason or whole-source-zero-write overclaim"
+    },
+    {
+      "detail": "Pinned support helper retains every spawned handle in bounded registry32, sanitizes command logs, reaps after command and in outer cleanup, and child observations remain OBSERVATIONS_ONLY. Draft outer passed is set only after cleanup and final subject/source/helper/byte checks.",
+      "id": "OWNED_LIFECYCLE",
+      "disposition": "Previously repaired bounded lifecycle retained"
+    }
+  ],
+  "limits": [
+    "No imports, tests, native runs, DB/config/auth reads, Git commands or provider/network calls performed by reviewer.",
+    "Root-reported crossversion retry01 success was not independently replayed or read; no new native PASS or acceptance credit from this review.",
+    "Future helper remains UNAPPLIED/NOT_EXECUTED until root applies and runs it; runtime backup feasibility and negative assertions must be demonstrated by actual run.",
+    "Review concerns controlled disposable Windows diagnostic profiles only, not old7d downgrade refusal, financial execution, private providers, cloud, Ubuntu, or hostile-code sandbox guarantees."
+  ],
+  "tracked_changes": []
+}

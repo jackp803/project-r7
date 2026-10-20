@@ -1,376 +1,18 @@
-# PLAT08 read-only upgrade preflight source checkpoint — 2026-10-21
-
-Exact source fc0d01a3ae54bb777238acacbfc9cad5a4b5317b, implementation sha256:ec7cdc92f41e4d65032cd5282d90a7df187c9e1694b049e1f2e6cc7d8367b460:11modules/94cases PASS,
-unchanged/reaped, original900s per module. Evidence: status/codex/productization/S12/plat08-preflight-fc0d01a/disposition.json.
-Two complementary independent static0C0I reviews, executionNONE. All initial
-fixture/model/archival/identity/import-name failures retained. Temporary system
-awake request explicitly released; no permanent power/display/away-mode change.
-
-Actual8role all-present and absent inventory, normal verified backups, read-only
-version/config/manifest bindings, genuine changed-schema/receipt/version denials
-before product restore target creation. Real prefix19 backup reports suffix;
-normal inhibited restore and product composition migrate clone only, source and
-backup unchanged. Generic archival remains DATABASES_ONLY/PENDING/inhibited and
-cannot open as a canonical product DB. Existing E6 fencing/auth/API/migration/
-supervision regressions preserved. No historical SQL checksum/financial claim.
-
-This source checkpoint is not native crossversion/removal/fullPQR/wholePLAT08.
-Next settled inventory/authoring refresh, build and full native qualification,
-actual portable crossversion/removal, audits and S16. Preserved7d package/proof
-remain separate; no old7d downgrade-guard or new native acceptance transfer.
-Master active, same task/branch, no merge. Public8/responses8/additional0/private0;
-credentialsNONE/capitalNONE/LIVE notstarted/GitHubNOT_USED. OldPC/Ubuntu/cloud/
-formal policies/real-forward remain unaccepted.
-
-# Original E2 EXIT and migration-writer source checkpoint — 2026-10-20
-
-Exact frozen source 84f0eccf76167af11b9b4e67fc69af880ebe44ae:29modules/112cases PASS; separate test-only append
-8e81fa2d2996f8c18d06534408c9c3170c62bfee:1corruption case PASS, same implementation sha256:99680742c0efe9572d3eaf4a5bd9118df6e373711aaa5c472e6612daad4073a0.
-Evidence: status/codex/productization/S12/h01-original-exit-84f0ecc/disposition.json. All unchanged/reaped, original per-module900s.
-Two independent static0C0I reviews; executionNONE. Separate113 supporting cases
-are not113 at oneSHA or full PQR/native qualification. LF-canonical source and
-actual checked-out raw hashes retained. Temporary system-awake request released.
-
-Actual original E2 entry/fill/stop/protection -> first-fill HOLD/max-hold E5 EXIT
-retains exact action/reason/time, one close -> partial -> sameposId flat, still
-EXIT_REQUESTED. Claimed stale/duplicate retries GET only. Copied/expired/mismatched
-native inputs and lost unclaimed preparation deny; actual committed-action error
-recovers with genuinely new owner/handles/process2 and zero HTTP. OriginalE7release1,
-stale owner fencing and immutable3table attacks preserved. Existing close/intent/
-projection/protected-close/funded-finalization/E5/dispatch/admission regressions pass.
-
-Migration writer rejects future/gapped/malformed/unversioned schemas before writes;
-no whole-profile/downgrade/native claim. New main prefix-model/preflight CLI/restore
-work is still unqualified and excluded from this evidence. Whole8role normal
-preflight/restore/crossversion, audits/S16 and final settled full/native remain.
-Controlled source EXIT-only is not wholeH01 or LIVE-code-complete. Qualified
-Windows7d package remains separate; Master active, same task/branch, no main merge.
-Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
-GitHubNOT_USED. OldPC/Ubuntu/cloud/formal policies/real-forward remain unaccepted.
-
-# Genuine H01 entry first-slice source checkpoint — 2026-10-20
-
-Source 35ba76d5773b1382222b0743ea7db672f834ca3e, implementation sha256:21b326419f7ffd57ed5721edbbc887085f436225ba202ef805c3534f586abf17: exact13modules/42cases PASS,
-including11 new genuine joined entry/fault/recovery cases; unchanged/reaped,
-each<=original900s. Evidence: status/codex/productization/S12/h01-entry-first-slice-35ba76d/disposition.json. Independent static0C0I, executionNONE.
-Actual E2/E5 outputs, immutable outbox before canonical risk/plan and E4 guarded
-single fake POST. Actual NO_TRADE/REJECT, forged policy/future-input denials,
-same-boundary conflict, lostACK/expired-proof management, postcommit recovery
-with genuinely reconstructed owners, unclaimed preparation loss and immutable
-schema attacks preserve original IDs/clocks; no result/authority substitution.
-Two concrete review defects reproduced and fixed; all red/harness failures kept.
-Temporary system-awake request released after validation; no permanent settings.
-
-This controlled FIXTURE source slice is not whole H01 or LIVE-code-complete.
-Original E2 exit management remains pending. Qualified Windows7d package kept
-independently; no acceptance transfer. Portable crossversion/audits/S16/final
-settled full/native remain. Master active; original task/branch, no main merge.
-Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
-GitHubNOT_USED. OldPC/Ubuntu/cloud/formal policies/real-forward remain unaccepted.
-
-# H16 exact affected-owner source checkpoint — 2026-10-20
-
-Source cd415a11a97b4b04f490112f6d5ef319ad267395: affected26modules/177cases PASS, unchanged/reaped, each<=original900s.
-Together with separately retained disjoint component13modules/15cases, scoped
-source union39modules/192cases. Evidence: status/codex/productization/S12/h16-finalization-affected-cd415a1/disposition.json.
-Actual cleanup11 cases, original terminal readback, protection/close/funding,
-dispatch/position and K05 owners passed; no new thresholds or skipped cases.
-Frozen checkout remained under the project while main implementation advanced.
-Temporary system-awake request explicitly released after validation exit;
-no permanent power/display/away-mode settings changed.
-
-This is affected source mechanics, not full PQR/native or later H01 credit.
-H01 first real E2 entry development positive passed; independent review found
-caller geometry and intrinsic retained E2 lineage defects. Actual red faults
-preserved; minimal fixes and further genuine recovery/negative checks underway.
-Original E2 exit management remains pending. Preserved Windows7d qualified
-package unchanged. Master active; original task/branch, no main merge.
-Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
-GitHubNOT_USED. OldPC/Ubuntu/cloud/policies/real-forward remain unaccepted.
-
-# F04/I04/J03 actual owner and browser checkpoint — 2026-10-20
-
-Source 41ade60cea0ebb49a19b256be5a3808fcc07e163: actual ordinary Paper E5 balance rejection/zero effects and actual
-two immutable-version owner/API flows PASS; frontend build and one real browser
-candidate/draft/candidate flow PASS. Source frozen and all children reaped.
-Evidence: status/codex/productization/S12/f04-i04-j03-flows-41ade60/disposition.json. Default/current policies unchanged; no mocked PASS or
-canonical financial injection. Source2/API cases and browser1 are separate
-workflow proof, not full source/native/Master acceptance. Engineering FIXTURE
-research CANDIDATE never grants ordinary Paper/financial/forward authority.
-
-First0.2.0 actually researched, second0.2.1 remainsDRAFT; exact hashes/author/
-version/revision/pagination and selection remain independent. Actual E5
-INSUFFICIENT_BALANCE writes one canonical risk, no plan/request/broker submit/
-position; identical operation retry creates no second effect. Static0C0I reviewer
-executionNONE. Root visually inspected actual development candidate/draft
-screenshots; exact source screenshot equality is recorded, no invented review.
-
-cd415 affected26 runs in frozen project-contained checkout, prior genuine
-funded finalization/recovery/K05 source15 already retained. Current core source
-hash unchanged; no native qualification transfer to this source revision.
-H01 entry retry design corrected before implementation: claimed original request
-requires fresh management/direct reconcile, no E4 retranslation/new-entry gate;
-unclaimed persisted preparation cannot silently renew original bytes/clocks.
-Actual entry and original E2 management remain pending. Portable/audits/S16 and
-final full/native remain. Windows7d qualified package preserved; Master active.
-Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
-GitHubNOT_USED. Original task/branch, no main merge; external items unaccepted.
-
-# H16 funded finalization/recovery and genuine K05 checkpoint — 2026-10-20
-
-Source cd415a11a97b4b04f490112f6d5ef319ad267395: disjoint13modules/15cases PASS, unchanged/reaped; each module<=900s.
-Evidence: status/codex/productization/S12/h16-finalization-components-cd415a1/disposition.json.
-Real guarded fake-provider entry/protection/single close/original zero plus
-allocated fixture funding before terminal stop invokes unchanged E5 CLOSED,
-TradeResult and full binding. Actual writer commits then interruptions at all
-three effects recover with new owner/handles/issuer/process generation2, original
-IDs/clocks, no provider calls. K05 protected private snapshot/public OPT_OUT and
-explicit OPT_IN preserve exact amounts and honest fake-ledger provenance;
-actual_live NOT_RUN and financial_authority NONE. Negative sources fail closed.
-
-Actual2FAIL1ERROR -> minimal fixes/development7PASS; later future receive
-RED1FAIL -> strict UTC/original order. Static0C0I executionNONE. Development
-4OK9894.949s overlapped actual host sleep and earns no clean/deadline credit;
-fresh exact perfile recoveries pass. Temporary awake only while validation
-parents live was explicitly authorized; actual releases retained, no permanent
-power/display/away-mode change. First exact group6PASS then resourceNOT_RUN
-remains aggregate false; resumed only remaining7modules/9cases on same clean
-candidate. No threshold lowering or duplicate-case credit.
-
-Same original branch pushed source. Frozen project-contained qualification
-checkout runs affected26modules; this15 is component proof, not wholeH16/PQR/
-native/Master acceptance. Windows7d qualification preserved. Next F04/I04/J03,
-formal E2 entry+management, portable/audits/S16 and settled full/native remain.
-OldPC/Ubuntu/cloud/formal policies/real-forward not accepted; local work continues.
-Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVENOT_STARTED/
-GitHubNOT_USED. No main merge; original task and implementation branch retained.
-
-# H16 terminal-stop owner checkpoint — 2026-10-20
-
-Source `cadaa96933a21e235e8e3a13ba533530dd074800` exact-clean6modules/20cases PASS, unchanged/tree reaped.
-Evidence: `status/codex/productization/S12/h16-terminal-owner-cadaa96/disposition.json`.
-Actual guarded original entry/protection/close/flat/cleanup/CANCELED reconcile
-then exact target GET issues a local fact only; no canonical change/new cancel.
-Original graph/plan/claim/firstflat/protection/native clocks, actual account
-claims/process/generation/provider and local issuer/hash/original5s all fenced.
-Actual unknownENTRY append after real GET denies issuance; post-source provider,
-lease/cache and real independent claim changes deny consumption. Static0C1I
-then actualRED1FAIL ValueError notraised74.791s exposed final issuer gap; fixed
-final local/generation/process fence, static0C0I executionNONE. Earlier fault
-injection ERROR due instance read-only slot retained; class-descriptor correction
-calls actual original source method. No defect credit for instrumentation error.
-Genuine alternatePK immutability test now passes with real claimedENTRY validFK,
-alongside exact schema guard test. Earlier isolated mutation oracle retained.
-Original7de158FAILED92memoryerrors/66PASS inclcleanup11 remains failed. Product
-floor/deadlines/TTL/OS settings unchanged. This20 is source component proof,
-not PQR/native/all cleanup partition timing or H16/K05 acceptance.
-
-Next apply bounded one-case genuine funded finalization positive/helpers and
-observe missingfinalizer RED. Funding durable whileREADY BEFORE terminal stop;
-exact firstflat unchanged; real existing E5 TradeResult/CLOSED/full binding plus
-immutable outbox replay and genuine K05positive. Fournegative drafts preserved;
-all11cleanup partitions/final settled inventory/examples/full/native pending.
-H01 formalE2trading runner, F04/I04/J03/portable/audits/clause binder remain local.
-Windows7d qualified package/evidence preserved; Master IN_PROGRESS. Original
-task/branch, no merge. Public8/responses8/additional0/private0; credentialsNONE/
-capitalNONE/LIVE notstarted/GitHubnotused. External oldPC/Ubuntu/cloud/policies/
-realforward not accepted; independent local work continues.
-
-# H16 pure terminal-stop checkpoint — 2026-10-20
-
-Executable source `cfb16998a8156287e697e68be5f01bbdb5715930` exact-clean3modules/16cases PASS,
-unchanged/tree reaped. Independent static0C0I executionNONE. Pure canceled-target
-parser preserves exact native lineage, nochild/noactualfill, fullrow hash and
-original bounded broker clocks; existing live inventory parser unchanged.
-Actual RED3tests19subtesterrors missingmodule and both GREEN logs retained.
-Evidence: `status/codex/productization/S12/h16-terminal-stop-parser-cfb1699/disposition.json`.
-
-Genuine owner reader is NOT_IMPLEMENTED; owner test NOT_RUN. A bounded180second
-resource preflight never reached6GiB headroom, so no child was started and no
-success/failure counted. This conservative launch condition does not change
-existing product admission. Original7de158/16joined FAILED92actualmemoryerrors/
-66PASS,cleanup11PASS remains retained. Source draft for intended owner API is
-preserved byte-identically UNAPPLIED; no future failing API test in discovery.
-Apply and run genuine owner RED when real resources recover, then implement
-issuer/current-source binding and proceed funded E5 CLOSED/TradeResult/replay,
-genuine K05positive. Execute6cleanup partitions/all11cases with original900s
-limits. H01 formal E2trading runner, F04/I04/J03/portable/audits/clause binding
-remain local work. Final inventory/examples/full/native for settled source
-pending. Master IN_PROGRESS, original task/branch, no merge.
-
-Current Windows7d owningqualification/native/unattended/portable+backup evidence
-preserved; no transfer to new source. PublicOKX8requests8responses retained,
-engineering0.2.0COMPLETE/BLOCKED missingpolicies, notGPT; additional0/private0,
-credentialsNONE/capitalNONE/LIVENOT_STARTED/GitHubNOT_USED. OldPC/Ubuntu/cloud/
-policyselection/realforward external or unselected; no wholeMaster acceptance.
-
-# H16 bounded test partition checkpoint — 2026-10-20
-
-Source `b5cfc0c97cd8433bac65ad1e2098c83d904339f1` retains all11owner cases as2/2/2/2/2/1 files with shared
-non-TestCase mixin/discovery0. Production hash unchanged. Ten methods byte-
-identical; alternatePK immutability test now uses actual claimedENTRY validFK.
-Independent static8files0C0I executionNONE. Partition timings remainNOT_RUN
-(memory pressure); original158 remainsFAILED92memoryerrors/66PASS,cleanup11PASS.
-Exact-clean schema1PASS unchanged/reaped. Isolated testDB mutation removing
-only native-unique trigger branch yields expected1FAIL while preserving FK,
-UNIQUE,PKguard,recursiveOFF. Schema proof earns no owner-flow authority credit.
-Evidence: `status/codex/productization/S12/h16-cleanup-partition-b5cfc0c/disposition.json`.
-H16 terminal target/E5 funded TradeResult/CLOSED/replay and genuine K05positive
-remain next; Windows7d preserved, MasterIN_PROGRESS. No addedproviderrequests,
-credentials/capital/LIVE/GitHubcompute. Final settled source qualification pending.
-
-# H16 cleanup checkpoint — 2026-10-20
-
-Exact `7de014eeedf2791c8e186a9608c589454c792f4c` source158/16modules FAILED:66pass,92errors,0failures/skip;
-all92errors are actual RESEARCH_MEMORY_PRESSURE; source unchanged/tree reaped.
-All11cleanup scenarios passed. No joined-regression/PQR/native PASS credit.
-Evidence: `status/codex/productization/S12/h16-stop-cleanup-source-7de014e/disposition.json`.
-
-Actual original entry/protection/close/flat and exact owned-stop cleanup,
-durable claim, lostACK/successor no-repeat and current-read fences passed.
-Prior expiry RED/focused2PASS retained; existing5second window unchanged.
-Later static finding: alternatePK native-unique fixture has missing-FK mask;
-strengthen with real claimedENTRY and isolated mutation oracle. No SQL defect
-observed. Original9cases1864.525s exceed existing900s perfile limit; partition
-all11 into6files/non-TestCase helper without raising deadline or losing cases.
-H16/K05 funded CLOSED/TradeResult/replay positive remain unfinished.
-H01 static0C1I: formal E2-driven TradingService runner absent; originalM9/
-TRADE01 require it. Normal Paper separate and supported. Continue local work
-during memory pressure. No repeat full run until actual resources adequate.
-Preserve qualified Windows7d821f2; final inventory/examples/full/native still
-required for settled source. F04/I04/J03/portable/audits/clause binding pending.
-OldPC/Ubuntu/cloud/policies/realforward external or unselected; no wait for
-independent local work. Master IN_PROGRESS; original task/branch preserved.
-Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE
-notstarted/GitHub compute notused.
-
-# H16 controlled allocated-ledger owner source checkpoint — 2026-10-20
-
-Source `53358976b1f5c3aa66b5948d8aa068860a6330eb` exact-clean14modules/146cases PASS, unchanged/reaped.
-Evidence: `status/codex/productization/S12/h16-ledger-source-5335897/disposition.json`.
-E4 registered FIXTURE-only source performs actual guarded fake GETs, bounded
-complete page acquisition and exact allocated signed-cost normalization. It
-binds original owner plan/position/native scope and actual flat EXIT_REQUESTED;
-only canonical funding is emitted. No CLOSED/result/stop cancellation inferred.
-Actual pending write failure then successor replays original fact without HTTP;
-damaged source/hash/original-link recovery refuses. INSERT OR REPLACE on both
-tables with recursive_triggers OFF refuses; exact receipt replay stays stable.
-All RED/implementation/test-fixture failures and field-only replay diagnosis
-retained. Initial static0C/2I and actual3method4fail counterexamples are followed
-by development34 PASS and final146 PASS/static0C/I (reviewer execution NONE).
-Logical account scope commits original E6 provider/account references; restored
-readback deliberately contains no ephemeral mechanical proof. Actual production
-ledger route/completeness/position allocation remains unsupported/not called.
-H16/K05 still incomplete: genuine full-entry/active-stop/close flow, exact owned
-durable stop cleanup/terminal evidence, E5 TradeResult and CLOSED publication.
-Unapplied next-step plans have no execution credit. Continue this local work;
-then regenerate final inventory/examples/full/native qualification. Preserve
-qualified Windows ZIP7d821f2 and all earlier valid evidence. Master IN_PROGRESS,
-original task/branch, public8/responses8/additional0/private0/credentialsNONE/
-capitalNONE/LIVENOT_STARTED/GitHubNOT_USED. TargetPC/Ubuntu/cloud/policies/forward
-remain external or unselected; no external environment wait for local work.
-
-# K05 sanitized historical summary source checkpoint — 2026-10-20
-
-Source `77613c3e91460ba1fe364457aadfac7118e636cd` exact-clean7modules/60cases PASS, unchanged/reaped.
-Evidence: `status/codex/productization/S14/k05-public-summary-source-77613c3/disposition.json`.
-Additive strict v0.3 JSON/schema/escaped HTML consumes original canonical
-amounts and closed_at; default OPT_OUT exports no amounts. Protected actual
-open dispatch returns UNAVAILABLE/null, not zero. Paper owner source fixture
-consumer is separately labeled and does not supply actual broker funding.
-Actual-LIVE HISTORICAL_CANONICAL_RECORDS branch remains unexecuted/unaccepted;
-all exported financial authority NONE. Existing reports/bridge remain compatible.
-Prior candidate6d74 passed59, then a concrete PaperZero relabel counterexample
-failed both validators; exact reserved version now rejected, focused3 and
-final60 passed. Earlier0C/I review predates that finding; fresh repair review
-0C/I inspects exact final hashes (reviewer execution NONE). Every failure saved.
-Genuine funded/closed ProductDispatch positive and H16 stop cleanup/funding/TR
-remain unfinished; K05/H16/native/full acceptance is not claimed.
-Continue E4 observed-ledger source/fixture-only acquisition and actual owner
-integration under existing ADR, no real-provider mapping invented. Then final
-inventory/examples/full/native qualification. Windows ZIP7d821f2 remains the
-qualified release. Master IN_PROGRESS on original task/branch. Public8/responses8,
-additional0/private0/credentialsNONE/capitalNONE/LIVENOT_STARTED/GitHubNOT_USED.
-TargetPC/Ubuntu/cloud/policies/forward remain external or unselected.
-
-# K05 readonly history foundation source checkpoint — 2026-10-20
-
-Source `cb0724c0d292a0058435b07e76eec96d56356373` exact-clean2modules/27cases PASS (14RO+13dispatch),
-unchanged/reaped; static review0C/I (execution NONE).
-Evidence: `status/codex/productization/S14/k05-readonly-source-cb0724c/disposition.json`.
-Actual original E6 strategy/plan/claimed request history uses protected RO
-connections and existing E6 recovery only. Schema/namespace recheck occurs in
-each snapshot transaction; one same-file transaction or split-store version
-fence. Real successor generation/revocation leaves original history unchanged;
-actual split-store append refuses. No owner/writer/admission/provider in GET.
-Open ACK/pending history has no closed performance, not invented zero.
-Missing-module8errors and implementation/shape/fixture failures preserved.
-Actual diagnostics corrected absent plan content-hash field and composite
-authority_hash versus source_plan_hash; schema/BLOB/object guards stay strict.
-The public summary/formatter/schema is not yet implemented. K05 and full H16
-are NOT accepted. Genuine funded/closed ProductDispatch fixture remains missing.
-Continue strict additive sanitized K05 summary; H16 owned-stop cleanup,
-BROKER_LEDGER source/producer and TradeResult. Later final inventory/examples/
-full/native qualification required. Preserve valid CLOUD08 source6cd and
-fully qualified Windows ZIP7d821f2, original task/branch, Master IN_PROGRESS.
-Public8/responses8, additional0/private0/credentialsNONE/capitalNONE/
-LIVENOT_STARTED/GitHubNOT_USED. TargetPC/Ubuntu/cloud/policies/forward remain
-external or unselected; do not wait for them to finish independent local work.
-
-# Research/Paper report delivery history source checkpoint — 2026-10-20
-
-Source `6cd74d59952c160bfb1d91fb49c966d3df92b0b7` exact-clean5modules/53cases PASS, unchanged/reaped.
-Actual localhost browser2/2 PASS with identical recorded source hashes;
-UI18tests/typecheck/build PASS, final static review0C/I (execution NONE).
-Evidence: `status/codex/productization/S14/cloud08-report-source-6cd74d5/disposition.json`.
-Authenticated leaf GETs use protected live-WAL RO stores and original report/
-bundle/owner/checkpoint/producer bindings, no owner/writer/worker/transport.
-Actual owner reports and local-copy byte-readback bridge produce visible
-LOCAL_STAGED/CLOUD_ACKNOWLEDGED/CONFLICT; outage tests preserve UNAVAILABLE.
-Queued time is not ACK time, historical ACK is not current cloud health.
-Review counterexamples4=2fail/2error fixed; initial reader/API REDs retained.
-First browser startup ACK failed with263/265char paths; short PROJECT scratch
-retry passed; longpath causality inferred, inner bridge error not captured.
-Historical policy-path reconstruction remains unproven; no authority upgrade.
-This is source/API/local-copy browser proof, no real cloud/native/full credit.
-Qualified Windows ZIP remains7d821f2. Master IN_PROGRESS, original task/branch.
-Next: K05 readonly history/privacy; H16 exact stop cleanup, BROKER_LEDGER source
-and TradeResult; then regenerate final inventory/examples/full/native checks.
-Public cumulative8/responses8; additional0/private0/credentialsNONE/capitalNONE/
-LIVENOT_STARTED/GitHubNOT_USED. TargetPC/Ubuntu/cloud/policies/forward still
-external or unselected. Preserve every prior result and failed run.
-
-# Actual intake delivery visibility source checkpoint — 2026-10-20
-
-Source `32d846d968c45c41471f1ca23cb9f2a87d33d36a` exact-clean35cases PASS, unchanged/reaped. Actual local-copy
-browser4/4 PASS after retained missing-label RED1; typecheck/build PASS and
-static review0C/I. Actual Publisher/bridge produced stage, byte-verified ACK,
-and wrong-readback CONFLICT; UI preserves states/hash and FIXTURE disclosure.
-Evidence: `status/codex/productization/S14/cloud08-source-32d846d/disposition.json`.
-This proves intake-delivery source/UI only. Realcloud NOT_RUN; report-outbox
-visibility remains unfinished. Source candidate needs regenerated inventory,
-current-capability example manifests and later full/native qualification.
-Qualified Windows ZIP remains7d821f2. Same task/branch; Master IN_PROGRESS.
-Next: H16 native close owner, cross-role duplicate-claim final guard,
-native flat/funding/TradeResult/stop cleanup, K05 readonly reporting and final
-clause review. Public cumulative8/responses8; additional0/private0/credentialsNONE/
-capitalNONE/LIVENOT_STARTED/GitHubNOT_USED. No active guarded run.
-
 # R7 Master partial completion record
 
 **IN_PROGRESS — current Windows checkpoint completed; Master is not complete.**
 Task `CODEX-R7-PRODUCTIZATION-MASTER-20261002`; branch
 `codex/r7-productization-master-20261002`; spec `r7-product-v0.2` at
-`7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812`. Recorded2026-10-20T01:03:47.952318+00:00.
-Source Git HEAD at generation and exact executable revision: `7d821f29837e95e46bcd5fe32f14d536a28c9aa8`.
+`7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812`. Recorded2026-10-20T18:29:47.474658+00:00.
+Source Git HEAD at generation and exact executable revision: `3ae6460c69a8a8f90588c396b819af7079e7546d`.
 Subsequent evidence/document commits do not change this executable identity.
-Implementation `sha256:e3e79dc1b293a2cb26dbe64df22bf79f815c5810ccf473da76e9f568cf446fc1`; build `sha256:0edb13bb6df357fb251b23618ba50b25c2ad1fbfe69aa7940486a83da8b4c3f4`.
+Implementation `sha256:28dcedc97a14fa93e497f59a8cd3efa3014df58b1021587510a74f347ee0602b`; build `sha256:a1d9c933f1a2fe21611441d5600d426e77db6b1ada65914887ed886142b7300d`.
 
 ## Ordinary Windows Paper software
 
-Complete actual fixed owning qualification PASS7/7; 160commands,
-2430supporting source-case executions, failures/errors/skips0.
-Receipt `qualification-5a4a842d11cde1ccb042b25558bc988ba5a03c0c7101cdfbe98ae65428c6ae80`; execution `pqr-a10ac47e126f4ad4829eb588847aad32`.
+Complete actual fixed owning qualification PASS7/7; 208commands,
+2628supporting source-case executions, failures/errors/skips0.
+Receipt `qualification-968ac94c7ab02585e4b20416f5ddfa2fb9e688cde816d31014c71c2b38473caf`; execution `pqr-c27a741eca774f9c94f17f69020d07a1`.
 The installed native software readback verified this exact subject. This is
 fixed software qualification, not whole-Master acceptance or financial permission.
 
@@ -389,10 +31,14 @@ not started. Existing successful FIXTURE flows do not replace this distinction.
 The Windows per-call ctypes input-type leak was reproduced and minimally repaired.
 Changed-byte reads, atomic staging and actual hardware sampling remain fresh;
 no source-content cache, global-cache clearing or admission threshold change.
-The full owning resource observer recorded peak owned RSS
-958992384bytes and minimum available host memory
-8185294848bytes. This is an observed bounded test
-run, not maximum capacity or a hard memory cap. SOFT_LIMIT_ONLY remains explicit.
+The complete owning run has no aggregate process-tree RSS/private measurement;
+both full-run peaks remain UNKNOWN. Actual host-availability samples recorded
+minimum 11218833408bytes. The separate native PQR05
+finite one-Paper-owner/one-research-job/control window sampled peak RSS
+369840128bytes and private memory
+257277952bytes. These slice
+values are not full-run peaks; continuous sampling coverage and maximum capacity
+remain NOT_ESTABLISHED. SOFT_LIMIT_ONLY remains explicit.
 Historical standby/memory failures and prior scoped successes remain retained at
 `status/codex/productization/S12/c3-interim-and-ctypes-repair-20261019/`.
 The full b53 helper-build path failure remains at
@@ -450,15 +96,15 @@ installed; normal user startup uses the single documented entry.
 
 ## Portable Windows candidate and private backup
 
-ZIP `artifacts/current-windows-20261019/build-7d821f2/r7-product-0.2.0-windows-7d821f2.zip`; checksum `sha256:8ef3e058da61d613bc7cd3488b390252190c224750abc90c1356ca1b8bd7b0a9`.
-Actual fresh installation `installations/windows-7d821f2-clean` extracted
-1107byte-identical files.8first-run scenarios/9commands
+ZIP `artifacts/current-windows-20261019/build-3ae6460/r7-product-0.2.0-windows-3ae6460.zip`; checksum `sha256:184315cd367c5a44ec6a4e92d321a538ab5a759e821b887be1f7c5762d40c232`.
+Actual fresh installation `installations/windows-3ae6460-clean` extracted
+1139byte-identical files.8first-run scenarios/9commands
 passed with empty PATH, unset PYTHONPATH, no Node and fresh unconfigured auth;
 no copied developer configuration, credentials or another machine's authority.
 Actual native capability export and the labeled engineering author package form
 the Chat authoring kit at
-`artifacts/current-windows-20261019/portable-7d821f2-first/chat-authoring-kit/`.
-Actual launch/first-setup and target checklist: `deliveries/current-windows-7d821f2/README.md`
+`artifacts/current-windows-20261019/portable-3ae6460-first/chat-authoring-kit/`.
+Actual launch/first-setup and target checklist: `deliveries/current-windows-3ae6460/README.md`
 and the packaged FIRST_RUN.md/HEADLESS_LOCAL_OPERATIONS.md.
 
 Native backup/verify/restore/rebackup of this complete owning and diagnostic
@@ -475,73 +121,20 @@ host. It does not certify the reported24GB target or maximum concurrent load.
 | S01–S08, S10–S11 | Existing scoped PASS retained in PROGRESS |
 | S09, S12–S16 | Remaining clause/platform/final acceptance IN_PROGRESS |
 | Exact66+legacy150 records | Actual case/command/source/receipt bindings retained; per-clause semantic review remains, no blanket PASS |
-| Remaining local work | Strategy/research named coverage, J06 timestamped alerts, H16 close-to-flat/TradeResult adapter and K05 sanitized historical reporting |
+| Remaining local work | Actual K03 candidate evidence-index owner/outbox and remaining named clause review; prior J06/H16/K05 source evidence retained, no repeat merely for count totals |
 | Original target PC | External native commissioning pending;24GB is user-reported, no hardware screenshot requested |
 | Ubuntu24.04/26.04 x86-64 | Native build/install/service/reboot NOT_RUN; Windows evidence does not transfer |
 | Real cloud | Account setup/connection/actual remote ACK external, no credentials accessed |
 | Formal policies and elapsed samples | Unselected/unstarted; no demonstration policy substitutes for real review |
 | LIVE | Code/fake-provider tests and actual activation are separate; real LIVE/keys/capital NOT_AUTHORIZED and NOT_STARTED |
 
-Evidence: `status/codex/productization/S12/current-windows-7d821f2/disposition.json`. Public capture/research:
+Evidence: `status/codex/productization/S12/current-windows-3ae6460/disposition.json`. Public capture/research:
 `status/codex/productization/S12/public-readonly-c62b11a/`.
 Continue remaining authorized local Master work while preserving this exact
 qualified executable. Later source changes need their own release qualification.
 Runtime LLM calls0, private requests0, provider mutation0, credentialsNONE,
 capitalNONE, GitHubcomputeNOT_USED. No main merge or actual trading activation.
 
-## Native close owner source checkpoint — 2026-10-20
+Current scoped clause review: `status/codex/productization/S12/current-windows-3ae6460/semantic-review.json`. A01/A02/A05/F12/K01/K04 and supplemental B03/M04/F11 pass only their named Windows/local clauses; K03 remains NOT_RUN. PLAT07/08 Windows scope passes while their mandatory-platform rows remain NOT_RUN. Native clone19to24 upgrade, portable removal and current future-schema refusal are retained; future wrapper metadata remains UNKNOWN. The supplement outer archival failure and private exact-byte recovery are retained separately from its successful assertions.
 
-Source `9c4a74108d4c1960d6213357f9fc32e4785fce25` passed the exact-clean
-eight affected modules /76cases, zero failures/errors/skips, unchanged source
-hash and reaped process tree. This adds actual issuer-bound close preparation,
-account-entry/cross-role final claim guards, and scripted-native partial close
-through explicit same-posId zero. E5 preserves original entry basis and remains
-EXIT_REQUESTED; no funding, protection removal or TradeResult is inferred.
-Original source REDs, historical-entry-result and delayed-outbox regressions,
-static final reviews0C/I and33sanitized artifacts are retained under
-`status/codex/productization/S12/h16-native-close-source-9c4a741/`.
-
-The original52-case development attempt failed one owner-authority check; its
-inner exception was not captured. A source file was created during its final
-case, and the actual owner hashes all executable source afresh. Source drift is
-the inferred cause, not a proven original exception diagnosis. Both that failure
-and its isolated passing replay are preserved. Subsequent verification froze
-all source; the new exact-clean76-case result is separate evidence.
-
-H16 remains INCOMPLETE: post-claim ACK/uncertainty intent, owned-stop cleanup,
-BROKER_LEDGER funding and canonical TradeResult owner integration still remain.
-K05 history, report delivery visibility and final semantic review continue.
-Frozen PQR inventory/examples need regeneration for the next final candidate.
-No full/native qualification transfers to this source; the complete Windows
-portable candidate remains7d821f2. Public requests/responses remain8/8, this
-continuation adds0; private requests0, credentialsNONE, capitalNONE, LIVE
-NOT_STARTED and GitHubcomputeNOT_USED. Master remains IN_PROGRESS.
-
-## Committed close intent source checkpoint — 2026-10-20
-
-Source `fcd909367373cf5a5362a179e0c8b7cc6eb4143b` passed exact-clean
-nine affected modules /86cases, zero failures/errors/skips, unchanged source and
-reaped process tree. Actual ACK/uncertainty and claim-only process loss now
-retain the original close request plus durable local EXIT_REQUESTED intent.
-Original positive E5 source stays unchanged through the final provider guard.
-Claim time, original broker clock and local interpretation remain separate.
-No provider submission, reply, fill, flatness or funding is invented on recovery.
-Actual partial/flat observations chain from the intent; successor lease replay
-performs no HTTP. Equal-time replacement refuses and a genuine later read works.
-
-The original17-case integration attempt contained one invalid fixture clock
-scenario, rejected by DISPATCH_EQUAL_TIME_OBSERVATION_CONFLICT before the
-intended position-outbox collision. The corrected actual POST/lost-observation
-case and two selector regressions passed; production checks were unchanged.
-These failures, final0C/I static reviews and13sanitized artifacts are retained at
-`status/codex/productization/S12/h16-close-intent-source-fcd9093/`.
-
-H16 still needs exact owned-stop cleanup, source-owned BROKER_LEDGER funding
-and canonical TradeResult integration. The actual OKX funding retrieval,
-completeness and position allocation mapping remains unsupported; no endpoint
-or source-finality claim is guessed. Independent E4 source-port work is allowed
-by ADR-0006. Continue report delivery history and K05 local work in parallel
-with those remaining engineering obligations. No new full/native qualification
-or changed-source portable release is claimed. Qualified Windows remains7d821f2;
-Master remains IN_PROGRESS, public8/responses8/additional0/private0/credentialsNONE/
-capitalNONE/LIVENOT_STARTED/GitHubcomputeNOT_USED.
+Earlier completion-report history is preserved verbatim at `status/codex/productization/S12/current-windows-3ae6460/prior-completion-at-3ae6460.md`; its original revision/hash is in historical-completion-provenance.json. Prior source checkpoints keep their actual original scopes.

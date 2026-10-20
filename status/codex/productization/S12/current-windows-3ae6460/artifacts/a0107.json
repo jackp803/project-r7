@@ -1,0 +1,56 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "reviewed_files": [
+    {
+      "ref": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+      "sha256": "4775d51b62f1aa8d7bd1ee7ea0069acf2b99a1c94ee62afcb8de9e6329b0e43b"
+    },
+    {
+      "ref": "artifacts/current-windows-20261019/test_retain_current_checkpoint.py",
+      "sha256": "1b4c7574c2484bf67f128f61f8ecf609d014016ce7a2f9704166d7960e6c8cd7"
+    }
+  ],
+  "scope": "Static repair review only; no helper/tests/native/build/network execution, source/Git changes, actual evidence or private DB/auth/config reads.",
+  "counts": {
+    "critical": 0,
+    "important": 2
+  },
+  "resolved": [
+    "Ancillary identity/owning-profile/receipt/reaping/source closure comparisons now use actual existing fields; headless reads its own fixed observation identity.",
+    "Receipt artifacts are protected captured, compared with declared SHA and retained from that same captured raw; a repeated capture refuses changed bytes. Retained bytes and exact serialized disposition get protected readback.",
+    "Owning receipt supplies full PQR-07 closure; separate native07 is removed. Scoped native04 is separate and does not alter owning counts.",
+    "The two source tests exercise real owned byte replacement/hardlink denial and controlled admission-field refusal; they make no actual native or receipt-issuance claim."
+  ],
+  "findings": [
+    {
+      "id": "RETENTION-STAGE-LOCAL-PUBLIC-REFERENCE-ADMISSION",
+      "severity": "Important",
+      "source": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+      "lines": [
+        87,
+        117
+      ],
+      "finding": "Public-only stage admission remains incomplete. Headless command/session log fields and unattended/backup log_ref fields are joined before a stage-local basename/known-label allowlist. CapturedEvidence is protected but rooted at PROJECT, so an absolute path to an ordinary private file within PROJECT replaces the stage prefix and reaches a kernel read. Broad log/kit globs also admit unexpected ordinary files without a producer commitment.",
+      "minimal_fix": "Before any referenced capture, require each expected stage log label/name to be a known canonical direct-child .log and derive its path from the trusted stage root. Reject unexpected glob results. Admit kit/report files from the exact expected public inventory and producer commitments (including version inventory) rather than copying every discovered ordinary file.",
+      "regression": "Use a mocked capture sentinel and an absolute project-private reference; require refusal with zero capture calls and no actual private access. Also reject an unexpected stage log/kit entry. Literal dot-dot is already rejected by artifact_bytes/safe_relative."
+    },
+    {
+      "id": "SCOPED-NATIVE04-PRIMARY-OBSERVATION-REQUIRED",
+      "severity": "Important",
+      "source": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+      "lines": [
+        99,
+        106
+      ],
+      "finding": "The native04 identity/group/passed check is conditional on a declared artifact happening to be named native-observations.json. native_assertions validates names/status and evidence hashes, but does not require this primary name or validate identity. A renamed/omitted primary with self-consistent other committed assertion artifacts skips the subject check.",
+      "minimal_fix": "Require native-observations.json in the native04 artifact map before iteration; capture/hash/parse that exact primary and unconditionally require passed=True, identity==facts and group=PQR-04. Then admit the remaining declared closure.",
+      "regression": "Controlled report with the exact assertion IDs/status/hash closure but missing or renamed primary must be denied before publication; correct primary must retain existing acceptance."
+    }
+  ],
+  "limitations": [
+    "This is the reviewed pre-final-fix helper hash; root may repair only outside-Git tools and needs a new bounded delta review.",
+    "No actual current qualification or ancillary execution outcome was read or certified.",
+    "No full requirement, native/Ubuntu/real cloud/ordinary financial or whole-Master acceptance is issued."
+  ]
+}

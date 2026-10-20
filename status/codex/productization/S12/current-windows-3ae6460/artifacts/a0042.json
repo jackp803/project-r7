@@ -1,0 +1,115 @@
+{
+  "document_kind": "BOUNDED_IDLE_NATIVE_SETUP_DESIGN_FROM_PRIOR_SOURCE_REVIEW;NOT_EXECUTION_RESULT",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "decision": "PERMITTED_IDLE_TEST_SETUP;NO_DEMONSTRATED_CANDIDATE_OR_ENGINEERING_SOURCE_CONFLICT",
+  "scope": "Actual installed LOCAL_RESEARCH idle runtime owned by one run-product; workflow_authorized=false, no market selection, no PaperStart/promotion/exposure.",
+  "review_basis": "Uses methods/test builders already inspected in the immediately preceding static task. No fresh source/private/config/DB/auth/native-runtime read or execution in this follow-up. Full builder payloads and numeric fixture values are deliberately referenced to existing builders rather than guessed.",
+  "public_profile_setup": {
+    "existing_api": "application.entrypoints.initialize_profile / public init-profile",
+    "proposed_argv": [
+      "ACTUAL_INSTALLED_R7.exe", "init-profile", "--config", "NEW_ABS_IDLE_CONFIG.json",
+      "--data-root", "SAME_ACTUAL_OWNING_DATA_ROOT", "--instance-id", "SAME_INSTANCE_ID",
+      "--cloud-root", "SAME_CONFIGURED_LOCAL_CLOUD_STAGE", "--port", "SAME_LOOPBACK_PORT",
+      "--execution-mode", "LOCAL_RESEARCH", "--enable-paper-runtime"
+    ],
+    "constraints": [
+      "NEW config path must be absent and outside installation/cloud; preserve original diagnostic profile bytes. Use actual measured same existing instance/data/canonical store,not copied receipt/database rows.",
+      "Native owning qualification and unattended commissioning must first finish and all owners must be stopped/reaped. Creating a config is not receipt issuance or startup permission.",
+      "init-profile creates diagnostic_only=false,paper_runtime_enabled=true. The changed config gets a new actual config_hash; never reuse the original diagnostic config hash in selection,child handoff,observation or evidence.",
+      "Same instance/data/cloud/port does not mean identical config commitment. Existing immutable software receipt remains software-history data; actual native software observation must validate the exact installed subject through the normal reader before configure-paper succeeds.",
+      "init-profile itself creates no canonical records. Subsequent configure-paper legitimately writes a new protected operational-selection record through its owning API; do not claim that the entire scenario performs no DB mutations.",
+      "Do not change the original profile's DATA pointer or convert its namespace. No FIXTURE receipt/candidate/approval/trading row is copied into LOCAL_RESEARCH."
+    ]
+  },
+  "literal_existing_policy_builders": [
+    {
+      "role": "simulation_policy_ref",
+      "builder_ref": "tests.product.test_paper_runtime_v02.simulation_fixture",
+      "literal_import": "from tests.product.test_paper_runtime_v02 import simulation_fixture",
+      "existing_ordinary_usage_ref": "tests/application/test_ordinary_paper_composition.py::OrdinaryPaperCompositionTests.prepare",
+      "production_validator": "application.paper.policy.parse_simulation_policy(document, namespace='LOCAL_RESEARCH')",
+      "required_binding": "Use that existing ordinary test construction to obtain valid LOCAL_RESEARCH/REAL_TIME simulator serialization. Preserve its explicit quantity,cost/fill/funding/account-scope conventions as SOFTWARE_TEST_ONLY serialization values; do not invent alternative defaults. ACCELERATED_FIXTURE or a FIXTURE namespace document cannot qualify the ordinary profile.",
+      "evidence_limit": "No market selection or accepted run uses those values; this is not actual operator simulation/capital policy acceptance."
+    },
+    {
+      "role": "risk_policy_ref",
+      "builder_ref": "tests.application.test_product_assessment_binding.risk_fixture",
+      "literal_import": "from tests.application.test_product_assessment_binding import risk_fixture",
+      "existing_ordinary_usage_ref": "tests/application/test_ordinary_paper_composition.py::OrdinaryPaperCompositionTests.prepare and its test_research_setup_flow helper",
+      "production_validator": "risk.product_policy.parse_product_risk_policy(document, namespace='LOCAL_RESEARCH')",
+      "required_binding": "Use the already accepted ordinary source-test construction,with explicit LOCAL_RESEARCH namespace/version/generation and schema-complete risk values. Hash the actual canonical policy; no production account/capital/risk limits are selected or derived from engineering research results.",
+      "evidence_limit": "A valid serialized risk object does not authorize a TradeIntent or create candidate assessment/approval. Keep workflow false."
+    },
+    {
+      "role": "promotion_policy_ref",
+      "builder_ref": "tests.validation.test_paper_promotion_policy.policy_fixture",
+      "literal_import": "from tests.validation.test_paper_promotion_policy import policy_fixture",
+      "existing_ordinary_usage_ref": "tests/application/test_ordinary_paper_composition.py::OrdinaryPaperCompositionTests.prepare",
+      "production_validator": "validation.paper_policy.parse_paper_promotion_policy(document, namespace='LOCAL_RESEARCH')",
+      "required_binding": "Use that existing ordinary test's complete namespace-correct promotion-policy construction. Preserve actual test schema/count/duration/monetary units; do not replace absent data or unperformed forward observation with zeros or a passing result.",
+      "evidence_limit": "No assessment/READY transition is issued by storing this fixture; no actual forward qualification is claimed."
+    }
+  ],
+  "test_only_policy_handling": [
+    "Root may materialize the three existing pure builder outputs into clearly named local SOFTWARE_TEST_ONLY files after the guard. This does not require executing test cases. Keep labels in path/harness evidence; do not add arbitrary label fields to closed policy schemas.",
+    "Take the exact LOCAL_RESEARCH adaptations from OrdinaryPaperCompositionTests.prepare rather than blindly copying default FIXTURE builder outputs. This advisory does not claim an unverified exact builder signature or recreate full schema JSON from memory.",
+    "Validate all three actual serialized documents with the listed production parsers before native configure-paper; commit actual policy bytes/hash/generation in evidence. No policies are shipped as ordinary operator defaults.",
+    "Do not use source test patches of check_native_once,software_eligible,provenance or runtime identity. Those patches in the source test are not part of this native setup."
+  ],
+  "closed_operator_selection_shape": {
+    "schema_version": "r7-local-paper-inputs-v0.2",
+    "submission_id": "ACTUAL_UNATTENDED_ACCEPTED_ENGINEERING_SUBMISSION_ID",
+    "simulation_policy_ref": "RELATIVE_SOFTWARE_TEST_ONLY_SIMULATION_JSON",
+    "risk_policy_ref": "RELATIVE_SOFTWARE_TEST_ONLY_RISK_JSON",
+    "promotion_policy_ref": "RELATIVE_SOFTWARE_TEST_ONLY_PROMOTION_JSON",
+    "paper_policy_ref": "EXPLICIT_BOUNDED_SOFTWARE_TEST_ONLY_POLICY_ID",
+    "actor": "EXPLICIT_SOFTWARE_TEST_LOCAL_ACTOR",
+    "workflow_authorized": false,
+    "account_ref": "EXPLICIT_ISOLATED_LOCAL_SIMULATOR_TEST_REFERENCE",
+    "qualification_receipt_ref": "ACTUAL_OWNING_QUALIFICATION_RECEIPT_REF"
+  },
+  "why_existing_engineering_submission_is_usable_for_idle": [
+    {
+      "ref": "src/application/paper/ordinary_setup.py::configure_ordinary_paper",
+      "fact": "After actual native software eligibility,it reads the three policy bytes,requires LocalOwners.resolver and resolves selected submission via local.resolver.package. It binds sealed manifest/strategy/content hash and original intent_class/validity. It does not require candidate_product_assessment or a CANDIDATE lifecycle before persisting operational selection."
+    },
+    {
+      "ref": "src/application/paper/owners.py::PaperOwnerSelection.__init__",
+      "fact": "Requires workflow_authorized to be an actual bool,not necessarily true; parses namespace-correct simulation/risk/promotion documents and binds original submission validity into selection_hash."
+    },
+    {
+      "ref": "src/application/paper/owners.py::PaperOwnerComposition.service",
+      "fact": "Effective authorization remains false when selected workflow is false,even with an enabled ordinary runtime and valid software. Service composition may exist idle without granting strategy start."
+    },
+    {
+      "ref": "src/application/paper/service.py::PaperService.start",
+      "fact": "Checks not self.authorized before strategy/candidate lookup and run creation. Only a separate legitimate start can check actual candidate/risk compatibility/current release and create a run. The idle harness must never invoke it to obtain positive mechanics."
+    },
+    {
+      "ref": "src/application/paper/ordinary_setup.py::ordinary_paper_worker; src/application/coordinator.py::run_product,run_selected_service,schedule_once",
+      "fact": "Worker requires selected ordinary record and actual qualified native observation,then can acquire runtime supervisor and discover zero accepted starts. run-product can own this child; schedule_once never issues PaperStart. No source-type rule rejecting an accepted engineering submission solely because diagnostic outcome is BLOCKED was observed in configure/idle composition."
+    }
+  ],
+  "actual_binding_chain_to_record": [
+    "Original native installation executable_revision/implementation_hash/build_hash/platform/capability facts and actual owning receipt subject remain measured,not copied from fixture strings.",
+    "New actual product-config hash -> protected selection generation/config hash -> PaperOwnerSelection.selection_hash -> simulator profile implementation/policy hash -> exact input_refs/input_hashes -> original accepted sealed manifest/strategy/validity -> actual receipt ref.",
+    "New operations profile resides outside portable DATA/cloud,selects control/research/runtime explicitly and carries only local scheduling consent. workflow_authorized for coordinator scheduling does not change the separate Paper selection's false workflow flag.",
+    "_product-service child receives the new expected_config_hash; actual runtime ProcessSupervisor token/PID is independently observed under the coordinator-owned child tree. Do not borrow control/research token or invent per-run generations.",
+    "Preserve original diagnostic config,unattended accepted submission/BLOCKED research/PENDING feedback and receipt rows; record any legitimate selection/process-generation additions separately."
+  ],
+  "native_scope_checks_proposed": [
+    "configure-paper with the new config returns ORDINARY_PAPER_CONFIGURED,workflow_authorized=false,runtime NOT_STARTED,financial_authority NONE,strategy_qualification NOT_INFERRED.",
+    "One installed run-product owns three actual roles; runtime becomes current with zero accepted Paper runs/orders/fills/exposure and no public/private provider calls.",
+    "Crash/restart only the verified owned runtime,then graceful coordinator stop/restart; actual runtime generation changes,other roles remain correctly owned,no workflow flips and all trees reap. No manual sibling workers.",
+    "No market-data selection is installed. Paper/forward mechanics and one-coordinator positive Paper report remain NOT_RUN; research report scheduling is separately the actual diagnostic path."
+  ],
+  "design_conflicts_demonstrated": [],
+  "specific_failure_conditions": [
+    "Normal native software reader denies actual receipt/package/new config: retain typed failure; no synthetic qualification fallback.",
+    "Existing submission missing,seal changed or policy documents fail LOCAL_RESEARCH parsers: fail before selecting or starting; do not manufacture accepted/candidate records.",
+    "Any gate unexpectedly requires true Paper workflow or candidate for this idle path: report that exact code failure before considering change. It was not demonstrated in prior inspected configure/composition/start code.",
+    "Do not alter coordinator's FIXTURE-runtime denial or add an event/argv/mock bypass. No new PM mapping is needed for the existing D4 idle mechanism."
+  ],
+  "verification": {"new_source_reads":0,"private_reads":0,"DB_reads":0,"auth_reads":0,"native_runtime_reads":0,"tests_run":[],"native_commands_run":[],"network_calls":0,"source_changes":[],"Git_changes":[]},
+  "PASS_claim": false
+}

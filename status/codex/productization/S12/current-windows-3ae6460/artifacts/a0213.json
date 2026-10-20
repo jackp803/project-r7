@@ -1,0 +1,91 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "execution": "NONE",
+  "acceptance_credit": "NONE",
+  "draft": {
+    "sha256": "29af89046a553fe5348a8e6c753c52c555838ed461fcb89c62bd2a14724f049d",
+    "path": "verify_plat08_crossversion_native.py.unapplied"
+  },
+  "source_hashes": [
+    {
+      "sha256": "52a3efea7e6489bf72fa93947f8b02be49611fdcac491d65440a377be0ec5ffb",
+      "path": "tools/verify_paper_product.py"
+    },
+    {
+      "sha256": "161baa59d1fc898ede493271cfcbc4f52d0a854c66b714897463fc0c3e78876d",
+      "path": "src/application/platform/processes.py"
+    },
+    {
+      "sha256": "66edb863408c53832b41541f0ad573910bba2917bf65c9c98bdc2e2b3c9ceb9f",
+      "path": "src/application/platform/service_stop.py"
+    },
+    {
+      "sha256": "ba1c415f680c8aedeeeca34b66b06d76017953bd7b7988ff68282926764c646d",
+      "path": "src/application/platform/distribution.py"
+    },
+    {
+      "sha256": "ece0ac0496b56b7eb1c4c05c60971d4abcccaf19b038410f0ea116db6f3949d6",
+      "path": "src/application/platform/upgrade_preflight.py"
+    },
+    {
+      "sha256": "d738e411bc32d490e949699bb2dcc78267a49fc18cb3f080036c90603f3e4811",
+      "path": "src/application/platform/database_restore.py"
+    },
+    {
+      "sha256": "6a595fc0ebe7077bd11a25d377a102e5b46d7068962c74bad9e7218a39e78596",
+      "path": "src/application/platform/restoration.py"
+    },
+    {
+      "sha256": "dae8e2af0bfe009f62d071f925c14295823db8874e8cf5b146f320a6cdc1ed3b",
+      "path": "src/application/cli.py"
+    }
+  ],
+  "old_subject": {
+    "implementation_hash": "sha256:e3e79dc1b293a2cb26dbe64df22bf79f815c5810ccf473da76e9f568cf446fc1",
+    "revision": "7d821f29837e95e46bcd5fe32f14d536a28c9aa8",
+    "build": "artifacts/current-windows-20261019/build-7d821f2/build-result.json",
+    "build_hash": "sha256:0edb13bb6df357fb251b23618ba50b25c2ad1fbfe69aa7940486a83da8b4c3f4",
+    "boundary": "Sealed old binary lacks new schema checker; no future/unknown-schema downgrade-refusal claim. Original ZIP/install/qualification evidence remains distinct and preserved.",
+    "original_operator_installation": "installations/windows-7d821f2-clean",
+    "package": "artifacts/current-windows-20261019/build-7d821f2/dist/R7"
+  },
+  "arguments": [
+    "--attempt <fresh bounded lowercase name>",
+    "--new-revision <exact40commit>",
+    "--old-package <absolute original build/dist/R7>",
+    "--old-build-result <absolute old build-result.json>",
+    "--old-build-sha256 sha256:<actual bytes>",
+    "--old-manifest-sha256 sha256:<actual distribution.json bytes>",
+    "--old-exe-sha256 sha256:<actual R7.exe bytes>",
+    "--new-package <absolute new build/dist/R7>",
+    "--new-build-result <absolute new build-result.json>",
+    "--new-build-sha256 sha256:<actual bytes>",
+    "--new-manifest-sha256 sha256:<actual distribution.json bytes>",
+    "--new-exe-sha256 sha256:<actual R7.exe bytes>"
+  ],
+  "preconditions": [
+    "Root reviews/copies unapplied helper to ART ordinary .py, pins actual helper/source hashes and supplies current exact sealed new build. Draft is not compiled/imported or executed. All previous attempt scopes must remain untouched.",
+    "Existing PROJECT/installations parent; both source packages/build metadata regular local unchanged exact files. verify_distribution and clean build-result identity plus explicit build/manifest/exe SHA checks. Entire copied code/resource closure bounded4096files/512MiB and exact byte equality.",
+    "No auth/config/profile rows copied from any installation. Fresh private old profile normal LOCAL_RESEARCH diagnostic/noPaper/cloudNone/unselected financial policies; no provider inputs/keys/network. Only loopback auth/status is used; no enrollment/password/session/login."
+  ],
+  "command_sequence": [
+    "Copy old/new verified sealed package to fresh disposable PROJECT/installations/plat08-<attempt>/old and /new. Keep original operator installation untouched.",
+    "OLD R7.exe init-profile --config <fresh old-control/product.json> --data-root <fresh old-control/data> --instance-id <attempt> --port <allocated loopback port>. OLD serve --config; actual owns_pid/RECENT_HEARTBEAT/config+build-bound health and authstatus unconfiguredLOCAL_RESEARCH; query readonly migrationledger exact19; stop-product --role control then wait/reap actual owned tree.",
+    "OLD backup-product-data --config <fresh oldprofile> --destination <fresh old-normal-backup>; OLD verify-product-backup. Freeze full source/backup relative-path hashes and config hash.",
+    "NEW preflight-product-upgrade --config <oldprofile> --backup <oldbackup>. Exact COMPATIBLE_FOR_INHIBITED_CLONE/NONE/0writes/0starts and pending0020..0024; original source and backup hashes unchanged.",
+    "NEW restore-product-data --config <oldprofile> --backup <oldbackup> --destination <fresh clone>; actual PRODUCT_DATA_RESTORE_STAGED/INHIBITED/NONE. New restored-product.json validRESTORED_INHIBITED; clone still exactly19migrations beforestartup.",
+    "NEW serve --config <clone/restored-product.json> creates actual normal diagnostic control only, no selected research/Paper runtime. Exact owned new identity/unenrolledLOCAL_RESEARCH and runtimeNOT_STARTED. Readonly ledger exact old19+pending20..24; restoration marker stays RESTORED_INHIBITED. Normal managed stop/reap.",
+    "NEW backup-product-data --config <clone/restored-product.json> --destination <new-inhibited-rebackup>; NEW verify-product-backup. Recheck old source/backup/config unchanged; retain hashes, all native command logs and actual bounded observation records.",
+    "After native owner trees reaped, exact known disposable installation bytes still match original copy closures. Verify absolute exact child targets within PROJECT/installations, no links/reparse/foreign scope and no overlap externaldata/backups/originaloperatorinstall. Remove verified leaves+emptydirs only (no recursive shell deletion); after each old/new removal rehash external source/clone/backups/config unchanged."
+  ],
+  "retention": "Fresh output ART/plat08-native-<attempt> retains old/new command logs+observations, all external synthetic source/clone/backups and plat08-native-result.json. Original packages/old operator install always preserved. Failures remain passedfalse with cleanup errors; owned native tree cleanup attempted in finally. Previous attempt never overwritten or deleted. Disposable deletion only starts after successful main flow and preserved-byte checks; partial cleanup failures retain remaining files/logs.",
+  "limits": [
+    "Runtime/native evidence is NOT_RUN. Source static/helper draft carries no native/qualification/acceptance credit. Root must syntax/static-review and own actual execution.",
+    "No authenticated health enrollment needed: actual public auth/status+owned process health, ordinary profile flags, runtimeNOT_STARTED and restoration metadata prove narrow diagnostic software flow; no financial authority or flatness claim.",
+    "Provider0 follows the unselected ordinary diagnostic command path; helper makes only direct loopback requests with no proxies/redirects. It is not a host-wide network trace or new firewall setting.",
+    "Old7d source data here is newly created by actual old binary. This is not replacement for old retained qualifying store history/evidence; native prefix flow preserves identity distinction.",
+    "Native future/malformed/other-role refusal remains NOT_RUN_SOURCE_PROOF_SEPARATE. Do not hand-edit operational DB or manufacture native PASS; source actual synthetic setup proofs remain independently scoped.",
+    "The helper uses current PublicFixture command/health/owned cleanup but overrides only start readiness to unenrolledLOCAL_RESEARCH; it never invokes FIXTURE prepare, enrollment, browser, factory override or receipt injection.",
+    "The exact expected pending suffix20..24 is fixed for this bounded feature candidate; a target with another ledger requires explicit plan review, not silent broadening."
+  ]
+}

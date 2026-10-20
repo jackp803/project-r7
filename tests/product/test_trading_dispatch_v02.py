@@ -171,7 +171,7 @@ class TradingDispatchV02Tests(unittest.TestCase):
         from application.cloud.synced_folder import SyncedFolderCloudTransport
         from application.intake.ledger import IntakeLedger
         from application.intake.service import StrategyInboxService
-        from registry.product_assessment import digest
+        from registry.product_assessment import canonical,digest
         from tests.application.cloud_fixtures import package
 
         service, provider = self.service([self.ack()])
@@ -229,7 +229,7 @@ class TradingDispatchV02Tests(unittest.TestCase):
             proposal = dict(command_id='joined-cloud-approval', expected_revision=revoked.registry_revision,
                 strategy_id=manifest['strategy_id'], strategy_version=manifest['strategy_version'],
                 envelope_ref=manifest['approval_envelope_ref'], decision='APPROVE', reason_code='USER_CONFIRMED',
-                expected_strategy_hash=manifest['strategy_content_hash'], expected_envelope_hash=digest(self.fixture.envelope))
+                expected_strategy_hash=manifest['strategy_content_hash'], expected_envelope_hash=digest(canonical(self.fixture.envelope)))
             injected = client.post('/api/v1/approvals', json=dict(proposal, api_secret=manifest['api_secret']), headers=headers)
             self.assertEqual(injected.status_code, 422, injected.text)
             self.assertEqual(injected.json()['error']['reason_codes'], ['DTO_VALIDATION_FAILED'])

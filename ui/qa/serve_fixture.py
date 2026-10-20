@@ -1,6 +1,6 @@
 """Explicit local browser fixture server; no remote provider or real authority."""
 import argparse
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from dataclasses import replace
 from datetime import timedelta
 import sys
@@ -22,7 +22,7 @@ import unittest
 import uvicorn
 
 def main():
-    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment'],required=True)
+    parser=argparse.ArgumentParser(); parser.add_argument('--profile',choices=['empty','research','paper','protected','temporal','approval','deployment','failed'],required=True)
     parser.add_argument('--port',type=int,required=True); args=parser.parse_args()
     scratch=Path(os.environ['R7_BROWSER_ARTIFACT_ROOT'])/args.profile if 'R7_BROWSER_ARTIFACT_ROOT' in os.environ else ROOT.parent.parent/'artifacts/S11-browser'/args.profile
     scratch.mkdir(parents=True,exist_ok=True)
@@ -37,8 +37,22 @@ def main():
         from tests.product.test_api_deployment_controls import APIDeploymentControlTests
         helper=APIDeploymentControlTests(methodName='runTest');helper.setUp();helper.control()
         fixture=helper.fixture;owners=fixture.app.state.owners
-    elif args.profile in ('research','temporal'):
+    elif args.profile in ('research','temporal','failed'):
         fixture=APIOwnerServicesTests(); fixture.setUp(); owners=fixture.owners
+        if args.profile=='failed':
+            from unittest.mock import patch
+            fixture.enqueue()
+            original_factory=fixture.queue.service_factory
+            @contextmanager
+            def failing_owner():
+                with original_factory() as owner, patch.object(owner,'run',side_effect=RuntimeError('SOURCE_ONLY_PRIVATE_BROWSER_CANARY')):
+                    yield owner
+            fixture.queue.service_factory=failing_owner
+            claim=fixture.queue.claim_next()
+            failed=fixture.queue.step(claim.run_id,claim.generation)
+            if failed['state']!='FAILED':raise RuntimeError('Actual failed queue owner required')
+            fixture.queue.service_factory=original_factory
+            fixture.clock[0]+=timedelta(seconds=10)
         if args.profile=='temporal':
             from tests.strategy.v02_fixtures import definition_v02
             from tests.application.cloud_fixtures import package

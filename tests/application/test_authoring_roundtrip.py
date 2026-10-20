@@ -17,6 +17,42 @@ from tests.strategy.v02_fixtures import definition_v02,field,operator
 
 
 class AuthoringRoundtripTests(unittest.TestCase):
+    def test_shipped_engineering_examples_execute_both_sides_with_asof_and_atr_binding(self):
+        from dataclasses import replace
+        from decimal import Decimal
+        from strategy import StrategyRuntime,parse_strategy_definition
+        from strategy.v02.temporal import build_asof_bundle
+        from strategy.v02.exits import build_exit_request
+        from position.exit_requests import resolve_exit_constraints
+        from tests.indicators.v02_fixtures import bars
+        examples=Path(__file__).resolve().parents[2]/'docs/strategy/authoring-v0.2/examples'
+        def received(prices,timeframe):
+            return tuple(replace(row,symbol='BTC_USDT_PERP',received_at=row.close_time) for row in bars(prices,timeframe=timeframe))
+        four=parse_strategy_definition((examples/'four-hour/strategy.json').read_bytes())
+        multi=parse_strategy_definition((examples/'multitimeframe/strategy.json').read_bytes())
+        for direction,prices in (('LONG',[100,110,120,130]),('SHORT',[130,120,110,100])):
+            with self.subTest(example='four-hour',direction=direction):
+                rows=received(prices,'4h');at=rows[-1].close_time
+                bundle=build_asof_bundle({'4h':rows},at,at)
+                self.assertEqual(StrategyRuntime().evaluate(four,bundle,at)['direction'],direction)
+                warm=build_asof_bundle({'4h':rows[:-1]},rows[-2].close_time,rows[-2].close_time)
+                self.assertEqual(StrategyRuntime().evaluate(four,warm,rows[-2].close_time)['reason_codes'],['INSUFFICIENT_HISTORY'])
+                request=build_exit_request(four,bundle)
+                self.assertEqual(request.as_dict()['feature_anchors']['atr']['value'],'11')
+                constraints=resolve_exit_constraints(request)
+                sign=Decimal(1 if direction=='LONG' else -1);reference=Decimal(prices[-1])
+                self.assertEqual(constraints.stop_level,reference-sign*22)
+                self.assertEqual(constraints.target_level,reference+sign*44)
+        for direction,higher,lower in (('LONG',[80,90,100,999],[100]*48+[110]),
+                                      ('SHORT',[140,130,120,1],[120]*48+[110])):
+            with self.subTest(example='multitimeframe',direction=direction):
+                four_rows=received(higher,'4h');fifteen=received(lower,'15m');at=fifteen[-1].close_time
+                bundle=build_asof_bundle({'4h':four_rows,'15m':fifteen},at,at)
+                signal=StrategyRuntime().evaluate(multi,bundle,at)
+                self.assertEqual(signal['direction'],direction)
+                without_future=build_asof_bundle({'4h':four_rows[:-1],'15m':fifteen},at,at)
+                self.assertEqual(signal,StrategyRuntime().evaluate(multi,without_future,at))
+
     def test_shipped_unsupported_feature_example_retains_actual_typed_gap_receipt(self):
         import json
         from strategy import compute_content_hash
@@ -29,7 +65,8 @@ class AuthoringRoundtripTests(unittest.TestCase):
             with self.assertRaises(self.module().AuthoringError) as caught:
                 self.module().emit_package(definition,destination,submission_id='shipped-unsupported-feature')
             self.assertEqual(caught.exception.code,'CAPABILITY_GAP')
-            self.assertEqual(receipt,dict(code=caught.exception.code,gaps=list(caught.exception.gaps)))
+            actual=json.loads(canonical_bytes(dict(code=caught.exception.code,gaps=list(caught.exception.gaps))))
+            self.assertEqual(receipt,actual)
             self.assertTrue(any(row['reason']=='UNSUPPORTED_FEATURE' for row in receipt['gaps']))
             self.assertFalse(destination.exists())
 
@@ -99,12 +136,16 @@ class AuthoringRoundtripTests(unittest.TestCase):
         return importlib.import_module('application.cloud.authoring')
 
     def test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6(self):
+        import json
         module=self.module();now=datetime(2026,10,5,tzinfo=timezone.utc)
         definitions=[('legacy',make_definition(),'0.1'),('four-hour',definition_v02(),'0.2'),('multi',definition_v02(),'0.2'),('tactical',definition_v02(),'0.2')]
         definitions[2][1]['strategy_id']='fixture-multi'
         definitions[2][1]['required_timeframes']=['1h','4h']
         definitions[2][1]['rules']['long']=operator('GT',field(timeframe='1h'),field(timeframe='4h'))
         definitions[3][1]['strategy_id']='fixture-tactical'
+        examples=Path(__file__).resolve().parents[2]/'docs/strategy/authoring-v0.2/examples'
+        for name in ('four-hour','multitimeframe'):
+            definitions.append(('shipped-'+name,json.loads((examples/name/'strategy.json').read_bytes()),'0.2'))
         with TemporaryDirectory(prefix='R7 作者 往返 ') as temporary:
             root=Path(temporary);cloud=root/'author-stage';cloud.mkdir()
             (cloud/'.r7-root.json').write_bytes(canonical_bytes(dict(root_id='author-fixture')))
@@ -124,8 +165,8 @@ class AuthoringRoundtripTests(unittest.TestCase):
                         self.assertEqual(result['execution_evidence'],'NOT_RUN')
                 service=StrategyInboxService(transport,ledger,e6,snapshot_root=root/'snapshots',owner_id='author-worker',
                     capability_snapshot_hash=build_capability_snapshot().snapshot_hash)
-                first=service.scan_once(now);self.assertEqual(first.accepted,4);self.assertEqual(first.blocked,0)
-                self.assertEqual(service.scan_once(now).idempotent,4)
+                first=service.scan_once(now);self.assertEqual(first.accepted,len(definitions));self.assertEqual(first.blocked,0)
+                self.assertEqual(service.scan_once(now).idempotent,len(definitions))
                 for descriptor in transport.discover():
                     verified=validate_package(transport.snapshot(descriptor,root/'snapshots'))
                     self.assertFalse(verified.compatibility_execution_pass)

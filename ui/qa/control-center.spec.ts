@@ -2,7 +2,7 @@ import {test,expect,type Page} from '@playwright/test';
 import path from 'node:path';
 import {startPaperViaUI} from '../../tools/paper_start_browser.mjs';
 
-const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772'};
+const origins={empty:'http://127.0.0.1:8766',research:'http://127.0.0.1:8767',paper:'http://127.0.0.1:8768',protected:'http://127.0.0.1:8769',temporal:'http://127.0.0.1:8770',approval:'http://127.0.0.1:8771',deployment:'http://127.0.0.1:8772',failed:'http://127.0.0.1:8773'};
 const artifacts=process.env.R7_BROWSER_ARTIFACT_ROOT?path.resolve(process.env.R7_BROWSER_ARTIFACT_ROOT):path.resolve(import.meta.dirname,'../../../../artifacts/S11-browser');
 const password='explicit-test-only-password-123';
 async function login(page:Page,profile:keyof typeof origins){
@@ -49,6 +49,26 @@ test('actual inbox scan, asynchronous enqueue and cooperative cancellation',asyn
   await expect(page.getByText('CANCELED',{exact:true}).first()).toBeVisible();
   const jobs=await page.request.get(origins.research+'/api/v1/research/runs');
   expect((await jobs.json()).data.items[0].state).toBe('CANCELED');
+});
+
+test('health shows a genuine owner failure with its original time and safe reason',async({page})=>{
+  await login(page,'failed');await page.getByRole('link',{name:'健康',exact:true}).click();
+  const response=await page.request.get(origins.failed+'/api/v1/alerts?limit=50&offset=0');
+  expect(response.status()).toBe(200);
+  const body=await response.json();
+  expect(body.data.status).toBe('AVAILABLE');expect(body.data.total).toBe(1);
+  const actual=body.data.items[0];
+  expect(actual.recorded_at).not.toBe(body.metadata.observed_at);
+  expect(actual.reason_codes).toEqual(['RuntimeError']);
+  const card=page.getByTestId('research-failure-alert');
+  await expect(card).toHaveCount(1);
+  for(const value of [actual.run_id,actual.alert_id,actual.source,'FAILED','RuntimeError'])await expect(card).toContainText(value);
+  await expect(card.locator('time')).toHaveAttribute('datetime',actual.recorded_at);
+  await expect(page.getByText('保留的研究失敗紀錄；目前工作者狀態請看上方元件觀測。',{exact:true})).toBeVisible();
+  await expect(page.getByRole('button',{name:'上一頁',exact:true})).toBeDisabled();
+  await expect(page.getByRole('button',{name:'下一頁',exact:true})).toBeDisabled();
+  expect(await page.locator('body').innerText()).not.toContain('SOURCE_ONLY_PRIVATE_BROWSER_CANARY');
+  await page.screenshot({path:path.join(artifacts,'research-failure-history.png'),fullPage:true});
 });
 
 test('health distinguishes actual supervised control from an available queue without a worker',async({page})=>{

@@ -13,3 +13,7 @@ Ubuntu 使用相同參數的 `r7`。工具透過實際 E2 parser 計算 semantic
 輸出是可交付的 `strategy.json`／`manifest.json`，可選 `--notes <UTF-8 markdown 檔案>`。Chat 裡看似 JSON 的文件並不等於 JSON 檔案。Connector 是否能將檔案上傳指定資料夾，必須由該工具的實際成功結果證明；R7 本機 copy bridge 成功不代表 Chat connector 已具備或使用上傳能力。
 
 套件放入指定 R7 root 的 `inbox/strategies/<submission_id>/` 後，仍需實際 local intake、private seal、E2 identity、E6 DRAFT，以及原本的 compatibility／研究／approval gates。雜湊是完整性與身分綁定，不是作者簽章或交易授權。開發 roundtrip 已涵蓋 legacy、4h、multi-timeframe、tactical、missing feature 與 E6 repeated scan；真實雲端 smoke 本次維持 `NOT_RUN`。
+
+隨附的 `four-hour` 與 `multitimeframe` 為工程基準策略 0.2.1：前者以 4h EMA 方向和 ADX 門檻判斷進場，並宣告 ATR 倍數停損；後者使用已完成的 4h EMA 方向與 15m Donchian（lag=1）突破。短視窗參數只供管線驗證，尚無這兩個版本的真實資料研究、Paper 或獲利證據，也不是 GPT 策略成果。先前公開行情診斷使用的 `authoring-example-four-hour@0.2.0` 及其資料、雜湊與結果仍各自保留，不套用至 0.2.1。
+
+`unsupported-feature` 是刻意使用未知功能的拒絕輸入，只含 `strategy.json` 與實際離線作者工具回傳的 `gap_receipt.json`。它不是可匯入的有效套件；重跑作者工具應得到 `CAPABILITY_GAP`，不得產生套件或以其他指標自動替代。其他範例的 manifest 也只綁定產生當時的 capability snapshot；換版後應由正式作者工具重新封裝。

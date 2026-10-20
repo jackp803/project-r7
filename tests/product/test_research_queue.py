@@ -16,6 +16,46 @@ from tests.validation.robustness_fixtures import subject
 
 
 class ResearchQueueTests(unittest.TestCase):
+    def test_failed_alerts_read_actual_uncheckpointed_wal_without_writable_factory(self):
+        from contextlib import contextmanager
+        from unittest.mock import patch
+        original_factory=self.queue.service_factory
+        @contextmanager
+        def failing_owner():
+            with original_factory() as owner,patch.object(owner,'run',side_effect=RuntimeError('SOURCE_ONLY_WAL_FAILURE')):
+                yield owner
+        self.queue.service_factory=failing_owner
+        with self.queue._db() as keeper:
+            keeper.execute('SELECT COUNT(*) FROM research_queue_jobs').fetchone()
+            self.enqueue('wal-failure')
+            claim=self.queue.claim_next();failed=self.queue.step(claim.run_id,claim.generation)
+            self.assertEqual(failed['state'],'FAILED')
+            before=self.queue.path.read_bytes()
+            with patch.object(self.queue,'_db',side_effect=AssertionError('Alert read must not use writable factory')):
+                page=self.queue.failed_alert_page(limit=1,offset=0)
+            self.assertEqual(page['total'],1)
+            self.assertEqual(page['items'][0]['run_id'],failed['run_id'])
+            self.assertEqual(page['items'][0]['recorded_at'],failed['observed_at'])
+            self.assertEqual(self.queue.path.read_bytes(),before)
+
+    def test_failed_alerts_refuse_unknown_schema_and_hardlinked_source(self):
+        import os,sqlite3
+        from contextlib import closing
+        original=self.queue.path;wrong=self.root/'wrong-alert-schema.sqlite'
+        with closing(sqlite3.connect(wrong)) as db:
+            db.execute('CREATE TABLE unrelated(value TEXT)');db.commit()
+        before=wrong.read_bytes()
+        try:
+            self.queue.path=wrong
+            with self.assertRaises(self.error):self.queue.failed_alert_page(limit=1,offset=0)
+            self.assertEqual(wrong.read_bytes(),before)
+        finally:self.queue.path=original
+        linked=self.root/'linked-alert-source.sqlite';os.link(original,linked)
+        try:
+            with self.assertRaises(self.error):self.queue.failed_alert_page(limit=1,offset=0)
+        finally:linked.unlink()
+        self.assertEqual(self.queue.failed_alert_page(limit=1,offset=0),dict(items=[],total=0))
+
     def setUp(self):
         self.assertIsNotNone(importlib.util.find_spec('application.research.queue'),
                              'Durable asynchronous actual-owner research queue is missing')

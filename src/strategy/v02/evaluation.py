@@ -74,6 +74,9 @@ class ExpressionEvaluator:
             if len(rows)<2: return OperatorValue(None,'INSUFFICIENT_HISTORY')
             previous_boundary=rows[-2].close_time
             previous_cutoff=min(cutoff,previous_boundary)
+            previous_rows=self.bundle.visible(timeframe,previous_boundary,previous_cutoff)
+            if not previous_rows or previous_rows[-1].close_time!=previous_boundary:
+                return OperatorValue(None,'INSUFFICIENT_HISTORY')
             previous_values=tuple(self.value(child,previous_boundary,previous_cutoff) for child in expression.children)
             invalid=next((value for value in previous_values if not value.ready),None)
             if invalid is not None: return invalid

@@ -23,6 +23,44 @@ from tests.product.test_api_authority import APIFixture
 
 
 class APIOwnerServicesTests(APIFixture, unittest.TestCase):
+    def test_corrupt_deep_reason_metadata_is_sanitized_after_actual_failure(self):
+        from unittest.mock import patch
+        from application.research.queue import ResearchQueueError
+        self.enqueue()
+        original_factory = self.queue.service_factory
+        @contextmanager
+        def failing_owner():
+            with original_factory() as owner, patch.object(owner, 'run', side_effect=RuntimeError('SOURCE_ONLY_CORRUPTION_FIXTURE')):
+                yield owner
+        self.queue.service_factory = failing_owner
+        claim = self.queue.claim_next()
+        failed = self.queue.step(claim.run_id, claim.generation)
+        self.assertEqual(failed['state'], 'FAILED')
+        # Corrupt metadata on a genuinely failed job; do not manufacture its state.
+        with self.queue._db() as db:
+            db.execute('UPDATE research_queue_jobs SET reason_codes_json=? WHERE run_id=?',
+                       ('[' * 1500 + ']' * 1500, failed['run_id']))
+        before = self.queue.path.read_bytes()
+        original_loads = json.loads
+        decoder = json.JSONDecoder()
+        decoder.scan_once = json.scanner.py_make_scanner(decoder)
+        def portable_decoder(raw, *args, **kwargs):
+            if raw == '[' * 1500 + ']' * 1500:
+                return decoder.decode(raw)
+            return original_loads(raw, *args, **kwargs)
+        # Exercise both this host's C decoder and a genuine recursion-limited
+        # stdlib decoder; a decoder error must not escape as HTTP 500.
+        for name, decode in (('native', original_loads), ('python', portable_decoder)):
+            with patch('application.research.queue.json.loads', side_effect=decode):
+                with self.subTest(decoder=name, surface='reader'), self.assertRaises(ResearchQueueError):
+                    self.queue.failed_alert_page(limit=1, offset=0)
+                response = self.client.get('/api/v1/alerts')
+                with self.subTest(decoder=name, surface='http'):
+                    self.assertEqual(response.status_code, 503, response.text)
+                    self.assertIn('RESEARCH_ALERT_HISTORY_UNAVAILABLE', response.text)
+                    self.assertNotIn('SOURCE_ONLY_CORRUPTION_FIXTURE', response.text)
+                self.assertEqual(self.queue.path.read_bytes(), before)
+
     def setUp(self):
         super().setUp()
         self.assertIsNotNone(importlib.util.find_spec('application.control_api.owner_services'),

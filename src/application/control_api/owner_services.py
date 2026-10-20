@@ -6,6 +6,7 @@ from application.control_api.services import LocalControlServices
 from application.control_api.errors import APIError
 from application.control_api.auth import _stamp
 from application.research.queue import ResearchQueueError
+from application.datasets.catalog import canonical,digest
 from registry import StrategyIdentity, ConcurrencyConflict, EvidenceGateError
 from storage.runtime_models import RuntimePersistenceError
 
@@ -47,6 +48,15 @@ class OwnerControlServices(LocalControlServices):
         return value
 
     def view(self,name,*,subject=None,limit=50,offset=0):
+        if name=='alerts' and self.queue is not None:
+            try:page=self.queue.failed_alert_page(limit=limit,offset=offset)
+            except ResearchQueueError:
+                raise APIError('UNAVAILABLE','RESEARCH_ALERT_HISTORY_UNAVAILABLE',503) from None
+            items=[]
+            for row in page['items']:
+                identity={key:row[key] for key in ('namespace','run_id','revision','generation')}
+                items.append(dict(row,source='research_queue',alert_id='alert-'+digest(canonical(identity).encode())[7:]))
+            return self._page(items,limit,offset,total=page['total'])
         if name=='approval_preview' and self.approval is not None:
             identity=StrategyIdentity(*subject[:2])
             return self.approval.preview(identity,envelope_ref=subject[2],expected_revision=subject[3])

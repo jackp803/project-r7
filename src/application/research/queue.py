@@ -6,9 +6,10 @@ Long owner work executes outside queue transactions in a separate worker.
 """
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
+from contextlib import closing
 import json
 from pathlib import Path
-import sqlite3
+import re,sqlite3,stat,time
 
 from application.cloud.manifest import scan_untrusted, safe_component
 from application.cloud.protocol import CloudError
@@ -151,6 +152,76 @@ class ResearchQueue:
     def counts(self):
         with self._db() as db:
             return dict(db.execute('SELECT state,COUNT(*) FROM research_queue_jobs GROUP BY state').fetchall())
+
+    @staticmethod
+    def _alert_file_identity(path):
+        from application.platform.supervision import _local_path
+        from application.platform.private_files import _filesystem_path
+        _local_path(path)
+        original=None
+        for candidate in (path,Path(str(path)+'-wal'),Path(str(path)+'-shm')):
+            try:information=_filesystem_path(candidate).lstat()
+            except FileNotFoundError:
+                if candidate==path:raise
+                continue
+            _local_path(candidate)
+            if not stat.S_ISREG(information.st_mode) or information.st_nlink!=1:
+                raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE')
+            if candidate==path:original=(information.st_dev,information.st_ino)
+        return original
+
+    @staticmethod
+    def _alert_schema(db):
+        rows=db.execute("SELECT type,name,tbl_name,sql FROM sqlite_master WHERE tbl_name GLOB 'research_queue_*' OR name GLOB 'research_queue_*' ORDER BY type,name").fetchmany(65)
+        if len(rows)>64:raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE')
+        return tuple(tuple(row) for row in rows)
+
+    def failed_alert_page(self,*,limit=50,offset=0):
+        """Readonly historical failures, not active health or financial authority.
+
+        Read the live WAL-aware snapshot; never initialize/migrate a missing
+        store or decode selected inputs, owner outcomes or exception messages.
+        """
+        if type(limit) is not int or not 1<=limit<=200 or type(offset) is not int or not 0<=offset<=100000:
+            raise ResearchQueueError('INVALID_PAGE')
+        from storage.qualification import _readonly_uri
+        path=self.path
+        try:
+            identity=self._alert_file_identity(path)
+            with closing(sqlite3.connect(':memory:')) as model:
+                model.executescript((Path(__file__).parents[1]/'migrations/0005_research_queue.sql').read_text(encoding='utf-8'))
+                expected=self._alert_schema(model)
+            end=time.monotonic()+2
+            with closing(sqlite3.connect(_readonly_uri(path),uri=True,timeout=1)) as db:
+                db.row_factory=sqlite3.Row
+                db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH,65536)
+                db.set_progress_handler(lambda:int(time.monotonic()>=end),1000)
+                db.execute('PRAGMA query_only=ON');db.execute('PRAGMA trusted_schema=OFF')
+                db.execute('PRAGMA busy_timeout=1000');db.execute('PRAGMA temp_store=MEMORY');db.execute('BEGIN')
+                if (self._alert_schema(db)!=expected or self.namespace not in ('FIXTURE','LOCAL_RESEARCH')
+                        or [tuple(row) for row in db.execute('SELECT singleton,namespace FROM research_queue_namespace LIMIT 2')]!=[(1,self.namespace)]):
+                    raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE')
+                total=db.execute("SELECT COUNT(*) FROM research_queue_jobs WHERE state='FAILED'").fetchone()[0]
+                rows=db.execute("SELECT run_id,state,revision,generation,updated_at,reason_codes_json FROM research_queue_jobs WHERE state='FAILED' ORDER BY created_at,run_id LIMIT ? OFFSET ?",(limit,offset)).fetchall()
+                items=[]
+                for row in rows:
+                    if (not isinstance(row['run_id'],str) or not re.fullmatch('job-[0-9a-f]{64}',row['run_id'])
+                            or row['state']!='FAILED' or not isinstance(row['updated_at'],str)
+                            or not isinstance(row['reason_codes_json'],str) or len(row['reason_codes_json'])>4096
+                            or stamp(datetime.fromisoformat(row['updated_at'].replace('Z','+00:00')))!=row['updated_at']):
+                        raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE')
+                    reasons=json.loads(row['reason_codes_json'])
+                    if (not isinstance(reasons,list) or not 1<=len(reasons)<=16
+                            or any(not isinstance(code,str) or not re.fullmatch('[A-Za-z_]{1,64}',code) for code in reasons)):
+                        raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE')
+                    items.append(dict(namespace=self.namespace,run_id=row['run_id'],state=row['state'],
+                        revision=_revision_int(row['revision']),generation=_revision_int(row['generation']),
+                        recorded_at=row['updated_at'],reason_codes=reasons))
+                if self._alert_file_identity(path)!=identity:
+                    raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE')
+                return dict(items=items,total=total)
+        except (sqlite3.Error,OSError,ValueError,TypeError,KeyError,RecursionError):
+            raise ResearchQueueError('RESEARCH_ALERT_HISTORY_UNAVAILABLE') from None
 
     def evidence_view(self,run_id):
         """Bounded actual owner summary. A view never reruns research or OOS."""

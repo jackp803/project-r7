@@ -11,6 +11,12 @@ from registry import StrategyIdentity, ConcurrencyConflict, EvidenceGateError
 from storage.runtime_models import RuntimePersistenceError
 
 
+CONTROL_SCANS_SCHEMA_SQL = '''CREATE TABLE IF NOT EXISTS control_scans(singleton INTEGER PRIMARY KEY CHECK(singleton=1),revision INTEGER NOT NULL);
+                '''
+
+CONTROL_SCAN_RECEIPTS_SCHEMA_SQL = '''
+                CREATE TABLE IF NOT EXISTS control_scan_receipts(command_id TEXT PRIMARY KEY,request_json TEXT NOT NULL,receipt_json TEXT NOT NULL,summary_json TEXT NOT NULL);'''
+
 class OwnerControlServices(LocalControlServices):
     def __init__(self, config, *, namespace, clock, registry_factory, intake_factory=None, inbox_factory=None,
                  research_queue=None, research_resolver=None, paper_reader=None, paper_start=None, approval=None, deployment=None,
@@ -25,9 +31,8 @@ class OwnerControlServices(LocalControlServices):
             if port is not None and port.namespace!=namespace:raise ValueError('Same namespace publication reader required')
         if research_queue is not None and research_queue.namespace != namespace: raise ValueError('Same namespace research queue required')
         with self._db() as db:
-            db.executescript('''CREATE TABLE IF NOT EXISTS control_scans(singleton INTEGER PRIMARY KEY CHECK(singleton=1),revision INTEGER NOT NULL);
-                INSERT OR IGNORE INTO control_scans VALUES(1,0);
-                CREATE TABLE IF NOT EXISTS control_scan_receipts(command_id TEXT PRIMARY KEY,request_json TEXT NOT NULL,receipt_json TEXT NOT NULL,summary_json TEXT NOT NULL);''')
+            db.executescript(CONTROL_SCANS_SCHEMA_SQL +
+                'INSERT OR IGNORE INTO control_scans VALUES(1,0);' + CONTROL_SCAN_RECEIPTS_SCHEMA_SQL)
 
     @staticmethod
     def _page(items, limit, offset, *, total=None):

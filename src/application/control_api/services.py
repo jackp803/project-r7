@@ -11,6 +11,12 @@ from application.research.evidence import capture_provenance
 from strategy.v02.capabilities import build_capability_snapshot
 
 
+CONTROL_SETTINGS_SCHEMA_SQL = '''
+                CREATE TABLE IF NOT EXISTS control_settings(singleton INTEGER PRIMARY KEY CHECK(singleton=1),revision INTEGER NOT NULL,
+                    config_generation INTEGER NOT NULL,display_timezone TEXT NOT NULL,scan_interval INTEGER NOT NULL);
+                CREATE TABLE IF NOT EXISTS settings_effects(command_id TEXT PRIMARY KEY,request_json TEXT NOT NULL,receipt_json TEXT NOT NULL);
+            '''
+
 class LocalControlServices:
     """Actual local settings plus diagnostics. Operational owners added explicitly.
 
@@ -26,11 +32,7 @@ class LocalControlServices:
         self.provenance = capture_provenance()
         self.capabilities = build_capability_snapshot()
         with self._db() as db:
-            db.executescript('''
-                CREATE TABLE IF NOT EXISTS control_settings(singleton INTEGER PRIMARY KEY CHECK(singleton=1),revision INTEGER NOT NULL,
-                    config_generation INTEGER NOT NULL,display_timezone TEXT NOT NULL,scan_interval INTEGER NOT NULL);
-                CREATE TABLE IF NOT EXISTS settings_effects(command_id TEXT PRIMARY KEY,request_json TEXT NOT NULL,receipt_json TEXT NOT NULL);
-            ''')
+            db.executescript(CONTROL_SETTINGS_SCHEMA_SQL)
             db.execute("INSERT OR IGNORE INTO control_settings VALUES(1,0,1,'Asia/Taipei',?)", (config.scan_interval,))
 
     def _db(self):

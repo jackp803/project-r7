@@ -59,6 +59,17 @@ class _ReauthProof:
     def __repr__(self): return '<local reauthentication capability>'
 
 
+LOCAL_AUTH_SCHEMA_SQL = '''
+                CREATE TABLE IF NOT EXISTS local_auth_meta(namespace TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS local_users(username TEXT PRIMARY KEY,password_hash TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS local_sessions(
+                    session_hash TEXT PRIMARY KEY,csrf_hash TEXT NOT NULL,actor TEXT NOT NULL,
+                    revision INTEGER NOT NULL,created_at TEXT NOT NULL,last_seen TEXT NOT NULL,
+                    expires_at TEXT NOT NULL,reauth_deadline TEXT,revoked INTEGER NOT NULL DEFAULT 0);
+                CREATE TABLE IF NOT EXISTS local_login_commands(command_id TEXT PRIMARY KEY,actor TEXT NOT NULL,issued_at TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS local_auth_throttle(singleton INTEGER PRIMARY KEY CHECK(singleton=1),failures INTEGER NOT NULL,window_start TEXT NOT NULL);
+            '''
+
 class LocalAuth:
     def __init__(self, database_path, *, namespace, clock=lambda: datetime.now(timezone.utc), session_seconds=1800):
         if namespace not in ('FIXTURE', 'LOCAL_RESEARCH') or not callable(clock):
@@ -73,16 +84,7 @@ class LocalAuth:
         self._hasher = PasswordHasher.from_parameters(RFC_9106_LOW_MEMORY)
         self._lock = RLock()
         with self._db() as db:
-            db.executescript('''
-                CREATE TABLE IF NOT EXISTS local_auth_meta(namespace TEXT NOT NULL);
-                CREATE TABLE IF NOT EXISTS local_users(username TEXT PRIMARY KEY,password_hash TEXT NOT NULL);
-                CREATE TABLE IF NOT EXISTS local_sessions(
-                    session_hash TEXT PRIMARY KEY,csrf_hash TEXT NOT NULL,actor TEXT NOT NULL,
-                    revision INTEGER NOT NULL,created_at TEXT NOT NULL,last_seen TEXT NOT NULL,
-                    expires_at TEXT NOT NULL,reauth_deadline TEXT,revoked INTEGER NOT NULL DEFAULT 0);
-                CREATE TABLE IF NOT EXISTS local_login_commands(command_id TEXT PRIMARY KEY,actor TEXT NOT NULL,issued_at TEXT NOT NULL);
-                CREATE TABLE IF NOT EXISTS local_auth_throttle(singleton INTEGER PRIMARY KEY CHECK(singleton=1),failures INTEGER NOT NULL,window_start TEXT NOT NULL);
-            ''')
+            db.executescript(LOCAL_AUTH_SCHEMA_SQL)
             # Serialize the read-before-insert across separate server processes.
             # A damaged/ambiguous binding cannot borrow the first row's authority.
             db.execute('BEGIN IMMEDIATE')

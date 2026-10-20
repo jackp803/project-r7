@@ -11,6 +11,22 @@ from storage._sqlite_registry import _apply_migrations, _connect, _open_authoriz
 
 
 class MigrationCompatibilityV02Tests(unittest.TestCase):
+    def test_existing_migration_owner_models_known_prefix_and_refuses_unknown_or_backwards_cap(self):
+        from storage._sqlite_registry import check_migration_compatibility, _MIGRATIONS_DIR
+        known=tuple(sorted(p.name for p in _MIGRATIONS_DIR.glob('*.sql')))
+        self.assertGreaterEqual(len(known),19)
+        with closing(_connect(':memory:')) as db:
+            _apply_migrations(db,through_migration=known[18])
+            self.assertEqual(known[:19],check_migration_compatibility(db)['applied'])
+            before=tuple(tuple(row) for row in db.execute('SELECT type,name,tbl_name,sql FROM sqlite_schema ORDER BY type,name'))
+            for cap in ('9999_unknown_future_release.sql',known[0]):
+                with self.subTest(cap=cap),self.assertRaisesRegex(EvidenceGateError,'MIGRATION_COMPATIBILITY'):
+                    _apply_migrations(db,through_migration=cap)
+                self.assertEqual(before,tuple(tuple(row) for row in db.execute('SELECT type,name,tbl_name,sql FROM sqlite_schema ORDER BY type,name')))
+                self.assertEqual(known[:19],check_migration_compatibility(db)['applied'])
+            _apply_migrations(db)
+            self.assertEqual(known,check_migration_compatibility(db)['applied'])
+
     def test_actual_writer_rejects_unknown_gapped_and_unversioned_populated_databases_unchanged(self):
         for vector in ('unknown', 'gapped', 'unversioned'):
             with self.subTest(vector=vector), tempfile.TemporaryDirectory() as folder:

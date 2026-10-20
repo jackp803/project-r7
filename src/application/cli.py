@@ -170,6 +170,10 @@ def main(argv=None):
         product.add_argument('--destination', type=Path, required=True)
         if name == 'restore-product-data':
             product.add_argument('--backup', type=Path, required=True)
+    upgrade = commands.add_parser('preflight-product-upgrade', help='Check a verified backup against this release without restoration or activation')
+    upgrade.add_argument('--config',type=Path,required=True)
+    upgrade.add_argument('--backup',type=Path,required=True)
+    upgrade.add_argument('--timeout-seconds',type=int,default=30)
     job = commands.add_parser('_research-job', help=argparse.SUPPRESS)
     job.add_argument('--config', type=Path, required=True)
     job.add_argument('--run-id', required=True)
@@ -307,6 +311,19 @@ def main(argv=None):
                 code = 0 if result['status'] == 'COMPLETE' else 2
         except CloudError as error:
             result, code = dict(status=error.code, reason=error.reason), 2
+        print(json.dumps(result))
+        return code
+    if args.command == 'preflight-product-upgrade':
+        from application.config import load_config
+        from application.platform.upgrade_preflight import preflight_product_upgrade,UpgradePreflightError
+        try:
+            result=preflight_product_upgrade(load_config(args.config),args.backup,
+                config_path=args.config,timeout_seconds=args.timeout_seconds)
+            code=0
+        except UpgradePreflightError as error:
+            result=dict(status='BLOCKED',reason_codes=[str(error)],financial_authority='NONE',
+                database_mutations=0,owner_starts=0)
+            code=2
         print(json.dumps(result))
         return code
     if args.command in ('backup-product-data','verify-product-backup','restore-product-data'):

@@ -129,6 +129,9 @@ def _restore_backup(config,backup,destination,*,config_path=None,timeout_seconds
                 verified,manifest,raw_manifest=_verify_within_deadline(config,backup,end)
                 source_manifest=raw_manifest
             if sum(row['bytes'] for row in manifest['databases'])>16*1024**3:raise RestoreError('RESTORE_TRANSFER_BUDGET')
+            if product_data:
+                from application.platform.upgrade_preflight import _preflight_verified_databases
+                _preflight_verified_databases(config,database_backup,manifest,end,include_settings=True)
             create_private_directory(target)
             token=str(uuid.uuid4())
             progress=dict(schema_version='r7-private-restore-in-progress-v0.2',restore_generation_id=token,

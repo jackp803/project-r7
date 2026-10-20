@@ -15,12 +15,42 @@ class DatabaseRestoreTests(unittest.TestCase):
         self.root=Path(self.temp.name);self.data=self.root/'原始 資料';self.data.mkdir()
         self.cloud=self.root/'同步 暫存';self.cloud.mkdir()
         self.config=ProductConfig('r7-product-config-v0.2','restore-fixture',self.data,self.cloud,self.data/'canonical.sqlite3')
+        from storage.runtime import open_paper_runtime_journal
+        with open_paper_runtime_journal(self.config.database_path):pass
         with closing(sqlite3.connect(self.config.database_path)) as db:
             db.execute('CREATE TABLE preserved(value TEXT NOT NULL)');db.execute("INSERT INTO preserved VALUES('ORIGINAL_CANONICAL')");db.commit()
         self.backup=self.root/'私密 備份';self.target=self.root/'新的 generation'
     def module(self):
         return importlib.import_module('application.platform.database_restore')
     def backup_now(self):return create_database_backup(self.config,self.backup,timeout_seconds=5)
+    def test_arbitrary_only_database_is_archived_without_product_schema_acceptance(self):
+        from registry.models import EvidenceGateError
+        from storage.runtime import open_paper_runtime_journal
+        data=self.root/'generic-archive-source';data.mkdir()
+        config=replace(self.config,local_data_root=data,database_path=data/'canonical.sqlite3',cloud_root=None)
+        with closing(sqlite3.connect(config.database_path)) as db:
+            db.execute('CREATE TABLE preserved(value TEXT NOT NULL)')
+            db.execute("INSERT INTO preserved VALUES('ARBITRARY_ARCHIVE_ONLY')");db.commit()
+        backup=self.root/'generic-archive-backup';target=self.root/'generic-archive-copy'
+        create_database_backup(config,backup,timeout_seconds=5)
+        before=config.database_path.read_bytes()
+        result=self.module().restore_database_backup(config,backup,target)
+        self.assertEqual(result['status'],'DATABASE_RESTORE_STAGED')
+        self.assertEqual(result['scope'],'DATABASES_ONLY')
+        self.assertEqual(result['user_data_restore'],'PENDING')
+        self.assertEqual(result['runtime_new_exposure'],'INHIBITED')
+        self.assertEqual(result['financial_authority'],'NONE')
+        restored=load_config(target/'restored-product.json')
+        self.assertTrue(restored.diagnostic_only);self.assertFalse(restored.paper_runtime_enabled)
+        self.assertIsNone(restored.cloud_root)
+        with closing(sqlite3.connect(restored.database_path)) as db:
+            self.assertEqual(db.execute('SELECT value FROM preserved').fetchall(),[('ARBITRARY_ARCHIVE_ONLY',)])
+            self.assertIsNone(db.execute("SELECT name FROM sqlite_schema WHERE name='schema_migrations'").fetchone())
+        archived=restored.database_path.read_bytes()
+        with self.assertRaises(EvidenceGateError):
+            with open_paper_runtime_journal(restored.database_path):pass
+        self.assertEqual(restored.database_path.read_bytes(),archived)
+        self.assertEqual(config.database_path.read_bytes(),before)
     def test_restoration_is_disjoint_private_and_emits_inhibited_new_configuration(self):
         self.backup_now();before=(self.config.database_path).read_bytes();module=self.module()
         first=module.restore_database_backup(self.config,self.backup,self.target)

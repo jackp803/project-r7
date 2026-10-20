@@ -102,9 +102,22 @@ def check_migration_compatibility(connection: sqlite3.Connection) -> dict:
 def _apply_migrations(
     connection: sqlite3.Connection,
     migrations_dir: str | Path | None = None,
+    *, through_migration: str | None = None,
 ) -> None:
     facts = check_migration_compatibility(connection)
     directory = Path(migrations_dir) if migrations_dir is not None else _MIGRATIONS_DIR
+    migrations = sorted(directory.glob('*.sql'))
+    if through_migration is not None:
+        # Target-owned schema models use this same migration implementation on
+        # an isolated connection. A cap cannot select unknown SQL or downgrade.
+        known = facts['applied'] + facts['pending']
+        if (migrations_dir is not None or type(through_migration) is not str or
+                through_migration not in known):
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_KNOWN_PACKAGED_CAP_REQUIRED')
+        count = known.index(through_migration) + 1
+        if len(facts['applied']) > count:
+            raise EvidenceGateError('MIGRATION_COMPATIBILITY_CAP_BEFORE_APPLIED')
+        migrations = migrations[:count]
     connection.execute(
         """
         CREATE TABLE IF NOT EXISTS schema_migrations (
@@ -114,7 +127,7 @@ def _apply_migrations(
         """
     )
     applied = set(facts['applied'])
-    for migration in sorted(directory.glob("*.sql")):
+    for migration in migrations:
         if migration.name in applied:
             continue
         script = migration.read_text(encoding="utf-8")

@@ -1,3 +1,23 @@
+# Genuine H01 entry first-slice source checkpoint — 2026-10-20
+
+Source 35ba76d5773b1382222b0743ea7db672f834ca3e, implementation sha256:21b326419f7ffd57ed5721edbbc887085f436225ba202ef805c3534f586abf17: exact13modules/42cases PASS,
+including11 new genuine joined entry/fault/recovery cases; unchanged/reaped,
+each<=original900s. Evidence: status/codex/productization/S12/h01-entry-first-slice-35ba76d/disposition.json. Independent static0C0I, executionNONE.
+Actual E2/E5 outputs, immutable outbox before canonical risk/plan and E4 guarded
+single fake POST. Actual NO_TRADE/REJECT, forged policy/future-input denials,
+same-boundary conflict, lostACK/expired-proof management, postcommit recovery
+with genuinely reconstructed owners, unclaimed preparation loss and immutable
+schema attacks preserve original IDs/clocks; no result/authority substitution.
+Two concrete review defects reproduced and fixed; all red/harness failures kept.
+Temporary system-awake request released after validation; no permanent settings.
+
+This controlled FIXTURE source slice is not whole H01 or LIVE-code-complete.
+Original E2 exit management remains pending. Qualified Windows7d package kept
+independently; no acceptance transfer. Portable crossversion/audits/S16/final
+settled full/native remain. Master active; original task/branch, no main merge.
+Public8/responses8/additional0/private0; credentialsNONE/capitalNONE/LIVE notstarted/
+GitHubNOT_USED. OldPC/Ubuntu/cloud/formal policies/real-forward remain unaccepted.
+
 # H16 exact affected-owner source checkpoint — 2026-10-20
 
 Source cd415a11a97b4b04f490112f6d5ef319ad267395: affected26modules/177cases PASS, unchanged/reaped, each<=original900s.

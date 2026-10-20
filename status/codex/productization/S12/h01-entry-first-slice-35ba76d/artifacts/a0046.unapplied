@@ -1,0 +1,72 @@
+"""UNAPPLIED / NOT_EXECUTED. Actual entry risk commit interruption, no HTTP."""
+import json
+import unittest
+from unittest.mock import patch
+
+from tests.product import h01_entry_recovery_fixture as recovery_fixtures
+from application.trading.orchestrator import TradingOrchestrator
+from storage.runtime import PaperRuntimeJournal
+from storage.product_dispatch import ProductDispatchError, _stamp
+
+
+class H01EntryCommittedRecoveryTests(unittest.TestCase):
+    def test_actual_committed_risk_recovers_with_genuinely_new_owners_and_no_provider_calls(self):
+        with recovery_fixtures.H01RecoveryFixture() as h:
+            f = h.fixture
+            original_descriptor = PaperRuntimeJournal.persist_risk_decision
+            committed = []
+
+            def commit_then_raise(journal, payload):
+                stored = original_descriptor(journal, payload)
+                committed.append(stored)
+                raise OSError('fixture-h01-after-real-risk-commit')
+
+            # Class descriptor/autospec: preserves receiver and REAL commit.
+            with patch.object(PaperRuntimeJournal, 'persist_risk_decision', autospec=True,
+                              side_effect=commit_then_raise):
+                with self.assertRaisesRegex(OSError, 'after-real-risk-commit'):
+                    TradingOrchestrator(f.service).evaluate_entry(f.bundle, **f.arguments)
+            self.assertEqual(1, len(committed))
+            saved = f.dispatch.entry_decision(f.service.run_id,f.authority.identity,f.bundle.boundary)
+            self.assertIsNotNone(saved)
+            self.assertEqual([dict(kind='RISK_DECISION',payload=f.risk),
+                              dict(kind='APPROVED_TRADE_PLAN',payload=f.plan)], saved.effects)
+            self.assertEqual((committed[0].payload_json,committed[0].payload_hash),
+                recovery_fixtures.canonical_object(f.canonical,'RISK_DECISION',f.risk['risk_decision_id']))
+            self.assertIsNone(recovery_fixtures.canonical_object(f.canonical,
+                'APPROVED_TRADE_PLAN',f.plan['trade_plan_id']))
+            self.assertEqual((saved,), f.dispatch.pending_entry_publications(f.service.run_id))
+            self.assertIsNone(f.dispatch.operation(f.service.run_id,f.request.order_request_id))
+            self.assertEqual([], f.provider.calls)
+            old_lease = f.service.lease
+            successor = h.successor()
+            self.assertEqual(saved, successor.dispatch.entry_decision(
+                successor.run_id,f.authority.identity,f.bundle.boundary))
+            successor.recover_publications()  # Actual normal publication drain, no evaluator or provider.
+            recovered = successor.canonical.recover(trade_plan_id=f.plan['trade_plan_id'])
+            self.assertEqual(f.risk, recovered.risk_decision.payload)
+            self.assertEqual(f.plan, recovered.approved_trade_plan.payload)
+            self.assertEqual((), recovered.order_requests)
+            self.assertEqual((), recovered.fills)
+            self.assertEqual((),successor.dispatch.pending_entry_publications(successor.run_id))
+            after = successor.dispatch.entry_decision(successor.run_id,f.authority.identity,f.bundle.boundary)
+            self.assertEqual(saved,after)
+            self.assertEqual(_stamp(f.now),after.evidence['interpreted_at'])
+            receipt = successor.dispatch._db.execute(
+                'SELECT * FROM product_entry_publications WHERE run_id=? AND boundary=?',
+                (successor.run_id,saved.boundary_text)).fetchone()
+            self.assertIsNotNone(receipt)
+            self.assertEqual((saved.decision_id,saved.effects_hash,saved.evidence_hash,2),
+                (receipt['decision_id'],receipt['effects_hash'],receipt['evidence_hash'],receipt['generation']))
+            stable = recovery_fixtures.entry_storage_snapshot(successor.dispatch)
+            successor.recover_publications()
+            self.assertEqual(stable,recovery_fixtures.entry_storage_snapshot(successor.dispatch))
+            self.assertEqual([],successor.provider.calls)
+            self.assertFalse(successor.provider._responses)
+            self.assertEqual([],f.provider.calls)
+            with self.assertRaises(ProductDispatchError) as stale:
+                f.dispatch.require_process(old_lease,now=f.authority.clock[0])
+            self.assertEqual('DISPATCH_CURRENT_PROCESS_GENERATION_REQUIRED',str(stale.exception))
+            with self.assertRaises(ProductDispatchError):
+                f.service.recover_publications()
+            self.assertEqual(stable,recovery_fixtures.entry_storage_snapshot(successor.dispatch))

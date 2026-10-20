@@ -1,0 +1,69 @@
+"""UNAPPLIED / NOT_EXECUTED. Actual E2 NO_TRADE, no financial effect.
+
+Synthetic FIXTURE source regression only; no H01/native/financial acceptance.
+"""
+import unittest
+from dataclasses import replace
+from datetime import timedelta
+from decimal import Decimal
+
+from application.trading.orchestrator import TradingOrchestrator
+from strategy import StrategyRuntime
+from strategy.v02.temporal import build_asof_bundle
+from tests.product import h01_entry_fixture as fixtures
+
+
+class TradingOrchestratorNoTradeV02Tests(unittest.TestCase):
+    def test_actual_flat_e1_bars_produce_durable_no_trade_and_zero_financial_effects(self):
+        with fixtures.H01EntryFixture() as f:
+            price=Decimal('60000')
+            bars=tuple(replace(row,open=price,high=price+1,low=price-1,close=price)
+                       for row in f.bundle.candles_by_timeframe['1h'])
+            bundle=build_asof_bundle({'1h':bars},f.bundle.boundary,f.bundle.information_cutoff)
+            # Independent actual E2 invocation establishes the test vector;
+            # no signal, policy, risk or canonical writer is substituted.
+            actual_signal=StrategyRuntime().evaluate(f.strategy,bundle,bundle.boundary)
+            self.assertEqual('NO_TRADE',actual_signal['direction'])
+            self.assertEqual(['NO_RULE_MATCHED'],actual_signal['reason_codes'])
+            runner=TradingOrchestrator(f.service)
+            first=runner.evaluate_entry(bundle,**f.arguments)
+            self.assertEqual('NO_TRADE',first.status)
+            self.assertEqual(tuple(actual_signal['reason_codes']),first.reason_codes)
+            self.assertIsNone(first.operation_id)
+            self.assertIsNone(first.dispatch_outcome)
+            saved=f.dispatch.entry_decision(f.service.run_id,f.authority.identity,bundle.boundary)
+            self.assertEqual(first.decision_id,saved.decision_id)
+            self.assertEqual(actual_signal,saved.signal)
+            self.assertEqual('NO_TRADE',saved.evidence['status'])
+            self.assertEqual([],saved.effects)
+            self.assertIsNone(saved.trade_intent)
+            self.assertIsNone(saved.exit_request)
+            self.assertIsNone(saved.evidence['operation_id'])
+            self.assertEqual((),f.dispatch.pending_entry_publications(f.service.run_id))
+
+            # Read-only assertion on the actual normal canonical writer store.
+            # Recovery alone cannot prove absence of orphan risk/plan objects.
+            rows=f.canonical._store._connection.execute(
+                'SELECT object_kind,canonical_id FROM paper_runtime_objects').fetchall()
+            self.assertEqual([],rows)
+            recovery=f.canonical.recover(trade_plan_id=f.plan['trade_plan_id'])
+            self.assertIsNone(recovery.risk_decision)
+            self.assertIsNone(recovery.approved_trade_plan)
+            self.assertIsNone(recovery.current_position_projection)
+            self.assertEqual((),recovery.order_requests)
+            self.assertEqual((),recovery.order_result_observations)
+            self.assertEqual((),recovery.fills)
+            self.assertEqual((),recovery.raw_position_observations)
+            self.assertIsNone(recovery.trade_result)
+            dispatch=f.dispatch.recover(f.service.run_id)
+            self.assertEqual((),dispatch.prepared_operations)
+            self.assertEqual((),dispatch.ambiguous_operations)
+            self.assertEqual([],f.provider.calls)
+
+            f.authority.clock[0]+=timedelta(seconds=1)
+            repeated=runner.evaluate_entry(bundle,**f.arguments)
+            self.assertEqual(first,repeated)
+            self.assertEqual(saved,f.dispatch.entry_decision(f.service.run_id,f.authority.identity,bundle.boundary))
+            self.assertEqual([],f.canonical._store._connection.execute(
+                'SELECT object_kind,canonical_id FROM paper_runtime_objects').fetchall())
+            self.assertEqual([],f.provider.calls)

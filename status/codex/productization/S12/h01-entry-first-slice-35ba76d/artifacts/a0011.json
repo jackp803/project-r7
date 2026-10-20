@@ -1,0 +1,144 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED_SOURCE_DRAFT_ONLY",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-20",
+  "scope": "First controlled FIXTURE H01 entry slice only; genuine E2/E5/E4 owner composition, not complete H01 or exit management",
+  "write_scope": "Only five new unapplied ART files plus this recipe. No tracked/source/Git modifications; no imports, compile, tests, DB, processes, provider or network calls.",
+  "source_files": [
+    {
+      "sha256": "188c6a30840222148392f0d93e7e814de8d83ee1e2e688ed76478f8ccf103248",
+      "path": "src/application/trading/orchestrator.py"
+    },
+    {
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6",
+      "path": "src/application/trading/service.py"
+    },
+    {
+      "sha256": "b5890c1d040c1ca7521f22deb3100be987a7b878a80b6e6be612dce60d9e14d2",
+      "path": "src/application/trading/admission.py"
+    },
+    {
+      "sha256": "efb215df9fa13009a7957050384d4f6d6a1f7e1cd629128e4448365e0c659dac",
+      "path": "src/storage/product_dispatch.py"
+    },
+    {
+      "sha256": "15bac56c7aa7f7cdfea837788bad48903822840e10c88ac82ef60fd06af458a5",
+      "path": "src/storage/product_funding.py"
+    },
+    {
+      "sha256": "cb540771f20ed41812df146d2760618e02b56e91750122925bb28e3e39a1da73",
+      "path": "src/storage/canonical_publication.py"
+    },
+    {
+      "sha256": "176572e8b5c8d6482635a9486dfe6af21b253c8d22ab67c2bbe1141e3ab9cccc",
+      "path": "src/storage/migrations/0022_product_trade_finalization.sql"
+    },
+    {
+      "sha256": "0bdfd3dc719c8ffa2eb6c50d40b610eda1dcf18857c4ac289cc8ef38401fa02b",
+      "path": "src/strategy/v02/temporal.py"
+    },
+    {
+      "sha256": "fca4050fca28ce977a1d80a9df0283b4581a79de6d949cf846bf1f972155e5f2",
+      "path": "src/strategy/v02/evaluation.py"
+    },
+    {
+      "sha256": "259b248553eb44228ab2e05b056d41abecb033f549becfdb5e8cd3532c4e7264",
+      "path": "src/strategy/v02/exits.py"
+    },
+    {
+      "sha256": "cc3d40be880be4379d93953643c77a4633d3a3371a53aa9b531049a5d1c45ecc",
+      "path": "src/position/exit_requests.py"
+    },
+    {
+      "sha256": "ecae712fb3a2f611d84d62bf92207571f967853cf1090991dc73c031bfe84cae",
+      "path": "src/risk/product_policy.py"
+    },
+    {
+      "sha256": "3e39dfb1a2aec8121283f4603201af7d222bd2ad8947af979cf2c9dabdb507a1",
+      "path": "src/risk/engine.py"
+    },
+    {
+      "sha256": "1727864d6b825feb306de99df66e55ec1a223cb0fbde9b446fd74647054b0090",
+      "path": "src/execution/gateway.py"
+    },
+    {
+      "sha256": "3bd34278aaa2405afbe569379e8f20104863ed536e871949334196ed0aa9c019",
+      "path": "src/execution/models.py"
+    },
+    {
+      "sha256": "3d5cda09463e72819d05421046deeaaac8620755aa856ec5aaeb1c2c14aab7aa",
+      "path": "src/brokers/okx_product.py"
+    }
+  ],
+  "drafts": [
+    {
+      "sha256": "97036af370ac624752abeaea3e8a2d658c0f246a7459dfb73d4ce0fa30165b99",
+      "path": "h01-entry_owner.py.unapplied"
+    },
+    {
+      "sha256": "740ac1a3c15eab1f649ed5d55c7d3a8360c078f7d90c88243e614b474898cc58",
+      "path": "h01-product_entry_decision.py.unapplied"
+    },
+    {
+      "sha256": "d78f8a062ded33e2305ecb74d3800097045a3ddc5d033ca1ac4e4e898c8f0304",
+      "path": "h01-orchestrator.py.unapplied"
+    },
+    {
+      "sha256": "6db777be129d304f0b536a8dbf4563d80705689b2b826b7d703b67572d2905fb",
+      "path": "h01-product_dispatch-methods.py.unapplied"
+    },
+    {
+      "sha256": "ae47dc81db3a57f4f4d163f608e3ff7312c373c60cfe2f2b6454a96f4dfe55a4",
+      "path": "h01-0023_product_entry_decision.sql.unapplied"
+    }
+  ],
+  "design_inputs": [
+    "h01-entry-root-design-20261020.json",
+    "h01-entry-design-independent-review-20261020.json",
+    "h01-e2-trading-runner-seam-plan-20261020.json",
+    "h01_entry_fixture.py.unapplied",
+    "test_trading_orchestrator_v02.py.unapplied"
+  ],
+  "apply_order": [
+    "After root releases source freeze, review draft against then-current source. Copy h01-entry_owner.py.unapplied -> src/application/trading/entry_owner.py and h01-product_entry_decision.py.unapplied -> src/storage/product_entry_decision.py.",
+    "Reserve migration0023 only if still next unused migration. Copy h01-0023_product_entry_decision.sql.unapplied -> src/storage/migrations/0023_product_entry_decision.sql; retain existing atomic migration marker.",
+    "Insert the four lazy ProductDispatchJournal methods from h01-product_dispatch-methods.py.unapplied immediately before existing recover(). No top-level storage decision import.",
+    "MERGE h01-orchestrator.py.unapplied, do not blindly overwrite later root edits: add pending entry page to existing finite drain; publish entry effects FIRST through canonical.publish_canonical_effects outside dispatch._write, then separate mark_entry_publication; include entries in empty/backlog condition. Add thin TradingOrchestrator wrapper with local EntryOwner import.",
+    "No TradingService source delta is required: its existing recover_publications -> TradingCoordinator now drains entry decisions; execute/reconcile/actual E4 guards remain unchanged. New owner internally checks exact actual TradingService and explicitly restricts this first source slice to FIXTURE/FAKE_PROVIDER_VERIFICATION.",
+    "Apply/review earlier H01 fixture/tests separately with the retry corrections below. This artifact is not evidence that any test currently imports, compiles, or passes."
+  ],
+  "decisions": [
+    "One entry decision per (run_id,boundary); immutable run already fixes strategy identity/content, release, namespace, account/provider, selected risk. Stable decision ID hashes run+identity+boundary, not input; conflicting new/unclaimed input is denied.",
+    "Stream length-framed canonical header + sorted timeframe/count + every actually selected canonical Candle dataclass into sha256. Header binds namespace/run/strategy content/owner binding/boundary/cutoff/recorded availability/actual owner selected policy/full explicit context+proposal. Do not persist E1 candles/full history, impose a second history cap, or substitute E2 market_boundary_ref alone.",
+    "Caller SelectedRiskPolicy must exactly equal both its own reparsed value and the actual CurrentRuntimeAuthority policy. Owner-parsed RiskPolicy alone is passed into E5. No context/health/balance/size/price defaults.",
+    "Only canonical recorded_received_at AsOfBundle/DSL0.2 accepted. Boundary and cutoff must be UTC and no later than actual service clock. Reconstruct canonical visible bundle through existing AsOf producer; E2 retains original boundary. Existing future/incomplete observations remain excluded by E2 selection, never promoted.",
+    "E2 Signal/ExitRequest/TradeIntent are real builders. interpreted_at is captured after E1 validation/hash/E2 immediately before actual evaluate_trade_intent; plan created_at is that same original clock. Immutable evidence and E5 effects stage commits before canonical publication and any E4 translation.",
+    "NO_TRADE -> zero effects; actual REJECT -> one original RISK_DECISION; APPROVE -> original RISK_DECISION plus APPROVED_TRADE_PLAN. Existing canonical writers own persistence and exact prefix replay. Entry receipt is a separate E6 append after canonical effects; stored outputs do not grant permission.",
+    "Claimed/observed original operation is loaded from original decision and reconciled directly through service.reconcile before any new-exposure, caller policy/context comparison, plan-expiry or translator gate. Current MANAGE_EXISTING admission remains service-owned.",
+    "Unclaimed PREPARED -> exact original local preparation only, issuer/current prerequisite/expiry checked by translator.require; absent cache returns BLOCKED ORIGINAL_LOCAL_PREPARATION_REQUIRED. Fresh successor cannot adopt/resend PREPARED. Saved decision with no operation may translate once under current proofs and original unexpired plan.",
+    "Local RLock serializes one wrapper; one local preparation slot is bounded and deliberately disposable. Losing/overwriting cache only blocks unclaimed recovery. E6 existing single durable claim/final guard prevents duplicate POST across any surviving process race."
+  ],
+  "corrected_existing_test_expectations": [
+    "The old H01 test draft expecting two dispatch claims on retry is wrong. Assert ONE committed claim/ONE POST; retry calls actual GET readback with original request_json byte equality and original E2/E5/effects/clock/IDs preserved.",
+    "Do not require NEW_EXPOSURE revocation alone to block readback of already CLAIMED original obligation when MANAGE_EXISTING remains valid. Test revoked NEW_EXPOSURE blocks a fresh/unclaimed path separately; test actual MANAGE_EXISTING denial blocks readback.",
+    "Construct a fresh wrapper after PREPARED/no-claim and assert BLOCKED/no translator call/no POST. Same still-current original local preparation may execute only through unchanged translator.require+existing service.execute guards.",
+    "Use module alias fixture imports, not imported TestCase globals, to avoid unittest duplicate discovery. Keep actual E6/E7 fixture clock and current capability/prerequisite proofs consistent; fixture helper oracle is never accepted as runner output."
+  ],
+  "root_validation_sequence_not_run": [
+    "First real helper positive: actual E2 LONG, actual selected owner E5 APPROVE, immutable decision committed before risk/plan before one guarded provider POST. Exact current E7/source/risk ownership must be checked through normal owner APIs.",
+    "Real E2 NO_TRADE, real E5 REJECT from explicit insufficient balance; assert exact zero request/fill/POST/exposure and RiskDecision presence only for REJECT. Same boundary unchanged retry returns original decision bytes without reinterpreting.",
+    "Exact same-boundary context/proposal/selected candle/source clock/content mismatch must fail for new/unclaimed paths; caller SelectedRiskPolicy forged hash or risk object must fail equality.",
+    "Boundary/cutoff future and historical_close_assumption fail; actual missing/invalid selected E1 availability fails via existing AsOf; stale signal is actual E5 REJECT at real interpretation time, not renewed generated_at.",
+    "Original claimed retry with expired plan/revoked NEW_EXPOSURE/different fresh caller inputs uses direct MANAGE_EXISTING readback with one original durable claim and no new preparation/POST/risk/plan/clock.",
+    "Crash prefix after first actual canonical risk commit (or after plan commit before receipt): real successor E6 lease/E7 process recipe drains pending entry outbox through normal recover_publications, original facts unchanged, exactly one receipt, no provider calls. Never renew plan/decision clocks in recovery.",
+    "Validate migration atomic apply/integrity plus update/delete/replace rejection on both tables using established test owners; guard same-file dispatch/canonical composition does not nest two writer transactions."
+  ],
+  "limitations_and_assumptions": [
+    "This is an unapplied production first draft. No syntax/import/test/native validation executed; no PASS, actual live, timing, capacity or acceptance claim.",
+    "EntryOwner explicitly gates this first slice to controlled FIXTURE FakeProductProvider. Ordinary Paper engine/service and production provider activation are untouched; root must decide any later independently authorized production composition.",
+    "H01 original E2 ExitRequest management/first-fill anchoring remains pending; stored exit request here is original history only and does not interpret exit, create PositionAction, close, or finalize.",
+    "Race safety uses actual durable immutable decision conflict/single claim/final guard. Initial original-claim read occurs before NEW_EXPOSURE. A claim created concurrently after that read may conservatively fail current call and be reconciled on next invocation; it must never trigger a second POST or request-body replacement. Root should decide whether an additional narrowly bounded race reroute is required.",
+    "No new application entrypoints, DTO/public result import, worker loop, automatic policy choice, balance/health observation producer, or financial defaults are added. All context/proposal and genuine native mechanical proofs remain explicit trusted local inputs.",
+    "Existing generic dispatch JSON complexity/text limits apply only to compact E2/E5 outputs/policy/context, not E1 history. Unusual legal E2 feature names colliding with pre-existing private-key name filter may fail closed; no filter weakening proposed."
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "status": "UNAPPLIED_NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "date": "2026-10-20",
+  "scope": "Three H01 entry negative regression modules, four own named cases, against current root-applied owner/fixture; no production change",
+  "drafts": [
+    {
+      "sha256": "704b983e0525aaae25d3f7a5b1633842be46ad12d19bd849197bba42dea563d4",
+      "path": "test_trading_orchestrator_no_trade_v02.py.unapplied"
+    },
+    {
+      "sha256": "51361dc62b64e2a1380f8c9d3369aeef48df21779d3d1fcc86d52ba56f641d8b",
+      "path": "test_trading_orchestrator_risk_reject_v02.py.unapplied"
+    },
+    {
+      "sha256": "85c0b585d3555f921b9c507ccb6165b6202a49b26d284c636f44f46857fdc44b",
+      "path": "test_trading_orchestrator_input_denials_v02.py.unapplied"
+    }
+  ],
+  "source_hashes": [
+    {
+      "sha256": "1fe3b05441b63a3fe14f2fcd723553e63fe3dc3e200143eae427eb096ebef059",
+      "path": "tests/product/h01_entry_fixture.py"
+    },
+    {
+      "sha256": "16e65d79d34229be90e9bb1e92eaf8715e03bbff6ffe607a2b62233441971b9a",
+      "path": "tests/product/test_trading_orchestrator_v02.py"
+    },
+    {
+      "sha256": "d210e0b6c2b42623705c9ca5abea8ea58304e940a7da8ae6e4bb04b3d6987908",
+      "path": "src/application/trading/orchestrator.py"
+    },
+    {
+      "sha256": "dd4f87473ecda9be0db618ca3cf96e60e166dec71d49ff3a59f6f4cfb23d6e96",
+      "path": "src/application/trading/entry_owner.py"
+    },
+    {
+      "sha256": "53748d8bafb47a11fb2003a62f21edb5f8b8735e4ec52ac72f1c6c77f75d7fa6",
+      "path": "src/storage/product_entry_decision.py"
+    },
+    {
+      "sha256": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593",
+      "path": "src/storage/runtime.py"
+    },
+    {
+      "sha256": "bae0eee3a7f7d80efe5e0ce41b6e79884d4a2299c93baae9b1096ae0ca883607",
+      "path": "src/storage/runtime_models.py"
+    },
+    {
+      "sha256": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff",
+      "path": "src/storage/_paper_runtime.py"
+    },
+    {
+      "sha256": "3e39dfb1a2aec8121283f4603201af7d222bd2ad8947af979cf2c9dabdb507a1",
+      "path": "src/risk/engine.py"
+    },
+    {
+      "sha256": "2b8fa2f57d50d016d7131836d4b859469db1c8bc8caa1833d6b6b668b48200e9",
+      "path": "src/risk/policy.py"
+    },
+    {
+      "sha256": "fca4050fca28ce977a1d80a9df0283b4581a79de6d949cf846bf1f972155e5f2",
+      "path": "src/strategy/v02/evaluation.py"
+    },
+    {
+      "sha256": "0bdfd3dc719c8ffa2eb6c50d40b610eda1dcf18857c4ac289cc8ef38401fa02b",
+      "path": "src/strategy/v02/temporal.py"
+    },
+    {
+      "sha256": "ebed9b2d62b2c51390be2aea901883d83c53fcf36c274ca58a290ee69b2d42bc",
+      "path": "tests/validation/robustness_fixtures.py"
+    },
+    {
+      "sha256": "bb9f7263aae328c4fa35c8ce51e135363b9638c7172a7687d6d6249eef5d4d7f",
+      "path": "tests/backtest/test_v02_owner_binding.py"
+    }
+  ],
+  "apply": [
+    "After root releases source freeze, review then copy each .py.unapplied to tests/product/ with the same basename minus .unapplied. No helper or production edits are proposed.",
+    "All fixtures imported as module aliases; no imported TestCase global and no subclass of existing fixture TestCase. Each module contains at most two own test methods.",
+    "Root owns all test execution. Draft creation performed only static source reads and ART writes; no imports/compile/tests/DB/process/native/Git/provider/network execution."
+  ],
+  "cases": [
+    {
+      "recipe": "Actual immutable registered strategy unchanged; dataclasses.replace actual canonical four E1 candles with flat close/open60000 and valid high60001/low59999, retain actual times/received_at/source identities; build_asof_bundle normal recorded model; first invoke real StrategyRuntime and require NO_TRADE/NO_RULE_MATCHED.",
+      "assertions": "Actual runner status NO_TRADE; durable exact actual E2 signal; effects[]; no TradeIntent/ExitRequest/operation; no pending canonical publication; actual canonical objects empty, no plan/order/fill/position/TR, no dispatch operation or provider calls; retry after actual fixture clock+1s is identical saved decision/outcome.",
+      "module": "test_trading_orchestrator_no_trade_v02.py",
+      "case": "TradingOrchestratorNoTradeV02Tests.test_actual_flat_e1_bars_produce_durable_no_trade_and_zero_financial_effects"
+    },
+    {
+      "recipe": "Keep actual original E2 LONG/intent, selected owner canonical risk JSON and original sizing proposal; explicitly replace only RiskContext.available_balance with Decimal1. Independently call unchanged actual evaluate_trade_intent at original now and require REJECT containing INSUFFICIENT_BALANCE.",
+      "assertions": "Actual runner API status BLOCKED/reasons equal actual E5; exact original E2 outputs and one RISK_DECISION effect; actual canonical object table contains exactly that RiskDecision/payload, no plan/order/fill/position/TR, no dispatch operations/provider calls. Retry+1s preserves exact immutable decision, risk payload/hash/id and canonical persisted_at.",
+      "module": "test_trading_orchestrator_risk_reject_v02.py",
+      "case": "TradingOrchestratorRiskRejectV02Tests.test_actual_insufficient_balance_reject_publishes_only_original_risk_and_exact_retry"
+    },
+    {
+      "recipe": "One actual fixture; four subcases: future boundary+1h with cutoff now; future cutoff+1s with boundary now; historical_close_assumption; dataclasses.replace SelectedRiskPolicy.risk_policy with valid max_margin+1 while canonicalJSON/hash are unchanged.",
+      "assertions": "Exact existing ProductDispatchError codes: ENTRY_OPERATIONAL_ASOF_CLOCK_REQUIRED for all three asof failures, ENTRY_CALLER_POLICY_OWNER_MISMATCH for forged typed policy; no entry decision/publication, canonical object, dispatch operation or provider call.",
+      "module": "test_trading_orchestrator_input_denials_v02.py",
+      "case": "TradingOrchestratorInputDenialsV02Tests.test_future_asof_historical_assumption_and_owner_policy_object_forgery_have_zero_effects"
+    },
+    {
+      "recipe": "Actual flat E1 NO_TRADE proved by real E2; normal first immutable decision; same boundary/candles/policy/proposal with only explicit available_balance100->99.",
+      "assertions": "Existing ENTRY_BOUNDARY_INPUT_CONFLICT, exact original decision retained; original-input retry still same NO_TRADE/outcome; no financial effects/canonical object/dispatch/provider calls.",
+      "module": "test_trading_orchestrator_input_denials_v02.py",
+      "case": "TradingOrchestratorInputDenialsV02Tests.test_same_no_trade_boundary_changed_explicit_context_denies_without_replacing_original_decision"
+    }
+  ],
+  "source_contract_notes": [
+    "Actual EntryEvaluationOutcome statuses are NO_TRADE for actual E2 abstention and BLOCKED for actual E5 REJECT; evidence.status remains REJECT. Draft uses these exact current names.",
+    "Actual robust subject delegates GT(close,trend) and LT(close,trend), so flat canonical closes yield neither rule. No authored strategy/immutable registered source is replaced.",
+    "PaperRuntimeJournal.recover requires lineage and resolves RiskDecision through an existing ApprovedTradePlan. Therefore REJECT orphan risk is asserted by a future read-only SELECT from actual journal._store._connection; recover(original fixture planid) is used only for absence of downstream plan/orders/fills/position/TR.",
+    "All SQL in drafts is SELECT-only and would execute solely under root-run tests in temporary fixture stores. No SQL or DB open was performed while preparing these artifacts.",
+    "Fixture initially creates an independent E4 oracle request and provider response script, but neither is dispatched/stored by these negatives. The actual service translator/provider are never substituted or patched.",
+    "No effects spy returns a risk/signal/PASS value; no SQL terminal/status writes, policy authority fabrication, LIVE execution, PaperZero funding or financial defaults."
+  ],
+  "limitations": [
+    "NOT_EXECUTED: syntax/import/test behavior unverified; root must run actual cases after source freeze.",
+    "These cases do not exercise APPROVE PREPARED/no-local-preparation recovery, publication prefix failures, source-content/candle mutation conflicts, native timing or original E2 exit management. Existing corrected positive separately covers one-claim expired/revoked direct reconciliation.",
+    "Source hashes identify the exact static base inspected. Reconcile future root changes before application; no automatic coverage or acceptance status follows from the draft."
+  ]
+}

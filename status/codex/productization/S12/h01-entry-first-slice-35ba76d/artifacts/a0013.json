@@ -1,0 +1,157 @@
+{
+  "kind": "H01_ENTRY_RECOVERY_AND_SCHEMA_UNAPPLIED_TEST_DRAFTS",
+  "status": "UNAPPLIED",
+  "execution": "NOT_EXECUTED",
+  "acceptance_credit": "NONE",
+  "root_owns_source": true,
+  "scope": "Four isolated actual-source boundary cases, no protection fixture setup, no implementation edits",
+  "artifacts": [
+    {
+      "ref": "h01_entry_recovery_fixture.py.unapplied",
+      "intended_path": "tests/product/h01_entry_recovery_fixture.py",
+      "sha256": "11a2e45901d4a583e8eab0a2271fb4e583cf290a4646982fb60560aeed5b19aa"
+    },
+    {
+      "ref": "test_h01_entry_committed_recovery.py.unapplied",
+      "intended_path": "tests/product/test_h01_entry_committed_recovery.py",
+      "sha256": "f24c44e090e1956a9c28d0b3d0e480adf01152f585ca2e63064af767a5b84e35"
+    },
+    {
+      "ref": "test_h01_entry_lost_ack.py.unapplied",
+      "intended_path": "tests/product/test_h01_entry_lost_ack.py",
+      "sha256": "96c755c119bc9ae21221ad897b03d6b9ea79fb0eacb62d74efcb9f81e60234c6"
+    },
+    {
+      "ref": "test_h01_entry_prepared_recovery.py.unapplied",
+      "intended_path": "tests/product/test_h01_entry_prepared_recovery.py",
+      "sha256": "02db5d09e4d734d5a909fc8a0cd2f6b562ae3164ed90f1b56fc61bb83b836942"
+    },
+    {
+      "ref": "test_h01_entry_schema.py.unapplied",
+      "intended_path": "tests/product/test_h01_entry_schema.py",
+      "sha256": "f7e1a11eef1f8385de13980ac995e46affe820c08edc5f99e1c3dd269b93e901"
+    }
+  ],
+  "case_A": {
+    "module": "test_h01_entry_committed_recovery.py.unapplied",
+    "actual_failure": "Patch PaperRuntimeJournal.persist_risk_decision CLASS descriptor with autospec=True. Call original_descriptor(journal,payload), retain actual committed returned object, THEN raiseOSError. No slot patch, false result, rollback or fabricatedrisk.",
+    "prefix": "Actual ProductEntryDecision outbox committed; actual RiskDecision durable; ApprovedTradePlan absent; no dispatch intent/claim/provider call; exact pendingentrybatch.",
+    "successor": "New RuntimeAdmission + genuine new-process E7 input interpreted by actual existing preflight owner; newcapabilityowner/newtranslator/FakeProductProvider([]); new SQLite journal HANDLES to SAME h01-dispatch.sqlite/h01-canonical.sqlite; dispatchlease2, newinstance, originalReleaseBinding/runtimeGeneration1 unchanged.",
+    "drain": "Call normal successor.service.recover_publications. Actual canonical writers replay saved risk+plan and mark entry receiptgeneration2; exact decision/effects/hash/interpretationclock stable, no providercall, repeatdrain idempotent; oldlease1 denied.",
+    "canonical_prefix_reader": "Use canonical._store._object_row read-only lookup only on owned RISK_DECISION/APPROVED_TRADE_PLAN. recover(planid) cannot resolve risk before the parentplanexists. No SQL financial writes.",
+    "clock": "Exact interpreted_at uses storage.product_dispatch._stamp microsecond UTC, not datetime.isoformat default precision."
+  },
+  "case_B": {
+    "module": "test_h01_entry_lost_ack.py.unapplied",
+    "setup": "Before any owner work, compose actual fresh FakeProductProvider script [LOST_ACK, actualexisting order_response, fill_response] into actual TradingService. Same initial owner identity/lease1 normally rebound idempotently; no replacement after a claimed effect.",
+    "assertions": [
+      "Actual first POST commits original claim and returns RECONCILIATION_REQUIRED, not fabricated ACK.",
+      "Advance existing synthetic clock60seconds; assert actual ApprovedTradePlan.expires_at and original capabilityproof.expires_at are past. Current E7 fixture still produces legitimate fresh MANAGE_EXISTING evidence; no expiryrenewal.",
+      "Construct NEW TradingOrchestrator (no localpreparationcache), evaluate same original bundle/arguments; _claimed path returns ORIGINAL_CLAIM_READBACK and normal service.reconcile GETorder+GETfills before new-entry input/proof validation.",
+      "Exactly onePOSTtotal and POST/GET/GET actual fakecallsequence. Original decision/plan/request/interpretationclock unchanged; no fill from live0fill readback."
+    ],
+    "scope": "Expired entry material does not erase an existing readback obligation. Not permission for a new order."
+  },
+  "case_C": {
+    "module": "test_h01_entry_prepared_recovery.py.unapplied",
+    "actual_failure": "Patch ProductDispatchJournal.claim_dispatch CLASS descriptor/autospec to raise immediately. Existing coordinator first calls actual prepare, so PREPARED intent is durable and no claim or POST happens.",
+    "recovery": "NEW TradingOrchestrator on same actualservice discards original EntryOwner local preparation. It must return BLOCKED/ORIGINAL_LOCAL_PREPARATION_REQUIRED and preserve original CURRENT_ADMISSION_REQUIRED PREPARED intent.",
+    "assertions": "Exact stored decision/effect clock/request_json/canonical graph unchanged, provider.calls empty. No retranslation or adoption of an unclaimed persisted request."
+  },
+  "case_D": {
+    "module": "test_h01_entry_schema.py.unapplied",
+    "actual_positive_setup": "One normal TradingOrchestrator evaluation creates actual owner outbox+receipt. No SQL positive/terminal inserts. Fake onlyonependingACK/noexposure.",
+    "targets": [
+      "product_entry_decisions",
+      "product_entry_publications"
+    ],
+    "attacks": [
+      "UPDATEeffects_hash",
+      "DELETEexactrow",
+      "INSERT OR REPLACEexactactualrow",
+      "Decision-only alternativeboundary+SAMEdecision_id with original actualrun_id/generation; both actual parent FKs retained and verified"
+    ],
+    "guard_scope": "Set recursive_triggers=OFF while foreign_keys remainsON. Exact expected immutable/replacement trigger messages distinguish protected row denial from incidental FK failure. Same decision_id alternative boundary specifically exercises UNIQUE/OR replacement guard.",
+    "transaction": "BEGIN IMMEDIATE per attempted mutation; assert sqlite3.IntegrityError/exactmessage; finally ROLLBACK every attempt including assertionfailure, compare both entire entrytables to originals, restore original recursivepragma. No canonical financial table writes."
+  },
+  "shared_helper": {
+    "ref": "h01_entry_recovery_fixture.py.unapplied",
+    "kind": "Normal contextmanager, NO unittest.TestCase ancestry",
+    "setup": "Uses actual tests/product/h01_entry_fixture.py exactlyonce per exposed test; imports modules byalias to avoid duplicate discovered TestCase classes.",
+    "preflight_source": "Copies bounded existing FinalizationRecoveryFixture.successor E7 construction only, without expensive FinalizationFixture/protection setup. Actual newprocess instance with original release/config/runtimegeneration1; new RuntimeAdmission uses original actual E6 factory and actual E7 interpreter.",
+    "cleanup": "ExitStack closes successor handles before basefixture closes originalhandles/research/temp scope. Old handles remain open through stalelease check to prove crossconnection fencing.",
+    "readers": "canonical_object reads only2actualowner kinds; entry_storage_snapshot reads only2entry tables. SQL mutations exist only in schema test on private testowned DB and are all denied/rolledback."
+  },
+  "no_new_interface_assumptions": [
+    "Current EntryOwner, ProductEntryDecision/receipt tables, journal.pending_entry_publications/mark_entry_publication and service.recover_publications already exist. Drafts require no new product API or financial schema change.",
+    "Current LiveAdmission fixture preflight() has no optionalnewprocessparameters. Helper constructs a new explicit preflight function using the established actual builder and interpreter pattern instead of mutating existing admission or pretending dispatchgeneration2 is E7runtimegeneration2.",
+    "ProductDispatchError string codes and exact SQL trigger messages match reviewed source; any later sourcechange must be reviewed before application.",
+    "Schema test does not attempt an alternative-boundary publication row: that would lack an actual childdecision FK and merely prove FKfailure. Alternativeboundary/SAMEdecision_id is tested on actualdecision table with valid existingrun/generation FKs.",
+    "Plans, risk results, receipts and terminalfinancial facts are created by actual owners only. Controlled postcommit/preclaim exceptions and fake lostACK are explicit failure stimuli, not PASS/result/factory overrides."
+  ],
+  "static_review_limits": [
+    "No tests, syntax compilation, DB opening, process runs or networkcalls performed by this draft task. Expected RED/GREEN outcomes are not observed.",
+    "Current root genuine entry eightsecond proof is context only; these draftcases receive no execution/acceptancecredit.",
+    "One test/module preserves existing perfile fixed900second qualification partition mechanism; actualduration will be measured byroot after applying, not assumed.",
+    "Root is sole tracked/sourcewriter; allpriorARTdrafts retained."
+  ],
+  "source_hashes": [
+    {
+      "ref": "tests/product/h01_entry_fixture.py",
+      "sha256": "1fe3b05441b63a3fe14f2fcd723553e63fe3dc3e200143eae427eb096ebef059"
+    },
+    {
+      "ref": "tests/product/test_trading_orchestrator_v02.py",
+      "sha256": "16e65d79d34229be90e9bb1e92eaf8715e03bbff6ffe607a2b62233441971b9a"
+    },
+    {
+      "ref": "tests/product/trading_finalization_recovery_fixtures.py",
+      "sha256": "967e11f1d1f13fcd45c285ce157a3a64d81bbac35dee4b019e40e309034346d6"
+    },
+    {
+      "ref": "tests/product/test_live_admission_v02.py",
+      "sha256": "343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba"
+    },
+    {
+      "ref": "src/application/trading/entry_owner.py",
+      "sha256": "dd4f87473ecda9be0db618ca3cf96e60e166dec71d49ff3a59f6f4cfb23d6e96"
+    },
+    {
+      "ref": "src/application/trading/orchestrator.py",
+      "sha256": "d210e0b6c2b42623705c9ca5abea8ea58304e940a7da8ae6e4bb04b3d6987908"
+    },
+    {
+      "ref": "src/application/trading/service.py",
+      "sha256": "e1ebb796b22a4b103ce12a2945b444c97031e87bb08e97dfb5a1d3e0fec9b1a6"
+    },
+    {
+      "ref": "src/application/trading/admission.py",
+      "sha256": "b5890c1d040c1ca7521f22deb3100be987a7b878a80b6e6be612dce60d9e14d2"
+    },
+    {
+      "ref": "src/storage/product_entry_decision.py",
+      "sha256": "53748d8bafb47a11fb2003a62f21edb5f8b8735e4ec52ac72f1c6c77f75d7fa6"
+    },
+    {
+      "ref": "src/storage/product_dispatch.py",
+      "sha256": "92005366e6513faea2de6291ac34250bd87ae710f16c8915d61e4c6a38ce512d"
+    },
+    {
+      "ref": "src/storage/migrations/0023_product_entry_decision.sql",
+      "sha256": "d5c040b1a5f892ff11b18d22e88d39a4ad4956444fb68181573d6820027d0507"
+    },
+    {
+      "ref": "src/storage/runtime.py",
+      "sha256": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593"
+    }
+  ],
+  "verification": {
+    "tests": [],
+    "compilation": [],
+    "db_reads": 0,
+    "network_calls": 0,
+    "native_processes": [],
+    "git": [],
+    "tracked_changes": []
+  }
+}

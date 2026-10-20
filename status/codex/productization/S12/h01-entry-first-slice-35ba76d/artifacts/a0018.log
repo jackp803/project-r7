@@ -1,0 +1,15 @@
+test_actual_registered_e2_e5_entry_is_durable_before_one_guarded_fake_submission (tests.product.test_trading_orchestrator_v02.TradingOrchestratorV02Tests.test_actual_registered_e2_e5_entry_is_durable_before_one_guarded_fake_submission) ... ERROR
+
+======================================================================
+ERROR: test_actual_registered_e2_e5_entry_is_durable_before_one_guarded_fake_submission (tests.product.test_trading_orchestrator_v02.TradingOrchestratorV02Tests.test_actual_registered_e2_e5_entry_is_durable_before_one_guarded_fake_submission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SOURCE_ROOT>\tests\product\test_trading_orchestrator_v02.py", line 17, in test_actual_registered_e2_e5_entry_is_durable_before_one_guarded_fake_submission
+    from application.trading.orchestrator import TradingOrchestrator  # Proposed real production-code class.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'TradingOrchestrator' from 'application.trading.orchestrator' (<SOURCE_ROOT>\src\application\trading\orchestrator.py)
+
+----------------------------------------------------------------------
+Ran 1 test in 3.387s
+
+FAILED (errors=1)

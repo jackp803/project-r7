@@ -1,0 +1,71 @@
+{
+  "schema": "r7-bounded-independent-source-review-v1",
+  "review_kind": "H01_ENTRY_REPAIR_STATIC_REVIEW",
+  "review_date": "2026-10-20",
+  "scope_status": "STATIC_ONLY",
+  "reviewer_execution": "NONE",
+  "execution_status": "EXECUTION_NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "scope": "Repair-only review of the five entry production files and two new regression files; no broader H01 audit.",
+  "subject_hashes": {
+    "src/application/trading/entry_owner.py": "c1de8253067a8824acaad044d21b130b85221609de74d25df7a6ffdc2b09bbd0",
+    "src/storage/product_entry_decision.py": "8a0c80d21db4d13f09d4d712c81168bacddf076be8ae5c17236d13b27cb42de2",
+    "src/storage/migrations/0023_product_entry_decision.sql": "d5c040b1a5f892ff11b18d22e88d39a4ad4956444fb68181573d6820027d0507",
+    "src/storage/product_dispatch.py": "92005366e6513faea2de6291ac34250bd87ae710f16c8915d61e4c6a38ce512d",
+    "src/application/trading/orchestrator.py": "d210e0b6c2b42623705c9ca5abea8ea58304e940a7da8ae6e4bb04b3d6987908",
+    "tests/product/test_trading_entry_geometry_v02.py": "5786edafecde45fbd13e4660d2c94027b6fbc0c20d1709c59fd7e32e3c525817",
+    "tests/product/test_trading_entry_lineage_v02.py": "bbec2fc8c6a78cc87b0ef0afef16c8f79fd9b4c4cb47de47a99cc771ac7fbdaf"
+  },
+  "initial_review": {
+    "path": "h01-entry-implementation-review-initial-20261020.json",
+    "sha256": "09fd1b326bee97d451ddc03f359209932f17ddc4f5578102773f64b65a5c1bec",
+    "preserved": true,
+    "critical": 0,
+    "important": 2
+  },
+  "finding_dispositions": [
+    {
+      "id": "H01-E2-PROPOSAL-GEOMETRY",
+      "prior_severity": "Important",
+      "status": "RESOLVED_IN_REVIEWED_BYTES",
+      "locations": [
+        "src/application/trading/entry_owner.py:185",
+        "tests/product/test_trading_entry_geometry_v02.py:13"
+      ],
+      "basis": "Actual E2 ExitRequest constraints are resolved by the existing canonical helper; proposal stop and target must exactly equal those constraints before intent/risk evaluation or staging. Regression deliberately proves alternative prices are otherwise E5-policy-valid, then asserts typed denial and absence of provider, durable decision and canonical risk/plan effects."
+    },
+    {
+      "id": "H01-PERSISTED-E2-LINEAGE",
+      "prior_severity": "Important",
+      "status": "RESOLVED_IN_REVIEWED_BYTES",
+      "locations": [
+        "src/storage/product_entry_decision.py:82",
+        "tests/product/test_trading_entry_lineage_v02.py:14"
+      ],
+      "basis": "Persisted signal content hash and evaluation boundary are checked, exit subject/direction/symbol/reference price/boundary are linked to that signal, and the full original intent is rebuilt through existing resolve_exit_constraints/build_trade_intent and compared exactly. Six intercepted genuine-owner observations independently corrupt those links before the real stage method and require denial with no provider/canonical effects."
+    }
+  ],
+  "delta_confirmation": {
+    "changed_production": [
+      "src/application/trading/entry_owner.py",
+      "src/storage/product_entry_decision.py"
+    ],
+    "unchanged_from_initial_review": [
+      "src/storage/migrations/0023_product_entry_decision.sql",
+      "src/storage/product_dispatch.py",
+      "src/application/trading/orchestrator.py"
+    ],
+    "all_seven_current_bytes_equal_captured_review_snapshots": true
+  },
+  "findings": [],
+  "counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "limits": [
+    "Static source and test-oracle review only; no tests, compilation, imports, DB, Git, process, native, provider or network execution performed by reviewer.",
+    "Root-reported RED/GREEN execution results were not independently executed or admitted as qualification evidence in this artifact.",
+    "Existing fixture-only first-entry scope remains; no ordinary/live activation, full H01, E2 management, native, PQR or Master acceptance claim.",
+    "Source and test execution/qualification remain the owning implementer responsibility."
+  ]
+}

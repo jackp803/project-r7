@@ -1,0 +1,59 @@
+{
+  "schema_version": "r7-bounded-static-review-v1",
+  "review_mode": "STATIC_ONLY",
+  "execution_status": "EXECUTION_NONE",
+  "reviewer_execution": "NONE",
+  "acceptance_credit": "NO_ACCEPTANCE_CREDIT",
+  "critical": 0,
+  "important": 2,
+  "production_hashes": {
+    "src/application/trading/entry_owner.py": "dd4f87473ecda9be0db618ca3cf96e60e166dec71d49ff3a59f6f4cfb23d6e96",
+    "src/storage/product_entry_decision.py": "53748d8bafb47a11fb2003a62f21edb5f8b8735e4ec52ac72f1c6c77f75d7fa6",
+    "src/storage/migrations/0023_product_entry_decision.sql": "d5c040b1a5f892ff11b18d22e88d39a4ad4956444fb68181573d6820027d0507",
+    "src/storage/product_dispatch.py": "92005366e6513faea2de6291ac34250bd87ae710f16c8915d61e4c6a38ce512d",
+    "src/application/trading/orchestrator.py": "d210e0b6c2b42623705c9ca5abea8ea58304e940a7da8ae6e4bb04b3d6987908"
+  },
+  "supporting_refs": {
+    "tests/product/test_trading_orchestrator_v02.py": "16e65d79d34229be90e9bb1e92eaf8715e03bbff6ffe607a2b62233441971b9a",
+    "src/risk/engine.py": "3e39dfb1a2aec8121283f4603201af7d222bd2ad8947af979cf2c9dabdb507a1",
+    "src/application/paper/engine.py": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6"
+  },
+  "findings": [
+    {
+      "id": "H01-E2-PROPOSAL-GEOMETRY",
+      "severity": "Important",
+      "path": "src/application/trading/entry_owner.py",
+      "lines": [
+        185,
+        199
+      ],
+      "description": "Actual E2 ExitConstraints are placed in TradeIntent, but caller RiskProposal required_stop_level/required_target_level are passed unchanged to E5 without correspondence checks. The existing E5 proposal validator does not compare them with intent geometry, and ApprovedTradePlan takes its protection levels from RiskDecision/proposal. A typed proposal can therefore override the actual E2 stop/target and still reach guarded POST.",
+      "minimal_fix": "Require exact correspondence of explicit proposal stop/target with the actual resolved E2 constraints before E5 evaluation, or derive those exact geometry fields within the trusted composition and reject conflicting inputs. Preserve explicit sizing/context/cost vectors and unchanged existing E5 math/policy.",
+      "fault_injection_plan": "Reuse actual registered E2 fixture. Change only proposal required_stop_level/required_target_level to different finite positive values within the unchanged risk policy. The owner must refuse before decision/canonical publication/claim/POST; do not patch E2/E5 outputs."
+    },
+    {
+      "id": "H01-PERSISTED-E2-LINEAGE",
+      "severity": "Important",
+      "path": "src/storage/product_entry_decision.py",
+      "lines": [
+        82,
+        98
+      ],
+      "description": "Intrinsic persisted E2 links/clocks are incomplete: signal content hash/evaluated_at, intent signal_id/generated_at/market boundary and ExitRequest direction/observed_at/market boundary are not bound to the original stored subject/boundary and one another. Changing only a genuine emitted TradeIntent.generated_at to a future UTC value while retaining its intent_id/effects currently satisfies the decoder, yielding false approved E2 history.",
+      "minimal_fix": "Validate exact original signal subject/content/boundary and cross-link ExitRequest/TradeIntent direction, symbol, signal ID, market reference and original clocks. Rebuild the exact intent through the existing TradeIntent builder plus resolved existing ExitRequest constraints and compare where possible; no E1-history replay, separate risk math or new permission is required.",
+      "fault_injection_plan": "Intercept one actual owner-produced ProductEntryObservation just before staging. Alter only intent.generated_at, signal content/evaluation clock, or exit/intent market binding and reserialize evidence. Require typed refusal without canonical effects/claim/provider calls. This is a corrupted internal fact check, not treating the observation dataclass as a public permission API."
+    }
+  ],
+  "supported_static_conclusions": [
+    "EntryOwner restricts this first slice to actual TradingService with a bound process and FIXTURE/FAKE_PROVIDER_VERIFICATION. It obtains actual current E6/E7 policy/strategy, checks same namespace/content/hash/generation and reconstructs caller SelectedRiskPolicy rather than trusting declared fields.",
+    "Operational AsOfBundle is rebuilt with recorded_received_at; source cutoff/boundary cannot exceed owner time. Length-framed streaming commitment includes canonical E1 availability/source fields and explicit policy/context/proposal without duplicating full candle history in SQLite.",
+    "Actual existing E2 and E5 functions are called; first E5 time is sampled after E2/input work. Immutable decision is staged before canonical risk/plan, request/claim or POST. No healthy/balance/sizing defaults or financial profile activation are introduced.",
+    "Previous retry design issue is structurally addressed: claimed original operations go directly to current MANAGE_EXISTING reconciliation before new-exposure/input/translation gates. PREPARED unclaimed replay requires the same still-current local issuer object; lost original local preparation blocks without adoption or retranslation.",
+    "Canonical entry publication and receipt writers are sequential, without nested dispatch/canonical write transactions. The atomic migration marker is first; decision PK and unique decision-ID REPLACE guards plus immutable publication guards are present.",
+    "The inspected positive test source now asserts one original claim/POST, direct original GET retry, and management after actual fixture consent revoke plus60s expiration. Root-reported result is separate from this static inspection."
+  ],
+  "limits": [
+    "These are exact captured initial production subjects; root may subsequently repair them. No reviewer imports/tests/DB/process/native/Git/network/provider or tracked edits. Only this authorized outside-Git review JSON was written.",
+    "Negative/recovery/schema execution remains pending. No H01 completion, native/current production, LIVE/financial activation, PQR or Master acceptance is inferred."
+  ]
+}

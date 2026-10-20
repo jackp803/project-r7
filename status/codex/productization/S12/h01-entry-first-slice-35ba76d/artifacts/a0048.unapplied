@@ -1,0 +1,33 @@
+"""UNAPPLIED / NOT_EXECUTED. PREPARED does not transfer lost local preparation."""
+import unittest
+from unittest.mock import patch
+
+from tests.product import h01_entry_recovery_fixture as recovery_fixtures
+from application.trading.orchestrator import TradingOrchestrator
+from storage.product_dispatch import ProductDispatchJournal
+
+
+class H01EntryPreparedRecoveryTests(unittest.TestCase):
+    def test_real_prepared_request_without_claim_blocks_new_orchestrator_with_zero_post(self):
+        with recovery_fixtures.H01RecoveryFixture() as h:
+            f = h.fixture
+            # Actual normal prepare commits BEFORE this not-yet-executed claim.
+            with patch.object(ProductDispatchJournal,'claim_dispatch',autospec=True,
+                              side_effect=OSError('fixture-before-original-claim')):
+                with self.assertRaisesRegex(OSError,'before-original-claim'):
+                    TradingOrchestrator(f.service).evaluate_entry(f.bundle,**f.arguments)
+            saved = f.dispatch.entry_decision(f.service.run_id,f.authority.identity,f.bundle.boundary)
+            original = f.dispatch.operation(f.service.run_id,f.request.order_request_id)
+            self.assertIsNotNone(original)
+            self.assertEqual(('PREPARED','CURRENT_ADMISSION_REQUIRED'),
+                             (original.status,original.recovery_disposition))
+            self.assertEqual([],f.provider.calls)
+            baseline = f.canonical.recover(trade_plan_id=f.plan['trade_plan_id'])
+            blocked = TradingOrchestrator(f.service).evaluate_entry(f.bundle,**f.arguments)
+            self.assertEqual('BLOCKED',blocked.status)
+            self.assertEqual(('ORIGINAL_LOCAL_PREPARATION_REQUIRED',),blocked.reason_codes)
+            self.assertEqual(f.request.order_request_id,blocked.operation_id)
+            self.assertEqual(saved,f.dispatch.entry_decision(f.service.run_id,f.authority.identity,f.bundle.boundary))
+            self.assertEqual(original,f.dispatch.operation(f.service.run_id,f.request.order_request_id))
+            self.assertEqual(baseline,f.canonical.recover(trade_plan_id=f.plan['trade_plan_id']))
+            self.assertEqual([],f.provider.calls)

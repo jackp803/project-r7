@@ -83,6 +83,25 @@ legacy recover as the independent complete audit and provide an explicit current
 management recovery result whose proof status is REQUIRED unless E6 owns a valid
 complete-prefix audit and verified subsequent append extension.
 
+The prefix protocol has a separate immutable new-run marker, inserted before
+checkpoint0 in the same transaction. This distinguishes older codec-only0025
+runs from newly prefix-enabled runs; no old run gains this marker automatically.
+The root prefix binds the original run binding, physical profile and semantic
+checkpoint0 hash. Each next prefix is appended atomically with the exact
+publication receipt, after effects are committed. It hashes the previous prefix,
+run/revision/operation, existing request/state/outcome/effect hashes and publication
+clock, without duplicating those full payloads. Prepared/APPLIED-but-unpublished
+operations never advance the published prefix. Idempotent publication validates
+its original prefix rather than replacing it. SQL guards forbid UPDATE/DELETE/
+REPLACE, missing predecessors and prefix records without actual source facts.
+
+Add a covering (run_id,base_revision,operation_id) index for unfinished-tail
+lookup. Before the private audited-prefix mechanism exists, retain the full
+operation scan and compare this indexed tail with the complete pending set;
+an old unfinished intent cannot be hidden behind a claimed prefix boundary.
+Independent full audit checks every prefix/fact and exact prefix inventory;
+a missing root on a marked run refuses instead of falling back to codec-only.
+
 Audit validity is process-instance owned and tied to the exact run/binding,
 prefix revision/hash, SQLite schema/data-version and tracked writes. No caller
 can deserialize/import a proof. Unexpected external writes or schema changes,

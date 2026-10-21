@@ -1,0 +1,86 @@
+test_codec_only_0025_run_is_preserved_without_automatic_prefix_upgrade (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_codec_only_0025_run_is_preserved_without_automatic_prefix_upgrade) ... FAIL
+test_missing_marked_root_or_altered_past_prefix_refuses_full_audit (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_missing_marked_root_or_altered_past_prefix_refuses_full_audit) ... FAIL
+test_missing_root_is_not_silently_downgraded_to_codec_only_profile (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_missing_root_is_not_silently_downgraded_to_codec_only_profile) ... FAIL
+test_old_unfinished_intent_cannot_hide_behind_indexed_prefix_tip (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_old_unfinished_intent_cannot_hide_behind_indexed_prefix_tip) ... FAIL
+test_prefix_and_protocol_marker_forbid_update_delete_and_replace (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_prefix_and_protocol_marker_forbid_update_delete_and_replace) ... FAIL
+test_publication_and_prefix_roll_back_together_then_replay_original_effect (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_publication_and_prefix_roll_back_together_then_replay_original_effect) ... FAIL
+test_root_and_exact_publication_advance_once_not_on_intent_or_applied_effect (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_and_exact_publication_advance_once_not_on_intent_or_applied_effect) ... FAIL
+
+======================================================================
+FAIL: test_codec_only_0025_run_is_preserved_without_automatic_prefix_upgrade (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_codec_only_0025_run_is_preserved_without_automatic_prefix_upgrade)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 98, in test_codec_only_0025_run_is_preserved_without_automatic_prefix_upgrade
+    self.assertTrue(callable(getattr(migrated,'audit_full',None)),
+AssertionError: False is not true : E6 full audit API missing
+
+======================================================================
+FAIL: test_missing_marked_root_or_altered_past_prefix_refuses_full_audit (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_missing_marked_root_or_altered_past_prefix_refuses_full_audit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 68, in test_missing_marked_root_or_altered_past_prefix_refuses_full_audit
+    self.create();self.apply(1);self.apply(2);db=self.journal._db
+    ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 17, in create
+    self.assertTrue(callable(getattr(self.journal,'audit_full',None)),
+AssertionError: False is not true : E6 has no explicit complete logical/history/published-prefix audit
+
+======================================================================
+FAIL: test_missing_root_is_not_silently_downgraded_to_codec_only_profile (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_missing_root_is_not_silently_downgraded_to_codec_only_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 76, in test_missing_root_is_not_silently_downgraded_to_codec_only_profile
+    self.create();db=self.journal._db
+    ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 17, in create
+    self.assertTrue(callable(getattr(self.journal,'audit_full',None)),
+AssertionError: False is not true : E6 has no explicit complete logical/history/published-prefix audit
+
+======================================================================
+FAIL: test_old_unfinished_intent_cannot_hide_behind_indexed_prefix_tip (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_old_unfinished_intent_cannot_hide_behind_indexed_prefix_tip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 82, in test_old_unfinished_intent_cannot_hide_behind_indexed_prefix_tip
+    self.create();self.apply(1);db=self.journal._db
+    ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 17, in create
+    self.assertTrue(callable(getattr(self.journal,'audit_full',None)),
+AssertionError: False is not true : E6 has no explicit complete logical/history/published-prefix audit
+
+======================================================================
+FAIL: test_prefix_and_protocol_marker_forbid_update_delete_and_replace (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_prefix_and_protocol_marker_forbid_update_delete_and_replace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 56, in test_prefix_and_protocol_marker_forbid_update_delete_and_replace
+    self.create();self.apply(1);db=self.journal._db
+    ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 17, in create
+    self.assertTrue(callable(getattr(self.journal,'audit_full',None)),
+AssertionError: False is not true : E6 has no explicit complete logical/history/published-prefix audit
+
+======================================================================
+FAIL: test_publication_and_prefix_roll_back_together_then_replay_original_effect (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_publication_and_prefix_roll_back_together_then_replay_original_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 46, in test_publication_and_prefix_roll_back_together_then_replay_original_effect
+    self.create();applied=self.apply(1,publish=False);db=self.journal._db
+    ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 17, in create
+    self.assertTrue(callable(getattr(self.journal,'audit_full',None)),
+AssertionError: False is not true : E6 has no explicit complete logical/history/published-prefix audit
+
+======================================================================
+FAIL: test_root_and_exact_publication_advance_once_not_on_intent_or_applied_effect (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_and_exact_publication_advance_once_not_on_intent_or_applied_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 33, in test_root_and_exact_publication_advance_once_not_on_intent_or_applied_effect
+    self.create();root=self.rows();self.assertEqual(len(root),1)
+    ^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 17, in create
+    self.assertTrue(callable(getattr(self.journal,'audit_full',None)),
+AssertionError: False is not true : E6 has no explicit complete logical/history/published-prefix audit
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.158s
+
+FAILED (failures=7)

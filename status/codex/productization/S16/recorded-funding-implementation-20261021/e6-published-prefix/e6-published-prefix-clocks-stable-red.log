@@ -1,0 +1,57 @@
+test_operation_and_effect_clocks_are_bound_to_the_published_prefix (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_operation_and_effect_clocks_are_bound_to_the_published_prefix) ...
+  test_operation_and_effect_clocks_are_bound_to_the_published_prefix (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_operation_and_effect_clocks_are_bound_to_the_published_prefix) (table='paper_process_operations') ... FAIL
+  test_operation_and_effect_clocks_are_bound_to_the_published_prefix (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_operation_and_effect_clocks_are_bound_to_the_published_prefix) (table='paper_process_effects') ... FAIL
+test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) ...
+  test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_runs') ... FAIL
+  test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_storage_profiles') ... FAIL
+  test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_prefix_profiles') ... FAIL
+
+======================================================================
+FAIL: test_operation_and_effect_clocks_are_bound_to_the_published_prefix (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_operation_and_effect_clocks_are_bound_to_the_published_prefix) (table='paper_process_operations')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 146, in test_operation_and_effect_clocks_are_bound_to_the_published_prefix
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_operation_and_effect_clocks_are_bound_to_the_published_prefix (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_operation_and_effect_clocks_are_bound_to_the_published_prefix) (table='paper_process_effects')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 146, in test_operation_and_effect_clocks_are_bound_to_the_published_prefix
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_runs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 132, in test_root_commits_original_run_and_both_profile_selection_clocks
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_storage_profiles')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 132, in test_root_commits_original_run_and_both_profile_selection_clocks
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_prefix_profiles')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 132, in test_root_commits_original_run_and_both_profile_selection_clocks
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.609s
+
+FAILED (failures=5)

@@ -25,6 +25,7 @@ from .runtime import _reject_provider_native_fields
 from ._runtime_validation import _reject_noncanonical
 from .runtime_models import RuntimeConflictError, RuntimeValidationError
 from .paper_state_codec import CODEC as ENCODED_STORAGE_PROFILE,encode_state,decode_state
+from .paper_process_prefix import PublishedPrefixes
 
 LEGACY_STORAGE_PROFILE='r7-paper-state-json-v0.1'
 
@@ -192,7 +193,9 @@ class PaperProcessRecovery:
 
 
 class PaperProcessJournal:
-    def __init__(self, connection): self._db = connection
+    def __init__(self, connection):
+        self._db = connection
+        self._prefixes=PublishedPrefixes(self)
     def close(self): self._db.close()
     def __enter__(self): return self
     def __exit__(self, *_): self.close()
@@ -242,9 +245,11 @@ class PaperProcessJournal:
                 physical=state_raw
                 if storage_profile==ENCODED_STORAGE_PROFILE:
                     self._db.execute('INSERT INTO paper_process_storage_profiles VALUES (?,?,?)',(run_id,storage_profile,at))
+                    self._prefixes.select_new(run_id,at)
                     physical=encode_state(state_raw,run_id=run_id,revision=0)
                 self._db.execute('INSERT INTO paper_process_checkpoints VALUES (?,0,NULL,?,?,?)',
                                  (run_id, physical, _digest(state_raw), at))
+                if storage_profile==ENCODED_STORAGE_PROFILE:self._prefixes.initialize(run_id)
         return self.recover(run_id)
 
     def operation(self, run_id, operation_id):
@@ -339,6 +344,7 @@ class PaperProcessJournal:
             if at < completed: _invalid('Publication clock predates Paper effect')
             self._db.execute('INSERT OR IGNORE INTO paper_process_publications VALUES (?,?,?,?)',
                              (run_id, operation_id, effect_hash, at))
+            self._prefixes.append_published(operation)
 
     def begin_process(self, run_id, instance_id, *, expected_generation, now):
         _text(instance_id); at = _stamp(now)
@@ -418,12 +424,15 @@ class PaperProcessJournal:
         if own_read: self._db.execute('BEGIN')
         try:
             run = self._run(run_id); checkpoint = self._checkpoint(run_id)
-            rows = self._db.execute('SELECT operation_id FROM paper_process_operations WHERE run_id=? ORDER BY base_revision,operation_id', (run_id,)).fetchall()
+            prefix=self._prefixes.audit_start(run_id)
+            rows = self._db.execute('SELECT operation_id FROM paper_process_operations WHERE run_id=? ORDER BY base_revision,operation_id', (run_id,))
             pending, has_prepared = [], False
             for row in rows:
                 operation = self.operation(run_id, row['operation_id'])
+                self._prefixes.audit_operation(prefix,operation)
                 if operation.status != 'PUBLISHED': pending.append(operation.operation_id)
                 has_prepared = has_prepared or operation.status == 'PREPARED'
+            self._prefixes.audit_finish(prefix,pending,checkpoint['revision'])
             generation = self._db.execute('SELECT COALESCE(MAX(generation),0) FROM paper_process_generations WHERE run_id=?', (run_id,)).fetchone()[0]
             status = 'PREPARED_PENDING' if has_prepared else 'PUBLICATION_PENDING' if pending else 'RECONCILIATION_REQUIRED'
             result = PaperProcessRecovery(run_id, run['binding_json'], checkpoint['revision'], checkpoint['state_json'], status, tuple(pending), generation)
@@ -431,6 +440,10 @@ class PaperProcessJournal:
             if own_read: self._db.rollback()
         if own_read: _state(result.state)
         return result
+
+    def audit_full(self,run_id):
+        """Independent complete history validation; never an entry permission."""
+        return self.recover(run_id)
 
 
 def open_paper_process_journal(path: str | Path, *, require_existing: bool = False) -> PaperProcessJournal:

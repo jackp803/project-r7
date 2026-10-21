@@ -1,3 +1,30 @@
+# Approved E6 subplan C component passes; continue bounded management D/E — 2026-10-21
+
+Migration0026 immutable new-run prefix marker, published chain and pending-tail
+index implemented. Full audit retained and streams IDs; no bounded-hot claim.
+Root/step hash commitments, exact publication transaction/retry, complete per-run
+fact inventory and original clocks validated. Codec-only0025 runs not auto-upgraded.
+Root deletion, old pending, orphan records and clock rewrites RED→GREEN.51scope,
+270storage and33encoded funding/report checks PASS, overlapping not summed.
+
+Next D: explicit bounded current recovery and private instance-owned audit lease;
+external SQLite data/schema/unknown-own-write invalidation, successor entry/healthy
+inhibition, protection before bounded full-audit batches. Canonical publication
+currently uses a separate connection in the SAME canonical DB; a trusted shared
+E6 connection seam is feasible but preserve close/idle transaction ownership and
+all existing distinct-journal financial guards. Registry/control writes still
+invalidate the audit; never silently trust a persisted prefix as an audit PASS.
+Do not synchronously audit whole history in a protection callback. Full independent
+backup/restore must still verify history; restore remains inhibited.
+
+Then E actual whole-product30day capacity/latency/RSS/backup and exact new Windows
+build/PQR, plus original emergency source/policy/research/native admission work.
+No ordinary profile activation, native qualification or observation yet. E6 scope
+already human-approved, no repeated Task approval. Same Master/branch; public20/19.
+Evidence: S16/recorded-funding-implementation-20261021/e6-published-prefix/disposition.json
+
+---
+
 # Approved E6 subplan B component passes; continue prefix/audit C–E — 2026-10-21
 
 New immutable run storage profile migration0025 and shared read-only logical

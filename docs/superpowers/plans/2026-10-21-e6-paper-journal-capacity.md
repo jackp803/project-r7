@@ -8,7 +8,7 @@ recorded-funding Tasks2/3/4/6, not a replacement project or acceptance standard.
 
 - [x] A. Pure versioned physical codec (component16PASS; no product activation)
 - [x] B. New-run E6 storage profile and legacy readers (component; ordinary default unchanged)
-- [ ] C. Immutable prefix, indexed pending work and explicit full audit
+- [x] C. Immutable prefix, indexed pending work and explicit full audit (component; full scan retained)
 - [ ] D. Bounded current management, private audit proof and successor entry gates
 - [ ] E. Whole-product capacity, regression and new exact native qualification
 

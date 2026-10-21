@@ -1,0 +1,56 @@
+test_orphan_validly_encoded_current_checkpoint_is_not_complete_history (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_orphan_validly_encoded_current_checkpoint_is_not_complete_history) ... FAIL
+test_orphan_publication_cannot_be_ignored_by_complete_prefix_audit (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_orphan_publication_cannot_be_ignored_by_complete_prefix_audit) ... FAIL
+test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) ...
+  test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_runs') ... FAIL
+  test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_storage_profiles') ... FAIL
+  test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_prefix_profiles') ... FAIL
+
+======================================================================
+FAIL: test_orphan_validly_encoded_current_checkpoint_is_not_complete_history (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_orphan_validly_encoded_current_checkpoint_is_not_complete_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 113, in test_orphan_validly_encoded_current_checkpoint_is_not_complete_history
+    with self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_orphan_publication_cannot_be_ignored_by_complete_prefix_audit (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_orphan_publication_cannot_be_ignored_by_complete_prefix_audit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 121, in test_orphan_publication_cannot_be_ignored_by_complete_prefix_audit
+    with self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_runs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 132, in test_root_commits_original_run_and_both_profile_selection_clocks
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_storage_profiles')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 132, in test_root_commits_original_run_and_both_profile_selection_clocks
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+======================================================================
+FAIL: test_root_commits_original_run_and_both_profile_selection_clocks (tests.storage.test_paper_process_prefix.PaperPublishedPrefixTests.test_root_commits_original_run_and_both_profile_selection_clocks) (table='paper_process_prefix_profiles')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_prefix.py", line 132, in test_root_commits_original_run_and_both_profile_selection_clocks
+    with self.subTest(table=table),self.assertRaises(RuntimeValidationError):self.journal.audit_full('run-1')
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.884s
+
+FAILED (failures=5)

@@ -1,0 +1,14 @@
+test_directory_archive_and_release_stream_with_bounded_parent_memory (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_directory_archive_and_release_stream_with_bounded_parent_memory) ... FAIL
+
+======================================================================
+FAIL: test_directory_archive_and_release_stream_with_bounded_parent_memory (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_directory_archive_and_release_stream_with_bounded_parent_memory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 188, in test_directory_archive_and_release_stream_with_bounded_parent_memory
+    self.assertTrue(callable(getattr(archive,'commit_directory',None)),
+AssertionError: False is not true : Large capture archive still requires all raw pages in the runtime heap
+
+----------------------------------------------------------------------
+Ran 1 test in 0.200s
+
+FAILED (failures=1)

@@ -1,0 +1,361 @@
+{
+  "schema_version": "r7-scoped-source-verification-v0.1",
+  "base_revision": "e712238b15f251d9e77db9fd171b2f87db070a51",
+  "worktree": "CHANGED_UNQUALIFIED_SOURCE",
+  "python": "CPython3.12.10",
+  "command": "python -X utf8 -m unittest tests.application.test_public_capture_archive tests.application.test_public_paper_funding tests.application.test_public_funding_feed tests.application.test_public_paper_feed tests.application.test_public_paper_acquisition tests.application.test_public_paper_market tests.application.test_okx_public_dataset tests.application.test_public_acquisition_backup tests.application.test_product_data_backup tests.application.test_ordinary_backup_history tests.application.test_fixture_sealed_input_backup tests.application.test_private_long_paths tests.application.test_process_scope_lock tests.application.test_process_tree tests.application.test_native_paper_release_observation -v",
+  "tests": 136,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "scope": "CONTROLLED_SOURCE_AND_ACTUAL_LOCAL_FILESYSTEM_PROCESS_BACKUP_ONLY;NOT_NATIVE_QUALIFICATION_OR_30DAY_ACCEPTANCE",
+  "source_files": [
+    {
+      "path": "src/application/cli.py",
+      "bytes": 36511,
+      "sha256": "sha256:8fbc46403bc5a38294cb6b5d5bcd03ab2dc313867e966e2d4a2cf452457a646f"
+    },
+    {
+      "path": "src/application/datasets/okx_public.py",
+      "bytes": 13617,
+      "sha256": "sha256:cd63da5f75f08df457f8c861e31ae043e00f37990e98e15f049a248c2b775bd4"
+    },
+    {
+      "path": "src/application/paper/public_feed.py",
+      "bytes": 11666,
+      "sha256": "sha256:4459d81879f4811e65b88ff9c043ff10ac33f3d993d72ef5f85942ddbab70fe8"
+    },
+    {
+      "path": "src/application/platform/product_backup.py",
+      "bytes": 30584,
+      "sha256": "sha256:08dcaf28575a83b22f907ec76263710a38a33b84752d26b3b4739becf27938b7"
+    },
+    {
+      "path": "src/application/paper/capture_archive.py",
+      "bytes": 23514,
+      "sha256": "sha256:b3a28d1715329e34cf5e44b7e32c2c6c061b3cd3d47343c36c01766109138fbe"
+    },
+    {
+      "path": "src/application/paper/funding_capture.py",
+      "bytes": 9976,
+      "sha256": "sha256:226ba093dd531e30be67fba48a9966ecd14e47b2600a0504b7f8ad4ee0043182"
+    },
+    {
+      "path": "src/application/paper/funding_feed.py",
+      "bytes": 16512,
+      "sha256": "sha256:8701fb801959c64993cd289022bfbf3931003090fb861b4ac0f7bb26d1517e1f"
+    },
+    {
+      "path": "tests/application/test_public_paper_feed.py",
+      "bytes": 10027,
+      "sha256": "sha256:04666a047a228f868d2452376568e330eb55286cf8dfe5bad3c4fb499300689e"
+    },
+    {
+      "path": "tests/application/test_public_acquisition_backup.py",
+      "bytes": 11184,
+      "sha256": "sha256:5afda295d3b2438555e432aa5f95afa75c99e807f67139ceb2b4924c923c4b2d"
+    },
+    {
+      "path": "tests/application/test_public_capture_archive.py",
+      "bytes": 13016,
+      "sha256": "sha256:0e38a31a2af23da7e59381a98d1b4ec3de09ae7824de28ae5bb1f1749f9e8e34"
+    },
+    {
+      "path": "tests/application/test_public_paper_funding.py",
+      "bytes": 10782,
+      "sha256": "sha256:7f6ba6ad8fa5dd0c1b3758091a6d1ccee0a1f33daea15bba1421986155da054e"
+    },
+    {
+      "path": "tests/application/test_public_funding_feed.py",
+      "bytes": 9482,
+      "sha256": "sha256:b7daf590cf4d5532f4179afbe91e5050dae1ea97cf4f05884e5e1823fcef5a7f"
+    }
+  ],
+  "logs": [
+    {
+      "path": "logs/task2-archive-accounting-red.log",
+      "original_bytes": 4952,
+      "original_sha256": "sha256:de432af5fb804e3a76d1f11dd4013bc5478cdce327659c54446074bca49a34a2",
+      "retained_sha256": "sha256:83ec524423a6748cbcca2ceb4d0bf990fd447d66a4ee5aacb1ad5feced31b68c",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 12 tests in 4.615s\r",
+        "FAILED (failures=1, errors=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-backup-initial.log",
+      "original_bytes": 2979,
+      "original_sha256": "sha256:be55abc5724dfc2d8dee6a89c42b6d2d401653c0c16cf6a6e79559845860066c",
+      "retained_sha256": "sha256:7540b43b8d5ae720902bd09323866a8bfbaabc47d04b44ed7ba2a7706fc6a409",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 12 tests in 10.906s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-backup-red.log",
+      "original_bytes": 2268,
+      "original_sha256": "sha256:5cef94df26015211b994be844ae82753f39a4d129b16cf3ed04728d0b15e4978",
+      "retained_sha256": "sha256:014d1e23d634568b4d1c7e6ee8dbe1efc08d7de602f05e911888c55956f5e6d0",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.503s\r",
+        "FAILED (errors=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-cache-red.log",
+      "original_bytes": 2072,
+      "original_sha256": "sha256:f2989b41afa3fe02b0a1bc231de833a1b2394a5306dad266d487d1a7ee3ccd90",
+      "retained_sha256": "sha256:32d7bf6b251769e43d343795315a5f244937402b5dde2d6d6429279afd6fb58c",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 1.023s\r",
+        "FAILED (errors=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-file-cap-behavior-red.log",
+      "original_bytes": 1164,
+      "original_sha256": "sha256:ed2f33fbc13e987bc0371a937be8a21bb56e4a22069512195473d44fbf1be8d6",
+      "retained_sha256": "sha256:487a0db2fb3ef0056ff7da01e8b22927e220d9efcbd9854e89b04f49ae356ce2",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.456s\r",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-file-cap-green.log",
+      "original_bytes": 3044,
+      "original_sha256": "sha256:80c68b1f0de91aa059eedabcf8991679b779f7b245a229060468f3fc052f46c0",
+      "retained_sha256": "sha256:8c9cd17ce999c4a1e89eaeb6730d1d7ebce95efd3c9303a1e9322f2f1c4717fd",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 13 tests in 5.289s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-file-cap-red.log",
+      "original_bytes": 1197,
+      "original_sha256": "sha256:f70f2a1c021bee22caf070c0b9f06b5c9a0bb380da2c909a0ebea9c40d5351d2",
+      "retained_sha256": "sha256:56599a4752d38e7e3bc62f8ff2d253d191ee0810ecf1ef01bb566abcbff47370",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.194s\r",
+        "FAILED (errors=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-fragmentation-green.log",
+      "original_bytes": 3724,
+      "original_sha256": "sha256:7d6654ab69d685dea58cd981fff7a567dce59e8cba194d919e9b53f16c5dd39c",
+      "retained_sha256": "sha256:ef96473aba92db6f9985ee118c3731e3e10be475a5b126db85e81b14500b7b59",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 16 tests in 7.867s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-fragmentation-red.log",
+      "original_bytes": 1449,
+      "original_sha256": "sha256:60698d016e0a71ddc8f519761218cebebdac5a06f33e2fa22d8128a421a61e02",
+      "retained_sha256": "sha256:853de488805f49ab0b35452433b223b7ceb6c6b55d0e9eba6f6f438ca0d7d77d",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.208s\r",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-initial.log",
+      "original_bytes": 2352,
+      "original_sha256": "sha256:c1c9d010571315074f01d1761bd906ca41d0a59d8f6add634130084879495d90",
+      "retained_sha256": "sha256:0c79a4e5dd12732d1992b7c3d12eb4b5b83548e87b8069bc5ac0b2d47bfad3f0",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 10 tests in 4.914s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-red.log",
+      "original_bytes": 19458,
+      "original_sha256": "sha256:9b8ea05b9d24a215d5a17de831a9598afd018fd69b6d3890369108b59bdd2c8b",
+      "retained_sha256": "sha256:414564df495ff4b924a425ee8e963d67ee77ce9b85fbc77b46833518caa32695",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 10 tests in 0.009s\r",
+        "FAILED (failures=12)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-release-green.log",
+      "original_bytes": 4770,
+      "original_sha256": "sha256:b5a84afb0219121cafd1cf6c29e34ef59f31b32a4003e4bc530c676305a26caf",
+      "retained_sha256": "sha256:937b3a7f9ee6b17b268e76569463f8263a373f5a382e973ecf597fac87538e1e",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 14 tests in 5.529s\r",
+        "FAILED (errors=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-release-red.log",
+      "original_bytes": 1163,
+      "original_sha256": "sha256:f2bf2fb7425706f0f5d1c5e18e129d417f5dec86e210e98cfde5f39c8d30efcd",
+      "retained_sha256": "sha256:c7cebe6e57aec7bad156156f4781c35bbe0d302415911be47fbc54ceae02b9be",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.179s\r",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-streaming-initial.log",
+      "original_bytes": 5266,
+      "original_sha256": "sha256:06179d2f57e3f17df3ec2f7503c71e84f13f82323269729e7e8532c7e6826ee9",
+      "retained_sha256": "sha256:14aa62edb01ad501f991adf6ded3a8959b843bb35b04a8b063c5c55d79ed7a3f",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 23 tests in 8.278s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-archive-streaming-red.log",
+      "original_bytes": 1163,
+      "original_sha256": "sha256:ccf81d60a45c82d3f0eeaf65154aca6155052c9374a4608cc7f51ad2a283a97f",
+      "retained_sha256": "sha256:aa1435daeabca25cfdb9e7689a7d0cf94383bd9c7fea3325c67bf96540e8710c",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.200s\r",
+        "FAILED (failures=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-archived-readback-green.log",
+      "original_bytes": 2450,
+      "original_sha256": "sha256:e9b5fa053f6e7a57a6eb1023bdbb07d3338ac2eacee6c2e4147aec4502774d11",
+      "retained_sha256": "sha256:a88821f91f9ca1f76a58f24269ac8b069fb004b3a2a008d4a6ff4f0064809dcb",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 11 tests in 0.703s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-archived-readback-red.log",
+      "original_bytes": 1306,
+      "original_sha256": "sha256:0e704852e046306e5959b5540afb3171a656ad487d96eb94d0e329efbda4437c",
+      "retained_sha256": "sha256:a6e394eee28093ceecbfa4036220be03a1aeaf9de3736aab74af73252740717e",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 1 test in 0.359s\r",
+        "FAILED (errors=1)"
+      ]
+    },
+    {
+      "path": "logs/task2-capture-archive-green.log",
+      "original_bytes": 8162,
+      "original_sha256": "sha256:1a3021a4dadaee6473a85732f8737bb6ee87495660f8b92a957b5a7635286877",
+      "retained_sha256": "sha256:5ad1c38242a5f0ea677886c09686b722512e2f6843b10a88995de4dfbcd6e0a5",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 36 tests in 8.398s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-cross-component-verification.log",
+      "original_bytes": 30309,
+      "original_sha256": "sha256:99d4abbc6d118bada6b0b3c669940add6a7a6f5388ea7b5ef3e31c205ba8a775",
+      "retained_sha256": "sha256:a9e9f2b86f425de25b8ed4f1b3335bb14a1ff2cb53ee2a5757169138fb9496fe",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 136 tests in 143.904s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-funding-capture-initial.log",
+      "original_bytes": 2212,
+      "original_sha256": "sha256:b644c6f91d300d5144f03c150d982405120832a5f5c55020c313092562914146",
+      "retained_sha256": "sha256:b5d2936fc597f8d0571d3a189bb477b76532921fdd4d1c62f46828997d19675c",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 10 tests in 0.608s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-funding-capture-red.log",
+      "original_bytes": 18911,
+      "original_sha256": "sha256:454162f649b689d5aa4df41126b5b4b8e13d6946f98f82b622ea676eac9a10dd",
+      "retained_sha256": "sha256:4d45ae82cd82e276f47bfb3b5db9edcfcc1fae55b60d2d10749d155b0633b0db",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 10 tests in 0.011s\r",
+        "FAILED (failures=12)"
+      ]
+    },
+    {
+      "path": "logs/task2-funding-feed-initial.log",
+      "original_bytes": 1347,
+      "original_sha256": "sha256:821335c6b32a9fbe0a36dde2de7e5da1c3eaf48dbde48964d71f0aea247a8bd6",
+      "retained_sha256": "sha256:787b469919c0dea788cec1b7c3f1464c6a3a3a75d90b7dce357499d1d52eb517",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 6 tests in 0.381s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-funding-feed-red.log",
+      "original_bytes": 7862,
+      "original_sha256": "sha256:fb2f4d485f2e5fd450b583ce132cec9516292672fb7363f4eb6b1de0f70aa21a",
+      "retained_sha256": "sha256:6ad8ca6347fbb8ea00c8d39b181ba6da66845d7efa59dc410d3a3b3966018a6a",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 6 tests in 0.001s\r",
+        "FAILED (failures=6)"
+      ]
+    },
+    {
+      "path": "logs/task2-funding-health-green.log",
+      "original_bytes": 5398,
+      "original_sha256": "sha256:79b3534f9efd833f5539f66dd9ceddfe4baeb62316ece821e6e1cdf097d6ac61",
+      "retained_sha256": "sha256:3adc9e3394a0fc586177a3c5072ead538028f467ce829694bc8b6dcd83d578bf",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 24 tests in 9.476s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-funding-health-red.log",
+      "original_bytes": 7396,
+      "original_sha256": "sha256:6706acfbe558ca2eede6cb10f805f928217689a1d6b3b8f9278dc06040000bfa",
+      "retained_sha256": "sha256:0bbeae102f8779ccd12d7091d7a8cba42111cffc7c1b38cff8dee44c1b312f85",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 2 tests in 0.257s\r",
+        "FAILED (failures=7)"
+      ]
+    },
+    {
+      "path": "logs/task2-shared-market-archive-green.log",
+      "original_bytes": 3124,
+      "original_sha256": "sha256:42da69e14ff4372a2fad953505b4be7a26daaddb164558e400f627f5667760ee",
+      "retained_sha256": "sha256:3ba99f412d3f002bb38638dfdd925562a072616cbdf977248312360496b8a45c",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 14 tests in 2.195s\r"
+      ]
+    },
+    {
+      "path": "logs/task2-shared-market-archive-red.log",
+      "original_bytes": 2391,
+      "original_sha256": "sha256:74763ebdd805858500436343b143a16fd7f88332400b6a71f480c9c87fa6f69c",
+      "retained_sha256": "sha256:a0e2bf3efcdcdaaf3e2104b2d44e0c02d3c3a6b59930f5259a8017e0627624ba",
+      "normalization": "UTF8_LF_TRAILING_LINE_WHITESPACE_REMOVED;ORIGINAL_ARTIFACT_RETAINED",
+      "summary": [
+        "Ran 2 tests in 0.376s\r",
+        "FAILED (failures=2)"
+      ]
+    }
+  ]
+}

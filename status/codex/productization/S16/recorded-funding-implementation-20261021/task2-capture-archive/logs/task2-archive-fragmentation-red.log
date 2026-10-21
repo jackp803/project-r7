@@ -1,0 +1,16 @@
+test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io) ...
+  test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io) (emergency=False) ... FAIL
+
+======================================================================
+FAIL: test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io) (emergency=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 214, in test_fragmented_large_frames_reserve_segments_before_normal_or_emergency_io
+    with self.assertRaisesRegex(ValueError,'FILE_CAPACITY'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.208s
+
+FAILED (failures=1)

@@ -1,0 +1,23 @@
+test_public_archive_roundtrips_all_bytes_but_source_health_does_not_transfer_permission (tests.application.test_public_acquisition_backup.PublicAcquisitionBackupTests.test_public_archive_roundtrips_all_bytes_but_source_health_does_not_transfer_permission) ... ERROR
+
+======================================================================
+ERROR: test_public_archive_roundtrips_all_bytes_but_source_health_does_not_transfer_permission (tests.application.test_public_acquisition_backup.PublicAcquisitionBackupTests.test_public_archive_roundtrips_all_bytes_but_source_health_does_not_transfer_permission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_acquisition_backup.py", line 152, in test_public_archive_roundtrips_all_bytes_but_source_health_does_not_transfer_permission
+    result=self.backup()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_acquisition_backup.py", line 26, in backup
+    def backup(self):return create_product_backup(self.config,self.base/'private-backup')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\platform\product_backup.py", line 408, in create_product_backup
+    rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,**history)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\platform\product_backup.py", line 338, in _data_inventory
+    raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
+application.platform.product_backup.ProductBackupError: PRODUCT_BACKUP_COVERAGE_GAP
+
+----------------------------------------------------------------------
+Ran 1 test in 0.503s
+
+FAILED (errors=1)

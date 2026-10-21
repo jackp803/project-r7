@@ -1,0 +1,22 @@
+{
+  "kind": "BOUNDED_STATIC_ADVISORY_NOT_WHOLE_CHANGE_REVIEW",
+  "reviewer": "/root/pqr_inventory_map",
+  "reviewer_execution": "NONE",
+  "findings": [
+    {
+      "issue": "PRE_IO_SEGMENT_FILE_CAPACITY_NOT_RESERVED",
+      "status": "REPRODUCED_BEHAVIOR_RED_THEN_FIXED",
+      "evidence": "logs/task2-archive-file-cap-behavior-red.log"
+    },
+    {
+      "issue": "EMERGENCY_BYTE_RESERVE_DID_NOT_RESERVE_SEGMENTS",
+      "status": "FIXED_EXPLICIT_EMERGENCY_SEGMENT_RESERVE_WITH_BOUNDARY_REGRESSION"
+    },
+    {
+      "issue": "AGGREGATE_BYTE_BOUND_MISSES_LARGE_FRAME_PACKING_FRAGMENTATION",
+      "status": "REPRODUCED_BEHAVIOR_RED_THEN_FIXED_MINIMUM_FILLED_PACK_BOUND",
+      "evidence": "logs/task2-archive-fragmentation-red.log"
+    }
+  ],
+  "final_independent_whole_change_review": "NOT_RUN;REQUIRED_TASK6"
+}

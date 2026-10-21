@@ -1,0 +1,24 @@
+test_cache_eviction_replays_identically_after_bounded_cache_is_exceeded (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_cache_eviction_replays_identically_after_bounded_cache_is_exceeded) ... ERROR
+
+======================================================================
+ERROR: test_cache_eviction_replays_identically_after_bounded_cache_is_exceeded (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_cache_eviction_replays_identically_after_bounded_cache_is_exceeded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 134, in test_cache_eviction_replays_identically_after_bounded_cache_is_exceeded
+    self.assertEqual(self.archive().summary()['captures'],6)
+                     ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 96, in __init__
+    self._verify_all()
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 221, in _verify_all
+    _fail('RECOVERY_REQUIRED')
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 42, in _fail
+    raise ValueError('PUBLIC_ARCHIVE_'+reason)
+ValueError: PUBLIC_ARCHIVE_RECOVERY_REQUIRED
+
+----------------------------------------------------------------------
+Ran 1 test in 1.023s
+
+FAILED (errors=1)

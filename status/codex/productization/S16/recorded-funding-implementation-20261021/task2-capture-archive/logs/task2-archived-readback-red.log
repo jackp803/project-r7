@@ -1,0 +1,15 @@
+test_source_reissues_from_exact_archived_capture_after_loose_files_are_released (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_source_reissues_from_exact_archived_capture_after_loose_files_are_released) ... ERROR
+
+======================================================================
+ERROR: test_source_reissues_from_exact_archived_capture_after_loose_files_are_released (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_source_reissues_from_exact_archived_capture_after_loose_files_are_released)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 193, in test_source_reissues_from_exact_archived_capture_after_loose_files_are_released
+    observed=self.module().observe_funding_capture(None,model=model,subject=self.subject,now=NOW,
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: observe_funding_capture() got an unexpected keyword argument '_read'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.359s
+
+FAILED (errors=1)

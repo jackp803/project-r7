@@ -1,0 +1,106 @@
+{
+  "schema_version": "r7-public-source-probe-v0.1",
+  "scope": {
+    "kind": "COMPONENT_PUBLIC_SOURCE_PROBE",
+    "financial_authority": "NONE",
+    "runtime": "NOT_STARTED",
+    "paper": "NOT_STARTED",
+    "native_qualification": "NOT_RUN",
+    "source_revision": "e712238b15f251d9e77db9fd171b2f87db070a51",
+    "worktree": "CHANGED_SOURCE_UNQUALIFIED"
+  },
+  "ticker_status": "REJECTED",
+  "ticker_reason": "TypeError",
+  "ticker_requests": 1,
+  "ticker_responses": 1,
+  "funding": {
+    "schema_version": "r7-public-paper-funding-capture-v0.1",
+    "status": "PUBLIC_FUNDING_ACQUIRED",
+    "reason_code": null,
+    "subject": {
+      "config_hash": "sha256:0fe00c642faab50e2340388d10cedf173700b06410e8bdfb870ade200f5f991e",
+      "funding_model": "OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1",
+      "namespace": "LOCAL_RESEARCH",
+      "runtime_token": "d3d94c70-89b1-45a9-8ab0-56a85c4ae274",
+      "selection_hash": "sha256:394ad3b2d179ef5b4895640cf8836f242975d21f3581fb1e684135a779064151"
+    },
+    "request_hash": "sha256:23af5b2dd79f8845a4277db612e64fe015f9096e1684465f1cf6162bffc4dab4",
+    "coverage_start": "2026-10-20T16:00:00Z",
+    "observed_at": "2026-10-21T03:00:49.172246Z",
+    "provider_requests": 1,
+    "provider_responses": 1,
+    "request_accounting": "COMPLETE",
+    "credentials": "NONE",
+    "provider_mutation": 0,
+    "private_requests": 0,
+    "snapshot_hash": "ad4e9570fe4af9834c003ac3dcc170912c1de2244d4e55e81c9d6a08da080d60",
+    "complete_through": "2026-10-21T00:00:00Z"
+  },
+  "provider_requests": 2,
+  "provider_responses": 2,
+  "previous_cumulative_requests": 17,
+  "previous_cumulative_responses": 17,
+  "credentials": "NONE",
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "checked_at": "2026-10-21T03:00:49.175753Z",
+  "cumulative_provider_requests": 19,
+  "cumulative_provider_responses": 19,
+  "funding_source": {
+    "snapshot_hash": "ad4e9570fe4af9834c003ac3dcc170912c1de2244d4e55e81c9d6a08da080d60",
+    "complete_through": "2026-10-21T00:00:00Z",
+    "coverage_start": "2026-10-20T16:00:00Z",
+    "observed_at": "2026-10-21T03:00:49.172246Z",
+    "event_count": 2,
+    "component_health": true,
+    "runtime_admission": "NOT_ASSESSED_NO_ACTUAL_OWNER",
+    "interval_seconds": 28800
+  },
+  "files": [
+    {
+      "path": "funding/acquisition.json",
+      "bytes": 881,
+      "sha256": "sha256:cb80f2f6d25bd5eb7c3dd478f1a3ab540009c37c633414a909114975a6771158"
+    },
+    {
+      "path": "funding/request.json",
+      "bytes": 428,
+      "sha256": "sha256:23af5b2dd79f8845a4277db612e64fe015f9096e1684465f1cf6162bffc4dab4"
+    },
+    {
+      "path": "funding/requests/001-attempt.json",
+      "bytes": 265,
+      "sha256": "sha256:9b622fc331456245d6fab18d40aae42422115ef4452c906a6993e0e3fc332d20"
+    },
+    {
+      "path": "funding/requests/001-response.bin",
+      "bytes": 19454,
+      "sha256": "sha256:1b34ba3d86cb660c0c1d242381f9b0c929cb88bb8c963cad96bce3b467215ed7"
+    },
+    {
+      "path": "funding/requests/001-result.json",
+      "bytes": 176,
+      "sha256": "sha256:b3a1aabb8db5eb4c18f7f38abd919accd066833a85906e26bee213f17bda19c5"
+    },
+    {
+      "path": "scope.json",
+      "bytes": 249,
+      "sha256": "sha256:0fe00c642faab50e2340388d10cedf173700b06410e8bdfb870ade200f5f991e"
+    },
+    {
+      "path": "ticker/requests/001-attempt.json",
+      "bytes": 221,
+      "sha256": "sha256:c12562d7d0345cf183b571b7e68e1132cdfd007e0fe83bf80e8b807442f8142d"
+    },
+    {
+      "path": "ticker/requests/001-response.bin",
+      "bytes": 343,
+      "sha256": "sha256:8d87772f614fc3e231cc15d5bdd34b011699d31d01ea18ff032f11fb1eed8e6b"
+    },
+    {
+      "path": "ticker/requests/001-result.json",
+      "bytes": 174,
+      "sha256": "sha256:aa24df0bca34788aa618110a6ae54e2cff570b7d5e17004ad8be7792f71ba674"
+    }
+  ]
+}

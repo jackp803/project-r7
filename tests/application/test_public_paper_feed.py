@@ -101,3 +101,34 @@ class PublicPaperFeedTests(unittest.TestCase):
         finally:
             timer.cancel();self.assertTrue(terminate_owned(owned,deadline_seconds=3).reaped)
             if owned in module._unreaped:module._unreaped.remove(owned)
+
+    def test_shared_capacity_refuses_before_child_spawn_and_is_not_token_local(self):
+        module=self.module();config_path,config=self.configured()
+        helper=fixture.PublicPaperAcquisitionTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        from application.paper import capture_archive
+        with patch.object(module,'_guard',return_value=(config,profile())), \
+                patch.object(capture_archive,'MAX_TOTAL_BYTES',1024),patch.object(module,'spawn_owned') as spawn:
+            with self.assertRaisesRegex(ValueError,'CAPACITY'):
+                module.check_batch_once(config_path,helper.subscription.runtime_token,(helper.subscription,),threading.Event())
+        spawn.assert_not_called()
+        self.assertTrue((config.local_data_root/capture_archive.ROOT/'head.json').exists())
+
+    def test_canceled_reaped_child_preserves_partial_capture_and_unknown_global_accounting(self):
+        module=self.module();config_path,config=self.configured()
+        helper=fixture.PublicPaperAcquisitionTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        from application.platform.processes import spawn_owned,terminate_owned,ResourceLimits
+        from application.paper.capture_archive import PublicCaptureArchive,ROOT
+        import subprocess,sys
+        owned=spawn_owned([sys.executable,'-c','import time; time.sleep(60)'],cwd=config_path.parent,
+            limits=ResourceLimits(65),stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        cancel=threading.Event();timer=threading.Timer(.2,cancel.set);timer.start()
+        try:
+            with patch.object(module,'_guard',return_value=(config,profile())),patch.object(module,'spawn_owned',return_value=owned):
+                with self.assertRaises(module.MarketAttemptIncomplete):
+                    module.check_batch_once(config_path,helper.subscription.runtime_token,(helper.subscription,),cancel)
+            archive=PublicCaptureArchive(config.local_data_root/ROOT)
+            self.assertEqual(archive.summary()['request_accounting'],'INCOMPLETE')
+            self.assertIsNone(archive.summary()['provider_requests'])
+            self.assertTrue(owned.termination_report.reaped)
+        finally:
+            timer.cancel();terminate_owned(owned,deadline_seconds=3)

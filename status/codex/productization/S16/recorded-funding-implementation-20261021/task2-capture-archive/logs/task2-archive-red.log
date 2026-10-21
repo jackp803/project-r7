@@ -1,0 +1,183 @@
+test_committed_capture_over_reservation_keeps_pending_and_original_bytes (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_committed_capture_over_reservation_keeps_pending_and_original_bytes) ... FAIL
+test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) ...
+  test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) (mode='pack') ... FAIL
+  test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) (mode='head') ... FAIL
+  test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) (mode='seal') ... FAIL
+test_exact_bytes_immutable_index_and_counters_survive_new_owner (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_exact_bytes_immutable_index_and_counters_survive_new_owner) ... FAIL
+test_identical_responses_reference_preserved_original_without_losing_attempts (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_identical_responses_reference_preserved_original_without_losing_attempts) ... FAIL
+test_reservation_refuses_before_dispatch_on_total_or_disk_pressure (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_reservation_refuses_before_dispatch_on_total_or_disk_pressure) ... FAIL
+test_shared_market_funding_preflight_reservations_not_reset_on_restart (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_shared_market_funding_preflight_reservations_not_reset_on_restart) ... FAIL
+test_stale_writer_reloads_head_under_shared_scope_and_reservations_are_bounded (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_stale_writer_reloads_head_under_shared_scope_and_reservations_are_bounded) ... FAIL
+test_torn_or_uncommitted_append_preserved_and_refused_without_truncation (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_torn_or_uncommitted_append_preserved_and_refused_without_truncation) ... FAIL
+test_unknown_counts_latch_incomplete_and_cannot_be_erased_by_restart (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_unknown_counts_latch_incomplete_and_cannot_be_erased_by_restart) ... FAIL
+test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count) ... FAIL
+
+======================================================================
+FAIL: test_committed_capture_over_reservation_keeps_pending_and_original_bytes (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_committed_capture_over_reservation_keeps_pending_and_original_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 122, in test_committed_capture_over_reservation_keeps_pending_and_original_bytes
+    archive=self.archive(); token=str(uuid.uuid4())
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) (mode='pack')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 103, in test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters
+    self.root=Path(temp)/'archive'; archive=self.archive()
+                                            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) (mode='head')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 103, in test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters
+    self.root=Path(temp)/'archive'; archive=self.archive()
+                                            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters) (mode='seal')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 103, in test_corrupt_pack_head_or_missing_seal_never_starts_fresh_counters
+    self.root=Path(temp)/'archive'; archive=self.archive()
+                                            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_exact_bytes_immutable_index_and_counters_survive_new_owner (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_exact_bytes_immutable_index_and_counters_survive_new_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 36, in test_exact_bytes_immutable_index_and_counters_survive_new_owner
+    archive=self.archive(); pointer=self.record(archive)
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_identical_responses_reference_preserved_original_without_losing_attempts (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_identical_responses_reference_preserved_original_without_losing_attempts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 47, in test_identical_responses_reference_preserved_original_without_losing_attempts
+    archive=self.archive(); first=self.record(archive); second=self.record(archive)
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_reservation_refuses_before_dispatch_on_total_or_disk_pressure (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_reservation_refuses_before_dispatch_on_total_or_disk_pressure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 64, in test_reservation_refuses_before_dispatch_on_total_or_disk_pressure
+    module=self.module(); archive=self.archive()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_shared_market_funding_preflight_reservations_not_reset_on_restart (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_shared_market_funding_preflight_reservations_not_reset_on_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 74, in test_shared_market_funding_preflight_reservations_not_reset_on_restart
+    archive=self.archive(); ids=[]
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_stale_writer_reloads_head_under_shared_scope_and_reservations_are_bounded (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_stale_writer_reloads_head_under_shared_scope_and_reservations_are_bounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 113, in test_stale_writer_reloads_head_under_shared_scope_and_reservations_are_bounded
+    first=self.archive(); second=self.archive()
+          ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_torn_or_uncommitted_append_preserved_and_refused_without_truncation (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_torn_or_uncommitted_append_preserved_and_refused_without_truncation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 92, in test_torn_or_uncommitted_append_preserved_and_refused_without_truncation
+    archive=self.archive(); pointer=self.record(archive)
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_unknown_counts_latch_incomplete_and_cannot_be_erased_by_restart (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_unknown_counts_latch_incomplete_and_cannot_be_erased_by_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 85, in test_unknown_counts_latch_incomplete_and_cannot_be_erased_by_restart
+    archive=self.archive(); self.record(archive,complete=False)
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+======================================================================
+FAIL: test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 55, in test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count
+    archive=self.archive()
+            ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 21, in archive
+    return self.module().PublicCaptureArchive(self.root,**kwargs)
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_archive'),
+AssertionError: unexpectedly None : Cross-generation bounded immutable public capture archive is unavailable
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.009s
+
+FAILED (failures=12)

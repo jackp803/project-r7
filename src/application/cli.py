@@ -94,6 +94,10 @@ def main(argv=None):
     market_child.add_argument('--config',type=Path,required=True)
     for name in ('runtime-token','attempt-id','request-hash','expected-config-hash','selection-hash'):
         market_child.add_argument('--'+name,required=True)
+    funding_child=commands.add_parser('_paper-funding-acquire',help=argparse.SUPPRESS)
+    funding_child.add_argument('--config',type=Path,required=True)
+    for name in ('runtime-token','attempt-id','request-hash','expected-config-hash','selection-hash'):
+        funding_child.add_argument('--'+name,required=True)
     boundary_check=commands.add_parser('_paper-native-boundary-check',help=argparse.SUPPRESS)
     boundary_check.add_argument('--config',type=Path,required=True)
     stale_check=commands.add_parser('_paper-native-stale-check',help=argparse.SUPPRESS)
@@ -382,6 +386,11 @@ def main(argv=None):
     if args.command=='_paper-market-acquire':
         from application.paper.public_feed import run_market_acquire
         print(json.dumps(run_market_acquire(args.config,args.runtime_token,args.attempt_id,args.request_hash,
+            args.expected_config_hash,args.selection_hash)))
+        return 0
+    if args.command=='_paper-funding-acquire':
+        from application.paper.funding_feed import run_funding_acquire
+        print(json.dumps(run_funding_acquire(args.config,args.runtime_token,args.attempt_id,args.request_hash,
             args.expected_config_hash,args.selection_hash)))
         return 0
     if args.command=='_paper-native-boundary-check':

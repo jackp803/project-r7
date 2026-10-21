@@ -1,3 +1,31 @@
+# Recorded funding Task2 component checkpoint; continue capacity/recovery — 2026-10-21
+
+Same task/branch. Latest fetched main remains7d1f447. Task1 source complete;
+Task2 PARTIAL: fixed public funding capture/readback, independent owner-health/feed,
+shared cross-generation archive/reservations/index/dedup/streaming release and
+backup closure implemented.136affected source tests PASS,0failure/error/skip.
+This does NOT complete Task2,30day capacity, ordinary workflow or native qualification.
+
+New actual public component probe3requests/2responses; cumulative20/19. First actual
+funding100published8hrows/2selectedevents parsed, ticker343bytes/funding19454bytes.
+Wrong probe ticker readback keyword TypeError retained then corrected on SAME bytes,
+no new call. Repeat funding transport timeout retained, not healthy/unchanged proof.
+No actual runtime owner/admission, Paper or real-time observation. Private0.
+
+Continue Task2: actual complete30day CPU/RSS/storage/resource protocol; no legacy
+capture or orphan/crash quota reset; normal-capacity refusal must preserve the
+bounded protection/close path. Current corrupt/uncommitted archive refuses safely;
+automatic bounded recovery and actual positive native CLI/wiring remain unfinished.
+E4 observations then feed Task3 pending flat/E5/E6 recovery and opportunity counters;
+v0.5 selection/PaperStart remains Task4; reports/UI Task5; new exact native full
+qualification, canonical research/holdout reconciliation and actual admission Task6.
+Original bffc qualified executable remains unchanged, changed source is unqualified.
+Preserve selected financial evidence threshold and risk numbers; all6Tasks continuous
+human authorization already recorded. No perTask continue question. MasterIN_PROGRESS.
+Evidence: S16/recorded-funding-implementation-20261021/task2-capture-archive/disposition.json
+
+---
+
 # Recorded funding Task1 source component passed; Task2 capture/capacity — 2026-10-21
 
 New registered E4 PAPER_MODEL source and canonical allocation implemented; source

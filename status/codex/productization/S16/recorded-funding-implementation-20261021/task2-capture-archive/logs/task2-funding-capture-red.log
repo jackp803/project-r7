@@ -1,0 +1,181 @@
+test_actual_raw_receipts_and_realized_rates_derive_owned_observation (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_actual_raw_receipts_and_realized_rates_derive_owned_observation) ... FAIL
+test_changed_subject_generation_selection_or_namespace_refuses (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_changed_subject_generation_selection_or_namespace_refuses) ... FAIL
+test_late_publication_is_unhealthy_valid_history_then_publication_recovers (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_late_publication_is_unhealthy_valid_history_then_publication_recovers) ... FAIL
+test_no_requests_before_valid_explicit_selection_or_fresh_directory (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_no_requests_before_valid_explicit_selection_or_fresh_directory) ... FAIL
+test_pagination_uses_actual_cursor_and_no_unneeded_history_pages (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_pagination_uses_actual_cursor_and_no_unneeded_history_pages) ... FAIL
+test_replay_revalidates_bytes_and_receipts_instead_of_caller_success (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_replay_revalidates_bytes_and_receipts_instead_of_caller_success) ... FAIL
+test_stale_and_future_read_clocks_cannot_retimestamp_health (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_stale_and_future_read_clocks_cannot_retimestamp_health) ... FAIL
+test_timeout_keeps_attempt_failure_and_truthful_counts (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_timeout_keeps_attempt_failure_and_truthful_counts) ... FAIL
+test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed) ...
+  test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed) (mode='unsupported') ... FAIL
+  test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed) (mode='gap') ... FAIL
+test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero) ...
+  test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero) (mode='zero') ... FAIL
+  test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero) (mode='predicted') ... FAIL
+
+======================================================================
+FAIL: test_actual_raw_receipts_and_realized_rates_derive_owned_observation (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_actual_raw_receipts_and_realized_rates_derive_owned_observation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 86, in test_actual_raw_receipts_and_realized_rates_derive_owned_observation
+    result = self.acquire()
+             ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_changed_subject_generation_selection_or_namespace_refuses (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_changed_subject_generation_selection_or_namespace_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 150, in test_changed_subject_generation_selection_or_namespace_refuses
+    self.acquire()
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_late_publication_is_unhealthy_valid_history_then_publication_recovers (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_late_publication_is_unhealthy_valid_history_then_publication_recovers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 100, in test_late_publication_is_unhealthy_valid_history_then_publication_recovers
+    self.mode = 'late'; result = self.acquire()
+                                 ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_no_requests_before_valid_explicit_selection_or_fresh_directory (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_no_requests_before_valid_explicit_selection_or_fresh_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 174, in test_no_requests_before_valid_explicit_selection_or_fresh_directory
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_pagination_uses_actual_cursor_and_no_unneeded_history_pages (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_pagination_uses_actual_cursor_and_no_unneeded_history_pages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 127, in test_pagination_uses_actual_cursor_and_no_unneeded_history_pages
+    self.mode='pages'; result=self.acquire()
+                              ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_replay_revalidates_bytes_and_receipts_instead_of_caller_success (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_replay_revalidates_bytes_and_receipts_instead_of_caller_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 157, in test_replay_revalidates_bytes_and_receipts_instead_of_caller_success
+    self.acquire()
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_stale_and_future_read_clocks_cannot_retimestamp_health (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_stale_and_future_read_clocks_cannot_retimestamp_health)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 144, in test_stale_and_future_read_clocks_cannot_retimestamp_health
+    self.acquire()
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_timeout_keeps_attempt_failure_and_truthful_counts (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_timeout_keeps_attempt_failure_and_truthful_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 136, in test_timeout_keeps_attempt_failure_and_truthful_counts
+    self.mode='timeout'; result=self.acquire()
+                                ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed) (mode='unsupported')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 121, in test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed
+    result=self.acquire()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed) (mode='gap')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 121, in test_unsupported_schedule_and_coverage_gap_are_explicit_not_imputed
+    result=self.acquire()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero) (mode='zero')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 111, in test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero
+    result=self.acquire()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+======================================================================
+FAIL: test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero (tests.application.test_public_paper_funding.PublicPaperFundingTests.test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero) (mode='predicted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 111, in test_zero_actual_rate_is_observed_but_forecast_or_missing_is_never_zero
+    result=self.acquire()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 76, in acquire
+    return self.module().capture_public_funding(self.root, self.request,
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_funding.py", line 41, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_capture'),
+AssertionError: unexpectedly None : Ordinary Paper has no bounded settled-public funding acquisition
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.011s
+
+FAILED (failures=12)

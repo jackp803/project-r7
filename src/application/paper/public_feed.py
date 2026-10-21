@@ -1,5 +1,6 @@
 """Public acquisition in a cancellable owned child, outside protection ticks."""
 from dataclasses import asdict
+from collections import OrderedDict
 import os,subprocess,sys,threading,time,uuid
 from pathlib import Path
 
@@ -17,6 +18,20 @@ from .public_acquisition import acquire_batch,validate_subscriptions,MAX_OUTPUT
 ROOT='public-market-observations'
 DEADLINE=125
 _unreaped=[]
+_archives=OrderedDict()
+_archives_lock=threading.Lock()
+
+
+def _archive_for(config):
+    # Verification/scans occur in acquisition threads, never protection ticks.
+    from .capture_archive import PublicCaptureArchive,ROOT as archive_root
+    root=config.local_data_root/archive_root
+    with _archives_lock:
+        result=_archives.pop(root,None)
+        if result is None:result=PublicCaptureArchive(root)
+        _archives[root]=result
+        while len(_archives)>16:_archives.popitem(last=False)
+        return result
 
 
 class MarketAttemptIncomplete(ValueError):
@@ -73,24 +88,18 @@ def check_batch_once(config_path,token,subscriptions,cancel):
     expected=config_hash(config);selection=digest(canonical(profile).encode('utf-8'))
     subscriptions=validate_subscriptions([asdict(value) for value in subscriptions])
     if any(row.runtime_token!=token for row in subscriptions):raise ValueError('Actual owning subscriptions required')
+    archive=_archive_for(config);attempt_id=str(uuid.uuid4())
+    archive.reserve(attempt_id,kind='market',maximum_requests=165,maximum_bytes=400*1024**2,maximum_files=670)
     base=config.local_data_root/ROOT;_private_directory(base)
     owner=base/token;_private_directory(owner)
-    # Explicit finite local retention: preserve all attempts; never delete audit
-    # history or silently continue writing after a full local capture volume.
-    total=0;batches=0
-    for directory in owner.iterdir():
-        if directory.is_dir():batches+=1
-        for path in directory.rglob('*'):
-            if path.is_file():total+=path.stat().st_size
-        if batches>=86400 or total>=1024**3:raise ValueError('Public capture retention capacity requires operator archive')
-    attempt_id=str(uuid.uuid4());root=owner/attempt_id;create_private_directory(root)
+    root=owner/attempt_id;create_private_directory(root)
     raw=canonical([asdict(row) for row in subscriptions]).encode('utf-8');request_hash=digest(raw)
     if len(raw)>262144:raise ValueError('Bounded public subscription request required')
     write_immutable(root,'request.json',raw)
     prefix=[sys.executable] if getattr(sys,'frozen',False) else [sys.executable,'-m','application']
     argv=prefix+['_paper-market-acquire','--config',str(config_path),'--runtime-token',token,
         '--attempt-id',attempt_id,'--request-hash',request_hash,'--expected-config-hash',expected,'--selection-hash',selection]
-    owned=None;started=time.monotonic()
+    owned=None;started=time.monotonic();result=None;error=None
     try:
         if cancel.is_set():raise ValueError('Public acquisition canceled before dispatch')
         owned=spawn_owned(argv,cwd=config_path.parent,limits=ResourceLimits(DEADLINE),stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
@@ -109,12 +118,9 @@ def check_batch_once(config_path,token,subscriptions,cancel):
                 or envelope['request_hash']!=request_hash or envelope['attempt_id']!=attempt_id or envelope['runtime_token']!=token):
             raise MarketAttemptIncomplete(True)
         _guard(config_path,token,expected,selection)
-        return envelope['result']
-    except MarketAttemptIncomplete:raise
-    except (ValueError,RuntimeError,TypeError,KeyError):
-        if owned is not None:raise MarketAttemptIncomplete(True) from None
-        raise
-    except (OSError,subprocess.SubprocessError):raise MarketAttemptIncomplete(False) from None
+        result=envelope['result']
+    except (ValueError,RuntimeError,OSError,TypeError,KeyError,subprocess.SubprocessError) as caught:
+        error=caught
     finally:
         if owned is not None:
             reaped=False
@@ -124,6 +130,16 @@ def check_batch_once(config_path,token,subscriptions,cancel):
             if not reaped:
                 _unreaped.append(owned)
                 raise MarketAttemptIncomplete(False)
+    acquisition=decode(read_local(root,'capture/acquisition.json',MAX_OUTPUT)) if (root/'capture/acquisition.json').exists() else None
+    complete=(error is None and isinstance(result,dict) and result.get('request_accounting')=='COMPLETE'
+        and type(result.get('provider_requests')) is int and type(result.get('provider_responses')) is int
+        and 0<=result['provider_responses']<=result['provider_requests']<=165
+        and acquisition==result)
+    pointer=archive.commit_directory(attempt_id,root,requests=result['provider_requests'] if complete else 0,
+        responses=result['provider_responses'] if complete else 0,complete=complete)
+    archive.release_directory(pointer,root,staging_root=base)
+    if not complete:raise MarketAttemptIncomplete(True) from None
+    return result
 
 
 class PublicMarketFeed:

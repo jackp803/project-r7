@@ -1,0 +1,70 @@
+test_current_health_is_read_only_fresh_bound_to_both_actual_owner_reads (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_current_health_is_read_only_fresh_bound_to_both_actual_owner_reads) ... ok
+test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) ...
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'snapshot_hash': 'caller-PASS'}) ... FAIL
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'archive_capture': {}}) ... FAIL
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'event_count': 1001}) ... FAIL
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'event_count': 3}) ... FAIL
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'provider_requests': 0}) ... FAIL
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'provider_responses': 0}) ... FAIL
+  test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'reason_code': 'SOURCE_INVALID'}) ... FAIL
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'snapshot_hash': 'caller-PASS'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'archive_capture': {}})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'event_count': 1001})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'event_count': 3})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'provider_requests': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'provider_responses': 0})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_malformed_positive_projection_cannot_establish_funding_health (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_malformed_positive_projection_cannot_establish_funding_health) (changes={'reason_code': 'SOURCE_INVALID'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 140, in test_malformed_positive_projection_cannot_establish_funding_health
+    self.assertFalse(healthy)
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.257s
+
+FAILED (failures=7)

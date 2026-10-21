@@ -1,0 +1,77 @@
+test_missing_actual_owner_refuses_before_any_child_or_capture (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_missing_actual_owner_refuses_before_any_child_or_capture) ... FAIL
+test_new_config_or_invalid_selection_rejected_before_thread_or_io (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_new_config_or_invalid_selection_rejected_before_thread_or_io) ... FAIL
+test_no_funding_selection_cannot_open_a_network_feed (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_no_funding_selection_cannot_open_a_network_feed) ... FAIL
+test_observation_is_source_owned_and_ageing_never_advances_capture_clock (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_observation_is_source_owned_and_ageing_never_advances_capture_clock) ... FAIL
+test_source_failure_discards_current_health_but_preserves_completed_counts (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_source_failure_discards_current_health_but_preserves_completed_counts) ... FAIL
+test_stalled_source_never_blocks_owner_take_and_shutdown_cancels (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_stalled_source_never_blocks_owner_take_and_shutdown_cancels) ... FAIL
+
+======================================================================
+FAIL: test_missing_actual_owner_refuses_before_any_child_or_capture (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_missing_actual_owner_refuses_before_any_child_or_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 29, in test_missing_actual_owner_refuses_before_any_child_or_capture
+    module=self.module(); path,config,capture=self.configured()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 18, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_feed'),
+AssertionError: unexpectedly None : Ordinary Paper has no independent owned funding acquisition/health port
+
+======================================================================
+FAIL: test_new_config_or_invalid_selection_rejected_before_thread_or_io (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_new_config_or_invalid_selection_rejected_before_thread_or_io)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 64, in test_new_config_or_invalid_selection_rejected_before_thread_or_io
+    module=self.module(); path,config,capture=self.configured()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 18, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_feed'),
+AssertionError: unexpectedly None : Ordinary Paper has no independent owned funding acquisition/health port
+
+======================================================================
+FAIL: test_no_funding_selection_cannot_open_a_network_feed (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_no_funding_selection_cannot_open_a_network_feed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 70, in test_no_funding_selection_cannot_open_a_network_feed
+    module=self.module(); path,config,capture=self.configured()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 18, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_feed'),
+AssertionError: unexpectedly None : Ordinary Paper has no independent owned funding acquisition/health port
+
+======================================================================
+FAIL: test_observation_is_source_owned_and_ageing_never_advances_capture_clock (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_observation_is_source_owned_and_ageing_never_advances_capture_clock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 48, in test_observation_is_source_owned_and_ageing_never_advances_capture_clock
+    module=self.module(); path,config,capture=self.configured()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 18, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_feed'),
+AssertionError: unexpectedly None : Ordinary Paper has no independent owned funding acquisition/health port
+
+======================================================================
+FAIL: test_source_failure_discards_current_health_but_preserves_completed_counts (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_source_failure_discards_current_health_but_preserves_completed_counts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 74, in test_source_failure_discards_current_health_but_preserves_completed_counts
+    module=self.module(); path,config,capture=self.configured()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 18, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_feed'),
+AssertionError: unexpectedly None : Ordinary Paper has no independent owned funding acquisition/health port
+
+======================================================================
+FAIL: test_stalled_source_never_blocks_owner_take_and_shutdown_cancels (tests.application.test_public_funding_feed.PublicFundingFeedTests.test_stalled_source_never_blocks_owner_take_and_shutdown_cancels)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 36, in test_stalled_source_never_blocks_owner_take_and_shutdown_cancels
+    module=self.module(); path,config,capture=self.configured()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_funding_feed.py", line 18, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_feed'),
+AssertionError: unexpectedly None : Ordinary Paper has no independent owned funding acquisition/health port
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=6)

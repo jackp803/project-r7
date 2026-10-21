@@ -52,10 +52,11 @@ class PublicTransport:
     No environment proxy, authorization headers, credentials, arbitrary URL,
     automatic retries or redirects. Tests may inject an offline opener.
     """
-    def __init__(self,root,*,opener=None,minimum_interval=.25):
+    def __init__(self,root,*,opener=None,minimum_interval=.25,_clock=None):
         self.root=Path(root);self.opener=opener or build_opener(ProxyHandler({}),_NoRedirect()).open
         self.minimum_interval=minimum_interval;self.attempts=0;self.responses=0
         self.started=time.monotonic();self.previous=None
+        self.clock=_clock or (lambda:datetime.now(timezone.utc))
 
     def _parameters(self,path,params):
         required={'instId','after','limit'}|({'bar'} if path==HISTORY else set())
@@ -76,7 +77,7 @@ class PublicTransport:
         sequence=f'requests/{self.attempts+1:03d}'
         url=BASE+path+'?'+urlencode(sorted(params.items()))
         save(self.root,sequence+'-attempt.json',dict(method='GET',url=url,attempt=self.attempts+1,
-             prepared_at=z(datetime.now(timezone.utc)),dispatch_state='PREPARED_BEFORE_IO',authentication='NONE',mutation=False))
+             prepared_at=z(self.clock()),dispatch_state='PREPARED_BEFORE_IO',authentication='NONE',mutation=False))
         self.previous=time.monotonic();status=None;raw=None;chunks=[];size=0
         try:
             request=Request(url,headers={'Accept':'application/json','User-Agent':'R7-Public-ReadOnly/0.2'},method='GET')
@@ -96,7 +97,7 @@ class PublicTransport:
                     if size>MAX_RESPONSE: fail('PUBLIC_RESPONSE_TOO_LARGE')
                 raw=b''.join(chunks)
             write_immutable(self.root,sequence+'-response.bin',raw)
-            save(self.root,sequence+'-result.json',dict(http_status=status,received_at=z(datetime.now(timezone.utc)),
+            save(self.root,sequence+'-result.json',dict(http_status=status,received_at=z(self.clock()),
                  response_hash=digest(raw),response_bytes=len(raw)))
             if status!=200: fail('PUBLIC_HTTP_REJECTED')
             payload=decode(raw)

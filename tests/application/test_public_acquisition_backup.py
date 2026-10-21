@@ -131,3 +131,39 @@ class PublicAcquisitionBackupTests(unittest.TestCase):
         summary.write_bytes(original)
         (self.capture/'requests/001-attempt.json').unlink()
         with self.assertRaises(ProductBackupError):self.backup()
+
+    def funding_archive(self):
+        from application.paper.capture_archive import PublicCaptureArchive,ROOT
+        from tests.application import test_public_paper_funding as funding_fixture
+        import uuid
+        helper=funding_fixture.PublicPaperFundingTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        result=helper.acquire()
+        files={p.relative_to(helper.root).as_posix():p.read_bytes() for p in helper.root.rglob('*') if p.is_file()}
+        archive=PublicCaptureArchive(self.config.local_data_root/ROOT);token=str(uuid.uuid4())
+        archive.reserve(token,kind='funding',maximum_requests=16,maximum_bytes=1024*1024)
+        pointer=archive.commit(token,files,requests=result['provider_requests'],responses=result['provider_responses'],complete=True)
+        return archive,pointer,files
+
+    def test_public_archive_roundtrips_all_bytes_but_source_health_does_not_transfer_permission(self):
+        from application.paper.capture_archive import PublicCaptureArchive,ROOT
+        archive,pointer,files=self.funding_archive()
+        projections=self.config.local_data_root/'public-funding-observations';projections.mkdir()
+        (projections/'old-source-owner.json').write_bytes(b'OLD_OWNER_CURRENTNESS_NOT_TRANSFERABLE')
+        result=self.backup()
+        self.assertIn('public-funding-observations',result['excluded_transient_roots'])
+        restore_product_backup(self.config,self.base/'private-backup',self.base/'restored')
+        restored=PublicCaptureArchive(self.base/'restored'/ROOT)
+        self.assertEqual(restored.read_capture(pointer),files)
+        self.assertEqual(restored.summary()['provider_requests'],1)
+        self.assertFalse((self.base/'restored/public-funding-observations').exists())
+        from application.config import load_config
+        from application.platform.restoration import require_valid_restoration
+        config=load_config(self.base/'restored/restored-product.json')
+        self.assertEqual(require_valid_restoration(config)['status'],'RESTORED_INHIBITED')
+
+    def test_corrupt_archive_is_preserved_and_cannot_receive_complete_backup_credit(self):
+        archive,pointer,files=self.funding_archive()
+        path=archive.root/pointer['pack'];raw=path.read_bytes();path.write_bytes(raw[:-1]+bytes([raw[-1]^1]))
+        damaged=path.read_bytes()
+        with self.assertRaises(ProductBackupError):self.backup()
+        self.assertEqual(path.read_bytes(),damaged)

@@ -1,0 +1,14 @@
+test_loose_release_requires_verified_archive_and_exact_staging_boundary (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_loose_release_requires_verified_archive_and_exact_staging_boundary) ... FAIL
+
+======================================================================
+FAIL: test_loose_release_requires_verified_archive_and_exact_staging_boundary (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_loose_release_requires_verified_archive_and_exact_staging_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 166, in test_loose_release_requires_verified_archive_and_exact_staging_boundary
+    self.assertTrue(callable(getattr(archive,'release_directory',None)),
+AssertionError: False is not true : Loose capture release has no verified-archive boundary
+
+----------------------------------------------------------------------
+Ran 1 test in 0.179s
+
+FAILED (failures=1)

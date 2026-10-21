@@ -1,0 +1,15 @@
+test_file_capacity_is_reserved_before_io_and_emergency_has_file_headroom (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_file_capacity_is_reserved_before_io_and_emergency_has_file_headroom) ... FAIL
+
+======================================================================
+FAIL: test_file_capacity_is_reserved_before_io_and_emergency_has_file_headroom (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_file_capacity_is_reserved_before_io_and_emergency_has_file_headroom)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 156, in test_file_capacity_is_reserved_before_io_and_emergency_has_file_headroom
+    with self.assertRaisesRegex(ValueError,'FILE_CAPACITY'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.456s
+
+FAILED (failures=1)

@@ -1,0 +1,13 @@
+
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\ui\qa\serve_recorded_funding.py", line 50, in <module>
+[WebServer]     if __name__=='__main__':main()
+[WebServer]                             ^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\ui\qa\serve_recorded_funding.py", line 44, in main
+[WebServer]     app=create_app(config,auth=auth,commands=commands,services=owners)
+[WebServer]         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\control_api\app.py", line 30, in create_app
+[WebServer]     raise ValueError('Isolated authentication/command stores inside configured local root required')
+[WebServer] ValueError: Isolated authentication/command stores inside configured local root required
+
+Error: Process from config.webServer was not able to start. Exit code: 1

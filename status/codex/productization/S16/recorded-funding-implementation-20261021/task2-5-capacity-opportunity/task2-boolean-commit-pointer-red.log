@@ -1,0 +1,25 @@
+test_full_verification_rejects_boolean_offset_even_when_equal_to_real_zero (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_full_verification_rejects_boolean_offset_even_when_equal_to_real_zero) ... FAIL
+test_backup_refuses_boolean_commit_pointer_despite_coherent_frame_hashes (tests.application.test_public_archive_backup_budget.PublicArchiveBackupBudgetTests.test_backup_refuses_boolean_commit_pointer_despite_coherent_frame_hashes) ... FAIL
+
+======================================================================
+FAIL: test_full_verification_rejects_boolean_offset_even_when_equal_to_real_zero (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_full_verification_rejects_boolean_offset_even_when_equal_to_real_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 90, in test_full_verification_rejects_boolean_offset_even_when_equal_to_real_zero
+    with self.assertRaisesRegex(ValueError,'POINTER_INVALID'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_backup_refuses_boolean_commit_pointer_despite_coherent_frame_hashes (tests.application.test_public_archive_backup_budget.PublicArchiveBackupBudgetTests.test_backup_refuses_boolean_commit_pointer_despite_coherent_frame_hashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_public_archive_backup_budget.py", line 46, in test_backup_refuses_boolean_commit_pointer_despite_coherent_frame_hashes
+    with self.assertRaisesRegex(product_backup.ProductBackupError,'PUBLIC_ARCHIVE_INVALID'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProductBackupError not raised
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.120s
+
+FAILED (failures=2)

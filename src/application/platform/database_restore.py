@@ -120,10 +120,12 @@ def _restore_backup(config,backup,destination,*,config_path=None,timeout_seconds
             for role in PROCESS_ROLES:
                 stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
             bundle=None
+            archive_verifications=set()
             database_backup=backup
             if product_data:
                 from application.platform.product_backup import _verified_manifest,_copy_file
-                bundle,source_manifest,verified,manifest,raw_manifest=_verified_manifest(config,backup,end)
+                bundle,source_manifest,verified,manifest,raw_manifest=_verified_manifest(config,backup,end,
+                    _archive_verifications=archive_verifications)
                 database_backup=backup/'databases'
             else:
                 verified,manifest,raw_manifest=_verify_within_deadline(config,backup,end)
@@ -163,7 +165,7 @@ def _restore_backup(config,backup,destination,*,config_path=None,timeout_seconds
             if product_data:
                 for row in bundle['files']:
                     _copy_file(backup/'files'/row['relative_path'],target/row['relative_path'],row,end)
-                if _verified_manifest(config,backup,end)!=(bundle,source_manifest,verified,manifest,raw_manifest):
+                if _verified_manifest(config,backup,end,_archive_verifications=archive_verifications)!=(bundle,source_manifest,verified,manifest,raw_manifest):
                     raise RestoreError('RESTORE_SOURCE_CHANGED')
             now=datetime.now(timezone.utc);at=stamp(now)
             for role,path in copied:

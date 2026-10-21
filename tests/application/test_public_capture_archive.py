@@ -7,6 +7,20 @@ from unittest.mock import patch
 import uuid
 
 
+def append_boolean_offset_commit(archive):
+    """Controlled corrupt index with genuine frames, seals and head hashes."""
+    from application.datasets.catalog import canonical
+    token=str(uuid.uuid4())
+    archive.reserve(token,kind='funding',maximum_requests=1,maximum_bytes=1024)
+    with archive._locked(),archive._writing():
+        archive._seal()
+        pointer=archive._append('FILE',token,'actual.json',b'PUBLIC_EXACT_FILE')
+        assert pointer['offset']==0
+        invalid=dict(pointer,offset=False)
+        return archive._append('COMMIT',token,'',canonical(dict(files={'actual.json':invalid},
+            requests=1,responses=1,complete=True)).encode())
+
+
 class PublicCaptureArchiveTests(unittest.TestCase):
     def setUp(self):
         temporary=TemporaryDirectory(); self.addCleanup(temporary.cleanup)
@@ -68,6 +82,13 @@ class PublicCaptureArchiveTests(unittest.TestCase):
                 side_effect=AssertionError('Full-volume verification must not reopen every dedup original')):
             successor=self.archive()
         self.assertEqual(successor.summary()['provider_requests'],5)
+
+    def test_full_verification_rejects_boolean_offset_even_when_equal_to_real_zero(self):
+        archive=self.archive();pointer=append_boolean_offset_commit(archive)
+        with self.assertRaisesRegex(ValueError,'POINTER_INVALID'):
+            archive.read_capture(pointer)
+        with self.assertRaisesRegex(ValueError,'POINTER_INVALID'):
+            self.archive()
 
     def test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count(self):
         archive=self.archive()

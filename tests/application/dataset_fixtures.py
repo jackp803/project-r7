@@ -32,34 +32,35 @@ def logical_rows(rows):
         records.append(record)
     return hashed(encoded(records))
 
-def dataset(root,*,compression='NONE',row_group_size=4,mutate=None,count=12):
+def dataset(root,*,compression='NONE',row_group_size=4,mutate=None,count=12,timeframe='1h'):
     root=Path(root); root.mkdir(parents=True,exist_ok=True)
+    step={'1h':1,'4h':4}[timeframe];hours=count*step
     rows=[]
     for i in range(count):
-        lower=START+timedelta(hours=i); upper=lower+timedelta(hours=1)
-        rows.append(dict(schema_version='contracts-v0.1',symbol='BTC_USDT_PERP',timeframe='1h',
+        lower=START+timedelta(hours=i*step); upper=lower+timedelta(hours=step)
+        rows.append(dict(schema_version='contracts-v0.1',symbol='BTC_USDT_PERP',timeframe=timeframe,
                          open_time=lower,close_time=upper,open=str(100+i),high=str(102+i),
                          low=str(99+i),close=str(101+i),volume='10',is_closed=True,
                          source='SYNTHETIC_FIXTURE',received_at=upper,source_record_id='fixture-'+str(i)))
     if mutate: mutate(rows)
     target=root/'candles.parquet'
     pq.write_table(pa.Table.from_pylist(rows,schema=candle_schema()),target,compression=compression,row_group_size=row_group_size)
-    funding=[dict(event_at=START+timedelta(hours=i),rate='0.0001',source='SYNTHETIC_FIXTURE') for i in range(0,count,8)]
+    funding=[dict(event_at=START+timedelta(hours=i),rate='0.0001',source='SYNTHETIC_FIXTURE') for i in range(0,hours,8)]
     fs=pa.schema([pa.field('event_at',pa.timestamp('ms',tz='UTC'),False),pa.field('rate',pa.string(),False),pa.field('source',pa.string(),False)])
     pq.write_table(pa.Table.from_pylist(funding,schema=fs),root/'funding.parquet',compression=compression)
     funding_material=[dict(event_at=z(item['event_at']),rate=item['rate'],source=item['source']) for item in funding]
     manifest=dict(schema_version='r7-dataset-v0.2',dataset_id='fixture-dataset',dataset_version='1',
                   namespace='FIXTURE',symbol='BTC_USDT_PERP',source_instrument='SYNTHETIC:BTC-USDT',
                   normalization_version='r7-canonical-e1-v0.2',alignment='UTC',
-                  availability_model='recorded_received_at',information_cutoff=z(START+timedelta(hours=count)),
+                  availability_model='recorded_received_at',information_cutoff=z(START+timedelta(hours=hours)),
                   units=dict(price='USDT_PER_BASE',volume='BASE',quantity='BASE',settlement='USDT',instrument_type='LINEAR_PERPETUAL'),
-                  candles=[dict(path='candles.parquet',timeframe='1h',start=z(START),end=z(START+timedelta(hours=count)),
+                  candles=[dict(path='candles.parquet',timeframe=timeframe,start=z(START),end=z(START+timedelta(hours=hours)),
                                 rows=count,finalized_rows=count,missing_ranges=[],duplicate_ranges=[],
                                 logical_hash=logical_rows(rows),byte_hash=hashed(target.read_bytes()))],
-                  funding=dict(mode='RECORDED',path='funding.parquet',start=z(START),end=z(START+timedelta(hours=count)),
+                  funding=dict(mode='RECORDED',path='funding.parquet',start=z(START),end=z(START+timedelta(hours=hours)),
                                rows=len(funding),interval_seconds=28800,logical_hash=hashed(encoded(funding_material)),
                                byte_hash=hashed((root/'funding.parquet').read_bytes()),rate_unit='FRACTION_PER_EVENT',
-                               notional_basis='ENTRY_FILL_PRICE_X_BASE_QUANTITY'),created_at=z(START+timedelta(hours=count)))
+                               notional_basis='ENTRY_FILL_PRICE_X_BASE_QUANTITY'),created_at=z(START+timedelta(hours=hours)))
     save_manifest(root,manifest)
     return manifest
 

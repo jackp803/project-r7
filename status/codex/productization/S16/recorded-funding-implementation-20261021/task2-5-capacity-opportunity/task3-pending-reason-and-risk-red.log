@@ -1,0 +1,25 @@
+test_funding_pending_reason_changes_and_wait_survive_successor (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_funding_pending_reason_changes_and_wait_survive_successor) ... ERROR
+test_actual_four_hour_pending_financial_risk_is_unknown_not_a_valid_missed_trade (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_actual_four_hour_pending_financial_risk_is_unknown_not_a_valid_missed_trade) ... ERROR
+
+======================================================================
+ERROR: test_funding_pending_reason_changes_and_wait_survive_successor (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_funding_pending_reason_changes_and_wait_survive_successor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 298, in test_funding_pending_reason_changes_and_wait_survive_successor
+    self.assertEqual([item['reason'] for item in pending['reason_history']],
+                                                 ~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'reason_history'
+
+======================================================================
+ERROR: test_actual_four_hour_pending_financial_risk_is_unknown_not_a_valid_missed_trade (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_actual_four_hour_pending_financial_risk_is_unknown_not_a_valid_missed_trade)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 323, in test_actual_four_hour_pending_financial_risk_is_unknown_not_a_valid_missed_trade
+    self.assertEqual(impact['records'][0]['risk_decision']['account_state_status'],'UNKNOWN')
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable
+
+----------------------------------------------------------------------
+Ran 2 tests in 9.412s
+
+FAILED (errors=2)

@@ -251,7 +251,7 @@ def _fixture_paper_inputs(root,paths,selected):
 
 
 def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadata=False,
-                    canonical_database=None,namespace=None,sealed_database=False):
+                    canonical_database=None,namespace=None,sealed_database=False,_archive_verifications=None):
     paths, excluded = _walk(root, end, exclusions=exclusions)
     ignored = {name + suffix for name in databases for suffix in ('', '-wal', '-shm', '-journal')}
     if restore_metadata:
@@ -261,9 +261,16 @@ def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadat
     archive_paths={name for name in paths if name.startswith(archive_root+'/')}
     if archive_paths:
         try:
-            # Immutable frame/index/seal/counter closure, not restored operation
-            # permission. Old live health projections are deliberately transient.
-            PublicCaptureArchive(root/archive_root,_deadline=lambda:_deadline(end))
+            # A proof lives only inside this one bounded backup/restore call.
+            # Every inventory still hashes every actual byte. Exact identical
+            # copied content needs no second multi-million-frame decode; a new
+            # operation always starts without a proof. No persisted PASS/cache.
+            signature=tuple((name,tuple(sorted(_file_facts(root/name,end).items()))) for name in sorted(archive_paths))
+            if _archive_verifications is None or signature not in _archive_verifications:
+                PublicCaptureArchive(root/archive_root,_deadline=lambda:_deadline(end))
+                after=tuple((name,tuple(sorted(_file_facts(root/name,end).items()))) for name in sorted(archive_paths))
+                if signature!=after:raise ProductBackupError('PRODUCT_BACKUP_PUBLIC_ARCHIVE_CHANGED')
+                if _archive_verifications is not None:_archive_verifications.add(signature)
         except (ValueError,TypeError,KeyError,OSError,RuntimeError) as error:
             raise ProductBackupError('PRODUCT_BACKUP_PUBLIC_ARCHIVE_INVALID') from error
         allowed.update(archive_paths)
@@ -354,6 +361,13 @@ def _data_inventory(root, end, *, databases=(), exclusions=True, restore_metadat
     if set(paths) - ignored != allowed or allowed & ignored:
         raise ProductBackupError('PRODUCT_BACKUP_COVERAGE_GAP')
     rows = [dict(relative_path=name, **_file_facts(root/name, end)) for name in sorted(allowed)]
+    if archive_paths:
+        retained=tuple((row['relative_path'],tuple(sorted((key,row[key]) for key in ('bytes','sha256'))))
+            for row in rows if row['relative_path'] in archive_paths)
+        if retained!=signature:raise ProductBackupError('PRODUCT_BACKUP_PUBLIC_ARCHIVE_CHANGED')
+    final_paths,final_excluded=_walk(root,end,exclusions=exclusions)
+    if set(final_paths)-ignored!=set(paths)-ignored or final_excluded!=excluded:
+        raise ProductBackupError('PRODUCT_BACKUP_SOURCE_CHANGED')
     if sum(row['bytes'] for row in rows) > MAX_BYTES:
         raise ProductBackupError('PRODUCT_BACKUP_TRANSFER_LIMIT')
     if any(row['relative_path'] in expected_hashes and row['sha256'] != expected_hashes[row['relative_path']] for row in rows):
@@ -413,6 +427,7 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
     try:
         target = _destination(config, destination)
         inventory = _inventory(config, include_settings=True)
+        archive_verifications=set()
         _profile_current(config, config_path)
         with ExitStack() as stack:
             for role in PROCESS_ROLES:
@@ -422,7 +437,8 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
             relatives = [path.relative_to(config.local_data_root).as_posix() for path in inventory.values()]
             from application.config import product_namespace
             history=dict(canonical_database=config.database_path,namespace=product_namespace(config))
-            rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,**history)
+            rows, excluded = _data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,
+                _archive_verifications=archive_verifications,**history)
             create_private_directory(target)
             db_manifest = _capture_database_bundle(config, target/'databases', inventory, end, stack, config_path=config_path)
             if sum(row['bytes'] for row in rows + db_manifest['databases']) > MAX_BYTES:
@@ -430,7 +446,8 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
             create_private_directory(target/'files')
             for row in rows:
                 _copy_file(config.local_data_root/row['relative_path'], target/'files'/row['relative_path'], row, end)
-            if (_data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,**history) != (rows, excluded)
+            if (_data_inventory(config.local_data_root, end, databases=relatives,restore_metadata=restored,
+                    _archive_verifications=archive_verifications,**history) != (rows, excluded)
                     or _source_restoration(config)!=restoration):
                 raise ProductBackupError('PRODUCT_BACKUP_SOURCE_CHANGED')
             _profile_current(config, config_path)
@@ -442,14 +459,15 @@ def create_product_backup(config, destination, *, config_path=None, timeout_seco
                 source_restoration=restoration)
             _deadline(end)
             write_private_new(target/'manifest.json', (json.dumps(manifest, ensure_ascii=False, indent=2)+'\n').encode('utf-8'))
-            return verify_product_backup(config, target, timeout_seconds=_remaining(end))
+            verified,_,database,_,_=_verified_manifest(config,target,end,_archive_verifications=archive_verifications)
+            return _verification_summary(verified,database)
     except ProductBackupError:
         raise
     except Exception:
         raise ProductBackupError('PRIVATE_PRODUCT_BACKUP_FAILED') from None
 
 
-def _verified_manifest(config, destination, end):
+def _verified_manifest(config, destination, end,*,_archive_verifications=None):
     path = _destination(config, destination)
     require_private(path, directory=True)
     require_private(path/'manifest.json')
@@ -488,7 +506,7 @@ def _verified_manifest(config, destination, end):
     captured=None if canonical is None else path/'databases'/canonical['artifact']
     from application.config import product_namespace
     actual, _ = _data_inventory(path/'files', end, exclusions=False,canonical_database=captured,
-        namespace=product_namespace(config),sealed_database=True)
+        namespace=product_namespace(config),sealed_database=True,_archive_verifications=_archive_verifications)
     for row in actual:
         require_private(path/'files'/row['relative_path'])
     if actual != rows:
@@ -507,14 +525,18 @@ def verify_product_backup(config, destination, *, timeout_seconds=60):
     end = _bound(timeout_seconds, minimum=1)
     try:
         manifest, _, database, _, _ = _verified_manifest(config, destination, end)
-        return dict(status='PRODUCT_DATA_BACKUP_VERIFIED', schema_version=SCHEMA, backup_id=manifest['backup_id'],
-            database_count=database['database_count'], file_count=len(manifest['files']), coverage=manifest['coverage'],
-            excluded_transient_roots=manifest['excluded_transient_roots'], data_class='PRIVATE_LOCAL',
-            cloud_publication='FORBIDDEN', financial_authority='NONE', restore='NOT_PERFORMED')
+        return _verification_summary(manifest,database)
     except ProductBackupError:
         raise
     except Exception:
         raise ProductBackupError('PRIVATE_PRODUCT_BACKUP_VERIFICATION_FAILED') from None
+
+
+def _verification_summary(manifest,database):
+    return dict(status='PRODUCT_DATA_BACKUP_VERIFIED', schema_version=SCHEMA, backup_id=manifest['backup_id'],
+        database_count=database['database_count'], file_count=len(manifest['files']), coverage=manifest['coverage'],
+        excluded_transient_roots=manifest['excluded_transient_roots'], data_class='PRIVATE_LOCAL',
+        cloud_publication='FORBIDDEN', financial_authority='NONE', restore='NOT_PERFORMED')
 
 
 def restore_product_backup(config, backup, destination, *, config_path=None, timeout_seconds=60):

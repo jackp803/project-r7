@@ -1,0 +1,99 @@
+{
+  "protocol": "ACTUAL_PRIVATE_PRODUCT_BACKUP_CONTROLLED_VOLUME_NOT_NATIVE_QUALIFICATION",
+  "logical_captures": 1037010,
+  "actual_provider_requests": 0,
+  "actual_provider_responses": 0,
+  "runtime": "NOT_STARTED",
+  "financial_authority": "NONE",
+  "capital": "NONE",
+  "phases": [
+    {
+      "phase": "COPY_FRESH_STORAGE_PROFILE",
+      "status": "PASS",
+      "wall_seconds": 3.1092684000032023,
+      "facts": {
+        "files": 2176,
+        "bytes": 3622328474
+      }
+    },
+    {
+      "phase": "CREATE_FULL_PRODUCT_BACKUP",
+      "status": "PASS",
+      "wall_seconds": 280.2271723000158,
+      "facts": {
+        "status": "PRODUCT_DATA_BACKUP_VERIFIED",
+        "schema_version": "r7-private-product-data-backup-v0.2",
+        "backup_id": "8b6d166f-11b8-4387-9220-98cac24f6e10",
+        "database_count": 1,
+        "file_count": 2176,
+        "coverage": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+        "excluded_transient_roots": [],
+        "data_class": "PRIVATE_LOCAL",
+        "cloud_publication": "FORBIDDEN",
+        "financial_authority": "NONE",
+        "restore": "NOT_PERFORMED"
+      }
+    },
+    {
+      "phase": "INDEPENDENT_VERIFY_FULL_PRODUCT_BACKUP",
+      "status": "PASS",
+      "wall_seconds": 164.63952240001527,
+      "facts": {
+        "status": "PRODUCT_DATA_BACKUP_VERIFIED",
+        "schema_version": "r7-private-product-data-backup-v0.2",
+        "backup_id": "8b6d166f-11b8-4387-9220-98cac24f6e10",
+        "database_count": 1,
+        "file_count": 2176,
+        "coverage": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+        "excluded_transient_roots": [],
+        "data_class": "PRIVATE_LOCAL",
+        "cloud_publication": "FORBIDDEN",
+        "financial_authority": "NONE",
+        "restore": "NOT_PERFORMED"
+      }
+    },
+    {
+      "phase": "RESTORE_FULL_PRODUCT_BACKUP",
+      "status": "PASS",
+      "wall_seconds": 212.36716100000194,
+      "facts": {
+        "status": "PRODUCT_DATA_RESTORE_STAGED",
+        "restore_generation_id": "4794261a-610e-40f2-8e96-3a492f30241f",
+        "database_count": 1,
+        "scope": "PRODUCT_DATA",
+        "user_data_restore": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+        "reconciliation": "REQUIRED",
+        "reauthorization": "REQUIRED",
+        "runtime_new_exposure": "INHIBITED",
+        "financial_authority": "NONE",
+        "cloud": "DISCONNECTED"
+      }
+    }
+  ],
+  "source_hashes": {
+    "tools/verify_public_archive_backup_volume.py": "sha256:19e516a8151e11c749a87a4897eeabfe4e2419dc036d62c82c50ac61e64c3beb",
+    "src/application/platform/product_backup.py": "sha256:2af5b997b65173e2dab8aa0b324d6f837bd639d5a5ad0e766a51568f96d3ed5a",
+    "src/application/platform/database_restore.py": "sha256:11a2a81c1553588cbc486deb473d52fd3aa538f941344f3ccb8cf122571d5705",
+    "src/application/paper/capture_archive.py": "sha256:44efa133fdb86909f076095433acc19116523b80d446e55b5cc11b4d63c8a8d3"
+  },
+  "restoration": {
+    "status": "RESTORED_INHIBITED",
+    "restore_generation_id": "4794261a-610e-40f2-8e96-3a492f30241f",
+    "scope": "PRODUCT_DATA",
+    "user_data_restore": "COMPLETE_SUPPORTED_LOCAL_PROFILE",
+    "reconciliation": "REQUIRED",
+    "reauthorization": "REQUIRED",
+    "runtime_new_exposure": "INHIBITED",
+    "cloud": "DISCONNECTED",
+    "financial_authority": "NONE",
+    "reason_codes": [
+      "RESTORE_RECONCILIATION_AND_REAUTHORIZATION_REQUIRED"
+    ]
+  },
+  "status": "ACTUAL_CONTROLLED_VOLUME_PRIVATE_BACKUP_VERIFY_RESTORE_PASS",
+  "wall_seconds": 660.7216987000138,
+  "cpu_seconds": 625.15625,
+  "peak_working_set_bytes": 79872000,
+  "working_set_bytes": 72204288,
+  "peak_pagefile_bytes": 61022208
+}

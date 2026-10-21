@@ -1,0 +1,15 @@
+test_actual_four_hour_valid_signal_blocked_by_source_is_counted_once_without_order (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_actual_four_hour_valid_signal_blocked_by_source_is_counted_once_without_order) ... ERROR
+
+======================================================================
+ERROR: test_actual_four_hour_valid_signal_blocked_by_source_is_counted_once_without_order (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_actual_four_hour_valid_signal_blocked_by_source_is_counted_once_without_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 293, in test_actual_four_hour_valid_signal_blocked_by_source_is_counted_once_without_order
+    self.assertEqual(report['funding']['opportunities']['valid_blocked'],1)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'opportunities'
+
+----------------------------------------------------------------------
+Ran 1 test in 4.166s
+
+FAILED (errors=1)

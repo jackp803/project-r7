@@ -36,19 +36,21 @@ from strategy.v02.capabilities import build_capability_snapshot
 
 
 class OrdinaryPaperCompositionTests(unittest.TestCase):
-    def prepare(self,*,simulation=None,private_data=False):
+    def prepare(self,*,simulation=None,private_data=False,input_transform=None,instance_id='ordinary-composition-unit'):
         h=test_research_setup_flow.ResearchSetupFlowTests()
         h.setUp();self.addCleanup(h.doCleanups)
         def initialize():
             h.call(['init-profile','--config',str(h.config_path),'--data-root',str(h.data),
-                '--cloud-root',str(h.cloud),'--instance-id','ordinary-composition-unit',
+                '--cloud-root',str(h.cloud),'--instance-id',instance_id,
                 '--enable-paper-runtime'])
             if private_data:
                 from application.platform.private_files import create_private_directory
                 create_private_directory(h.data)
             return load_config(h.config_path)
         h.initialize=initialize
-        config=h.prepare();h.configure()
+        config=h.prepare()
+        if input_transform is not None:input_transform(h)
+        h.configure()
         clock=[datetime.now(timezone.utc).replace(minute=0,second=0,microsecond=0)+timedelta(hours=1)]
         local=LocalOwners(config,namespace='LOCAL_RESEARCH',clock=lambda:clock[0])
         with local.inbox_factory() as inbox:inbox.scan_once(clock[0])

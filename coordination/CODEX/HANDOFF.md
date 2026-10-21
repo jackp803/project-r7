@@ -1,3 +1,32 @@
+# Recorded funding backup/impact checkpoint; E6 scope explicitly approved — 2026-10-21
+
+Same Master/branch. Actual controlled30day public archive3,622,328,474bytes2176files
+passed ordinary private backup249.366s, independent verification156.873s and
+restore200.751s under unchanged300s limits. Restore remains inhibited. Original
+deadline failure and earlier v2 exact subjects retained; no financial/native credit.
+49archive/recovery/backup,54ordinary/v02/risk/multiframe,23report schema,19UI and
+2controlled Edge cases pass (overlapping scopes, not whole qualification).
+The boolean0 COMMIT index verifier Important is RED→GREEN; source-native boundary
+remains controlled in integration/browser evidence. No ordinary observation.
+
+Human answered the existing E6 architecture question: scope approved, complete
+detailed design and implementation. Recorded explicit decision; no repeated
+perTask approval needed within it. New detailed spec and five-stage subplan in
+docs/superpowers/{specs,plans}/2026-10-21-e6-paper-journal-capacity*.md. Execute pure
+codec first, then immutable new-run profile, prefix/full audit, bounded management
+with entry/healthy proof gates and whole-product capacity/new exact native PQR.
+Do not erase old evidence, change financial semantics/thresholds or transfer bffc.
+Current source remains unqualified. E6 storage code NOT yet changed at checkpoint.
+
+Continue original remaining exposure-only emergency ticker, actual4h TTL/maxhold/
+day-limit and original-selection cases; native independent source/resource flow;
+whole-change review/new package/PQR; actual selected-policy research independence
+and admission before ordinary observation. Target PC/Ubuntu/cloud/SSH and actual
+48h/30d/trade samples remain required. Public20/19 unchanged; private0/capitalNONE.
+Evidence: S16/recorded-funding-implementation-20261021/task2-5-capacity-opportunity/disposition.json
+
+---
+
 # Recorded funding core pending, ordinary adapter and report checkpoint — 2026-10-21
 
 Same task/branch. Actual LOCAL E4/E5/E6 tests cover durable flat/fills while funding

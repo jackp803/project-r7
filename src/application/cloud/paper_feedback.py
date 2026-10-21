@@ -72,7 +72,7 @@ def validate_paper_feedback(value):
     if recorded:
         funding=value['funding']
         _exact(funding,('funding_model','source_kind','cost_basis','billing_disclosure','status','pending_allocations',
-            'finalized_allocations','pending_since','wall_wait_seconds','observed_wait_seconds','wait_reason','flat_observation','latest_source'))
+            'finalized_allocations','pending_since','wall_wait_seconds','observed_wait_seconds','wait_reason','flat_observation','latest_source','opportunities'))
         if (value['namespace']!='LOCAL_RESEARCH' or row['mode']!='REAL_TIME'
                 or funding['funding_model']!='OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1' or funding['source_kind']!='PAPER_MODEL'
                 or funding['cost_basis']!='ACTUAL_ENTRY_FILL_NOTIONAL'
@@ -97,6 +97,14 @@ def validate_paper_feedback(value):
             raise FeedbackError('PAPER_FEEDBACK_FUNDING_PENDING_INVALID')
         if not pending and (funding['status']=='FINALIZED')!=(funding['finalized_allocations']>0):
             raise FeedbackError('PAPER_FEEDBACK_FUNDING_COUNTS_INVALID')
+        impact=funding['opportunities']
+        categories=('valid_blocked','non_directional','other_gate_blocked','unresolved_financial','stale_or_invalid')
+        _exact(impact,('evaluated_boundaries','last_boundary',*categories))
+        for key in ('evaluated_boundaries',*categories):_number(impact[key])
+        if sum(impact[key] for key in categories)!=impact['evaluated_boundaries']:
+            raise FeedbackError('PAPER_FEEDBACK_FUNDING_COUNTS_INVALID')
+        if impact['evaluated_boundaries']:utc(impact['last_boundary'])
+        elif impact['last_boundary'] is not None:raise FeedbackError('PAPER_FEEDBACK_FUNDING_COUNTS_INVALID')
         latest=funding['latest_source'];_exact(latest,('status','reason_code','observed_at','coverage_start','complete_through','snapshot_hash'))
         if latest['status'] not in ('HEALTHY','UNAVAILABLE'):raise FeedbackError('PAPER_FEEDBACK_FUNDING_SOURCE_INVALID')
         if latest['status']=='HEALTHY':

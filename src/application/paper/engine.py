@@ -139,7 +139,7 @@ class PaperEngine:
             and type(market.freshness_ms) is int
             and market.freshness_ms<=self.config['market_max_age_seconds']*1000)
 
-    def _entry_allowed(self, runtime, now):
+    def _entry_allowed(self, runtime, now,*,ignore_funding=False):
         if not self.reconciled: return False,'RECONCILIATION_REQUIRED'
         if not runtime['paper_entries_allowed']: return False,'PAPER_ENTRIES_PAUSED'
         if self.service.process.entry_pause_requested(self.run_id): return False,'PAPER_ENTRIES_PAUSED'
@@ -151,7 +151,7 @@ class PaperEngine:
         validity=assess_submission_validity(json.loads(self.service.validity_json),now)
         if not validity.new_entry_allowed: return False,'SUBMISSION_'+validity.status
         if not self.service.entry_release_is_current(self.run_id):return False,'PAPER_RELEASE_NOT_CURRENT'
-        if self.service.recorded_funding and self.service.funding_observation() is None:
+        if not ignore_funding and self.service.recorded_funding and self.service.funding_observation() is None:
             return False,'PUBLIC_FUNDING_SOURCE_UNAVAILABLE'
         # Ordinary release reads may take time. Recheck the actual clock after
         # admission; an expired envelope cannot borrow the earlier observation.
@@ -294,15 +294,16 @@ class PaperEngine:
         pending.update(last_observed_at=stamp(now),last_monotonic_ns=mono,
             process_instance=self.service._instance_id,observations=pending['observations']+1)
         observed=self.service.funding_observation()
-        pending['reason']='PUBLIC_FUNDING_SOURCE_UNAVAILABLE' if observed is None else 'FUNDING_SOURCE_INCOMPLETE'
-        if observed is None:return 'FUNDING_PENDING',(pending['reason'],)
+        if observed is None:
+            self._funding_reason(pending,'PUBLIC_FUNDING_SOURCE_UNAVAILABLE',now)
+            return 'FUNDING_PENDING',(pending['reason'],)
         entry=decode_fact(OrderRequest,runtime['entry_request']);source=self.service.funding_source
         try:
             funding=source.model.allocate(runtime['plan'],pending['flat'],entry,
                 broker.query_fills(entry.client_order_id),observed=observed,calculated_at=now)
         except ValueError as error:
-            if str(error)!='FUNDING_SOURCE_INCOMPLETE':
-                pending['reason']='FUNDING_ALLOCATION_UNAVAILABLE'
+            self._funding_reason(pending,'FUNDING_SOURCE_INCOMPLETE' if str(error)=='FUNDING_SOURCE_INCOMPLETE'
+                else 'FUNDING_ALLOCATION_UNAVAILABLE',now)
             return 'FUNDING_PENDING',(pending['reason'],)
         result=self._publish_closed(runtime,broker,effects,decode_fact(OrderRequest,runtime['exit_request']),
             runtime['exit_action'],pending['flat'],funding,now)
@@ -310,10 +311,20 @@ class PaperEngine:
             flat_observed_at=pending['flat']['broker_state_observed_at'],finalized_at=stamp(now),
             wall_wait_seconds=max(0,int((now-utc(pending['started_at'])).total_seconds())),
             observed_wait_ns=pending['observed_wait_ns'],observations=pending['observations'],
+            reason_history=pending.get('reason_history',[]),reason_changes=pending.get('reason_changes',0),reason_history_limit=64,
             source_snapshot_hash=observed.snapshot_hash,source_observed_at=observed.observed_at,
             complete_through=observed.complete_through))
         runtime['pending_funding']=None
         return result
+
+    @staticmethod
+    def _funding_reason(pending,reason,now):
+        history=pending.setdefault('reason_history',[])
+        if not history or history[-1]['reason']!=reason:
+            history.append(dict(observed_at=stamp(now),reason=reason))
+            pending['reason_changes']=pending.get('reason_changes',0)+1
+            del history[:-64]  # Earlier immutable E6 checkpoints retain prior transitions.
+        pending['reason']=reason
 
     def _manage(self, runtime, broker, effects, market, now):
         if runtime.get('pending_funding') is not None:return self._finalize_funding(runtime,broker,effects,now)
@@ -371,10 +382,11 @@ class PaperEngine:
         # carry the quantity reduction at a strictly later actual clock.
         return self._request_close(runtime,broker,effects,action,outcome.lifecycle_intent,now)
 
-    def _evaluate(self, runtime, broker, effects, market, now):
-        allowed,reason=self._entry_allowed(runtime,now)
+    def _evaluate(self, runtime, broker, effects, market, now,*,funding_probe=False):
+        allowed,reason=self._entry_allowed(runtime,now,ignore_funding=funding_probe)
         if not allowed: return 'BLOCKED',(reason,)
-        if runtime['position'] is not None and runtime['position']['lifecycle_state']!='CLOSED': return 'HOLD',()
+        if (runtime['position'] is not None and runtime['position']['lifecycle_state']!='CLOSED'
+                and not (funding_probe and runtime.get('pending_funding') is not None)):return 'HOLD',()
         if runtime['entry_request'] and runtime['position'] is None:
             current=broker.query_order(runtime['entry_request']['client_order_id'])
             if current is None or current.order_status not in (OrderStatus.CANCELED,OrderStatus.EXPIRED,OrderStatus.REJECTED):
@@ -403,8 +415,10 @@ class PaperEngine:
         for trade in closed:
             value=Decimal(trade['net_pnl']); walking+=value; peak=max(peak,walking)
             losses=losses+1 if value<0 else 0
-        context=RiskContext('HEALTHY',True,'KNOWN',True,'FLAT',True,'KNOWN',True,False,True,
-            runtime['entry_days'].get(now.date().isoformat(),0),0,False,losses,peak-equity,equity)
+        financial_unknown=funding_probe and runtime.get('pending_funding') is not None
+        context=RiskContext('HEALTHY',True,'UNKNOWN' if financial_unknown else 'KNOWN',not financial_unknown,
+            'FLAT',True,'KNOWN',True,False,True,
+            runtime['entry_days'].get(now.date().isoformat(),0),0,False,losses,peak-equity,None if financial_unknown else equity)
         proposal=RiskProposal(quantity,notional,notional/leverage,leverage,
             quantity*abs(reference-constraints.stop_level),Decimal(self.config['estimated_roundtrip_cost_usdt']),
             quantity*abs(constraints.target_level-reference) if constraints.target_level is not None else Decimal('0'),
@@ -412,6 +426,7 @@ class PaperEngine:
         risk=evaluate_trade_intent(intent,context,proposal,self.service.risk.risk_policy,decided_at=now)
         runtime['risk_decision']=risk; self._effect(effects,'RISK_DECISION',risk)
         if risk['decision']!='APPROVE': return 'BLOCKED',tuple(risk['reason_codes'])
+        if funding_probe:return 'DIAGNOSTIC_APPROVED',()
         plan=build_approved_trade_plan(intent,risk,self.service.risk.risk_policy,created_at=now)
         request=ExecutionGateway().prepare_entry_order(plan,now=now); ack=broker.submit_order(request)
         runtime.update(plan=plan,position=None,entry_request=encode_fact(request),protection_request=None,
@@ -424,6 +439,38 @@ class PaperEngine:
             return 'BLOCKED',('ENTRY_SUBMIT_RECONCILIATION_REQUIRED',)
         if ack.order_status==OrderStatus.REJECTED: return 'BLOCKED',('ENTRY_SUBMIT_REJECTED',)
         return 'ACKNOWLEDGED',()
+
+    def _funding_opportunity(self,runtime,broker,market,now):
+        # Only a genuinely flat broker may be evaluated. This pure diagnostic
+        # uses original E2/E5 and stops BEFORE plan/order production. Unknown
+        # pending financial account truth is never promoted to a valid trade.
+        if broker.query_position(self.strategy.symbol).net_quantity!=0:return
+        rows=runtime['candles'].get(self.strategy.required_timeframe,[])
+        if not rows:return
+        boundary=stamp(utc(rows[-1]['close_time']))
+        if runtime['last_entry_boundary']==boundary:return  # Already consumed by its actual entry decision.
+        impact=runtime.setdefault('funding_opportunities',dict(last_boundary=None,evaluated_boundaries=0,
+            valid_blocked=0,non_directional=0,other_gate_blocked=0,unresolved_financial=0,stale_or_invalid=0,records=[]))
+        if impact['last_boundary'] is not None and utc(impact['last_boundary'])>=utc(boundary):return
+        from copy import deepcopy
+        from registry.product_assessment import canonical,digest
+        probe=deepcopy(runtime)
+        probe.update(last_signal=None,last_intent=None,risk_decision=None)
+        if self._fresh(market,now):status,reasons=self._evaluate(probe,broker,[],market,now,funding_probe=True)
+        else:status,reasons='BLOCKED',('MARKET_STALE',)
+        valid=status=='DIAGNOSTIC_APPROVED'
+        category=('valid_blocked' if valid else 'non_directional' if status=='NO_SIGNAL' else
+            'unresolved_financial' if probe.get('pending_funding') is not None and probe.get('risk_decision') is not None
+                and probe['risk_decision'].get('account_state_status')=='UNKNOWN' else
+            'stale_or_invalid' if 'MARKET_STALE' in reasons or 'TRADE_INTENT_EXPIRED' in reasons else 'other_gate_blocked')
+        signal=probe.get('last_signal');intent=probe.get('last_intent')
+        impact['last_boundary']=boundary;impact['evaluated_boundaries']+=1;impact[category]+=1
+        impact['records'].append(dict(boundary=boundary,observed_at=stamp(now),category=category,
+            reason_codes=list(reasons),funding_pending=runtime.get('pending_funding') is not None,
+            signal_hash=None if signal is None else digest(canonical(signal)),
+            intent_hash=None if intent is None else digest(canonical(intent)),
+            risk_decision=probe.get('risk_decision')))
+        del impact['records'][:-256]
 
     def produce(self, state, request, now):
         if self.recovery_reason is not None:
@@ -462,6 +509,9 @@ class PaperEngine:
         elif kind=='PAUSE': status,reasons='PAUSED',()
         elif kind=='MARKET': status,reasons=self._evaluate(runtime,broker,effects,market,now)
         else: status,reasons='HOLD',()
+        if self.service.recorded_funding and kind=='MARKET' and (status=='FUNDING_PENDING'
+                or 'PUBLIC_FUNDING_SOURCE_UNAVAILABLE' in reasons):
+            self._funding_opportunity(runtime,broker,market,now)
         position=runtime['position']
         pending_flat=runtime.get('pending_funding') is not None
         # A durable, verified flat pending allocation can retain honest

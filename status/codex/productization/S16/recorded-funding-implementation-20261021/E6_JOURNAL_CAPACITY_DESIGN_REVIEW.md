@@ -1,7 +1,12 @@
 # E6 ordinary Paper journal capacity amendment — review required
 
 Task: CODEX-R7-PRODUCTIZATION-MASTER-20261002. Same implementation branch.
-Status: PROPOSED_NOT_IMPLEMENTED. No change to selected financial policies,
+Status: HUMAN_SCOPE_APPROVED_DETAIL_DESIGN_AND_IMPLEMENTATION_AUTHORIZED.
+Decision: the human selected "核准草案範圍，完成詳細設計並實作（建議）" in the
+existing approval question. See e6-journal-capacity-operator-decision.json. This
+authorizes detailed design and implementation within this written scope; it is
+not implementation completion or native/financial/observation acceptance.
+No change to selected financial policies,
 funding completeness, E4/E5/E6 authority, canonical lifecycle or permission.
 
 ## Demonstrated problem

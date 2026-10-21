@@ -46,6 +46,10 @@ def funding_status(runtime,*,now):
     if pending is not None:
         flat={key:pending['flat'][key] for key in ('position_id','symbol','actual_quantity','broker_state_observed_at')}
     since=None if pending is None else pending['started_at']
+    impact=runtime.get('funding_opportunities',{})
+    opportunities={key:impact.get(key,0) for key in ('evaluated_boundaries','valid_blocked','non_directional',
+        'other_gate_blocked','unresolved_financial','stale_or_invalid')}
+    opportunities['last_boundary']=impact.get('last_boundary')
     return dict(funding_model='OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1',source_kind='PAPER_MODEL',
         cost_basis='ACTUAL_ENTRY_FILL_NOTIONAL',billing_disclosure='PAPER_MODEL_NOT_EXCHANGE_ACCOUNT_BILL',
         status='FUNDING_PENDING' if pending else 'FINALIZED' if finalized else 'NO_FINANCIAL_SAMPLE',
@@ -53,5 +57,6 @@ def funding_status(runtime,*,now):
         wall_wait_seconds=0 if since is None else max(0,int((now-datetime.fromisoformat(since.replace('Z','+00:00'))).total_seconds())),
         observed_wait_seconds=0 if pending is None else pending['observed_wait_ns']//1_000_000_000,
         wait_reason=None if pending is None else pending['reason'],flat_observation=flat,
+        opportunities=opportunities,
         latest_source=runtime.get('funding_source_observation',dict(status='UNAVAILABLE',reason_code='PUBLIC_FUNDING_SOURCE_UNAVAILABLE',
             observed_at=None,coverage_start=None,complete_through=None,snapshot_hash=None)))

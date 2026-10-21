@@ -21,12 +21,14 @@ def stamp(value):return value.isoformat().replace('+00:00','Z')
 
 
 class PaperRecordedFundingTests(unittest.TestCase):
-    def prepare(self):
+    def prepare(self,*,four_hour=False,instance_id='ordinary-composition-unit'):
         self.assertIsNotNone(importlib.util.find_spec('application.paper.funding_source'),
             'No trusted source-owned observation port for durable funding pending')
         from application.paper.funding_source import PaperFundingSource
         helper=composition.OrdinaryPaperCompositionTests();self.addCleanup(helper.doCleanups)
-        self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True)
+        self.four_hour=four_hour
+        self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+            input_transform=self.four_hour_inputs if four_hour else None,instance_id=instance_id)
         from application.paper.public_market import configure_market_data
         from tests.application.test_public_paper_market import profile
         from application.datasets.catalog import canonical
@@ -35,18 +37,51 @@ class PaperRecordedFundingTests(unittest.TestCase):
         # These scenarios begin between settlements. Exact-boundary/late
         # publication behavior is tested separately, never inventing a row
         # published before its actual request cursor.
-        if self.clock[0].hour%8==0:self.clock[0]+=timedelta(hours=1)
+        if four_hour:
+            self.clock[0]=self.clock[0].replace(hour=self.clock[0].hour//4*4)+timedelta(hours=4)
+            if self.clock[0].hour%8==0:self.clock[0]+=timedelta(hours=4)
+        elif self.clock[0].hour%8==0:self.clock[0]+=timedelta(hours=1)
         self.helper=helper;self.initial=self.clock[0];self.model=public_recorded_funding_model();self.latest=[None]
         self.source=PaperFundingSource(self.model,lambda:self.latest[0])
         self.observe(self.initial)
-        self.identity=StrategyIdentity(subject()['strategy_id'],subject()['strategy_version'])
         self.supervisor=self.enterContext(ProcessSupervisor(self.config,'runtime'))
         self.selected=load_ordinary_paper_owners(self.config,resolver=self.local.resolver,
             clock=lambda:self.clock[0],funding_source=self.source)
+        self.identity=self.selected.identity
         self.service=self.enterContext(self.selected.owners.service())
         self.ref=self.service.start(self.identity,self.service.policy_ref,
             self.service.registry.get_strategy(self.identity).registry_revision,'recorded-unit-start')
         self.runtime=self.service.runtime(self.ref.run_id)
+
+    def four_hour_inputs(self,helper):
+        """Generate new, unexecuted4h inputs through existing source fixtures."""
+        from tests.application import dataset_fixtures,cloud_fixtures
+        from tests.strategy.v02_fixtures import definition_v02
+        from strategy import compute_content_hash
+        from strategy.v02.capabilities import build_capability_snapshot
+        from application.datasets.catalog import canonical,digest
+        dataset=dataset_fixtures.dataset(helper.data,count=48,timeframe='4h');dataset['namespace']='LOCAL_RESEARCH'
+        dataset_fixtures.save_manifest(helper.data,dataset)
+        base=dataset_fixtures.START
+        def scale(value):return stamp(base+(datetime.fromisoformat(value.replace('Z','+00:00'))-base)*4)
+        split=json.loads((helper.data/'split.json').read_bytes())
+        for key in ('training','development','sealed_oos'):
+            split[key]={name:scale(value) for name,value in split[key].items()}
+        for key in ('max_holding_seconds','label_horizon_seconds','embargo_seconds'):split[key]*=4
+        (helper.data/'split.json').write_text(canonical(split),encoding='utf-8')
+        split_hash=digest(canonical(split).encode())
+        for name in ('research','robustness'):
+            path=helper.data/(name+'.json');value=json.loads(path.read_bytes());value['split_policy_hash']=split_hash
+            if name=='robustness':
+                for window in value['walk_forward_windows']:
+                    for region in ('training','evaluation'):
+                        window[region]={key:scale(at) for key,at in window[region].items()}
+            path.write_text(canonical(value),encoding='utf-8')
+        strategy=definition_v02();strategy['rules']['features']['trend']['parameters']['window']={'kind':'parameter','name':'fast_window'}
+        strategy['content_hash']=compute_content_hash(strategy)
+        folder,manifest,_=cloud_fixtures.package(helper.cloud,submission='public-flow-input',version='0.2',definition=strategy)
+        manifest['capability_snapshot_hash']=build_capability_snapshot().snapshot_hash
+        (folder/'manifest.json').write_text(canonical(manifest),encoding='utf-8')
 
     def observe(self,now,*,missing_latest=False):
         end=floor(now)-(timedelta(hours=8) if missing_latest else timedelta())
@@ -61,10 +96,20 @@ class PaperRecordedFundingTests(unittest.TestCase):
         self.latest[0]=self.model.observe((page,),coverage_start=start,observed_at=now)
 
     def event(self,second,*,bars=False,price='60000'):
-        return self.helper.event(self.clock,self.initial,second,bars=bars,price=price)
+        event=self.helper.event(self.clock,self.initial,second,bars=bars and not self.four_hour,price=price)
+        if bars and self.four_hour:
+            from dataclasses import replace
+            from market_data.candle import Candle
+            candles=tuple(Candle('contracts-v0.1','BTC_USDT_PERP','4h',
+                self.initial-timedelta(hours=(2-i)*4),self.initial-timedelta(hours=(1-i)*4),
+                Decimal(value),Decimal(value)+1,Decimal(value)-1,Decimal(value),Decimal('1'),
+                True,'CONTROLLED_4H_SOURCE_ONLY',received_at=self.initial)
+                for i,value in enumerate(('59000','60000')))
+            event=replace(event,candles=candles)
+        return event
 
-    def close_pending(self):
-        self.prepare()
+    def close_pending(self,*,instance_id='ordinary-composition-unit'):
+        self.prepare(instance_id=instance_id)
         self.assertEqual(self.selected.selection.as_dict()['simulator_profile']['funding_model'],
             'OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1')
         self.assertEqual(self.runtime.on_market_event(self.event(0,bars=True)).status,'ACKNOWLEDGED')
@@ -219,6 +264,16 @@ class PaperRecordedFundingTests(unittest.TestCase):
         schema=json.loads((Path(__file__).parents[2]/'contracts/paper_feedback_v0_3.schema.json').read_bytes())
         Draft202012Validator.check_schema(schema)
         Draft202012Validator(schema,format_checker=FormatChecker()).validate(report)
+        from copy import deepcopy
+        from jsonschema import ValidationError
+        tampered=[]
+        value=deepcopy(report);value['funding']['cost_basis']='SETTLEMENT_MARK_PRICE';tampered.append(value)
+        value=deepcopy(report);value['schema_version']='r7-paper-feedback-v0.2';tampered.append(value)
+        value=deepcopy(report);value['funding']['pending_allocations']=0;tampered.append(value)
+        value=deepcopy(report);value['assessment']['status']='PASS';tampered.append(value)
+        for value in tampered:
+            with self.assertRaises(ValueError):validate_paper_feedback(value)
+            with self.assertRaises(ValidationError):Draft202012Validator(schema,format_checker=FormatChecker()).validate(value)
         from application.cloud.paper_feedback import paper_feedback_bundle
         from application.cloud.public_feedback import validate_public_feedback_publication
         bundle=paper_feedback_bundle(report)
@@ -230,6 +285,57 @@ class PaperRecordedFundingTests(unittest.TestCase):
         self.assertEqual(view['funding']['status'],'FUNDING_PENDING')
         self.assertEqual(Decimal(view['funding']['flat_observation']['actual_quantity']),0)
         self.assertEqual(view['closed_trades_count'],0)
+
+    def test_actual_four_hour_valid_signal_blocked_by_source_is_counted_once_without_order(self):
+        self.prepare(four_hour=True);self.assertEqual(self.runtime.engine.strategy.required_timeframe,'4h')
+        self.latest[0]=None
+        outcome=self.runtime.on_market_event(self.event(0,bars=True))
+        self.assertEqual(outcome.status,'BLOCKED')
+        self.runtime.on_market_event(self.event(1));self.runtime.on_market_event(self.event(2))
+        state=self.service.process.recover(self.ref.run_id).state
+        self.assertEqual(state['broker']['payload']['submissions'],[])
+        impact=state['runtime']['funding_opportunities']
+        self.assertEqual(impact['valid_blocked'],1)
+        self.assertEqual(impact['evaluated_boundaries'],1)
+        self.assertEqual(impact['records'][0]['risk_decision']['decision'],'APPROVE')
+        from application.cloud.paper_feedback import build_paper_feedback
+        report=build_paper_feedback(self.runtime)
+        self.assertEqual(report['funding']['opportunities']['valid_blocked'],1)
+        self.assertEqual(report['funding']['opportunities']['unresolved_financial'],0)
+
+    def test_funding_pending_reason_changes_and_wait_survive_successor(self):
+        self.close_pending()
+        self.clock[0]=self.initial+timedelta(seconds=4);self.observe(self.clock[0])
+        self.runtime.on_deadline(self.clock[0])
+        self.latest[0]=None;self.clock[0]+=timedelta(seconds=1);self.runtime.on_deadline(self.clock[0])
+        pending=self.service.process.recover(self.ref.run_id).state['runtime']['pending_funding']
+        self.assertEqual([item['reason'] for item in pending['reason_history']],
+            ['PUBLIC_FUNDING_SOURCE_UNAVAILABLE','FUNDING_SOURCE_INCOMPLETE','PUBLIC_FUNDING_SOURCE_UNAVAILABLE'])
+        successor=self.enterContext(self.selected.owners.service());runtime=successor.runtime(self.ref.run_id)
+        self.assertEqual(successor.process.recover(self.ref.run_id).state['runtime']['pending_funding'],pending)
+        self.clock[0]=floor(self.initial)+timedelta(hours=8,seconds=2);self.observe(self.clock[0])
+        runtime.on_deadline(self.clock[0])
+        receipt=successor.process.recover(self.ref.run_id).state['runtime']['funding_finalizations'][0]
+        self.assertEqual(receipt['reason_history'],pending['reason_history'])
+
+    def test_actual_four_hour_pending_financial_risk_is_unknown_not_a_valid_missed_trade(self):
+        self.prepare(four_hour=True)
+        for second,bars,price in ((0,True,'60000'),(1,False,'60000'),(2,False,'60020'),(3,False,'60020')):
+            self.runtime.on_market_event(self.event(second,bars=bars,price=price))
+        self.assertIsNotNone(self.service.process.recover(self.ref.run_id).state['runtime']['pending_funding'])
+        self.latest[0]=None
+        from dataclasses import replace
+        from market_data.candle import Candle
+        event=self.event(14400,price='61000')
+        candle=Candle('contracts-v0.1','BTC_USDT_PERP','4h',self.initial,self.initial+timedelta(hours=4),
+            Decimal('60000'),Decimal('61001'),Decimal('59999'),Decimal('61000'),Decimal('1'),
+            True,'CONTROLLED_NEXT4H_ONLY',received_at=self.clock[0])
+        self.runtime.on_market_event(replace(event,candles=(candle,)))
+        impact=self.service.process.recover(self.ref.run_id).state['runtime']['funding_opportunities']
+        self.assertEqual(impact['valid_blocked'],0)
+        self.assertEqual(impact['unresolved_financial'],1)
+        self.assertEqual(impact['evaluated_boundaries'],1)
+        self.assertEqual(impact['records'][0]['risk_decision']['account_state_status'],'UNKNOWN')
 
 
 if __name__=='__main__':unittest.main()

@@ -1,0 +1,52 @@
+
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1311, in mkdir
+[WebServer]     os.mkdir(self, mode)
+
+[WebServer] FileNotFoundError: [WinError 206] �ɦW�ΰ��ɦW�Ӫ��C: 'C:\\Users\\jackp\\Desktop\\��������H�D��\\artifacts\\current-windows-20261019\\ordinary-paper-policy-commissioning-20261021\\task5-recorded-funding-browser-CONTROLLED\\controlled-pending\\R7 public setup ���� cgy1tpz9\\cloud simulation\\inbox\\strategies\\public-flow-input'
+[WebServer]
+
+
+[WebServer] During handling of the above exception, another exception occurred:
+[WebServer]
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\ui\qa\serve_recorded_funding.py", line 50, in <module>
+[WebServer]     if __name__=='__main__':main()
+[WebServer]                             ^^^^^^
+
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\ui\qa\serve_recorded_funding.py", line 33, in main
+
+[WebServer]     fixture.close_pending()
+
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 112, in close_pending
+
+[WebServer]     self.prepare()
+
+
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+[WebServer]     self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+[WebServer]                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 51, in prepare
+
+[WebServer]     config=h.prepare()
+
+[WebServer]            ^^^^^^^^^^^
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 72, in prepare
+
+
+[WebServer]     folder, manifest, _ = cloud_fixtures.package(self.cloud, submission='public-flow-input', version='0.2', definition=subject())
+[WebServer]                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "C:\Users\jackp\Desktop\��������H�D��\workspaces\project-r7-productization-master-20261002\tests\application\cloud_fixtures.py", line 14, in package
+
+[WebServer]     folder.mkdir(parents=True, exist_ok=True)
+
+[WebServer]   File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1316, in mkdir
+
+[WebServer]     self.mkdir(mode, parents=False, exist_ok=exist_ok)
+
+[WebServer]   File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\pathlib.py", line 1311, in mkdir
+
+[WebServer]     os.mkdir(self, mode)
+
+[WebServer] FileNotFoundError: [WinError 206] �ɦW�ΰ��ɦW�Ӫ��C: 'C:\\Users\\jackp\\Desktop\\��������H�D��\\artifacts\\current-windows-20261019\\ordinary-paper-policy-commissioning-20261021\\task5-recorded-funding-browser-CONTROLLED\\controlled-pending\\R7 public setup ���� cgy1tpz9\\cloud simulation\\inbox\\strategies\\public-flow-input'
+Error: Process from config.webServer was not able to start. Exit code: 1

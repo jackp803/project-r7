@@ -1,0 +1,38 @@
+{
+  "protocol": "ACTUAL_PRIVATE_PRODUCT_BACKUP_CONTROLLED_VOLUME_NOT_NATIVE_QUALIFICATION",
+  "logical_captures": 1037010,
+  "actual_provider_requests": 0,
+  "actual_provider_responses": 0,
+  "runtime": "NOT_STARTED",
+  "financial_authority": "NONE",
+  "capital": "NONE",
+  "phases": [
+    {
+      "phase": "COPY_FRESH_STORAGE_PROFILE",
+      "status": "PASS",
+      "wall_seconds": 3.2493459999968763,
+      "facts": {
+        "files": 2176,
+        "bytes": 3622328474
+      }
+    },
+    {
+      "phase": "CREATE_FULL_PRODUCT_BACKUP",
+      "status": "FAIL",
+      "wall_seconds": 299.99402799998643,
+      "error_code": "PRODUCT_BACKUP_PUBLIC_ARCHIVE_INVALID"
+    }
+  ],
+  "source_hashes": {
+    "tools/verify_public_archive_backup_volume.py": "sha256:19e516a8151e11c749a87a4897eeabfe4e2419dc036d62c82c50ac61e64c3beb",
+    "src/application/platform/product_backup.py": "sha256:c108a224e0b2105965c063331c1175914d148d04ce01e84d89498a20a7e08807",
+    "src/application/platform/database_restore.py": "sha256:11a2a81c1553588cbc486deb473d52fd3aa538f941344f3ccb8cf122571d5705",
+    "src/application/paper/capture_archive.py": "sha256:c890a76ee2aeaa0b9e141d61305ff98a6578261e259251da34eb598bee19c038"
+  },
+  "status": "CONTROLLED_VOLUME_BACKUP_INCOMPLETE",
+  "wall_seconds": 303.6203666999936,
+  "cpu_seconds": 290.21875,
+  "peak_working_set_bytes": 69185536,
+  "working_set_bytes": 59006976,
+  "peak_pagefile_bytes": 50036736
+}

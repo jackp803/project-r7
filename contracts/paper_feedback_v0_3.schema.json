@@ -372,7 +372,8 @@
         "observed_wait_seconds",
         "wait_reason",
         "flat_observation",
-        "latest_source"
+        "latest_source",
+        "opportunities"
       ],
       "properties": {
         "funding_model": {
@@ -514,6 +515,95 @@
                 "null"
               ],
               "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "HEALTHY"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "observed_at": {
+                    "type": "string"
+                  },
+                  "coverage_start": {
+                    "type": "string"
+                  },
+                  "complete_through": {
+                    "type": "string"
+                  },
+                  "snapshot_hash": {
+                    "type": "string"
+                  },
+                  "reason_code": {
+                    "type": "null"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "reason_code": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "opportunities": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "evaluated_boundaries",
+            "valid_blocked",
+            "non_directional",
+            "other_gate_blocked",
+            "unresolved_financial",
+            "stale_or_invalid",
+            "last_boundary"
+          ],
+          "properties": {
+            "evaluated_boundaries": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "valid_blocked": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "non_directional": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "other_gate_blocked": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "unresolved_financial": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "stale_or_invalid": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 2147483647
+            },
+            "last_boundary": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date-time"
             }
           }
         }

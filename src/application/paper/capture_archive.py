@@ -8,9 +8,11 @@ No database, financial authority, background network or protection-thread work.
 from contextlib import contextmanager
 from collections import OrderedDict
 import hashlib
+import json
 import os
 from pathlib import Path
 import shutil
+import re
 import stat
 import struct
 import threading
@@ -43,6 +45,7 @@ HEAD_KEYS = {'schema_version','pack','offset','pack_frames','sequence','tip','se
     'physical_bytes','raw_bytes','deduplicated_payload_bytes','provider_requests','provider_responses',
     'request_accounting','captures','pending','cache','active_request_budget_upper','request_budget_upper'}
 POINTER_KEYS = {'pack','offset','size','sha256'}
+HASH_PATTERN=re.compile(r'sha256:[0-9a-f]{64}\Z')
 
 
 def _fail(reason):
@@ -59,8 +62,15 @@ def _token(value):
 
 
 def _hash(value):
-    return (type(value) is str and len(value)==71 and value.startswith('sha256:')
-        and all(char in '0123456789abcdef' for char in value[7:]))
+    return type(value) is str and HASH_PATTERN.fullmatch(value) is not None
+
+
+def _header_pairs(items):
+    value={}
+    for key,item in items:
+        if key in value:_fail('FRAME_INVALID')
+        value[key]=item
+    return value
 
 
 def _pointer_shape(pointer):
@@ -138,6 +148,7 @@ class PublicCaptureArchive:
     def _io_init(self):
         self._thread_lock=threading.RLock();self._lock_thread=None
         self._writer=None;self._write_enabled=False;self._readers=None
+        self._verified_frame_paths=set();self._last_frame_capture_id=None
 
     def _close_writer(self):
         if self._writer is not None:
@@ -211,7 +222,11 @@ class PublicCaptureArchive:
         length,size=struct.unpack('!II',frame[:8])
         if not 1<=length<=MAX_HEADER_BYTES or len(frame)!=8+length+size:
             _fail('FRAME_INVALID')
-        metadata=decode(frame[8:8+length])
+        # Header has a closed primitive/pointer shape, checked below. Parsing
+        # that exact shape avoids a second generic recursive manifest walk for
+        # every one of millions of tiny frames. Duplicate fields still refuse.
+        try:metadata=json.loads(frame[8:8+length],object_pairs_hook=_header_pairs)
+        except (ValueError,UnicodeError,RecursionError):_fail('FRAME_INVALID')
         if (type(metadata) is not dict or set(metadata)!={'sequence','previous','kind','capture_id','path',
                 'bytes','raw_hash','reference'} or type(metadata['sequence']) is not int
                 or type(metadata['bytes']) is not int or not 0<=metadata['bytes']<=MAX_RAW):
@@ -222,11 +237,16 @@ class PublicCaptureArchive:
                 or not _hash(metadata['raw_hash'])):
             _fail('FRAME_INVALID')
         if metadata['kind']=='FILE':
-            try:safe_relative(metadata['path'])
-            except CloudError:_fail('FRAME_PATH_INVALID')
+            path=metadata['path']
+            if path not in self._verified_frame_paths:
+                try:safe_relative(path)
+                except CloudError:_fail('FRAME_PATH_INVALID')
+                if len(self._verified_frame_paths)>=128:self._verified_frame_paths.clear()
+                self._verified_frame_paths.add(path)
         elif metadata['path']!='':
             _fail('FRAME_PATH_INVALID')
-        _token(metadata['capture_id'])
+        if type(metadata['capture_id']) is not str or metadata['capture_id']!=self._last_frame_capture_id:
+            _token(metadata['capture_id']);self._last_frame_capture_id=metadata['capture_id']
         compressed=frame[8+length:]
         if metadata['reference'] is not None:
             _pointer_shape(metadata['reference'])
@@ -243,7 +263,7 @@ class PublicCaptureArchive:
             _fail('COMPRESSED_FRAME_INVALID')
         return metadata,raw
 
-    def _apply(self, metadata, raw, pointer):
+    def _apply(self, metadata, raw, pointer,*,_decoded=None):
         state=self.state
         expected_sequence=state['sequence']+1
         if metadata['kind']=='RECOVERY' and self._pending_skip is not None:
@@ -261,7 +281,7 @@ class PublicCaptureArchive:
             state['active_request_budget_upper']+=value['maximum_requests']
             state['request_budget_upper']+=value['maximum_requests']
         elif kind=='COMMIT':
-            value=decode(raw); reserved=state['pending'].get(token)
+            value=decode(raw) if _decoded is None else _decoded; reserved=state['pending'].get(token)
             if (type(value) is not dict or set(value)!={'files','requests','responses','complete'}
                     or type(value['files']) is not dict or not 1<=len(value['files'])<=1024
                     or type(value['requests']) is not int or type(value['responses']) is not int
@@ -274,7 +294,7 @@ class PublicCaptureArchive:
             state['captures']+=1
             if not value['complete']: state['request_accounting']='INCOMPLETE'
         elif kind=='RECOVERY':
-            value=decode(raw)
+            value=decode(raw) if _decoded is None else _decoded
             if (type(value) is not dict or set(value)!={'retired','owner_generation','skipped_until','source_seal'}
                     or type(value['retired']) is not dict or len(value['retired'])>3
                     or value['skipped_until']!=self._pending_skip
@@ -340,7 +360,7 @@ class PublicCaptureArchive:
                     # No persisted head/cache assertion supplies this proof.
                     original=originals.get(metadata['raw_hash'])
                     if original!=(metadata['reference'],metadata['bytes']):_fail('REFERENCE_INVALID')
-                token=metadata['capture_id'];kind=metadata['kind']
+                token=metadata['capture_id'];kind=metadata['kind'];value=None
                 if kind=='RESERVE':capture_files[token]={}
                 elif kind=='FILE':
                     files=capture_files.get(token)
@@ -348,11 +368,14 @@ class PublicCaptureArchive:
                     files[metadata['path']]=pointer
                 elif kind=='COMMIT':
                     value=decode(payload)
-                    if type(value) is not dict or value.get('files')!=capture_files.pop(token,None):_fail('CAPTURE_INDEX_INVALID')
+                    if type(value) is not dict or type(value.get('files')) is not dict:_fail('CAPTURE_INDEX_INVALID')
+                    for stored in value['files'].values():_pointer_shape(stored)
+                    if value['files']!=capture_files.pop(token,None):_fail('CAPTURE_INDEX_INVALID')
                 elif kind=='RECOVERY':
                     value=decode(payload)
+                    if type(value) is not dict or type(value.get('retired')) is not dict:_fail('RECOVERY_RECORD_INVALID')
                     for retired in value.get('retired',{}):capture_files.pop(retired,None)
-                self._apply(metadata,payload,pointer); offset+=size
+                self._apply(metadata,payload,pointer,_decoded=value); offset+=size
                 if kind=='FILE' and metadata['reference'] is None and metadata['path'].endswith('-response.bin'):
                     originals[metadata['raw_hash']]=(pointer,metadata['bytes'])
                     if len(originals)>MAX_CACHE:

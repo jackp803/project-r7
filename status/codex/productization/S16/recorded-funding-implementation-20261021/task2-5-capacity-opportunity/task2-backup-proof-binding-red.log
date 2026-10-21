@@ -1,0 +1,15 @@
+test_final_inventory_rows_cannot_rebind_cached_semantic_proof_to_changed_bytes (tests.application.test_public_archive_backup_budget.PublicArchiveBackupBudgetTests.test_final_inventory_rows_cannot_rebind_cached_semantic_proof_to_changed_bytes) ... FAIL
+
+======================================================================
+FAIL: test_final_inventory_rows_cannot_rebind_cached_semantic_proof_to_changed_bytes (tests.application.test_public_archive_backup_budget.PublicArchiveBackupBudgetTests.test_final_inventory_rows_cannot_rebind_cached_semantic_proof_to_changed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_public_archive_backup_budget.py", line 54, in test_final_inventory_rows_cannot_rebind_cached_semantic_proof_to_changed_bytes
+    with patch.object(product_backup,'_file_facts',side_effect=facts),self.assertRaises(product_backup.ProductBackupError):
+                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProductBackupError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.404s
+
+FAILED (failures=1)

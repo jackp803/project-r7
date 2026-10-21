@@ -1,0 +1,37 @@
+
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\ui\qa\serve_recorded_funding.py", line 50, in <module>
+
+[WebServer]     if __name__=='__main__':main()
+[WebServer]                             ^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\ui\qa\serve_recorded_funding.py", line 33, in main
+[WebServer]     fixture.close_pending()
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 112, in close_pending
+[WebServer]     self.prepare()
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 30, in prepare
+[WebServer]     self.h,self.config,self.local,self.clock,_,_=helper.prepare(simulation=recorded_policy(),private_data=True,
+[WebServer]                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_ordinary_paper_composition.py", line 53, in prepare
+[WebServer]     h.configure()
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 88, in configure
+[WebServer]     return self.call(['configure-research','--config',str(self.config_path),'--selection-profile',str(self.profile)])
+[WebServer]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_research_setup_flow.py", line 39, in call
+[WebServer]     code = cli.main(arguments)
+[WebServer]            ^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\cli.py", line 435, in main
+[WebServer]     print(json.dumps(configure_research(args.config, args.selection_profile), ensure_ascii=False))
+[WebServer]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\research\setup.py", line 53, in configure_research
+[WebServer]     stack.enter_context(ProcessScopeLock(role+':'+config.product_instance_id,lock_root=operational_lock_root(config)))
+[WebServer]   File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 526, in enter_context
+[WebServer]     result = _enter(cm)
+
+[WebServer]              ^^^^^^^^^^
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 113, in __enter__
+[WebServer]     self._windows_acquire()
+[WebServer]   File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\platform\scope_lock.py", line 66, in _windows_acquire
+[WebServer]     raise ScopeBusy('Local process scope is already owned')
+[WebServer] application.platform.scope_lock.ScopeBusy: Local process scope is already owned
+
+Error: Process from config.webServer was not able to start. Exit code: 1

@@ -1,0 +1,22 @@
+test_short_archive_write_never_advances_committed_head_or_discards_tail (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_short_archive_write_never_advances_committed_head_or_discards_tail) ... ERROR
+
+======================================================================
+ERROR: test_short_archive_write_never_advances_committed_head_or_discards_tail (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_short_archive_write_never_advances_committed_head_or_discards_tail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 224, in test_short_archive_write_never_advances_committed_head_or_discards_tail
+    archive.commit(token,self.files(),requests=1,responses=1,complete=True)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 421, in commit
+    pointer=self._append('FILE',capture_id,relative,raw)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 363, in _append
+    if stream.tell()!=pointer['offset']:_fail('RECOVERY_REQUIRED')
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 48, in _fail
+    raise ValueError('PUBLIC_ARCHIVE_'+reason)
+ValueError: PUBLIC_ARCHIVE_RECOVERY_REQUIRED
+
+----------------------------------------------------------------------
+Ran 1 test in 0.104s
+
+FAILED (errors=1)

@@ -1,0 +1,36 @@
+test_orphan_staging_bytes_are_archived_before_verified_loose_release (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_orphan_staging_bytes_are_archived_before_verified_loose_release) ... ERROR
+test_empty_orphan_directory_is_retired_without_an_invalid_empty_capture (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_empty_orphan_directory_is_retired_without_an_invalid_empty_capture) ... ERROR
+
+======================================================================
+ERROR: test_orphan_staging_bytes_are_archived_before_verified_loose_release (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_orphan_staging_bytes_are_archived_before_verified_loose_release)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 170, in test_orphan_staging_bytes_are_archived_before_verified_loose_release
+    pointer=disposition['archived_orphan_indexes'][token]
+            ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'archived_orphan_indexes'
+
+======================================================================
+ERROR: test_empty_orphan_directory_is_retired_without_an_invalid_empty_capture (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_empty_orphan_directory_is_retired_without_an_invalid_empty_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 183, in test_empty_orphan_directory_is_retired_without_an_invalid_empty_capture
+    recovered,disposition=module.recover_public_archive(self.config,owner)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 139, in recover_public_archive
+    pointer=archive.commit_directory(token,path,requests=0,responses=0,complete=False)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 403, in commit_directory
+    metadata,retained=self._capture_entries(pointer)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 374, in _capture_entries
+    if type(files) is not dict or not 1<=len(files)<=1024: _fail('CAPTURE_INDEX_INVALID')
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 46, in _fail
+    raise ValueError('PUBLIC_ARCHIVE_'+reason)
+ValueError: PUBLIC_ARCHIVE_CAPTURE_INDEX_INVALID
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.780s
+
+FAILED (errors=2)

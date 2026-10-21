@@ -132,3 +132,16 @@ class PublicPaperFeedTests(unittest.TestCase):
             self.assertTrue(owned.termination_report.reaped)
         finally:
             timer.cancel();terminate_owned(owned,deadline_seconds=3)
+
+    def test_legacy_capture_tree_cannot_bootstrap_a_fresh_counter_or_dispatch(self):
+        module=self.module();config_path,config=self.configured()
+        helper=fixture.PublicPaperAcquisitionTests();helper.setUp();self.addCleanup(helper.doCleanups)
+        from application.platform.private_files import create_private_directory,write_private_new
+        base=config.local_data_root/'public-market-observations';create_private_directory(base)
+        legacy=base/'previous-generation';create_private_directory(legacy)
+        path=legacy/'interrupted-public-attempt.json';write_private_new(path,b'PUBLIC_TEST_HISTORY_PRESERVE')
+        with patch.object(module,'_guard',return_value=(config,profile())),patch.object(module,'spawn_owned') as spawn:
+            with self.assertRaisesRegex(ValueError,'LEGACY'):
+                module.check_batch_once(config_path,helper.subscription.runtime_token,(helper.subscription,),threading.Event())
+        spawn.assert_not_called();self.assertEqual(path.read_bytes(),b'PUBLIC_TEST_HISTORY_PRESERVE')
+        self.assertFalse((config.local_data_root/'public-source-archive').exists())

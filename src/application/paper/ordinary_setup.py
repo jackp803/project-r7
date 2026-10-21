@@ -178,8 +178,14 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
     _historical_owner(record,implementation_hash=installed['implementation_hash'])
     from contextlib import contextmanager
     from application.local_owners import LocalOwners
+    source_capture_recovery=None
     @contextmanager
     def actual_service():
+        nonlocal source_capture_recovery
+        # The actual runtime scope precedes public writers and E6 attachment.
+        # Recovery preserves unknown accounting; it never grants admission.
+        from .capture_recovery import recover_public_archive
+        _,source_capture_recovery=recover_public_archive(config,worker.supervisor)
         local=LocalOwners(config,namespace='LOCAL_RESEARCH')
         with open_paper_selections(config.database_path) as ledger:
             if ledger.current()!=selection:raise ValueError('Paper selection changed during qualified bootstrap')
@@ -218,7 +224,8 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
         final=worker.snapshot()
     if feed is not None:market=feed.summary()
     print(json.dumps(dict(status='STOPPED',namespace='LOCAL_RESEARCH',mode='REAL_TIME',
-        **market,market_event_rejections=market_rejections,process_generation=final['process_generation'],
+        **market,market_event_rejections=market_rejections,source_capture_recovery=source_capture_recovery,
+        process_generation=final['process_generation'],
         run_failures=final['run_failures'],financial_authority='NONE',
         capital='NONE',real_forward_qualification='NOT_ISSUED')))
     return 0 if not final['run_failures'] else 2

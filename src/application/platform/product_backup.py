@@ -86,8 +86,12 @@ def _walk(root, end, *, exclusions=True):
 
 
 @contextmanager
-def _opened_source(path):
-    """Pin every ancestor without following links; Windows also denies writers."""
+def _opened_source(path,*,_archive_writer=False):
+    """Pin ancestors and exclude other Windows writers.
+
+    Backup callers stay read-only. The archive's private writer uses a writable
+    pinned descriptor inside its process mutex, then closes before readback.
+    """
     _local_path(path)
     with ExitStack() as stack:
         if os.name == 'nt':
@@ -101,7 +105,8 @@ def _opened_source(path):
             for index, part in enumerate(path.parts[1:]):
                 current = current / part
                 directory = index < len(path.parts) - 2
-                handle = kernel.CreateFileW(_windows_native_path(current), 0x80 if directory else 0x80000000,
+                access=0x80 if directory else 0xc0000000 if _archive_writer else 0x80000000
+                handle = kernel.CreateFileW(_windows_native_path(current), access,
                     1, None, 3, 0x200000 | (0x2000000 if directory else 0), None)
                 if handle == ctypes.c_void_p(-1).value:
                     raise ProductBackupError('PRODUCT_BACKUP_PINNED_READ_DENIED')
@@ -109,20 +114,21 @@ def _opened_source(path):
                     stack.callback(kernel.CloseHandle, handle)
                 else:
                     try:
-                        descriptor = msvcrt.open_osfhandle(handle, os.O_RDONLY | os.O_BINARY)
+                        descriptor = msvcrt.open_osfhandle(handle, (os.O_RDWR if _archive_writer else os.O_RDONLY) | os.O_BINARY)
                     except Exception:
                         kernel.CloseHandle(handle)
                         raise
-            stream = stack.enter_context(os.fdopen(descriptor, 'rb'))
+            stream = stack.enter_context(os.fdopen(descriptor, 'r+b' if _archive_writer else 'rb',buffering=0))
             _local_path(path)  # Pinned ancestors cannot be replaced on Windows.
         else:
             descriptor = os.open(path.anchor, os.O_RDONLY | os.O_DIRECTORY)
             stack.callback(os.close, descriptor)
             for index, part in enumerate(path.parts[1:]):
                 directory = index < len(path.parts) - 2
-                descriptor = os.open(part, os.O_RDONLY | os.O_NOFOLLOW | (os.O_DIRECTORY if directory else 0), dir_fd=descriptor)
+                access=os.O_RDONLY if directory or not _archive_writer else os.O_RDWR
+                descriptor = os.open(part, access | os.O_NOFOLLOW | (os.O_DIRECTORY if directory else 0), dir_fd=descriptor)
                 stack.callback(os.close, descriptor)
-            stream = stack.enter_context(os.fdopen(os.dup(descriptor), 'rb'))
+            stream = stack.enter_context(os.fdopen(os.dup(descriptor), 'r+b' if _archive_writer else 'rb',buffering=0))
         information = os.fstat(stream.fileno())
         if not stat.S_ISREG(information.st_mode) or information.st_nlink != 1:
             raise ProductBackupError('PRODUCT_BACKUP_REGULAR_SINGLE_LINK_REQUIRED')

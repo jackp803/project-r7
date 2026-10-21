@@ -216,5 +216,18 @@ class PublicCaptureArchiveTests(unittest.TestCase):
                     archive.reserve(str(uuid.uuid4()),kind='market',maximum_requests=3,
                         maximum_bytes=1600*1024,maximum_files=3,emergency=emergency)
 
+    def test_active_request_upper_budget_seals_without_resetting_global_accounting(self):
+        archive=self.archive(); module=self.module()
+        with patch.object(module,'MAX_ACTIVE_REQUESTS',3,create=True):
+            for _ in range(3):
+                token=str(uuid.uuid4())
+                archive.reserve(token,kind='market',maximum_requests=2,maximum_bytes=1024*1024)
+                archive.commit(token,self.files(),requests=1,responses=1,complete=True)
+            summary=self.archive().summary()
+            self.assertGreaterEqual(summary['sealed_segments'],2)
+            self.assertEqual(summary['provider_requests'],3)
+            self.assertEqual(summary['request_budget_upper'],6)
+            self.assertEqual(summary['active_request_budget_upper'],2)
+
 
 if __name__=='__main__': unittest.main()

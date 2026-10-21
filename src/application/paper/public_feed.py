@@ -28,7 +28,15 @@ def _archive_for(config):
     root=config.local_data_root/archive_root
     with _archives_lock:
         result=_archives.pop(root,None)
-        if result is None:result=PublicCaptureArchive(root)
+        if result is None:
+            if not root.exists():
+                for name in (ROOT,'public-funding-observations'):
+                    legacy=config.local_data_root/name
+                    if legacy.exists():
+                        require_private(legacy,directory=True)
+                        if next(legacy.iterdir(),None) is not None:
+                            raise ValueError('PUBLIC_CAPTURE_LEGACY_ACCOUNTING_REQUIRED')
+            result=PublicCaptureArchive(root)
         _archives[root]=result
         while len(_archives)>16:_archives.popitem(last=False)
         return result
@@ -63,6 +71,13 @@ def _guard(config_path,token,expected_config_hash=None,selection_hash=None):
 
 
 def run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash):
+    from .capture_activity import capture_lease
+    config,_=_guard(config_path,token,expected_config_hash,selection_hash)
+    with capture_lease(config,'market'):
+        return _run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash)
+
+
+def _run_market_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash):
     """Fixed private CLI target, no caller endpoint, price, code or financial verdict."""
     _uuid(attempt_id)
     config,profile=_guard(config_path,token,expected_config_hash,selection_hash)
@@ -83,6 +98,13 @@ def _private_directory(path):
 
 
 def check_batch_once(config_path,token,subscriptions,cancel):
+    from .capture_activity import capture_activity
+    config=load_config(config_path)
+    with capture_activity(config.local_data_root):
+        return _check_batch_once(config_path,token,subscriptions,cancel)
+
+
+def _check_batch_once(config_path,token,subscriptions,cancel):
     config_path=Path(config_path)
     config,profile=_guard(config_path,token)
     expected=config_hash(config);selection=digest(canonical(profile).encode('utf-8'))

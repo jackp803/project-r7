@@ -1,0 +1,55 @@
+test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) ...
+  test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) (changes={'path': None}) ... ERROR
+  test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) (changes={'path': []}) ... ERROR
+  test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) (changes={'path': '../escape'}) ... FAIL
+
+======================================================================
+ERROR: test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) (changes={'path': None})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 255, in test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery
+    recovered,_=self.recovery().recover_public_archive(config,owner)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 136, in recover_public_archive
+    else:archive=_repair_prefix(root,fence,disposition)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 95, in _repair_prefix
+    _scan_suffix(archive,raw,disposition)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 48, in _scan_suffix
+    archive._apply(metadata,payload,pointer)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 267, in _apply
+    if kind=='FILE' and metadata['path'].endswith('-response.bin'):
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'endswith'
+
+======================================================================
+ERROR: test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) (changes={'path': []})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 255, in test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery
+    recovered,_=self.recovery().recover_public_archive(config,owner)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 136, in recover_public_archive
+    else:archive=_repair_prefix(root,fence,disposition)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 95, in _repair_prefix
+    _scan_suffix(archive,raw,disposition)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_recovery.py", line 48, in _scan_suffix
+    archive._apply(metadata,payload,pointer)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\capture_archive.py", line 267, in _apply
+    if kind=='FILE' and metadata['path'].endswith('-response.bin'):
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute 'endswith'
+
+======================================================================
+FAIL: test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery) (changes={'path': '../escape'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 258, in test_malformed_uncommitted_header_is_sealed_without_losing_management_recovery
+    self.assertTrue((archive.root/'000001.seal.json').exists())
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1 test in 3.197s
+
+FAILED (failures=1, errors=2)

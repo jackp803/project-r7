@@ -1,3 +1,20 @@
+# Recorded funding Task2 owner-fenced recovery checkpoint; continue — 2026-10-21
+
+Same task/branch. New actual runtime/child leases fence recovery before writers.
+Committed prefix corruption refuses; complete unpublished COMMIT replays once;
+torn/invalid suffix stays immutable with sealed original bytes and sticky unknown
+request accounting. Orphan raw evidence archived before verified loose release.
+Short writes and malformed header failures reproduced then fixed. Recovery/private
+backup restore and long paths tested;52test suite and final47affected tests PASS.
+No new public calls; cumulative20requests/19responses. No ordinary Paper/observation.
+Task2 remains PARTIAL: full30day measured capacity/resource isolation, exposure-only
+emergency source route and native positive wiring remain. Continue Task3 pending
+flat/fills/finalization then Tasks4–6 without perTask permission. Source changes
+are NOT qualified by bffc native receipt. Master remains IN_PROGRESS.
+Evidence: S16/recorded-funding-implementation-20261021/task2-owner-recovery/disposition.json
+
+---
+
 # Recorded funding Task2 component checkpoint; continue capacity/recovery — 2026-10-21
 
 Same task/branch. Latest fetched main remains7d1f447. Task1 source complete;

@@ -65,6 +65,13 @@ def funding_request(config,selection,runtime_token,*,coverage_start=None,now=Non
 
 
 def run_funding_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash):
+    from .capture_activity import capture_lease
+    config=load_config(config_path)
+    with capture_lease(config,'funding'):
+        return _run_funding_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash)
+
+
+def _run_funding_acquire(config_path,token,attempt_id,request_hash,expected_config_hash,selection_hash):
     _uuid(token); _uuid(attempt_id)
     config=load_config(config_path); root=config.local_data_root/ROOT/token/attempt_id
     require_private(root,directory=True); raw=read_local(root,'request.json',4096)
@@ -79,6 +86,13 @@ def run_funding_acquire(config_path,token,attempt_id,request_hash,expected_confi
 
 
 def check_funding_once(config_path,request,cancel):
+    from .capture_activity import capture_activity
+    config=load_config(config_path)
+    with capture_activity(config.local_data_root):
+        return _check_funding_once(config_path,request,cancel)
+
+
+def _check_funding_once(config_path,request,cancel):
     """One reaped child; shared pre-I/O archive reservation and byte readback."""
     request,_=validate_request(request); config,selection=_funding_guard(config_path,request)
     subject=request['subject']; token=subject['runtime_token']; config_path=Path(config_path)

@@ -1,0 +1,19 @@
+test_legacy_capture_tree_cannot_bootstrap_a_fresh_counter_or_dispatch (tests.application.test_public_paper_feed.PublicPaperFeedTests.test_legacy_capture_tree_cannot_bootstrap_a_fresh_counter_or_dispatch) ... FAIL
+
+======================================================================
+FAIL: test_legacy_capture_tree_cannot_bootstrap_a_fresh_counter_or_dispatch (tests.application.test_public_paper_feed.PublicPaperFeedTests.test_legacy_capture_tree_cannot_bootstrap_a_fresh_counter_or_dispatch)
+----------------------------------------------------------------------
+application.paper.public_feed.MarketAttemptIncomplete: Public request accounting incomplete
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_paper_feed.py", line 144, in test_legacy_capture_tree_cannot_bootstrap_a_fresh_counter_or_dispatch
+    with self.assertRaisesRegex(ValueError,'LEGACY'):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "LEGACY" does not match "Public request accounting incomplete"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.187s
+
+FAILED (failures=1)

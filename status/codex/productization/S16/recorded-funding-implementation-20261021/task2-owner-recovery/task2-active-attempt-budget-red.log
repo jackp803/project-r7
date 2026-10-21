@@ -1,0 +1,14 @@
+test_active_request_upper_budget_seals_without_resetting_global_accounting (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_active_request_upper_budget_seals_without_resetting_global_accounting) ... FAIL
+
+======================================================================
+FAIL: test_active_request_upper_budget_seals_without_resetting_global_accounting (tests.application.test_public_capture_archive.PublicCaptureArchiveTests.test_active_request_upper_budget_seals_without_resetting_global_accounting)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_archive.py", line 227, in test_active_request_upper_budget_seals_without_resetting_global_accounting
+    self.assertGreaterEqual(summary['sealed_segments'],2)
+AssertionError: 0 not greater than or equal to 2
+
+----------------------------------------------------------------------
+Ran 1 test in 0.590s
+
+FAILED (failures=1)

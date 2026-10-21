@@ -1,0 +1,41 @@
+test_actual_owner_fence_excludes_live_capture_and_every_kind_of_child_writer (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_actual_owner_fence_excludes_live_capture_and_every_kind_of_child_writer) ... FAIL
+test_live_child_lease_and_unreaped_owned_handle_refuse_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_live_child_lease_and_unreaped_owned_handle_refuse_recovery) ... FAIL
+test_missing_closed_foreign_role_or_nonowner_thread_cannot_recover (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_missing_closed_foreign_role_or_nonowner_thread_cannot_recover) ... FAIL
+
+======================================================================
+FAIL: test_actual_owner_fence_excludes_live_capture_and_every_kind_of_child_writer (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_actual_owner_fence_excludes_live_capture_and_every_kind_of_child_writer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 21, in test_actual_owner_fence_excludes_live_capture_and_every_kind_of_child_writer
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_activity'),
+AssertionError: unexpectedly None : Archive recovery has no actual capture/runtime ownership fence
+
+======================================================================
+FAIL: test_live_child_lease_and_unreaped_owned_handle_refuse_recovery (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_live_child_lease_and_unreaped_owned_handle_refuse_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 54, in test_live_child_lease_and_unreaped_owned_handle_refuse_recovery
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_activity'),
+AssertionError: unexpectedly None : Archive recovery has no actual capture/runtime ownership fence
+
+======================================================================
+FAIL: test_missing_closed_foreign_role_or_nonowner_thread_cannot_recover (tests.application.test_public_capture_recovery.PublicCaptureRecoveryTests.test_missing_closed_foreign_role_or_nonowner_thread_cannot_recover)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 35, in test_missing_closed_foreign_role_or_nonowner_thread_cannot_recover
+    module=self.module()
+           ^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_public_capture_recovery.py", line 16, in module
+    self.assertIsNotNone(importlib.util.find_spec('application.paper.capture_activity'),
+AssertionError: unexpectedly None : Archive recovery has no actual capture/runtime ownership fence
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.167s
+
+FAILED (failures=3)

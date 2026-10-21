@@ -1,0 +1,111 @@
+{
+  "capital": "NONE",
+  "conservative_completeness_retained": true,
+  "credentials": "NONE",
+  "errors": 0,
+  "execution_regression_tests_including_new": 153,
+  "execution_subject": "PRECOMMIT_LOCAL_SOURCE_COMPONENT_WITH_EXACT_FILE_HASHES",
+  "failures": 0,
+  "files": [
+    {
+      "bytes": 43585,
+      "normalization": "LF_AND_TRAILING_SPACE_ONLY;ORIGINAL_RETAINED_IN_TASK_ARTIFACTS",
+      "original_sha256": "sha256:ca4f95d0b58081c869860cc3e9cd7835dbbfba87a8753a0b8f401be70d67bc2d",
+      "path": "red-registered-model.log",
+      "sha256": "sha256:9c723a7ba35b3fa9660eb6fd86c7d896b14a4fed0fa10636b9b6440fb3363b95"
+    },
+    {
+      "bytes": 2352,
+      "path": "green-attempt1.log",
+      "sha256": "sha256:94ab028712aa2c732820a78cbc26bf3c0f3c9a2fae152a0b7070c542bd9ea24a"
+    },
+    {
+      "bytes": 4530,
+      "path": "red-ambient-source.log",
+      "sha256": "sha256:c499ce08b697abe5f7c8bab77ccd15f7205db5691850fd3d1684dbd922526011"
+    },
+    {
+      "bytes": 5078,
+      "path": "red-ambient-assertion.log",
+      "sha256": "sha256:058d73e910002aa72e4c6180bdcaa9ee461ede920da0501b8cb29cf6025cb6af"
+    },
+    {
+      "bytes": 2949,
+      "path": "green-registered-model.log",
+      "sha256": "sha256:1b84e4f85de7747080c634a3d1c4705723fcb0c984ac311882e177c1faf42492"
+    },
+    {
+      "bytes": 30469,
+      "path": "execution-regression.log",
+      "sha256": "sha256:97706381ed39e1feb7d333d36b11621c8512722b90bea84ad26cfbb3d1c118b9"
+    },
+    {
+      "bytes": 2949,
+      "path": "source-model-14.log",
+      "sha256": "sha256:0162bdefd05bfeded6525f14a96916ba7f70bde351290d453c96b27b5abeb85b"
+    },
+    {
+      "bytes": 30469,
+      "path": "source-execution-153.log",
+      "sha256": "sha256:747ea647d62786ce2298609c9f9b15ee3e4239ef87245b2b5a72d8da50c145d3"
+    },
+    {
+      "bytes": 969,
+      "path": "actual-public-funding-source-readback.json",
+      "sha256": "sha256:1ab8fc736abbc3d5e22572a3e7da816b4bcae446702c406892482ad3636830df"
+    },
+    {
+      "bytes": 2846,
+      "path": "final-source-verification.json",
+      "sha256": "sha256:87b46a2925710a5993335980e3e2dc0f3a52424ae434c8eedde3fa538eacc239"
+    }
+  ],
+  "github_compute": "NOT_USED",
+  "historical_actual_public_readback": {
+    "live_source_health": false,
+    "new_api_calls": 0,
+    "normalized_events": 261,
+    "pages": 3,
+    "source_coverage_start": "2026-07-25T00:00:00Z"
+  },
+  "kind": "TASK1_E4_COMPONENT_ONLY",
+  "native_qualification": "NOT_RUN",
+  "new_tests": 14,
+  "ordinary_paper": "NOT_STARTED",
+  "preserved_attempts": {
+    "ambient_red_assertion": {
+      "errors": 0,
+      "failures": 1,
+      "tests": 14
+    },
+    "ambient_red_error": {
+      "errors": 1,
+      "reason": "valid_rate_falsely_rejected_under_hostile_ambient_context",
+      "tests": 14
+    },
+    "fixed": "Decimal.copy_abs avoids ambient rounding during source-rate bound check",
+    "initial_11_tests": {
+      "errors": 0,
+      "failures": 24,
+      "reason": "missing_registered_model_interface;subtest_failures_counted"
+    },
+    "initial_green_11": "PRELIMINARY_COMPONENT_ONLY;NO_FULL_SUBJECT_BINDING"
+  },
+  "private_requests": 0,
+  "public_requests_cumulative": 17,
+  "public_responses_cumulative": 17,
+  "remaining_tasks": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "skipped": 0,
+  "source_subject_hashes": {
+    "src/execution/funding.py": "sha256:33be4c590773515c07172d158dd474c8d3cfdb8d14f39743dfc3918efe4cb01a",
+    "src/execution/public_recorded_funding.py": "sha256:8a3502e414c17ae30f857f298fb078b1578ec687e4cc580a4bacf35829f729ea",
+    "tests/execution/test_public_recorded_funding.py": "sha256:375b3719a3aed2a8aa257edb25a1667627c0e2b111a64d78245525b54262467e"
+  },
+  "status": "SOURCE_COMPONENT_PASS_NOT_PRODUCT_QUALIFIED"
+}

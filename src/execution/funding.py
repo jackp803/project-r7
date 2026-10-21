@@ -74,6 +74,12 @@ class PaperZeroFundingModel:
 DEFAULT_PAPER_ZERO_FUNDING_MODEL = PaperZeroFundingModel()
 
 
+def public_recorded_funding_model():
+    """Explicit registered public-rate Paper source; never a zero fallback."""
+    from execution.public_recorded_funding import PublicRecordedFundingModel
+    return PublicRecordedFundingModel()
+
+
 def _nonempty_text(value: Any, field: str) -> str:
     if not isinstance(value, str) or not value:
         raise FundingEvidenceError("INVALID_TEXT_FIELD", f"{field} must be a non-empty string")

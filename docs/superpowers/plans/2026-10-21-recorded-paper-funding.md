@@ -66,12 +66,12 @@ Final delivery must separately report six-Task status, waiting/opportunity impac
 
 **Interfaces:** `PublicRecordedFundingModel.observe(pages, *, coverage_start, observed_at) -> ObservedPublicFunding`; pages are immutable raw public request/response facts, with exact shape defined in this E4 module and no caller completeness/PASS/cost. `health(observed, *, now) -> bool` implements the spec's published-grid/freshness predicate. `allocate(parent_plan, final_position, entry_request, entry_fills, *, observed, calculated_at) -> dict` derives signed canonical FundingAllocationEvidence. The model instance must recognize its own validated observations; restart re-verifies retained source.
 
-- [ ] Write tests proving actual event allocation: quantity0.001 × fill100000 × rate0.0001 = LONG cost0.01 / SHORT credit-0.01; negative rate reverses; zero-rate event and offsetting events use INCLUDED.
-- [ ] Add exact opened/closed half-open boundaries, missing upper bracket, zero-with-positive-coverage, caller forged observation, changed source/version, wrong lineage/order/fills, duplicate/partial pages/grid and ambient Decimal precision/rounding tests; input/overflow/underflow/downstream output boundaries refuse rather than round.
-- [ ] Execute P0-1/P1 completeness analysis and tests; register earlier confirmation only if equivalent authoritative coverage is proved, otherwise keep the existing conservative rule and explicit pending reason.
-- [ ] Run `python -m unittest discover -s tests/execution -p test_public_recorded_funding.py -v`; record genuine intended missing-feature failure, not a broken fixture/import-only result.
-- [ ] Implement the exact registered source and isolated arithmetic; no network or store mutation in E4 allocation.
-- [ ] Re-run new tests plus all `tests/execution` funding/TradeResult regressions; retain RED/GREEN logs and source hashes. Commit only after required whitespace checks.
+- [x] Write tests proving actual event allocation: quantity0.001 × fill100000 × rate0.0001 = LONG cost0.01 / SHORT credit-0.01; negative rate reverses; zero-rate event and offsetting events use INCLUDED.
+- [x] Add exact opened/closed half-open boundaries, missing upper bracket, zero-with-positive-coverage, caller forged observation, changed source/version, wrong lineage/order/fills, duplicate/partial pages/grid and ambient Decimal precision/rounding tests; input/overflow/underflow/downstream output boundaries refuse rather than round.
+- [x] Execute P0-1/P1 completeness analysis and tests; register earlier confirmation only if equivalent authoritative coverage is proved, otherwise keep the existing conservative rule and explicit pending reason.
+- [x] Run `python -m unittest discover -s tests/execution -p test_public_recorded_funding.py -v`; record genuine intended missing-feature failure, not a broken fixture/import-only result.
+- [x] Implement the exact registered source and isolated arithmetic; no network or store mutation in E4 allocation.
+- [x] Re-run new tests plus all `tests/execution` funding/TradeResult regressions; retain RED/GREEN logs and source hashes. Commit only after required whitespace checks.
 
 ### Task 2: Independent capture, owner-bound preflight and bounded storage
 

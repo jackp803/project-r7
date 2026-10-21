@@ -1,3 +1,18 @@
+# Recorded funding Task1 source component passed; Task2 capture/capacity — 2026-10-21
+
+New registered E4 PAPER_MODEL source and canonical allocation implemented; source
+14newtests/execution153includingnew PASS, failure/error/skip0. Genuine missing
+model RED and ambient-Decimal RED/fix retained in Task1 disposition. Actual prior
+public3pages/261normalized historical events re-read successfully; not live
+source health, no new calls. Conservative complete-source bracket retained.
+Source component only: no new native build/qualification or ordinary run.
+Continue Task2 under approved revised plan; all6Tasks continuous authorization
+already recorded. Pending metrics/UI/capacity/new exact native/software/research
+gates still outstanding. Current qualified native bffc remains original subject;
+changed source is NOT thereby qualified. Public cumulative17/17; private0.
+
+---
+
 # Conditional plan accepted and amended; continuous inline execution — 2026-10-21
 
 Human reviewed the sixTask plan, conditionally approved and authorized continuous

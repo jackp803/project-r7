@@ -1,0 +1,296 @@
+test_actual_entry_fill_basis_and_lineage_not_approved_notional (test_public_recorded_funding.PublicRecordedFundingTests.test_actual_entry_fill_basis_and_lineage_not_approved_notional) ... FAIL
+test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding (test_public_recorded_funding.PublicRecordedFundingTests.test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding) ... FAIL
+test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation (test_public_recorded_funding.PublicRecordedFundingTests.test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation) ... FAIL
+test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) ...
+  test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'}) ... FAIL
+  test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'}) ... FAIL
+  test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'}) ... FAIL
+  test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "ETH-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'}) ... FAIL
+  test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787583600000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'}) ... FAIL
+  test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "NaN", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'}) ... FAIL
+test_half_open_boundaries_zero_requires_positive_complete_source (test_public_recorded_funding.PublicRecordedFundingTests.test_half_open_boundaries_zero_requires_positive_complete_source) ... FAIL
+test_health_has_actual_settled_grid_freshness_and_clock_guards (test_public_recorded_funding.PublicRecordedFundingTests.test_health_has_actual_settled_grid_freshness_and_clock_guards) ... FAIL
+test_missing_future_upper_bracket_stays_pending_not_zero (test_public_recorded_funding.PublicRecordedFundingTests.test_missing_future_upper_bracket_stays_pending_not_zero) ... FAIL
+test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) ...
+  test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) (events=[(0, '0'), (8, '-0.0001'), (16, '0')]) ... FAIL
+  test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) (events=[(0, '0'), (8, '-0.0000'), (16, '0')]) ... FAIL
+  test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) (events=[(0, '0.0001'), (8, '-0.0001'), (16, '0')]) ... FAIL
+test_observation_is_source_owned_detached_and_identity_ignores_calculation_time (test_public_recorded_funding.PublicRecordedFundingTests.test_observation_is_source_owned_detached_and_identity_ignores_calculation_time) ... FAIL
+test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) ...
+  test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body'])) ... FAIL
+  test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body'])) ... FAIL
+  test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body', 'extra'])) ... FAIL
+  test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body'])) ... FAIL
+  test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body'])) ... FAIL
+  test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body'])) ... FAIL
+test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) ... FAIL
+test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation (test_public_recorded_funding.PublicRecordedFundingTests.test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation) ... FAIL
+
+======================================================================
+FAIL: test_actual_entry_fill_basis_and_lineage_not_approved_notional (test_public_recorded_funding.PublicRecordedFundingTests.test_actual_entry_fill_basis_and_lineage_not_approved_notional)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 155, in test_actual_entry_fill_basis_and_lineage_not_approved_notional
+    model = self.model(); observed = self.observed(model)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding (test_public_recorded_funding.PublicRecordedFundingTests.test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 168, in test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding
+    model = self.model(); observed = self.observed(model)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation (test_public_recorded_funding.PublicRecordedFundingTests.test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 180, in test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation
+    model = self.model(); observed = self.observed(model)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 141, in test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused
+    with self.subTest(page=page), self.assertRaises(ValueError): self.observed(self.model(), pages=[page])
+                                                                               ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 141, in test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused
+    with self.subTest(page=page), self.assertRaises(ValueError): self.observed(self.model(), pages=[page])
+                                                                               ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 141, in test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused
+    with self.subTest(page=page), self.assertRaises(ValueError): self.observed(self.model(), pages=[page])
+                                                                               ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "ETH-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 141, in test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused
+    with self.subTest(page=page), self.assertRaises(ValueError): self.observed(self.model(), pages=[page])
+                                                                               ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787583600000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 141, in test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused
+    with self.subTest(page=page), self.assertRaises(ValueError): self.observed(self.model(), pages=[page])
+                                                                               ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) (page={'url': 'https://www.okx.com/api/v5/public/funding-rate-history?after=1787587201000&instId=BTC-USDT-SWAP&limit=100', 'request_started_at': '2026-08-24T16:00:01Z', 'received_at': '2026-08-24T16:00:02Z', 'http_status': 200, 'response_body': b'{"code": "0", "msg": "", "data": [{"instId": "BTC-USDT-SWAP", "fundingTime": "1787587200000", "realizedRate": "NaN", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787558400000", "realizedRate": "0.0001", "fundingRate": "0.99"}, {"instId": "BTC-USDT-SWAP", "fundingTime": "1787529600000", "realizedRate": "0.0001", "fundingRate": "0.99"}]}'})
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 141, in test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused
+    with self.subTest(page=page), self.assertRaises(ValueError): self.observed(self.model(), pages=[page])
+                                                                               ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_half_open_boundaries_zero_requires_positive_complete_source (test_public_recorded_funding.PublicRecordedFundingTests.test_half_open_boundaries_zero_requires_positive_complete_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 97, in test_half_open_boundaries_zero_requires_positive_complete_source
+    model = self.model(); observed = self.observed(model)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_health_has_actual_settled_grid_freshness_and_clock_guards (test_public_recorded_funding.PublicRecordedFundingTests.test_health_has_actual_settled_grid_freshness_and_clock_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 110, in test_health_has_actual_settled_grid_freshness_and_clock_guards
+    model = self.model(); observed = self.observed(model)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_missing_future_upper_bracket_stays_pending_not_zero (test_public_recorded_funding.PublicRecordedFundingTests.test_missing_future_upper_bracket_stays_pending_not_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 104, in test_missing_future_upper_bracket_stays_pending_not_zero
+    model = self.model(); observed = self.observed(model, pages=[self.page([(0, '0'), (8, '0.0001')])])
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) (events=[(0, '0'), (8, '-0.0001'), (16, '0')])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 92, in test_negative_zero_and_offsetting_events_never_mean_absent_records
+    model = self.model(); observed = self.observed(model, pages=[self.page(events)])
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) (events=[(0, '0'), (8, '-0.0000'), (16, '0')])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 92, in test_negative_zero_and_offsetting_events_never_mean_absent_records
+    model = self.model(); observed = self.observed(model, pages=[self.page(events)])
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) (events=[(0, '0.0001'), (8, '-0.0001'), (16, '0')])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 92, in test_negative_zero_and_offsetting_events_never_mean_absent_records
+    model = self.model(); observed = self.observed(model, pages=[self.page(events)])
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_observation_is_source_owned_detached_and_identity_ignores_calculation_time (test_public_recorded_funding.PublicRecordedFundingTests.test_observation_is_source_owned_detached_and_identity_ignores_calculation_time)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 119, in test_observation_is_source_owned_detached_and_identity_ignores_calculation_time
+    model = self.model(); pages = [self.page()]; observed = self.observed(model, pages=pages)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body']))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 149, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.subTest(kind=p.keys()), self.assertRaises(ValueError): self.observed(self.model(), pages=[p])
+                                                                                   ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body']))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 149, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.subTest(kind=p.keys()), self.assertRaises(ValueError): self.observed(self.model(), pages=[p])
+                                                                                   ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body', 'extra']))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 149, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.subTest(kind=p.keys()), self.assertRaises(ValueError): self.observed(self.model(), pages=[p])
+                                                                                   ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body']))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 149, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.subTest(kind=p.keys()), self.assertRaises(ValueError): self.observed(self.model(), pages=[p])
+                                                                                   ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body']))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 149, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.subTest(kind=p.keys()), self.assertRaises(ValueError): self.observed(self.model(), pages=[p])
+                                                                                   ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) (kind=dict_keys(['url', 'request_started_at', 'received_at', 'http_status', 'response_body']))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 149, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.subTest(kind=p.keys()), self.assertRaises(ValueError): self.observed(self.model(), pages=[p])
+                                                                                   ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 150, in test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused
+    with self.assertRaises(ValueError): self.observed(self.model(), pages=[])
+                                                      ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+======================================================================
+FAIL: test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation (test_public_recorded_funding.PublicRecordedFundingTests.test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 76, in test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation
+    model = self.model(); observed = self.observed(model)
+            ^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 31, in model
+    self.assertTrue(callable(factory), 'Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute')
+AssertionError: False is not true : Registered settled-public-rate Paper model is unavailable; zero funding cannot substitute
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.022s
+
+FAILED (failures=24)

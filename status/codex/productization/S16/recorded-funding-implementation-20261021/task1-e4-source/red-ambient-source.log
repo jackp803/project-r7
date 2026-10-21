@@ -1,0 +1,35 @@
+test_actual_entry_fill_basis_and_lineage_not_approved_notional (test_public_recorded_funding.PublicRecordedFundingTests.test_actual_entry_fill_basis_and_lineage_not_approved_notional) ... ok
+test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding (test_public_recorded_funding.PublicRecordedFundingTests.test_arithmetic_is_exact_under_hostile_ambient_context_and_rejects_rounding) ... ok
+test_complete_page_chain_and_last_page_are_bound_to_source_identity (test_public_recorded_funding.PublicRecordedFundingTests.test_complete_page_chain_and_last_page_are_bound_to_source_identity) ... ok
+test_duplicate_json_fields_and_numeric_rates_do_not_create_source_truth (test_public_recorded_funding.PublicRecordedFundingTests.test_duplicate_json_fields_and_numeric_rates_do_not_create_source_truth) ... ok
+test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation (test_public_recorded_funding.PublicRecordedFundingTests.test_existing_e5_canonical_signed_funding_validator_accepts_exact_allocation) ... ok
+test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_grid_gaps_duplicates_predictions_and_wrong_instrument_are_refused) ... ok
+test_half_open_boundaries_zero_requires_positive_complete_source (test_public_recorded_funding.PublicRecordedFundingTests.test_half_open_boundaries_zero_requires_positive_complete_source) ... ok
+test_health_has_actual_settled_grid_freshness_and_clock_guards (test_public_recorded_funding.PublicRecordedFundingTests.test_health_has_actual_settled_grid_freshness_and_clock_guards) ... ok
+test_missing_future_upper_bracket_stays_pending_not_zero (test_public_recorded_funding.PublicRecordedFundingTests.test_missing_future_upper_bracket_stays_pending_not_zero) ... ok
+test_negative_zero_and_offsetting_events_never_mean_absent_records (test_public_recorded_funding.PublicRecordedFundingTests.test_negative_zero_and_offsetting_events_never_mean_absent_records) ... ok
+test_observation_is_source_owned_detached_and_identity_ignores_calculation_time (test_public_recorded_funding.PublicRecordedFundingTests.test_observation_is_source_owned_detached_and_identity_ignores_calculation_time) ... ok
+test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused (test_public_recorded_funding.PublicRecordedFundingTests.test_page_provenance_bounds_partial_pages_and_private_endpoint_are_refused) ... ok
+test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation (test_public_recorded_funding.PublicRecordedFundingTests.test_registered_model_uses_actual_settled_rate_for_signed_paper_allocation) ... ok
+test_source_observation_also_ignores_hostile_decimal_context (test_public_recorded_funding.PublicRecordedFundingTests.test_source_observation_also_ignores_hostile_decimal_context) ... ERROR
+
+======================================================================
+ERROR: test_source_observation_also_ignores_hostile_decimal_context (test_public_recorded_funding.PublicRecordedFundingTests.test_source_observation_also_ignores_hostile_decimal_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 191, in test_source_observation_also_ignores_hostile_decimal_context
+    observed = self.observed(model, pages=[page])
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\execution\test_public_recorded_funding.py", line 46, in observed
+    return model.observe((self.page(observed=observed),) if pages is None else tuple(pages),
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\execution\public_recorded_funding.py", line 171, in observe
+    _fail('FUNDING_PUBLIC_SETTLED_RATE_INVALID')
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\execution\public_recorded_funding.py", line 37, in _fail
+    raise FundingEvidenceError(code, code)
+execution.funding.FundingEvidenceError: FUNDING_PUBLIC_SETTLED_RATE_INVALID
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.023s
+
+FAILED (errors=1)

@@ -1,0 +1,243 @@
+test_128_boundary_is_keyframe_and_chain_is_bounded (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_128_boundary_is_keyframe_and_chain_is_bounded) ... FAIL
+test_boundary_delta_and_invalid_api_types_cannot_bypass_profile (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_boundary_delta_and_invalid_api_types_cannot_bypass_profile) ... FAIL
+test_corrupt_trailing_or_truncated_compressed_stream_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_corrupt_trailing_or_truncated_compressed_stream_refused) ... FAIL
+test_delta_exact_nested_deletion_array_roll_and_type_distinctions (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_delta_exact_nested_deletion_array_roll_and_type_distinctions) ... FAIL
+test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) ...
+  test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":1,"a":2}') ... FAIL
+  test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{ "a":1}') ... FAIL
+  test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":1.0}') ... FAIL
+  test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":NaN}') ... FAIL
+  test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":Infinity}') ... FAIL
+test_envelope_duplicate_fields_and_noncanonical_base64_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_envelope_duplicate_fields_and_noncanonical_base64_refused) ... FAIL
+test_expansion_and_declared_payload_bounds_are_checked_before_large_allocation (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_expansion_and_declared_payload_bounds_are_checked_before_large_allocation) ... FAIL
+test_hostile_patch_shapes_and_boolean_splice_counts_are_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_hostile_patch_shapes_and_boolean_splice_counts_are_refused) ... FAIL
+test_keyframe_exact_unicode_raw_and_semantic_hash (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_keyframe_exact_unicode_raw_and_semantic_hash) ... FAIL
+test_missing_or_foreign_predecessor_cannot_supply_state (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_missing_or_foreign_predecessor_cannot_supply_state) ... FAIL
+test_smaller_keyframe_can_replace_inefficient_delta (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_smaller_keyframe_can_replace_inefficient_delta) ... FAIL
+test_unchanged_state_uses_small_delta_without_type_coercion (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_unchanged_state_uses_small_delta_without_type_coercion) ... FAIL
+test_wrong_run_revision_hash_or_base_is_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_wrong_run_revision_hash_or_base_is_refused) ... FAIL
+
+======================================================================
+FAIL: test_128_boundary_is_keyframe_and_chain_is_bounded (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_128_boundary_is_keyframe_and_chain_is_bounded)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 67, in test_128_boundary_is_keyframe_and_chain_is_bounded
+    encoded=self.encode(value,revision,previous);rows[revision]=(encoded,digest(canonical(value)));previous=deepcopy(value)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_boundary_delta_and_invalid_api_types_cannot_bypass_profile (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_boundary_delta_and_invalid_api_types_cannot_bypass_profile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 142, in test_boundary_delta_and_invalid_api_types_cannot_bypass_profile
+    value=self.populated();encoded=json.loads(self.encode(value,1,value))
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_corrupt_trailing_or_truncated_compressed_stream_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_corrupt_trailing_or_truncated_compressed_stream_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 116, in test_corrupt_trailing_or_truncated_compressed_stream_refused
+    value=self.populated();encoded=self.encode(value);original=json.loads(encoded)
+                                   ^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_delta_exact_nested_deletion_array_roll_and_type_distinctions (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_delta_exact_nested_deletion_array_roll_and_type_distinctions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 51, in test_delta_exact_nested_deletion_array_roll_and_type_distinctions
+    zero=self.encode(previous);one=self.encode(value,1,previous)
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":1,"a":2}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 105, in test_duplicate_noncanonical_or_float_logical_inputs_refused
+    self.codec().encode_state(raw,run_id='run-1',revision=0)
+    ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{ "a":1}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 105, in test_duplicate_noncanonical_or_float_logical_inputs_refused
+    self.codec().encode_state(raw,run_id='run-1',revision=0)
+    ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":1.0}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 105, in test_duplicate_noncanonical_or_float_logical_inputs_refused
+    self.codec().encode_state(raw,run_id='run-1',revision=0)
+    ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":NaN}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 105, in test_duplicate_noncanonical_or_float_logical_inputs_refused
+    self.codec().encode_state(raw,run_id='run-1',revision=0)
+    ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_duplicate_noncanonical_or_float_logical_inputs_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_duplicate_noncanonical_or_float_logical_inputs_refused) (raw='{"a":Infinity}')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 105, in test_duplicate_noncanonical_or_float_logical_inputs_refused
+    self.codec().encode_state(raw,run_id='run-1',revision=0)
+    ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_envelope_duplicate_fields_and_noncanonical_base64_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_envelope_duplicate_fields_and_noncanonical_base64_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 108, in test_envelope_duplicate_fields_and_noncanonical_base64_refused
+    value=self.populated();encoded=self.encode(value);original=json.loads(encoded)
+                                   ^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_expansion_and_declared_payload_bounds_are_checked_before_large_allocation (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_expansion_and_declared_payload_bounds_are_checked_before_large_allocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 124, in test_expansion_and_declared_payload_bounds_are_checked_before_large_allocation
+    codec=self.codec();value=self.populated();encoded=self.encode(value)
+          ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_hostile_patch_shapes_and_boolean_splice_counts_are_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_hostile_patch_shapes_and_boolean_splice_counts_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 133, in test_hostile_patch_shapes_and_boolean_splice_counts_are_refused
+    previous=self.populated();zero=self.encode(previous);value=deepcopy(previous);value['runtime']['clock']=1
+                                   ^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_keyframe_exact_unicode_raw_and_semantic_hash (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_keyframe_exact_unicode_raw_and_semantic_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 43, in test_keyframe_exact_unicode_raw_and_semantic_hash
+    value=self.populated();encoded=self.encode(value)
+                                   ^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_missing_or_foreign_predecessor_cannot_supply_state (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_missing_or_foreign_predecessor_cannot_supply_state)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 96, in test_missing_or_foreign_predecessor_cannot_supply_state
+    value=self.populated();encoded=self.encode(value,1,value)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_smaller_keyframe_can_replace_inefficient_delta (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_smaller_keyframe_can_replace_inefficient_delta)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 77, in test_smaller_keyframe_can_replace_inefficient_delta
+    encoded=self.encode(value,1,old)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_unchanged_state_uses_small_delta_without_type_coercion (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_unchanged_state_uses_small_delta_without_type_coercion)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 57, in test_unchanged_state_uses_small_delta_without_type_coercion
+    value=self.populated();zero=self.encode(value);one=self.encode(value,1,value)
+                                ^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+======================================================================
+FAIL: test_wrong_run_revision_hash_or_base_is_refused (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_wrong_run_revision_hash_or_base_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 82, in test_wrong_run_revision_hash_or_base_is_refused
+    value=self.populated();zero=self.encode(value);value['runtime']['clock']=1
+                                ^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 28, in encode
+    return self.codec().encode_state(canonical(value),run_id=run,revision=revision,
+           ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 18, in codec
+    self.assertIsNotNone(importlib.util.find_spec('storage.paper_state_codec'),
+AssertionError: unexpectedly None : Versioned lossless E6 physical checkpoint codec is not implemented
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.032s
+
+FAILED (failures=17)

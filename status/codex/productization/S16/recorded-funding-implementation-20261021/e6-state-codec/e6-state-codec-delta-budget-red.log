@@ -1,0 +1,17 @@
+test_large_delta_uses_early_keyframe_to_keep_all_generated_chains_within_budget (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_large_delta_uses_early_keyframe_to_keep_all_generated_chains_within_budget) ... FAIL
+
+======================================================================
+FAIL: test_large_delta_uses_early_keyframe_to_keep_all_generated_chains_within_budget (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_large_delta_uses_early_keyframe_to_keep_all_generated_chains_within_budget)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 163, in test_large_delta_uses_early_keyframe_to_keep_all_generated_chains_within_budget
+    self.assertEqual(json.loads(encoded)['kind'],'KEYFRAME')
+AssertionError: 'DELTA' != 'KEYFRAME'
+- DELTA
++ KEYFRAME
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.034s
+
+FAILED (failures=1)

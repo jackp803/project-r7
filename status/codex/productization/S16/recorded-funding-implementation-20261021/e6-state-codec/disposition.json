@@ -1,0 +1,79 @@
+{
+  "status": "PURE_CODEC_COMPONENT_PASS_NOT_E6_PERSISTENCE_OR_PRODUCT_QUALIFICATION",
+  "source_hashes": {
+    "src/storage/paper_state_codec.py": "sha256:9f20acf1bb6f5679ff41f01ed414650178ef42cd52a31a937839e270f508995f",
+    "tests/storage/test_paper_state_codec.py": "sha256:34a443362533c6d26a5ecd107b6cd71a4002abe84f4195c2f22b82f94a053812"
+  },
+  "retained": [
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-red.log",
+      "sha256": "sha256:fd46c9a56753d4e96affe7a17164082da78424c83109ac429d02469666c89f00",
+      "original_sha256": "sha256:385705bace23678ec28a92e753451ef5d724ee2602f59adc2160ec93f6a9469f",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-first-green.log",
+      "sha256": "sha256:065db8389f560be5f52adf17d61b690c1db6595bf3b270a6c021a2b39e204379",
+      "original_sha256": "sha256:5581809dc21cabd2536a1eb42e7dec113d3e74bc8f1aa403fd76cf0c3a9d16b6",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-chain-budget-red.log",
+      "sha256": "sha256:6b98321b246430292a8fac42e5bdd8328e7ec2f08f0d7e7e3533f12db759940a",
+      "original_sha256": "sha256:e7092c29a0fbc826c6dd1bc0ed5e52c109910c5cb444b69d1964856c1df60ffb",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-delta-budget-red.log",
+      "sha256": "sha256:0f1adc8a6b3c1f12e6e92197fcb1aa977201e0ec3e45132aee6b666500329f4f",
+      "original_sha256": "sha256:7f927ed0e831bf58ff8ba54d780bf85a31f189d0d4b1ec419de796cc08f90a07",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-and-legacy-green.log",
+      "sha256": "sha256:ffb4a198be6c6f7cf551ec7f26690407339933afbb952ba0473acf9c93566059",
+      "original_sha256": "sha256:0510b187a4efd2c026b48455a76d5c57bd53b9c0a08cbd4e20f738207b8703d2",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-full-storage-green.log",
+      "sha256": "sha256:40d0fe09f876573d9af98260416b5ab65996930b85414d8d2471df1c1c07783b",
+      "original_sha256": "sha256:555f7bc2750feaa953309d8913b63f5197880a91eb1d977767e16e3c8f1d98a9",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-state-codec/e6-state-codec-final-green.log",
+      "sha256": "sha256:15e17d43bd149e732c1bd046b10126a31fac74a0068efa641a2f27e6b9535bb3",
+      "original_sha256": "sha256:42310e27d265694699a86be47dcdfbab59a3f1d16558cf2a3ae4c9b3415533af",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    }
+  ],
+  "final_codec_tests": {
+    "passed": 16,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "broader_storage_tests": {
+    "passed": 237,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "note": "BEFORE_TWO_LOCAL_ALLOCATION_REFACTORS_FINAL16RERUN_AFTERWARDS;NOT_FINAL_PRODUCT_QUALIFICATION"
+  },
+  "constraints": {
+    "logical_payload_bytes": 16777216,
+    "maximum_delta_payload_bytes": 65536,
+    "maximum_predecessor_links": 127,
+    "aggregate_payload_bytes": 33554432
+  },
+  "database_changes": "NONE",
+  "ordinary_profile_activation": "NONE",
+  "full_history_audit": "UNCHANGED",
+  "ordinary_paper": "NOT_STARTED",
+  "public_requests_cumulative": 20,
+  "public_responses_cumulative": 19,
+  "new_provider_requests": 0,
+  "financial_authority": "NONE",
+  "next": "Subplan B: immutable new-run storage profile and shared logical readers; retain existing full recovery until later audit/gate work"
+}

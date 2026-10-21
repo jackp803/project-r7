@@ -41,6 +41,11 @@ Revision0 and every128th revision are keyframes. Other revisions choose a delta
 only when its compressed physical envelope is smaller than a keyframe. An earlier
 keyframe is allowed; no chain may cross more than127 predecessor links. A delta
 binds exactly revision-1 and its expected full-state hash, within the same run.
+Delta payloads are at most64KiB; larger changes use an early keyframe. Together
+with the16MiB keyframe and127-link limit, generated chains fit the32MiB aggregate
+uncompressed-payload budget. The decoder also enforces that aggregate independently
+and retains only decoded patches, not every base64 envelope. These are physical
+resource limits, not financial or evidence-threshold changes.
 The reader obtains original stored rows through an E6-owned callback, reconstructs
 in ascending order and verifies every payload and full-state hash. Missing,
 wrong-run/revision/hash, cyclic/overlong chains, malformed base64, trailing zlib

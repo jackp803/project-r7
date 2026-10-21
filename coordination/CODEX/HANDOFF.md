@@ -1,3 +1,17 @@
+# Approved E6 subplan A codec component passes; continue B–E — 2026-10-21
+
+Pure versioned codec16final tests PASS; full storage237PASS before two local
+allocation guards, final16reverified. Exact raw/state hashes,127link/128keyframe,
+64KiBdelta/32MiBaggregate bounds; hostile encoding/base/hash inputs refuse.
+No DB/ordinary activation yet; existing full recover is unchanged. Next B: new
+immutable run profile and decoded logical readers (including publication_history
+and tools/verify_paper_publication raw checkpoint consumers). Then prefix/audit,
+bounded current protection with private proof entry gates, whole-product capacity
+and exact new Windows PQR. Scope explicitly approved: do not ask again perTask.
+Evidence: S16/recorded-funding-implementation-20261021/e6-state-codec/disposition.json
+
+---
+
 # Recorded funding backup/impact checkpoint; E6 scope explicitly approved — 2026-10-21
 
 Same Master/branch. Actual controlled30day public archive3,622,328,474bytes2176files

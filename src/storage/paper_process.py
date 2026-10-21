@@ -24,8 +24,9 @@ from ._sqlite_registry import _apply_migrations, _connect
 from .runtime import _reject_provider_native_fields
 from ._runtime_validation import _reject_noncanonical
 from .runtime_models import RuntimeConflictError, RuntimeValidationError
-from .paper_state_codec import CODEC as ENCODED_STORAGE_PROFILE,encode_state,decode_state
+from .paper_state_codec import CODEC as ENCODED_STORAGE_PROFILE,encode_state,decode_state,verify_write_state
 from .paper_process_prefix import PublishedPrefixes
+from .paper_history_audit import PaperHistoryAudit
 
 LEGACY_STORAGE_PROFILE='r7-paper-state-json-v0.1'
 
@@ -202,6 +203,7 @@ class PaperProcessJournal:
     def __init__(self, connection):
         self._db = connection
         self._prefixes=PublishedPrefixes(self)
+        self._history=PaperHistoryAudit(self)
     def close(self): self._db.close()
     def __enter__(self): return self
     def __exit__(self, *_): self.close()
@@ -233,6 +235,15 @@ class PaperProcessJournal:
         # after releasing the read snapshot, and on new effects before BEGIN.
         return read_paper_checkpoint(self._db,run_id,revision)
 
+    def _encode_checkpoint(self,raw,*,run_id,revision,previous_raw=None):
+        physical=encode_state(raw,run_id=run_id,revision=revision,previous_raw=previous_raw)
+        try:
+            restored=verify_write_state(physical,run_id=run_id,revision=revision,
+                expected_hash=_digest(raw),previous_raw=previous_raw)
+        except ValueError:_invalid('Paper physical encoding failed precommit roundtrip')
+        if restored!=raw:_invalid('Paper physical encoding changed logical state')
+        return physical
+
     def create_run(self, run_id, binding, initial_state, *, now,storage_profile=None):
         _text(run_id); binding_raw = _binding(binding); state_raw = _state(initial_state); at = _stamp(now)
         if storage_profile is not None and (type(storage_profile) is not str or storage_profile not in
@@ -252,7 +263,7 @@ class PaperProcessJournal:
                 if storage_profile==ENCODED_STORAGE_PROFILE:
                     self._db.execute('INSERT INTO paper_process_storage_profiles VALUES (?,?,?)',(run_id,storage_profile,at))
                     self._prefixes.select_new(run_id,at)
-                    physical=encode_state(state_raw,run_id=run_id,revision=0)
+                    physical=self._encode_checkpoint(state_raw,run_id=run_id,revision=0)
                 self._db.execute('INSERT INTO paper_process_checkpoints VALUES (?,0,NULL,?,?,?)',
                                  (run_id, physical, _digest(state_raw), at))
                 if storage_profile==ENCODED_STORAGE_PROFILE:self._prefixes.initialize(run_id)
@@ -335,7 +346,7 @@ class PaperProcessJournal:
                      self._effect_hash(run_id, operation_id, state_hash, outcome_hash), at))
                 physical=state_raw
                 if _storage_profile(self._db,run_id)==ENCODED_STORAGE_PROFILE:
-                    physical=encode_state(state_raw,run_id=run_id,revision=revision,previous_raw=current['state_json'])
+                    physical=self._encode_checkpoint(state_raw,run_id=run_id,revision=revision,previous_raw=current['state_json'])
                 self._db.execute('INSERT INTO paper_process_checkpoints VALUES (?,?,?,?,?,?)',
                     (run_id, revision, operation_id, physical, state_hash, at))
         return self.operation(run_id, operation_id)
@@ -480,6 +491,15 @@ class PaperProcessJournal:
             if own_read:self._db.rollback()
         if own_read:_state(result.state)
         return result
+
+    def history_audit_step(self,run_id,*,maximum_rows=32):
+        return self._history.step(run_id,maximum_rows=maximum_rows)
+
+    def history_audit_ready(self,run_id):
+        return self._history.ready(run_id)
+
+    def history_audit_progress(self,run_id):
+        return self._history.progress(run_id)
 
 
 def open_paper_process_journal(path: str | Path, *, require_existing: bool = False) -> PaperProcessJournal:

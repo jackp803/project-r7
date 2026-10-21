@@ -211,3 +211,22 @@ def decode_state(encoded,*,run_id,revision,expected_hash,read_previous):
         if type(state) is not dict or _digest(raw)!=wanted:_fail('STATE_HASH_MISMATCH')
         result=raw.decode('utf-8')
     return result
+
+
+def verify_write_state(encoded,*,run_id,revision,expected_hash,previous_raw=None):
+    """Verify a new encoding before commit using an E6-verified logical base.
+
+    This pure function is NOT a persistent reader/audit shortcut. Actual stored
+    reads still use decode_state and validate every original predecessor link.
+    """
+    _identity(run_id,revision)
+    if type(expected_hash) is not str or not _HASH.fullmatch(expected_hash):_fail('HASH_OR_READER_INVALID')
+    envelope,value,text=_unpack(encoded,run_id,revision)
+    if envelope['kind']=='DELTA':
+        if previous_raw is None:_fail('BASE_UNAVAILABLE')
+        previous,raw=_logical(previous_raw)
+        if _digest(raw)!=envelope['base_hash']:_fail('BASE_INVALID')
+        value=_apply(previous,value)
+    _pure(value);raw=_canonical(value)
+    if type(value) is not dict or _digest(raw)!=expected_hash:_fail('STATE_HASH_MISMATCH')
+    return raw.decode('utf-8')

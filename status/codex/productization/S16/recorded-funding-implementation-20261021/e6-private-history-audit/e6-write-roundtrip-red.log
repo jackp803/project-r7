@@ -1,0 +1,14 @@
+test_wrong_encoded_effect_state_rolls_back_before_unreadable_checkpoint_is_committed (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_wrong_encoded_effect_state_rolls_back_before_unreadable_checkpoint_is_committed) ... FAIL
+
+======================================================================
+FAIL: test_wrong_encoded_effect_state_rolls_back_before_unreadable_checkpoint_is_committed (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_wrong_encoded_effect_state_rolls_back_before_unreadable_checkpoint_is_committed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 141, in test_wrong_encoded_effect_state_rolls_back_before_unreadable_checkpoint_is_committed
+    self.assertEqual(journal._db.execute('SELECT count(*) FROM paper_process_effects').fetchone()[0],0,
+AssertionError: 1 != 0 : A codec mismatch was detected only AFTER committing an unreadable immutable effect
+
+----------------------------------------------------------------------
+Ran 1 test in 0.315s
+
+FAILED (failures=1)

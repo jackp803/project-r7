@@ -4,6 +4,7 @@ import hashlib
 import inspect
 import json
 import sqlite3
+from unittest.mock import patch
 from contextlib import closing
 
 from storage.paper_state_codec import CODEC
@@ -126,3 +127,18 @@ class PaperProcessEncodedProfileTests(original.PaperProcessJournalTests):
             self.assertEqual(before,after)
             self.assertEqual(before[-1][0],'0024_product_original_exit.sql')
             self.assertIsNone(reader.execute("SELECT 1 FROM sqlite_master WHERE name='paper_process_storage_profiles'").fetchone())
+
+    def test_wrong_encoded_effect_state_rolls_back_before_unreadable_checkpoint_is_committed(self):
+        from storage.paper_state_codec import encode_state
+        with self.journal() as journal:
+            self.create(journal)
+            journal.prepare('run-1','one',{'kind':'DEADLINE'},expected_revision=0,now=original.NOW)
+            def wrong(raw,**kwargs):
+                value=json.loads(raw);value['runtime']['controlled_encoder_fault']=True
+                return encode_state(json.dumps(value,sort_keys=True,separators=(',',':')),**kwargs)
+            with patch('storage.paper_process.encode_state',side_effect=wrong),self.assertRaises(RuntimeValidationError):
+                journal.complete('run-1','one',self.state(),{'status':'HOLD'},now=original.NOW)
+            self.assertEqual(journal._db.execute('SELECT count(*) FROM paper_process_effects').fetchone()[0],0,
+                'A codec mismatch was detected only AFTER committing an unreadable immutable effect')
+            self.assertEqual(journal.operation('run-1','one').status,'PREPARED')
+            self.assertEqual(journal.recover('run-1').revision,0)

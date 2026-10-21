@@ -176,5 +176,27 @@ class PaperStateCodecTests(unittest.TestCase):
             self.assertEqual(self.decode(encoded,value,revision,rows),canonical(value))
             previous=deepcopy(value)
 
+    def test_write_roundtrip_checks_exact_result_against_already_verified_logical_base(self):
+        codec=self.codec()
+        self.assertTrue(callable(getattr(codec,'verify_write_state',None)),
+            'Codec lacks a bounded write-roundtrip check using the owner-verified predecessor')
+        old=self.populated();value=deepcopy(old);value['runtime']['clock']=1
+        for revision,previous in ((0,None),(1,old)):
+            encoded=self.encode(value,revision,previous)
+            actual=codec.verify_write_state(encoded,run_id='run-1',revision=revision,
+                expected_hash=digest(canonical(value)),previous_raw=None if previous is None else canonical(previous))
+            self.assertEqual(actual,canonical(value))
+
+    def test_write_roundtrip_rejects_wrong_semantic_result_or_wrong_base(self):
+        codec=self.codec()
+        self.assertTrue(callable(getattr(codec,'verify_write_state',None)),
+            'Codec write-roundtrip validation is not implemented')
+        old=self.populated();value=deepcopy(old);value['runtime']['clock']=1
+        encoded=self.encode(value,1,old)
+        for expected,base in ((digest(canonical(old)),canonical(old)),(digest(canonical(value)),canonical(value)),
+                              (digest(canonical(value)),None)):
+            with self.subTest(expected=expected,base_missing=base is None),self.assertRaisesRegex(ValueError,'PAPER_STATE_CODEC_'):
+                codec.verify_write_state(encoded,run_id='run-1',revision=1,expected_hash=expected,previous_raw=base)
+
 
 if __name__=='__main__':unittest.main()

@@ -1,3 +1,39 @@
+# Approved E6 D private batch audit component passes; finish owned mutation/runtime gates — 2026-10-21
+
+Migration0027 effect index and private instance-owned history auditor implemented.
+Keyset phases: operations/effects/checkpoints/publications/prefixes/generations;
+packaged schema+known migration ledger; exact facts/counts, no terminal full COUNT.
+Private issuer identity, schema/data_version/total_changes invalidation; copied or
+reopened proof rejected. ANY change currently invalidates, including normal own
+writes: do NOT activate this in ordinary loop yet.59focused/291storage/31encoded
+funding+outbox PASS, overlapping. Precommit encoder roundtrip fault RED→GREEN:
+wrong encoding now rolls back effect/checkpoint instead of committing unreadable
+state. Persistent reads still verify full original bounded codec chains.
+
+Next D: qualified own-write footprint/epoch tracking; trusted borrowed canonical
+connection seam preserving original implicit per-writer transactions and close
+ownership; resource-isolated audit scheduling/protection first; actual entry and
+healthy-forward gates/control status. Probe: local SQLite3.49.1 set_authorizer
+reobserved a previously cached INSERT after installing callback (2events). No
+existing set_authorizer use found in src. Observe touched tables/schema and change
+counts in fixed E6 method scopes; unknown writes must still invalidate, never
+accept a caller PASS. Normal process writes currently use explicit BEGIN with
+isolation_level=None; canonical writers rely on implicit transactions in withconn.
+Sharing blindly breaks atomicity; a borrowed facade may preserve implicit mode
+while explicit process transactions remain, test before use. Existing distinct
+financial-journal guards MUST remain unchanged.
+
+Private batch audit is not yet scheduled in protection. If measured work cannot
+fit its budget, use the same E6 verifier in an owned read-only/resource-limited
+worker with actual process/source/epoch binding and no public result/proof import;
+settle this within approved implementation scope, measure, do not claim eligibility.
+Then E whole-product capacity/new exact Windows PQR and remaining original product
+emergency/policy/research/admission work. Ordinary default legacy, observation NONE.
+Main refetched unchanged7d1f447; public20/19 unchanged, private0/capitalNONE.
+Evidence: S16/recorded-funding-implementation-20261021/e6-private-history-audit/disposition.json
+
+---
+
 # Approved E6 D current-facts component passes; finish private audit/gates — 2026-10-21
 
 Explicit recover_current and immutable CURRENT_FACTS_ONLY result implemented for

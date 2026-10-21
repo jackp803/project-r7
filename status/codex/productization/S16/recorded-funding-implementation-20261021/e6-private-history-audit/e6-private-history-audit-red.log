@@ -1,0 +1,41 @@
+test_corrupt_older_prefix_never_inherits_a_valid_current_snapshot_or_cached_proof (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_corrupt_older_prefix_never_inherits_a_valid_current_snapshot_or_cached_proof) ... FAIL
+test_current_facts_cannot_replace_complete_bounded_audit_and_no_db_writes_are_needed (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_current_facts_cannot_replace_complete_bounded_audit_and_no_db_writes_are_needed) ... FAIL
+test_external_and_unknown_same_connection_changes_invalidate_completed_proof (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_external_and_unknown_same_connection_changes_invalidate_completed_proof) ... FAIL
+test_new_connection_has_no_importable_or_restored_audit_permission (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_new_connection_has_no_importable_or_restored_audit_permission) ... FAIL
+
+======================================================================
+FAIL: test_corrupt_older_prefix_never_inherits_a_valid_current_snapshot_or_cached_proof (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_corrupt_older_prefix_never_inherits_a_valid_current_snapshot_or_cached_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 15, in setUp
+    self.assertTrue(callable(getattr(self.journal,name,None)),
+AssertionError: False is not true : Private bounded history audit API missing: history_audit_step
+
+======================================================================
+FAIL: test_current_facts_cannot_replace_complete_bounded_audit_and_no_db_writes_are_needed (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_current_facts_cannot_replace_complete_bounded_audit_and_no_db_writes_are_needed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 15, in setUp
+    self.assertTrue(callable(getattr(self.journal,name,None)),
+AssertionError: False is not true : Private bounded history audit API missing: history_audit_step
+
+======================================================================
+FAIL: test_external_and_unknown_same_connection_changes_invalidate_completed_proof (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_external_and_unknown_same_connection_changes_invalidate_completed_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 15, in setUp
+    self.assertTrue(callable(getattr(self.journal,name,None)),
+AssertionError: False is not true : Private bounded history audit API missing: history_audit_step
+
+======================================================================
+FAIL: test_new_connection_has_no_importable_or_restored_audit_permission (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_new_connection_has_no_importable_or_restored_audit_permission)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 15, in setUp
+    self.assertTrue(callable(getattr(self.journal,name,None)),
+AssertionError: False is not true : Private bounded history audit API missing: history_audit_step
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.150s
+
+FAILED (failures=4)

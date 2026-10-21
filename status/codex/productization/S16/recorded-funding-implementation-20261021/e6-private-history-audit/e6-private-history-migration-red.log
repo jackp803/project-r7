@@ -1,0 +1,15 @@
+test_unknown_migration_ledger_change_cannot_regain_history_eligibility (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_unknown_migration_ledger_change_cannot_regain_history_eligibility) ... FAIL
+
+======================================================================
+FAIL: test_unknown_migration_ledger_change_cannot_regain_history_eligibility (tests.storage.test_paper_history_audit.PaperHistoryAuditTests.test_unknown_migration_ledger_change_cannot_regain_history_eligibility)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 121, in test_unknown_migration_ledger_change_cannot_regain_history_eligibility
+    with self.assertRaises(RuntimeValidationError):self.finish(budget=1)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RuntimeValidationError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.377s
+
+FAILED (failures=1)

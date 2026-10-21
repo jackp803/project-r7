@@ -1,0 +1,23 @@
+test_write_roundtrip_checks_exact_result_against_already_verified_logical_base (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_write_roundtrip_checks_exact_result_against_already_verified_logical_base) ... FAIL
+test_write_roundtrip_rejects_wrong_semantic_result_or_wrong_base (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_write_roundtrip_rejects_wrong_semantic_result_or_wrong_base) ... FAIL
+
+======================================================================
+FAIL: test_write_roundtrip_checks_exact_result_against_already_verified_logical_base (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_write_roundtrip_checks_exact_result_against_already_verified_logical_base)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 181, in test_write_roundtrip_checks_exact_result_against_already_verified_logical_base
+    self.assertTrue(callable(getattr(codec,'verify_write_state',None)),
+AssertionError: False is not true : Codec lacks a bounded write-roundtrip check using the owner-verified predecessor
+
+======================================================================
+FAIL: test_write_roundtrip_rejects_wrong_semantic_result_or_wrong_base (tests.storage.test_paper_state_codec.PaperStateCodecTests.test_write_roundtrip_rejects_wrong_semantic_result_or_wrong_base)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_state_codec.py", line 192, in test_write_roundtrip_rejects_wrong_semantic_result_or_wrong_base
+    self.assertTrue(callable(getattr(codec,'verify_write_state',None)),
+AssertionError: False is not true : Codec write-roundtrip validation is not implemented
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.029s
+
+FAILED (failures=2)

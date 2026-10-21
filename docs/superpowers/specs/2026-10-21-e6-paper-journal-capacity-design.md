@@ -124,6 +124,46 @@ tail is verified. No unbounded old-history scan occurs in a protection callback.
 Full backup/restore performs its own complete verification; restore remains
 inhibited and does not import an in-memory audit lease.
 
+### D implementation refinement
+
+The first current-reader component is intentionally unintegrated and returns an
+immutable CURRENT_FACTS_ONLY result. It can validate management facts even when
+an older prefix is corrupt; only the separate full audit may grant historical
+eligibility. Older codec-only runs refuse the bounded-reader API rather than
+being silently described as bounded.
+
+Historical progress/proof must be owned by the exact journal instance, with an
+unserializable issuer identity. Bind SQLite schema_version/data_version and the
+connection's total_changes; another connection's write, schema change or unknown
+same-connection mutation invalidates readiness. A reopened/restored owner starts
+without proof. Progress/results are diagnostic and cannot be imported as proof.
+
+Audit a fixed actual published-prefix cutoff. Use bounded keyset batches across
+operations, effects, checkpoints, publications, prefix inventory and generations;
+verify exact original facts, counts and contiguous lineage. Do not finish with an
+unbounded COUNT/anti-join scan in a protective deadline. Publication operation IDs
+are not time ordered: a separate bounded publication inventory is necessary to
+find orphan rows that a join from valid operations would omit. Add only indexes
+needed for bounded effect/revision scans. Compare relevant actual schema objects
+with the packaged E6 model before trusting immutable-history assumptions.
+
+Initially invalidate on every change while developing the private auditor; keep
+this conservative component unintegrated. Then add tracked qualified own-write
+extension. A SQLite authorizer observation may record touched tables/schema and
+actual change deltas in fixed internal mutation scopes, not accept a caller PASS.
+Unknown mutation footprints or concurrent external changes must invalidate proof.
+Preserve all exact domain/publication validation and immutable SQL guards.
+
+The borrowed canonical connection seam must preserve Python SQLite transaction
+semantics: the process journal currently uses isolation_level=None, whereas the
+canonical store relies on ordinary implicit transactions inside connection context
+managers. Merely sharing the raw connection would break per-writer atomicity.
+A trusted borrowed facade may keep ordinary implicit transactions enabled while
+the process journal retains its explicit idle BEGIN IMMEDIATE/commit protocol;
+test rollback, close ownership, original per-writer commit boundaries and all
+distinct-journal financial guards before integration. Otherwise retain separate
+connections and conservative invalidation; do not silently alter transactions.
+
 ## D. Acceptance and rollout
 
 Tests first at each boundary: pure codec exact equivalence/hostile shapes and

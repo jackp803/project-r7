@@ -1,0 +1,36 @@
+{
+  "kind": "NARROW_INDEPENDENT_STATIC_DRAFT_REPAIR_REVIEW",
+  "execution": "NONE",
+  "finding_counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "resolved_finding": "README steps8-9 and draft prestart gate now distinguish service startup/configuration from actual authenticated PaperStart, preserve exact command identity and require accepted originalrun/owner readback before observation-start claim",
+  "evidence_hashes": [
+    {
+      "ref": "README.md",
+      "sha256": "sha256:bb93bee3ba8076e3f15c8bfe6b0e05347c7cbe1d42f36940026672fc1e2cc5b1"
+    },
+    {
+      "ref": "draft.json",
+      "sha256": "sha256:313d24d27182bf4810b5ba38218b41e4b67a4033094b63cc3623f057bf4d195f"
+    },
+    {
+      "ref": "offline-consistency.json",
+      "sha256": "sha256:37fa5007d7bc603d100c62a65b2a3df872fbb1597b62a1f0d6aee23be78bf1c6"
+    }
+  ],
+  "verified": [
+    "Explicit exact strategy/version/policy/current expected_revision/stable command_id is required through normal authenticated UI/API",
+    "Accepted originalrun_id and actual runtime owner attachment/health/time readback separate service liveness from actual observation",
+    "Draft remainsDRAFT_NOT_SELECTED/appliedfalse/runtimefalse/observationfalse/start_allowedfalse",
+    "Recorded offline consistency remains30checks scoped parser/arithmetic only; all recorded input-byte commitments match actual packet files",
+    "Original independent advisory is preserved unchanged"
+  ],
+  "acceptance": "NONE;NO_POLICY_SELECTION_OR_PRODUCT_RUNTIME_FINANCIAL_ACCEPTANCE",
+  "limitations": [
+    "Only changed README/draft/report read; previous unchanged numeric/unit/funding/loss/history/retention review remains separately bound to its original hashes",
+    "Reviewer did not rerun consistency script/tests/product/API/DB/provider operations"
+  ],
+  "residual_findings": []
+}

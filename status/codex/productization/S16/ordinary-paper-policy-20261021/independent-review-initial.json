@@ -1,0 +1,96 @@
+{
+  "kind": "INDEPENDENT_STATIC_OPERATOR_DRAFT_REVIEW",
+  "execution": "NONE",
+  "finding_counts": {
+    "critical": 0,
+    "important": 1
+  },
+  "findings": [
+    {
+      "severity": "Important",
+      "ref": "README.md:117-118",
+      "title": "Commissioning sequence omits actual authenticated PaperStart",
+      "detail": "configure-paper selects policies but creates no run; coordinator schedule_once explicitly never commands PaperStart. Step8 currently moves directly from configuration to run-product and says observation starts, so following the described normal sequence can leave runtime running with no Paper run or forward sample clock.",
+      "source_refs": [
+        "src/application/coordinator.py:61",
+        "src/application/control_api/app.py:202-203",
+        "src/application/control_api/paper_ports.py:14",
+        "packet/source-maps/paper-runtime-policy-map.json#minimum_prestart_checks"
+      ],
+      "minimal_repair": "After actual qualified candidate/configuration and service startup, explicitly require normal authenticated UI/API PaperStart with exact selected strategy/version/policy, current expected_revision and stable command_id; verify accepted original run_id and actual owner attachment before calling observation started. Preserve current draft workflowfalse/start_allowedfalse and no selection/authority credit."
+    }
+  ],
+  "evidence_hashes": [
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/README.md",
+      "sha256": "sha256:8693e4b96b7107e397590afe65e32048f1c4cec9566e9f3cce3c510498d73ca4"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/draft.json",
+      "sha256": "sha256:0d9fff333aa5a24e02ceebc7b0ed283da42d3857871d3d79374bb43dc904f7b8"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/verify_draft.py",
+      "sha256": "sha256:75b26a3da27f8cd115db91a2cb56e9bf991e9f190bc053137b2a74ba746801bd"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/offline-consistency.json",
+      "sha256": "sha256:eb3641f70e9f18a84589f8bbcbfc5373dca45799cb5c7fd80f620235ff0c5d21"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/cost.proposed.json",
+      "sha256": "sha256:a92eb2fe31b156173955dfe1a3d497f161612d3602cdf0bb9992447214041b9d"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/market.proposed.json",
+      "sha256": "sha256:5fa14f72b6e51b9ce78a51b056c42db9fb5b1067de2adafdab7b631587591886"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/operations.proposed.json",
+      "sha256": "sha256:c9ab4ff17fccbe5474359ea8e1ec6b4e5f374c6b180796863b21265187fb4594"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/promotion.proposed.json",
+      "sha256": "sha256:a1108698abc700227b0bcdedbe1fce1daaf43e73d2a7b8856903ba2e2102928d"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/research.proposed.json",
+      "sha256": "sha256:163cf37e9a68b179066960350a04b4043c45cef59e6db59a1585928a261520c8"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/risk.proposed.json",
+      "sha256": "sha256:3db6f6c9acf19ab3e704db0bf25eb11ff01cbe13654900a8fea162fcc0ec6d2b"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/robustness.proposed.json",
+      "sha256": "sha256:fe2817ef05b5a6931408c1d739dd2d87f1cc8b8f11d8af8b901fa0b888a66a4d"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/simulation.proposed.json",
+      "sha256": "sha256:c772b5b59bd3be91e45d510be40833e670c510d9a8b30a3de527ced9c605a919"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/split.proposed.json",
+      "sha256": "sha256:f4872cde62485d71bef97eb67034337db6ee89ae00ee3efa04084a8937343203"
+    },
+    {
+      "ref": "status/codex/productization/S16/ordinary-paper-policy-20261021/engineering-strategy-0.2.2.proposed.json",
+      "sha256": "sha256:4151891a9928a126d6ec13e3171f3950ee4eaf95cf5803440800880d7beff019"
+    }
+  ],
+  "verified_static_consistency": [
+    "Recorded offline-consistency input byte hashes match current packet inputs; no parser/test was rerun by reviewer",
+    "88days produces5284h intervals and264nominal8h funding points; described as theoretical only, with actual frequency/coverage refusal preserved",
+    "30days2592000seconds and29.7days2566080healthyseconds agree; nominal86400batches times5seconds is432000seconds/fivedays",
+    "Fee0.0005 equals5bps; base quantity0.001 and USDT risk/closed-drawdown units are consistent across proposed files",
+    "Zero funding limited to disclosed Paper model; historical actual funding required; no independent per-trade/daily monetary loss hard cap claimed",
+    "Prior holdout/family history must be reconciled; not relabeled independent OOS; no GPT origin claim",
+    "Long-run retention capacity explicitly unestablished and start_allowedfalse; individual workflowtrue documents remain unselected proposals"
+  ],
+  "acceptance": "NONE;DRAFT_ONLY_NOT_SELECTED_NOT_APPLIED_NO_PRODUCT_OR_FINANCIAL_AUTHORITY",
+  "limits": [
+    "Static review only, no tests/parser/runtime/API/provider/DB/auth/config/personal-file execution or access",
+    "Root sole tracked writer; original qualified bffc executable unchanged",
+    "No current policy selection or prestart readiness inferred"
+  ]
+}

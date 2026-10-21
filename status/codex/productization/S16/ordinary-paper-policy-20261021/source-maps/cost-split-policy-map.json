@@ -1,0 +1,92 @@
+{
+  "kind": "STATIC_COST_SPLIT_FIELD_MAP_NOT_POLICY",
+  "reviewer_execution": "NONE",
+  "earlier_map": "research-policy-map.json remains immutable",
+  "legend": {
+    "D": "finite_decimal_string<=128chars,<=34digits,no_float",
+    "T": "bounded_nonempty_text",
+    "I": "exact_integer,no_bool",
+    "H": "sha256:64_lower_hex",
+    "U": "UTC-Z_timestamp"
+  },
+  "cost_policy": {
+    "schema_version": "r7-replay-cost-policy-v0.2",
+    "policy_id": "T",
+    "generation": "I[1,2147483647]",
+    "namespace": "same selected dataset namespace;ordinary LOCAL_RESEARCH",
+    "cost_model_version": "T",
+    "fixed_quantity": "D>0,BASE",
+    "quantity_unit": "BASE",
+    "fee_unit": "BPS_OF_NOTIONAL",
+    "maker_bps": "D>-10000;rebates supported;no coded upper bound",
+    "taker_bps": "D>-10000;rebates supported;no coded upper bound",
+    "slippage_unit": "BPS_OF_REFERENCE_PRICE",
+    "entry_bps": "D[0,10000)",
+    "exit_bps": "D[0,10000)",
+    "max_evaluations": "I[1,2000];owner prechecks replay input-row count"
+  },
+  "split_policy": {
+    "schema_version": "r7-split-policy-v0.2",
+    "policy_id": "T",
+    "generation": "I[1,2147483647]",
+    "namespace": "same dataset namespace",
+    "training": "{start:U,end:U}",
+    "development": "{start:U,end:U}",
+    "sealed_oos": "{start:U,end:U}",
+    "warmup_bars": "I[1,100000],bars",
+    "max_holding_seconds": "I[1,31536000],seconds",
+    "label_horizon_seconds": "I[1,31536000],seconds",
+    "embargo_seconds": "I[1,31536000],seconds",
+    "embargo_rationale": "T"
+  },
+  "funding": {
+    "location": "dataset_ref -> DatasetManifest.funding,not cost policy",
+    "missing": "{mode:MISSING};promotion blocked,no zero imputation",
+    "recorded": {
+      "mode": "RECORDED",
+      "path": "safe_relative,unique .parquet",
+      "start": "U",
+      "end": "U>start",
+      "rows": "I[1,200000]",
+      "interval_seconds": "I[1,86400]",
+      "logical_hash": "H",
+      "byte_hash": "H",
+      "rate_unit": "FRACTION_PER_EVENT",
+      "notional_basis": "ENTRY_FILL_PRICE_X_BASE_QUANTITY"
+    },
+    "parquet_rows": "event_at:UTC-ms;rate:D with abs(rate)<1;source:T",
+    "owner_model": "RecordedFundingModel(events,source_hash,version=r7-recorded-funding-v0.2)",
+    "charge": "quantity*entry_fill_price*sum(recorded_rates),LONG sign/SHORT negated;opened_at<=event<closed_at",
+    "constraints": "Contiguous exact interval/full coverage/cutoff and both hashes verified;no manufactured rates.",
+    "legacy_only": "backtest.costs.FixedFundingModel(version,rate_per_event,interval_seconds,first_event_at) exists,but selected ResearchService does not select it via cost JSON."
+  },
+  "replay_config": {
+    "required": "fixed_quantity,cost_model_version,fee_model,slippage_model,funding_model",
+    "internal_optional": "close_open_position_at_dataset_end=true;run_created_at=None;scored_start=None;scored_end=None;entry_start=None;entry_end=None",
+    "ownership": "ResearchService supplies actual run clock and all four scored/entry bounds;funding_model is dataset RecordedFundingModel.",
+    "liquidity": "Public cost schema has no role fields;constructed FeeModel defaults ENTRY/EXIT TAKER. Low-level FeeModel supports MAKER|TAKER.",
+    "absent": "No leverage,margin,balance,account_mode,position_mode fields in these policy/ReplayConfig shapes;unknown cost/split keys reject.",
+    "equity": "ResearchPolicy.initial_equity_usdt is analysis/drawdown denominator,not replay quantity or capital authorization."
+  },
+  "invariants": [
+    "All cost/split fields required;unknown keys reject;canonical-JSON hashes bind policies.",
+    "Partition windows half-open,ordered,nonoverlapping,within dataset intersection,aligned to every timeframe.",
+    "Purge=max(holding,label);later partitions add explicit positive embargo;warmup features clipped to dataset start.",
+    "Adverse slippage enters fill prices;net PnL subtracts fees/funding,not slippage twice."
+  ],
+  "refs": {
+    "src/application/research/service.py": "_cost_policy:59;ResearchService._run:202-209",
+    "src/application/datasets/split_plan.py": "_resolve_split:44",
+    "src/application/datasets/catalog.py": "DatasetCatalog.load:69,99-112",
+    "src/application/datasets/resolver.py": "RecordedFundingModel:68;DatasetResolver._resolve:153-171",
+    "src/backtest/costs.py": "FeeModel:41;SlippageModel:88;FixedFundingModel:143",
+    "src/backtest/replay.py": "ReplayConfig:137"
+  },
+  "source_hashes": {
+    "src/application/datasets/split_plan.py": "sha256:68642b70cd67374305f42a8046900e5b3dc0be4741cac84bc29a0f467eb48927",
+    "src/backtest/costs.py": "sha256:fa3f8ea50b0d7fb50b34cb6fc485066e925ef7c504bcead6ab5a417664a97f53",
+    "src/application/datasets/catalog.py": "sha256:a61cf385505c5b3e7c04a93020d908974376c2fcd6d9f7bedd94c782c33e2dde",
+    "src/backtest/replay.py": "sha256:f68758db6005db5197c9dd924363998e2fbb16e4d5279ff2546b30fb28f1e688"
+  },
+  "limits": "Four extra public files read;existing service/resolver reused. No policy values selected,no tests/DB/network/runtime calls. Research mapping does not establish real-time Paper funding or financial authority."
+}

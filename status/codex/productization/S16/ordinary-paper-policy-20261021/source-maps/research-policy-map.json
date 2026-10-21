@@ -1,0 +1,140 @@
+{
+  "kind": "STATIC_COMMISSIONING_FIELD_MAP_NOT_POLICY",
+  "reviewer_execution": "NONE",
+  "source_basis": "f456195d metadata/source-qualified bffc558 per root; no execution or admission credit",
+  "legend": {
+    "T": "string1..256,no_controls",
+    "I": "exact_integer,no_bool",
+    "D": "finite_decimal_string<=128chars,<=34digits,no_rounding/no_float",
+    "H": "sha256:64_lower_hex",
+    "U": "UTC_Z_string<=40chars",
+    "R": "safe_relative_JSON_ref_under_local_data_root",
+    "S": "safe_component_identifier"
+  },
+  "both_policies": {
+    "policy_id": "T",
+    "generation": "I[1,2147483647]",
+    "namespace": "LOCAL_RESEARCH ordinary; model also accepts FIXTURE,never relabel results",
+    "split_policy_hash": "H",
+    "cost_policy_hash": "H"
+  },
+  "research": {
+    "schema_version": "r7-research-policy-v0.2",
+    "validation_policy_version": "T",
+    "minimum_closed_trades": {
+      "development": "I[1,200000]",
+      "walk_forward": "I[1,200000]",
+      "sealed_oos": "I[1,200000]"
+    },
+    "min_net_pnl_usdt": "D signed USDT",
+    "min_expectancy_usdt_per_trade": "D signed USDT/trade",
+    "drawdown_limit": "D>=0,drawdown_unit",
+    "drawdown_unit": "USDT_AMOUNT|FRACTION_OF_INITIAL_EQUITY",
+    "initial_equity_usdt": "D>0,USDT analysis denominator,not capital authority",
+    "max_consecutive_losses": "I[0,200000]",
+    "min_profit_factor": "D>=0,dimensionless",
+    "profit_factor_null_handling": "BLOCK|ALLOW_NO_LOSSES"
+  },
+  "robustness": {
+    "schema_version": "r7-robustness-policy-v0.2",
+    "algorithm_version": "r7-robustness-v1",
+    "neighborhood": "dimension[1..8]",
+    "maximum_trials": "I[1,256]",
+    "maximum_replays": "I[1,256]",
+    "maximum_evaluations": "I[1,200000]",
+    "selection_procedure": "TRAIN_NET_PNL_THEN_VARIANT_HASH_V1",
+    "minimum_neighborhood_pass_fraction": "D[0,1]",
+    "minimum_walk_forward_pass_fraction": "D[0,1]",
+    "minimum_stress_net_pnl_usdt": "D signed USDT",
+    "walk_forward_windows": "window[1..32]",
+    "stress_scenarios": "stress[1..32]",
+    "monte_carlo": "exactly both algorithms below",
+    "max_monte_carlo_drawdown_q95": "D>=0,shared drawdown_unit",
+    "minimum_block_expectancy_q05_usdt_per_trade": "D signed USDT/trade"
+  },
+  "dimension": {
+    "parameter": "T,existing referenced strategy parameter",
+    "type": "INTEGER|DECIMAL",
+    "minimum": "I[-1000000,1000000] or D",
+    "maximum": "same_type,>=minimum;integer<=1000000",
+    "values": "I[]|D[],1..32;canonical_unique;within_bounds"
+  },
+  "window": {
+    "training": "{start:U,end:U}",
+    "evaluation": "{start:U,end:U}"
+  },
+  "stress": {
+    "name": "T,unique",
+    "fee_add_bps": "D[0,9999],bps",
+    "entry_slippage_add_bps": "D[0,9999],bps",
+    "exit_slippage_add_bps": "D[0,9999],bps",
+    "funding_adverse_multiplier": "D[1,1000],absolute_recorded_funding_cost_multiplier"
+  },
+  "monte_carlo": {
+    "schema_version": "r7-monte-carlo-policy-v0.2",
+    "algorithm": "TRADE_PERMUTATION|MOVING_BLOCK_BOOTSTRAP",
+    "algorithm_version": "r7-mc-v1",
+    "rng_algorithm": "SHA256_COUNTER_REJECTION_V1",
+    "resample_count": "I[1,10000]",
+    "minimum_samples": "I[2,200000]",
+    "minimum_effective_blocks": "I[2,10000]",
+    "block_length": "I[1,10000],trades",
+    "sample_source": "CLOSED_DEVELOPMENT_TRADE_NET_PNL_USDT",
+    "initial_equity": "D>0,equals research.initial_equity_usdt",
+    "drawdown_unit": "equals research.drawdown_unit",
+    "max_path_observations": "I[1,500000]",
+    "dependence_model": "ORDER_SENSITIVITY(permutation)|OVERLAPPING_FIXED_BLOCKS(bootstrap)"
+  },
+  "setup": {
+    "initial_cli": "Documented init-profile --config/--data-root/--instance-id;--cloud-root optional;existing profile preserved",
+    "selection_envelope": "schema_version=r7-owner-selections-v0.2;cloud_root_id=null|S;research_policies={S:selection},<=128",
+    "selection": {
+      "dataset_ref": "R",
+      "split_policy_ref": "R",
+      "cost_policy_ref": "R",
+      "research_policy_ref": "R",
+      "robustness_policy_ref": "R",
+      "risk_policy_ref": "R",
+      "family_id": "S",
+      "seed": "I[0,2^64-1]",
+      "requested_dataset_profile": "S",
+      "requested_validation_profile": "S",
+      "requested_robustness_profile": "S"
+    },
+    "install": "configure-research --config ABS --selection-profile ABS",
+    "constraints": "Profile outside staging,64KiB;robustness ref256KiB/others64KiB;same namespace;marker exact;all PROCESS_ROLES stopped;not restored;immutable/idempotent initial selection. Different existing selection refuses;no replacement API;setup validates shape/references/namespace,not compatibility/OOS/promotion."
+  },
+  "invariants": [
+    "All fields required;unknown keys rejected;no financial thresholds defaulted.",
+    "Split/cost hashes use canonical-JSON SHA256;selection also commits referenced-byte hashes;requested profiles exactly match sealed manifest.",
+    "Dimensions unique,Cartesian product<=maximum_trials;full planned replay/evaluation budgets admitted before execution.",
+    "Windows aligned,inside development,training before evaluation,ordered/nonoverlapping;purgemax(hold,label),explicit embargo;no sealed OOS tuning.",
+    "MC sample_count*resample_count<=max_path_observations;both mandatory;equity/units match research.",
+    "Undefined profit factor allowed only with zero losses under ALLOW_NO_LOSSES;insufficiency BLOCKED."
+  ],
+  "decisions": {
+    "human": "Select sample/acceptance thresholds,drawdown convention/equity,neighborhood/windows/stress/MC protocol;do not copy fixture policies.",
+    "technical": "Versions/algorithm constants fixed;derive hashes;explicit IDs/generations/seed/budgets. Default diagnostic_only and disabled Paper are safety settings,not promotion policy. Numeric bounds are validation limits,not recommendations."
+  },
+  "refs": {
+    "src/validation/robustness/policies.py": "ResearchPolicy.parse:14;parse_robustness_policy:63",
+    "src/validation/robustness/monte_carlo.py": "_policy:18",
+    "src/validation/robustness/evaluator.py": "DevelopmentBinding.window:58;evaluate_robustness:188",
+    "src/application/research/selection.py": "validate_research_selections:16;ResearchRequestResolver.resolve:78",
+    "src/application/research/setup.py": "configure_research:15",
+    "docs/product/v0_2/04_RESEARCH_LIFECYCLE.md": "54-68",
+    "docs/product/v0_2/PUBLIC_RESEARCH_SETUP_FLOW.md": "11-30",
+    "src/indicators/v02/common.py": "finite_decimal:8"
+  },
+  "limits": "18 public files inspected;no values recommended,no real-account/capital authority;research PASS alone cannot start Paper.",
+  "source_hashes": {
+    "src/validation/robustness/policies.py": "sha256:1b1920fe6c3e6b116006702c9b13fe695b11a27f4bc80af0a8ddc821d8f22cee",
+    "src/validation/robustness/monte_carlo.py": "sha256:1c81b644f0ef9df6780ac3bb0cf29d4df9c1c82077ece4792658b5c0e30b7760",
+    "src/validation/robustness/evaluator.py": "sha256:199a0bffda8c974356891210ab12736c7b806f94a761cd4a4aa3901bceecaeeb",
+    "src/application/research/selection.py": "sha256:67c45ab36a2e51124e2c984888e813b7885db75e48d2999b748c34e27f579a37",
+    "src/application/research/setup.py": "sha256:dec994aaf82915436bf5a8dbacfc17f6a98de2bc8036b2211135b2dcc103280d",
+    "contracts/research_policy_v0_2.schema.json": "sha256:e1eb8fe790830bd165694640995010839d600a1eea50afb247eec35707896be2",
+    "contracts/robustness_policy_v0_2.schema.json": "sha256:6705248a157eed65f20c585883c375c07822bdb0fc32f0a0ccb7c072ce6a8974",
+    "contracts/monte_carlo_policy_v0_2.schema.json": "sha256:2f5aa1ee83ee976f0a3a30b21ed03ea2f6f7fba792ddecdff1af0bc9de1bcf98"
+  }
+}

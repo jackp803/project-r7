@@ -1,3 +1,35 @@
+# Ordinary Paper policy draft prepared; human selection pending — 2026-10-21
+
+Same Master/task/branch; qualified bffc558 executable unchanged. User answered
+"先給我完整草案". See S16/ordinary-paper-policy-20261021/README.md and draft.json
+for the complete numeric protocol, all proposed policy inputs and precise limits.
+No input has been installed, no new owner/auth/DB configured, no ordinary Paper
+or real-time observation started. Offline consistency30 checks passed; this is
+not research/native acceptance. Initial2 preparation-helper failures retained.
+Independent static final0Critical/0Important, executionNONE; original Important
+PaperStart omission retained and repaired. Services do not auto-start a run;
+use authenticated normal PaperStart and verify accepted run/owner readback.
+
+Three explicit human choices remain: numeric protocol/engineering0.2.2 input,
+disclosed zero-model versus required realized Paper funding, and supported
+exposure/closed-drawdown controls versus separate per-trade/daily monetary-loss
+controls. Current RiskPolicy has no latter caps; fixed-zero Paper funding can
+pass existing assessment but cannot prove complete realized costs. Do not invent
+caps or claim realized costs. Fresh owning store needs its own actual fixed
+qualification; immutable diagnostic research selection must not be overwritten.
+
+Actual acquisition/candidate and prior family/holdout reconciliation remain
+unexecuted. Proposed88-day data is not asserted unobserved or acquired. Public
+capture retention is capped per runtime at86400batches/1GiB; establish growth,
+retention/recovery before promising unattended30days. Preserve prior evidence,
+no silent deletion or restart to evade a gate. First48h observation is only a
+conditional initial target, not a promotion PASS. Keep old target/Ubuntu/cloud/
+SSH and real elapsed/trade samples incomplete. MasterIN_PROGRESS.
+Public additional0, cumulative8/8; private0/credentialsNONE/mutation0/capitalNONE,
+GitHub computeNOT_USED. No source changes, main merge or financial activation.
+
+---
+
 # Final current Windows release reconciliation complete
 
 OPS02 final identity/ancillary/public-report/finite committed-text branch audit and

@@ -1,0 +1,321 @@
+{
+  "kind": "STATIC_COMMISSIONING_MAP_NOT_AUTHORITY_OR_ACCEPTANCE",
+  "subject": "Parent-supplied f456 task state; qualified source bffc558b9652dc41c0804896436ac7ad8744f7f8. File hashes below identify the actual statically inspected bytes; no Git verification performed.",
+  "execution": "NONE; no config/database/credential/provider reads, tests or runtime/API commands",
+  "summary": "The ordinary path is LOCAL_RESEARCH/REAL_TIME, never a renamed FIXTURE. Supply three complete explicit policy documents under the local data root and an absolute operator selection outside cloud staging. configure-paper dispatches to configure_ordinary_paper, verifies native installation/receipt through a bounded owned check, parses policies and the accepted original package, then appends a protected selection. Identical bytes reuse the generation; changes create a new generation. This configures no run and grants no financial authority. No independent WorkflowPolicy JSON/class was found: Paper workflow uses the selection boolean, actor and policy reference; unattended scheduling has a separate closed operations profile. run-product may launch the runtime role but its scheduler never commands PaperStart. A normal authenticated PaperStart must separately name the selected policy and actual candidate, revision and command ID; candidate risk hash must equal the selected risk policy. PUBLIC_MARKET must be independently configured with explicit keyless read authorization. Native currentness, exact policies/package/receipt/config, non-restored status, temporal validity, market availability, E6 workflow and E5 risk remain gates. Public feed I/O runs in an owned child outside worker.tick; owner-thread immutable subscriptions fence runtime/E6 generations. Expired/stale/replaced selection denies new exposure while original obligations retain original management configuration. No thresholds, policy identities or actor/account choices are recommended here.",
+  "operator_questions": [
+    "Which actual accepted immutable submission/strategy version/content hash and owning qualification receipt should be selected? Does its actual research candidate bind the exact proposed risk hash?",
+    "Who is the local Paper workflow actor, which isolated simulated account reference and policy reference identify this authorization, and is workflow_authorized explicitly intended true now or false for idle commissioning?",
+    "What explicit simulation balance, base-asset quantity, leverage, fees, slippage, roundtrip estimate and fill fraction should be modeled?",
+    "What explicit E5 capital/exposure/loss/count/age/hold/plan limits and promotion elapsed/trade/profit/drawdown/loss/health/gap thresholds are authorized, with version/generation and null-profit-factor handling?",
+    "What poll/cache/currentness/action/protection intervals are intended, and does cache capacity cover actual strategy warmup?",
+    "Should keyless OKX_PUBLIC BTC reads be enabled, and which unattended roles, scan/research/report switches and restart bounds are selected?"
+  ],
+  "minimum_prestart_checks": [
+    "Use verified native installed entrypoint; unchanged owning config/data/instance, LOCAL_RESEARCH, diagnostic_only=false, paper_runtime_enabled=true; disjoint local/cloud roots and non-restored state.",
+    "Stop all product roles before configure-paper/configure-market-data; preserve actual receipt and prior append-only selection history. Never edit database rows or copy fixture policy values.",
+    "Validate all explicit policy documents and original manifest validity; compare candidate namespace, identity/content and selected risk hash. Public engineering diagnostic research is not automatically a candidate or forward qualification.",
+    "Verify independent current native runtime/receipt observation, actual fresh ticker, finalized contiguous received-at candles and sufficient selected timeframes/warmup. Missing market profile remains NOT_CONNECTED.",
+    "Start only selected services via one run-product coordinator; use authenticated normal PaperStart with current expected_revision and stable command_id. Check actual owner acknowledgment/protection rather than inferring execution from startup.",
+    "Receipt/config/input/selection changes, expired tactical validity, stale market or observation, restored copy and missing eligibility block new exposure; preserve original protective management and reassess through owners before new starts."
+  ],
+  "fields": {
+    "ordinary_selection": {
+      "schema_version": "literal r7-local-paper-inputs-v0.2",
+      "submission_id": "safe component",
+      "simulation_policy_ref": "safe relative local-data-root file",
+      "risk_policy_ref": "safe relative local-data-root file",
+      "promotion_policy_ref": "safe relative local-data-root file",
+      "paper_policy_ref": "safe component; exact start policy reference",
+      "actor": "nonblank string <=256",
+      "workflow_authorized": "exact bool; not inherited from package",
+      "account_ref": "nonblank string <=256; isolated simulated account commitment",
+      "qualification_receipt_ref": "qualification-[0-9a-f]{64}; existing owning receipt"
+    },
+    "simulation": {
+      "schema_version": "r7-paper-simulation-policy-v0.2 for ordinary; v0.3/v0.4 fault fields FIXTURE-only",
+      "namespace": "LOCAL_RESEARCH",
+      "mode": "REAL_TIME",
+      "policy_id": "string length 1..256",
+      "generation": "exact int 1..2147483647",
+      "initial_balance_usdt": "positive finite decimal string <=128; USDT",
+      "quantity": "positive finite decimal string <=128; quantity*price gives USDT notional (base-asset units)",
+      "leverage": "positive finite decimal string <=128; ratio",
+      "fee_rate": "finite decimal string in [0,1]; fee=quantity*price*rate",
+      "slippage_bps": "finite decimal string in [0,10000]; price shift /10000",
+      "estimated_roundtrip_cost_usdt": "finite nonnegative decimal string; USDT",
+      "initial_fill_fraction": "finite decimal string in (0,1]",
+      "partial_remainder_behavior": "CANCEL_AFTER_FIRST_FILL",
+      "market_max_age_seconds": "exact positive int <=2147483647; seconds",
+      "action_ttl_seconds": "exact int 1..300; seconds",
+      "protection_poll_seconds": "exact positive int <=2147483647; seconds",
+      "maximum_cached_candles_per_timeframe": "exact int 1..4000; candles",
+      "funding_model": "EXPLICIT_REGISTERED_PAPER_ZERO; simulated only",
+      "account_scope": "ISOLATED_PER_STRATEGY_RUN"
+    },
+    "risk_wrapper": {
+      "schema_version": "r7-selected-risk-policy-v0.2",
+      "namespace": "LOCAL_RESEARCH",
+      "generation": "exact int 1..2147483647",
+      "units": {
+        "margin": "USDT_AMOUNT",
+        "notional": "USDT_AMOUNT",
+        "estimated_cost": "USDT_AMOUNT",
+        "drawdown": "USDT_AMOUNT",
+        "leverage": "RATIO",
+        "reward_risk": "RATIO",
+        "time": "SECONDS"
+      },
+      "policy": "exact complete RiskPolicy fields below"
+    },
+    "risk_policy": {
+      "version": "nonblank string",
+      "max_margin": "positive finite decimal string; USDT",
+      "max_notional": "positive finite decimal string; USDT",
+      "max_leverage": "positive finite decimal string; ratio",
+      "min_reward_risk": "positive finite decimal string; ratio",
+      "max_estimated_cost": "nonnegative finite decimal string; USDT",
+      "max_drawdown": "nonnegative finite decimal string; USDT",
+      "max_trades_per_day": "exact positive int; trades/day",
+      "max_open_positions": "exact positive int; positions",
+      "max_consecutive_losses": "exact positive int; losses",
+      "max_intent_age_seconds": "exact positive int; seconds",
+      "max_hold_seconds": "exact positive int; seconds",
+      "plan_ttl_seconds": "exact positive int; seconds",
+      "margin_mode": "nonblank string; parser does not declare an enum"
+    },
+    "promotion": {
+      "schema_version": "r7-paper-promotion-policy-v0.2",
+      "policy_id": "canonical text string length 1..256; no control characters",
+      "namespace": "LOCAL_RESEARCH",
+      "generation": "exact int 1..2147483647",
+      "validation_policy_version": "canonical text string length 1..256; no control characters",
+      "min_elapsed_seconds": "exact int 1..2147483647; actual elapsed seconds",
+      "min_closed_trades": "exact int 1..2147483647; CLOSED_TRADES",
+      "min_net_pnl_usdt": "finite canonical decimal string; signed USDT",
+      "min_expectancy_usdt_per_trade": "finite canonical decimal string; signed USDT_PER_CLOSED_TRADE",
+      "max_drawdown_usdt": "finite nonnegative canonical decimal string; USDT",
+      "max_consecutive_losses": "exact int 0..2147483647",
+      "min_profit_factor": "finite nonnegative canonical decimal string; dimensionless",
+      "profit_factor_null_handling": "BLOCK or ALLOW_NO_LOSSES; explicit, no silent default",
+      "required_healthy_seconds": "exact int 1..2147483647; <=min_elapsed_seconds",
+      "maximum_observation_gap_seconds": "exact int 1..2147483647",
+      "units": {
+        "time": "SECONDS",
+        "trade_count": "CLOSED_TRADES",
+        "pnl": "USDT_AMOUNT",
+        "expectancy": "USDT_PER_CLOSED_TRADE",
+        "drawdown": "USDT_AMOUNT"
+      }
+    },
+    "public_market": {
+      "schema_version": "r7-public-market-v0.2",
+      "namespace": "LOCAL_RESEARCH",
+      "provider": "OKX_PUBLIC",
+      "symbol": "BTC_USDT_PERP",
+      "source_kind": "PUBLIC_MARKET",
+      "read_only": "literal true",
+      "workflow_authorized": "literal true; public reads only",
+      "poll_interval_seconds": "exact int 1..60"
+    },
+    "operations_not_a_financial_workflow_policy": {
+      "schema_version": "r7-local-operations-v0.2",
+      "workflow_authorized": "literal true; local scheduling only",
+      "actor": "safe component",
+      "roles": "unique list length 1..3 from control/research/runtime",
+      "scan_inbox": "exact bool",
+      "research_policy_ids": "unique <=32 safe components; research role required when nonempty",
+      "queue_reports": "exact bool",
+      "interval_seconds": "exact int 5..3600",
+      "restart_budget": "exact int 0..5",
+      "restart_backoff_seconds": "exact int 1..60"
+    },
+    "inherited_submission_validity": {
+      "intent_class": "EVERGREEN_STRATEGY or TACTICAL_STRATEGY; original manifest only",
+      "validity": {
+        "from": "UTC timestamp or null",
+        "until": "UTC timestamp or null"
+      },
+      "constraints": "Tactical requires both bounds; from<until. now>=until expires; now<from not-yet-valid. required management remains allowed; no caller renewal."
+    }
+  },
+  "entrypoints": [
+    {
+      "command_template": "<installed-native> init-profile --config <new-config> --data-root <local> [--cloud-root <disjoint-cloud>] [--instance-id <id>] --execution-mode LOCAL_RESEARCH --enable-paper-runtime",
+      "symbol": "application.cli.main; initialize_profile",
+      "meaning": "New explicit ordinary capability profile, no owner workflow or runtime grant; do not overwrite an existing profile implicitly."
+    },
+    {
+      "command_template": "<installed-native> configure-paper --config <config> --selection-profile <absolute-local-selection-json>",
+      "symbol": "application.paper.setup.configure_paper -> ordinary_setup.configure_ordinary_paper",
+      "meaning": "Exact selected policy input bytes <=64KiB each; operator profile <=64KiB outside cloud; original source subject and installed implementation committed; all role locks required."
+    },
+    {
+      "command_template": "<installed-native> configure-market-data --config <config> --selection-profile <absolute-local-public-market-json>",
+      "symbol": "application.paper.public_market.configure_market_data",
+      "meaning": "Immutable public-market.json under local data root; changed existing selection refused; grants only keyless public reads."
+    },
+    {
+      "command_template": "<installed-native> run-product --config <config> --operations-profile <absolute-machine-local-operations-json>",
+      "symbol": "application.coordinator.run_product; run_selected_service",
+      "meaning": "Operations profile outside data/cloud/install; runtime role invokes actual paper-worker; schedule_once scans/enqueues/reports only, never PaperStart/promotion/approval."
+    },
+    {
+      "command_template": "<installed-native> product-status --config <config>; <installed-native> stop-product --config <config> --role <owned-role>",
+      "symbol": "application.cli.main",
+      "meaning": "Status reads actual heartbeat; cooperative stop does not assert flat exposure."
+    }
+  ],
+  "history": {
+    "symbol": "storage.paper_selection.open_paper_selections(path, immutable=False) -> reader.current()/get(generation)",
+    "semantics": "Read-only existing canonical store; no generation allocation. Owner select(record) uses append-only contiguous generations and exact-byte retry. No dedicated public selection-history CLI was found in inspected application.cli; configuration response exposes actual config_hash/config_generation. Never use immutable=True against live WAL; that flag is sealed verified snapshots only."
+  },
+  "runtime_bounds": {
+    "native_observation": "release_observation.MAX_AGE_SECONDS=30; fresh independently verified observation required, no permanent cached PASS. Full installed/input/receipt verification stays in owned observer, not hot protective loop.",
+    "public_child": "public_feed.DEADLINE=125 seconds, owned resource limits and bounded output/reap; background acquisition thread, owner takes completed immutable batch only; capture retention refuses at 86400 batches or 1GiB per runtime rather than silently deleting history.",
+    "market": "event_for requires actual OKX ticker HEALTHY, observed<=received<=now, age<=5s and freshness_ms<=5000, monotonically advancing observations; engine additionally applies selected market_max_age_seconds. This fixed producer bound is not an operator recommendation.",
+    "warmup": "Owner subscription uses actual required_timeframes, expression minimum_history+1 capped by selected capacity (max4000), last durable close and run/content/runtime/E6 generation fences. Closed contiguous aligned candles must be available by received_at; boundary crossing during acquisition is retried. Operator must not assume a too-small cache provides warmup.",
+    "protection": "Stale/missing market or expired entry eligibility does not grant new fills. Original selection/release/risk commitments are recovered for accepted obligations; replacement workflow permission does not transfer to old runs."
+  },
+  "unresolved_contract_notes": [
+    "No serialized WorkflowPolicy type exists in inspected src. Do not invent extra workflow fields or treat operations.workflow_authorized as PaperStart authority.",
+    "Promotion policy uses canonical E3/E6 assessment; selecting it does not issue forward PASS or READY. Actual real-time health/elapsed/trade metrics must meet owner-bound thresholds.",
+    "This map does not establish actual operator policy values, candidate eligibility, current installed/runtime facts or live market readiness; those are measured before commands by existing owners."
+  ],
+  "source_refs": [
+    {
+      "path": "src/application/paper/policy.py",
+      "symbols": "parse_simulation_policy",
+      "sha256": "a100451fa6f8a3075ffcaf2047df1cce0e064bdef814930a7014e7967bdbd15f"
+    },
+    {
+      "path": "src/application/paper/ordinary_setup.py",
+      "symbols": "read_operator_profile; configure_ordinary_paper; OrdinarySelectedPaper.current; ordinary_paper_worker",
+      "sha256": "94d20ee9338bdd9a7923885bc5a0aecd362349852478cc1adbc6ea7489cf7007"
+    },
+    {
+      "path": "src/application/paper/owners.py",
+      "symbols": "PaperOwnerSelection; PaperOwnerComposition.service",
+      "sha256": "f1eed33ee5e02565e692b9777308f16de1fa4addbfa7d42ea87dc3dac202284e"
+    },
+    {
+      "path": "src/application/paper/public_market.py",
+      "symbols": "validate_profile; configure_market_data; subscription",
+      "sha256": "aed6e6b31aa1bce574ff0543d3411245e3f173165d803e033adb697756726286"
+    },
+    {
+      "path": "src/risk/product_policy.py",
+      "symbols": "parse_product_risk_policy",
+      "sha256": "ecae712fb3a2f611d84d62bf92207571f967853cf1090991dc73c031bfe84cae"
+    },
+    {
+      "path": "src/risk/policy.py",
+      "symbols": "RiskPolicy",
+      "sha256": "2b8fa2f57d50d016d7131836d4b859469db1c8bc8caa1833d6b6b668b48200e9"
+    },
+    {
+      "path": "src/validation/paper_policy.py",
+      "symbols": "parse_paper_promotion_policy",
+      "sha256": "2dc7fc188502e1a03c0ac6436d64c559670307a52d30fe3d4835aae5c70bdcda"
+    },
+    {
+      "path": "src/application/cli.py",
+      "symbols": "main public parser/dispatch",
+      "sha256": "f1c132917cec6c089505fc94faaec1d48e862a56a79cefd0401873ecfdceb4cd"
+    },
+    {
+      "path": "src/application/config.py",
+      "symbols": "ProductConfig; load_config",
+      "sha256": "9c40652a0c1ebdb8692d5d49b451200dbab5727a57c56a4f2629624b4930462a"
+    },
+    {
+      "path": "src/storage/paper_selection.py",
+      "symbols": "_SelectionReader.current/get; _SelectionOwner.select; open_paper_selections",
+      "sha256": "caf08dd99405ffbe897bb311c570f72498dba6631dfea7b137c168c92ed885ea"
+    },
+    {
+      "path": "src/application/paper/setup.py",
+      "symbols": "configure_paper ordinary dispatch",
+      "sha256": "d77c9bd7ddb336650ddd600dcb5d8376e57518baad013fca39789d0b40715a19"
+    },
+    {
+      "path": "src/application/paper/public_feed.py",
+      "symbols": "check_batch_once; PublicMarketFeed",
+      "sha256": "9c5344bd4e184bde1d9949a5b01e9bdc15aadfc9e88f0a7180591484478dbf9a"
+    },
+    {
+      "path": "src/application/paper/public_acquisition.py",
+      "symbols": "acquire_batch; event_for",
+      "sha256": "cfca0a3253a1fe9d7ecd86b9bb415f351b5dd2c27a1cf2df3944f353a44c3eb9"
+    },
+    {
+      "path": "src/application/paper/service.py",
+      "symbols": "PaperService.start; _management_service",
+      "sha256": "cfc7749f987759ff6b01aab5a4b577f7a10cf5bb86033d6e9d9d3b5beb536cb3"
+    },
+    {
+      "path": "tests/application/test_ordinary_paper_setup.py",
+      "symbols": "OrdinaryPaperSetupTests",
+      "sha256": "bdf8e8826a942eccf92f93f6d5c10730ae1d9416880b374b9a54f094287cda72"
+    },
+    {
+      "path": "src/strategy/v02/temporal.py",
+      "symbols": "assess_submission_validity; build_asof_bundle; entry_deadline",
+      "sha256": "0bdfd3dc719c8ffa2eb6c50d40b610eda1dcf18857c4ac289cc8ef38401fa02b"
+    },
+    {
+      "path": "src/application/coordinator.py",
+      "symbols": "validate_operations; run_product; schedule_once",
+      "sha256": "7e205e18e6021fd58e2d63dc7525b8023b0dd7b65f19646b58e26b97b0d07ba5"
+    },
+    {
+      "path": "src/application/paper/release_observation.py",
+      "symbols": "MAX_AGE_SECONDS; check_native_once",
+      "sha256": "92db969294c651608c79307c4dee2b97c80566abeb2c4286daadc690f8927c4f"
+    },
+    {
+      "path": "src/application/paper/engine.py",
+      "symbols": "_fresh; _entry_allowed; _fill; _manage; _evaluate",
+      "sha256": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6"
+    },
+    {
+      "path": "src/application/research/setup.py",
+      "symbols": "configure_research",
+      "sha256": "dec994aaf82915436bf5a8dbacfc17f6a98de2bc8036b2211135b2dcc103280d"
+    },
+    {
+      "path": "src/application/paper/release.py",
+      "symbols": "NativePaperReleaseReader.software_eligible",
+      "sha256": "6a46a3da9c9dd7697fed0c2eb387fd4a9e0215403527efe63063dc95a7e2f68f"
+    },
+    {
+      "path": "src/application/paper/qualification.py",
+      "symbols": "validate_qualified_receipt",
+      "sha256": "0b8aae3f487c0418ce7fd5ad92f27196d4a635aedc043f15409393117c585f3f"
+    },
+    {
+      "path": "src/application/paper/producer.py",
+      "symbols": "qualify",
+      "sha256": "a89d656695e8e543a1ff7f533249de8debb48c88642cfc8b552692ef23a9183c"
+    },
+    {
+      "path": "tools/qualify_paper_product.py",
+      "symbols": "main",
+      "sha256": "a23c2f725b870fa80d58125fb5d3865d8f11fee50fd706599665449ab5c1fd8a"
+    },
+    {
+      "path": "src/validation/robustness/common.py",
+      "symbols": "integer; text; decimal",
+      "sha256": "2c3231ce518ef8f26140a0c75ebc4d31061a699ddcabc9423ebde2cf6e35904c"
+    }
+  ],
+  "existing_diagnostic_store_and_fresh_profile": {
+    "existing_store": "Research configure_research preserves immutable owner-selections.json: exact canonical retry only, differing research policy/ref map is rejected. Do not rewrite that file, referenced policy bytes, accepted packages, sealed qualification evidence or database/auth to circumvent the commitment.",
+    "paper_amendment": "configure_ordinary_paper may append a new protected Paper selection generation in the SAME owning store while roles are stopped. Its same exact software receipt may be reused: software receipt subject binds namespace/revision/implementation/build/platform and fixed profile/capability, not new policy or product config. The new selection separately commits current product config, policies and source. New PaperStart still requires actual candidate exact selected risk hash and current validity; the existing diagnostic research-selection limitation is not removed by Paper amendment.",
+    "fresh_operator_profile": "Use public init-profile with a new config path AND fresh local data root/instance, then normal explicit configure-research for new formal operator policies, local accepted package intake and actual research. Merely creating a new config pointing to the old store does not replace its immutable research selection.",
+    "qualification_new_store": "NativePaperReleaseReader.software_eligible requires receipt in THIS config.database_path plus actual artifacts at THIS local_data_root/qualification/<execution_id>. Same executable build alone does not expose a reusable foreign-store receipt. No public receipt-import/copy command was found in inspected native CLI.",
+    "existing_supported_issuer": "tools/qualify_paper_product.py --config <fresh-owning-config> --package-root <exact-native-package> invokes application.paper.producer.qualify(config_path, source_root, package_root). It requires real CPython3.12, exact-clean matching source/build and non-restored LOCAL_RESEARCH; it runs ALL fixed checks and appends the actual local software-only receipt plus artifacts. It initializes namespace through normal E6 owner but does not install owner-selections.json; native test scenarios run in isolated workspaces.",
+    "necessary_scope": "A fresh store therefore requires its own actual owning fixed qualification with existing tooling unless a separately reviewed authorized receipt transfer producer is implemented; none is assumed. This is software qualification only, never policy validation/strategy forward PASS or copied operating authority. No new source feature is required to use the fresh-owning-full-qualification route.",
+    "concrete_question": "Choose either same-store append-only Paper amendment only if its actual existing research selection can genuinely supply a candidate bound to the intended formal risk, or fresh operator data/instance with explicit research setup and actual owning fixed qualification. Do not silently reuse diagnostic/fixture policy values."
+  }
+}

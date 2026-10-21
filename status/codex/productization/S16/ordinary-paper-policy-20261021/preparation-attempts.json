@@ -1,0 +1,23 @@
+{
+  "attempts": [
+    {
+      "exit_code": 1,
+      "reason": "Temporary generator used two positional dict arguments; repaired with mapping union.",
+      "stage": "prepare_draft"
+    },
+    {
+      "exit_code": 1,
+      "reason": "Clock-only DevelopmentBinding had no timeframe key; repaired by declaring empty 4h sequence, without fabricating market rows.",
+      "stage": "offline_consistency"
+    },
+    {
+      "checks_passed": 30,
+      "exit_code": 0,
+      "stage": "offline_consistency_after_repair"
+    }
+  ],
+  "claims": "No initial failure is counted as a product acceptance or regression case.",
+  "kind": "DRAFT_PREPARATION_ATTEMPTS",
+  "product_defect": false,
+  "research_or_native_execution": false
+}

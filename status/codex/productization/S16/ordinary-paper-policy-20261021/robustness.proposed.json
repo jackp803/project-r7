@@ -1,0 +1,103 @@
+{
+  "algorithm_version": "r7-robustness-v1",
+  "cost_policy_hash": "sha256:3c92436a1e9d4e61afc6d917a97711d4f123d2cbd9a17008f7be78b2b3849108",
+  "generation": 1,
+  "max_monte_carlo_drawdown_q95": "50",
+  "maximum_evaluations": 200000,
+  "maximum_replays": 64,
+  "maximum_trials": 5,
+  "minimum_block_expectancy_q05_usdt_per_trade": "0",
+  "minimum_neighborhood_pass_fraction": "0.8",
+  "minimum_stress_net_pnl_usdt": "0",
+  "minimum_walk_forward_pass_fraction": "1",
+  "monte_carlo": [
+    {
+      "algorithm": "TRADE_PERMUTATION",
+      "algorithm_version": "r7-mc-v1",
+      "block_length": 1,
+      "dependence_model": "ORDER_SENSITIVITY",
+      "drawdown_unit": "USDT_AMOUNT",
+      "initial_equity": "1000",
+      "max_path_observations": 500000,
+      "minimum_effective_blocks": 20,
+      "minimum_samples": 100,
+      "resample_count": 200,
+      "rng_algorithm": "SHA256_COUNTER_REJECTION_V1",
+      "sample_source": "CLOSED_DEVELOPMENT_TRADE_NET_PNL_USDT",
+      "schema_version": "r7-monte-carlo-policy-v0.2"
+    },
+    {
+      "algorithm": "MOVING_BLOCK_BOOTSTRAP",
+      "algorithm_version": "r7-mc-v1",
+      "block_length": 5,
+      "dependence_model": "OVERLAPPING_FIXED_BLOCKS",
+      "drawdown_unit": "USDT_AMOUNT",
+      "initial_equity": "1000",
+      "max_path_observations": 500000,
+      "minimum_effective_blocks": 20,
+      "minimum_samples": 100,
+      "resample_count": 200,
+      "rng_algorithm": "SHA256_COUNTER_REJECTION_V1",
+      "sample_source": "CLOSED_DEVELOPMENT_TRADE_NET_PNL_USDT",
+      "schema_version": "r7-monte-carlo-policy-v0.2"
+    }
+  ],
+  "namespace": "LOCAL_RESEARCH",
+  "neighborhood": [
+    {
+      "maximum": 35,
+      "minimum": 15,
+      "parameter": "adx_threshold",
+      "type": "INTEGER",
+      "values": [
+        15,
+        20,
+        25,
+        30,
+        35
+      ]
+    }
+  ],
+  "policy_id": "proposed-robustness-20261021",
+  "schema_version": "r7-robustness-policy-v0.2",
+  "selection_procedure": "TRAIN_NET_PNL_THEN_VARIANT_HASH_V1",
+  "split_policy_hash": "sha256:8deafb3d9fa3f62f3e6cc1137e70fd2d9a17c35c4a57b1e222a7a52cd6d0df1d",
+  "stress_scenarios": [
+    {
+      "entry_slippage_add_bps": "5",
+      "exit_slippage_add_bps": "5",
+      "fee_add_bps": "5",
+      "funding_adverse_multiplier": "2",
+      "name": "extra-5bps-funding-2x"
+    },
+    {
+      "entry_slippage_add_bps": "10",
+      "exit_slippage_add_bps": "10",
+      "fee_add_bps": "10",
+      "funding_adverse_multiplier": "3",
+      "name": "extra-10bps-funding-3x"
+    }
+  ],
+  "walk_forward_windows": [
+    {
+      "evaluation": {
+        "end": "2026-09-11T00:00:00Z",
+        "start": "2026-08-28T00:00:00Z"
+      },
+      "training": {
+        "end": "2026-08-27T00:00:00Z",
+        "start": "2026-08-13T00:00:00Z"
+      }
+    },
+    {
+      "evaluation": {
+        "end": "2026-09-30T00:00:00Z",
+        "start": "2026-09-12T00:00:00Z"
+      },
+      "training": {
+        "end": "2026-09-11T00:00:00Z",
+        "start": "2026-08-13T00:00:00Z"
+      }
+    }
+  ]
+}

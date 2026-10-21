@@ -1,0 +1,45 @@
+test_temp_schema_change_revokes_proof_and_shadow_history_cannot_regain_it (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_temp_schema_change_revokes_proof_and_shadow_history_cannot_regain_it) ... FAIL
+test_actual_position_subject_nested_read_uses_original_canonical_snapshot (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_actual_position_subject_nested_read_uses_original_canonical_snapshot) ... ERROR
+
+======================================================================
+ERROR: test_actual_position_subject_nested_read_uses_original_canonical_snapshot (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_actual_position_subject_nested_read_uses_original_canonical_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 96, in test_actual_position_subject_nested_read_uses_original_canonical_snapshot
+    fixture.test_actual_e5_genesis_binding_and_action_are_required_for_existing_position_read()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_current_execution_subject_v02.py", line 72, in test_actual_e5_genesis_binding_and_action_are_required_for_existing_position_read
+    result = self.read(position_id=position['position_id'], position_action_id=action['position_action_id'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_current_execution_subject_v02.py", line 27, in read
+    return self.journal.current_execution_subject(self.identity, self.plan['trade_plan_id'], **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_borrowed_canonical.py", line 67, in call
+    result=function(self,*args,**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\runtime.py", line 106, in current_execution_subject
+    return current_execution_subject(self, identity, trade_plan_id,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\current_execution.py", line 67, in current_execution_subject
+    recovered = journal.recover(position_id=position_id, trade_plan_id=trade_plan_id)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_borrowed_canonical.py", line 64, in call
+    self._idle();db=self._owner._db
+    ^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_borrowed_canonical.py", line 40, in _idle
+    _invalid('Canonical call cannot enter or roll back a lender transaction')
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_borrowed_canonical.py", line 15, in _invalid
+    raise RuntimeValidationError('PAPER_BORROWED_CANONICAL_INVALID',reason)
+storage.runtime_models.RuntimeValidationError: Canonical call cannot enter or roll back a lender transaction
+
+======================================================================
+FAIL: test_temp_schema_change_revokes_proof_and_shadow_history_cannot_regain_it (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_temp_schema_change_revokes_proof_and_shadow_history_cannot_regain_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 109, in test_temp_schema_change_revokes_proof_and_shadow_history_cannot_regain_it
+    self.assertFalse(self.journal.history_audit_ready('run-1'),'TEMP schema change kept stale proof')
+AssertionError: True is not false : TEMP schema change kept stale proof
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.331s
+
+FAILED (failures=1, errors=1)

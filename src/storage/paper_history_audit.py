@@ -1,11 +1,11 @@
 """Instance-owned complete process-history audit in bounded metadata batches.
 
-Conservative component: ANY observed DB change invalidates progress/readiness.
-No production caller uses this yet. Qualified own-write tracking, independent
+Only observed, closed E6 writer scopes may extend progress/readiness. Unknown
+own/external writes revoke it. No production caller uses this yet. Independent
 resource scheduling and actual entry/healthy gates are separate required work.
 No serialized progress object can be accepted as an audit proof.
 """
-from contextlib import closing
+from contextlib import closing,contextmanager
 from dataclasses import dataclass,field
 from functools import lru_cache
 import sqlite3
@@ -24,6 +24,24 @@ _QUERIES={
     'PREFIXES':('paper_process_published_prefixes','revision AS sequence,prefix_hash','revision'),
     'GENERATIONS':('paper_process_generations','generation AS sequence,instance_id,started_at','generation'),
 }
+_OWN_WRITES={
+    'PREPARE':(1,{'paper_process_operations'}),
+    'COMPLETE':(2,{'paper_process_effects','paper_process_checkpoints'}),
+    'PUBLISH':(2,{'paper_process_publications','paper_process_published_prefixes'}),
+    'GENERATION':(1,{'paper_process_generations'}),
+    'PAUSE':(1,{'paper_entry_pause_requests'}),
+    'FEEDBACK_QUEUE':(1,{'paper_feedback_publications'}),
+    'FEEDBACK_STATUS':(1,{'paper_feedback_publications'}),
+    'CANONICAL':(2,{'paper_runtime_objects','paper_runtime_conflicts',
+        'paper_position_lifecycle_projections','paper_position_current_projection',
+        'paper_position_broker_observations','paper_order_result_observations','paper_order_result_current',
+        'paper_funding_evidence','paper_funding_observations','paper_trade_results',
+        'paper_position_lifecycle_execution_bindings'}),
+}
+_CANONICAL_UPDATES={'paper_position_current_projection','paper_order_result_current'}
+_NONHISTORY_WRITES={'CANONICAL','FEEDBACK_QUEUE','FEEDBACK_STATUS'}
+_READ_ACTIONS={sqlite3.SQLITE_SELECT,sqlite3.SQLITE_READ,sqlite3.SQLITE_FUNCTION,
+    sqlite3.SQLITE_RECURSIVE,sqlite3.SQLITE_TRANSACTION,sqlite3.SQLITE_SAVEPOINT}
 
 
 def _invalid():raise RuntimeValidationError('PAPER_HISTORY_AUDIT_INVALID','Paper history audit refused inconsistent source facts')
@@ -75,6 +93,11 @@ class _AuditState:
     run_created_at:str
     prefix:dict
     expected:dict
+    bounds:dict
+    original_pending:dict
+    live_revision:int
+    live_generation:int
+    live_prefix:int
     phase:int=0
     cursors:dict=field(default_factory=dict)
     counts:dict=field(default_factory=lambda:{name:0 for name in _PHASES})
@@ -85,10 +108,11 @@ class _AuditState:
 
 class PaperHistoryAudit:
     def __init__(self,journal):
-        self.journal=journal;self.db=journal._db;self._issuer=object();self._states={}
+        self.journal=journal;self.db=journal._db;self._issuer=object();self._states={};self._write_active=None
 
     def _epoch(self):
         return (self.db.execute('PRAGMA schema_version').fetchone()[0],
+            self.db.execute('PRAGMA temp.schema_version').fetchone()[0],
             self.db.execute('PRAGMA data_version').fetchone()[0],self.db.total_changes)
 
     def _current(self,run_id):
@@ -101,15 +125,67 @@ class PaperHistoryAudit:
         state=self._current(run_id)
         return state is not None and state.status=='HISTORY_VERIFIED_IN_CURRENT_INSTANCE'
 
+    @contextmanager
+    def owned_write(self,kind,run_id):
+        """Observe fixed E6 implementations, never certify arbitrary caller SQL.
+
+        The authorizer records compiled write footprints (including triggers),
+        but ALWAYS permits SQLite to apply its original guards/transactions.
+        Unknown work revokes permission; it never blocks protective persistence.
+        """
+        for key in tuple(self._states):self._current(key)
+        if self._write_active is not None:
+            self._write_active['invalid']=True;self._states.clear()
+            yield;return
+        if kind not in _OWN_WRITES or not self._states or (kind not in _NONHISTORY_WRITES and not self.journal._prefixes.enabled(run_id)):
+            if kind not in _OWN_WRITES or self._states:self._states.clear()
+            yield;return
+        before=self._epoch();maximum,tables=_OWN_WRITES[kind];observation={'invalid':False}
+        self._write_active=observation
+        def observe(action,first,second,database,source):
+            if action==sqlite3.SQLITE_INSERT:
+                if database!='main' or first not in tables:observation['invalid']=True
+            elif action==sqlite3.SQLITE_UPDATE and kind=='CANONICAL':
+                if database!='main' or first not in _CANONICAL_UPDATES:observation['invalid']=True
+            elif action==sqlite3.SQLITE_UPDATE and kind=='FEEDBACK_STATUS':
+                if database!='main' or first!='paper_feedback_publications':observation['invalid']=True
+            elif action==sqlite3.SQLITE_PRAGMA:
+                if second is not None:observation['invalid']=True
+            elif action not in _READ_ACTIONS:observation['invalid']=True
+            return sqlite3.SQLITE_OK
+        try:
+            self.db.set_authorizer(observe)
+            yield
+            after=self._epoch()
+            if (observation['invalid'] or self.db.in_transaction or after[:-1]!=before[:-1]
+                    or not 0<=after[-1]-before[-1]<=maximum):
+                self._states.clear();return
+            current=context=None
+            if kind not in _NONHISTORY_WRITES:
+                current=self.journal.recover_current(run_id)
+                context=self.journal._prefixes.current_context(run_id)
+            if self._epoch()!=after:self._states.clear();return
+            for state in self._states.values():
+                state.epoch=after
+                if current is not None and state.run_id==run_id:
+                    state.live_revision=current.revision;state.live_generation=current.process_generation
+                    state.live_prefix=context['revision']
+        except BaseException:
+            self._states.clear();raise
+        finally:
+            self.db.set_authorizer(None);self._write_active=None
+
     def progress(self,run_id,*,rows=0):
         state=self._current(run_id)
         if state is None:
             return HistoryAuditProgress('HISTORY_AUDIT_REQUIRED','NOT_STARTED',0,rows,None,0,'INSTANCE_HISTORY_AUDIT_REQUIRED')
         phase='COMPLETE' if state.phase==len(_PHASES) else _PHASES[state.phase]
         return HistoryAuditProgress(state.status,phase,sum(state.counts.values()),rows,state.target,
-            state.prefix['revision'],state.reason)
+            state.live_prefix if state.phase==len(_PHASES) else state.prefix['revision'],state.reason)
 
     def _begin(self,run_id,epoch):
+        if self.db.execute("""SELECT 1 FROM sqlite_temp_master WHERE type IN ('table','view') AND
+                (lower(name) GLOB 'paper_process_*' OR lower(name) IN ('paper_entry_pause_requests','schema_migrations')) LIMIT 1""").fetchone():_invalid()
         try:migrations=check_migration_compatibility(self.db)
         except EvidenceGateError:_invalid()
         if migrations['pending']:_invalid()
@@ -123,21 +199,46 @@ class PaperHistoryAudit:
         target=context['revision'];pending=len(current.pending_operations)
         expected=dict(OPERATIONS=target+pending,EFFECTS=target+applied,CHECKPOINTS=target+applied+1,
             PUBLICATIONS=target,PREFIXES=target+1,GENERATIONS=current.process_generation)
+        # Freeze original inventories, including orphan/negative/empty keys.
+        # Later verified appends cannot extend a scan or insert a publication ID
+        # behind its lexical cursor. No retained row or proof is rewritten.
+        bounds={}
+        for phase,(table,columns,order) in _QUERIES.items():
+            top=self.db.execute('SELECT '+order+' FROM '+table+' WHERE run_id=? ORDER BY '+
+                ','.join(key+' DESC' for key in order.split(','))+' LIMIT 1',(run_id,)).fetchone()
+            rowid=self.db.execute('SELECT max(rowid) FROM '+table).fetchone()[0]
+            bounds[phase]=(None if top is None else tuple(top),rowid)
+        original={key:self.journal.operation(run_id,key) for key in current.pending_operations}
         return _AuditState(self._issuer,epoch,run_id,target,context['prefix_hash'],current.revision,
-            current.process_generation,_clock(run['created_at']),root,expected)
+            current.process_generation,_clock(run['created_at']),root,expected,bounds,original,
+            current.revision,current.process_generation,target)
 
     def _query(self,state,limit):
         phase=_PHASES[state.phase];table,columns,order=_QUERIES[phase]
-        cursor=state.cursors.get(phase);arguments=[state.run_id];condition=''
+        upper,rowid=state.bounds[phase]
+        if upper is None:return []
+        fields=order.split(',');key='('+order+')' if len(fields)==2 else order
+        markers='(?,?)' if len(fields)==2 else '?'
+        cursor=state.cursors.get(phase);arguments=[state.run_id,rowid,*upper]
+        condition=' AND rowid<=? AND '+key+'<='+markers
         if cursor is not None:
-            fields=order.split(',')
             if len(fields)==2:
-                condition=' AND ('+order+')>(?,?)';arguments.extend(cursor)
-            else:condition=' AND '+order+'>?';arguments.append(cursor)
+                condition+=' AND ('+order+')>(?,?)';arguments.extend(cursor)
+            else:condition+=' AND '+order+'>?';arguments.append(cursor)
         arguments.append(limit)
         # Names come only from the closed module-owned phase table above.
         return self.db.execute('SELECT '+columns+' FROM '+table+' WHERE run_id=?'+condition+
             ' ORDER BY '+order+' LIMIT ?',arguments).fetchall()
+
+    def _original_operation(self,state,operation_id):
+        current=self.journal.operation(state.run_id,operation_id)
+        original=state.original_pending.get(operation_id)
+        if original is None:return current
+        if (current is None or current.base_revision!=original.base_revision
+                or current.request_json!=original.request_json or current.base_state_json!=original.base_state_json):_invalid()
+        if original.status=='APPLIED' and (current.state_json!=original.state_json
+                or current.outcome_json!=original.outcome_json or current.effect_hash!=original.effect_hash):_invalid()
+        return original
 
     def _check(self,state,row):
         phase=_PHASES[state.phase];before=state.counts[phase]
@@ -150,7 +251,7 @@ class PaperHistoryAudit:
             sequence=row['sequence']
             if type(sequence) is not int or sequence<0:_invalid()
             if phase in ('OPERATIONS','EFFECTS'):
-                operation_id=_text(row['operation_id']);operation=self.journal.operation(state.run_id,operation_id)
+                operation_id=_text(row['operation_id']);operation=self._original_operation(state,operation_id)
                 if operation is None:_invalid()
                 if phase=='OPERATIONS':
                     if sequence!=before:_invalid()
@@ -164,7 +265,7 @@ class PaperHistoryAudit:
                 if sequence==0:
                     if row['operation_id'] is not None:_invalid()
                 else:
-                    operation=self.journal.operation(state.run_id,_text(row['operation_id']))
+                    operation=self._original_operation(state,_text(row['operation_id']))
                     if operation is None or operation.checkpoint_revision!=sequence or operation.state_json!=checkpoint['state_json']:_invalid()
                 state.cursors[phase]=sequence
             elif phase=='PREFIXES':
@@ -215,6 +316,6 @@ class PaperHistoryAudit:
                 state.status='HISTORY_AUDIT_FAILED';state.reason='CURRENT_MANAGEMENT_FACTS_INVALID';raise
             if self._epoch()!=epoch:
                 self._states.pop(run_id,None);return self.progress(run_id,rows=rows)
-            if current.revision!=state.current_revision or current.process_generation!=state.generation:_invalid()
+            if current.revision!=state.live_revision or current.process_generation!=state.live_generation:_invalid()
             state.status='HISTORY_VERIFIED_IN_CURRENT_INSTANCE';state.reason=None
         return self.progress(run_id,rows=rows)

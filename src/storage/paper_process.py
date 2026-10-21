@@ -204,23 +204,32 @@ class PaperProcessJournal:
         self._db = connection
         self._prefixes=PublishedPrefixes(self)
         self._history=PaperHistoryAudit(self)
-    def close(self): self._db.close()
+        self._borrowed_canonical=None
+    def close(self):
+        if self._borrowed_canonical is not None:
+            self._borrowed_canonical._lender_closed();self._borrowed_canonical=None
+        self._db.close()
     def __enter__(self): return self
     def __exit__(self, *_): self.close()
 
+    def borrow_canonical_journal(self):
+        from .paper_borrowed_canonical import BorrowedPaperRuntimeJournal
+        return BorrowedPaperRuntimeJournal(self)
+
     @contextmanager
-    def _write(self):
-        if self._db.in_transaction: _invalid('Paper operation requires an idle writer')
-        try:
-            self._db.execute('BEGIN IMMEDIATE')
-            yield
-            self._db.commit()
-        except sqlite3.Error as exc:
-            self._db.rollback()
-            raise RuntimeValidationError('PAPER_DURABLE_WRITE_FAILED', 'Paper write rolled back') from exc
-        except BaseException:
-            self._db.rollback()
-            raise
+    def _write(self,kind=None,run_id=None):
+        with self._history.owned_write(kind,run_id):
+            if self._db.in_transaction: _invalid('Paper operation requires an idle writer')
+            try:
+                self._db.execute('BEGIN IMMEDIATE')
+                yield
+                self._db.commit()
+            except sqlite3.Error as exc:
+                self._db.rollback()
+                raise RuntimeValidationError('PAPER_DURABLE_WRITE_FAILED', 'Paper write rolled back') from exc
+            except BaseException:
+                self._db.rollback()
+                raise
 
     def _run(self, run_id):
         _text(run_id)
@@ -300,7 +309,7 @@ class PaperProcessJournal:
         if not isinstance(request, Mapping): _invalid('Paper operation request must be an object')
         _text(operation_id); raw = _json(request); at = _stamp(now)
         if type(expected_revision) is not int or expected_revision < 0: _invalid('Explicit Paper checkpoint revision required')
-        with self._write():
+        with self._write('PREPARE',run_id):
             run = self._run(run_id)
             existing = self.operation(run_id, operation_id)
             if existing:
@@ -327,7 +336,7 @@ class PaperProcessJournal:
     def complete(self, run_id, operation_id, state, outcome, *, now, process_generation=0):
         if not isinstance(outcome, Mapping): _invalid('Paper operation outcome must be an object')
         state_raw = _state(state); outcome_raw = _json(outcome); at = _stamp(now)
-        with self._write():
+        with self._write('COMPLETE',run_id):
             operation = self.operation(run_id, operation_id)
             if operation is None: _invalid('Paper effect lacks durable operation intent')
             if operation.status != 'PREPARED':
@@ -353,7 +362,7 @@ class PaperProcessJournal:
 
     def mark_published(self, run_id, operation_id, effect_hash, *, now):
         at = _stamp(now)
-        with self._write():
+        with self._write('PUBLISH',run_id):
             operation = self.operation(run_id, operation_id)
             if operation is None or operation.status == 'PREPARED' or operation.effect_hash != effect_hash:
                 _conflict('Publication requires the exact applied Paper effect')
@@ -366,7 +375,7 @@ class PaperProcessJournal:
     def begin_process(self, run_id, instance_id, *, expected_generation, now):
         _text(instance_id); at = _stamp(now)
         if type(expected_generation) is not int or expected_generation < 0: _invalid('Explicit process generation required')
-        with self._write():
+        with self._write('GENERATION',run_id):
             run = self._run(run_id)
             existing = self._db.execute('SELECT generation FROM paper_process_generations WHERE run_id=? AND instance_id=?', (run_id, instance_id)).fetchone()
             if existing: return existing['generation']
@@ -401,7 +410,7 @@ class PaperProcessJournal:
         _text(run_id); _text(command_id); _text(actor); at=_stamp(now)
         if type(expected_revision) is not int or expected_revision<0: _invalid('Exact control revision required')
         request=_json(dict(kind='ENTRY_PAUSE',run_id=run_id,command_id=command_id,actor=actor,expected_revision=expected_revision))
-        with self._write():
+        with self._write('PAUSE',run_id):
             existing=self._db.execute('SELECT * FROM paper_entry_pause_requests WHERE command_id=?',(command_id,)).fetchone()
             if existing:
                 if existing['request_json']!=request: _conflict('Entry pause command identity changed')

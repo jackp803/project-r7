@@ -22,7 +22,6 @@ from registry.product_assessment import canonical,digest
 from risk.product_policy import parse_product_risk_policy
 from storage import open_sqlite_platform
 from storage.paper_process import open_paper_process_journal
-from storage.runtime import open_paper_runtime_journal
 from validation.paper_policy import parse_paper_promotion_policy
 from .policy import parse_simulation_policy,bind_submission_validity
 from .service import PaperService
@@ -110,7 +109,7 @@ class PaperOwnerComposition:
             registry=stack.enter_context(open_sqlite_platform(self.config.database_path,
                 research_namespace=namespace,lifecycle_boundary=boundary,require_existing=True))
             process=stack.enter_context(open_paper_process_journal(self.config.database_path,require_existing=True))
-            canonical_journal=stack.enter_context(open_paper_runtime_journal(self.config.database_path,require_existing=True))
+            canonical_journal=stack.enter_context(process.borrow_canonical_journal())
             management_selection=selection_current=entry_current=None
             if namespace=='LOCAL_RESEARCH' and self.operational_generation is not None:
                 from storage.paper_selection import open_paper_selections,PaperSelectionError

@@ -1,3 +1,36 @@
+# Approved E6 D owned writes/canonical seam component passes; finish resources/gates — 2026-10-22
+
+Fixed E6 own writer scopes observe compiled SQLite mutation footprints (including
+triggers), actual bounded changes and main/temp schema+data_version epoch. Known
+intent/effect/publication/generation/pause/feedback/canonical writes preserve an
+owned completed proof or partial fixed inventory; unknown/raw/external/failed
+writes revoke. Frozen key+rowid bounds keep newly sorted publication IDs out of
+original inventories; original PREPARED/APPLIED facts stay separately validated.
+Actual PaperOwnerComposition now borrows its process connection for canonical
+facts, sequential only. Original principal writers already use explicit BEGIN;
+keep implicit conflict-recording semantics, per-fact partial commit/replay, no
+transaction nesting, rollback all exceptional exits, non-owning close. Distinct
+trading/financial journals unchanged. Legitimate nested fixed canonical reads work.
+
+310storage/34actualLOCALfunding-outbox-composition PASS before final lowercase
+shadow guard;32final audit/owned/borrowed checks PASS after it. Overlap not summed.
+Initial duplicate discovery330 includes22helper repeats, not extra unique credit.
+Failures (TEMP/nested/case/legacy/fault-fixture/source-mutation) retained, corrected.
+Read-only independent review findings resolved, final narrow0P0/0P1/0P2.
+
+D STILL IN_PROGRESS: resource-isolated background audit scheduling/protection
+first; actual runtime current-reader switch, private history entry and healthy
+forward gates, truthful control status. Returned row limit alone is NOT CPU/
+latency qualification. No heavy audit has been placed in protective callbacks.
+Then E whole-product30day capacity/RSS/latency/backup and new exact Windows PQR,
+then remaining emergency source/original-policy/research/admission work. Ordinary
+encoded storage NOT activated; installed ordinary Paper/observation NOT_STARTED.
+Main refetched unchanged7d1f447; public20requests/19responses unchanged, private0,
+capitalNONE; bffc558 remains the only owning qualified executable.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-owned-mutations/disposition.json
+
+---
+
 # Approved E6 D private batch audit component passes; finish owned mutation/runtime gates — 2026-10-21
 
 Migration0027 effect index and private instance-owned history auditor implemented.

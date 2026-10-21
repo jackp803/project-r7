@@ -155,14 +155,32 @@ Unknown mutation footprints or concurrent external changes must invalidate proof
 Preserve all exact domain/publication validation and immutable SQL guards.
 
 The borrowed canonical connection seam must preserve Python SQLite transaction
-semantics: the process journal currently uses isolation_level=None, whereas the
-canonical store relies on ordinary implicit transactions inside connection context
-managers. Merely sharing the raw connection would break per-writer atomicity.
+semantics. Actual source inspection refines the earlier context-manager concern:
+the process journal uses isolation_level=None; principal canonical writers already
+use explicit BEGIN IMMEDIATE/commit, while conflict recording relies on ordinary
+implicit single-fact transactions. Keep these original individual boundaries.
 A trusted borrowed facade may keep ordinary implicit transactions enabled while
 the process journal retains its explicit idle BEGIN IMMEDIATE/commit protocol;
 test rollback, close ownership, original per-writer commit boundaries and all
 distinct-journal financial guards before integration. Otherwise retain separate
 connections and conservative invalidation; do not silently alter transactions.
+
+Implemented own-write refinement: only fixed E6 intent/effect/publication/
+generation/pause/canonical/feedback scopes observe actual compiled SQLite writes,
+including triggers, and bounded total_changes. The observer never denies a
+protective write; unknown tables/UPDATE/DELETE/DDL/failed/nested work revokes the
+private proof. Compare main AND temp schema versions, data_version and actual
+changes before/after each scope. Prior unknown SQL cannot be laundered by a later
+valid append. Main-history table/view shadows in temp prevent a new audit.
+
+Freeze each original inventory's key upper bound and physical rowid cutoff in the
+initial actual read snapshot. Later valid publication IDs may sort before an old
+cursor, so rowid cutoff is required as well as logical ordering. Preserve the one
+original PREPARED/APPLIED snapshot for audit of its immutable original facts;
+tracked completion/publication extends the live tip separately. Complete original
+inventory validation is still required before any live extension is eligible.
+This bounds returned rows, not yet CPU/latency: resource scheduling and capacity
+measurement remain mandatory before normal entry/healthy gates activate.
 
 ## D. Acceptance and rollout
 

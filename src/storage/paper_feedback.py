@@ -68,7 +68,7 @@ class PaperFeedbackOutbox:
         if fault_hook is not None:fault_hook('AFTER_REPORT_BEFORE_OUTBOX')
         at=_stamp(runtime.service.clock())
         try:
-            with self.journal._write():
+            with self.journal._write('FEEDBACK_QUEUE',runtime.run_id):
                 self.journal._require_process(runtime.run_id,before.process_generation)
                 if runtime.coordinator.generation!=before.process_generation:
                     raise FeedbackError('PAPER_FEEDBACK_RUNTIME_GENERATION_CHANGED')
@@ -112,7 +112,7 @@ class PaperFeedbackOutbox:
     def _record(self,operation,status,artifact_hash=None):
         if status not in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED','UNAVAILABLE','CONFLICT'):
             raise FeedbackError('PAPER_FEEDBACK_PUBLICATION_STATUS_INVALID')
-        with self.journal._write():
+        with self.journal._write('FEEDBACK_STATUS'):
             row=self.journal._db.execute('SELECT artifact_hash,state FROM paper_feedback_publications WHERE operation_id=?',(operation,)).fetchone()
             if row is None or status in ('LOCAL_STAGED','CLOUD_ACKNOWLEDGED') and row['artifact_hash']!=artifact_hash:
                 raise FeedbackError('PAPER_FEEDBACK_ACK_IDENTITY_CHANGED')

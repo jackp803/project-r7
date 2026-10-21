@@ -1,0 +1,87 @@
+test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit) ... FAIL
+test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management) ... ERROR
+test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof) ... ERROR
+test_generation_and_same_owner_pause_preserve_proof_without_granting_entry (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_generation_and_same_owner_pause_preserve_proof_without_granting_entry) ... FAIL
+test_original_applied_tail_can_publish_during_partial_audit (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_original_applied_tail_can_publish_during_partial_audit) ... FAIL
+test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory) ... FAIL
+test_partial_audit_completes_original_inventory_while_valid_appends_continue (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_partial_audit_completes_original_inventory_while_valid_appends_continue) ... FAIL
+test_unknown_sql_before_qualified_call_cannot_be_laundered_as_owned_append (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_unknown_sql_before_qualified_call_cannot_be_laundered_as_owned_append) ... ok
+
+======================================================================
+ERROR: test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 86, in test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management
+    self.finish()
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 15, in finish
+    def finish(self):return self.audit.finish(budget=1)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_audit.py", line 22, in finish
+    progress=self.journal.history_audit_step('run-1',maximum_rows=budget)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 496, in history_audit_step
+    return self._history.step(run_id,maximum_rows=maximum_rows)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_history_audit.py", line 206, in step
+    raise RuntimeValidationError('PAPER_HISTORY_AUDIT_INVALID','Core process history audit refused') from None
+storage.runtime_models.RuntimeValidationError: Core process history audit refused
+
+======================================================================
+ERROR: test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 78, in test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof
+    self.journal.complete('run-1','tick-2',self.helper.helper.state(),{},now=NOW,process_generation=99)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 337, in complete
+    self._require_process(run_id, process_generation)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 297, in _require_process
+    if current != process_generation: _conflict('Paper effect writer belongs to a stale process generation')
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 46, in _conflict
+    raise RuntimeConflictError('PAPER_OPERATION_CONFLICT', message)
+storage.runtime_models.RuntimeConflictError: Paper effect writer belongs to a stale process generation
+
+======================================================================
+FAIL: test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 20, in test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit
+    self.assertTrue(self.journal.history_audit_ready('run-1'),'Qualified PREPARE lost owned audit')
+AssertionError: False is not true : Qualified PREPARE lost owned audit
+
+======================================================================
+FAIL: test_generation_and_same_owner_pause_preserve_proof_without_granting_entry (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_generation_and_same_owner_pause_preserve_proof_without_granting_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 59, in test_generation_and_same_owner_pause_preserve_proof_without_granting_entry
+    self.assertTrue(self.journal.history_audit_ready('run-1'))
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_original_applied_tail_can_publish_during_partial_audit (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_original_applied_tail_can_publish_during_partial_audit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 53, in test_original_applied_tail_can_publish_during_partial_audit
+    self.assertNotEqual(self.journal.history_audit_progress('run-1').status,'HISTORY_AUDIT_REQUIRED')
+AssertionError: 'HISTORY_AUDIT_REQUIRED' == 'HISTORY_AUDIT_REQUIRED'
+
+======================================================================
+FAIL: test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 46, in test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory
+    self.assertNotEqual(self.journal.history_audit_progress('run-1').status,'HISTORY_AUDIT_REQUIRED')
+AssertionError: 'HISTORY_AUDIT_REQUIRED' == 'HISTORY_AUDIT_REQUIRED'
+
+======================================================================
+FAIL: test_partial_audit_completes_original_inventory_while_valid_appends_continue (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_partial_audit_completes_original_inventory_while_valid_appends_continue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 34, in test_partial_audit_completes_original_inventory_while_valid_appends_continue
+    self.assertEqual(after.verified_rows,before.verified_rows,'Normal append reset partial audit cursor')
+AssertionError: 0 != 1 : Normal append reset partial audit cursor
+
+----------------------------------------------------------------------
+Ran 8 tests in 2.276s
+
+FAILED (failures=5, errors=2)

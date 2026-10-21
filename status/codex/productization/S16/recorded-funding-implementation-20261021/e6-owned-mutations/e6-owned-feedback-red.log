@@ -1,0 +1,14 @@
+test_normal_owner_uses_one_process_canonical_connection_and_feedback_keeps_owned_proof (tests.product.test_paper_encoded_checkpoint_consumers.EncodedCheckpointConsumerTests.test_normal_owner_uses_one_process_canonical_connection_and_feedback_keeps_owned_proof) ... FAIL
+
+======================================================================
+FAIL: test_normal_owner_uses_one_process_canonical_connection_and_feedback_keeps_owned_proof (tests.product.test_paper_encoded_checkpoint_consumers.EncodedCheckpointConsumerTests.test_normal_owner_uses_one_process_canonical_connection_and_feedback_keeps_owned_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_encoded_checkpoint_consumers.py", line 64, in test_normal_owner_uses_one_process_canonical_connection_and_feedback_keeps_owned_proof
+    self.assertIs(self.case.service.canonical._store._connection,self.journal._db,
+AssertionError: <sqlite3.Connection object at 0x000001E1678F44F0> is not <sqlite3.Connection object at 0x000001E1678F4310> : Normal PAPER owner still opens an untracked canonical writer connection
+
+----------------------------------------------------------------------
+Ran 1 test in 4.154s
+
+FAILED (failures=1)

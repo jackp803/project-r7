@@ -60,6 +60,19 @@ class EncodedCheckpointConsumerTests(unittest.TestCase):
         try:self.flow()._paper_lineage(self.journal._db,self.row,self.document)
         except ValueError:self.fail('Native report lineage reader rejects exact encoded E6 checkpoint')
 
+    def test_normal_owner_uses_one_process_canonical_connection_and_feedback_keeps_owned_proof(self):
+        self.assertIs(self.case.service.canonical._store._connection,self.journal._db,
+            'Normal PAPER owner still opens an untracked canonical writer connection')
+        for _ in range(100):
+            self.journal.history_audit_step(self.case.ref.run_id,maximum_rows=8)
+            if self.journal.history_audit_ready(self.case.ref.run_id):break
+        self.assertTrue(self.journal.history_audit_ready(self.case.ref.run_id))
+        operation=self.outbox.queue(self.case.runtime)
+        self.assertTrue(self.journal.history_audit_ready(self.case.ref.run_id),'Actual report queue revoked process audit')
+        row=self.outbox.pending(1)[0]
+        self.outbox._record(operation,'LOCAL_STAGED',row[2])
+        self.assertTrue(self.journal.history_audit_ready(self.case.ref.run_id),'Actual outbox status revoked process audit')
+
     def test_corrupt_physical_checkpoint_never_becomes_report_history_or_native_diagnostic_pass(self):
         db=self.journal._db
         trigger=db.execute("SELECT sql FROM sqlite_master WHERE name='paper_process_checkpoints_no_update'").fetchone()[0]
@@ -67,6 +80,7 @@ class EncodedCheckpointConsumerTests(unittest.TestCase):
         db.execute("UPDATE paper_process_checkpoints SET state_json='{}' WHERE run_id=? AND revision=?",
             (self.case.ref.run_id,self.row['run_revision']))
         db.execute(trigger)  # Restore exact schema; refusal must check actual bytes.
+        db.commit()  # External diagnostic readers must see the actual fault.
         with self.assertRaises(PublicationHistoryError):self.reader.history(self.case.ref.run_id)
         with self.assertRaises(ValueError):self.flow()._run_facts()
         with self.assertRaises(ValueError):self.flow()._paper_lineage(db,self.row,self.document)

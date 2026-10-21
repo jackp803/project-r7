@@ -1,0 +1,104 @@
+test_active_lender_transaction_rejected_without_rollback_or_commit (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_active_lender_transaction_rejected_without_rollback_or_commit) ... FAIL
+test_actual_missing_parent_error_rolls_back_before_process_writer_resumes (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_actual_missing_parent_error_rolls_back_before_process_writer_resumes) ... FAIL
+test_base_exception_rolls_back_actual_writer_and_revokes_history_proof (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_base_exception_rolls_back_actual_writer_and_revokes_history_proof) ... FAIL
+test_conflict_is_still_durable_and_successful_prefix_is_not_rolled_back_as_bundle (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_conflict_is_still_durable_and_successful_prefix_is_not_rolled_back_as_bundle) ... FAIL
+test_only_one_borrower_and_closing_it_never_closes_lender (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_only_one_borrower_and_closing_it_never_closes_lender) ... FAIL
+test_owning_close_retains_its_original_connection_ownership (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_owning_close_retains_its_original_connection_ownership) ... FAIL
+test_success_and_exact_replay_keep_process_connection_idle_and_audit_valid (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_success_and_exact_replay_keep_process_connection_idle_and_audit_valid) ... FAIL
+test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_each_real_intent_effect_publication_and_exact_replay_preserves_completed_audit) ... ok
+test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_existing_trigger_outside_closed_write_footprint_revokes_not_blocks_management) ... ok
+test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_external_commit_during_owned_write_and_failed_effect_never_preserve_proof) ... ok
+test_generation_and_same_owner_pause_preserve_proof_without_granting_entry (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_generation_and_same_owner_pause_preserve_proof_without_granting_entry) ... ok
+test_new_publication_before_original_lexical_cursor_is_not_part_of_frozen_inventory (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_new_publication_before_original_lexical_cursor_is_not_part_of_frozen_inventory) ... ok
+test_original_applied_tail_can_publish_during_partial_audit (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_original_applied_tail_can_publish_during_partial_audit) ... ok
+test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_original_unfinished_intent_can_complete_without_changing_frozen_audit_inventory) ... ok
+test_other_legacy_run_can_write_without_using_new_profile_reader (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_other_legacy_run_can_write_without_using_new_profile_reader) ... ERROR
+test_partial_audit_completes_original_inventory_while_valid_appends_continue (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_partial_audit_completes_original_inventory_while_valid_appends_continue) ... ok
+test_unknown_sql_before_qualified_call_cannot_be_laundered_as_owned_append (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_unknown_sql_before_qualified_call_cannot_be_laundered_as_owned_append) ... ok
+
+======================================================================
+ERROR: test_other_legacy_run_can_write_without_using_new_profile_reader (tests.storage.test_paper_history_owned_writes.PaperHistoryOwnedWriteTests.test_other_legacy_run_can_write_without_using_new_profile_reader)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_history_owned_writes.py", line 94, in test_other_legacy_run_can_write_without_using_new_profile_reader
+    self.journal.prepare('legacy','legacy-tick',{},expected_revision=0,now=NOW)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 304, in prepare
+    with self._write('PREPARE',run_id):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 214, in _write
+    with self._history.owned_write(kind,run_id):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_history_audit.py", line 149, in owned_write
+    current=self.journal.recover_current(run_id)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 477, in recover_current
+    if context is None:_invalid('Bounded Paper recovery requires a marked published-prefix profile')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\storage\paper_process.py", line 42, in _invalid
+    raise RuntimeValidationError('PAPER_CHECKPOINT_INVALID', message)
+storage.runtime_models.RuntimeValidationError: Bounded Paper recovery requires a marked published-prefix profile
+
+======================================================================
+FAIL: test_active_lender_transaction_rejected_without_rollback_or_commit (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_active_lender_transaction_rejected_without_rollback_or_commit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+======================================================================
+FAIL: test_actual_missing_parent_error_rolls_back_before_process_writer_resumes (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_actual_missing_parent_error_rolls_back_before_process_writer_resumes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+======================================================================
+FAIL: test_base_exception_rolls_back_actual_writer_and_revokes_history_proof (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_base_exception_rolls_back_actual_writer_and_revokes_history_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+======================================================================
+FAIL: test_conflict_is_still_durable_and_successful_prefix_is_not_rolled_back_as_bundle (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_conflict_is_still_durable_and_successful_prefix_is_not_rolled_back_as_bundle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+======================================================================
+FAIL: test_only_one_borrower_and_closing_it_never_closes_lender (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_only_one_borrower_and_closing_it_never_closes_lender)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+======================================================================
+FAIL: test_owning_close_retains_its_original_connection_ownership (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_owning_close_retains_its_original_connection_ownership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+======================================================================
+FAIL: test_success_and_exact_replay_keep_process_connection_idle_and_audit_valid (tests.storage.test_paper_borrowed_canonical.PaperBorrowedCanonicalTests.test_success_and_exact_replay_keep_process_connection_idle_and_audit_valid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_borrowed_canonical.py", line 17, in setUp
+    self.assertTrue(callable(getattr(self.process,'borrow_canonical_journal',None)),
+AssertionError: False is not true : Trusted non-owning canonical facade missing
+
+----------------------------------------------------------------------
+Ran 17 tests in 4.900s
+
+FAILED (failures=7, errors=1)

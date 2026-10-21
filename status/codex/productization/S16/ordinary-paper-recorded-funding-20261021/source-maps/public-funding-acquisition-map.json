@@ -1,0 +1,61 @@
+{
+  "kind": "STATIC_READONLY_INTEGRATION_MAP_NOT_ACCEPTANCE",
+  "candidate_head_as_supplied": "729f1937",
+  "reviewer_execution": "NONE",
+  "provider_calls": 0,
+  "inspected_public_files": 12,
+  "history": {
+    "refs": [
+      "src/application/datasets/okx_public.py:49 PublicTransport",
+      "src/application/datasets/okx_public.py:143 _funding",
+      "src/application/datasets/okx_public.py:183 acquire_okx_public_dataset",
+      "src/application/datasets/public_capture.py:39 public_capture_inventory"
+    ],
+    "facts": "BTC-USDT-SWAP settled realizedRate only; exact [start,end) events, fixed 8h grid, duplicate/missing rejection, no imputation. Immutable pre-I/O attempt, raw response/failure bytes, receive timestamps, counters, SHA256 receipts, parquet byte/logical hashes and dataset manifest. This is historical research acquisition, not live Paper funding completeness."
+  },
+  "live": {
+    "refs": [
+      "src/application/paper/public_acquisition.py:58 PaperPublicTransport",
+      "src/application/paper/public_feed.py:50 run_market_acquire",
+      "src/application/paper/public_feed.py:70 check_batch_once",
+      "src/application/paper/ordinary_setup.py:198 ordinary_paper_worker"
+    ],
+    "facts": "Current allowlist is ticker plus candles; event_for has no funding payload. Independent fixed child has bounded time/output, runtime-token/config/selection guards, cancellation/reap and private immutable public-market-observations/<token>/<attempt>/capture/acquisition.json plus request audit. PublicMarketFeed summarizes actual counters; owner protection ticks remain separate."
+  },
+  "canonical": {
+    "refs": [
+      "src/application/paper/engine.py:233 _close",
+      "src/execution/funding.py:138 _validate_registered_model",
+      "src/position/trade_result.py:630 _validate_canonical_funding_evidence"
+    ],
+    "facts": "Close hardcodes PaperZero. Its E4 producer rejects alternate semantics. Existing E5 allocation profile accepts PAPER_MODEL with version/source-material hash, exact original plan/position/interval, completeness watermark, signed USDT cost and INCLUDED positive record count; ZERO_CONFIRMED requires proven zero records/cost. No E5 schema change appears necessary. Validator acceptance alone does not create a trusted producer."
+  },
+  "minimum_application_increment": [
+    "Add a separately versioned, explicitly selected public-rate Paper allocation producer; preserve PaperZero identity and never label it BROKER_LEDGER or actual account funding. Require successful initial settled-source capture before observation admission.",
+    "Extend the independent child with a fixed funding endpoint and immutable normalized event/coverage receipts; retain actual request accounting. Bind results to original run/position/config and persist accepted captures before allocation.",
+    "Replace only the ordinary close funding seam with trusted allocation evidence. Persist genuine flat/fills and a recoverable funding-pending condition before waiting; never resend a close or block protection on network availability."
+  ],
+  "missing_facts": {
+    "intervals": "Historical fixed 8h grid cannot prove variable live settlement schedules; retain actual event intervals and closed pagination coverage, not predicted rates.",
+    "notional": "Historical convention is entry-fill price × base quantity. Event mark-price funding needs actual settlement mark and contemporaneous exposure/partial-fill history; ticker last is not settlement mark. Select an explicit labeled convention.",
+    "publication": "Settled rates can publish late. Empty/missing pages do not prove zero; await actual completeness without inventing a watermark.",
+    "recovery": "Bounded overlapping retries, durable deduplication/conflict refusal, source hashes and allocation idempotency must survive successor generations and backup/restore."
+  },
+  "limits": [
+    "Static mapping only; no policies selected, network activity, native execution, qualification or real-forward credit."
+  ],
+  "source_sha256": {
+    "src/application/datasets/okx_public.py": "2bae268f5897e5273d0697d2bdc3583d13cee9702a31ca3b5c738fe43a0f3717",
+    "src/application/datasets/public_capture.py": "bfcb3db23a2fbf7df4bd0c239a2b8c9746fd9d446082bc77012d04dd4f7dac05",
+    "src/application/paper/public_acquisition.py": "cfca0a3253a1fe9d7ecd86b9bb415f351b5dd2c27a1cf2df3944f353a44c3eb9",
+    "src/application/paper/public_feed.py": "9c5344bd4e184bde1d9949a5b01e9bdc15aadfc9e88f0a7180591484478dbf9a",
+    "src/application/paper/public_market.py": "aed6e6b31aa1bce574ff0543d3411245e3f173165d803e033adb697756726286",
+    "src/application/paper/engine.py": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6",
+    "src/execution/funding.py": "63a9b76325b60c7e94abb9496ddec4dbecbafd69f71ab3bac957ab512cbad56f",
+    "src/position/trade_result.py": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b",
+    "src/application/paper/service.py": "cfc7749f987759ff6b01aab5a4b577f7a10cf5bb86033d6e9d9d3b5beb536cb3",
+    "src/application/paper/worker.py": "b231c51913419ade5ad6b3d816c4a513e7092dfeab25e550c4bfed2436d435c1",
+    "src/application/paper/entrypoint.py": "335defdecfa3fe1cf92fd87e12566c11d9551b0d903bf26607f8310445f049fd",
+    "src/application/paper/ordinary_setup.py": "94d20ee9338bdd9a7923885bc5a0aecd362349852478cc1adbc6ea7489cf7007"
+  }
+}

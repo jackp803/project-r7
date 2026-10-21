@@ -1,0 +1,85 @@
+{
+  "kind": "BOUNDED_PUBLIC_SUMMARY_PRIOR_HOLDOUT_HISTORY_MAP",
+  "execution": "NONE",
+  "files_read": 7,
+  "limit": 12,
+  "scope": "Sanitized summary/manifest metadata only; no raw price/PnL/OOS rows, parquet, provider bodies, private profile DB/config/auth or personal files",
+  "proposed_final_oos": {
+    "start": "2026-09-30T00:00:00Z",
+    "end": "2026-10-20T00:00:00Z",
+    "independence": "UNRESOLVED;NOT_CERTIFIED_FROM_PUBLIC_SUMMARY_ABSENCE"
+  },
+  "facts": [
+    {
+      "ref": "ART/public-c62b11a-research/data/datasets/btc-4h-20260801-20261018/acquisition.json",
+      "fact": "Prior actual public capture covers2026-08-01..2026-10-18 with4684h bars/234funding rows/8requests8responses; manifestd5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18",
+      "overlap": "Proposed2026-09-30..2026-10-18 already existed in prior captured data;2026-10-18..20 is outside this particular old manifest, not proved globally unseen"
+    },
+    {
+      "ref": "ART/public-c62b11a-research/engineering-diagnostic.json",
+      "fact": "Actual complete diagnostic job job-20cbd36a53f18e851231575c48798d9e219be2942b7915f5d3a261e8fed8fd83 -> owner run-3ec79ce73405c944cd2b1ebad77975b6fa9c253d4449b92dbd11bb6a7fae2b20, submission engineering-btc4h-realdata, policy engineering-development-only, content034645d0279cbff987828f59d7ba9a7791f2c9dc4774d1a76b91587bab87bcc7",
+      "declared_split": "training08-01..08-22;development08-22..09-22;reservedsealed09-22..10-18",
+      "outcome_metadata": "BLOCKED:MISSING_PROMOTION_POLICY,ROBUSTNESS_NOT_RUN,SEALED_OOS_NOT_RUN; sealed_oos stringNOT_RUN; original backtest_e6_evidence_idevidence-57f08785-9d92-4a10-b24b-a2bd73f414d9"
+    },
+    {
+      "ref": "ART/unattended-aa2d00a-first/checkpoint.json",
+      "fact": "Same prior capture manifest and engineering split/cost commitments reused, no new provider calls; authoring-example-four-hour@0.2.1 content1bf7e043a7bce1ab55552f302c9ac342062cb54a392392b6e7e9dff2f9b8e2ac",
+      "owner_run_id": "run-a7ad693bad056b6eeb94c75216690acea6b0b0470f3ee46b51a6b8ab615a95ed",
+      "submission_id": "engineering-unattended-aa2d00a",
+      "holdout_observed": false,
+      "sealed_oos_status": "NOT_RUN",
+      "robustness_status": "NOT_RUN"
+    },
+    {
+      "ref": "ART/unattended-bffc558-first/checkpoint.json",
+      "fact": "Same prior capture manifest and engineering split/cost commitments reused, no new provider calls; same0.2.1 strategycontent",
+      "owner_run_id": "run-fa74b2fefac69bb940985bad3d488db8d41db8fc328d9e080a8fbb113c83dc4f",
+      "submission_id": "engineering-unattended-bffc558",
+      "holdout_observed": false,
+      "sealed_oos_status": "NOT_RUN",
+      "robustness_status": "NOT_RUN"
+    }
+  ],
+  "unknowns": [
+    "Public summaries inspected do not expose canonical research family_id, trial IDs/counts, or a complete cross-store holdout observation ledger",
+    "runtime_family=project-r7-e2-strategy-runtime is an engine identifier, not research family_id",
+    "Known holdout_observedfalse/SEALED_OOS_NOT_RUN only describes these retained runs; it does not prove no other prior evaluation, human inspection or exposure",
+    "The0.2.2 engineering amendment cannot erase0.2.0/0.2.1 family/history; no newfamily or independentOOS claim is authorized by this map",
+    "Metadata does not establish scored bars beyond declared split, unobserved status for10-18..20, or global absence of other research stores"
+  ],
+  "root_next_step": "Keep proposed finalOOS independence unresolved until normal canonical owner history/family/trial/holdout lineage is reconciled across relevant stores using separately authorized bounded read-only owner ports; do not rename family/reset history or infer unobserved from summaries. Existing diagnostic outcome remains diagnostic.",
+  "evidence_hashes": [
+    {
+      "ref": "ART/public-c62b11a-research/engineering-diagnostic.json",
+      "sha256": "sha256:b6df2c373169d814397c32b700708d58a5060165e27f929960528cf9439e59e6"
+    },
+    {
+      "ref": "ART/public-c62b11a-research/data/datasets/btc-4h-20260801-20261018/dataset.json",
+      "sha256": "sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18"
+    },
+    {
+      "ref": "ART/public-c62b11a-research/data/datasets/btc-4h-20260801-20261018/acquisition.json",
+      "sha256": "sha256:5b91fbda7e14538447d2da24205fef37895e304346b9f200501e6b11ba4eef66"
+    },
+    {
+      "ref": "ART/unattended-aa2d00a-first/checkpoint.json",
+      "sha256": "sha256:3a6a1c3cd94b22c7510aa91165a6658ce96c7eacaecd39ae0304cdd09beff3b1"
+    },
+    {
+      "ref": "ART/unattended-bffc558-first/checkpoint.json",
+      "sha256": "sha256:8757cb3848f36c7ad630879fbcac2c53365f7013276938e3655be1f657e5c0fa"
+    },
+    {
+      "ref": "ART/unattended-bffc558-first/observed-owner-report/feedback.json",
+      "sha256": "sha256:38748165c7e77bccade75c253aca837a8c945ebedbc344d51769f083bed17be2"
+    },
+    {
+      "ref": "ART/str12-four-hour-bffc558-first/checkpoint.json",
+      "sha256": "sha256:6849bd4165ba34d556cbbe402cda4cd31a7fced137e084444d2553be8a3aa8d0"
+    }
+  ],
+  "new_capture": "Parent reports fresh88day528bars264funding9requests9responses with no research execution; not independently inspected in this bounded prior-history map",
+  "acceptance_credit": "NONE",
+  "provider_calls_by_reviewer": 0,
+  "credentials_access": "NONE"
+}

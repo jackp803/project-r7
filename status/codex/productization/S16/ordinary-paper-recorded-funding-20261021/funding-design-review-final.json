@@ -1,0 +1,36 @@
+{
+  "kind": "NARROW_STATIC_DESIGN_REPAIR_REVIEW_NOT_HUMAN_APPROVAL",
+  "execution": "NONE",
+  "critical": 0,
+  "important": 0,
+  "scope": "Only revised sections2/3.1 and prior findings; no broad re-review, implementation or runtime verification.",
+  "finding_disposition": [
+    {
+      "id": "FUND-DESIGN-I01",
+      "basis": "Section2 fixes fixed-point bounds, actual fill-product basis, deterministic ordering, isolated128-precision/exponent bounds with traps, no quantization, canonical zero and exact downstream decimal34 output or refusal. This removes ambient-context ambiguity.",
+      "status": "RESOLVED_IN_DESIGN"
+    },
+    {
+      "id": "FUND-DESIGN-I02",
+      "basis": "Section3.1 defines owner/config/model/generation-bound idle preflight, contiguous settled grid, actual clocks,60-second validity,5-second refresh, finite child/request/output/history limits, source transitions and entry/forward/protection/pending separation. Combined capture retention and cross-generation disk admission prevent directory/restart evasion.",
+      "status": "RESOLVED_IN_DESIGN"
+    }
+  ],
+  "conclusion": "No remaining Critical/Important finding in the inspected repair. Unchanged E5/E6 funding semantics remain compatible. Implementations must enforce these rules and satisfy recovery/normal-path/source/native checks before observation; design review supplies no execution or acceptance credit.",
+  "human_authority": "Technical compatibility review only; does not approve financial/model choices on behalf of the user.",
+  "reviewed_doc_hashes": [
+    {
+      "path": "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/FUNDING_MODEL_DESIGN.md",
+      "sha256": "177a0d2e565a8eefb8ef1fd5afc43da68d0e2e82e9d8b5338d095098207b9559"
+    },
+    {
+      "path": "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/DECISIONS.md",
+      "sha256": "edf6b0cf054dd8904b3b9e693b0cb76cc88f707130db43aa03dcf459de5f373d"
+    }
+  ],
+  "initial_review": {
+    "path": "funding-design-independent-review.json",
+    "sha256": "709ae3d5cbc2223c0739acfc2f6282e018e7261cd0b45c0845780501f3922a52",
+    "preserved": true
+  }
+}

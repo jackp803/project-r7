@@ -1,0 +1,54 @@
+{
+  "build_hash": "sha256:639a0390b56f904c62eb375b5c0e483f8e34c9faffb906e7f60ba6e67fc3b37e",
+  "capital": "NONE",
+  "commands": [
+    {
+      "command": "init-profile --config <PROFILE>/config.json --data-root <PROFILE>/data --instance-id r7-paper-recorded-funding-20261021 --port 8871 --execution-mode LOCAL_RESEARCH --enable-paper-runtime",
+      "exit_code": 0,
+      "result": "PROFILE_CREATED;RUNTIME_NOT_STARTED"
+    },
+    {
+      "command": "acquire-public-data --config <PROFILE>/config.json --dataset-id btc4h-selected-20261021 --start 2026-07-24T00:00:00Z --end 2026-10-20T00:00:00Z",
+      "exit_code": 0,
+      "public_requests": 9,
+      "public_responses": 9,
+      "result": "DATASET_ACQUIRED"
+    },
+    {
+      "command": "author-package --definition <DRAFT>/engineering-strategy-0.2.2.proposed.json --destination <PROFILE>/engineering-input-0.2.2 --submission-id engineering-btc4h-selected-20261021 --package-version 0.2 --notes <literal text, incorrect> --dataset-profile btc4h-realized-88d-20261021 --validation-profile selected-btc4h-validation-20261021 --robustness-profile selected-btc4h-robustness-20261021",
+      "exit_code": 1,
+      "product_bug": false,
+      "provider_requests": 0,
+      "reason": "CLI_NOTES_ARGUMENT_IS_A_FILE_PATH_NOT_LITERAL_TEXT",
+      "result": "LOCAL_STARTUP_VALIDATION_FAILED"
+    },
+    {
+      "command": "author-package <same definition/destination/IDs> --notes <PROFILE>/engineering-notes.md",
+      "exit_code": 0,
+      "manifest_hash": "sha256:d13d93b5c6823b925db12572dee5f1ddfcf5feb7e37db26e5a86d6abd874bf1c",
+      "provider_requests": 0,
+      "result": "AUTHORING_PACKAGE_CREATED"
+    }
+  ],
+  "credentials": "NONE",
+  "github_compute": "NOT_USED",
+  "invoked_executable": "<PROJECT>/installations/windows-bffc558-clean/R7.exe",
+  "kind": "ACTUAL_NATIVE_PUBLIC_PREPARATION",
+  "live": "NOT_STARTED",
+  "no_auth_or_receipt_copied": true,
+  "paper": "NOT_STARTED",
+  "qualification": "NOT_RUN",
+  "qualified_executable_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "real_time_observation": "NOT_STARTED",
+  "request_accounting": {
+    "cumulative_public_requests": 17,
+    "cumulative_public_responses": 17,
+    "new_public_requests": 9,
+    "new_public_responses": 9,
+    "previous_public_requests": 8,
+    "previous_public_responses": 8,
+    "private_requests": 0,
+    "provider_mutation": 0
+  },
+  "research": "NOT_RUN"
+}

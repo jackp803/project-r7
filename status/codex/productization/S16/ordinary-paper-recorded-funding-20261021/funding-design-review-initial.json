@@ -1,0 +1,47 @@
+{
+  "kind": "INDEPENDENT_STATIC_DESIGN_REVIEW_NOT_HUMAN_APPROVAL",
+  "execution": "NONE",
+  "critical": 0,
+  "important": 2,
+  "compatibility": "Compatible with unchanged funding-allocation-v0.1, E5 signed-cost/TradeResult and E6 immutable recovery semantics, provided the new registered source remains PAPER_MODEL. Public rates are observations; entry-fill notional and settlement allocation are modeled. No LIVE/private-account authority follows.",
+  "findings": [
+    {
+      "location": "FUNDING_MODEL_DESIGN.md:27-40",
+      "problem": "Bounded finite Decimal and sum(event_cost) do not yet specify precision/exponent/input-size limits, multiplication/summation context, rounding or exactness failure. Decimal operations can round under ambient context, changing financially material cost/hash across otherwise identical replay.",
+      "id": "FUND-DESIGN-I01",
+      "minimal_remedy": "Before implementation, fix the model-version arithmetic contract: input bounds, deterministic ordering, isolated precision derived from those bounds, rounding/quantization rule or trapped inexact rejection, and canonical signed zero. Existing ledger_funding.py:160-164 demonstrates isolated trapped-context aggregation; multiplication additionally needs coverage. Do not invent exchange rounding.",
+      "severity": "Important"
+    },
+    {
+      "location": "FUNDING_MODEL_DESIGN.md:46-52,70",
+      "problem": "The required pre-entry source-health check is named but has no executable eligibility/freshness predicate. Upper-bracket completeness describes finalized allocations, not how an as-yet-open run qualifies as healthy, loses eligibility or resumes forward healthy timing; capacity/retry bounds for new funding captures remain unselected.",
+      "id": "FUND-DESIGN-I02",
+      "minimal_remedy": "Specify source-owned successful captured coverage/grid/settled-event evidence, actual observation time and finite validity, refresh/error/capacity state transitions and explicit new-entry/forward gating before starting observation. Keep missing future upper bracket PENDING, never zero; preserve protective/close management independently. These are engineering model rules, not new financial thresholds.",
+      "severity": "Important"
+    }
+  ],
+  "positive_boundaries": "Conservative published upper bracket, fail-closed missing/changed grid, fixed exposure restriction, durable flat/pending separation, blocked next entry, immutable original clocks/lineage and versioned reports are consistent. Requirements demand real recovery/normal-path verification and new exact qualification; this review supplies none.",
+  "authority": "Recommendations are technical review only, not approval of human financial/model choices. No shared E5/E6 financial reinterpretation or generic new framework is required.",
+  "reviewed_hashes": [
+    {
+      "path": "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/FUNDING_MODEL_DESIGN.md",
+      "sha256": "21ab4541d5b63d411e5b5782afdb951f8ad1e3b188ecb9a5c39fca37028db6c7"
+    },
+    {
+      "path": "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/DECISIONS.md",
+      "sha256": "edf6b0cf054dd8904b3b9e693b0cb76cc88f707130db43aa03dcf459de5f373d"
+    },
+    {
+      "path": "src/execution/ledger_funding.py",
+      "sha256": "335c15a5d7202e28422e10c667deabc5f258d277da14e25991721cf64b35f210"
+    },
+    {
+      "path": "src/application/paper/engine.py",
+      "sha256": "7f00336c18ce9f5eef276aea1c90ac94860ef145f397761fafa46e91d479d9b6"
+    },
+    {
+      "path": "contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md",
+      "sha256": "9a1383c5ef51fd699b2d343b680c8f7025f0f5aca2773f4288087e412e3381ef"
+    }
+  ]
+}

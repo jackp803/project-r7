@@ -1,3 +1,57 @@
+# Recorded-rate design adopted; implementation plan review pending — 2026-10-21
+
+User explicitly adopted FUNDING_MODEL_DESIGN.md recommendation: public settled
+realized rates times actual Paper entry-fill notional (not exchange mark-price
+billing). Exact design hash retained in operator-decision.json; no product code
+implemented yet. Initial static2Important findings (arithmetic/source health)
+retained; revised sections final0Critical/0Important, executionNONE.
+Implementation plan docs/superpowers/plans/2026-10-21-recorded-paper-funding.md
+written/self-reviewed; required human plan-review question pending. Preserve
+original inline local execution after that review, no per-task continue questions.
+Existing numeric/engineering/loss-control choices already resolved. No new PM
+mapping/financial/private-account permission is needed for this selected model.
+Source/build qualified bffc unchanged; actual public data17/17 cumulative and
+engineering0.2.2 inputs retained below. MasterIN_PROGRESS; PaperNOT_STARTED.
+
+---
+
+# Numeric policy selected; actual public rates required before Paper — 2026-10-21
+
+Same task/branch and qualified bffc executable; no product source changed.
+User accepted full numeric/engineering draft, refused zero funding and requires
+actual public settled-rate model before observation. Current loss controls are
+accepted this round because future amendments remain possible: keep versioned
+hash/generation/audit/revalidation; no retroactive PASS or silent position rebind.
+Do not keep asking for those three choices or old four PM mappings.
+See S16/ordinary-paper-recorded-funding-20261021/DECISIONS.md, operator-decision.json
+and concrete FUNDING_MODEL_DESIGN.md (written for review, not implemented).
+
+Actual qualified native CLI created a fresh profile inside project, acquired
+88days2026-07-24..10-20 public data:528bars264settled funding, gaps/duplicates0,
+new requests/responses9/9, cumulative17/17.31public capture files byte-verified.
+Native author-package created actual engineering0.2.2 with notes;2payload hashes
+verified. Initial wrong --notes literal invocation preserved and corrected to
+file path; no product repair or acceptance credit. No research/model tests yet.
+No old auth/DB/receipt copied. No runtime/ordinary Paper/real-time observation.
+
+Canonical funding profile9.2 permits new PAPER_MODEL/INCLUDED source; no shared
+PnL/schema reinterpretation or private account authority required. New E4 source,
+public capture/completeness, durable flat/funding-pending and report integration
+still needed. Recommended model uses actual settled rates with disclosed actual
+entry-fill notional, matching existing historical research, not exchange mark-
+price billing. Missing/unpublished data never zero; current risk limits remain.
+Prior public capture overlaps proposed OOS;7metadata-file map shows known owners
+said holdout not observed, but full family/trial/holdout reconciliation remains
+required. Neither a new version/profile nor absence in summaries proves unseen.
+
+Do not start observation until required model verification, new exact-clean native
+qualification in its owning store, actual research/CANDIDATE with selected risk,
+retention/recovery and all normal owner/PaperStart gates pass. Original target,
+Ubuntu24/26/cloud/SSH/forward samples remain incomplete; MasterIN_PROGRESS.
+Private0/credentialsNONE/mutation0/capitalNONE/GitHub computeNOT_USED/main not merged.
+
+---
+
 # Ordinary Paper policy draft prepared; human selection pending — 2026-10-21
 
 Same Master/task/branch; qualified bffc558 executable unchanged. User answered

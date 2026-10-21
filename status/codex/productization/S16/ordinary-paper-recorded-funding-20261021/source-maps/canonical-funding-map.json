@@ -1,0 +1,85 @@
+{
+  "kind": "STATIC_ADVISORY_NOT_IMPLEMENTATION_OR_ACCEPTANCE",
+  "candidate_revision": "729f19372202332839c06a0569ea74e363d6eef8",
+  "execution": "NONE",
+  "verdict": "Reuse unchanged funding-allocation-v0.1 and TradeResult INCLUDED semantics with source_kind=PAPER_MODEL; new registered E4 model/ordinary integration required, not a shared schema or financial-authority extension.",
+  "facts": [
+    {
+      "text": "PAPER_MODEL is explicit versioned E4 simulation truth; BROKER_LEDGER means authoritative broker/account ledger. Section9.2 expressly permits deterministic simulated funding events as INCLUDED. Public rates applied to synthetic positions remain PAPER_MODEL, never actual account funding.",
+      "ref": "contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md:95,168,261,281,310"
+    },
+    {
+      "text": "Current registries are concrete closed implementations: exact registered PaperZero model, or issuer-bound FIXTURE ledger source. Neither accepts a new public-rate model by changing strings or supplying caller dictionaries.",
+      "ref": "src/execution/funding.py:138,315; src/execution/ledger_funding.py:182; src/application/trading/funding_owner.py:25"
+    },
+    {
+      "text": "E5 accepts PAPER_MODEL or BROKER_LEDGER, INCLUDED with >=1 record and finite signed USDT cost, including net-zero records. Positive cost subtracts; negative cost credits. Exact plan/position/symbol/first-fill-to-flat interval and complete watermark required. E5 does not acquire rates or certify their source.",
+      "ref": "src/position/trade_result.py:37,630,696,841; contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md:547,554"
+    },
+    {
+      "text": "E6 validates shape/status/completeness/identity, persists immutable evidence, rejects same-lineage conflicting allocation, binds TradeResult cost/status and recovers original graph. Storage acceptance is not source authority; it cannot manufacture completeness or choose conflicting truth.",
+      "ref": "src/storage/_runtime_validation.py:420; src/storage/_paper_runtime.py:671,804,1101,1146; src/storage/runtime.py:168"
+    },
+    {
+      "text": "Ordinary policy and closed report validator currently hardcode zero funding. These real integration blockers require additive versioned model selection/report support; existing zero histories must retain their original interpretation.",
+      "ref": "src/application/paper/policy.py:57; src/application/cloud/paper_feedback.py:66"
+    }
+  ],
+  "recommended_design": [
+    "Register one E4-owned immutable public-recorded-rate Paper model/version, retaining PAPER_MODEL provenance. Normalize actual archived public observations into deterministic model allocation records; hash ordered source/model material, coverage and exact lineage.",
+    "Define settlement timestamps, synthetic signed quantity/notional valuation across fills, Decimal rounding and complete historical coverage explicitly. Public rates alone do not establish charged account amounts; unavailable/partial/ambiguous coverage emits no final evidence.",
+    "Reuse half-open [opened_at,first authoritative flat observation) allocation, stable17-field identity, duplicate rejection, signed aggregation and existing immutable outbox/recovery. INCLUDED with zero net stays INCLUDED; no applicable events permits ZERO_CONFIRMED only with affirmative complete model evidence."
+  ],
+  "authority_constraints": "Contract sections13.1-13.4 reserve source to E4, financial validation to E5, storage to E6 and compatibility to E7. Existing contract allows this modeled path; no demonstrated need for new private/LIVE/capital authority. Public transport authorization remains separate. No model price/settlement formula or completeness rule is invented here.",
+  "concrete_remaining": "Implement and test registered model plus ordinary close/report wiring and durable actual-public-source retention. The normative modeled-event contract exists; actual public funding allocation semantics/source coverage must be specified before claiming full modeled costs.",
+  "source_hashes": [
+    {
+      "path": "contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md",
+      "sha256": "9a1383c5ef51fd699b2d343b680c8f7025f0f5aca2773f4288087e412e3381ef"
+    },
+    {
+      "path": "contracts/CLOSE_TRADE_RESULT_PROFILE_V0_1.md",
+      "sha256": "749cea0bdcbe825e8057fb96c3420c7261959153749f7c57d57292a5cc86e9d0"
+    },
+    {
+      "path": "docs/adr/ADR-0006-funding-allocation-evidence-boundary.md",
+      "sha256": "1ef2b821d5d713953e27023ca657b2b068371bf2f70efb20b5fe54bf220c8538"
+    },
+    {
+      "path": "src/execution/funding.py",
+      "sha256": "63a9b76325b60c7e94abb9496ddec4dbecbafd69f71ab3bac957ab512cbad56f"
+    },
+    {
+      "path": "src/execution/ledger_funding.py",
+      "sha256": "335c15a5d7202e28422e10c667deabc5f258d277da14e25991721cf64b35f210"
+    },
+    {
+      "path": "src/position/trade_result.py",
+      "sha256": "6210ec6523d582e3d6c52aa4fe6bfea61af0f7ac18ece7018ab8367c6099ff2b"
+    },
+    {
+      "path": "src/storage/runtime.py",
+      "sha256": "5009bd6ddb4190de315321b92745ef82414daffd342e90a1a24d634964d15593"
+    },
+    {
+      "path": "src/storage/_paper_runtime.py",
+      "sha256": "e6c6a68c41724c5c9346428379fe13f2dd5e2aebe1b092c34bc5d5244fa2f6ff"
+    },
+    {
+      "path": "src/storage/_runtime_validation.py",
+      "sha256": "ce01815084ce22ae81394d9cd3eeeffe630b19d79ba8ec92279dc30920fe0f54"
+    },
+    {
+      "path": "src/application/trading/funding_owner.py",
+      "sha256": "dce60f0442d384c1485dc3bdd7bad8fa45d2e4504d4de18b38be23633795788d"
+    },
+    {
+      "path": "src/application/paper/policy.py",
+      "sha256": "a100451fa6f8a3075ffcaf2047df1cce0e064bdef814930a7014e7967bdbd15f"
+    },
+    {
+      "path": "src/application/cloud/paper_feedback.py",
+      "sha256": "26b22c4bab4f21e61f0e1ab0c8104c89fc08f9baeca822891dec63668fbafd61"
+    }
+  ]
+}

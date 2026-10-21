@@ -1,0 +1,9 @@
+{
+  "checks_passed": 49,
+  "initial_exit_code": 1,
+  "kind": "CHECKPOINT_HELPER_ATTEMPTS",
+  "model_or_product_acceptance": false,
+  "product_bug": false,
+  "reason": "Advisory review hashes use bare64hex; byte checker expected sha256 prefix. Actual bytes matched. Repaired reader to normalize the two explicit hash spellings without changing advisory or evidence bytes.",
+  "retry_exit_code": 0
+}

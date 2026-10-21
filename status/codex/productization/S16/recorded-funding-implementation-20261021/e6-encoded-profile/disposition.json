@@ -1,0 +1,83 @@
+{
+  "status": "NEW_RUN_PHYSICAL_PROFILE_AND_LOGICAL_CONSUMERS_COMPONENT_PASS_NOT_BOUNDED_RECOVERY_OR_PRODUCT_QUALIFICATION",
+  "parent_revision": "e130834d23ae3bd49993504c26433f32d1909b5c",
+  "source_hashes": {
+    "src/storage/migrations/0025_paper_state_storage_profiles.sql": "sha256:81e5d4edd2ece648abc90acae8c5525f00da01af0c6b8449e3d089aff86ff99c",
+    "src/storage/paper_process.py": "sha256:4ecfc6c68be2f849946db1e71daac322612d9ff0f91b155f74e69d60b1152ca6",
+    "src/application/cloud/publication_history.py": "sha256:067a658aaf4e3dabc7f198aeaba9bfb6c0a5608c50937d07138fdc9f0022a80b",
+    "tools/verify_paper_publication.py": "sha256:68624abdf0b2119a0c5be4c2ddb7e1b3692e435a733b3a07054c220cfd002ef0",
+    "tests/storage/test_paper_process_encoded_profile.py": "sha256:cc09d616405fe6cf8636771973e1ecd0257816436802d9e50b9693bbda1baf7d",
+    "tests/product/test_paper_encoded_checkpoint_consumers.py": "sha256:a56a9f9e26dd0f453a03e01cc3c04bd33d925c3650f8024d2c40c4764aec6116"
+  },
+  "retained": [
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-profile-red.log",
+      "sha256": "sha256:556f55ff5d681bb5d5c19464fdacc5a9e8e469ff8cdfa33decb2804be12083bb",
+      "original_sha256": "sha256:84202e4a597e8e281b2f234317260d34a82171a3dc8cda9f62c11d6cef27888a",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-profile-first-green.log",
+      "sha256": "sha256:03b6256774b9fdf9231a1d53e9eef3bfd4799cd87e4700f3c8b929d82ff12832",
+      "original_sha256": "sha256:339f528e9cbb07585f68a2e6055c35d359ad499f12fa079574e43c8b8a04822a",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-consumers-red.log",
+      "sha256": "sha256:7f69d00c8c60e445e8758c73c00998f009629833bedfae49f1eb3c9224038866",
+      "original_sha256": "sha256:16dcadd1ae81e9d70cbfa2b64706e2e01fbfd6797a4c9b272fcfe4f15fe3dcc6",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-consumers-green.log",
+      "sha256": "sha256:58b7b14447197582c329032f7d39bd2550669b70b2918a299672d2169a3f6666",
+      "original_sha256": "sha256:8fea061f1fad7138ab31c3608b1228b0ebb84b69758405aab9f4f2b6ea6a67a7",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-profile-full-storage.log",
+      "sha256": "sha256:03c33074de1932fb38d1ad330c68d6a563d34e18cce2c234cf1f3e6116018130",
+      "original_sha256": "sha256:381e2808d4d5387b1411d33d3a94b07bdc68883765ed44ff5732f86ba2968f0c",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-consumers-and-funding-final.log",
+      "sha256": "sha256:cce2352d928d0fd7db893e9af1929b98d827869dd4d17aaa6ab293e6294f1997",
+      "original_sha256": "sha256:d2f32a6a0079055153fcea53603b00d1c4b31aa8c9d98e238879ee0938c48c56",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-encoded-profile/e6-encoded-profile-final.log",
+      "sha256": "sha256:1aadc5d8549bec81298c749f7aea6dc11f64d42f2f00e9e48928be611f972435",
+      "original_sha256": "sha256:27497c8e9e73059b04f2681b2721a259e3e793164131c73cb322f56c89ef570e",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    }
+  ],
+  "tests": {
+    "final_encoded_profile": 22,
+    "full_storage_prior_extra_readonly_case": 258,
+    "report_history_and_outbox": 35,
+    "final_encoded_consumers_and_funding": 16,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "note": "OVERLAPPING_SCOPES_NOT_SUMMED_OR_NATIVE_QUALIFICATION"
+  },
+  "selected_ordinary_product_storage": "LEGACY_DEFAULT_UNCHANGED",
+  "encoded_activation": "EXPLICIT_SOURCE_TEST_ONLY",
+  "history_recovery": "EXISTING_FULL_SCAN_VALIDATION_RETAINED",
+  "bounded_current_recovery": "NOT_IMPLEMENTED",
+  "audit_permission": "NONE",
+  "new_native_qualification": "NOT_STARTED",
+  "ordinary_paper": "NOT_STARTED",
+  "real_time_observation": "NOT_STARTED",
+  "new_actual_provider_requests": 0,
+  "public_requests_cumulative": 20,
+  "public_responses_cumulative": 19,
+  "private_requests": 0,
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "credentials": "NONE",
+  "github_compute": "NOT_USED",
+  "next": "Continue approved subplan C prefix/full-audit and D bounded current management with private proof entry/healthy gates"
+}

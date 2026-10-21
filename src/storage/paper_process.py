@@ -24,6 +24,9 @@ from ._sqlite_registry import _apply_migrations, _connect
 from .runtime import _reject_provider_native_fields
 from ._runtime_validation import _reject_noncanonical
 from .runtime_models import RuntimeConflictError, RuntimeValidationError
+from .paper_state_codec import CODEC as ENCODED_STORAGE_PROFILE,encode_state,decode_state
+
+LEGACY_STORAGE_PROFILE='r7-paper-state-json-v0.1'
 
 _HASH = re.compile(r'sha256:[0-9a-f]{64}')
 _BINDING = {'namespace', 'mode', 'strategy_id', 'strategy_version',
@@ -112,6 +115,43 @@ def _read_json(raw, expected_hash):
     return value
 
 
+def _storage_profile(connection,run_id):
+    # Older read-only stores need no migration to read their legacy full JSON.
+    present=connection.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='paper_process_storage_profiles'").fetchone()
+    if present is None:return LEGACY_STORAGE_PROFILE
+    rows=connection.execute('SELECT profile FROM paper_process_storage_profiles WHERE run_id=? LIMIT 2',(run_id,)).fetchall()
+    if not rows:return LEGACY_STORAGE_PROFILE
+    if len(rows)!=1 or rows[0]['profile']!=ENCODED_STORAGE_PROFILE:_invalid('Stored Paper storage profile invalid')
+    return ENCODED_STORAGE_PROFILE
+
+
+def read_paper_checkpoint(connection,run_id,revision=None):
+    """Read-only E6 logical reader shared by journals and report consumers.
+
+    No owner attachment, migration, cached audit PASS or financial permission.
+    Every physical chain and full logical hash is independently checked.
+    """
+    _text(run_id)
+    if revision is not None and (type(revision) is not int or revision<0):_invalid('Explicit checkpoint revision required')
+    if revision is None:
+        row=connection.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? ORDER BY revision DESC LIMIT 1',(run_id,)).fetchone()
+    else:
+        row=connection.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? AND revision=?',(run_id,revision)).fetchone()
+    if row is None:_invalid('Paper checkpoint missing')
+    result=dict(row)
+    if _storage_profile(connection,run_id)==ENCODED_STORAGE_PROFILE:
+        def previous(at):
+            parent=connection.execute('SELECT state_json,state_hash FROM paper_process_checkpoints WHERE run_id=? AND revision=?',(run_id,at)).fetchone()
+            if parent is None:raise ValueError('Missing predecessor')
+            return parent['state_json'],parent['state_hash']
+        try:
+            result['state_json']=decode_state(row['state_json'],run_id=run_id,revision=row['revision'],
+                expected_hash=row['state_hash'],read_previous=previous)
+        except ValueError:_invalid('Stored Paper physical state corrupt')
+    _read_json(result['state_json'],result['state_hash'])
+    return result
+
+
 @dataclass(frozen=True)
 class PaperOperation:
     run_id: str
@@ -179,30 +219,32 @@ class PaperProcessJournal:
         return row
 
     def _checkpoint(self, run_id, revision=None):
-        if revision is None:
-            row = self._db.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? ORDER BY revision DESC LIMIT 1', (run_id,)).fetchone()
-        else:
-            row = self._db.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? AND revision=?', (run_id, revision)).fetchone()
-        if row is None: _invalid('Paper checkpoint missing')
         # Stored states were owner-validated before their write. Under a writer
         # transaction only verify retained bytes; E4 validation runs on recovery
         # after releasing the read snapshot, and on new effects before BEGIN.
-        _read_json(row['state_json'], row['state_hash'])
-        return row
+        return read_paper_checkpoint(self._db,run_id,revision)
 
-    def create_run(self, run_id, binding, initial_state, *, now):
+    def create_run(self, run_id, binding, initial_state, *, now,storage_profile=None):
         _text(run_id); binding_raw = _binding(binding); state_raw = _state(initial_state); at = _stamp(now)
+        if storage_profile is not None and (type(storage_profile) is not str or storage_profile not in
+                (LEGACY_STORAGE_PROFILE,ENCODED_STORAGE_PROFILE)):_invalid('Unsupported Paper storage profile')
         with self._write():
             existing = self._db.execute('SELECT * FROM paper_process_runs WHERE run_id=?', (run_id,)).fetchone()
             if existing:
+                if storage_profile is not None and storage_profile!=_storage_profile(self._db,run_id):
+                    _conflict('Existing Paper storage profile changed')
                 first = self._checkpoint(run_id, 0)
                 if existing['binding_json'] != binding_raw or first['state_json'] != state_raw:
                     _conflict('Existing Paper run identity or initial state changed')
             else:
                 self._db.execute('INSERT INTO paper_process_runs VALUES (?,?,?,?)',
                                  (run_id, binding_raw, _digest(binding_raw), at))
+                physical=state_raw
+                if storage_profile==ENCODED_STORAGE_PROFILE:
+                    self._db.execute('INSERT INTO paper_process_storage_profiles VALUES (?,?,?)',(run_id,storage_profile,at))
+                    physical=encode_state(state_raw,run_id=run_id,revision=0)
                 self._db.execute('INSERT INTO paper_process_checkpoints VALUES (?,0,NULL,?,?,?)',
-                                 (run_id, state_raw, _digest(state_raw), at))
+                                 (run_id, physical, _digest(state_raw), at))
         return self.recover(run_id)
 
     def operation(self, run_id, operation_id):
@@ -280,8 +322,11 @@ class PaperProcessJournal:
                 self._db.execute('INSERT INTO paper_process_effects VALUES (?,?,?,?,?,?,?)',
                     (run_id, operation_id, revision, outcome_raw, outcome_hash,
                      self._effect_hash(run_id, operation_id, state_hash, outcome_hash), at))
+                physical=state_raw
+                if _storage_profile(self._db,run_id)==ENCODED_STORAGE_PROFILE:
+                    physical=encode_state(state_raw,run_id=run_id,revision=revision,previous_raw=current['state_json'])
                 self._db.execute('INSERT INTO paper_process_checkpoints VALUES (?,?,?,?,?,?)',
-                    (run_id, revision, operation_id, state_raw, state_hash, at))
+                    (run_id, revision, operation_id, physical, state_hash, at))
         return self.operation(run_id, operation_id)
 
     def mark_published(self, run_id, operation_id, effect_hash, *, now):

@@ -1,0 +1,230 @@
+test_broker_domain_validation_runs_outside_database_transactions (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_broker_domain_validation_runs_outside_database_transactions) ... FAIL
+test_changed_identity_namespace_and_float_or_secret_fields_rejected (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_changed_identity_namespace_and_float_or_secret_fields_rejected) ... FAIL
+test_changed_profile_type_or_unsupported_version_refuses_before_run_creation (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_changed_profile_type_or_unsupported_version_refuses_before_run_creation) ... FAIL
+test_corrupt_historical_physical_row_refuses_full_recovery_even_with_independent_current_keyframe (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_corrupt_historical_physical_row_refuses_full_recovery_even_with_independent_current_keyframe) ... FAIL
+test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication) ... FAIL
+test_deltas_save_actual_sqlite_checkpoint_text_without_losing_any_revision (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_deltas_save_actual_sqlite_checkpoint_text_without_losing_any_revision) ... FAIL
+test_existing_legacy_run_cannot_be_silently_upgraded_or_gain_profile_marker (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_existing_legacy_run_cannot_be_silently_upgraded_or_gain_profile_marker) ... FAIL
+test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely) ... FAIL
+test_identical_completed_retry_returns_original_without_new_checkpoint (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_identical_completed_retry_returns_original_without_new_checkpoint) ... FAIL
+test_initial_profile_and_checkpoint_rollback_together (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_initial_profile_and_checkpoint_rollback_together) ... FAIL
+test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox) ... FAIL
+test_new_effect_waits_for_previous_canonical_publication (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_new_effect_waits_for_previous_canonical_publication) ... FAIL
+test_old_process_cannot_complete_an_effect_after_restart (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_old_process_cannot_complete_an_effect_after_restart) ... FAIL
+test_physical_envelope_preserves_logical_state_and_effect_identity_after_reopen (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_physical_envelope_preserves_logical_state_and_effect_identity_after_reopen) ... FAIL
+test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary) ... FAIL
+test_profile_is_immutable_even_with_replace_and_recursive_triggers_off (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_profile_is_immutable_even_with_replace_and_recursive_triggers_off) ... FAIL
+test_publication_requires_exact_effect_and_does_not_change_exposure (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_publication_requires_exact_effect_and_does_not_change_exposure) ... FAIL
+test_runtime_generations_are_durable_and_cannot_rewrite_logical_history (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_runtime_generations_are_durable_and_cannot_rewrite_logical_history) ... FAIL
+test_scalar_operation_request_or_outcome_cannot_poison_recovery (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_scalar_operation_request_or_outcome_cannot_poison_recovery) ... FAIL
+test_simultaneous_connections_admit_only_one_boundary_effect (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_simultaneous_connections_admit_only_one_boundary_effect) ... FAIL
+
+======================================================================
+FAIL: test_broker_domain_validation_runs_outside_database_transactions (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_broker_domain_validation_runs_outside_database_transactions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 186, in test_broker_domain_validation_runs_outside_database_transactions
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_changed_identity_namespace_and_float_or_secret_fields_rejected (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_changed_identity_namespace_and_float_or_secret_fields_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 111, in test_changed_identity_namespace_and_float_or_secret_fields_rejected
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_changed_profile_type_or_unsupported_version_refuses_before_run_creation (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_changed_profile_type_or_unsupported_version_refuses_before_run_creation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 78, in test_changed_profile_type_or_unsupported_version_refuses_before_run_creation
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_corrupt_historical_physical_row_refuses_full_recovery_even_with_independent_current_keyframe (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_corrupt_historical_physical_row_refuses_full_recovery_even_with_independent_current_keyframe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 67, in test_corrupt_historical_physical_row_refuses_full_recovery_even_with_independent_current_keyframe
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 47, in test_crash_after_effect_recovery_keeps_order_and_pending_canonical_publication
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_deltas_save_actual_sqlite_checkpoint_text_without_losing_any_revision (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_deltas_save_actual_sqlite_checkpoint_text_without_losing_any_revision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 86, in test_deltas_save_actual_sqlite_checkpoint_text_without_losing_any_revision
+    self.create(journal);previous=self.state()
+    ^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_existing_legacy_run_cannot_be_silently_upgraded_or_gain_profile_marker (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_existing_legacy_run_cannot_be_silently_upgraded_or_gain_profile_marker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 59, in test_existing_legacy_run_cannot_be_silently_upgraded_or_gain_profile_marker
+    with self.assertRaises(RuntimeConflictError):self.create(journal)
+                                                 ^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 94, in test_failure_during_checkpoint_commit_rolls_back_effect_and_retries_safely
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_identical_completed_retry_returns_original_without_new_checkpoint (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_identical_completed_retry_returns_original_without_new_checkpoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 80, in test_identical_completed_retry_returns_original_without_new_checkpoint
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_initial_profile_and_checkpoint_rollback_together (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_initial_profile_and_checkpoint_rollback_together)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 50, in test_initial_profile_and_checkpoint_rollback_together
+    with self.assertRaises(RuntimeValidationError):self.create(journal)
+                                                   ^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 200, in test_legacy_secret_vocabulary_cannot_enter_checkpoint_outbox
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_new_effect_waits_for_previous_canonical_publication (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_new_effect_waits_for_previous_canonical_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 147, in test_new_effect_waits_for_previous_canonical_publication
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_old_process_cannot_complete_an_effect_after_restart (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_old_process_cannot_complete_an_effect_after_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 157, in test_old_process_cannot_complete_an_effect_after_restart
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_physical_envelope_preserves_logical_state_and_effect_identity_after_reopen (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_physical_envelope_preserves_logical_state_and_effect_identity_after_reopen)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 22, in test_physical_envelope_preserves_logical_state_and_effect_identity_after_reopen
+    self.create(journal);state=self.state();state['runtime']['clock']=1
+    ^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 67, in test_prepared_operation_resumes_original_base_and_fences_concurrent_boundary
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_profile_is_immutable_even_with_replace_and_recursive_triggers_off (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_profile_is_immutable_even_with_replace_and_recursive_triggers_off)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 35, in test_profile_is_immutable_even_with_replace_and_recursive_triggers_off
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_publication_requires_exact_effect_and_does_not_change_exposure (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_publication_requires_exact_effect_and_does_not_change_exposure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 122, in test_publication_requires_exact_effect_and_does_not_change_exposure
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_runtime_generations_are_durable_and_cannot_rewrite_logical_history (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_runtime_generations_are_durable_and_cannot_rewrite_logical_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 135, in test_runtime_generations_are_durable_and_cannot_rewrite_logical_history
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_scalar_operation_request_or_outcome_cannot_poison_recovery (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_scalar_operation_request_or_outcome_cannot_poison_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 209, in test_scalar_operation_request_or_outcome_cannot_poison_recovery
+    self.create(journal)
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+======================================================================
+FAIL: test_simultaneous_connections_admit_only_one_boundary_effect (tests.storage.test_paper_process_encoded_profile.PaperProcessEncodedProfileTests.test_simultaneous_connections_admit_only_one_boundary_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_journal.py", line 169, in test_simultaneous_connections_admit_only_one_boundary_effect
+    with self.journal() as journal: self.create(journal)
+                                    ^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_encoded_profile.py", line 16, in create
+    self.assertIn('storage_profile',inspect.signature(journal.create_run).parameters,
+AssertionError: 'storage_profile' not found in mappingproxy(OrderedDict({'run_id': <Parameter "run_id">, 'binding': <Parameter "binding">, 'initial_state': <Parameter "initial_state">, 'now': <Parameter "now">})) : New E6 run cannot explicitly select the immutable physical storage profile
+
+----------------------------------------------------------------------
+Ran 20 tests in 5.509s
+
+FAILED (failures=20)

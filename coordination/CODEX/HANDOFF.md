@@ -1,3 +1,26 @@
+# Approved E6 subplan B component passes; continue prefix/audit C–E — 2026-10-21
+
+New immutable run storage profile migration0025 and shared read-only logical
+checkpoint reader implemented. Legacy/full recover unchanged; actual0024 read-only
+store verified without migration. Exact effects/receipts/logical hashes preserved;
+profile UPDATE/DELETE/REPLACE/reselect refuses. Ordinary product still legacy by
+default.22profile,258storage,35report/outbox and16encoded funding/consumer tests
+PASS, overlapping scopes. Three genuine raw-JSON consumer failures fixed through
+same E6 decoder; corrupt actual bytes refuse. Diagnostic native methods exercised
+as source units only; no native qualification or ordinary observation.
+
+Next approved subplan C: immutable ordered published-prefix records and indexed
+pending tail plus explicit independent full audit. D: bounded current management,
+process-owned non-importable audit proof with SQLite/schema/write invalidation;
+entry/healthy time denied until full proof, protection before bounded audit work.
+E: actual whole-product capacity/resource/backup, final review/new exact Windows
+build/PQR. New profile is not activated in ordinary composition before all gates.
+Use the original branch/Master. Do not wait for the already-approved E6 scope.
+Evidence: S16/recorded-funding-implementation-20261021/e6-encoded-profile/disposition.json
+Public20/19 unchanged; private0/capitalNONE/LIVE_NOT_STARTED.
+
+---
+
 # Approved E6 subplan A codec component passes; continue B–E — 2026-10-21
 
 Pure versioned codec16final tests PASS; full storage237PASS before two local

@@ -15,7 +15,7 @@ from application.datasets.catalog import digest
 from application.research.evidence import ResearchEvidenceConflict, checked_feedback_record, stamp
 from application.research.queue import ResearchQueue
 from storage.paper_feedback import checked_paper_feedback_record
-from storage.paper_process import _binding, _read_json
+from storage.paper_process import _binding, _read_json,read_paper_checkpoint
 from storage.runtime_models import RuntimePersistenceError
 from storage.qualification import _readonly_uri
 
@@ -192,8 +192,7 @@ class PaperPublicationReadPort:
                 total,rows=_rows(db,'paper_feedback_publications',run_id,limit,offset)
                 items=[]
                 for row in rows:
-                    checkpoint=db.execute('SELECT * FROM paper_process_checkpoints WHERE run_id=? AND revision=?',
-                        (run_id,row['run_revision'])).fetchone()
+                    checkpoint=read_paper_checkpoint(db,run_id,row['run_revision'])
                     generation=db.execute("SELECT instance_id FROM paper_process_generations WHERE run_id=? AND generation=? AND typeof(instance_id)='text' AND length(CAST(instance_id AS BLOB)) BETWEEN 1 AND 256",
                         (run_id,row['process_generation'])).fetchone()
                     if checkpoint is None or not isinstance(checkpoint['state_json'],str):raise PublicationHistoryError()

@@ -27,11 +27,18 @@ from application.platform.processes import ResourceLimits, spawn_owned, terminat
 from application.platform.supervision import _local_path
 from application.platform.distribution import _inventory
 from application.qualification import _sanitize
+from storage.paper_process import read_paper_checkpoint
+from storage.runtime_models import RuntimePersistenceError
 
 MAX_PUBLICATIONS = 32
 MAX_REPORT = 256 * 1024
 MAX_PAYLOADS = 1024 * 1024
 ACK_SCOPE = 'LOCAL_FIXTURE_VERIFIED_COPY_ACK'
+
+
+def _logical_checkpoint(db,run_id,revision=None):
+    try:return read_paper_checkpoint(db,run_id,revision)
+    except RuntimePersistenceError:raise ValueError('Native Paper logical checkpoint invalid') from None
 
 
 def helper_inventory(root):
@@ -185,8 +192,7 @@ class NativePublicationFlow(PublicFixture):
     def _run_facts(self):
         with readonly_store(self.data / 'canonical.sqlite3') as db:
             run = db.execute('SELECT binding_json,binding_hash FROM paper_process_runs WHERE run_id=?', (self.paper_run_id,)).fetchone()
-            checkpoint = db.execute('SELECT revision,state_json,state_hash FROM paper_process_checkpoints WHERE run_id=? ORDER BY revision DESC LIMIT 1',
-                (self.paper_run_id,)).fetchone()
+            checkpoint = _logical_checkpoint(db,self.paper_run_id)
             generation = db.execute('SELECT max(generation) FROM paper_process_generations WHERE run_id=?', (self.paper_run_id,)).fetchone()[0]
         if (run is None or checkpoint is None or not generation
                 or sha(run['binding_json'].encode()) != run['binding_hash'] or sha(checkpoint['state_json'].encode()) != checkpoint['state_hash']):
@@ -196,8 +202,7 @@ class NativePublicationFlow(PublicFixture):
 
     def _paper_lineage(self, db, row, document):
         run = db.execute('SELECT * FROM paper_process_runs WHERE run_id=?', (row['run_id'],)).fetchone()
-        checkpoint = db.execute('SELECT state_json,state_hash FROM paper_process_checkpoints WHERE run_id=? AND revision=?',
-            (row['run_id'],row['run_revision'])).fetchone()
+        checkpoint = _logical_checkpoint(db,row['run_id'],row['run_revision'])
         generation = db.execute('SELECT instance_id FROM paper_process_generations WHERE run_id=? AND generation=?',
             (row['run_id'],row['process_generation'])).fetchone()
         if run is None or checkpoint is None or generation is None:

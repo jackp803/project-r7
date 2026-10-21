@@ -1,3 +1,19 @@
+# Conditional plan accepted and amended; continuous inline execution — 2026-10-21
+
+Human reviewed the sixTask plan, conditionally approved and authorized continuous
+execution after P0-1 pending/opportunity/UI, P0-2 durable30day capacity and P1 real
+settlement/publication additions. These are now in the plan BEFORE product work.
+Do not re-ask perTask permission. New financial-evidence relaxation or major
+authority change still requires review; ordinary defects must be fixed.
+CurrentTask1E4TDD. Preserve same task/branch and all bffc/history evidence.
+No verified earlier completeness proof yet; next-event bracket remains pending
+implementation and impact measurement. Public cumulative17/17 unchanged; no
+Paper/real observation/private credentials/capital/hosted compute/main merge.
+Prior9c64 evidence checker binds its original plan at that revision; original
+plan retained alongside new conditional-approval.json, not retroactively edited.
+
+---
+
 # Recorded-rate design adopted; implementation plan review pending — 2026-10-21
 
 User explicitly adopted FUNDING_MODEL_DESIGN.md recommendation: public settled

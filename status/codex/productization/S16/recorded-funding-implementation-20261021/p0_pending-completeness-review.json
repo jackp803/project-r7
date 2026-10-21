@@ -1,0 +1,31 @@
+{
+  "kind": "STATIC_DOCUMENTATION_ADVISORY_NOT_ACCEPTANCE",
+  "reviewer_execution": "NONE",
+  "market_api_requests": 0,
+  "recommendation": "KEEP_CURRENT_UPPER_BRACKET_GATE_UNTIL_VERIFIED_EQUIVALENT",
+  "assessment": "The contract requires complete exact-interval evidence, not a next event specifically (§§5–6). Published settled T>=flat plus continuous coverage is the design’s conservative sufficient rule, not a financial threshold. T alone never proves missing pages complete.",
+  "official_fields": "History realizedRate is actual; fundingRate is predicted. Current settState=processing/settled changes settFundingRate from current to previous cycle; fundingTime is settlement time and nextFundingTime forecast. These fields lack an explicit exact-interval completeness watermark or unambiguous previous-settlement timestamp. The inspected docs give no history-publication SLA.",
+  "earlier_proof": "No verified earlier positive proof exists in inspected code/records: okx_public._funding only verifies requested historical fixed-grid rows; live funding/current-state acquisition is not implemented. A possible equivalent needs immutable post-close, instrument-bound complete history plus unambiguous settled-event identity and authoritative absence of events until beyond flat, reconciled across schedule changes. Merely settled, future fundingTime, empty pages, elapsed seconds or rate equality is insufficient. Do not infer prior event by subtracting forecast interval.",
+  "semantics": "Preserve [opened,flat), positive cost/negative credit, count-positive INCLUDED even when net zero, and explicit complete zero proof. Nominal-event entry-notional PAPER_MODEL remains distinct from real account assessment/mark notional. Assessment may take up to one minute; that is not a publication deadline. Actual intervals vary; fixed8h capability must refuse changes.",
+  "pending_measurement": "Measure durable pending_since/flat_at, current monotonic pending age, latest settled event, required bracket, capture/receive times, retries, gaps and publication lag once observed. For supported8h operation expect remaining-cycle wait plus unknown publication delay; never promise8h completion or timeout-to-zero. Preserve original facts across restart; protection/reduction continue, next entry and forward assessment remain blocked.",
+  "signals_and_ui": "Permit genuine read-only E2 evaluation on valid current inputs separately from E5 admission. Record actual signal/no-signal/error; never invent would-approve risk decisions. UI separates source HEALTHY/STALE/UNAVAILABLE/RETRYING/REFUSED_CAPACITY from FUNDING_PENDING_UPPER_BRACKET, COVERAGE_GAP, INTERVAL_UNSUPPORTED and FINALIZED. Show blocked reasons, original times/hashes, pending count, next retry, estimated-not-guaranteed wait; financial cost/sample unavailable until finalized.",
+  "local_refs": [
+    "contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md:134,168,183,230,439",
+    "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/FUNDING_MODEL_DESIGN.md:49-80",
+    "src/application/datasets/okx_public.py:143-168"
+  ],
+  "official_refs": [
+    "https://app.okx.com/docs-v5/en/#public-data-rest-api-get-funding-rate-history",
+    "https://app.okx.com/docs-v5/en/#public-data-websocket-funding-rate-channel",
+    "https://www.okx.com/en-ae/help/perps-funding-fee-mechanism",
+    "https://www.okx.com/en-au/help/okx-to-enable-automatic-updates-for-funding-fee-settlement-period"
+  ],
+  "source_sha256": {
+    "contracts/FUNDING_ALLOCATION_EVIDENCE_PROFILE_V0_1.md": "9a1383c5ef51fd699b2d343b680c8f7025f0f5aca2773f4288087e412e3381ef",
+    "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/FUNDING_MODEL_DESIGN.md": "177a0d2e565a8eefb8ef1fd5afc43da68d0e2e82e9d8b5338d095098207b9559",
+    "status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/DECISIONS.md": "edf6b0cf054dd8904b3b9e693b0cb76cc88f707130db43aa03dcf459de5f373d",
+    "src/application/datasets/okx_public.py": "2bae268f5897e5273d0697d2bdc3583d13cee9702a31ca3b5c738fe43a0f3717"
+  },
+  "limits": "Four local public sources; official documentation only. No runtime capture inspected, product/tests/imports/network API/private data accessed, implementation or acceptance credit.",
+  "earlier_candidate": "Conditional alternative: complete history through a real event at floor(flat,UTC1h), plus a versioned applicable official whole-hour-only event guarantee, excludes a sub-hour remainder. Verify schedule/clock/change/restart guards and actual captures first; unavailable when an intervening possible hour lacks positive coverage."
+}

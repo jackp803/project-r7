@@ -1,0 +1,108 @@
+{
+  "kind": "STATIC_CAPACITY_FACT_MAP_NOT_LONG_DURATION_PROOF",
+  "execution": "NONE",
+  "source_revision_as_supplied": "9c64fb84",
+  "scope": "Public source and retained public metadata/file lengths only; no raw response/parquet contents, private profiles, DBs, API or tests",
+  "files_content_read": 5,
+  "measured_capture": {
+    "root": "C:/Users/jackp/Desktop/交易機器人主體/workspaces/project-r7-productization-master-20261002/status/codex/productization/S16/ordinary-paper-recorded-funding-20261021/public-capture",
+    "file_count": 31,
+    "physical_bytes": 176375,
+    "raw_response_bytes": 115137,
+    "request_attempt_and_result_bytes": 3981,
+    "parquet_bytes": 55248,
+    "manifest_and_acquisition_bytes": 2009,
+    "requests": 9,
+    "responses": 9,
+    "candles": 528,
+    "funding_events": 264,
+    "start": "2026-07-24T00:00:00Z",
+    "end_exclusive": "2026-10-20T00:00:00Z",
+    "manifest_sha256": "sha256:3a10fc2a5cf21ca1b9a1fa21ed613d616e3c984612dcf589ad169e118f98b937",
+    "acquisition_sha256": "sha256:c6400d4c92eae331fb659062a05c8e64e082ce0f90f82b4b4210db13cc7af807",
+    "limitations": [
+      "Logical file lengths, not allocated disk clusters or network wire bytes.",
+      "9 history requests are not a live ticker sample; do not multiply this capture per five-second tick.",
+      "No elapsed 48-hour/30-day live storage observation."
+    ]
+  },
+  "projections": [
+    {
+      "seconds": 172800,
+      "nominal_market_ticks": 34560,
+      "new_4h_candle_boundaries": 12,
+      "scheduled_8h_funding_events": 6,
+      "nominal_requests_ticker_plus_single_page_per_new_candle_and_funding": 34578,
+      "one_GiB_average_bytes_per_market_tick_budget": 31068.91851851852,
+      "ticker_only_raw_response_ceiling_bytes_at_2MiB_per_response": 72477573120
+    },
+    {
+      "seconds": 2592000,
+      "nominal_market_ticks": 518400,
+      "new_4h_candle_boundaries": 180,
+      "scheduled_8h_funding_events": 90,
+      "nominal_requests_ticker_plus_single_page_per_new_candle_and_funding": 518670,
+      "one_GiB_average_bytes_per_market_tick_budget": 2071.2612345679013,
+      "ticker_only_raw_response_ceiling_bytes_at_2MiB_per_response": 1087163596800
+    }
+  ],
+  "projection_assumptions": [
+    "Five-second scheduling envelope with negligible acquisition duration; actual feed waits five seconds AFTER each acquisition, so counts are not measured throughput.",
+    "Single 4h strategy and one request per newly available candle/funding page; add bootstrap, bounded catchup, settlement confirmation/overlap and actual failed attempts separately.",
+    "8h funding cadence is this dataset profile, not a universal venue promise. Existing feed does not fetch funding; proposed recorded-funding owner must validate actual event cadence.",
+    "Ticker response size, receipt size and steady-state result size remain unmeasured. Disk formula: sum(unique original payload bytes)+all attempt/result receipts+batch metadata+indexes; worst-case every byte changes and CAS saves nothing."
+  ],
+  "source_bounds": [
+    {
+      "path": "src/application/paper/public_feed.py",
+      "sha256": "9c5344bd4e184bde1d9949a5b01e9bdc15aadfc9e88f0a7180591484478dbf9a",
+      "refs": "18,75-85,96-124,179",
+      "facts": [
+        "Per-runtime-token guard: 86400 directories or 1073741824 existing file bytes; check occurs before incoming acquisition and does not reserve its size.",
+        "Recursive rescan each attempt; token change excludes older generations from this count.",
+        "At nominal five seconds, 86400 attempts is five days; 30 days exceeds this count even with perfect payload dedup.",
+        "Owned child deadline125s; terminate/reap2s; stdout cap12582912 bytes; no DB connection crosses feed thread."
+      ]
+    },
+    {
+      "path": "src/application/paper/public_acquisition.py",
+      "sha256": "cfca0a3253a1fe9d7ecd86b9bb415f351b5dd2c27a1cf2df3944f353a44c3eb9",
+      "refs": "48-60,99-123,event_for",
+      "facts": [
+        "1..200 subscriptions, 1..4 frames, needed<=cap<=4000; shared frame ranges merged.",
+        "Already changed-only by durable candle boundary: no history range when start==end; ticker always fetched.",
+        "Future durable boundary and boundary change during acquisition reject, not synthesize candles.",
+        "165 requests/120s per acquisition; four frames at4000 rows imply up to160 successful 100-row history pages plus ticker; failures and boundary races retain receipts and can repeat catchup.",
+        "Current PaperPublicTransport supports ticker/history only; no funding endpoint."
+      ]
+    },
+    {
+      "path": "src/application/datasets/okx_public.py",
+      "sha256": "2bae268f5897e5273d0697d2bdc3583d13cee9702a31ca3b5c738fe43a0f3717",
+      "refs": "28,55-114,183-199",
+      "facts": [
+        "Each raw response capped2097152 bytes, no automatic retries/redirect/proxy; minimum interval0.25s, socket timeout10s, response read deadline15s.",
+        "History acquisition <=89days,64calls/300s; separate from live feed override165calls/120s.",
+        "Extreme165-response batch raw byte envelope346030080 plus receipts; not a promised reachable throughput or a disk reservation."
+      ]
+    }
+  ],
+  "minimal_design": [
+    "Keep actual owner candle watermark and merged frame ranges; persist verified immutable history chunks across generations, fetch only advancing windows and finite catchup. Funding uses separate actual settlement watermark and finite confirmation overlap; changed historical bytes produce explicit conflict/new version, never overwrite or zero-impute.",
+    "CAS original public response bytes by SHA256, immutable verified readback; append one bounded receipt for EVERY real attempted call including failure/partial/duplicate content. Dedup never fabricates a call, fresh ticker timestamp, received_at or ACK.",
+    "Seal finite append-only receipt/index segments referencing immutable payload hashes and exact profile/runtime/run/generation; index all generations. Segment/accounting commitments must survive restart and backup. Do not introduce a financial registry or authority.",
+    "Reserve bounded incoming bytes/files and free-space headroom against aggregate active+sealed+failed captures BEFORE dispatch; refuse new acquisition when full without deleting history or resetting on restart. Permit only explicit verified segmented archival; original references remain resolvable. Replace per-poll full recursive scan with bounded committed segment accounting plus fail-closed reconciliation.",
+    "Capacity/fetch failures remain typed unavailable/stale observations and retain actual request accounting; existing Paper management/protection and owned child cancellation/reaping remain isolated. No long-duration acceptance inferred."
+  ],
+  "proposed_tests_not_executed": [
+    "Unchanged candle boundary: ticker only; actual new boundary: one merged history fetch; bounded multi-frame bootstrap/catchup; backward/future clock and boundary-cross rejection with unchanged durable watermark.",
+    "Repeated identical response bytes: one CAS object, distinct actual call receipts; changed timestamp/price bytes: distinct object; corrupted referenced bytes and delayed/revised funding reject.",
+    "Aggregate byte/file capacity pre-reservation, failed/partial attempts counted, restart/new runtime cannot reset budget, sealed segment index/readback/backup restoration preserves accounting; no deletion on refusal.",
+    "Slow/oversize/hung public child and full-volume faults cannot stall management/protection; bounded cancel/reap, unknown incomplete call count preserved rather than false zero."
+  ],
+  "unknowns": [
+    "Actual five-second ticker/body and complete batch disk-size distribution not measured.",
+    "Observed 48h/30d cadence, disk growth, catchup load and management isolation not yet executed.",
+    "No source changes or capacity behavior acceptance credit."
+  ]
+}

@@ -1,0 +1,19 @@
+test_flat_pending_is_durable_without_final_sample_and_repeated_close (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_flat_pending_is_durable_without_final_sample_and_repeated_close) ... FAIL
+test_late_publication_and_stale_observation_never_finalize_or_create_zero (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_late_publication_and_stale_observation_never_finalize_or_create_zero) ... ok
+test_successor_recovers_flat_pending_and_finalizes_once_at_original_flat_clock (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_successor_recovers_flat_pending_and_finalizes_once_at_original_flat_clock) ... ok
+
+======================================================================
+FAIL: test_flat_pending_is_durable_without_final_sample_and_repeated_close (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_flat_pending_is_durable_without_final_sample_and_repeated_close)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 73, in test_flat_pending_is_durable_without_final_sample_and_repeated_close
+    self.assertEqual(state['runtime']['pending_funding']['flat']['actual_quantity'],'0')
+AssertionError: '0.000' != '0'
+- 0.000
++ 0
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 10.734s
+
+FAILED (failures=1)

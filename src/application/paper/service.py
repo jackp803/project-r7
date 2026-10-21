@@ -54,7 +54,8 @@ class PaperService:
     def __init__(self, *, registry, process_journal, canonical_journal, namespace,
                  simulation_policy, risk_policy, promotion_policy, paper_policy_ref,
                  submission_validity, actor, workflow_authorized, current_release, clock, monotonic_clock=monotonic_ns,
-                 strategy_identity=None,management_selection=None,selection_current=None,entry_current=None,implementation_hash=None):
+                 strategy_identity=None,management_selection=None,selection_current=None,entry_current=None,implementation_hash=None,
+                 funding_source=None,funding_admission=None):
         if (not isinstance(registry, StrategyPlatformService) or
             not isinstance(process_journal, PaperProcessJournal) or
             not isinstance(canonical_journal, PaperRuntimeJournal) or
@@ -79,6 +80,13 @@ class PaperService:
         self.monotonic_clock=monotonic_clock
         self.actor=actor; self.authorized=workflow_authorized; self.policy_ref=paper_policy_ref
         self.simulation=parse_simulation_policy(simulation_policy, namespace=namespace)
+        from .funding_source import PaperFundingSource
+        if funding_source is not None and type(funding_source) is not PaperFundingSource:
+            raise ValueError('Trusted owner public funding source port required')
+        self.funding_source=funding_source
+        if funding_admission is not None and not callable(funding_admission):
+            raise ValueError('Trusted actual owner funding admission reader required')
+        self.funding_admission=funding_admission
         self.risk=parse_product_risk_policy(risk_policy, namespace=namespace)
         self.promotion=parse_paper_promotion_policy(promotion_policy, namespace=namespace)
         self.validity_json=bind_submission_validity(submission_validity, clock())
@@ -98,6 +106,8 @@ class PaperService:
         from .engine import initial_runtime_state
         if not self.authorized or policy_id != self.policy_ref:
             raise EvidenceGateError('Explicit selected local PAPER workflow authorization required')
+        if self.recorded_funding and not self.funding_start_ready():
+            raise EvidenceGateError('Current source-owned public settled funding required')
         strategy=self.registry.get_strategy(strategy_identity)
         product=self.registry.candidate_product_assessment(strategy_identity)
         if product.namespace != self.namespace or product.risk_policy_hash != self.risk.policy_hash:
@@ -161,6 +171,21 @@ class PaperService:
             return type(result) is bool and result
         except (ValueError,OSError,RuntimeError):return False
 
+    @property
+    def recorded_funding(self):
+        return self.simulation.as_dict()['funding_model']=='OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1'
+
+    def funding_observation(self):
+        return None if self.funding_source is None else self.funding_source.current(self.clock())
+
+    def funding_start_ready(self):
+        # Control never attaches an E4/runtime or imports financial truth.
+        # Runtime allocation always requires its own actual E4 source port.
+        if self.funding_source is not None:return self.funding_observation() is not None
+        if self.funding_admission is None:return False
+        try:return self.funding_admission() is True
+        except (ValueError,TypeError,KeyError,RuntimeError,OSError):return False
+
     def requires_entry_pause(self,run_id):
         if self.selection_current is None:return False
         current=self.selection_current(run_id)
@@ -184,7 +209,8 @@ class PaperService:
             self._management_services[run_id]=PaperService(registry=self.registry,process_journal=self.process,
                 canonical_journal=self.canonical,namespace=self.namespace,current_release=self.current_release,
                 clock=self.clock,monotonic_clock=self.monotonic_clock,strategy_identity=identity,
-                implementation_hash=self.implementation_hash,**selected)
+                implementation_hash=self.implementation_hash,funding_source=self.funding_source,
+                funding_admission=self.funding_admission,**selected)
         return self._management_services[run_id]
 
     def is_quiescent(self,run_id):
@@ -198,6 +224,7 @@ class PaperService:
         if recovered.binding!=self._binding(strategy):
             raise EvidenceGateError('Exact Paper binding required before releasing management')
         runtime=recovered.state['runtime']
+        if runtime.get('pending_funding') is not None:return False
         if (strategy.current_lifecycle_state=='PAPER' and runtime['paper_entries_allowed']
                 and not self.process.entry_pause_requested(run_id)):
             return False

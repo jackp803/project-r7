@@ -310,6 +310,7 @@ class PublicCaptureArchive:
     def _verify_all(self,*,_committed_prefix_only=False):
         expected=self.state; self.state=_initial(); previous_seal=ZERO
         self._pending_skip=None
+        originals={};capture_files={}
         names={'head.json'}
         for number in range(1,expected['pack']+1):
             self.deadline()
@@ -334,8 +335,28 @@ class PublicCaptureArchive:
                 frame=raw[offset:offset+size]; metadata,payload=self._decode_frame(frame)
                 pointer=dict(pack=name,offset=offset,size=size,sha256=digest(frame))
                 if metadata['reference'] is not None:
-                    self._read_pointer(pointer)  # Verify retained original, never a cache assertion.
+                    # This cache contains only originals whose actual payload
+                    # and frame hash were verified earlier in THIS linear scan.
+                    # No persisted head/cache assertion supplies this proof.
+                    original=originals.get(metadata['raw_hash'])
+                    if original!=(metadata['reference'],metadata['bytes']):_fail('REFERENCE_INVALID')
+                token=metadata['capture_id'];kind=metadata['kind']
+                if kind=='RESERVE':capture_files[token]={}
+                elif kind=='FILE':
+                    files=capture_files.get(token)
+                    if files is None or metadata['path'] in files or len(files)>=1024:_fail('CAPTURE_INDEX_INVALID')
+                    files[metadata['path']]=pointer
+                elif kind=='COMMIT':
+                    value=decode(payload)
+                    if type(value) is not dict or value.get('files')!=capture_files.pop(token,None):_fail('CAPTURE_INDEX_INVALID')
+                elif kind=='RECOVERY':
+                    value=decode(payload)
+                    for retired in value.get('retired',{}):capture_files.pop(retired,None)
                 self._apply(metadata,payload,pointer); offset+=size
+                if kind=='FILE' and metadata['reference'] is None and metadata['path'].endswith('-response.bin'):
+                    originals[metadata['raw_hash']]=(pointer,metadata['bytes'])
+                    if len(originals)>MAX_CACHE:
+                        originals={key:item for key,item in originals.items() if key in self.state['cache']}
             if number<expected['pack']:
                 if seal.get('kind')=='RECOVERY_SEAL_V1':
                     if seal!=self._recovery_seal(number,raw,previous_seal=previous_seal):_fail('RECOVERY_SEAL_INVALID')

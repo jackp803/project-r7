@@ -1,0 +1,26 @@
+test_pending_feedback_and_control_view_show_model_without_a_financial_sample (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_pending_feedback_and_control_view_show_model_without_a_financial_sample) ... ERROR
+
+======================================================================
+ERROR: test_pending_feedback_and_control_view_show_model_without_a_financial_sample (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_pending_feedback_and_control_view_show_model_without_a_financial_sample)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 225, in test_pending_feedback_and_control_view_show_model_without_a_financial_sample
+    validate_public_feedback_publication(bundle.logical_path,dict(bundle.payloads))
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\public_feedback.py", line 15, in validate_public_feedback_publication
+    validate_feedback_publication(logical_path,payloads)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\feedback.py", line 184, in validate_feedback_publication
+    expected=feedback_bundle(document)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\feedback.py", line 175, in feedback_bundle
+    validate_feedback(value)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\feedback.py", line 60, in validate_feedback
+    _exact(value,TOP)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\feedback.py", line 27, in _exact
+    if not isinstance(value,dict) or set(value)!=set(keys):raise FeedbackError('FEEDBACK_FIELDS_INVALID')
+                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+application.cloud.feedback.FeedbackError: FEEDBACK_FIELDS_INVALID
+
+----------------------------------------------------------------------
+Ran 1 test in 5.289s
+
+FAILED (errors=1)

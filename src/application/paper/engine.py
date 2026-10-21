@@ -48,7 +48,8 @@ def initial_runtime_state(service, strategy):
         protection_request=None, protection_action=None, exit_request=None, exit_action=None, exit_source_position=None,
         strategy_exit_request=None, exit_anchor=None, last_market=None,
         candles={}, last_entry_boundary=None, last_signal=None, last_intent=None,
-        closed_trades=[], entry_days={}, market_status='NOT_CONNECTED', forward=initial_forward_observation())
+        closed_trades=[], entry_days={}, market_status='NOT_CONNECTED', forward=initial_forward_observation(),
+        **(dict(pending_funding=None,funding_finalizations=[]) if service.recorded_funding else {}))
 
 
 def _market(value):
@@ -89,7 +90,21 @@ class PaperEngine:
     def reconcile(self, state, canonical):
         broker=PaperBroker.from_state(state['broker']); runtime=state['runtime']
         position=runtime['position']
-        if position is not None:
+        if runtime.get('pending_funding') is not None:
+            pending=runtime['pending_funding']
+            try:
+                request=decode_fact(OrderRequest,runtime['exit_request'])
+                actual=broker.observe_position_after_close(request,runtime['exit_source_position'],
+                    observed_at=utc(pending['flat']['broker_state_observed_at']))
+                graph=canonical.recover(position_id=position['position_id'])
+                if (not self.service.recorded_funding or actual!=pending['flat']
+                        or Decimal(actual['actual_quantity'])!=0 or broker.query_position(actual['symbol']).net_quantity!=0
+                        or graph.current_position_projection is None or graph.current_position_projection.payload!=position
+                        or graph.trade_result is not None):
+                    raise ValueError('Pending flat owner graph differs')
+            except (ValueError,TypeError,KeyError):
+                self.recovery_reason='FUNDING_PENDING_RECONCILIATION_REQUIRED';return
+        elif position is not None:
             signed=Decimal(position['actual_quantity']) * (1 if position['side']=='LONG' else -1)
             if broker.query_position(position['symbol']).net_quantity != signed:
                 self.recovery_reason='POSITION_RECONCILIATION_REQUIRED'; return
@@ -136,6 +151,8 @@ class PaperEngine:
         validity=assess_submission_validity(json.loads(self.service.validity_json),now)
         if not validity.new_entry_allowed: return False,'SUBMISSION_'+validity.status
         if not self.service.entry_release_is_current(self.run_id):return False,'PAPER_RELEASE_NOT_CURRENT'
+        if self.service.recorded_funding and self.service.funding_observation() is None:
+            return False,'PUBLIC_FUNDING_SOURCE_UNAVAILABLE'
         # Ordinary release reads may take time. Recheck the actual clock after
         # admission; an expired envelope cannot borrow the earlier observation.
         validity=assess_submission_validity(json.loads(self.service.validity_json),self.service.clock())
@@ -237,12 +254,6 @@ class PaperEngine:
             return 'EXIT_REQUESTED',('POSITION_REDUCTION_OBSERVATION_PENDING',)
         self._fill(broker,request,Decimal(position['actual_quantity']),market,now,effects)
         flat=broker.observe_position_after_close(request,runtime['exit_source_position'],observed_at=now)
-        funding=produce_paper_zero_funding_evidence(plan,flat,calculated_at=now)
-        entry=decode_fact(OrderRequest,runtime['entry_request'])
-        result=build_trade_result(plan,current_lifecycle_state=position['lifecycle_state'],exit_authority=action,
-            entry_order_requests=(entry,),entry_fills=broker.query_fills(entry.client_order_id),
-            exit_order_request=request,exit_fills=broker.query_fills(request.client_order_id),
-            final_position=flat,funding_evidence=funding)
         # Cancel the unused simulated protective order only after actual flat
         # observation. Retirement/pause never cancels open-position protection.
         if runtime['protection_request']:
@@ -250,6 +261,21 @@ class PaperEngine:
             current=broker.query_order(protection.client_order_id)
             if current and current.order_status in (OrderStatus.OPEN,OrderStatus.PARTIALLY_FILLED):
                 self._effect(effects,'ORDER_RESULT',encode_fact(broker.cancel_order(protection.client_order_id,observed_at=now)))
+        if self.service.recorded_funding:
+            runtime['pending_funding']=dict(flat=flat,started_at=stamp(now),last_observed_at=stamp(now),
+                observed_wait_ns=0,last_monotonic_ns=self.service.monotonic_clock(),
+                process_instance=self.service._instance_id,reason='FUNDING_SOURCE_INCOMPLETE',observations=0)
+            return self._finalize_funding(runtime,broker,effects,now)
+        funding=produce_paper_zero_funding_evidence(plan,flat,calculated_at=now)
+        return self._publish_closed(runtime,broker,effects,request,action,flat,funding,now)
+
+    def _publish_closed(self,runtime,broker,effects,request,action,flat,funding,now):
+        position=runtime['position'];plan=runtime['plan']
+        entry=decode_fact(OrderRequest,runtime['entry_request'])
+        result=build_trade_result(plan,current_lifecycle_state=position['lifecycle_state'],exit_authority=action,
+            entry_order_requests=(entry,),entry_fills=broker.query_fills(entry.client_order_id),
+            exit_order_request=request,exit_fills=broker.query_fills(request.client_order_id),
+            final_position=flat,funding_evidence=funding)
         closed=build_position_lifecycle_closed_transition(flat,position,trade_result_outcome=result,lifecycle_interpreted_at=now)
         self._save_projection(runtime,broker,effects,closed)
         self._effect(effects,'FUNDING_EVIDENCE',funding)
@@ -257,7 +283,40 @@ class PaperEngine:
         runtime['closed_trades'].append(result.trade_result)
         return 'CLOSED',()
 
+    def _finalize_funding(self,runtime,broker,effects,now):
+        pending=runtime['pending_funding'];mono=self.service.monotonic_clock()
+        if type(mono) is not int or mono<0:raise ValueError('Actual monotonic funding observation clock required')
+        prior=utc(pending['last_observed_at']);wall=(now-prior).total_seconds()
+        if pending['process_instance']==self.service._instance_id:
+            measured=mono-pending['last_monotonic_ns']
+            if measured>=0 and wall>=0 and abs(wall-measured/1_000_000_000)<=2:
+                pending['observed_wait_ns']+=measured
+        pending.update(last_observed_at=stamp(now),last_monotonic_ns=mono,
+            process_instance=self.service._instance_id,observations=pending['observations']+1)
+        observed=self.service.funding_observation()
+        pending['reason']='PUBLIC_FUNDING_SOURCE_UNAVAILABLE' if observed is None else 'FUNDING_SOURCE_INCOMPLETE'
+        if observed is None:return 'FUNDING_PENDING',(pending['reason'],)
+        entry=decode_fact(OrderRequest,runtime['entry_request']);source=self.service.funding_source
+        try:
+            funding=source.model.allocate(runtime['plan'],pending['flat'],entry,
+                broker.query_fills(entry.client_order_id),observed=observed,calculated_at=now)
+        except ValueError as error:
+            if str(error)!='FUNDING_SOURCE_INCOMPLETE':
+                pending['reason']='FUNDING_ALLOCATION_UNAVAILABLE'
+            return 'FUNDING_PENDING',(pending['reason'],)
+        result=self._publish_closed(runtime,broker,effects,decode_fact(OrderRequest,runtime['exit_request']),
+            runtime['exit_action'],pending['flat'],funding,now)
+        runtime['funding_finalizations'].append(dict(funding_evidence_id=funding['funding_evidence_id'],
+            flat_observed_at=pending['flat']['broker_state_observed_at'],finalized_at=stamp(now),
+            wall_wait_seconds=max(0,int((now-utc(pending['started_at'])).total_seconds())),
+            observed_wait_ns=pending['observed_wait_ns'],observations=pending['observations'],
+            source_snapshot_hash=observed.snapshot_hash,source_observed_at=observed.observed_at,
+            complete_through=observed.complete_through))
+        runtime['pending_funding']=None
+        return result
+
     def _manage(self, runtime, broker, effects, market, now):
+        if runtime.get('pending_funding') is not None:return self._finalize_funding(runtime,broker,effects,now)
         position=runtime['position']
         if position is None or position['lifecycle_state']=='CLOSED': return None
         if runtime['exit_request']:
@@ -370,6 +429,11 @@ class PaperEngine:
         if self.recovery_reason is not None:
             return PaperStep(state,[],'BLOCKED',(self.recovery_reason,))
         broker=PaperBroker.from_state(state['broker']); runtime=state['runtime']; effects=[]
+        if self.service.recorded_funding:
+            from .funding_source import PaperFundingSource
+            source=self.service.funding_source
+            runtime['funding_source_observation']=(source.status(now) if source is not None else dict(status='UNAVAILABLE',
+                reason_code='PUBLIC_FUNDING_SOURCE_UNAVAILABLE',observed_at=None,coverage_start=None,complete_through=None,snapshot_hash=None))
         kind=request['kind']; market=_market(runtime['last_market']) if runtime['last_market'] else None
         if kind=='MARKET':
             market=_market(request['snapshot'])
@@ -399,6 +463,12 @@ class PaperEngine:
         elif kind=='MARKET': status,reasons=self._evaluate(runtime,broker,effects,market,now)
         else: status,reasons='HOLD',()
         position=runtime['position']
-        healthy=self._fresh(market,now) and self.reconciled and (position is None or position['lifecycle_state'] in ('OPEN_PROTECTED','PROFIT_PROTECTED','CLOSED'))
+        pending_flat=runtime.get('pending_funding') is not None
+        # A durable, verified flat pending allocation can retain honest
+        # operating time, but assessment separately blocks financial PASS.
+        # Other recorded-model observations need a current actual source.
+        source_ready=not self.service.recorded_funding or self.service.funding_observation() is not None
+        healthy=self._fresh(market,now) and self.reconciled and (pending_flat or
+            (source_ready and (position is None or position['lifecycle_state'] in ('OPEN_PROTECTED','PROFIT_PROTECTED','CLOSED'))))
         record_forward_observation(runtime,self.service,now,healthy)
         return PaperStep(dict(broker=broker.export_state(),runtime=runtime),effects,status,reasons)

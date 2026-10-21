@@ -1,0 +1,20 @@
+test_pending_feedback_and_control_view_show_model_without_a_financial_sample (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_pending_feedback_and_control_view_show_model_without_a_financial_sample) ... ERROR
+
+======================================================================
+ERROR: test_pending_feedback_and_control_view_show_model_without_a_financial_sample (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_pending_feedback_and_control_view_show_model_without_a_financial_sample)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 209, in test_pending_feedback_and_control_view_show_model_without_a_financial_sample
+    report=build_paper_feedback(self.runtime,performance_opt_in=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\paper_feedback.py", line 122, in build_paper_feedback
+    return validate_paper_feedback(value)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\cloud\paper_feedback.py", line 68, in validate_paper_feedback
+    raise FeedbackError('PAPER_FEEDBACK_COST_CONVENTION_INVALID')
+application.cloud.feedback.FeedbackError: PAPER_FEEDBACK_COST_CONVENTION_INVALID
+
+----------------------------------------------------------------------
+Ran 1 test in 4.166s
+
+FAILED (errors=1)

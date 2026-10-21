@@ -4,11 +4,13 @@ Export never claims a process generation, grants authority or starts a runtime.
 Research feedback retains its separate, unchanged versioned schema.
 """
 import html,json,re
+from decimal import Decimal
 from application.cloud.feedback import FeedbackError,_exact,_reasons,_decimal
 from application.cloud.manifest import HASH,byte_hash,canonical_bytes,load_json,safe_component,utc
 from application.cloud.protocol import ArtifactBundle
 
 SCHEMA='r7-paper-feedback-v0.2'
+RECORDED_SCHEMA='r7-paper-feedback-v0.3'
 TOP={'schema_version','run_id','namespace','strategy','source','binding','producer','created_at','observation',
     'assessment','performance_policy','performance','cost_conventions','live','broker_kind','financial_authority','artifact_links','uncertainty'}
 NUMBERS=('actual_elapsed_seconds','actual_healthy_seconds','simulated_elapsed_seconds',
@@ -25,8 +27,9 @@ def _hash(value):
     if not isinstance(value,str) or not HASH.fullmatch(value):raise FeedbackError('PAPER_FEEDBACK_HASH_INVALID')
 
 def validate_paper_feedback(value):
-    _exact(value,TOP)
-    if value['schema_version']!=SCHEMA:raise FeedbackError('PAPER_FEEDBACK_SCHEMA_INVALID')
+    recorded=isinstance(value,dict) and value.get('schema_version')==RECORDED_SCHEMA
+    _exact(value,TOP|({'funding'} if recorded else set()))
+    if value['schema_version'] not in (SCHEMA,RECORDED_SCHEMA):raise FeedbackError('PAPER_FEEDBACK_SCHEMA_INVALID')
     safe_component(value['run_id']);utc(value['created_at'])
     _exact(value['strategy'],('strategy_id','strategy_version','content_hash'))
     for name in ('strategy_id','strategy_version'):safe_component(value['strategy'][name])
@@ -64,8 +67,50 @@ def validate_paper_feedback(value):
     _reasons(assessment['reason_codes']);_number(assessment['run_revision']);_hash(assessment['assessment_hash'])
     if value['performance_policy'] not in ('OPT_OUT','OPT_IN'):raise FeedbackError('PAPER_FEEDBACK_POLICY_INVALID')
     if value['cost_conventions']!=dict(slippage='IN_FILL_PRICE_NO_ADDITIONAL_DEDUCTION',
-            funding_model='EXPLICIT_REGISTERED_PAPER_ZERO',account_scope='ISOLATED_PER_STRATEGY_RUN'):
+            funding_model='OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1' if recorded else 'EXPLICIT_REGISTERED_PAPER_ZERO',account_scope='ISOLATED_PER_STRATEGY_RUN'):
         raise FeedbackError('PAPER_FEEDBACK_COST_CONVENTION_INVALID')
+    if recorded:
+        funding=value['funding']
+        _exact(funding,('funding_model','source_kind','cost_basis','billing_disclosure','status','pending_allocations',
+            'finalized_allocations','pending_since','wall_wait_seconds','observed_wait_seconds','wait_reason','flat_observation','latest_source'))
+        if (value['namespace']!='LOCAL_RESEARCH' or row['mode']!='REAL_TIME'
+                or funding['funding_model']!='OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1' or funding['source_kind']!='PAPER_MODEL'
+                or funding['cost_basis']!='ACTUAL_ENTRY_FILL_NOTIONAL'
+                or funding['billing_disclosure']!='PAPER_MODEL_NOT_EXCHANGE_ACCOUNT_BILL'
+                or funding['status'] not in ('FUNDING_PENDING','FINALIZED','NO_FINANCIAL_SAMPLE')):
+            raise FeedbackError('PAPER_FEEDBACK_FUNDING_PROFILE_INVALID')
+        for key in ('pending_allocations','finalized_allocations','wall_wait_seconds','observed_wait_seconds'):_number(funding[key])
+        if funding['finalized_allocations']!=row['closed_trades'] or funding['pending_allocations'] not in (0,1):
+            raise FeedbackError('PAPER_FEEDBACK_FUNDING_COUNTS_INVALID')
+        pending=funding['status']=='FUNDING_PENDING'
+        if pending!=(funding['pending_allocations']==1):raise FeedbackError('PAPER_FEEDBACK_FUNDING_PENDING_INVALID')
+        if pending:
+            utc(funding['pending_since']);_reasons([funding['wait_reason']])
+            _exact(funding['flat_observation'],('position_id','symbol','actual_quantity','broker_state_observed_at'))
+            flat=funding['flat_observation'];safe_component(flat['position_id']);utc(flat['broker_state_observed_at'])
+            if flat['symbol']!='BTC_USDT_PERP' or _decimal(flat['actual_quantity']) is None or Decimal(flat['actual_quantity'])!=0:
+                raise FeedbackError('PAPER_FEEDBACK_FUNDING_FLAT_REQUIRED')
+            if assessment['status']=='PASS' or 'FUNDING_FINALIZATION_PENDING' not in assessment['reason_codes']:
+                raise FeedbackError('PAPER_FEEDBACK_PENDING_PASS_FORBIDDEN')
+        elif (funding['pending_since'] is not None or funding['wait_reason'] is not None or funding['flat_observation'] is not None
+                or funding['wall_wait_seconds'] or funding['observed_wait_seconds']):
+            raise FeedbackError('PAPER_FEEDBACK_FUNDING_PENDING_INVALID')
+        if not pending and (funding['status']=='FINALIZED')!=(funding['finalized_allocations']>0):
+            raise FeedbackError('PAPER_FEEDBACK_FUNDING_COUNTS_INVALID')
+        latest=funding['latest_source'];_exact(latest,('status','reason_code','observed_at','coverage_start','complete_through','snapshot_hash'))
+        if latest['status'] not in ('HEALTHY','UNAVAILABLE'):raise FeedbackError('PAPER_FEEDBACK_FUNDING_SOURCE_INVALID')
+        if latest['status']=='HEALTHY':
+            for key in ('observed_at','coverage_start','complete_through'):utc(latest[key])
+            if latest['reason_code'] is not None or not isinstance(latest['snapshot_hash'],str) or not re.fullmatch('[0-9a-f]{64}',latest['snapshot_hash']):
+                raise FeedbackError('PAPER_FEEDBACK_FUNDING_SOURCE_INVALID')
+        else:
+            _reasons([latest['reason_code']])
+            keys=('observed_at','coverage_start','complete_through','snapshot_hash')
+            if any(latest[key] is not None for key in keys):
+                if not all(latest[key] is not None for key in keys):raise FeedbackError('PAPER_FEEDBACK_FUNDING_SOURCE_INVALID')
+                for key in keys[:3]:utc(latest[key])
+                if type(latest['snapshot_hash']) is not str or not re.fullmatch('[0-9a-f]{64}',latest['snapshot_hash']):
+                    raise FeedbackError('PAPER_FEEDBACK_FUNDING_SOURCE_INVALID')
     if value['performance'] is not None:
         if value['performance_policy']!='OPT_IN' or not row['closed_trades']:
             raise FeedbackError('PAPER_FEEDBACK_AVAILABLE_PERFORMANCE_OPT_IN_REQUIRED')
@@ -114,6 +159,10 @@ def build_paper_feedback(runtime,*,performance_opt_in=False):
         performance={key:assessment[key] for key in METRICS} if performance_opt_in and assessment['closed_trades'] else None,
         live=dict(status='NOT_RUN',performance=None),broker_kind='PAPER_ONLY',financial_authority='NONE',
         artifact_links=[],uncertainty=list(UNCERTAINTY))
+    if service.recorded_funding:
+        from application.paper.funding_source import funding_status
+        value['schema_version']=RECORDED_SCHEMA
+        value['funding']=funding_status(before.state['runtime'],now=service.clock() if assessment['observed_at'] is None else utc(assessment['observed_at']))
     after=service.process.recover(runtime.run_id)
     if ((before.process_generation,before.revision,before.binding_json,before.state_json)!=
             (after.process_generation,after.revision,after.binding_json,after.state_json)
@@ -127,6 +176,10 @@ def render_paper_feedback(value):
     row=value['observation']
     cells=[('模式',row['mode']),('執行來源',row['execution']),('實際觀察秒數',row['actual_elapsed_seconds']),
         ('模擬觀察秒數',row['simulated_elapsed_seconds']),('已平倉交易數',row['closed_trades']),('實際評估',value['assessment']['status'])]
+    if value['schema_version']==RECORDED_SCHEMA:
+        funding=value['funding'];cells.extend([('資金費率模型',funding['funding_model']),('費率計費基礎',funding['cost_basis']),
+            ('財務結算',funding['status']),('待結算筆數',funding['pending_allocations']),('等待秒數',funding['wall_wait_seconds']),
+            ('等待原因',funding['wait_reason']),('最新來源',funding['latest_source']['status'])])
     table=''.join('<tr><th>'+html.escape(label)+'</th><td>'+html.escape(str(actual))+'</td></tr>' for label,actual in cells)
     policy='績效未公開（預設）' if value['performance_policy']=='OPT_OUT' else '本機使用者已選擇公開可用績效；尚無平倉交易時仍保留 null'
     return ('<!doctype html><html lang="zh-Hant"><meta charset="utf-8">'

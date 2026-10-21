@@ -5,7 +5,7 @@ from application.cloud.manifest import load_json
 def validate_public_feedback_publication(logical_path,payloads):
     if set(payloads)!={'feedback.json','report.html'}:raise FeedbackError('PUBLIC_FEEDBACK_BUNDLE_INVALID')
     document=load_json(payloads['feedback.json'],256*1024)
-    if isinstance(document,dict) and document.get('schema_version')=='r7-paper-feedback-v0.2':
+    if isinstance(document,dict) and document.get('schema_version') in ('r7-paper-feedback-v0.2','r7-paper-feedback-v0.3'):
         from application.cloud.paper_feedback import validate_paper_feedback_publication
         validate_paper_feedback_publication(logical_path,payloads)
     elif isinstance(document,dict) and document.get('schema_version')=='r7-trading-summary-feedback-v0.3':

@@ -1,0 +1,26 @@
+
+ RUN  v5.0.3 C:/Users/jackp/Desktop/交易機器人主體/workspaces/project-r7-productization-master-20261002/ui
+
+ ❯ src/model.test.ts (15 tests | 1 failed) 56ms
+   ❯ truthful display and command prerequisites (15)
+     × shows verified owner flat pending separately from the original E5 projection 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/model.test.ts > truthful display and command prerequisites > shows verified owner flat pending separately from the original E5 projection
+TypeError: paperExposure is not a function
+ ❯ src/model.test.ts:8:12
+      6|     const value={position:{position_id:'position-one',actual_quantity:…
+      7|       funding:{status:'FUNDING_PENDING',flat_observation:{position_id:…
+      8|     expect(paperExposure(value)).toEqual({quantity:'0.000',status:'FUN…
+       |            ^
+      9|     expect(paperExposure({...value,funding:undefined})).toEqual({quant…
+     10|     for(const flat of [{position_id:'other',actual_quantity:'0'},{posi…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 passed (15)
+   Start at  15:09:39
+   Duration  535ms (tests 44%, transform 22%, worker 19%, import 15%)

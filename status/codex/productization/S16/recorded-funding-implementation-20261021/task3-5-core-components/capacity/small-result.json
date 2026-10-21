@@ -1,0 +1,49 @@
+{
+  "status": "CONTROLLED_STORAGE_VOLUME_VERIFIED_NOT_ORDINARY_QUALIFICATION",
+  "protocol": "ACCELERATED_PRODUCER_PACK_FSYNC;UNMODIFIED_COMPLETE_PRODUCTION_READER",
+  "ticks": 8,
+  "logical_seconds": 40,
+  "logical_requests": 18,
+  "extra_candle_preflight_requests": 2,
+  "actual_provider_requests": 0,
+  "actual_provider_responses": 0,
+  "source_hashes": {
+    "tools/verify_public_archive_volume.py": "sha256:c293d019bbe7c039ff3498dd93f7e71cded5961b27abdade22517c1a2cf2549b",
+    "src/application/paper/capture_archive.py": "sha256:c890a76ee2aeaa0b9e141d61305ff98a6578261e259251da34eb598bee19c038"
+  },
+  "raw_template_hashes": {
+    "ticker": "sha256:8d87772f614fc3e231cc15d5bdd34b011699d31d01ea18ff032f11fb1eed8e6b",
+    "funding": "sha256:1b34ba3d86cb660c0c1d242381f9b0c929cb88bb8c963cad96bce3b467215ed7"
+  },
+  "static_funding_payload_assumption": true,
+  "archive": {
+    "physical_bytes": 63680,
+    "raw_bytes": 207085,
+    "deduplicated_payload_bytes": 155632,
+    "captures": 18,
+    "request_budget_upper": 1629,
+    "active_request_budget_upper": 1629,
+    "request_accounting": "COMPLETE",
+    "provider_requests": 18,
+    "provider_responses": 18,
+    "completed_capture_requests": 18,
+    "completed_capture_responses": 18,
+    "sealed_segments": 0,
+    "pending_reservations": 0,
+    "reserved_bytes": 0
+  },
+  "actual_files": 2,
+  "actual_physical_bytes_including_head": 66271,
+  "generation_wall_seconds": 0.026365500001702458,
+  "verification_wall_seconds": 0.0365804000175558,
+  "total_wall_seconds": 0.06294649999472313,
+  "cpu_seconds": 0.046875,
+  "peak_working_set_bytes": 33861632,
+  "working_set_bytes": 33861632,
+  "peak_pagefile_bytes": 18665472,
+  "limitations": [
+    "Accelerated producer does not establish normal per-request durability or steady runtime IO cost",
+    "No financial admission, strategy evaluation, DB growth, native isolation or elapsed observation credit",
+    "Protocol worst-case variable/maximal response payloads must refuse before capacity, not promise30days"
+  ]
+}

@@ -51,6 +51,24 @@ class PublicCaptureArchiveTests(unittest.TestCase):
         self.assertGreater(summary['deduplicated_payload_bytes'],0)
         self.assertGreater(summary['physical_bytes'],0)
 
+    def test_restart_verifies_exact_commit_file_index_during_linear_scan(self):
+        from application.datasets.catalog import canonical
+        archive=self.archive();token=str(uuid.uuid4())
+        archive.reserve(token,kind='funding',maximum_requests=16,maximum_bytes=1024*1024)
+        with archive._locked(),archive._writing():
+            pointer=archive._append('FILE',token,'actual.json',b'PUBLIC_EXACT_FILE')
+            archive._append('COMMIT',token,'',canonical(dict(files={'wrong.json':pointer},
+                requests=1,responses=1,complete=True)).encode())
+        with self.assertRaisesRegex(ValueError,'INDEX'):self.archive()
+
+    def test_restart_dedup_verification_uses_only_preceding_verified_originals(self):
+        archive=self.archive()
+        for _ in range(5):self.record(archive)
+        with patch.object(self.module().PublicCaptureArchive,'_read_pointer',
+                side_effect=AssertionError('Full-volume verification must not reopen every dedup original')):
+            successor=self.archive()
+        self.assertEqual(successor.summary()['provider_requests'],5)
+
     def test_valid_seal_keeps_ordered_hash_chain_and_bounded_external_file_count(self):
         archive=self.archive()
         with patch.object(self.module(),'MAX_FRAMES',6):

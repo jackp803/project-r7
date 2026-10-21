@@ -31,7 +31,7 @@ def simulator_profile(owner,*,implementation_hash=None):
     return dict(schema_version='r7-local-paper-simulator-v0.2',
         implementation_profile='r7-paper-engine-v0.2', implementation_hash=_revision() if implementation_hash is None else implementation_hash,
         simulation_policy_hash=simulation.policy_hash, account_scope='ISOLATED_PER_STRATEGY_RUN',
-        funding_model='EXPLICIT_REGISTERED_PAPER_ZERO', partial_remainder_behavior='CANCEL_AFTER_FIRST_FILL',
+        funding_model=simulation.as_dict()['funding_model'], partial_remainder_behavior='CANCEL_AFTER_FIRST_FILL',
         broker_kind='PAPER_ONLY', provider_requests=0, credentials='NONE', capital='NONE')
 
 

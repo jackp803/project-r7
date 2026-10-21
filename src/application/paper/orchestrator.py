@@ -15,7 +15,7 @@ from storage.runtime_models import RuntimeValidationError
 from storage.canonical_publication import CANONICAL_WRITERS as _WRITERS
 
 _STATUSES = {'ACKNOWLEDGED', 'BLOCKED', 'NO_SIGNAL', 'FILLED', 'PROTECTED',
-             'EXIT_REQUESTED', 'CLOSED', 'HOLD', 'PAUSED', 'RECOVERED', 'EXPIRED'}
+             'EXIT_REQUESTED', 'CLOSED', 'HOLD', 'PAUSED', 'RECOVERED', 'EXPIRED', 'FUNDING_PENDING'}
 
 
 @dataclass(frozen=True)

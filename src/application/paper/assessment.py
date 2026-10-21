@@ -56,6 +56,7 @@ def assess_forward(run, policy):
     elapsed=observed['simulated_elapsed_seconds'] if fixture else observed['real_elapsed_ns']//1_000_000_000
     healthy=observed['simulated_healthy_seconds'] if fixture else observed['real_healthy_ns']//1_000_000_000
     blocked=[]; failed=[]
+    if runtime.get('pending_funding') is not None:blocked.append('FUNDING_FINALIZATION_PENDING')
     if recovered.pending_operations: blocked.append('PUBLICATION_OR_OPERATION_PENDING')
     if elapsed<selected['min_elapsed_seconds']: blocked.append('INSUFFICIENT_OBSERVATION_DURATION')
     if metrics.total_trades<selected['min_closed_trades']: blocked.append('INSUFFICIENT_CLOSED_TRADES')

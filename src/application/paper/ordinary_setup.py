@@ -94,7 +94,7 @@ def configure_ordinary_paper(config_path,selection_profile):
 
 
 class OrdinarySelectedPaper:
-    def __init__(self,config,selection,*,resolver,clock,observation_reader=None,implementation_hash=None):
+    def __init__(self,config,selection,*,resolver,clock,observation_reader=None,implementation_hash=None,funding_source=None):
         self.config,self.selection,self.clock=config,selection,clock
         record=selection.as_dict()
         # The protected selection is only a pending commitment in Control.
@@ -121,10 +121,14 @@ class OrdinarySelectedPaper:
         _,package=resolver.package(source['submission_id']);self.snapshot=package.snapshot
         self.native=NativePaperReleaseReader(config,receipt_ref=source['qualification_receipt_ref'],
             selection_generation=selection.generation,observation_reader=observation_reader)
+        def funding_admission():
+            from application.platform.runtime_identity import read_runtime_identity
+            from .funding_feed import current_funding_health
+            return current_funding_health(config,selection,read_runtime_identity(config).identity,now=clock())['healthy'] is True
         authenticator=HumanAuthenticator(namespace='LOCAL_RESEARCH',reauth_seconds=300,verifier=lambda _:None,clock=clock)
         self.owners=PaperOwnerComposition(config,selection=self.owner,current_release=self.current,
             authenticator=authenticator,clock=clock,strategy_identity=self.identity,operational_generation=selection.generation,
-            implementation_hash=self.implementation_hash)
+            implementation_hash=self.implementation_hash,funding_source=funding_source,funding_admission=funding_admission)
 
     def current(self):
         try:
@@ -137,13 +141,13 @@ class OrdinarySelectedPaper:
             raise EvidenceGateError('Current qualified native Paper selection/runtime evidence required') from error
 
 
-def load_ordinary_paper_owners(config,*,clock,resolver,observation_reader=None,implementation_hash=None):
+def load_ordinary_paper_owners(config,*,clock,resolver,observation_reader=None,implementation_hash=None,funding_source=None):
     if product_namespace(config)!='LOCAL_RESEARCH' or not config.database_path.is_file():return None
     if require_valid_restoration(config)['status']!='NOT_RESTORED':return None
     with open_paper_selections(config.database_path) as reader:selection=reader.current()
     if selection is None:return None
     return OrdinarySelectedPaper(config,selection,resolver=resolver,clock=clock,
-        observation_reader=observation_reader,implementation_hash=implementation_hash)
+        observation_reader=observation_reader,implementation_hash=implementation_hash,funding_source=funding_source)
 
 
 def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=None):
@@ -178,10 +182,10 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
     _historical_owner(record,implementation_hash=installed['implementation_hash'])
     from contextlib import contextmanager
     from application.local_owners import LocalOwners
-    source_capture_recovery=None
+    source_capture_recovery=None;funding=None
     @contextmanager
     def actual_service():
-        nonlocal source_capture_recovery
+        nonlocal source_capture_recovery,funding
         # The actual runtime scope precedes public writers and E6 attachment.
         # Recovery preserves unknown accounting; it never grants admission.
         from .capture_recovery import recover_public_archive
@@ -189,9 +193,18 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
         local=LocalOwners(config,namespace='LOCAL_RESEARCH')
         with open_paper_selections(config.database_path) as ledger:
             if ledger.current()!=selection:raise ValueError('Paper selection changed during qualified bootstrap')
-        with OwnerReleaseObservation(config,config_path,ref,supervisor=worker.supervisor,selection=selection) as observer:
+        with ExitStack() as sources,OwnerReleaseObservation(config,config_path,ref,supervisor=worker.supervisor,selection=selection) as observer:
+            source_port=None
+            if record['owner']['simulation_policy']['funding_model']=='OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1':
+                from .public_market import load_market_profile
+                if load_market_profile(config) is not None:
+                    from .funding_feed import PublicFundingFeed,funding_request
+                    from .funding_source import PaperFundingSource
+                    request=funding_request(config,selection,worker.supervisor.identity['process_generation_id'],now=local.clock())
+                    funding=sources.enter_context(PublicFundingFeed(config,config_path,request))
+                    source_port=PaperFundingSource(funding.model,funding.current,status_reader=funding.summary)
             selected=load_ordinary_paper_owners(config,clock=local.clock,resolver=local.resolver,
-                observation_reader=observer,implementation_hash=installed['implementation_hash'])
+                observation_reader=observer,implementation_hash=installed['implementation_hash'],funding_source=source_port)
             if selected is None:raise ValueError('Actual ordinary Paper composition required')
             with selected.owners.service() as service:yield service
     worker=PaperOwnerWorker(config,actual_service,namespace='LOCAL_RESEARCH',config_path=config_path,feedback_on_quiescence=True)
@@ -210,6 +223,7 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
         while not stop.requested:
             if observe_service_stop(worker.supervisor,stop):break
             worker.tick();tick+=1
+            if funding is not None:funding.update(worker.funding_coverage_start())
             if feed is not None:
                 subscriptions=worker.market_subscriptions();feed.update(subscriptions)
                 result=feed.take()
@@ -223,8 +237,15 @@ def ordinary_paper_worker(config_path,*,maximum_ticks=None,expected_config_hash=
             stop.wait(1)
         final=worker.snapshot()
     if feed is not None:market=feed.summary()
+    funding_summary=None if funding is None else funding.summary()
+    total_requests=market['provider_requests'];total_responses=market['provider_responses']
+    if funding_summary is not None:
+        total_requests=None if total_requests is None or funding_summary['provider_requests'] is None else total_requests+funding_summary['provider_requests']
+        total_responses=None if total_responses is None or funding_summary['provider_responses'] is None else total_responses+funding_summary['provider_responses']
     print(json.dumps(dict(status='STOPPED',namespace='LOCAL_RESEARCH',mode='REAL_TIME',
-        **market,market_event_rejections=market_rejections,source_capture_recovery=source_capture_recovery,
+        **{**market,'provider_requests':total_requests,'provider_responses':total_responses},
+        public_market=market,public_funding=funding_summary,
+        market_event_rejections=market_rejections,source_capture_recovery=source_capture_recovery,
         process_generation=final['process_generation'],
         run_failures=final['run_failures'],financial_authority='NONE',
         capital='NONE',real_forward_qualification='NOT_ISSUED')))

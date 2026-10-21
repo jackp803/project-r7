@@ -1,3 +1,30 @@
+# Recorded funding core pending, ordinary adapter and report checkpoint — 2026-10-21
+
+Same task/branch. Actual LOCAL E4/E5/E6 tests cover durable flat/fills while funding
+is unavailable, no final financial sample, source completeness/publication delay,
+successor reconcile and exact effect replay after fill/final-result crashes.
+Source expiry healthy-time bug reproduced/fixed; v0.5 ordinary policy/model and
+read-only actual-owner start health wired; runtime source feed owns allocation.
+New v0.3 report and Control Center funding panel preserve old v0.2 behavior.
+Final stable report/runtime46tests, archive/recovery39tests, owner/native adapter42
+tests and frontend19tests pass. These overlap and are not whole qualification.
+
+Full controlled30day STORAGE workload verified:1,037,010logical captures including
+180changed4h candle and30preflight extras,3,622,328,474physical bytes,2,176files;
+peak RSS45,268,992bytes,506.3seconds actual execution. Producer fsync/head batching
+explicitly differs from real per-request IO; unmodified production reader verified
+every retained frame/index/counter/seal. No provider/Paper/elapsed credit.
+
+Continue outstanding opportunity/cadence and original-selection cases; emergency
+exposure-only source acquisition; full-volume product backup deadline and native
+isolation; browser, negative schema/outbox and actual native source flows; whole
+change review/new exact Windows build/PQR and research independence. Tasks2–5
+remain IN_PROGRESS, Task6 NOT_STARTED. No old qualification transfer.
+Public cumulative20/19 unchanged; private0/capitalNONE/PaperNOT_STARTED.
+Evidence: S16/recorded-funding-implementation-20261021/task3-5-core-components/disposition.json
+
+---
+
 # Recorded funding Task2 owner-fenced recovery checkpoint; continue — 2026-10-21
 
 Same task/branch. New actual runtime/child leases fence recovery before writers.

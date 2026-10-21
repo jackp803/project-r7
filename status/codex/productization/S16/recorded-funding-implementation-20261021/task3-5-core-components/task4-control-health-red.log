@@ -1,0 +1,19 @@
+test_normal_control_port_requires_current_actual_owner_projection_without_source_attachment (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_normal_control_port_requires_current_actual_owner_projection_without_source_attachment) ... ERROR
+
+======================================================================
+ERROR: test_normal_control_port_requires_current_actual_owner_projection_without_source_attachment (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_normal_control_port_requires_current_actual_owner_projection_without_source_attachment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 186, in test_normal_control_port_requires_current_actual_owner_projection_without_source_attachment
+    configure_market_data(self.h.config_path,path)
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\public_market.py", line 69, in configure_market_data
+    if config.local_data_root.exists():require_private(config.local_data_root,directory=True)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\platform\private_files.py", line 94, in require_private
+    raise ValueError('Protected private directory required')
+ValueError: Protected private directory required
+
+----------------------------------------------------------------------
+Ran 1 test in 3.821s
+
+FAILED (errors=1)

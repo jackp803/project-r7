@@ -88,6 +88,7 @@ class PublicFundingFeedTests(unittest.TestCase):
             self.assertFalse(feed.summary()['healthy'])
             self.assertEqual(feed.summary()['completed_batch_requests'],1)
             self.assertIsNone(feed.summary()['provider_requests'])
+            self.assertIsNone(feed.current(),'A failed source cannot keep serving the previous current observation')
 
     def health_document(self):
         from tests.application import test_native_paper_release_observation as native_fixture

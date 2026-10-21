@@ -1,0 +1,19 @@
+test_existing_ordinary_and_fixture_zero_policy_bytes_stay_supported (tests.application.test_recorded_paper_policy.RecordedPaperPolicyTests.test_existing_ordinary_and_fixture_zero_policy_bytes_stay_supported) ... ok
+test_new_ordinary_profile_explicitly_binds_recorded_model (tests.application.test_recorded_paper_policy.RecordedPaperPolicyTests.test_new_ordinary_profile_explicitly_binds_recorded_model) ... ERROR
+test_wrong_missing_zero_or_fixture_pairing_is_refused (tests.application.test_recorded_paper_policy.RecordedPaperPolicyTests.test_wrong_missing_zero_or_fixture_pairing_is_refused) ... ok
+
+======================================================================
+ERROR: test_new_ordinary_profile_explicitly_binds_recorded_model (tests.application.test_recorded_paper_policy.RecordedPaperPolicyTests.test_new_ordinary_profile_explicitly_binds_recorded_model)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\application\test_recorded_paper_policy.py", line 18, in test_new_ordinary_profile_explicitly_binds_recorded_model
+    self.assertEqual(parse_simulation_policy(value,namespace='LOCAL_RESEARCH').as_dict(),value)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\src\application\paper\policy.py", line 38, in parse_simulation_policy
+    raise ValueError('Paper fixture/real elapsed profile mismatch')
+ValueError: Paper fixture/real elapsed profile mismatch
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+FAILED (errors=1)

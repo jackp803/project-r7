@@ -1,0 +1,49 @@
+{
+  "status": "CONTROLLED_STORAGE_VOLUME_VERIFIED_NOT_ORDINARY_QUALIFICATION",
+  "protocol": "ACCELERATED_PRODUCER_PACK_FSYNC;UNMODIFIED_COMPLETE_PRODUCTION_READER",
+  "ticks": 34560,
+  "logical_seconds": 172800,
+  "logical_requests": 69134,
+  "extra_candle_preflight_requests": 14,
+  "actual_provider_requests": 0,
+  "actual_provider_responses": 0,
+  "source_hashes": {
+    "tools/verify_public_archive_volume.py": "sha256:c293d019bbe7c039ff3498dd93f7e71cded5961b27abdade22517c1a2cf2549b",
+    "src/application/paper/capture_archive.py": "sha256:c890a76ee2aeaa0b9e141d61305ff98a6578261e259251da34eb598bee19c038"
+  },
+  "raw_template_hashes": {
+    "ticker": "sha256:8d87772f614fc3e231cc15d5bdd34b011699d31d01ea18ff032f11fb1eed8e6b",
+    "funding": "sha256:1b34ba3d86cb660c0c1d242381f9b0c929cb88bb8c963cad96bce3b467215ed7"
+  },
+  "static_funding_payload_assumption": true,
+  "archive": {
+    "physical_bytes": 240897420,
+    "raw_bytes": 797615360,
+    "deduplicated_payload_bytes": 667097114,
+    "captures": 69134,
+    "request_budget_upper": 6257372,
+    "active_request_budget_upper": 41268,
+    "request_accounting": "COMPLETE",
+    "provider_requests": 69134,
+    "provider_responses": 69134,
+    "completed_capture_requests": 69134,
+    "completed_capture_responses": 69134,
+    "sealed_segments": 72,
+    "pending_reservations": 0,
+    "reserved_bytes": 0
+  },
+  "actual_files": 146,
+  "actual_physical_bytes_including_head": 240924564,
+  "generation_wall_seconds": 23.620897699991474,
+  "verification_wall_seconds": 19.51687099999981,
+  "total_wall_seconds": 43.13776959999814,
+  "cpu_seconds": 40.671875,
+  "peak_working_set_bytes": 44441600,
+  "working_set_bytes": 34840576,
+  "peak_pagefile_bytes": 29261824,
+  "limitations": [
+    "Accelerated producer does not establish normal per-request durability or steady runtime IO cost",
+    "No financial admission, strategy evaluation, DB growth, native isolation or elapsed observation credit",
+    "Protocol worst-case variable/maximal response payloads must refuse before capacity, not promise30days"
+  ]
+}

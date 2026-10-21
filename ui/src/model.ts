@@ -3,6 +3,14 @@ export const object=(value:unknown):Row=>value!==null&&typeof value==='object'&&
 export const rows=(value:unknown):Row[]=>Array.isArray(value)?value.map(object):[];
 export const text=(value:unknown):string=>typeof value==='string'?value:typeof value==='number'?String(value):value===true?'是':value===false?'否':'未提供';
 export const metric=(value:unknown):string=>value===null||value===undefined?'未提供':text(value);
+export function paperExposure(value:unknown):{quantity:unknown;status:unknown;pendingFlat:boolean}{
+  const run=object(value);const position=object(run.position);const funding=object(run.funding);
+  const flat=object(funding.flat_observation);
+  const pendingFlat=funding.status==='FUNDING_PENDING'&&typeof flat.position_id==='string'&&
+    flat.position_id===position.position_id&&typeof flat.actual_quantity==='string'&&/^-?0(?:\.0+)?$/.test(flat.actual_quantity);
+  return {quantity:pendingFlat?flat.actual_quantity:position.actual_quantity,
+    status:pendingFlat?'FUNDING_PENDING':position.lifecycle_state,pendingFlat};
+}
 export function actualForwardSeconds(value:unknown):string|null{
   const nanoseconds=object(value).real_elapsed_ns;
   if(typeof nanoseconds!=='number'||!Number.isSafeInteger(nanoseconds)||nanoseconds<0)return null;

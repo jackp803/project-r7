@@ -25,6 +25,7 @@ def parse_simulation_policy(value, *, namespace):
     if not isinstance(value,dict):raise ValueError('Complete explicit simulation policy required')
     rejection=value.get('schema_version')=='r7-paper-simulation-policy-v0.3'
     observation=value.get('schema_version')=='r7-paper-simulation-policy-v0.4'
+    recorded=value.get('schema_version')=='r7-paper-simulation-policy-v0.5'
     fields=_FIELDS|({'fixture_protection_submission'} if rejection else {'fixture_protection_observation'} if observation else set())
     if set(value) != fields:
         raise ValueError('Complete explicit simulation policy required')
@@ -32,7 +33,9 @@ def parse_simulation_policy(value, *, namespace):
         raise ValueError('Closed fixture-only protection submission fault required')
     if observation and (namespace!='FIXTURE' or value['fixture_protection_observation'] not in ('MISSING','STALE','CANCELED')):
         raise ValueError('Closed fixture-only protection observation required')
-    if (value['schema_version'] not in ('r7-paper-simulation-policy-v0.2','r7-paper-simulation-policy-v0.3','r7-paper-simulation-policy-v0.4') or
+    if recorded and (namespace!='LOCAL_RESEARCH' or value['mode']!='REAL_TIME'):
+        raise ValueError('Recorded public funding requires ordinary real-time Paper')
+    if (value['schema_version'] not in ('r7-paper-simulation-policy-v0.2','r7-paper-simulation-policy-v0.3','r7-paper-simulation-policy-v0.4','r7-paper-simulation-policy-v0.5') or
         value['namespace'] != namespace or (namespace, value['mode']) not in
         (('FIXTURE', 'ACCELERATED_FIXTURE'), ('LOCAL_RESEARCH', 'REAL_TIME'))):
         raise ValueError('Paper fixture/real elapsed profile mismatch')
@@ -54,7 +57,7 @@ def parse_simulation_policy(value, *, namespace):
     if Decimal(value['initial_fill_fraction']) > 1 or Decimal(value['fee_rate']) > 1 or Decimal(value['slippage_bps']) > 10000:
         raise ValueError('Invalid bounded Paper fill/cost model')
     if (value['partial_remainder_behavior'] != 'CANCEL_AFTER_FIRST_FILL' or
-        value['funding_model'] != 'EXPLICIT_REGISTERED_PAPER_ZERO' or
+        value['funding_model'] != ('OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1' if recorded else 'EXPLICIT_REGISTERED_PAPER_ZERO') or
         value['account_scope'] != 'ISOLATED_PER_STRATEGY_RUN'):
         raise ValueError('Unsupported simulation remainder/funding profile')
     raw = canonical(value)

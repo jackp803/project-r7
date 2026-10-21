@@ -1,0 +1,49 @@
+{
+  "status": "CONTROLLED_STORAGE_VOLUME_VERIFIED_NOT_ORDINARY_QUALIFICATION",
+  "protocol": "ACCELERATED_PRODUCER_PACK_FSYNC;UNMODIFIED_COMPLETE_PRODUCTION_READER",
+  "ticks": 518400,
+  "logical_seconds": 2592000,
+  "logical_requests": 1037010,
+  "extra_candle_preflight_requests": 210,
+  "actual_provider_requests": 0,
+  "actual_provider_responses": 0,
+  "source_hashes": {
+    "tools/verify_public_archive_volume.py": "sha256:c293d019bbe7c039ff3498dd93f7e71cded5961b27abdade22517c1a2cf2549b",
+    "src/application/paper/capture_archive.py": "sha256:c890a76ee2aeaa0b9e141d61305ff98a6578261e259251da34eb598bee19c038"
+  },
+  "raw_template_hashes": {
+    "ticker": "sha256:8d87772f614fc3e231cc15d5bdd34b011699d31d01ea18ff032f11fb1eed8e6b",
+    "funding": "sha256:1b34ba3d86cb660c0c1d242381f9b0c929cb88bb8c963cad96bce3b467215ed7"
+  },
+  "static_funding_payload_assumption": true,
+  "archive": {
+    "physical_bytes": 3622301372,
+    "raw_bytes": 11966542263,
+    "deduplicated_payload_bytes": 10006709612,
+    "captures": 1037010,
+    "request_budget_upper": 93860580,
+    "active_request_budget_upper": 14661,
+    "request_accounting": "COMPLETE",
+    "provider_requests": 1037010,
+    "provider_responses": 1037010,
+    "completed_capture_requests": 1037010,
+    "completed_capture_responses": 1037010,
+    "sealed_segments": 1087,
+    "pending_reservations": 0,
+    "reserved_bytes": 0
+  },
+  "actual_files": 2176,
+  "actual_physical_bytes_including_head": 3622328474,
+  "generation_wall_seconds": 266.15566439999384,
+  "verification_wall_seconds": 240.16085439999006,
+  "total_wall_seconds": 506.3165203999961,
+  "cpu_seconds": 471.390625,
+  "peak_working_set_bytes": 45268992,
+  "working_set_bytes": 39239680,
+  "peak_pagefile_bytes": 29511680,
+  "limitations": [
+    "Accelerated producer does not establish normal per-request durability or steady runtime IO cost",
+    "No financial admission, strategy evaluation, DB growth, native isolation or elapsed observation credit",
+    "Protocol worst-case variable/maximal response payloads must refuse before capacity, not promise30days"
+  ]
+}

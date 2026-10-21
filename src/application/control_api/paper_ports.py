@@ -100,6 +100,7 @@ class PaperReadControlPort:
             if graph.current_position_projection is None or graph.current_position_projection.payload!=position:
                 canonical_status='RECONCILIATION_REQUIRED'; reasons.append('CANONICAL_PROJECTION_MISMATCH')
         if recovered.pending_operations: reasons.append('PAPER_OPERATION_PUBLICATION_PENDING')
+        if runtime.get('pending_funding') is not None:reasons.append('FUNDING_FINALIZATION_PENDING')
         submissions=recovered.state['broker']['payload']['submissions']
         orders=[]
         for row in sorted(submissions,key=lambda item:(item['request']['created_at'],item['request']['client_order_id']))[-100:]:
@@ -122,4 +123,7 @@ class PaperReadControlPort:
             forward_observations=runtime['forward'],closed_trades_count=len(runtime['closed_trades']),metrics=metrics,
             orders=orders,orders_total=len(submissions),orders_limit=100,fills_limit=10,
             account_scope='ISOLATED_PER_STRATEGY_RUN',cost_convention='SLIPPAGE_IN_FILL_PRICE; NO_ADDITIONAL_SUBTRACTION')
+        if 'pending_funding' in runtime:
+            from application.paper.funding_source import funding_status
+            payload['funding']=funding_status(runtime,now=self.clock())
         return dict(status='LAST_KNOWN_OWNER_FACTS',revision=revision,contract='r7-paper-runtime-v0.2',payload=payload,reason_codes=sorted(set(reasons)))

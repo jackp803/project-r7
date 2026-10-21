@@ -58,7 +58,7 @@ class PaperOwnerSelection:
 
 
 class PaperOwnerComposition:
-    def __init__(self,config,*,selection,current_release,authenticator,clock,strategy_identity=None,operational_generation=None,implementation_hash=None):
+    def __init__(self,config,*,selection,current_release,authenticator,clock,strategy_identity=None,operational_generation=None,implementation_hash=None,funding_source=None,funding_admission=None):
         if (not isinstance(config,ProductConfig) or not isinstance(selection,PaperOwnerSelection)
                 or not isinstance(authenticator,HumanAuthenticator) or authenticator.namespace!=selection.namespace
                 or not callable(current_release) or not callable(clock)):
@@ -81,6 +81,8 @@ class PaperOwnerComposition:
             raise ValueError('Trusted selected owner source commitment required')
         self.implementation_hash=implementation_hash
         self.selection=PaperOwnerSelection(**selection.as_dict())
+        self.funding_source=funding_source
+        self.funding_admission=funding_admission
         self.current_release=current_release;self.authenticator=authenticator;self.clock=clock
 
     @contextmanager
@@ -167,7 +169,8 @@ class PaperOwnerComposition:
             service=PaperService(registry=registry,process_journal=process,canonical_journal=canonical_journal,
                 namespace=namespace,current_release=self.current_release,clock=self.clock,
                 strategy_identity=self.strategy_identity,management_selection=management_selection,
-                selection_current=selection_current,entry_current=entry_current,implementation_hash=self.implementation_hash,**selected)
+                selection_current=selection_current,entry_current=entry_current,implementation_hash=self.implementation_hash,
+                funding_source=self.funding_source,funding_admission=self.funding_admission,**selected)
             yield service
 
 

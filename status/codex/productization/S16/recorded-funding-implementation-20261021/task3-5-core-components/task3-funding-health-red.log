@@ -1,0 +1,14 @@
+test_source_loss_does_not_credit_healthy_forward_time_while_protection_continues (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_source_loss_does_not_credit_healthy_forward_time_while_protection_continues) ... FAIL
+
+======================================================================
+FAIL: test_source_loss_does_not_credit_healthy_forward_time_while_protection_continues (tests.product.test_paper_recorded_funding.PaperRecordedFundingTests.test_source_loss_does_not_credit_healthy_forward_time_while_protection_continues)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jackp\Desktop\交易機器人主體\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_recorded_funding.py", line 170, in test_source_loss_does_not_credit_healthy_forward_time_while_protection_continues
+    self.assertEqual(state['forward']['real_healthy_ns'],before)
+AssertionError: 3000000000 != 1000000000
+
+----------------------------------------------------------------------
+Ran 1 test in 3.564s
+
+FAILED (failures=1)

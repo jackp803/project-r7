@@ -1,7 +1,17 @@
 import {describe,expect,it} from 'vitest';
-import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment,healthStatus,actualForwardSeconds} from './model';
+import {metric,utcDisplay,progressLabel,temporalFacts,revision,approvalBlock,deploymentActivationBlock,canPauseDeployment,healthStatus,actualForwardSeconds,paperExposure} from './model';
 
 describe('truthful display and command prerequisites',()=>{
+  it('shows verified owner flat pending separately from the original E5 projection',()=>{
+    const value={position:{position_id:'position-one',actual_quantity:'0.001',lifecycle_state:'EXIT_REQUESTED'},
+      funding:{status:'FUNDING_PENDING',flat_observation:{position_id:'position-one',actual_quantity:'0.000'}}};
+    expect(paperExposure(value)).toEqual({quantity:'0.000',status:'FUNDING_PENDING',pendingFlat:true});
+    expect(paperExposure({...value,funding:undefined})).toEqual({quantity:'0.001',status:'EXIT_REQUESTED',pendingFlat:false});
+    for(const flat of [{position_id:'other',actual_quantity:'0'},{position_id:'position-one',actual_quantity:null},
+      {position_id:'position-one',actual_quantity:'0.001'}]){
+      expect(paperExposure({...value,funding:{status:'FUNDING_PENDING',flat_observation:flat}}).pendingFlat).toBe(false);
+    }
+  });
   it('shows actual owner forward nanoseconds as exact seconds, including zero',()=>{
     expect(actualForwardSeconds({real_elapsed_ns:0})).toBe('0');
     expect(actualForwardSeconds({real_elapsed_ns:2_000_000_001})).toBe('2.000000001');

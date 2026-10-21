@@ -226,7 +226,7 @@ class PublicFundingFeed:
         return result
 
     def current(self):
-        with self.lock:return self.latest
+        with self.lock:return self.latest if self.state=='PUBLIC_FUNDING_ACQUIRED' else None
 
     def summary(self):
         with self.lock:
@@ -235,6 +235,8 @@ class PublicFundingFeed:
             return dict(funding_source='OKX_PUBLIC_REALIZED_RATE',funding_model=FUNDING_MODEL,
                 acquisition_status=self.state,reason_code=self.reason,healthy=healthy,
                 observed_at=None if self.latest is None else self.latest.observed_at,
+                coverage_start=None if self.latest is None else self.latest.coverage_start,
+                snapshot_hash=None if self.latest is None else self.latest.snapshot_hash,
                 complete_through=None if self.latest is None else self.latest.complete_through,
                 completed_batches=self.completed,incomplete_batches=self.incomplete,
                 provider_requests=None if self.incomplete else self.requests,provider_responses=None if self.incomplete else self.responses,

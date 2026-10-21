@@ -107,6 +107,21 @@ class PaperOwnerWorker:
         return tuple(value for scheduler in self._schedulers.values() if (value:=subscription(
             scheduler.runtime,self.namespace,self.supervisor.identity['process_generation_id'])) is not None)
 
+    def funding_coverage_start(self):
+        """Owner-only oldest actual exposure/pending interval, never raw IO."""
+        self._require_owner()
+        from execution.public_recorded_funding import _floor,STEP
+        from datetime import datetime
+        earliest=self.service.clock()
+        for scheduler in self._schedulers.values():
+            runtime=scheduler.runtime
+            if not runtime.service.recorded_funding:continue
+            state=runtime.service.process.recover(runtime.run_id).state['runtime']
+            position=state['position']
+            if position is not None and (state.get('pending_funding') is not None or position['lifecycle_state']!='CLOSED'):
+                earliest=min(earliest,datetime.fromisoformat(position['opened_at'].replace('Z','+00:00')))
+        return _floor(earliest)-STEP
+
     def _discover(self):
         # One bounded page per tick; repeated sweeps find starts made by the API
         # without a second owner or a long read transaction. Historical PAPER

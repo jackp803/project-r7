@@ -36,13 +36,16 @@ from strategy.v02.capabilities import build_capability_snapshot
 
 
 class OrdinaryPaperCompositionTests(unittest.TestCase):
-    def prepare(self):
+    def prepare(self,*,simulation=None,private_data=False):
         h=test_research_setup_flow.ResearchSetupFlowTests()
         h.setUp();self.addCleanup(h.doCleanups)
         def initialize():
             h.call(['init-profile','--config',str(h.config_path),'--data-root',str(h.data),
                 '--cloud-root',str(h.cloud),'--instance-id','ordinary-composition-unit',
                 '--enable-paper-runtime'])
+            if private_data:
+                from application.platform.private_files import create_private_directory
+                create_private_directory(h.data)
             return load_config(h.config_path)
         h.initialize=initialize
         config=h.prepare();h.configure()
@@ -59,7 +62,8 @@ class OrdinaryPaperCompositionTests(unittest.TestCase):
             outcome=local.queue.step(claim.run_id,claim.generation)
         self.assertEqual(outcome['state'],'COMPLETE',outcome)
         self.assertEqual(outcome['outcome']['strategy_lifecycle'],'CANDIDATE')
-        simulation=simulation_fixture();simulation.update(namespace='LOCAL_RESEARCH',mode='REAL_TIME')
+        simulation=simulation_fixture() if simulation is None else dict(simulation)
+        simulation.update(namespace='LOCAL_RESEARCH',mode='REAL_TIME')
         (h.data/'paper-sim.json').write_text(json.dumps(simulation),encoding='utf-8')
         (h.data/'paper-promotion.json').write_text(json.dumps(policy_fixture('LOCAL_RESEARCH')),encoding='utf-8')
         operator=h.root/'paper-inputs.json'

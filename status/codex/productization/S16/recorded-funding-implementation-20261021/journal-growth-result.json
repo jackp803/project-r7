@@ -1,0 +1,84 @@
+{
+  "status": "BOUNDED_CONTROLLED_ACTUAL_JOURNAL_DIAGNOSTIC_NOT_CAPACITY_PASS",
+  "actual_provider_requests": 0,
+  "actual_provider_responses": 0,
+  "elapsed_forward_credit": "NONE",
+  "namespace": "LOCAL_RESEARCH",
+  "native_boundary": "CONTROLLED_UNIT_MEASUREMENT_NOT_NATIVE_PASS",
+  "strategy_timeframe": "4h",
+  "cache_policy_limit": 2000,
+  "measurements": [
+    {
+      "controlled_seconds": 1,
+      "operations": 3,
+      "checkpoint_rows": 4,
+      "retained_checkpoint_text_bytes": 228120,
+      "effect_rows": 3,
+      "retained_effect_text_bytes": 12014,
+      "last_tick_wall_seconds": 0.3291672999912407,
+      "sqlite_main_bytes": 876544,
+      "state_bytes": 77597,
+      "cached4h_bars": 200
+    },
+    {
+      "controlled_seconds": 10,
+      "operations": 13,
+      "checkpoint_rows": 14,
+      "retained_checkpoint_text_bytes": 1003970,
+      "effect_rows": 13,
+      "retained_effect_text_bytes": 32946,
+      "last_tick_wall_seconds": 0.2683194999990519,
+      "sqlite_main_bytes": 876544,
+      "state_bytes": 77587,
+      "cached4h_bars": 200
+    },
+    {
+      "controlled_seconds": 25,
+      "operations": 31,
+      "checkpoint_rows": 32,
+      "retained_checkpoint_text_bytes": 2400540,
+      "effect_rows": 31,
+      "retained_effect_text_bytes": 67920,
+      "last_tick_wall_seconds": 0.45704410001053475,
+      "sqlite_main_bytes": 3014656,
+      "state_bytes": 77589,
+      "cached4h_bars": 200
+    },
+    {
+      "controlled_seconds": 50,
+      "operations": 61,
+      "checkpoint_rows": 62,
+      "retained_checkpoint_text_bytes": 4728210,
+      "effect_rows": 61,
+      "retained_effect_text_bytes": 126210,
+      "last_tick_wall_seconds": 0.866488700004993,
+      "sqlite_main_bytes": 5189632,
+      "state_bytes": 77589,
+      "cached4h_bars": 200
+    },
+    {
+      "controlled_seconds": 100,
+      "operations": 121,
+      "checkpoint_rows": 122,
+      "retained_checkpoint_text_bytes": 9383612,
+      "effect_rows": 121,
+      "retained_effect_text_bytes": 242794,
+      "last_tick_wall_seconds": 1.6571637000015471,
+      "sqlite_main_bytes": 11472896,
+      "state_bytes": 77593,
+      "cached4h_bars": 200
+    }
+  ],
+  "base30day_deadline_plus_market_operations": 3110400,
+  "projected30day_checkpoint_text_bytes": 241213113758,
+  "projection": "SAMPLE_MEAN_CHECKPOINT_TEXT_ONLY;EXCLUDES_INDEXES_CANONICAL_GRAPH_REQUESTS_EFFECTS_FUTURE_GROWTH",
+  "source_hashes": {
+    "src/storage/paper_process.py": "sha256:17bc52dcafa49b809188aab863708b2b21cc324daee282159cebe2c1d3cf427c",
+    "src/application/paper/engine.py": "sha256:e27a8537f7cc0f08f6eb7654283174cafa706e154371dd18310b55787cd93e97",
+    "tools/measure_paper_journal_growth.py": "sha256:8f1330165059e08fbb859191f12b20482d2b950f421e4dd8f7090037a28a3fd5"
+  },
+  "wall_seconds": 125.70506929999101,
+  "peak_working_set_bytes": 96681984,
+  "working_set_bytes": 95494144,
+  "peak_pagefile_bytes": 72069120
+}

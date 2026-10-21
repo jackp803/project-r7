@@ -1,0 +1,22 @@
+test_nested_readback_uses_target_relative_protected_reader (test_finisher_bffc_readback.FinisherReadbackTests.test_nested_readback_uses_target_relative_protected_reader) ... FAIL
+test_over_limit_refuses_before_creation (test_finisher_bffc_readback.FinisherReadbackTests.test_over_limit_refuses_before_creation) ... ok
+
+======================================================================
+FAIL: test_nested_readback_uses_target_relative_protected_reader (test_finisher_bffc_readback.FinisherReadbackTests.test_nested_readback_uses_target_relative_protected_reader)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_finisher_bffc_readback.py", line 13, in test_nested_readback_uses_target_relative_protected_reader
+    reader.assert_called_once_with(directory,'proof.json')
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 961, in assert_called_once_with
+    return self.assert_called_with(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 949, in assert_called_with
+    raise AssertionError(_error_message()) from cause
+AssertionError: expected call not found.
+Expected: artifact_bytes(WindowsPath('<USER_HOME>/Desktop/交易機器人主體/artifacts/current-windows-20261019/finisher-readback-probe/test_nested_readback_uses_target_relative_protected_reader'), 'proof.json')
+  Actual: artifact_bytes(WindowsPath('<USER_HOME>/Desktop/交易機器人主體'), 'artifacts/current-windows-20261019/finisher-readback-probe/test_nested_readback_uses_target_relative_protected_reader/proof.json', 8388608)
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.003s
+
+FAILED (failures=1)

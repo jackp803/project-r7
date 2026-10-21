@@ -1,0 +1,97 @@
+test_actual_canonical_source_underscore_file_is_read_without_cloud_grammar (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_canonical_source_underscore_file_is_read_without_cloud_grammar) ... ERROR
+test_actual_current_portable_is_admitted (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_current_portable_is_admitted) ... ok
+test_actual_unit_command_retains_its_original_mixed_attempt_scope (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_unit_command_retains_its_original_mixed_attempt_scope) ... ok
+test_changed_frontend_observation_refuses_before_any_source_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_changed_frontend_observation_refuses_before_any_source_read) ... ok
+test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) ... ok
+test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) ... ok
+test_exact_source_map_is_admitted_without_reading_source (test_bffc_semantic_admission.SemanticAdmissionTests.test_exact_source_map_is_admitted_without_reading_source) ... ok
+test_failed_or_wrong_subject_portable_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_failed_or_wrong_subject_portable_refuses) ... ok
+test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) ... ok
+test_oversized_public_document_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_oversized_public_document_refuses) ... ok
+test_self_declared_exit_code_cannot_override_producer (test_bffc_semantic_admission.SemanticAdmissionTests.test_self_declared_exit_code_cannot_override_producer) ... ok
+test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) ...
+  test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='../private/key') ... ERROR
+  test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='C:/private/key') ... ERROR
+  test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='src/../key') ... ERROR
+  test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='src//key') ... ERROR
+  test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='src/./key') ... ERROR
+  test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='private/key') ... ERROR
+test_source_reader_keeps_bound_and_single_link_protection (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_keeps_bound_and_single_link_protection) ... ERROR
+test_wrong_identity_and_unreaped_smoke_refuse (test_bffc_semantic_admission.SemanticAdmissionTests.test_wrong_identity_and_unreaped_smoke_refuse) ... ok
+
+======================================================================
+ERROR: test_actual_canonical_source_underscore_file_is_read_without_cloud_grammar (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_canonical_source_underscore_file_is_read_without_cloud_grammar)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 60, in test_actual_canonical_source_underscore_file_is_read_without_cloud_grammar
+    self.assertEqual((helper.ROOT/ref).read_bytes(),helper.source_bytes(ref))
+                                                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='../private/key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 64, in test_source_reader_denies_escape_and_noncanonical_alias_before_read
+    with self.assertRaises(ValueError):helper.source_bytes(ref)
+                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='C:/private/key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 64, in test_source_reader_denies_escape_and_noncanonical_alias_before_read
+    with self.assertRaises(ValueError):helper.source_bytes(ref)
+                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='src/../key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 64, in test_source_reader_denies_escape_and_noncanonical_alias_before_read
+    with self.assertRaises(ValueError):helper.source_bytes(ref)
+                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='src//key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 64, in test_source_reader_denies_escape_and_noncanonical_alias_before_read
+    with self.assertRaises(ValueError):helper.source_bytes(ref)
+                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='src/./key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 64, in test_source_reader_denies_escape_and_noncanonical_alias_before_read
+    with self.assertRaises(ValueError):helper.source_bytes(ref)
+                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_denies_escape_and_noncanonical_alias_before_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_denies_escape_and_noncanonical_alias_before_read) (ref='private/key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 64, in test_source_reader_denies_escape_and_noncanonical_alias_before_read
+    with self.assertRaises(ValueError):helper.source_bytes(ref)
+                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+======================================================================
+ERROR: test_source_reader_keeps_bound_and_single_link_protection (test_bffc_semantic_admission.SemanticAdmissionTests.test_source_reader_keeps_bound_and_single_link_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 68, in test_source_reader_keeps_bound_and_single_link_protection
+    self.assertEqual(b'public',helper.source_bytes('src/application/__init__.py'))
+                               ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'source_bytes'
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.012s
+
+FAILED (errors=8)

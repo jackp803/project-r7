@@ -1,0 +1,71 @@
+test_actual_current_portable_is_admitted (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_current_portable_is_admitted) ... ERROR
+test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) ...
+  test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=[]) ... ERROR
+  test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=['../private/key']) ... ERROR
+  test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=['C:/private/key']) ... ERROR
+  test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=['src/allowed.py', 'src/unexpected.py']) ... ERROR
+test_exact_source_map_is_admitted_without_reading_source (test_bffc_semantic_admission.SemanticAdmissionTests.test_exact_source_map_is_admitted_without_reading_source) ... ERROR
+test_failed_or_wrong_subject_portable_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_failed_or_wrong_subject_portable_refuses) ... ok
+test_oversized_public_document_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_oversized_public_document_refuses) ... ok
+test_wrong_identity_and_unreaped_smoke_refuse (test_bffc_semantic_admission.SemanticAdmissionTests.test_wrong_identity_and_unreaped_smoke_refuse) ... ok
+
+======================================================================
+ERROR: test_actual_current_portable_is_admitted (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_current_portable_is_admitted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 14, in test_actual_current_portable_is_admitted
+    self.assertEqual(self.row,helper.require_current_portable(self.row,self.smoke,self.facts))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\review_bffc_semantic_clauses.py", line 41, in require_current_portable
+    raise ValueError('Actual stopped same-subject portable observation required')
+ValueError: Actual stopped same-subject portable observation required
+
+======================================================================
+ERROR: test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_escape_extra_missing_source_keys_refuse_before_any_read
+    with self.assertRaises(ValueError):helper.require_source_map(mapping,{'src/allowed.py'})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'require_source_map'
+
+======================================================================
+ERROR: test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=['../private/key'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_escape_extra_missing_source_keys_refuse_before_any_read
+    with self.assertRaises(ValueError):helper.require_source_map(mapping,{'src/allowed.py'})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'require_source_map'
+
+======================================================================
+ERROR: test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=['C:/private/key'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_escape_extra_missing_source_keys_refuse_before_any_read
+    with self.assertRaises(ValueError):helper.require_source_map(mapping,{'src/allowed.py'})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'require_source_map'
+
+======================================================================
+ERROR: test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) (keys=['src/allowed.py', 'src/unexpected.py'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_escape_extra_missing_source_keys_refuse_before_any_read
+    with self.assertRaises(ValueError):helper.require_source_map(mapping,{'src/allowed.py'})
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'require_source_map'
+
+======================================================================
+ERROR: test_exact_source_map_is_admitted_without_reading_source (test_bffc_semantic_admission.SemanticAdmissionTests.test_exact_source_map_is_admitted_without_reading_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 30, in test_exact_source_map_is_admitted_without_reading_source
+    self.assertEqual(values,helper.require_source_map(values,{'src/allowed.py'}));reader.assert_not_called()
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'review_bffc_semantic_clauses' has no attribute 'require_source_map'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.007s
+
+FAILED (errors=6)

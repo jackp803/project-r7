@@ -1,0 +1,133 @@
+test_actual_current_portable_is_admitted (test_bffc_semantic_admission.SemanticAdmissionTests.test_actual_current_portable_is_admitted) ... ok
+test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) ...
+  test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='scenarios', role='duplicate') ... FAIL
+  test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='scenarios', role='unknown') ... FAIL
+  test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='scenarios', role='reordered') ... FAIL
+  test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='commands', role='duplicate') ... FAIL
+  test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='commands', role='unknown') ... FAIL
+  test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='commands', role='reordered') ... FAIL
+test_escape_extra_missing_source_keys_refuse_before_any_read (test_bffc_semantic_admission.SemanticAdmissionTests.test_escape_extra_missing_source_keys_refuse_before_any_read) ... ok
+test_exact_source_map_is_admitted_without_reading_source (test_bffc_semantic_admission.SemanticAdmissionTests.test_exact_source_map_is_admitted_without_reading_source) ... ok
+test_failed_or_wrong_subject_portable_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_failed_or_wrong_subject_portable_refuses) ... ok
+test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) ...
+  test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='empty') ... FAIL
+  test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='short') ... FAIL
+  test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='route') ... FAIL
+  test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='status') ... FAIL
+  test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='reordered') ... FAIL
+test_oversized_public_document_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_oversized_public_document_refuses) ... ok
+test_self_declared_exit_code_cannot_override_producer (test_bffc_semantic_admission.SemanticAdmissionTests.test_self_declared_exit_code_cannot_override_producer) ... FAIL
+test_wrong_identity_and_unreaped_smoke_refuse (test_bffc_semantic_admission.SemanticAdmissionTests.test_wrong_identity_and_unreaped_smoke_refuse) ... ok
+
+======================================================================
+FAIL: test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='scenarios', role='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 45, in test_duplicate_unknown_or_reordered_execution_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='scenarios', role='unknown')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 45, in test_duplicate_unknown_or_reordered_execution_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='scenarios', role='reordered')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 45, in test_duplicate_unknown_or_reordered_execution_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='commands', role='duplicate')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 45, in test_duplicate_unknown_or_reordered_execution_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='commands', role='unknown')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 45, in test_duplicate_unknown_or_reordered_execution_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_duplicate_unknown_or_reordered_execution_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_duplicate_unknown_or_reordered_execution_inventory_refuses) (field='commands', role='reordered')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 45, in test_duplicate_unknown_or_reordered_execution_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='empty')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_missing_or_reordered_http_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='short')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_missing_or_reordered_http_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='route')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_missing_or_reordered_http_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='status')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_missing_or_reordered_http_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_missing_or_reordered_http_inventory_refuses (test_bffc_semantic_admission.SemanticAdmissionTests.test_missing_or_reordered_http_inventory_refuses) (role='reordered')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 36, in test_missing_or_reordered_http_inventory_refuses
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_self_declared_exit_code_cannot_override_producer (test_bffc_semantic_admission.SemanticAdmissionTests.test_self_declared_exit_code_cannot_override_producer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<USER_HOME>\Desktop\交易機器人主體\artifacts\current-windows-20261019\test_bffc_semantic_admission.py", line 48, in test_self_declared_exit_code_cannot_override_producer
+    with self.assertRaises(ValueError):helper.require_current_portable(self.row,smoke,self.facts)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.008s
+
+FAILED (failures=12)

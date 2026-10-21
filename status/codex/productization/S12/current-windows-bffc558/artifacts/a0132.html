@@ -1,0 +1,88 @@
+<!doctype html><html lang="zh-Hant"><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'"><title>R7 研究回饋</title><style>body{font-family:system-ui;max-width:80rem;margin:2rem auto;padding:1rem}pre{white-space:pre-wrap;overflow-wrap:anywhere}table{border-collapse:collapse;width:100%}th,td{text-align:left;padding:.6rem;border-bottom:1px solid #ccc}summary{cursor:pointer;margin-top:1rem}</style><h1>R7 研究回饋</h1><p>authoring-example-four-hour / 0.2.1</p><p>歷史研究不代表未來績效；未執行階段保留 NOT_RUN。</p><p>績效未公開（預設）</p><table><caption>各階段實際結果；— 表示尚無資料</caption><thead><tr><th>階段</th><th>狀態</th><th>已平倉交易數</th><th>嘗試次數</th></tr></thead><tbody><tr><td>訓練</td><td>NOT_RUN</td><td>—</td><td>—</td></tr><tr><td>開發驗證</td><td>EXECUTED</td><td>92</td><td>—</td></tr><tr><td>穩健性</td><td>NOT_RUN</td><td>—</td><td>—</td></tr><tr><td>封存 OOS</td><td>NOT_RUN</td><td>—</td><td>—</td></tr><tr><td>PAPER</td><td>NOT_RUN</td><td>—</td><td>—</td></tr><tr><td>LIVE</td><td>NOT_RUN</td><td>—</td><td>—</td></tr></tbody></table><details><summary>完整可核對資料</summary><pre>{
+  &quot;artifact_links&quot;: [],
+  &quot;created_at&quot;: &quot;2026-10-21T00:33:07.339065Z&quot;,
+  &quot;dataset&quot;: {
+    &quot;dataset_id&quot;: &quot;okx-public-btc-4h&quot;,
+    &quot;dataset_version&quot;: &quot;b172f0f5b04c57b405b2f7df&quot;,
+    &quot;manifest_hash&quot;: &quot;sha256:d5a0ae299c78045ff87e321fad7cab50fa73ebb6565f4a4e7f7b439d9cb41f18&quot;
+  },
+  &quot;development&quot;: {
+    &quot;performance&quot;: null,
+    &quot;reason_codes&quot;: [],
+    &quot;sample_count&quot;: 92,
+    &quot;status&quot;: &quot;EXECUTED&quot;,
+    &quot;trial_count&quot;: null
+  },
+  &quot;holdout_observed&quot;: false,
+  &quot;live&quot;: {
+    &quot;performance&quot;: null,
+    &quot;status&quot;: &quot;NOT_RUN&quot;
+  },
+  &quot;namespace&quot;: &quot;LOCAL_RESEARCH&quot;,
+  &quot;paper&quot;: {
+    &quot;observation_seconds&quot;: null,
+    &quot;sample_count&quot;: null,
+    &quot;status&quot;: &quot;NOT_RUN&quot;
+  },
+  &quot;performance_policy&quot;: &quot;OPT_OUT&quot;,
+  &quot;reason_codes&quot;: [
+    &quot;MISSING_PROMOTION_POLICY&quot;,
+    &quot;ROBUSTNESS_NOT_RUN&quot;,
+    &quot;SEALED_OOS_NOT_RUN&quot;
+  ],
+  &quot;robustness&quot;: {
+    &quot;performance&quot;: null,
+    &quot;reason_codes&quot;: [],
+    &quot;sample_count&quot;: null,
+    &quot;status&quot;: &quot;NOT_RUN&quot;,
+    &quot;trial_count&quot;: null
+  },
+  &quot;run_id&quot;: &quot;run-fa74b2fefac69bb940985bad3d488db8d41db8fc328d9e080a8fbb113c83dc4f&quot;,
+  &quot;schema_version&quot;: &quot;r7-chat-feedback-v0.2&quot;,
+  &quot;sealed_oos&quot;: {
+    &quot;performance&quot;: null,
+    &quot;reason_codes&quot;: [],
+    &quot;sample_count&quot;: null,
+    &quot;status&quot;: &quot;NOT_RUN&quot;,
+    &quot;trial_count&quot;: null
+  },
+  &quot;source&quot;: {
+    &quot;executable_revision&quot;: &quot;bffc558b9652dc41c0804896436ac7ad8744f7f8&quot;,
+    &quot;execution&quot;: &quot;LOCAL&quot;,
+    &quot;implementation_hash&quot;: &quot;sha256:387238c130af7b96f59578fdfec3b1fa76fc9443daa8a174be00d79ba166c666&quot;,
+    &quot;worktree&quot;: &quot;UNAVAILABLE&quot;
+  },
+  &quot;split&quot;: {
+    &quot;development&quot;: {
+      &quot;end&quot;: &quot;2026-09-22T00:00:00Z&quot;,
+      &quot;start&quot;: &quot;2026-08-22T00:00:00Z&quot;
+    },
+    &quot;policy_hash&quot;: &quot;sha256:9b061cd25566ac2f3530dff072f9c272f36b16efb64cf8965b28513fa23faac6&quot;,
+    &quot;sealed_oos&quot;: {
+      &quot;end&quot;: &quot;2026-10-18T00:00:00Z&quot;,
+      &quot;start&quot;: &quot;2026-09-22T00:00:00Z&quot;
+    },
+    &quot;training&quot;: {
+      &quot;end&quot;: &quot;2026-08-22T00:00:00Z&quot;,
+      &quot;start&quot;: &quot;2026-08-01T00:00:00Z&quot;
+    }
+  },
+  &quot;strategy&quot;: {
+    &quot;content_hash&quot;: &quot;sha256:1bf7e043a7bce1ab55552f302c9ac342062cb54a392392b6e7e9dff2f9b8e2ac&quot;,
+    &quot;runtime_family&quot;: &quot;project-r7-e2-strategy-runtime&quot;,
+    &quot;runtime_version&quot;: &quot;0.2.0&quot;,
+    &quot;strategy_id&quot;: &quot;authoring-example-four-hour&quot;,
+    &quot;strategy_version&quot;: &quot;0.2.1&quot;
+  },
+  &quot;training&quot;: {
+    &quot;performance&quot;: null,
+    &quot;reason_codes&quot;: [],
+    &quot;sample_count&quot;: null,
+    &quot;status&quot;: &quot;NOT_RUN&quot;,
+    &quot;trial_count&quot;: null
+  },
+  &quot;uncertainty&quot;: [
+    &quot;Historical research does not establish forward performance or financial authority.&quot;,
+    &quot;Trial counts and closed-trade counts are not independent observations.&quot;
+  ]
+}</pre></details></html>

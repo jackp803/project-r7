@@ -1,0 +1,113 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "executable_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "identity": {
+    "executable_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+    "implementation_hash": "sha256:387238c130af7b96f59578fdfec3b1fa76fc9443daa8a174be00d79ba166c666",
+    "build_hash": "sha256:639a0390b56f904c62eb375b5c0e483f8e34c9faffb906e7f60ba6e67fc3b37e",
+    "worktree": "UNAVAILABLE",
+    "financial_authority": "NONE",
+    "distribution_profile": "r7-native-distribution-v0.2"
+  },
+  "master": "IN_PROGRESS",
+  "recorded_at": "2026-10-21T00:44:50.929096+00:00",
+  "scope": "CURRENT_WINDOWS_EXACT_BFFC_RELEASE_IDENTITY_AND_FINITE_CURRENT_COMMITTED_TEXT_BRANCH_DIFF_PUBLIC_REPORT_DISCLOSURE_AUDIT",
+  "reviewer": "ROOT_ACTUAL_RECONCILIATION",
+  "checks": {
+    "OPS02-FINAL-1": "PASS",
+    "OPS02-FINAL-2": "PASS",
+    "OPS02-FINAL-3": "PASS",
+    "OPS02-FINAL-4": "PASS",
+    "OPS02-FINAL-5": "PASS"
+  },
+  "prior_retained_files_verified": 778,
+  "audit_parts_verified": 28,
+  "delivery_files_verified": 11,
+  "actual_owning_receipt": "qualification-e5e97c97b676ad375b8988fb1b6b635f8a1d68dbebca3acc72c486a338ee166e",
+  "source_bindings": [
+    {
+      "execution_instance_id": "PQR-01-047:0003",
+      "member_id": "PQR-01-047",
+      "test_id": "tests.application.test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected",
+      "reported_test_id": "test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected",
+      "status": "PASS",
+      "source_ref": "tests/application/test_feedback_redaction.py",
+      "definition_line": 87,
+      "definition_resolution": "EXACT_CURRENT_AST",
+      "source_hash": "sha256:eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2",
+      "log_ref": "PQR-01-047.log",
+      "log_hash": "sha256:d5fc3e73399fc5c6a7d740092e742539b723a3c9998e0169b5c9ee8cf2d3ffdb",
+      "log_start_line": 3,
+      "log_completion_line": 3
+    },
+    {
+      "execution_instance_id": "PQR-01-081:0006",
+      "member_id": "PQR-01-081",
+      "test_id": "tests.application.test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject",
+      "reported_test_id": "test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject",
+      "status": "PASS",
+      "source_ref": "tests/application/test_paper_native_driver.py",
+      "definition_line": 60,
+      "definition_resolution": "EXACT_CURRENT_AST",
+      "source_hash": "sha256:799d0d59e1699e9b5f0808f4c1982afe2ef28319afc42ee7065ef0c756b801d0",
+      "log_ref": "PQR-01-081.log",
+      "log_hash": "sha256:bb9434a1d5bce267db9e3c6977b43184245e6f958ff4d9a3503b7b9b120cf2e2",
+      "log_start_line": 6,
+      "log_completion_line": 6
+    }
+  ],
+  "native_bindings": [
+    {
+      "group_id": "PQR-02",
+      "member_id": "PQR-02-native",
+      "assertion_id": "EXACT_NATIVE_IDENTITY_RESOURCES_LICENSES_UI",
+      "evidence_hash": "sha256:92011254f0e51075a79c8cb589d23eeba7caad28af676e91efa509bbabb27e4d",
+      "evidence_ref": "PQR-02-native-artifacts/native-smoke.json",
+      "status": "PASS"
+    },
+    {
+      "group_id": "PQR-02",
+      "member_id": "PQR-02-native",
+      "assertion_id": "TAMPER_DENIED_EXTERNAL_DATA",
+      "evidence_hash": "sha256:92011254f0e51075a79c8cb589d23eeba7caad28af676e91efa509bbabb27e4d",
+      "evidence_ref": "PQR-02-native-artifacts/native-smoke.json",
+      "status": "PASS"
+    },
+    {
+      "group_id": "PQR-07",
+      "member_id": "PQR-07-native",
+      "assertion_id": "SIMULATED_REAL_ELAPSED_DISCLOSURE_REDACTION",
+      "evidence_hash": "sha256:0d56be5179b150654e16886719903881d3cc9346562075abae9109eafe6735fc",
+      "evidence_ref": "PQR-07-native-artifacts/native-observations.json",
+      "status": "PASS"
+    }
+  ],
+  "source_worktree_at_execution": "CLEAN",
+  "native_worktree": "UNAVAILABLE",
+  "evidence_commit": "SUBSEQUENT_METADATA_ONLY;NOT_EXECUTABLE_REVISION",
+  "audit_review": "ROOT_SELF_REVIEW;SCANNER_STOP_ROOT_REVIEW_PRESERVED",
+  "audit_input_sha256": "61ab860bc5c2562d3541e111fbb24e31a598c11d37b35488af243159564530be",
+  "new_metadata_delta": "ALLOWLISTED_PUBLIC_CLOSED_PROOFS_AND_KNOWN_SOURCES;BOUNDED_READBACK_HASHES_VERIFIED;NO_PRIVATE_DB_AUTH_OR_RAW_PROVIDER_PAYLOADS",
+  "bounded_coverage_limitations": [
+    "No ancestral-history, ignored/untracked/working-tree, binary/image, submodule or symlink-target secret audit",
+    "UTF8 text pattern audit does not prove encoded/split/dynamic/unfamiliar credential absence",
+    "Hosted wiring/source observations do not prove historical invocation, billing or spend",
+    "Root self-review and independent static reviews remain separately attributed"
+  ],
+  "external": [
+    "OLD24GB_TARGET_NATIVE_NOT_RUN",
+    "UBUNTU24_04_NATIVE_NOT_RUN",
+    "UBUNTU26_04_NATIVE_NOT_RUN",
+    "REAL_CLOUD_NOT_COMMISSIONED",
+    "FORMAL_RESEARCH_PAPER_RISK_WORKFLOW_POLICIES_UNSELECTED",
+    "REAL_FORWARD_SAMPLES_NOT_STARTED"
+  ],
+  "additional_public_requests": 0,
+  "cumulative_public_requests": 8,
+  "cumulative_public_responses": 8,
+  "private_requests": 0,
+  "provider_credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED"
+}

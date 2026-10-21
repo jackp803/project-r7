@@ -1,0 +1,190 @@
+"""Retain this exact completed checkpoint's selected public addenda only."""
+from datetime import datetime,timezone
+from pathlib import Path
+import hashlib,json,re,subprocess,sys
+
+BASE=Path(__file__).resolve().parent;PROJECT=BASE.parents[1]
+ROOT=PROJECT/'workspaces/project-r7-productization-master-20261002'
+sys.path[:0]=[str(ROOT),str(ROOT/'src')]
+from application.paper.qualification import artifact_bytes
+from application.platform.distribution import verify_distribution
+from application.qualification import _sanitize
+from strategy.v02.capabilities import _revision
+from bind_current_acceptance_records import require_exact_rows
+
+REV='bffc558b9652dc41c0804896436ac7ad8744f7f8'
+IMPL='sha256:387238c130af7b96f59578fdfec3b1fa76fc9443daa8a174be00d79ba166c666'
+TARGET=ROOT/'status/codex/productization/S12/current-windows-bffc558'
+LIMIT=8*1024*1024
+
+def sha(raw):return 'sha256:'+hashlib.sha256(raw).hexdigest()
+def capture(path,limit=LIMIT):return artifact_bytes(PROJECT,path.relative_to(PROJECT).as_posix(),limit)
+def load(path):return json.loads(capture(path))
+def encoded(value):return (json.dumps(value,ensure_ascii=False,indent=2)+'\n').encode()
+def sanitized(raw):
+ text=_sanitize(raw.decode('utf-8-sig'),ROOT).replace(str(PROJECT),'<PROJECT_ROOT>').replace('\r\n','\n').replace('\r','')
+ return ('\n'.join(line.rstrip(' \t') for line in text.splitlines()).rstrip()+'\n').encode()
+def guard():
+ assert subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()==REV
+ assert subprocess.check_output(['git','branch','--show-current'],cwd=ROOT,text=True).strip()=='codex/r7-productization-master-20261002'
+ assert _revision()==IMPL
+def write_new(path,raw):
+ assert len(raw)<=LIMIT
+ with path.open('xb') as f:f.write(raw)
+ assert capture(path)==raw
+
+def run():
+ guard();facts=verify_distribution(BASE/'build-bffc558/dist/R7')
+ d=load(TARGET/'disposition.json');semantic_raw=capture(BASE/'semantic-scoped-results-bffc558.json');semantic=json.loads(semantic_raw)
+ assert d['executable_revision']==semantic['candidate_revision']==REV and d['identity']==semantic['identity']==facts
+ assert d['ordinary_windows_paper_software']['status']=='PASS' and semantic['master']=='IN_PROGRESS'
+ assert d['ordinary_windows_paper_software']['receipt_ref']==semantic['receipt_ref']
+ assert len(semantic['current_matrix_results'])==66 and len(semantic['inherited_legacy_results'])==150
+ specification=load(ROOT/'docs/product/v0_2/07_ACCEPTANCE_MATRIX.json')
+ require_exact_rows(semantic['current_matrix_results'],{r['id']:r['requirement'] for r in specification['requirements']},'requirement_id','requirement')
+ legacy={rid:text for rid,text in re.findall(r'^\| ([A-M][0-9]{2}) \| ([^|]+?) \| [^|]+? \|$',
+  capture(ROOT/'docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md').decode().replace('\r\n','\n'),re.M)}
+ assert len(legacy)==150
+ require_exact_rows(semantic['inherited_legacy_results'],legacy,'requirement_id','requirement')
+ assert semantic['unresolved_binding_names']=={}
+ for row in semantic['current_matrix_results']+semantic['inherited_legacy_results']:
+  assert row['source_revision']==REV and row['financial_authority']=='NONE'
+  assert set(specification['per_result_required_fields'])<=set(row)
+ review=load(BASE/'semantic-final-assembly-independent-review-bffc558.json')
+ assert review['finding_counts']==dict(critical=0,important=0) and review['reviewer_execution']=='NONE'
+ for name in ('review_bffc_semantic_clauses.py','test_bffc_semantic_admission.py'):
+  assert sha(capture(BASE/name))==review['reviewed_hashes']['ART/'+name]
+ final_probe=load(BASE/'semantic-source-reader-green-first/checkpoint.json')
+ assert final_probe['exit_code']==0 and final_probe['tree_reaped'] and final_probe['source_and_tests_unchanged']
+ assert final_probe['implementation_hash']==IMPL
+ assert 'Ran 14 tests in' in capture(BASE/'semantic-source-reader-green-first/source.log').decode()
+ finish_review=load(BASE/'finish-bffc558-evidence-assembly-final-independent-review.json')
+ assert finish_review['finding_counts']==dict(critical=0,important=0) and finish_review['execution']=='NONE'
+ assert finish_review['helper_sha256']==sha(capture(Path(__file__)))
+ str12=load(BASE/'str12-four-hour-bffc558-first/checkpoint.json')
+ a08=load(BASE/'a08-visible-bffc558-retry01/checkpoint.json')
+ assert str12['exit_code']==0 and str12['implementation_hash']==IMPL and str12['tree_reaped'] and str12['source_and_tests_unchanged']
+ assert a08['passed'] and a08['revision']==REV and a08['implementation_hash']==IMPL
+ assert all(row['reaped'] for row in a08['cleanups'])
+ # Larger original scanner capture is local only. Standard retained artifacts
+ # keep the unchanged8MiB bound using the existing384KiB hex-chunk recipe.
+ scan_path=BASE/'l01-l05-audit-bffc558-first.json'
+ scan_raw=capture(scan_path,16*1024*1024);scan=json.loads(scan_raw)
+ triage=load(BASE/'l01-l05-root-triage-bffc558-20261021.json')
+ assert sha(scan_raw)=='sha256:61ab860bc5c2562d3541e111fbb24e31a598c11d37b35488af243159564530be'
+ assert scan['subject']['head']==REV and scan['final_subject_unchanged'] and scan['all_direct_git_children_reaped']
+ assert scan['status']=='STOP_ROOT_REVIEW' and triage['scan_sha256']==sha(scan_raw)[7:]
+ assert triage['review']=='ROOT_SELF_REVIEW' and triage['unresolved_after_root_review']==0
+ safe_scan=sanitized(scan_raw)
+ names=(
+  'review_bffc_semantic_clauses.py','test_bffc_semantic_admission.py','run_owner_development_v03.py',
+  'semantic-admission-final-independent-review-bffc558.json','bffc-browser-source-key-inventory.json',
+  'semantic-complete-bindings-independent-review-bffc558.json',
+  'finish-bffc558-evidence-independent-review.json','finish-bffc558-evidence-final-independent-review.json',
+  'semantic-final-assembly-independent-review-bffc558.json',
+  'finish-bffc558-evidence-assembly-final-independent-review.json',
+  'ops02-final-reconciliation-advisory-bffc558.json',
+  'current-STR-DATA-RES-LIFE-semantic-bffc558-draft.json',
+  'current-CLOUD-API-OPS02-E2E04-semantic-bffc558-draft.json',
+  'current-PLAT-PAPER-TRADE-UI-OPS01-E2E-semantic-bffc558-draft.json',
+  'legacy-A-E-semantic-bffc558-draft.json','legacy-F-I-semantic-bffc558-draft.json','legacy-J-M-semantic-bffc558-draft.json',
+  'test_str12_four_hour_owner_aa2d00a.py','run_a08_visible_revision.py','verify_a08_visible_revision.mjs',
+  'audit_l01_l05_committed_tree_bffc558.py','run_committed_tree_audit_bffc558.py',
+  'l01-l05-local-audit-rules-bffc558.json','l01-l05-audit-bffc558-refusal-retry01.json',
+  'l01-l05-root-triage-bffc558-20261021.json','materialize_current_delivery_bffc558.py',
+  'record_current_windows_checkpoint_bffc558.py','record_power_interval_bffc558.ps1',
+  'run_bffc558_remaining_checkpoint.ps1','finish_bffc558_evidence.py')
+ files={BASE/name for name in names}
+ for name in ('str12-four-hour-bffc558-first','semantic-admission-red-first',
+   'semantic-admission-green-first','semantic-admission-green-retry01',
+   'semantic-admission-residual-red-first','semantic-admission-residual-green-first',
+   'semantic-admission-complete-bindings-first','semantic-source-reader-red-first','semantic-source-reader-green-first'):
+  files.update(BASE/name/filename for filename in ('checkpoint.json','source.log'))
+ for name in ('a08-visible-bffc558-first','a08-visible-bffc558-retry01'):
+  files.update(p for p in (BASE/name).iterdir() if p.is_file() and p.suffix in ('.json','.log','.unapplied'))
+ for name in ('committed-tree-owned-bffc558-refusal-retry01','committed-tree-owned-bffc558-first'):
+  files.update(BASE/name/filename for filename in ('checkpoint.json','stdout.log'))
+ for name in ('semantic-assembly-path-refusal-first','semantic-assembly-group-alias-first'):
+  files.update(p for p in (BASE/name).iterdir() if p.is_file())
+ # Recheck all pre-existing retained bytes before extending their inventory.
+ for row in d['retained_files']:
+  assert sha(artifact_bytes(TARGET,row['retained_ref']))==row['retained_hash']
+ captured={path:capture(path) for path in sorted(files,key=lambda p:p.relative_to(PROJECT).as_posix())}
+ safe_files={path:sanitized(raw) for path,raw in captured.items()}
+ assert all(len(raw)<=LIMIT for raw in safe_files.values())
+ safe_semantic=sanitized(semantic_raw);assert json.loads(safe_semantic)['identity']==facts
+ addenda=TARGET/'addenda';assert not addenda.exists() and not (TARGET/'semantic-review.json').exists()
+ guard();addenda.mkdir()
+ bindings=[]
+ for n,(path,raw) in enumerate(safe_files.items(),1):
+  suffix=path.suffix if path.suffix in ('.json','.log','.py','.mjs','.ps1','.unapplied') else '.txt'
+  ref='addenda/b'+str(n).zfill(4)+suffix;write_new(TARGET/ref,raw)
+  bindings.append(dict(original_ref=path.relative_to(PROJECT).as_posix(),original_hash=sha(captured[path]),
+   retained_ref=ref,retained_hash=sha(raw),normalization='PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY'))
+ parts=[]
+ for offset in range(0,len(safe_scan),384*1024):
+  part=safe_scan[offset:offset+384*1024];ref='addenda/audit-part-'+str(len(parts)+1).zfill(3)+'.json'
+  raw=encoded(dict(part=len(parts)+1,byte_offset=offset,byte_length=len(part),text_hex=part.hex()))
+  write_new(TARGET/ref,raw);parts.append(dict(ref=ref,hash=sha(raw)))
+ write_new(TARGET/'semantic-review.json',safe_semantic)
+ bindings.append(dict(original_ref=(BASE/'semantic-scoped-results-bffc558.json').relative_to(PROJECT).as_posix(),
+  original_hash=sha(semantic_raw),retained_ref='semantic-review.json',retained_hash=sha(safe_semantic),
+  normalization='PUBLIC_SANITIZATION_LF_TRAILING_WHITESPACE_ONLY'))
+ d['retained_files'].extend(bindings)
+ d['semantic_review']=dict(ref='semantic-review.json',hash=sha(safe_semantic),summary=semantic['summary'],
+  scope=semantic['kind'],financial_authority='NONE',master='IN_PROGRESS',
+  original_subject_prior_acceptance='PRESERVED_IN_EACH_APPLICABLE_RECORD;NO_TRANSFER')
+ d['scoped_static_audit']=dict(review='ROOT_SELF_REVIEW',original_status=scan['status'],
+  root_status=triage['status'],original_scan_hash=sha(scan_raw),sanitized_scan_hash=sha(safe_scan),
+  encoding='HEX_OF_SANITIZED_UTF8_TEXT_CHUNKS',parts=parts,
+  reconstruction='Decode text_hex in part order, concatenate and verify sanitized_scan_hash.',
+  limitations=scan['limits'],whole_history_and_binary_or_encoded_secrets='NOT_AUDITED')
+ d['current_supplement_scopes']=dict(STR12='ACTUAL_CURRENT_GENUINE4H_SOURCE_OWNER_MECHANICS_ONLY',
+  A08='ACTUAL_CURRENT_SOURCE_BROWSER_VISIBLE_VERSION_REVISION_HASH_ONLY',
+  UI01='CURRENT_CLOSED_DIAGNOSTIC_OWNER_BROWSER_AND_FIXED_SUITE_PROOF;NO_FINANCIAL_INFERENCE',
+  membership='SUPPLEMENTS_DO_NOT_ADD_FIXED_RECEIPT_MEMBERS_OR_NATIVE_EXECUTION_CREDIT')
+ d['remaining_local']='NO_NEW_CONCRETE_IMPLEMENTATION_DEFECT_IN_FINITE_REVIEW;OPS02_WHOLE_BRANCH_FINAL_REVIEW_UNCLOSED;EXTERNAL_NATIVE_CLOUD_SSH_COMMISSIONING_AND_FORMAL_POLICIES_REAL_FORWARD_OUTSTANDING'
+ d['supplement_retained_at']=datetime.now(timezone.utc).isoformat()
+ (TARGET/'disposition.json').write_bytes(encoded(d))
+ assert load(TARGET/'disposition.json')==d
+ p=ROOT/'coordination/CODEX/PROGRESS.json';progress=load(p)
+ assert progress['current_windows_checkpoint']['executable_revision']==REV
+ progress['current_windows_checkpoint']['semantic_review']=d['semantic_review']
+ progress.setdefault('current_windows_ui01_followup',{}).update(status='ACTUAL_SOURCE_BROWSER_AND_CURRENT_FIXED_NATIVE_SOFTWARE_QUALIFICATION_PASS',
+  executable_revision=REV,evidence_ref=(TARGET/'semantic-review.json').relative_to(ROOT).as_posix(),scope='BOUNDED_TRUTHFUL_OBSERVATIONS;NO_FINANCIAL_AUTHORITY')
+ progress.setdefault('remaining_local_source_checkpoint',{}).update(status='FINITE66_AND150_CLAUSE_REVIEW_RECORDED;NO_NEW_CONCRETE_IMPLEMENTATION_DEFECT',
+  executable_revision=REV,semantic_evidence_ref=(TARGET/'semantic-review.json').relative_to(ROOT).as_posix(),
+  unclosed=['OPS02_WHOLE_BRANCH_FINAL_REVIEW','ORIGINAL_TARGET_NATIVE','UBUNTU24_04_NATIVE','UBUNTU26_04_NATIVE',
+   'REAL_CLOUD_AND_SSH_COMMISSIONING','SELECTED_ORDINARY_OPERATOR_POLICIES','REAL_FORWARD_TIME_AND_SAMPLES'])
+ progress['next_step']='Continue original Master remaining independent local final review from exact scoped semantic evidence; preserve qualified bffc candidate and every prior subject. Formal policies/cloud/SSH/target/Ubuntu and elapsed forward samples remain uncommissioned. No blanket Master acceptance, financial activation or merge.'
+ p.write_bytes(encoded(progress))
+ intro='''# Current scoped clause review recorded; Master remains IN_PROGRESS
+
+Current bffc558 software qualification and user-flow evidence are retained with
+66 current and150 inherited finite clause decisions in current-windows-bffc558/
+semantic-review.json. Supporting case counts are not whole-product acceptance.
+UI01 actual bounded observations/canceled filter are included in this exact
+candidate. Genuine4h STR12 and visible A08 source supplements retain their own
+execution identity, outside fixed receipt membership. Previous3ae/aa2d proofs
+retain original subjects. Static committed-tree audit is finite, root self-review;
+it does not prove full-history secret absence or historical hosted spending.
+Remaining OPS02 whole-branch final review, original target/Ubuntu, real cloud/SSH,
+operator financial policies and real-time forward samples remain explicit.
+Cumulative public8/8, additional0/private0; no credentials/capital/main merge.
+
+---
+
+'''
+ p=ROOT/'coordination/CODEX/HANDOFF.md';p.write_text(intro+p.read_text(encoding='utf-8'),encoding='utf-8',newline='\n')
+ p=ROOT/'status/codex/R7_PRODUCTIZATION_MASTER_COMPLETION_20261002.md';text=p.read_text(encoding='utf-8')
+ text=text.replace('Actual case/command/source/receipt bindings retained; per-clause semantic review remains, no blanket PASS',
+  'Actual case/command/source/receipt bindings plus finite scoped clause decisions retained in current-windows-bffc558/semantic-review.json; no blanket PASS')
+ text=text.replace('Final semantic66+150 clause review and named independent checks.',
+  'Finite semantic66+150 review recorded. OPS02 whole-branch final review and external commissioning remain unclosed.')
+ p.write_text(text,encoding='utf-8',newline='\n')
+ # No current executable bytes change during documentation retention.
+ guard()
+ print(json.dumps(dict(retained_addenda=len(bindings),audit_parts=len(parts),semantic_summary=semantic['summary'],
+  executable_revision=REV,source_unchanged=True,master='IN_PROGRESS')))
+
+if __name__=='__main__':run()

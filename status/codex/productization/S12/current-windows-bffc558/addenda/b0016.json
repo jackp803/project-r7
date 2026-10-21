@@ -1,0 +1,574 @@
+{
+  "kind": "STATIC_CONDITIONAL_ADVISORY_NOT_ACCEPTANCE",
+  "candidate_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "count": 28,
+  "rows": [
+    {
+      "id": "STR-01",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: finite retained DSL0.1/Runtime0.1.0 golden outputs and repeated-boundary compatibility.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-01"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Finite long/short/flat/warmup corpus, not every possible historical definition. Bind golden fixture bytes too."
+      ]
+    },
+    {
+      "id": "STR-02",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: closed bounded DSL0.2 grammar/parser rejects arbitrary code, unknown keys/versions, cycles, duplicate keys and invalid units.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-02"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Finite structured parser/security vectors; no formal exhaustive malicious-string proof."
+      ]
+    },
+    {
+      "id": "STR-03",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: independent SMA/EMA seeds/warmup, exact nonlinear recursive EMA oracle and incremental/restart parity.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-03"
+      ],
+      "extra_test_ids": [
+        "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_ema_nonlinear_update_has_exact_recursive_alpha"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Old expanded-map nonlinear-EMA gap is superseded only by the exact added current named case; same-implementation parity alone is insufficient."
+      ]
+    },
+    {
+      "id": "STR-04",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: explicit RSI/ATR Wilder arithmetic, flat/zero cases, exact readiness and incremental recovery.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-04"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Finite arithmetic vectors; no real-market or cross-platform qualification."
+      ]
+    },
+    {
+      "id": "STR-05",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: ADX directional ties/zero true range and independent DI versus ADX readiness including n1 requiring two actual bars.",
+      "source_mapping_refs": [
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:STR-05",
+        "tests/indicators/test_v02_golden.py"
+      ],
+      "extra_test_ids": [
+        "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_adx_independent_di_and_adx_readiness",
+        "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_adx_directional_ties_and_zero_tr_have_no_fabricated_strength",
+        "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_adx_window_one_requires_two_actual_bars_for_all_outputs"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Do not infer every period/precision/environment from the finite pinned vectors."
+      ]
+    },
+    {
+      "id": "STR-06",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: per-output MACD readiness, population Bollinger variance and lagged Donchian, with corrected EMA recurrence prerequisite.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-06",
+        "ART/acceptance-str-expanded-map.json:STR-03"
+      ],
+      "extra_test_ids": [
+        "tests.indicators.test_v02_golden.GoldenIndicatorTests.test_ema_nonlinear_update_has_exact_recursive_alpha"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "EMA arithmetic support uses the added independent nonlinear case, not the old linear-vector parity claim."
+      ]
+    },
+    {
+      "id": "STR-07",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: numeric/Boolean/operator and invalid propagation vectors plus parsed runtime CROSS using immediately prior finalized pair.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-07"
+      ],
+      "extra_test_ids": [
+        "tests.strategy.test_v02_multitimeframe.AsOfTests.test_parsed_cross_uses_immediately_previous_finalized_pair",
+        "tests.strategy.test_v02_multitimeframe.AsOfTests.test_parsed_cross_cannot_replace_unavailable_predecessor_with_older_bar"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Old direct previous_values vectors alone do not close parsed-runtime predecessor selection."
+      ]
+    },
+    {
+      "id": "STR-08",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: 4h single-timeframe and 4h/15m as-of source alignment; incomplete/future/late history cannot become available early.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-08"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Recorded source fixtures establish as-of semantics, not real network latency or Ubuntu parity."
+      ]
+    },
+    {
+      "id": "STR-09",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: explicit evergreen/tactical validity, 4h timeframe independence and entry deadline never extending approved expiry or first-fill hold.",
+      "source_mapping_refs": [
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:STR-09",
+        "tests/strategy/test_v02_validity.py",
+        "ART/acceptance-str-expanded-map.json:STR-11"
+      ],
+      "extra_test_ids": [
+        "tests.strategy.test_v02_validity.ValidityTests.test_evergreen_and_tactical_are_not_inferred_from_four_hour_timeframe",
+        "tests.strategy.test_v02_validity.ValidityTests.test_before_interval_is_waiting_and_invalid_tactical_interval_blocks",
+        "tests.strategy.test_v02_validity.ValidityTests.test_entry_deadline_never_extends_the_approved_plan_expiry"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Package validity, order/plan expiry and holding clock retain distinct source meanings; simulated clock is not real elapsed time."
+      ]
+    },
+    {
+      "id": "STR-10",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_SCOPED_SOURCE_PLUS_CURRENT_NATIVE_PQR04: expiry rejects new research/entry, preserves completed evidence and original protection, without bypassing research/approval.",
+      "source_mapping_refs": [
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:STR-10",
+        "tests/application/test_submission_validity_research.py",
+        "ART/acceptance-research-expanded-map.json:LIFE-01",
+        "ART/acceptance-research-expanded-map.json:LIFE-02"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expired_accepted_envelope_denies_new_research_but_keeps_author_context",
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_after_enqueue_is_terminal_without_research_or_intake_rewrite",
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_at_first_checkpoint_creates_no_replay_or_backtest_transition",
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_robustness_keeps_actual_development_evidence_without_oos",
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_expiry_before_candidate_assessment_keeps_sealed_oos_without_candidate",
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_exclusive_upper_boundary_admits_one_microsecond_before_expiry",
+        "tests.application.test_submission_validity_research.SubmissionValidityResearchTests.test_reaped_worker_parent_keeps_expired_terminal_disposition"
+      ],
+      "native_groups": [
+        "PQR-04"
+      ],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Ordinary production profile, actual elapsed forward and LIVE commissioning remain separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Conditional PASS requires actual current exact-bffc PQR-04 expiry/protection cases and closure; no historical/native credit transfer and no assumed result while qualification is running."
+      ]
+    },
+    {
+      "id": "STR-11",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: existing E5 authority resolves fixed/ATR/target/trailing/time exits, original fill/anchor binding and non-widening recovery.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-11"
+      ],
+      "extra_test_ids": [
+        "tests.position.test_v02_exit_requests.ExitRequestTests.test_atr_target_uses_bound_e2_observation_and_existing_e5_authority",
+        "tests.position.test_v02_exit_requests.ExitRequestTests.test_atr_target_rejects_missing_foreign_future_or_changed_anchor",
+        "tests.position.test_v02_exit_requests.ExitRequestTests.test_fixed_price_stop_and_target_resolve_and_close_under_e5"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Old ATR-target/fixed-price-positive mapping gaps require these added current cases. Trailing NON_EXECUTABLE_PROFILE is not provider execution."
+      ]
+    },
+    {
+      "id": "STR-12",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_4H_SAME_LINEAGE: genuine registered 4h research candidate to actual Paper owner, protection/reconciliation and one-hour holding exit before next 4h entry boundary.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-11",
+        "tests/product/test_paper_runtime_v02.py"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_max_hold_deadline_management_does_not_wait_for_new_entry_bar",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_scheduler_runs_due_management_without_market_or_entry_candle"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [
+        "ART/str12-four-hour-bffc558-first/checkpoint.json"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real elapsed forward, ordinary policy/operator activation and native 4h join are not established."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "The new bffc source supplement is reported actual PASS with exact current ResearchService provenance, exit0/reaped/unchanged; root verifies its retained binding. Reused helper test_str12_four_hour_owner_aa2d00a.py does not imply aa2d execution credit transfers.",
+        "Source-only synthetic fixture real_elapsed remains zero; no native/full-PQR/receipt-membership credit. Earlier actual aa2d supplemental proof remains separate original-subject evidence."
+      ]
+    },
+    {
+      "id": "STR-13",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: strict capability metadata and typed missing-feature receipts, registry-wide no fabricated availability/verification, exact implementation identity.",
+      "source_mapping_refs": [
+        "ART/acceptance-str-expanded-map.json:STR-13"
+      ],
+      "extra_test_ids": [
+        "tests.strategy.test_v02_capabilities.CapabilityTests.test_every_registry_entry_declares_metadata_without_fabricated_verification"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "IMPLEMENTED/reference/PAPER/provider flags remain different evidence kinds; metadata does not issue software or financial authority."
+      ]
+    },
+    {
+      "id": "STR-14",
+      "conditional_status": "NOT_RUN",
+      "scope": "CROSS_PLATFORM_CANONICAL_SIGNAL_PARITY_NOT_RUN",
+      "source_mapping_refs": [
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:STR-14"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": "Actual same-as-of canonical signal comparisons on Windows and both required Ubuntu targets are not established by Windows source/native counts.",
+      "external_gaps": [
+        "Ubuntu 24.04 native exact-subject parity",
+        "Ubuntu 26.04 native exact-subject parity"
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Even all current owning Windows groups passing cannot close this cross-platform clause."
+      ]
+    },
+    {
+      "id": "DATA-01",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: logical and container hashes, complete contiguous closed candles/cutoffs and explicit missing/settled funding without zero imputation.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:DATA-01"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual real dataset/source selection and quality commissioning COM-03 remain separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS."
+      ]
+    },
+    {
+      "id": "DATA-02",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: frozen chronological split/warmup, exact max(hold,label) purge in both dominance directions and unchanged explicit embargo/units.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:DATA-02"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_purge_uses_larger_holding_or_label_horizon_without_changing_embargo"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual selected dataset/policy commissioning COM-03 separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "The old expanded-map differing-horizon gap is closed only by exact added current assertion binding."
+      ]
+    },
+    {
+      "id": "RES-01",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: actual E1/E2/E3/E6 owner pipeline, durable attempts/provenance and crash recovery of the exact same sole canonical evidence row.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-01"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Existing crash case was strengthened to capture the pre-crash ID/rows and compare exact reopened rows; bind current test bytes, not old weaker assertions."
+      ]
+    },
+    {
+      "id": "RES-02",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: adaptive development-only access, durable finalist freeze before complete normalization/sealed final OOS, immutable repeat results.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-02"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual real dataset/policy commissioning and external analyst disclosures beyond recorded inputs are separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS."
+      ]
+    },
+    {
+      "id": "RES-03",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: global observed holdout and append-only trial/Chat history; actual replay exception records automatic STARTED/FAILED and survives reopen without OOS.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-03"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_actual_trial_failure_is_recorded_by_owner_before_stage_exception_and_survives_reopen"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Authored storage events alone are not automatic owner failure proof; use the added actual original-replay exception case."
+      ]
+    },
+    {
+      "id": "RES-04",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: finite actual neighborhood retains valid quantitative FAIL as well as INVALID/BLOCKED, exact denominators/hash/run lineage and durable trial entries.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-04"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_quantitatively_failing_neighbors_remain_in_actual_report_and_trial_ledger"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Adverse cost-stress outside the neighborhood is not substituted for the added unfavorable-neighbor assertion."
+      ]
+    },
+    {
+      "id": "RES-05",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: actual chronological walk-forward training/evaluation with max-horizon purge, exact embargo, disjoint scoring and no future training influence.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-05",
+        "ART/acceptance-research-expanded-map.json:DATA-02"
+      ],
+      "extra_test_ids": [
+        "tests.validation.test_walk_forward.WalkForwardTests.test_walk_forward_entry_bounds_use_maximum_horizon_and_exact_embargo"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Finite emitted interval/trade oracles; do not expand unique scored trade IDs into a universal counting guarantee for arbitrary external datasets."
+      ]
+    },
+    {
+      "id": "RES-06",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: explicit versioned seed/RNG/Decimal profile and exact reproducible permutation/block samples with conditional interpretation.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-06"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Permutation does not invent expectancy/future profit or zero risk; cross-platform STR-14 remains open."
+      ]
+    },
+    {
+      "id": "RES-07",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: missing stages, funding or insufficient samples are explicit BLOCKED/incomplete, with legacy numeric decisions retained without favorable product PASS.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-07"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Quantitative FAIL and operational/data BLOCKED stay distinct; no statistical or investment assurance."
+      ]
+    },
+    {
+      "id": "RES-08",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: actual unfavorable cost/slippage/funding stress, frozen versioned profile/hash commitments and no final-OOS retuning.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:RES-04",
+        "ART/acceptance-research-expanded-map.json:RES-07",
+        "tests/validation/test_robustness_v02.py",
+        "tests/application/test_research_robustness.py"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual provider fee/funding/account and real-dataset commissioning remain separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS."
+      ]
+    },
+    {
+      "id": "LIFE-01",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_FIXTURE: exact 19 legal edges/10 states, named owner methods, all illegal-pair/direct-writer/generic-skip refusals.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:LIFE-01"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual LIVE deployment/financial activation is not established."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Fixture operational evidence is labeled SIMULATED_MECHANICS, not actual forward or private-provider proof."
+      ]
+    },
+    {
+      "id": "LIFE-02",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: genuine full product CANDIDATE lineage including selected risk/robustness/independent verified OOS; otherwise-PASS bound payload corruption refuses promotion.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:LIFE-02"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_canonical_candidate_validator_rejects_nonindependent_or_unverified_actual_product_evidence"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual policy/data/operator commissioning is separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Old positive-only independent-OOS coverage gap is closed only by the added actual canonical candidate-gate negative case."
+      ]
+    },
+    {
+      "id": "LIFE-03",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AUTHENTICATED_APPROVAL_MECHANICS: real local session/reauth capability binds immutable exact strategy/release/policy/envelope ApprovalRecord and revocation.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:LIFE-01",
+        "tests/product/test_api_approval_binding.py",
+        "tests/product/test_live_admission_v02.py"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_logout_revokes_actual_e6_capability_before_any_owner_approval_effect",
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_approval_adapter_also_denies_fixture_financial_authority"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "COM-05 actual private-provider verification and COM-06 actual human deployment/capital commissioning remain NOT_RUN."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Source authenticated actor/record mechanics do not turn fixture consent into real LIVE authority."
+      ]
+    },
+    {
+      "id": "LIFE-04",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_ACTUAL_PAPER_OWNER: retirement/pause/restart retain exact original exposure/protection/first-fill binding and management while new entries/resumption remain gated.",
+      "source_mapping_refs": [
+        "ART/acceptance-research-expanded-map.json:LIFE-01",
+        "tests/product/test_paper_runtime_v02.py",
+        "tests/product/test_live_admission_v02.py"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_pause_preserves_open_protection_and_management",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual LIVE/provider operation and Ubuntu service recovery remain separate."
+      ],
+      "limitations": [
+        "STATIC_ONLY; reviewer_execution NONE. Root must bind actual exact-current named execution and subject; this is not current acceptance or whole-Master PASS.",
+        "Genuine Paper owner management cases strengthen the manually constructed historical lifecycle fixture; no automatic LIVE resume or loss of protection is accepted."
+      ]
+    }
+  ]
+}

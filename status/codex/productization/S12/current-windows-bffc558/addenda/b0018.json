@@ -1,0 +1,24 @@
+{
+  "kind": "BOUNDED_DEPTH_READBACK_FINAL_INDEPENDENT_STATIC_REVIEW",
+  "finding_counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "execution": "NONE",
+  "helper_sha256": "sha256:c5321c97a213534c4a9827e31c29765bd878aa5410f0b71a37329e16bf87785c",
+  "scope": "Only write_new target-relative readback, changed final review/capture refs and two regression bodies",
+  "verified": [
+    "write_new now passes TARGET and path.relative_to(TARGET).as_posix to existing artifact_bytes; no reader grammar/cap/alias protection relaxed",
+    "8MiB pre-write size assertion and fresh exclusive xb write unchanged",
+    "Target-relative protected reader covers addenda depth without expanding accepted relative path grammar",
+    "Regression asserts exact reader root/ref call after actual fresh file write; oversize asserts refusal before file creation",
+    "New capture refs preserve original depth failure/helper/partial-addenda plus RED/GREEN proof and all prior reviews",
+    "Final review lookup binds this new depth review0C0I/executionNONE to current helper hash"
+  ],
+  "limitations": [
+    "No helper/test/process/DB/provider execution by reviewer",
+    "Reader-call regression mocks protected reader return; it proves wiring and oversize sequencing, not independent native/deep-reader execution credit",
+    "Root reports actual initial refusal preserved and no accepted disposition changed; root owns actual execution and cleanup provenance"
+  ],
+  "residual_findings": []
+}

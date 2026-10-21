@@ -1,0 +1,2615 @@
+{
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "kind": "STATIC_UNAPPLIED_LEGACY_F_I_SEMANTIC_ADVISORY",
+  "execution": "NONE",
+  "count": 53,
+  "unique_ids": 53,
+  "candidate_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "candidate_full_qualification": "RUNNING;NO_CURRENT_OVERALL_PASS",
+  "actual_source_evidence_revision": "aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd",
+  "actual_receipt_ref": "qualification-aac16283263c982dc21c3cc82fea3aab7cf3a780a7b0aca7e0ff2db50239d469",
+  "actual_index_ref": "status/codex/productization/S12/current-windows-aa2d00a/artifacts/a0016.json",
+  "actual_index_sha256": "3a94c22440b04d2b9d0bce66fa6a5d3976c816b400c579ad2c61f979aa0f9d7c",
+  "anchors": [
+    "legacy-150-draft.json",
+    "acceptance-records-aa2d00a.json"
+  ],
+  "method": "Requirement text and source assertions reviewed; named actual aa2d execution records joined by exact test_id. Native assertion memberships remain supporting only. No module-count/draft/static-review PASS inference.",
+  "rows": [
+    {
+      "id": "F01",
+      "requirement": "scheduler evaluates only closed boundary",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F01",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01",
+        "E2E-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.backtest.test_replay.ReplayTests.test_signal_evaluated_at_must_equal_replay_boundary",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unfinalized_event_rejected_without_poisoning_durable_operation_queue"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-020:0020",
+          "test_id": "tests.backtest.test_replay.ReplayTests.test_signal_evaluated_at_must_equal_replay_boundary",
+          "status": "PASS",
+          "source_ref": "tests/backtest/test_replay.py",
+          "definition_line": 218,
+          "source_hash": "sha256:3467abff72e76efbeaba0bf3034b297e30762235a23281a992fdabae2abbee7e",
+          "log_ref": "PQR-01-020.log",
+          "log_hash": "sha256:b42364440c183152ba8ba5ff3ef4f6861b62539e2780b87e9d2ea480a710cac9",
+          "log_start_line": 20,
+          "log_completion_line": 20
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0027",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unfinalized_event_rejected_without_poisoning_durable_operation_queue",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 318,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 27,
+          "log_completion_line": 27
+        }
+      ],
+      "semantic_basis": "Closed candle rejected before durable operation; future deadline rejected; actual scheduler proceeds only on finalized inputs.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F02",
+      "requirement": "duplicate boundary does not duplicate trade",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F02",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_paper_effect_recovery.PaperEffectRecoveryTests.test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-078:0002",
+          "test_id": "tests.application.test_paper_effect_recovery.PaperEffectRecoveryTests.test_duplicate_boundary_keeps_original_risk_ack_and_checkpoint",
+          "status": "PASS",
+          "source_ref": "tests/application/test_paper_effect_recovery.py",
+          "definition_line": 102,
+          "source_hash": "sha256:0bdfc075ed87b5fa071ea890a2e43b56ef9a8c331bbce658288e44a4c97ec2c9",
+          "log_ref": "PQR-01-078.log",
+          "log_hash": "sha256:b3e0ac474c5e46428407aa025f26721a6e7ad5ba7834b2d8a3ff0df7b5a0267b",
+          "log_start_line": 2,
+          "log_completion_line": 2
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0007",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_duplicate_finalized_boundary_does_not_create_a_second_logical_entry",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 124,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 7,
+          "log_completion_line": 7
+        }
+      ],
+      "semantic_basis": "Duplicate finalized boundary returns original operation/risk/ACK/checkpoint without another logical entry.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F03",
+      "requirement": "Signal flows through E5",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F03",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result",
+        "tests.risk.test_risk_engine.RiskEngineTests.test_valid_profiled_intent_can_be_approved_and_planned"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-024:0028",
+          "test_id": "tests.risk.test_risk_engine.RiskEngineTests.test_valid_profiled_intent_can_be_approved_and_planned",
+          "status": "PASS",
+          "source_ref": "tests/risk/test_risk_engine.py",
+          "definition_line": 106,
+          "source_hash": "sha256:c019dc3f5b593a841e0dfa2c3df419d214a2f59aebd936eceecbd214305c8168",
+          "log_ref": "PQR-01-024.log",
+          "log_hash": "sha256:3b09466a17b86ac545f3a0854caaba5c1d5affd9dc8fab632d985e55db4e6018",
+          "log_start_line": 28,
+          "log_completion_line": 28
+        },
+        {
+          "execution_instance_id": "PQR-01-085:0004",
+          "test_id": "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result",
+          "status": "PASS",
+          "source_ref": "tests/application/test_paper_owner_worker.py",
+          "definition_line": 50,
+          "source_hash": "sha256:8a10538046aa7eae21c2b0538012b2becad283c6ab9df87afb4dcd28676a7995",
+          "log_ref": "PQR-01-085.log",
+          "log_hash": "sha256:5e9f7069e911bf95230f39080e5113de0358d4c79342e602e3211ca85c31cf08",
+          "log_start_line": 4,
+          "log_completion_line": 4
+        }
+      ],
+      "semantic_basis": "Actual scheduler emits Signal/TradeIntent and retains canonical E5 risk before executable plan and broker effects; direct strategy authority is absent.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F04",
+      "requirement": "Risk REJECT blocks execution",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F04",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01",
+        "TRADE-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.risk.test_risk_engine.RiskEngineTests.test_rejected_decision_cannot_create_plan",
+        "tests.product.test_paper_risk_rejection_v02.PaperRiskRejectJoinedTests.test_actual_insufficient_balance_risk_reject_is_canonical_and_has_zero_paper_effect_on_exact_retry"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-024:0025",
+          "test_id": "tests.risk.test_risk_engine.RiskEngineTests.test_rejected_decision_cannot_create_plan",
+          "status": "PASS",
+          "source_ref": "tests/risk/test_risk_engine.py",
+          "definition_line": 151,
+          "source_hash": "sha256:c019dc3f5b593a841e0dfa2c3df419d214a2f59aebd936eceecbd214305c8168",
+          "log_ref": "PQR-01-024.log",
+          "log_hash": "sha256:3b09466a17b86ac545f3a0854caaba5c1d5affd9dc8fab632d985e55db4e6018",
+          "log_start_line": 25,
+          "log_completion_line": 25
+        },
+        {
+          "execution_instance_id": "PQR-01-159:0001",
+          "test_id": "tests.product.test_paper_risk_rejection_v02.PaperRiskRejectJoinedTests.test_actual_insufficient_balance_risk_reject_is_canonical_and_has_zero_paper_effect_on_exact_retry",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_risk_rejection_v02.py",
+          "definition_line": 18,
+          "source_hash": "sha256:0a50d2370119a330db97ac2dc7ee12f8160fbd8a487d5441226304de28aa466f",
+          "log_ref": "PQR-01-159.log",
+          "log_hash": "sha256:c57cd137dd70ec4478ce00fc272066634557296b83f6e646d3c1d89291c7c07f",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Actual insufficient-balance E5 REJECT is canonically published; no plan/request/position or PaperBroker submit occurs; exact retry preserves original decision.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [
+        "aa2d actual PQR-01-159:0001; canonical REJECT and zero actual PaperBroker effects; prior accepted source scope preserved"
+      ],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F05",
+      "requirement": "approved plan flows to PaperBroker",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F05",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-085:0004",
+          "test_id": "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_actual_scheduler_ack_fill_protection_target_close_and_canonical_result",
+          "status": "PASS",
+          "source_ref": "tests/application/test_paper_owner_worker.py",
+          "definition_line": 50,
+          "source_hash": "sha256:8a10538046aa7eae21c2b0538012b2becad283c6ab9df87afb4dcd28676a7995",
+          "log_ref": "PQR-01-085.log",
+          "log_hash": "sha256:5e9f7069e911bf95230f39080e5113de0358d4c79342e602e3211ca85c31cf08",
+          "log_start_line": 4,
+          "log_completion_line": 4
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0011",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 98,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        }
+      ],
+      "semantic_basis": "Actual approved plan and E4 PaperBroker produce pending ACK, subsequent fill, protection, exit and canonical result.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F06",
+      "requirement": "ACK/fill distinction preserved",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F06",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01",
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+        "tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0011",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 98,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        },
+        {
+          "execution_instance_id": "PQR-01-202:0001",
+          "test_id": "tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_ack_and_pending_inventory_without_exact_readback_do_not_promote_protection",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_protection_monitor_v02.py",
+          "definition_line": 70,
+          "source_hash": "sha256:0a87460c67b997d007d1cae387f46988c66a864246b783e86580271da301a1d4",
+          "log_ref": "PQR-01-202.log",
+          "log_hash": "sha256:f43323c918c23b76f1dfb679f688bbd7b1c41758429a1d78ed79b3a5ce36ac71",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Initial ACK leaves position absent; actual later fill and verified protection create OPEN_PROTECTED; ACK is not fill evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F07",
+      "requirement": "partial fill handled",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F07",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.brokers.test_paper_broker.PaperBrokerTests.test_partial_fill_keeps_requested_and_filled_quantity_distinct",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_partial_fill_cancels_remainder_before_protecting_actual_quantity"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-023:0185",
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_partial_fill_keeps_requested_and_filled_quantity_distinct",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_paper_broker.py",
+          "definition_line": 41,
+          "source_hash": "sha256:6f450fb1f78b24492bdfe4b9f2b362c2dc3cd98d6903af201bb356145aef6846",
+          "log_ref": "PQR-01-023.log",
+          "log_hash": "sha256:6ab75c7e405637e7393b848d6bb1647cfb290ef19cc0bc93671c89215849915c",
+          "log_start_line": 185,
+          "log_completion_line": 185
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0017",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_partial_fill_cancels_remainder_before_protecting_actual_quantity",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 164,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 17,
+          "log_completion_line": 17
+        }
+      ],
+      "semantic_basis": "Actual partial fill retains requested versus filled size, cancels remainder and protects only actual quantity.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F08",
+      "requirement": "protection verified before safe-open",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F08",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01",
+        "PAPER-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0011",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 98,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        }
+      ],
+      "semantic_basis": "OPEN_PROTECTED follows actual stop verification and canonical lifecycle binding, not submit acknowledgment alone.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F09",
+      "requirement": "protection failure enters safe degraded/emergency state",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F09",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_missing_initial_protection_remains_reconciliation_required_on_restart",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_rejected_initial_protection_enters_emergency_and_management_closes"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0016",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_missing_initial_protection_remains_reconciliation_required_on_restart",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 408,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 16,
+          "log_completion_line": 16
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0020",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_rejected_initial_protection_enters_emergency_and_management_closes",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 399,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 20,
+          "log_completion_line": 20
+        }
+      ],
+      "semantic_basis": "Rejected initial stop produces EMERGENCY and managed exit; unknown stop produces reconciliation-required and blocks fresh exposure.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F10",
+      "requirement": "normal exit -> flat + TradeResult",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F10",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0011",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 98,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        }
+      ],
+      "semantic_basis": "Actual exit request preserves nonzero exposure until authoritative flat readback, then canonical CLOSED and exact TradeResult are published.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F11",
+      "requirement": "funding/cost persisted",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F11",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.backtest.test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+        "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-020:0013",
+          "test_id": "tests.backtest.test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+          "status": "PASS",
+          "source_ref": "tests/backtest/test_replay.py",
+          "definition_line": 256,
+          "source_hash": "sha256:3467abff72e76efbeaba0bf3034b297e30762235a23281a992fdabae2abbee7e",
+          "log_ref": "PQR-01-020.log",
+          "log_hash": "sha256:b42364440c183152ba8ba5ff3ef4f6861b62539e2780b87e9d2ea480a710cac9",
+          "log_start_line": 13,
+          "log_completion_line": 13
+        },
+        {
+          "execution_instance_id": "PQR-01-136:0004",
+          "test_id": "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_paper_services.py",
+          "definition_line": 126,
+          "source_hash": "sha256:404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007",
+          "log_ref": "PQR-01-136.log",
+          "log_hash": "sha256:ace32de0b45cabe3c7c630df05328c1ac856fa1586f9df69e716372dfa14ba36",
+          "log_start_line": 4,
+          "log_completion_line": 4
+        }
+      ],
+      "semantic_basis": "Actual published E3/E5 costs/funding reconcile to canonical result; preserve original stopped-native Paper cost audit separately from fake-provider funding.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [
+        "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json#F11; STOPPED_NATIVE_PAPER_CANONICAL_COST_AUDIT; original 3ae subject only"
+      ],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F12",
+      "requirement": "restart flat safe",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F12",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02",
+        "OPS-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_WINDOWS_SCOPED_PLUS_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0021",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_restart_reconciles_actual_history_and_does_not_reset_first_fill_or_balance",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 221,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 21,
+          "log_completion_line": 21
+        }
+      ],
+      "semantic_basis": "Preserve actual idle-flat native crash/recovery and source restart binding/first-fill/balance proof; no new CLOSED-flat crash claim.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [
+        "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json#F12; CURRENT_WINDOWS_FIXTURE_RESTART_FLAT; original idle-flat crash scope only"
+      ],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F13",
+      "requirement": "restart open protected safe",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F13",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02",
+        "OPS-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_WINDOWS_SCOPED_PLUS_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_restart_recovers_same_protected_position_and_fences_old_owner"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-085:0016",
+          "test_id": "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_restart_recovers_same_protected_position_and_fences_old_owner",
+          "status": "PASS",
+          "source_ref": "tests/application/test_paper_owner_worker.py",
+          "definition_line": 127,
+          "source_hash": "sha256:8a10538046aa7eae21c2b0538012b2becad283c6ab9df87afb4dcd28676a7995",
+          "log_ref": "PQR-01-085.log",
+          "log_hash": "sha256:5e9f7069e911bf95230f39080e5113de0358d4c79342e602e3211ca85c31cf08",
+          "log_start_line": 16,
+          "log_completion_line": 16
+        }
+      ],
+      "semantic_basis": "Successor recovers same protected position and fences previous owner; original position and protective management are retained.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F14",
+      "requirement": "restart open unprotected blocks new exposure",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F14",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02",
+        "OPS-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_WINDOWS_SCOPED_PLUS_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_missing_initial_protection_remains_reconciliation_required_on_restart"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0016",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_missing_initial_protection_remains_reconciliation_required_on_restart",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 408,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 16,
+          "log_completion_line": 16
+        }
+      ],
+      "semantic_basis": "Restart with unresolved protection retains exposure and reconciliation-required; no second entry or guessed flatness.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F15",
+      "requirement": "ambiguous state requires reconciliation",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F15",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.brokers.test_paper_broker.PaperBrokerTests.test_reconciliation_rejects_fabricated_query_evidence",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unresolved_entry_submit_blocks_without_retry_or_reset"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-023:0186",
+          "test_id": "tests.brokers.test_paper_broker.PaperBrokerTests.test_reconciliation_rejects_fabricated_query_evidence",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_paper_broker.py",
+          "definition_line": 122,
+          "source_hash": "sha256:6f450fb1f78b24492bdfe4b9f2b362c2dc3cd98d6903af201bb356145aef6846",
+          "log_ref": "PQR-01-023.log",
+          "log_hash": "sha256:6ab75c7e405637e7393b848d6bb1647cfb290ef19cc0bc93671c89215849915c",
+          "log_start_line": 186,
+          "log_completion_line": 186
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0028",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_unresolved_entry_submit_blocks_without_retry_or_reset",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 387,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 28,
+          "log_completion_line": 28
+        }
+      ],
+      "semantic_basis": "Unresolved submit cannot reset/retry into a new entry; fabricated query evidence is rejected and original obligation remains for reconciliation.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F16",
+      "requirement": "PAPER policy PASS/FAIL deterministic",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F16",
+      "applicability_supersession": "APPLICABLE_FIXTURE_MECHANICS;v0.2 separates accelerated evidence from real elapsed forward",
+      "v0_2_requirement_refs": [
+        "PAPER-03",
+        "LIFE-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_forward_quantitative_failure_cannot_mark_ready",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0003",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_forward_quantitative_failure_cannot_mark_ready",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 446,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 3,
+          "log_completion_line": 3
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0009",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 340,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 9,
+          "log_completion_line": 9
+        }
+      ],
+      "semantic_basis": "Bound fixture forward assessment deterministically rejects failed quantitative policy and permits readiness only with actual matching evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Formal ordinary Paper/promotion/risk policies and real elapsed forward qualification remain unselected/NOT_RUN"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F17",
+      "requirement": "READY_FOR_APPROVAL only after PAPER evidence",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F17",
+      "applicability_supersession": "APPLICABLE_FIXTURE_MECHANICS;v0.2 separates accelerated evidence from real elapsed forward",
+      "v0_2_requirement_refs": [
+        "PAPER-03",
+        "LIFE-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_forward_policy_change_cannot_reuse_previous_run_as_promotion_evidence"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0009",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 340,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 9,
+          "log_completion_line": 9
+        },
+        {
+          "execution_instance_id": "PQR-01-160:0010",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_forward_policy_change_cannot_reuse_previous_run_as_promotion_evidence",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 331,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 10,
+          "log_completion_line": 10
+        }
+      ],
+      "semantic_basis": "Canonical READY_FOR_APPROVAL requires actual owner forward assessment; changed policy cannot reuse prior evidence; accelerated time cannot qualify real forward.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Formal ordinary Paper/promotion/risk policies and real elapsed forward qualification remain unselected/NOT_RUN"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "F18",
+      "requirement": "PAPER report published",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#F18",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "CLOUD-08",
+        "CLOUD-09",
+        "E2E-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_WINDOWS_SCOPED_PLUS_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts",
+        "tests.product.test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-071:0003",
+          "test_id": "tests.application.test_normal_fixture_worker.NormalFixtureWorkerTests.test_normal_completed_trade_stages_actual_reports_and_receipts",
+          "status": "PASS",
+          "source_ref": "tests/application/test_normal_fixture_worker.py",
+          "definition_line": 191,
+          "source_hash": "sha256:1a790c87bd180fda9a36c7317430e1ad2038722c9e835a5160b69d1aafb1d9d3",
+          "log_ref": "PQR-01-071.log",
+          "log_hash": "sha256:1abe6f923b85d0722654c8c42ce0dec33b96b1704820b0ee52a49ff994287502",
+          "log_start_line": 3,
+          "log_completion_line": 3
+        },
+        {
+          "execution_instance_id": "PQR-01-152:0001",
+          "test_id": "tests.product.test_paper_feedback_bridge.PaperFeedbackBridgeTests.test_actual_owner_paper_outbox_reaches_exact_remote_byte_ack_through_local_fake_only",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_feedback_bridge.py",
+          "definition_line": 18,
+          "source_hash": "sha256:757d2b92f07fd43096821f1641c2153bd967557417aba84f7dfc8ac9454617f7",
+          "log_ref": "PQR-01-152.log",
+          "log_hash": "sha256:5db5af7608d20d960d162d61c0b7a1435688c10a0883dad0ef547c910550d3ec",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Actual Paper owner report/outbox reaches local staging then byte-readback ACK via isolated local-copy transport; repeat is idempotent and delivery states distinct.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Actual real-cloud commissioning/remote round-trip NOT_RUN; local-copy byte ACK is not real-cloud ACK"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G01",
+      "requirement": "Product Owner can approve exact strategy version",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G01",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03",
+        "UI-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PARTIAL_SOURCE_CANONICAL_POSITIVE_PUBLIC_POSITIVE_NOT_RUN",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_approval_transition_and_command_receipt_are_atomic_and_retryable"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-130:0001",
+          "test_id": "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_approval_binding.py",
+          "definition_line": 30,
+          "source_hash": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+          "log_ref": "PQR-01-130.log",
+          "log_hash": "sha256:32f4a6b4ad4525f61ce1e6383ac40449f017a308649b459efab16e77be4ab16c",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-205:0020",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_approval_transition_and_command_receipt_are_atomic_and_retryable",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 183,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 20,
+          "log_completion_line": 20
+        }
+      ],
+      "semantic_basis": "Authenticated server-issued human identity can create exact-subject canonical E6 approval in controlled source fixture; public FIXTURE financial approval remains denied.",
+      "concrete_uncovered_clause": "Actual positive LOCAL_RESEARCH public HTTP/financial approval flow is not established by direct E6 fixture call; public FIXTURE denial is intentional, not a feature defect",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Locally commissioned exact-subject formal policy/envelope/human financial approval remains separately unselected; no bypass or synthetic real authority proposed",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G02",
+      "requirement": "approval is immutable",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G02",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_identical_completed_approval_command_returns_original_receipt",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-205:0024",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 136,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 24,
+          "log_completion_line": 24
+        },
+        {
+          "execution_instance_id": "PQR-01-205:0025",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_identical_completed_approval_command_returns_original_receipt",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 230,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 25,
+          "log_completion_line": 25
+        }
+      ],
+      "semantic_basis": "Actual stored approval rejects UPDATE and DELETE; identical completed command returns original immutable record/receipt.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G03",
+      "requirement": "approval binds project/risk/deployment envelope",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G03",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_exact_current_authority_snapshot_contains_original_envelope_and_selected_e5_policy",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_expired_human_and_changed_release_generation_cannot_approve_or_activate"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-148:0002",
+          "test_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_exact_current_authority_snapshot_contains_original_envelope_and_selected_e5_policy",
+          "status": "PASS",
+          "source_ref": "tests/product/test_live_admission_v02.py",
+          "definition_line": 55,
+          "source_hash": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba",
+          "log_ref": "PQR-01-148.log",
+          "log_hash": "sha256:71ec3bb876d8fd1c7b854805419808a9179f31f85613fe000384dd631791fca0",
+          "log_start_line": 2,
+          "log_completion_line": 2
+        },
+        {
+          "execution_instance_id": "PQR-01-205:0023",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_expired_human_and_changed_release_generation_cannot_approve_or_activate",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 205,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 23,
+          "log_completion_line": 23
+        }
+      ],
+      "semantic_basis": "Approval binds immutable strategy hash/version, exact release/config/risk policy/envelope; changed release cannot reuse acceptance.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G04",
+      "requirement": "approval never contains credentials",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G04",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03",
+        "CLOUD-09"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+        "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-130:0001",
+          "test_id": "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_approval_binding.py",
+          "definition_line": 30,
+          "source_hash": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+          "log_ref": "PQR-01-130.log",
+          "log_hash": "sha256:32f4a6b4ad4525f61ce1e6383ac40449f017a308649b459efab16e77be4ab16c",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-132:0001",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 103,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Canonical approval payload excludes actual synthetic login password; strict approval DTO excludes credential fields and forged caller actor.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G05",
+      "requirement": "wrong-version approval rejected",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G05",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-205:0024",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 136,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 24,
+          "log_completion_line": 24
+        }
+      ],
+      "semantic_basis": "Wrong envelope strategy version and stale revision are refused before canonical approval mutation.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G06",
+      "requirement": "stale/revoked/expired authority blocked",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G06",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03",
+        "TRADE-04"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_expired_human_and_changed_release_generation_cannot_approve_or_activate"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-148:0006",
+          "test_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority",
+          "status": "PASS",
+          "source_ref": "tests/product/test_live_admission_v02.py",
+          "definition_line": 71,
+          "source_hash": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba",
+          "log_ref": "PQR-01-148.log",
+          "log_hash": "sha256:71ec3bb876d8fd1c7b854805419808a9179f31f85613fe000384dd631791fca0",
+          "log_start_line": 6,
+          "log_completion_line": 6
+        },
+        {
+          "execution_instance_id": "PQR-01-205:0023",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_expired_human_and_changed_release_generation_cannot_approve_or_activate",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 205,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 23,
+          "log_completion_line": 23
+        }
+      ],
+      "semantic_basis": "Logout/revocation/expiry invalidates current human or NEW_EXPOSURE authority while exact existing management remains separate.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "G07",
+      "requirement": "one approval does not transfer versions",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#G07",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-205:0024",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 136,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 24,
+          "log_completion_line": 24
+        }
+      ],
+      "semantic_basis": "Exact subject/version/hash and envelope checks prevent authority transfer; wrong-version envelope rejected rather than adopting another version.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H01",
+      "requirement": "TradingOrchestrator exists and uses E2/E5/E4",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H01",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.execution.test_gateway.ExecutionGatewayTests.test_strategy_trade_intent_cannot_cross_authority_boundary",
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+        "tests.product.test_trading_original_exit_v02.TradingOriginalExitV02Tests.test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry",
+        "tests.product.test_trading_orchestrator_risk_reject_v02.TradingOrchestratorRiskRejectV02Tests.test_actual_insufficient_balance_reject_publishes_only_original_risk_and_exact_retry"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-022:0067",
+          "test_id": "tests.execution.test_gateway.ExecutionGatewayTests.test_strategy_trade_intent_cannot_cross_authority_boundary",
+          "status": "PASS",
+          "source_ref": "tests/execution/test_gateway.py",
+          "definition_line": 70,
+          "source_hash": "sha256:aed0085ae911b91135a7e4a092ba256c0d0d09431764828527ee7c322da2cc63",
+          "log_ref": "PQR-01-022.log",
+          "log_hash": "sha256:6ce158d9dc1a6caa18cff5ea2aedd2b0222f38ab9e6546c69fbe481d88adc256",
+          "log_start_line": 67,
+          "log_completion_line": 67
+        },
+        {
+          "execution_instance_id": "PQR-01-174:0001",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 256,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-196:0001",
+          "test_id": "tests.product.test_trading_orchestrator_risk_reject_v02.TradingOrchestratorRiskRejectV02Tests.test_actual_insufficient_balance_reject_publishes_only_original_risk_and_exact_retry",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_orchestrator_risk_reject_v02.py",
+          "definition_line": 24,
+          "source_hash": "sha256:85df98e668f66b5c986e8272389f3f5d226a336c8da362fc00059b69d3b3ff1d",
+          "log_ref": "PQR-01-196.log",
+          "log_hash": "sha256:b15e6180a897e32047422559f6910b03bbfd0faf5673f5b68712f3e5eb4012f7",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-199:0001",
+          "test_id": "tests.product.test_trading_original_exit_v02.TradingOriginalExitV02Tests.test_original_e2_first_fill_max_hold_exit_preserves_action_and_one_close_through_partial_flat_retry",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_original_exit_v02.py",
+          "definition_line": 22,
+          "source_hash": "sha256:6f0544951f7ddb9209f198619a43ea7ab36ec95f45af1018b6d070c9d4d2a0ad",
+          "log_ref": "PQR-01-199.log",
+          "log_hash": "sha256:39d8101039ec595de8f9639e8dacb164dcb7f3db9ccc6552f359d02cebddd514",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Genuine TradingOrchestrator uses registered E2 DSL and actual as-of input, actual selected E5 risk, E4 preparation and original durable claim; supplement joins original exit through final closure.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "H01/H16/K05 source supplement has no owning receipt membership or native execution credit"
+      ],
+      "preserved_original_scope": [
+        "status/codex/productization/S12/current-windows-aa2d00a/semantic-review.json#supplements.H01_H16"
+      ],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H02",
+      "requirement": "Signal cannot execute directly",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H02",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.execution.test_gateway.ExecutionGatewayTests.test_strategy_trade_intent_cannot_cross_authority_boundary",
+        "tests.risk.test_risk_engine.RiskEngineTests.test_trade_intent_cannot_smuggle_approved_authority"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-022:0067",
+          "test_id": "tests.execution.test_gateway.ExecutionGatewayTests.test_strategy_trade_intent_cannot_cross_authority_boundary",
+          "status": "PASS",
+          "source_ref": "tests/execution/test_gateway.py",
+          "definition_line": 70,
+          "source_hash": "sha256:aed0085ae911b91135a7e4a092ba256c0d0d09431764828527ee7c322da2cc63",
+          "log_ref": "PQR-01-022.log",
+          "log_hash": "sha256:6ce158d9dc1a6caa18cff5ea2aedd2b0222f38ab9e6546c69fbe481d88adc256",
+          "log_start_line": 67,
+          "log_completion_line": 67
+        },
+        {
+          "execution_instance_id": "PQR-01-024:0026",
+          "test_id": "tests.risk.test_risk_engine.RiskEngineTests.test_trade_intent_cannot_smuggle_approved_authority",
+          "status": "PASS",
+          "source_ref": "tests/risk/test_risk_engine.py",
+          "definition_line": 137,
+          "source_hash": "sha256:c019dc3f5b593a841e0dfa2c3df419d214a2f59aebd936eceecbd214305c8168",
+          "log_ref": "PQR-01-024.log",
+          "log_hash": "sha256:3b09466a17b86ac545f3a0854caaba5c1d5affd9dc8fab632d985e55db4e6018",
+          "log_start_line": 26,
+          "log_completion_line": 26
+        }
+      ],
+      "semantic_basis": "TradeIntent/Signal cannot cross gateway authority boundary; caller approved fields cannot smuggle E5 authority.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H03",
+      "requirement": "credentials are not authority",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H03",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_untyped_input_and_missing_native_supervisor_fail_closed",
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-028:0060",
+          "test_id": "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_untyped_input_and_missing_native_supervisor_fail_closed",
+          "status": "PASS",
+          "source_ref": "tests/integration/test_product_runtime_preflight_v02.py",
+          "definition_line": 57,
+          "source_hash": "sha256:385e8a7af76f0d33c3b19c1a7dbba18a0ecf5f5391472e90fa022c2f39892150",
+          "log_ref": "PQR-01-028.log",
+          "log_hash": "sha256:0cde1177627cd2c4d63aea573ea546747698ad0866ffc5001b37933b75999dc6",
+          "log_start_line": 60,
+          "log_completion_line": 60
+        },
+        {
+          "execution_instance_id": "PQR-01-148:0003",
+          "test_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners",
+          "status": "PASS",
+          "source_ref": "tests/product/test_live_admission_v02.py",
+          "definition_line": 81,
+          "source_hash": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba",
+          "log_ref": "PQR-01-148.log",
+          "log_hash": "sha256:71ec3bb876d8fd1c7b854805419808a9179f31f85613fe000384dd631791fca0",
+          "log_start_line": 3,
+          "log_completion_line": 3
+        }
+      ],
+      "semantic_basis": "Opaque current-owner permit is required; caller dictionaries, FIXTURE production composition and mere credential presence cannot grant execution.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H04",
+      "requirement": "runtime preflight required",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H04",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-04"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_current_product_facts_are_eligible_but_legacy_profile_cannot_validate_or_accept_them",
+        "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_untyped_input_and_missing_native_supervisor_fail_closed"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-028:0057",
+          "test_id": "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_current_product_facts_are_eligible_but_legacy_profile_cannot_validate_or_accept_them",
+          "status": "PASS",
+          "source_ref": "tests/integration/test_product_runtime_preflight_v02.py",
+          "definition_line": 19,
+          "source_hash": "sha256:385e8a7af76f0d33c3b19c1a7dbba18a0ecf5f5391472e90fa022c2f39892150",
+          "log_ref": "PQR-01-028.log",
+          "log_hash": "sha256:0cde1177627cd2c4d63aea573ea546747698ad0866ffc5001b37933b75999dc6",
+          "log_start_line": 57,
+          "log_completion_line": 57
+        },
+        {
+          "execution_instance_id": "PQR-01-028:0060",
+          "test_id": "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_untyped_input_and_missing_native_supervisor_fail_closed",
+          "status": "PASS",
+          "source_ref": "tests/integration/test_product_runtime_preflight_v02.py",
+          "definition_line": 57,
+          "source_hash": "sha256:385e8a7af76f0d33c3b19c1a7dbba18a0ecf5f5391472e90fa022c2f39892150",
+          "log_ref": "PQR-01-028.log",
+          "log_hash": "sha256:0cde1177627cd2c4d63aea573ea546747698ad0866ffc5001b37933b75999dc6",
+          "log_start_line": 60,
+          "log_completion_line": 60
+        }
+      ],
+      "semantic_basis": "Actual product preflight is profile-bound; missing/untyped supervisor or wrong legacy/current profile cannot establish runtime authority.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H05",
+      "requirement": "provider reconciliation required",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H05",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03",
+        "TRADE-04"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_missing_reconciliation_external_consumer_or_current_action_allowlist_deny"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-028:0058",
+          "test_id": "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_missing_reconciliation_external_consumer_or_current_action_allowlist_deny",
+          "status": "PASS",
+          "source_ref": "tests/integration/test_product_runtime_preflight_v02.py",
+          "definition_line": 43,
+          "source_hash": "sha256:385e8a7af76f0d33c3b19c1a7dbba18a0ecf5f5391472e90fa022c2f39892150",
+          "log_ref": "PQR-01-028.log",
+          "log_hash": "sha256:0cde1177627cd2c4d63aea573ea546747698ad0866ffc5001b37933b75999dc6",
+          "log_start_line": 58,
+          "log_completion_line": 58
+        }
+      ],
+      "semantic_basis": "Missing reconciliation, external consumer evidence or allowlisted action makes actual preflight fail closed.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H06",
+      "requirement": "ACK is not Fill",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H06",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-174:0001",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 256,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Actual durable claim precedes sole POST; canonical publication initially retains pending ACK without fill/flat inference.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H07",
+      "requirement": "ambiguous submit no blind retry",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H07",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-174:0008",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_lost_ack_restart_only_reads_back_even_when_lookup_is_empty",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 316,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 8,
+          "log_completion_line": 8
+        }
+      ],
+      "semantic_basis": "Lost ACK and restart reconcile original committed request by GET even with empty lookup; no blind second POST.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H08",
+      "requirement": "partial fill uses actual exposure",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H08",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage",
+        "tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-174:0007",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 132,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 7,
+          "log_completion_line": 7
+        },
+        {
+          "execution_instance_id": "PQR-01-200:0001",
+          "test_id": "tests.product.test_trading_position_v02.TradingPositionV02Tests.test_actual_partial_position_becomes_restart_authoritative_without_native_id_leak",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_position_v02.py",
+          "definition_line": 53,
+          "source_hash": "sha256:ff7a55a20590a06b127be640d71ae9ff18349a12ebb6e9024e8d82bbdfe82c10",
+          "log_ref": "PQR-01-200.log",
+          "log_hash": "sha256:54282598cd6102956db1454b624ae18ed9af26769a93f0498bec61c2ed787e89",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Actual partial canonical/native position drives protective quantity and preserves native lineage; requested size is not substituted for exposure.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H09",
+      "requirement": "missing protection fail closed",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H09",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_active_query_with_missing_current_inventory_cannot_promote_protection"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-202:0006",
+          "test_id": "tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_exact_active_query_with_missing_current_inventory_cannot_promote_protection",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_protection_monitor_v02.py",
+          "definition_line": 141,
+          "source_hash": "sha256:0a87460c67b997d007d1cae387f46988c66a864246b783e86580271da301a1d4",
+          "log_ref": "PQR-01-202.log",
+          "log_hash": "sha256:f43323c918c23b76f1dfb679f688bbd7b1c41758429a1d78ed79b3a5ce36ac71",
+          "log_start_line": 6,
+          "log_completion_line": 6
+        }
+      ],
+      "semantic_basis": "Exact active-stop readback without complete current inventory cannot promote protection; actual loss enters E5 emergency management.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H10",
+      "requirement": "duplicate protection fail closed",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H10",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-202:0005",
+          "test_id": "tests.product.test_trading_protection_monitor_v02.TradingProtectionMonitorV02Tests.test_duplicate_or_external_active_stop_blocks_healthy_claim_without_cleanup",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_protection_monitor_v02.py",
+          "definition_line": 60,
+          "source_hash": "sha256:0a87460c67b997d007d1cae387f46988c66a864246b783e86580271da301a1d4",
+          "log_ref": "PQR-01-202.log",
+          "log_hash": "sha256:f43323c918c23b76f1dfb679f688bbd7b1c41758429a1d78ed79b3a5ce36ac71",
+          "log_start_line": 5,
+          "log_completion_line": 5
+        }
+      ],
+      "semantic_basis": "Duplicate or external active stop prevents healthy protection claim; no blind cleanup or multiplicity bypass.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H11",
+      "requirement": "orphan protection fail closed",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H11",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.brokers.test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-023:0101",
+          "test_id": "tests.brokers.test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_multiple_orphan_stale_incomplete_unknown_registry_cannot_create_or_cancel",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_okx_product_protection_v02.py",
+          "definition_line": 71,
+          "source_hash": "sha256:09cf2d745e9f0b994e9317b1aeaf0b1969f5b892bff6ef512170d1bb6130c95c",
+          "log_ref": "PQR-01-023.log",
+          "log_hash": "sha256:6ab75c7e405637e7393b848d6bb1647cfb290ef19cc0bc93671c89215849915c",
+          "log_start_line": 101,
+          "log_completion_line": 101
+        }
+      ],
+      "semantic_basis": "Orphan/stale/incomplete/unknown registry evidence cannot create/cancel protection; unknown ownership remains reconciliation-required.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H12",
+      "requirement": "close requires authoritative flat truth",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H12",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.brokers.test_okx_product_position_v02.OKXProductPositionV02Tests.test_flat_requires_explicit_same_native_position_and_never_empty_or_error_response"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-023:0096",
+          "test_id": "tests.brokers.test_okx_product_position_v02.OKXProductPositionV02Tests.test_flat_requires_explicit_same_native_position_and_never_empty_or_error_response",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_okx_product_position_v02.py",
+          "definition_line": 43,
+          "source_hash": "sha256:941e272bab92e4388cc87970c78efc2bb5e776e84eee2c1d555f363fc8bc6095",
+          "log_ref": "PQR-01-023.log",
+          "log_hash": "sha256:6ab75c7e405637e7393b848d6bb1647cfb290ef19cc0bc93671c89215849915c",
+          "log_start_line": 96,
+          "log_completion_line": 96
+        }
+      ],
+      "semantic_basis": "Only explicit zero for original provider position establishes flat; empty/error response cannot invent flatness or closure.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H13",
+      "requirement": "residual below actionable size stable",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H13",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable",
+        "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-006:0012",
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_okx_close_sizing.py",
+          "definition_line": 340,
+          "source_hash": "sha256:a6877de159feb9e7bba63ae48cb1200440fd598dfa44a2b477db776b866a5169",
+          "log_ref": "PQR-01-006.log",
+          "log_hash": "sha256:82b8824a1094bd7b291b3a9899a7f6ed7d03198ebbaadd4d5394dca66974eba2",
+          "log_start_line": 12,
+          "log_completion_line": 12
+        },
+        {
+          "execution_instance_id": "PQR-01-006:0013",
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_okx_close_sizing.py",
+          "definition_line": 350,
+          "source_hash": "sha256:a6877de159feb9e7bba63ae48cb1200440fd598dfa44a2b477db776b866a5169",
+          "log_ref": "PQR-01-006.log",
+          "log_hash": "sha256:82b8824a1094bd7b291b3a9899a7f6ed7d03198ebbaadd4d5394dca66974eba2",
+          "log_start_line": 13,
+          "log_completion_line": 13
+        },
+        {
+          "execution_instance_id": "PQR-01-023:0041",
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_positive_dust_residual_is_explicit_unrepresentable",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_okx_close_sizing.py",
+          "definition_line": 340,
+          "source_hash": "sha256:a6877de159feb9e7bba63ae48cb1200440fd598dfa44a2b477db776b866a5169",
+          "log_ref": "PQR-01-023.log",
+          "log_hash": "sha256:6ab75c7e405637e7393b848d6bb1647cfb290ef19cc0bc93671c89215849915c",
+          "log_start_line": 41,
+          "log_completion_line": 41
+        },
+        {
+          "execution_instance_id": "PQR-01-023:0042",
+          "test_id": "tests.brokers.test_okx_close_sizing.OKXCloseResidualSizingTests.test_post_action_unrepresentable_residual_has_no_unchanged_retry_authority",
+          "status": "PASS",
+          "source_ref": "tests/brokers/test_okx_close_sizing.py",
+          "definition_line": 350,
+          "source_hash": "sha256:a6877de159feb9e7bba63ae48cb1200440fd598dfa44a2b477db776b866a5169",
+          "log_ref": "PQR-01-023.log",
+          "log_hash": "sha256:6ab75c7e405637e7393b848d6bb1647cfb290ef19cc0bc93671c89215849915c",
+          "log_start_line": 42,
+          "log_completion_line": 42
+        }
+      ],
+      "semantic_basis": "Positive unrepresentable residual remains explicit and stable; no unchanged-action retry authority after capped/unrepresentable residual.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H14",
+      "requirement": "kill switch blocks new exposure",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H14",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-04"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_authenticated_pause_disables_new_exposure_and_retains_original_management",
+        "tests.risk.test_gate_c_context_derivation.GateCRiskContextDerivationTests.test_kill_switch_and_existing_policy_counters_remain_e5_authority",
+        "tests.safety.test_e5_fail_closed.FailClosedBoundaryTests.test_kill_switch_always_rejects_new_exposure"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-024:0010",
+          "test_id": "tests.risk.test_gate_c_context_derivation.GateCRiskContextDerivationTests.test_kill_switch_and_existing_policy_counters_remain_e5_authority",
+          "status": "PASS",
+          "source_ref": "tests/risk/test_gate_c_context_derivation.py",
+          "definition_line": 298,
+          "source_hash": "sha256:cbb7c7e288f3d6d8a2c59306b7b9e52e944f44d4290b9ed18480ce2e4a33f0f9",
+          "log_ref": "PQR-01-024.log",
+          "log_hash": "sha256:3b09466a17b86ac545f3a0854caaba5c1d5affd9dc8fab632d985e55db4e6018",
+          "log_start_line": 10,
+          "log_completion_line": 10
+        },
+        {
+          "execution_instance_id": "PQR-01-030:0003",
+          "test_id": "tests.safety.test_e5_fail_closed.FailClosedBoundaryTests.test_kill_switch_always_rejects_new_exposure",
+          "status": "PASS",
+          "source_ref": "tests/safety/test_e5_fail_closed.py",
+          "definition_line": 102,
+          "source_hash": "sha256:b07086b468c376f9afc258d706522e06c45af4e8bb93e167a05ca7353cf046ae",
+          "log_ref": "PQR-01-030.log",
+          "log_hash": "sha256:ea7c68721100ff3fecd2687aefc569da03767f0ccf3a5bb75c58956c3f0d96a4",
+          "log_start_line": 3,
+          "log_completion_line": 3
+        },
+        {
+          "execution_instance_id": "PQR-01-134:0002",
+          "test_id": "tests.product.test_api_deployment_controls.APIDeploymentControlTests.test_authenticated_pause_disables_new_exposure_and_retains_original_management",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_deployment_controls.py",
+          "definition_line": 46,
+          "source_hash": "sha256:cf0fb6aa7bf27b1440235a557d23d65fa9c6612ba2c0d46ef9107ef40b045c61",
+          "log_ref": "PQR-01-134.log",
+          "log_hash": "sha256:15eab3e3238b4535d5ec6f0007e50369d1f552e6e38854a0ec9f3db60fd57ae4",
+          "log_start_line": 2,
+          "log_completion_line": 2
+        }
+      ],
+      "semantic_basis": "Actual canonical E5 kill-switch rejection blocks new exposure; deployment pause separately retains existing management and is not substituted for kill-switch evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H15",
+      "requirement": "wrong revision/mode/heartbeat blocks runtime",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H15",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-04"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_wrong_revision_config_process_prior_boot_stale_heartbeat_or_single_instance_deny"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-028:0061",
+          "test_id": "tests.integration.test_product_runtime_preflight_v02.ProductRuntimePreflightV02Tests.test_wrong_revision_config_process_prior_boot_stale_heartbeat_or_single_instance_deny",
+          "status": "PASS",
+          "source_ref": "tests/integration/test_product_runtime_preflight_v02.py",
+          "definition_line": 35,
+          "source_hash": "sha256:385e8a7af76f0d33c3b19c1a7dbba18a0ecf5f5391472e90fa022c2f39892150",
+          "log_ref": "PQR-01-028.log",
+          "log_hash": "sha256:0cde1177627cd2c4d63aea573ea546747698ad0866ffc5001b37933b75999dc6",
+          "log_start_line": 61,
+          "log_completion_line": 61
+        }
+      ],
+      "semantic_basis": "Wrong revision/mode/config/process/prior boot/stale heartbeat/single-instance evidence produces FAIL_CLOSED; stored audit cannot renew authority.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H16",
+      "requirement": "successful full fake-provider lifecycle",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H16",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+        "tests.product.test_trading_finalization_positive_v02.TradingFinalizationV02Tests.test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-160:0011",
+          "test_id": "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result",
+          "status": "PASS",
+          "source_ref": "tests/product/test_paper_runtime_v02.py",
+          "definition_line": 98,
+          "source_hash": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e",
+          "log_ref": "PQR-01-160.log",
+          "log_hash": "sha256:9fec88eef9e9ff2cb43211359fbca4125edc5e2aa0fd880ede3a23263d1f3494",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        },
+        {
+          "execution_instance_id": "PQR-01-174:0001",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 256,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-185:0001",
+          "test_id": "tests.product.test_trading_finalization_positive_v02.TradingFinalizationV02Tests.test_joined_actual_funding_terminal_owned_stop_and_zero_finalize_exact_first_flat_once",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_finalization_positive_v02.py",
+          "definition_line": 8,
+          "source_hash": "sha256:bd588ebe1ccbad26599537aec9d9a301ac806099009c0c07555d9993d595137b",
+          "log_ref": "PQR-01-185.log",
+          "log_hash": "sha256:ecf7bf2f53d30b95bab7fffe9d436efbd7875b1f87a43b7ea515479070b18f45",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Same original E2 entry/exit lineage reaches actual partial/zero, canonical funding, terminal owned-stop cancellation, CLOSED/TradeResult and read-only K05; controlled fake-provider wire only.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "H01/H16/K05 source supplement has no owning receipt membership or native execution credit"
+      ],
+      "preserved_original_scope": [
+        "status/codex/productization/S12/current-windows-aa2d00a/semantic-review.json#supplements.H01_H16",
+        "status/codex/productization/S12/current-windows-aa2d00a/semantic-review.json#supplements.K05"
+      ],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H17",
+      "requirement": "real provider/private request count remains zero",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H17",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-01",
+        "E2E-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-108:0008",
+          "test_id": "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent",
+          "status": "PASS",
+          "source_ref": "tests/application/test_research_robustness.py",
+          "definition_line": 102,
+          "source_hash": "sha256:4d1fb4cc3a0d436946b1831f55e853c44815f30ee4e1a5e957755a45b030162b",
+          "log_ref": "PQR-01-108.log",
+          "log_hash": "sha256:1c45241f33cb3644f9ea4d426acb8d10ed34bd115f45c7a349e8e59e9b8129a3",
+          "log_start_line": 8,
+          "log_completion_line": 8
+        },
+        {
+          "execution_instance_id": "PQR-01-174:0006",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 289,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 6,
+          "log_completion_line": 6
+        }
+      ],
+      "semantic_basis": "Actual owning/supplement observers retain zero private/real-provider requests; normal explicit keyless public capture remains eight calls, separately scoped.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "H18",
+      "requirement": "real capital exposure remains NONE",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#H18",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-02",
+        "E2E-03"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+        "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-132:0005",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 117,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 5,
+          "log_completion_line": 5
+        },
+        {
+          "execution_instance_id": "PQR-01-174:0006",
+          "test_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+          "status": "PASS",
+          "source_ref": "tests/product/test_trading_dispatch_v02.py",
+          "definition_line": 289,
+          "source_hash": "sha256:76ad457e1ad02c289c395022b4a244cad832b942e2c47b80556a7d5f86c84490",
+          "log_ref": "PQR-01-174.log",
+          "log_hash": "sha256:9a0d4b3299c8a62b56b840a8a253e27be29207f740778ef4d18e9b741a203e74",
+          "log_start_line": 6,
+          "log_completion_line": 6
+        }
+      ],
+      "semantic_basis": "FIXTURE financial approval/activation denied; actual controlled run disposition retains financial_authority NONE and no real capital/provider mutation.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I01",
+      "requirement": "local API starts",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I01",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PLAT-01",
+        "UI-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_WINDOWS_SCOPED_PLUS_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-064:0001",
+          "test_id": "tests.application.test_native_entrypoints.NativeEntrypointTests.test_actual_e6_migrations_and_authenticated_api_are_composed",
+          "status": "PASS",
+          "source_ref": "tests/application/test_native_entrypoints.py",
+          "definition_line": 66,
+          "source_hash": "sha256:70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3",
+          "log_ref": "PQR-01-064.log",
+          "log_hash": "sha256:d05632242edf046e37d8ade004806ae84a91dadb3df37e6556898fc1d175f374",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Actual native/ASGI startup initializes required owners and authenticated versioned routes; local API availability is not trading authority.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I02",
+      "requirement": "overview endpoint truthful",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I02",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "UI-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-132:0006",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 64,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 6,
+          "log_completion_line": 6
+        }
+      ],
+      "semantic_basis": "API returns actual mode/owner counts or explicit null/unconfigured facts, never invented PnL/flatness/authorization; new UI diagnostics are separately S16 hash-bound pending new candidate.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "New UI01 source/browser repair evidence is retained separately under S16/ui01-current-windows; bffc full qualification pending"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I03",
+      "requirement": "research endpoint truthful",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I03",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "UI-01",
+        "E2E-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_unconfigured_services_report_typed_unavailable_without_fake_queued_jobs",
+        "tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-132:0012",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_unconfigured_services_report_typed_unavailable_without_fake_queued_jobs",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 130,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 12,
+          "log_completion_line": 12
+        },
+        {
+          "execution_instance_id": "PQR-01-135:0001",
+          "test_id": "tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_async_research_reaches_candidate_and_api_reports_owner_lineage",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_owner_services.py",
+          "definition_line": 218,
+          "source_hash": "sha256:0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25",
+          "log_ref": "PQR-01-135.log",
+          "log_hash": "sha256:6840dc0bc08d3c135d66ed00eb7cc8661276e1980a633ccc0d924a8b3b17bbd4",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Actual asynchronous queue job and owner lineage exposed; missing owners return typed unavailable rather than fake queued/completed jobs.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I04",
+      "requirement": "strategy lifecycle endpoint truthful",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I04",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "UI-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_owner_services.APIOwnerServicesTests.test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest",
+        "tests.product.test_api_two_versions_v02.APITwoImmutableVersionsTests.test_actual_candidate_and_draft_versions_keep_exact_hash_lineage_pagination_and_author"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-135:0011",
+          "test_id": "tests.product.test_api_owner_services.APIOwnerServicesTests.test_ui_reads_canonical_rule_timeframe_hold_and_verified_author_manifest",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_owner_services.py",
+          "definition_line": 206,
+          "source_hash": "sha256:0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25",
+          "log_ref": "PQR-01-135.log",
+          "log_hash": "sha256:6840dc0bc08d3c135d66ed00eb7cc8661276e1980a633ccc0d924a8b3b17bbd4",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        },
+        {
+          "execution_instance_id": "PQR-01-137:0001",
+          "test_id": "tests.product.test_api_two_versions_v02.APITwoImmutableVersionsTests.test_actual_candidate_and_draft_versions_keep_exact_hash_lineage_pagination_and_author",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_two_versions_v02.py",
+          "definition_line": 10,
+          "source_hash": "sha256:c9aafd6e0cba0955930c6e7f26c67d28bb0c32bebd1835251ebe23a3041487f4",
+          "log_ref": "PQR-01-137.log",
+          "log_hash": "sha256:c5da4db6167267f5fd208516abe2a6ac60201c89580392a0c5de654f0652773e",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        }
+      ],
+      "semantic_basis": "Two actual immutable versions preserve independent identity/hash/lifecycle/pagination/author detail; reread and scan replay are stable.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [
+        "aa2d actual PQR-01-137:0001; immutable two-version source/API proof preserved"
+      ],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I05",
+      "requirement": "paper endpoint truthful",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I05",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "PAPER-01",
+        "UI-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_paper_services.APIPaperServicesTests.test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment",
+        "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-136:0003",
+          "test_id": "tests.product.test_api_paper_services.APIPaperServicesTests.test_paper_inventory_lists_actual_accepted_runs_and_selected_policy_without_attachment",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_paper_services.py",
+          "definition_line": 80,
+          "source_hash": "sha256:404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007",
+          "log_ref": "PQR-01-136.log",
+          "log_hash": "sha256:ace32de0b45cabe3c7c630df05328c1ac856fa1586f9df69e716372dfa14ba36",
+          "log_start_line": 3,
+          "log_completion_line": 3
+        },
+        {
+          "execution_instance_id": "PQR-01-136:0004",
+          "test_id": "tests.product.test_api_paper_services.APIPaperServicesTests.test_readonly_paper_metrics_use_actual_published_e5_results_and_e3_costs",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_paper_services.py",
+          "definition_line": 126,
+          "source_hash": "sha256:404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007",
+          "log_ref": "PQR-01-136.log",
+          "log_hash": "sha256:ace32de0b45cabe3c7c630df05328c1ac856fa1586f9df69e716372dfa14ba36",
+          "log_start_line": 4,
+          "log_completion_line": 4
+        }
+      ],
+      "semantic_basis": "Paper endpoints show only actual accepted runs and published metrics, preserving original process generation without runtime attachment.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I06",
+      "requirement": "health endpoint no false green",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I06",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "UI-01"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.application.test_process_supervision.ProcessSupervisionTests.test_stale_and_future_heartbeat_are_explicitly_inhibited",
+        "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-096:0009",
+          "test_id": "tests.application.test_process_supervision.ProcessSupervisionTests.test_stale_and_future_heartbeat_are_explicitly_inhibited",
+          "status": "PASS",
+          "source_ref": "tests/application/test_process_supervision.py",
+          "definition_line": 78,
+          "source_hash": "sha256:a22580eb4f8bfa50a960dd572cf9e135d9a9b193f5d73b9e2056db6a8d505679",
+          "log_ref": "PQR-01-096.log",
+          "log_hash": "sha256:d74aae5b0a63b499424253218f115351b494a1537cbaa4f7fdef91ace80b8a34",
+          "log_start_line": 9,
+          "log_completion_line": 9
+        },
+        {
+          "execution_instance_id": "PQR-01-132:0006",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 64,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 6,
+          "log_completion_line": 6
+        }
+      ],
+      "semantic_basis": "Unobserved/stale/future heartbeat remains unknown/inhibited; HTTP online does not mean runtime safe; repaired detailed observations remain separately S16 scoped.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "New UI01 source/browser repair evidence is retained separately under S16/ui01-current-windows; bffc full qualification pending"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I07",
+      "requirement": "settings cannot persist secrets",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I07",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "UI-01",
+        "UI-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry",
+        "tests.product.test_control_commands.ControlCommandTests.test_secret_fields_and_unbounded_payload_never_enter_command_store"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-132:0011",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 81,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 11,
+          "log_completion_line": 11
+        },
+        {
+          "execution_instance_id": "PQR-01-139:0010",
+          "test_id": "tests.product.test_control_commands.ControlCommandTests.test_secret_fields_and_unbounded_payload_never_enter_command_store",
+          "status": "PASS",
+          "source_ref": "tests/product/test_control_commands.py",
+          "definition_line": 74,
+          "source_hash": "sha256:ec287e13fc89138f09d13a5e2d942140fb46c31028bcbf5e2dac1522997b02e2",
+          "log_ref": "PQR-01-139.log",
+          "log_hash": "sha256:5734117f646df509814518105c26efe8422c13cbd2d0a3ab8943fe365e84c2ae",
+          "log_start_line": 10,
+          "log_completion_line": 10
+        }
+      ],
+      "semantic_basis": "Strict bounded settings/command schemas reject secret fields before durable command insertion; successful settings use actual CAS/idempotency.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I08",
+      "requirement": "invalid action cannot bypass backend gate",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I08",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-02",
+        "UI-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+        "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-132:0001",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 103,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-132:0005",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 117,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 5,
+          "log_completion_line": 5
+        }
+      ],
+      "semantic_basis": "Unknown actor/PASS/evidence fields cannot bypass strict DTO and authenticated canonical gate; FIXTURE financial API remains denied after reauth.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I09",
+      "requirement": "approval endpoint creates canonical evidence",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I09",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "LIFE-03",
+        "UI-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PARTIAL_SOURCE_CANONICAL_POSITIVE_PUBLIC_POSITIVE_NOT_RUN",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_approval_transition_and_command_receipt_are_atomic_and_retryable"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-130:0001",
+          "test_id": "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_approval_binding.py",
+          "definition_line": 30,
+          "source_hash": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70",
+          "log_ref": "PQR-01-130.log",
+          "log_hash": "sha256:32f4a6b4ad4525f61ce1e6383ac40449f017a308649b459efab16e77be4ab16c",
+          "log_start_line": 1,
+          "log_completion_line": 1
+        },
+        {
+          "execution_instance_id": "PQR-01-205:0020",
+          "test_id": "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_approval_transition_and_command_receipt_are_atomic_and_retryable",
+          "status": "PASS",
+          "source_ref": "tests/registry/test_operational_lifecycle_v02.py",
+          "definition_line": 183,
+          "source_hash": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c",
+          "log_ref": "PQR-01-205.log",
+          "log_hash": "sha256:b6b745c0675c38df27181e610dfdd2202315e013ed79da2cc0693bce675bbba3",
+          "log_start_line": 20,
+          "log_completion_line": 20
+        }
+      ],
+      "semantic_basis": "Actual verified local session can produce canonical E6 approval in source fixture, while public FIXTURE adapter refuses financial write; no public positive approval claim is inferred.",
+      "concrete_uncovered_clause": "Actual positive LOCAL_RESEARCH public HTTP/financial approval flow is not established by direct E6 fixture call; public FIXTURE denial is intentional, not a feature defect",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Locally commissioned exact-subject formal policy/envelope/human financial approval remains separately unselected; no bypass or synthetic real authority proposed"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    },
+    {
+      "id": "I10",
+      "requirement": "LIVE action blocked without authority",
+      "spec_ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md#I10",
+      "applicability_supersession": "APPLICABLE_INHERITED;v0.2 exact-subject, authenticated-owner and explicit provenance rules supersede permissive legacy interpretations",
+      "v0_2_requirement_refs": [
+        "TRADE-02",
+        "UI-02"
+      ],
+      "proposed_conditional_windows_scope_status": "PASS_LOCAL_SOURCE",
+      "acceptance_credit": "NONE;ROOT_SEMANTIC_ADVISORY_ONLY",
+      "primary_actual_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication"
+      ],
+      "actual_aa2d_source_executions": [
+        {
+          "execution_instance_id": "PQR-01-132:0005",
+          "test_id": "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+          "status": "PASS",
+          "source_ref": "tests/product/test_api_authority.py",
+          "definition_line": 117,
+          "source_hash": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c",
+          "log_ref": "PQR-01-132.log",
+          "log_hash": "sha256:ef2b24ccdc02baf98667197499af21e29f0e31bb3290f480871711ee6c3323eb",
+          "log_start_line": 5,
+          "log_completion_line": 5
+        }
+      ],
+      "semantic_basis": "Authenticated and reauthenticated FIXTURE cannot approve/activate LIVE; exact current authority is independently required server-side.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "external_gap": [
+        "No real private-provider/capital/financial authority acceptance; no Ubuntu or old-target native transfer",
+        "Source synthetic authority contracts do not authorize ordinary operator financial approval/activation"
+      ],
+      "preserved_original_scope": [],
+      "supporting_native_assertions_not_whole_clause_pass": [],
+      "current_bffc_binding": "PENDING_FULL_QUALIFICATION;NO_EXECUTION_OR_PASS_TRANSFER",
+      "unresolved_anchor_case_ids": []
+    }
+  ],
+  "source_read_pins": [
+    {
+      "ref": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md",
+      "sha256": "c6588fb1fc9e13114314e84ce133b59178f1ebdae23b524836cfccd7d9e3955d"
+    },
+    {
+      "ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    },
+    {
+      "ref": "src/application/control_api/approval_port.py",
+      "sha256": "0ba1cb748d50ed4dc92d548efeb93b8b8c0b91f6faf48e8ad7f2b1f39616aad2"
+    },
+    {
+      "ref": "tests/product/test_api_approval_binding.py",
+      "sha256": "6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70"
+    },
+    {
+      "ref": "tests/registry/test_operational_lifecycle_v02.py",
+      "sha256": "6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c"
+    },
+    {
+      "ref": "tests/product/test_paper_risk_rejection_v02.py",
+      "sha256": "0a50d2370119a330db97ac2dc7ee12f8160fbd8a487d5441226304de28aa466f"
+    },
+    {
+      "ref": "tests/product/test_paper_runtime_v02.py",
+      "sha256": "152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e"
+    },
+    {
+      "ref": "tests/product/test_trading_protection_monitor_v02.py",
+      "sha256": "0a87460c67b997d007d1cae387f46988c66a864246b783e86580271da301a1d4"
+    }
+  ],
+  "new_demonstrated_implementation_defects": [],
+  "concrete_unaccepted_scope": [
+    "G01/I09 positive actual public LOCAL_RESEARCH financial approval is not proven by direct E6 fixture approval; not an implementation defect finding"
+  ],
+  "scope_limits": [
+    "Root alone decides acceptance and binds bffc actual future index",
+    "No test/native/process/provider/network execution by this reviewer",
+    "Prior3ae native costs/flat crash remain original subject only",
+    "No Ubuntu/old-target/real-cloud/formal-policy/elapsed-forward/private-provider/capital transfer",
+    "Current source hashes are static read pins, never replacements for actual aa2d execution source_hash commitments"
+  ],
+  "financial_authority": "NONE",
+  "credentials_access": "NONE",
+  "network": "NONE"
+}

@@ -1,0 +1,115 @@
+{
+  "kind": "STATIC_CONDITIONAL_OPS02_FINAL_RECONCILIATION_ADVISORY",
+  "execution": "NONE",
+  "candidate_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "requirement_id": "OPS-02",
+  "requirement": "Code/build/config/evidence/platform identities separated; no real secrets in Git or reports",
+  "evidence_kind": "whole_branch_audit",
+  "spec_ref": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json:82",
+  "master": "IN_PROGRESS",
+  "financial_authority": "NONE",
+  "current_state": {
+    "actual_owning": "Root reports actual current full PASS7/7,212commands2654cases, reaped/monitor stopped/unchanged/errors empty; not re-executed or independently inspected by this advisory",
+    "ancillary": "Root reports known ancillary pipeline still running; do not adopt final OPS02 disposition before its required identity/retention reconciliation",
+    "prior_advisory": "current-CLOUD-API-OPS02-E2E04-semantic-bffc558-draft.json#OPS-02 currently NOT_RUN for pending final identity/evidence reconciliation"
+  },
+  "input_pins": [
+    {
+      "ref": "ART/current-CLOUD-API-OPS02-E2E04-semantic-bffc558-draft.json",
+      "sha256": "6b818f1e23cccaefd9991233631dd9ba806e4582cb25b42713104ac818d3f6ee"
+    },
+    {
+      "ref": "ART/l01-l05-root-triage-bffc558-20261021.json",
+      "sha256": "3e4714ab2d5e1ac4fc340f1187c21a9bbf466c37f490b332d7f52d62951f619a"
+    },
+    {
+      "ref": "ART/l01-l05-audit-bffc558-first.json",
+      "sha256": "61ab860bc5c2562d3541e111fbb24e31a598c11d37b35488af243159564530be"
+    }
+  ],
+  "minimum_final_root_checks": [
+    {
+      "id": "OPS02-FINAL-1",
+      "check": "Bind completed owning and required ancillary proof to actual current subject",
+      "required": [
+        "Existing actual typed receipt/index/artifact verification succeeds for bffc exact implementation/build/platform/config subjects",
+        "Use original actual source/command/log/OS/toolchain fields, not aggregate count or stale draft claims",
+        "Retain original3ae/aa2d supplemental subjects and source-only/development classifications; no native or current-subject transfer",
+        "Current package/ZIP/provenance must match their captured verified identities; native worktreeUNAVAILABLE must not be relabeled sourceGitCLEAN"
+      ],
+      "scope_note": "Different hash domains or distinct legitimate configurations stay distinct; do not force API selected-settings hash equal to ProductConfig supervision hash"
+    },
+    {
+      "id": "OPS02-FINAL-2",
+      "check": "Close finite whole-current-branch committed-text and merge-base diff audit",
+      "required": [
+        "Actual scan head bffc558b9652dc41c0804896436ac7ad8744f7f8 and origin_main/merge_base7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812 match intended subject",
+        "Scan bytes hash61ab860bc5c2562d3541e111fbb24e31a598c11d37b35488af243159564530be; source/tools unchanged and scanner-owned tree reaped",
+        "13381paths,205462337bytes;13106UTF8 text and275binary-NUL exclusions stay disclosed",
+        "All100review occurrences/43digests accounted for, prior97 plus3 exact copied-location provenance; root unresolved0 and no confirmed real secrets",
+        "Retain scanner STOP_ROOT_REVIEW and separate ROOT_SELF_REVIEW resolution attribution; do not relabel scanner as independently clean"
+      ],
+      "existing_result": "Already inspected finite audit/triage provides these facts; final task is commitment/subject/retention reconciliation, not another scan or mandatory rerun"
+    },
+    {
+      "id": "OPS02-FINAL-3",
+      "check": "Bind actual public-report redaction and release identity assertions",
+      "required": [
+        "Bind actual current named source/browser/native assertion instances and original log/artifact hashes through completed index",
+        "Existing PQR02 EXACT_NATIVE_IDENTITY_RESOURCES_LICENSES_UI and TAMPER_DENIED_EXTERNAL_DATA establish separate release/provenance subjects",
+        "Existing PQR07 SIMULATED_REAL_ELAPSED_DISCLOSURE_REDACTION and actual report validators establish tested report disclosures; local-copy ACK is not real cloud",
+        "Use actual redaction/closed-report assertions, not only parser completeness or tests_run counts"
+      ],
+      "essential_existing_cases": [
+        "tests.application.test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject",
+        "tests.application.test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected"
+      ],
+      "scope_note": "No need to inspect credentials, private account/provider payloads or probe external services"
+    },
+    {
+      "id": "OPS02-FINAL-4",
+      "check": "Reconcile retained closure and metadata-only delta",
+      "required": [
+        "Existing retained evidence commitments remain unchanged; addenda/chunks/semantic record have explicit refs and readback hashes",
+        "Audit chunks reconstruct sanitized scan hash; original scan hash and normalization remain distinct",
+        "Exact66current and150legacy unique canonical IDs/text and required21 fields validated by existing admission contract",
+        "Review only the new allowlisted public evidence/metadata retention delta for truthful scope, secret disclosure and source/subject preservation; do not assume a pre-retention scan scanned newly generated evidence",
+        "Final PROGRESS/HANDOFF/completion record identifies qualified executable separately from subsequent evidence-only commit and keeps MasterIN_PROGRESS/public8/private0/financialNONE"
+      ],
+      "scope_note": "A targeted known public metadata/derived-evidence delta review is sufficient; no new qualification is implied solely by evidence retention"
+    },
+    {
+      "id": "OPS02-FINAL-5",
+      "check": "Record explicit root acceptance with bounded Windows scope",
+      "required": [
+        "No unresolved material finding in identity/report-disclosure/current-branch-audit scope",
+        "Write OPS02 decision only after final required ancillary/retention checks succeed; reference actual proof rather than pending conditions",
+        "Keep scan coverage limitations in the row and distinguish them from unexecuted platform/commissioning requirements",
+        "S16 architecture/contract/overallMaster review and unrelated unmet acceptance rows remain independently classified"
+      ]
+    }
+  ],
+  "conditional_disposition": {
+    "status": "PASS_ONLY_IF_FINAL_ROOT_CHECKS_ABOVE_SATISFIED",
+    "proposed_scope": "CURRENT_WINDOWS_EXACT_BFFC_RELEASE_IDENTITY_AND_FINITE_CURRENT_COMMITTED_TEXT_BRANCH_DIFF_PUBLIC_REPORT_DISCLOSURE_AUDIT",
+    "current_acceptance_credit": "NONE;ADVISORY_ONLY",
+    "pending_reason": "Final ancillary identity/closure and root evidence reconciliation still pending at assignment",
+    "not_required": "Universal proof of all historical/binary/encoded/split/dynamic/unfamiliar secrets or remote spend absence is not an additional OPS02 gate in the cited specification"
+  },
+  "genuine_spec_gap": "No demonstrated local implementation/spec gap from these inputs. The old NOT_RUN reason is final actual identity/retention/root reconciliation; finite scanner limitations must be retained but do not make the declared current-Windows audit scope logically unclosable.",
+  "bounded_coverage_limitations": [
+    "No ancestral-history, ignored/untracked/working-tree, binary/image, submodule or symlink-target secret audit",
+    "UTF8 text pattern audit does not prove encoded/split/dynamic/unfamiliar credential absence",
+    "Hosted wiring/source observations do not prove historical invocation, billing or spend",
+    "Root self-review and independent static reviews remain separately attributed"
+  ],
+  "external_not_transferred": [
+    "Original/old target native acceptance",
+    "Ubuntu24.04 and26.04 native/systemd/parity",
+    "Real cloud and real SSH commissioning",
+    "Formal ordinary financial policy/envelope/workflow selection",
+    "Real elapsed forward time and samples",
+    "Private provider activity or real capital activation"
+  ],
+  "stop_condition": "If a real unresolved finding or identity/closure mismatch appears, retain NOT_RUN/BLOCKED with exact reason and resolve it; successful full suite does not overwrite that finding."
+}

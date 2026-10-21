@@ -1,0 +1,1294 @@
+{
+  "schema_version": "r7-bounded-legacy-semantic-advisory-v1",
+  "kind": "STATIC_SEMANTIC_REVIEW;NOT_ACCEPTANCE_RECORD",
+  "reviewer_execution": "NONE",
+  "source_subject": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "owning_qualification_status": "RUNNING_PER_ROOT;ACTIVE_EVIDENCE_NOT_READ",
+  "acceptance_decision_owner": "ROOT",
+  "scope": {
+    "row_ids": "A01-A08;B01-B13;C01-C12;D01-D11;E01-E12",
+    "row_count": 56,
+    "platform": "WINDOWS_LOCAL_SOURCE_OR_EXPLICIT_PRIOR_NATIVE_SCOPE_ONLY",
+    "excludes": [
+      "STR-14/Ubuntu qualification",
+      "COM-01 real cloud",
+      "COM-02 old-PC commissioning",
+      "COM-03 real data/policy commissioning",
+      "COM-04 actual elapsed Paper",
+      "COM-05 private provider verification",
+      "COM-06 real deployment/capital approval",
+      "whole Master acceptance"
+    ]
+  },
+  "rules": [
+    "Every current acceptance_status remains NOT_RUN in this advisory; proposed PASS is conditional on root verifying actual exact-current named case/identity/receipt binding and each stated scope.",
+    "Existing source assertions were read statically; no tests, imports, builds, native jobs, network, DBs, processes, or Git commands executed by reviewer.",
+    "Prior aa2d named support and legacy draft are mapping anchors, not acceptance. Prior 3ae A01/A02/A05/B03 are retained at their original exact revision and are not re-proved or transferred.",
+    "v0.2 precedence retains applicable legacy clauses while correcting exactly-once delivery to durable idempotent logical effects, OOS ordering, truthful blocked/fail/invalid distinctions and fixture versus real commissioning.",
+    "Fixture-selected short promotion windows and simulated clocks prove source mechanisms only; they do not lower or satisfy ordinary production thresholds.",
+    "No generic PASS, source test count, static review or historical receipt supplies current financial authority."
+  ],
+  "input_commitments": [
+    {
+      "ref": "ART/legacy-150-draft.json",
+      "sha256": "sha256:7935b24bb6a9c7bb07a50d584714a2fff44f37658c012cf95e6006f72546162a"
+    },
+    {
+      "ref": "ART/acceptance-records-aa2d00a.json",
+      "sha256": "sha256:10af9ae6d71cd5635c2c9d7fed6a007a8b3ca0d0576d2206ac47feda0bbdcc1d"
+    },
+    {
+      "ref": "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json",
+      "sha256": "sha256:2dd236b5e84d54d5d43f06dd5298ea5e933bfb4f0cb26291688cca685427fe3a"
+    },
+    {
+      "ref": "ART/acceptance-str-expanded-map.json",
+      "sha256": "sha256:167e5a726ced44bedbf2d6dd962b6c41f5575278bfe5101898c703835a97ab89"
+    },
+    {
+      "ref": "ART/acceptance-research-expanded-map.json",
+      "sha256": "sha256:ddb12e0e90625cd5ed8d836f796440db611f68599678880661150b2992ffee3b"
+    },
+    {
+      "ref": "ART/a08-visible-bffc558-retry01/checkpoint.json",
+      "sha256": "sha256:870c188c6c2a32f303c4b1006d184847514af4cb24d54a9d4b49a5e89fde7e5a"
+    },
+    {
+      "ref": "ART/verify_a08_visible_revision.mjs",
+      "sha256": "sha256:4483394f3479770e6eed0dd06eb5ab43cc2614fad8d09aff7f5f0587c412c605"
+    },
+    {
+      "ref": "ART/run_a08_visible_revision.py",
+      "sha256": "sha256:e21f72978c5a493a6d7ad52a52037229cae45c90fe1a57c39e8ddc330fcb344d"
+    }
+  ],
+  "rows": [
+    {
+      "id": "A01",
+      "requirement": "Windows product starts from packaged launcher",
+      "applicability_and_supersession": "APPLICABLE;WINDOWS_ONLY_SCOPE_REFINED_BY_V02",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_PACKAGED_NATIVE",
+      "primary_test_ids": [],
+      "semantic_basis": "Original-revision retained clean ZIP install/packaged launcher evidence; do not re-prove or transfer it to bffc.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Ubuntu native qualification remains separate.",
+      "prior_scoped_evidence": {
+        "ref": "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json#A01",
+        "revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+        "decision": "PASS",
+        "scope": "CURRENT_WINDOWS_PACKAGED_LAUNCH",
+        "current_credit": "NONE_FROM_THIS_REVIEW"
+      },
+      "current_binding_policy": "PRIOR_NATIVE"
+    },
+    {
+      "id": "A02",
+      "requirement": "no manual PYTHONPATH needed",
+      "applicability_and_supersession": "APPLICABLE;SELF_CONTAINED_NATIVE_LAUNCH",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_PACKAGED_NATIVE",
+      "primary_test_ids": [],
+      "semantic_basis": "Original-revision retained filtered-environment executable launch without PYTHONPATH or external interpreter.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Ubuntu launch remains separate.",
+      "prior_scoped_evidence": {
+        "ref": "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json#A02",
+        "revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+        "decision": "PASS",
+        "scope": "CURRENT_WINDOWS_NO_EXTERNAL_INTERPRETER",
+        "current_credit": "NONE_FROM_THIS_REVIEW"
+      },
+      "current_binding_policy": "PRIOR_NATIVE"
+    },
+    {
+      "id": "A03",
+      "requirement": "local data root configurable",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_native_entrypoints.NativeEntrypointTests.test_first_profile_is_explicit_local_diagnostic_and_not_trading_authority",
+        "tests.application.test_platform.ProductPlatformTests.test_chinese_paths_diagnostic_defaults_and_local_database"
+      ],
+      "semantic_basis": "Actual initialize_profile/load_config preserves the explicitly supplied local root, including Chinese/spaced paths, with diagnostic/no-trading defaults.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Old-PC and Ubuntu installation/volume behavior not inferred.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "A04",
+      "requirement": "cloud root configurable",
+      "applicability_and_supersession": "APPLICABLE;EXPLICIT_CLOUD_STAGING_NOT_CONNECTION",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_research_setup_flow.ResearchSetupFlowTests.test_first_run_cloud_root_is_explicit_disjoint_and_never_connected",
+        "tests.application.test_platform.ProductPlatformTests.test_optional_cloud_is_not_silently_initialized"
+      ],
+      "semantic_basis": "Explicit disjoint cloud root survives profile loading; setup does not create or connect a remote/cloud root or infer trading authority.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "COM-01 real selected cloud root/transport commissioning remains separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "A05",
+      "requirement": "DB initialized/migrated automatically",
+      "applicability_and_supersession": "APPLICABLE;TARGET_COMPATIBILITY_GATES_REFINE_MIGRATION",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_PACKAGED_NATIVE",
+      "primary_test_ids": [],
+      "semantic_basis": "Original-revision retained native canonical initialization/migrations; finite compatibility/upgrade scope must use its own current evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Ubuntu installation/upgrade and unsupported downgrade not inferred.",
+      "prior_scoped_evidence": {
+        "ref": "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json#A05",
+        "revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+        "decision": "PASS",
+        "scope": "CURRENT_WINDOWS_INITIALIZATION",
+        "current_credit": "NONE_FROM_THIS_REVIEW"
+      },
+      "current_binding_policy": "PRIOR_NATIVE"
+    },
+    {
+      "id": "A06",
+      "requirement": "restart preserves prior product state",
+      "applicability_and_supersession": "APPLICABLE;RESTART_IS_NOT_AUTHORITY_RENEWAL",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_process_supervision.ProcessSupervisionTests.test_restart_has_a_new_actual_process_generation_and_never_financial_permission",
+        "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_restart_recovers_same_protected_position_and_fences_old_owner",
+        "tests.application.test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record"
+      ],
+      "semantic_basis": "Real owner restart preserves original protected position/protection/binding, increments/fences process generation; E6 research crash recovery preserves the same immutable evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Current packaged restart and host crash/power-loss claims require their own native evidence; Ubuntu separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "A07",
+      "requirement": "clean shutdown leaves restart-safe state",
+      "applicability_and_supersession": "APPLICABLE;STOP_PRESERVES_PROTECTION",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_managed_product_stop.ManagedProductStopTests.test_request_never_starts_or_allocates_and_owning_loop_observes_exact_incarnation",
+        "tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_run_obeys_cooperative_stop_and_does_not_clear_position_or_pending_queue"
+      ],
+      "semantic_basis": "Actual persisted cooperative stop is incarnation-specific, successor ignores old request, Paper owner stop retains position and pending queue rather than claiming flat.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "This source decision does not certify arbitrary host shutdown/power-loss or Ubuntu service stop.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "A08",
+      "requirement": "product version and exact project revision visible",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_UI_API_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_native_distribution.NativeDistributionTests.test_frozen_provenance_does_not_borrow_git_from_the_calling_directory",
+        "tests.product.test_api_authority.APIAuthorityTests.test_health_is_truthful_and_never_infers_flat_or_authorized_live"
+      ],
+      "semantic_basis": "App footer visibly supplies R7 v0.2 and Source full executable revision/hash; FastAPI/OpenAPI version is 0.2.0. Completed supplemental current-source browser checkpoint compares the consumed actual clean bffc response with visible footer/expanded Source and records both owned children reaped.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No implementation defect demonstrated; current packaged/browser identity binding and Ubuntu remain unverified here.",
+      "current_source_supplement": {
+        "ref": "ART/a08-visible-bffc558-retry01/checkpoint.json",
+        "sha256": "sha256:870c188c6c2a32f303c4b1006d184847514af4cb24d54a9d4b49a5e89fde7e5a",
+        "recorded_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+        "recorded_implementation_hash": "sha256:387238c130af7b96f59578fdfec3b1fa76fc9443daa8a174be00d79ba166c666",
+        "recorded_passed": true,
+        "recorded_scope": "SUPPLEMENTAL_A08_CURRENT_SOURCE_BROWSER_ONLY;NOT_NATIVE_OR_RECEIPT_MEMBERSHIP",
+        "browser_helper_hash": "sha256:4483394f3479770e6eed0dd06eb5ab43cc2614fad8d09aff7f5f0587c412c605",
+        "parent_helper_hash": "sha256:e21f72978c5a493a6d7ad52a52037229cae45c90fe1a57c39e8ddc330fcb344d",
+        "recorded_owned_cleanup": [
+          {
+            "role": "browser",
+            "reaped": true
+          },
+          {
+            "role": "server",
+            "reaped": true
+          }
+        ],
+        "credit_limit": "SUPPLEMENTAL_CURRENT_SOURCE_BROWSER_ONLY;NOT_NATIVE_OR_QUALIFICATION_MEMBERSHIP",
+        "initial_failure_provenance": "Root reports preserved initial Path argv failure before child spawn; not reread or converted into success by reviewer."
+      },
+      "current_binding_policy": "CURRENT_A08"
+    },
+    {
+      "id": "B01",
+      "requirement": "synced-folder transport initializes root",
+      "applicability_and_supersession": "APPLICABLE_REFINED;EXPLICIT_ROOT_CREATION_AND_IDENTITY_REQUIRED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_missing_root_marker_does_not_initialize_replacement_cloud",
+        "tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_generation_creates_only_fresh_inputs_and_actual_e2_package",
+        "tests.application.test_fixture_recipe_flow.FixtureRecipeFlowTests.test_product_generated_positive_reaches_candidate_through_normal_child"
+      ],
+      "semantic_basis": "Explicit public FIXTURE prepare creates fresh local staging marker; actual normal scan/enqueue/owned research consumes it. Missing-marker regression proves no replacement-root auto-initialization. This is local transport setup, not actual remote connection.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "COM-01 real selected Drive root/transport commissioning remains separate; ordinary cloud-root creation is not inferred from FIXTURE setup.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B02",
+      "requirement": "valid Strategy Package discovered",
+      "applicability_and_supersession": "APPLICABLE;SEALED_BYTES_REQUIRED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_OFFLINE_TRANSPORT",
+      "primary_test_ids": [
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_separate_manifest_versions_parse_sealed_bytes_through_real_e2",
+        "tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake"
+      ],
+      "semantic_basis": "Actual discover/snapshot/validate_package parses both package versions through E2 from private sealed bytes; post-snapshot cloud mutation cannot alter parsed subject. API scan reaches canonical DRAFT.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real Drive discovery/transport COM-01 remains separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B03",
+      "requirement": "manifest written last is recognized",
+      "applicability_and_supersession": "APPLICABLE_REFINED;MANIFEST_LAST_HINT_NOT_COMMIT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_NATIVE_OFFLINE_FIXTURE",
+      "primary_test_ids": [],
+      "semantic_basis": "Original-revision native supplement observes payload-only unaccepted, manifest-last accepted once, identical replay idempotent; full byte validation remains mandatory.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Actual remote eventual consistency/Cloud Drive COM-01 not inferred.",
+      "prior_scoped_evidence": {
+        "ref": "status/codex/productization/S12/current-windows-3ae6460/semantic-review.json#B03",
+        "revision": "3ae6460c69a8a8f90588c396b819af7079e7546d",
+        "decision": "PASS",
+        "scope": "CURRENT_WINDOWS_SUPPLEMENTAL_FIXTURE",
+        "current_credit": "NONE_FROM_THIS_REVIEW"
+      },
+      "current_binding_policy": "PRIOR_NATIVE"
+    },
+    {
+      "id": "B04",
+      "requirement": "missing payload = INCOMPLETE_SYNC",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_OFFLINE_TRANSPORT",
+      "primary_test_ids": [
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_missing_and_mismatched_payload_are_incomplete_not_statistical_failure"
+      ],
+      "semantic_basis": "Missing declared payload is INCOMPLETE_SYNC and creates no statistical FAIL/canonical intake effect.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real remote outage/commissioning separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B05",
+      "requirement": "transient hash mismatch = INCOMPLETE_SYNC",
+      "applicability_and_supersession": "APPLICABLE;ACCEPTED_IMMUTABLE_MUTATION_IS_CONFLICT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_OFFLINE_TRANSPORT",
+      "primary_test_ids": [
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_missing_and_mismatched_payload_are_incomplete_not_statistical_failure"
+      ],
+      "semantic_basis": "Unaccepted partial/hash mismatch is INCOMPLETE_SYNC; accepted changed bytes/manifest is immutable conflict, not endlessly retried corruption.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real remote eventual consistency separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B06",
+      "requirement": "traversal/absolute path blocked",
+      "applicability_and_supersession": "APPLICABLE;PROTECTED_BYTE_READS",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SECURITY",
+      "primary_test_ids": [
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo"
+      ],
+      "semantic_basis": "Actual parser/snapshot tests reject traversal/absolute, link/reparse escape and case collisions before outside reads; strict component/relative allowlist retained.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Ubuntu filesystem/native-specific behavior not accepted from Windows source.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B07",
+      "requirement": "secret-like fields blocked",
+      "applicability_and_supersession": "APPLICABLE;NO_CREDENTIAL_AUTHORITY",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SECURITY",
+      "primary_test_ids": [
+        "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+        "tests.registry.test_strategy_inbox.StrategyInboxTests.test_secret_like_prefixed_fields_are_rejected_and_not_persisted"
+      ],
+      "semantic_basis": "Strict external JSON rejects secret-like fields/unknown aliases without echo/persistence; owner evidence cannot originate from author PASS.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Not an exhaustive secret scan or actual credential/private provider verification.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B08",
+      "requirement": "duplicate same package idempotent",
+      "applicability_and_supersession": "APPLICABLE_REFINED;AT_LEAST_ONCE_IDEMPOTENT_EFFECT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_claim_recovery.ClaimRecoveryTests.test_crash_after_outbox_commit_repeated_scans_and_changed_submission",
+        "tests.application.test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt"
+      ],
+      "semantic_basis": "Actual outbox-commit crash then repeated scan reuses one accepted receipt/outbox; real E6 registration recovery reuses original canonical intake effect.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No claim that filesystem delivery or execution occurs exactly once.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B09",
+      "requirement": "same submission ID changed content conflicts",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_claim_recovery.ClaimRecoveryTests.test_crash_after_outbox_commit_repeated_scans_and_changed_submission"
+      ],
+      "semantic_basis": "Same actual submission ID after acceptance with changed author material produces CONFLICT and preserves one pending receipt; this is stronger/more exact than strategy-ID-only conflict.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real cloud same-ID conflict behavior requires COM-01 separately.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B10",
+      "requirement": "local intake ledger prevents duplicate execution",
+      "applicability_and_supersession": "APPLICABLE_SUPERSEDED_EXACTLY_ONCE_TO_DURABLE_IDEMPOTENT_EFFECTS",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.application.test_claim_recovery.ClaimRecoveryTests.test_two_local_workers_acquire_only_one_claim",
+        "tests.application.test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+        "tests.application.test_claim_recovery.ClaimRecoveryTests.test_stale_takeover_cannot_replace_real_e6_effect_or_winner_receipt"
+      ],
+      "semantic_basis": "Two actual ledger connections acquire one claim; generation-fenced commit plus same E6 operation key survives crash between E6 write and receipt. Physical retries may occur but canonical logical effect is reused.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No distributed exactly-once guarantee or real remote commissioning.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B11",
+      "requirement": "valid package reaches real E6 DRAFT",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE",
+      "primary_test_ids": [
+        "tests.registry.test_strategy_inbox.StrategyInboxTests.test_default_boundary_registers_draft_but_never_implies_e2_pass",
+        "tests.product.test_api_owner_services.APIOwnerServicesTests.test_actual_scan_inventory_and_identical_retry_use_e6_and_sealed_intake"
+      ],
+      "semantic_basis": "Normal API scan/intake produces actual canonical immutable strategy DRAFT with exact content hash; acceptance does not imply compatibility/backtest success.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Source fixture intake is not actual provider/financial activation.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B12",
+      "requirement": "no fabricated LOCAL_EXECUTION PASS",
+      "applicability_and_supersession": "APPLICABLE;PRODUCT_OWNER_EVIDENCE_SUPERSEDES_LEGACY_METADATA",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SECURITY",
+      "primary_test_ids": [
+        "tests.registry.test_strategy_inbox.StrategyInboxTests.test_static_or_declared_pass_is_not_enough_for_backtesting",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_author_supplied_pass_is_rejected_and_wrong_namespace_never_enters_registry"
+      ],
+      "semantic_basis": "Author/declared/static PASS cannot begin backtesting or product promotion; actual E2 execution/owner composition and namespace are required.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Generic PASS never grants software/financial release authority.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "B13",
+      "requirement": "sanitized receipt returned to Cloud Drive",
+      "applicability_and_supersession": "APPLICABLE;LOCAL_STAGED_AND_REMOTE_ACK_DISTINCT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "NOT_RUN",
+      "proposed_scope": "WINDOWS_OFFLINE_ROUNDTRIP_ONLY",
+      "primary_test_ids": [
+        "tests.application.test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback",
+        "tests.application.test_outbox.OutboxTests.test_local_copy_never_claims_remote_ack_and_retries_are_content_idempotent"
+      ],
+      "semantic_basis": "Actual Publisher/SyncedFolder/local fake rclone copies exact sanitized receipt bundle and byte readback gates ACK; local stage alone reports zero remote ACK.",
+      "concrete_uncovered_clause": "Full literal Cloud Drive round-trip has no demonstrated current real-cloud execution in this source-only review.",
+      "exact_external_gap": "COM-01 actual selected-root bounded upload/readback remains NOT_RUN; fake-remote ACK is offline transport simulation.",
+      "separate_local_scope_proposal": "PASS only for exact current source/offline local-copy/readback assertions; do not label real Drive ACK.",
+      "current_binding_policy": "REAL_CLOUD"
+    },
+    {
+      "id": "C01",
+      "requirement": "exact dataset ID/hash/range resolved",
+      "applicability_and_supersession": "APPLICABLE;LOGICAL_AND_CONTAINER_IDENTITIES_DISTINCT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_container_encoding_changes_byte_identity_but_preserves_logical_identity",
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_logical_hash_is_verified_independently_of_container_hash",
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_changed_container_cannot_reuse_prior_manifest_or_mutate_resolved_input",
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_gap_duplicate_unclosed_and_missing_arrival_fail_before_e2"
+      ],
+      "semantic_basis": "Resolver binds declared dataset ID/version/manifests, exact contiguous range and cutoff; actual container/logical hash mutation denies, immutable resolved rows persist.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "COM-03 actual dataset selection/acquisition/quality commissioning remains separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C02",
+      "requirement": "train/tuning/final-OOS split locked",
+      "applicability_and_supersession": "APPLICABLE_REFINED;PURGE_MAX_HORIZON_AND_EXPLICIT_EMBARGO",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_split_is_frozen_sealed_and_has_feature_only_warmup",
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_purge_uses_larger_holding_or_label_horizon_without_changing_embargo",
+        "tests.application.test_dataset_binding.DatasetBindingTests.test_overlap_unbounded_horizon_and_unspecified_embargo_block_protocol"
+      ],
+      "semantic_basis": "Frozen split snapshots survive caller mutation; chronology/disjoint sealed access enforced; max(holding,label) purge tested in both dominance directions with unchanged explicit embargo.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Actual operator-selected real dataset/policy COM-03 separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C03",
+      "requirement": "final OOS cannot influence tuning",
+      "applicability_and_supersession": "APPLICABLE_SUPERSEDED_ORDER;ADAPTIVE_THEN_FREEZE_THEN_OOS_LAST",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_actual_finalist_is_frozen_before_oos_read_and_replay_is_once",
+        "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_chat_observation_is_global_for_symbol_period_even_after_family_or_hash_change",
+        "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_consumed_incomplete_oos_cannot_be_replayed_after_crash_or_new_version"
+      ],
+      "semantic_basis": "Actual finalist freezes all adaptive inputs before sealed replay; global symbol/period observed ledger cannot reset on family/version/hash change; incomplete consumed OOS cannot be reused.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Source protocol proof is not statistical assurance on an actual live dataset.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C04",
+      "requirement": "E2 compatibility executed, not fabricated",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_division_by_zero_runtime_result_cannot_pass_compatibility",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate"
+      ],
+      "semantic_basis": "Actual research owner invokes E2 compatibility/runtime; division-by-zero result cannot pass; author PASS is rejected.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Native parity/current qualification must bind actual current case; no external provider implied.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C05",
+      "requirement": "actual E2 StrategyRuntime used",
+      "applicability_and_supersession": "APPLICABLE_REFINED;V02_PLUS_UNCHANGED_LEGACY",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.backtest.test_replay.ReplayTests.test_replay_calls_runtime_with_closed_prefix_and_uses_next_open_fills",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+        "tests.backtest.test_v02_owner_binding.OwnerBindingTests.test_actual_v02_replay_uses_e2_e5_next_open_and_first_fill_time_exit"
+      ],
+      "semantic_basis": "Actual v0.2 replay uses registered E2 StrategyRuntime and canonical E5 geometry; research report records real runtime invocations. RecordingRuntime test alone is not used as whole proof.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Native runtime/provider availability remains separately measured.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C06",
+      "requirement": "actual E3 replay used",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+        "tests.backtest.test_replay.ReplayTests.test_replay_calls_runtime_with_closed_prefix_and_uses_next_open_fills",
+        "tests.backtest.test_v02_owner_binding.OwnerBindingTests.test_actual_v02_replay_uses_e2_e5_next_open_and_first_fill_time_exit"
+      ],
+      "semantic_basis": "Actual E3 replay consumes actual E2/E5 strategy path with next-open fill/first-fill timing and persists real backtest evidence; no caller result injection.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real-market performance and native parity separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C07",
+      "requirement": "fee/slippage/funding explicit",
+      "applicability_and_supersession": "APPLICABLE_REFINED;MISSING_FUNDING_NEVER_IMPUTED_ZERO",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.backtest.test_replay.ReplayTests.test_fee_slippage_and_funding_are_reflected_in_net_result",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_missing_funding_blocks_replay_without_inventing_zero_cost",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_cost_file_change_after_freeze_cannot_change_actual_replay_assumptions",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_wrong_fee_units_and_nonfinite_costs_block_before_replay"
+      ],
+      "semantic_basis": "Actual replay fee/slippage/funding affect net result; missing funding blocks; immutable captured cost policy survives later replacement, wrong units/nonfinite costs deny.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Actual commission/funding source/provider readiness not inferred from fixture costs.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C08",
+      "requirement": "no-look-ahead enforced",
+      "applicability_and_supersession": "APPLICABLE_REFINED;FINALIZED_MULTI_TIMEFRAME_ONLY",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.backtest.test_replay.ReplayTests.test_replay_calls_runtime_with_closed_prefix_and_uses_next_open_fills",
+        "tests.backtest.test_replay.ReplayTests.test_unclosed_candle_is_rejected_before_runtime_evaluation",
+        "tests.backtest.test_v02_owner_binding.OwnerBindingTests.test_actual_multi_timeframe_replay_cannot_see_unfinished_or_future_four_hour_data"
+      ],
+      "semantic_basis": "Real v0.2 replay cannot see unfinished/future 4h data; closed-prefix/next-open execution and unclosed-candle rejection prevent evaluation/fill lookahead.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No universal absence claim outside inspected E2/E3 path.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C09",
+      "requirement": "BacktestResult stored in E6",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate",
+        "tests.application.test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record"
+      ],
+      "semantic_basis": "Actual owner pipeline creates canonical BacktestResult; crash after canonical evidence save before app receipt recovers exactly the same sole row, not duplicate recomputation.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Native/current-subject execution binding still required.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C10",
+      "requirement": "OOS ValidationDecision stored in E6",
+      "applicability_and_supersession": "APPLICABLE_REFINED;PRODUCT_ASSESSMENT_NOT_LEGACY_CALLER_PASS",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy",
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_canonical_candidate_validator_rejects_nonindependent_or_unverified_actual_product_evidence",
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting"
+      ],
+      "semantic_basis": "Genuine positive full pipeline stores actual E6 product/OOS ValidationDecision and candidate lineage; quantitative OOS FAIL retained, insufficiency BLOCKED; canonical owner gates reject non-independent/unverified evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Actual real dataset/policy commissioning COM-03 separate; legacy manual LOCAL_EXECUTION fixture is not positive owning evidence.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C11",
+      "requirement": "failures remain durable",
+      "applicability_and_supersession": "APPLICABLE;BLOCKED_VS_QUANTITATIVE_FAIL_DISTINCT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_failed_dataset_resolution_is_a_retained_stage_attempt",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_invalid_split_and_exhausted_budget_preserve_failed_attempts",
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_actual_trial_failure_is_recorded_by_owner_before_stage_exception_and_survives_reopen"
+      ],
+      "semantic_basis": "Failed resolution/split/budget attempts durable; real evaluator exception after actual replays persists STARTED/FAILED trial and reopened immutable ledger without OOS or exception text.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Host pressure failures are retained, not converted into product quantitative FAIL.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "C12",
+      "requirement": "research resumes safely after restart",
+      "applicability_and_supersession": "APPLICABLE;NO_RENEWED_OOS_OR_DUPLICATE_CANONICAL_EFFECT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_resume_returns_same_durable_outputs_and_does_not_repeat_replay",
+        "tests.application.test_research_e6_recovery.ResearchE6RecoveryTests.test_crash_after_e6_evidence_save_before_job_receipt_recovers_same_upstream_record"
+      ],
+      "semantic_basis": "Resume returns same durable report/attempts without replay; E6-after-save crash recovers original evidence and fences stale generation.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Power-loss durability across every filesystem/hardware condition and Ubuntu not inferred.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D01",
+      "requirement": "parameter-neighborhood generated deterministically",
+      "applicability_and_supersession": "APPLICABLE;FINITE_VERSIONED_NEIGHBORHOOD",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant",
+        "tests.validation.test_robustness_v02.RobustnessTests.test_frozen_outputs_and_decimal_profile_cannot_be_changed_by_caller"
+      ],
+      "semantic_basis": "Actual deterministic bounded variants include invalid/insufficient entries; frozen profile/output unaffected by caller mutation or ambient Decimal precision.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No future-profit or real-data robustness claim.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D02",
+      "requirement": "invalid variants retained as failures",
+      "applicability_and_supersession": "APPLICABLE_REFINED;INVALID_BLOCKED_FAIL_RETAINED_NOT_CONFLATED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant",
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_quantitatively_failing_neighbors_remain_in_actual_report_and_trial_ledger"
+      ],
+      "semantic_basis": "Actual four-neighbor report retains INVALID/BLOCKED and quantitative FAIL with all-four denominator and exact trial/hash linkage; malformed neighbors are not falsely labeled measured quantitative FAIL.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Source fixture only; no statistical generalization.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D03",
+      "requirement": "walk-forward windows immutable/order-safe",
+      "applicability_and_supersession": "APPLICABLE_REFINED;CHRONOLOGICAL_DISJOINT_SCORED_WINDOWS",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_walk_forward.WalkForwardTests.test_actual_training_selection_and_each_disjoint_scored_interval_once",
+        "tests.validation.test_walk_forward.WalkForwardTests.test_overlap_misalignment_and_sealed_access_rejected",
+        "tests.validation.test_walk_forward.WalkForwardTests.test_walk_forward_entry_bounds_use_maximum_horizon_and_exact_embargo"
+      ],
+      "semantic_basis": "Actual E2/E3 walk-forward training choice/scored interval runs once, immutable inputs and overlap/misalignment/sealed access refusal; purged/embargo windows exact.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Actual selected dataset adequacy COM-03 separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D04",
+      "requirement": "walk-forward no future leakage",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_walk_forward.WalkForwardTests.test_later_evaluation_values_cannot_change_earlier_training_choice",
+        "tests.validation.test_robustness_v02.RobustnessTests.test_adaptive_binding_has_no_sealed_rows_or_funding_events"
+      ],
+      "semantic_basis": "Changing later evaluation values cannot change earlier training choice; no sealed OOS rows are exposed to adaptive binding.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No claim against every possible external analyst disclosure; ledger handles recorded disclosure.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D05",
+      "requirement": "Monte Carlo explicit seed",
+      "applicability_and_supersession": "APPLICABLE_REFINED;VERSIONED_RNG_AND_EXPLICIT_SEED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_monte_carlo.MonteCarloTests.test_unknown_float_seed_units_and_computation_budget_rejected",
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_selected_execution_requires_both_frozen_profiles_explicit_family_and_seed"
+      ],
+      "semantic_basis": "Seed/profile/family required before execution; malformed/float seed and over-budget computation rejected rather than defaulted.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Seed is reproducibility input, not investment assurance.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D06",
+      "requirement": "same seed same result",
+      "applicability_and_supersession": "APPLICABLE_REFINED;FIXED_DECIMAL_AND_RNG_PROFILE",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_monte_carlo.MonteCarloTests.test_seeded_permutation_reproduces_pinned_order_but_never_infers_expectancy",
+        "tests.validation.test_monte_carlo.MonteCarloTests.test_fixed_decimal_profile_is_independent_of_ambient_context"
+      ],
+      "semantic_basis": "Same seed reproduces exact pinned sample order/full result; changed seed changes sequence; conditional permutation does not infer expectancy.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Cross-platform STR-14/Ubuntu parity separately NOT_RUN here.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D07",
+      "requirement": "cost/slippage stress supported",
+      "applicability_and_supersession": "APPLICABLE;EXPLICIT_UNFAVORABLE_SCENARIOS",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_stress_replays_keep_unfavorable_cost_outcomes_and_fail_selected_criterion"
+      ],
+      "semantic_basis": "Actual cost/slippage/funding stress replays record assumptions, negative net result/fees and selected criterion FAIL instead of dropping adverse scenarios.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No actual provider cost/performance extrapolation.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D08",
+      "requirement": "robustness decision has versioned policy",
+      "applicability_and_supersession": "APPLICABLE_REFINED;STRICT_FROZEN_V02_POLICY",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_public_versioned_policy_schemas_are_strict_and_match_runtime_profiles"
+      ],
+      "semantic_basis": "Committed strict versioned policy schemas match runtime profiles; changed/unknown inputs cannot silently reuse frozen evidence.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No default financial policy or production acceptance from schema validity.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D09",
+      "requirement": "known robust fixture PASS",
+      "applicability_and_supersession": "APPLICABLE;ACTUAL_E2_E3_FIXED_FIXTURE",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_actual_e2_e3_replays_preserve_every_invalid_and_insufficient_variant",
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_real_complete_pipeline_freezes_before_final_replay_and_is_idempotent"
+      ],
+      "semantic_basis": "Genuine actual replay neighborhood and complete research pipeline produce selected robustness PASS before freeze/OOS; actual owner idempotence, not a hand-written PASS.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Known robust fixture is source test oracle, not actual market robustness.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D10",
+      "requirement": "known fragile fixture FAIL",
+      "applicability_and_supersession": "APPLICABLE;QUANTITATIVE_FAIL_NOT_OPERABILITY_BLOCK",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_robustness_v02.RobustnessTests.test_stress_replays_keep_unfavorable_cost_outcomes_and_fail_selected_criterion",
+        "tests.application.test_research_robustness.ResearchRobustnessTests.test_quantitatively_failing_neighbors_remain_in_actual_report_and_trial_ledger"
+      ],
+      "semantic_basis": "Adverse high-cost actual replays retain negative net result and quantitative FAIL; complete owner failing-neighbor report preserves those outcomes.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No actual strategy or investment rejection inferred outside fixture.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "D11",
+      "requirement": "CANDIDATE cannot bypass robustness",
+      "applicability_and_supersession": "APPLICABLE_REFINED;COMPLETE_INDEPENDENT_PRODUCT_LINEAGE",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.validation.test_holdout_ledger.HoldoutLedgerTests.test_freeze_requires_actual_completed_robustness_and_exact_immutable_inputs",
+        "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_canonical_candidate_validator_rejects_nonindependent_or_unverified_actual_product_evidence"
+      ],
+      "semantic_basis": "Finalist freeze requires actual completed robustness and immutable inputs; actual product candidate writer checks independent sealed OOS, risk/source/namespace and refuses direct generic/legacy PASS bypass.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Source candidate mechanics do not authorize PAPER/LIVE or actual policy commissioning.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E01",
+      "requirement": "DRAFT -> BACKTESTING guarded",
+      "applicability_and_supersession": "APPLICABLE_REFINED;REAL_COMPATIBILITY_OWNER",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_strategy_inbox.StrategyInboxTests.test_draft_to_backtesting_requires_explicit_local_e2_pass_metadata",
+        "tests.registry.test_strategy_inbox.StrategyInboxTests.test_static_or_declared_pass_is_not_enough_for_backtesting",
+        "tests.application.test_research_pipeline.ResearchPipelineTests.test_actual_owner_pipeline_persists_execution_and_keeps_diagnostic_out_of_candidate"
+      ],
+      "semantic_basis": "Draft remains draft under declared/static PASS; actual product research E2 boundary enables BACKTESTING; raw legacy fixture metadata is only a negative/control anchor.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No native/full or financial grant from LOCAL_EXECUTION label.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E02",
+      "requirement": "BACKTESTING -> REJECTED durable",
+      "applicability_and_supersession": "APPLICABLE_REFINED;FAIL_REJECTS_BLOCKED_DOES_NOT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_quantitative_failure_rejects_but_sample_blocked_retains_backtesting"
+      ],
+      "semantic_basis": "Actual selected OOS quantitative FAIL yields durable REJECTED with idempotent repeat; insufficient-sample BLOCKED remains BACKTESTING, preserving immutable history.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Actual strategy performance COM-03 separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E03",
+      "requirement": "BACKTESTING -> CANDIDATE guarded",
+      "applicability_and_supersession": "APPLICABLE_SUPERSEDED;COMPLETE_V02_ROBUSTNESS_OOS_RISK",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_actual_positive_pipeline_enters_candidate_with_exact_selected_e5_policy",
+        "tests.application.test_product_assessment_binding.ProductAssessmentBindingTests.test_canonical_candidate_validator_rejects_nonindependent_or_unverified_actual_product_evidence",
+        "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+        "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_product_namespace_cannot_promote_using_legacy_pass_metadata"
+      ],
+      "semantic_basis": "Genuine positive pipeline reaches CANDIDATE with exact selected risk and frozen product assessment; generic legacy local-PASS and nonindependent/unverified final OOS cannot promote.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "CANDIDATE is not Paper/LIVE approval or actual commissioning.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E04",
+      "requirement": "CANDIDATE -> PAPER guarded",
+      "applicability_and_supersession": "APPLICABLE_REFINED;SELECTED_POLICY_CURRENT_SUBJECT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_paper_start_requires_selected_local_promotion_policy",
+        "tests.product.test_api_paper_services.APIPaperServicesTests.test_wrong_selected_policy_or_stale_revision_cannot_create_runtime_or_paper",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_full_entry_ack_fill_verified_protection_target_exit_flat_result"
+      ],
+      "semantic_basis": "Actual PaperService starts genuine selected candidate; missing/wrong promotion policy, stale revision/subject are denied before Paper owner creation.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real-time commissioned PAPER/ordinary production profile and elapsed evidence remain separate from FIXTURE.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E05",
+      "requirement": "PAPER -> READY_FOR_APPROVAL guarded",
+      "applicability_and_supersession": "APPLICABLE_REFINED;REAL_FORWARD_SEPARATE_FROM_ACCELERATED_FIXTURE",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_fixture_readiness_requires_actual_bound_forward_assessment",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_actual_forward_quantitative_failure_cannot_mark_ready"
+      ],
+      "semantic_basis": "Actual Paper owner readiness consumes bound forward assessment; selected short FIXTURE policy demonstrates mechanics and actual quantitative failure denies readiness. Synthetic clock is not elapsed real-forward time.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "COM-04 real elapsed Paper/selected production promotion thresholds NOT_RUN; source short fixture cannot substitute.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E06",
+      "requirement": "READY_FOR_APPROVAL -> APPROVED requires ApprovalRecord",
+      "applicability_and_supersession": "APPLICABLE_REFINED;AUTHENTICATED_EXACT_ENVELOPE_APPROVAL",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed",
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity"
+      ],
+      "semantic_basis": "Actual local session/reauth actor is bound to immutable ApprovalRecord and exact strategy/envelope; forged/stale/wrong subject/revoked actors denied. Fixture approval does not authorize actual LIVE.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "COM-06 explicit human deployment/capital commissioning and COM-05 private provider verification separate.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E07",
+      "requirement": "APPROVED -> LIVE requires runtime gates",
+      "applicability_and_supersession": "APPLICABLE;FRESH_RUNTIME_GATE_NOT_STORED_AUDIT",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FAKE_PROVIDER_NEGATIVE",
+      "primary_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage",
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_current_release_and_process_generations_cannot_be_replaced_by_stored_audit_or_new_timestamp",
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners",
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_permit_cannot_expire_during_actual_owner_read_and_still_be_returned"
+      ],
+      "semantic_basis": "Actual registry/admission source checks current accepted activation, release/process generations, selected risk/envelope and opaque permit freshness; changed process/config/stored timestamp cannot grant new exposure.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No actual LIVE/provider/capital activation; COM-05/06 and native/current boundary proof remain distinct.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E08",
+      "requirement": "LIVE -> DEGRADED fail-closed available",
+      "applicability_and_supersession": "APPLICABLE;FAIL_CLOSED_DEGRADATION_AVAILABLE",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage",
+        "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority"
+      ],
+      "semantic_basis": "Actual owner lifecycle service exercises LIVE->DEGRADED under monitor reason; illegal transitions denied, current admission revocation/expiry blocks new exposure while retaining original management.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "This proves fixture/code degradation mechanism, not real deployed LIVE automatic monitor/host behavior.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E09",
+      "requirement": "DEGRADED -> LIVE never automatic",
+      "applicability_and_supersession": "APPLICABLE_UNCHANGED",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_direct_store_operational_skip_and_restart_cannot_resume_live"
+      ],
+      "semantic_basis": "Durable DEGRADED survives reopen; forged direct resume/new signal and fake actor cannot resume; resumption uses fresh authenticated owner gates rather than automatic restart.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Real LIVE deployment is not commissioned.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E10",
+      "requirement": "RETIRED terminal behavior preserved",
+      "applicability_and_supersession": "APPLICABLE_REFINED;RETIREMENT_DOES_NOT_ABANDON_EXPOSURE",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_draft_retirement_preserves_definition_and_audits_actor_and_reason",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_retirement_preserves_existing_owner_exposure_and_protection_graph",
+        "tests.product.test_paper_runtime_v02.PaperRuntimeV02Tests.test_retirement_blocks_new_entries_and_preserves_existing_management"
+      ],
+      "semantic_basis": "Exact 19-edge/10-state model makes RETIRED terminal; actual live Paper owner after retirement preserves original management and closes while registry remains RETIRED; definition/audit retained.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No actual LIVE provider stop/cleanup acceptance inferred.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E11",
+      "requirement": "no arbitrary generic transition API",
+      "applicability_and_supersession": "APPLICABLE;INTERNAL_WRITER_NOT_PUBLIC_GENERIC_TRANSITION_API",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_INTERFACE_STATIC_PLUS_SOURCE",
+      "primary_test_ids": [
+        "tests.registry.test_product_lifecycle_v02.ProductLifecycleModelTests.test_full_canonical_model_has_exact_nineteen_edges_and_ten_states",
+        "tests.registry.test_product_lifecycle_v02.ProductLegacyBypassTests.test_direct_store_candidate_bypass_requires_product_owner_evidence",
+        "tests.registry.test_validation_lifecycle.ValidationLifecycleTests.test_candidate_service_exposes_no_approval_or_live_path"
+      ],
+      "semantic_basis": "Inspected registry service exposes named domain methods, not generic transition; internal append_transition requires writer capability/legal edge/current revision and role authority. Source illegal-pair/direct-bypass tests exercise canonical refusal.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "Bounded service/HTTP interface inspection only; no blanket absence assertion across all history or arbitrary extensions.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    },
+    {
+      "id": "E12",
+      "requirement": "exact strategy version binding every edge",
+      "applicability_and_supersession": "APPLICABLE;IMMUTABLE_ID_VERSION_CONTENT_AND_OWNER_BINDING",
+      "acceptance_status": "NOT_RUN",
+      "proposed_windows_scope_status": "PASS",
+      "proposed_scope": "WINDOWS_LOCAL_SOURCE_FIXTURE",
+      "primary_test_ids": [
+        "tests.registry.test_validation_lifecycle.ValidationLifecycleTests.test_backtest_result_for_wrong_content_hash_is_rejected",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_forged_stale_wrong_subject_and_revoked_approval_fail_closed",
+        "tests.registry.test_operational_lifecycle_v02.OperationalLifecycleTests.test_all_operational_legal_edges_and_every_illegal_pair_use_owner_storage"
+      ],
+      "semantic_basis": "Common canonical transition writer selects exact strategy ID/version and CAS revision for every edge; evidence/owner/approval paths additionally bind content hash/namespace/current release. Wrong-content/wrong-version regressions plus full legal edge matrix support that common enforcement.",
+      "concrete_uncovered_clause": "NONE_DEMONSTRATED",
+      "exact_external_gap": "No universal claim that every wrong-version vector was separately tested at every native/environment combination; current named-case/source binding required.",
+      "current_binding_policy": "CURRENT_SOURCE"
+    }
+  ],
+  "findings": [],
+  "findings_count": {
+    "critical": 0,
+    "important": 0
+  },
+  "mapping_corrections": [
+    "A08 no implementation defect: existing footer/API version plus Source revision suffice for original wording; outside-root actual bffc browser probe closes the missing direct assertion scope.",
+    "B01 includes genuine explicit product FIXTURE staging creation and normal child consumption in addition to missing-marker denial.",
+    "B09 binds actual same submission-ID changed-manifest conflict, not merely strategy identity conflict.",
+    "C05/C06 include actual E2/E5/E3 owner replay; RecordingRuntime alone is not whole proof.",
+    "C10/E03 use genuine complete product pipeline and independent final OOS/risk gates rather than legacy caller LOCAL_EXECUTION metadata.",
+    "E05 explicitly distinguishes short selected FIXTURE readiness from unexecuted ordinary elapsed-forward commissioning."
+  ],
+  "source_file_commitments": [
+    {
+      "path": "docs/product/R7_PRODUCT_ACCEPTANCE_MATRIX_V0_1.md",
+      "sha256": "sha256:c6588fb1fc9e13114314e84ce133b59178f1ebdae23b524836cfccd7d9e3955d"
+    },
+    {
+      "path": "docs/product/v0_2/00_EXECUTION_BASELINE.md",
+      "sha256": "sha256:1506903d932db213558f082314c6e3f01226f3889a34a0e01614f413d94a6288"
+    },
+    {
+      "path": "docs/product/v0_2/01_PLATFORM_DEPLOYMENT.md",
+      "sha256": "sha256:edb3c4ba7c5c0cb5e1b1579493a1eb90a2cc0f2c2508eac02a3187aab011da75"
+    },
+    {
+      "path": "docs/product/v0_2/03_CLOUD_SECURITY.md",
+      "sha256": "sha256:7ca93375131979d472bb4707ed2bfdcba419012a37a2bd978959fddb49c1bbf6"
+    },
+    {
+      "path": "docs/product/v0_2/04_RESEARCH_LIFECYCLE.md",
+      "sha256": "sha256:7019ca12243f09bfc4dd5b7d812a25c9aab181355735fb19ecfc30604e84673a"
+    },
+    {
+      "path": "docs/product/v0_2/05_PRODUCT_OPERATIONS_UI.md",
+      "sha256": "sha256:fbf7fbd6cdc8e307b60c0be718d18bb5a568caaef8c49e3dd72a20c1ae212d21"
+    },
+    {
+      "path": "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json",
+      "sha256": "sha256:a205373601ac6c2b5994c964b23ebe562c8f0aa3898ef2f2b6412988c1f5968f"
+    },
+    {
+      "path": "tests/application/test_native_entrypoints.py",
+      "sha256": "sha256:70fdb2ed6813151ab63e4881c508b334170e78dbba9ba5d147774b3dd799b1e3"
+    },
+    {
+      "path": "tests/application/test_platform.py",
+      "sha256": "sha256:9c48fd70e9d6ac1ab66ab2a1bc195f1dca81f565031277c4f2fbd3e5adbc9c64"
+    },
+    {
+      "path": "tests/application/test_research_setup_flow.py",
+      "sha256": "sha256:9b588d87430ef2d23cfaf35e7fa9b2123ff26281ff46ebf9a40b247c29eca9a4"
+    },
+    {
+      "path": "tests/application/test_process_supervision.py",
+      "sha256": "sha256:a22580eb4f8bfa50a960dd572cf9e135d9a9b193f5d73b9e2056db6a8d505679"
+    },
+    {
+      "path": "tests/application/test_paper_owner_worker.py",
+      "sha256": "sha256:8a10538046aa7eae21c2b0538012b2becad283c6ab9df87afb4dcd28676a7995"
+    },
+    {
+      "path": "tests/application/test_research_e6_recovery.py",
+      "sha256": "sha256:fc6a4477befa46e0f6008fce6e9725462d8a56fa87a720646820215218305c0c"
+    },
+    {
+      "path": "tests/application/test_managed_product_stop.py",
+      "sha256": "sha256:d003582c15f66568248055bf3d3186b81d0878555015c0759e1e250dbfd66317"
+    },
+    {
+      "path": "tests/application/test_native_distribution.py",
+      "sha256": "sha256:b7e3a99001a49c98c9bd6c42d4d2fe755ed289750bf5089cbe04db893a1f65ca"
+    },
+    {
+      "path": "tests/product/test_api_authority.py",
+      "sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c"
+    },
+    {
+      "path": "tests/application/test_cloud_intake.py",
+      "sha256": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a"
+    },
+    {
+      "path": "tests/application/test_fixture_recipe_flow.py",
+      "sha256": "sha256:ff771a8bd2c4fa5407007751530a0e2b43355ca8fd541ddd28356f5fe4d24b68"
+    },
+    {
+      "path": "tests/product/test_api_owner_services.py",
+      "sha256": "sha256:0f62509e4f2c43c43d815cb09bfc772931460ba97d88d127731ce167d9d4be25"
+    },
+    {
+      "path": "tests/registry/test_strategy_inbox.py",
+      "sha256": "sha256:a4feabae886c8cecc76e5053701ec00153228adac228dbd9a8ca294283999ef9"
+    },
+    {
+      "path": "tests/application/test_claim_recovery.py",
+      "sha256": "sha256:b5a230fdea88f83760804c72eae465a3cf60287a6544e892f92c06f3e4f2dede"
+    },
+    {
+      "path": "tests/application/test_research_pipeline.py",
+      "sha256": "sha256:4f309ddb48f23e5b459c7fbd708f45f6b378078145e359deda9fc5041fa8b2d4"
+    },
+    {
+      "path": "tests/application/test_cloud_bridge.py",
+      "sha256": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47"
+    },
+    {
+      "path": "tests/application/test_outbox.py",
+      "sha256": "sha256:f5703a6e01085dede51c2c44f75ea6a51ddbb0ba0a4bfec0ba0763c9e722b1ef"
+    },
+    {
+      "path": "tests/application/test_dataset_binding.py",
+      "sha256": "sha256:14eb3c50c9080a6fdc4640c7cacb31ee7582546174d70c5ffa3b650b492697d2"
+    },
+    {
+      "path": "tests/validation/test_holdout_ledger.py",
+      "sha256": "sha256:09e6e018dad192667b0c991702d3ac4e273ffbee3100cf33b319e915e551957e"
+    },
+    {
+      "path": "tests/backtest/test_replay.py",
+      "sha256": "sha256:3467abff72e76efbeaba0bf3034b297e30762235a23281a992fdabae2abbee7e"
+    },
+    {
+      "path": "tests/backtest/test_v02_owner_binding.py",
+      "sha256": "sha256:bb9f7263aae328c4fa35c8ce51e135363b9638c7172a7687d6d6249eef5d4d7f"
+    },
+    {
+      "path": "tests/application/test_product_assessment_binding.py",
+      "sha256": "sha256:c4e6dd38f2d2094554a2e0dbbd530a21efd6a51c1358dee90bcb6804b2e09738"
+    },
+    {
+      "path": "tests/application/test_research_robustness.py",
+      "sha256": "sha256:4d1fb4cc3a0d436946b1831f55e853c44815f30ee4e1a5e957755a45b030162b"
+    },
+    {
+      "path": "tests/validation/test_robustness_v02.py",
+      "sha256": "sha256:e9161ef5124151a79f2e3e7fd0d0483c1ebce1312252b95d646f62ee3ddc3db1"
+    },
+    {
+      "path": "tests/validation/test_walk_forward.py",
+      "sha256": "sha256:8909922d65934f210ca06f2756859d1696f14949394a6a38ed85ccb000573fa7"
+    },
+    {
+      "path": "tests/validation/test_monte_carlo.py",
+      "sha256": "sha256:38d96f6eb69351291388a4f2606d4f1446732a95a1bf28cd726e955ca085851b"
+    },
+    {
+      "path": "tests/registry/test_product_lifecycle_v02.py",
+      "sha256": "sha256:5a137af354628797a40fd88a380fc4b414da26ab428b7bc43f8dabd169bcf77c"
+    },
+    {
+      "path": "tests/registry/test_operational_lifecycle_v02.py",
+      "sha256": "sha256:6342afb9203117cdb4457f712219cbd3bcc9ea9c87c8d88ce5bafa253dd8498c"
+    },
+    {
+      "path": "tests/product/test_api_paper_services.py",
+      "sha256": "sha256:404699d1e7385b5ccb2b87c2bfa19237f50c36a14002b5f78a7da0166a58b007"
+    },
+    {
+      "path": "tests/product/test_paper_runtime_v02.py",
+      "sha256": "sha256:152f6a56da427f862f60b95a9dce45dd2cd9d38c5059a5a02a5dbd35074be14e"
+    },
+    {
+      "path": "tests/product/test_api_approval_binding.py",
+      "sha256": "sha256:6c3ac14833b8a23229fc1e26ddce3e70e2daf567346d5b32c9271db73c327a70"
+    },
+    {
+      "path": "tests/product/test_live_admission_v02.py",
+      "sha256": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba"
+    },
+    {
+      "path": "tests/registry/test_validation_lifecycle.py",
+      "sha256": "sha256:4592838662daa35b154614849c93e8dfd4bc93bd48ba408d7fb0c94b34879c82"
+    },
+    {
+      "path": "src/application/control_api/dto.py",
+      "sha256": "sha256:d716105514dfc0136268592f971c3699c770cbcea6ab3195bb54180fa6313f0d"
+    },
+    {
+      "path": "src/application/control_api/services.py",
+      "sha256": "sha256:85262b15cb12e1fd25e448e27cdae4c276c28c26eb9582ccfb525decf6ae2adc"
+    },
+    {
+      "path": "src/application/control_api/app.py",
+      "sha256": "sha256:6c93f8cb80d9a2332d9cdf2d52c9b39fe1da07fb4b1113efc9998cf751cab6ae"
+    },
+    {
+      "path": "ui/src/App.tsx",
+      "sha256": "sha256:b203c52ddcebdeaaad778ec2a67deb98a03229edbb38966b2228863cc6b57d17"
+    },
+    {
+      "path": "src/application/intake/service.py",
+      "sha256": "sha256:71b514c3466eb58e25acf0fd809dc6a66cdd8eec963576335160b529c0af2666"
+    },
+    {
+      "path": "src/application/intake/ledger.py",
+      "sha256": "sha256:7d28c77348c2929fd3f4470074d18a274e32a03bba68708149e9ca5d4dd1682a"
+    },
+    {
+      "path": "src/application/cloud/synced_folder.py",
+      "sha256": "sha256:442dfbf9d10dfde22e2ba1e77673ff3b3897cdbd99027044544761b76d46e6e8"
+    },
+    {
+      "path": "src/application/fixtures/recipe.py",
+      "sha256": "sha256:95806ac9c6e45d63b8ec4ffb324da4ffc72ed5c4b3e296a6c04aed742fd83ffd"
+    },
+    {
+      "path": "src/application/datasets/resolver.py",
+      "sha256": "sha256:928d0f18ed5f732c39c93ceae453c3c4c7aeb29dbbbad8c0c6ae816f7c90965a"
+    },
+    {
+      "path": "src/registry/service.py",
+      "sha256": "sha256:0e71ff0fa1d1c5cc09f46ecfc1098b5ae9e94a40fba7f30289ba862433f3c91b"
+    },
+    {
+      "path": "src/registry/operational_authority.py",
+      "sha256": "sha256:495c47a92c93f8a28c4acd0f817c7934a9672a779d85d899fa714e53740d0565"
+    },
+    {
+      "path": "src/storage/_sqlite_registry.py",
+      "sha256": "sha256:14a726f4e9e5f697b0f8aae47fa9645f989b1f34c8afab59382487d52283a8c6"
+    }
+  ],
+  "limits": [
+    "This is bounded semantic support, not an exhaustive branch/security audit.",
+    "Current full bffc receipt is not yet observed by reviewer and no aggregate/current/native acceptance follows from this artifact.",
+    "B13 full literal actual Cloud Drive receipt round-trip remains NOT_RUN; local byte-verified fake transport mechanisms may be recorded separately.",
+    "No additional concrete production or test defect established in the reviewed A-E slice; omitted environment proofs remain limitations, not invented implementation failures."
+  ],
+  "counts": {
+    "rows": 56,
+    "conditional_pass_proposals": 55,
+    "not_run_proposals": 1,
+    "blocked_proposals": 0,
+    "actual_current_acceptance_pass_claims": 0,
+    "prior_original_revision_records_cited": 4,
+    "distinct_named_source_cases": 93
+  },
+  "binding_policies": {
+    "CURRENT_SOURCE": "Every necessary exact current named case must actually pass on the frozen current implementation; source presence and aggregate counts are insufficient.",
+    "PRIOR_NATIVE": "Original 3ae evidence is historical scoped support only; any bffc native PASS needs its own exact current equivalent package result.",
+    "CURRENT_A08": "Current outside-root bffc source-browser checkpoint is supplemental only, with root final subject/byte adjudication; no native or receipt-membership credit.",
+    "REAL_CLOUD": "Whole B13 remains NOT_RUN until actual COM-01; local fixture source mechanics can have a separate scoped record."
+  },
+  "v02_precedence_by_group": {
+    "A": [
+      "00_EXECUTION_BASELINE.md",
+      "01_PLATFORM_DEPLOYMENT.md",
+      "05_PRODUCT_OPERATIONS_UI.md"
+    ],
+    "B": [
+      "00_EXECUTION_BASELINE.md",
+      "03_CLOUD_SECURITY.md"
+    ],
+    "C": [
+      "00_EXECUTION_BASELINE.md",
+      "04_RESEARCH_LIFECYCLE.md"
+    ],
+    "D": [
+      "00_EXECUTION_BASELINE.md",
+      "04_RESEARCH_LIFECYCLE.md"
+    ],
+    "E": [
+      "00_EXECUTION_BASELINE.md",
+      "04_RESEARCH_LIFECYCLE.md",
+      "05_PRODUCT_OPERATIONS_UI.md"
+    ]
+  },
+  "expanded_map_refs_by_group": {
+    "C": "ART/acceptance-research-expanded-map.json#DATA-01/DATA-02/RES-01/RES-02/RES-07",
+    "D": "ART/acceptance-research-expanded-map.json#RES-03/RES-04/RES-05/RES-06/RES-07",
+    "E": "ART/acceptance-research-expanded-map.json#LIFE-01/LIFE-02"
+  },
+  "mapping_anchor_per_row": "ART/legacy-150-draft.json#<id>;ART/acceptance-records-aa2d00a.json inherited_legacy_results are prior supporting-instance anchors, not acceptance.",
+  "all_pass_proposals_conditional": true
+}

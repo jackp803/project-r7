@@ -1,0 +1,45 @@
+{
+  "kind": "BOUNDED_STATIC_REPAIR_REVIEW_NOT_ACCEPTANCE",
+  "candidate_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "reviewer_execution": "NONE",
+  "scope": [
+    "review_bffc_semantic_clauses.py:require_current_portable exact scenario/command/HTTP admission",
+    "test_bffc_semantic_admission.py refusal assertions",
+    "tools/verify_native_product.py corresponding producer sequence only"
+  ],
+  "reviewed_hashes": {
+    "ART/review_bffc_semantic_clauses.py": "sha256:ae3690a5cab4c79d28a7f9ff13b529095ed59b1fcb80e184c5e6728cf85e9479",
+    "ART/test_bffc_semantic_admission.py": "sha256:61b98a1012054be205c3cfb010f8bf4f03857220d5d6a98ade7bd8751a26d0c6",
+    "tools/verify_native_product.py": "sha256:5e520285f1b904cbb38b11f60a8f51bcc48cfc37d7cf812b93cc34258097b44e"
+  },
+  "resolved_findings": [
+    {
+      "finding": "Mixed-subject receipt/index admission",
+      "status": "RESOLVED_IN_PRIOR_REPAIR;EXACT_TYPED_RECEIPT_AND_REBUILT_INDEX_EQUALITY"
+    },
+    {
+      "finding": "Current portable acceptance without actual success/identity/closure",
+      "status": "RESOLVED;SAME_SUBJECT_PORTABLE_REQUIRED_BEFORE_SPECIAL_CURRENT_STATUS"
+    },
+    {
+      "finding": "Unbounded or escaping/incomplete browser-source input map",
+      "status": "RESOLVED_IN_PRIOR_REPAIR;PROTECTED_BOUNDED_CAPTURES_PLUS_PINNED_FULL_PUBLIC_INVENTORY"
+    },
+    {
+      "finding": "Portable counts permit vacuous or replacement inventories",
+      "status": "RESOLVED;EXACT_ORDERED_8_SCENARIOS_9_COMMANDS_15_HTTP_ASSERTIONS;FIXED_PRODUCER_EXIT_CODES"
+    }
+  ],
+  "findings": [],
+  "finding_counts": {
+    "critical": 0,
+    "important": 0
+  },
+  "limits": [
+    "Static inspection only; no tests/imports/qualification/native/process/DB/network/Git operations executed by reviewer.",
+    "No active qualification or private portable data read. Root-reported test outcomes were not independently executed.",
+    "The intentional owned server exits124/124 and configuration drift exit2 match the producer; no acceptance threshold relaxed.",
+    "Remaining helper blocks are byte-identical to the prior reviewed repair after excluding the portable predicate.",
+    "No actual current full qualification or whole Master acceptance is conferred."
+  ]
+}

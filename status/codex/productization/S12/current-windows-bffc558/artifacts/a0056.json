@@ -1,0 +1,30 @@
+{
+  "schema": "r7-bounded-static-review-v1",
+  "reviewer_execution": "NONE",
+  "scope": "Narrow repair recheck of the ordinary idle coordinator helper, added source-only subprocess tests, and new idle/stop assertions.",
+  "inspected_sources": {
+    "artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py": "9bf99e70d6f5ef009495f632c31c1c251eb26258399d025565c920334f5122f8",
+    "artifacts/current-windows-20261019/test_ordinary_idle_coordinator_helper.py": "546e25dfb9e43d7c668605435de793c8ad156c669fbba757defd10a7db6fed68"
+  },
+  "critical": 0,
+  "important": 0,
+  "findings": [],
+  "resolved_findings": [
+    {
+      "previous": "Empty password corrupted inherited command JSON during unconditional redaction.",
+      "status": "RESOLVED",
+      "evidence": "make_idle_view now supplies a nonempty fixed NON_CREDENTIAL redaction sentinel. It is not passed to enrollment, login, HTTP, native argv or environment. The source-only regression invokes the actual inherited command method with a real owned Python subprocess and requires exact decoded JSON plus reaping."
+    },
+    {
+      "previous": "An arbitrary exit-2 startup failure could be credited as duplicate coordinator denial.",
+      "status": "RESOLVED",
+      "evidence": "require_duplicate_denial bounds the actual captured log to 65536 bytes and requires the exact startup schema and OWNER_SCOPE_BUSY. run invokes it after the expected exit-2 command and still requires original role-token equality. The regression exercises real exit-2 subprocess outputs, rejects INVALID_CONFIGURATION and accepts OWNER_SCOPE_BUSY."
+    }
+  ],
+  "additional_checks": [
+    "Idle snapshots now require no public market selection, no Paper runs, unchanged engineering lifecycle, workflow_authorized false, unchanged selected generation and unchanged policy bytes.",
+    "Graceful stop requires actual STOPPED status, financial authority NONE, exposure NOT_ASSERTED, host settings UNCHANGED, exactly control/research/runtime roles and every role stopped without force, exit 0 and reaped. Existing cleanup failure paths still force passed false.",
+    "The helper remains explicitly ordinary idle/recovery evidence. Software-only policy serializations and service-supervision authorization do not claim a positive Paper lifecycle, operator policy acceptance, market feed, real forward or financial grant."
+  ],
+  "limits": "Static source review only. No subprocess test, native process, qualification, database/auth/config content, active evidence, provider or network was executed or accessed by the reviewer. Root-reported source-test results are separate evidence. Actual native helper success and complete qualification remain pending and are not asserted here."
+}

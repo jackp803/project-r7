@@ -1,0 +1,32 @@
+{
+  "kind": "BOUNDED_INDEPENDENT_STATIC_REVIEW",
+  "helper_ref": "ART/finish_bffc558_evidence.py",
+  "helper_sha256": "164aaabc6f6e8f20622cd379b590f5732ad372d4abf67a34cef602cf0e14b168",
+  "execution": "NONE",
+  "scope": "Only selected helper source reviewed; no qualification/process/DB/provider calls or other file writes",
+  "finding_counts": {
+    "important": 1,
+    "critical": 0
+  },
+  "findings": [
+    {
+      "severity": "Important",
+      "ref": "finish_bffc558_evidence.py:41-45",
+      "title": "Finite semantic partitions are counted but not bound to exact unique clause identities",
+      "detail": "The helper accepts any66 current rows and150 legacy rows if revision/financial_authority match and unresolved_binding_names is empty. Duplicate/substituted requirement IDs can satisfy these checks; the resulting tracked semantic-review and HANDOFF still claim66 current and150 inherited clause decisions. Reviewed generator/test hashes and an exit0 nine-test checkpoint do not themselves bind the bytes of semantic-scoped-results-bffc558.json to that validated output.",
+      "minimal_repair": "Before any tracked writes, reuse the existing exact-row admission contract: require exact canonical current and legacy ID/text sets, unique IDs and allowed semantic statuses. Alternatively pin the already validated semantic output byte hash in a separately retained actual admission result and verify that commitment before parsing. Do not rerun qualification or change financial/product code.",
+      "actual_failure_claim": "NONE;static acceptance-condition gap, not an assertion that current supplied records contain duplicates"
+    }
+  ],
+  "positive_checks": [
+    "All pre-existing retained artifact hashes rechecked before inventory extension; existing retained_files preserved by extend",
+    "Only exact named scanner receives16MiB local-read exception; retained chunk and ordinary artifact writes retain8MiB cap",
+    "Captured selected public text is sanitized with original and retained hashes; scanner reconstruction has independent sanitized hash and scope limits",
+    "Supplement scopes remain outside fixed receipt/native membership; Master remainsIN_PROGRESS; originalsubjects and public8/private0 preserved",
+    "No installed source/provider/OS mutation is implemented; final guard rechecks HEAD/branch/implementation after metadata updates"
+  ],
+  "limits": [
+    "Actual semantic output and proof bodies were not re-reviewed; no executed PASS by reviewer",
+    "Existing retainer and actual root semantic admission remain separate evidence"
+  ]
+}

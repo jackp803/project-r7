@@ -1,0 +1,346 @@
+{
+  "kind": "STATIC_CONDITIONAL_ADVISORY_NOT_ACCEPTANCE",
+  "candidate_revision": "bffc558b9652dc41c0804896436ac7ad8744f7f8",
+  "count": 15,
+  "rows": [
+    {
+      "id": "CLOUD-01",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_CONTROLLED_TRANSPORT; Sealed legacy/v0.2 packages are parsed by actual E2 without compatibility-execution PASS; emitted legacy,4h,MTF and tactical packages reach actual E6 DRAFT and repeated intake is idempotent.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-01"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [
+        "PQR-03"
+      ],
+      "required_supplement_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#M01"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt."
+      ]
+    },
+    {
+      "id": "CLOUD-02",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_CONTROLLED_TRANSPORT; Missing or byte-mismatched strategy payload produces INCOMPLETE_SYNC, and incomplete retry backoff survives reopen and becomes SYNC_STALLED after the declared day boundary.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-02"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [
+        "PQR-04"
+      ],
+      "required_supplement_refs": [
+        "b03-m04-f11-3ae6460-first/supplemental-assertions.json#SUPPLEMENTAL_M04_SAME_PARTIAL_SUBMISSION_ACTUAL_TERMINAL_RESEARCH_REPORT_SINGLE_REPLAY"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt.",
+        "Actual same-repaired-submission supplement is immutable 3ae proof, not current bffc native qualification."
+      ]
+    },
+    {
+      "id": "CLOUD-03",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_CONTROLLED_TRANSPORT; Traversal, absolute paths, reserved NUL names, unknown fields and duplicate JSON keys are blocked; corrupted sealed bytes and case-colliding payloads fail; a native directory-link escape is rejected while the target file still exists.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-03"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [
+        "PQR-04"
+      ],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Windows path/link/reserved-name execution cannot establish Ubuntu filesystem behavior."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt."
+      ]
+    },
+    {
+      "id": "CLOUD-04",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_CONTROLLED_TRANSPORT; After outbox-commit crash, reopening and rescanning preserve the existing effect; author mutation at an accepted ID becomes conflict; restart after actual E6 intake reuses one canonical receipt.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-04"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#M04"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt."
+      ]
+    },
+    {
+      "id": "CLOUD-05",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE; Two local workers obtain one claim; lease takeover increments generation and rejects stale commit; crash after real E6 registration recovers the original canonical effect without promoting unverified compatibility.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-05"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt."
+      ]
+    },
+    {
+      "id": "CLOUD-06",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_FAKE_BYTE_ACK; Committed intake and research feedback outboxes survive upload-before-ACK failures; reopened retries reuse the same remote fake bytes; partial staging is retryable, content conflict preserves old bytes and wrong ACK hash is not accepted.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-06"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_candidate_index_recovery_v02.CandidateIndexRecoveryV02Tests.test_concurrent_real_journal_ack_cannot_be_overwritten_by_stale_unavailable_writer",
+        "tests.application.test_candidate_index_integration_v02.CandidateIndexIntegrationV02Tests.test_actual_three_file_index_reaches_verified_fake_copy_and_tampered_html_never_stages"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [
+        "k03-native-aa2d00a-first/native-k03-observations.json"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt.",
+        "K03 source outbox ACK/recovery is implemented and tested; aa2d native supplement proves enqueue plus stopped-source read-only controlled copy only, with native outbox actually PENDING. No native ACK credit."
+      ]
+    },
+    {
+      "id": "CLOUD-07",
+      "conditional_status": "NOT_RUN",
+      "scope": "SOURCE_ARGV_POLICY_SUPPORT_ONLY; no actual Ubuntu copy-only bridge execution",
+      "source_mapping_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#L06",
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#CLOUD-07"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": "Actual Ubuntu offline transport execution proving trusted bounded argv and absence of delete/sync/bisync or package-supplied command behavior is NOT_RUN.",
+      "external_gaps": [
+        "Ubuntu native transport execution; actual SSH transport where applicable."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt.",
+        "Windows source/fake transport assertions cannot satisfy platform-specific execution."
+      ]
+    },
+    {
+      "id": "CLOUD-08",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_CONTROLLED_TRANSPORT; A local copy stays LOCAL_STAGED without cloud ACK; bridge ACK requires every byte to be read back from the fake remote, while outage or mismatched readback cannot acknowledge staging.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-08"
+      ],
+      "extra_test_ids": [
+        "ui/qa/control-center.spec.ts::delivery separates local staging from actual byte-verified fixture-copy acknowledgment"
+      ],
+      "native_groups": [
+        "PQR-07"
+      ],
+      "required_supplement_refs": [
+        "ui01-browser-retry02/checkpoint.json",
+        "ui01-frozen-bindings-first/checkpoint.json"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt.",
+        "Current S16 17-browser proof must bind its actual app/source hashes and exact title. It is source-browser evidence, not the still-pending current full native result. K03 native PENDING is not ACK."
+      ]
+    },
+    {
+      "id": "CLOUD-09",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_CONTROLLED_TRANSPORT; Owner-derived feedback defaults to financial opt-out and truthful missing-stage status; opt-in net_pnl matches the owner's exact string; adversarial private owner fields/freeform input and private aliases or secret/local-path text are omitted or rejected before publication.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-09",
+        "legacy-J-M-semantic-bffc558-draft.json#K05"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_k05_genuine_closed_summary_v02.K05GenuineClosedSummaryTests.test_actual_closed_graph_private_snapshot_and_public_opt_policies_keep_exact_fake_ledger_provenance",
+        "tests.product.test_k05_feedback_privacy.K05FixtureConsumerPrivacyTests.test_unconditional_private_and_freeform_exclusions_for_both_policies"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [
+        "test_h01_joined_k05_aa2d00a.py"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests.",
+        "No universal encoded/binary/private-payload absence guarantee outside closed serializers and adversarial fixtures."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt.",
+        "Genuine same-graph CLOSED fixture summary is source capability: FIXTURE/FAKE_PROVIDER_VERIFICATION/SIMULATED_MECHANICS/BROKER_LEDGER, actual_live NOT_RUN, authority NONE. No PaperZero relabeling or real provider provenance."
+      ]
+    },
+    {
+      "id": "CLOUD-10",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AUTHORING_ROUNDTRIP; Authoring emits real JSON definitions/manifests with payload byte hashes distinct from strategy content identity for legacy,4h,MTF and tactical examples; missing capability and forbidden notes are refused, and CLI emits packages/capability snapshots without fabricated execution evidence.",
+      "source_mapping_refs": [
+        "acceptance-cloud-trade-expanded-map.json#CLOUD-10"
+      ],
+      "extra_test_ids": [],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Real cloud service and Ubuntu native execution are not established by Windows controlled-copy/source tests."
+      ],
+      "limitations": [
+        "Conditional semantic proposal only: bind exact named test/assertion IDs to current bffc results after qualification; historical proof retains its original subject and cannot issue a new receipt.",
+        "Bind current authoring/fixed-inventory assertions; package emission and hashes are not strategy performance or authority."
+      ]
+    },
+    {
+      "id": "API-01",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE: strict command DTOs, durable same-ID/body retries, revision CAS and denial of caller actor/PASS/SQL/code.",
+      "source_mapping_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#J09",
+        "legacy-J-M-semantic-bffc558-draft.json#J10"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_api_authority.APIAuthorityTests.test_settings_are_actual_durable_cas_commands_with_identical_retry",
+        "tests.product.test_api_authority.APIAuthorityTests.test_actor_and_executable_evidence_cannot_be_injected",
+        "tests.product.test_api_authority.APIAuthorityTests.test_openapi_has_all_required_routes_and_strict_command_schemas"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": null,
+      "external_gaps": [],
+      "limitations": [
+        "Conditional semantic proposal, not current execution or acceptance; root must bind exact named assertions and current code/build/config/platform identities after qualification."
+      ]
+    },
+    {
+      "id": "API-02",
+      "conditional_status": "PASS",
+      "scope": "WINDOWS_LOCAL_SOURCE_AND_BROWSER: loopback/Host/Origin/CSRF/session checks and actual E6 session-derived approval actor; reauth alone cannot grant fixture financial authority.",
+      "source_mapping_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#L09",
+        "legacy-J-M-semantic-bffc558-draft.json#L10"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_api_csrf.APICSRFTests.test_dns_rebinding_and_wrong_origin_cannot_login",
+        "tests.product.test_api_csrf.APICSRFTests.test_product_write_requires_matching_csrf_even_with_valid_session",
+        "tests.product.test_api_approval_binding.APIApprovalBindingTests.test_actual_e6_approval_actor_is_verified_local_session_identity"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [
+        "ui01-browser-retry02/checkpoint.json"
+      ],
+      "remaining_clause": null,
+      "external_gaps": [
+        "Actual private-provider LIVE execution is NOT_RUN and is not implied by authenticated actor binding."
+      ],
+      "limitations": [
+        "Conditional semantic proposal, not current execution or acceptance; root must bind exact named assertions and current code/build/config/platform identities after qualification."
+      ]
+    },
+    {
+      "id": "API-03",
+      "conditional_status": "NOT_RUN",
+      "scope": "SOURCE_LOOPBACK_DENIAL_SUBSET_ONLY; no executed actual SSH-tunnel remote view",
+      "source_mapping_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#L09",
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#API-03"
+      ],
+      "extra_test_ids": [
+        "tests.product.test_api_csrf.APICSRFTests.test_cross_site_get_and_forwarded_headers_cannot_bypass_loopback_rules"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": "Actual SSH-tunneled remote view and configured remote-access execution have not been demonstrated; local Host/Origin/forwarded denial is only a subset.",
+      "external_gaps": [
+        "Actual SSH-tunnel integration; platform-specific remote-access execution."
+      ],
+      "limitations": [
+        "Conditional semantic proposal, not current execution or acceptance; root must bind exact named assertions and current code/build/config/platform identities after qualification."
+      ]
+    },
+    {
+      "id": "OPS-02",
+      "conditional_status": "NOT_RUN",
+      "scope": "CONDITIONAL_NAMED_SUBSETS: separate code/build/config/evidence/platform identities; scoped current committed UTF-8 snapshot scan and closed-report redaction.",
+      "source_mapping_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#L01",
+        "legacy-J-M-semantic-bffc558-draft.json#L05",
+        "legacy-J-M-semantic-bffc558-draft.json#K09"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_paper_native_driver.PaperNativeDriverTests.test_every_scenario_and_final_distribution_match_original_group_subject",
+        "tests.application.test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [
+        "l01-l05-root-triage-bffc558-20261021.json",
+        "l01-l05-audit-bffc558-first.json"
+      ],
+      "remaining_clause": "Whole-row final identity/evidence binding awaits actual current full result and final root reconciliation. Scoped scan/review cannot alone establish unrestricted whole-branch secret absence.",
+      "external_gaps": [
+        "No whole-history, binary, encoded/split/dynamic-secret, untracked/ignored-file or remote billing/spend guarantee.",
+        "Ubuntu/real cloud/provider/real OOS/forward remain independently NOT_RUN as applicable."
+      ],
+      "limitations": [
+        "Conditional semantic proposal, not current execution or acceptance; root must bind exact named assertions and current code/build/config/platform identities after qualification.",
+        "Current scan is ROOT_SELF_REVIEW, 100 review rows/43 digests resolved zero unknown; independent pqr review 0C/0I is separate attribution and does not turn scanner coverage into universal secret absence.",
+        "Hosted-wire snapshot findings are not proof of remote invocation or spend."
+      ]
+    },
+    {
+      "id": "E2E-04",
+      "conditional_status": "NOT_RUN",
+      "scope": "ACCEPTANCE_COMPLETENESS_GUARD_SUBSET_ONLY; this advisory covers 15 rows and cannot declare all requirements complete.",
+      "source_mapping_refs": [
+        "legacy-J-M-semantic-bffc558-draft.json#M11",
+        "legacy-J-M-semantic-bffc558-draft.json#M12",
+        "docs/product/v0_2/07_ACCEPTANCE_MATRIX.json#E2E-04"
+      ],
+      "extra_test_ids": [
+        "tests.application.test_paper_native_driver.PaperNativeDriverTests.test_expiry_group_partial_failure_cannot_issue_group_success",
+        "tests.application.test_paper_native_driver.PaperNativeDriverTests.test_scoped_fixture_fault_success_cannot_issue_complete_pqr05_pass"
+      ],
+      "native_groups": [],
+      "required_supplement_refs": [],
+      "remaining_clause": "Current full bffc result pending; root must reconcile exact 66 current and 150 inherited clauses, mandatory native/UI/runtime evidence, subjects and explicit NOT_RUN/external dispositions before any release-completeness decision.",
+      "external_gaps": [
+        "Missing mandatory Ubuntu/actual SSH/real cloud/private-provider/real OOS/forward evidence must remain explicit; no blanket Master completion."
+      ],
+      "limitations": [
+        "Conditional semantic proposal, not current execution or acceptance; root must bind exact named assertions and current code/build/config/platform identities after qualification.",
+        "Case totals and previous receipts cannot substitute for clause semantics or current exact subject.",
+        "Supplemental source/browser/native proofs remain outside owning fixed receipt unless actually included and qualified."
+      ]
+    }
+  ]
+}

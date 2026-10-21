@@ -1,24 +1,18 @@
-# Latest UI01 source checkpoint; native qualification next
-
-The demonstrated diagnostic/canceled-filter omissions are repaired. Actual owner, original RED-to-green, impacted API/process and full browser observations are retained in `productization/S16/ui01-current-windows/disposition.json`. New fixed discovery preserves all prior case order/multiplicity, native assertions/deadlines and toolchains, adding only10 UI01 cases (212commands/2654source cases). Discovery is not execution. New native candidate is still unqualified; aa2d remains the preserved qualified subject. Master IN_PROGRESS.
-
----
-
 # R7 Master partial completion record
 
 **IN_PROGRESS — current Windows checkpoint completed; Master is not complete.**
 Task `CODEX-R7-PRODUCTIZATION-MASTER-20261002`; branch
 `codex/r7-productization-master-20261002`; spec `r7-product-v0.2` at
-`7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812`. Recorded2026-10-20T20:58:51.262162+00:00.
-Source Git HEAD at generation and exact executable revision: `aa2d00a4de1147fbc5ff5c4ed14db2f5032b65dd`.
+`7d1f447c8a9e8b46dc5ecc7bf0a78e1d63680812`. Recorded2026-10-21T00:40:29.552341+00:00.
+Source Git HEAD at generation and exact executable revision: `bffc558b9652dc41c0804896436ac7ad8744f7f8`.
 Subsequent evidence/document commits do not change this executable identity.
-Implementation `sha256:6731c69a4034921a613b61633770101d64708ce3ca12698543601107668aefce`; build `sha256:d7ed64f17d08ec1fdd373f085ff422ca3ff0f376cd54646993fb7cc1ea8d9fb4`.
+Implementation `sha256:387238c130af7b96f59578fdfec3b1fa76fc9443daa8a174be00d79ba166c666`; build `sha256:639a0390b56f904c62eb375b5c0e483f8e34c9faffb906e7f60ba6e67fc3b37e`.
 
 ## Ordinary Windows Paper software
 
-Complete actual fixed owning qualification PASS7/7; 211commands,
-2644supporting source-case executions, failures/errors/skips0.
-Receipt `qualification-aac16283263c982dc21c3cc82fea3aab7cf3a780a7b0aca7e0ff2db50239d469`; execution `pqr-17f2e8de62b04fb0a676c8880fafc6b7`.
+Complete actual fixed owning qualification PASS7/7; 212commands,
+2654supporting source-case executions, failures/errors/skips0.
+Receipt `qualification-e5e97c97b676ad375b8988fb1b6b635f8a1d68dbebca3acc72c486a338ee166e`; execution `pqr-9fadd093a6f54553b0ffa6db91250eb7`.
 The installed native software readback verified this exact subject. This is
 fixed software qualification, not whole-Master acceptance or financial permission.
 
@@ -38,8 +32,8 @@ The Windows per-call ctypes input-type leak was reproduced and minimally repaire
 Changed-byte reads, atomic staging and actual hardware sampling remain fresh;
 no source-content cache, global-cache clearing or admission threshold change.
 The actual complete owning-tree observer recorded peak RSS
-1015468032bytes and private memory 650117120bytes;
-minimum available host memory was 10908884992bytes.
+937734144bytes and private memory 590008320bytes;
+minimum available host memory was 10748076032bytes.
 This bounded sampled run establishes no maximum capacity or hard memory cap.
 SOFT_LIMIT_ONLY remains explicit.
 Historical standby/memory failures and prior scoped successes remain retained at
@@ -99,15 +93,15 @@ installed; normal user startup uses the single documented entry.
 
 ## Portable Windows candidate and private backup
 
-ZIP `artifacts/current-windows-20261019/build-aa2d00a/r7-product-0.2.0-windows-aa2d00a.zip`; checksum `sha256:4112cd9a8dc07c6023c908b26386f785f972e043031978602e1fdbfaf44f89a3`.
-Actual fresh installation `installations/windows-aa2d00a-clean` extracted
+ZIP `artifacts/current-windows-20261019/build-bffc558/r7-product-0.2.0-windows-bffc558.zip`; checksum `sha256:b05a81eef327bf5ce2c32fa246a805f79f7b0f73aa32a13b37f5403dce4e1642`.
+Actual fresh installation `installations/windows-bffc558-clean` extracted
 1142byte-identical files.8first-run scenarios/9commands
 passed with empty PATH, unset PYTHONPATH, no Node and fresh unconfigured auth;
 no copied developer configuration, credentials or another machine's authority.
 Actual native capability export and the labeled engineering author package form
 the Chat authoring kit at
-`artifacts/current-windows-20261019/portable-aa2d00a-first/chat-authoring-kit/`.
-Actual launch/first-setup and target checklist: `deliveries/current-windows-aa2d00a/README.md`
+`artifacts/current-windows-20261019/portable-bffc558-first/chat-authoring-kit/`.
+Actual launch/first-setup and target checklist: `deliveries/current-windows-bffc558/README.md`
 and the packaged FIRST_RUN.md/HEADLESS_LOCAL_OPERATIONS.md.
 
 Native backup/verify/restore/rebackup of this complete owning and diagnostic
@@ -123,15 +117,15 @@ host. It does not certify the reported24GB target or maximum concurrent load.
 | M1–M11 | IN_PROGRESS; component evidence does not close whole milestones |
 | S01–S08, S10–S11 | Existing scoped PASS retained in PROGRESS |
 | S09, S12–S16 | Remaining clause/platform/final acceptance IN_PROGRESS |
-| Exact66+legacy150 records | Actual case/command/source/receipt bindings retained; per-clause semantic review remains, no blanket PASS |
-| Remaining local work | Demonstrated UI01 missing diagnostic projections and canceled-job filter; actual backend/browser repair and new candidate qualification. K03 and H01-H16-K05/STR12 supplements have their own bounded evidence; native remote ACK and cross-platform acceptance are not inferred. |
+| Exact66+legacy150 records | Actual case/command/source/receipt bindings plus finite scoped clause decisions retained in current-windows-bffc558/semantic-review-final.json; no blanket PASS |
+| Remaining local work | Finite semantic66+150 review recorded. OPS02 finite current-Windows final identity/report/branch-text/retention audit is complete; external commissioning remains unclosed. UI01 actual source/backend/browser repair is included in this newly qualified candidate. Earlier K03/H01-H16-K05 component evidence retains original subjects; current STR12 and A08 source supplements remain outside fixed receipt membership. No native remote ACK or cross-platform acceptance inferred. |
 | Original target PC | External native commissioning pending;24GB is user-reported, no hardware screenshot requested |
 | Ubuntu24.04/26.04 x86-64 | Native build/install/service/reboot NOT_RUN; Windows evidence does not transfer |
 | Real cloud | Account setup/connection/actual remote ACK external, no credentials accessed |
 | Formal policies and elapsed samples | Unselected/unstarted; no demonstration policy substitutes for real review |
 | LIVE | Code/fake-provider tests and actual activation are separate; real LIVE/keys/capital NOT_AUTHORIZED and NOT_STARTED |
 
-Evidence: `status/codex/productization/S12/current-windows-aa2d00a/disposition.json`. Public capture/research:
+Evidence: `status/codex/productization/S12/current-windows-bffc558/disposition.json`. Public capture/research:
 `status/codex/productization/S12/public-readonly-c62b11a/`.
 Continue remaining authorized local Master work while preserving this exact
 qualified executable. Later source changes need their own release qualification.

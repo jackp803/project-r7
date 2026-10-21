@@ -1,0 +1,77 @@
+{
+  "document_kind": "BOUNDED_STATIC_IDLE_BACKUP_DELTA_REVIEW_NOT_ACCEPTANCE",
+  "status": "NO_DETERMINISTIC_SAME_STORE_DIFFERENT_CONFIG_INCOMPATIBILITY_FOUND",
+  "scope": "Only new ordinary-idle stage followed by original diagnostic config backup/restore; no live stores or evidence read",
+  "findings": [
+    {
+      "severity": "FACT",
+      "ref": "verify_ordinary_idle_coordinator.py::run/init-profile/configure-paper/idle/stop",
+      "detail": "New profile lives under external output, shares canonical/data/instance, changes diagnostic/Paper flags. Original config bytes are checked unchanged. Three policy JSONs live under data root; protected selection records their refs/hashes and workflow_authorized=false. No PaperStart is commanded; idle asserts no paper_process_runs and unchanged lifecycle; both coordinators stop and every role STOPPED/reaped is required."
+    },
+    {
+      "severity": "FACT",
+      "ref": "paper/release.py::NativePaperReleaseReader.software_eligible; paper/release_observation.py::observe_native_subject",
+      "detail": "Backup helper before/after calls mode=software with original diagnostic config. This validates installation/receipt/restoration only. Unlike runtime mode/current(), software mode does not load latest selection or require its product_config_hash to equal original diagnostic config. New idle selection therefore cannot by itself invalidate original software observation."
+    },
+    {
+      "severity": "FACT",
+      "ref": "platform/product_backup.py::_data_inventory; platform/paper_backup_history.py::ordinary_history_inventory/_ordinary_bindings; paper/release.py::_historical_owner",
+      "detail": "Ordinary archival inventory reads protected history from canonical DB, validates original immutable envelope/hash and source manifest, and explicitly captures three selected policy refs with actual bytes/hash equality. Historical owner retains selected idle config hash and does not compare it to current backup config. Thus original diagnostic backup can archive the idle selection and policy inputs; no whitelist gap is demonstrated."
+    },
+    {
+      "severity": "FACT",
+      "ref": "platform/backup.py::_inventory/_profile_current; platform/product_backup.py::create_product_backup/_verified_manifest",
+      "detail": "Backup manifest and database snapshot bind the command original config. This binding is distinct from archived selection original config commitment. All role/instance locks must be acquired; stopped idle coordinator does not change database inventory. Transient process scopes/logs/release observations/managed stop/public observations are excluded intentionally, not restored as authority."
+    },
+    {
+      "severity": "FACT",
+      "ref": "platform/database_restore.py::_restore_backup; platform/restoration.py::restoration_status; paper/release.py::current/software_eligible",
+      "detail": "Restored profile is forced cloud=None, diagnostic_only=True, paper_runtime_enabled=False; marker requires reconciliation/reauthorization, inhibits exposure and grants financial_authority=NONE. Copied idle selection remains historical workflow=false; config mismatch plus restore fence prevents it from enabling runtime/admission. Backup helper explicitly requires restored software admission denied and can rebackup inhibited history."
+    }
+  ],
+  "regression_anchor": {
+    "ref": "tests/application/test_ordinary_backup_history.py::test_actual_ordinary_inputs_and_failed_software_history_backup_verify_restore_inhibited",
+    "assertions": "Selected refs included; immutable readers use captured DB; restored flags disabled/cloud disconnected; restored selection and receipt equal originals; restored rebackup supported. Source read only, test not executed."
+  },
+  "integration_limits": [
+    "Backup helper currently prerequisites only q/portable/unattended, not ordinary-idle checkpoint. It can succeed independently of ordinary-idle; it must not claim idle stage passed from its own result. For explicit postchain evidence root can bind idle checkpoint identity/original config hash/stopped/reaped without granting it authority. This is evidence-linkage scope, not a demonstrated backup failure.",
+    "Four-way file equality includes the new selected policy files via archival inventory. Canonical selected-record equality is not separately asserted by backup helper; existing source regression asserts it. If native postchain claims protected idle selection preservation, add narrowly targeted readonly current-generation/canonical/hash equality across captured/restored stores rather than infer from queue history checks.",
+    "This review does not establish actual timing, helper completion, current guard results or native PASS."
+  ],
+  "verification": {
+    "mode": "STATIC_SOURCE_AND_TWO_EXTERNAL_HELPERS_ONLY",
+    "tests_run": [],
+    "native_run": [],
+    "live_store_reads": 0,
+    "private_config_reads": 0,
+    "auth_reads": 0,
+    "network_calls": 0,
+    "tracked_changes": []
+  },
+  "reviewed_hashes": [
+    {
+      "path": "<USER_HOME>/Desktop/交易機器人主體/artifacts/current-windows-20261019/verify_ordinary_idle_coordinator.py",
+      "sha256": "290f54cdb4174e3a116bd11f0b591c1cd740499d4384d7f310202301120a3cb7"
+    },
+    {
+      "path": "<USER_HOME>/Desktop/交易機器人主體/artifacts/current-windows-20261019/verify_qualified_backup_checkpoint.py",
+      "sha256": "1661dab6509bb9a712bfc8a2a0a51f1cfb66f4ca81b52c1d2ab940fc21e63b9a"
+    },
+    {
+      "path": "src/application/platform/paper_backup_history.py",
+      "sha256": "f8a9f3f170e78076e23c5ab891177dc55d74694111dc56173a147c0e4e9fd84b"
+    },
+    {
+      "path": "src/application/paper/release.py",
+      "sha256": "6a46a3da9c9dd7697fed0c2eb387fd4a9e0215403527efe63063dc95a7e2f68f"
+    },
+    {
+      "path": "src/application/platform/product_backup.py",
+      "sha256": "bb15b31dce719a88ddab1ba2e93f9ed13486b74e95aedef57d095c85c28d569e"
+    },
+    {
+      "path": "src/application/platform/database_restore.py",
+      "sha256": "7a4862953568a0bfcf764dcc09da9d1a896b2eba02f3ff8fe15aa707e27a04f8"
+    }
+  ]
+}

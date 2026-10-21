@@ -1,0 +1,116 @@
+{
+  "schema": "r7-bounded-independent-static-review-v1",
+  "reviewer_execution": "NONE",
+  "subject": {
+    "ref": "artifacts/current-windows-20261019/retain_current_checkpoint.py",
+    "sha256": "c0c78d6b40324fc3debe8a14f8ea2ec195e0a5f1f1e8c7369fb356a46379fe87"
+  },
+  "scope": "Static readiness review only. No helper/native/build/test/network execution, source/Git edits or actual checkpoint/log/config/auth/database/archive reads. Narrow adjacent helper source was read only to identify existing schema fields.",
+  "counts": {
+    "critical": 0,
+    "important": 3
+  },
+  "findings": [
+    {
+      "id": "RETENTION-STAGE-SUBJECT-AND-PROFILE",
+      "severity": "Important",
+      "lines": [
+        19,
+        27
+      ],
+      "finding": "Ancillary stage checkpoints are admitted only by passed and revision. Their native identity, owning diagnostic config/instance, original receipt and actual closure fields are not compared with the admitted current package/receipt, yet disposition assigns them actual native PASS. A different build/profile or incomplete/inconsistent stage document with the same revision can receive current credit.",
+      "minimal_fix": "Compare available identity/profile/receipt/cleanup/source fields before any referenced artifact selection. Headless identity resides in fixed execution/observations.json rather than its wrapper checkpoint. Derive qualification groups/counts from the actual validated profile/receipt, not an unchecked q.groups_completed scalar.",
+      "regression": "Reject same-revision portable/unattended/backup identity mismatch, owning-profile mismatch and wrong receipt before any retention write."
+    },
+    {
+      "id": "RETENTION-PROTECTED-SAME-SNAPSHOT-CLOSURE",
+      "severity": "Important",
+      "lines": [
+        30,
+        66
+      ],
+      "finding": "validate_qualified_receipt checks protected artifact bytes, but collection later selects files with glob/is_file and reads fresh unprotected Path.read_bytes. A validated artifact replaced between validation and retention can publish different bytes, or follow a linked private target, and its newly calculated original_hash does not establish the receipt's expected commitment. Unexpected matching log/kit files are also selected without an exact admitted public inventory.",
+      "minimal_fix": "Capture each receipt artifact using artifact_bytes, require the declared hash and store that exact raw snapshot for retention. Capture known stage reports/logs/tools with bounded protected local readers; admit fixed public roots/names before following references and compare producer hashes/review commitments where available. Retain only captured snapshots. Verify protected retained readbacks and exact intended serialized disposition before announcing success; guard destination containment/ordinary ancestors.",
+      "regression": "After successful initial validation replace an expected artifact with altered bytes or an owned link; require refusal before publication and prove no linked/private-target read. An unexpected glob-matching public fixture must not silently join the corpus."
+    },
+    {
+      "id": "RETENTION-REDUNDANT-SCOPED-NATIVE07",
+      "severity": "Important",
+      "lines": [
+        19,
+        45
+      ],
+      "finding": "The mandatory stage set requires a separate native07 checkpoint/workspace. The current plan deliberately executes scoped native04 followed by the complete owning seven-group qualification; full PQR-07 is already present in the validated receipt artifact closure. Thus the current retainer blocks an otherwise valid planned checkpoint, or invites redundant execution/incorrect old scoped credit.",
+      "minimal_fix": "Remove separate native07 from mandatory stages and its standalone collector branch. Add only the exact scoped native04 preflight corpus, separately labeled and identity/closure checked, while PQR-07 credit/artifacts come from the validated owning receipt. Do not add preflight counts to owning qualification counts.",
+      "regression": "A valid controlled complete receipt including PQR-07 plus scoped04 is admitted without a separate native07 directory; missing owning PQR-07 still fails the actual typed validator."
+    }
+  ],
+  "available_binding_fields": {
+    "portable": [
+      "identity",
+      "source_unchanged",
+      "complete_bytes_identical",
+      "archive_ref",
+      "archive_hash",
+      "installation_ref",
+      "first_run.passed"
+    ],
+    "unattended": [
+      "identity",
+      "owning_profile",
+      "all_owned_tree_reaped",
+      "public_source_unchanged",
+      "source_and_package_unchanged",
+      "commands[].log_ref/log_hash/exit_code/expected_exit_code/tree_reaped"
+    ],
+    "backup": [
+      "identity",
+      "owning_profile",
+      "receipt_ref",
+      "actual_receipt_equal_across_four_stores",
+      "source_diagnostic_histories_unchanged",
+      "restored_native_software_admission",
+      "all_owned_tree_reaped",
+      "source_and_package_unchanged",
+      "commands[]"
+    ],
+    "headless_wrapper": [
+      "stage",
+      "revision",
+      "source_unchanged",
+      "awake",
+      "helper_hash"
+    ],
+    "headless_fixed_observations": [
+      "identity",
+      "passed",
+      "namespace",
+      "commands[].log/log_hash/exit_code/expected_exit_code/tree_reaped",
+      "sessions[].log/log_hash/tree_reaped/result"
+    ],
+    "qualification_result": [
+      "receipt_ref",
+      "execution_id",
+      "profile_hash",
+      "executable_revision",
+      "build_hash",
+      "groups_completed"
+    ],
+    "build_result": [
+      "identity",
+      "source.revision",
+      "source.worktree",
+      "source.implementation_hash"
+    ]
+  },
+  "confirmed": [
+    "The actual typed receipt validator provides a strong current subject/profile/member/artifact gate; preserve it.",
+    "Disposition keeps Master IN_PROGRESS and separates diagnostic BLOCKED/OOS/Paper/forward/Ubuntu/real cloud gaps; those boundaries should remain.",
+    "Raw original SHA and sanitized retained SHA are separate, which is appropriate once they refer to admitted captured snapshots."
+  ],
+  "limitations": [
+    "This is the pre-remediation helper hash. Root is editing the external retainer; changes need a fresh bounded hash-bound delta check.",
+    "No current full owning or ancillary stage PASS is certified by this review.",
+    "No whole-requirement or whole-Master acceptance is issued."
+  ]
+}

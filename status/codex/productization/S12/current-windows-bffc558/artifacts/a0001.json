@@ -1,0 +1,2414 @@
+{
+  "document_kind": "EXPANDED_NAMED_ASSERTION_SOURCE_MAPPING;NOT_ACCEPTANCE_RESULTS",
+  "task_id": "CODEX-R7-PRODUCTIZATION-MASTER-20261002",
+  "input_draft_ref": "artifacts/current-windows-20261019/acceptance-v02-draft.json",
+  "baseline_index_ref": "status/codex/productization/S15/execution-index-fec8af0/S15-executed-case-index-fec8af0.json",
+  "baseline_revision": "fec8af0f70d787deea720b1e7f952c4fca9487b5",
+  "mapping_rule": "Individually inspected named test bodies/assertions restore multi-case support behind representative anchors; historic evidence is not current acceptance; case counts are not clause coverage",
+  "requirements": [
+    {
+      "requirement_id": "CLOUD-01",
+      "requirement_text": "Valid package reaches actual E2 parsing and E6 DRAFT without fabricated compatibility PASS",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Sealed legacy/v0.2 packages are parsed by actual E2 without compatibility-execution PASS; emitted legacy,4h,MTF and tactical packages reach actual E6 DRAFT and repeated intake is idempotent.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_separate_manifest_versions_parse_sealed_bytes_through_real_e2",
+          "source": "tests/application/test_cloud_intake.py",
+          "method": "test_separate_manifest_versions_parse_sealed_bytes_through_real_e2",
+          "historical_execution_instance_id": "031:0045:test_cloud_intake.CloudIntakeTests.test_separate_manifest_versions_parse_sealed_bytes_through_real_e2",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 39,
+          "assertion_locations": [
+            {
+              "line": 47,
+              "assertion": "self.assertEqual(definition[\"content_hash\"], verified.strategy.content_hash)"
+            },
+            {
+              "line": 48,
+              "assertion": "self.assertEqual(manifest[\"submission_id\"], verified.manifest.submission_id)"
+            },
+            {
+              "line": 49,
+              "assertion": "self.assertFalse(verified.compatibility_execution_pass)"
+            },
+            {
+              "line": 51,
+              "assertion": "self.assertEqual(definition[\"content_hash\"], module.validate_package(snapshot).strategy.content_hash)"
+            }
+          ],
+          "asserted_semantics": "Both0.1/0.2 sealed bytes reach actual E2 with matching content hash, no compatibility_execution_pass; later cloud mutation does not change seal."
+        },
+        {
+          "case_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+          "source": "tests/application/test_authoring_roundtrip.py",
+          "method": "test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+          "historical_execution_instance_id": "031:0001:test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 24,
+          "assertion_locations": [
+            {
+              "line": 46,
+              "assertion": "self.assertEqual(spec.sha256,byte_hash(raw));self.assertNotEqual(spec.sha256,manifest.strategy_content_hash)"
+            },
+            {
+              "line": 47,
+              "assertion": "self.assertEqual(result['execution_evidence'],'NOT_RUN')"
+            },
+            {
+              "line": 50,
+              "assertion": "first=service.scan_once(now);self.assertEqual(first.accepted,4);self.assertEqual(first.blocked,0)"
+            },
+            {
+              "line": 51,
+              "assertion": "self.assertEqual(service.scan_once(now).idempotent,4)"
+            },
+            {
+              "line": 54,
+              "assertion": "self.assertFalse(verified.compatibility_execution_pass)"
+            },
+            {
+              "line": 55,
+              "assertion": "self.assertEqual(e6.get_strategy(StrategyIdentity(verified.strategy.strategy_id,verified.strategy.strategy_version)).current_lifecycle_state,'DRAFT')"
+            }
+          ],
+          "asserted_semantics": "Four emitted packages reach actual E6 DRAFT,accepted4/idempotent4; payload byte hash distinct from strategy identity; execution NOT_RUN."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Local folder/fake transport establishes domain integration only; real cloud enrollment and commissioning remain NOT_RUN.",
+        "Controlled local/domain execution,not real cloud enrollment/round-trip."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-03",
+          "assertion": "PUBLIC_FRESH_AUTH_INTAKE_RESEARCH_THREE_OUTCOMES",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::verify",
+          "semantic_scope": "Fresh local synthetic packages use actual installed public commands and research child for candidate/rejected/blocked outcomes",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/manifest.py",
+          "symbol": "validate_package",
+          "definition_lines": [
+            227
+          ]
+        },
+        {
+          "source": "src/application/intake/service.py",
+          "symbol": "scan_once",
+          "definition_lines": [
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-02",
+      "requirement_text": "Manifest-before-payload/truncation/hash mismatch yields retryable INCOMPLETE_SYNC",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Missing or byte-mismatched strategy payload produces INCOMPLETE_SYNC, and incomplete retry backoff survives reopen and becomes SYNC_STALLED after the declared day boundary.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_missing_and_mismatched_payload_are_incomplete_not_statistical_failure",
+          "source": "tests/application/test_cloud_intake.py",
+          "method": "test_missing_and_mismatched_payload_are_incomplete_not_statistical_failure",
+          "historical_execution_instance_id": "031:0041:test_cloud_intake.CloudIntakeTests.test_missing_and_mismatched_payload_are_incomplete_not_statistical_failure",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 53,
+          "assertion_locations": [
+            {
+              "line": 57,
+              "assertion": "with self.assertRaises(module.CloudError) as caught:"
+            },
+            {
+              "line": 59,
+              "assertion": "self.assertEqual(\"INCOMPLETE_SYNC\", caught.exception.code)"
+            },
+            {
+              "line": 61,
+              "assertion": "with self.assertRaises(module.CloudError) as caught:"
+            },
+            {
+              "line": 63,
+              "assertion": "self.assertEqual(\"INCOMPLETE_SYNC\", caught.exception.code)"
+            }
+          ],
+          "asserted_semantics": "Missing payload and {}-mismatched payload each raise INCOMPLETE_SYNC."
+        },
+        {
+          "case_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_incomplete_sync_backoff_is_durable_bounded_and_stalls_after_one_day",
+          "source": "tests/application/test_claim_recovery.py",
+          "method": "test_incomplete_sync_backoff_is_durable_bounded_and_stalls_after_one_day",
+          "historical_execution_instance_id": "031:0006:test_claim_recovery.ClaimRecoveryTests.test_incomplete_sync_backoff_is_durable_bounded_and_stalls_after_one_day",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 106,
+          "assertion_locations": [
+            {
+              "line": 111,
+              "assertion": "self.assertTrue(hasattr(ledger, \"retry_allowed\"), \"Durable sync retry admission is missing\")"
+            },
+            {
+              "line": 113,
+              "assertion": "self.assertFalse(ledger.retry_allowed(\"s1\", NOW + timedelta(seconds=1)))"
+            },
+            {
+              "line": 114,
+              "assertion": "self.assertTrue(ledger.retry_allowed(\"s1\", NOW + timedelta(seconds=5)))"
+            },
+            {
+              "line": 116,
+              "assertion": "self.assertFalse(reopened.retry_allowed(\"s1\", NOW + timedelta(seconds=4)))"
+            },
+            {
+              "line": 118,
+              "assertion": "self.assertEqual(\"SYNC_STALLED\", status)"
+            },
+            {
+              "line": 119,
+              "assertion": "self.assertFalse(reopened.retry_allowed(\"s1\", NOW + timedelta(days=1, hours=1)))"
+            }
+          ],
+          "asserted_semantics": "Retry denied1s,allowed5s,preserved across reopen; one-day incomplete becomes SYNC_STALLED."
+        },
+        {
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_missing_payload_is_retryable_and_unaccepted_manifest_can_evolve",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 180,
+          "assertion_locations": [
+            {
+              "line": 183,
+              "assertion": "bridge=self.bridge();self.assertEqual(bridge.pull_once()['files_staged'],1)"
+            },
+            {
+              "line": 186,
+              "assertion": "with self.assertRaises(CloudError) as caught:transport.snapshot(descriptor,self.data/'snapshots')"
+            },
+            {
+              "line": 187,
+              "assertion": "self.assertEqual(caught.exception.code,'INCOMPLETE_SYNC')"
+            },
+            {
+              "line": 191,
+              "assertion": "self.assertEqual(bridge.pull_once()['files_staged'],2)"
+            },
+            {
+              "line": 196,
+              "assertion": "self.assertEqual({p.name:p.read_bytes() for p in snapshot.root.iterdir() if p.is_file()},before)"
+            }
+          ],
+          "asserted_semantics": "Manifest-only fake bridge pull gives INCOMPLETE_SYNC; completing payload permits retry, later mutation cannot change accepted seal."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "These selections do not separately assert every remote partial-transfer ordering or network interruption.",
+        "Deletion,{} mismatch and manifest-only fake ordering cover absent/mismatched/truncated-like bytes; no separately named bytewise truncation or interrupted real-network campaign.",
+        "One-day stall uses supplied test clock,not actual day-long cloud availability."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-04",
+          "assertion": "NATIVE_MALFORMED_UNSUPPORTED_CONFLICT_PARTIAL_RETRY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::NativeExpiryFlow.intake_faults",
+          "semantic_scope": "Fixed local malformed/unsupported/conflict/partial retry; does not cover every path/link/cloud-transfer variant",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/synced_folder.py",
+          "symbol": "snapshot",
+          "definition_lines": [
+            77
+          ]
+        },
+        {
+          "source": "src/application/intake/ledger.py",
+          "symbol": "retry_allowed",
+          "definition_lines": [
+            247
+          ]
+        },
+        {
+          "source": "src/application/cloud/rclone_bridge.py",
+          "symbol": "pull_once",
+          "definition_lines": [
+            266
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-03",
+      "requirement_text": "Path traversal, symlink/reparse escape, case collision and Windows reserved paths rejected",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Traversal, absolute paths, reserved NUL names, unknown fields and duplicate JSON keys are blocked; corrupted sealed bytes and case-colliding payloads fail; a native directory-link escape is rejected while the target file still exists.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+          "source": "tests/application/test_cloud_intake.py",
+          "method": "test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+          "historical_execution_instance_id": "031:0039:test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 65,
+          "assertion_locations": [
+            {
+              "line": 73,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 75,
+              "assertion": "self.assertEqual(\"BLOCKED\", caught.exception.code)"
+            },
+            {
+              "line": 76,
+              "assertion": "self.assertNotIn(\"SYNTHETIC_DO_NOT_ECHO\", str(caught.exception))"
+            },
+            {
+              "line": 78,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 80,
+              "assertion": "self.assertEqual(\"BLOCKED\", caught.exception.code)"
+            }
+          ],
+          "asserted_semantics": "Traversal/absolute/NUL/private/PASS fields and duplicate JSON keys BLOCKED without synthetic secret echo."
+        },
+        {
+          "case_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_corrupt_snapshot_rejected_and_case_collision_payloads_blocked",
+          "source": "tests/application/test_cloud_intake.py",
+          "method": "test_corrupt_snapshot_rejected_and_case_collision_payloads_blocked",
+          "historical_execution_instance_id": "031:0040:test_cloud_intake.CloudIntakeTests.test_corrupt_snapshot_rejected_and_case_collision_payloads_blocked",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 90,
+          "assertion_locations": [
+            {
+              "line": 96,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 98,
+              "assertion": "self.assertEqual(\"SNAPSHOT_CORRUPT\", caught.exception.code)"
+            },
+            {
+              "line": 101,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 103,
+              "assertion": "self.assertEqual(\"BLOCKED\", caught.exception.code)"
+            }
+          ],
+          "asserted_semantics": "Mutated sealed payload SNAPSHOT_CORRUPT; strategy.json versus STRATEGY.JSON collision BLOCKED."
+        },
+        {
+          "case_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_native_directory_link_escape_is_blocked_without_reading_target",
+          "source": "tests/application/test_cloud_intake.py",
+          "method": "test_native_directory_link_escape_is_blocked_without_reading_target",
+          "historical_execution_instance_id": "031:0043:test_cloud_intake.CloudIntakeTests.test_native_directory_link_escape_is_blocked_without_reading_target",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 105,
+          "assertion_locations": [
+            {
+              "line": 119,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 121,
+              "assertion": "self.assertEqual(\"BLOCKED\", caught.exception.code)"
+            },
+            {
+              "line": 122,
+              "assertion": "self.assertTrue((outside / \"strategy.json\").exists())"
+            }
+          ],
+          "asserted_semantics": "Host-native junction/symlink escape BLOCKED; outside target remains."
+        },
+        {
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_native_stage_directory_link_is_rejected_without_outside_write",
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_native_stage_directory_link_is_rejected_without_outside_write",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 293,
+          "assertion_locations": [
+            {
+              "line": 300,
+              "assertion": "with self.assertRaises(CloudError) as caught:self.bridge().pull_once()"
+            },
+            {
+              "line": 301,
+              "assertion": "self.assertEqual(caught.exception.code,'BLOCKED')"
+            },
+            {
+              "line": 302,
+              "assertion": "self.assertEqual(list(outside.iterdir()),[])"
+            }
+          ],
+          "asserted_semantics": "Host-native stage junction/symlink escape BLOCKED; outside directory remains empty."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Actual Windows reparse testing cannot replace the mandatory native Ubuntu path-security executions.",
+        "Directory-link test uses Windows junction OR POSIX symlink by host; body presence does not establish either required Ubuntu execution.",
+        "Intake escape asserts BLOCKED/target exists,not an instrumented zero-target-read proof for every race; staging case does assert no outside write."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-04",
+          "assertion": "NATIVE_MALFORMED_UNSUPPORTED_CONFLICT_PARTIAL_RETRY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::NativeExpiryFlow.intake_faults",
+          "semantic_scope": "Fixed local malformed/unsupported/conflict/partial retry; does not cover every path/link/cloud-transfer variant",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/manifest.py",
+          "symbol": "safe_component",
+          "definition_lines": [
+            32
+          ]
+        },
+        {
+          "source": "src/application/cloud/manifest.py",
+          "symbol": "safe_relative",
+          "definition_lines": [
+            41
+          ]
+        },
+        {
+          "source": "src/application/cloud/synced_folder.py",
+          "symbol": "_reject_links",
+          "definition_lines": [
+            17
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-04",
+      "requirement_text": "Repeated scans/restarts have one durable logical intake effect; accepted-ID mutation conflicts",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "After outbox-commit crash, reopening and rescanning preserve the existing effect; author mutation at an accepted ID becomes conflict; restart after actual E6 intake reuses one canonical receipt.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_crash_after_outbox_commit_repeated_scans_and_changed_submission",
+          "source": "tests/application/test_claim_recovery.py",
+          "method": "test_crash_after_outbox_commit_repeated_scans_and_changed_submission",
+          "historical_execution_instance_id": "031:0004:test_claim_recovery.ClaimRecoveryTests.test_crash_after_outbox_commit_repeated_scans_and_changed_submission",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 31,
+          "assertion_locations": [
+            {
+              "line": 47,
+              "assertion": "with self.assertRaises(RuntimeError): inbox.scan_once(NOW)"
+            },
+            {
+              "line": 48,
+              "assertion": "self.assertEqual(1,len(ledger.pending_outbox(10)))"
+            },
+            {
+              "line": 51,
+              "assertion": "self.assertEqual(1,resumed.scan_once(NOW+timedelta(seconds=1)).idempotent)"
+            },
+            {
+              "line": 54,
+              "assertion": "self.assertEqual(1,resumed.scan_once(NOW+timedelta(seconds=2)).conflicts)"
+            },
+            {
+              "line": 55,
+              "assertion": "self.assertEqual(1,len(reopened.pending_outbox(10)))"
+            }
+          ],
+          "asserted_semantics": "After outbox-commit injected crash,one pending item survives; reopen scan idempotent; author mutation conflicts."
+        },
+        {
+          "case_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+          "source": "tests/application/test_claim_recovery.py",
+          "method": "test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+          "historical_execution_instance_id": "031:0007:test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 74,
+          "assertion_locations": [
+            {
+              "line": 91,
+              "assertion": "with self.assertRaises(RuntimeError):"
+            },
+            {
+              "line": 95,
+              "assertion": "self.assertEqual(\"DRAFT\", original.strategy.current_lifecycle_state)"
+            },
+            {
+              "line": 96,
+              "assertion": "with self.assertRaises(EvidenceGateError):"
+            },
+            {
+              "line": 100,
+              "assertion": "self.assertEqual(1, result.accepted)"
+            },
+            {
+              "line": 101,
+              "assertion": "self.assertEqual(original.receipt.intake_id, ledger.get_submission(\"submission-1\").effect_ref)"
+            },
+            {
+              "line": 103,
+              "assertion": "self.assertEqual(1, repeated.idempotent)"
+            },
+            {
+              "line": 104,
+              "assertion": "self.assertEqual(1, len(ledger.pending_outbox(10)))"
+            }
+          ],
+          "asserted_semantics": "After actual E6 registration crash,recovery reuses original intake_id/DRAFT; backtesting gate remains denied; repeat scan idempotent."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Fault hooks exercise local crash boundaries; real distributed cloud atomicity is not asserted.",
+        "Injected local crash boundaries do not establish distributed exactly-once delivery or real-cloud crash atomicity."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-04",
+          "assertion": "NATIVE_MALFORMED_UNSUPPORTED_CONFLICT_PARTIAL_RETRY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::NativeExpiryFlow.intake_faults",
+          "semantic_scope": "Fixed local malformed/unsupported/conflict/partial retry; does not cover every path/link/cloud-transfer variant",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        },
+        {
+          "group": "PQR-04",
+          "assertion": "NATIVE_COMPLETED_SAME_ID_IDEMPOTENCY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::NativeExpiryFlow",
+          "semantic_scope": "Same completed intake identity cannot create a repeated effect",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/intake/service.py",
+          "symbol": "scan_once",
+          "definition_lines": [
+            45
+          ]
+        },
+        {
+          "source": "src/application/intake/ledger.py",
+          "symbol": "operation_key",
+          "definition_lines": [
+            85
+          ]
+        },
+        {
+          "source": "src/application/intake/ledger.py",
+          "symbol": "commit_effect",
+          "definition_lines": [
+            185
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-05",
+      "requirement_text": "Crash after E6 registration and stale lease owner cannot duplicate or overwrite canonical state",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Two local workers obtain one claim; lease takeover increments generation and rejects stale commit; crash after real E6 registration recovers the original canonical effect without promoting unverified compatibility.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_two_local_workers_acquire_only_one_claim",
+          "source": "tests/application/test_claim_recovery.py",
+          "method": "test_two_local_workers_acquire_only_one_claim",
+          "historical_execution_instance_id": "031:0008:test_claim_recovery.ClaimRecoveryTests.test_two_local_workers_acquire_only_one_claim",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 18,
+          "assertion_locations": [
+            {
+              "line": 29,
+              "assertion": "self.assertEqual(1,sum(result.acquired for result in results))"
+            },
+            {
+              "line": 30,
+              "assertion": "self.assertEqual(1,len({result.owner_id for result in results}))"
+            }
+          ],
+          "asserted_semantics": "Two concurrent actual local ledger instances acquire one claim/owner."
+        },
+        {
+          "case_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_expired_lease_changes_generation_and_stale_worker_cannot_commit",
+          "source": "tests/application/test_claim_recovery.py",
+          "method": "test_expired_lease_changes_generation_and_stale_worker_cannot_commit",
+          "historical_execution_instance_id": "031:0005:test_claim_recovery.ClaimRecoveryTests.test_expired_lease_changes_generation_and_stale_worker_cannot_commit",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 57,
+          "assertion_locations": [
+            {
+              "line": 62,
+              "assertion": "self.assertTrue(first.acquired)"
+            },
+            {
+              "line": 64,
+              "assertion": "self.assertFalse(busy.acquired)"
+            },
+            {
+              "line": 66,
+              "assertion": "self.assertGreater(second.lease_generation, first.lease_generation)"
+            },
+            {
+              "line": 67,
+              "assertion": "with self.assertRaises(module.LeaseConflict):"
+            },
+            {
+              "line": 70,
+              "assertion": "self.assertEqual(\"INTAKE_ACCEPTED\", result.state)"
+            },
+            {
+              "line": 71,
+              "assertion": "with self.assertRaises(module.ManifestConflict):"
+            }
+          ],
+          "asserted_semantics": "Lease takeover increases generation; stale commit raises LeaseConflict,new commit succeeds; changed accepted manifest conflicts."
+        },
+        {
+          "case_id": "tests.application.test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+          "source": "tests/application/test_claim_recovery.py",
+          "method": "test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+          "historical_execution_instance_id": "031:0007:test_claim_recovery.ClaimRecoveryTests.test_restart_after_real_e6_registration_reuses_one_canonical_effect_and_receipt",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 74,
+          "assertion_locations": [
+            {
+              "line": 91,
+              "assertion": "with self.assertRaises(RuntimeError):"
+            },
+            {
+              "line": 95,
+              "assertion": "self.assertEqual(\"DRAFT\", original.strategy.current_lifecycle_state)"
+            },
+            {
+              "line": 96,
+              "assertion": "with self.assertRaises(EvidenceGateError):"
+            },
+            {
+              "line": 100,
+              "assertion": "self.assertEqual(1, result.accepted)"
+            },
+            {
+              "line": 101,
+              "assertion": "self.assertEqual(original.receipt.intake_id, ledger.get_submission(\"submission-1\").effect_ref)"
+            },
+            {
+              "line": 103,
+              "assertion": "self.assertEqual(1, repeated.idempotent)"
+            },
+            {
+              "line": 104,
+              "assertion": "self.assertEqual(1, len(ledger.pending_outbox(10)))"
+            }
+          ],
+          "asserted_semantics": "Actual E6 crash recovery reuses original canonical receipt and one outbox; no fabricated backtesting compatibility."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Selection covers local transactional lease/E6 recovery, not a distributed lock guarantee.",
+        "Stale commit is direct ledger commit_effect with synthetic effect reference; actual E6 registration recovery is separate. No single contended real E6 stale-worker-after-takeover composition is established by these selections."
+      ],
+      "native_assertion_refs_retained": [],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/intake/ledger.py",
+          "symbol": "claim",
+          "definition_lines": [
+            148
+          ]
+        },
+        {
+          "source": "src/application/intake/ledger.py",
+          "symbol": "commit_effect",
+          "definition_lines": [
+            185
+          ]
+        },
+        {
+          "source": "src/application/intake/service.py",
+          "symbol": "scan_once",
+          "definition_lines": [
+            45
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-06",
+      "requirement_text": "Outbox survives commit/upload/ack failures and publication is immutable/idempotent",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Committed intake and research feedback outboxes survive upload-before-ACK failures; reopened retries reuse the same remote fake bytes; partial staging is retryable, content conflict preserves old bytes and wrong ACK hash is not accepted.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_outbox.OutboxTests.test_crash_after_upload_before_ack_restarts_with_same_artifact",
+          "source": "tests/application/test_outbox.py",
+          "method": "test_crash_after_upload_before_ack_restarts_with_same_artifact",
+          "historical_execution_instance_id": "031:0150:test_outbox.OutboxTests.test_crash_after_upload_before_ack_restarts_with_same_artifact",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 25,
+          "assertion_locations": [
+            {
+              "line": 41,
+              "assertion": "with self.assertRaises(RuntimeError): publisher_module.Publisher(ledger,transport,fault_hook=crash).flush(10)"
+            },
+            {
+              "line": 42,
+              "assertion": "self.assertEqual(\"PENDING\",ledger.pending_outbox(10)[0].state)"
+            },
+            {
+              "line": 45,
+              "assertion": "self.assertEqual(1,result.local_staged)"
+            },
+            {
+              "line": 46,
+              "assertion": "self.assertEqual(0,result.cloud_acknowledged)"
+            },
+            {
+              "line": 47,
+              "assertion": "self.assertEqual(1,len(list(cloud.glob(\"receipts/**/receipt.json\"))))"
+            }
+          ],
+          "asserted_semantics": "Upload-before-ACK crash retains PENDING; reopened local stage0remote ACK/one actual receipt."
+        },
+        {
+          "case_id": "tests.application.test_outbox.OutboxTests.test_partial_payload_write_is_not_finalized_and_can_be_retried",
+          "source": "tests/application/test_outbox.py",
+          "method": "test_partial_payload_write_is_not_finalized_and_can_be_retried",
+          "historical_execution_instance_id": "031:0153:test_outbox.OutboxTests.test_partial_payload_write_is_not_finalized_and_can_be_retried",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 49,
+          "assertion_locations": [
+            {
+              "line": 60,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 62,
+              "assertion": "self.assertEqual(\"UNAVAILABLE\", caught.exception.code)"
+            },
+            {
+              "line": 63,
+              "assertion": "self.assertFalse((root / bundle.logical_path / \"receipt.json\").exists())"
+            },
+            {
+              "line": 65,
+              "assertion": "self.assertEqual(\"LOCAL_STAGED\", retried.publish(bundle, \"op1\").status)"
+            },
+            {
+              "line": 66,
+              "assertion": "self.assertEqual(bundle.payloads[\"receipt.json\"], (root / bundle.logical_path / \"receipt.json\").read_bytes())"
+            }
+          ],
+          "asserted_semantics": "Injected partial ENOSPC yields UNAVAILABLE/no final payload; retry publishes original bytes."
+        },
+        {
+          "case_id": "tests.application.test_outbox.OutboxTests.test_publication_content_conflict_does_not_overwrite",
+          "source": "tests/application/test_outbox.py",
+          "method": "test_publication_content_conflict_does_not_overwrite",
+          "historical_execution_instance_id": "031:0154:test_outbox.OutboxTests.test_publication_content_conflict_does_not_overwrite",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 89,
+          "assertion_locations": [
+            {
+              "line": 97,
+              "assertion": "self.assertEqual(\"LOCAL_STAGED\", transport.publish(bundle, \"op1\").status)"
+            },
+            {
+              "line": 98,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 100,
+              "assertion": "self.assertEqual(\"CONFLICT\", caught.exception.code)"
+            },
+            {
+              "line": 101,
+              "assertion": "self.assertEqual(b'{}', (root / bundle.logical_path / \"receipt.json\").read_bytes())"
+            }
+          ],
+          "asserted_semantics": "Same logical path changed bytes conflict and preserve old payload."
+        },
+        {
+          "case_id": "tests.application.test_outbox.OutboxTests.test_wrong_transport_ack_hash_is_not_accepted",
+          "source": "tests/application/test_outbox.py",
+          "method": "test_wrong_transport_ack_hash_is_not_accepted",
+          "historical_execution_instance_id": "031:0155:test_outbox.OutboxTests.test_wrong_transport_ack_hash_is_not_accepted",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 103,
+          "assertion_locations": [
+            {
+              "line": 116,
+              "assertion": "self.assertEqual(0, result.cloud_acknowledged)"
+            },
+            {
+              "line": 117,
+              "assertion": "self.assertEqual(1, result.unavailable)"
+            }
+          ],
+          "asserted_semantics": "Wrong transport ACK artifact hash yields0ACK/1unavailable."
+        },
+        {
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_actual_outbox_crash_after_remote_upload_recovers_same_identity",
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_actual_outbox_crash_after_remote_upload_recovers_same_identity",
+          "historical_execution_instance_id": "031:0010:test_cloud_bridge.CloudBridgeTests.test_actual_outbox_crash_after_remote_upload_recovers_same_identity",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 274,
+          "assertion_locations": [
+            {
+              "line": 285,
+              "assertion": "with self.assertRaises(RuntimeError):Publisher(ledger,transport,fault_hook=crash).flush(10)"
+            },
+            {
+              "line": 286,
+              "assertion": "self.assertEqual(ledger.pending_outbox(10)[0].state,'PENDING')"
+            },
+            {
+              "line": 289,
+              "assertion": "self.assertEqual(Publisher(ledger,transport).flush(10).cloud_acknowledged,1)"
+            },
+            {
+              "line": 290,
+              "assertion": "self.assertEqual(ledger.pending_outbox(10),())"
+            },
+            {
+              "line": 291,
+              "assertion": "self.assertEqual({p.relative_to(self.remote).as_posix():p.read_bytes() for p in self.remote.rglob('*') if p.is_file()},before)"
+            }
+          ],
+          "asserted_semantics": "Actual intake outbox fake-remote upload-before-ACK crash reopens,ACKs one effect,drains pending,preserves remote bytes."
+        },
+        {
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation",
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation",
+          "historical_execution_instance_id": "031:0019:test_cloud_bridge.CloudBridgeTests.test_feedback_outbox_survives_remote_ack_crash_and_reopens_without_recomputation",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 323,
+          "assertion_locations": [
+            {
+              "line": 335,
+              "assertion": "self.assertEqual(queue_feedback(service,run.run_id),operation)"
+            },
+            {
+              "line": 337,
+              "assertion": "self.assertEqual(flush_feedback(service.journal,transport,limit=10).unavailable,1)"
+            },
+            {
+              "line": 340,
+              "assertion": "with self.assertRaises(RuntimeError):flush_feedback(service.journal,transport,limit=10,fault_hook=crash)"
+            },
+            {
+              "line": 341,
+              "assertion": "self.assertEqual(len(service.journal.pending_feedback_publications(10)),1)"
+            },
+            {
+              "line": 344,
+              "assertion": "self.assertEqual(flush_feedback(service.journal,transport,limit=10).cloud_acknowledged,1)"
+            },
+            {
+              "line": 345,
+              "assertion": "self.assertEqual(service.journal.pending_feedback_publications(10),())"
+            },
+            {
+              "line": 346,
+              "assertion": "self.assertEqual({p.relative_to(self.remote).as_posix():p.read_bytes() for p in self.remote.rglob('*') if p.is_file()},before)"
+            }
+          ],
+          "asserted_semantics": "Actual research feedback queue is idempotent; outage/upload-before-ACK crash,reopen and ACK preserve remote bytes."
+        },
+        {
+          "source": "tests/application/test_outbox.py",
+          "method": "test_outbox_capacity_blocks_new_effect_and_keeps_existing_evidence",
+          "case_id": "tests.application.test_outbox.OutboxTests.test_outbox_capacity_blocks_new_effect_and_keeps_existing_evidence",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 12,
+          "assertion_locations": [
+            {
+              "line": 20,
+              "assertion": "with self.assertRaises(module.OutboxCapacityError):"
+            },
+            {
+              "line": 22,
+              "assertion": "self.assertEqual(\"CLAIMED\",ledger.get_submission(\"s2\").state)"
+            },
+            {
+              "line": 23,
+              "assertion": "self.assertEqual([\"s1\"],[item.submission_id for item in ledger.pending_outbox(10)])"
+            }
+          ],
+          "asserted_semantics": "Outbox capacity refuses second commit without discarding original pending evidence."
+        },
+        {
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload",
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_self_contained_owner_feedback_roundtrip_rejects_changed_html_before_upload",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 304,
+          "assertion_locations": [
+            {
+              "line": 315,
+              "assertion": "self.assertEqual(receipt.status,'CLOUD_ACKNOWLEDGED')"
+            },
+            {
+              "line": 316,
+              "assertion": "self.assertEqual((self.remote/bundle.logical_path/'report.html').read_bytes(),bundle.payloads['report.html'])"
+            },
+            {
+              "line": 319,
+              "assertion": "with self.assertRaises(CloudError):RcloneCloudTransport(bridge).publish(unsafe,'feedback-operation-2')"
+            },
+            {
+              "line": 320,
+              "assertion": "self.assertFalse((self.stage/unsafe.logical_path).exists())"
+            },
+            {
+              "line": 321,
+              "assertion": "self.assertFalse((self.remote/unsafe.logical_path).exists())"
+            }
+          ],
+          "asserted_semantics": "Actual owner HTML bundle reaches fake peer; modified script HTML is denied before stage/remote writes."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Remote effects here use controlled local fake transport; real cloud faults and whole-product feedback flow remain separate.",
+        "Controlled local/fake peer,injected faults only; real cloud interruption/ACK commissioning NOT_RUN.",
+        "These selected source outbox tests are not packaged native joined publication or every OS crash ordering."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-07",
+          "assertion": "STAGED_REMOTE_ACK_SEPARATION_FAILED_PUBLICATION_RETRY_IDEMPOTENCY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_publication.py::NativePublicationFlow",
+          "semantic_scope": "Real local copy peer/readback fault+retry+idempotency, not real cloud round-trip",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/publisher.py",
+          "symbol": "flush",
+          "definition_lines": [
+            22
+          ]
+        },
+        {
+          "source": "src/application/intake/ledger.py",
+          "symbol": "record_publication",
+          "definition_lines": [
+            259
+          ]
+        },
+        {
+          "source": "src/application/cloud/synced_folder.py",
+          "symbol": "publish",
+          "definition_lines": [
+            141
+          ]
+        },
+        {
+          "source": "src/application/cloud/feedback.py",
+          "symbol": "flush_feedback",
+          "definition_lines": [
+            194
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-08",
+      "requirement_text": "Local staged versus actual remote acknowledgment shown separately",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "A local copy stays LOCAL_STAGED without cloud ACK; bridge ACK requires every byte to be read back from the fake remote, while outage or mismatched readback cannot acknowledge staging.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_outbox.OutboxTests.test_local_copy_never_claims_remote_ack_and_retries_are_content_idempotent",
+          "source": "tests/application/test_outbox.py",
+          "method": "test_local_copy_never_claims_remote_ack_and_retries_are_content_idempotent",
+          "historical_execution_instance_id": "031:0151:test_outbox.OutboxTests.test_local_copy_never_claims_remote_ack_and_retries_are_content_idempotent",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 67,
+          "assertion_locations": [
+            {
+              "line": 82,
+              "assertion": "self.assertEqual(1, first.local_staged)"
+            },
+            {
+              "line": 83,
+              "assertion": "self.assertEqual(0, first.cloud_acknowledged)"
+            },
+            {
+              "line": 85,
+              "assertion": "self.assertEqual(1, second.local_staged)"
+            },
+            {
+              "line": 86,
+              "assertion": "self.assertEqual(0, second.cloud_acknowledged)"
+            },
+            {
+              "line": 87,
+              "assertion": "self.assertEqual(1, len(list((cloud / \"receipts\").glob(\"**/receipt.json\"))))"
+            }
+          ],
+          "asserted_semantics": "Repeated local flush stays LOCAL_STAGED1/CLOUD_ACK0 with one receipt file."
+        },
+        {
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback",
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback",
+          "historical_execution_instance_id": "031:0009:test_cloud_bridge.CloudBridgeTests.test_actual_local_bytes_reach_fake_remote_and_ack_requires_every_byte_readback",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 108,
+          "assertion_locations": [
+            {
+              "line": 111,
+              "assertion": "self.assertEqual(result.status,'CLOUD_ACKNOWLEDGED')"
+            },
+            {
+              "line": 112,
+              "assertion": "self.assertEqual(result.operation_id,local.operation_id)"
+            },
+            {
+              "line": 113,
+              "assertion": "self.assertEqual(result.artifact_hash,local.artifact_hash)"
+            },
+            {
+              "line": 115,
+              "assertion": "self.assertEqual((self.remote/bundle.logical_path/path.name).read_bytes(),path.read_bytes())"
+            },
+            {
+              "line": 117,
+              "assertion": "self.assertEqual(bridge.push_bundle(bundle.logical_path),result)"
+            },
+            {
+              "line": 118,
+              "assertion": "self.assertEqual({path.relative_to(self.remote).as_posix():path.read_bytes() for path in self.remote.rglob('*') if path.is_file()},before)"
+            }
+          ],
+          "asserted_semantics": "Controlled fake bridge ACK binds original operation/artifact,all payload bytes readback and unchanged idempotent remote tree."
+        },
+        {
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage",
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_remote_outage_and_wrong_readback_never_acknowledge_local_stage",
+          "historical_execution_instance_id": "031:0030:test_cloud_bridge.CloudBridgeTests.test_remote_outage_and_wrong_readback_never_acknowledge_local_stage",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 127,
+          "assertion_locations": [
+            {
+              "line": 129,
+              "assertion": "with self.assertRaises(CloudError):bridge.push_bundle(bundle.logical_path)"
+            },
+            {
+              "line": 131,
+              "assertion": "with self.assertRaises(CloudError):bridge.push_bundle(bundle.logical_path)"
+            },
+            {
+              "line": 132,
+              "assertion": "self.assertEqual(local.status,'LOCAL_STAGED')"
+            }
+          ],
+          "asserted_semantics": "Outage/corrupt fake readback both fail; original receipt remains LOCAL_STAGED."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Actual remote here means controlled fake endpoint bytes, not real connected cloud evidence; UI acknowledgment display needs its own browser mapping.",
+        "Cases assert ledger/transport statuses and byte truth; they do not render UI showing local staging versus remote ACK. Populated browser mapping remains needed for the requirement word shown."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-07",
+          "assertion": "STAGED_REMOTE_ACK_SEPARATION_FAILED_PUBLICATION_RETRY_IDEMPOTENCY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_publication.py::NativePublicationFlow",
+          "semantic_scope": "Real local copy peer/readback fault+retry+idempotency, not real cloud round-trip",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/synced_folder.py",
+          "symbol": "publish",
+          "definition_lines": [
+            141
+          ]
+        },
+        {
+          "source": "src/application/cloud/rclone_bridge.py",
+          "symbol": "push_bundle",
+          "definition_lines": [
+            396
+          ]
+        },
+        {
+          "source": "src/application/cloud/rclone_bridge.py",
+          "symbol": "_readback",
+          "definition_lines": [
+            260
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-09",
+      "requirement_text": "Reports exclude credentials/raw private payloads/provider IDs; financial disclosure policy enforced",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Owner-derived feedback defaults to financial opt-out and truthful missing-stage status; opt-in net_pnl matches the owner's exact string; adversarial private owner fields/freeform input and private aliases or secret/local-path text are omitted or rejected before publication.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+          "source": "tests/application/test_feedback_redaction.py",
+          "method": "test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+          "historical_execution_instance_id": "031:0096:test_feedback_redaction.FeedbackTests.test_actual_owner_feedback_defaults_to_no_financial_metrics_and_missing_stages_not_run",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 27,
+          "assertion_locations": [
+            {
+              "line": 35,
+              "assertion": "self.assertEqual(feedback['schema_version'],'r7-chat-feedback-v0.2')"
+            },
+            {
+              "line": 36,
+              "assertion": "self.assertEqual(feedback['performance_policy'],'OPT_OUT')"
+            },
+            {
+              "line": 37,
+              "assertion": "self.assertIsNone(feedback['development']['performance'])"
+            },
+            {
+              "line": 38,
+              "assertion": "self.assertEqual(feedback['sealed_oos']['status'],'NOT_RUN')"
+            },
+            {
+              "line": 39,
+              "assertion": "self.assertEqual(feedback['paper']['status'],'NOT_RUN');self.assertIsNone(feedback['paper']['observation_seconds'])"
+            },
+            {
+              "line": 40,
+              "assertion": "self.assertEqual(feedback['live']['status'],'NOT_RUN');self.assertIsNone(feedback['live']['performance'])"
+            },
+            {
+              "line": 41,
+              "assertion": "self.assertNotIn('net_pnl',raw);self.assertNotIn(str(root),raw)"
+            },
+            {
+              "line": 54,
+              "assertion": "self.assertEqual(len(summary.rows),7,'A compact stage table precedes the full JSON detail')"
+            },
+            {
+              "line": 55,
+              "assertion": "self.assertEqual(summary.rows[-2],['PAPER','NOT_RUN','—','—'])"
+            },
+            {
+              "line": 56,
+              "assertion": "self.assertEqual(summary.rows[-1],['LIVE','NOT_RUN','—','—'])"
+            },
+            {
+              "line": 57,
+              "assertion": "self.assertEqual(summary.rows[2][1],feedback['development']['status'])"
+            },
+            {
+              "line": 58,
+              "assertion": "self.assertEqual(summary.rows[2][2],str(feedback['development']['sample_count']))"
+            },
+            {
+              "line": 59,
+              "assertion": "self.assertEqual(service.ledger.holdout_observations(),[])"
+            },
+            {
+              "line": 63,
+              "assertion": "with self.assertRaises(ValidationError):validator.validate({**feedback,'provider_account_id':'SYNTHETIC_FORBIDDEN'})"
+            }
+          ],
+          "asserted_semantics": "Owner default OPT_OUT null performance; unavailable OOS/Paper/LIVE NOT_RUN; no net_pnl/local path; schema rejects provider_account_id."
+        },
+        {
+          "case_id": "tests.application.test_feedback_redaction.FeedbackTests.test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings",
+          "source": "tests/application/test_feedback_redaction.py",
+          "method": "test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings",
+          "historical_execution_instance_id": "031:0095:test_feedback_redaction.FeedbackTests.test_actual_oos_feedback_marks_chat_observation_idempotently_and_opt_in_metrics_are_exact_strings",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 65,
+          "assertion_locations": [
+            {
+              "line": 72,
+              "assertion": "self.assertEqual(default['sealed_oos']['status'],'PASS')"
+            },
+            {
+              "line": 73,
+              "assertion": "self.assertIsNone(default['sealed_oos']['performance'])"
+            },
+            {
+              "line": 74,
+              "assertion": "self.assertTrue(default['holdout_observed'])"
+            },
+            {
+              "line": 75,
+              "assertion": "self.assertEqual(len([v for v in service.ledger.holdout_observations() if v['kind']=='CHAT_OBSERVATION']),1)"
+            },
+            {
+              "line": 76,
+              "assertion": "again=module.build_research_feedback(service,run.run_id);self.assertEqual(again,default)"
+            },
+            {
+              "line": 77,
+              "assertion": "self.assertEqual(len([v for v in service.ledger.holdout_observations() if v['kind']=='CHAT_OBSERVATION']),1)"
+            },
+            {
+              "line": 80,
+              "assertion": "self.assertEqual(opt_in['sealed_oos']['performance']['net_pnl'],actual['net_pnl'])"
+            },
+            {
+              "line": 81,
+              "assertion": "self.assertIsInstance(opt_in['sealed_oos']['performance']['net_pnl'],str)"
+            },
+            {
+              "line": 83,
+              "assertion": "self.assertEqual(set(bundle.payloads),{'feedback.json','report.html'})"
+            },
+            {
+              "line": 85,
+              "assertion": "self.assertNotIn('<script',html.lower());self.assertNotIn('https://',html);self.assertNotIn(str(root),html)"
+            }
+          ],
+          "asserted_semantics": "One durable Chat/OOS observation on retry; OPT_IN net_pnl equals exact owner string; no script/remote URL/local path in HTML."
+        },
+        {
+          "case_id": "tests.application.test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected",
+          "source": "tests/application/test_feedback_redaction.py",
+          "method": "test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected",
+          "historical_execution_instance_id": "031:0097:test_feedback_redaction.FeedbackTests.test_adversarial_private_owner_fields_are_omitted_and_freeform_report_input_is_rejected",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 87,
+          "assertion_locations": [
+            {
+              "line": 104,
+              "assertion": "self.assertNotIn(forbidden,raw)"
+            },
+            {
+              "line": 105,
+              "assertion": "with self.assertRaises(module.FeedbackError):module.build_research_feedback({'status':'PASS'},run.run_id)"
+            },
+            {
+              "line": 106,
+              "assertion": "with self.assertRaises(module.FeedbackError):module.build_research_feedback(service,run.run_id,performance_opt_in='yes')"
+            }
+          ],
+          "asserted_semantics": "Synthetic provider IDs/raw-secret/path/balance omitted; caller PASS dict and nonboolean opt-in rejected."
+        },
+        {
+          "case_id": "tests.application.test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote",
+          "source": "tests/application/test_cloud_bridge.py",
+          "method": "test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote",
+          "historical_execution_instance_id": "031:0023:test_cloud_bridge.CloudBridgeTests.test_private_field_aliases_and_secret_or_local_path_text_never_reach_remote",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 371,
+          "assertion_locations": [
+            {
+              "line": 378,
+              "assertion": "with self.assertRaises(CloudError):transport.publish(ArtifactBundle(path,{'summary.json':canonical_bytes(value)}),'operation-'+str(index))"
+            },
+            {
+              "line": 379,
+              "assertion": "self.assertFalse((self.stage/path).exists(),'Rejected bytes must never enter a possibly synchronized folder')"
+            },
+            {
+              "line": 380,
+              "assertion": "self.assertFalse((self.remote/path).exists())"
+            }
+          ],
+          "asserted_semantics": "Whitespace/camelCase private aliases or secret/local-path freeform values rejected before stage/fake-remote write."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Adversarial fields are synthetic fixtures; whole-branch secret/artifact audit remains S16 work.",
+        "Synthetic adversarial field tests are not whole-branch Git/report secret audit.",
+        "Unchanged research LIVE NOT_RUN/null is truthful absence; it does not establish populated LIVE feedback capability or real monetary disclosure authority."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-07",
+          "assertion": "SIMULATED_REAL_ELAPSED_DISCLOSURE_REDACTION",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_publication.py::NativePublicationFlow",
+          "semantic_scope": "Actual retained owner report disclosure/redaction in scoped fixture",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/feedback.py",
+          "symbol": "build_research_feedback",
+          "definition_lines": [
+            103
+          ]
+        },
+        {
+          "source": "src/application/cloud/feedback.py",
+          "symbol": "validate_feedback",
+          "definition_lines": [
+            58
+          ]
+        },
+        {
+          "source": "src/application/cloud/rclone_bridge.py",
+          "symbol": "validate_publication",
+          "definition_lines": [
+            149
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "CLOUD-10",
+      "requirement_text": "Authoring helper emits schema-valid actual JSON packages and computed hashes for legacy4h/MTF/expiry/gap examples",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Authoring emits real JSON definitions/manifests with payload byte hashes distinct from strategy content identity for legacy,4h,MTF and tactical examples; missing capability and forbidden notes are refused, and CLI emits packages/capability snapshots without fabricated execution evidence.",
+      "named_cases": [
+        {
+          "case_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+          "source": "tests/application/test_authoring_roundtrip.py",
+          "method": "test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+          "historical_execution_instance_id": "031:0001:test_authoring_roundtrip.AuthoringRoundtripTests.test_actual_legacy_four_hour_multitimeframe_and_tactical_packages_reach_e2_e6",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 24,
+          "assertion_locations": [
+            {
+              "line": 46,
+              "assertion": "self.assertEqual(spec.sha256,byte_hash(raw));self.assertNotEqual(spec.sha256,manifest.strategy_content_hash)"
+            },
+            {
+              "line": 47,
+              "assertion": "self.assertEqual(result['execution_evidence'],'NOT_RUN')"
+            },
+            {
+              "line": 50,
+              "assertion": "first=service.scan_once(now);self.assertEqual(first.accepted,4);self.assertEqual(first.blocked,0)"
+            },
+            {
+              "line": 51,
+              "assertion": "self.assertEqual(service.scan_once(now).idempotent,4)"
+            },
+            {
+              "line": 54,
+              "assertion": "self.assertFalse(verified.compatibility_execution_pass)"
+            },
+            {
+              "line": 55,
+              "assertion": "self.assertEqual(e6.get_strategy(StrategyIdentity(verified.strategy.strategy_id,verified.strategy.strategy_version)).current_lifecycle_state,'DRAFT')"
+            }
+          ],
+          "asserted_semantics": "Real legacy/4h/1h+4h/tactical author packages produce actual payload hashes,NOT_RUN and E2/E6 DRAFT, idempotent retry."
+        },
+        {
+          "case_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_missing_capability_secret_notes_and_existing_output_are_refused_without_overwrite",
+          "source": "tests/application/test_authoring_roundtrip.py",
+          "method": "test_missing_capability_secret_notes_and_existing_output_are_refused_without_overwrite",
+          "historical_execution_instance_id": "031:0003:test_authoring_roundtrip.AuthoringRoundtripTests.test_missing_capability_secret_notes_and_existing_output_are_refused_without_overwrite",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 57,
+          "assertion_locations": [
+            {
+              "line": 62,
+              "assertion": "with self.assertRaises(module.AuthoringError) as caught:"
+            },
+            {
+              "line": 64,
+              "assertion": "self.assertEqual(caught.exception.code,'CAPABILITY_GAP')"
+            },
+            {
+              "line": 65,
+              "assertion": "self.assertFalse((root/'missing').exists())"
+            },
+            {
+              "line": 66,
+              "assertion": "with self.assertRaises(module.AuthoringError):"
+            },
+            {
+              "line": 68,
+              "assertion": "self.assertFalse((root/'notes').exists())"
+            },
+            {
+              "line": 70,
+              "assertion": "with self.assertRaises(module.AuthoringError):module.emit_package(definition_v02(),existing,submission_id='existing')"
+            },
+            {
+              "line": 71,
+              "assertion": "self.assertEqual((existing/'keep.txt').read_bytes(),b'preserved')"
+            }
+          ],
+          "asserted_semantics": "Unavailable feature CAPABILITY_GAP/no output; secret notes refused; existing destination preserved."
+        },
+        {
+          "case_id": "tests.application.test_authoring_roundtrip.AuthoringRoundtripTests.test_cli_creates_actual_json_artifacts_and_capability_snapshot",
+          "source": "tests/application/test_authoring_roundtrip.py",
+          "method": "test_cli_creates_actual_json_artifacts_and_capability_snapshot",
+          "historical_execution_instance_id": "031:0002:test_authoring_roundtrip.AuthoringRoundtripTests.test_cli_creates_actual_json_artifacts_and_capability_snapshot",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/031-phase_2-application.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 73,
+          "assertion_locations": [
+            {
+              "line": 84,
+              "assertion": "self.assertEqual(code,0);self.assertEqual(json.loads(output.getvalue())['execution_evidence'],'NOT_RUN')"
+            },
+            {
+              "line": 85,
+              "assertion": "self.assertTrue((root/'author-package/strategy.json').is_file());self.assertTrue((root/'author-package/manifest.json').is_file())"
+            },
+            {
+              "line": 88,
+              "assertion": "self.assertEqual(code,0)"
+            },
+            {
+              "line": 89,
+              "assertion": "raw=(root/'capabilities.json').read_bytes();self.assertEqual(byte_hash(raw),json.loads(output.getvalue())['snapshot_hash'])"
+            },
+            {
+              "line": 90,
+              "assertion": "self.assertEqual(json.loads(raw)['runtime_0_2_execution'],'IMPLEMENTED')"
+            },
+            {
+              "line": 91,
+              "assertion": "self.assertTrue(all(v=='NOT_RUN' for v in json.loads(raw)['platform_verification'].values()))"
+            }
+          ],
+          "asserted_semantics": "Public CLI writes actual strategy/manifest JSON and capabilities bytes/hash; execution/platform verification NOT_RUN."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "Actual shipped4h EMA/ADX/ATR and4h-direction/15mDonchian examples need exact coverage; current4h is EMA-only and MTF1h/4h.",
+        "Ship unsupported-feature input and its actual typed capability-gap receipt; in-memory constructor negative alone does not establish that deliverable.",
+        "Tactical authoring does not itself establish runtime expiry/protection; use separate temporal/PAPER evidence. No authored market-data-gap scenario is required."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-04",
+          "assertion": "NATIVE_MALFORMED_UNSUPPORTED_CONFLICT_PARTIAL_RETRY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_product.py::NativeExpiryFlow.intake_faults",
+          "semantic_scope": "Fixed local malformed/unsupported/conflict/partial retry; does not cover every path/link/cloud-transfer variant",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/scoped-source-support-fec8af0/S15-cloud-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/cloud/authoring.py",
+          "symbol": "emit_package",
+          "definition_lines": [
+            25
+          ]
+        },
+        {
+          "source": "src/application/cloud/manifest.py",
+          "symbol": "parse_manifest",
+          "definition_lines": [
+            134
+          ]
+        }
+      ],
+      "interpretation_correction_ref": "artifacts/current-windows-20261019/cloud10-authoritative-clause-clarification.json"
+    },
+    {
+      "requirement_id": "TRADE-01",
+      "requirement_text": "LIVE-capable actual production adapter code, mappings and fake-transport contract tests; no stub completion",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "Production transport implementation is exercised through controlled fake connections: canonical signed body without demo header/secret repr, path/domain/method allowlist, scoped readback identity, bounded sanitized response rejection and ambiguous timeout without retry. Actual E5 gateway mapping supplies entry/close quantities; native conditional-last stop mapping and partial-position triggered-child lineage are verified with fake provider facts.",
+      "named_cases": [
+        {
+          "case_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body",
+          "source": "tests/brokers/test_okx_production_transport.py",
+          "method": "test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body",
+          "historical_execution_instance_id": "023:0120:test_okx_production_transport.OKXProductionTransportTests.test_signed_production_request_has_no_demo_header_or_secret_repr_and_exact_canonical_body",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 34,
+          "assertion_locations": [
+            {
+              "line": 38,
+              "assertion": "self.assertNotIn('x-simulated-trading',request.headers)"
+            },
+            {
+              "line": 39,
+              "assertion": "self.assertIn('OK-ACCESS-SIGN',request.headers)"
+            },
+            {
+              "line": 41,
+              "assertion": "self.assertNotIn(secret,repr(request));self.assertNotIn(secret,repr(credentials))"
+            },
+            {
+              "line": 42,
+              "assertion": "self.assertEqual(json.dumps(json.loads(request.body_text),sort_keys=True,separators=(',',':')),request.body_text)"
+            },
+            {
+              "line": 43,
+              "assertion": "self.assertEqual({'code':'0','data':[]},transport.send(request));self.assertEqual('www.okx.com',calls[0].host)"
+            },
+            {
+              "line": 44,
+              "assertion": "self.assertEqual(1,len(calls[0].requests));self.assertTrue(calls[0].closed)"
+            }
+          ],
+          "asserted_semantics": "Production signing body canonical; no demo header or synthetic credential repr; injected connection sends once to allowlisted host and closes."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch",
+          "source": "tests/brokers/test_okx_production_transport.py",
+          "method": "test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch",
+          "historical_execution_instance_id": "023:0117:test_okx_production_transport.OKXProductionTransportTests.test_nonallowlisted_domain_method_path_or_query_is_denied_before_dispatch",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 46,
+          "assertion_locations": [
+            {
+              "line": 49,
+              "assertion": "with self.subTest(domain=domain),self.assertRaises(api.OKXProductionTransportError):"
+            },
+            {
+              "line": 51,
+              "assertion": "with self.assertRaises(api.OKXProductionTransportError):"
+            },
+            {
+              "line": 55,
+              "assertion": "with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):"
+            },
+            {
+              "line": 58,
+              "assertion": "self.assertEqual([],calls)"
+            }
+          ],
+          "asserted_semantics": "Wrong host/scheme/port/path,unconfirmed domain,DELETE/leverage/foreign instrument/query refused before connection."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity",
+          "source": "tests/brokers/test_okx_production_transport.py",
+          "method": "test_readback_requires_instrument_scope_and_one_exact_order_identity",
+          "historical_execution_instance_id": "023:0118:test_okx_production_transport.OKXProductionTransportTests.test_readback_requires_instrument_scope_and_one_exact_order_identity",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 97,
+          "assertion_locations": [
+            {
+              "line": 103,
+              "assertion": "with self.subTest(path=path),self.assertRaises(api.OKXProductionTransportError):"
+            },
+            {
+              "line": 107,
+              "assertion": "self.assertEqual([],calls)"
+            }
+          ],
+          "asserted_semantics": "Missing instrument/order identity,dual order identities and incomplete algo query refused before dispatch."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry",
+          "source": "tests/brokers/test_okx_production_transport.py",
+          "method": "test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry",
+          "historical_execution_instance_id": "023:0119:test_okx_production_transport.OKXProductionTransportTests.test_redirect_oversize_duplicate_keys_and_nonfinite_response_fail_closed_without_retry",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 60,
+          "assertion_locations": [
+            {
+              "line": 68,
+              "assertion": "with self.subTest(status=status,body_length=len(body)),self.assertRaises(api.OKXProductionTransportError) as caught:bounded.send(request)"
+            },
+            {
+              "line": 69,
+              "assertion": "self.assertNotIn('private-secret',str(caught.exception));self.assertTrue(calls[-1].closed);self.assertEqual(1,len(calls[-1].requests))"
+            },
+            {
+              "line": 70,
+              "assertion": "self.assertEqual(5,len(calls))"
+            }
+          ],
+          "asserted_semantics": "302/oversize/duplicate-key/NaN/wrong-top response rejected,sanitized,closed,one request/no retry."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried",
+          "source": "tests/brokers/test_okx_production_transport.py",
+          "method": "test_timeout_is_ambiguous_sanitized_and_not_retried",
+          "historical_execution_instance_id": "023:0121:test_okx_production_transport.OKXProductionTransportTests.test_timeout_is_ambiguous_sanitized_and_not_retried",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 72,
+          "assertion_locations": [
+            {
+              "line": 80,
+              "assertion": "with self.assertRaises(api.OKXProductionTransportError) as caught:transport.send(request)"
+            },
+            {
+              "line": 81,
+              "assertion": "self.assertEqual('AMBIGUOUS_PROVIDER_TRANSPORT_FAILURE',caught.exception.code);self.assertNotIn('synthetic',str(caught.exception))"
+            },
+            {
+              "line": 82,
+              "assertion": "self.assertEqual(1,len(calls));self.assertTrue(calls[0].closed)"
+            }
+          ],
+          "asserted_semantics": "Injected timeout yields AMBIGUOUS_PROVIDER_TRANSPORT_FAILURE,no synthetic secret echo,one closed connection."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_uses_actual_e5_gateway_and_existing_contract_sizing",
+          "source": "tests/brokers/test_okx_product_translation_v02.py",
+          "method": "test_entry_uses_actual_e5_gateway_and_existing_contract_sizing",
+          "historical_execution_instance_id": "023:0114:test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_uses_actual_e5_gateway_and_existing_contract_sizing",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 37,
+          "assertion_locations": [
+            {
+              "line": 39,
+              "assertion": "self.assertEqual('ENTRY', prepared.role)"
+            },
+            {
+              "line": 40,
+              "assertion": "self.assertEqual('/api/v5/trade/order', prepared.path)"
+            },
+            {
+              "line": 41,
+              "assertion": "self.assertEqual('10', prepared.materialization.body['sz'])"
+            },
+            {
+              "line": 42,
+              "assertion": "self.assertEqual('net', prepared.materialization.body['posSide'])"
+            },
+            {
+              "line": 43,
+              "assertion": "self.assertNotIn('reduceOnly', prepared.materialization.body)"
+            },
+            {
+              "line": 44,
+              "assertion": "self.assertEqual(Decimal('0.010'), prepared.materialization.effective_canonical_quantity)"
+            },
+            {
+              "line": 45,
+              "assertion": "self.assertIs(self.translator.require(prepared, now=self.now), prepared)"
+            }
+          ],
+          "asserted_semantics": "Actual E5 entry maps native net-mode10contracts/effective0.010BTC; no reduceOnly; issuer-valid preparation."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_close_uses_current_e5_authority_and_shared_v02_cap_without_enlargement",
+          "source": "tests/brokers/test_okx_product_translation_v02.py",
+          "method": "test_close_uses_current_e5_authority_and_shared_v02_cap_without_enlargement",
+          "historical_execution_instance_id": "023:0110:test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_close_uses_current_e5_authority_and_shared_v02_cap_without_enlargement",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 90,
+          "assertion_locations": [
+            {
+              "line": 101,
+              "assertion": "self.assertIs(prepared.materialization.body['reduceOnly'], True)"
+            },
+            {
+              "line": 102,
+              "assertion": "self.assertEqual('10', prepared.materialization.body['sz'])"
+            },
+            {
+              "line": 103,
+              "assertion": "self.assertEqual(Decimal('0.0010'), prepared.materialization.effective_canonical_quantity)"
+            },
+            {
+              "line": 104,
+              "assertion": "self.assertEqual('sell', prepared.materialization.body['side'])"
+            }
+          ],
+          "asserted_semantics": "Ordinary/emergency E5 close maps reduceOnly sell capped10contracts/effective0.0010BTC."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6",
+          "source": "tests/brokers/test_okx_product_translation_v02.py",
+          "method": "test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6",
+          "historical_execution_instance_id": "023:0112:test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_quantization_and_close_cap_publish_exact_effective_quantity_to_actual_e6",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 124,
+          "assertion_locations": [
+            {
+              "line": 129,
+              "assertion": "self.assertEqual(Decimal('0.010'), prepared.canonical_request.quantity)"
+            },
+            {
+              "line": 130,
+              "assertion": "self.assertEqual(Decimal('0.0105'), prepared.materialization.canonical_approved_quantity)"
+            },
+            {
+              "line": 131,
+              "assertion": "self.assertEqual('0.0105', plan['quantity'])"
+            },
+            {
+              "line": 139,
+              "assertion": "self.assertEqual(Decimal('0.0010'), prepared.canonical_request.quantity)"
+            },
+            {
+              "line": 140,
+              "assertion": "self.assertEqual(Decimal('0.0012'), prepared.materialization.canonical_approved_quantity)"
+            }
+          ],
+          "asserted_semantics": "Actual E6 ACK persistence uses effective rounded/capped quantity while original approved quantity unchanged; helper publish_canonical_ack asserts stored payload."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping",
+          "source": "tests/brokers/test_okx_product_protection_v02.py",
+          "method": "test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping",
+          "historical_execution_instance_id": "023:0098:test_okx_product_protection_v02.OKXProductProtectionV02Tests.test_initial_stop_requires_actual_e5_fp03_current_empty_fp11_and_native_last_mapping",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 55,
+          "assertion_locations": [
+            {
+              "line": 59,
+              "assertion": "self.assertEqual('/api/v5/trade/order-algo', prepared.path)"
+            },
+            {
+              "line": 60,
+              "assertion": "self.assertEqual('PROTECTION_STOP', prepared.role)"
+            },
+            {
+              "line": 61,
+              "assertion": "self.assertEqual('conditional', body['ordType'])"
+            },
+            {
+              "line": 62,
+              "assertion": "self.assertEqual('last', body['slTriggerPxType'])"
+            },
+            {
+              "line": 63,
+              "assertion": "self.assertEqual('-1', body['slOrdPx'])"
+            },
+            {
+              "line": 64,
+              "assertion": "self.assertEqual('59400.00', body['slTriggerPx'])"
+            },
+            {
+              "line": 65,
+              "assertion": "self.assertEqual('12', body['sz'])"
+            },
+            {
+              "line": 66,
+              "assertion": "self.assertIs(body['reduceOnly'], True)"
+            },
+            {
+              "line": 68,
+              "assertion": "with self.assertRaises(ValueError):"
+            }
+          ],
+          "asserted_semantics": "E5/FP03/current-emptyFP11 stop maps conditional-last trigger59400.00,market-1,12contracts,reduceOnly; incompatible trigger basis denied."
+        },
+        {
+          "case_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage",
+          "source": "tests/product/test_trading_dispatch_v02.py",
+          "method": "test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage",
+          "historical_execution_instance_id": "032:0170:test_trading_dispatch_v02.TradingDispatchV02Tests.test_initial_protection_uses_actual_partial_position_and_triggered_child_keeps_native_lineage",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 132,
+          "assertion_locations": [
+            {
+              "line": 136,
+              "assertion": "self.assertEqual('4', prepared.materialization.body['sz'])"
+            },
+            {
+              "line": 153,
+              "assertion": "self.assertEqual('ALGO_OBSERVED',result.status)"
+            },
+            {
+              "line": 154,
+              "assertion": "self.assertEqual(['POST','GET','GET','GET'], [call['method'] for call in provider.calls])"
+            },
+            {
+              "line": 157,
+              "assertion": "self.assertEqual(1,len(stop_fills)); self.assertEqual('3456',stop_fills[0]['broker_order_id'])"
+            },
+            {
+              "line": 158,
+              "assertion": "self.assertEqual(prepared.canonical_request.position_action_id,stop_fills[0]['position_action_id'])"
+            },
+            {
+              "line": 159,
+              "assertion": "self.assertNotEqual('CLOSED', recovered.current_position_projection.payload['lifecycle_state'])"
+            }
+          ],
+          "asserted_semantics": "Actual partial exposure uses4contract stop; fake triggered-child readback retains child/action fill lineage after POST+3GET,never infers CLOSED."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "All credentials/connections/provider responses are public synthetic fixture inputs; real provider requests0. Partial source adapter evidence, not real deployment or complete production/native qualification.",
+        "Fake connection/code capability only; no real provider-private compatibility/precision/account verification.",
+        "Disjoint signing/translation/protection cases do not establish full joined successful fake-provider entry-to-flat TradeResult lifecycle (legacyH16).",
+        "Full LF/FP scenario applicability and native release qualification remain separate."
+      ],
+      "native_assertion_refs_retained": [],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/owner-temporal-support-fec8af0/S15-lifecycle-trading-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/brokers/okx_production_transport.py",
+          "symbol": "prepare_production_private_request",
+          "definition_lines": [
+            117
+          ]
+        },
+        {
+          "source": "src/brokers/okx_production_transport.py",
+          "symbol": "send",
+          "definition_lines": [
+            148
+          ]
+        },
+        {
+          "source": "src/brokers/okx_product.py",
+          "symbol": "prepare_entry",
+          "definition_lines": [
+            80
+          ]
+        },
+        {
+          "source": "src/brokers/okx_product.py",
+          "symbol": "prepare_close",
+          "definition_lines": [
+            97
+          ]
+        },
+        {
+          "source": "src/brokers/okx_product.py",
+          "symbol": "prepare_protection",
+          "definition_lines": [
+            116
+          ]
+        },
+        {
+          "source": "src/application/trading/service.py",
+          "symbol": "reconcile",
+          "definition_lines": [
+            124
+          ]
+        }
+      ]
+    },
+    {
+      "requirement_id": "TRADE-02",
+      "requirement_text": "Signal/credential/cloud approval cannot bypass E5/runtime/provider authority",
+      "proposed_status": "SOURCE_SUPPORTED",
+      "acceptance_result": "NOT_RUN",
+      "supported_semantics": "FIXTURE cannot compose real provider driver and its constructor reads no vault. Fixture permission denies production and opaque verification permit rechecks owners. Validated string credential handle returns typed OKXCredentials and missing secrets are rejected. Actual durable claim precedes one fake POST, and current consent/permit are rechecked before effect; same plan ID with changed E5 payload cannot dispatch.",
+      "named_cases": [
+        {
+          "case_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+          "source": "tests/product/test_trading_dispatch_v02.py",
+          "method": "test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+          "historical_execution_instance_id": "032:0169:test_trading_dispatch_v02.TradingDispatchV02Tests.test_fixture_cannot_compose_real_driver_and_constructor_reads_no_vault",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 194,
+          "assertion_locations": [
+            {
+              "line": 201,
+              "assertion": "with self.assertRaises(ValueError):"
+            },
+            {
+              "line": 204,
+              "assertion": "self.assertEqual([],reads)"
+            }
+          ],
+          "asserted_semantics": "FIXTURE TradingService rejects production driver; provider constructor makes0 synthetic vault reads."
+        },
+        {
+          "case_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+          "source": "tests/product/test_trading_dispatch_v02.py",
+          "method": "test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+          "historical_execution_instance_id": "032:0164:test_trading_dispatch_v02.TradingDispatchV02Tests.test_actual_owners_commit_claim_before_one_post_and_publish_only_pending_ack",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 161,
+          "assertion_locations": [
+            {
+              "line": 164,
+              "assertion": "self.assertEqual('ACK_PENDING', outcome.status)"
+            },
+            {
+              "line": 165,
+              "assertion": "self.assertEqual(['POST'], [call['method'] for call in provider.calls])"
+            },
+            {
+              "line": 167,
+              "assertion": "self.assertEqual('READBACK_REQUIRED', operation.recovery_disposition)"
+            },
+            {
+              "line": 169,
+              "assertion": "self.assertEqual('PENDING', recovered.current_order_results[0].payload['order_status'])"
+            },
+            {
+              "line": 170,
+              "assertion": "self.assertEqual('0', recovered.current_order_results[0].payload['filled_quantity'])"
+            },
+            {
+              "line": 171,
+              "assertion": "self.assertEqual((), recovered.fills)"
+            },
+            {
+              "line": 172,
+              "assertion": "self.assertEqual((), self.dispatch.pending_publications('fixture-run'))"
+            }
+          ],
+          "asserted_semantics": "Actual durable READBACK_REQUIRED claim precedes one fake POST; pending ACK means0filled/no invented fills."
+        },
+        {
+          "case_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_current_consent_is_rechecked_after_durable_claim_before_provider_effect",
+          "source": "tests/product/test_trading_dispatch_v02.py",
+          "method": "test_current_consent_is_rechecked_after_durable_claim_before_provider_effect",
+          "historical_execution_instance_id": "032:0166:test_trading_dispatch_v02.TradingDispatchV02Tests.test_current_consent_is_rechecked_after_durable_claim_before_provider_effect",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 243,
+          "assertion_locations": [
+            {
+              "line": 251,
+              "assertion": "with patch.object(self.dispatch, 'claim_dispatch', side_effect=revoke), self.assertRaises(ValueError):"
+            },
+            {
+              "line": 253,
+              "assertion": "self.assertEqual([], provider.calls)"
+            },
+            {
+              "line": 254,
+              "assertion": "self.assertEqual('DISPATCHING', self.dispatch.operation('fixture-run', self.prepared.canonical_request.order_request_id).status)"
+            }
+          ],
+          "asserted_semantics": "Revocation after durable claim prevents all fake provider calls and preserves DISPATCHING uncertainty."
+        },
+        {
+          "case_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_permit_expiring_inside_final_provider_guard_cannot_reach_post",
+          "source": "tests/product/test_trading_dispatch_v02.py",
+          "method": "test_permit_expiring_inside_final_provider_guard_cannot_reach_post",
+          "historical_execution_instance_id": "032:0173:test_trading_dispatch_v02.TradingDispatchV02Tests.test_permit_expiring_inside_final_provider_guard_cannot_reach_post",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 256,
+          "assertion_locations": [
+            {
+              "line": 263,
+              "assertion": "with patch.object(self.dispatch,'iter_claimed_entries_for_account',side_effect=slow_last_read),self.assertRaises(RuntimeAdmissionError):"
+            },
+            {
+              "line": 265,
+              "assertion": "self.assertEqual(3,len(reads))"
+            },
+            {
+              "line": 266,
+              "assertion": "self.assertEqual([],provider.calls)"
+            },
+            {
+              "line": 267,
+              "assertion": "self.assertEqual('DISPATCHING',self.dispatch.operation('fixture-run',self.prepared.canonical_request.order_request_id).status)"
+            }
+          ],
+          "asserted_semantics": "Permit expires inside final owner read; no fake POST,existing claim remains DISPATCHING."
+        },
+        {
+          "case_id": "tests.product.test_trading_dispatch_v02.TradingDispatchV02Tests.test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch",
+          "source": "tests/product/test_trading_dispatch_v02.py",
+          "method": "test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch",
+          "historical_execution_instance_id": "032:0175:test_trading_dispatch_v02.TradingDispatchV02Tests.test_same_plan_id_with_different_exact_e5_payload_cannot_dispatch",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 269,
+          "assertion_locations": [
+            {
+              "line": 273,
+              "assertion": "with self.assertRaises(ValueError): service.execute(prepared, expected_revision=self.fixture.revision)"
+            },
+            {
+              "line": 274,
+              "assertion": "self.assertEqual([], provider.calls)"
+            },
+            {
+              "line": 275,
+              "assertion": "self.assertIsNone(self.dispatch.operation('fixture-run', prepared.canonical_request.order_request_id))"
+            }
+          ],
+          "asserted_semantics": "Changed quantity under same exact E5 plan denies before calls/operation creation."
+        },
+        {
+          "case_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners",
+          "source": "tests/product/test_live_admission_v02.py",
+          "method": "test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners",
+          "historical_execution_instance_id": "032:0062:test_live_admission_v02.LiveAdmissionV02Tests.test_fixture_permission_never_authorizes_production_and_opaque_verification_permit_rechecks_current_owners",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 81,
+          "assertion_locations": [
+            {
+              "line": 84,
+              "assertion": "self.assertFalse(denied.allowed);self.assertIn('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN',denied.reason_codes)"
+            },
+            {
+              "line": 86,
+              "assertion": "self.assertNotIn('nonce',repr(permit));admission.require(permit,identity=self.identity,permission='NEW_EXPOSURE',execution='FAKE_PROVIDER_VERIFICATION')"
+            },
+            {
+              "line": 87,
+              "assertion": "with self.assertRaises(api.RuntimeAdmissionError):admission.require({'allowed':True},identity=self.identity,permission='NEW_EXPOSURE',execution='FAKE_PROVIDER_VERIFICATION')"
+            },
+            {
+              "line": 88,
+              "assertion": "with self.assertRaises(api.RuntimeAdmissionError):admission.require(permit,identity=self.identity,permission='NEW_EXPOSURE',execution='PRODUCTION')"
+            },
+            {
+              "line": 90,
+              "assertion": "with self.assertRaises(api.RuntimeAdmissionError):admission.require(permit,identity=self.identity,permission='NEW_EXPOSURE',execution='FAKE_PROVIDER_VERIFICATION')"
+            }
+          ],
+          "asserted_semantics": "FIXTURE denies PRODUCTION; opaque fake permit cannot be dict,cross-production or reused after revocation."
+        },
+        {
+          "case_id": "tests.product.test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority",
+          "source": "tests/product/test_live_admission_v02.py",
+          "method": "test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority",
+          "historical_execution_instance_id": "032:0065:test_live_admission_v02.LiveAdmissionV02Tests.test_revocation_or_expiry_denies_new_exposure_but_retains_exact_existing_management_authority",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/032-phase_2-product.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 71,
+          "assertion_locations": [
+            {
+              "line": 75,
+              "assertion": "with self.assertRaises(EvidenceGateError):self.permission()"
+            },
+            {
+              "line": 76,
+              "assertion": "management=self.permission('MANAGE_EXISTING');self.assertEqual('MANAGE_EXISTING',management.permission)"
+            },
+            {
+              "line": 78,
+              "assertion": "with self.assertRaises(EvidenceGateError):self.permission()"
+            },
+            {
+              "line": 79,
+              "assertion": "self.assertEqual(management.approval_record_id,self.permission('MANAGE_EXISTING').approval_record_id)"
+            }
+          ],
+          "asserted_semantics": "Revocation/expiry denies NEW_EXPOSURE but original approval remains for MANAGE_EXISTING."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback",
+          "source": "tests/brokers/test_okx_production_transport.py",
+          "method": "test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback",
+          "historical_execution_instance_id": "023:0116:test_okx_production_transport.OKXProductionTransportTests.test_local_credentials_require_trusted_handle_and_never_env_or_file_fallback",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 84,
+          "assertion_locations": [
+            {
+              "line": 88,
+              "assertion": "with self.assertRaises(api.OKXProductionTransportError):provider.load('../outside')"
+            },
+            {
+              "line": 89,
+              "assertion": "self.assertEqual([],requested)"
+            },
+            {
+              "line": 90,
+              "assertion": "value=provider.load('operator-selected-account');self.assertIsInstance(value,OKXCredentials)"
+            },
+            {
+              "line": 91,
+              "assertion": "self.assertEqual([('r7.okx.operator-selected-account',key) for key in ('api-key','secret-key','passphrase')],requested)"
+            },
+            {
+              "line": 92,
+              "assertion": "for secret in ('synthetic-key','synthetic-secret','synthetic-passphrase'):self.assertNotIn(secret,repr(value))"
+            },
+            {
+              "line": 94,
+              "assertion": "with self.assertRaises(api.OKXProductionTransportError) as caught:failing.load('operator-selected-account')"
+            },
+            {
+              "line": 95,
+              "assertion": "self.assertEqual('LOCAL_PROVIDER_CREDENTIALS_UNAVAILABLE',caught.exception.code)"
+            }
+          ],
+          "asserted_semantics": "Invalid credential handle makes0 synthetic-reader calls; valid handle uses exact secure-reader keys/redacted typed credentials; missing key unavailable."
+        },
+        {
+          "case_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_existing_exposure_pending_orders_and_non_e5_plan_block_entry",
+          "source": "tests/brokers/test_okx_product_translation_v02.py",
+          "method": "test_existing_exposure_pending_orders_and_non_e5_plan_block_entry",
+          "historical_execution_instance_id": "023:0115:test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_existing_exposure_pending_orders_and_non_e5_plan_block_entry",
+          "baseline_log_ref": "artifacts/r7-productization-S14-feedback-cli-qualified-fec8af0/023-phase_2-brokers.log",
+          "evidence_availability": "HISTORICALLY_INDEXED_FEC8AF0;CURRENT_RESULT_NOT_IMPORTED",
+          "definition_line": 62,
+          "assertion_locations": [
+            {
+              "line": 67,
+              "assertion": "with self.assertRaises(ValueError):"
+            },
+            {
+              "line": 69,
+              "assertion": "with self.assertRaises(ValueError):"
+            }
+          ],
+          "asserted_semantics": "Existing exposure,pending order or raw non-E5 intent dictionary blocks entry."
+        },
+        {
+          "source": "tests/brokers/test_okx_product_translation_v02.py",
+          "method": "test_entry_requires_current_issuer_bound_position_and_pending_order_observations",
+          "case_id": "tests.brokers.test_okx_product_translation_v02.OKXProductTranslationV02Tests.test_entry_requires_current_issuer_bound_position_and_pending_order_observations",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 47,
+          "assertion_locations": [
+            {
+              "line": 51,
+              "assertion": "with self.assertRaises(ValueError): self.translator.prepare_entry(**arguments)"
+            },
+            {
+              "line": 53,
+              "assertion": "self.assertTrue(callable(issue),'Missing E4 current prerequisite observation binding')"
+            },
+            {
+              "line": 55,
+              "assertion": "with self.assertRaises(ValueError):"
+            },
+            {
+              "line": 59,
+              "assertion": "with self.subTest(copied=copied),self.assertRaises(ValueError):"
+            }
+          ],
+          "asserted_semantics": "Missing/stale/copied/boolean/caller-PASS prerequisite proof cannot prepare entry."
+        },
+        {
+          "source": "tests/product/test_api_authority.py",
+          "method": "test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+          "case_id": "tests.product.test_api_authority.APIAuthorityTests.test_fixture_approval_and_activation_are_denied_even_after_reauthentication",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 117,
+          "assertion_locations": [
+            {
+              "line": 119,
+              "assertion": "self.assertEqual(self.post('/api/v1/auth/reauthenticate', dict(password=self.password, command_id='reauth-one', expected_revision=1)).status_code, 200)"
+            },
+            {
+              "line": 124,
+              "assertion": "self.assertEqual(response.status_code, 403)"
+            },
+            {
+              "line": 125,
+              "assertion": "self.assertIn('FIXTURE_FINANCIAL_AUTHORITY_FORBIDDEN', response.text)"
+            },
+            {
+              "line": 128,
+              "assertion": "self.assertEqual(activation.status_code, 403)"
+            }
+          ],
+          "asserted_semantics": "Actual FIXTURE API reauthentication does not grant approval/activation:both403."
+        },
+        {
+          "source": "tests/application/test_cloud_intake.py",
+          "method": "test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+          "case_id": "tests.application.test_cloud_intake.CloudIntakeTests.test_bad_paths_unknown_fields_duplicate_keys_and_secrets_block_without_echo",
+          "historical_execution_instance_id": null,
+          "baseline_log_ref": null,
+          "evidence_availability": "STATIC_NAMED_ASSERTION_ONLY;EXECUTION_NOT_INFERRED",
+          "definition_line": 65,
+          "assertion_locations": [
+            {
+              "line": 73,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 75,
+              "assertion": "self.assertEqual(\"BLOCKED\", caught.exception.code)"
+            },
+            {
+              "line": 76,
+              "assertion": "self.assertNotIn(\"SYNTHETIC_DO_NOT_ECHO\", str(caught.exception))"
+            },
+            {
+              "line": 78,
+              "assertion": "with self.assertRaises(protocol.CloudError) as caught:"
+            },
+            {
+              "line": 80,
+              "assertion": "self.assertEqual(\"BLOCKED\", caught.exception.code)"
+            }
+          ],
+          "asserted_semantics": "Cloud package secret/PASS/unknown authority fields BLOCKED,not imported as owner evidence."
+        }
+      ],
+      "concrete_uncovered_clauses_or_scope_limits": [
+        "No actual credential access, cloud approval enrollment, provider effect or financial authority. Runtime preflight facts in owner fixture are synthetic; real current native authority remains pending.",
+        "Accepted runtime/preflight/account/consent values come from synthetic FIXTURE owners; no real human/provider/capital authority.",
+        "Cloud PASS field rejection and fixture API approval denial are separate negatives,not a joined malicious cloud approval-to-production-post E2E.",
+        "Secure-reader callback is synthetic; no real credentials or provider verification."
+      ],
+      "native_assertion_refs_retained": [
+        {
+          "group": "PQR-06",
+          "assertion": "NO_CALLER_PASS_CODE_GENERATION_FINANCIAL_AUTHORITY",
+          "definition_ref": "src/application/paper/inventory.py::NATIVE_ASSERTIONS",
+          "tool_ref": "tools/verify_paper_security.py::NativeSecurityFlow",
+          "semantic_scope": "Strict DTO denies caller qualification/code/generation/namespace/financial authority; FIXTURE financial action denied",
+          "evidence_state": "CURRENT_WINDOWS_REVIEW_PENDING;NO_REQUIREMENT_RESULT_INFERRED"
+        }
+      ],
+      "native_result": "NOT_EXECUTED_OR_IMPORTED",
+      "baseline_support_ref": "status/codex/productization/S15/owner-temporal-support-fec8af0/S15-lifecycle-trading-support-draft-fec8af0.json",
+      "implementation_coordinates": [
+        {
+          "source": "src/application/trading/admission.py",
+          "symbol": "evaluate",
+          "definition_lines": [
+            45
+          ]
+        },
+        {
+          "source": "src/application/trading/admission.py",
+          "symbol": "require_fresh",
+          "definition_lines": [
+            79
+          ]
+        },
+        {
+          "source": "src/application/trading/guards.py",
+          "symbol": "require",
+          "definition_lines": [
+            25
+          ]
+        },
+        {
+          "source": "src/application/trading/provider.py",
+          "symbol": "request",
+          "definition_lines": [
+            37,
+            61
+          ]
+        },
+        {
+          "source": "src/brokers/okx_production_transport.py",
+          "symbol": "load",
+          "definition_lines": [
+            47
+          ]
+        }
+      ]
+    }
+  ],
+  "requirement_pass_claims": 0,
+  "verification": {
+    "mode": "STATIC_SOURCE_ASSERTIONS_ONLY",
+    "tests_run": [],
+    "builds_run": [],
+    "native_commands_run": [],
+    "network_calls": 0,
+    "db_reads": 0,
+    "evidence_contents_read": 0,
+    "source_changes": [],
+    "antigravity": "NOT_USED;TRUST_DENIED"
+  },
+  "reviewed_test_source_hashes": [
+    {
+      "path": "tests/application/test_authoring_roundtrip.py",
+      "sha256": "sha256:6382db14665da62c20af34f8764d14366c8e53763db1c17a51cf7e9851de55b9"
+    },
+    {
+      "path": "tests/application/test_claim_recovery.py",
+      "sha256": "sha256:5cafab1582edf257fa5339c58c592406b652bbdaf23540df367744f2ea9bbb13"
+    },
+    {
+      "path": "tests/application/test_cloud_bridge.py",
+      "sha256": "sha256:84a9021e1d05bcd304c8c627715dd9396075a10cc65df02401b0ebbc4cd31c47"
+    },
+    {
+      "path": "tests/application/test_cloud_intake.py",
+      "sha256": "sha256:422ff5bd623ab2369e3d8a8f12d8ce0b879f2b6a273c57f4a1e67d68ef79dc5a"
+    },
+    {
+      "path": "tests/application/test_feedback_redaction.py",
+      "sha256": "sha256:eaecb20a7fcc1f9c6e4852d06e6b9a42cfe4ffd3c622c57039de96908d16a0c2"
+    },
+    {
+      "path": "tests/application/test_outbox.py",
+      "sha256": "sha256:f5703a6e01085dede51c2c44f75ea6a51ddbb0ba0a4bfec0ba0763c9e722b1ef"
+    },
+    {
+      "path": "tests/brokers/test_okx_product_protection_v02.py",
+      "sha256": "sha256:09cf2d745e9f0b994e9317b1aeaf0b1969f5b892bff6ef512170d1bb6130c95c"
+    },
+    {
+      "path": "tests/brokers/test_okx_product_translation_v02.py",
+      "sha256": "sha256:a351b7097d077984e73159af30f408b08e20ee3ad352e8a0e94620cc73b241a7"
+    },
+    {
+      "path": "tests/brokers/test_okx_production_transport.py",
+      "sha256": "sha256:a0a8f58341ef1e5de8bdb047b8b15684b265583ee1b2017bf322906b4088ed38"
+    },
+    {
+      "path": "tests/product/test_api_authority.py",
+      "sha256": "sha256:228cb04e124ea61e43e2d580af9a468d532e46848b180fbdcaa6c883deb2387c"
+    },
+    {
+      "path": "tests/product/test_live_admission_v02.py",
+      "sha256": "sha256:343da23a9f97cb2baed1043cc8af95577ce1c95574d84dfaa51bac26dcd8e9ba"
+    },
+    {
+      "path": "tests/product/test_trading_dispatch_v02.py",
+      "sha256": "sha256:f2fb4dc99b0d876235a3154c7e7a8fff60c7b3f0babe1f495f5866c1d6c2a724"
+    }
+  ],
+  "implementation_source_hashes": [
+    {
+      "path": "src/application/cloud/authoring.py",
+      "sha256": "sha256:b4ef2eadda4cb957815893e743bb1215304d8044c4fdeb25ccaaa3b806abc7cb"
+    },
+    {
+      "path": "src/application/cloud/feedback.py",
+      "sha256": "sha256:4e062579355f7e99986c7a50a0579a1328abad49d90fe6ba7ef9b1b0cb716bdd"
+    },
+    {
+      "path": "src/application/cloud/manifest.py",
+      "sha256": "sha256:a63fb5c28d800cc6c8fc3467e583bb314d51c3867d7f241e70e62590cf8f6b5c"
+    },
+    {
+      "path": "src/application/cloud/publisher.py",
+      "sha256": "sha256:eaca1c3123e7b604be10d5f60abb0b7eb6c6ca2140999cd7563a0b16e14d04c1"
+    },
+    {
+      "path": "src/application/cloud/rclone_bridge.py",
+      "sha256": "sha256:7bba1250779afb01ba650aec045b5a89195a782aaf4091464be4f5b66d548ffa"
+    },
+    {
+      "path": "src/application/cloud/synced_folder.py",
+      "sha256": "sha256:2c5719472f0ab335c91ff26da77682e5f1678f4e61cfa88e9ac7057c756f0401"
+    },
+    {
+      "path": "src/application/intake/ledger.py",
+      "sha256": "sha256:7d28c77348c2929fd3f4470074d18a274e32a03bba68708149e9ca5d4dd1682a"
+    },
+    {
+      "path": "src/application/intake/service.py",
+      "sha256": "sha256:71b514c3466eb58e25acf0fd809dc6a66cdd8eec963576335160b529c0af2666"
+    },
+    {
+      "path": "src/application/trading/admission.py",
+      "sha256": "sha256:b5890c1d040c1ca7521f22deb3100be987a7b878a80b6e6be612dce60d9e14d2"
+    },
+    {
+      "path": "src/application/trading/guards.py",
+      "sha256": "sha256:5219df0119a75df44c2a9c61a02f37ff018fab280cd30256d0785635b597d8d0"
+    },
+    {
+      "path": "src/application/trading/provider.py",
+      "sha256": "sha256:3104db3badae3ad51e559f8cfd88054455094e2e1ce39fb4f4e0bb0e1f6c7f0b"
+    },
+    {
+      "path": "src/application/trading/service.py",
+      "sha256": "sha256:11dad6fb9e1b98d00485724cabd144340fb60dc512a395bc1d9656059b7fecd4"
+    },
+    {
+      "path": "src/brokers/okx_product.py",
+      "sha256": "sha256:3d5cda09463e72819d05421046deeaaac8620755aa856ec5aaeb1c2c14aab7aa"
+    },
+    {
+      "path": "src/brokers/okx_production_transport.py",
+      "sha256": "sha256:bd9b172c63e9e51c78109709506fa70a6d9bd06e55b1913c68ddd4e49b81f7ce"
+    }
+  ],
+  "explicit_external_boundaries": [
+    "Real cloud commissioning NOT_RUN;local fake peer byte ACK is distinct.",
+    "Both Ubuntu target execution remains separately NOT_RUN.",
+    "Real private-provider compatibility verification NOT_RUN; fake signing/account responses are implementation fixtures.",
+    "Financial/capital/LIVE authorization NONE; actual credentials and provider mutation not exercised.",
+    "All SOURCE_SUPPORTED labels denote source semantic support,not a current requirement PASS; root must apply actual exact-subject execution.",
+    "No Antigravity delegation or trust of its workspace."
+  ],
+  "unmapped_requirement_ids": [],
+  "concrete_uncertainty_requirement_ids": [
+    "CLOUD-02",
+    "CLOUD-03",
+    "CLOUD-05",
+    "CLOUD-08",
+    "CLOUD-09",
+    "CLOUD-10",
+    "TRADE-01",
+    "TRADE-02"
+  ]
+}

@@ -129,6 +129,24 @@ class PublishedPrefixes:
             ORDER BY o.base_revision,o.operation_id LIMIT 2''',(context['run_id'],context['revision'])).fetchall()
         return tuple(row['operation_id'] for row in rows)
 
+    def current_context(self,run_id):
+        """Bounded current facts only; never a complete-history audit proof."""
+        context=self.audit_start(run_id)
+        if context is None:return None
+        tip=self.db.execute('SELECT * FROM paper_process_published_prefixes WHERE run_id=? ORDER BY revision DESC LIMIT 1',
+            (run_id,)).fetchone()
+        if tip is None:_invalid()
+        if tip['revision']==0:return context
+        previous=self.db.execute('SELECT prefix_hash FROM paper_process_published_prefixes WHERE run_id=? AND revision=?',
+            (run_id,tip['revision']-1)).fetchone()
+        operation=self.journal.operation(run_id,tip['operation_id'])
+        if (previous is None or operation is None or operation.status!='PUBLISHED'
+                or operation.checkpoint_revision!=tip['revision']):_invalid()
+        wanted=self._record(operation,previous['prefix_hash'])
+        if tuple(tip)!=wanted:_invalid()
+        context.update(revision=tip['revision'],prefix_hash=tip['prefix_hash'])
+        return context
+
     def audit_finish(self,context,pending,checkpoint_revision):
         if context is None:return
         count=self.db.execute('SELECT count(*) FROM paper_process_published_prefixes WHERE run_id=?',(context['run_id'],)).fetchone()[0]

@@ -8,7 +8,7 @@ No recovered state, receipt or process generation grants entry permission.
 from __future__ import annotations
 
 from contextlib import contextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass,field
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -190,6 +190,12 @@ class PaperProcessRecovery:
     def binding(self): return json.loads(self.binding_json)
     @property
     def state(self): return json.loads(self.state_json)
+
+
+@dataclass(frozen=True)
+class PaperCurrentRecovery(PaperProcessRecovery):
+    """Management facts only. No historical-audit or new-entry permission."""
+    history_verification:str=field(default='CURRENT_FACTS_ONLY',init=False)
 
 
 class PaperProcessJournal:
@@ -444,6 +450,36 @@ class PaperProcessJournal:
     def audit_full(self,run_id):
         """Independent complete history validation; never an entry permission."""
         return self.recover(run_id)
+
+    def recover_current(self,run_id):
+        """Bounded marked-profile management snapshot, explicitly NOT full audit.
+
+        Nothing currently switches an ordinary owner to this path. A separate
+        instance-owned audit/entry gate must exist before product integration.
+        """
+        own_read=not self._db.in_transaction
+        if own_read:self._db.execute('BEGIN')
+        try:
+            run=self._run(run_id);checkpoint=self._checkpoint(run_id)
+            context=self._prefixes.current_context(run_id)
+            if context is None:_invalid('Bounded Paper recovery requires a marked published-prefix profile')
+            pending=self._prefixes.indexed_pending(context)
+            if len(pending)>1:_invalid('Current Paper tail contains multiple unfinished operations')
+            prepared=False;expected=context['revision']
+            for operation_id in pending:
+                operation=self.operation(run_id,operation_id)
+                if (operation is None or operation.base_revision!=context['revision']
+                        or operation.status not in ('PREPARED','APPLIED')):_invalid('Current Paper tail lineage invalid')
+                prepared=operation.status=='PREPARED'
+                if not prepared:expected+=1
+            if checkpoint['revision']!=expected:_invalid('Current Paper checkpoint differs from published/unfinished tail')
+            generation=self._db.execute('SELECT COALESCE(MAX(generation),0) FROM paper_process_generations WHERE run_id=?',(run_id,)).fetchone()[0]
+            status='PREPARED_PENDING' if prepared else 'PUBLICATION_PENDING' if pending else 'RECONCILIATION_REQUIRED'
+            result=PaperCurrentRecovery(run_id,run['binding_json'],checkpoint['revision'],checkpoint['state_json'],status,pending,generation)
+        finally:
+            if own_read:self._db.rollback()
+        if own_read:_state(result.state)
+        return result
 
 
 def open_paper_process_journal(path: str | Path, *, require_existing: bool = False) -> PaperProcessJournal:

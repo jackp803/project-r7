@@ -1,3 +1,25 @@
+# Approved E6 D current-facts component passes; finish private audit/gates — 2026-10-21
+
+Explicit recover_current and immutable CURRENT_FACTS_ONLY result implemented for
+marked runs. One snapshot, actual latest published operation/prefix, bounded codec
+chain and unfinished tail; E4 validation after snapshot. No old-operation scan.
+Current/ancient corruption distinction and concurrent actual append tested.
+53focused/277storage PASS. Source only, no ordinary integration/entry permission.
+
+D REMAINS IN_PROGRESS: implement private non-importable instance-owned historical
+audit progress/proof, SQLite schema/data_version/unknown own-write invalidation,
+bounded audit batches after protection, trusted same-connection canonical seam
+without transaction/close/financial guard changes, entry/healthy gates and control
+truthful pending status. Then E whole-product capacity/resource/backup and exact
+new Windows qualification. Ordinary storage remains legacy by default.
+Old corrupted history may allow only tagged current management facts; it must
+invalidate/reject full audit and NEVER inherit cached entry eligibility.
+Original E6 scope explicitly approved; continue inline without another Task ask.
+Public20/19 unchanged; private0/capitalNONE; ordinary observation NOT_STARTED.
+Evidence: S16/recorded-funding-implementation-20261021/e6-current-recovery/disposition.json
+
+---
+
 # Approved E6 subplan C component passes; continue bounded management D/E — 2026-10-21
 
 Migration0026 immutable new-run prefix marker, published chain and pending-tail

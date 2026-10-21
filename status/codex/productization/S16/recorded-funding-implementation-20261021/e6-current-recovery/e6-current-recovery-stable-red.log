@@ -1,0 +1,83 @@
+test_broker_domain_validation_occurs_after_read_snapshot_is_released (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_broker_domain_validation_occurs_after_read_snapshot_is_released) ... FAIL
+test_codec_only_old_profile_cannot_be_mislabeled_bounded_recovery (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_codec_only_old_profile_cannot_be_mislabeled_bounded_recovery) ... FAIL
+test_concurrent_valid_append_cannot_mix_snapshot_state_and_pending_tail (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_concurrent_valid_append_cannot_mix_snapshot_state_and_pending_tail) ... FAIL
+test_current_facts_do_not_enumerate_old_operations_or_claim_full_history (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_current_facts_do_not_enumerate_old_operations_or_claim_full_history) ... FAIL
+test_current_tip_corruption_and_missing_marked_root_refuse (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_current_tip_corruption_and_missing_marked_root_refuse) ... FAIL
+test_old_corruption_is_not_disguised_as_full_audit_by_valid_current_facts (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_old_corruption_is_not_disguised_as_full_audit_by_valid_current_facts) ... FAIL
+test_prepared_and_applied_tail_keep_exact_original_pending_identity (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_prepared_and_applied_tail_keep_exact_original_pending_identity) ... FAIL
+
+======================================================================
+FAIL: test_broker_domain_validation_occurs_after_read_snapshot_is_released (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_broker_domain_validation_occurs_after_read_snapshot_is_released)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 85, in test_broker_domain_validation_occurs_after_read_snapshot_is_released
+    with patch.object(PaperBroker,'from_state',side_effect=validate):self.current()
+                                                                     ^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 19, in current
+    self.assertTrue(callable(getattr(self.journal,'recover_current',None)),
+AssertionError: False is not true : Bounded current E6 management recovery is not implemented
+
+======================================================================
+FAIL: test_codec_only_old_profile_cannot_be_mislabeled_bounded_recovery (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_codec_only_old_profile_cannot_be_mislabeled_bounded_recovery)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 94, in test_codec_only_old_profile_cannot_be_mislabeled_bounded_recovery
+    self.assertTrue(callable(getattr(upgraded,'recover_current',None)),
+AssertionError: False is not true : Bounded current recovery API missing
+
+======================================================================
+FAIL: test_concurrent_valid_append_cannot_mix_snapshot_state_and_pending_tail (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_concurrent_valid_append_cannot_mix_snapshot_state_and_pending_tail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 66, in test_concurrent_valid_append_cannot_mix_snapshot_state_and_pending_tail
+    self.assertTrue(callable(getattr(self.journal._prefixes,'current_context',None)),
+AssertionError: False is not true : Bounded current prefix context is not implemented
+
+======================================================================
+FAIL: test_current_facts_do_not_enumerate_old_operations_or_claim_full_history (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_current_facts_do_not_enumerate_old_operations_or_claim_full_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 28, in test_current_facts_do_not_enumerate_old_operations_or_claim_full_history
+    recovered=self.current()
+              ^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 19, in current
+    self.assertTrue(callable(getattr(self.journal,'recover_current',None)),
+AssertionError: False is not true : Bounded current E6 management recovery is not implemented
+
+======================================================================
+FAIL: test_current_tip_corruption_and_missing_marked_root_refuse (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_current_tip_corruption_and_missing_marked_root_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 59, in test_current_tip_corruption_and_missing_marked_root_refuse
+    with self.assertRaises(RuntimeValidationError):self.current()
+                                                   ^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 19, in current
+    self.assertTrue(callable(getattr(self.journal,'recover_current',None)),
+AssertionError: False is not true : Bounded current E6 management recovery is not implemented
+
+======================================================================
+FAIL: test_old_corruption_is_not_disguised_as_full_audit_by_valid_current_facts (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_old_corruption_is_not_disguised_as_full_audit_by_valid_current_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 52, in test_old_corruption_is_not_disguised_as_full_audit_by_valid_current_facts
+    current=self.current();self.assertEqual(current.history_verification,'CURRENT_FACTS_ONLY')
+            ^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 19, in current
+    self.assertTrue(callable(getattr(self.journal,'recover_current',None)),
+AssertionError: False is not true : Bounded current E6 management recovery is not implemented
+
+======================================================================
+FAIL: test_prepared_and_applied_tail_keep_exact_original_pending_identity (tests.storage.test_paper_process_current_recovery.PaperCurrentRecoveryTests.test_prepared_and_applied_tail_keep_exact_original_pending_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 37, in test_prepared_and_applied_tail_keep_exact_original_pending_identity
+    prepared=self.current();self.assertEqual(prepared.revision,0)
+             ^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_process_current_recovery.py", line 19, in current
+    self.assertTrue(callable(getattr(self.journal,'recover_current',None)),
+AssertionError: False is not true : Bounded current E6 management recovery is not implemented
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.786s
+
+FAILED (failures=7)

@@ -1,0 +1,36 @@
+
+Running 1 test using 1 worker
+
+
+
+(node:95980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[1/1] qa\recorded-funding.case.ts:39:1 › controlled LOCAL history eligibility stays pending without owner proof
+  1) qa\recorded-funding.case.ts:39:1 › controlled LOCAL history eligibility stays pending without owner proof
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('paper-history')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('paper-history') with timeout 5000ms
+      - waiting for getByTestId('paper-history')
+
+
+      47 |   await page.getByRole('link',{name:'交易',exact:true}).click();
+      48 |   await page.getByRole('button',{name:'查看 PAPER',exact:true}).click();
+    > 49 |   const history=page.getByTestId('paper-history');await expect(history).toBeVisible();
+         |                                                                         ^
+      50 |   await expect(history).toContainText('歷史證據待核驗');
+      51 |   await expect(history).toContainText('暫停新進場');
+      52 |   await expect(history).toContainText('最近觀測');
+        at <PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\ui\qa\recorded-funding.case.ts:49:73
+
+    Error Context: ..\..\..\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\e6-history-browser-red\results\recorded-funding.case.ts-c-4f711-pending-without-owner-proof\error-context.md
+
+
+  1 failed
+    qa\recorded-funding.case.ts:39:1 › controlled LOCAL history eligibility stays pending without owner proof

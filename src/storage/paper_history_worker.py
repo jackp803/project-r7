@@ -7,6 +7,7 @@ Not yet wired into ordinary runtime admission or a protection callback.
 from dataclasses import dataclass,field
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import sys
@@ -43,10 +44,11 @@ class _Session:
 
 
 class OwnedPaperHistoryAudit:
-    def __init__(self,journal):
+    def __init__(self,journal,*,implementation_hash=None):
         if type(journal) is not PaperProcessJournal or journal._background_history is not None:_invalid()
         self.journal=journal;self._thread=threading.get_ident();self._session=None;self._closed=False
-        self._implementation=_revision()
+        if implementation_hash is not None and (type(implementation_hash) is not str or not re.fullmatch('sha256:[0-9a-f]{64}',implementation_hash)):_invalid()
+        self._implementation=_revision() if implementation_hash is None else implementation_hash
         self._last=dict(active=False,reaped=True,status='NOT_STARTED',snapshot_writes=None)
         journal._background_history=self
 
@@ -167,6 +169,13 @@ class OwnedPaperHistoryAudit:
     def summary(self):
         if threading.get_ident()!=self._thread:_invalid()
         return dict(self._last)  # Diagnostic read remains available after close.
+
+    def active_run(self):
+        self._owner();return None if self._session is None else self._session.run_id
+
+    def cancel(self,run_id):
+        self._owner()
+        if self._session is not None and self._session.run_id==run_id:self._session.cancel.set()
 
     def close(self):
         if self._closed:return

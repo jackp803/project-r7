@@ -215,6 +215,36 @@ deadline/process boundary as a hard memory ceiling. Actual runtime scheduling,
 current-reader switch, entry/healthy gates, truthful UI and whole-product capacity
 remain required before ordinary encoded-profile rollout or real observation.
 
+### D actual runtime and byte-cache refinement
+
+Normal management now selects current facts only for immutable prefix-profile
+runs; legacy reads retain complete historical validation. Entry proposals and
+first fills require the exact live E6 instance's history readiness. The same
+private requirement gates healthy-forward credit and assessment. Original
+protection, exit and funding finalization are independent of that readiness.
+An old checkpoint's recorded VERIFIED label is diagnostic only; successors must
+earn their own proof. Current management for all attached runs precedes one
+background audit scheduling/poll hook. Release of a quiescent runtime forgets its
+private proof and cancels only its own pending audit without blocking protection.
+Control/UI expose last-known observations and owner-revalidation requirement;
+there is no serialized readiness input or Control Center authority shortcut.
+
+Actual200bar4h growth found repeated bounded-chain decoding still breached1s
+(121operations,3.650s last measured tick). Add a strictly bounded in-memory cache
+of independently decoded immutable logical bytes:4rows/64MiB globally per journal.
+Unknown own/external/main-or-TEMP schema mutation invalidates the entire cache.
+Only the existing closed E6 writer observer may carry its byte epoch over actual
+qualified appends, canonical pointer or feedback updates that cannot alter old
+checkpoints. Unexpected trigger DML invalidates even on an allowed table. A cache
+hit never supplies history eligibility; original standalone readers and fresh
+full audits/backup/restore still validate source records. Returned row metadata
+is copied. No persistent cache or imported/restore permission exists.
+
+Measured121operation/200bar diagnostic after this change:0.161s last tick,
+98.4MB peak working set. This is a controlled sample, not a30day resource/native
+PASS. Complete256bar/multiframe/prolonged holding, keyframe boundary, restart,
+contention, full-volume and backup qualification remain E obligations.
+
 ## D. Acceptance and rollout
 
 Tests first at each boundary: pure codec exact equivalence/hostile shapes and

@@ -19,18 +19,27 @@ from application.control_api.assets import mount_control_center
 from application.control_api.auth import LocalAuth
 from application.control_api.commands import CommandLedger
 from tests.product.test_paper_recorded_funding import PaperRecordedFundingTests,floor
+from tests.product.test_paper_encoded_checkpoint_consumers import EncodedRecordedFundingRegressionTests,encoded_create
+from storage.paper_process import PaperProcessJournal
+from unittest.mock import patch
 import uvicorn
 
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--profile',choices=('pending','finalized'),required=True)
+    parser.add_argument('--profile',choices=('pending','finalized','history-pending'),required=True)
     parser.add_argument('--port',type=int,required=True);args=parser.parse_args()
     scratch=Path(os.environ['R7_BROWSER_SCRATCH_ROOT'])/args.profile
     scratch.mkdir(parents=True,exist_ok=True);tempfile.tempdir=str(scratch)
-    fixture=PaperRecordedFundingTests()
+    fixture=PaperRecordedFundingTests() if args.profile=='history-pending' else EncodedRecordedFundingRegressionTests()
     try:
-        fixture.close_pending(instance_id='recorded-browser-'+args.profile)
+        if args.profile=='history-pending':
+            with patch.object(PaperProcessJournal,'create_run',new=encoded_create(PaperProcessJournal.create_run)):
+                fixture.prepare(instance_id='recorded-browser-'+args.profile)
+            outcome=fixture.runtime.on_market_event(fixture.event(0,bars=True))
+            if outcome.status!='BLOCKED' or 'HISTORY_AUDIT_REQUIRED' not in outcome.reason_codes:
+                raise RuntimeError('Actual unaudited owner must refuse entry')
+        else:fixture.close_pending(instance_id='recorded-browser-'+args.profile)
         if args.profile=='finalized':
             fixture.clock[0]=floor(fixture.initial)+timedelta(hours=8,seconds=2)
             fixture.observe(fixture.clock[0])

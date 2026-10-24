@@ -5,6 +5,7 @@ fixture. Native diagnostic methods are unit-tested, not executable qualification
 """
 import json
 import hashlib
+import time
 import unittest
 from unittest.mock import patch
 
@@ -25,9 +26,8 @@ def encoded_create(original):
 
 class EncodedCheckpointConsumerTests(unittest.TestCase):
     def setUp(self):
-        self.case=funding_fixture.PaperRecordedFundingTests();self.addCleanup(self.case.doCleanups)
-        original=PaperProcessJournal.create_run
-        with patch.object(PaperProcessJournal,'create_run',new=encoded_create(original)):self.case.close_pending()
+        self.case=EncodedRecordedFundingRegressionTests();self.addCleanup(self.case.doCleanups)
+        self.case.close_pending()
         self.journal=self.case.service.process
         self.outbox=PaperFeedbackOutbox(self.journal)
         self.operation=self.outbox.queue(self.case.runtime)
@@ -91,4 +91,14 @@ class EncodedRecordedFundingRegressionTests(funding_fixture.PaperRecordedFunding
     def prepare(self,**kwargs):
         original=PaperProcessJournal.create_run
         with patch.object(PaperProcessJournal,'create_run',new=encoded_create(original)):
-            return super().prepare(**kwargs)
+            result=super().prepare(**kwargs)
+        # Positive lifecycle tests earn eligibility from the actual owned child,
+        # never a supplied PASS or DB flag. Gate-negative cases live separately.
+        deadline=time.monotonic()+20
+        while time.monotonic()<deadline:
+            self.service.history_audit_after_protection((self.ref.run_id,))
+            if self.service.process.history_audit_ready(self.ref.run_id):return result
+            if self.service.process.history_audit_progress(self.ref.run_id).status=='HISTORY_AUDIT_FAILED':
+                self.fail('Actual E6 owned audit refused positive encoded source fixture')
+            time.sleep(.02)
+        self.fail('Actual E6 owned audit did not finish for positive source fixture')

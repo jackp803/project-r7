@@ -56,7 +56,7 @@ class PaperFeedbackOutbox:
         if type(runtime) is not PaperRuntime or runtime.service.process is not self.journal:
             raise FeedbackError('SAME_ACTUAL_PAPER_FEEDBACK_OWNER_REQUIRED')
         if self.journal._db.in_transaction:raise FeedbackError('PAPER_FEEDBACK_IDLE_OWNER_CONNECTION_REQUIRED')
-        before=self.journal.recover(runtime.run_id)
+        before=self.journal.management_snapshot(runtime.run_id)
         feedback=build_paper_feedback(runtime,performance_opt_in=performance_opt_in)
         if feedback['assessment']['run_revision']!=before.revision or feedback['producer']['process_generation']!=before.process_generation:
             raise FeedbackError('PAPER_FEEDBACK_CHECKPOINT_CHANGED')

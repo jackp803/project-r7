@@ -19,6 +19,7 @@ for(const [index,profile] of ['pending','finalized'].entries()){
     expect(run.funding.status).toBe(profile==='pending'?'FUNDING_PENDING':'FINALIZED');
     expect(run.closed_trades_count).toBe(profile==='pending'?0:1);
     const funding=page.getByTestId('paper-funding');await expect(funding).toBeVisible();
+    await expect(page.getByTestId('paper-history')).toContainText('最近一次觀測已完成核驗');
     await expect(funding).toContainText(run.funding.status);
     await expect(funding).toContainText('並非交易所按結算標記價計算的帳單');
     await expect(funding).toContainText('方向訊號不等於可交易機會');
@@ -34,3 +35,28 @@ for(const [index,profile] of ['pending','finalized'].entries()){
     expect(outside).toEqual([]);
   });
 }
+
+test('controlled LOCAL history eligibility stays pending without owner proof',async({page})=>{
+  const origin='http://127.0.0.1:8782';const outside:string[]=[];
+  page.on('request',request=>{if(!request.url().startsWith(origin+'/'))outside.push(request.url());});
+  await page.goto(origin);
+  await page.getByLabel('帳號',{exact:true}).fill('local-owner');
+  await page.getByLabel('密碼',{exact:true}).fill('explicit-test-only-password-123');
+  await page.getByRole('button',{name:'登入',exact:true}).click();
+  await expect(page.getByRole('heading',{name:'總覽',exact:true})).toBeVisible();
+  await page.getByRole('link',{name:'交易',exact:true}).click();
+  await page.getByRole('button',{name:'查看 PAPER',exact:true}).click();
+  const history=page.getByTestId('paper-history');await expect(history).toBeVisible();
+  await expect(history).toContainText('歷史證據待核驗');
+  await expect(history).toContainText('暫停新進場');
+  await expect(history).toContainText('最近觀測');
+  const response=await page.request.get(origin+'/api/v1/paper/runs');expect(response.status()).toBe(200);
+  const runs=(await response.json()).data.items;expect(runs).toHaveLength(1);
+  const result=await page.request.get(origin+'/api/v1/paper/runs/'+runs[0].run_id);
+  const run=(await result.json()).data.payload;
+  expect(run.position).toBeNull();expect(run.orders_total).toBe(0);
+  expect(run.forward_observations.last_healthy).toBe(false);
+  expect(run.history.current_admission).toBe('OWNER_INSTANCE_REVALIDATION_REQUIRED');
+  await page.screenshot({path:path.join(process.env.R7_BROWSER_ARTIFACT_ROOT!,'controlled-history-pending.png'),fullPage:true});
+  expect(outside).toEqual([]);
+});

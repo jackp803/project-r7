@@ -183,7 +183,7 @@ class NativePaperReleaseReader:
             proofs=registry.list_accepted_paper_starts(limit=200)
             if len(proofs)==200:raise ValueError('ORIGINAL_OWNER_RECOVERY_INVENTORY_LIMIT')
             for proof in proofs:
-                run=json.loads(proof.payload_json)['run_id'];observed=process.recover(run)
+                run=json.loads(proof.payload_json)['run_id'];observed=process.management_snapshot(run)
                 runtime=observed.state['runtime'];position=runtime['position']
                 if not (position is not None and Decimal(position['actual_quantity'])>0 or
                         position is None and runtime['entry_request'] is not None):continue

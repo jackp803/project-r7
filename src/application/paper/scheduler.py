@@ -27,7 +27,7 @@ class PaperScheduler:
         return True
 
     def _deadlines(self, now):
-        state=self.runtime.service.process.recover(self.runtime.run_id).state['runtime']
+        state=self.runtime.service.process.management_snapshot(self.runtime.run_id).state['runtime']
         due=[]
         if state['exit_anchor'] and state['position']['lifecycle_state']!='CLOSED':
             due.append(datetime.fromisoformat(state['exit_anchor']['payload']['hold_deadline'].replace('Z','+00:00')))

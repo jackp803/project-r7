@@ -6,6 +6,7 @@ import json
 import re
 import uuid
 from time import monotonic_ns
+from time import monotonic
 
 from brokers.paper import PaperBroker
 from execution.models import require_utc
@@ -91,6 +92,7 @@ class PaperService:
         self.promotion=parse_paper_promotion_policy(promotion_policy, namespace=namespace)
         self.validity_json=bind_submission_validity(submission_validity, clock())
         self._runtimes={}; self._instance_id='paper-process-'+uuid.uuid4().hex
+        self._history_failures={};self._history_retry_after={}
 
     def _binding(self, strategy):
         if self.strategy_identity is not None and strategy.identity!=self.strategy_identity:
@@ -145,7 +147,7 @@ class PaperService:
             return OwnerEvidence(kind,identity,strategy.content_hash,self.current_release(),canonical(body))
         if kind != 'PAPER_START' or not reference.startswith('paper-start:'):
             raise EvidenceGateError('Actual configured Paper evidence producer required')
-        recovered=self.process.recover(reference[len('paper-start:'):])
+        recovered=self.process.management_snapshot(reference[len('paper-start:'):])
         strategy=self.registry.get_strategy(identity)
         if recovered.binding != self._binding(strategy) or not self.authorized:
             raise EvidenceGateError('Exact current Paper run/source/config/policy required')
@@ -170,6 +172,39 @@ class PaperService:
             result=self.entry_current(run_id)
             return type(result) is bool and result
         except (ValueError,OSError,RuntimeError):return False
+
+    def history_ready(self,run_id):
+        return not self.process.requires_history_audit(run_id) or self.process.history_audit_ready(run_id)
+
+    def history_audit_after_protection(self,run_ids):
+        """One actual owned audit at a time, after all current management work.
+
+        No full audit, stdout wait, result file import or process reap occurs in
+        this callback. A retained failed handle denies successors; shutdown owns
+        bounded reap retries. Failures never interrupt protective management.
+        """
+        if type(run_ids) is not tuple or len(run_ids)>200:raise ValueError('Bounded owning run inventory required')
+        worker=self.process._background_history
+        if worker is not None and worker.active_run() is not None:
+            run=worker.active_run()
+            try:worker.poll(run)
+            except (ValueError,OSError,RuntimeError):self._history_failures[run]='HISTORY_WORKER_RECONCILIATION_REQUIRED'
+            return
+        for run in run_ids:
+            if not self.process.requires_history_audit(run) or self.history_ready(run):continue
+            progress=self.process.history_audit_progress(run)
+            if progress.status=='HISTORY_AUDIT_FAILED':
+                self._history_failures[run]='HISTORY_AUDIT_FAILED';continue
+            if monotonic()<self._history_retry_after.get(run,0):continue
+            try:
+                if worker is None:
+                    from storage.paper_history_worker import OwnedPaperHistoryAudit
+                    worker=OwnedPaperHistoryAudit(self.process,implementation_hash=self.implementation_hash)
+                worker.start(run)
+            except (ValueError,OSError,RuntimeError):
+                self._history_failures[run]='HISTORY_AUDIT_RETRY_REQUIRED';self._history_retry_after[run]=monotonic()+5
+            else:self._history_failures.pop(run,None)
+            break
 
     @property
     def recorded_funding(self):
@@ -204,7 +239,7 @@ class PaperService:
             # This historical composition can manage its accepted run, never
             # start another one or inherit replacement workflow permission.
             selected['workflow_authorized']=False
-            recovered=self.process.recover(run_id)
+            recovered=self.process.management_snapshot(run_id)
             identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
             self._management_services[run_id]=PaperService(registry=self.registry,process_journal=self.process,
                 canonical_journal=self.canonical,namespace=self.namespace,current_release=self.current_release,
@@ -218,7 +253,7 @@ class PaperService:
         management=self._management_service(run_id)
         if management is not self:return management.is_quiescent(run_id)
         from registry import StrategyIdentity
-        recovered=self.process.recover(run_id)
+        recovered=self.process.management_snapshot(run_id)
         identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
         strategy=self.registry.get_strategy(identity)
         if recovered.binding!=self._binding(strategy):
@@ -251,6 +286,8 @@ class PaperService:
             raise EvidenceGateError('Actual quiescent Paper truth required')
         self._runtimes.pop(run_id,None)
         self._management_services.pop(run_id,None)
+        self.process.forget_history_audit(run_id)
+        self._history_failures.pop(run_id,None);self._history_retry_after.pop(run_id,None)
 
     def stop_new_entries(self,run_id,command_id):
         return self.runtime(run_id).coordinator.execute('pause:'+command_id,dict(kind='PAUSE'))
@@ -268,7 +305,7 @@ class PaperRuntime:
     def __init__(self,service,run_id):
         from .engine import PaperEngine
         self.service=service; self.run_id=run_id
-        recovered=service.process.recover(run_id)
+        recovered=service.process.management_snapshot(run_id)
         from registry import StrategyIdentity
         identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
         strategy=service.registry.get_strategy(identity)
@@ -284,13 +321,13 @@ class PaperRuntime:
         self.coordinator=PaperCoordinator(service.process,service.canonical,run_id,generation,
                                           self.engine.produce,clock=service.clock)
         self.coordinator.recover_pending()
-        self.engine.reconcile(service.process.recover(run_id).state,service.canonical)
+        self.engine.reconcile(service.process.management_snapshot(run_id).state,service.canonical)
 
     def on_market_event(self,event):
         if not isinstance(event,PaperMarketEvent): raise ValueError('Actual E1 event required')
         expected_kind='FIXTURE' if self.service.namespace=='FIXTURE' else 'PUBLIC_MARKET'
         if event.source_kind != expected_kind: raise EvidenceGateError('Synthetic/public market namespace mismatch')
-        now=self.service.clock(); cached=self.service.process.recover(self.run_id).state['runtime']['candles']
+        now=self.service.clock(); cached=self.service.process.management_snapshot(self.run_id).state['runtime']['candles']
         for row in event.candles:
             if (row.symbol!=self.engine.strategy.symbol or row.timeframe not in self.engine.strategy.required_timeframes or
                 not row.is_closed or row.close_time>now or row.received_at is None or row.received_at>now):

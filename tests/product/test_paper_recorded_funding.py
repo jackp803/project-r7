@@ -112,7 +112,8 @@ class PaperRecordedFundingTests(unittest.TestCase):
         self.prepare(instance_id=instance_id)
         self.assertEqual(self.selected.selection.as_dict()['simulator_profile']['funding_model'],
             'OKX_PUBLIC_RECORDED_ENTRY_NOTIONAL_V1')
-        self.assertEqual(self.runtime.on_market_event(self.event(0,bars=True)).status,'ACKNOWLEDGED')
+        first=self.runtime.on_market_event(self.event(0,bars=True))
+        self.assertEqual(first.status,'ACKNOWLEDGED',first.reason_codes)
         self.assertEqual(self.runtime.on_market_event(self.event(1)).status,'PROTECTED')
         self.latest[0]=None  # Source fails after exposure; close must continue.
         self.assertEqual(self.runtime.on_market_event(self.event(2,price='60020')).status,'EXIT_REQUESTED')

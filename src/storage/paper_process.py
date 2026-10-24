@@ -8,6 +8,7 @@ No recovered state, receipt or process generation grants entry permission.
 from __future__ import annotations
 
 from contextlib import contextmanager
+from collections import OrderedDict
 from dataclasses import dataclass,field
 from datetime import datetime, timezone
 import hashlib
@@ -29,6 +30,8 @@ from .paper_process_prefix import PublishedPrefixes
 from .paper_history_audit import PaperHistoryAudit
 
 LEGACY_STORAGE_PROFILE='r7-paper-state-json-v0.1'
+_CHECKPOINT_CACHE_MAX_ROWS=4
+_CHECKPOINT_CACHE_MAX_BYTES=64*1024*1024
 
 _HASH = re.compile(r'sha256:[0-9a-f]{64}')
 _BINDING = {'namespace', 'mode', 'strategy_id', 'strategy_version',
@@ -206,6 +209,7 @@ class PaperProcessJournal:
         self._history=PaperHistoryAudit(self)
         self._borrowed_canonical=None
         self._background_history=None
+        self._checkpoint_cache=OrderedDict();self._checkpoint_cache_epoch=None;self._checkpoint_cache_bytes=0
     def close(self):
         if self._background_history is not None:self._background_history.close()
         if self._borrowed_canonical is not None:
@@ -244,7 +248,31 @@ class PaperProcessJournal:
         # Stored states were owner-validated before their write. Under a writer
         # transaction only verify retained bytes; E4 validation runs on recovery
         # after releasing the read snapshot, and on new effects before BEGIN.
-        return read_paper_checkpoint(self._db,run_id,revision)
+        _text(run_id)
+        if revision is not None and (type(revision) is not int or revision<0):_invalid('Explicit checkpoint revision required')
+        if not self._prefixes.enabled(run_id):return read_paper_checkpoint(self._db,run_id,revision)
+        # Verified immutable bytes only, never a history/financial permission.
+        # Unknown own (even rolled-back), external or main/TEMP schema mutation
+        # discards the cache. Only the closed observed E6 writer may extend its
+        # byte epoch across unchanged past rows. Standalone readers are uncached.
+        epoch=self._history._epoch()
+        if self._checkpoint_cache_epoch!=epoch:
+            self._checkpoint_cache.clear();self._checkpoint_cache_bytes=0;self._checkpoint_cache_epoch=epoch
+        if revision is None:
+            latest=self._db.execute('SELECT revision FROM paper_process_checkpoints WHERE run_id=? ORDER BY revision DESC LIMIT 1',(run_id,)).fetchone()
+            if latest is None:_invalid('Paper checkpoint missing')
+            revision=latest['revision']
+        key=(run_id,revision);cached=self._checkpoint_cache.get(key)
+        if cached is not None:
+            self._checkpoint_cache.move_to_end(key);return dict(cached[0])
+        row=read_paper_checkpoint(self._db,run_id,revision)
+        size=sum(len(value.encode('utf-8')) for value in row.values() if type(value) is str)
+        if self._history._epoch()==epoch and size<=_CHECKPOINT_CACHE_MAX_BYTES:
+            while self._checkpoint_cache and (len(self._checkpoint_cache)>=_CHECKPOINT_CACHE_MAX_ROWS or
+                    self._checkpoint_cache_bytes+size>_CHECKPOINT_CACHE_MAX_BYTES):
+                _,(_,removed)=self._checkpoint_cache.popitem(last=False);self._checkpoint_cache_bytes-=removed
+            self._checkpoint_cache[key]=(dict(row),size);self._checkpoint_cache_bytes+=size
+        return row
 
     def _encode_checkpoint(self,raw,*,run_id,revision,previous_raw=None):
         physical=encode_state(raw,run_id=run_id,revision=revision,previous_raw=previous_raw)
@@ -254,6 +282,12 @@ class PaperProcessJournal:
         except ValueError:_invalid('Paper physical encoding failed precommit roundtrip')
         if restored!=raw:_invalid('Paper physical encoding changed logical state')
         return physical
+
+    def _advance_checkpoint_cache(self,before,after):
+        # Only the actual closed E6 writer observer calls this after commit.
+        # Its allowed INSERTs / canonical pointer / feedback updates cannot
+        # modify any already verified checkpoint or original codec ancestor.
+        if self._checkpoint_cache_epoch==before:self._checkpoint_cache_epoch=after
 
     def create_run(self, run_id, binding, initial_state, *, now,storage_profile=None):
         _text(run_id); binding_raw = _binding(binding); state_raw = _state(initial_state); at = _stamp(now)
@@ -506,11 +540,27 @@ class PaperProcessJournal:
     def history_audit_step(self,run_id,*,maximum_rows=32):
         return self._history.step(run_id,maximum_rows=maximum_rows)
 
+    def requires_history_audit(self,run_id):
+        return self._prefixes.enabled(run_id)
+
+    def management_snapshot(self,run_id):
+        """Current management facts for marked runs; retain legacy full checks.
+
+        Callers MUST use private instance history readiness for new-profile
+        entry/healthy/assessment eligibility. This selector grants no permission.
+        """
+        return self.recover_current(run_id) if self.requires_history_audit(run_id) else self.recover(run_id)
+
     def history_audit_ready(self,run_id):
         return self._history.ready(run_id)
 
     def history_audit_progress(self,run_id):
         return self._history.progress(run_id)
+
+    def forget_history_audit(self,run_id):
+        _text(run_id)
+        if self._background_history is not None:self._background_history.cancel(run_id)
+        self._history._states.pop(run_id,None)
 
 
 def open_paper_process_journal(path: str | Path, *, require_existing: bool = False) -> PaperProcessJournal:

@@ -1,0 +1,260 @@
+{
+  "status": "D_FUNCTIONAL_SOURCE_PASS_E_WHOLE_PRODUCT_CAPACITY_AND_NATIVE_REMAIN",
+  "parent_revision": "ffaed7e60613e3efce8dd1109258362278a2562a",
+  "source_hashes": {
+    "src/application/control_api/paper_ports.py": "sha256:1fedb767fbd35e773b4cc8e72c6075dc227f6d2c860da1a3dd7b08c8e69a0750",
+    "src/application/paper/assessment.py": "sha256:2c6aba591657c6773de7e75125ad61b7100833bb905617e230e1e1a46ac9d168",
+    "src/application/paper/engine.py": "sha256:b392592a212deb7783c4db7b3fa97cc3d46f4bc72938314719695fd89da7ddc9",
+    "src/application/paper/orchestrator.py": "sha256:417cb376af849f70993eb5ad350ac73522fcfdc9ea7cd9a26dd16a4435a5dd35",
+    "src/application/paper/owners.py": "sha256:36d00dcd9165a4a839063a4f29c0c856ad626e523435a02adf5c61aec6a06c00",
+    "src/application/paper/public_market.py": "sha256:7aad4c76e180390514b0197fd39ce090f541b2fd9f59aa2b4778d6d44cb5ff6f",
+    "src/application/paper/release.py": "sha256:67dc2cfb96d7d4a78ba94c8fb43b1c848c31a7c41fb936b38f0112031ce12788",
+    "src/application/paper/scheduler.py": "sha256:f024861afe1bc5a3ff84a0df8f82ee4d26c10303a4f78bb176032d4c6f4260ef",
+    "src/application/paper/service.py": "sha256:c8203aa36461d77d93bbe78f23e535d52960c014be2c96344541fc39c2e90309",
+    "src/application/paper/worker.py": "sha256:7268c3eeeb1cfd425e3f5733503b37298f982fd419389feacc2ca21e6cb11a21",
+    "src/storage/paper_feedback.py": "sha256:b1bd76d9f7fc72afeb3c8e11462b8dfeb757c7664e0852ad2b98ec39be1b2ae7",
+    "src/storage/paper_history_audit.py": "sha256:84fbdf21e1c9a6b8979986bb568242e46e0f0db9ed474aa6e7c24bd3e946e183",
+    "src/storage/paper_history_worker.py": "sha256:4c0bd4d9f7897f8b62f5e03d882390ca9e082d702e4e47e0b5103e579f221295",
+    "src/storage/paper_process.py": "sha256:71961031c5c8ce9e6c740814034051e980c91a737d279bf1e42670daa42621b3",
+    "tests/application/test_paper_owner_worker.py": "sha256:0739273fa18c2248526f4399c0a49807169f3f7752db9b588d5ccb9c5da50528",
+    "tests/product/test_paper_encoded_checkpoint_consumers.py": "sha256:ab85942c156f83a8a7141d5ef10150dc80a812d456ef084bb928bf752793d733",
+    "tests/product/test_paper_recorded_funding.py": "sha256:2b6002a6422950ca688adeb943e926ae3b3a822b191b36bc2dcec447a0126667",
+    "tests/product/test_paper_history_gates.py": "sha256:08195871832973f8677d11a5f550226bb5590dfe5ef2a04a4fe5ea967b613fae",
+    "tests/storage/test_paper_checkpoint_cache.py": "sha256:316ada80118393a7deb69708fdbd294dfbc1fdb514df7d0d696c7ef2cb28cd27",
+    "ui/src/App.tsx": "sha256:b91c9e27b9ede61ead30bbcda949bb7cc6eb671738d47d7140eb9800c07f4b1b",
+    "ui/playwright.funding.config.ts": "sha256:da13055d0b304f6826bf4bfd18e0d81290e885f0551fab6c9dc9f96573bc64cf",
+    "ui/qa/recorded-funding.case.ts": "sha256:0543a18a0ead87674898f38e18842801197f65424148169d90f02aaa36580f6a",
+    "ui/qa/serve_recorded_funding.py": "sha256:37561451a8c3b2cba37874818b68f862a8a3d2ae85547e1fe958a41cfc1add91"
+  },
+  "retained": [
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-history-gates-red.log",
+      "sha256": "sha256:4e335f893f83da3731b42b1336a9bfd6fff11d78173d66509eb75f9532536b82",
+      "original_sha256": "sha256:5a51f9a5f1f0e0ebf5197f83b77d4dc61ef7edfe3b22acf149d81d0930c8aa50",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-history-gates-green-first.log",
+      "sha256": "sha256:03240f105ee2437703702cc37a831a4b9eab0b5b6cfaa72be5f85d0548276f2a",
+      "original_sha256": "sha256:bd96fd514dec412a5f9c305e8adb096fa53961bb97eee6199545171216262fa0",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-background-control-red.log",
+      "sha256": "sha256:309a07c7aa5e7d558e64cdc7d291f977786a19ed5a1fe54a2ffd5239e05ecf2b",
+      "original_sha256": "sha256:009e6069147828620bf239850c87c90eb3eb4a4326cf2f71e7580656923bd024",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-background-control-green.log",
+      "sha256": "sha256:3aaa7132817a90b39bc56328690f69ac32feb56c1f5a6ca6baa9b2aeccc89452",
+      "original_sha256": "sha256:6bbf2aa48737ba51a3063f6e20f89b9143a3c741ef60d56ba2d6efee2b163d3d",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-successor-gates.log",
+      "sha256": "sha256:2b4516dd65ba054385ef8c2d8109b1031bb68b1482dc98ca3adc9084eec4c19b",
+      "original_sha256": "sha256:b2eb9b7309595c1b7ecbabe1ceb5d6c1adfc771cca1bcd93b968c5393fea5e28",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-owner-funding-control-regression.log",
+      "sha256": "sha256:9c6a382bced50ce617b0c801fabc0fa49cd051ff1647f580a336688d4d0627f0",
+      "original_sha256": "sha256:53c3ec0d3473f747506531318ba8b34d8ecb076c8a95b62624e95b5a14fa751e",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-owner-funding-control-regression-v2.log",
+      "sha256": "sha256:3af63e15d1048bb57272f3355d132cad50ee7a7a44770aa7740ab39c08451077",
+      "original_sha256": "sha256:234501d0ff105497f42ab241c5954735720c9a3ab2b026fe7d227433f843bdec",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-flat-pending-diagnostic.log",
+      "sha256": "sha256:f537ecceba4bc9751e20fdcc3aeb6b379046c73383e3fbfbb9463fbf96eef21c",
+      "original_sha256": "sha256:efcdf885c2fae4bfc86fa5a50893db22161340d11e7ef821fe8d1b7d95b3d6a6",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-flat-pending-repeat-diagnostic.log",
+      "sha256": "sha256:61ea468db321f3fa096002f132b9404ddb4575214ae601f971bb60844a2da418",
+      "original_sha256": "sha256:a76ae0b2f4450fe704b94028e32a3ae0c6f94849b6530d8386601a6b2c3ef52c",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-checkpoint-cache-red.log",
+      "sha256": "sha256:3c479427b0405b127feb42658c79937e348adc66a0b87f6273217b04ad883015",
+      "original_sha256": "sha256:a14f45514421ba0ca901eb0f1e793b70a581432f879344450daf628fbb58344a",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-checkpoint-cache-green.log",
+      "sha256": "sha256:a1f2bd49fa6ec1ce6cc9a0ab7786bec6ac1f1c8e6ef671f43ed567aa9b2239b7",
+      "original_sha256": "sha256:ddc52b0bf64b3c180a13bf7f89a58d1f7edae7e01eab63124498809613d52a4a",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-cache-owned-extension-red.log",
+      "sha256": "sha256:35bc5ed5da123e17da2f2f97ea930bfe128083fdce086066f4ee958a87a6144f",
+      "original_sha256": "sha256:543aadda16df9b1ba675e79a976d25e4ec309e0f17516ea94cfce7fc9cbabc5b",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-cache-owned-extension-green.log",
+      "sha256": "sha256:e4493d034b6ec97b0e94097f8d868e17795e0734406ea5efaba42656c7a8f776",
+      "original_sha256": "sha256:6d13e5fc5dda0550d17c1f86ae7c5be4a186b2bd37cbc1ca297a9772969f4797",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-cache-full-storage.log",
+      "sha256": "sha256:071d35b50cd3148f35874386428384cd9fa9a1756219cdc70c6fa0af7c742f47",
+      "original_sha256": "sha256:b5ef46289d47a55001c4b71522d2da2d2869759728db04f326777da36de6c98d",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-runtime-final-encoded-owner-scope.log",
+      "sha256": "sha256:f8820e30a67e1fe560fcf471ce4c8dacc919f537a48b1f1b1feba64cb3becadf",
+      "original_sha256": "sha256:0caa933d3eaf0e9b3e4f4835fe908896f770d7f9f0eee4e96f9e4aabd251196c",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-history-browser-red.log",
+      "sha256": "sha256:076bd248b5ae79740e36d79b39e303e37326bda7785ab8753b73f986c2eef0a5",
+      "original_sha256": "sha256:d0e9ecd83a873ce72d68ece0835455fe9facd91cc5872e936fe17795c7f28195",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-history-browser-green.log",
+      "sha256": "sha256:4988ff5afa6f2ccdbfc0e548d69f8b5ad31604b995c7853277320167172a2f9c",
+      "original_sha256": "sha256:234def899471a7cc8f0deeedad0e15733cef44c31b4155b47dbabc0b6e435559",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-encoded-current-growth.log",
+      "sha256": "sha256:7cdaa9b301cf58b734ac1d34d6f69c7e7aba179b2f9ecf86f0dca1fb25a8efb5",
+      "original_sha256": "sha256:6d7e25e56f0ea697910223a1adb6f38dc8da396d5a19b3d966487efc0b74df06",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-encoded-cached-growth.log",
+      "sha256": "sha256:a852b9e99153149d6f556557f832f5a2470982a7a4203d3827f57fcd648c71b0",
+      "original_sha256": "sha256:431cb093778edb803e9ee949519f491282c544f8ba39399329d29c387cda56b7",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/e6-owned-cached-growth.log",
+      "sha256": "sha256:21fa42b2f9f3521c6c68b0851f89738b148f1c16832f2c6007afdd53e58a89c4",
+      "original_sha256": "sha256:ed0071f1a3bc1518705cec562d5ac08d06a75d475526980d1249478d4cd924c5",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/pre-cache-growth.json",
+      "sha256": "sha256:4a1613221b2d1847a2a39d233170f3032a91427c63a9de3e247644457942d615",
+      "original_sha256": "sha256:4a1613221b2d1847a2a39d233170f3032a91427c63a9de3e247644457942d615",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/epoch-cache-growth.json",
+      "sha256": "sha256:5b3af0d0b038859795b7ae06cd4f7bb8e28d03ce409ada17260fce8e8ce17c8c",
+      "original_sha256": "sha256:5b3af0d0b038859795b7ae06cd4f7bb8e28d03ce409ada17260fce8e8ce17c8c",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/owned-cache-growth.json",
+      "sha256": "sha256:c0c0869c18eec51da529efbd127ea0d11873b0f4e8549d78cbe7496f959bd508",
+      "original_sha256": "sha256:c0c0869c18eec51da529efbd127ea0d11873b0f4e8549d78cbe7496f959bd508",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/controlled-pending.png",
+      "sha256": "sha256:36b022305fcb1ed0bd6e8698a777add83d7ba09d14155d1f657abf36289627a7",
+      "original_sha256": "sha256:36b022305fcb1ed0bd6e8698a777add83d7ba09d14155d1f657abf36289627a7",
+      "normalization": "EXACT_BYTES"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/controlled-finalized.png",
+      "sha256": "sha256:c3cda5520c1040b874f906c4d7aba19e0eb1d43ae101e24400545ccaff4ea480",
+      "original_sha256": "sha256:c3cda5520c1040b874f906c4d7aba19e0eb1d43ae101e24400545ccaff4ea480",
+      "normalization": "EXACT_BYTES"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/controlled-history-pending.png",
+      "sha256": "sha256:77ccbd1a1e8558efd9f1d36f606455c35659b1e4357c983b56fa9f34f18fc198",
+      "original_sha256": "sha256:77ccbd1a1e8558efd9f1d36f606455c35659b1e4357c983b56fa9f34f18fc198",
+      "normalization": "EXACT_BYTES"
+    },
+    {
+      "path": "status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/measurement_driver.py",
+      "sha256": "sha256:b32f6f5174e7f967bdde5253a7d0a7743e13d64193e612f73cca47cb83065166",
+      "original_sha256": "sha256:b32f6f5174e7f967bdde5253a7d0a7743e13d64193e612f73cca47cb83065166",
+      "normalization": "UTF8_LF_TRAILING_WHITESPACE_REMOVED_PROJECT_PATH_REDACTED"
+    }
+  ],
+  "tests": {
+    "final_storage": 322,
+    "final_storage_seconds": 89.125,
+    "final_encoded_owner_gates_worker_snapshot": 34,
+    "final_encoded_seconds": 100.806,
+    "runtime_api_worker_funding_composition_before_final_cache_carry": 60,
+    "that_scope_seconds": 240.067,
+    "cache_history_gates_after_final_cache_carry": 35,
+    "browser_cases_before_cache": 3,
+    "ui_unit": 19,
+    "ui_typecheck": "PASS",
+    "ui_build": "PASS",
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "note": "OVERLAPPING_SCOPES_NOT_SUMMED;60SCOPE_AND_BROWSER_BEFORE_FINAL_CACHE_CARRY;322_AND34_AFTER_FINAL_SOURCE"
+  },
+  "ui_verification_source": "THIS_SESSION_TOOL_RESULTS_TYPES19UNIT_BUILD_EXIT0;APP_UI_UNCHANGED_AFTER_BUILD",
+  "initial_unexpected_refusal": {
+    "scope": "FIRST60SCOPE",
+    "result": "1FIRST_ENTRY_BLOCKED;59OTHER_CASES_PASS",
+    "disposition": "NO_THRESHOLD_OR_GATE_WEAKENED;SAME_CASE_DIAGNOSTIC_PASS1_AND3REPEATS;FULL60V2_PASS;REASON_ADDED_TO_ASSERTION",
+    "classification": "SAFE_REFUSAL_NOT_REPRODUCED;RETAINED_FOR_RESOURCE_NATIVE_RECHECK;NO_DETERMINISTIC_ROOT_CAUSE_CLAIM"
+  },
+  "self_review": "EXACT_PRIVATE_INSTANCE_GATES;LEGACY_FULL_RECOVER;CACHE_NEVER_PERMISSION;UNKNOWN_AND_TRIGGER_WRITES_REVOKE;WHOLE_BRANCH_REVIEW_STILL_REQUIRED",
+  "measurements": {
+    "qualified_scope": "CONTROLLED100SECONDS121OPERATIONS200CLOSED4H_BARS;NOT30DAY",
+    "pre_cache_last_tick_seconds": 3.6501150999683887,
+    "epoch_only_cache_last_tick_seconds": 1.0956398999551311,
+    "final_owned_cache_last_tick_seconds": 0.16081289999419823,
+    "final_peak_working_set_bytes": 98394112,
+    "checkpoint_text_bytes": 118781,
+    "pre_cache_exact_source_snapshot": "NOT_CAPTURED;DIAGNOSTIC_ONLY",
+    "final_exact_source_hashes": "owned-cache-growth.json",
+    "performance_qualification": "NOT_ESTABLISHED_FOR_KEYFRAME_RESTART_FULL256_MULTIFRAME30DAY_OR_CONTENTION"
+  },
+  "cache": {
+    "rows_maximum": 4,
+    "logical_text_bytes_maximum": 67108864,
+    "permission": "NONE",
+    "persistent": "NO",
+    "invalidation": "UNKNOWN_OWN_EXTERNAL_MAIN_TEMP_SCHEMA;FAILED_WRITES",
+    "extension": "ONLY_ACTUAL_CLOSED_E6_WRITER_WITH_ORIGINAL_CHECKPOINT_BYTES_UNCHANGED;TRIGGER_DML_REFUSES"
+  },
+  "ordinary_encoded_default": "LEGACY_RETAINED;NEW_FORMAT_NOT_ROLLED_OUT",
+  "new_native_qualification": "NOT_STARTED",
+  "ordinary_paper": "NOT_STARTED",
+  "real_time_observation": "NOT_STARTED",
+  "eligible_for_observation": false,
+  "new_actual_public_requests": 0,
+  "cumulative_public_requests": 20,
+  "cumulative_public_responses": 19,
+  "private_requests": 0,
+  "credentials": "NONE",
+  "provider_mutation": 0,
+  "capital": "NONE",
+  "github_compute": "NOT_USED",
+  "remaining": [
+    "E_WHOLE_PRODUCT30DAY_CAPACITY_CPU_RSS_PROTECTION_LATENCY_BACKUP_RESTORE",
+    "KEYFRAME_BOUNDARY_COLD_SUCCESSOR_CONTENTION_AND_FULL256_MULTIFRAME_RESOURCE_CHECKS",
+    "EXACT_NEW_WINDOWS_BUILD_FIXED_PQR_AND_NATIVE_ORDINARY_SOURCE_START",
+    "TRUSTED_EMERGENCY_EXPOSURE_ONLY_PUBLIC_TICKER_ROUTE",
+    "ORIGINAL_POLICY4H_TTL_HOLD_DAILY_LIMIT_AMENDMENT_ACCEPTANCE",
+    "REAL_PUBLIC_FUNDING_PUBLICATION_COMPLETENESS_AND_ACTUAL_REQUEST_ACCOUNTING",
+    "REAL_SELECTED_POLICY_RESEARCH_FAMILY_HOLDOUT_INDEPENDENCE_AND_ADMISSION",
+    "ACTUAL48H30DAY_AND_CLOSED_TRADE_SAMPLES;OLD_PC_UBUNTU_CLOUD_SSH"
+  ]
+}

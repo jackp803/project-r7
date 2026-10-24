@@ -116,7 +116,7 @@ class PaperOwnerWorker:
         for scheduler in self._schedulers.values():
             runtime=scheduler.runtime
             if not runtime.service.recorded_funding:continue
-            state=runtime.service.process.recover(runtime.run_id).state['runtime']
+            state=runtime.service.process.management_snapshot(runtime.run_id).state['runtime']
             position=state['position']
             if position is not None and (state.get('pending_funding') is not None or position['lifecycle_state']!='CLOSED'):
                 earliest=min(earliest,datetime.fromisoformat(position['opened_at'].replace('Z','+00:00')))
@@ -226,6 +226,7 @@ class PaperOwnerWorker:
                 self._failures[run_id] = 'RUN_MANAGEMENT_RECONCILIATION_REQUIRED'
         for run_id in self._discover():
             self._tick_run(run_id, outcomes)
+        self.service.history_audit_after_protection(tuple(self._schedulers))
         self.supervisor.require_current()
         return outcomes
 
@@ -252,10 +253,13 @@ class PaperOwnerWorker:
             runs = tuple(self._schedulers)
             acquisition = {key: dict(status=value.acquisition_status, pending_events=value.pending_events)
                            for key, value in self._schedulers.items()}
-        failures={**self._feedback_failures,**self._failures}
+        history_failures=dict(self.service._history_failures)
+        failures={**self._feedback_failures,**self._failures,**history_failures}
         return dict(status='DEGRADED' if failures or self._discovery_status in
             ('CAPACITY_EXCEEDED', 'INVENTORY_LIMIT_EXCEEDED') else 'RUNNING',
             active_runs=runs, run_failures=failures,feedback_failures=dict(self._feedback_failures),acquisition=acquisition,
+            history={run:dict(status=self.service.process.history_audit_progress(run).status,
+                eligible=self.service.history_ready(run)) for run in runs if self.service.process.requires_history_audit(run)},
             discovery_status=self._discovery_status, discovery_offset=self._discovery_offset,
             process_generation=self.supervisor.identity['generation'],
             process_generation_id=self.supervisor.identity['process_generation_id'],

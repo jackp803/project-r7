@@ -45,7 +45,7 @@ def assess_forward(run, policy):
     from .service import PaperRuntime
     if not isinstance(run,PaperRuntime) or not isinstance(policy,PaperPromotionPolicy):
         raise ValueError('Actual recovered Paper runtime and selected policy required')
-    service=run.service; recovered=service.process.recover(run.run_id)
+    service=run.service; recovered=service.process.management_snapshot(run.run_id)
     strategy=service.registry.get_strategy(run.engine.identity)
     if (recovered.binding!=service._binding(strategy) or policy.policy_hash!=service.promotion.policy_hash or
         recovered.binding['paper_policy_hash']!=policy.policy_hash):
@@ -56,6 +56,7 @@ def assess_forward(run, policy):
     elapsed=observed['simulated_elapsed_seconds'] if fixture else observed['real_elapsed_ns']//1_000_000_000
     healthy=observed['simulated_healthy_seconds'] if fixture else observed['real_healthy_ns']//1_000_000_000
     blocked=[]; failed=[]
+    if not service.history_ready(run.run_id):blocked.append('HISTORY_AUDIT_REQUIRED')
     if runtime.get('pending_funding') is not None:blocked.append('FUNDING_FINALIZATION_PENDING')
     if recovered.pending_operations: blocked.append('PUBLICATION_OR_OPERATION_PENDING')
     if elapsed<selected['min_elapsed_seconds']: blocked.append('INSUFFICIENT_OBSERVATION_DURATION')

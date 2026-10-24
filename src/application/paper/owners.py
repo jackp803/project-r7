@@ -117,7 +117,7 @@ class PaperOwnerComposition:
                 accepted={}
                 def original_release(run_id):
                     if run_id not in accepted:
-                        recovered=process.recover(run_id)
+                        recovered=process.management_snapshot(run_id)
                         identity=StrategyIdentity(recovered.binding['strategy_id'],recovered.binding['strategy_version'])
                         gate=registry.accepted_paper_start_evidence(identity)
                         if json.loads(gate.payload_json).get('run_id')!=run_id:

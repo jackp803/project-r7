@@ -1,0 +1,17 @@
+test_altered_ancestor_cannot_hide_behind_cached_current_or_repeated_metadata (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_altered_ancestor_cannot_hide_behind_cached_current_or_repeated_metadata) ... ok
+test_repeated_management_reads_reuse_verified_state_in_same_actual_source_epoch (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_repeated_management_reads_reuse_verified_state_in_same_actual_source_epoch) ... FAIL
+test_returned_metadata_is_not_a_mutable_cache_or_a_permission_input (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_returned_metadata_is_not_a_mutable_cache_or_a_permission_input) ... ok
+test_unknown_own_mutation_forces_fresh_decode_without_granting_history_permission (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_unknown_own_mutation_forces_fresh_decode_without_granting_history_permission) ... ok
+
+======================================================================
+FAIL: test_repeated_management_reads_reuse_verified_state_in_same_actual_source_epoch (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_repeated_management_reads_reuse_verified_state_in_same_actual_source_epoch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_checkpoint_cache.py", line 28, in test_repeated_management_reads_reuse_verified_state_in_same_actual_source_epoch
+    self.assertEqual(decode.call_count,before,'Same current chain decoded repeatedly in unchanged SQLite epoch')
+AssertionError: 8 != 4 : Same current chain decoded repeatedly in unchanged SQLite epoch
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.301s
+
+FAILED (failures=1)

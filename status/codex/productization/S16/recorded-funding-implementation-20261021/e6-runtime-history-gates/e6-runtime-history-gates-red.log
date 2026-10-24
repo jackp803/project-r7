@@ -1,0 +1,47 @@
+test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward) ... FAIL
+test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue) ... FAIL
+test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection) ... FAIL
+
+======================================================================
+FAIL: test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 33, in test_unaudited_current_snapshot_cannot_submit_entry_or_credit_healthy_forward
+    self.assertEqual(result.status,'BLOCKED')
+AssertionError: 'ACKNOWLEDGED' != 'BLOCKED'
+- ACKNOWLEDGED
++ BLOCKED
+
+
+======================================================================
+FAIL: test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 61, in test_unknown_history_mutation_inhibits_credit_but_existing_protection_exit_and_pending_continue
+    self.assertFalse(state['forward']['last_healthy'])
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 45, in test_verified_history_uses_bounded_current_reads_and_retains_actual_entry_and_protection
+    self.assertEqual(self.case.runtime.on_market_event(self.case.event(0,bars=True)).status,'ACKNOWLEDGED')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\src\application\paper\service.py", line 293, in on_market_event
+    now=self.service.clock(); cached=self.service.process.recover(self.run_id).state['runtime']['candles']
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Hot owner scanned complete old history
+
+----------------------------------------------------------------------
+Ran 3 tests in 15.990s
+
+FAILED (failures=3)

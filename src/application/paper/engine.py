@@ -141,6 +141,7 @@ class PaperEngine:
 
     def _entry_allowed(self, runtime, now,*,ignore_funding=False):
         if not self.reconciled: return False,'RECONCILIATION_REQUIRED'
+        if not self.service.history_ready(self.run_id):return False,'HISTORY_AUDIT_REQUIRED'
         if not runtime['paper_entries_allowed']: return False,'PAPER_ENTRIES_PAUSED'
         if self.service.process.entry_pause_requested(self.run_id): return False,'PAPER_ENTRIES_PAUSED'
         if not self.service.authorized: return False,'PAPER_WORKFLOW_NOT_AUTHORIZED'
@@ -518,7 +519,12 @@ class PaperEngine:
         # operating time, but assessment separately blocks financial PASS.
         # Other recorded-model observations need a current actual source.
         source_ready=not self.service.recorded_funding or self.service.funding_observation() is not None
-        healthy=self._fresh(market,now) and self.reconciled and (pending_flat or
+        healthy=self.service.history_ready(self.run_id) and self._fresh(market,now) and self.reconciled and (pending_flat or
             (source_ready and (position is None or position['lifecycle_state'] in ('OPEN_PROTECTED','PROFIT_PROTECTED','CLOSED'))))
         record_forward_observation(runtime,self.service,now,healthy)
+        if self.service.process.requires_history_audit(self.run_id):
+            progress=self.service.process.history_audit_progress(self.run_id)
+            runtime['history_audit_observation']=dict(status=progress.status,observed_at=stamp(now),
+                verified_prefix_revision=progress.verified_prefix_revision,
+                scope='LAST_KNOWN_DIAGNOSTIC_ONLY')
         return PaperStep(dict(broker=broker.export_state(),runtime=runtime),effects,status,reasons)

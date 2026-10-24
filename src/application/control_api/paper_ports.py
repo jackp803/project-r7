@@ -59,7 +59,7 @@ class PaperReadControlPort:
 
     def _recover(self,process,run_id):
         if not isinstance(process,PaperProcessJournal): raise APIError('NOT_CONFIGURED','ACTUAL_PAPER_JOURNAL_REQUIRED',503)
-        recovered=process.recover(run_id)
+        recovered=process.management_snapshot(run_id)
         if recovered.binding['namespace']!=self.namespace: raise APIError('AUTHORIZATION_REQUIRED','PAPER_NAMESPACE_CONFLICT',403)
         return recovered
 
@@ -126,4 +126,9 @@ class PaperReadControlPort:
         if 'pending_funding' in runtime:
             from application.paper.funding_source import funding_status
             payload['funding']=funding_status(runtime,now=self.clock())
+        if getattr(recovered,'history_verification',None)=='CURRENT_FACTS_ONLY':
+            payload['history']=dict(scope='LAST_KNOWN_DIAGNOSTIC_ONLY',
+                last_observation=runtime.get('history_audit_observation'),
+                current_admission='OWNER_INSTANCE_REVALIDATION_REQUIRED')
+            reasons.append('HISTORY_OWNER_REVALIDATION_REQUIRED')
         return dict(status='LAST_KNOWN_OWNER_FACTS',revision=revision,contract='r7-paper-runtime-v0.2',payload=payload,reason_codes=sorted(set(reasons)))

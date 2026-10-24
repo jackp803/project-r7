@@ -1,0 +1,23 @@
+test_observed_trusted_append_keeps_already_verified_immutable_base_bytes (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_observed_trusted_append_keeps_already_verified_immutable_base_bytes) ... FAIL
+test_unexpected_trigger_dml_even_on_allowed_table_never_extends_private_proof (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_unexpected_trigger_dml_even_on_allowed_table_never_extends_private_proof) ... FAIL
+
+======================================================================
+FAIL: test_observed_trusted_append_keeps_already_verified_immutable_base_bytes (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_observed_trusted_append_keeps_already_verified_immutable_base_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_checkpoint_cache.py", line 64, in test_observed_trusted_append_keeps_already_verified_immutable_base_bytes
+    self.assertEqual(decode.call_count,0,'Trusted INSERT decoded unchanged original chain again')
+AssertionError: 3 != 0 : Trusted INSERT decoded unchanged original chain again
+
+======================================================================
+FAIL: test_unexpected_trigger_dml_even_on_allowed_table_never_extends_private_proof (tests.storage.test_paper_checkpoint_cache.PaperCheckpointCacheTests.test_unexpected_trigger_dml_even_on_allowed_table_never_extends_private_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\storage\test_paper_checkpoint_cache.py", line 77, in test_unexpected_trigger_dml_even_on_allowed_table_never_extends_private_proof
+    self.assertFalse(self.journal.history_audit_ready('run-1'))
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.700s
+
+FAILED (failures=2)

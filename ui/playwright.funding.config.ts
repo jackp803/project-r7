@@ -9,7 +9,7 @@ export default defineConfig({
   reporter:[['line'],['json',{outputFile:path.join(artifacts,'results.json')}]],
   use:{browserName:'chromium',channel:process.env.R7_BROWSER_CHANNEL??'msedge',headless:true,
     viewport:{width:1440,height:960},actionTimeout:8_000,trace:'off',video:'off',screenshot:'off'},
-  webServer:['pending','finalized'].map((profile,index)=>({
+  webServer:['pending','finalized','history-pending'].map((profile,index)=>({
     command:`py -3.12 qa/serve_recorded_funding.py --profile ${profile} --port ${8780+index}`,
     url:`http://127.0.0.1:${8780+index}/api/v1/auth/status`,reuseExistingServer:false,
     timeout:90_000,stdout:'ignore',stderr:'pipe',

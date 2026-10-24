@@ -89,7 +89,7 @@ class MarketSubscription:
 
 def subscription(runtime,namespace,runtime_token):
     """Called only by the owner; no connection, service or mutable state escapes."""
-    recovered=runtime.service.process.recover(runtime.run_id)
+    recovered=runtime.service.process.management_snapshot(runtime.run_id)
     if recovered.process_generation!=runtime.coordinator.generation:return None
     strategy=runtime.engine.strategy;cap=runtime.engine.config['maximum_cached_candles_per_timeframe']
     expressions=tuple(getattr(strategy,'features',{}).values())+tuple(value for value in

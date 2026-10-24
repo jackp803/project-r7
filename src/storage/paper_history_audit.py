@@ -159,6 +159,8 @@ class PaperHistoryAudit:
         before=self._epoch();maximum,tables=_OWN_WRITES[kind];observation={'invalid':False}
         self._write_active=observation
         def observe(action,first,second,database,source):
+            if source is not None and action in (sqlite3.SQLITE_INSERT,sqlite3.SQLITE_UPDATE,sqlite3.SQLITE_DELETE):
+                observation['invalid']=True  # No packaged E6 guard performs DML.
             if action==sqlite3.SQLITE_INSERT:
                 if database!='main' or first not in tables:observation['invalid']=True
             elif action==sqlite3.SQLITE_UPDATE and kind=='CANONICAL':
@@ -176,6 +178,7 @@ class PaperHistoryAudit:
             if (observation['invalid'] or self.db.in_transaction or after[:-1]!=before[:-1]
                     or not 0<=after[-1]-before[-1]<=maximum):
                 self._states.clear();return
+            self.journal._advance_checkpoint_cache(before,after)
             current=context=None
             if kind not in _NONHISTORY_WRITES:
                 current=self.journal.recover_current(run_id)

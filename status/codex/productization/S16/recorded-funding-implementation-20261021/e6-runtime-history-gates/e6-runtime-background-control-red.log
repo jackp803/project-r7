@@ -1,0 +1,25 @@
+test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known) ... FAIL
+test_background_history_hook_runs_only_after_actual_current_management (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_background_history_hook_runs_only_after_actual_current_management) ... FAIL
+
+======================================================================
+FAIL: test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known (tests.product.test_paper_history_gates.PaperHistoryGateTests.test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\product\test_paper_history_gates.py", line 68, in test_normal_service_drives_owned_audit_after_management_and_control_remains_last_known
+    self.assertTrue(callable(getattr(self.case.service,'history_audit_after_protection',None)),
+AssertionError: False is not true : Normal owner has no protective-first audit scheduling seam
+
+======================================================================
+FAIL: test_background_history_hook_runs_only_after_actual_current_management (tests.application.test_paper_owner_worker.PaperOwnerWorkerTests.test_background_history_hook_runs_only_after_actual_current_management)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\workspaces\project-r7-productization-master-20261002\tests\application\test_paper_owner_worker.py", line 77, in test_background_history_hook_runs_only_after_actual_current_management
+    audit.assert_called_once()
+  File "C:\Users\jackp\AppData\Local\Python\pythoncore-3.12-64\Lib\unittest\mock.py", line 928, in assert_called_once
+    raise AssertionError(msg)
+AssertionError: Expected 'history_audit_after_protection' to have been called once. Called 0 times.
+
+----------------------------------------------------------------------
+Ran 2 tests in 9.729s
+
+FAILED (failures=2)

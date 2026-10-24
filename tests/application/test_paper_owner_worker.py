@@ -65,6 +65,17 @@ class PaperOwnerWorkerTests(unittest.TestCase):
             self.assertEqual(len(graph.fills), 2)
             self.assertEqual(graph.trade_result.payload, self.f.recover(run_id).state['runtime']['closed_trades'][0])
 
+    def test_background_history_hook_runs_only_after_actual_current_management(self):
+        run_id=self.f.start()
+        with self.worker() as worker:
+            worker.tick();self.event_tick(worker,run_id,0,bars=True)
+            def after_management(runs):
+                self.assertIn(run_id,runs)
+                self.assertEqual(self.f.recover(run_id).state['runtime']['position']['lifecycle_state'],'OPEN_PROTECTED')
+            with patch.object(worker.service,'history_audit_after_protection',side_effect=after_management,create=True) as audit:
+                self.event_tick(worker,run_id,1)
+                audit.assert_called_once()
+
     def test_actual_full_feedback_outbox_cannot_stop_other_protected_management(self):
         first=self.f.start()
         other=self.f.second_candidate()

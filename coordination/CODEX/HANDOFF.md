@@ -1,3 +1,44 @@
+# E6 D functional source passes; execute E whole-product acceptance — 2026-10-24
+
+New prefix profiles use management_snapshot -> recover_current; legacy retains
+full recover. Private instance history gates proposal/first fill/healthy time/
+assessment; source successor ignores saved VERIFIED label. Protection, close and
+funding finalization remain independent. All attached runs managed before one
+actual owned audit hook; quiescent release forgets/cancels its own proof/audit.
+Control/UI show LAST_KNOWN diagnostics and owner revalidation, no imported PASS.
+
+Actual200bar4h/121ops short test:3.650s -> epoch cache1.096s -> final owned cache
+0.161s last tick,98.4MBpeak.4rows/64MiB global journal byte cache; only exact closed
+E6 observer can advance epoch over unchanged original checkpoints; any unknown/
+external/schema or trigger DML revokes. Cache is never permission. No persisted
+cache or old qualified receipt transfer.322storage/34final encoded scope PASS;
+60runtime/API/worker/funding/composition before final carry PASS;35focused after
+carry PASS.19UIunit/types/build and3LOCALbrowser PASS before cache; overlap not
+summed. Initial60one safe first-entry refusal retained, not reproduced in1+3 and
+full60v2. Assertion now records reason; no deterministic root-cause claim.
+
+NEXT E: full256bar/multiframe/keyframe0/128/cold successor/contention and actual
+30day whole-product disk/RSS/CPU/protection latency/backup/restore. Existing short
+diagnostics do NOT establish that capacity. Capture archive3.62GB/2176files and
+backupv3 remain storage-only prior evidence, not populated-new-journal PASS.
+Study canonical graph/effects/requests/indexes/WAL too, not only checkpoints.
+Actual measurement helper retained in this evidence; all controlled source native
+boundaries explicit, no provider or elapsed credit. Use fresh diagnostic output
+paths; do not overwrite old failed/growth evidence. Cumulative public20/19.
+
+After all source/capacity work: one fresh whole-branch review per current inline
+executing-plans7.0.1; fix concrete findings, exact-clean build/new Windows fixed
+qualification. Do not repeat per-component review loops. New ordinary encoded
+profile NOT rolled out until entire path/capacity/new executable qualifies.
+Original Tasks2–5 still partial pending E/native/emergency ticker reserve route,
+original4h/TTL/hold/day6/amendment acceptance and real selected-policy research/
+holdout independence/admission. Task6 not qualified. bffc558 remains only owning
+qualified executable. No real-time observation, real account, private API/key,
+orders/capital/LIVE/GitHub compute. Old PC/Ubuntu/cloud/48h30d samples remain.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-runtime-history-gates/disposition.json
+
+---
+
 # E6 D owned readonly worker component passes; integrate normal gates — 2026-10-24
 
 Same Master/branch. Main fetched unchanged7d1f447. Actual readonly pinned audit of

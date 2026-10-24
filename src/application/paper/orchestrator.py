@@ -95,12 +95,12 @@ class PaperCoordinator:
 
     def execute(self, operation_id: str, request: dict) -> RuntimeOutcome:
         existing = self.process.operation(self.run_id, operation_id)
-        revision = existing.base_revision if existing else self.process.recover(self.run_id).revision
+        revision = existing.base_revision if existing else self.process.management_snapshot(self.run_id).revision
         operation = self.process.prepare(self.run_id, operation_id, request,
             expected_revision=revision, now=self.clock(), process_generation=self.generation)
         return self._finish(operation)
 
     def recover_pending(self) -> tuple[RuntimeOutcome, ...]:
-        recovered = self.process.recover(self.run_id)
+        recovered = self.process.management_snapshot(self.run_id)
         return tuple(self._finish(self.process.operation(self.run_id, operation_id))
                      for operation_id in recovered.pending_operations)

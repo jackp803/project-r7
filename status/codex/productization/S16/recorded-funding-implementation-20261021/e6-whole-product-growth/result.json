@@ -1,0 +1,1269 @@
+{
+  "status": "ACTUAL_CONTROLLED_3600SECOND_WORKLOAD_NOT30DAY_OR_NATIVE_PASS",
+  "source_hashes": {
+    "src/storage/paper_process.py": "sha256:f98727b1667889bd11456cbb4d074d4bbf641f53817d8c986023cd3a37d0ddac",
+    "src/storage/paper_state_codec.py": "sha256:59ed2dc7d8762c078f92b9d28427c49d46701cfd569a4a3b743c039d93fe5609",
+    "src/storage/paper_history_audit.py": "sha256:336eec79c94c202a50425640d4a8da189fe119d48ef4fa4c947f42f1c690d8db",
+    "src/application/paper/service.py": "sha256:c8203aa36461d77d93bbe78f23e535d52960c014be2c96344541fc39c2e90309",
+    "src/application/paper/engine.py": "sha256:b392592a212deb7783c4db7b3fa97cc3d46f4bc72938314719695fd89da7ddc9"
+  },
+  "samples": [
+    {
+      "controlled_second": 0,
+      "revision": 1,
+      "sqlite_main_bytes": 917504,
+      "wal_bytes": 333752,
+      "sqlite_allocated_bytes": 1011712,
+      "logical_state_bytes": 90426,
+      "position_state": null,
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 3,
+          "text_bytes": 3004
+        },
+        "paper_order_result_observations": {
+          "rows": 1,
+          "text_bytes": 649
+        },
+        "paper_order_result_current": {
+          "rows": 1,
+          "text_bytes": 137
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 1,
+          "text_bytes": 83499
+        },
+        "paper_process_effects": {
+          "rows": 1,
+          "text_bytes": 3159
+        },
+        "paper_process_checkpoints": {
+          "rows": 2,
+          "text_bytes": 13650
+        },
+        "paper_process_publications": {
+          "rows": 1,
+          "text_bytes": 239
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 2,
+          "text_bytes": 549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 4.623713700042572,
+      "peak_working_set_bytes": 95465472,
+      "working_set_bytes": 95465472,
+      "peak_pagefile_bytes": 69767168
+    },
+    {
+      "controlled_second": 1,
+      "revision": 3,
+      "sqlite_main_bytes": 917504,
+      "wal_bytes": 716912,
+      "sqlite_allocated_bytes": 1056768,
+      "logical_state_bytes": 96318,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.18656030000420287,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 3,
+          "text_bytes": 4270
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 3,
+          "text_bytes": 3894
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 3,
+          "text_bytes": 84306
+        },
+        "paper_process_effects": {
+          "rows": 3,
+          "text_bytes": 12907
+        },
+        "paper_process_checkpoints": {
+          "rows": 4,
+          "text_bytes": 18034
+        },
+        "paper_process_publications": {
+          "rows": 3,
+          "text_bytes": 680
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 4,
+          "text_bytes": 1132
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 4.820375900017098,
+      "peak_working_set_bytes": 96493568,
+      "working_set_bytes": 96493568,
+      "peak_pagefile_bytes": 70594560
+    },
+    {
+      "controlled_second": 100,
+      "revision": 121,
+      "sqlite_main_bytes": 2170880,
+      "wal_bytes": 4136512,
+      "sqlite_allocated_bytes": 2351104,
+      "logical_state_bytes": 96312,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.058405700023286045,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 102,
+          "text_bytes": 148310
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 102,
+          "text_bytes": 167140
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 121,
+          "text_bytes": 119879
+        },
+        "paper_process_effects": {
+          "rows": 121,
+          "text_bytes": 276604
+        },
+        "paper_process_checkpoints": {
+          "rows": 122,
+          "text_bytes": 146004
+        },
+        "paper_process_publications": {
+          "rows": 121,
+          "text_bytes": 25219
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 122,
+          "text_bytes": 34049
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 11.775444500031881,
+      "peak_working_set_bytes": 98889728,
+      "working_set_bytes": 98889728,
+      "peak_pagefile_bytes": 73166848
+    },
+    {
+      "controlled_second": 300,
+      "revision": 361,
+      "sqlite_main_bytes": 4820992,
+      "wal_bytes": 4157112,
+      "sqlite_allocated_bytes": 4935680,
+      "logical_state_bytes": 96314,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.058879599964711815,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 302,
+          "text_bytes": 439510
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 302,
+          "text_bytes": 497140
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 361,
+          "text_bytes": 192639
+        },
+        "paper_process_effects": {
+          "rows": 361,
+          "text_bytes": 810324
+        },
+        "paper_process_checkpoints": {
+          "rows": 362,
+          "text_bytes": 433512
+        },
+        "paper_process_publications": {
+          "rows": 361,
+          "text_bytes": 75179
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 362,
+          "text_bytes": 101049
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 26.09762940002838,
+      "peak_working_set_bytes": 99713024,
+      "working_set_bytes": 99680256,
+      "peak_pagefile_bytes": 73695232
+    },
+    {
+      "controlled_second": 600,
+      "revision": 721,
+      "sqlite_main_bytes": 8732672,
+      "wal_bytes": 4161232,
+      "sqlite_allocated_bytes": 8826880,
+      "logical_state_bytes": 96314,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.05768770002759993,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 602,
+          "text_bytes": 876310
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 602,
+          "text_bytes": 992140
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 721,
+          "text_bytes": 301779
+        },
+        "paper_process_effects": {
+          "rows": 721,
+          "text_bytes": 1610904
+        },
+        "paper_process_checkpoints": {
+          "rows": 722,
+          "text_bytes": 864858
+        },
+        "paper_process_publications": {
+          "rows": 721,
+          "text_bytes": 150119
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 722,
+          "text_bytes": 201549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 47.490521300002,
+      "peak_working_set_bytes": 100298752,
+      "working_set_bytes": 100265984,
+      "peak_pagefile_bytes": 74977280
+    },
+    {
+      "controlled_second": 1200,
+      "revision": 1441,
+      "sqlite_main_bytes": 16580608,
+      "wal_bytes": 4161232,
+      "sqlite_allocated_bytes": 16658432,
+      "logical_state_bytes": 96317,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.05924670002423227,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 1202,
+          "text_bytes": 1750112
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 1202,
+          "text_bytes": 1982342
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 1441,
+          "text_bytes": 520059
+        },
+        "paper_process_effects": {
+          "rows": 1441,
+          "text_bytes": 3212468
+        },
+        "paper_process_checkpoints": {
+          "rows": 1442,
+          "text_bytes": 1729557
+        },
+        "paper_process_publications": {
+          "rows": 1441,
+          "text_bytes": 299999
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 1442,
+          "text_bytes": 402549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 90.44954960001633,
+      "peak_working_set_bytes": 100306944,
+      "working_set_bytes": 100220928,
+      "peak_pagefile_bytes": 74981376
+    },
+    {
+      "controlled_second": 1800,
+      "revision": 2161,
+      "sqlite_main_bytes": 24461312,
+      "wal_bytes": 4161232,
+      "sqlite_allocated_bytes": 24469504,
+      "logical_state_bytes": 96319,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.06536370003595948,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 1802,
+          "text_bytes": 2624312
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 1802,
+          "text_bytes": 2972942
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 2161,
+          "text_bytes": 738339
+        },
+        "paper_process_effects": {
+          "rows": 2161,
+          "text_bytes": 4814828
+        },
+        "paper_process_checkpoints": {
+          "rows": 2162,
+          "text_bytes": 2582378
+        },
+        "paper_process_publications": {
+          "rows": 2161,
+          "text_bytes": 449879
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 2162,
+          "text_bytes": 603549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 133.44737770000938,
+      "peak_working_set_bytes": 100306944,
+      "working_set_bytes": 100212736,
+      "peak_pagefile_bytes": 74981376
+    },
+    {
+      "controlled_second": 2400,
+      "revision": 2881,
+      "sqlite_main_bytes": 32268288,
+      "wal_bytes": 4165352,
+      "sqlite_allocated_bytes": 32292864,
+      "logical_state_bytes": 96319,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.05925519997254014,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 2402,
+          "text_bytes": 3498512
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 2402,
+          "text_bytes": 3963542
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 2881,
+          "text_bytes": 956619
+        },
+        "paper_process_effects": {
+          "rows": 2881,
+          "text_bytes": 6417188
+        },
+        "paper_process_checkpoints": {
+          "rows": 2882,
+          "text_bytes": 3448872
+        },
+        "paper_process_publications": {
+          "rows": 2881,
+          "text_bytes": 599759
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 2882,
+          "text_bytes": 804549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 176.83342900004936,
+      "peak_working_set_bytes": 100306944,
+      "working_set_bytes": 100265984,
+      "peak_pagefile_bytes": 74981376
+    },
+    {
+      "controlled_second": 3000,
+      "revision": 3601,
+      "sqlite_main_bytes": 40009728,
+      "wal_bytes": 4165352,
+      "sqlite_allocated_bytes": 40099840,
+      "logical_state_bytes": 96319,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.05851750000147149,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 3002,
+          "text_bytes": 4372712
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 3002,
+          "text_bytes": 4954142
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 3601,
+          "text_bytes": 1174899
+        },
+        "paper_process_effects": {
+          "rows": 3601,
+          "text_bytes": 8019548
+        },
+        "paper_process_checkpoints": {
+          "rows": 3602,
+          "text_bytes": 4315554
+        },
+        "paper_process_publications": {
+          "rows": 3601,
+          "text_bytes": 749639
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 3602,
+          "text_bytes": 1005549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 220.47925309999846,
+      "peak_working_set_bytes": 100306944,
+      "working_set_bytes": 100265984,
+      "peak_pagefile_bytes": 74981376
+    },
+    {
+      "controlled_second": 3600,
+      "revision": 4321,
+      "sqlite_main_bytes": 47734784,
+      "wal_bytes": 4173592,
+      "sqlite_allocated_bytes": 47874048,
+      "logical_state_bytes": 96319,
+      "position_state": "OPEN_PROTECTED",
+      "cached4h_bars": 256,
+      "last_tick_seconds": 0.06263279996346682,
+      "inventories": {
+        "schema_migrations": {
+          "rows": 27,
+          "text_bytes": 1586
+        },
+        "compatibility_evidence": {
+          "rows": 2,
+          "text_bytes": 978
+        },
+        "validation_evidence": {
+          "rows": 3,
+          "text_bytes": 14918
+        },
+        "strategy_intake_receipts": {
+          "rows": 2,
+          "text_bytes": 536
+        },
+        "paper_runtime_objects": {
+          "rows": 6,
+          "text_bytes": 6323
+        },
+        "paper_position_lifecycle_projections": {
+          "rows": 3602,
+          "text_bytes": 5246912
+        },
+        "paper_position_current_projection": {
+          "rows": 1,
+          "text_bytes": 243
+        },
+        "paper_order_result_observations": {
+          "rows": 3,
+          "text_bytes": 1958
+        },
+        "paper_order_result_current": {
+          "rows": 2,
+          "text_bytes": 274
+        },
+        "paper_position_lifecycle_execution_bindings": {
+          "rows": 3602,
+          "text_bytes": 5944742
+        },
+        "strategy_intake_operations": {
+          "rows": 2,
+          "text_bytes": 451
+        },
+        "strategy_versions": {
+          "rows": 1,
+          "text_bytes": 1402
+        },
+        "lifecycle_transitions": {
+          "rows": 3,
+          "text_bytes": 599
+        },
+        "product_assessments": {
+          "rows": 1,
+          "text_bytes": 12130
+        },
+        "lifecycle_owner_evidence": {
+          "rows": 1,
+          "text_bytes": 1787
+        },
+        "lifecycle_command_receipts": {
+          "rows": 1,
+          "text_bytes": 2435
+        },
+        "paper_process_runs": {
+          "rows": 1,
+          "text_bytes": 747
+        },
+        "paper_process_operations": {
+          "rows": 4321,
+          "text_bytes": 1393179
+        },
+        "paper_process_effects": {
+          "rows": 4321,
+          "text_bytes": 9621908
+        },
+        "paper_process_checkpoints": {
+          "rows": 4322,
+          "text_bytes": 5168763
+        },
+        "paper_process_publications": {
+          "rows": 4321,
+          "text_bytes": 899519
+        },
+        "paper_process_generations": {
+          "rows": 1,
+          "text_bytes": 143
+        },
+        "paper_operational_selections": {
+          "rows": 1,
+          "text_bytes": 4147
+        },
+        "paper_process_storage_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_prefix_profiles": {
+          "rows": 1,
+          "text_bytes": 127
+        },
+        "paper_process_published_prefixes": {
+          "rows": 4322,
+          "text_bytes": 1206549
+        },
+        "registry_research_namespace": {
+          "rows": 1,
+          "text_bytes": 14
+        }
+      },
+      "wall_seconds": 264.2552315000212,
+      "peak_working_set_bytes": 100548608,
+      "working_set_bytes": 100515840,
+      "peak_pagefile_bytes": 75026432
+    }
+  ],
+  "ticks": 3600,
+  "maximum_tick_seconds": 0.18656030000420287,
+  "p95_tick_seconds": 0.12314350000815466,
+  "median_tick_seconds": 0.059639899991452694,
+  "ticks_over_one_second": 0,
+  "measured_operations": 4320,
+  "projection_operations_30day": 3110400,
+  "projected30day_sqlite_growth_bytes": 33740881920,
+  "projection_scope": "ACTUAL_SAMPLE_GROWTH_ONLY;NOT_GENERATED_30DAY_NOT_FUTURE_STATE_OR_TRADE_BOUND",
+  "snapshot_sha256": "sha256:35e7538884bd6f7f56a990b0f7b6d0f8c0aa29ae578e11853d7f537428ad23b9",
+  "actual_provider_requests": 0,
+  "elapsed_credit": "NONE",
+  "native": "NOT_QUALIFIED",
+  "selected_policy": "NOT_CLAIMED;EXISTING_OWNER_FIXTURE_POLICY",
+  "wall_seconds": 264.43580690003,
+  "cpu_seconds": 248.578125,
+  "peak_working_set_bytes": 150392832,
+  "working_set_bytes": 102514688,
+  "peak_pagefile_bytes": 125243392
+}

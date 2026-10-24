@@ -1,3 +1,31 @@
+# E concrete whole-product growth conflict; independent checks continue — 2026-10-24
+
+Source99df382b actual3600controlled seconds/4320operations/full2564h cache, same
+protected position.3600ticks max0.187/p950.123/median0.060s,0over1s;264s wall,
+150.4MBpeak incl snapshot hash. Source hashes unchanged. No selected policy,
+native or real elapsed credit. Initial driver ACK/position-null error fixed in
+driver only; original failure retained. No public requests; cumulative20/19.
+
+Measured SQLite growth46,862,336bytes projects33,740,881,920bytes for declared
+30day3,110,400ops, plus3,622,328,474prior actual public archive. Exceeds original
+16GiB bound. This is projection, NOT actual30day PASS/boundary test. Effects,
+canonical binding/projection duplication and indexes remain after checkpoints.
+Per-row compression byte experiment is hypothetical, not a capacity solution.
+
+Concrete extension scope awaits review: E6_COMPACT_FACT_LAYOUT_DESIGN_REVIEW.md
+alongside this evidence. Original approved checkpoint/proof scope stays approved;
+new work would extend other canonical fact/index layout and bounded owned audit
+continuation without changing bytes, authority, immutable evidence or limits.
+Do not implement that extension without human decision; do not generic-wait on
+the old mappings or checkpoint approval. Continue original authorized backup/
+restore, emergency exposure-only quote reserve route and other local acceptance.
+All native/current candidate/research/independence/source/selected-policy gates
+still required before ordinary observation. No raised budgets/deleted history,
+fake sample credit, account/private API/capital/LIVE/CI/main merge.
+Evidence: status/codex/productization/S16/recorded-funding-implementation-20261021/e6-whole-product-growth/disposition.json
+
+---
+
 # E source read reuse passes; measure whole-product capacity — 2026-10-24
 
 Same Master/branch; latest main refetched unchanged7d1f447. Private exact-epoch

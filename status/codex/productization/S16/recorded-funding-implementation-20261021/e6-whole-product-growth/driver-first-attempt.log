@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<PROJECT_ROOT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\measure_encoded_capacity_growth.py", line 46, in <module>
+    snapshot(0,0)
+  File "<PROJECT_ROOT>\artifacts\current-windows-20261019\ordinary-paper-policy-commissioning-20261021\measure_encoded_capacity_growth.py", line 31, in snapshot
+    logical_state_bytes=len(current.state_json.encode()),position_state=current.state['runtime']['position']['lifecycle_state'],
+                                                                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+TypeError: 'NoneType' object is not subscriptable

@@ -1,0 +1,114 @@
+{
+  "status": "MEASURED_GROWTH_PROJECTION_EXCEEDS_EXISTING_BOUND_NOT30DAY_ACCEPTANCE",
+  "actual_operations": 4320,
+  "actual_controlled_seconds": 3600,
+  "actual_wall_seconds": 264.43580690003,
+  "actual_sqlite_bytes": 47874048,
+  "measured_sqlite_growth_bytes": 46862336,
+  "declared30day_operations": 3110400,
+  "projected_sqlite_growth_bytes": 33740881920,
+  "prior_actual30day_archive_bytes": 3622328474,
+  "existing_whole_product_backup_bound_bytes": 17179869184,
+  "projected_sqlite_plus_prior_archive_bytes": 37363210394,
+  "projected_component_text_growth": [
+    {
+      "table": "paper_process_effects",
+      "measured_rows": 4320,
+      "measured_text_growth_bytes": 9618749,
+      "projected30day_text_growth_bytes": 6925499280
+    },
+    {
+      "table": "paper_position_lifecycle_execution_bindings",
+      "measured_rows": 3602,
+      "measured_text_growth_bytes": 5944742,
+      "projected30day_text_growth_bytes": 4280214240
+    },
+    {
+      "table": "paper_position_lifecycle_projections",
+      "measured_rows": 3602,
+      "measured_text_growth_bytes": 5246912,
+      "projected30day_text_growth_bytes": 3777776640
+    },
+    {
+      "table": "paper_process_checkpoints",
+      "measured_rows": 4320,
+      "measured_text_growth_bytes": 5155113,
+      "projected30day_text_growth_bytes": 3711681360
+    },
+    {
+      "table": "paper_process_operations",
+      "measured_rows": 4320,
+      "measured_text_growth_bytes": 1309680,
+      "projected30day_text_growth_bytes": 942969600
+    },
+    {
+      "table": "paper_process_published_prefixes",
+      "measured_rows": 4320,
+      "measured_text_growth_bytes": 1206000,
+      "projected30day_text_growth_bytes": 868320000
+    },
+    {
+      "table": "paper_process_publications",
+      "measured_rows": 4320,
+      "measured_text_growth_bytes": 899280,
+      "projected30day_text_growth_bytes": 647481600
+    },
+    {
+      "table": "paper_runtime_objects",
+      "measured_rows": 3,
+      "measured_text_growth_bytes": 3319,
+      "projected30day_text_growth_bytes": 2389680
+    },
+    {
+      "table": "paper_order_result_observations",
+      "measured_rows": 2,
+      "measured_text_growth_bytes": 1309,
+      "projected30day_text_growth_bytes": 942480
+    },
+    {
+      "table": "paper_position_current_projection",
+      "measured_rows": 1,
+      "measured_text_growth_bytes": 243,
+      "projected30day_text_growth_bytes": 174960
+    },
+    {
+      "table": "paper_order_result_current",
+      "measured_rows": 1,
+      "measured_text_growth_bytes": 137,
+      "projected30day_text_growth_bytes": 98640
+    }
+  ],
+  "counterfactual_compression": [
+    {
+      "table": "paper_process_effects",
+      "rows": 4321,
+      "actual_plain_bytes": 8415598,
+      "hypothetical_zlib_bytes": 3698045,
+      "hypothetical_base64_bytes": 4937284,
+      "disclosure": "COUNTERFACTUAL_BYTE_SIZES_ONLY_NO_ROW_CHANGED;EXCLUDES_ENVELOPES_INDEXES_PAGE_PACKING"
+    },
+    {
+      "table": "paper_position_lifecycle_projections",
+      "rows": 3602,
+      "actual_plain_bytes": 3528803,
+      "hypothetical_zlib_bytes": 1816747,
+      "hypothetical_base64_bytes": 2427408,
+      "disclosure": "COUNTERFACTUAL_BYTE_SIZES_ONLY_NO_ROW_CHANGED;EXCLUDES_ENVELOPES_INDEXES_PAGE_PACKING"
+    },
+    {
+      "table": "paper_position_lifecycle_execution_bindings",
+      "rows": 3602,
+      "actual_plain_bytes": 4345454,
+      "hypothetical_zlib_bytes": 2385644,
+      "hypothetical_base64_bytes": 3185444,
+      "disclosure": "COUNTERFACTUAL_BYTE_SIZES_ONLY_NO_ROW_CHANGED;EXCLUDES_ENVELOPES_INDEXES_PAGE_PACKING"
+    }
+  ],
+  "source_snapshot_sha256": "sha256:35e7538884bd6f7f56a990b0f7b6d0f8c0aa29ae578e11853d7f537428ad23b9",
+  "source_writes": 0,
+  "projection": "SAMPLE_PER_OPERATION_ONLY;NO_ACTUAL30DAY_GENERATION_OR_CAPACITY_PASS",
+  "financial_semantics": "UNCHANGED",
+  "private_requests": 0,
+  "provider_requests": 0,
+  "elapsed_credit": "NONE"
+}
